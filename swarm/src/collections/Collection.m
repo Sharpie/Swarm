@@ -393,7 +393,7 @@ PHASE(Using)
   raiseEvent (SubclassMustImplement, "setLoc: not implemented");
 }
 
-- getLoc
+- (id <Symbol>)getLoc
 {
   raiseEvent (SubclassMustImplement, "getLoc not implemented");
   return nil;
@@ -532,7 +532,7 @@ PHASE(Using)
     abort ();
 }
 
-- getLoc
+- (id <Symbol>)getLoc
 {
   PermutationItem_c *pi = [index get];
   id loc = [index getLoc];

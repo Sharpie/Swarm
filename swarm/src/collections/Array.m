@@ -460,7 +460,7 @@ PHASE(Using)
   exit (1);
 }
 
-- getLoc
+- (id <Symbol>)getLoc
 {
   if (INDEXSTARTP (memPtr) || INDEXENDP (memPtr))
     return (id)memPtr;

@@ -1,3 +1,32 @@
+1999-05-24  Alex Lancaster  <alex@santafe.edu>
+
+	* collections.h (Index): -getLoc, -setLoc: Make these methods
+	accept and return (id <Symbol>).
+	(PermutedIndex):  Likewise.
+
+	* Collection.[hm] ([PermutedIndex_c -getLoc]): Likewise.
+
+	* List_GEN.[hm] ([TINDEX -getLoc]): Likewise.
+
+	* Set.[hm] ([SetIndex_c -getLoc]): Likewise.
+
+	* Map.[hm] ([MapIndex_c -getLoc]): Likewise.
+
+	* Array.[hm] ([ArrayIndex_c -getLoc]): Likewise.
+
+	* Set.[hm] ([Set_c -containsKey:]): Implement.
+	([Set_c -removeKey:]): Implement.
+
+	* collections.h, Map.[hm] ([Map_c -containsKey:]): Implement method.
+ 	Add -containsKey: compliance to KeyedCollection protocol.
+
+	* collections.h (Map): Make protocol comply with CompareFunction.
+	Remove redundant declaration of -removeKey: (already defined in
+	KeyedCollection protocol).
+	(KeyedCollection): Remove compliance with CompareFunction.
+	(Set): Re-enable compliance with KeyedCollection.
+	(InputStream):  Add docs on support for Lisp comments.
+
 1999-05-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ListShuffler.m (uniformUnsRand): Externify.

@@ -540,7 +540,7 @@ PHASE(Using)
   return oldMem;
 }
 
-- getLoc
+- (id <Symbol>)getLoc
 {
   if (position > 0)
     return Member;

@@ -99,7 +99,7 @@ Library:      collections
 - get;
 - put: anObject;
 - remove;
-- getLoc;
+- (id <Symbol>)getLoc;
 - (void)setLoc: locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;

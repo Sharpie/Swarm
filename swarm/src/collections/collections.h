@@ -365,7 +365,7 @@ USING
 //E:     }
 //E:   [index drop];
 //E: }
-- getLoc;
+- (id <Symbol>)getLoc;
 
 //M: The setLoc: message may be used to reset the current location of an
 //M: index to either Start or End.  It may be used to reprocess a
@@ -379,7 +379,7 @@ USING
 //M: argument values are only valid if the index is positioned at a current
 //M: member.  They reposition the index to the special location between the
 //M: current member and its immediately following or preceding member.
-- (void)setLoc: locSymbol;
+- (void)setLoc: (id <Symbol>)locSymbol;
 
 //M: Provided there is no major computational cost, an index also maintains
 //M: the integer offset of its current member within the enumeration
@@ -725,7 +725,7 @@ USING
 - (compare_t)getCompareFunction;
 @end
 
-@protocol KeyedCollection <Collection, CompareFunction>
+@protocol KeyedCollection <Collection>
 //S: Member identity definition shared by Set and Map types.
 
 //D: A keyed collection is a collection in which each member can be
@@ -761,6 +761,9 @@ USING
 //M: first member in the internal collection created for duplicate members.
 - removeKey: aKey;
 
+//M: The containsKey: message returns true if the key value passed as its
+//M: argument is contained in the collection, and false otherwise. 
+- (BOOL)containsKey: aKey;
 @end
 
 @protocol KeyedCollectionIndex <Index>
@@ -814,7 +817,7 @@ typedef struct memberData { void *memberData[2]; } member_t;
 typedef struct { void *memberData[2]; id owner; } dupmember_t;
 @end
 
-@protocol Set <CREATABLE>
+@protocol Set <KeyedCollection, CREATABLE>
 //S: Collection of members each having a defined identity.
 
 //D: Set is a subtype of KeyedCollection in which the key value associated
@@ -875,7 +878,7 @@ USING
 //D: unique position within the member sequence
 @end
 
-@protocol Map <KeyedCollection, CREATABLE>
+@protocol Map <KeyedCollection, CompareFunction, CREATABLE>
 //S: Collection of associations from key objects to member objects.
 
 //D: Map is a subtype of KeyedCollection in which the key value associated
@@ -903,8 +906,6 @@ USING
 //M: The message returns nil if more than one member is present with the
 //M: same key.
 - at: aKey replace: anObject;
-
-- removeKey: aKey;
 @end
 
 @protocol MapIndex <KeyedCollectionIndex>
@@ -955,7 +956,8 @@ USING
 @protocol InputStream <Create, Drop, CREATABLE>
 //S: Stream of input data.
 
-//D: This type reads Lisp-like expressions into lists.
+//D: This type reads Lisp-like expressions into lists.  Supports Lisp
+//D: comments: semi-colons `;'
 CREATING
 + create: aZone setFileStream: (FILE *)file;
 -               setFileStream: (FILE *)fileStream;
@@ -1125,8 +1127,8 @@ USING
 - findNext: anObject;
 - findPrev: anObject;
 - get;
-- getLoc;
-- (void)setLoc: locSymbol;
+- (id <Symbol>)getLoc;
+- (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;
 @end;

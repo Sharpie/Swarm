@@ -35,6 +35,7 @@ typedef struct mapentry {
 - at: aKey replace: anObject;
 - (BOOL)at: aKey memberSlot: (id **)memPtr;
 - (BOOL)at: aKey keySlot: (id **)keyPtr memberSlot: (id **)memPtr;
+- (BOOL)containsKey: aKey;
 - removeKey: aKey;
 - begin: aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
@@ -68,7 +69,7 @@ typedef struct mapentry {
 - replace: anObject;
 - remove;
 - setKey: aKey;
-- getLoc;
+- (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;

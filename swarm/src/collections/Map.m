@@ -481,6 +481,24 @@ PHASE(Using)
   return YES;
 }
 
+- (BOOL)containsKey: aKey
+{
+  id index;
+  mapentry_t anEntry;
+  
+  index = [list begin: scratchZone];
+  while ((anEntry = (mapentry_t)[index next]))
+    {
+      if (compare(anEntry->key, aKey) == 0) 
+        {
+          [index drop];
+          return YES;
+        }
+    }
+  [index drop];
+  return NO; 
+}
+  
 - removeKey: aKey
 {
   id index, oldMem;
@@ -1055,7 +1073,7 @@ PHASE(Using)
   return nil;
 }
 
-- getLoc
+- (id <Symbol>)getLoc
 {
   return [listIndex getLoc];
 }

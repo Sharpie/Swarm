@@ -50,7 +50,7 @@ Library:      collections
 - get;
 - put: anObject;
 - remove;
-- getLoc;
+- (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;

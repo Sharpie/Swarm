@@ -24,9 +24,11 @@ Library:      collections
 - (BOOL)add: anObject;
 - replace: anObject;
 - (BOOL)contains: aKey;
+- (BOOL)containsKey: aKey;
 - at: aKey;
 - (BOOL)at: aKey memberSlot: (id **)memptr;
 - remove: aKey;
+- removeKey: aKey;
 - begin: aZone;
 - createIndex: aZone fromMember: anObject;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
@@ -43,7 +45,7 @@ Library:      collections
 - get;
 - replace: anObject;
 - remove;
-- getLoc;
+- (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;

@@ -69,6 +69,11 @@ PHASE(Using)
   return [self at: aKey] != nil;
 }
 
+- (BOOL)containsKey: aKey
+{
+  return [self contains: aKey];
+}
+
 - at: aKey
 {
   id  index, member;
@@ -100,6 +105,11 @@ PHASE(Using)
   [index drop];
 
   return nil;
+}
+
+- removeKey: aKey
+{
+  return [self remove: aKey];
 }
 
 - begin: aZone
@@ -156,7 +166,7 @@ PHASE(Using)
   return [listIndex remove];
 }
 
-- getLoc
+- (id <Symbol>)getLoc
 {
   return [listIndex getLoc];
 }
