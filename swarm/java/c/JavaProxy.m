@@ -9,9 +9,15 @@
 
 @implementation JavaProxy
 
-- try: (const char *)str
+- (int)try: (const char *)str
 {
-  return nil;
+  printf ("try:\n");
+  return 3;
+}
+
+- (double)tryDouble: (const char *)str
+{
+  return 2.5;
 }
 
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
@@ -19,19 +25,8 @@
   NSArgumentInfo info;
   FArguments *fa;
   id <FCall> fc;
-
-  union {
-    char charVal;
-    short shortVal;
-    int intVal;
-    long longVal;
-    float floatVal;
-    double doubleVal;
-    const char *str;
-    id obj;
-  } val;
+  types_t val;
   id aZone = [self getZone];
-
   const char *type = sel_get_type (aSel);
   
   if (!type)
@@ -56,12 +51,18 @@
   fa = [fa createEnd];
   
   fc = [[[[FCall createBegin: aZone] setArguments: fa]
-          setMethod: @selector (try:) inObject: self] createEnd];
+          setMethod: @selector (tryDouble:) inObject: self] createEnd];
+  printf ("before call\n");
   [fc performCall];
-  // [fa drop];
+  printf ("after call\n");
+  {
+    types_t typebuf;
+    retval_t retval = [fc getRetVal: argFrame buf: &typebuf];
 
-  argFrame[0].arg_ptr = [fc getResult];
-  // [fc drop];
-  return argFrame[0].arg_ptr;
+    printf ("val:[%f %f]\n", typebuf._double, *(double *) [fc getResult]);
+    [fc drop];
+    [fa drop];
+    return retval;
+  }
 }
 @end

@@ -1,3 +1,10 @@
+1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* JavaProxy.m ([JavaProxy -forward::]): Use types_t instead of
+	local union.  Use getRetVal:buf: into a local types_t instead of
+	munging argFrame here.  This is to allow for dropping the 
+	FCall and FArguments instances before leaving.
+
 1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.h, SwarmEnvironment.m: Include misc.h first to avoid
