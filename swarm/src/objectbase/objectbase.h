@@ -188,7 +188,7 @@ USING
 //M: which may differ from the "displayed" precision.
 - (const char *)probeAsString: anObject
                        Buffer: (char *)buf
-            withFullPrecision: (unsigned)precision;
+            withFullPrecision: (BOOL)precision;
 
 //M: Returns rank of array, or 0 for scalar objects.
 - (unsigned)getRank;

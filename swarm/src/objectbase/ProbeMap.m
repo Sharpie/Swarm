@@ -196,6 +196,29 @@ PHASE(Creating)
     count++;
 }
 
+- (void)_addVarProbe_: (Class)aClass getter: (COMmethod)getter setter: (COMmethod)setter
+{
+  VarProbe *varProbe = [VarProbe createBegin: getZone (self)];
+  id <String> key = [String create: getZone (self)
+                            setC: COM_method_name (getter)];
+
+  [varProbe setProbedClass: aClass];
+  [varProbe setProbedCOMgetter: getter setter: setter];
+	  
+  if (objectToNotify != nil) 
+    [varProbe setObjectToNotify: objectToNotify];
+  varProbe = [varProbe createEnd];
+
+  if (!varProbe || ![probes at: key insert: varProbe])
+    {
+      if (varProbe)
+        [varProbe drop];
+      [key drop];
+    }
+  else
+    count++;
+}
+
 - (void)_addMessageProbe_: (Class)aClass selector: (SEL)aSel
 {
   id <MessageProbe> messageProbe = [MessageProbe createBegin: getZone (self)];
@@ -347,8 +370,9 @@ PHASE(Creating)
   
   void collect_variable (COMmethod getterMethod, COMmethod setterMethod)
     {
-      printf ("variable: `%s'\n", COM_method_name (getterMethod));
-      // [self _addVarProbe_: aClass variableName: name];
+      [self _addVarProbe_: aClass
+            getter: getterMethod
+            setter: setterMethod];
     }
 
   if (!cClass)

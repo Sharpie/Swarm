@@ -42,6 +42,54 @@ PHASE(Creating)
   return self;
 }
 
+- setProbedCOMgetter: (COMmethod)getter setter: (COMmethod)setter
+{
+  getterMethod = getter;
+  setterMethod = setter;
+  language = LanguageCOM;
+  return self;
+}
+
+- (void)_typeSetup_
+{
+  switch (fcall_type_for_objc_type (probedType[0]))
+    {
+    case fcall_type_float:
+    case fcall_type_double:
+    case fcall_type_long_double:
+      {
+        // set up default formatting string for floating point and 
+        // double types - defaults are set in the probeLibrary instance
+        char *buf = [getZone (self) alloc: 16];
+        
+        sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
+        floatFormat = buf; // allocate memory for string
+      }
+    case fcall_type_boolean:
+    case fcall_type_string:
+    case fcall_type_schar:
+    case fcall_type_uchar:
+    case fcall_type_sshort:
+    case fcall_type_ushort:
+    case fcall_type_sint:
+    case fcall_type_uint:
+    case fcall_type_slong:
+    case fcall_type_ulong:
+    case fcall_type_slonglong:
+    case fcall_type_ulonglong:
+      interactiveFlag = YES;
+      break;
+    case fcall_type_object:
+    case fcall_type_class:
+    case fcall_type_selector:
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+    case fcall_type_void:
+      interactiveFlag = NO;
+      break;
+    }
+}
+
 #ifdef HAVE_JDK
 - _setupJavaVarProbe_
 {
@@ -76,11 +124,20 @@ PHASE(Creating)
   
   fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+
   probedType = objc_type_for_fcall_type (fcall_type_for_java_class (fieldType));
-  interactiveFlag = YES;
+  [self _typeSetup_];
   return fieldObject ? self : nil;
 }
 #endif
+
+- _setupCOMVarProbe_
+{
+  probedType =
+    objc_type_for_fcall_type (COM_method_param_fcall_type (getterMethod, 0));
+  [self _typeSetup_];
+  return self;
+}
 
 - _setupObjcVarProbe_
 {
@@ -106,40 +163,11 @@ PHASE(Creating)
     }
   else
     {
-      char type;
-      
       probedType = ivarList->ivar_list[i].ivar_type;
-      type = probedType[0];
+      [self _typeSetup_]; 
       dataOffset = ivarList->ivar_list[i].ivar_offset;
-      
-      if (type == _C_CHARPTR
-          || type == _C_CHR
-          || type == _C_UCHR
-          || type == _C_SHT
-          || type == _C_USHT
-          || type == _C_INT
-          || type == _C_UINT
-          || type == _C_LNG
-          || type == _C_ULNG
-          || type == _C_LNG_LNG
-          || type == _C_ULNG_LNG
-          || type == _C_FLT
-          || type == _C_DBL
-          || type == _C_LNG_DBL)
-        interactiveFlag = YES;
-      else
-        interactiveFlag = NO;
 
-      // set up default formatting string for floating point and 
-      // double types - defaults are set in the probeLibrary instance
-      if  (type == _C_FLT || type == _C_DBL || type == _C_LNG_DBL)
-        {
-          char *buf = [getZone (self) alloc: 16];
-
-          sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
-          floatFormat = buf; // allocate memory for string
-        }
-      else if (type == _C_ARY_B)
+      if (*probedType == _C_ARY_B)
         {
           void setup_array (unsigned theRank,
                             unsigned *theDims,
@@ -183,16 +211,17 @@ PHASE(Creating)
   [super createEnd];
 
   if (SAFEPROBES)
-    if (!probedVariable || !probedClass)
+    if (!(probedVariable || (getterMethod && setterMethod)) || !probedClass)
       raiseEvent (WarningMessage, 
                   "VarProbe object was not properly initialized.\n");
 #ifdef HAVE_JDK
   if (language == LanguageJava)
     return [self _setupJavaVarProbe_];
 #endif   
+  else if (language == LanguageCOM)
+    return [self _setupCOMVarProbe_];
   else if (language == LanguageObjc)
     return [self _setupObjcVarProbe_];
-  else
     abort ();
 }
 
@@ -278,8 +307,9 @@ PHASE(Using)
 - (void *)probeRaw: anObject
 {
 #ifdef HAVE_JDK
-  if (language == LanguageJava)
-    raiseEvent (SourceMessage, "Java objects do not permit raw probing.\n");
+  if (language == LanguageJava || language == LanguageCOM)
+    raiseEvent (SourceMessage,
+                "COM & Java objects do not permit raw probing.\n");
 #endif
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -295,9 +325,9 @@ PHASE(Using)
   void *q = NULL;
   
 #ifdef HAVE_JDK
-  if (language == LanguageJava)
+  if (language == LanguageJava || language == LanguageCOM)
     raiseEvent (SourceMessage, 
-		"Java objects do not permit probing with pointers.\n");
+		"COM & Java objects do not permit probing with pointers.\n");
 #endif
 
   if (safety)
@@ -372,65 +402,110 @@ java_probe_as_int (jobject fieldType, jobject field, jobject object)
 
 #endif
 
-static int
-probe_as_int (const char *probedType, const void *p)
-{
-  int i = 0;
-  
-  switch (probedType[0])
-    {
-    case _C_ID:   i = (long) *(id *) p; break;
-    case _C_CHARPTR:
-    case _C_PTR:  i = (long) *(void **) p; break;
-      
-    case _C_UCHR: i = (int) *(unsigned char *) p; break;
-    case _C_CHR:  i = (int) *(char *) p; break;
-
-    case _C_SHT:  i = (int) *(short *) p; break;
-    case _C_USHT: i = (unsigned) *(unsigned short *) p; break;
-      
-    case _C_INT:  i = *(int *) p; break;
-    case _C_UINT: i = *(unsigned *) p; break;
-
-    case _C_LNG:  i = (int) *(long *) p; break;
-    case _C_ULNG: i = (unsigned) *(unsigned long *) p; break;
-
-    case _C_LNG_LNG:  i = (int) *(long long *) p; break;
-    case _C_ULNG_LNG: i = (unsigned) *(unsigned long long *) p; break;
-
-    case _C_FLT:     i = (int) *(float *) p; break;
-    case _C_DBL:     i = (int) *(double *) p; break;
-    case _C_LNG_DBL: i = (int) *(long double *) p; break;
-      
-    default:
-      if (SAFEPROBES)
-        raiseEvent (WarningMessage,
-                    "Invalid type `%s' to retrieve as an int...\n",
-                    probedType);
-      break;
+#define CONVERT(ftype, type)                              \
+  switch (ftype)                                          \
+    {                                                     \
+    case fcall_type_void:                                 \
+    case fcall_type_object:                               \
+    case fcall_type_class:                                \
+    case fcall_type_string:                               \
+    case fcall_type_selector:                             \
+    case fcall_type_jobject:                              \
+    case fcall_type_jstring:                              \
+      abort ();                                           \
+    case fcall_type_boolean:                              \
+      ret = (type) p->boolean;                            \
+      break;                                              \
+    case fcall_type_uchar:                                \
+      ret = (type) p->uchar;                              \
+      break;                                              \
+    case fcall_type_schar:                                \
+      ret = (type) p->schar;                              \
+      break;                                              \
+    case fcall_type_ushort:                               \
+      ret = (type) p->ushort;                             \
+      break;                                              \
+    case fcall_type_sshort:                               \
+      ret = (type) p->sshort;                             \
+      break;                                              \
+    case fcall_type_uint:                                 \
+      ret = (type) p->uint;                               \
+      break;                                              \
+    case fcall_type_sint:                                 \
+      ret = (type) p->sint;                               \
+      break;                                              \
+    case fcall_type_ulong:                                \
+      ret = (type) p->ulong;                              \
+      break;                                              \
+    case fcall_type_slong:                                \
+      ret = (type) p->slong;                              \
+      break;                                              \
+    case fcall_type_ulonglong:                            \
+      ret = (type) p->ulonglong;                          \
+      break;                                              \
+    case fcall_type_slonglong:                            \
+      ret = (type) p->slonglong;                          \
+      break;                                              \
+    case fcall_type_float:                                \
+      ret = (type) p->_float;                             \
+      break;                                              \
+    case fcall_type_double:                               \
+      ret = (type) p->_double;                            \
+      break;                                              \
+    case fcall_type_long_double:                          \
+      ret = (type) p->_long_double;                       \
+      break;                                              \
     }
-  return i;
+
+#define COM_CONVERT(type) CONVERT (COM_method_param_fcall_type (getterMethod, 0), type)
+#define OBJC_CONVERT(type) CONVERT (fcall_type_for_objc_type (probedType[0]), type)
+
+static int
+COM_probe_as_int (COMmethod getterMethod, COMobject cObj)
+{
+  void *params = COM_create_params (1);
+  types_t retBuf;
+  types_t *p = &retBuf;
+  int ret = 0;
+
+  COM_set_return (params, 0, fcall_type_sint, p);
+  COM_method_invoke (getterMethod, cObj, params);
+
+  COM_CONVERT (int);
+  
+  COM_free_params (params);
+  return retBuf.sint;
+}
+
+static int
+objc_probe_as_int (const char *probedType, const types_t *p)
+{
+  int ret = 0;
+
+  OBJC_CONVERT (int);
+
+  return ret;
 }
 
 - (int)probeAsInt: anObject
 {
-  const void *p;
-
-#ifdef HAVE_JDK
-  if (language == LanguageJava)
-    return java_probe_as_int (fieldType,
-                              fieldObject,
-                              SD_JAVA_FIND_OBJECT_JAVA (anObject));
-#endif
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
                   "VarProbe for class %s tried on class %s\n",
                   [probedClass name], [anObject name]);
-  
-  p = ((const void *) anObject) + dataOffset;
-
-  return probe_as_int (probedType, p);
+  if (language == LanguageCOM)
+    return COM_probe_as_int (getterMethod, SD_COM_FIND_OBJECT_COM (anObject));
+#ifdef HAVE_JDK
+  else if (language == LanguageJava)
+    return java_probe_as_int (fieldType,
+                              fieldObject,
+                              SD_JAVA_FIND_OBJECT_JAVA (anObject));
+#endif
+  else if (language == LanguageObjc)
+    return objc_probe_as_int (probedType, (types_t *) ((void *) anObject) + dataOffset);
+  else
+    abort ();
 }
 
 #ifdef HAVE_JDK
@@ -462,52 +537,36 @@ java_probe_as_double (jobject fieldType, jobject field, jobject object)
 }
 #endif
 
+
 static double
-probe_as_double (const char *probedType, const void *p)
+COM_probe_as_double (COMmethod getterMethod, COMobject cObj)
 {
-  double d = 0.0;
+  void *params = COM_create_params (1);
+  types_t retBuf;
+  const types_t *p = &retBuf;
+  double ret = 0.0;
 
-  switch (probedType[0])
-    {
-    case _C_UCHR: d = (double) *(unsigned char *) p; break;
-    case _C_CHR:  d = (double) *(char *) p; break;
-      
-    case _C_SHT:  d = (double) *(short *) p; break;
-    case _C_USHT: d = (double) *(unsigned short *) p; break;
+  COM_method_set_return (getterMethod, params, &retBuf);
+  COM_method_invoke (getterMethod, cObj, params);
 
-    case _C_INT:  d = (double) *(int *) p; break;
-    case _C_UINT: d = (double) *(unsigned int *) p; break;
-      
-    case _C_LNG:  d = (double) *(long *) p; break;
-    case _C_ULNG: d = (double) *(unsigned long *) p; break;
+  COM_CONVERT (double);
 
-    case _C_LNG_LNG:  d = (double) *(long long *) p; break;
-    case _C_ULNG_LNG: d = (double) *(unsigned long long *) p; break;
-      
-    case _C_FLT:  d = (double) *(float *) p; break;
-    case _C_DBL:  d = *(double *) p; break;
-    case _C_LNG_DBL:  d = (double) *(long double *) p; break;
-      
-    default:
-      if (SAFEPROBES)
-        raiseEvent (WarningMessage,
-                    "Invalid type `%s' to retrieve as a double...\n",
-                    probedType);
-      break;
-    }
-  return d;
+  COM_free_params (params);
+  return ret;
+}
+
+static double
+objc_probe_as_double (const char *probedType, const types_t *p)
+{
+  double ret = 0.0;
+
+  OBJC_CONVERT (double);
+  
+  return ret;
 }
 
 - (double)probeAsDouble: anObject
 {
-  const void *p;
-
-#ifdef HAVE_JDK
-  if (language == LanguageJava)
-    return java_probe_as_double (fieldType,
-                                 fieldObject,
-                                 SD_JAVA_FIND_OBJECT_JAVA (anObject));
-#endif  
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
@@ -515,16 +574,28 @@ probe_as_double (const char *probedType, const void *p)
                   [probedClass name],
                   [anObject name]);
   
-  p = ((const void *) anObject) + dataOffset;
-
-  return probe_as_double (probedType, p);
+  if (language == LanguageCOM)
+    return COM_probe_as_double (getterMethod,
+                                SD_COM_FIND_OBJECT_COM (anObject));
+#ifdef HAVE_JDK
+  else if (language == LanguageJava)
+    return java_probe_as_double (fieldType,
+                                 fieldObject,
+                                 SD_JAVA_FIND_OBJECT_JAVA (anObject));
+#endif  
+  else if (language == LanguageObjc)
+    return objc_probe_as_double (probedType,
+                                 (const types_t *)
+                                 ((const void *) anObject) + dataOffset);
+  else
+    abort ();
 }
 
 - (const char *)probeAsString: anObject Buffer: (char *)buf
 {
   // by default - use precision set by -setFormatFloat 
   // as number of digits to use in formatting the string
-  [self probeAsString: anObject Buffer: buf withFullPrecision: 0];
+  [self probeAsString: anObject Buffer: buf withFullPrecision: NO];
   return buf;
 }
 
@@ -532,7 +603,7 @@ probe_as_double (const char *probedType, const void *p)
 {
   char buf[1024];
 
-  [self probeAsString: anObject Buffer: buf withFullPrecision: 0];
+  [self probeAsString: anObject Buffer: buf withFullPrecision: NO];
   return [String create: getZone (self) setC: buf];
 }
 
@@ -560,10 +631,23 @@ probe_as_double (const char *probedType, const void *p)
      str = (*jniEnv)->NewStringUTF (jniEnv, buf);                     \
    }
 
+#define GETSTRFULLPREC(type,uptype,sig)                               \
+   {                                                                  \
+     type val;                                                        \
+     char buf[64];                                                    \
+                                                                      \
+     fid = (*jniEnv)->GetFieldID (jniEnv, class, fieldName, sig);     \
+     val = (*jniEnv)->Get##uptype##Field (jniEnv, object, fid);       \
+                                                                      \
+     sprintf (buf, "%.*g", (int) precision, (double) val);            \
+     str = (*jniEnv)->NewStringUTF (jniEnv, buf);                     \
+   }
 
-const char *
+
+void
 java_probe_as_string (jclass fieldType, jobject field, jobject object,
-		      char *buf, int precision)
+                      const char *fmt, unsigned precision,
+		      char *buf)
 {
   jobject str;
   jboolean isCopy;
@@ -597,9 +681,15 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   else if (TYPEP (long))
     GETSTR (long, Long, "J", "%ld", long)
   else if (TYPEP (float))
-    GETSTR (float, Float, "F", "%f", float)
+    if (fmt)
+      GETSTR (float, Float, "F", fmt, float)
+    else
+      GETSTRFULLPREC (float, Float, "F")
   else if (TYPEP (double))
-    GETSTR (double, Double, "D", "%f", double)
+    if (fmt)
+      GETSTR (double, Double, "D", fmt, double)
+    else
+      GETSTRFULLPREC (double, Double, "D")
   else if (TYPEP (String))
     {
       fid = (*jniEnv)->GetFieldID (jniEnv,
@@ -618,143 +708,183 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   (*jniEnv)->DeleteLocalRef (jniEnv, str);
   SFREEBLOCK (fieldName);
-  return buf;
 }
 
 #endif
 
+static void
+string_convert (fcall_type_t type, const types_t *p,
+                const char *floatFormat, unsigned precision,
+                id <Symbol> stringReturnType,
+                char *buf)
+{
+  switch (type)
+    {
+    case fcall_type_object:
+      if (!p->object)
+        sprintf (buf, "nil");
+      else 
+        {
+          const char *name = NULL;
+          
+          if ([p->object respondsTo: @selector (getDisplayName)])
+            name = [p->object getDisplayName];
+
+          if (!name)
+            name = [p->object name];
+          strcpy (buf, name);
+        }
+      break;
+    case fcall_type_class:
+      if (!p->_class)
+        sprintf (buf, "nil");
+      else
+        sprintf (buf, "%s", p->_class->name);
+      break;
+    case fcall_type_uchar:
+      if (stringReturnType == DefaultString)
+        sprintf (buf, "%u '%c'", 
+                 (unsigned) p->uchar,
+                 p->uchar);
+      else if (stringReturnType == CharString)
+        sprintf (buf, "'%c'", p->uchar);
+      else if (stringReturnType == IntString)
+        sprintf (buf, "%u", (unsigned) p->uchar);
+      else
+        raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
+      break;
+    case fcall_type_schar:
+      if (stringReturnType == DefaultString)
+        sprintf (buf, "%d '%c'",
+                 (int) p->schar,
+                 p->schar);
+      else if (stringReturnType == CharString)
+        sprintf (buf, "'%c'", p->schar);
+      else if (stringReturnType == IntString)
+        sprintf (buf, "%d",(int) p->schar);
+      else
+       raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
+      break;
+    case fcall_type_ushort:
+      sprintf (buf, "%hu", p->ushort);
+      break;
+    case fcall_type_sshort:
+      sprintf (buf, "%hd", p->sshort);
+      break;
+    case fcall_type_sint:
+      sprintf (buf, "%d", p->sint);
+      break;
+    case fcall_type_uint:
+      sprintf (buf, "%u", p->uint);
+      break;
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case fcall_type_ulonglong:
+#endif
+    case fcall_type_ulong:
+      sprintf (buf, "%lu", p->ulong);
+      break;
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case fcall_type_slonglong:
+#endif
+    case fcall_type_slong:
+      sprintf (buf, "%ld", p->slong);
+      break;
+#if defined(LLFMT) && (SIZEOF_LONG_LONG > SIZEOF_LONG)
+    case fcall_type_slonglong:
+      sprintf (buf, "%" LLFMT "d", p->slonglong);
+      break;
+    case fcall_type_ulonglong:
+      sprintf (buf, "%" LLFMT "u", p->ulonglong);
+      break;
+#endif
+    case fcall_type_float:
+      if (!floatFormat)
+        sprintf (buf, "%.*g", (int) precision,
+                 (double) p->_float);
+      else
+        sprintf (buf, floatFormat, p->_float);
+      break;
+    case fcall_type_double:
+      if (!floatFormat)
+        sprintf (buf, "%.*g", (int) precision, p->_double);
+      else
+        sprintf (buf, floatFormat, p->_double);
+      break;
+    case fcall_type_long_double:
+      if (!floatFormat)
+        sprintf (buf, "%.*g", (int) precision,
+                 (double) p->_long_double);
+      else
+        sprintf (buf, floatFormat, (double) p->_long_double);
+      break;
+    case fcall_type_string:
+      sprintf (buf, "%s", p->string ? p->string : "<NULL>");
+      break;
+    default:
+      sprintf (buf, "..."); 
+      break;
+    }
+}
+
+static void
+COM_probe_as_string (COMmethod getterMethod,
+                     COMobject cObj,
+                     const char *fmt, unsigned precision,
+                     id <Symbol> stringReturnType,
+                     char *buf)
+{
+  void *params = COM_create_params (1);
+  types_t retBuf;
+
+  COM_set_return (params, 0, fcall_type_string, &retBuf);
+  COM_method_invoke (getterMethod, cObj, params);
+
+  string_convert (COM_method_param_fcall_type (getterMethod, 0),
+                  &retBuf,
+                  fmt, precision,
+                  stringReturnType,
+                  buf);
+
+  COM_free_params (params);
+}
+
 - (const char *)probeAsString: anObject
                        Buffer: (char *)buf 
-            withFullPrecision: (unsigned)precision
+            withFullPrecision: (BOOL)fullPrecisionFlag
 {
-  const void *p;
+  const char *fmt = fullPrecisionFlag ? floatFormat : NULL;
+  unsigned precision = [probeLibrary getSavedPrecision];
   
   if (safety)
     if (![anObject isKindOf: probedClass])
       sprintf (buf, "VarProbe for class %s tried on class %s\n",
                [probedClass name], [anObject name]);
   
+  if (language == LanguageCOM)
+    COM_probe_as_string (getterMethod,
+                         SD_COM_FIND_OBJECT_COM (anObject),
+                         fmt, precision,
+                         stringReturnType,
+                         buf);
 #ifdef HAVE_JDK
-  if (language == LanguageJava)
-    return java_probe_as_string (fieldType,
-                                 fieldObject, 
-                                 SD_JAVA_FIND_OBJECT_JAVA (anObject), 
-                                 buf,
-                                 precision);
+  else if (language == LanguageJava)
+    java_probe_as_string (fieldType,
+                          fieldObject, 
+                          SD_JAVA_FIND_OBJECT_JAVA (anObject), 
+                          fmt, precision,
+                          buf);
 #endif
-
-  p = (const char *)anObject + dataOffset; // probeData
-  
-  switch (probedType[0])
-    {
-    case _C_ID:
-      if (!(*(id *)p))
-        sprintf (buf, "nil");
-      else 
-        {
-          const char *name = NULL;
-          
-          if ([*(id *)p respondsTo: @selector (getDisplayName)])
-            name = [*(id *) p getDisplayName];
-
-          if (!name)
-            name = [*(id *) p name];
-          strcpy (buf, name);
-        }
-      break;
-    case _C_CLASS:
-      if (!(*(Class *) p))
-        sprintf (buf, "nil");
-      else
-        sprintf (buf, "%s", (*(Class *) p)->name );
-      break;
-    case _C_PTR:
-      sprintf (buf, "0x%p", *(void **) p);
-      break;
-    case _C_UCHR:
-      if (stringReturnType == DefaultString)
-        sprintf (buf, "%u '%c'",(unsigned) *(unsigned char *) p,
-                *(unsigned char *) p);
-      else if (stringReturnType == CharString)
-        sprintf (buf, "'%c'",*(unsigned char *) p);
-      else if (stringReturnType == IntString)
-        sprintf (buf, "%u", (unsigned) *(unsigned char *) p);
-      else
-        raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
-      break;
-    case _C_CHR:
-      if (stringReturnType == DefaultString)
-        sprintf (buf, "%d '%c'",(int) *(char *) p, *(char *) p);
-      else if (stringReturnType == CharString)
-        sprintf (buf, "'%c'",*(char *) p);
-      else if (stringReturnType == IntString)
-        sprintf (buf, "%d",(int) *(char *) p);
-      else
-       raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
-      break;
-    case _C_SHT:
-      sprintf (buf, "%hd", *(short *) p);
-      break;
-    case _C_USHT:
-      sprintf (buf, "%hu", *(unsigned short *) p);
-      break;
-    case _C_INT:
-      sprintf (buf, "%d", *(int *) p);
-      break;
-    case _C_UINT:
-      sprintf (buf, "%u", *(unsigned *) p);
-      break;
-#if SIZEOF_LONG_LONG == SIZEOF_LONG
-    case _C_LNG_LNG:
-#endif
-    case _C_LNG:
-      sprintf (buf, "%ld", *(long *)p);
-      break;
-#if SIZEOF_LONG_LONG == SIZEOF_LONG
-    case _C_ULNG_LNG:
-#endif
-    case _C_ULNG:
-      sprintf (buf, "%lu", *(unsigned long *) p);
-      break;
-#if defined(LLFMT) && (SIZEOF_LONG_LONG > SIZEOF_LONG)
-    case _C_LNG_LNG:
-      sprintf (buf, "%" LLFMT "d", *(long long *)p);
-      break;
-    case _C_ULNG_LNG:
-      sprintf (buf, "%" LLFMT "u", *(unsigned long long *) p);
-      break;
-#endif
-    case _C_FLT:
-      if (precision)
-        sprintf (buf, "%.*g", (int) [probeLibrary getSavedPrecision],
-                 (double) (*(float *) p));
-      else
-        sprintf (buf, floatFormat, (double) (*(float *) p));
-      break;
-    case _C_DBL:
-      if (precision)
-        sprintf (buf, "%.*g", (int) [probeLibrary getSavedPrecision],
-                 *(double *) p);
-      else
-        sprintf (buf, floatFormat, *(double *)p);
-      break;
-    case _C_LNG_DBL:
-      if (precision)
-        sprintf (buf, "%.*g", (int) [probeLibrary getSavedPrecision],
-                 (double) *(long double *) p);
-      else
-        sprintf (buf, floatFormat, (double) *(long double *) p);
-      break;
-    case _C_CHARPTR:
-      sprintf (buf, "%s", *(char **) p ? *(char **) p : "<NULL>");
-      break;
-    default:
-      sprintf (buf, "..."); 
-      break;
-    }
+  else if (language == LanguageObjc)
+    string_convert (fcall_type_for_objc_type (probedType [0]),
+                    (void *) anObject + dataOffset,
+                    fmt, precision,
+                    stringReturnType,
+                    buf);
+  else
+    abort ();
   return buf;
 }
-
+  
 #ifdef HAVE_JDK
 id
 java_probe_as_object (jclass fieldType, jobject field, jobject object)
@@ -775,6 +905,24 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
 }
 #endif
 
+
+static id
+COM_probe_as_object (COMmethod getterMethod, COMobject cObj)
+{
+  void *params = COM_create_params (1);
+  types_t retBuf;
+  id ret;
+
+  COM_method_set_return (getterMethod, params, &retBuf);
+  COM_method_invoke (getterMethod, cObj, params);
+
+  ret = SD_COM_FIND_OBJECT_OBJC (retBuf.object);  // a pointer, anyway
+  
+  COM_free_params (params);
+  return ret;
+}
+
+
 - probeObject: anObject
 {
   if (probedType[0] != _C_ID)
@@ -784,13 +932,16 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
 
 #ifdef HAVE_JDK
   if (language == LanguageJava)
-    {
-      return java_probe_as_object (fieldType,
-                                   fieldObject,
-                                   SD_JAVA_FIND_OBJECT_JAVA (anObject));
-    }
+    return java_probe_as_object (fieldType,
+                                 fieldObject,
+                                 SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif
-  return *(id *) [self probeRaw: anObject];
+  if (language == LanguageCOM)
+    return COM_probe_as_object (getterMethod, SD_COM_FIND_OBJECT_COM (anObject));
+  else if (language == LanguageObjc)
+    return *(id *) [self probeRaw: anObject];
+  else
+    abort ();
 }
 
 - iterateAsDouble: anObject using: (void (*) (unsigned rank, unsigned *vec, double val))func
@@ -938,9 +1089,9 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
 }
 
 #ifdef HAVE_JDK
-void
-setFieldFromString (id anObject, jobject field, 
-		    jclass fieldType, const char * value)
+static void
+java_setFieldFromString (id anObject, jobject field, 
+                         jclass fieldType, const char * value)
 {
 
   unsigned classcmp (jclass matchClass, jclass fieldType) 
@@ -1084,160 +1235,160 @@ setFieldFromString (id anObject, jobject field,
 }
 #endif
 
+
+BOOL
+convert_from_string (fcall_type_t type,
+                     id <Symbol> stringReturnType,
+                     const char *s,
+                     types_t *out)
+{
+  BOOL ret = NO;
+
+  switch (type)
+    {
+    case fcall_type_boolean:
+      out->boolean = (strcmp (s, "true") == 0);
+      ret = YES;
+      break;
+
+    case fcall_type_uchar:
+      if (stringReturnType == CharString)
+        ret = (sscanf (s, "'%c'", &out->uchar) == 1);
+      else 
+        {
+          unsigned val;
+          
+          ret = (sscanf (s, "%u", &val) == 1);
+          out->uchar = (unsigned char) val;
+	}
+      break;
+
+    case fcall_type_schar:
+      if (stringReturnType == CharString)
+        ret = (sscanf (s, "'%c'", &out->schar) == 1);
+      else 
+        {
+         int val;
+         
+         ret = (sscanf (s, "%d", &val) == 1);
+         out->schar = (char) ret;
+	}
+      break;
+
+    case fcall_type_ushort:
+      ret = (sscanf (s, "%hu", &out->ushort) == 1);
+      break;
+      
+    case fcall_type_sshort:
+      ret = (sscanf (s, "%hd", &out->sshort) == 1);
+      break;
+
+    case fcall_type_uint:
+      ret = (sscanf (s, "%u", &out->uint) == 1);
+      break;
+      
+    case fcall_type_sint:
+      ret = (sscanf (s, "%d", &out->sint) == 1);
+      break;
+
+    case fcall_type_ulong:
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case fcall_type_ulonglong:
+#endif
+      ret = (sscanf (s, "%lu", &out->ulong) == 1);
+      break;
+
+    case fcall_type_slong:
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case fcall_type_slonglong:
+#endif
+      ret = (sscanf (s, "%ld", &out->slong) == 1);
+      break;
+      
+#if defined(LLFMT) && (SIZEOF_LONG_LONG > SIZEOF_LONG)
+    case fcall_type_ulonglong:
+      ret = (sscanf (s, "%" LLFMT "u", &out->ulonglong) == 1);
+      break;
+
+    case fcall_type_slonglong:
+      ret = (sscanf (s, "%" LLFMT "d", &out->slonglong) == 1);
+      break;
+#endif
+
+    case fcall_type_float:
+      ret = (sscanf (s, "%f", &out->_float) == 1);
+      break;
+
+    case fcall_type_double:
+      ret = (sscanf (s, "%lf", &out->_double) == 1);
+      break;
+
+    case fcall_type_long_double:
+      {
+        double val;
+        
+        ret = (sscanf (s, "%lf", &val) == 1);
+        out->_long_double = (long double) val;
+      }
+      break;
+      
+    case fcall_type_string:
+      out->string = SSTRDUP (s);
+      ret = YES;
+      break;
+
+    case fcall_type_void:
+    case fcall_type_object:
+    case fcall_type_class:
+    case fcall_type_selector:
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+      abort ();
+    }
+
+  return ret;
+}
+
 // sets data to the string passed in. Some duplicated code with
 // setData:To:, but it's not too bad. Note we don't allow setting
 // pointers here, because textual representations of pointers are
 // strange. That's probably not a good idea.
 - (BOOL)setData: anObject ToString: (const char *)s
 {
-  union {
-    char c;
-    short s;
-    unsigned short us;
-    int i;
-    unsigned int ui;
-    float f;
-    double d;
-    long double ld;
-    long l;
-    unsigned long ul;
-    long long ll;
-    unsigned long long ull;
-  } value;
-  int rc = 0;
-  void *p;
-#ifdef HAVE_JDK
+  BOOL ret;
 
-  if (language == LanguageJava)
-    {
-      setFieldFromString (anObject, fieldObject, fieldType, s);
-      rc = 1;
-    }
-  else
-    {
-#endif  
-  
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
                   "VarProbe for class %s tried on class %s\n",
                   [probedClass name], [anObject name]);
 
-  p = (char *) anObject + dataOffset;		  // probeData
-
-  switch (probedType[0])
+  if (language == LanguageCOM)
     {
-    case _C_CHR:
-      if (stringReturnType == CharString)
-        {
-          if ((rc = sscanf (s, "'%c'", &value.c)) == 1)
-            *(char *) p = value.c;
-	} 
-      else 
-        {
-	  if ((rc = sscanf (s, "%d", &value.i)) == 1)
-	    *(char *) p = value.i;
-	}
-      break;
-      
-    case _C_UCHR:
-      if (stringReturnType == CharString)
-        {
-          if ((rc = sscanf (s, "'%c'", &value.c)) == 1)
-            *(char *) p = value.c;
-        }
-      else 
-        {
-          if ((rc = sscanf (s, "%u", &value.i)) == 1)
-            *(unsigned char *) p = value.i;
-	}
-      break;
-      
-  case _C_CHARPTR:
-      *(char **) p = STRDUP (s) ;
-      rc = (*(char **) p != NULL);
-      break;
+      void *params = COM_create_params (1);
+      types_t val;
+      fcall_type_t type = COM_method_param_fcall_type (setterMethod, 0);
 
-    case _C_SHT:
-      if ((rc = sscanf (s, "%hd", &value.s)) == 1) 
-        *(short *) p = value.s; 
-      break;
-      
-    case _C_USHT:
-      if ((rc = sscanf (s, "%hu", &value.us)) == 1) 
-        *(unsigned short *) p = value.us; 
-      break;
-      
-    case _C_INT:
-      if ((rc = sscanf (s, "%d", &value.i)) == 1) 
-        *(int *) p = value.i; 
-      break;
-      
-    case _C_UINT:
-      if ((rc = sscanf (s, "%u", &value.ui)) == 1) 
-        *(unsigned int *) p = value.ui; 
-      break;
-
-    case _C_LNG:
-#if SIZEOF_LONG_LONG == SIZEOF_LONG
-    case _C_LNG_LNG:
-#endif
-      if ((rc = sscanf (s, "%ld", &value.l)) == 1) 
-        *(long *) p = value.i; 
-      break;
-      
-    case _C_ULNG:
-#if SIZEOF_LONG_LONG == SIZEOF_LONG
-    case _C_ULNG_LNG:
-#endif
-      if ((rc = sscanf (s, "%lu", &value.ul)) == 1) 
-        *(unsigned long *) p = value.ul; 
-      break;
-
-#if defined(LLFMT) && (SIZEOF_LONG_LONG > SIZEOF_LONG)
-    case _C_LNG_LNG:
-      if ((rc = sscanf (s, "%" LLFMT "d", &value.ll)) == 1) 
-        *(long *) p = value.ll; 
-      break;
-      
-    case _C_ULNG_LNG:
-      if ((rc = sscanf (s, "%" LLFMT "u", &value.ull)) == 1) 
-        *(unsigned long *) p = value.ull; 
-      break;
-#endif
-      
-    case _C_FLT:
-      if ((rc = sscanf (s, "%f", &value.f)) == 1) 
-        *(float *) p = value.f; 
-      break;
-
-    case _C_DBL:
-      if ((rc = sscanf (s, "%lf", &value.d)) == 1) 
-        *(double *) p = value.d; 
-      break;
-
-    case _C_LNG_DBL:
-      {
-        double val;
-        
-        if ((rc = sscanf (s, "%lf", &val)) == 1)
-          {
-            value.ld = val;
-            *(long double *) p = value.ld; 
-          }
-        break;
-      }
-    default:
-      if (SAFEPROBES)
-        raiseEvent (WarningMessage, "Invalid type %s to set\n", probedType);
-      break;
-  }
-
+      ret = convert_from_string (type, stringReturnType, s, &val);
+      COM_set_arg (params, 0, type, &val);
+      COM_method_invoke (setterMethod, SD_COM_FIND_OBJECT_COM (anObject), params);
+      COM_free_params (params);
+    }
 #ifdef HAVE_JDK
+  else if (language == LanguageJava)
+    {
+      java_setFieldFromString (anObject, fieldObject, fieldType, s);
+      ret = YES;
     }
 #endif
-
-  if (rc != 1 && SAFEPROBES)
+  else if (language == LanguageObjc)
+    ret = convert_from_string (fcall_type_for_objc_type (probedType[0]),
+                               stringReturnType,
+                               s, (void *) anObject + dataOffset);
+  else
+    abort ();
+  
+  if (!ret && SAFEPROBES)
     {
       raiseEvent (WarningMessage,
                   "Error scanning for value in string %s\n",
@@ -1283,7 +1434,6 @@ setFieldFromString (id anObject, jobject field,
       (*jniEnv)->DeleteGlobalRef (jniEnv, fieldType);
       (*jniEnv)->DeleteGlobalRef (jniEnv, classObject);
     }
-
 #endif
 
   if (probedVariable)

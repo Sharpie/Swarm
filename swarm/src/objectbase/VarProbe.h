@@ -6,6 +6,9 @@
 #import <objectbase.h> // VarProbe
 #import <objectbase/Probe.h>
 
+#include <swarmconfig.h>
+#include "../defobj/COM.h"
+
 @interface VarProbe: Probe <VarProbe>
 {
   const char *probedVariable;
@@ -22,9 +25,12 @@
   void *fieldType;
   void *classObject;
 #endif
+  COMmethod getterMethod;
+  COMmethod setterMethod;
 }
 
 - setProbedVariable: (const char *)aVariable;
+- setProbedCOMgetter: (COMmethod)getter setter: (COMmethod)setter;
 - createEnd;
 
 - setNonInteractive;
@@ -47,7 +53,7 @@
 - (const char *)probeAsString: anObject Buffer: (char *)buffer;
 - (id <String>)probeAsString: anObject;
 - (const char *)probeAsString: nObject Buffer: (char *)buf 
-            withFullPrecision: (unsigned)precision;
+            withFullPrecision: (BOOL)precision;
 
 - (unsigned)getRank;
 - (unsigned *)getDims;

@@ -1,3 +1,35 @@
+2001-01-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m ([VarProbe -_typeSetup_]): New method.
+	([VarProbe -_setupJavaVarProbe_])
+	([VarProbe -_setupObjcVarProbe_], [VarProbe -_setupCOMVarProbe_]):
+	Use it.
+	([VarProbe -createEnd], [VarProbe -probeAs{Int,Double,String}:]):
+	Handle COM.
+	([VarProbe -probeRaw:], [VarProbe -probeAsPointer:]): Reject COM
+	case.
+	(CONVERT, OBJC_CONVERT, COM_CONVERT): New macros.
+	(objc_probe_as_{int,double,string}): Replaces
+	probe_as_{int,double,string}.  Use OBJC_CONVERT.
+	(COM_probe_as_{int,double,string}): New function.
+	(GETSTRFULLPREC): New macro.
+	(java_probe_as_string): Use it; handle full precision case.
+	(string_convert): New function.
+	(COM_probe_as_string,
+	[VarProbe -probeAsString:Buffer:withFullPrecision:]): Use it.
+	(convert_from_string): New function.
+	([VarProbe -setData:ToString:]): Use it.
+
+	* VarProbe.[hm], objectbase.h ([VarProbe
+	-probeAsString:Buffer:withFullPrecision:]): Make last argument
+	boolean.
+
+	* VarProbe.h (VarProbe): Add getterMethod and setterMethod
+	and setter.
+
+	* ProbeMap.m ([ProbeMap -_addVarProbe_:getter:setter:]): New method.
+	([ProbeMap -addCOMFields: collect_variable]): Use it.
+
 2001-01-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -addCOMMethods:]): Change collect_method
