@@ -244,7 +244,7 @@ static id <Pixmap> bugPixmap = nil;
     {
       bugPixmap = [Pixmap createBegin: [self getZone]];
       
-      [bugPixmap setDirectory: [arguments getAppConfigPath]];
+      [bugPixmap setDirectory: [arguments getAppDataPath]];
       [bugPixmap setFile: "ant.png"];
       [bugPixmap setRaster: r];
       bugPixmap = [bugPixmap createEnd];

@@ -46,9 +46,9 @@
   // specific variables such as gridSize, etc.).
   
   [ObjectLoader load: self
-                fromAppConfigFileNamed: "batch.setup"];
+                fromAppDataFileNamed: "batch.setup"];
   [ObjectLoader load: mousetrapModelSwarm
-                fromAppConfigFileNamed: "model.setup"];
+                fromAppDataFileNamed: "model.setup"];
   // Now, let the model swarm build its objects.
 
   [mousetrapModelSwarm buildObjects];

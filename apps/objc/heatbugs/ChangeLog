@@ -1,11 +1,11 @@
-1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugBatchSwarm.m ([HeatbugBatchSwarm -buildObjects]): 
 	Use ObjectLoader's fromAppConfigFileNamed: instead of fromfileNamed:.
 
 	* Makefile (APPLIBS): Remove.
 	(DATAFILES): For ant.png.
-	(SWARMHOME): Bump default to 1998-08-19.
+	(SWARMHOME): Bump default to 1998-08-20.
 
 	* Heatbug.m ([Heatbug -_getPixmap_:]): Set directory using
 	application config path.

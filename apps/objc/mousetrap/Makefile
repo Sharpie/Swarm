@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-1998-08-19
+SWARMHOME=../swarm-1998-08-20
 endif
 APPLICATION=mousetrap
 OBJECTS=main.o Mousetrap.o MousetrapModelSwarm.o MousetrapObserverSwarm.o MousetrapBatchSwarm.o

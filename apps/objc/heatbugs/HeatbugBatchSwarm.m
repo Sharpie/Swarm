@@ -43,9 +43,9 @@
   // specific variables such as numBugs etc.).
   
   [ObjectLoader load: self 
-                fromAppConfigFileNamed: "batch.setup"];
+                fromAppDataFileNamed: "batch.setup"];
   [ObjectLoader load: heatbugModelSwarm
-                fromAppConfigFileNamed: "experiment.setup"];
+                fromAppDataFileNamed: "experiment.setup"];
 
   // Now, let the model swarm build its objects.
   [heatbugModelSwarm buildObjects];
