@@ -337,7 +337,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       }
     fc = [[[[FCall createBegin: getCZone (scratchZone)]
              setArguments: [fa createEnd]]
-            setMethod: sel inObject: target]
+            setMethodFromSelector: sel inObject: target]
            createEnd];
     
     [fc performCall];

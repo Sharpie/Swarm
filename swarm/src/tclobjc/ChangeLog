@@ -1,3 +1,8 @@
+2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* tclObjc.m (tclObjc_msgSendToClientData): Accomodate rename
+	of setMethodFromSelector:inObject.
+
 2000-06-27  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* tclObjc.m: Include DefObject.h and defalloc.h.
