@@ -143,13 +143,14 @@
               return t
               finally return nil))))
 
+(defun included-method-p (method phase)
+  (and (not (removed-method-p method))
+       (eq phase (method-phase method))))
+
 (defun method-list (protocol phase)
-  (remove-if #'removed-method-p
-             (remove-if-not
-              #'(lambda (method)
-                  (eq (method-phase method) phase))
-              (mapcar #'caddr 
-                      (protocol-expanded-methodinfo-list protocol)))))
+  (remove-if-not #'(lambda (method) (included-method-p method phase))
+                 (mapcar #'caddr 
+                         (protocol-expanded-methodinfo-list protocol))))
 
 (defun java-print-class-methods-in-phase (protocol phase)
   (loop for method in (method-list protocol phase) 
@@ -159,8 +160,7 @@
 
 (defun java-print-interface-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
-        when (and (not (removed-method-p method))
-                  (eq phase (method-phase method)))
+        when (included-method-p method phase)
 	do (java-print-method method)))
 
 (defun java-suffix-for-phase (phase)
@@ -390,6 +390,16 @@
               (insert (third argument))))
       (insert ")\n")
       (insert "{\n")
+
+      ;; to suppress no return value warning messages
+      (let ((ret (method-return-type method)))
+        (insert "return ")
+        (insert 
+         (cond ((string= ret "int") "0")
+               ((string= ret "double") "0.0")
+               (t "NULL")))
+        (insert ";\n"))
+
       (insert "}\n"))))
 
 (defun java-print-native-class (protocol)
@@ -398,8 +408,7 @@
     (loop for phase in '(:creating :using)
           do
           (loop for method in (protocol-method-list protocol)
-                when (and (not (removed-method-p method))
-                          (eq phase (method-phase method)))
+                when (included-method-p method phase)
                 do
                 (java-print-native-method method protocol phase)
                 (insert "\n")))))

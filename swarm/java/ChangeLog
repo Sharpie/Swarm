@@ -1,3 +1,11 @@
+1999-03-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-native-method): Print out some return
+	values to avoid compiler warnings [temporary].
+	(included-method-p): New function.
+	(method-list, java-print-interface-methods-in-phase,
+	java-print-native-class): Use included-method-p.
+
 1999-03-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (SUBMAKEFILES): Use instead of MAKEFILES.  (MAKEFILES
