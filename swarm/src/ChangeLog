@@ -1,3 +1,8 @@
+2003-06-29  mgd  <mgd@drone>
+
+	* Makefile.am (libswarm_la_LDFLAGS): Add -no-undefined.
+	(install-data-local): Disable rule.
+
 2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
 
 	* SwarmEnvironment.m (_initSwarm_):

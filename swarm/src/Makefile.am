@@ -52,7 +52,7 @@ LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lswarmobjc $(SYSLIBS)
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools -I$(srcdir)/gui -I$(srcdir)/simtoolsgui -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES)
 
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(SUPPORTLDFLAGS) # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(SUPPORTLDFLAGS) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 
 DLLWRAP = @DLLWRAP@
 if USEDLL
@@ -64,9 +64,9 @@ swarm.dll: swarm.dll.c $(OBJS)
 
 #$(CC) -nostdlib -Wl,-shared -Wl,--export-all-symbols -Wl,--out-implib,libswarmdll.a -Wl,--output-def,swarm.def -o swarm.dll swarm.dll.o $(patsubst %.lo,%.o,$(OBJS)) -L../libobjc $(SUPPORTLDFLAGS) -lobjcdll $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
 
-install-data-local: 
-	$(INSTALL) libswarmdll.a $(DESTDIR)$(libdir)
-	ranlib $(DESTDIR)$(libdir)/libswarmdll.a
+#install-data-local: 
+#	$(INSTALL) libswarmdll.a $(DESTDIR)$(libdir)
+#	ranlib $(DESTDIR)$(libdir)/libswarmdll.a
 endif
 
 classList.m:
