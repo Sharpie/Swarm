@@ -1,4 +1,4 @@
-<DOCINFO>
+<REFERENCEINFO>
 
 <TITLE>Space Library</TITLE>
 
@@ -47,10 +47,10 @@ measures.
 
 &spacerevhistory.sgml;
 
-</DOCINFO>
+</REFERENCEINFO>
 
 <!--
 Local Variables:
-sgml-parent-document:("spacecont.sgml" "DOCINFO")
+sgml-parent-document:("spacecont.sgml" "REFERENCEINFO")
 End:
 -->
