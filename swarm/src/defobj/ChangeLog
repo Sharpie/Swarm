@@ -23,16 +23,15 @@
 	Doubles. After using/testing those methods, I decided I needed the
 	same for other types of primitive.
 	
-- (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
-- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;
-- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val;
-- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val;
-- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val;
-- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val;
-- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val;
-- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val;
-- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val;
-- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val;
+- (void)lispStoreBooleanArray: (BOOL *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreCharArray: (char *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreShortArray: (short int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreUnsignedArray: (unsigned int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreLongArray: (long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreUnsignedLongArray: (unsigned long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreUnsignedLongLongArray: (unsigned long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreFloatArray: (float *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
 	
 2003-05-01    <mgd@arrow.santafe.edu>
