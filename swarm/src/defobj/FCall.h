@@ -9,42 +9,10 @@ Description:  foreign function call
 Library:      defobj
 */
 
-#import <defobj.h>
-#include <ffi.h>
 
-#include <swarmconfig.h>
-
-#ifdef HAVE_JDK
-#include <jni.h>
-#endif
-
-#define number_of_types 14
-
-#define swarm_type_void    0
-#define swarm_type_uchar   1
-#define swarm_type_schar   2
-#define swarm_type_ushort  3
-#define swarm_type_sshort  4
-#define swarm_type_uint    5
-#define swarm_type_sint    6 
-#define swarm_type_ulong   7
-#define swarm_type_slong   8
-#define swarm_type_float   9 
-#define swarm_type_double  10
-#define swarm_type_pointer 11
-#define swarm_type_string  12
-#define swarm_type_jobject 13
+#import "FArguments.h"
 
 void init_javacall_tables (void);
-
-#ifdef HAVE_JDK
-#define JOBJECT jobject
-#else
-#define JOBJECT void *
-#endif
-
-#define MAX_ARGS        5
-#define MAX_HIDDEN      3
 
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 
@@ -52,42 +20,24 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 {
 @public
    unsigned int callType;
-   unsigned int assignedArguments;
-   unsigned int hiddenArguments;
-   void **argTypes;
-   void **argValues;
-   void *returnType;
+   FArguments * args; 
    void *result;
    ffi_cif cif;
    void (*function)();
    void *object;
    void *class;
    void *method;
-   unsigned int signatureLength;
+   char *methodName;
 }
 + createBegin: aZone;
+- setArguments: args;
 - setFunction: (void (*)())fn;
 - setMethod: (SEL)method inObject: object;
 - setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
-- addArgument: (void *)value ofType: (unsigned int)type;
-- addShort: (short)value;
-- addChar: (char)value;
-- addInt: (int)value;
-- addLong: (long)value;
-- addFloat: (float)value;
-- addDouble: (double)value;
-- addString: (const char *)value;
-- addJObject: (JOBJECT)value;
-- setReturnType: (unsigned int)type;
-- setStringReturnType;
-- setJObjectReturnType;
 - createEnd;
 - (void)_performAction_: anActivity;
-- (const char *)getStringResult;
-- (JOBJECT)getJObjectResult;
 - (void *)getResult;
-- mapAllocations: (mapalloc_t) mapalloc;
 @end
 
 

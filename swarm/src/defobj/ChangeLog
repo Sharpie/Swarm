@@ -1,3 +1,23 @@
+1999-03-15  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* FArguments.m: New file. FArguments is used for describing
+	arguments passed to a foreign call and return value type
+
+	* FArguments.h: New file. 
+
+	* FCall.m: Separate FCall into FCall and FArguments. FCall
+	is used for actual method specification and performing that
+	call. It takes arguments and return type specification from
+	FArguments.
+
+	* FCall.h: Likewise.
+
+	* Makefile.am (jdkdir, javaincludedir, JAVAINCLUDES): Add
+	new variables for java include directories.
+	(INCLUDES): Add JAVAINCLUDES to INCLUDES variable.
+	(SRC): Add FCall.m and FArguments.m
+	(defobj_HEADERS): Add FCall.h and FArguments.h
+
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I for libobjc.

@@ -3,12 +3,16 @@ CURRENT = 2
 REVISION = 0
 AGE = 0
 defobjdir = $(includedir)/$(MODULE)
+jdkdir=@jdkdir@
+javaincludedir=$(jdkdir)/include
+JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
 include $(top_srcdir)/src/Makefile.rules
 
 EXTRA_DIST = make-h2x m2h internal.h
 
-INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES)
+INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES)
+
 
 lib_LTLIBRARIES = libdefobj.la
 
@@ -20,7 +24,7 @@ BUILT_SOURCES = $(module_headers)
 
 SRC = Archiver.m Arguments.m Create.m Customize.m \
 	DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m \
-	defobj.m internal.m
+	FCall.m FArguments.m defobj.m internal.m
 
 libdefobj_la_SOURCES = $(SRC)
 libdefobj_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
@@ -29,7 +33,7 @@ bin_SCRIPTS = m2h make-h2x
 
 defobj_HEADERS = Archiver.h Arguments.h Create.h Customize.h \
 	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h \
-	defalloc.h deftype.h
+	FCall.h FArguments.h defalloc.h deftype.h
 
 $(OBJECTS): version.h
 
@@ -43,5 +47,6 @@ install-data-local:
 	$(INSTALL_DATA) classes.h $(defobjdir)
 	$(INSTALL_DATA) types.h $(defobjdir)
 	$(INSTALL_DATA) version.h $(defobjdir)
+
 
 
