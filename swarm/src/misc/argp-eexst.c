@@ -22,7 +22,7 @@
    Marcus G. Daniels <marcus@sysc.pdx.edu>
  */
    
-#if !defined(__CYGWIN__) && !defined(__WIN32__)
+#if !defined(__CYGWIN__) && !defined(__MINGW32__)
 #include <sysexits.h>
 #endif
 

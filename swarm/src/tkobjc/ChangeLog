@@ -1,8 +1,8 @@
 2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
 
-	* TkExtra.m: Add an ifdef for what BLT we expect for __WIN32__.
+	* TkExtra.m: Add an ifdef for what BLT we expect for __MINGW32__.
 
-	* internal.m (setSecondaryPath): Similarly, use lib/ for __WIN32__.
+	* internal.m (setSecondaryPath): Similarly, use lib/ for __MINGW32__.
 
 2004-07-20  Marcus G. Daniels <mgd@santafe.edu>
 

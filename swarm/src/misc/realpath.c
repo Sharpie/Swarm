@@ -14,7 +14,7 @@ int readlink (const char *, char *, int);
 #define MAXSYMLINKS 10
 #endif
 
-#ifndef __WIN32__
+#ifndef __MINGW32__
 #define HAVE_READLINK
 #endif
 

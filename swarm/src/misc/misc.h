@@ -68,7 +68,7 @@
 /* Expected to be declared by time.h are clock, time, and gettimeofday. */
 /* Expected to be declared by sys/time.h. is timeval. */
 
-#ifdef __WIN32__
+#ifdef __MINGW32__
 struct timezone {
   int tz_minuteswest;
   int tz_dsttime;

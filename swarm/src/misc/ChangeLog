@@ -1,17 +1,16 @@
 2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
 
 	* argp-eexst.c: Don't include sysexits.h for either Cygwin or
-	__WIN32__.
+	__MINGW32__.
 
 	* argp.h: Avoid use of argument names __argc or __argv, which are
 	macros in MingW.
 
 	* getopt.c: Avoid DATADIR and BOOL when including windows.h.
 
-	* misc.h (gettimeofday): Declare for __WIN32__.
+	* misc.h (gettimeofday): Declare for __MINGW32__.
 
-	* realpath.c: Don't define HAVE_READLINK for __WIN32__.
-	Provide a value for ELOOP_VALUE.
+	* realpath.c: Don't define HAVE_READLINK for __MINGW32__.
 
 	* gettimeofday.c: New file.
 

@@ -1,7 +1,7 @@
 2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
 
 	* TkInterp.m: Use empty definitions for Tk_{Create,Delete}FileHandler
-	in the case of __WIN32__ as well as Cygwin.
+	in the case of __MINGW32__ as well as Cygwin.
 
 2004-07-16  Scott Christley <schristley@mac.com>
 

@@ -124,7 +124,7 @@ setSecondaryPath (id arguments)
   
   if (swarmHome)
     {
-#ifdef __WIN32__
+#ifdef __MINGW32__
       const char *secondarySubpath = "lib/";
 #else
       const char *secondarySubpath = "share/";

@@ -1,6 +1,6 @@
 2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
 
-	* acguilibs.m4: Look for __WIN32__ as well as __CYGWIN__.
+	* acguilibs.m4: Look for __MINGW32__ as well as __CYGWIN__.
 
 	* acfind.m4: Look for .dll.a.
 

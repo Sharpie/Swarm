@@ -82,7 +82,7 @@
 #endif
 #endif
 
-#if defined (__WIN32__) && !defined (__CYGWIN__)
+#if defined (__MINGW32__) && !defined (__CYGWIN__)
 /* It's not Unix, really.  See?  Capital letters.  */
 #define BOOL BOOL_
 #undef DATADIR
