@@ -195,8 +195,11 @@ PHASE(Using)
 
 - (void)sync
 {
+  id app = [self getApplication];
   [self updateArchiver];
-  [[self getApplication] flush];
+  
+  if (app)
+    [app flush];
 }
 
 @end
