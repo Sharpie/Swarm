@@ -81,5 +81,9 @@ fi
 AC_SUBST(LIBOBJC_LA)
 AC_SUBST(OBJC_DLL)
 
+OBJCDEPMODE='depmode=gcc3'
+AC_SUBST(OBJCDEPMODE)
+
 AC_CHECK_HEADERS(sys/sigevent.h)
 AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile])
+

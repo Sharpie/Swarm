@@ -4,21 +4,18 @@ CURRENT = 0
 REVISION = 0
 AGE = 0
 
-CSRC = archive.c class.c encoding.c gc.c hash.c init.c \
-	misc.c nil_method.c objects.c sarray.c selector.c sendmsg.c thr.c 
+CSRC = archive.c class.c encoding.c gc.c hash.c init.c misc.c nil_method.c objects.c sarray.c selector.c sendmsg.c thr.c 
 
 MSRC = NXConstStr.m Object.m Protocol.m linking.m mframe.m
 
-EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
-	thr-posix.c thr-pthreads.c thr-single.c thr-solaris.c thr-vxworks.c \
-	thr-win32.c config
+EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c thr-posix.c thr-pthreads.c thr-single.c thr-solaris.c thr-vxworks.c thr-win32.c config
 
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
 lib_LTLIBRARIES = @LIBOBJC_LA@
 EXTRA_LTLIBRARIES = libobjc.la
-bin_PROGRAMS = @OBJC_DLL@
-EXTRA_PROGRAMS = objc.dll
+#bin_PROGRAMS = @OBJC_DLL@
+#EXTRA_PROGRAMS = objc.dll
 
 libobjc_la_SOURCES = $(CSRC) $(MSRC)
 libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) -L$(dir $(shell $(CC) -print-libgcc-file-name))
@@ -42,7 +39,8 @@ DLLOBJS = $(addsuffix .lo,$(basename $(libobjc_la_SOURCES)))
 objc.dll: libobjc.la objc.dll.c
 	$(CC) -c $(srcdir)/objc.dll.c -o objc.dll.o
 	$(DLLWRAP) --export-all-symbols --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
-	#$(CC) -Wl,-shared -Wl,--export-all-symbols -Wl,--output-def,libobjc.def -Wl,--out-implib,libobjcdll.a -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
+
+#$(CC) -Wl,-shared -Wl,--export-all-symbols -Wl,--output-def,libobjc.def -Wl,--out-implib,libobjcdll.a -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
 
 install-data-local: 
 	$(INSTALL) libobjcdll.a $(libdir)

@@ -1,3 +1,12 @@
+2001-11-04    <mgd@HELEN>
+
+	* Makefile.am: Avoid multi-line values.
+	(objc.dll): Disable because of EXEEXT problems with new automake.
+
+	* configure.in: Put in objcdepmode substitution.
+
+	* missing: Update.	
+
 2001-08-24    <mgd@HELEN>
 
 	* misc.c: Change comparision from _WIN23 to __CYGWIN__.
