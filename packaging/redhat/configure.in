@@ -3,9 +3,9 @@ AC_INIT(swarm.macros)
 AM_INIT_AUTOMAKE(swarmspecs, 2.0.1)
 
 version=2.0.1
-release=2.rh6
+release=3.rh6
 hdf5_version=1.2
-kaffe_version=1.0.b4
+kaffe_version=1.0.5
 jikes_version=0.47
 
 base_requires='egcs, egcs-objc, XFree86-devel, libpng, libpng-devel, zlib, xpm, xpm-devel, blt, tcl >= 8.0.4, tk >= 8.0.4'

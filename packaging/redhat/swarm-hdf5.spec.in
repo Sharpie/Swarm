@@ -14,7 +14,7 @@ BuildRoot: /tmp/swarm-root
 BuildPrereq: hdf5 > @hdf5_version@
 %ifarch ppc
 BuildPrereq: libffi >= 1.20
-#BuildPrereq: kaffe = 1.0b4
+#BuildPrereq: kaffe = @kaffe_version@
 %else
 BuildPrereq: kaffe = @kaffe_version@
 BuildPrereq: jikes = @jikes_version@
@@ -41,6 +41,10 @@ or better, and the blt library package.  This version enables hdf5.
 @macros@
 
 %changelog
+* Tue Oct 19 1999 Alex Lancaster <alex@santafe.edu>
+
+- Add XFree86-devel and egcs to Requires.
+
 * Fri Oct 01 1999 Alex Lancaster <alex@santafe.edu>
 
 - Use new common configure macros.  Enable macros for variant-ppc

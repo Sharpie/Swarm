@@ -13,7 +13,7 @@ Prefix: %prefix
 BuildRoot: /tmp/swarm-root
 %ifarch ppc
 BuildPrereq: libffi >= 1.20
-#BuildPrereq: kaffe = 1.0b4
+#BuildPrereq: kaffe = @kaffe_version@
 %else
 BuildPrereq: kaffe = @kaffe_version@
 BuildPrereq: jikes = @jikes_version@
@@ -40,6 +40,13 @@ or better, and the blt library package.
 
 
 %changelog
+* Tue Oct 19 1999 Alex Lancaster <alex@santafe.edu>
+
+- Add XFree86-devel and egcs to Requires.
+
+- Bump kaffe version to 1.0.5.  Remove --disable-jar option to 
+  configure, jar now works in this release of kaffe.
+
 * Thu Oct 01 1999 Alex Lancaster <alex@santafe.edu>
 
 - Disable generation of swarm-kaffe package on ppc, kaffe broken.

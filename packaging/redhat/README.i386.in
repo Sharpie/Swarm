@@ -54,8 +54,15 @@ Objective C and not in Java]:
 
 * swarm-kaffe-@version@-@release@.i386.rpm
 
-  which requires kaffe-1.0.4b4 (also available in the Red Hat 6.0
-  distribution or at one of the many Red Hat ftp mirrors).
+  which requires @kaffe_version@ 
+
+  available from the official kaffe.org ftp site:
+
+  ftp://www.kaffe.org/pub/kaffe/binaries/linux/kaffe-1.0.5-6.i386.rpm
+
+  (Note: this RPM is *not* yet available in any Red Hat distribution,
+  but has the advantage of supporting JDK 1.2 features.  Use the older
+  swarm-2.0.1-2.i386.rpm if you wish to use kaffe-1.0.4b-2.i386.rpm).
 
 Advanced Swarm packages (not required for new users):
 ====================================================
