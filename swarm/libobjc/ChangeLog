@@ -1,3 +1,8 @@
+1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/unknown/mframe-generic.h (MFRAME_ARG_ENCODING): Cast argument
+	to int to avoid warning.
+
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe.m: Don't include mframe-preface.h.
