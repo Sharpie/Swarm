@@ -94,8 +94,6 @@ PHASE(Creating)
   return self;
 }
 
-PHASE(Setting)
-
 - (void)initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
 {
   int argc, i;

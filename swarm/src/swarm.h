@@ -17,7 +17,6 @@ CREATING
 - setArguments: (id <Arguments>)arguments;
 - setBatchMode: (BOOL)batchMode;
 - createEnd;
-SETTING
 - (void)initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args;
 USING
 - (timeval_t)getCurrentTime;
