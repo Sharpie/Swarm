@@ -11,8 +11,8 @@
 <!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figs.ent;
 
-<!entity % local.notation.class "| JPG">
-<!notation JPG system>
+<!entity % local.notation.class "| JPEG">
+<!notation jpeg system>
 ]>
 
 <BOOK ID="refbook">

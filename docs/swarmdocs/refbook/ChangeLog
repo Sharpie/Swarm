@@ -1,3 +1,8 @@
+1998-06-11  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* refbook.sgml: Use jpeg instead of jpg for notation and
+	local.notation.class.
+
 1998-06-10  Marcus G. Daniels  <mgd@lucero.santafe.edu>
 
 	* Makefile.am: Move CLEANFILES to Makefile.rules.
