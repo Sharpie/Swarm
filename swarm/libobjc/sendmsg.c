@@ -520,14 +520,9 @@ __objc_double_forward (id rcv, SEL op, ...)
 #ifndef __alpha__
   __builtin_return (res);
 #else
-  /* Emprically determined -- very fragile! -mgd */
   {
-    const char *type = sel_get_type (op);
-
-    if (*type == _C_FLT)
-      return ((float *) res)[38];
-    else
-      return ((double *) res)[19];
+    register double ret asm ("$f0");
+    return ret;
   }
 #endif
 }
