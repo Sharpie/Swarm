@@ -1,3 +1,18 @@
+1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* acfind.m4 (md_FIND_INCLUDES): Use symbolic expansion for _includes.
+	(md_FIND_LIB): Test for both dir/lib and libdir.
+
+	* actcltk.m4: Use symbolic expansions for TCLINCLUDES and
+	TKINCLUDES.
+	(md_FIND_BLT): Remove fail flag from md_FIND_LIB, since it's in a
+	loop.
+
+	* acxpm.m4: New file.
+
+	* acguilibs.m4 (GUILIBS): Remove -lXpm from GUILIBS in non-Cygwin
+	case.
+
 1998-09-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* actcltk.m4 (md_FIND_TCL): New macro -- split out use of tclsh to

@@ -84,7 +84,7 @@ if test -n "$tclincludedir"; then
   if test "$tclincludedir" = "/usr/include" ; then
     TCLINCLUDES=""
   else
-    TCLINCLUDES="-I$tclincludedir"
+    TCLINCLUDES='-I${tclincludedir}'
   fi
 else
   AC_MSG_RESULT(no)
@@ -182,7 +182,7 @@ if test -n "$tkincludedir"; then
   if test "$tkincludedir" = "/usr/include" ; then
     TKINCLUDES=""
   else
-    TKINCLUDES="-I$tkincludedir"
+    TKINCLUDES='-I${tkincludedir}'
   fi
 else
   AC_MSG_RESULT(no)
@@ -253,13 +253,19 @@ AC_SUBST(tklibdir)
 
 AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
+found=no
 for name in $bltlibname BLT BLT8.0 BLT80 ; do
-  md_FIND_LIB(blt,$name,$bltdir/lib/shared,1)
+  md_FIND_LIB(blt,$name,$bltdir/lib/shared,)
   if test -n "$_ldflags" ; then
     bltlibname=$name
+    found=yes
     break
   fi
 done
+if test $found = no; then
+  AC_MSG_ERROR(Please use --with-bltdir to specify location of BLT.)
+fi
+
 BLTLDFLAGS=$_ldflags
 BLTLIB=-l$bltlibname
 AC_SUBST(bltlibdir)
