@@ -17,6 +17,7 @@ if test $jdkdir = no; then
   JAVASWARMLIBS=
   JAVASWARMSCRIPTS=
 else
+  USEDOSCLASSPATH=no
   if test "$host_os" = cygwin; then
     jdkdosdir="`echo $jdkdir | sed -e 's,//\(.\)/,\1:/,g' -e 's,/,\\\\,g'`"
   else
@@ -49,6 +50,7 @@ else
       JAVACLASSES="${jdkdosdir}\lib\classes.zip"
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
+      USEDOSCLASSPATH=yes
     else
       JAVACLASSES="${jdkdir}/lib/classes.zip"
       JAVAENV='JAVA_HOME=${jdkdir}'
@@ -101,6 +103,7 @@ test -n "$JAVALIBPATH_VAR" || JAVALIBPATH_VAR="_JAVASWARM_LIBPATH"
 AC_SUBST(JAVALIBPATH_VAR)
 AC_SUBST(JAVASWARMSCRIPTS)
 AC_SUBST(JAVACLASSES)
+AC_SUBST(USEDOSCLASSPATH)
 AC_SUBST(JAVACMD)
 AC_SUBST(JAVAENV)
 AC_SUBST(JAVA)

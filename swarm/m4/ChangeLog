@@ -1,3 +1,8 @@
+1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (USEDOSCLASSPATH): New substitution.  This distinguishes
+	between native Windows and Cygwin applications.
+
 1999-05-31    <mgd@HELEN>
 
 	* acjdk.m4 (JAVALIBS): Different settings for Solaris, Digital Unix,
