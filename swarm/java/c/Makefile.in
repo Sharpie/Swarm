@@ -44,7 +44,7 @@ all: libjavaswarm.la libjavaswarmstubs.la
 install: all
 	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
 	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir)
-
+	$(LIBTOOL) --mode=finish $(libdir) 
 
 $(libjavaswarmstubs_la_OBJECTS): directory.h
 

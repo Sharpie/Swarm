@@ -1,3 +1,7 @@
+1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (install): Add a libtool `finish'.
+
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m: Don't include jni.h.
