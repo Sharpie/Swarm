@@ -1,5 +1,8 @@
 1998-03-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile (BACKEND_{H,O}): Renamed from XPIXMAP_{H,O}.  Include
+	win32dib.[hm] for gnu-win32.
+
 	* internal.m (Colormap): Define as X11Colormap during inclusion
 	of tkWinInt.h.
 	(tkobjc_raster_createPixmap): Use renamed tkobjc_raster_setColormap.
