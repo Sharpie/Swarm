@@ -2,9 +2,11 @@
 
 	* NEWS: Note move of Makefile.appl and Makefile.lib.
 
+	* VERSION: Bump.
+
 1998-08-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* VERION: Bump.
+	* VERSION: Bump.
 
 	* NEWS: Note addition of tclobjc.  Note tclobjc and message probe
 	libffi bug workarounds.
