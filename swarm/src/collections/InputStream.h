@@ -32,8 +32,8 @@ Library:     collections
 }
 - setKeywordName: (const char *)name;
 - (const char *)getKeywordName;
-- lispOutShallow: stream;
-- lispOutDeep: stream;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 @end
 
 @interface ArchiverArray_c: CreateDrop_s
@@ -51,8 +51,8 @@ Library:     collections
 - (size_t)getElementSize;
 - (unsigned)getElementCount;
 - (char)getArrayType;
-- lispOutShallow: stream;
-- lispOutDeep: stream;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;
 @end
 
@@ -80,8 +80,8 @@ Library:     collections
 - (BOOL)getBoolean;
 - getObject;
 - (char)getValueType;
-- lispOutShallow: stream;
-- lispOutDeep: stream;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 @end
 
 @interface ArchiverPair_c: CreateDrop_s
@@ -93,4 +93,6 @@ Library:     collections
 - setCdr: cdr;
 - getCar;
 - getCdr;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 @end

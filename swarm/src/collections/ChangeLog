@@ -1,7 +1,10 @@
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
 
+	* InputStream.h: Declare all missing methods.
+
 	* collections.h (OutputStream): [OutputStream_c -cat{Expr, Double,
-	Float, Int, Unsigned}:] Add and document new functions.
+	Float, Int, Unsigned}:] Add and document new methods.
+	(Archiver{Keyword,Value,Array,Pair): Add new methods to protocol.
 
 	* StringObject.m ([String_c -lispOutShallow:]): When literalFlag
 	set, don't generate the MAKE_INSTANCE_FUNCTION_NAME.

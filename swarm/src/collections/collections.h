@@ -996,6 +996,8 @@ CREATING
 - setKeywordName: (const char *)name;
 USING
 - (const char *)getKeywordName;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 @end
 
 @protocol ArchiverArray <Create, Drop, CREATABLE>
@@ -1008,6 +1010,9 @@ USING
 - (unsigned *)getDims;
 - (size_t)getElementSize;
 - (unsigned)getElementCount;
+- (char)getArrayType;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;
 @end
 
@@ -1029,6 +1034,9 @@ USING
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;
+- (char)getValueType;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;
 @end
 
@@ -1041,6 +1049,8 @@ CREATING
 USING
 - getCar;
 - getCdr;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
 @end
 
 #define ARCHIVERDOTP(obj) ((id) (obj) == (id) ArchiverDot)
