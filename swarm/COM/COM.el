@@ -43,6 +43,8 @@
 
       ("COMOBJECT" . "nsISupports")
 
+      ("fcall_type_t" . "unsigned short")
+
       ("JOBJECT" . freaky)
 
       ("Color" . "octet")
@@ -461,8 +463,8 @@
                   :return-type "unsigned")
                  (make-method
                   :phase :using
-                  :arguments (list (list "getArgObjcType" "unsigned" "index"))
-                  :return-type "char"))))
+                  :arguments (list (list "getArgFcallType" "unsigned" "index"))
+                  :return-type "fcall_type_t"))))
                  
 (defun com-complete-protocols ()
   (cons (selector-protocol) (com-wrapped-protocols)))
@@ -560,7 +562,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgObjcType };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, createArgVector };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
