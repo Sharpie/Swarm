@@ -1,3 +1,7 @@
+2000-11-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* defobj00.sgml: Change Objective C reference URL.
+
 2000-07-04  Alex Lancaster  <alex@santafe.edu>
 
 	* defobj00.sgml: Give PARTINTRO a TITLE, and all SECT1 xreflabel
