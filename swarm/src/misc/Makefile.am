@@ -1,6 +1,6 @@
 MODULE = misc
 CURRENT = 2
-REVISION = 1
+REVISION = 2
 AGE = 1
 miscdir = $(includedir)/misc
 

@@ -1,3 +1,7 @@
+1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (REVISION): Bump.  Version 1.4.1.
+
 1999-02-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (TCL_LIBRARY, TK_LIBRARY): Don't compute from

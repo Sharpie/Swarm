@@ -1,7 +1,7 @@
 MODULE = simtoolsgui
-CURRENT = 3
+CURRENT = 4
 REVISION = 0
-AGE = 2
+AGE = 3
 simtoolsguidir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules

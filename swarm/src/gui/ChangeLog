@@ -1,7 +1,7 @@
-1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* gui.h (_ArchivedGeometryWidget): Add archvier argument to
-	updateArchiver:.
+	* gui.h (_ArchivedGeometryWidget): Add archiver argument to
+	updateArchiver:.  Version 1.4.1.
 
 1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

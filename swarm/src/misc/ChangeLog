@@ -1,7 +1,10 @@
+1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (REVISION): Bump.  Version 1.4.1.
+
 1999-01-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* getopt.c, misc.h, realpath.c: Use __CYGWIN__ instead of
-	__CYGWIN32__.
+	* getopt.c, realpath.c: Use __CYGWIN__ instead of __CYGWIN32__.
 
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
