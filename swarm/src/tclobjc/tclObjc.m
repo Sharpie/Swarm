@@ -357,11 +357,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
         }
         break;
       case _C_PTR:
-#ifdef POINTER_FMT_HEX_PREFIX
-        sprintf (resultString, "%p", getPointerReturn (ret));
-#else
-        sprintf (resultString, "0x%p", getPointerReturn (ret));
-#endif
+        sprintf (resultString, PTRHEXFMT, getPointerReturn (ret));
         break;
       case _C_INT:
         sprintf (resultString, "%d", getIntegerReturn (ret));

@@ -1,3 +1,8 @@
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* tclObjc.m (tclObjc_msgSendToClientData): Use PTRHEXFMT
+	instead of POINTER_FMT_HEX_PREFIX switch ifdef.
+
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* TclInterp.m (SUBDIR): Define per TCL_{MAJOR,MINOR}_VERSION.
