@@ -40,6 +40,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** Fixed another memory leak in the activity library.
     Thanks to Jason Alexander for the report.
 *** Avoid bug in qsort on Solaris.
+*** When invoked dynamically, activateIn: won't fail to run subactivities
+    that start on the same timestep that activation occurs.
+    Thanks to Michael Krumpus for the report.
 
 ** Autoconfiguration / Portability
 *** Support for LinuxPPC
