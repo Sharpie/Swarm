@@ -555,7 +555,7 @@ tkobjc_setupHistogramLegend (id histogram)
 }
 
 void
-tkobjc_setupHistogramMisc (id histogram)
+tkobjc_setupHistogramActiveOutlierMarker (id histogram)
 {
   [globalTkInterp
     eval: 

@@ -79,8 +79,8 @@ void tkobjc_setHistogramXaxisRange (id widget,
                                     double min,
                                     double max,
                                     double step);
-void tkobjc_setupHistogramMisc (id histogram);
 void tkobjc_setupHistogramLegend (id histogram);
+void tkobjc_setupHistogramActiveOutlierMarker (id histogram);
 void tkobjc_histogramActiveItemInfo (id histogram);
 void tkobjc_setHistogramActiveOutlierText (id histogram,
                                            int outliers,
