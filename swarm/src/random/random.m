@@ -24,20 +24,20 @@ Date:		 1998-10-08 (v. 0.8)
 // Utility random objects:
 
 // id <MT19937gen>          randomGenerator;
-id <SimpleRandomGenerator>  randomGenerator;
+externvardef id <SimpleRandomGenerator>  randomGenerator;
 
-id <UniformIntegerDist>     uniformIntRand;
-id <UniformUnsignedDist>    uniformUnsRand;
-id <UniformDoubleDist>      uniformDblRand;
+externvardef id <UniformIntegerDist>     uniformIntRand;
+externvardef id <UniformUnsignedDist>    uniformUnsRand;
+externvardef id <UniformDoubleDist>      uniformDblRand;
 
 // Local variables:
 
-BOOL			_useFixedSeed;		// globally accessible
-unsigned int		_firstSeed;		// globally accessible
+externvardef BOOL _useFixedSeed;       // globally accessible
+externvardef unsigned int _firstSeed;  // globally accessible
 
-unsigned int		_randomSeed;
-unsigned int		_timeThen;
-unsigned int		_timeNow;
+unsigned _randomSeed;
+unsigned _timeThen;
+unsigned _timeNow;
 
 
 // This function is called from simtools/simtools.m at startup:
