@@ -27,7 +27,7 @@
 @protocol SingleSeed
 //S: Internal
 CREATING
-+ create: aZone setStateFromSeed: (unsigned)seed;
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed;
 
 SETTING
 //M: The setStateFromSeeds method initializes the seed dependent part of the 
@@ -46,7 +46,7 @@ USING
 @protocol MultiSeed
 //S: Internal
 CREATING
-+ create: aZone setStateFromSeeds: (unsigned *)seeds;
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds;
 
 SETTING
 //M: The setStateFromSeeds method initializes the seed dependent part of the 
@@ -69,7 +69,7 @@ USING
 @protocol Simple
 //S: Internal
 CREATING
-+ createWithDefaults: aZone;
++ createWithDefaults: (id <Zone>)aZone;
 
 SETTING
 //M: The setAntithetic method turns on or off antithetic output (default=off).
@@ -127,7 +127,7 @@ USING
 @protocol SplitSingleSeed
 //S: Internal
 CREATING
-+ create          : aZone
++ create          : (id <Zone>)aZone
               setA: (unsigned)A 	// # of virtual generators
               setV: (unsigned)v 	// log2(#segments/generator)
               setW: (unsigned)w		// log2(segment length)
@@ -150,7 +150,7 @@ USING
 @protocol SplitMultiSeed
 //S: Internal
 CREATING
-+ create          : aZone
++ create          : (id <Zone>)aZone
               setA: (unsigned)A         // # of virtual generators
               setV: (unsigned)v         // log2(#segments/generator)
               setW: (unsigned)w	        // log2(segment length)
@@ -177,7 +177,7 @@ USING
 @protocol Split
 //S: Internal
 CREATING
-+ createWithDefaults: aZone;
++ createWithDefaults: (id <Zone>)aZone;
 
 SETTING
 //M: The setAntithetic method turns on or off antithetic output (default=off).

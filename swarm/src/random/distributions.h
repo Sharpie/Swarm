@@ -30,17 +30,17 @@
 CREATING
 //M: The createWithDefaults method creates a distribution object with a 
 //M: default set of seeds and parameters, and its own private generator.
-+ createWithDefaults: aZone;
++ createWithDefaults: (id <Zone>)aZone;
 
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create: aZone setGenerator: generator;
++ create: (id <Zone>)aZone setGenerator: generator;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create             : aZone 
++ create             : (id <Zone>)aZone 
          setGenerator: generator
   setVirtualGenerator: (unsigned) vGen;
 
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 
 - createEnd;
 
@@ -139,12 +139,12 @@ USING
 //D: A distribution returning YES with a given probability.
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create        : aZone
++ create        : (id <Zone>)aZone
     setGenerator: generator
   setProbability: (double)p;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create             : aZone
++ create             : (id <Zone>)aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
        setProbability: (double)p;
@@ -170,13 +170,13 @@ USING
 //D: Setting minValue == maxValue is allowed (and returns minValue).
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create      : aZone
++ create      : (id <Zone>)aZone
   setGenerator: generator
  setIntegerMin: (int)minValue
         setMax: (int)maxValue;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create           : aZone
++ create           : (id <Zone>)aZone
        setGenerator: generator
 setVirtualGenerator: (unsigned) vGen
       setIntegerMin: (int)minValue
@@ -207,13 +207,13 @@ USING
 //D: Setting minValue == maxValue is allowed (and returns minValue).
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create        : aZone
++ create        : (id <Zone>)aZone
     setGenerator: generator
   setUnsignedMin: (unsigned)minValue
           setMax: (unsigned)maxValue;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create             : aZone
++ create             : (id <Zone>)aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
        setUnsignedMin: (unsigned)minValue
@@ -248,13 +248,13 @@ USING
 
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create        : aZone
++ create        : (id <Zone>)aZone
     setGenerator: generator
     setDoubleMin: (double)minValue
           setMax: (double)maxValue;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create             : aZone
++ create             : (id <Zone>)aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
          setDoubleMin: (double)minValue
@@ -283,13 +283,13 @@ USING
 //S: Internal
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create        : aZone
++ create        : (id <Zone>)aZone
     setGenerator: generator
          setMean: (double)mean
      setVariance: (double)variance;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create             : aZone
++ create             : (id <Zone>)aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean
@@ -334,12 +334,12 @@ USING
 //D: A well-known continuous probability distribution returning doubles.
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create      : aZone
++ create      : (id <Zone>)aZone
   setGenerator: generator
        setMean: (double)mean;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create             : aZone
++ create             : (id <Zone>)aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean;
@@ -364,13 +364,13 @@ USING
 //D: A well-known continuous probability distribution returning doubles
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create     : aZone
++ create     : (id <Zone>)aZone
  setGenerator: generator
      setAlpha: (double)alpha
       setBeta: (double)beta;
 
 //M: Use this create message if the generator to be attached is a Split one:
-+ create             : aZone
++ create             : (id <Zone>)aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
              setAlpha: (double)alpha
