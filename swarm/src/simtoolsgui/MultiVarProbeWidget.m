@@ -323,8 +323,8 @@ PHASE(Creating)
 
   int compareProbes (id a, id b)
     {
-      BOOL aIsVarProbe = [a conformsTo: @protocol(_VarProbe)];
-      BOOL bIsVarProbe = [b conformsTo: @protocol(_VarProbe)];
+      BOOL aIsVarProbe = [a conformsTo: @protocol (VarProbe)];
+      BOOL bIsVarProbe = [b conformsTo: @protocol (VarProbe)];
 
       int typediff = aIsVarProbe - bIsVarProbe;
 
@@ -373,7 +373,7 @@ PHASE(Creating)
     
     while ((probe = [pmi next]) != nil)
       {
-        if ([probe conformsTo: @protocol(_VarProbe)])
+        if ([probe conformsTo: @protocol (VarProbe)])
           {
             id multiProbe = [MultiProbe createBegin: aZone];
 

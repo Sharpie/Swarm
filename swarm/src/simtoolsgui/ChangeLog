@@ -1,3 +1,8 @@
+1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MultiVarProbeWidget.m ([MultiVarProbeWidget -createEnd]): 
+	Check for conformance with VarProbe, not _VarProbe.
+
 1999-02-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ActionCache.m ([ActionCache -createProcCtrl]): 
