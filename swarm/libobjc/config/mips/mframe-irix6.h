@@ -5,7 +5,7 @@
 #define MFRAME_RESULT_SIZE 16 
 
 #define _MFRAME_GET_STRUCT_ADDR(ARGS, TYPES) \
-({ char *type = (TYPES); \
+({ const char *type = (TYPES); \
    ((*type ==_C_ARY_B) ? \
      (method_get_next_argument (ARGS, &type)) \
      : (((*type==_C_STRUCT_B || *type ==_C_UNION_B) \
