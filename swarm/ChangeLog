@@ -1,5 +1,7 @@
 1999-12-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* VERSION: Bump.
+
 	* NEWS: Note support for Hurd.
 
 o1999-11-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
