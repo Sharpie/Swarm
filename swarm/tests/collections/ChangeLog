@@ -1,3 +1,18 @@
+1999-06-05  Alex Lancaster  <alex@santafe.edu>
+
+	* archiver.m ([MyClass -setUpdateFlag:]): New method and instance
+	variable to control whether if -putObject: is used.
+	([MyClass -updateArchiver:]): Only call putObject if updateFlag
+	set.
+	([Controller -setUpdateFlag:]): As per MyClass.
+	([Controller -updateArchiver:]): As per MyClass.
+	([Controller -createCollectionAndSave]): Use -setUpdateFlag: on
+	each created MyClass[Deeper] instance.
+	(checkArchiver): Likewise for Controller instances, set the
+	inhibitLoadFlag consistently with updateFlag.
+	(main): Add corresponding `NO' update tests for each existing Lisp
+	archiving test.
+
 1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am, archiver.m: New files.

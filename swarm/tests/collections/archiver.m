@@ -89,10 +89,12 @@
   float floatVal;
   double doubleVal;
   BOOL deepFlag;
+  BOOL updateFlag;
 
   unsigned offset;
 }
 - setDeepFlag: (BOOL)deepFlag;
+- setUpdateFlag: (BOOL)updateFlag;
 - setOffset: (int)offset;
 - adjustToOffset;
 - updateArchiver: archiver;
@@ -123,6 +125,12 @@
   return self;
 }
 
+- setUpdateFlag: (BOOL)theUpdateFlag
+{
+  updateFlag = theUpdateFlag;
+  return self;
+}
+
 - setOffset: (int)theOffset
 {
   offset = theOffset;
@@ -150,10 +158,13 @@
 
 - updateArchiver: archiver
 {
-  if (deepFlag)
-    [archiver putDeep: OBJNAME object: self];
-  else
-    [archiver putShallow: OBJNAME object: self];
+  if (updateFlag)
+    {
+      if (deepFlag)
+        [archiver putDeep: OBJNAME object: self];
+      else
+        [archiver putShallow: OBJNAME object: self];
+    }
   return self;
 }
 
@@ -227,6 +238,7 @@
   BOOL inhibitLoadFlag;
   BOOL deepFlag;
   BOOL mapFlag;
+  BOOL updateFlag;
   id myArchiver;
   id coll;
 }
@@ -234,6 +246,7 @@
 - updateArchiver: archiver;
 - setHDF5Flag: (BOOL)hdf5Flag;
 - setDeepFlag: (BOOL)deepFlag;
+- setUpdateFlag: (BOOL)updateFlag;
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - setMapFlag: (BOOL)mapFlag;
 - (BOOL)loadAndCheckCollection;
@@ -257,6 +270,12 @@
 - setDeepFlag: (BOOL)theDeepFlag
 {
   deepFlag = theDeepFlag;
+  return self;
+}
+
+- setUpdateFlag: (BOOL)theUpdateFlag
+{
+  updateFlag = theUpdateFlag;
   return self;
 }
 
@@ -298,10 +317,14 @@
 
 - updateArchiver: archiver
 {
-  if (deepFlag)
-    [archiver putDeep: COLLNAME object: coll];
-  else
-    [archiver putShallow: COLLNAME object: coll];
+  if (updateFlag)
+    {
+      if (deepFlag)
+        [archiver putDeep: COLLNAME object: coll];
+      else
+        [archiver putShallow: COLLNAME object: coll];
+    }
+  
   return self;
 }
 
@@ -315,13 +338,15 @@
       id obj;
       
       if (deepFlag)
-        obj = [[[[MyClassDeep createBegin: aZone]
+        obj = [[[[[MyClassDeep createBegin: aZone]
                   setDeepFlag: YES]
+                  setUpdateFlag: updateFlag]
                  setOffset: i]
                 createEnd];
       else
-        obj = [[[[MyClass createBegin: aZone]
-                  setDeepFlag: NO]
+        obj = [[[[[MyClass createBegin: aZone]
+                   setDeepFlag: NO]
+                  setUpdateFlag: updateFlag]
                  setOffset: i]
                 createEnd];
       [obj adjustToOffset];
@@ -443,25 +468,28 @@
 
  
 static BOOL
-checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag, BOOL mapFlag)
+checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag, BOOL mapFlag, 
+               BOOL updateFlag)
 {
   id controller;
   BOOL ret;
   
-  controller = [[[[[[Controller createBegin: aZone]
-                     setHDF5Flag: hdf5Flag]
-                    setMapFlag: mapFlag]
-                   setDeepFlag: deepFlag]
-                  setInhibitLoadFlag: YES]
+  controller = [[[[[[[Controller createBegin: aZone]
+                      setHDF5Flag: hdf5Flag]
+                     setMapFlag: mapFlag]
+                    setDeepFlag: deepFlag]
+                   setUpdateFlag: updateFlag]
+                  setInhibitLoadFlag: (updateFlag ? YES: NO)]
                  createEnd];
   
   [controller createCollectionAndSave];
   [controller drop];
 
-  controller = [[[[[[Controller createBegin: aZone]
-                     setHDF5Flag: hdf5Flag]
-                    setMapFlag: mapFlag]
-                   setDeepFlag: deepFlag]
+  controller = [[[[[[[Controller createBegin: aZone]
+                      setHDF5Flag: hdf5Flag]
+                     setMapFlag: mapFlag]
+                    setDeepFlag: deepFlag]
+                   setUpdateFlag: updateFlag]
                   setInhibitLoadFlag: NO]
                  createEnd];
   ret = [controller loadAndCheckCollection];
@@ -475,22 +503,41 @@ main (int argc, const char **argv)
 {
   initSwarmBatch (argc, argv);
 
-  if (checkArchiver (globalZone, NO, NO, NO) == NO)
-    raiseEvent (InternalError, "Shallow Lisp List serialization failed");
-  if (checkArchiver (globalZone, NO, YES, NO) == NO)
-    raiseEvent (InternalError, "Deep Lisp List serialization failed");
-  if (checkArchiver (globalZone, NO, NO, YES) == NO)
-    raiseEvent (InternalError, "Shallow Lisp Map serialization failed");
-  if (checkArchiver (globalZone, NO, YES, YES) == NO)
-    raiseEvent (InternalError, "Deep Lisp Map serialization failed");
+  if (checkArchiver (globalZone, NO, NO, NO, YES) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp List serialization with update failed");
+  if (checkArchiver (globalZone, NO, NO, NO, NO) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp List serialization without update failed");
+
+  if (checkArchiver (globalZone, NO, YES, NO, YES) == NO)
+    raiseEvent (InternalError, 
+                "Deep Lisp List serialization with update failed");
+  if (checkArchiver (globalZone, NO, YES, NO, NO) == NO)
+    raiseEvent (InternalError, 
+                "Deep Lisp List serialization without update failed");
+
+  if (checkArchiver (globalZone, NO, NO, YES, YES) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp Map serialization with update failed");
+  if (checkArchiver (globalZone, NO, NO, YES, NO) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp Map serialization without update failed");
+
+  if (checkArchiver (globalZone, NO, YES, YES, YES) == NO)
+    raiseEvent (InternalError, 
+                "Deep Lisp Map serialization with update failed");
+  if (checkArchiver (globalZone, NO, YES, YES, NO) == NO)
+    raiseEvent (InternalError, 
+                "Deep Lisp Map serialization without update failed");
 #ifdef HAVE_HDF5
-  if (checkArchiver (globalZone, YES, NO, NO) == NO)
+  if (checkArchiver (globalZone, YES, NO, NO, YES) == NO)
     raiseEvent (InternalError, "Shallow HDF5 List serialization failed");
-  if (checkArchiver (globalZone, YES, YES, NO) == NO)
+  if (checkArchiver (globalZone, YES, YES, NO, YES) == NO)
     raiseEvent (InternalError, "Deep HDF5 List serialization failed");
-  if (checkArchiver (globalZone, YES, NO, YES) == NO)
+  if (checkArchiver (globalZone, YES, NO, YES, YES) == NO)
     raiseEvent (InternalError, "Shallow HDF5 Map serialization failed");
-  if (checkArchiver (globalZone, YES, YES, YES) == NO)
+  if (checkArchiver (globalZone, YES, YES, YES, YES) == NO)
     raiseEvent (InternalError, "Deep HDF5 Map serialization failed");
 #endif
 
