@@ -67,11 +67,11 @@ initSwarm (int argc, const char **argv)
     probeDisplayManager = [ProbeDisplayManager create: globalZone];
   
   // various states used in ControlPanel.
-  defsymbol(ControlStateRunning);
-  defsymbol(ControlStateStopped);
-  defsymbol(ControlStateStepping);
-  defsymbol(ControlStateQuit);
-  defsymbol(ControlStateNextTime);
+  defsymbol (ControlStateRunning);
+  defsymbol (ControlStateStopped);
+  defsymbol (ControlStateStepping);
+  defsymbol (ControlStateQuit);
+  defsymbol (ControlStateNextTime);
 }
 
 void

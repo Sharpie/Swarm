@@ -18,7 +18,7 @@ Library:      simtools
 
 + (void)select: (int)n from: aCollection into: bCollection
 {
-  id a, b;
+  id a;
   int N; // total number of items in aCollection
   int t; // items seen
   int m; // items selected
@@ -33,13 +33,17 @@ Library:      simtools
 
   if (N < n)
     {
-      fprintf (stderr, "NSelect: attempted to select %d elements from a collection containing only %d elements!!!\n", n, N);
-      exit (-1);
+      id <Error> NSelectTooMany;
+
+      deferror (NSelectTooMany, NULL);
+
+      [NSelectTooMany
+        raiseEvent: 
+          "NSelect: attempted to select %d elements from a collection containing only %d elements.\n", n, N];
     }
   
   a = [aCollection begin: scratchZone];
-  b = [bCollection begin: scratchZone];
-
+  
   while (m < n)
     {
       r = (float)[uniformDblRand getDoubleWithMin:0 withMax: 1.0];    
@@ -49,14 +53,12 @@ Library:      simtools
       else
         {
           m++;
-          [b next];
-          [b put: [a next]];
+          [bCollection addLast: [a next]];
         }
       t++;
     }
   
   [a drop];
-  [b drop];
 }
 
 @end
