@@ -1,3 +1,8 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* protocol.el (RETURNABLE-protocol): New function.
+	(load-all-modules): Use it.
+
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* protocol.el (check-common-tags): Allow (non-const) char * return

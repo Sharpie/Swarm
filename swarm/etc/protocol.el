@@ -936,6 +936,16 @@
      :description-list (list description)
      :method-list nil)))
 
+(defun RETURNABLE-protocol ()
+  (let ((description "Declare that a defined type may be created as a side-effect"))
+    (make-protocol
+     :name "RETURNABLE"
+     :module (lookup-module 'defobj)
+     :included-protocol-list nil
+     :summary description
+     :description-list (list description)
+     :method-list nil)))
+
 (defun add-protocol (module-sym protocol)
   (setf (gethash (protocol-name protocol) *protocol-hash-table*) protocol)
   (push protocol (gethash module-sym *module-hash-table*)))
@@ -979,6 +989,7 @@
                   do (add-protocol module-sym protocol)))
           (kill-buffer (current-buffer)))
     (add-protocol 'defobj (CREATABLE-protocol))
+    (add-protocol 'defobj (RETURNABLE-protocol))
     
     (when noninteractive
       (setf (symbol-function 'push-mark) old-push-mark))
