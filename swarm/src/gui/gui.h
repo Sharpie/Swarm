@@ -161,7 +161,7 @@ USING
 CREATING
 + create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)name;
 
-//M: Called to set a name for archiving.
+//M: Called to set a name for archiving.  recordName must not have spaces.
 - setWindowGeometryRecordName: (const char *)recordName;
 
 //M: Determines whether or not size is saved in addition to position.

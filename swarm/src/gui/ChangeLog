@@ -1,3 +1,8 @@
+2000-04-20    <mgd@nest.swarm.org>
+
+	* gui.h: Note that window geometry record names must not have
+	spaces.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
