@@ -1807,7 +1807,6 @@ swarm_directory_switch_java_entry (ObjectEntry *entry, jobject javaObject)
       id <Map> m;
       id <Map> *javaTable = swarmDirectory->javaTable;
       
-      javaObject = (*jniEnv)->NewGlobalRef (jniEnv, javaObject);
       index = swarm_directory_java_hash_code (entry->foreignObject.java);
       m = javaTable[index];
       [m remove: entry];
@@ -1826,11 +1825,14 @@ swarm_directory_switch_java_entry (ObjectEntry *entry, jobject javaObject)
 ObjectEntry *
 swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
 {
-  jobject nextJavaPhase = SD_JAVA_NEXTPHASE (currentJavaPhase);
+  jobject lref = SD_JAVA_NEXTPHASE (currentJavaPhase);
   id currentPhase = SD_JAVA_FIND_OBJECT_OBJC (currentJavaPhase);
   ObjectEntry *retEntry;
   avl_tree *objc_tree = swarmDirectory->object_tree;
-  
+  jobject nextJavaPhase = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+
   if (currentPhase != nextPhase)
     {
       id entry = JAVA_OBJECT_ENTRY (currentJavaPhase, nextPhase);
@@ -1864,7 +1866,6 @@ swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
       
       retEntry = entry;
     }
-  (*jniEnv)->DeleteLocalRef (jniEnv, nextJavaPhase);
   return retEntry;
 }
 
