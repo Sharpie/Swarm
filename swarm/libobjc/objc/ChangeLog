@@ -1,3 +1,8 @@
+1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* objc-api.h: Use `externvar' for external variables.
+	Reformatting throughout.
+
 1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe-preface.h: Undef PACKAGE and VERSION before and after include

@@ -135,7 +135,7 @@ objc_error_handler objc_set_error_handler(objc_error_handler func);
 ** Set this variable nonzero to print a line describing each
 ** message that is sent.  (this is currently disabled)
 */
-extern BOOL objc_trace;
+externvar BOOL objc_trace;
 
 
 /* For every class which happens to have statically allocated instances in
@@ -356,7 +356,7 @@ retval_t objc_msg_sendv(id, SEL, arglist_t);
 ** This may e.g. try to load in the class using dynamic loading.
 ** The function is guaranteed to be passed a non-NULL name string.
 */
-extern Class (*_objc_lookup_class)(const char *name);
+externvar Class (*_objc_lookup_class) (const char *name);
 
 /*
 ** This is a hook which is called by __objc_exec_class every time a class
@@ -364,14 +364,14 @@ extern Class (*_objc_lookup_class)(const char *name);
 ** dynamic loader determine the classes that have been loaded when
 ** an object file is dynamically linked in.
 */
-extern void (*_objc_load_callback)(Class class, Category* category);
+externvar void (*_objc_load_callback) (Class class, Category* category);
 
 /*
 ** Hook functions for allocating, copying and disposing of instances
 */
-extern id (*_objc_object_alloc)(Class class);
-extern id (*_objc_object_copy)(id object);
-extern id (*_objc_object_dispose)(id object);
+externvar id (*_objc_object_alloc) (Class class);
+externvar id (*_objc_object_copy) (id object);
+externvar id (*_objc_object_dispose) (id object);
 
 /*
 ** Standard functions for memory allocation and disposal.
@@ -379,23 +379,17 @@ extern id (*_objc_object_dispose)(id object);
 ** that they work properly with garbage collectors as well as
 ** can take advantage of the exception/error handling available.
 */
-void *
-objc_malloc(size_t size);
+void *objc_malloc (size_t size);
 
-void *
-objc_atomic_malloc(size_t size);
+void *objc_atomic_malloc (size_t size);
 
-void *
-objc_valloc(size_t size);
+void *objc_valloc (size_t size);
 
-void *
-objc_realloc(void *mem, size_t size);
+void *objc_realloc (void *mem, size_t size);
 
-void *
-objc_calloc(size_t nelem, size_t size);
+void *objc_calloc (size_t nelem, size_t size);
 
-void
-objc_free(void *mem);
+void objc_free (void *mem);
 
 /*
 ** Hook functions for memory allocation and disposal.
@@ -407,93 +401,94 @@ objc_free(void *mem);
 ** Users should call the normal objc routines above for
 ** memory allocation and disposal within their programs.
 */
-extern void *(*_objc_malloc)(size_t);
-extern void *(*_objc_atomic_malloc)(size_t);
-extern void *(*_objc_valloc)(size_t);
-extern void *(*_objc_realloc)(void *, size_t);
-extern void *(*_objc_calloc)(size_t, size_t);
-extern void (*_objc_free)(void *);
+externvar void *(*_objc_malloc) (size_t);
+externvar void *(*_objc_atomic_malloc) (size_t);
+externvar void *(*_objc_valloc) (size_t);
+externvar void *(*_objc_realloc) (void *, size_t);
+externvar void *(*_objc_calloc) (size_t, size_t);
+externvar void (*_objc_free) (void *);
 
-Method_t class_get_class_method(MetaClass class, SEL aSel);
+Method_t class_get_class_method (MetaClass class, SEL aSel);
 
-Method_t class_get_instance_method(Class class, SEL aSel);
+Method_t class_get_instance_method (Class class, SEL aSel);
 
-Class class_pose_as(Class impostor, Class superclass);
+Class class_pose_as (Class impostor, Class superclass);
 
-Class objc_get_class(const char *name);
+Class objc_get_class (const char *name);
 
-Class objc_lookup_class(const char *name);
+Class objc_lookup_class (const char *name);
 
-Class objc_next_class(void **enum_state);
+Class objc_next_class (void **enum_state);
 
-const char *sel_get_name(SEL selector);
+const char *sel_get_name (SEL selector);
 
-const char *sel_get_type(SEL selector);
+const char *sel_get_type (SEL selector);
 
-SEL sel_get_uid(const char *name);
+SEL sel_get_uid (const char *name);
 
-SEL sel_get_any_uid(const char *name);
+SEL sel_get_any_uid (const char *name);
 
-SEL sel_get_any_typed_uid(const char *name);
+SEL sel_get_any_typed_uid (const char *name);
 
-SEL sel_get_typed_uid(const char *name, const char*);
+SEL sel_get_typed_uid (const char *name, const char*);
 
-SEL sel_register_name(const char *name);
+SEL sel_register_name (const char *name);
 
-SEL sel_register_typed_name(const char *name, const char*type);
+SEL sel_register_typed_name (const char *name, const char*type);
 
 
 BOOL sel_is_mapped (SEL aSel);
 
-extern id class_create_instance(Class class);
+extern id class_create_insta
+nce (Class class);
 
 static inline const char *
-class_get_class_name(Class class)
+class_get_class_name (Class class)
 {
   return CLS_ISCLASS(class)?class->name:((class==Nil)?"Nil":0);
 }
 
 static inline long
-class_get_instance_size(Class class)
+class_get_instance_size (Class class)
 {
-  return CLS_ISCLASS(class)?class->instance_size:0;
+  return CLS_ISCLASS (class) ? class->instance_size : 0;
 }
 
 static inline MetaClass
-class_get_meta_class(Class class)
+class_get_meta_class (Class class)
 {
-  return CLS_ISCLASS(class)?class->class_pointer:Nil;
+  return CLS_ISCLASS (class) ? class->class_pointer : Nil;
 }
 
 static inline Class
-class_get_super_class(Class class)
+class_get_super_class (Class class)
 {
-  return CLS_ISCLASS(class)?class->super_class:Nil;
+  return CLS_ISCLASS (class) ? class->super_class : Nil;
 }
 
 static inline int
-class_get_version(Class class)
+class_get_version (Class class)
 {
-  return CLS_ISCLASS(class)?class->version:-1;
+  return CLS_ISCLASS (class) ? class->version : -1;
 }
 
 static inline BOOL
-class_is_class(Class class)
+class_is_class (Class class)
 {
-  return CLS_ISCLASS(class);
+  return CLS_ISCLASS (class);
 }
 
 static inline BOOL
-class_is_meta_class(Class class)
+class_is_meta_class (Class class)
 {
-  return CLS_ISMETA(class);
+  return CLS_ISMETA (class);
 }
 
 
 static inline void
-class_set_version(Class class, long version)
+class_set_version (Class class, long version)
 {
-  if (CLS_ISCLASS(class))
+  if (CLS_ISCLASS (class))
     class->version = version;
 }
 
@@ -511,7 +506,7 @@ extern void class_ivar_set_gcinvisible (Class class,
 static inline IMP
 method_get_imp(Method_t method)
 {
-  return (method!=METHOD_NULL)?method->method_imp:(IMP)0;
+  return (method != METHOD_NULL) ? method->method_imp : (IMP) 0;
 }
 
 IMP get_imp (Class class, SEL sel);
@@ -522,74 +517,72 @@ IMP get_imp (Class class, SEL sel);
 #define object_dispose	gnu_object_dispose
 #endif
 
-id object_copy(id object);
+id object_copy (id object);
 
-id object_dispose(id object);
+id object_dispose (id object);
 
 static inline Class
-object_get_class(id object)
+object_get_class (id object)
 {
-  return ((object!=nil)
-	  ? (CLS_ISCLASS(object->class_pointer)
+  return ((object != nil)
+	  ? (CLS_ISCLASS (object->class_pointer)
 	     ? object->class_pointer
-	     : (CLS_ISMETA(object->class_pointer)
-		? (Class)object
+	     : (CLS_ISMETA (object->class_pointer)
+		? (Class) object
 		: Nil))
 	  : Nil);
 }
 
 static inline const char *
-object_get_class_name(id object)
+object_get_class_name (id object)
 {
-  return ((object!=nil)?(CLS_ISCLASS(object->class_pointer)
-                         ?object->class_pointer->name
-                         :((Class)object)->name)
+  return ((object!=nil) ? (CLS_ISCLASS (object->class_pointer)
+                         ? object->class_pointer->name
+                         : ((Class) object)->name)
                        :"Nil");
 }
 
 static inline MetaClass
 object_get_meta_class(id object)
 {
-  return ((object!=nil)?(CLS_ISCLASS(object->class_pointer)
-                         ?object->class_pointer->class_pointer
-                         :(CLS_ISMETA(object->class_pointer)
-                           ?object->class_pointer
-                           :Nil))
-                       :Nil);
+  return ((object!=nil) ? (CLS_ISCLASS (object->class_pointer)
+                           ? object->class_pointer->class_pointer
+                           : (CLS_ISMETA(object->class_pointer)
+                              ? object->class_pointer
+                              :Nil))
+          : Nil);
 }
 
 static inline Class
-object_get_super_class
-(id object)
+object_get_super_class (id object)
 {
-  return ((object!=nil)?(CLS_ISCLASS(object->class_pointer)
-                         ?object->class_pointer->super_class
-                         :(CLS_ISMETA(object->class_pointer)
-                           ?((Class)object)->super_class
-                           :Nil))
-                       :Nil);
+  return ((object!=nil) ? (CLS_ISCLASS (object->class_pointer)
+                           ? object->class_pointer->super_class
+                           : (CLS_ISMETA (object->class_pointer)
+                           ?((Class) object)->super_class
+                              : Nil))
+          : Nil);
 }
 
 static inline BOOL
-object_is_class(id object)
+object_is_class (id object)
 {
-  return CLS_ISCLASS((Class)object);
+  return CLS_ISCLASS ((Class) object);
 }
 
 static inline BOOL
 object_is_instance(id object)
 {
-  return (object!=nil)&&CLS_ISCLASS(object->class_pointer);
+  return (object != nil) && CLS_ISCLASS (object->class_pointer);
 }
 
 static inline BOOL
-object_is_meta_class(id object)
+object_is_meta_class (id object)
 {
-  return CLS_ISMETA((Class)object);
+  return CLS_ISMETA ((Class) object);
 }
 
-struct sarray* 
-objc_get_uninstalled_dtable(void);
+struct sarray* objc_get_uninstalled_dtable (void);
 
 #endif /* not __objc_api_INCLUDE_GNU */
 
