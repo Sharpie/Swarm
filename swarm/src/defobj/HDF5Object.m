@@ -29,6 +29,23 @@
 static unsigned hdf5InstanceCount = 0;
 
 static hid_t
+get_boolean_tid ()
+{
+  static hid_t tid = 0;
+
+  if (!tid)
+    {
+      if ((tid = H5Tcopy (H5T_NATIVE_UINT)) < 0)
+        abort ();
+      if (H5Tset_precision (tid, 1) < 0)
+        abort ();
+      if (H5Tset_size (tid, 1) < 0)
+        abort ();
+    }
+  return tid;
+}
+
+static hid_t
 tid_for_fcall_type (fcall_type_t type)
 {
   hid_t tid;
@@ -36,7 +53,7 @@ tid_for_fcall_type (fcall_type_t type)
   switch (type)
     {
     case fcall_type_boolean:
-      tid = H5T_NATIVE_UCHAR;
+      tid = get_boolean_tid ();
       break;
     case fcall_type_schar:
       tid = H5T_NATIVE_CHAR;
@@ -265,11 +282,17 @@ fcall_type_for_tid (hid_t tid)
     case H5T_INTEGER:
       {
         H5T_sign_t tid_sign;
+        size_t tid_precision;
 
         if ((tid_sign = H5Tget_sign (tid)) < 0)
           raiseEvent (LoadError, "cannot get sign type of tid");
-        
-        if (tid_size == sizeof (char))
+
+        if ((tid_precision = H5Tget_precision (tid)) < 0)
+          raiseEvent (LoadError, "cannot get precision of tid");
+
+        if (tid_size == sizeof (BOOL) && tid_precision == 1)
+          type = fcall_type_boolean;
+        else if (tid_size == sizeof (char))
           {
             if (tid_sign == H5T_SGN_2)
               type = fcall_type_schar;
