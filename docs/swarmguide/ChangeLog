@@ -2,6 +2,8 @@
 
 	* Swarm user guide 0.9 beta released.
 
+	* common.dsl (%show-comments%): Set to false for release.
+
 	* user2.06.sgml: Move INDEXTERMs out of ITEMIZEDLISTs and up a
 	level as a workaround to print backend problems with generated
 	correct page numbers.

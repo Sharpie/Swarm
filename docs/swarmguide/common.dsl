@@ -8,7 +8,7 @@
 
 (define %show-comments%
   ;; Display Comment elements?
-  #t)
+  #f)
 
 (define %gentext-usen-by% "")
 
