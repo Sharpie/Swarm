@@ -89,6 +89,9 @@ avcall-alphaev56.o avcall-alpha.o : $(srcdir)/avcall-alpha.s
 avcall-hppa.o : $(srcdir)/avcall-hppa.s
 	$(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-hppa.s
 
+avcall-hppa2.0w.o : $(srcdir)/avcall-hppa.s
+	$(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-hppa.s -o $@
+
 avcall-arm.o : $(srcdir)/avcall-arm.s
 	$(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-arm.s
 
