@@ -7,7 +7,8 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 
-#import <string.h>
+#include <stdlib.h>
+#include <string.h>
 
 int
 tkobjc_doOneEventSync (void)
@@ -57,7 +58,7 @@ void
 tkobjc_configureHideBitmap (id widget)
 {
   [globalTkInterp
-    eval: "%s configure -bitmap special -activeforeground red -foreground red", 
+    eval: "%s configure -bitmap hide -activeforeground red -foreground red", 
     [widget getWidgetName]];
 }
 
@@ -87,7 +88,7 @@ tkobjc_configureHideButton (id owner, id hideB, id raisedFrame)
     [hideB getWidgetName],
     tclObjc_objectToName (owner)];
 
-  tkobjc_configureHideBitmap (hideB);
+  tkobjc_configureSpecialBitmap (hideB);
  
   [globalTkInterp eval: "pack %s -side right -fill both -expand 0",
 		  [hideB getWidgetName]];
@@ -397,13 +398,17 @@ tkobjc_packForgetAndExpand (id widget)
 void
 tkobjc_packForgetArmSuperAndResize (id hideB, id self, id mySubClass, id owner)
 {
+  const char *subClassName = strdup (tclObjc_objectToName (mySubClass));
+  const char *ownerName = tclObjc_objectToName (owner);
+
   [globalTkInterp 
     eval: 
       "%s configure -command {pack forget %s; %s armSuperButton; %s do_resize}",
     [hideB getWidgetName],
     [self getWidgetName],
-    tclObjc_objectToName (mySubClass),
-    tclObjc_objectToName (owner)];
+    subClassName,
+    ownerName];
+  free ((void *)subClassName);
 }
 
 void

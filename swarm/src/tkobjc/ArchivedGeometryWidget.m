@@ -118,11 +118,15 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
 
 - disableDestroyNotification
 {
-  Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
-                                     (char *)widgetName,
-                                     [globalTkInterp mainWindow]);
-
-  Tk_DeleteEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
+  if (destroyNotificationTarget != nil)
+    {
+      Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
+                                         (char *)widgetName,
+                                         [globalTkInterp mainWindow]);
+      
+      Tk_DeleteEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
+      destroyNotificationTarget = nil;
+    }
   return self;
 }
 
