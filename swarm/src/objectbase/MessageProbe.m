@@ -276,7 +276,7 @@ dynamicCallOn (const char *probedType,
   unsigned i;
   const char *type = probedType;
   id aZone = [target getZone];
-  id fa = [FArguments createBegin: aZone];
+  id fa = [FArguments createBegin: getCZone (aZone)];
   id <FCall> fc;
 
   retVal->type = *type;
@@ -292,7 +292,7 @@ dynamicCallOn (const char *probedType,
     [fa addArgument: &arguments[i].val ofObjCType: *type];
   fa = [fa createEnd];
   
-  fc = [FCall create: aZone
+  fc = [FCall create: getCZone (aZone)
 	      target: target
 	      selector: probedSelector
 	      arguments: fa];

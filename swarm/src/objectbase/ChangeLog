@@ -1,3 +1,8 @@
+2000-06-27  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* MessageProbe.m (dynamicCallOn): Put FArguments and FCall
+	in component zone.
+
 2000-06-19  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -addJavaMethods:]): Handle failed
