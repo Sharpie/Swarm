@@ -1,3 +1,11 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* activity.h (Action, ActionCall, ActionTo, ActionForEach,
+	Activity, ScheduleActivity, SwarmActivity, ForEachActivity,
+	ConcurrentGroup, ConcurrentSchedule, ActivationOrder): Change
+	from CREATABLE to RETURNABLE.
+	(SwarmProcess): Remove CREATABLE.
+
 1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* activity.m: Don't define _activity_current, _activity_zone here.

@@ -176,7 +176,7 @@ typedef unsigned long timeval_t;
 #endif
 
 
-@protocol Action <GetOwner, CREATABLE>
+@protocol Action <GetOwner, RETURNABLE>
 //S: An action type that has been customized for direct execution by an
 //S: action interpreter.
 
@@ -229,7 +229,7 @@ USING
 - getArg3;
 @end
 
-@protocol ActionCall <ActionArgs, CREATABLE>
+@protocol ActionCall <ActionArgs, RETURNABLE>
 //S: An action defined by calling a C function.
 //D: An action defined by calling a C function.
 
@@ -238,7 +238,7 @@ USING
 - (func_t)getFunctionPointer;
 @end
 
-@protocol ActionTo <ActionArgs, CREATABLE>
+@protocol ActionTo <ActionArgs, RETURNABLE>
 //S: An action defined by sending an Objective C message.
 //D: An action defined by sending an Objective C message.
 
@@ -301,13 +301,13 @@ USING
 - getDefaultOrder;
 @end
 
-@protocol ActionForEach <ActionTo, DefaultOrder, CREATABLE>
+@protocol ActionForEach <ActionTo, DefaultOrder, RETURNABLE>
 //S: An action defined by sending a message to every member of a collection.
 //D: An action defined by sending a message to every member of a collection.
 @end
 
 
-@protocol Activity <DefinedObject, Drop, CREATABLE>
+@protocol Activity <DefinedObject, Drop, RETURNABLE>
 //S: A level of processing by the interpreter of an action type.
 
 //D: A object of type Activity implements the processing of actions within
@@ -438,7 +438,7 @@ externvar id <Symbol> Initialized, Running, Holding, Released, Stopped,
 externvar id <Symbol> HoldStart, HoldEnd;
 
 
-@protocol ScheduleActivity <Activity, CREATABLE>
+@protocol ScheduleActivity <Activity, RETURNABLE>
 //S: State of execution within a Schedule.
 //D: State of execution within a Schedule.
 CREATING
@@ -450,7 +450,7 @@ USING
 - stepUntil: (timeval_t)tVal;
 @end
 
-@protocol SwarmActivity <ScheduleActivity, CREATABLE>
+@protocol SwarmActivity <ScheduleActivity, RETURNABLE>
 //S: A collection of started subactivities.
 //D: A collection of started subactivities.
 
@@ -461,7 +461,7 @@ USING
 - getSynchronizationSchedule;
 @end
 
-@protocol ForEachActivity <Activity, CREATABLE>
+@protocol ForEachActivity <Activity, RETURNABLE>
 //S: State of execution within a ForEach action.
 //D: State of execution within a ForEach action.
 
@@ -537,7 +537,7 @@ USING
 - getSynchronizationType;
 @end
 
-@protocol SwarmProcess <ActionType, Zone, SynchronizationType, CREATABLE>
+@protocol SwarmProcess <ActionType, Zone, SynchronizationType>
 //S: An object that holds a collection of concurrent subprocesses.
 
 //D: SwarmProcess inherits the messages of both ActionType and Zone.
@@ -727,7 +727,7 @@ USING
 - (BOOL)getSingletonGroups;
 @end
 
-@protocol Schedule <CompoundAction, ActionCreating, CREATABLE, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups>
+@protocol Schedule <CompoundAction, ActionCreating,RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups, CREATABLE>
 //S: A collection of actions ordered by time values.
 
 //D: A schedule is compound action whose basic representation is a sorted
@@ -847,7 +847,7 @@ _activity_context_error( "getCurrentAction" ) )
 //D: Declare an internal method for getCurrentAction().
 
 USING
--	_getSubactivityAction_;  
+- _getSubactivityAction_;  
 @end
 
 #define getCurrentActivity() \
@@ -861,17 +861,17 @@ externvar id _activity_current;
 extern id _activity_context_error (const char *macroName);
 
 
-@protocol ConcurrentGroup <ActionGroup, CREATABLE>
+@protocol ConcurrentGroup <ActionGroup, RETURNABLE>
 //S: Default type used as concurrent group of a schedule.
 //D: Default type used as concurrent group of a schedule.
 @end
 
-@protocol ConcurrentSchedule <ActionGroup, CREATABLE>
+@protocol ConcurrentSchedule <ActionGroup, RETURNABLE>
 //S: Time-based map usable for concurrent group.
 //D: Time-based map usable for concurrent group.
 @end
 
-@protocol ActivationOrder <ActionGroup, CREATABLE>
+@protocol ActivationOrder <ActionGroup, RETURNABLE>
 //S: Default type used as concurrent group of a swarm.
 //D: Concurrent group to order merge by activation order within swarm.
 USING
