@@ -15,7 +15,7 @@ _CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(mod
 
 JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 
-include .deps
+-include .deps
 
 all: $(CLASSES)
 
