@@ -1,3 +1,12 @@
+1998-08-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (SRC, simtools_HEADERS): Add ListShuffler and
+	logically reorder.
+
+	* simtools.h (ListShuffler): New protocol.
+
+	* ListShuffler.[hm]: New files.
+
 1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* QSort.m ([QSort +_unFlatten_:], [QSort +reverseOrderOf:]): Likewise.
