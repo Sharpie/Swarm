@@ -1,3 +1,7 @@
+1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* misc.h: Include ctype.h.
+
 1998-11-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* misc.h: Include errno.h.
