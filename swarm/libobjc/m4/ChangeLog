@@ -1,3 +1,7 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acdll.m4: Add USEDLL automake conditional.
+
 1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* headers.m4: Map all hpux9* and hpux10* to hpux.

@@ -1,3 +1,7 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acdll.m4: Add USEDLL automake conditional.
+
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acargp.m4: Substitute ARGP_H to argp.h if it isn't found.
