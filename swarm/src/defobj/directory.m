@@ -1002,7 +1002,13 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
             else if (classp (c_void))
               type = _C_VOID;
             else
-              type = _C_ID;
+              {
+                jstring name = get_class_name_from_object (env, class);
+                const char *className = 
+                  swarm_directory_copy_java_string (env, name);
+                                                    
+                raiseEvent (InternalError, "Unknown type `%s'", className);
+              }
             add_type (type);
           }
           
