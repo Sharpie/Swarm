@@ -122,7 +122,7 @@ else
     JAVASTUBS_FUNCTION=java-run-all-literal
     if test -x "${jdkdir}/libexec/Kaffe"; then
       JAVACMD='${jdkdir}/libexec/Kaffe'
-    elif test -x ${jdkdir}/lib/kaffe/Kaffe; then
+    elif test -x "${jdkdir}/lib/kaffe/Kaffe"; then
       JAVACMD='${jdkdir}/lib/kaffe/Kaffe'
     else
       AC_MSG_ERROR([Cannot find Kaffe executable])
