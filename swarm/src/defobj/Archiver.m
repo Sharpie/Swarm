@@ -259,6 +259,7 @@ lispLoadArchiver (id applicationMap, id expr)
   [archiverCallExprIndex drop];
 }
 
+#ifdef HAVE_HDF5
 static void
 hdf5LoadArchiver (id applicationMap, id hdf5file)
 {
@@ -305,6 +306,7 @@ hdf5LoadArchiver (id applicationMap, id hdf5file)
     }
   [hdf5file iterate: appIterateFunc];
 }
+#endif
 
 void
 archiverRegister (id client)
