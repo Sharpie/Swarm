@@ -1,3 +1,13 @@
+1998-08-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Pixmap.m (compareRGB): New function.
+	([Pixmap -createEnd]): Add support for RGB format PNG files;
+	uniquify colors and re-paletteize. 
+
+	* global.h, tkobjc.m (initTkObjc): Add PaletteError.
+
+	* internal.m: Use it.
+
 1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am: Add override to append of CFLAGS with X_CFLAGS.

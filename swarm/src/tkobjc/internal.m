@@ -596,7 +596,7 @@ tkobjc_pixmap_create (Pixmap *pixmap,
         if (warning)
           [Warning raiseEvent: "Creating pixmap: %s\n", warning];
         if (error)
-          [WindowCreation raiseEvent: "Creating pixmap: %s\n", error];
+          [PaletteError raiseEvent: "Creating pixmap: %s\n", error];
       }
   }
 #else
