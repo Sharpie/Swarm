@@ -13,6 +13,7 @@ import swarm.activity.ActionGroup;
 import swarm.activity.ActionGroupImpl;
 import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
+import swarm.activity.ActionForEach;
 
 import swarm.collections.List;
 import swarm.collections.ListImpl;
@@ -271,28 +272,22 @@ public class HeatbugModelSwarm extends SwarmImpl
       System.err.println ("Exception stepRule: " + e.getMessage ());
     }
         
-    if (randomizeHeatbugUpdateOrder == true) {
-      /*  try {
-          ((ActionGroupImpl)modelActions.createActionForEach$message
-          (heatbugList, new Selector (heatbugList.getClass(), 
-          "step", false)))
-          .setDefaultOrder((Object)new SymbolImpl
-          (getZone (), "Randomized"));
-          } catch (Exception e) {
-          System.err.println("Exception: " + e.getMessage());
-          }
-      */
+    try {
+      ActionForEach actionForEach;
+
+      Selector sel =
+        new Selector (Class.forName ("Heatbug"), "step", false);
+      
+      actionForEach =
+        modelActions.createActionForEach$message (heatbugList, sel);
+
+      if (randomizeHeatbugUpdateOrder == true)
+        actionForEach.setDefaultOrder (Globals.env.Randomized);
     }
-    else {
-      try {
-        modelActions.createActionForEach$message 
-          (heatbugList,
-           new Selector (Class.forName ("Heatbug"), "step", false));
-      } catch (Exception e) {
-        System.err.println("Exception step: " + e.getMessage ());
-      }
+    catch (Exception e) {
+      System.err.println("Exception step: " + e.getMessage ());
     }
-        
+    
     try {
       modelActions.createActionTo$message 
         (heat, new Selector (heat.getClass (), "updateLattice", false));

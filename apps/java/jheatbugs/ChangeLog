@@ -1,3 +1,8 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugModelSwarm.java (buildActions): Add Randomized ForEach
+	ordering.
+
 1999-09-16    <mgd@HELEN>
 
 	* HeatbugObserverSwarm.java: Add drop method to disable
