@@ -1,8 +1,6 @@
-etc_dir = $(shell cd ../../etc; pwd)
+include $(top_builddir)/etc/Makefile.tests
 
-include $(etc_dir)/Makefile.tests
-
-noinst_PROGRAMS = ForEachRandomized ForEach ActionGroupRandomized ActionGroup ConcurrentGroupRandomized ConcurrentGroup Schedule DynamicSchedule DynamicScheduleRepeat
+check_PROGRAMS = ForEachRandomized ForEach ActionGroupRandomized ActionGroup ConcurrentGroupRandomized ConcurrentGroup Schedule DynamicSchedule DynamicScheduleRepeat
 
 Responder_SOURCES = Responder.m Responder.h
 ActionGroup_test_SOURCES = ActionGroup_test.m ActionGroup_test.h
@@ -17,5 +15,5 @@ Schedule_SOURCES = Schedule.m $(Responder_SOURCES)
 DynamicSchedule_SOURCES = DynamicSchedule.m DSSwarm.m DSSwarm.h 
 DynamicScheduleRepeat_SOURCES = DynamicScheduleRepeat.m DSRSwarm.m DSRSwarm.h 
 
-TESTS = $(noinst_PROGRAMS)
+TESTS = $(check_PROGRAMS)
 TESTS_ENVIRONMENT = SWARM_INHIBIT_ARCHIVER_LOAD=1

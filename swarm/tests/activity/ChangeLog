@@ -1,3 +1,9 @@
+1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (etc_dir): Use include $(top_builddir)/etc instead.
+	(check_PROGRAMS): Use instead of noinst_PROGRAMS.
+	(TESTS): Depend on $(check_PROGRAMS).
+
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Makefile.am (etc_dir): Add new variable to allow inclusion of 
