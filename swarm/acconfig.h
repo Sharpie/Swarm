@@ -12,3 +12,7 @@
 #undef HAVE_HDF5
 #undef HAVE_JDK
 #undef HAVE_XPM_ALLOCPIXELS
+#undef PTRINT
+#undef PTRINTFMT
+#undef PTRUINT
+#undef PTRUINTFMT

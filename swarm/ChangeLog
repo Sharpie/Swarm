@@ -1,5 +1,9 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* configure.in: Call md_CHECK_SIZES.
+
+	* acconfig.h: Add PTRINT, PTRINTFMT, PTRUINT, and PTRUINTFMT.
+
 	* VERSION: Bump.
 
 	* config.guess, config.sub, ltconfig, ltmain.sh.  New libtool.
