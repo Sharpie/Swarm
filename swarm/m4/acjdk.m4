@@ -78,7 +78,7 @@ else
     else
       if test -z "$JAVALIBS"; then
         if test -d "${jdkdir}/jre/lib/${proc}"; then
-          JAVALIBS="\${jdkdir}/jre/lib/${proc}"
+          JAVALIBS="\${jdkdir}/jre/lib/${proc}/${threads}_threads:\${jdkdir}/jre/lib/${proc}"
         elif test -d "${jdkdir}/lib/${proc}/${threads}_threads"; then
           JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
         else
