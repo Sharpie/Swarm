@@ -109,6 +109,7 @@ if [ "$sources" = "" ]; then
 fi
 cat $sources | sed >$m.xm+ \
   -e 's/	//g' \
+  -e '/^@implementation[ ]*_/d' \
   -e '/^@implementation/!d' \
   -e 's/^@implementation[ ]*\([A-Za-z0-9][A-Za-z0-9_]*\).*/\1/'
 
