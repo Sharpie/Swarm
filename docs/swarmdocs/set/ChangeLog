@@ -1,3 +1,7 @@
+1999-01-11  Alex Lancaster  <alex@santafe.edu>
+
+	* setmeta.sgml: Make email ULINK an EMAIL tag.  Tidy text.
+
 1999-01-04  Alex Lancaster  <alex@santafe.edu>
 
 	* setmeta.sgml: Remove <TITLE> element in ABSTRACT.

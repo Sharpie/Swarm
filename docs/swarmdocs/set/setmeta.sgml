@@ -8,23 +8,18 @@
   
   &bibliodata;
   
-  <!--  <BIBLIOSET></BIBLIOSET> -->
-
   <ABSTRACT>
 
-    <PARA>The Swarm home page (&swarm-webpage;) provides a good
-      introduction to Swarm (what it does and what it aims to be). On
-      the other hand, the The Overview to Swarm aims to give you a
-      more detailed overview of the sorts of things a user needs to do
-      in order to get a simulation up and running in Swarm. The
-      combination of these two documents should help you decide
-      whether Swarm would be a useful tool in the context of your
-      research.</PARA>
+    <PARA>The &swarm-webpage; provides a good introduction to Swarm
+      (what it does and what it aims to be). On the other hand, the
+      The Overview to Swarm aims to give you a more detailed overview
+      of the sorts of things a user needs to do in order to get a
+      simulation up and running in Swarm. The combination of these two
+      documents should help you decide whether Swarm would be a useful
+      tool in the context of your research.</PARA>
     
     <PARA>Please direct all questions, bug reports, or suggestions for
-      changes to the Swarm developers <LITERAL><ULINK
-      URL="mailto:swarm@santafe.edu">swarm@santafe.edu</ULINK>
-      </LITERAL>.
+      changes to the Swarm developers <EMAIL>swarm@santafe.edu</EMAIL>.
     </PARA>
     
     </ABSTRACT>
