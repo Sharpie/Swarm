@@ -7,14 +7,17 @@
 
 //D: Top-level module for controlling startup and providing access to globals
 
-@protocol SwarmEnvironment
+@protocol SwarmEnvironment <CREATABLE>
 //S: Container object for Swarm globals
 
 //D: Container object for Swarm globals
 CREATING
-+ (void)initSwarm: (const char *)appName
-          version: (const char *)version
-       bugAddress: (const char *)bugAddress;
++ (void)initSwarmArgc: (int)argc
+                 argv: (const char **)argv
+                 name: (const char *)appName
+              version: (const char *)version
+           bugAddress: (const char *)bugAddress
+                class: (Class)class;
 GETTERS
 - (id <Symbol>)getStart;
 - (id <Symbol>)getMember;

@@ -10,9 +10,12 @@
 @interface SwarmEnvironment: Object <SwarmEnvironment>
 {
 }
-+ (void)initSwarm: (const char *)appName
-          version: (const char *)version
-       bugAddress: (const char *)bugAddress;
++ (void)initSwarmArgc: (const char *)appName
+                 argv: (const char **)argv
+                 name: (const char *)appName
+              version: (const char *)version
+           bugAddress: (const char *)bugAddress
+                class: (Class)class;
 
 #import "SwarmEnvironment_getters.h"
 @end

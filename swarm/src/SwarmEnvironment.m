@@ -12,12 +12,15 @@
 
 @implementation SwarmEnvironment
 PHASE(Creating)
-+ (void)initSwarm: (const char *)appName
-          version: (const char *)version
-       bugAddress: (const char *)bugAddress
++ (void)initSwarmArgc: (int)argc
+                 argv: (const char **)argv
+                 name: (const char *)appName
+              version: (const char *)version
+           bugAddress: (const char *)bugAddress
+                class: (Class)class
 {
-  _initSwarm_ (1, &appName, appName, version, bugAddress,
-               Nil, NULL, NULL, NO, YES);
+  _initSwarm_ (argc, argv, appName, version, bugAddress,
+               class, NULL, NULL, NO, YES);
 }
 #include "SwarmEnvironment_getters.m"
 @end
