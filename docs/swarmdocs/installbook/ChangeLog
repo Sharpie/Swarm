@@ -1,7 +1,16 @@
+1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (GENERATED_SGML): Use $(NAME)revhistory.sgml instead of
+	installrevhistory.sgml. 
+	(EXTRA_DIST): Use installbook.ent instead of install.ent.
+	
+	* installmeta.sgml: Use installbookrevhistory.sgml instead of
+	installrevhistory.sgml.
+
 1998-06-16  Alex Lancaster  <alex@santafe.edu>
 
-	* install01.sgml: Updated 'Supported Systems' to make mention of
-	Windows NT.  Updated 'Prerequisite Libraries' to mention libraries
+	* install01.sgml: Updated `Supported Systems' to make mention of
+	Windows NT.  Updated `Prerequisite Libraries' to mention libraries
 	required as of Swarm 1.1/1.2.
 
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
