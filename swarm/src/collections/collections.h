@@ -615,7 +615,7 @@ SETTING
 //D: that adds or removes members.  The SafeAlways can be specified for any
 //D: case to get a guarantee of full index safety.
 
-CREATING
+USING
 //M: The addFirst: message adds a new member to the front of the list.
 - (void)addFirst: anObject;
 

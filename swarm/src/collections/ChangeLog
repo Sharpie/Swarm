@@ -1,3 +1,11 @@
+1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* List.m ([List_any -getCountPerBlock]): abort instead of exit.
+	([List_any -lispIn:]): New method.
+
+	* collections.h (List): The methods here aren't create-time; mark
+	as USING phase.
+
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* InputStream.[hm] (InputStream): New method setBoolean:

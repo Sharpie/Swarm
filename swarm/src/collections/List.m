@@ -109,11 +109,18 @@ PHASE(Using)
 - (int)getCountPerBlock
 {
   raiseEvent (NotImplemented, nil);
-  exit (1);
+  
+  abort ();
 }
 
 - lispIn: expr
 {
+  id index, member;
+
+  index = [(id) expr begin: scratchZone];
+  while ((member = [index next]))
+    [(id) self addLast: lispIn ([self getZone], member)];
+  [index drop];
   return self;
 }
 
