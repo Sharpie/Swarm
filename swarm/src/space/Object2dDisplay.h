@@ -3,15 +3,15 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <space.h> // Discrete2d
 #import <objectbase/SwarmObject.h>
-#import <space.h>
-#import <gui.h>
+#import <gui.h> // Raster
 
 // generic object to handle display 2d objects
 // hand it a 2d raster widget, tell it what message to send, and it sends it.
 // also knows how to construct probes.
 
-@interface Object2dDisplay: SwarmObject
+@interface Object2dDisplay: SwarmObject <Object2dDisplay>
 {
   id <Raster> displayWidget;
   id <Discrete2d> discrete2d;

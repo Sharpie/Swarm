@@ -5,9 +5,10 @@
 
 // Approximation to 2d diffusion via CA.
 
+#import <space.h> // Diffuse2d
 #import <space/Ca2d.h>
 
-@interface Diffuse2d: Ca2d
+@interface Diffuse2d: Ca2d <Diffuse2d>
 {
   double diffusionConstant;
   double evaporationRate;

@@ -1,3 +1,10 @@
+1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Ca2d.[hm], ConwayLife2d.[hm], DblBuffer2d.[hm], Diffuse2d.[hm],
+	Grid2d.[hm], Int2dFiler.h, Object2dDisplay.h, Value2dDisplay.h:
+	Add protocol compliance tags to the @interfaces, reorganizing
+	the phase tags as necessary.
+
 1999-03-19  Alex Lancaster  <alex@santafe.edu>
 
 	* DblBuffer2d.m ([DblBuffer -drop]): Add method.  Free extra

@@ -33,7 +33,7 @@ PHASE(Creating)
   [self initializeLattice];
   return self;
 }
-
+PHASE(Setting)
 PHASE(Using)
 
 - stepRule

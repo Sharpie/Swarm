@@ -30,20 +30,6 @@ PHASE(Creating)
   return r;
 }
 
-- setDiffusionConstant: (double)d
-{
-  diffusionConstant = d;
-
-  return self;
-}
-
-- setEvaporationRate: (double)e
-{
-  evaporationRate = e;
-
-  return self;
-}
-
 - initializeLattice
 {
   unsigned x, y;
@@ -63,6 +49,24 @@ PHASE(Creating)
   [self updateLattice];
   return self;
 }
+
+PHASE(Setting)
+
+- setDiffusionConstant: (double)d
+{
+  diffusionConstant = d;
+
+  return self;
+}
+
+- setEvaporationRate: (double)e
+{
+  evaporationRate = e;
+
+  return self;
+}
+
+PHASE(Using)
 
 - stepRule
 {

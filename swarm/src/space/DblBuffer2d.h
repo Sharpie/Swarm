@@ -5,9 +5,10 @@
 
 // 2d buffered space.
 
+#import <space.h>
 #import <space/Discrete2d.h>
 
-@interface DblBuffer2d: Discrete2d
+@interface DblBuffer2d: Discrete2d <DblBuffer2d>
 {
   id *wBuf1, *wBuf2;				  // store data here
 

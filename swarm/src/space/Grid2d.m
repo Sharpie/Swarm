@@ -21,6 +21,7 @@ PHASE(Creating)
   return r;
 }
 
+PHASE(Setting)
 PHASE(Using)
 
 // Note - we don't use the superclass method, we write our own.

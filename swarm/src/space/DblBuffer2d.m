@@ -36,6 +36,7 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
 PHASE(Using)
 
 - (id *)getNewLattice

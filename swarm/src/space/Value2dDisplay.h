@@ -3,13 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <space.h> // Value2dDisplay, Discrete2d
 #import <space/Discrete2d.h>
-#import <space.h>
-#import <gui.h>
+#import <gui.h> // Raster, Colormap
 
 // generic object to handle display 2d values
 
-@interface Value2dDisplay: SwarmObject
+@interface Value2dDisplay: SwarmObject <Value2dDisplay>
 {
   id <Raster> displayWidget;
   IMP drawPointImp;

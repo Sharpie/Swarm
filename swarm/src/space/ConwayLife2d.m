@@ -35,6 +35,7 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
 PHASE(Using)
 
 - stepRule
