@@ -1,3 +1,7 @@
+1999-07-08  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (AM_MAINTAINER_MODE): New macro.
+
 1999-06-21  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in: Add check for latex when --with-javadoc is

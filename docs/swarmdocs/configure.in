@@ -2,6 +2,8 @@ AC_INIT(history.el)
 
 AM_INIT_AUTOMAKE(swarmdocs, 2.0)
 
+AM_MAINTAINER_MODE()
+
 if test "x$ACLOCAL" = xaclocal; then
   ACLOCAL="aclocal -I m4"
 fi
