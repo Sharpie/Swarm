@@ -33,6 +33,12 @@ PHASE(Using)
       raiseEvent (SourceMessage,
                   "Could not find Java class `%s'\n", 
                   typeName);
+
+    // Two cases are handled here:
+    // 1) basic Swarm object instantiation with a single Zone argument
+    // 2) no-argument instantiation of Java objects
+    // Not handled are inner classes, since those require arguments
+    // to their containing instances.
     {
       jobject jobj;
       jmethodID method =
