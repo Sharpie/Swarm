@@ -132,12 +132,14 @@ __objc_responds_to (id object, SEL sel)
   return (res != 0);
 }
 
+
+
 /* This is the lookup function.  All entries in the table are either a 
    valid method *or* zero.  If zero then either the dispatch table
    needs to be installed or it doesn't exist and forwarding is attempted. */
 __inline__
 IMP
-objc_msg_lookup(id receiver, SEL op)
+objc_msg_lookup_objc (id receiver, SEL op)
 {
   IMP result;
   if(receiver)
@@ -168,6 +170,23 @@ objc_msg_lookup(id receiver, SEL op)
     }
   else
     return nil_method;
+}
+
+__inline__
+IMP
+objc_msg_lookup (id receiver, SEL op)
+{
+  extern SEL allocSel;
+  extern void *swarm_directory_objc_find_object (id);
+  extern void *swarm_directory_objc_find_selector (SEL);
+  extern id swarmDirectory;
+
+  if (swarmDirectory
+      && swarm_directory_objc_find_object (receiver)
+      && !__objc_responds_to (receiver, allocSel))
+    return __objc_get_forward_imp (op);
+  else
+    return objc_msg_lookup_objc (receiver, op);
 }
 
 IMP
