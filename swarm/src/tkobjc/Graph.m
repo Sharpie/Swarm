@@ -3,17 +3,15 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-// interface to BLT Graphs. Legends, etc need to be handled more
-// gracefully. Bindings to mouse (see BLT demos), autoscrolling, etc
+// Interface to BLT Graphs.  Legends, etc need to be handled more
+// gracefully. Bindings to mouse (see BLT demos), autoscrolling, etc.
 // should be added.
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #import <tkobjc/global.h>
 #import <tkobjc/Graph.h>
-#import <collections.h>
+
+#include <misc.h> // strdup
+#include <stdlib.h> // atoi
 
 @implementation Graph
 
@@ -44,6 +42,14 @@
   return self;
 }
 
+- setRangesYMin: (double)miny
+            Max: (double)maxy 
+{
+  [globalTkInterp 
+    eval:
+      "%s yaxis configure -min %f -max %f", widgetName, miny, maxy];
+  return self;
+}
 
 - setScaleModeX: (int)xs Y: (int)ys
 {
