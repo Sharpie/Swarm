@@ -3,7 +3,7 @@ SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swa
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
 EXTRA_SCRIPTS = javacswarm.in javaswarm.in
 EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS)
-EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
+EMACS = @EMACS@
 
  include $(top_srcdir)/etc/Makefile.protocol
 
