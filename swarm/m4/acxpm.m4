@@ -37,3 +37,16 @@ else
 fi
 AC_SUBST(XPMINCLUDES)
 ])
+
+AC_DEFUN(md_STRUCT_XPM_ALLOCPIXELS,
+[last_cppflags=$CPPFLAGS
+CPPFLAGS="-I$xpmincludedir $CPPFLAGS"
+AC_MSG_CHECKING(for nalloc_pixels in XpmAttributes)
+AC_TRY_COMPILE([#include <X11/xpm.h>], 
+[XpmAttributes attr; attr.nalloc_pixels = 0;],
+AC_MSG_RESULT(yes)
+AC_DEFINE(HAVE_XPM_ALLOCPIXELS),
+AC_MSG_RESULT(no))
+CPPFLAGS=$last_cppflags
+])
+
