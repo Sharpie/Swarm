@@ -1,3 +1,7 @@
+1998-12-22  Alex Lancaster  <alex@santafe.edu>
+
+	* swarmobjc.sgml (switcheroo): Add IDs to FIGURE.
+
 1998-06-18  Alex Lancaster  <alex@santafe.edu>
 
 	* emacs.sgml: Commented-out section on hilit19 - added more text
