@@ -763,7 +763,12 @@ CREATING
 - (void)setSuperclass: aClass;
 - (void)setDefiningClass: aClass;
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod;
-extern id addVariable (id class, const char *name, const char *type);
+- lispInCreate: expr;
+- lispIn: expr;
+- lispOut: stream;
+- updateArchiver;
+extern Class copyClass (Class class);
+extern void addVariable (Class class, const char *name, const char *type);
 USING
 - getDefiningClass;
 @end
@@ -1081,5 +1086,9 @@ extern id nameToObject (const char *name);
   [(name = [Error create: globalZone setName: #name]) \
     setMessageString: message]
 
+//#: Name to use for Lisp archiving class-creation function
+#define MAKE_CLASS_FUNCTION_NAME "make-class"
+
 //#: Name to use for Lisp archiving object-creation function
-#define MAKE_OBJC_FUNCTION_NAME "make-objc"
+#define MAKE_INSTANCE_FUNCTION_NAME "make-instance"
+

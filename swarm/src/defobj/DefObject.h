@@ -15,7 +15,7 @@ Library:      defobj
 #include <swarmconfig.h> // HAVE_HDF5
 
 #ifdef INHERIT_OBJECT
-@interface Object_s: Object <DefinedClass>
+@interface Object_s: Object <DefinedClass, Serialization>
 {
 @public
   // Word that contains zone in which object allocated, plus
@@ -23,7 +23,7 @@ Library:      defobj
   unsigned long zbits;  
 }
 #else
-@interface Object_s
+@interface Object_s <DefinedClass, Serialization>
 {
 @public
    // Class that implements the behavior of an object

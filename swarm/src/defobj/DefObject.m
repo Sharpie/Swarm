@@ -15,13 +15,13 @@ Library:      defobj
 #import <defobj/defalloc.h>
 #import <collections.h>
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
-#include <collections/predicates.h>
 
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
 #include <swarmconfig.h> // HAVE_HDF5
 #include <misc.h> // strcpy, strlen, isprint, sprintf
+#include <collections/predicates.h> // arrayp, keywordp, listp, stringp
 
 extern id _obj_implModule;  // defined in Program.m
 
@@ -54,117 +54,6 @@ static id describeStream;
 @implementation Object_s
 
 PHASE(Creating)
-
-static id
-collectRemaining (id makeExprIndex)
-{
-  id obj;
-  id newList = [List create: [makeExprIndex getZone]];
-  
-  while ((obj = [makeExprIndex next]))
-    [newList addLast: obj];
-  
-  return newList;
-}
-
-BOOL
-lispInBoolean (id index)
-{
-  id val = [index next];
-  
-  if (!valuep (val))
-    raiseEvent (InvalidArgument, "expected ArchiverValue");
-  
-  if ([val getValueType] != _C_UCHR)
-    raiseEvent (InvalidArgument, "expected boolean ArchiverValue");
-  
-  return [val getBoolean];
-}
-
-int
-lispInInteger (id index)
-{
-  id val = [index next];
-  
-  if (!valuep (val))
-    raiseEvent (InvalidArgument, "expected ArchiverValue");
-  
-  if ([val getValueType] != _C_INT)
-    raiseEvent (InvalidArgument, "expected integer ArchiverValue");
-  
-  return [val getInteger];
-}
-
-const char *
-lispInString (id index)
-{
-  id val = [index next];
-
-  if (!stringp (val))
-    raiseEvent (InvalidArgument, "expected String");
-
-  return [val getC];
-}
-
-id
-lispInKeyword (id index)
-{
-  id val = [index next];
-
-  if (!keywordp (val))
-    raiseEvent (InvalidArgument, "expected ArchiverKeyword");
-  
-  return val;
-}
-
-id
-lispIn (id aZone, id expr)
-{
-  if (!listp (expr))
-    raiseEvent (InvalidArgument, "> expr not a list");
-  {    
-    id makeExprIndex = [expr begin: scratchZone];
-    
-    {
-      id makeExprObj = [makeExprIndex next];
-      
-      if (!stringp (makeExprObj))
-        raiseEvent (InvalidArgument, "> makeExprObj not a string");
-      if (strcmp ([makeExprObj getC], MAKE_OBJC_FUNCTION_NAME) != 0)
-        raiseEvent (InvalidArgument, "> makeExprObj not \""
-                    MAKE_OBJC_FUNCTION_NAME "\"");
-    }
-    
-    {
-      id typeNameString;
-      id typeObject;
-      id obj;
-      
-      typeNameString = [makeExprIndex next];
-      if (!stringp (typeNameString))
-        raiseEvent (InvalidArgument, "> classNameString not a string");
-      {
-        const char *typeName = [typeNameString getC];
-
-        if ((typeObject = defobj_lookup_type (typeName)) == nil)
-          if ((typeObject = objc_lookup_class (typeName)) == nil)
-            raiseEvent (InvalidArgument, "> type `%s' not found", typeName);
-      }
-
-      {
-        id argexpr = collectRemaining (makeExprIndex);
-
-        obj = [[[typeObject createBegin: aZone] lispInCreate: argexpr]
-                createEnd];
-        [obj lispIn: argexpr];
-        [argexpr drop];
-      }
-      [makeExprIndex drop];
-      return obj;
-    }
-  }
-}
-
 
 - lispInCreate: expr
 {
@@ -1146,7 +1035,7 @@ output_type (const char *type,
 {
   struct objc_ivar_list *ivars = getClass (self)->ivars;
 
-  [stream catC: "(" MAKE_OBJC_FUNCTION_NAME " '"];
+  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self name]];
   [stream catC: " "];
 
@@ -1184,7 +1073,7 @@ output_type (const char *type,
 
 - updateArchiver
 {
-  lispArchiverPut ([self getObjectName], self);
+  raiseEvent (SubclassMustImplement, "updateArchiver");
   return self;
 }
 
@@ -1215,7 +1104,7 @@ find_ivar (id obj, const char *name)
 
   while ((key = [li next]) != nil)
     {
-      const char *ivarname = [key getKeywordName];
+      const char *ivarname;
       struct objc_ivar *ivar;
       void *ptr;
 
@@ -1225,6 +1114,7 @@ find_ivar (id obj, const char *name)
       if ((val = [li next]) == nil)
         raiseEvent (InvalidArgument, "missing value");
       
+      ivarname = [key getKeywordName];
       ivar = find_ivar (self, ivarname);
       
       if (ivar == NULL)
@@ -1266,12 +1156,18 @@ find_ivar (id obj, const char *name)
 
           if (stringp (first))
             {
-              if (strcmp ([first getC], MAKE_OBJC_FUNCTION_NAME) == 0)
+              const char *funcName = [first getC];
+              if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
+                  || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
                 *((id *) ptr) = lispIn ([self getZone], val);
+              else
+                raiseEvent (InvalidArgument, "function not %s",
+                            MAKE_INSTANCE_FUNCTION_NAME
+                            " or "
+                            MAKE_CLASS_FUNCTION_NAME);
             }
           else
-            raiseEvent (InvalidArgument, "function not %s",
-                        MAKE_OBJC_FUNCTION_NAME);
+            raiseEvent (InvalidArgument, "argument not a string");
         }
       else
         raiseEvent (InvalidArgument, "Unknown type `%s'", [val name]);

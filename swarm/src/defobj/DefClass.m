@@ -14,6 +14,7 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 #import <collections.h> // catC:
+#import <collections/predicates.h> // keywordp
 
 #include <misc.h> // strncmp
 
@@ -128,16 +129,22 @@ PHASE(CreatingOnly)
 }
 
 struct objc_ivar_list *
-allocate_ivar_list (struct objc_ivar_list *ivars, unsigned additional)
+extend_ivar_list (struct objc_ivar_list *ivars, unsigned additional)
 {
   unsigned existing = ivars ? ivars->ivar_count : 0;
   unsigned count = existing + additional;
-  struct objc_ivar_list *newivars =
-    xmalloc (sizeof (struct objc_ivar_list) +
-	     (count - 1) * sizeof (struct objc_ivar));
+  struct objc_ivar_list *newivars;
+  size_t size = sizeof (struct objc_ivar_list) + 
+    (count - 1) * sizeof (struct objc_ivar);
+  
+  if (additional == 0)
+    newivars = xmalloc (size);
+  else
+    newivars = xrealloc (ivars, size);
+
   if (existing > 0)
-    memcpy (newivars->ivar_list, ivars->ivar_list,
-	    existing * sizeof (struct objc_ivar));
+    memcpy (newivars->ivar_list, ivars->ivar_list, 
+            existing * sizeof (struct objc_ivar));
   newivars->ivar_count = existing;
   return newivars;
 }
@@ -153,47 +160,37 @@ align (size_t pos, size_t alignment)
     return (pos + alignment) & ~mask;
 }
 
-id
-addVariable (id class, const char *varName, const char *varType)
+void
+addVariable (Class class, const char *varName, const char *varType)
 {
-  struct objc_ivar_list *ivars =
-    allocate_ivar_list (((Class_s *) class)->ivarList, 1);
-  Class_s *newClass;
-  size_t classSize = sizeof (struct objc_class);
-
-  newClass = xmalloc (classSize);
-  memcpy (newClass, class, classSize);
-
-  newClass->ivarList = ivars;
-    
-  {
-    struct objc_ivar *il = &ivars->ivar_list[ivars->ivar_count];
-    size_t alignment, size;
-
-    switch (*varType)
-      {
-      case _C_INT: case _C_UINT:
-	alignment = __alignof__ (int);
-	size = sizeof (int);
-	break;
-      case _C_FLT:
-	alignment = __alignof__ (float);
-	size = sizeof (float);
-	break;
-      case _C_DBL:
-	alignment = __alignof__ (double);
-	size = sizeof (double);
-	break;
-      default:
-	abort ();
-      }
-    il->ivar_offset = align (newClass->instanceSize, alignment);
-    il->ivar_type = varType;
-    il->ivar_name = varName;
-    newClass->instanceSize = il->ivar_offset + size;
-    ivars->ivar_count++; 
-  }
-  return newClass;
+  struct objc_ivar *il;
+  size_t alignment, size;
+  
+  class->ivars = extend_ivar_list (class->ivars, 1);
+  il = &class->ivars->ivar_list[class->ivars->ivar_count];
+  
+  switch (*varType)
+    {
+    case _C_INT: case _C_UINT:
+      alignment = __alignof__ (int);
+      size = sizeof (int);
+      break;
+    case _C_FLT:
+      alignment = __alignof__ (float);
+      size = sizeof (float);
+      break;
+    case _C_DBL:
+      alignment = __alignof__ (double);
+      size = sizeof (double);
+      break;
+    default:
+      abort ();
+    }
+  il->ivar_offset = align (class->instance_size, alignment);
+  il->ivar_type = varType;
+  il->ivar_name = varName;
+  class->instance_size = il->ivar_offset + size;
+  class->ivars->ivar_count++; 
 }
 
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod
@@ -223,9 +220,62 @@ addVariable (id class, const char *varName, const char *varType)
   return self;
 }
 
-- updateArchiver
+Class 
+copyClass (Class class)
 {
-  lispArchiverPut ([self name], self);
+  size_t classSize = sizeof (struct objc_class);
+  Class newClass = xmalloc (classSize);
+  
+  memcpy (newClass, class, classSize);
+  newClass->ivars = extend_ivar_list (newClass->ivars, 0);
+  return newClass;
+}
+
+- lispInCreate: expr
+{
+  id <Index> li = [expr begin: [expr getZone]];
+  id key, val;
+
+  Class newClass = copyClass ((Class) self);
+
+  while ((key = [li next]) != nil)
+    {
+      if (!keywordp (key))
+        raiseEvent (InvalidArgument, "expecting keyword [%s]", [key name]);
+
+      if ((val = [li next]) == nil)
+        raiseEvent (InvalidArgument, "missing value");
+      
+      if (!stringp (val))
+        raiseEvent (InvalidArgument, "argument should be string");
+      
+      {
+        const char *typeString = [val getC];
+        const char *ivarname = strdup ([key getKeywordName]);
+        
+        if (strcmp (typeString, "int") == 0)
+          addVariable (newClass, ivarname, @encode (int));
+        else if (strcmp (typeString, "double") == 0)
+          addVariable (newClass, ivarname, @encode (double));
+        else if (strcmp (typeString, "float") == 0)
+          addVariable (newClass, ivarname, @encode (float));
+        else
+          abort ();
+      }
+    }
+  [li drop];
+  return newClass;
+}
+
+
+- hdf5InCreate: expr
+{
+  raiseEvent (NotImplemented, "DefClass / hdf5InCreate:");
+  return nil;
+}
+
+- lispIn: expr
+{
   return self;
 }
 
@@ -234,7 +284,9 @@ addVariable (id class, const char *varName, const char *varType)
   struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
   unsigned i, count = ivars->ivar_count;
 
-  [stream catC: "(make-class 'Class "];
+  [stream catC: "(" MAKE_CLASS_FUNCTION_NAME " '"];
+  [stream catC: [self name]];
+  [stream catC: " "];
 
   for (i = 0; i < count; i++)
     {
@@ -258,6 +310,24 @@ addVariable (id class, const char *varName, const char *varType)
 	}
     }
   [stream catC: ")"];
+  return self;
+}
+
+- hdf5In: expr
+{
+  raiseEvent (NotImplemented, "DefClass / hdf5In:");
+  return nil;
+}
+
+- hdf5Out: stream
+{
+  raiseEvent (NotImplemented, "DefClass / hdf5Out:");
+  return nil;
+}
+
+- updateArchiver
+{
+  lispArchiverPut ([self name], self);
   return self;
 }
 

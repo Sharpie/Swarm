@@ -50,8 +50,10 @@ void _obj_initMethodInterfaces (Class_s *class);
 
 //
 // CreatedClass_s -- class with variables and/or methods defined at runtime 
+// Does not conform to Serialization because class changes identity
+// at createEnd time.
 //
-@interface CreatedClass_s: Class_s
+@interface CreatedClass_s: Class_s // Serialization
 {
 @public
   Class_s *definingClass; // compiled class defining ivar structure
@@ -64,8 +66,15 @@ void _obj_initMethodInterfaces (Class_s *class);
 - (void)setSuperclass: aClass;
 - (void)setDefiningClass: aClass;
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod;
+- lispInCreate: expr;
+- lispIn: expr;
+- lispOut: stream;
+- hdf5InCreate: expr;
+- hdf5In: expr;
+- hdf5Out: stream;
 - createEnd;
-id addVariable (id class, const char *name, const char *type);
+Class copyClass (Class class);
+void addVariable (Class class, const char *name, const char *type);
 @end
 
 @interface BehaviorPhase_s: CreatedClass_s

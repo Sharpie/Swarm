@@ -16,11 +16,15 @@ Library:      defobj
 
 #include <objc/objc-api.h> // objc_lookup_class
 #include <misc.h> // strcmp, sscanf
+#include <collections/predicates.h> // keywordp, listp, stringp
 
 id  t_Object, t_ByteArray;
 BOOL _warning_dropFrom = YES;
 BOOL _obj_debug = YES;
 FILE *_obj_xerror, *_obj_xdebug;
+
+Class *localClasses;
+unsigned localClassCount = 0;
 
 //
 // _defobj_implement() -- generate implementations for defobj module
@@ -80,6 +84,34 @@ _defobj_initialize (void)
 
 }
 
+static void
+registerLocalClass (Class class)
+{
+  printf ("registering: [%s]\n", class->name);
+  if (localClassCount == 0)
+    localClasses = xmalloc (sizeof (Class));
+  else
+    {
+      localClassCount++;
+      localClasses = xrealloc (localClasses, localClassCount + 1);
+    }
+  localClasses[localClassCount++] = class;
+}
+
+static Class
+findLocalClass (const char *name)
+{
+  unsigned i;
+
+  for (i = 0; i < localClassCount; i++)
+    {
+      printf ("%s vs %s\n", name, localClasses[i]->name);
+      if (strcmp (localClasses[i]->name, name) == 0)
+        return localClasses[i];
+    }
+  return Nil;
+}
+
 void
 initDefobj (int argc, const char **argv,
             const char *version,
@@ -95,7 +127,145 @@ initDefobj (int argc, const char **argv,
                               bugAddress: bugAddress
                               options: options
                               optionFunc: optionFunc];
+  _objc_lookup_class = findLocalClass;
   archiver = [Archiver create: globalZone];
+}
+
+static id
+collectRemaining (id makeExprIndex)
+{
+  id obj;
+  id newList = [List create: [makeExprIndex getZone]];
+  
+  while ((obj = [makeExprIndex next]))
+    [newList addLast: obj];
+  
+  return newList;
+}
+
+BOOL
+lispInBoolean (id index)
+{
+  id val = [index next];
+  
+  if (!valuep (val))
+    raiseEvent (InvalidArgument, "expected ArchiverValue");
+  
+  if ([val getValueType] != _C_UCHR)
+    raiseEvent (InvalidArgument, "expected boolean ArchiverValue");
+  
+  return [val getBoolean];
+}
+
+int
+lispInInteger (id index)
+{
+  id val = [index next];
+  
+  if (!valuep (val))
+    raiseEvent (InvalidArgument, "expected ArchiverValue");
+  
+  if ([val getValueType] != _C_INT)
+    raiseEvent (InvalidArgument, "expected integer ArchiverValue");
+  
+  return [val getInteger];
+}
+
+const char *
+lispInString (id index)
+{
+  id val = [index next];
+
+  if (!stringp (val))
+    raiseEvent (InvalidArgument, "expected String");
+
+  return [val getC];
+}
+
+id
+lispInKeyword (id index)
+{
+  id val = [index next];
+
+  if (!keywordp (val))
+    raiseEvent (InvalidArgument, "expected ArchiverKeyword");
+  
+  return val;
+}
+
+id
+lispIn (id aZone, id expr)
+{
+  if (!listp (expr))
+    raiseEvent (InvalidArgument, "> expr not a list");
+  {    
+    id makeExprIndex = [expr begin: scratchZone];
+    BOOL classFlag = NO;
+    
+    {
+      id makeExprObj = [makeExprIndex next];
+      
+      if (!stringp (makeExprObj))
+        raiseEvent (InvalidArgument, "> makeExprObj not a string");
+      {
+        const char *funcName = [makeExprObj getC];
+        
+        if (strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0)
+          classFlag = YES;
+        else if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) != 0)
+          raiseEvent (InvalidArgument, "> makeExprObj not \""
+                      MAKE_INSTANCE_FUNCTION_NAME
+                      "\" or \""
+                      MAKE_CLASS_FUNCTION_NAME
+                      "\" (%s)\n", funcName);
+      }
+    }
+    
+    {
+      id typeNameString;
+      id typeObject;
+      id obj;
+      
+      typeNameString = [makeExprIndex next];
+      if (!stringp (typeNameString))
+        raiseEvent (InvalidArgument, "> argument not a string");
+      
+      {
+        id argexpr = collectRemaining (makeExprIndex);
+        const char *typeName = [typeNameString getC];
+        
+        if (classFlag)
+          {
+            Class newClass = [CreateDrop class];
+            obj = [id_BehaviorPhase_s createBegin: aZone];
+
+            [obj setName: strdup (typeName)];
+            [obj setClass: getClass (newClass)];
+            [obj setDefiningClass: newClass];
+            [obj setSuperclass: newClass];
+            obj = [obj lispInCreate: argexpr];
+            [obj lispIn: argexpr];
+            obj = [obj createEnd];
+            registerLocalClass (obj);
+          }
+        else
+          {
+            if ((typeObject = defobj_lookup_type (typeName)) == Nil)
+              if ((typeObject = objc_lookup_class (typeName)) == Nil)
+                raiseEvent (InvalidArgument, "> type `%s' not found",
+                            typeName);
+
+            obj = [typeObject createBegin: aZone];
+            obj = [obj lispInCreate: argexpr];
+            obj = [obj createEnd];
+            [obj lispIn: argexpr];
+          }
+        [argexpr drop];
+      }
+      [makeExprIndex drop];
+      return obj;
+    }
+  }
 }
 
 id
