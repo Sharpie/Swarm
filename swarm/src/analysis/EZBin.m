@@ -7,6 +7,7 @@
 #import <simtoolsgui.h>
 #import <simtools.h> // OutFile
 #import <defobj/defalloc.h> // getZone macro
+#import <defobj.h> // STRDUP
 
 #include <misc.h> // sqrt
 
@@ -70,7 +71,7 @@ PHASE(Creating)
 
 - setTitle: (const char *)aTitle
 {
-  title = aTitle;
+  title = STRDUP (aTitle);
   if (!fileName)
     fileName = title;
   return self;
@@ -78,7 +79,7 @@ PHASE(Creating)
 
 - setFileName: (const char *)aFileName
 {
-  fileName = aFileName;
+  fileName = STRDUP (aFileName);
   return self;
 }
 
@@ -192,8 +193,8 @@ PHASE(Using)
 
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
-  xLabel = xl;
-  yLabel = yl;
+  xLabel = STRDUP (xl);
+  yLabel = STRDUP (yl);
   return self;
 }
 

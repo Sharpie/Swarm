@@ -113,7 +113,7 @@ PHASE(Creating)
 
 - setTitle: (const char *)aTitle
 {
-  title = aTitle;
+  title = STRDUP (aTitle);
 
   return self;
 }
@@ -122,15 +122,15 @@ PHASE(Creating)
 // In case of file output, this file name is 
 // prepended to the name of each data sequence
 {
-  fileName = aFileName;
+  fileName = STRDUP (aFileName);
 
   return self;
 }
 
 - setAxisLabelsX: (const char *)xl Y:(const char *)yl
 { 
-  xLabel = xl;
-  yLabel = yl;
+  xLabel = STRDUP (xl);
+  yLabel = STRDUP (yl);
 
   return self;
 }
