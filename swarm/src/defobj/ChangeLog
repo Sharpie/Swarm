@@ -1,6 +1,8 @@
 2000-09-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* FCall.m (add_ffi_types): Use COM_set_return.
+	* FCall.m (add_ffi_types): Use COM_set_return. 
+	([FCall_c -setMethod:inObject:]): Don't do SD_COM_FIND_SELECTOR_COM
+	unless swarmDirectory is set.
 
 	* COM.h (COMInterface): Add setReturn.  Pass types_t * for
 	setArg value.
