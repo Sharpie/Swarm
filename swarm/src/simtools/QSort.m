@@ -6,7 +6,7 @@
 #import <simtools/QSort.h>
 #import <collections.h>
 
-#include <misc.h> // qsort
+#include <misc.h> // quicksort
 
 #include <swarmconfig.h> // PTRINT
 
@@ -84,8 +84,8 @@ cmpObjs (id *a, id *b)
 
   if (size)
     {
-      qsort (flat,size,sizeof (id),
-             (int (*) (const void *, const void *)) defaultCmpObjs);
+      quicksort (flat, size, sizeof (id),
+                 (quicksort_compar_fn_t) defaultCmpObjs);
       [self _unFlatten_: aCollection];
     }
 }
@@ -96,8 +96,8 @@ cmpObjs (id *a, id *b)
 
   if (size)
     {
-      qsort (flat, size, sizeof (PTRINT),
-             (int (*) (const void *, const void *)) cmpInts);
+      quicksort (flat, size, sizeof (PTRINT),
+                 (quicksort_compar_fn_t) cmpInts);
       [self _unFlatten_: aCollection];
     }
 }
@@ -109,8 +109,8 @@ cmpObjs (id *a, id *b)
   if (size)
     {
       comp_selector = aSelector;
-      qsort (flat, size, sizeof (id),
-             (int (*) (const void *, const void *)) cmpObjs);
+      quicksort (flat, size, sizeof (id),
+                 (quicksort_compar_fn_t) cmpObjs);
       [self _unFlatten_: aCollection];
     }
 }
@@ -122,8 +122,8 @@ cmpObjs (id *a, id *b)
 
   if (size)
     {
-      qsort (flat, size, sizeof (PTRINT),
-             (int (*) (const void *, const void *)) comp_fun);
+      quicksort (flat, size, sizeof (PTRINT),
+                 (quicksort_compar_fn_t) comp_fun);
       [self _unFlatten_: aCollection];
     }
 }
