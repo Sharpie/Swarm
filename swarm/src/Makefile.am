@@ -13,5 +13,5 @@ EXTRA_DIST = Makefile.rules
 all-recursive: headers
 
 headers:
-	for i in $(SUBDIRS) ; do make -C $$i headers ; done
+	for i in $(SUBDIRS) ; do $(MAKE) -C $$i headers ; done
 
