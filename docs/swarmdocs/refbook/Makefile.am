@@ -21,6 +21,7 @@ PAGES = activity/activitypages.sgml \
 	space/spacepages.sgml
 
 GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml refbookrevhistory.sgml
+nodist_noinst_DATA = $(GENERATED_SGML)
 
 ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 

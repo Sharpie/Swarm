@@ -1,6 +1,13 @@
-2000-03-01  Alex Lancaster  <alex@santafe.edu>
+2000-03-01    <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1 frozen.
+
+	* Makefile.am, Makefile.rules (nodist_noinst_DATA): Add.  Needed
+	in order to get the dependency for generated SGML.
+
+	* ref00a.sgml: Remove obsolete reference to release changes.
+
+2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* refcont.sgml: Remove {lgpl,gpl}-app.sgml inclusion in content.
 
