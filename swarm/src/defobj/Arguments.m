@@ -246,15 +246,15 @@ inhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
 
 - (void)addOption: (const char *)name key: (int)key arg: (const char *)arg flags: (int)flags doc: (const char *)doc group: (int)group
 {
-  struct argp_options option[2];
+  struct argp_option options[2];
 
-  option[0].name = name;
-  option[0].key = key;
-  option[0].arg = arg;
-  option[0].flags = flags;
-  option[0].doc = doc;
-  option[0].group = group;
-  option[1] = NULL;
+  options[0].name = name;
+  options[0].key = key;
+  options[0].arg = arg;
+  options[0].flags = flags;
+  options[0].doc = doc;
+  options[0].group = group;
+  options[1].name = NULL;
 }
 
 - (void)addOptions: (struct argp_option *)newoptions
