@@ -99,7 +99,7 @@
 {
   id <FCall> call;
   id <FArguments> arguments =
-    [FArguments createBegin: getZone (self)];
+    [FArguments createBegin: getCZone (getZone (self))];
   jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
   jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
   const char *sig = java_ensure_selector_type_signature (jsel);
@@ -117,7 +117,7 @@
   [arguments addObject: arg1];
   arguments = [arguments createEnd];
 
-  call = [FCall createBegin: getZone (self)];
+  call = [FCall createBegin: getCZone (getZone (self))];
   [call setArguments: arguments];
 
   if (!(method =

@@ -1,5 +1,8 @@
 2000-06-27  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* JavaCollection.m ([JavaCollection -forEach::]): Put FArguments/FCall
+	in component zone.
+
 	* DefObject.m ([Object_s -forward::]): Use drop again.
 
 	* FCall.[hm] ([FCall_c -drop]): New method.
