@@ -7,8 +7,9 @@ version=`echo $1 | sed 's/[^-][^-]*-//'`
 pd=$name-$version
 P=$STAGING
 vendor=SDG
-hostprefix=$P/$pd
 pkg=${vendor}${name}
+#hostprefix=$P/$pd
+hostprefix="/opt/$pkg/$version"
 targetprefix="/opt/$pkg/$version"
 cat > /tmp/pkginfo << EOF
 PKG="$pkg"
@@ -30,8 +31,7 @@ EOF
 !search /tmp
 i pkginfo
 EOF
-cd $P
-cd $pd
+cd $hostprefix
 /bin/pwd | pkgproto | awk "{ print \$1, \$2, \"\\\$PREFIX\", \$4, \$5, \$6 }"
 for d in bin etc include lib man share info libexec sparc-sun-solaris2.7; do
   if test -d "$d" ; then
