@@ -15,9 +15,9 @@ PHASE(Creating)
 + createBegin: aZone
 {
   Grid2d *r = [super createBegin: aZone];
-
-  r->overwriteWarnings = YES:
-
+  
+  r->overwriteWarnings = YES;
+  
   return r;
 }
 

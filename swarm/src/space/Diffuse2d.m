@@ -21,7 +21,7 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  Diffused2d *r = [super createBegin: aZone];
+  Diffuse2d *r = [super createBegin: aZone];
 
   r->diffusionConstant = 1.0;
   r->evaporationRate = 1.0;
