@@ -1,3 +1,13 @@
+1999-08-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m: Move all c_*, m_*, and f_* Java variables to
+	javavars.h. (create_method_refs): Replace m_StringValueOf with
+	m_StringValueOf{Boolean,Char,Int,Long,Float,Double,Object}.
+
+	* Makefile.am (defobj_HEADERS): Add javavars.h.
+
+	* javavars.h: New file.
+
 1999-08-10  Marcus Daniels  <mgd@caos.santafe.edu>
 
 	* directory.m (swarm_directory_ensure_selector): Add trailing

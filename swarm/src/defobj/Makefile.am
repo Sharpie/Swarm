@@ -35,7 +35,8 @@ bin_SCRIPTS = m2h make-h2x
 defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h	  \
 	Create.h Customize.h						  \
 	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h	  \
-	FCall.h FArguments.h defalloc.h deftype.h directory.h JavaProxy.h
+	FCall.h FArguments.h defalloc.h deftype.h directory.h JavaProxy.h \
+	javavars.h
 
 $(OBJECTS): version.h
 

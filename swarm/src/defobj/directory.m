@@ -14,6 +14,10 @@
 #import <defobj/Program.h> // Type_c
 #import <collections.h> // Map
 
+#define extern
+#import "javavars.h"
+#undef extern
+
 extern void *alloca (size_t);
 
 #define internalimplementation implementation // defeat make-h2x
@@ -21,46 +25,6 @@ extern void *alloca (size_t);
 #ifdef HAVE_JDK
 
 BOOL initFlag = NO;
-
-jclass c_boolean,
-  c_char, c_byte,
-  c_int, 
-  c_short, c_long,
-  c_float, c_double,
-  c_void;
-
-jclass c_Boolean, 
-  c_Char, c_Byte, 
-  c_Integer, c_Short,
-  c_Long, c_Float,
-  c_Class, c_Field, c_Method, c_Selector,
-  c_Object, c_String, 
-  c_Double, c_PhaseCImpl;
-
-jmethodID m_BooleanValueOf,
-  m_ByteValueOf, 
-  m_IntegerValueOf, 
-  m_ShortValueOf, m_LongValueOf,   
-  m_FloatValueOf, m_DoubleValueOf, 
-  m_StringValueOf, 
-  m_FieldSet, m_FieldSetChar,
-  m_ClassGetClass,
-  m_ClassGetDeclaredField,
-  m_ClassGetDeclaredFields,
-  m_ClassGetDeclaredMethods,
-  m_ClassGetName,
-  m_FieldGetType,
-  m_FieldGetInt,
-  m_FieldGetDouble,
-  m_FieldGet,
-  m_FieldGetName,
-  m_MethodGetName,
-  m_SelectorConstructor,
-  m_HashCode,
-  m_Equals,
-  m_PhaseCImpl_copy_creating_phase_to_using_phase;
-
-jfieldID f_nameFid, f_retTypeFid, f_argTypesFid, f_objcFlagFid, f_nextPhase;
 
 extern id ControlStateRunning, ControlStateStopped,
   ControlStateStepping, ControlStateQuit,ControlStateNextTime, 
@@ -633,7 +597,37 @@ create_method_refs (JNIEnv *env)
   
   m_DoubleValueOf = findMethodID ("Double", c_Double);
   
-  if (!(m_StringValueOf = 
+  if (!(m_StringValueOfBoolean = 
+      (*env)->GetStaticMethodID (env, c_String, "valueOf", 
+				 "(Z)Ljava/lang/String;")))
+    abort ();
+
+  if (!(m_StringValueOfChar = 
+      (*env)->GetStaticMethodID (env, c_String, "valueOf", 
+				 "(C)Ljava/lang/String;")))
+    abort ();
+
+  if (!(m_StringValueOfInt = 
+      (*env)->GetStaticMethodID (env, c_String, "valueOf", 
+				 "(I)Ljava/lang/String;")))
+    abort ();
+
+  if (!(m_StringValueOfLong = 
+      (*env)->GetStaticMethodID (env, c_String, "valueOf", 
+				 "(J)Ljava/lang/String;")))
+    abort ();
+
+  if (!(m_StringValueOfFloat = 
+      (*env)->GetStaticMethodID (env, c_String, "valueOf", 
+				 "(F)Ljava/lang/String;")))
+    abort ();
+
+  if (!(m_StringValueOfDouble = 
+      (*env)->GetStaticMethodID (env, c_String, "valueOf", 
+				 "(D)Ljava/lang/String;")))
+    abort ();
+
+  if (!(m_StringValueOfObject = 
       (*env)->GetStaticMethodID (env, c_String, "valueOf", 
 				 "(Ljava/lang/Object;)Ljava/lang/String;")))
     abort ();
@@ -681,9 +675,29 @@ create_method_refs (JNIEnv *env)
 	(*env)->GetMethodID (env, c_Field, "getType", "()Ljava/lang/Class;")))
     abort();
   
+  if (!(m_FieldGetBoolean =
+      (*env)->GetMethodID (env, c_Field, "getBoolean", 
+			   "(Ljava/lang/Object;)Z")))
+    abort();
+
+  if (!(m_FieldGetChar =
+      (*env)->GetMethodID (env, c_Field, "getChar", 
+			   "(Ljava/lang/Object;)C")))
+    abort();
+
   if (!(m_FieldGetInt =
       (*env)->GetMethodID (env, c_Field, "getInt", 
 			   "(Ljava/lang/Object;)I")))
+    abort();
+
+  if (!(m_FieldGetLong =
+      (*env)->GetMethodID (env, c_Field, "getLong", 
+			   "(Ljava/lang/Object;)J")))
+    abort();
+
+  if (!(m_FieldGetFloat =
+      (*env)->GetMethodID (env, c_Field, "getFloat", 
+			   "(Ljava/lang/Object;)F")))
     abort();
 
   if (!(m_FieldGetDouble =
@@ -691,11 +705,11 @@ create_method_refs (JNIEnv *env)
 			   "(Ljava/lang/Object;)D")))
     abort();
 
-  if (!(m_FieldGet =
-      (*env)->GetMethodID (env, c_Field, "get",
-			   "(Ljava/lang/Object;)Ljava/lang/Object;")))
+  if (!(m_FieldGetObject =
+        (*env)->GetMethodID (env, c_Field, "get",
+                             "(Ljava/lang/Object;)Ljava/lang/Object;")))
     abort();
-
+  
   if (!(m_MethodGetName =
 	(*env)->GetMethodID (env, c_Method, "getName",
 			     "()Ljava/lang/String;")))
