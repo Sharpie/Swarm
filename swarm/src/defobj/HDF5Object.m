@@ -533,21 +533,20 @@ create_class_from_compound_type (id aZone,
     tid = create_compound_type_from_prototype (prototype);
   else if (tid)
     {
-      Class class;
+      id typeObject;
 
-      create_class_from_compound_type (aZone, tid, did, name, &class);
-      {
+      create_class_from_compound_type (aZone, tid, did, name, &typeObject);
 #ifdef HAVE_JDK
-        jclass clazz = 0;
-
-        clazz = SD_JAVA_FIND_CLASS_JAVA (class);
-
-        if (clazz && !java_objc_proxy_p (clazz))
-          prototype = SD_JAVA_INSTANTIATE (clazz)->object;
-        else
+      if (!object_is_class (typeObject)
+          && [typeObject respondsTo: M(isJavaProxy)])
+        {
+          prototype = [JavaProxy createBegin: aZone];
+          [prototype createJavaCounterpart: name];
+        }
+      else
 #endif
-          prototype = [aZone allocIVars: class];
-      }
+        prototype = [aZone allocIVars: (Class) typeObject];
+
       if (did)
         {
           void process_ivar (const char *ivarName, fcall_type_t type,
@@ -1021,7 +1020,7 @@ hdf5_open_file (const char *name, unsigned flags)
 { 
   hid_t loc_id;
   void func () { loc_id = H5Fopen (name, flags, H5P_DEFAULT); }
-  
+
   suppress_messages (func);
   return loc_id;
 }
@@ -1062,7 +1061,7 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
             raiseEvent (SaveError,
                         "failed to open HDF5 file for r/w`%s'",
                         name);
-        }
+       }
       else 
         {
           if (compoundType)
@@ -1142,7 +1141,7 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
     {
       if (parent == nil)
         {
-          if ((loc_id = hdf5_open_file (name, H5F_ACC_RDONLY)) < 0)
+          if ((loc_id = hdf5_open_file (name, H5F_ACC_RDWR)) < 0)
             return nil;
         }
       else
@@ -1702,7 +1701,7 @@ hdf5_store_attribute (hid_t did,
 
   if (H5Tclose (type_tid) < 0)
     raiseEvent (SaveError, "unable to close type name type");
-  
+
   if (H5Sclose (type_sid) < 0)
     raiseEvent (SaveError, "unable to close type name space");
 }

@@ -1,8 +1,16 @@
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* HDF5Object.m ([HDF5_c -createEnd]): Always open RDWR -- it insists
+	the file is still read-only after closin and reopening -- looks
+	like a bug in 1.4.0.
+	([HDF5CompoundType_c -createEnd]): Use the createJavaCounterpart 
+	approach instead of calling JAVA_INSTANTIATE for the prototype.
+
 	* internal.m (map_object_ivars): Use SD_JAVA_FIND_OBJECT_JAVA
 	instead of a JavaProxy check for decided on whether to map
 	java or objc ivars.
+	(object_ivar_type, object_setVariable,
+	object_getVariableElementCount, object_setVariableFromExpr): Likewise.
 
 	* defobj.m (lispIn): Handle nil ArchiverValue objects.
 

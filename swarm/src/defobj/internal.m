@@ -859,8 +859,10 @@ static fcall_type_t
 object_ivar_type (id obj, const char *ivar_name, BOOL *isArrayPtr)
 {
 #ifdef HAVE_JDK
-  if ([obj respondsTo: M(isJavaProxy)])
-    return java_object_ivar_type (SD_JAVA_FIND_OBJECT_JAVA (obj), ivar_name, isArrayPtr);
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+    
+  if (jobj)
+    return java_object_ivar_type (jobj, ivar_name, isArrayPtr);
   else
 #endif
     {
@@ -893,8 +895,10 @@ void
 object_setVariable (id obj, const char *ivar_name, void *inbuf)
 {
 #ifdef HAVE_JDK
-  if ([obj respondsTo: M(isJavaProxy)])
-    java_object_setVariable (SD_JAVA_FIND_OBJECT_JAVA (obj), ivar_name, inbuf);
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+
+  if (jobj)
+    java_object_setVariable (jobj, ivar_name, inbuf);
   else
 #endif
     {
@@ -934,8 +938,10 @@ object_getVariableElementCount (id obj,
                                 unsigned *idims)
 {
 #ifdef HAVE_JDK
-  if ([obj respondsTo: M(isJavaProxy)])
-    return java_object_getVariableElementCount (SD_JAVA_FIND_OBJECT_JAVA (obj),
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+
+  if (jobj)
+    return java_object_getVariableElementCount (jobj,
                                                 ivar_name,
                                                 itype,
                                                 irank,
@@ -1012,7 +1018,7 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
   
   if (arrayp (expr))
     {
-      if ([obj respondsTo: M(isJavaProxy)])
+      if (SD_JAVA_FIND_OBJECT_JAVA (obj))
         {
           fcall_type_t type = [expr getArrayType];
           unsigned count = object_getVariableElementCount (obj,
