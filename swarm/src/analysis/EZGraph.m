@@ -206,7 +206,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
       const char *fName;
 
       fName = sequence_graph_filename(fileName, aName);
-      aFileObj = [OutFile create: [self getZone] withName: fName];
+      aFileObj = [OutFile create: [self getZone] setName: fName];
       
       aGrapher = [ActiveOutFile createBegin: [self getZone]];
       [aGrapher setFileObject: aFileObj];

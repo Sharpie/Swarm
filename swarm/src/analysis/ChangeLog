@@ -3,6 +3,10 @@
 	* EZBin.m ([EZBin -createEnd]): Use OutFile create:setName: instead
 	of create:withName:.
 
+	* EZGraph.m ([EZGraph
+	-createGraphSequence:forSequence:withFeedFrom:andSelector:]):
+	Likewise.
+
 	* FunctionGraph.[hm], analysis.h ([FunctionGraph
 	-setElement:setDataFeed:setFunctionSelector:]): Remove.
 
