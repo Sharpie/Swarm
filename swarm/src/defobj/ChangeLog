@@ -1,5 +1,7 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Arguments.m (VARCHAR): Avoid using ctype macros.
+
 	* DefObject.m ([Object_s -getDisplayName]): Return [self getName]
 	if none set.
 
