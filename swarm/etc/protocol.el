@@ -975,11 +975,16 @@
 
 (defun generate-expanded-methodinfo-list (protocol)
   (let ((expanded-protocols-hash-table (make-hash-table))
-        (method-hash-table (make-hash-table)))
+        (method-hash-table (make-hash-table :test #'equal)))
     (flet ((expand-protocol-level (protocol level)
              (setf (gethash protocol expanded-protocols-hash-table) t)
              (loop for method in (protocol-method-list protocol)
-                   do (setf (gethash method method-hash-table) (cons level protocol)))
+                   for method-sig = (get-method-signature method)
+                   for last-method-list = (gethash method-sig method-hash-table)
+                   when (or (null last-method-list)
+                            (> level (first last-method-list)))
+                   do (setf (gethash method-sig method-hash-table)
+                            (list level protocol method)))
              (loop for included-protocol in
                    (protocol-included-protocol-list protocol)
                    do
@@ -987,10 +992,8 @@
                      (expand-protocol-level included-protocol (1+ level))))))
       (expand-protocol-level protocol 0))
     (sort 
-     (loop for method being each hash-key of method-hash-table using (hash-value level.protocol)
-           collect (list (car level.protocol)
-                         (cdr level.protocol)
-                         method))
+     (loop for method-list being each hash-value of method-hash-table 
+           collect method-list)
      #'(lambda (a b)
          (flet ((phase-pos (phase)
                   (case phase

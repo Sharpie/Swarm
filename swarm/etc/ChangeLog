@@ -1,3 +1,9 @@
+1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* protocol.el (generate-expanded-methodinfo-list): Use method
+	string signatures to key of method-hash-table instead of 
+	method objects.  Replace methods only if level is higher.
+
 1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* protocol.el: Augment load-path from TOP_BUILDDIR instead of
