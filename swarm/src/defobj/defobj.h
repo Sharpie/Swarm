@@ -51,6 +51,8 @@ USING
 - hdf5Out: hdf5obj;
 #endif
 
+- updateArchiver;
+
 //F: Expect and convert a boolean from next index item.
 extern BOOL lispInBoolean (id index);
 
@@ -761,7 +763,7 @@ CREATING
 - (void)setSuperclass: aClass;
 - (void)setDefiningClass: aClass;
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod;
-
+id addVariable (id class, const char *name, const char *type);
 USING
 - getDefiningClass;
 @end
@@ -776,14 +778,6 @@ CREATING
 
 USING
 - getNextPhase;
-@end
-
-@protocol Dataset
-//S: Protocol for identifying and saving objects containing spaces
-//S: of uniform type.
-
-//D: Objects that conform to this protocol support can be archived
-//D: as HDF datasets via the random access methods below.
 @end
 
 @protocol Arguments <Create, Drop, CREATABLE>

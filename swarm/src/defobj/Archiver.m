@@ -251,7 +251,14 @@ void
 archiverRegister (id client)
 {
   id clients = archiver->clients;
+  struct objc_class *behaviorPhaseClass = xmalloc (sizeof (struct objc_class));
 
+  if ([client isClass])
+    {
+      memcpy (behaviorPhaseClass, client, sizeof (struct objc_class));
+      setClass (behaviorPhaseClass, id_BehaviorPhase_s);
+      client = behaviorPhaseClass;
+    }
   if (![clients contains: client])
     [clients addLast: client];
 }
@@ -330,7 +337,8 @@ PHASE(Creating)
           id inStreamZone = [Zone create: scratchZone];
           id inStream = [InputStream create: inStreamZone setFileStream: fp];
           
-          lispLoadArchiverExpr (applicationMap, [inStream getExpr]);
+	  lispLoadArchiverExpr (applicationMap,
+				[inStream getExpr]);
           [inStreamZone drop]; 
           fclose (fp);
         }

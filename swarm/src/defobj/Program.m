@@ -386,7 +386,7 @@ defobj_lookup_type (const char *typename)
 //
 
 @implementation Type_c
-
+PHASE(Using)
 //
 // getImplementation: -- return create-phase implementation of a creatable type
 //

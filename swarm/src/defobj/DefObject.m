@@ -1182,6 +1182,12 @@ output_type (const char *type,
 }
 #endif
 
+- updateArchiver
+{
+  lispArchiverPut ([self getObjectName], self);
+  return self;
+}
+
 static struct objc_ivar *
 find_ivar (id obj, const char *name)
 {

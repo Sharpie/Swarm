@@ -65,6 +65,7 @@ void _obj_initMethodInterfaces (Class_s *class);
 - (void)setDefiningClass: aClass;
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod;
 - createEnd;
+id addVariable (id class, const char *name, const char *type);
 @end
 
 @interface BehaviorPhase_s: CreatedClass_s

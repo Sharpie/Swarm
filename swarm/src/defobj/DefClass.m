@@ -13,6 +13,7 @@ Library:      defobj
 #import <defobj/Program.h>
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
+#import <collections.h> // catC:
 
 #include <misc.h> // strncmp
 
@@ -126,6 +127,75 @@ PHASE(CreatingOnly)
   methodList = ((Class_s *) aClass)->methodList;
 }
 
+struct objc_ivar_list *
+allocate_ivar_list (struct objc_ivar_list *ivars, unsigned additional)
+{
+  unsigned existing = ivars ? ivars->ivar_count : 0;
+  unsigned count = existing + additional;
+  struct objc_ivar_list *newivars =
+    xmalloc (sizeof (struct objc_ivar_list) +
+	     (count - 1) * sizeof (struct objc_ivar));
+  if (existing > 0)
+    memcpy (newivars->ivar_list, ivars->ivar_list,
+	    existing * sizeof (struct objc_ivar));
+  newivars->ivar_count = existing;
+  return newivars;
+}
+
+static size_t
+align (size_t pos, size_t alignment)
+{
+  size_t mask = (alignment - 1);
+
+  if ((pos & mask) == 0)
+    return pos;
+  else
+    return (pos + alignment) & ~mask;
+}
+
+id
+addVariable (id class, const char *varName, const char *varType)
+{
+  struct objc_ivar_list *ivars =
+    allocate_ivar_list (((Class_s *) class)->ivarList, 1);
+  Class_s *newClass;
+  size_t classSize = sizeof (struct objc_class);
+
+  newClass = xmalloc (classSize);
+  memcpy (newClass, class, classSize);
+
+  newClass->ivarList = ivars;
+    
+  {
+    struct objc_ivar *il = &ivars->ivar_list[ivars->ivar_count];
+    size_t alignment, size;
+
+    switch (*varType)
+      {
+      case _C_INT: case _C_UINT:
+	alignment = __alignof__ (int);
+	size = sizeof (int);
+	break;
+      case _C_FLT:
+	alignment = __alignof__ (float);
+	size = sizeof (float);
+	break;
+      case _C_DBL:
+	alignment = __alignof__ (double);
+	size = sizeof (double);
+	break;
+      default:
+	abort ();
+      }
+    il->ivar_offset = align (newClass->instanceSize, alignment);
+    il->ivar_type = varType;
+    il->ivar_name = varName;
+    newClass->instanceSize = il->ivar_offset + size;
+    ivars->ivar_count++; 
+  }
+  return newClass;
+}
+
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod
 {
   if (!dtable)
@@ -161,6 +231,45 @@ PHASE(CreatingOnly)
 - (void)setNextPhase: aBehaviorPhase
 {
   nextPhase = aBehaviorPhase;
+}
+
+- updateArchiver
+{
+  lispArchiverPut ([((BehaviorPhase_s *) self)->definingClass name], self);
+  return self;
+}
+
+- lispOut: stream
+{
+  struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
+  unsigned i, count = ivars->ivar_count;
+
+  [stream catC: "(make-class 'Class "];
+
+  for (i = 0; i < count; i++)
+    {
+      [stream catC: " #:"];
+      [stream catC: ivars->ivar_list[i].ivar_name];
+      [stream catC: " '"];
+      switch (*ivars->ivar_list[i].ivar_type)
+	{
+	case _C_INT:
+	  [stream catC: "int"];
+	  break;
+	case _C_UINT:
+	  [stream catC: "unsigned"];
+	  break;
+	case _C_FLT:
+	  [stream catC: "float"];
+	  break;
+	case _C_DBL:
+	  [stream catC: "double"];
+	  break;
+	}
+      [stream catC: "\n"];
+    }
+  [stream catC: ")\n"];
+  return self;
 }
 
 @end
