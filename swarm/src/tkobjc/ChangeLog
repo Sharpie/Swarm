@@ -1,3 +1,13 @@
+1999-08-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (x_toplevel_p, x_get_parent_function): New functions.
+	(x_get_managed_toplevel_window): Use them.
+	(set_override_redirect): New function.
+	(tkobjc_pixmap_create_from_widget): Use it. Don't use Tk "wm frame"
+	command, use x_get_managed_toplevel_window.
+	Record last position and parent window in order to reparent
+	to current root window and then back, when necessary.
+
 1999-08-01    <mgd@HELEN>
 
 	* internal.m (tkobjc_raster_create): Initialize

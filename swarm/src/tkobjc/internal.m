@@ -651,30 +651,59 @@ tkobjc_setColor (Colormap *colormap, const char *colorName, PixelValue *pvptr)
 }
   
 #ifndef _WIN32
+
+static BOOL
+x_toplevel_p (Display *display, Window w)
+{
+  unsigned long cnt;
+  static Atom a1 = 0;
+  Atom rt;
+  int fmt;
+  unsigned long remain;
+  unsigned char *ptr;
+
+  if (!a1)
+    a1 = XInternAtom (display, "WM_STATE", False);
+          
+  if (XGetWindowProperty (display, w, a1, 0, 10, False,
+                          AnyPropertyType, &rt, &fmt, &cnt, &remain, 
+                          &ptr) != Success)
+    abort ();
+
+  return cnt != 0;
+}
+
+static Window
+x_get_parent_window (Display *display, Window window)
+{
+  Window parent;
+  Window *children;
+  int child_cnt;
+  Window root;
+  
+  if (!XQueryTree (display, window, &root, &parent, &children, &child_cnt))
+    abort ();
+  XFree (children);
+
+  return parent;
+}
+
 static Window
 x_get_managed_toplevel_window (Display *display, Window window)
 {
-  Window parent, w;
-  int cnt = 0;
-
-  for (w = window; cnt == 0; w = parent)
-    {
-      Window root;
-      Window *children;
-      int child_cnt;
-      Atom *protocols;
+  Window parent = 0, w;
+  Window root = RootWindow (display, DefaultScreen (display));
+  BOOL found = NO;
+  
+  for (w = window; !found; w = parent)
+    { 
+      parent = x_get_parent_window (display, w);
+      found = x_toplevel_p (display, w);
       
-      if (!XQueryTree (display, w, &root, &parent,
-                       &children, &child_cnt))
-        abort ();
-      XFree (children);
       if (parent == root)
         return 0;
-      
-      if (XGetWMProtocols (display, parent, &protocols, &cnt))
-        XFree (protocols);
     }
-  return parent;
+  return x_get_parent_window (display, parent);
 }
 
 static void
@@ -908,7 +937,7 @@ x_pixmap_create_from_window (Pixmap *pixmap, Window window)
   if (!XGetGeometry (pixmap->display, window, &root,
                      &x, &y, &w, &h,
                      &bw, &depth))
-    raiseEvent (PixmapError, "Cannot get geometry for root window");
+    raiseEvent (PixmapError, "Cannot get geometry for window");
   pixmap->height = h;
   pixmap->width = w;
   ximage = XGetImage (pixmap->display, window, 0, 0, w, h, AllPlanes, ZPixmap);
@@ -1132,6 +1161,16 @@ check_for_overlaps (Display *display, Window parent,
 }
 #endif
 
+static void
+set_override_redirect (Display *display, Window window, BOOL overrideRedirect)
+{
+  XSetWindowAttributes attr;
+
+  attr.override_redirect = overrideRedirect ? True : False;
+  XChangeWindowAttributes (display, window,
+                           CWOverrideRedirect, &attr);
+}
+
 void
 tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                                   BOOL decorationsFlag)
@@ -1143,12 +1182,14 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       id topLevel = [widget getTopLevel];
       const char *widgetName = [topLevel getWidgetName];
       Tk_Window tkwin = tkobjc_nameToWindow (widgetName);
-      Window window, topWindow;
+      Window window = Tk_WindowId (tkwin), topWindow;
+      Display *display = Tk_Display (tkwin);
+      BOOL reparentedFlag = NO;
 
-      [globalTkInterp eval: "wm frame %s", widgetName];
-      sscanf ([globalTkInterp result], "0x%x", (int *)&topWindow);
+      topWindow = x_get_managed_toplevel_window (display, window);
 
-      window = decorationsFlag ? topWindow : Tk_WindowId (tkwin);
+      if (decorationsFlag)
+        window = topWindow;
 
       [topLevel deiconify];
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
@@ -1158,9 +1199,17 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         unsigned overlapCount, i;
         Window *overlapWindows;
         Display *display = pixmap->display;
-        XSetWindowAttributes attr;
         XWindowAttributes top_attr;
         BOOL obscured = NO;
+        Window lastParent = x_get_parent_window (display, topWindow);
+        Window root;
+        unsigned lastx, lasty, lastw, lasth;
+        unsigned lastbw, lastdepth;
+
+        if (!XGetGeometry (display, topWindow, &root,
+                           &lastx, &lasty, &lastw, &lasth,
+                           &lastbw, &lastdepth))
+          abort ();
         
 	keep_inside_screen (tkwin, window);
         check_for_overlaps (display, topWindow,
@@ -1181,25 +1230,32 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                         "set obscured yes\n"
                         "}\n}\n}\n", widgetName, widgetName];
 
-        attr.override_redirect = True;
-        XChangeWindowAttributes (display, topWindow,
-                                 CWOverrideRedirect, &attr);
+        set_override_redirect (display, topWindow, YES);
         for (i = 0; i < overlapCount; i++)
-          XChangeWindowAttributes (display, overlapWindows[i],
-                                   CWOverrideRedirect,
-                                   &attr);
-
+          set_override_redirect (display, overlapWindows[i], YES);
+        
         if (!XGetWindowAttributes (display, topWindow, &top_attr))
           abort ();
+
         if (top_attr.map_state == IsUnmapped)
           XMapWindow (display, topWindow);
+
+        {
+          Window root = RootWindowOfScreen (Tk_Screen (tkwin));
+
+          if (lastParent != root)
+            {
+              reparentedFlag = YES;
+              XReparentWindow (display, topWindow, root, lastx, lasty);
+            }
+        }
+        while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
       retry:
         if (obscured)
           for (i = 0; i < overlapCount; i++)
             XUnmapWindow (display, overlapWindows[i]);
-        
         Tk_RestackWindow (tkwin, Above, NULL);
-        while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+        while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
         if (!obscured
             && strcmp ([globalTkInterp
                          globalVariableValue: "obscured"],
@@ -1211,18 +1267,19 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         XFlush (display);
         x_pixmap_create_from_window (pixmap, window);
         
+        if (reparentedFlag)
+          XReparentWindow (display, topWindow, lastParent, lastx, lasty);
+                         
+        set_override_redirect (display, topWindow, NO);
+
         if (top_attr.map_state == IsUnmapped)
           XUnmapWindow (display, topWindow);
-        attr.override_redirect = False;
-        XChangeWindowAttributes (display, topWindow,
-                                 CWOverrideRedirect, &attr);
+        
         for (i = 0; i < overlapCount; i++)
           {
             if (obscured)
               XMapWindow (display, overlapWindows[i]);
-            XChangeWindowAttributes (display, overlapWindows[i],
-                                     CWOverrideRedirect,
-                                     &attr);
+            set_override_redirect (display, overlapWindows[i], NO);
           }
         xfree (overlapWindows);
         [globalTkInterp eval: "bind %s <Visibility> {}\n", widgetName];
@@ -1231,8 +1288,8 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
 #else
       keep_inside_screen (tkwin, topWindow);
       SetWindowPos ((HWND) topWindow,
-		    HWND_TOPMOST, 0, 0, 0, 0,
-		    SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+                    HWND_TOPMOST, 0, 0, 0, 0,
+                    SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
       while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
       GdiFlush ();
       win32_pixmap_create_from_window (pixmap, window, decorationsFlag);
