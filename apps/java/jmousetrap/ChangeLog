@@ -1,3 +1,14 @@
+1999-09-02  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapModelSwarm.java (MousetrapModelSwarm): Make
+	MousetrapProbeMap a local inner class, rather than a member inner
+	class and relocate its definition to the constructor, since it is
+	the only place it is required.  Rename to MousetrapModelProbeMap.
+
+	* MousetrapObserverSwarm.java (MousetrapObserverSwarm): Inside
+	class constructor, rework the probeMap instance as an anonymous
+	class for succinctness.
+
 1999-09-01  Alex Lancaster  <alex@santafe.edu>
 
 	* StartMousetrap.java: Reword javadoc comment more precisely.

@@ -61,19 +61,25 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
    * the work of the createBegin, createEnd methods in Objective C */
   public MousetrapObserverSwarm (Zone aZone) {
     super (aZone);
-    
-    EmptyProbeMap probeMap;
-    
+
+    // set the ObserverSwarm parameters (in this case, only one)
     displayFrequency = 1;
-    probeMap = new EmptyProbeMapImpl (aZone, getClass ());
-    
-    probeMap.addProbe 
-      (Globals.env.probeLibrary.getProbeForVariable$inClass
-       ("displayFrequency", getClass ()));
-    
-    Globals.env.probeLibrary.setProbeMap$For (probeMap, getClass ());
+
+    // Use an anonymous subclass of EmptyProbeMapImpl to generate the
+    // probeMap, since there are so few variables to display, and
+    // immediately assign it to the probeLibrary static instance in
+    // the Globals singleton
+    Globals.env.probeLibrary.setProbeMap$For 
+        (new EmptyProbeMapImpl (aZone, getClass()) {
+                {    
+                    addProbe 
+                        (Globals.env.probeLibrary.getProbeForVariable$inClass
+                         ("displayFrequency", 
+                          MousetrapObserverSwarm.this.getClass ()));
+                }
+            }, getClass ());
   }
-  
+    
   public void noMethod (Object a) {
   }
   

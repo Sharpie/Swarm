@@ -46,32 +46,12 @@ public class MousetrapModelSwarm extends SwarmImpl
   
   public PMMLCG1gen randomGenerator;
   public UniformDoubleDist uniform0to1;
-
-  class MousetrapProbeMap extends EmptyProbeMapImpl {
-    private VarProbe probeVariable (String name) {
-      return
-        Globals.env.probeLibrary.getProbeForVariable$inClass
-        (name, MousetrapModelSwarm.this.getClass ());
-    }
-    private void add (String name) {
-      addProbe (probeVariable (name));
-    }
-    public MousetrapProbeMap (Zone aZone, Class aClass) {
-      super (aZone, aClass);
-      add ("triggerLikelihood");
-      add ("numberOutputTriggers");
-      add ("maxTriggerDistance");
-      add ("maxTriggerTime");
-      add ("trapDensity");
-    }
-  }
   
   /**
    * MousetrapModelSwarm constructor: since we are only interested
    * in subclassing from the `USING' phase object, this constructor
    * does the work of the createBegin, createEnd methods in Objective
    * C */
-
   public MousetrapModelSwarm (Zone aZone) {
     super (aZone);
     
@@ -82,8 +62,28 @@ public class MousetrapModelSwarm extends SwarmImpl
     maxTriggerTime = 16;
     trapDensity = 1.0;
 
+    // Use a Java local class to generate the ProbeMap instance
+    class MousetrapModelProbeMap extends EmptyProbeMapImpl {
+        private VarProbe probeVariable (String name) {
+            return
+                Globals.env.probeLibrary.getProbeForVariable$inClass
+                (name, MousetrapModelSwarm.this.getClass ());
+        }
+        private void add (String name) {
+            addProbe (probeVariable (name));
+        }
+        public MousetrapModelProbeMap (Zone aZone, Class aClass) {
+            super (aZone, aClass);
+            add ("triggerLikelihood");
+            add ("numberOutputTriggers");
+            add ("maxTriggerDistance");
+            add ("maxTriggerTime");
+            add ("trapDensity");
+        }
+    }
+
     Globals.env.probeLibrary.setProbeMap$For 
-      (new MousetrapProbeMap (aZone, getClass ()), getClass ());
+      (new MousetrapModelProbeMap (aZone, getClass ()), getClass ());
 
     randomGenerator = new PMMLCG1genImpl (aZone, 1234567890);
     uniform0to1 = new UniformDoubleDistImpl (aZone, randomGenerator, 0.0, 1.0);
