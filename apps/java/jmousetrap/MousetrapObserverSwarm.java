@@ -1,3 +1,8 @@
+// Java mousetrap application. Copyright (C) 1999 Santa Fe Institute.
+// This application is distributed without any warranty; without even
+// the implied warranty of merchantability or fitness for a particular
+// purpose.  See file COPYING for details and terms of copying.
+
 import swarm.*;
 import swarm.activity.*;
 import swarm.objectbase.*;

@@ -1,5 +1,11 @@
 1999-08-12  Alex Lancaster  <alex@santafe.edu>
 
+	* Makefile (clean): Added target.
+
+	* MousetrapBatchSwarm.java, MousetrapModelSwarm.java,
+	MousetrapObserverSwarm.java, MousetrapStatistics.java,
+	Mousetrap.java: Add Copyright information.
+
 	* COPYING: Add GPL.
 
 1999-08-11  Alex Lancaster  <alex@santafe.edu>
