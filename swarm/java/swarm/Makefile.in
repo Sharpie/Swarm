@@ -51,4 +51,4 @@ install-java-classes-as-files: all
 install: install-java-classes-as-@JAVA_CLASSES_INSTALLED_AS@
 
 %.class: %.java
-	$(JAVAC) -d .. -classpath "$(srcdir)/..@PATHSEP@../@PATHSEP@$(JAVACLASSES)" @PATHEXPR@
+	$(JAVAC) -d .. -classpath '$(srcdir)/..@PATHSEP@../@PATHSEP@$(JAVACLASSES)' @PATHEXPR@

@@ -7,7 +7,7 @@ JAVAENV=@JAVAENV@
 JAVA=@JAVA@
 JAVACLASSES=@JAVACLASSES@
 JAVAC=@JAVAC@
-JAVACOMPILE=$(JAVAC) -classpath "../..@PATHSEP@$(JAVACLASSES)"
+JAVACOMPILE=$(JAVAC) -classpath '../..@PATHSEP@$(JAVACLASSES)'
 top_srcdir=@top_srcdir@
 
 CLASSPHASES := __c U
@@ -24,5 +24,5 @@ JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 all: $(CLASSES)
 
 .deps: $(JAVAFILES)
-	$(JAVA) -classpath "$(top_srcdir)/java/jdeps.jar@PATHSEP@$(JAVACLASSES)" smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
+	$(JAVA) -classpath "$(top_dossrcdir)/java/jdeps.jar@PATHSEP@$(JAVACLASSES)" smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
 
