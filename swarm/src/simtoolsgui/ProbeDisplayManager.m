@@ -21,6 +21,9 @@
 
 #import <simtoolsgui.h> // ProbeDisplay, CompleteProbeDisplay
 
+#ifdef HAVE_JDK
+extern Class java_get_class_from_objc_object (id object);
+#endif
 @implementation ProbeDisplayManager
 PHASE(Creating)
 
@@ -111,13 +114,18 @@ PHASE(Using)
                              setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   id tempPD, tempPM;
-  
+  Class cls;
+#ifdef HAVE_JDK
+  cls = java_get_class_from_objc_object (anObject);
+#else
+  cls =  [anObject class];
+#endif
   tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
-  [tempPM setProbedClass: [anObject class]];
+  [tempPM setProbedClass: cls];
   [tempPM setObjectToNotify: [probeLibrary getObjectToNotify]];
   tempPM = [tempPM createEnd];
 
-  [probeLibrary setProbeMap: tempPM For: [anObject class]];
+  [probeLibrary setProbeMap: tempPM For: cls];
 
   tempPD = [ProbeDisplay createBegin: [self getZone]];
   [tempPD setProbedObject: anObject];
@@ -134,15 +142,20 @@ PHASE(Using)
 - (id <ProbeDisplay>)_createProbeDisplayFor_      : anObject
                        setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
-  //  if ([anObject respondsTo: @selector(getProbeMap)]) {
+  Class cls;
+#ifdef HAVE_JDK
+  cls = java_get_class_from_objc_object (anObject);
+#else
+  cls =  [anObject class];
+#endif
   if (([anObject respondsTo: @selector(getProbeMap)]) &&
-      ([probeLibrary isProbeMapDefinedFor: [anObject class]]))
+      ([probeLibrary isProbeMapDefinedFor: cls]))
     return [[[[[ProbeDisplay createBegin: [self getZone]]
                 setProbedObject: anObject]
                setWindowGeometryRecordName: windowGeometryRecordName]
-              setProbeMap: [anObject getProbeMap]]
-             createEnd];
-  else
+              setProbeMap: [probeLibrary getProbeMapFor: cls]]
+	     createEnd];
+  else    
     return [self _createDefaultProbeDisplayFor_: anObject
                  setWindowGeometryRecordName: windowGeometryRecordName];
 }

@@ -124,7 +124,7 @@ externvar id <Symbol> Control, Probing, Spatial;
 externvar id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 
-@protocol CommonProbeDisplay <WindowGeometryRecordName>
+@protocol CommonProbeDisplay <WindowGeometryRecordName, CREATABLE>
 //S: A protocol underlying ProbeDisplay and CompleteProbeDisplay
 //D: This protocol provides the common interface to all kinds of ProbeDisplays.
 
@@ -142,7 +142,7 @@ USING
 - getTopLevel;
 @end
 
-@protocol SingleProbeDisplay <CommonProbeDisplay>
+@protocol SingleProbeDisplay <CommonProbeDisplay, CREATABLE>
 //S: An abstract protocol underlying single-object probe displays.
 
 //D: This protocol is common to CompleteProbeDisplay and ProbeDisplay.
@@ -154,6 +154,19 @@ CREATING
 USING
 //M: Gets the probed object.
 - getProbedObject;
+@end
+
+@protocol SimpleProbeDisplay <SingleProbeDisplay, CREATABLE>
+//S: 
+
+//D: 
+CREATING
+//M: 
+- setProbeMap: probeMap;
+- createEnd;
+USING
+//M: 
+- getProbeMap;
 @end
 
 @protocol ProbeDisplay <SingleProbeDisplay, CREATABLE>
@@ -178,7 +191,7 @@ USING
 
 @end
 
-@protocol CompleteProbeDisplay <SingleProbeDisplay>
+@protocol CompleteProbeDisplay <SingleProbeDisplay, CREATABLE>
 //S: A class that generates a complete ProbeMap for an object.
 
 //D: A class which generates a GUI to a complete ProbeMap of probes applied 
@@ -274,7 +287,7 @@ extern const char *buildWindowGeometryRecordName (const char *baseName,
                                                   const char *componentName);
 @end
 
-@protocol GUIComposite <CompositeWindowGeometryRecordName>
+@protocol GUIComposite <CompositeWindowGeometryRecordName, CREATABLE>
 //S: Base class for objects that use several GUI components.
 
 //D: Base class for objects that use several GUI components.
@@ -367,7 +380,10 @@ extern void initSimtoolsGUI (void);
 @class ControlPanel;
 @class ActionCache;
 @class ProbeDisplay;
+@class SingleProbeDisplay;
+@class SimpleProbeDisplay;
 @class CompleteProbeDisplay;
+@class GUIComposite
 @class MultiVarProbeDisplay;
 @class ProbeDisplayManager;
 @class GUISwarm;

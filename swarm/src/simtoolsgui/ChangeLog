@@ -1,3 +1,14 @@
+1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* simtoolsgui.h: Make CommonProbeDisplay protocol CREATABLE.
+	Make SingleProbeDisplay protocol CREATABLE.
+	Add SimpleProbeDisplay protocol and make it CREATABLE.
+
+	* ProbeDisplayManager.m: Declare as extern 
+	java_get_class_from_objc_object.
+	([ProbeDisplayManager -_createDefaultProbeDisplayFor_:setWindowGeometryRecordName:]): Use java_get_class_from_objc_object instad of [anObject class].
+	([ProbeDisplayManager -_createProbeDisplayFor_:setWindowGeometryRecordName:]): Use java_get_class_from_objc_object instad of [anObject class].
+
 1999-07-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ActionCache.m ([ActionCache -sendActionOfType:type:]): Directly
