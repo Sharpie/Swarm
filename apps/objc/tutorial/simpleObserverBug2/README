@@ -75,14 +75,4 @@ parameters will be available for inspection and alteration.
 
 
 
-NEXT ->  from here, you should go and look at some of the other
-	 apps that are up on the web-site (heatbugs, mousetraps,
-         etc.) We've arrived at almost that level of complexity.
-         Hopefully, by building up to this complexity bit by
-         bit, Swarm makes more sense to you. You should also
-         remember that many things are the way they are in 
-         Swarm strictly because of convention. There's no reason
-         why Swarm's can't be arranged in other than the 
-         Observer/Model relation that we've pursued here. It
-         is just a convenient way to break up the functionality
-         into managable pieces. 
+NEXT ->  from simpleExperBug
