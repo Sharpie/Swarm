@@ -28,6 +28,8 @@
 "ignore.sysid">
 <!ENTITY setrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Set Revision History//EN"
 "ignore.sysid">
+
+<!ENTITY gfdl.xml PUBLIC "-//SFI Hive//ENTITIES GNU FDL//EN" "ignore.sysid">
 ]>
 
 <set id="set">
