@@ -773,7 +773,7 @@ USING
 //M: Remove action from either schedule or concurrent group.
 - remove: anAction;
 
-- insertGroup: aKey; 
+- (id <ActionGroup>)insertGroup: (timeval_t)tVal;
 
 //M: Indicate whether an empty schedule should be dropped and ignored or
 //M: or kept and attended to (default is YES).
@@ -923,7 +923,7 @@ extern id _activity_context_error (const char *macroName);
 //D: Default type used as concurrent group of a schedule.
 @end
 
-@protocol ConcurrentSchedule <ActionGroup, RETURNABLE>
+@protocol ConcurrentSchedule <ActionGroup, Schedule, CREATABLE>
 //S: Time-based map usable for concurrent group.
 //D: Time-based map usable for concurrent group.
 @end

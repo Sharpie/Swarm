@@ -449,14 +449,14 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 //
 // insertGroup: -- eventual Map function to insert group at key
 //
-- insertGroup: aKey
+- (id <ActionGroup>)insertGroup: (timeval_t)aKey
 {
   ActionConcurrent_c *existingAction, *newAction;
   id *memptr;
 
   // obtain current entry at key and return if already a concurrent group
 
-  existingAction = [self at: aKey];
+  existingAction = [self at: (id) aKey];
   if (existingAction && getClass (existingAction) == id_ActionConcurrent_c)
     return existingAction->concurrentGroup;
 
@@ -464,7 +464,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 
   newAction = createGroup (self);
   memptr = &newAction;
-  [self at: aKey memberSlot: &memptr];
+  [self at: (id) aKey memberSlot: &memptr];
   if (!existingAction)
     return newAction->concurrentGroup;
 

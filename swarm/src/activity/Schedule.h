@@ -27,7 +27,7 @@ Library:      activity
   timeval_t  repeatInterval;  // rescheduling interval, or zero
   BOOL keepEmptyFlag;
 }
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 /*** methods implemented in CompoundAction.m file ***/
 - setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
@@ -41,8 +41,8 @@ Library:      activity
 - _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
 - (void)drop;
 /*** methods in Schedule_c (inserted from .m file by m2h) ***/
-+ create: aZone setRepeatInterval: (timeval_t)rptInterval;
-+ create: aZone setAutoDrop: (BOOL)autoDrop;
++ create: (id <Zone>)aZone setRepeatInterval: (timeval_t)rptInterval;
++ create: (id <Zone>)aZone setAutoDrop: (BOOL)autoDrop;
 - (void)setConcurrentGroupType: groupType;
 - (void)setSingletonGroups: (BOOL)singletonGroups;
 - setRelativeTime: (BOOL)relativeTime;
@@ -53,7 +53,7 @@ Library:      activity
 - (BOOL)getRelativeTime;
 - (timeval_t)getRepeatInterval;
 - _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext : (Zone_c *)swarmZone;
-- insertGroup: aKey;
+- (id <Action>)insertGroup: (timeval_t)aKey;
 - remove: anAction;
 - (id <FAction>)at: (timeval_t)tVal createFAction: call;
 - at: (timeval_t)tVal createAction: anActionType;
@@ -68,7 +68,11 @@ Library:      activity
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1;
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
-- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: t message: (SEL)aSel:arg1:arg2:arg3;;
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: t message: (SEL)
+aSel:arg1:arg2:arg3;
+- (id <FActionForEachHeterogeneous>)at: (timeval_t)tVal createFActionForEachHeterogeneous: target call: (id <FCall>)call;
+- (id <FActionForEachHomogeneous>)at: (timeval_t)tVal createFActionForEachHomogeneous: target call: (id <FCall>)call;
+
 - (id <FAction>)createFAction: call;
 - createAction: anActionType;
 - (id <ActionCall>)createActionCall: (func_t)fptr;
@@ -96,7 +100,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 @interface ActionConcurrent_c: CAction <Action>
 {
 @public
-  CompoundAction_c *concurrentGroup;  // concurrent group to be executed
+  ActionGroup_c *concurrentGroup;  // concurrent group to be executed
 }
 /*** methods in ActionConcurrent_c (inserted from .m file by m2h) ***/
 - (void)_performAction_: (id <Activity>)anActivity;
@@ -109,7 +113,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 @public
   CAction *actionConcurrent;  // action that includes group in schedule
 }
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 /*** methods in ConcurrentSchedule_c (inserted from .m file by m2h) ***/
 - (void)addLast: anAction;
 - (void)_setActionConcurrent_: action;
