@@ -52,8 +52,10 @@
   float floatVal;
   double doubleVal;
   BOOL deepFlag;
+  BOOL updateFlag;
 }
 - setDeepFlag: (BOOL)deepFlag;
+- setUpdateFlag: (BOOL)updateFlag;
 - updateArchiver: archiver;
 - (BOOL)checkObject;
 @end
@@ -73,6 +75,7 @@
   obj->floatVal = FLOATVAL;
   obj->doubleVal = DOUBLEVAL;
   
+  obj->updateFlag = YES;
   return obj;
 }
 
@@ -82,12 +85,21 @@
   return self;
 }
 
+- setUpdateFlag: (BOOL)theUpdateFlag
+{
+  updateFlag = theUpdateFlag;
+  return self;
+}
+
 - updateArchiver: archiver
 {
-  if (deepFlag)
-    [archiver putDeep: OBJNAME object: self];
-  else
-    [archiver putShallow: OBJNAME object: self];
+  if (updateFlag)
+    {
+      if (deepFlag)
+        [archiver putDeep: OBJNAME object: self];
+      else
+        [archiver putShallow: OBJNAME object: self];
+    }
   return self;
 }
 
@@ -200,33 +212,39 @@ createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag, BOOL deepFlag)
 }
 
 static BOOL
-checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag)
+checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag, BOOL updateFlag)
 {
   id obj;
   BOOL ret;
   id archiver;
 
-  archiver = createArchiver (aZone, hdf5Flag, YES, deepFlag);
+  archiver = createArchiver (aZone, hdf5Flag, (updateFlag ? YES : NO), 
+                             deepFlag);
   if (deepFlag)
-    obj = [[[MyClassDeeper createBegin: aZone]
+    obj = [[[[MyClassDeeper createBegin: aZone]
+              setUpdateFlag: updateFlag]
              setDeepFlag: YES]
             createEnd];
   else
-    obj = [[[MyClass createBegin: aZone]
+    obj = [[[[MyClass createBegin: aZone]
+              setUpdateFlag: updateFlag]
              setDeepFlag: NO]
             createEnd];
+
   [archiver registerClient: obj];
   [archiver save];
   [obj drop];
+  
   [archiver drop];
   
   archiver = createArchiver (aZone, hdf5Flag, NO, deepFlag);
   obj = [archiver getObject: OBJNAME];
+
   [archiver drop];
   
   ret = [obj checkObject];
   [obj drop];
-  
+
   return ret;
 }
 
@@ -235,14 +253,22 @@ main (int argc, const char **argv)
 {
   initSwarmBatch (argc, argv);
 
-  if (checkArchiver (globalZone, NO, NO) == NO)
-    raiseEvent (InternalError, "Shallow Lisp serialization failed");
-  if (checkArchiver (globalZone, NO, YES) == NO)
-    raiseEvent (InternalError, "Deep Lisp serialization failed");
+  if (checkArchiver (globalZone, NO, NO, YES) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp serialization with update failed");
+  if (checkArchiver (globalZone, NO, NO, NO) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp serialization with no update failed");
+  if (checkArchiver (globalZone, NO, YES, YES) == NO)
+    raiseEvent (InternalError, 
+                "Deep Lisp serialization with update failed");
+  if (checkArchiver (globalZone, NO, YES, NO) == NO)
+    raiseEvent (InternalError, 
+                "Deep Lisp serialization with no update failed");
 #ifdef HAVE_HDF5
-  if (checkArchiver (globalZone, YES, NO) == NO)
+  if (checkArchiver (globalZone, YES, NO, YES) == NO)
     raiseEvent (InternalError, "Shallow HDF5 serialization failed");
-  if (checkArchiver (globalZone, YES, YES) == NO)
+  if (checkArchiver (globalZone, YES, YES, YES) == NO)
     raiseEvent (InternalError, "Deep HDF5 serialization failed");
 #endif
   return 0;

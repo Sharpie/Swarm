@@ -1,3 +1,15 @@
+1999-06-05  Alex Lancaster  <alex@santafe.edu>
+
+	* archiver.m ([MyClass -setUpdateFlag:]): New method and instance
+	variable to control whether if -putObject: is used.
+	([MyClass -updateArchiver:]): Only call putObject if updateFlag
+	set.
+	(checkArchiver): Accept additional BOOL updateFlag variable.  Set
+	created objects using this flag, and the read Archiver instance
+	accordingly.
+	(main): Add matching `NO' update tests for each existing Lisp
+	archiving test.
+
 1999-05-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* forwarding.m ([DelegateObject [csilfd]m1i:]): New methods.
