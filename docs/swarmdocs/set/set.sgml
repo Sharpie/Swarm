@@ -1,20 +1,26 @@
 <!DOCTYPE SET PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
-<!entity % global.entities PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
-%global.entities;
+<!entity % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
+%global.ent;
 
-<!entity % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
-%figures.entities;
+<!entity % versions.ent PUBLIC "-//SFI Hive//ENTITIES Versions//EN">
+%versions.ent;
 
-<!entity % src.entities PUBLIC "-//SFI Hive//ENTITIES Src List//EN">
-%src.entities;
+<!entity % src.ent PUBLIC "-//SFI Hive//ENTITIES Src List//EN">
+%src.ent;
 
-<!entity % overview.entities PUBLIC "-//SFI Hive//ENTITIES Overview List//EN">
-%overview.entities;
+<!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
+%figs.ent;
 
-<!entity % install.entities PUBLIC "-//SFI Hive//ENTITIES Install List//EN">
-%install.entities;
+<!entity % overview.ent PUBLIC "-//SFI Hive//ENTITIES Overview List//EN">
+%overview.ent;
+
+<!entity % install.ent PUBLIC "-//SFI Hive//ENTITIES Install List//EN">
+%install.ent;
 
 <!entity setmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN">
+
+<!entity % local.notation.class "| JPG">
+<!notation JPG system>
 ]>
 
 <SET ID="set">

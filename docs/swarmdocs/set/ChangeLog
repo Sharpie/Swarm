@@ -1,3 +1,8 @@
+1998-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* set.sgml (entity): Included versions.ent, figs.ent and updated
+	all entity references to be consistent with filenames.
+
 1998-06-09  Alex Lancaster  <alex@santafe.edu>
 
 	* setmeta.sgml: Used global SFI entity 'corpauthor' in CORPAUTHOR
