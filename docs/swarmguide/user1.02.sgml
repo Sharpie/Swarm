@@ -2,9 +2,14 @@
   <title>Programming and simulation</title>
 
 
-   <INDEXTERM SCOPE="all" SIGNIFICANCE="preferred">
+   <INDEXTERM>
     <PRIMARY>complex systems</PRIMARY>
     </INDEXTERM>
+
+   <INDEXTERM>
+   <PRIMARY>simulation</PRIMARY>
+   <secondary>agent-based</secondary>
+   </INDEXTERM>
    
    <para>
     Swarm is designed to help researchers build models in which
@@ -16,17 +21,13 @@
     level. 
   </para>
 
-   
-
   <figure id="modeling.figure">
     <title>Agent-based modeling</title> 
     <graphic entityref="modeling" align="center"></graphic>
   </figure>
 
-   <INDEXTERM scope="local">
-   <PRIMARY>simulation</PRIMARY>
-   <secondary>agent-based</secondary>
-   <seealso>complex systems</seealso>
+   <INDEXTERM>
+   <PRIMARY>agent-based</PRIMARY>
    </INDEXTERM>
    
    <para>Object oriented programming is ideally suited to represent

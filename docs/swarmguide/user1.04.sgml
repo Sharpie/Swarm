@@ -1,6 +1,10 @@
 <sect1 id="swarm.user.user1.04.sect1">
   <title>The notion of a Swarm</title>
 
+   <INDEXTERM>
+    <PRIMARY>Swarm</PRIMARY>
+    </INDEXTERM>
+
   <para>As explained in an earlier section, Swarm is designed for
     hierarchical creation of computer objects.  The observer swarm
     object is created first, and it creates a user interface and it
@@ -16,6 +20,12 @@
 <sect2>
 <title>Primary and Auxiliary Agents</title>
 
+   <INDEXTERM>
+    <PRIMARY>Swarm</PRIMARY>
+    <secondary>agents</secondary>
+    <see>agents</see>
+    </INDEXTERM>
+
      <para>Terminology can cause confusion because computer
      programmers may use the term "agent" in a way that befuddles
      scientists. To the scientist, the term agent refers to a
@@ -28,19 +38,22 @@
      <para>We intend to finesse this (big surprise!) by creating
      terminology for two kinds of agents.  This separation of agents
      into primary and auxiliary groups is created solely for
-     discussion in this manual.  The idea is that primary agents are
-     the ones that the research sets out to model in the first
-     place. They are described in a theory, they have substantive
-     importance.  Usually in this sense we have representations of
-     important "actors" and one or more objects to represent the world
-     in which they interact.</para>
+     discussion in this manual.  The idea is that primary agents
+     <indexterm><primary>agents</primary><secondary>primary
+     </secondary></indexterm> are the ones that the research
+     sets out to model in the first place. They are described in a
+     theory, they have substantive importance.  Usually in this sense
+     we have representations of important "actors" and one or more
+     objects to represent the world in which they interact.</para>
 
-     <para>To the surprise of most new users, it is often also necessary to
-     create auxiliary agents that facilitate the work of the primary
-     agents. For example, in a model of majority rule voting, one can
-     have primary agents like voters and candidates. There may be a
-     need for an auxiliary class called "Counter", a class that can
-     spawn objects that can be used to tally the votes that are
+     <para>To the surprise of most new users, it is often also
+     necessary to create auxiliary agents
+     <indexterm><primary>agents</primary><secondary>auxiliary
+     </secondary></indexterm> that facilitate the work of the
+     primary agents. For example, in a model of majority rule voting,
+     one can have primary agents like voters and candidates. There may
+     be a need for an auxiliary class called "Counter", a class that
+     can spawn objects that can be used to tally the votes that are
      cast.</para>
 
      <para>In most cases, when we talk about multi-agent systems, we

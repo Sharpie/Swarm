@@ -1,5 +1,13 @@
 1999-03-03  Alex Lancaster  <alex@santafe.edu>
 
+	* user1.02.sgml: Use INDEXTERMS consistently within document.
+
+	* user1.04.sgml: Add several INDEXTERMS - one for `Swarm' and
+	anthor for primary and auxiliary `agents'.
+
+	* Makefile.am (genindex.sgml): Use `-i' option to collateindex.pl
+	to set the ID in the generated INDEX SGML tag.
+
 	* html.dsl (toc-depth): Make `book' TOC 3-deep, `chapter' TOC
 	1-deep.  Remove `set' depth - not needed.
 
