@@ -150,7 +150,8 @@ PHASE(Using)
         id obj;
         
         iter = [target begin: getCZone (getZone (self))];
-        for (obj = NEXT (iter); GETLOC (iter) == (id) Member; obj = NEXT (iter))
+	//for (obj = NEXT (iter); GETLOC (iter) == (id) Member; obj = NEXT (iter))
+	for (obj = [iter next]; [iter getLoc] == Member; obj = [iter next])
           ADD (CALL (obj));
         [iter drop];
       }

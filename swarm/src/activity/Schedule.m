@@ -1309,7 +1309,7 @@ PHASE(Using)
             ((ConcurrentSchedule_c *) collection)->actionConcurrent->owner;
 }
     }
-  currentAction = (id <Action>) Removed;
+  currentAction = (id <Action>) (void *) Removed;
   return removedAction;
 }
 

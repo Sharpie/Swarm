@@ -608,10 +608,10 @@ PHASE(Using)
     {
       if ([aProbe conformsTo: @protocol (VarProbe)])
         string = [String create: getZone (self)
-                         setC: [(id <VarProbe>) aProbe getProbedVariable]];
+                         setC: [(id <VarProbe>) (void *) aProbe getProbedVariable]];
       else	
         string = [String create: getZone (self)
-                         setC: [(id <MessageProbe>) aProbe getProbedMessage]];
+                         setC: [(id <MessageProbe>) (void *) aProbe getProbedMessage]];
       
       if ([probes at: string] != nil)
         raiseEvent (WarningMessage,
@@ -655,10 +655,10 @@ PHASE(Using)
 
   if ([aProbe conformsTo: @protocol (VarProbe)])
     string = [String create: getZone (self)
-                     setC: [(id <VarProbe>) aProbe getProbedVariable]];
+                     setC: [(id <VarProbe>) (void *) aProbe getProbedVariable]];
   else
     string = [String create: getZone (self)
-                     setC: ([(id <MessageProbe>) aProbe getProbedMessage])];
+                     setC: ([(id <MessageProbe>) (void *) aProbe getProbedMessage])];
 
   if ([probes at: string] != nil)
     raiseEvent (WarningMessage,

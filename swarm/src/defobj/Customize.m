@@ -94,6 +94,14 @@ initCustomizeWrapper (id aZone, id anObject)
 
 PHASE(Creating)
 
+
++ createBegin: aZone
+{
+     [self subclassResponsibility: @selector(createBegin:)];
+     return nil; 
+}
+
+
 //
 // customizeBegin: -- begin customization to define future create
 //

@@ -414,6 +414,8 @@ CREATING
 //M: object lifecycle.
 USING
 - (void)drop;
+- (void)dropAllocations: (BOOL)componentAlloc;
+
 @end
 
 @protocol Zone <Create, Drop, CREATABLE>
