@@ -1,3 +1,12 @@
+1999-03-04  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* avl.h: Add new file.
+
+	* avl.c: Add new file.
+	
+	* Makefile.am (SRC): Add avl.c from libavl to SRC variable.
+	(misc_HEADERS): Add avl.h from libavl to misc_HEADERS variable.
+
 1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.h: If HAVE_REALPATH is not defined, avoid declaring
