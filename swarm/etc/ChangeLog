@@ -1,3 +1,9 @@
+2003-08-13  Marcus Daniels  <mgd@dhcp159.santafe.edu>
+
+	* interface.el (dump-dispatch-hash-table): When computing the class
+	name from the encoded funcsym, remove empty entries returned by
+	split-string. Empty entries are returned by new versions of Emacs.
+
 2003-08-01  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* Makefile.common.in : added '--enable-onelib' option to 

@@ -689,9 +689,11 @@
 	  (insert funcsym)
 	  (insert " = ")
 	  (let* ((end
-		  (car (if (method-factory-flag method)
-			   (split-string funcsym "swarm_c_")
-			 (split-string funcsym "swarm_i_"))))
+		  (car
+		   (remove ""
+			   (if (method-factory-flag method)
+			       (split-string funcsym "swarm_c_")
+			     (split-string funcsym "swarm_i_")))))
 		 (class (first (split-string end "__")))
 		 (selName (substring (get-method-signature method) 1)))
 	    (if (method-factory-flag method)
