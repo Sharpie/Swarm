@@ -73,9 +73,10 @@ id swarmDirectory;
 static const char *
 getObjcName (jobject javaObject, id object)
 {
-  return ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Selector)
-          ? (object ? sel_get_name ((SEL) object) : "M(<nil>)")
-          : (object ? [object name] : "nil"));
+  if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Selector))
+    return object ? sel_get_name ((SEL) object) : "M(<nil>)";
+  else
+    return object ? [object name] : "nil";
 }
 
 static jstring
@@ -490,7 +491,7 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 - (BOOL)objcRemove: object
 {
   DirectoryEntry *entry = [swarmDirectory objcFind: object];
-  
+
   if (entry)
     {
       unsigned index;
@@ -516,9 +517,9 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
           abort ();
       }
       [entry drop];
-      (*jniEnv)->DeleteGlobalRef (jniEnv, entry->javaObject);
       return YES;
     }
+  
   return NO;
 }
 
