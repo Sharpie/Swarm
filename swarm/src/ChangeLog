@@ -1,3 +1,7 @@
+2000-07-11    <mgd@HELEN>
+
+	* Makefile.am (headers): Depend on SwarmEnvironment_getters.m.
+
 2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.am: Include Makefile.protocol.

@@ -17,7 +17,5 @@
 - setBatchMode: (BOOL)batchMode;
 - createEnd;
 
-#ifdef BUILDING_SWARM
 #import "SwarmEnvironment_getters.h"
-#endif
 @end

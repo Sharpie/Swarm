@@ -17,7 +17,7 @@ all-recursive: headers
 EXTRA_PROGRAMS = swarm.dll
 bin_PROGRAMS = @SWARM_DLL@
 
-headers:
+headers: SwarmEnvironment_getters.m
 	for i in $(SUBDIRS) ; do $(MAKE) -C $$i headers ; done
 
 include $(top_builddir)/etc/Makefile.common
