@@ -32,7 +32,7 @@
 - setBarWidth: (double)step;
 - setXaxisMin: (double)min max: (double)max step: (double)step;
 - setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
-- setActiveOutlierText: (int)outlierCount count: (int)count;
+- setActiveOutlierText: (unsigned)outlierCount count: (unsigned)count;
 
 - hideLegend;
 

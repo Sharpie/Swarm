@@ -331,7 +331,7 @@ USING
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
 //M: Set the text that describes a specified number of outliers.
-- setActiveOutlierText: (int)outliers count: (unsigned)count;
+- setActiveOutlierText: (unsigned)outliers count: (unsigned)count;
 
 //M: Hide the legend on the histogram.
 - hideLegend;

@@ -197,7 +197,7 @@ PHASE(Using)
   return self;
 }
 
-- setActiveOutlierText: (int)outliers count: (unsigned)count
+- setActiveOutlierText: (unsigned)outliers count: (unsigned)count
 {
   [globalTkInterp
     eval: 
