@@ -30,7 +30,8 @@
           line-thickness: 1pt))
 
 (define (make-linebreak)
-    (make paragraph (empty-sosofo)))
+    (make paragraph-break
+          space-before: 6pt))
 
 (define $generate-lot-list$
   ;; Should a List of Titles be produced? 
@@ -260,6 +261,33 @@
         (process-node-list first-child))
       (process-node-list (node-list-rest itemcontent))))) 
 
+(mode formal-object-title-mode
+  (element (example title)
+    (let ((object (parent (current-node))))
+      (make paragraph
+            use: para-style
+            font-weight: 'bold
+            space-before: %block-sep%
+            space-after: %para-sep%
+            start-indent: (+ %block-start-indent% (inherited-start-indent))
+            keep-with-next?: #t
+            (sosofo-append
+             (literal "Example")
+             (literal " ")
+             (let ((label (attribute-string "LABEL" object)))
+               (if label
+                   (let* ((parts (split-string label #\/))
+                          (afterprotocol (cdr (cdr parts))))
+                     (if (null? (cdr afterprotocol))
+                         (sosofo-append
+                          (literal " #")
+                          (literal (car afterprotocol)))
+                         (sosofo-append
+                          (literal (car afterprotocol))
+                          (literal " #")
+                          (literal (car (cdr afterprotocol))))))
+                   (literal (element-label object)))))))))
+  
 </style-specification-body>
 </style-specification>
 
