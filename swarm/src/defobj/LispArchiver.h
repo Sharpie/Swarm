@@ -14,6 +14,7 @@ extern id lispArchiver;
 
 @interface LispArchiver_c: Archiver_c <LispArchiver>
 {
+  id inStreamZone;
 }
 + createBegin: aZone;
 + create: aZone setPath: (const char *)path;
@@ -31,5 +32,7 @@ extern id lispArchiver;
 - _getWithZone_: aZone _object_: (const char *)key;
 - getObject: (const char *)key;
 - getWithZone: aZone object: (const char *)key;
+
+- (void)drop;
 
 @end

@@ -302,7 +302,6 @@ PHASE(Using)
   [applicationMap drop];
   [classes drop];
   [instances drop];
-  [inStreamZone drop];
 
   [super drop];
 }

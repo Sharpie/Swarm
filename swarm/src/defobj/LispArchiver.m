@@ -426,4 +426,11 @@ archiverLispGet (id aZone, id string, id app)
   return self;
 }
 
+- (void)drop
+{
+  if (inStreamZone)
+    [inStreamZone drop];
+  [super drop];
+}
+
 @end

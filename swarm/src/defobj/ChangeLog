@@ -1,5 +1,14 @@
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Archiver.m ([Archiver_c -drop]): Don't drop inStreamZone.
+
+	* Archiver.h (Archiver_c): Remove ivar inStreamZone.
+	Declare -drop.
+
+	* LispArchiver.h (LispArchiver_c): New ivar inStreamZone.
+
+	* LispArchiver.[hm] ([LispArchiver_c -drop]): New method.
+
 	* FArguments.m (ALLOCTYPE): New macro.
 	([FArguments_c -_addArgument_:ofType:], ADD_PRIMITIVE): Use it.
 

@@ -44,7 +44,6 @@ const char *defaultAppPath (const char *appDataPath, const char *appName,
 {
   id currentApplicationKey;
   id <Map> applicationMap;
-  id inStreamZone;
   BOOL inhibitLoadFlag;
   BOOL systemArchiverFlag;
   const char *path;
@@ -77,5 +76,7 @@ const char *defaultAppPath (const char *appDataPath, const char *appName,
 - getWithZone: aZone object: (const char *)key;
 - putDeep: (const char *)key object: object;
 - putShallow: (const char *)key object: object;
+
+- (void)drop;
 
 @end
