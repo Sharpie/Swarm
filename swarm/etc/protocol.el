@@ -1,6 +1,6 @@
 (require 'cl)
 (eval-and-compile
- (push (getenv "BUILD_AREA") load-path))
+ (push (getenv "TOP_BUILDDIR") load-path))
 (require 'common)
 (require 'cc-mode)
 
