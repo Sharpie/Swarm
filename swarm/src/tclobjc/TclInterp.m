@@ -135,7 +135,7 @@ List* tclList;
       strcat (buf, file);
       
       if (access (buf, R_OK) != -1)
-        return buf;
+        return dropdir (buf);
       else 
         return NULL;
     }
