@@ -12,6 +12,7 @@ Xcode project build
 Edit $SRCROOT/macosx/configure.sh
 to reflect appropriate paths on your system.  The defaults will 
 reflect the paths for the binary installers from SDG.
+If you do not need Java remove the '--with-jdk' line.  It will save a lot of time in the build.
 Open the Xcode project and build the targets:
 	If you have cvs sources you will need to build autogen first then 
 	config and buildlib in that  order.  
@@ -33,8 +34,8 @@ setenv MACOSX_DEPLOYMENT_TARGET 10.3    ('10.2' if building on Jaguar)
 ../../../autogen.sh
 
 ../../../configure \
-CC=cc \
-CFLAGS="g -O0 -Wno-long-double" \  (plus any optimisation or debug flags)
+JAVAC=jikes CC="gcc -B ../../tools"\
+CFLAGS="g -O2 -Wno-long-double" \  (plus any optimisation or debug flags)
 --prefix=/usr/local/Swarm2.2 \  (or some other install path)
 --with-tcldir='your tcl path' \
 --with-tkdir='your tk path \
@@ -50,6 +51,8 @@ CFLAGS="g -O0 -Wno-long-double" \  (plus any optimisation or debug flags)
 make
 
 make install    (sudo may be needed if installing outside your home directory)
+
+Note: The -B option to gcc is only needed if building java.
 
 That's it.
 

@@ -9,9 +9,8 @@ export MACOSX_DEPLOYMENT_TARGET=10.3
 # Optimise for G4 or G5 by adding stuff like -fast
 # -mcpuG5 -mtuneG5 etc to CFLAGS. (not tested!)
 
-../../configure CC="gcc-4.0" CFLAGS=" -g -O0 -Wno-long-double" \
+../../configure JAVAC=jikes CC="gcc -B ../../tools" CFLAGS=" -g -O2 -Wno-long-double" \
 --prefix=/usr/local/swarm2.2 \
---with-ffidir=/usr/lib/gcc/powerpc-apple-darwin/4.0.0 \
 --with-tcldir=/usr/local/tcl8.4.7 \
 --with-tkdir=/usr/local/tcl8.4.7 \
 --with-bltdir=/usr/local/tcl8.4.7 \
