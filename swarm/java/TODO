@@ -6,7 +6,7 @@ Add create:set* convenience methods for all appropriate creatable protocols.
 
 Non-cygwin DLLs -> test on IDE [mgd]
 
-Implement heatbugs, mousetrap
+Implement heatbugs
 
 Formalize Kaffe patches (Windows, HPUX)  [mgd]
 
@@ -25,8 +25,6 @@ make --with-package flags should reject bad arguments [mgd]
 
 Formalize GCC patches [mgd]
 
-Probes on Java objects (by serialization) [vjojic]
-
 Add either stubbing for string array conversions (e.g. Histogram) or
 add alternative interfaces that use objects.
 
@@ -34,11 +32,10 @@ Function pointers
 
 Ensure that javaswarm and javacswarm get installed with execute permissions
 
-Handle long PATHs in InstallSheild (PathSet error)
+Handle long PATHs in InstallShield (PathSet error)
 
 Support hdf5-1.2.0
 
 Get color indexes working for multiple calls to setColormap
   - when are there multiple entries on a dib?
 
-Give Japhar another try
