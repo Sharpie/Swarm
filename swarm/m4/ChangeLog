@@ -1,6 +1,6 @@
 2001-10-07  Alex Lancaster  <alex@swarm.org>
 
-	* acswarm.m4: Switch AC_PROG_LIBTOOL back to AM_LIBTOOL_DLOPEN,
+	* acswarm.m4: Switch AC_PROG_LIBTOOL back to AM_PROG_LIBTOOL,
 	inadvertantly changed in a previous release.
 
 	* acffi.m4: Use curly-braces instead of round braces for
