@@ -2,6 +2,7 @@
 
 	* Makefile.am ($(abs_top_builddir)/interface.elc): Depends on
 	protocol.elc.
+	(EXTRA_DIST): Add getters.el.
 
 2000-07-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 

@@ -8,7 +8,7 @@ SUBDIRS = misc collections defobj activity \
 SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
 	objectbase activity defobj collections misc
 
-EXTRA_DIST = Makefile.rules
+EXTRA_DIST = Makefile.rules getters.el
 
 .PHONY: headers
 
@@ -23,7 +23,7 @@ headers: SwarmEnvironment_getters.m
  include $(top_builddir)/etc/Makefile.common
 
 override CPPFLAGS += -DBUILDING_SWARM
- 
+
 CURRENT = 0
 REVISION = 0
 AGE = 0
