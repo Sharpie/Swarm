@@ -938,7 +938,8 @@
           for arg-name = (third argument)
           for type = (second argument)
           when (and (not (java-argument-empty-p argument))
-                    (local-ref-p argument))
+                    (local-ref-p argument)
+                    (not (java-argument-string-p argument)))
           do
           (insert "  ")
           (insert (if type type "id"))
@@ -954,6 +955,7 @@
   (let ((type (second argument))
         (jni-type (java-argument-convert argument #'java-type-to-native-type)))
     (or (string= type "SEL")
+        (string= jni-type "jstring")
         (string= jni-type "jclass")
         (string= jni-type "jobject"))))
 
