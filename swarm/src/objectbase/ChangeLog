@@ -1,3 +1,10 @@
+1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* objectbase.h (val_t): Use types_t instead of included union.
+
+	* MessageProbe.m: Accomodate types_t changes throughout 
+	(lexical _char to schar name changes..).
+
 1999-04-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* CustomProbeMap.m ([CustomProbeMap

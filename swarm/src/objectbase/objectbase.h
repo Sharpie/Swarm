@@ -269,25 +269,9 @@ USING
 - (BOOL)setData: anObject ToString: (const char *)s; 
 @end
 
-//T: This type is used in MessageProbes to return an object of arbitrary
-//T: type.
 typedef struct val {
   char type;
-  union {
-    id object;
-    SEL selector;
-    const char *string;
-    char _char;
-    unsigned char _uchar;
-    short _short;
-    unsigned short _ushort;
-    int _int;
-    unsigned int _uint;
-    long _long;
-    unsigned long _ulong;
-    float _float;
-    double _double;
-  } val;
+  types_t val;
 } val_t;
 
 @protocol MessageProbe <Probe, CREATABLE>
