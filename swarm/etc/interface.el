@@ -627,3 +627,31 @@
   (insert "  SEL swarm_sel = sel_get_uid (\"")
   (insert (substring (get-method-signature method) 1))
   (insert "\");\n"))
+
+(defun create-dispatch-hash-table (protocol)
+  (let ((ht (make-hash-table :test #'equal)))
+    (with-temp-buffer 
+      (apply #'call-process
+             "/build/swarm-kaffe/COM/findImp"
+             nil t nil
+             (protocol-name protocol)
+             (mapcar #'get-method-signature
+                     (protocol-method-list protocol)))
+      (beginning-of-buffer)
+      (modify-syntax-entry ?: "w")
+      (skip-whitespace)
+      (while (< (point) (point-max))
+        (let* ((signature
+                (let ((beg (point)))
+                  (forward-sexp)
+                  (buffer-substring beg (point))))
+               (funcsym 
+                (let ((beg (progn
+                             (skip-whitespace)
+                             (point))))
+                  (forward-sexp)
+                  (buffer-substring beg (point)))))
+          (setf (gethash signature ht) funcsym))
+        (skip-whitespace)))
+    ht))
+  
