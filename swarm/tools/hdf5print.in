@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ $# -lt 2 ] ; then
+    echo Usage: $0 appname key 1>&2
+    exit 1
+fi
+javaswarm kawa.repl -e "(load \"@datadir@/swarm/swarm.scm\") (load \"@datadir@/swarm/print-table.scm\") (print (quote hdf5AppArchiver))" $*

@@ -1,0 +1,4 @@
+2000-07-05  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Makefile.am, hdf5print.in, print-table.scm, swarm.scm: New files.
+
