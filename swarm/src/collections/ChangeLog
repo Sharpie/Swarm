@@ -1,5 +1,8 @@
 1998-04-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Set.m ([Set_c -createIndex:fromMember:]): Rename from
+	createIndexIn:fromMember:.  Raise a NotImplemented event.
+
 	* collections.h: Augment the Index documentation.  Move the
 	existing Index info to the Collections protocol, as it is
 	a bit more general.

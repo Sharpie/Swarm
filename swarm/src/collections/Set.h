@@ -28,7 +28,7 @@ Library:      collections
 - (BOOL) at: aKey memberSlot: (id **)memptr;
 - remove: aKey;
 - begin: aZone;
-- createIndexIn: aZone fromMember: anObject;
+- createIndex: aZone fromMember: anObject;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 

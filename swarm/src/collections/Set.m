@@ -28,10 +28,11 @@ PHASE(Creating)
 
 - createEnd
 {
-  if ( createByMessageToCopy( self, createEnd ) ) return self;
-  self->list = [List create: getCZone( getZone( self ) )];
-  setMappedAlloc( self );
-  setNextPhase( self );
+  if (createByMessageToCopy (self, createEnd))
+    return self;
+  self->list = [List create: getCZone (getZone (self))];
+  setMappedAlloc (self);
+  setNextPhase (self);
   return self;
 }
 
@@ -51,7 +52,7 @@ PHASE(Using)
   return [list count];
 }
 
-- (id *) add: anObject
+- (id *)add: anObject
 {
   [(id)list addLast: anObject];
   return (id *)nil;
@@ -59,13 +60,13 @@ PHASE(Using)
 
 - replace: anObject
 {
-  raiseEvent( NotImplemented, nil );
-  exit(1);  // suppress compiler warning
+  raiseEvent (NotImplemented, nil);
+  return nil;
 }
 
 - (BOOL) contains: aKey
 {
-  return ( [self at: aKey] != nil );
+  return [self at: aKey] != nil;
 }
 
 - at: aKey
@@ -73,17 +74,18 @@ PHASE(Using)
   id  index, member;
 
   index = [(id)list begin: scratchZone];
-  while ( (member = [index next]) ) {
-    if ( member == aKey ) return member;
-  }
+  while ((member = [index next]))
+    if (member == aKey) return member;
   [index drop];
+
   return nil;
 }
 
 - (BOOL) at: aKey memberSlot: (id **)memptr
 {
-  raiseEvent( NotImplemented, nil );
-  exit(1);  // suppress compiler warning
+  raiseEvent (NotImplemented, nil);
+
+  return nil;
 }
 
 - remove: aKey
@@ -91,10 +93,11 @@ PHASE(Using)
   id  index, member;
 
   index = [(id)list begin: scratchZone];
-  while ( (member = [index next]) ) {
-    if ( member == aKey ) return [index remove];
-  }
+  while ((member = [index next]))
+    if (member == aKey)
+      return [index remove];
   [index drop];
+
   return nil;
 }
 
@@ -103,20 +106,23 @@ PHASE(Using)
   SetIndex_c *newIndex;
 
   newIndex = [aZone allocIVars: [SetIndex_c self]];
-  setMappedAlloc( newIndex );
+  setMappedAlloc (newIndex);
   newIndex->collection = self;
-  newIndex->listIndex  = [(id)list begin: getCZone( aZone )];
+  newIndex->listIndex  = [(id)list begin: getCZone (aZone)];
+  
   return newIndex;
 }
 
-- createIndexIn: aZone fromMember: anObject
+- createIndex: aZone fromMember: anObject
 {
+  raiseEvent (NotImplemented, nil);
+
   return nil;
 }
 
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  mapObject( mapalloc, list );
+  mapObject (mapalloc, list);
 }
 
 @end
@@ -154,12 +160,12 @@ PHASE(Using)
   return [listIndex getLoc];
 }
 
-- (void) setLoc: locSymbol
+- (void)setLoc: locSymbol
 {
   [listIndex setLoc: locSymbol];
 }
 
-- (int) getOffset
+- (int)getOffset
 {
   return [listIndex getOffset];
 }
@@ -171,7 +177,7 @@ PHASE(Using)
 
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  mapObject( mapalloc, listIndex );
+  mapObject (mapalloc, listIndex);
 }
 
 @end

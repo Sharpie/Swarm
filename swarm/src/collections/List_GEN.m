@@ -216,7 +216,7 @@ PHASE(UsingOnly)
   return newIndex;
 #else
   raiseEvent( SourceMessage,
-  "> createIndexIn:fromMember: requires IndexFromMemberLoc value\n" ); exit(0);
+  "> createIndex:fromMember: requires IndexFromMemberLoc value\n" ); exit(0);
 #endif
 }
 
