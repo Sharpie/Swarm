@@ -536,7 +536,7 @@ PHASE(Using)
 - findNext: anObject;
 {
   PermutationItem_c *pi;
-  
+
   [self _updatePermutation_];
   [self _clearDirection_];
   pi = [index findNext: anObject];
@@ -557,7 +557,6 @@ PHASE(Using)
 {
   PermutationItem_c *pi;
 
-  [self _updatePermutation_];
   pi = [index get];
   return pi ? pi->item : nil;
 }
@@ -566,7 +565,6 @@ PHASE(Using)
 {
   PermutationItem_c *pi;
 
-  [self _updatePermutation_];
   pi = [index get];
   if (pi != nil)
     {
@@ -585,14 +583,13 @@ PHASE(Using)
 {
   PermutationItem_c *pi;
 
-  [self _updatePermutation_];
   pi = [index get];
   if (pi != nil)
     {
       id ret;
       id removeIndex = 
-	indexAtOffset ([(Permutation_c *) collection getCollection], 
-		       pi->position);
+	indexAtOffset (((Permutation_c *) collection)->collection,
+                       pi->position);
       pi->item = nil;
       pi->position = -1;
 

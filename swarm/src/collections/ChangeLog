@@ -26,7 +26,7 @@
 
 	* Collection.m ([PermutedIndex_c -_updatePermutation_]): New method.
 	([PermutedIndex_c
-	-{next,prev,findNext:findPrev,get,put:remove,getLoc,setLoc:,
+	-{next,prev,findNext:findPrev,getLoc,setLoc:,
 	getOffset,setOffset:]): Call it first thing.
 	([PermutedIndex_c -next]): Skip over PermutationItem_c's that are
 	tagged with lastDirection = 1.
