@@ -1,3 +1,10 @@
+1998-07-13  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (AC_OUTPUT): Add etc/Makefile and etc/config.swarm
+	to list of extracted files.
+
+	* Makefile.am (SUBDIRS): Add etc/ directory.
+
 1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.appl.in (bltlibdir): Set bltlibdir instead of bltdir.

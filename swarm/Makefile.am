@@ -1,4 +1,4 @@
-SUBDIRS = src m4
+SUBDIRS = src m4 etc
 
 EXTRA_DIST = VERSION
 
