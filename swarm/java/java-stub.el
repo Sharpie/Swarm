@@ -263,13 +263,7 @@
          (first-argument (car arguments)))
     (java-print-type (method-return-type method))
     (insert " ")
-    (insert (car first-argument))
-    (loop for argument in (cdr arguments)
-          for nameKey = (car argument)
-          when nameKey
-          do
-          (insert "$")
-          (insert nameKey))
+    (java-print-native-method-name arguments)
     (insert " (")
     (java-print-argument first-argument)
     (loop for argument in (cdr arguments)
@@ -330,22 +324,37 @@
 
 (defun java-suffix-for-phase (phase)
   (case phase
-    (:setting "_s")
-    (:using "_u")
+    (:setting "S")
+    (:using "U")
     (:creating "")))
 
 (defun java-class-name (protocol phase)
   (concat (protocol-name protocol) (java-suffix-for-phase phase)))
-
+        
 (defun java-interface-name (protocol phase)
   (concat "i_" (java-class-name protocol phase)))
 
-(defun java-qualified-interface-name (current-module protocol phase)
+(defun java-qualified-name (current-module protocol phase interface-flag)
   (let ((module-name (module-name (protocol-module protocol)))
-        (interface-name (java-interface-name protocol phase)))
-    (if (string= module-name (module-name current-module))
-        interface-name
-        (concat "swarm." module-name "." interface-name))))
+        (name (concat (if interface-flag "i_" "")
+                      (java-class-name protocol phase))))
+    (if current-module
+        (if (string= module-name (module-name current-module))
+            name
+            (concat "swarm." module-name "." name))
+        (concat "swarm/" module-name "/" name))))
+
+(defun java-qualified-native-name (protocol phase interface-flag)
+  (java-qualified-name nil protocol phase interface-flag))
+  
+(defun java-qualified-class-name (current-module protocol phase)
+  (java-qualified-name current-module protocol phase nil))
+
+(defun java-qualified-interface-name (current-module protocol phase)
+  (java-qualified-name current-module protocol phase t))
+
+(defun java-qualified-native-class-name (protocol phase)
+  (java-qualified-class-name nil protocol phase))
 
 (defun java-print-implemented-interfaces-list (protocol phase separator)
   (let ((first t)
@@ -562,6 +571,15 @@
             (java-argument-print-conversion argument))))
   (insert "]"))
 
+(defun java-print-native-method-name (arguments)
+  (insert (car (car arguments)))
+  (loop for argument in (cdr arguments)
+        for nameKey = (car argument)
+        when nameKey
+        do
+        (insert "_00024") ; $
+        (insert nameKey)))
+
 (defun java-print-native-method (method protocol phase)
   (flet ((insert-arg (arg)
            (insert-char ?\  30)
@@ -576,20 +594,13 @@
       (insert "_")
       (insert (java-class-name protocol phase))
       (insert "_")
-      (insert (car first-argument))
-      (loop for argument in (cdr arguments)
-            for nameKey = (car argument)
-            when nameKey
-            do
-            (insert "$")
-            (insert nameKey))
+      (java-print-native-method-name arguments)
       (unless (java-argument-empty-p first-argument)
         (insert "__")
         (insert (java-argument-convert first-argument
                                        #'java-type-to-signature))
         (loop for argument in (cdr arguments)
               do
-              (insert "_")
               (insert (java-argument-convert argument
                                              #'java-type-to-signature))))
       (insert " (JNIEnv *env, ")
@@ -611,12 +622,17 @@
       (let* ((signature (get-method-signature method))
              (java-return (java-objc-to-java-type (method-return-type method)))
              (wrapped-flag 
-              (cond ((create-method-p method)
+              (cond ((string= "+createBegin:" signature)
                      (insert "JUPDATE (env, JINSTANTIATE (env, jclass), ")
+                     t)
+                    ((create-method-p method)
+                     (insert "JUPDATE (env, JINSTANTIATENAME (env, \"")
+                     (insert (java-qualified-native-class-name protocol :using))
+                     (insert "\"), ")
                      t)
                     ((string= "-createEnd" signature)
                      (insert "JSWITCHUPDATE (env, jobj, JINSTANTIATENAME (env, \"")
-                     (insert (java-class-name protocol :using))
+                     (insert (java-qualified-native-class-name protocol :using))
                      (insert "\"), ")
                      t)
                     ((string= java-return "Object")
