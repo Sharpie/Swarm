@@ -1,5 +1,10 @@
 2000-06-29  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* Makefile.am (EXTRA_DIST): Add List_HDF5{in,out}.m.
+
+	* List.m, List_HDF5in.m, List_HDF5out.m: Split out hdf5 routines
+	into separate files.
+
 	* {List,Map,Stream,StringObject}.[hm], collections.h: Remove
 	return type from {lisp,hdf5}Out{Shallow,Deep}:.
 

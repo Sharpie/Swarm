@@ -16,6 +16,8 @@ Library:      collections
 #include <collections/predicates.h> // keywordp
 #include <misc.h> // abort
 
+#import <defobj/java.h> // SD_JAVA_{INSTANTIATE,FINDJAVACLASS} (in HDF5in)
+
 @implementation List_any
 
 PHASE(Creating)
@@ -117,7 +119,6 @@ setListClass (id obj, id aClass)
   return self;
 }
 
-
 PHASE(Setting)
 
 - (void)setCountPerBlock: (int)countPerBlock
@@ -139,34 +140,7 @@ PHASE(Setting)
   return self;
 }
 
-- hdf5In: hdf5Obj
-{
-  if ([hdf5Obj getDatasetFlag])
-    {
-      id aZone = [self getZone];
-      Class class = [hdf5Obj getClass];
-      unsigned i, c_count = [hdf5Obj getCount];
-
-      for (i = 0; i < c_count; i++)
-        {
-          id obj = [class create: aZone];
-
-          [hdf5Obj selectRecord: i];
-          [hdf5Obj shallowLoadObject: obj];
-          [(id) self addLast: obj];
-        }
-    }
-  else
-    {
-      int process_object (id component)
-        {
-          [(id) self addLast: hdf5In ([self getZone], component)];
-          return 0;
-        }
-      [hdf5Obj iterate: process_object];
-    }
-  return self;
-}
+#include "List_HDF5in.m"
 
 PHASE(Using)
 
@@ -238,80 +212,9 @@ PHASE(Using)
   [self _lispOut_: stream deep: NO];
 }
 
-- (void)hdf5OutDeep: hdf5Obj
-{
-  id aZone = [self getZone];
-
-  id <Index> li = [self begin: scratchZone];
-  id member;
-  
-  [hdf5Obj storeTypeName: [self getTypeName]];
-  while ((member = [li next]))
-    {
-      id itemGroup;
-      char buf[DSIZE (unsigned) + 1];
-      
-      sprintf (buf, "%u", [li getOffset]);
-      
-      itemGroup = [[[[[HDF5 createBegin: aZone]
-                       setParent: hdf5Obj]
-                      setWriteFlag: YES]
-                     setName: buf]
-                    createEnd];
-      
-      [member hdf5OutDeep: itemGroup];
-      [itemGroup drop];
-    }
-  [li drop];
-}
-
-- (void)hdf5OutShallow: hdf5Obj
-{
-  if (![self allSameClass])
-    raiseEvent (SaveError,
-                "shallow HDF5 serialization on Collections must be same type");
-  else
-    {
-      id aZone = [self getZone];
-      id memberProto = [self getFirst];
-      id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
-                               setPrototype: memberProto]
-                              createEnd];
-      
-      id hdf5ObjDataset =
-        [[[[[[[HDF5 createBegin: aZone]
-               setName: [hdf5Obj getName]]
-              setParent: hdf5Obj]
-             setWriteFlag: YES]
-            setCompoundType: hdf5CompoundType]
-           setCount: [self getCount]]
-          createEnd];
-      
-      [hdf5ObjDataset storeTypeName: [self getTypeName]];
-      [hdf5ObjDataset storeComponentTypeName: [memberProto getTypeName]];
-      {
-        id <Index> li = [self begin: scratchZone];
-        id member;
-        
-        while ((member = [li next]))
-          {
-            unsigned rn = [li getOffset];
-            
-            [hdf5ObjDataset numberRecord: rn];
-            [hdf5ObjDataset selectRecord: rn];
-            [member hdf5OutShallow: hdf5ObjDataset];
-          }
-        [li drop];
-      }
-      [hdf5ObjDataset writeRowNames];
-      [hdf5ObjDataset writeLevels];
-      [hdf5ObjDataset drop];
-      [hdf5CompoundType drop];
-    }
-}
+#include "List_HDF5out.m"
 
 @end
-
 
 // ListIndex_any: index for List_c
 

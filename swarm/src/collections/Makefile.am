@@ -14,7 +14,7 @@ EXTRA_LTLIBRARIES = libcollections.la
 
 BUILT_SOURCES = $(TYPEINFO)
 
-EXTRA_DIST = List_GEN.m
+EXTRA_DIST = List_GEN.m List_HDF5in.m List_HDF5out.m
 
 SRC = Array.m Collection.m InputStream.m Stream.m List.m \
 	List_linked.m List_mlinks.m ListShuffler.m \
