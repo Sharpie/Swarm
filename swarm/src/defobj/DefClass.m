@@ -341,11 +341,6 @@ objc_type_for_lisp_type (const char *lispTypeString)
   return [hdf5Obj getClass];
 }
 
-- lispIn: expr
-{
-  return self;
-}
-
 static const char *
 process_type (const char *varType,
              void (*func) (unsigned dim, unsigned count))
@@ -408,7 +403,7 @@ process_type (const char *varType,
   return baseType;
 }
 
-- lispOut: stream deep: (BOOL)deepFlag
+- lispOutShallow: stream
 {
   struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
   unsigned i, count = ivars->ivar_count;
@@ -452,12 +447,7 @@ process_type (const char *varType,
   return self;
 }
 
-- hdf5In: expr
-{
-  return self;
-}
-
-- hdf5Out: stream deep: (BOOL)deepFlag
+- hdf5OutShallow: hdf5Obj
 {
   raiseEvent (NotImplemented, "DefClass / hdf5Out:deep:");
   return nil;

@@ -733,6 +733,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                   if (componentTypeName)
                     {
                       int rank;
+                      hsize_t dims[1];
 
                       [compoundType setName: componentTypeName];
                       if ((c_sid = H5Dget_space (loc_id)) < 0)
@@ -742,17 +743,13 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                       if ((rank = H5Sget_simple_extent_ndims (c_sid)) < 0)
                         raiseEvent  (LoadError,
                                      "could not get rank of space");
-                      
                       if (rank != 1)
                         raiseEvent (LoadError, "expected rank of 1");
-                      {
-                        hsize_t dims[1];
 
-                        if (H5Sget_simple_extent_dims (c_sid, dims, NULL) < 0)
-                          raiseEvent (LoadError,
-                                      "could not get extent of space");
-                        c_count = dims[0];
-                      }
+                      if (H5Sget_simple_extent_dims (c_sid, dims, NULL) < 0)
+                        raiseEvent (LoadError,
+                                    "could not get extent of space");
+                      c_count = dims[0];
                     }
                   else
                     {
@@ -815,29 +812,6 @@ PHASE(Using)
   return c_count;
 }
 
-- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
-{
-#ifdef HAVE_HDF5
-
-  herr_t process_attribute (hid_t oid, const char *attrName, void *client)
-    {
-      const char *value = get_attribute (oid, attrName);
-
-      if (value)
-        return iterateFunc (attrName, value);
-
-      return 0;
-    }
-  
-  if (H5Aiterate (loc_id, NULL, process_attribute, NULL) < 0)
-    raiseEvent (LoadError, "unable to iterate over attributes");
-  
-#else
-  hdf5_not_available ();
-#endif
-  return self;
-}
-
 - iterate: (int (*) (id hdf5obj))iterateFunc
 {
 #ifdef HAVE_HDF5
@@ -895,6 +869,33 @@ PHASE(Using)
   return self;
 }
 
+- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
+{
+#ifdef HAVE_HDF5
+
+  herr_t process_attribute (hid_t oid, const char *attrName, void *client)
+    {
+      const char *value = get_attribute (oid, attrName);
+
+      if (value)
+        return iterateFunc (attrName, value);
+
+      return 0;
+    }
+  
+  if (H5Aiterate (loc_id, NULL, process_attribute, NULL) < 0)
+    raiseEvent (LoadError, "unable to iterate over attributes");
+  
+#else
+  hdf5_not_available ();
+#endif
+  return self;
+}
+
+- (const char *)getAttribute: (const char *)attrName
+{
+  return get_attribute (loc_id, attrName);
+}
 
 - getClass
 {
@@ -1258,6 +1259,49 @@ check_alignment (id obj, id compoundType)
   return self;
 }
 
+- (const char **)readRowNames
+{
+  hid_t aid, sid;
+  hid_t memtid = make_string_ref_type ();
+  int rank;
+  hsize_t dims[1];
+  const char **buf;
+
+  if ((aid = H5Aopen_name (loc_id, ROWNAMES)) < 0)
+    raiseEvent (LoadError, "could not get row names attribute");
+  
+  if ((sid = H5Aget_space (aid)) < 0)
+    raiseEvent (LoadError, "could not get row names space");
+  
+  if ((rank = H5Sget_simple_extent_ndims (sid)) < 0)
+    raiseEvent (LoadError, "could not get row names space rank");
+  
+  if (rank != 1)
+    raiseEvent (LoadError, "row names space rank should be 1");
+  
+  if (H5Sget_simple_extent_dims (sid, dims, NULL) < 0)
+    raiseEvent (LoadError, "could not get dimensions for row names space");
+
+  if (c_count != dims[0])
+    raiseEvent (LoadError, "row names vector different size from table");
+
+  buf = xmalloc (sizeof (const char *) * c_count);
+
+  if (H5Aread (aid, memtid, buf) < 0)
+    raiseEvent (LoadError, "could not get row names vecotr");
+  
+  if (H5Aclose (aid) < 0)
+    raiseEvent (LoadError, "could not close row names attribute");
+
+  if (H5Sclose (sid) < 0)
+    raiseEvent (LoadError, "could not close row names space");
+  
+  if (H5Tclose (memtid) < 0)
+    raiseEvent (LoadError, "could not close reference type");
+
+  return buf;
+}
+
 - writeRowNames
 {
 #ifdef HAVE_HDF5
@@ -1281,8 +1325,7 @@ check_alignment (id obj, id compoundType)
   
   if ((rnaid = H5Acreate (loc_id, ROWNAMES,
                           rntid, rnsid, H5P_DEFAULT)) < 0)
-    raiseEvent (SaveError, 
-                "unable to create row names attribute dataset");
+    raiseEvent (SaveError, "unable to create row names attribute dataset");
   
   if (H5Awrite (rnaid, rnmemtid, c_rnbuf) < 0)
     raiseEvent (SaveError, "unable to write row names dataset");

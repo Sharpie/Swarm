@@ -21,7 +21,6 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
-#include <swarmconfig.h> // HAVE_HDF5
 #include <misc.h> // strcpy, strlen, isprint, sprintf
 #include <collections/predicates.h> // arrayp, keywordp, listp, stringp
 
@@ -64,9 +63,6 @@ PHASE(Creating)
 
 - hdf5InCreate: expr
 {
-#ifndef HAVE_HDF5
-  hdf5_not_available ();
-#endif
   return self;
 }
 
@@ -915,7 +911,7 @@ lisp_output_type (const char *type,
         if (obj == nil)
           [stream catC: "nil"];
         else if (deepFlag)
-          [obj lispOut: stream deep: YES];
+          [obj lispOutDeep: stream];
         else
           [stream catC: "#:skipped"];
         break;
@@ -1018,7 +1014,7 @@ lisp_output_type (const char *type,
     }
 }
 
-- lispOut: stream deep: (BOOL)deepFlag
+- _lispOut_: stream deep: (BOOL)deepFlag
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
@@ -1043,40 +1039,51 @@ lisp_output_type (const char *type,
   return self;
 }
 
-- hdf5Out: hdf5Obj deep: (BOOL)deepFlag
+- lispOutShallow: stream
 {
-#ifdef HAVE_HDF5
-  if (deepFlag)
+  return [self _lispOut_: stream deep: NO];
+}
+
+- lispOutDeep: stream
+{
+  return [self _lispOut_: stream deep: YES];
+}
+
+- hdf5OutDeep: hdf5Obj
+{
+  void store_object (struct objc_ivar *ivar)
     {
-      void store_object (struct objc_ivar *ivar)
+      const char *name = ivar->ivar_name;
+      const char *type = ivar->ivar_type;
+      void *ptr = (void *)self + ivar->ivar_offset;
+      
+      if (*type == _C_ID)
         {
-          const char *name = ivar->ivar_name;
-          const char *type = ivar->ivar_type;
-          void *ptr = (void *)self + ivar->ivar_offset;
+          id obj = *((id *) ptr);
           
-          if (*type == _C_ID)
+          if (obj != nil)
             {
-              id obj = *((id *) ptr);
+              id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                              setCreateFlag: YES]
+                             setParent: hdf5Obj]
+                            setName: name]
+                           createEnd];
               
-              if (obj != nil && deepFlag)
-                {
-                  id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                                  setCreateFlag: YES]
-                                 setParent: hdf5Obj]
-                                setName: name]
-                               createEnd];
-                  
-                  [obj hdf5Out: group deep: YES];
-                  [group drop];
-                }
+              [obj hdf5OutDeep: group];
+              [group drop];
             }
-          else
-            [hdf5Obj storeAsDataset: name typeName: NULL type: type ptr: ptr];
         }
-      [hdf5Obj storeTypeName: [self getTypeName]];
-      map_ivars (getClass (self)->ivars, store_object);
+      else
+        [hdf5Obj storeAsDataset: name typeName: NULL type: type ptr: ptr];
     }
-  else if ([hdf5Obj getCompoundType])
+  [hdf5Obj storeTypeName: [self getTypeName]];
+  map_ivars (getClass (self)->ivars, store_object);
+  return self;
+}
+
+- hdf5OutShallow: hdf5Obj
+{
+  if ([hdf5Obj getCompoundType])
     [hdf5Obj shallowStoreObject: self];
   else
     {
@@ -1103,9 +1110,6 @@ lisp_output_type (const char *type,
       [cDataset drop];
       [cType drop];
     }
-#else
-  hdf5_not_available ();
-#endif
   return self;
 }
 
@@ -1199,7 +1203,6 @@ lisp_output_type (const char *type,
 
 - hdf5In: hdf5Obj
 {
-#ifdef HAVE_HDF5
   if ([hdf5Obj getDatasetFlag])
     [hdf5Obj shallowLoadObject: self];
   else
@@ -1221,9 +1224,6 @@ lisp_output_type (const char *type,
         }
       [hdf5Obj iterate: process_object];
     }
-#else
-  hdf5_not_available ();
-#endif
   return self;
 }
 

@@ -28,7 +28,8 @@ CREATING
 //M: create-time parameters.
 - lispInCreate: expr;
 
-- hdf5InCreate: expr;
+//M: Process HDF5 object to set create-time parameters.
+- hdf5InCreate: hdf5Obj;
 
 //F: Load an object from a lisp expression of the form
 //F: (make-{class,instance} :arg1 x :arg y). 
@@ -42,13 +43,20 @@ USING
 //M: list of instance variable name / value pairs.
 - lispIn: expr;
 
-//M: Output a Lisp representation of object state to a stream.
-- lispOut: stream deep: (BOOL)deepFlag;
+//M: Output a shallow Lisp representation of object state to a stream.
+- lispOutShallow: stream;
 
-- hdf5In: expr;
+//M: Output a deep Lisp representation of object state to a stream.
+- lispOutDeep: stream;
 
-//M: Output a HDF5 representation of objectstate to a stream.
-- hdf5Out: hdf5obj deep: (BOOL)deepFlag;
+//M: Load instance variables from an HDF5 object.
+- hdf5In: hdf5Obj;
+
+//M: Output a shallow HDF5 representation of object state to a stream.
+- hdf5OutShallow: hdf5obj;
+
+//M: Output a deep HDF5 representation of object state to a stream.
+- hdf5OutDeep: hdf5obj;
 
 - updateArchiver;
 
@@ -66,7 +74,7 @@ extern id lispInKeyword (id index);
 
 @end
 
-@protocol DefinedObject <Serialization>
+@protocol DefinedObject
 //S: Object with defined type and implementation.
 
 //D: DefinedObject is the top-level supertype for all objects that follow
@@ -768,8 +776,8 @@ CREATING
 - at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
 - hdf5InCreate: hdf5Obj;
-- lispOut: stream deep: (BOOL)deepFlag;
-- hdf5Out: stream deep: (BOOL)deepFlag;
+- lispOutShallow: stream;
+- hdf5OutShallow: hdf5Obj;
 - updateArchiver;
 extern id createType (id aZone, const char *name);
 extern Class copyClass (Class class);
@@ -982,7 +990,6 @@ SETTING
 - setBaseTypeObject: baseTypeObject;
 USING
 - iterate: (int (*) (id hdf5Obj))iterateFunc;
-- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 - (BOOL)getDatasetFlag;
 - (const char *)getName;
 - (unsigned)getCount;
@@ -993,13 +1000,19 @@ USING
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;
 - storeComponentTypeName: (const char *)typeName;
-- storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - shallowLoadObject: obj;
 - shallowStoreObject: obj;
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
+
+- (const char **)readRowNames;
 - writeRowNames;
+
+- storeAttribute: (const char *)attributeName value: (const char *)valueString;
+- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
+- (const char *)getAttribute: (const char *)attributeName;
+
 - (void)drop;
 
 extern void hdf5_not_available (void);

@@ -71,10 +71,12 @@ Library:      defobj
 - (void)xfprintid;
 - lispInCreate: expr;
 - lispIn: expr;
-- lispOut: stream deep: (BOOL)deepFlag;
+- lispOutDeep: stream;
+- lispOutShallow: stream;
 - hdf5InCreate: expr;
 - hdf5In: expr;
-- hdf5Out: hdf5obj deep: (BOOL)deepFlag;
+- hdf5OutDeep: hdf5obj;
+- hdf5OutShallow: hdf5obj;
 - updateArchiver;
 @end
 

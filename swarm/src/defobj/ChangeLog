@@ -1,5 +1,10 @@
 1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.[hm] ([HDF5_c -readRowNames]), defobj.h: New method.
+
+	* Archiver.m, DefClass.[hm], DefObject.[hm], defobj.h:
+	Switch from {hdf5,lisp}Out:deep: to {hdf5,lisp}Out{Shallow,Deep}:.
+
 	* HDF5Object.h (HDF5_c): Replace c_rnlen with two variables:
 	c_rnnlen and c_rnmlen.  
 

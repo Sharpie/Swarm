@@ -555,13 +555,18 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
       [outputCharStream catC: [key getC]];
       [outputCharStream catC: "\n          "];
       if (![member isClass])
-        [member lispOut: outputCharStream deep: deepFlag];
+        {
+          if (deepFlag)
+            [member lispOutDeep: outputCharStream];
+          else
+            [member lispOutShallow: outputCharStream];
+        }
       else
         {
-          SEL sel = M(lispOut:deep:);
+          SEL sel = M(lispOutShallow:);
           IMP func = get_imp (id_CreatedClass_s, sel);
           
-          func (member, sel, outputCharStream, NO);
+          func (member, sel, outputCharStream);
         }
       [outputCharStream catC: ")"];
     }
@@ -642,7 +647,11 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
                       createEnd];
       
       // instance support only; classes are handled indirectly
-      [member hdf5Out: memberGroup deep: deepFlag];
+      if (deepFlag)
+        [member hdf5OutDeep: memberGroup];
+      else
+        [member hdf5OutShallow: memberGroup];
+      
       [memberGroup drop];
     }
 }

@@ -82,9 +82,9 @@
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
+
 - storeTypeName: (const char *)typeName;
 - storeComponentTypeName: (const char *)typeName;
-- storeAttribute: (const char *)attributeName value: (const char *)valueString;
 
 - shallowLoadObject: obj;
 - shallowStoreObject: obj;
@@ -93,8 +93,12 @@
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 
 - iterate: (int (*) (id hdf5Obj))iterateFunc;
+
+- storeAttribute: (const char *)attributeName value: (const char *)valueString;
+- (const char *)getAttribute: (const char *)attrName;
 - iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 
+- (const char **)readRowNames;
 - writeRowNames;
 
 - (void)drop;
