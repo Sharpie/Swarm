@@ -1,3 +1,19 @@
+1998-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* html.dsl (nav-context): Local override to this function of
+	(component-element-list) - remove 'refentry' from the list to
+	correctly generates the title of the enclosing reference as the
+	navigation subtitle.
+	(nav-context?): Also include 'refentry' in the list gi components
+	that require a navigation subtitle.
+	(stylesheet):  Include missing sgml end-tag.
+
+	* common.dsl (abstract): Made {empty-sosofo. process-children} in
+	reference-titlepage-{recto, verso}-mode, respectively to fix
+	position after (partintro) text.
+	(common-titlepage-verso-elements): Uncommented 'abstract' from
+	list - added 'bookbiblio'.
+
 1998-06-10  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* print.dsl ($img$): New function (handle public identifiers,

@@ -489,7 +489,8 @@
        (normalize "pubdate")         
        (normalize "releaseinfo")
        (normalize "biblioset")
-       ;(normalize "abstract")
+       (normalize "bookbiblio")
+       (normalize "abstract")
        (normalize "revhistory")))
 
 (define article-titlepage-recto-elements common-titlepage-recto-elements)
@@ -506,10 +507,14 @@
 (mode set-titlepage-recto-mode (element revhistory (empty-sosofo)))
 (mode book-titlepage-recto-mode (element revhistory (empty-sosofo)))
 
+(mode reference-titlepage-recto-mode (element abstract (empty-sosofo)))
+
 (mode article-titlepage-verso-mode (element revhistory (revhistory)))
 (mode book-titlepage-verso-mode (element revhistory (revhistory)))
 (mode reference-titlepage-verso-mode (element revhistory (revhistory)))
 (mode set-titlepage-verso-mode (element revhistory (revhistory)))
+
+(mode reference-titlepage-verso-mode (element abstract (process-children)))
 
 (element revhistory (empty-sosofo))
 

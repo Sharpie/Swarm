@@ -122,6 +122,51 @@
     (list (normalize "book")
           (normalize "revhistory")))
 
+;; want context-sensitive subtitles for 'refentry'(s) as well as
+;; 'sect1'(s)
+(define (nav-context? elemnode)
+  (cond
+   ((equal? (gi elemnode)
+           (normalize "refentry")))
+   ((equal? (gi elemnode)
+           (normalize "sect1")))
+   (else #f)))
+
+;; override (component-element-list) only locally in the list of
+;; ancestor-members by removing 'refentry' from the list - this
+;; ensures that that 'reference' is correctly intepreted as the
+;; ancestor of 'refentry' and correctly generates reference title as
+;; the navigation subtitle
+
+(define (nav-context elemnode)
+  (let* ((component 
+          (ancestor-member 
+           elemnode
+           (append (book-element-list) (division-element-list)
+                   ;; override old (component-element-list)
+                   (list (normalize "preface")
+                         (normalize "chapter")
+                         (normalize "appendix") 
+                         (normalize "article")
+                         (normalize "glossary")
+                         (normalize "bibliography")
+                         (normalize "index")
+                         (normalize "reference")
+                         (normalize "book")))))
+	 (num  (if (node-list-empty? component)
+                   0
+                   (element-number component))))
+    (if (nav-context? elemnode)
+	(if (equal? (element-label component) "")
+            (make sequence
+	      (element-title-sosofo component))
+	    (make sequence
+	      (literal (gentext-element-name-space (gi component)))
+	      (element-label-sosofo component)
+	      (literal (gentext-label-title-sep (gi component)))
+	      (element-title-sosofo component)))
+	(empty-sosofo))))
+
 (define (revhistory)
     (let ((title (id-to-indexitem (id (current-node)))))
       (sosofo-append
