@@ -26,6 +26,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** Support for 24 bit screenshots under Windows
 ***** New method -setParentFlag: for selecting inclusion of window manager
       decorations in a widget snapshot.
+***** Cope with applications and window managers determined to keep certain
+      windows obscuring Swarm windows during widget snapshots.
 
 *** objectbase
 **** Arguments
