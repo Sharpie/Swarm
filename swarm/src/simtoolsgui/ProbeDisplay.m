@@ -7,6 +7,7 @@
 #import <simtoolsgui/SimpleProbeDisplay.h>
 #import <simtoolsgui/CompleteProbeDisplay.h>
 #import <gui.h>
+#import <defobj/defalloc.h>
 
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
