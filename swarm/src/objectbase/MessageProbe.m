@@ -5,6 +5,8 @@
 
 #import "MessageProbe.h"
 
+#include <swarmconfig.h>
+
 #ifdef USE_AVCALL
 #include <avcall.h>
 #else
