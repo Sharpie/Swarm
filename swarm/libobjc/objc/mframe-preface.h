@@ -24,7 +24,9 @@
 #ifndef __preface_h_OBJECTS_INCLUDE
 #define __preface_h_OBJECTS_INCLUDE
 
-#ifdef __hpux__
+#include <config.h>
+
+#if defined(__hpux__) && defined(HAVE_SYS_SIGEVENT_H)
 #include <sys/sigevent.h>
 #endif
 
