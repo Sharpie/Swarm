@@ -1,145 +1,0 @@
-       NOTE: Most of the tests in DIEHARD return a p-value, which            
-       should be uniform on [0,1) if the input file contains truly           
-       independent random bits.   Those p-values are obtained by             
-       p=F(X), where F is the assumed distribution of the sample             
-       random variable X---often normal. But that assumed F is just          
-       an asymptotic approximation, for which the fit will be worst          
-       in the tails. Thus you should not be surprised with                   
-       occasional p-values near 0 or 1, such as .0012 or .9983.              
-       When a bit stream really FAILS BIG, you will get p's of 0 or          
-       1 to six or more places.  By all means, do not, as a                  
-       Statistician might, think that a p < .025 or p> .975 means            
-       that the RNG has "failed the test at the .05 level".  Such            
-       p's happen among the hundreds that DIEHARD produces, even             
-       with good RNG's.  So keep in mind that " p happens".                  
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The tests OPSO, OQSO and DNA                      ::     
-     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
-     :: The OPSO test considers 2-letter words from an alphabet of    ::     
-     :: 1024 letters.  Each letter is determined by a specified ten   ::     
-     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
-     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
-     :: "keystrokes")  and counts the number of missing words---that  ::     
-     :: is 2-letter words which do not appear in the entire sequence. ::     
-     :: That count should be very close to normally distributed with  ::     
-     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
-     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
-     :: a time from the test file and uses a designated set of ten    ::     
-     :: consecutive bits. It then restarts the file for the next de-  ::     
-     :: signated 10 bits, and so on.                                  ::     
-     ::                                                               ::     
-     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
-     ::   The test OQSO is similar, except that it considers 4-letter ::     
-     :: words from an alphabet of 32 letters, each letter determined  ::     
-     :: by a designated string of 5 consecutive bits from the test    ::     
-     :: file, elements of which are assumed 32-bit random integers.   ::     
-     :: The mean number of missing words in a sequence of 2^21 four-  ::     
-     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
-     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
-     :: extensive simulation.                                         ::     
-     ::                                                               ::     
-     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
-     :: determined by two designated bits in the sequence of random   ::     
-     :: integers being tested.  It considers 10-letter words, so that ::     
-     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
-     :: mean number of missing words from a string of 2^21  (over-    ::     
-     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
-     :: The standard deviation sigma=339 was determined as for OQSO   ::     
-     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
-     :: three places), not determined by simulation.                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- OPSO test for generator RWC8gen.bin              
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OPSO for RWC8gen.bin     using bits 23 to 32        142208  1.030  .8485
-    OPSO for RWC8gen.bin     using bits 22 to 31        142055   .502  .6923
-    OPSO for RWC8gen.bin     using bits 21 to 30        142415  1.744  .9594
-    OPSO for RWC8gen.bin     using bits 20 to 29        141411 -1.718  .0429
-    OPSO for RWC8gen.bin     using bits 19 to 28        142393  1.668  .9523
-    OPSO for RWC8gen.bin     using bits 18 to 27        141775  -.463  .3216
-    OPSO for RWC8gen.bin     using bits 17 to 26        141848  -.211  .4163
-    OPSO for RWC8gen.bin     using bits 16 to 25        141614 -1.018  .1543
-    OPSO for RWC8gen.bin     using bits 15 to 24        141789  -.415  .3391
-    OPSO for RWC8gen.bin     using bits 14 to 23        141838  -.246  .4029
-    OPSO for RWC8gen.bin     using bits 13 to 22        141547 -1.249  .1058
-    OPSO for RWC8gen.bin     using bits 12 to 21        141644  -.915  .1801
-    OPSO for RWC8gen.bin     using bits 11 to 20        141783  -.436  .3316
-    OPSO for RWC8gen.bin     using bits 10 to 19        141563 -1.194  .1162
-    OPSO for RWC8gen.bin     using bits  9 to 18        141830  -.274  .3922
-    OPSO for RWC8gen.bin     using bits  8 to 17        141979   .240  .5949
-    OPSO for RWC8gen.bin     using bits  7 to 16        141651  -.891  .1865
-    OPSO for RWC8gen.bin     using bits  6 to 15        141925   .054  .5215
-    OPSO for RWC8gen.bin     using bits  5 to 14        141810  -.343  .3660
-    OPSO for RWC8gen.bin     using bits  4 to 13        142289  1.309  .9048
-    OPSO for RWC8gen.bin     using bits  3 to 12        141432 -1.646  .0499
-    OPSO for RWC8gen.bin     using bits  2 to 11        141882  -.094  .4625
-    OPSO for RWC8gen.bin     using bits  1 to 10        142015   .364  .6422
- OQSO test for generator RWC8gen.bin              
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OQSO for RWC8gen.bin     using bits 28 to 32        141732  -.601  .2739
-    OQSO for RWC8gen.bin     using bits 27 to 31        141500 -1.388  .0826
-    OQSO for RWC8gen.bin     using bits 26 to 30        141922   .043  .5171
-    OQSO for RWC8gen.bin     using bits 25 to 29        142148   .809  .7908
-    OQSO for RWC8gen.bin     using bits 24 to 28        142557  2.195  .9859
-    OQSO for RWC8gen.bin     using bits 23 to 27        141865  -.150  .4403
-    OQSO for RWC8gen.bin     using bits 22 to 26        141688  -.750  .2265
-    OQSO for RWC8gen.bin     using bits 21 to 25        141354 -1.882  .0299
-    OQSO for RWC8gen.bin     using bits 20 to 24        141996   .294  .6155
-    OQSO for RWC8gen.bin     using bits 19 to 23        142395  1.646  .9502
-    OQSO for RWC8gen.bin     using bits 18 to 22        141855  -.184  .4269
-    OQSO for RWC8gen.bin     using bits 17 to 21        142020   .375  .6462
-    OQSO for RWC8gen.bin     using bits 16 to 20        141454 -1.543  .0614
-    OQSO for RWC8gen.bin     using bits 15 to 19        141775  -.455  .3244
-    OQSO for RWC8gen.bin     using bits 14 to 18        141592 -1.076  .1410
-    OQSO for RWC8gen.bin     using bits 13 to 17        141903  -.021  .4914
-    OQSO for RWC8gen.bin     using bits 12 to 16        141973   .216  .5854
-    OQSO for RWC8gen.bin     using bits 11 to 15        141929   .067  .5266
-    OQSO for RWC8gen.bin     using bits 10 to 14        141866  -.147  .4416
-    OQSO for RWC8gen.bin     using bits  9 to 13        142145   .799  .7878
-    OQSO for RWC8gen.bin     using bits  8 to 12        141397 -1.737  .0412
-    OQSO for RWC8gen.bin     using bits  7 to 11        142044   .457  .6760
-    OQSO for RWC8gen.bin     using bits  6 to 10        141882  -.093  .4631
-    OQSO for RWC8gen.bin     using bits  5 to  9        142055   .494  .6893
-    OQSO for RWC8gen.bin     using bits  4 to  8        142075   .562  .7128
-    OQSO for RWC8gen.bin     using bits  3 to  7        142290  1.290  .9015
-    OQSO for RWC8gen.bin     using bits  2 to  6        141632  -.940  .1736
-    OQSO for RWC8gen.bin     using bits  1 to  5        141788  -.411  .3404
-  DNA test for generator RWC8gen.bin              
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-     DNA for RWC8gen.bin     using bits 31 to 32        141416 -1.455  .0728
-     DNA for RWC8gen.bin     using bits 30 to 31        142046   .403  .6566
-     DNA for RWC8gen.bin     using bits 29 to 30        141296 -1.809  .0352
-     DNA for RWC8gen.bin     using bits 28 to 29        141477 -1.275  .1011
-     DNA for RWC8gen.bin     using bits 27 to 28        141553 -1.051  .1466
-     DNA for RWC8gen.bin     using bits 26 to 27        141636  -.806  .2100
-     DNA for RWC8gen.bin     using bits 25 to 26        141930   .061  .5243
-     DNA for RWC8gen.bin     using bits 24 to 25        141690  -.647  .2588
-     DNA for RWC8gen.bin     using bits 23 to 24        142585  1.993  .9769
-     DNA for RWC8gen.bin     using bits 22 to 23        142056   .433  .6674
-     DNA for RWC8gen.bin     using bits 21 to 22        141740  -.499  .3087
-     DNA for RWC8gen.bin     using bits 20 to 21        142148   .704  .7593
-     DNA for RWC8gen.bin     using bits 19 to 20        142046   .403  .6566
-     DNA for RWC8gen.bin     using bits 18 to 19        141669  -.709  .2392
-     DNA for RWC8gen.bin     using bits 17 to 18        141966   .167  .5664
-     DNA for RWC8gen.bin     using bits 16 to 17        141868  -.122  .4515
-     DNA for RWC8gen.bin     using bits 15 to 16        142318  1.206  .8860
-     DNA for RWC8gen.bin     using bits 14 to 15        141472 -1.290  .0985
-     DNA for RWC8gen.bin     using bits 13 to 14        141951   .123  .5489
-     DNA for RWC8gen.bin     using bits 12 to 13        141508 -1.184  .1182
-     DNA for RWC8gen.bin     using bits 11 to 12        141556 -1.042  .1486
-     DNA for RWC8gen.bin     using bits 10 to 11        141893  -.048  .4808
-     DNA for RWC8gen.bin     using bits  9 to 10        141868  -.122  .4515
-     DNA for RWC8gen.bin     using bits  8 to  9        141828  -.240  .4052
-     DNA for RWC8gen.bin     using bits  7 to  8        141494 -1.225  .1103
-     DNA for RWC8gen.bin     using bits  6 to  7        141711  -.585  .2793
-     DNA for RWC8gen.bin     using bits  5 to  6        141847  -.184  .4271
-     DNA for RWC8gen.bin     using bits  4 to  5        141862  -.140  .4445
-     DNA for RWC8gen.bin     using bits  3 to  4        141865  -.131  .4480
-     DNA for RWC8gen.bin     using bits  2 to  3        142206   .875  .8093
-     DNA for RWC8gen.bin     using bits  1 to  2        141451 -1.352  .0882
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
- Results of DIEHARD battery of tests sent to file RWC8gen.die    

@@ -1,145 +1,0 @@
-       NOTE: Most of the tests in DIEHARD return a p-value, which            
-       should be uniform on [0,1) if the input file contains truly           
-       independent random bits.   Those p-values are obtained by             
-       p=F(X), where F is the assumed distribution of the sample             
-       random variable X---often normal. But that assumed F is just          
-       an asymptotic approximation, for which the fit will be worst          
-       in the tails. Thus you should not be surprised with                   
-       occasional p-values near 0 or 1, such as .0012 or .9983.              
-       When a bit stream really FAILS BIG, you will get p's of 0 or          
-       1 to six or more places.  By all means, do not, as a                  
-       Statistician might, think that a p < .025 or p> .975 means            
-       that the RNG has "failed the test at the .05 level".  Such            
-       p's happen among the hundreds that DIEHARD produces, even             
-       with good RNG's.  So keep in mind that " p happens".                  
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The tests OPSO, OQSO and DNA                      ::     
-     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
-     :: The OPSO test considers 2-letter words from an alphabet of    ::     
-     :: 1024 letters.  Each letter is determined by a specified ten   ::     
-     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
-     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
-     :: "keystrokes")  and counts the number of missing words---that  ::     
-     :: is 2-letter words which do not appear in the entire sequence. ::     
-     :: That count should be very close to normally distributed with  ::     
-     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
-     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
-     :: a time from the test file and uses a designated set of ten    ::     
-     :: consecutive bits. It then restarts the file for the next de-  ::     
-     :: signated 10 bits, and so on.                                  ::     
-     ::                                                               ::     
-     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
-     ::   The test OQSO is similar, except that it considers 4-letter ::     
-     :: words from an alphabet of 32 letters, each letter determined  ::     
-     :: by a designated string of 5 consecutive bits from the test    ::     
-     :: file, elements of which are assumed 32-bit random integers.   ::     
-     :: The mean number of missing words in a sequence of 2^21 four-  ::     
-     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
-     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
-     :: extensive simulation.                                         ::     
-     ::                                                               ::     
-     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
-     :: determined by two designated bits in the sequence of random   ::     
-     :: integers being tested.  It considers 10-letter words, so that ::     
-     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
-     :: mean number of missing words from a string of 2^21  (over-    ::     
-     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
-     :: The standard deviation sigma=339 was determined as for OQSO   ::     
-     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
-     :: three places), not determined by simulation.                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- OPSO test for generator TT800gen.bin             
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OPSO for TT800gen.bin    using bits 23 to 32        142103   .668  .7479
-    OPSO for TT800gen.bin    using bits 22 to 31        141926   .057  .5229
-    OPSO for TT800gen.bin    using bits 21 to 30        142085   .606  .7277
-    OPSO for TT800gen.bin    using bits 20 to 29        141904  -.018  .4927
-    OPSO for TT800gen.bin    using bits 19 to 28        142175   .916  .8202
-    OPSO for TT800gen.bin    using bits 18 to 27        142342  1.492  .9321
-    OPSO for TT800gen.bin    using bits 17 to 26        142254  1.189  .8827
-    OPSO for TT800gen.bin    using bits 16 to 25        142378  1.616  .9470
-    OPSO for TT800gen.bin    using bits 15 to 24        141938   .099  .5394
-    OPSO for TT800gen.bin    using bits 14 to 23        141600 -1.067  .1431
-    OPSO for TT800gen.bin    using bits 13 to 22        141684  -.777  .2186
-    OPSO for TT800gen.bin    using bits 12 to 21        141855  -.187  .4257
-    OPSO for TT800gen.bin    using bits 11 to 20        142302  1.354  .9121
-    OPSO for TT800gen.bin    using bits 10 to 19        142077   .578  .7184
-    OPSO for TT800gen.bin    using bits  9 to 18        141315 -2.049  .0202
-    OPSO for TT800gen.bin    using bits  8 to 17        141659  -.863  .1940
-    OPSO for TT800gen.bin    using bits  7 to 16        142289  1.309  .9048
-    OPSO for TT800gen.bin    using bits  6 to 15        141921   .040  .5161
-    OPSO for TT800gen.bin    using bits  5 to 14        141656  -.874  .1912
-    OPSO for TT800gen.bin    using bits  4 to 13        141636  -.943  .1730
-    OPSO for TT800gen.bin    using bits  3 to 12        142015   .364  .6422
-    OPSO for TT800gen.bin    using bits  2 to 11        142069   .551  .7090
-    OPSO for TT800gen.bin    using bits  1 to 10        141841  -.236  .4069
- OQSO test for generator TT800gen.bin             
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OQSO for TT800gen.bin    using bits 28 to 32        141957   .162  .5642
-    OQSO for TT800gen.bin    using bits 27 to 31        142029   .406  .6575
-    OQSO for TT800gen.bin    using bits 26 to 30        141350 -1.896  .0290
-    OQSO for TT800gen.bin    using bits 25 to 29        142208  1.012  .8443
-    OQSO for TT800gen.bin    using bits 24 to 28        141678  -.784  .2165
-    OQSO for TT800gen.bin    using bits 23 to 27        141948   .131  .5521
-    OQSO for TT800gen.bin    using bits 22 to 26        141787  -.415  .3392
-    OQSO for TT800gen.bin    using bits 21 to 25        141619  -.984  .1625
-    OQSO for TT800gen.bin    using bits 20 to 24        141653  -.869  .1924
-    OQSO for TT800gen.bin    using bits 19 to 23        142115   .697  .7572
-    OQSO for TT800gen.bin    using bits 18 to 22        141739  -.577  .2818
-    OQSO for TT800gen.bin    using bits 17 to 21        142045   .460  .6772
-    OQSO for TT800gen.bin    using bits 16 to 20        141623  -.971  .1659
-    OQSO for TT800gen.bin    using bits 15 to 19        142185   .934  .8250
-    OQSO for TT800gen.bin    using bits 14 to 18        141928   .063  .5252
-    OQSO for TT800gen.bin    using bits 13 to 17        142392  1.636  .9491
-    OQSO for TT800gen.bin    using bits 12 to 16        142380  1.595  .9447
-    OQSO for TT800gen.bin    using bits 11 to 15        141746  -.554  .2899
-    OQSO for TT800gen.bin    using bits 10 to 14        141977   .229  .5907
-    OQSO for TT800gen.bin    using bits  9 to 13        141937   .094  .5374
-    OQSO for TT800gen.bin    using bits  8 to 12        141661  -.842  .2000
-    OQSO for TT800gen.bin    using bits  7 to 11        141923   .046  .5185
-    OQSO for TT800gen.bin    using bits  6 to 10        142188   .945  .8276
-    OQSO for TT800gen.bin    using bits  5 to  9        142083   .589  .7220
-    OQSO for TT800gen.bin    using bits  4 to  8        141364 -1.849  .0323
-    OQSO for TT800gen.bin    using bits  3 to  7        142127   .738  .7697
-    OQSO for TT800gen.bin    using bits  2 to  6        141413 -1.682  .0462
-    OQSO for TT800gen.bin    using bits  1 to  5        142306  1.345  .9106
-  DNA test for generator TT800gen.bin             
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-     DNA for TT800gen.bin    using bits 31 to 32        142309  1.179  .8808
-     DNA for TT800gen.bin    using bits 30 to 31        141885  -.072  .4714
-     DNA for TT800gen.bin    using bits 29 to 30        141510 -1.178  .1194
-     DNA for TT800gen.bin    using bits 28 to 29        141674  -.694  .2438
-     DNA for TT800gen.bin    using bits 27 to 28        142184   .810  .7911
-     DNA for TT800gen.bin    using bits 26 to 27        142152   .716  .7630
-     DNA for TT800gen.bin    using bits 25 to 26        141630  -.824  .2050
-     DNA for TT800gen.bin    using bits 24 to 25        141807  -.302  .3814
-     DNA for TT800gen.bin    using bits 23 to 24        142316  1.200  .8849
-     DNA for TT800gen.bin    using bits 22 to 23        142024   .338  .6324
-     DNA for TT800gen.bin    using bits 21 to 22        142488  1.707  .9561
-     DNA for TT800gen.bin    using bits 20 to 21        141946   .108  .5431
-     DNA for TT800gen.bin    using bits 19 to 20        141666  -.718  .2364
-     DNA for TT800gen.bin    using bits 18 to 19        141658  -.741  .2292
-     DNA for TT800gen.bin    using bits 17 to 18        142097   .554  .7101
-     DNA for TT800gen.bin    using bits 16 to 17        141842  -.199  .4213
-     DNA for TT800gen.bin    using bits 15 to 16        141602  -.907  .1823
-     DNA for TT800gen.bin    using bits 14 to 15        142120   .621  .7328
-     DNA for TT800gen.bin    using bits 13 to 14        142295  1.138  .8724
-     DNA for TT800gen.bin    using bits 12 to 13        141917   .023  .5090
-     DNA for TT800gen.bin    using bits 11 to 12        142018   .321  .6257
-     DNA for TT800gen.bin    using bits 10 to 11        142250  1.005  .8425
-     DNA for TT800gen.bin    using bits  9 to 10        142073   .483  .6854
-     DNA for TT800gen.bin    using bits  8 to  9        141485 -1.252  .1053
-     DNA for TT800gen.bin    using bits  7 to  8        141749  -.473  .3181
-     DNA for TT800gen.bin    using bits  6 to  7        142064   .456  .6759
-     DNA for TT800gen.bin    using bits  5 to  6        141818  -.269  .3938
-     DNA for TT800gen.bin    using bits  4 to  5        141969   .176  .5699
-     DNA for TT800gen.bin    using bits  3 to  4        142112   .598  .7250
-     DNA for TT800gen.bin    using bits  2 to  3        141905  -.013  .4949
-     DNA for TT800gen.bin    using bits  1 to  2        142674  2.256  .9880
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
- Results of DIEHARD battery of tests sent to file TT800gen.die   

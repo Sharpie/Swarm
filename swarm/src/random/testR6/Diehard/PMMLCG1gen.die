@@ -1,145 +1,0 @@
-       NOTE: Most of the tests in DIEHARD return a p-value, which            
-       should be uniform on [0,1) if the input file contains truly           
-       independent random bits.   Those p-values are obtained by             
-       p=F(X), where F is the assumed distribution of the sample             
-       random variable X---often normal. But that assumed F is just          
-       an asymptotic approximation, for which the fit will be worst          
-       in the tails. Thus you should not be surprised with                   
-       occasional p-values near 0 or 1, such as .0012 or .9983.              
-       When a bit stream really FAILS BIG, you will get p's of 0 or          
-       1 to six or more places.  By all means, do not, as a                  
-       Statistician might, think that a p < .025 or p> .975 means            
-       that the RNG has "failed the test at the .05 level".  Such            
-       p's happen among the hundreds that DIEHARD produces, even             
-       with good RNG's.  So keep in mind that " p happens".                  
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The tests OPSO, OQSO and DNA                      ::     
-     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
-     :: The OPSO test considers 2-letter words from an alphabet of    ::     
-     :: 1024 letters.  Each letter is determined by a specified ten   ::     
-     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
-     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
-     :: "keystrokes")  and counts the number of missing words---that  ::     
-     :: is 2-letter words which do not appear in the entire sequence. ::     
-     :: That count should be very close to normally distributed with  ::     
-     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
-     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
-     :: a time from the test file and uses a designated set of ten    ::     
-     :: consecutive bits. It then restarts the file for the next de-  ::     
-     :: signated 10 bits, and so on.                                  ::     
-     ::                                                               ::     
-     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
-     ::   The test OQSO is similar, except that it considers 4-letter ::     
-     :: words from an alphabet of 32 letters, each letter determined  ::     
-     :: by a designated string of 5 consecutive bits from the test    ::     
-     :: file, elements of which are assumed 32-bit random integers.   ::     
-     :: The mean number of missing words in a sequence of 2^21 four-  ::     
-     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
-     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
-     :: extensive simulation.                                         ::     
-     ::                                                               ::     
-     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
-     :: determined by two designated bits in the sequence of random   ::     
-     :: integers being tested.  It considers 10-letter words, so that ::     
-     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
-     :: mean number of missing words from a string of 2^21  (over-    ::     
-     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
-     :: The standard deviation sigma=339 was determined as for OQSO   ::     
-     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
-     :: three places), not determined by simulation.                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- OPSO test for generator PMMLCG1gen.bin           
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OPSO for PMMLCG1gen.bin  using bits 23 to 32        786507******* 1.0000
-    OPSO for PMMLCG1gen.bin  using bits 22 to 31        142703  2.737  .9969
-    OPSO for PMMLCG1gen.bin  using bits 21 to 30        142251  1.178  .8806
-    OPSO for PMMLCG1gen.bin  using bits 20 to 29        141899  -.036  .4858
-    OPSO for PMMLCG1gen.bin  using bits 19 to 28        142100   .657  .7446
-    OPSO for PMMLCG1gen.bin  using bits 18 to 27        142111   .695  .7566
-    OPSO for PMMLCG1gen.bin  using bits 17 to 26        141937   .095  .5380
-    OPSO for PMMLCG1gen.bin  using bits 16 to 25        142320  1.416  .9216
-    OPSO for PMMLCG1gen.bin  using bits 15 to 24        141899  -.036  .4858
-    OPSO for PMMLCG1gen.bin  using bits 14 to 23        142177   .923  .8220
-    OPSO for PMMLCG1gen.bin  using bits 13 to 22        141456 -1.563  .0590
-    OPSO for PMMLCG1gen.bin  using bits 12 to 21        141812  -.336  .3686
-    OPSO for PMMLCG1gen.bin  using bits 11 to 20        141882  -.094  .4625
-    OPSO for PMMLCG1gen.bin  using bits 10 to 19        142130   .761  .7767
-    OPSO for PMMLCG1gen.bin  using bits  9 to 18        142396  1.678  .9533
-    OPSO for PMMLCG1gen.bin  using bits  8 to 17        142182   .940  .8265
-    OPSO for PMMLCG1gen.bin  using bits  7 to 16        142003   .323  .6267
-    OPSO for PMMLCG1gen.bin  using bits  6 to 15        142339  1.482  .9308
-    OPSO for PMMLCG1gen.bin  using bits  5 to 14        141730  -.618  .2682
-    OPSO for PMMLCG1gen.bin  using bits  4 to 13        141844  -.225  .4109
-    OPSO for PMMLCG1gen.bin  using bits  3 to 12        142144   .809  .7908
-    OPSO for PMMLCG1gen.bin  using bits  2 to 11        142479  1.964  .9753
-    OPSO for PMMLCG1gen.bin  using bits  1 to 10        142072   .561  .7126
- OQSO test for generator PMMLCG1gen.bin           
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OQSO for PMMLCG1gen.bin  using bits 28 to 32        983040******* 1.0000
-    OQSO for PMMLCG1gen.bin  using bits 27 to 31        141889  -.069  .4725
-    OQSO for PMMLCG1gen.bin  using bits 26 to 30        142014   .355  .6386
-    OQSO for PMMLCG1gen.bin  using bits 25 to 29        141469 -1.493  .0678
-    OQSO for PMMLCG1gen.bin  using bits 24 to 28        141483 -1.445  .0742
-    OQSO for PMMLCG1gen.bin  using bits 23 to 27        141470 -1.489  .0682
-    OQSO for PMMLCG1gen.bin  using bits 22 to 26        141886  -.079  .4685
-    OQSO for PMMLCG1gen.bin  using bits 21 to 25        141717  -.652  .2572
-    OQSO for PMMLCG1gen.bin  using bits 20 to 24        141772  -.466  .3208
-    OQSO for PMMLCG1gen.bin  using bits 19 to 23        141662  -.838  .2009
-    OQSO for PMMLCG1gen.bin  using bits 18 to 22        141863  -.157  .4376
-    OQSO for PMMLCG1gen.bin  using bits 17 to 21        142445  1.816  .9653
-    OQSO for PMMLCG1gen.bin  using bits 16 to 20        141810  -.337  .3682
-    OQSO for PMMLCG1gen.bin  using bits 15 to 19        142002   .314  .6233
-    OQSO for PMMLCG1gen.bin  using bits 14 to 18        141782  -.432  .3330
-    OQSO for PMMLCG1gen.bin  using bits 13 to 17        142479  1.931  .9733
-    OQSO for PMMLCG1gen.bin  using bits 12 to 16        141941   .107  .5427
-    OQSO for PMMLCG1gen.bin  using bits 11 to 15        141062 -2.872  .0020
-    OQSO for PMMLCG1gen.bin  using bits 10 to 14        141982   .246  .5973
-    OQSO for PMMLCG1gen.bin  using bits  9 to 13        141961   .175  .5695
-    OQSO for PMMLCG1gen.bin  using bits  8 to 12        141301 -2.062  .0196
-    OQSO for PMMLCG1gen.bin  using bits  7 to 11        141317 -2.008  .0223
-    OQSO for PMMLCG1gen.bin  using bits  6 to 10        141514 -1.340  .0901
-    OQSO for PMMLCG1gen.bin  using bits  5 to  9        141554 -1.205  .1142
-    OQSO for PMMLCG1gen.bin  using bits  4 to  8        142213  1.029  .8484
-    OQSO for PMMLCG1gen.bin  using bits  3 to  7        141695  -.727  .2338
-    OQSO for PMMLCG1gen.bin  using bits  2 to  6        141460 -1.523  .0639
-    OQSO for PMMLCG1gen.bin  using bits  1 to  5        141520 -1.320  .0935
-  DNA test for generator PMMLCG1gen.bin           
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-     DNA for PMMLCG1gen.bin  using bits 31 to 32       1047552******* 1.0000
-     DNA for PMMLCG1gen.bin  using bits 30 to 31        142233   .955  .8302
-     DNA for PMMLCG1gen.bin  using bits 29 to 30        142258  1.029  .8481
-     DNA for PMMLCG1gen.bin  using bits 28 to 29        142043   .394  .6533
-     DNA for PMMLCG1gen.bin  using bits 27 to 28        141843  -.196  .4224
-     DNA for PMMLCG1gen.bin  using bits 26 to 27        142038   .380  .6479
-     DNA for PMMLCG1gen.bin  using bits 25 to 26        141821  -.261  .3972
-     DNA for PMMLCG1gen.bin  using bits 24 to 25        141729  -.532  .2974
-     DNA for PMMLCG1gen.bin  using bits 23 to 24        141743  -.491  .3118
-     DNA for PMMLCG1gen.bin  using bits 22 to 23        142076   .492  .6885
-     DNA for PMMLCG1gen.bin  using bits 21 to 22        141740  -.499  .3087
-     DNA for PMMLCG1gen.bin  using bits 20 to 21        141945   .105  .5419
-     DNA for PMMLCG1gen.bin  using bits 19 to 20        141597  -.921  .1784
-     DNA for PMMLCG1gen.bin  using bits 18 to 19        141927   .052  .5208
-     DNA for PMMLCG1gen.bin  using bits 17 to 18        141832  -.228  .4098
-     DNA for PMMLCG1gen.bin  using bits 16 to 17        141625  -.839  .2008
-     DNA for PMMLCG1gen.bin  using bits 15 to 16        141965   .164  .5652
-     DNA for PMMLCG1gen.bin  using bits 14 to 15        142240   .975  .8353
-     DNA for PMMLCG1gen.bin  using bits 13 to 14        141816  -.275  .3915
-     DNA for PMMLCG1gen.bin  using bits 12 to 13        141806  -.305  .3803
-     DNA for PMMLCG1gen.bin  using bits 11 to 12        141566 -1.013  .1556
-     DNA for PMMLCG1gen.bin  using bits 10 to 11        142249  1.002  .8418
-     DNA for PMMLCG1gen.bin  using bits  9 to 10        142092   .539  .7050
-     DNA for PMMLCG1gen.bin  using bits  8 to  9        141824  -.252  .4006
-     DNA for PMMLCG1gen.bin  using bits  7 to  8        142959  3.096  .9990
-     DNA for PMMLCG1gen.bin  using bits  6 to  7        141579  -.974  .1649
-     DNA for PMMLCG1gen.bin  using bits  5 to  6        141816  -.275  .3915
-     DNA for PMMLCG1gen.bin  using bits  4 to  5        141927   .052  .5208
-     DNA for PMMLCG1gen.bin  using bits  3 to  4        142182   .804  .7894
-     DNA for PMMLCG1gen.bin  using bits  2 to  3        141796  -.334  .3691
-     DNA for PMMLCG1gen.bin  using bits  1 to  2        141757  -.449  .3266
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
- Results of DIEHARD battery of tests sent to file PMMLCG1gen.die 

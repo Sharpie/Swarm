@@ -1,944 +1,0 @@
-       NOTE: Most of the tests in DIEHARD return a p-value, which            
-       should be uniform on [0,1) if the input file contains truly           
-       independent random bits.   Those p-values are obtained by             
-       p=F(X), where F is the assumed distribution of the sample             
-       random variable X---often normal. But that assumed F is just          
-       an asymptotic approximation, for which the fit will be worst          
-       in the tails. Thus you should not be surprised with                   
-       occasional p-values near 0 or 1, such as .0012 or .9983.              
-       When a bit stream really FAILS BIG, you will get p's of 0 or          
-       1 to six or more places.  By all means, do not, as a                  
-       Statistician might, think that a p < .025 or p> .975 means            
-       that the RNG has "failed the test at the .05 level".  Such            
-       p's happen among the hundreds that DIEHARD produces, even             
-       with good RNG's.  So keep in mind that " p happens".                  
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
-     :: Choose m birthdays in a year of n days.  List the spacings    ::     
-     :: between the birthdays.  If j is the number of values that     ::     
-     :: occur more than once in that list, then j is asymptotically   ::     
-     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
-     :: must be quite large, say n>=2^18, for comparing the results   ::     
-     :: to the Poisson distribution with that mean.  This test uses   ::     
-     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
-     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
-     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
-     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
-     :: from the left) from integers in the specified file.           ::     
-     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
-     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
-     :: Each set of bits provides a p-value, and the nine p-values    ::     
-     :: provide a sample for a KSTEST.                                ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
-           Results for TT403gen.bin   
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  1 to 24   2.070
-  duplicate       number       number 
-  spacings       observed     expected
-        0          65.       67.668
-        1         121.      135.335
-        2         141.      135.335
-        3          96.       90.224
-        4          51.       45.112
-        5          21.       18.045
-  6 to INF          5.        8.282
- Chisquare with  6 d.o.f. =     4.78 p-value=  .428148
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  2 to 25   2.092
-  duplicate       number       number 
-  spacings       observed     expected
-        0          58.       67.668
-        1         122.      135.335
-        2         142.      135.335
-        3         111.       90.224
-        4          40.       45.112
-        5          18.       18.045
-  6 to INF          9.        8.282
- Chisquare with  6 d.o.f. =     8.45 p-value=  .793008
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  3 to 26   2.028
-  duplicate       number       number 
-  spacings       observed     expected
-        0          76.       67.668
-        1         123.      135.335
-        2         130.      135.335
-        3          95.       90.224
-        4          50.       45.112
-        5          16.       18.045
-  6 to INF         10.        8.282
- Chisquare with  6 d.o.f. =     3.73 p-value=  .287025
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  4 to 27   2.012
-  duplicate       number       number 
-  spacings       observed     expected
-        0          75.       67.668
-        1         133.      135.335
-        2         125.      135.335
-        3          93.       90.224
-        4          42.       45.112
-        5          22.       18.045
-  6 to INF         10.        8.282
- Chisquare with  6 d.o.f. =     3.15 p-value=  .209898
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  5 to 28   2.056
-  duplicate       number       number 
-  spacings       observed     expected
-        0          57.       67.668
-        1         131.      135.335
-        2         142.      135.335
-        3          90.       90.224
-        4          62.       45.112
-        5          13.       18.045
-  6 to INF          5.        8.282
- Chisquare with  6 d.o.f. =    11.18 p-value=  .917104
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  6 to 29   2.104
-  duplicate       number       number 
-  spacings       observed     expected
-        0          56.       67.668
-        1         133.      135.335
-        2         138.      135.335
-        3          92.       90.224
-        4          52.       45.112
-        5          19.       18.045
-  6 to INF         10.        8.282
- Chisquare with  6 d.o.f. =     3.60 p-value=  .269160
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  7 to 30   2.046
-  duplicate       number       number 
-  spacings       observed     expected
-        0          59.       67.668
-        1         139.      135.335
-        2         135.      135.335
-        3          94.       90.224
-        4          48.       45.112
-        5          16.       18.045
-  6 to INF          9.        8.282
- Chisquare with  6 d.o.f. =     1.85 p-value=  .066805
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  8 to 31   2.012
-  duplicate       number       number 
-  spacings       observed     expected
-        0          62.       67.668
-        1         150.      135.335
-        2         135.      135.335
-        3          73.       90.224
-        4          51.       45.112
-        5          14.       18.045
-  6 to INF         15.        8.282
- Chisquare with  6 d.o.f. =    12.48 p-value=  .947874
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          TT403gen.bin     using bits  9 to 32   3.982
-  duplicate       number       number 
-  spacings       observed     expected
-        0           9.       67.668
-        1          41.      135.335
-        2          77.      135.335
-        3          92.       90.224
-        4          98.       45.112
-        5          75.       18.045
-  6 to INF        108.        8.282
- Chisquare with  6 d.o.f. =  1584.25 p-value= 1.000000
-  :::::::::::::::::::::::::::::::::::::::::
-   The 9 p-values were
-        .428148   .793008   .287025   .209898   .917104
-        .269160   .066805   .947874  1.000000
-  A KSTEST for the 9 p-values yields  .997753
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
-     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
-     :: ion 32-bit random integers.  Each set of five consecutive     ::     
-     :: integers can be in one of 120 states, for the 5! possible or- ::     
-     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
-     :: each provide a state. As many thousands of state transitions  ::     
-     :: are observed,  cumulative counts are made of the number of    ::     
-     :: occurences of each state.  Then the quadratic form in the     ::     
-     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
-     :: equivalent to the likelihood ratio test that the 120 cell     ::     
-     :: counts came from the specified (asymptotically) normal dis-   ::     
-     :: tribution with the specified 120x120 covariance matrix (with  ::     
-     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           OPERM5 test for file TT403gen.bin   
-     For a sample of 1,000,000 consecutive 5-tuples,
- chisquare for 99 degrees of freedom= 80.381; p-value= .085543
-           OPERM5 test for file TT403gen.bin   
-     For a sample of 1,000,000 consecutive 5-tuples,
- chisquare for 99 degrees of freedom= 82.384; p-value= .113825
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
-     :: 31 bits of 31 random integers from the test sequence are used ::     
-     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
-     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
-     :: are rare, and their counts are pooled with those for rank 28. ::     
-     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
-     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-    Binary rank test for TT403gen.bin   
-         Rank test for 31x31 binary matrices:
-        rows from leftmost 31 bits of each 32-bit integer
-      rank   observed  expected (o-e)^2/e  sum
-        28       233     211.4  2.203133    2.203
-        29      5211    5134.0  1.154540    3.358
-        30     22985   23103.0   .603170    3.961
-        31     11571   11551.5   .032835    3.994
-  chisquare= 3.994 for 3 d. of f.; p-value= .760688
---------------------------------------------------------------
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
-     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
-     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
-     :: less than 29 are rare, and their counts are pooled with those ::     
-     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
-     :: and a chisquare test is performed on counts for ranks  32,31, ::     
-     :: 30 and <=29.                                                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-    Binary rank test for TT403gen.bin   
-         Rank test for 32x32 binary matrices:
-        rows from leftmost 32 bits of each 32-bit integer
-      rank   observed  expected (o-e)^2/e  sum
-        29      1484     211.4********** 7660.014
-        30     15521    5134.0**********28674.691
-        31     22995   23103.0   .50530728675.197
-        32         0   11551.5**********40226.723
-  chisquare=****** for 3 d. of f.; p-value=1.000000
---------------------------------------------------------------
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
-     :: six random 32-bit integers from the generator under test, a   ::     
-     :: specified byte is chosen, and the resulting six bytes form a  ::     
-     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
-     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
-     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
-     :: random matrices, and a chi-square test is performed on        ::     
-     :: counts for ranks 6,5 and <=4.                                 ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-         Binary Rank Test for TT403gen.bin   
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  1 to  8
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          896       944.3       2.471       2.471
-          r =5        21493     21743.9       2.895       5.366
-          r =6        77611     77311.8       1.158       6.524
-                        p=1-exp(-SUM/2)= .96168
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  2 to  9
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          916       944.3        .848        .848
-          r =5        21625     21743.9        .650       1.498
-          r =6        77459     77311.8        .280       1.779
-                        p=1-exp(-SUM/2)= .58906
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  3 to 10
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          970       944.3        .699        .699
-          r =5        21538     21743.9       1.950       2.649
-          r =6        77492     77311.8        .420       3.069
-                        p=1-exp(-SUM/2)= .78445
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  4 to 11
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          962       944.3        .332        .332
-          r =5        22014     21743.9       3.355       3.687
-          r =6        77024     77311.8       1.071       4.758
-                        p=1-exp(-SUM/2)= .90737
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  5 to 12
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          971       944.3        .755        .755
-          r =5        21823     21743.9        .288       1.043
-          r =6        77206     77311.8        .145       1.187
-                        p=1-exp(-SUM/2)= .44772
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  6 to 13
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4         1005       944.3       3.902       3.902
-          r =5        21790     21743.9        .098       3.999
-          r =6        77205     77311.8        .148       4.147
-                        p=1-exp(-SUM/2)= .87425
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  7 to 14
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          898       944.3       2.270       2.270
-          r =5        22040     21743.9       4.032       6.302
-          r =6        77062     77311.8        .807       7.110
-                        p=1-exp(-SUM/2)= .97141
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  8 to 15
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          967       944.3        .546        .546
-          r =5        21857     21743.9        .588       1.134
-          r =6        77176     77311.8        .239       1.372
-                        p=1-exp(-SUM/2)= .49653
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits  9 to 16
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          922       944.3        .527        .527
-          r =5        21835     21743.9        .382        .908
-          r =6        77243     77311.8        .061        .970
-                        p=1-exp(-SUM/2)= .38418
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 10 to 17
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          894       944.3       2.679       2.679
-          r =5        21821     21743.9        .273       2.953
-          r =6        77285     77311.8        .009       2.962
-                        p=1-exp(-SUM/2)= .77261
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 11 to 18
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          916       944.3        .848        .848
-          r =5        21848     21743.9        .498       1.347
-          r =6        77236     77311.8        .074       1.421
-                        p=1-exp(-SUM/2)= .50858
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 12 to 19
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          982       944.3       1.505       1.505
-          r =5        21735     21743.9        .004       1.509
-          r =6        77283     77311.8        .011       1.519
-                        p=1-exp(-SUM/2)= .53219
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 13 to 20
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          931       944.3        .187        .187
-          r =5        21655     21743.9        .363        .551
-          r =6        77414     77311.8        .135        .686
-                        p=1-exp(-SUM/2)= .29033
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 14 to 21
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          994       944.3       2.616       2.616
-          r =5        21734     21743.9        .005       2.620
-          r =6        77272     77311.8        .020       2.641
-                        p=1-exp(-SUM/2)= .73295
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 15 to 22
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          965       944.3        .454        .454
-          r =5        21928     21743.9       1.559       2.012
-          r =6        77107     77311.8        .543       2.555
-                        p=1-exp(-SUM/2)= .72126
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 16 to 23
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          959       944.3        .229        .229
-          r =5        21935     21743.9       1.680       1.908
-          r =6        77106     77311.8        .548       2.456
-                        p=1-exp(-SUM/2)= .70715
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 17 to 24
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          942       944.3        .006        .006
-          r =5        21730     21743.9        .009        .014
-          r =6        77328     77311.8        .003        .018
-                        p=1-exp(-SUM/2)= .00890
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 18 to 25
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          945       944.3        .001        .001
-          r =5        21800     21743.9        .145        .145
-          r =6        77255     77311.8        .042        .187
-                        p=1-exp(-SUM/2)= .08926
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 19 to 26
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          960       944.3        .261        .261
-          r =5        21629     21743.9        .607        .868
-          r =6        77411     77311.8        .127        .995
-                        p=1-exp(-SUM/2)= .39208
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 20 to 27
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          966       944.3        .499        .499
-          r =5        21663     21743.9        .301        .800
-          r =6        77371     77311.8        .045        .845
-                        p=1-exp(-SUM/2)= .34457
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 21 to 28
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          973       944.3        .872        .872
-          r =5        21718     21743.9        .031        .903
-          r =6        77309     77311.8        .000        .903
-                        p=1-exp(-SUM/2)= .36338
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 22 to 29
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          918       944.3        .733        .733
-          r =5        21538     21743.9       1.950       2.682
-          r =6        77544     77311.8        .697       3.380
-                        p=1-exp(-SUM/2)= .81545
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 23 to 30
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          952       944.3        .063        .063
-          r =5        21873     21743.9        .767        .829
-          r =6        77175     77311.8        .242       1.071
-                        p=1-exp(-SUM/2)= .41472
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 24 to 31
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          903       944.3       1.806       1.806
-          r =5        21916     21743.9       1.362       3.169
-          r =6        77181     77311.8        .221       3.390
-                        p=1-exp(-SUM/2)= .81639
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG TT403gen.bin   
-     b-rank test for bits 25 to 32
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4         3724       944.3    8182.479    8182.479
-          r =5        37952     21743.9   12081.664   20264.143
-          r =6        58324     77311.8    4663.411   24927.555
-                        p=1-exp(-SUM/2)=1.00000
-   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
- These should be 25 uniform [0,1] random variables:
-     .961681     .589062     .784449     .907369     .447724
-     .874251     .971413     .496528     .384177     .772605
-     .508580     .532193     .290333     .732952     .721263
-     .707145     .008904     .089258     .392080     .344570
-     .363376     .815450     .414725     .816388    1.000000
-   brank test summary for TT403gen.bin   
-       The KS test for those 25 supposed UNI's yields
-                    KS p-value= .976299
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::                   THE BITSTREAM TEST                          ::     
-     :: The file under test is viewed as a stream of bits. Call them  ::     
-     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
-     :: and think of the stream of bits as a succession of 20-letter  ::     
-     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
-     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
-     :: the number of missing 20-letter (20-bit) words in a string of ::     
-     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
-     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
-     :: number of missing words j should be (very close to) normally  ::     
-     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
-     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
-     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
-     :: twenty times.                                                 ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-       THE OVERLAPPING 20-tuples BITSTREAM TEST,
-            20 BITS PER WORD, 2^21 words.
-    This test samples the bitstream 20 times.
-  No. missing words should average  141909. with sigma=428.
------------------------------------        ---------------
- tst no  1:  147715 missing words,   13.56 sigmas from mean, p-value=1.00000
- tst no  2:  146611 missing words,   10.99 sigmas from mean, p-value=1.00000
- tst no  3:  147965 missing words,   14.15 sigmas from mean, p-value=1.00000
- tst no  4:  147272 missing words,   12.53 sigmas from mean, p-value=1.00000
- tst no  5:  147392 missing words,   12.81 sigmas from mean, p-value=1.00000
- tst no  6:  147411 missing words,   12.85 sigmas from mean, p-value=1.00000
- tst no  7:  147882 missing words,   13.95 sigmas from mean, p-value=1.00000
- tst no  8:  146663 missing words,   11.11 sigmas from mean, p-value=1.00000
- tst no  9:  147354 missing words,   12.72 sigmas from mean, p-value=1.00000
- tst no 10:  147281 missing words,   12.55 sigmas from mean, p-value=1.00000
- tst no 11:  146706 missing words,   11.21 sigmas from mean, p-value=1.00000
- tst no 12:  147585 missing words,   13.26 sigmas from mean, p-value=1.00000
- tst no 13:  147574 missing words,   13.24 sigmas from mean, p-value=1.00000
- tst no 14:  146739 missing words,   11.28 sigmas from mean, p-value=1.00000
- tst no 15:  147096 missing words,   12.12 sigmas from mean, p-value=1.00000
- tst no 16:  148245 missing words,   14.80 sigmas from mean, p-value=1.00000
- tst no 17:  147144 missing words,   12.23 sigmas from mean, p-value=1.00000
- tst no 18:  147246 missing words,   12.47 sigmas from mean, p-value=1.00000
- tst no 19:  147383 missing words,   12.79 sigmas from mean, p-value=1.00000
- tst no 20:  147905 missing words,   14.01 sigmas from mean, p-value=1.00000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The tests OPSO, OQSO and DNA                      ::     
-     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
-     :: The OPSO test considers 2-letter words from an alphabet of    ::     
-     :: 1024 letters.  Each letter is determined by a specified ten   ::     
-     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
-     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
-     :: "keystrokes")  and counts the number of missing words---that  ::     
-     :: is 2-letter words which do not appear in the entire sequence. ::     
-     :: That count should be very close to normally distributed with  ::     
-     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
-     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
-     :: a time from the test file and uses a designated set of ten    ::     
-     :: consecutive bits. It then restarts the file for the next de-  ::     
-     :: signated 10 bits, and so on.                                  ::     
-     ::                                                               ::     
-     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
-     ::   The test OQSO is similar, except that it considers 4-letter ::     
-     :: words from an alphabet of 32 letters, each letter determined  ::     
-     :: by a designated string of 5 consecutive bits from the test    ::     
-     :: file, elements of which are assumed 32-bit random integers.   ::     
-     :: The mean number of missing words in a sequence of 2^21 four-  ::     
-     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
-     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
-     :: extensive simulation.                                         ::     
-     ::                                                               ::     
-     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
-     :: determined by two designated bits in the sequence of random   ::     
-     :: integers being tested.  It considers 10-letter words, so that ::     
-     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
-     :: mean number of missing words from a string of 2^21  (over-    ::     
-     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
-     :: The standard deviation sigma=339 was determined as for OQSO   ::     
-     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
-     :: three places), not determined by simulation.                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- OPSO test for generator TT403gen.bin             
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OPSO for TT403gen.bin    using bits 23 to 32        786535******* 1.0000
-    OPSO for TT403gen.bin    using bits 22 to 31        141980   .244  .5963
-    OPSO for TT403gen.bin    using bits 21 to 30        142198   .995  .8402
-    OPSO for TT403gen.bin    using bits 20 to 29        141632  -.956  .1695
-    OPSO for TT403gen.bin    using bits 19 to 28        141710  -.687  .2459
-    OPSO for TT403gen.bin    using bits 18 to 27        142148   .823  .7947
-    OPSO for TT403gen.bin    using bits 17 to 26        141812  -.336  .3686
-    OPSO for TT403gen.bin    using bits 16 to 25        142100   .657  .7446
-    OPSO for TT403gen.bin    using bits 15 to 24        141815  -.325  .3725
-    OPSO for TT403gen.bin    using bits 14 to 23        141404 -1.743  .0407
-    OPSO for TT403gen.bin    using bits 13 to 22        142012   .354  .6383
-    OPSO for TT403gen.bin    using bits 12 to 21        141532 -1.301  .0966
-    OPSO for TT403gen.bin    using bits 11 to 20        141813  -.332  .3699
-    OPSO for TT403gen.bin    using bits 10 to 19        141516 -1.356  .0875
-    OPSO for TT403gen.bin    using bits  9 to 18        141694  -.743  .2289
-    OPSO for TT403gen.bin    using bits  8 to 17        141977   .233  .5923
-    OPSO for TT403gen.bin    using bits  7 to 16        141862  -.163  .4352
-    OPSO for TT403gen.bin    using bits  6 to 15        142038   .444  .6714
-    OPSO for TT403gen.bin    using bits  5 to 14        141914   .016  .5064
-    OPSO for TT403gen.bin    using bits  4 to 13        141754  -.536  .2961
-    OPSO for TT403gen.bin    using bits  3 to 12        141813  -.332  .3699
-    OPSO for TT403gen.bin    using bits  2 to 11        141598 -1.074  .1415
-    OPSO for TT403gen.bin    using bits  1 to 10        142002   .320  .6253
- OQSO test for generator TT403gen.bin             
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OQSO for TT403gen.bin    using bits 28 to 32        983040******* 1.0000
-    OQSO for TT403gen.bin    using bits 27 to 31        141600 -1.049  .1472
-    OQSO for TT403gen.bin    using bits 26 to 30        141748  -.547  .2922
-    OQSO for TT403gen.bin    using bits 25 to 29        141668  -.818  .2067
-    OQSO for TT403gen.bin    using bits 24 to 28        141985   .257  .6012
-    OQSO for TT403gen.bin    using bits 23 to 27        142309  1.355  .9123
-    OQSO for TT403gen.bin    using bits 22 to 26        141892  -.059  .4766
-    OQSO for TT403gen.bin    using bits 21 to 25        142044   .457  .6760
-    OQSO for TT403gen.bin    using bits 20 to 24        141742  -.567  .2853
-    OQSO for TT403gen.bin    using bits 19 to 23        140932 -3.313  .0005
-    OQSO for TT403gen.bin    using bits 18 to 22        141850  -.201  .4203
-    OQSO for TT403gen.bin    using bits 17 to 21        141735  -.591  .2773
-    OQSO for TT403gen.bin    using bits 16 to 20        142350  1.494  .9324
-    OQSO for TT403gen.bin    using bits 15 to 19        141705  -.693  .2443
-    OQSO for TT403gen.bin    using bits 14 to 18        142018   .368  .6437
-    OQSO for TT403gen.bin    using bits 13 to 17        142363  1.538  .9380
-    OQSO for TT403gen.bin    using bits 12 to 16        142324  1.406  .9201
-    OQSO for TT403gen.bin    using bits 11 to 15        142265  1.206  .8860
-    OQSO for TT403gen.bin    using bits 10 to 14        141931   .073  .5293
-    OQSO for TT403gen.bin    using bits  9 to 13        141561 -1.181  .1188
-    OQSO for TT403gen.bin    using bits  8 to 12        142418  1.724  .9577
-    OQSO for TT403gen.bin    using bits  7 to 11        142287  1.280  .8998
-    OQSO for TT403gen.bin    using bits  6 to 10        141631  -.943  .1727
-    OQSO for TT403gen.bin    using bits  5 to  9        141602 -1.042  .1488
-    OQSO for TT403gen.bin    using bits  4 to  8        142068   .538  .7047
-    OQSO for TT403gen.bin    using bits  3 to  7        141479 -1.459  .0723
-    OQSO for TT403gen.bin    using bits  2 to  6        142347  1.484  .9310
-    OQSO for TT403gen.bin    using bits  1 to  5        142199   .982  .8369
-  DNA test for generator TT403gen.bin             
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-     DNA for TT403gen.bin    using bits 31 to 32       1047552******* 1.0000
-     DNA for TT403gen.bin    using bits 30 to 31        141734  -.517  .3025
-     DNA for TT403gen.bin    using bits 29 to 30        141151 -2.237  .0126
-     DNA for TT403gen.bin    using bits 28 to 29        142234   .958  .8309
-     DNA for TT403gen.bin    using bits 27 to 28        141751  -.467  .3202
-     DNA for TT403gen.bin    using bits 26 to 27        141907  -.007  .4973
-     DNA for TT403gen.bin    using bits 25 to 26        142072   .480  .6843
-     DNA for TT403gen.bin    using bits 24 to 25        141747  -.479  .3160
-     DNA for TT403gen.bin    using bits 23 to 24        142355  1.315  .9057
-     DNA for TT403gen.bin    using bits 22 to 23        141599  -.915  .1800
-     DNA for TT403gen.bin    using bits 21 to 22        141667  -.715  .2374
-     DNA for TT403gen.bin    using bits 20 to 21        141716  -.570  .2842
-     DNA for TT403gen.bin    using bits 19 to 20        141971   .182  .5722
-     DNA for TT403gen.bin    using bits 18 to 19        141546 -1.072  .1419
-     DNA for TT403gen.bin    using bits 17 to 18        142586  1.996  .9770
-     DNA for TT403gen.bin    using bits 16 to 17        141906  -.010  .4961
-     DNA for TT403gen.bin    using bits 15 to 16        142336  1.259  .8959
-     DNA for TT403gen.bin    using bits 14 to 15        141883  -.078  .4690
-     DNA for TT403gen.bin    using bits 13 to 14        141479 -1.269  .1021
-     DNA for TT403gen.bin    using bits 12 to 13        141459 -1.328  .0920
-     DNA for TT403gen.bin    using bits 11 to 12        142002   .273  .6077
-     DNA for TT403gen.bin    using bits 10 to 11        141816  -.275  .3915
-     DNA for TT403gen.bin    using bits  9 to 10        142119   .619  .7319
-     DNA for TT403gen.bin    using bits  8 to  9        141841  -.202  .4201
-     DNA for TT403gen.bin    using bits  7 to  8        141936   .079  .5314
-     DNA for TT403gen.bin    using bits  6 to  7        142064   .456  .6759
-     DNA for TT403gen.bin    using bits  5 to  6        141866  -.128  .4491
-     DNA for TT403gen.bin    using bits  4 to  5        142682  2.279  .9887
-     DNA for TT403gen.bin    using bits  3 to  4        141464 -1.314  .0945
-     DNA for TT403gen.bin    using bits  2 to  3        142094   .545  .7070
-     DNA for TT403gen.bin    using bits  1 to  2        142229   .943  .8272
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
-     :: Consider the file under test as a stream of bytes (four per   ::     
-     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
-     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
-     :: the stream of bytes provide a string of overlapping  5-letter ::     
-     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
-     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
-     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
-     :: we have a monkey at a typewriter hitting five keys with vari- ::     
-     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
-     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
-     :: lapping) 5-letter words, counts are made on the frequencies   ::     
-     :: for each word.   The quadratic form in the weak inverse of    ::     
-     :: the covariance matrix of the cell counts provides a chisquare ::     
-     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
-     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-   Test results for TT403gen.bin   
- Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
-                               chisquare  equiv normal  p-value
-  Results fo COUNT-THE-1's in successive bytes:
- byte stream for TT403gen.bin    23417.04    295.812     1.000000
- byte stream for TT403gen.bin    24430.21    310.140     1.000000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
-     :: Consider the file under test as a stream of 32-bit integers.  ::     
-     :: From each integer, a specific byte is chosen , say the left-  ::     
-     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
-     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
-     :: the specified bytes from successive integers provide a string ::     
-     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
-     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
-     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
-     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
-     :: hitting five keys with with various probabilities::  37,56,70,::     
-     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
-     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
-     :: are made on the frequencies for each word. The quadratic form ::     
-     :: in the weak inverse of the covariance matrix of the cell      ::     
-     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
-     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
-     :: and 4-letter cell counts.                                     ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
-                      chisquare  equiv normal  p value
-  Results for COUNT-THE-1's in specified bytes:
-           bits  1 to  8  2506.45       .091      .536348
-           bits  2 to  9  2526.21       .371      .644541
-           bits  3 to 10  2460.62      -.557      .288778
-           bits  4 to 11  2431.07      -.975      .164837
-           bits  5 to 12  2474.54      -.360      .359411
-           bits  6 to 13  2612.70      1.594      .944515
-           bits  7 to 14  2513.87       .196      .577741
-           bits  8 to 15  2462.96      -.524      .300188
-           bits  9 to 16  2511.96       .169      .567176
-           bits 10 to 17  2462.73      -.527      .299061
-           bits 11 to 18  2512.48       .176      .570041
-           bits 12 to 19  2518.32       .259      .602242
-           bits 13 to 20  2517.07       .241      .595359
-           bits 14 to 21  2477.69      -.316      .376169
-           bits 15 to 22  2491.35      -.122      .451335
-           bits 16 to 23  2576.73      1.085      .861076
-           bits 17 to 24  2468.07      -.451      .325816
-           bits 18 to 25  2591.35      1.292      .901805
-           bits 19 to 26  2573.93      1.046      .852111
-           bits 20 to 27  2493.22      -.096      .461821
-           bits 21 to 28  2386.93     -1.599      .054911
-           bits 22 to 29  2452.29      -.675      .249917
-           bits 23 to 30  2646.79      2.076      .981048
-           bits 24 to 31  2462.22      -.534      .296569
-           bits 25 to 32 50542.09    679.418     1.000000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::               THIS IS A PARKING LOT TEST                      ::     
-     :: In a square of side 100, randomly "park" a car---a circle of  ::     
-     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
-     :: time parking "by ear".  That is, if an attempt to park a car  ::     
-     :: causes a crash with one already parked, try again at a new    ::     
-     :: random location. (To avoid path problems, consider parking    ::     
-     :: helicopters rather than cars.)   Each attempt leads to either ::     
-     :: a crash or a success, the latter followed by an increment to  ::     
-     :: the list of cars already parked. If we plot n:  the number of ::     
-     :: attempts, versus k::  the number successfully parked, we get a::     
-     :: curve that should be similar to those provided by a perfect   ::     
-     :: random number generator.  Theory for the behavior of such a   ::     
-     :: random curve seems beyond reach, and as graphics displays are ::     
-     :: not available for this battery of tests, a simple characteriz ::     
-     :: ation of the random experiment is used: k, the number of cars ::     
-     :: successfully parked after n=12,000 attempts. Simulation shows ::     
-     :: that k should average 3523 with sigma 21.9 and is very close  ::     
-     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
-     :: andard normal variable, which, converted to a uniform varia-  ::     
-     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           CDPARK: result of ten tests on file TT403gen.bin   
-            Of 12,000 tries, the average no. of successes
-                 should be 3523 with sigma=21.9
-            Successes: 3527    z-score:   .183 p-value: .572463
-            Successes: 3506    z-score:  -.776 p-value: .218799
-            Successes: 3538    z-score:   .685 p-value: .753306
-            Successes: 3532    z-score:   .411 p-value: .659449
-            Successes: 3521    z-score:  -.091 p-value: .463618
-            Successes: 3526    z-score:   .137 p-value: .554479
-            Successes: 3529    z-score:   .274 p-value: .607947
-            Successes: 3571    z-score:  2.192 p-value: .985802
-            Successes: 3517    z-score:  -.274 p-value: .392053
-            Successes: 3531    z-score:   .365 p-value: .642555
-
-           square size   avg. no.  parked   sample sigma
-             100.            3529.800       16.113
-            KSTEST for the above 10: p=  .720798
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::               THE MINIMUM DISTANCE TEST                       ::     
-     :: It does this 100 times::   choose n=8000 random points in a   ::     
-     :: square of side 10000.  Find d, the minimum distance between   ::     
-     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
-     :: pendent uniform, then d^2, the square of the minimum distance ::     
-     :: should be (very close to) exponentially distributed with mean ::     
-     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
-     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
-     :: formity for random points in the square. Test numbers=0 mod 5 ::     
-     :: are printed but the KSTEST is based on the full set of 100    ::     
-     :: random choices of 8000 points in the 10000x10000 square.      ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-               This is the MINIMUM DISTANCE test
-              for random integers in the file TT403gen.bin   
-     Sample no.    d^2     avg     equiv uni            
-           5     .2214   1.0559     .199475
-          10    4.2724   1.6718     .986348
-          15     .4082   1.2404     .336534
-          20     .2802   1.0947     .245397
-          25     .9755   1.3839     .624839
-          30     .7375   1.3291     .523452
-          35     .9796   1.2609     .626383
-          40     .4803   1.2419     .382883
-          45    1.1151   1.1963     .673965
-          50     .4950   1.1494     .391958
-          55     .3171   1.1234     .272889
-          60     .5321   1.0942     .414189
-          65    1.8642   1.0541     .846426
-          70    1.7033   1.1198     .819476
-          75     .1916   1.0753     .175117
-          80    1.2793   1.0549     .723561
-          85    1.9161   1.0954     .854232
-          90     .6034   1.1115     .454717
-          95    1.0232   1.0993     .642389
-         100     .1578   1.0965     .146619
-     MINIMUM DISTANCE TEST for TT403gen.bin   
-          Result of KS test on 20 transformed mindist^2's:
-                                  p-value= .422122
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::              THE 3DSPHERES TEST                               ::     
-     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
-     :: point, center a sphere large enough to reach the next closest ::     
-     :: point. Then the volume of the smallest such sphere is (very   ::     
-     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
-     :: the radius cubed is exponential with mean 30. (The mean is    ::     
-     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
-     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
-     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
-     ::  KSTEST is done on the 20 p-values.                           ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-               The 3DSPHERES test for file TT403gen.bin   
- sample no:  1     r^3=   4.323     p-value= .13419
- sample no:  2     r^3=   1.000     p-value= .03278
- sample no:  3     r^3=   5.884     p-value= .17810
- sample no:  4     r^3=   1.521     p-value= .04945
- sample no:  5     r^3=  16.686     p-value= .42662
- sample no:  6     r^3=  38.332     p-value= .72133
- sample no:  7     r^3=  69.808     p-value= .90240
- sample no:  8     r^3=   6.501     p-value= .19483
- sample no:  9     r^3=  18.197     p-value= .45478
- sample no: 10     r^3=   7.368     p-value= .21778
- sample no: 11     r^3=   5.534     p-value= .16845
- sample no: 12     r^3= 107.135     p-value= .97188
- sample no: 13     r^3=   4.241     p-value= .13183
- sample no: 14     r^3=  10.079     p-value= .28535
- sample no: 15     r^3=  55.310     p-value= .84176
- sample no: 16     r^3=  41.995     p-value= .75336
- sample no: 17     r^3=  11.136     p-value= .31010
- sample no: 18     r^3=  85.472     p-value= .94210
- sample no: 19     r^3=  45.125     p-value= .77780
- sample no: 20     r^3=   5.358     p-value= .16357
-  A KS test is applied to those 20 p-values.
----------------------------------------------------------
-       3DSPHERES test for file TT403gen.bin         p-value= .759715
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::      This is the SQEEZE test                                  ::     
-     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
-     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
-     ::  iterations necessary to reduce k to 1, using the reduction   ::     
-     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
-     ::  the file being tested.  Such j's are found 100,000 times,    ::     
-     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
-     ::  are used to provide a chi-square test for cell frequencies.  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-            RESULTS OF SQUEEZE TEST FOR TT403gen.bin   
-         Table of standardized frequency counts
-     ( (obs-exp)/sqrt(exp) )^2
-        for j taking values <=6,7,8,...,47,>=48:
-     -.1     -.3     -.4    -1.9      .0     -.7
-      .7      .3     -.1      .7     1.2     -.4
-     -.2      .1     -.4    -1.1      .2      .0
-     -.8      .1      .4     -.1      .9     1.0
-      .4      .8    -1.2      .1    -1.9     -.5
-     1.3      .6     -.6      .4     1.0    -1.7
-     -.5      .5    -1.2     -.7     1.6      .0
-    -1.1
-           Chi-square with 42 degrees of freedom: 30.048
-              z-score= -1.304  p-value= .083911
-______________________________________________________________
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The  OVERLAPPING SUMS test                        ::     
-     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
-     :: form [0,1) variables.  Then overlapping sums,                 ::     
-     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
-     :: The S's are virtually normal with a certain covariance mat-   ::     
-     :: rix.  A linear transformation of the S's converts them to a   ::     
-     :: sequence of independent standard normals, which are converted ::     
-     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
-     :: KSTESTs are given still another KSTEST.                       ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-                Test no.  1      p-value  .517427
-                Test no.  2      p-value  .289128
-                Test no.  3      p-value  .336272
-                Test no.  4      p-value  .283474
-                Test no.  5      p-value  .000653
-                Test no.  6      p-value  .792933
-                Test no.  7      p-value  .157272
-                Test no.  8      p-value  .978316
-                Test no.  9      p-value  .018738
-                Test no. 10      p-value  .731340
-   Results of the OSUM test for TT403gen.bin   
-        KSTEST on the above 10 p-values:  .768361
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
-     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
-     :: ing the 32-bit integers in the specified file. This example   ::     
-     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
-     :: contains an up-run of length 3, a down-run of length 2 and an ::     
-     :: up-run of (at least) 2, depending on the next values.  The    ::     
-     :: covariance matrices for the runs-up and runs-down are well    ::     
-     :: known, leading to chisquare tests for quadratic forms in the  ::     
-     :: weak inverses of the covariance matrices.  Runs are counted   ::     
-     :: for sequences of length 10,000.  This is done ten times. Then ::     
-     :: repeated.                                                     ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           The RUNS test for file TT403gen.bin   
-     Up and down runs in a sample of 10000
-_________________________________________________ 
-                 Run test for TT403gen.bin   :
-       runs up; ks test for 10 p's: .970621
-     runs down; ks test for 10 p's: .245517
-                 Run test for TT403gen.bin   :
-       runs up; ks test for 10 p's: .691456
-     runs down; ks test for 10 p's: .337932
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
-     :: the number of wins and the number of throws necessary to end  ::     
-     :: each game.  The number of wins should be (very close to) a    ::     
-     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
-     :: p=244/495.  Throws necessary to complete the game can vary    ::     
-     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
-     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
-     :: Each 32-bit integer from the test file provides the value for ::     
-     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
-     :: and taking 1 plus the integer part of the result.             ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-                Results of craps test for TT403gen.bin   
-  No. of wins:  Observed Expected
-                                98284    98585.86
-                  98284= No. of wins, z-score=-1.350 pvalue= .08849
-   Analysis of Throws-per-Game:
- Chisq=  26.61 for 20 degrees of freedom, p=  .85331
-               Throws Observed Expected  Chisq     Sum
-                  1    66900    66666.7    .817     .817
-                  2    37544    37654.3    .323    1.140
-                  3    27010    26954.7    .113    1.253
-                  4    19377    19313.5    .209    1.462
-                  5    13896    13851.4    .143    1.606
-                  6     9844     9943.5    .996    2.602
-                  7     7105     7145.0    .224    2.826
-                  8     5152     5139.1    .033    2.859
-                  9     3736     3699.9    .353    3.212
-                 10     2689     2666.3    .193    3.405
-                 11     1819     1923.3   5.659    9.064
-                 12     1368     1388.7    .310    9.374
-                 13      974     1003.7    .880   10.254
-                 14      721      726.1    .036   10.290
-                 15      540      525.8    .382   10.672
-                 16      350      381.2   2.546   13.218
-                 17      277      276.5    .001   13.218
-                 18      214      200.8    .864   14.082
-                 19      153      146.0    .337   14.419
-                 20       76      106.2   8.595   23.015
-                 21      255      287.1   3.592   26.607
-            SUMMARY  FOR TT403gen.bin   
-                p-value for no. of wins: .088493
-                p-value for throws/game: .853310
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
- Results of DIEHARD battery of tests sent to file TT403gen.all   

@@ -1,944 +1,0 @@
-       NOTE: Most of the tests in DIEHARD return a p-value, which            
-       should be uniform on [0,1) if the input file contains truly           
-       independent random bits.   Those p-values are obtained by             
-       p=F(X), where F is the assumed distribution of the sample             
-       random variable X---often normal. But that assumed F is just          
-       an asymptotic approximation, for which the fit will be worst          
-       in the tails. Thus you should not be surprised with                   
-       occasional p-values near 0 or 1, such as .0012 or .9983.              
-       When a bit stream really FAILS BIG, you will get p's of 0 or          
-       1 to six or more places.  By all means, do not, as a                  
-       Statistician might, think that a p < .025 or p> .975 means            
-       that the RNG has "failed the test at the .05 level".  Such            
-       p's happen among the hundreds that DIEHARD produces, even             
-       with good RNG's.  So keep in mind that " p happens".                  
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
-     :: Choose m birthdays in a year of n days.  List the spacings    ::     
-     :: between the birthdays.  If j is the number of values that     ::     
-     :: occur more than once in that list, then j is asymptotically   ::     
-     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
-     :: must be quite large, say n>=2^18, for comparing the results   ::     
-     :: to the Poisson distribution with that mean.  This test uses   ::     
-     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
-     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
-     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
-     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
-     :: from the left) from integers in the specified file.           ::     
-     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
-     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
-     :: Each set of bits provides a p-value, and the nine p-values    ::     
-     :: provide a sample for a KSTEST.                                ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
-           Results for MRG7gen.bin    
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  1 to 24   2.006
-  duplicate       number       number 
-  spacings       observed     expected
-        0          72.       67.668
-        1         134.      135.335
-        2         125.      135.335
-        3          94.       90.224
-        4          44.       45.112
-        5          25.       18.045
-  6 to INF          6.        8.282
- Chisquare with  6 d.o.f. =     4.57 p-value=  .400630
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  2 to 25   1.998
-  duplicate       number       number 
-  spacings       observed     expected
-        0          72.       67.668
-        1         132.      135.335
-        2         130.      135.335
-        3          92.       90.224
-        4          49.       45.112
-        5          18.       18.045
-  6 to INF          7.        8.282
- Chisquare with  6 d.o.f. =     1.14 p-value=  .020187
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  3 to 26   1.918
-  duplicate       number       number 
-  spacings       observed     expected
-        0          73.       67.668
-        1         142.      135.335
-        2         137.      135.335
-        3          83.       90.224
-        4          43.       45.112
-        5          13.       18.045
-  6 to INF          9.        8.282
- Chisquare with  6 d.o.f. =     2.92 p-value=  .181019
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  4 to 27   2.066
-  duplicate       number       number 
-  spacings       observed     expected
-        0          61.       67.668
-        1         120.      135.335
-        2         159.      135.335
-        3          85.       90.224
-        4          45.       45.112
-        5          22.       18.045
-  6 to INF          8.        8.282
- Chisquare with  6 d.o.f. =     7.71 p-value=  .740026
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  5 to 28   1.948
-  duplicate       number       number 
-  spacings       observed     expected
-        0          72.       67.668
-        1         135.      135.335
-        2         145.      135.335
-        3          79.       90.224
-        4          44.       45.112
-        5          16.       18.045
-  6 to INF          9.        8.282
- Chisquare with  6 d.o.f. =     2.69 p-value=  .152894
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  6 to 29   1.994
-  duplicate       number       number 
-  spacings       observed     expected
-        0          71.       67.668
-        1         145.      135.335
-        2         117.      135.335
-        3          93.       90.224
-        4          43.       45.112
-        5          23.       18.045
-  6 to INF          8.        8.282
- Chisquare with  6 d.o.f. =     4.89 p-value=  .442396
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  7 to 30   1.848
-  duplicate       number       number 
-  spacings       observed     expected
-        0          80.       67.668
-        1         164.      135.335
-        2         108.      135.335
-        3          84.       90.224
-        4          37.       45.112
-        5          22.       18.045
-  6 to INF          5.        8.282
- Chisquare with  6 d.o.f. =    17.90 p-value=  .993501
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  8 to 31   2.038
-  duplicate       number       number 
-  spacings       observed     expected
-        0          60.       67.668
-        1         127.      135.335
-        2         153.      135.335
-        3          97.       90.224
-        4          36.       45.112
-        5          14.       18.045
-  6 to INF         13.        8.282
- Chisquare with  6 d.o.f. =     9.63 p-value=  .858965
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          MRG7gen.bin      using bits  9 to 32   4.070
-  duplicate       number       number 
-  spacings       observed     expected
-        0           4.       67.668
-        1          33.      135.335
-        2          66.      135.335
-        3         102.       90.224
-        4         104.       45.112
-        5          81.       18.045
-  6 to INF        110.        8.282
- Chisquare with  6 d.o.f. =  1720.17 p-value= 1.000000
-  :::::::::::::::::::::::::::::::::::::::::
-   The 9 p-values were
-        .400630   .020187   .181019   .740026   .152894
-        .442396   .993501   .858965  1.000000
-  A KSTEST for the 9 p-values yields  .998235
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
-     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
-     :: ion 32-bit random integers.  Each set of five consecutive     ::     
-     :: integers can be in one of 120 states, for the 5! possible or- ::     
-     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
-     :: each provide a state. As many thousands of state transitions  ::     
-     :: are observed,  cumulative counts are made of the number of    ::     
-     :: occurences of each state.  Then the quadratic form in the     ::     
-     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
-     :: equivalent to the likelihood ratio test that the 120 cell     ::     
-     :: counts came from the specified (asymptotically) normal dis-   ::     
-     :: tribution with the specified 120x120 covariance matrix (with  ::     
-     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           OPERM5 test for file MRG7gen.bin    
-     For a sample of 1,000,000 consecutive 5-tuples,
- chisquare for 99 degrees of freedom= 97.197; p-value= .467516
-           OPERM5 test for file MRG7gen.bin    
-     For a sample of 1,000,000 consecutive 5-tuples,
- chisquare for 99 degrees of freedom= 97.963; p-value= .489411
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
-     :: 31 bits of 31 random integers from the test sequence are used ::     
-     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
-     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
-     :: are rare, and their counts are pooled with those for rank 28. ::     
-     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
-     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-    Binary rank test for MRG7gen.bin    
-         Rank test for 31x31 binary matrices:
-        rows from leftmost 31 bits of each 32-bit integer
-      rank   observed  expected (o-e)^2/e  sum
-        28       232     211.4  2.003699    2.004
-        29      5015    5134.0  2.758748    4.762
-        30     23141   23103.0   .062348    4.825
-        31     11612   11551.5   .316607    5.141
-  chisquare= 5.141 for 3 d. of f.; p-value= .849950
---------------------------------------------------------------
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
-     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
-     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
-     :: less than 29 are rare, and their counts are pooled with those ::     
-     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
-     :: and a chisquare test is performed on counts for ranks  32,31, ::     
-     :: 30 and <=29.                                                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-    Binary rank test for MRG7gen.bin    
-         Rank test for 32x32 binary matrices:
-        rows from leftmost 32 bits of each 32-bit integer
-      rank   observed  expected (o-e)^2/e  sum
-        29      1522     211.4********** 8124.309
-        30     15397    5134.0**********28640.234
-        31     23081   23103.0   .02103928640.256
-        32         0   11551.5**********40191.781
-  chisquare=****** for 3 d. of f.; p-value=1.000000
---------------------------------------------------------------
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
-     :: six random 32-bit integers from the generator under test, a   ::     
-     :: specified byte is chosen, and the resulting six bytes form a  ::     
-     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
-     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
-     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
-     :: random matrices, and a chi-square test is performed on        ::     
-     :: counts for ranks 6,5 and <=4.                                 ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-         Binary Rank Test for MRG7gen.bin    
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  1 to  8
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          896       944.3       2.471       2.471
-          r =5        21900     21743.9       1.121       3.591
-          r =6        77204     77311.8        .150       3.742
-                        p=1-exp(-SUM/2)= .84600
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  2 to  9
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          958       944.3        .199        .199
-          r =5        21882     21743.9        .877       1.076
-          r =6        77160     77311.8        .298       1.374
-                        p=1-exp(-SUM/2)= .49689
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  3 to 10
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          955       944.3        .121        .121
-          r =5        21958     21743.9       2.108       2.229
-          r =6        77087     77311.8        .654       2.883
-                        p=1-exp(-SUM/2)= .76343
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  4 to 11
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          994       944.3       2.616       2.616
-          r =5        21724     21743.9        .018       2.634
-          r =6        77282     77311.8        .011       2.645
-                        p=1-exp(-SUM/2)= .73358
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  5 to 12
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          927       944.3        .317        .317
-          r =5        21634     21743.9        .555        .872
-          r =6        77439     77311.8        .209       1.082
-                        p=1-exp(-SUM/2)= .41775
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  6 to 13
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          938       944.3        .042        .042
-          r =5        21596     21743.9       1.006       1.048
-          r =6        77466     77311.8        .308       1.356
-                        p=1-exp(-SUM/2)= .49227
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  7 to 14
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          893       944.3       2.787       2.787
-          r =5        21804     21743.9        .166       2.953
-          r =6        77303     77311.8        .001       2.954
-                        p=1-exp(-SUM/2)= .77170
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  8 to 15
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          960       944.3        .261        .261
-          r =5        21855     21743.9        .568        .829
-          r =6        77185     77311.8        .208       1.037
-                        p=1-exp(-SUM/2)= .40448
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits  9 to 16
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          954       944.3        .100        .100
-          r =5        21751     21743.9        .002        .102
-          r =6        77295     77311.8        .004        .106
-                        p=1-exp(-SUM/2)= .05142
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 10 to 17
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          950       944.3        .034        .034
-          r =5        21649     21743.9        .414        .449
-          r =6        77401     77311.8        .103        .551
-                        p=1-exp(-SUM/2)= .24099
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 11 to 18
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          922       944.3        .527        .527
-          r =5        21720     21743.9        .026        .553
-          r =6        77358     77311.8        .028        .581
-                        p=1-exp(-SUM/2)= .25194
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 12 to 19
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          941       944.3        .012        .012
-          r =5        21817     21743.9        .246        .257
-          r =6        77242     77311.8        .063        .320
-                        p=1-exp(-SUM/2)= .14799
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 13 to 20
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          970       944.3        .699        .699
-          r =5        21680     21743.9        .188        .887
-          r =6        77350     77311.8        .019        .906
-                        p=1-exp(-SUM/2)= .36429
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 14 to 21
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          902       944.3       1.895       1.895
-          r =5        21695     21743.9        .110       2.005
-          r =6        77403     77311.8        .108       2.112
-                        p=1-exp(-SUM/2)= .65224
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 15 to 22
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          993       944.3       2.511       2.511
-          r =5        21554     21743.9       1.658       4.170
-          r =6        77453     77311.8        .258       4.428
-                        p=1-exp(-SUM/2)= .89073
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 16 to 23
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          937       944.3        .056        .056
-          r =5        21748     21743.9        .001        .057
-          r =6        77315     77311.8        .000        .057
-                        p=1-exp(-SUM/2)= .02827
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 17 to 24
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          957       944.3        .171        .171
-          r =5        21766     21743.9        .022        .193
-          r =6        77277     77311.8        .016        .209
-                        p=1-exp(-SUM/2)= .09918
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 18 to 25
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          968       944.3        .595        .595
-          r =5        21781     21743.9        .063        .658
-          r =6        77251     77311.8        .048        .706
-                        p=1-exp(-SUM/2)= .29738
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 19 to 26
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          913       944.3       1.038       1.038
-          r =5        21659     21743.9        .331       1.369
-          r =6        77428     77311.8        .175       1.544
-                        p=1-exp(-SUM/2)= .53784
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 20 to 27
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          949       944.3        .023        .023
-          r =5        21537     21743.9       1.969       1.992
-          r =6        77514     77311.8        .529       2.521
-                        p=1-exp(-SUM/2)= .71648
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 21 to 28
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          966       944.3        .499        .499
-          r =5        21755     21743.9        .006        .504
-          r =6        77279     77311.8        .014        .518
-                        p=1-exp(-SUM/2)= .22825
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 22 to 29
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          965       944.3        .454        .454
-          r =5        21716     21743.9        .036        .490
-          r =6        77319     77311.8        .001        .490
-                        p=1-exp(-SUM/2)= .21737
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 23 to 30
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          886       944.3       3.600       3.600
-          r =5        21764     21743.9        .019       3.618
-          r =6        77350     77311.8        .019       3.637
-                        p=1-exp(-SUM/2)= .83773
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 24 to 31
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          880       944.3       4.379       4.379
-          r =5        21834     21743.9        .373       4.752
-          r =6        77286     77311.8        .009       4.760
-                        p=1-exp(-SUM/2)= .90747
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG MRG7gen.bin    
-     b-rank test for bits 25 to 32
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4         3645       944.3    7723.990    7723.990
-          r =5        38206     21743.9   12463.299   20187.289
-          r =6        58149     77311.8    4749.767   24937.057
-                        p=1-exp(-SUM/2)=1.00000
-   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
- These should be 25 uniform [0,1] random variables:
-     .845999     .496891     .763428     .733579     .417754
-     .492265     .771698     .404476     .051423     .240992
-     .251944     .147991     .364294     .652241     .890727
-     .028272     .099180     .297380     .537841     .716475
-     .228251     .217365     .837729     .907472    1.000000
-   brank test summary for MRG7gen.bin    
-       The KS test for those 25 supposed UNI's yields
-                    KS p-value= .855339
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::                   THE BITSTREAM TEST                          ::     
-     :: The file under test is viewed as a stream of bits. Call them  ::     
-     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
-     :: and think of the stream of bits as a succession of 20-letter  ::     
-     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
-     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
-     :: the number of missing 20-letter (20-bit) words in a string of ::     
-     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
-     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
-     :: number of missing words j should be (very close to) normally  ::     
-     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
-     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
-     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
-     :: twenty times.                                                 ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-       THE OVERLAPPING 20-tuples BITSTREAM TEST,
-            20 BITS PER WORD, 2^21 words.
-    This test samples the bitstream 20 times.
-  No. missing words should average  141909. with sigma=428.
------------------------------------        ---------------
- tst no  1:  147472 missing words,   13.00 sigmas from mean, p-value=1.00000
- tst no  2:  146800 missing words,   11.43 sigmas from mean, p-value=1.00000
- tst no  3:  147475 missing words,   13.00 sigmas from mean, p-value=1.00000
- tst no  4:  147659 missing words,   13.43 sigmas from mean, p-value=1.00000
- tst no  5:  147381 missing words,   12.78 sigmas from mean, p-value=1.00000
- tst no  6:  148401 missing words,   15.17 sigmas from mean, p-value=1.00000
- tst no  7:  146455 missing words,   10.62 sigmas from mean, p-value=1.00000
- tst no  8:  147420 missing words,   12.88 sigmas from mean, p-value=1.00000
- tst no  9:  147740 missing words,   13.62 sigmas from mean, p-value=1.00000
- tst no 10:  147853 missing words,   13.89 sigmas from mean, p-value=1.00000
- tst no 11:  147267 missing words,   12.52 sigmas from mean, p-value=1.00000
- tst no 12:  147803 missing words,   13.77 sigmas from mean, p-value=1.00000
- tst no 13:  147320 missing words,   12.64 sigmas from mean, p-value=1.00000
- tst no 14:  147287 missing words,   12.56 sigmas from mean, p-value=1.00000
- tst no 15:  146768 missing words,   11.35 sigmas from mean, p-value=1.00000
- tst no 16:  147661 missing words,   13.44 sigmas from mean, p-value=1.00000
- tst no 17:  147394 missing words,   12.81 sigmas from mean, p-value=1.00000
- tst no 18:  146892 missing words,   11.64 sigmas from mean, p-value=1.00000
- tst no 19:  147899 missing words,   13.99 sigmas from mean, p-value=1.00000
- tst no 20:  147858 missing words,   13.90 sigmas from mean, p-value=1.00000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The tests OPSO, OQSO and DNA                      ::     
-     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
-     :: The OPSO test considers 2-letter words from an alphabet of    ::     
-     :: 1024 letters.  Each letter is determined by a specified ten   ::     
-     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
-     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
-     :: "keystrokes")  and counts the number of missing words---that  ::     
-     :: is 2-letter words which do not appear in the entire sequence. ::     
-     :: That count should be very close to normally distributed with  ::     
-     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
-     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
-     :: a time from the test file and uses a designated set of ten    ::     
-     :: consecutive bits. It then restarts the file for the next de-  ::     
-     :: signated 10 bits, and so on.                                  ::     
-     ::                                                               ::     
-     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
-     ::   The test OQSO is similar, except that it considers 4-letter ::     
-     :: words from an alphabet of 32 letters, each letter determined  ::     
-     :: by a designated string of 5 consecutive bits from the test    ::     
-     :: file, elements of which are assumed 32-bit random integers.   ::     
-     :: The mean number of missing words in a sequence of 2^21 four-  ::     
-     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
-     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
-     :: extensive simulation.                                         ::     
-     ::                                                               ::     
-     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
-     :: determined by two designated bits in the sequence of random   ::     
-     :: integers being tested.  It considers 10-letter words, so that ::     
-     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
-     :: mean number of missing words from a string of 2^21  (over-    ::     
-     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
-     :: The standard deviation sigma=339 was determined as for OQSO   ::     
-     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
-     :: three places), not determined by simulation.                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- OPSO test for generator MRG7gen.bin              
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OPSO for MRG7gen.bin     using bits 23 to 32        786522******* 1.0000
-    OPSO for MRG7gen.bin     using bits 22 to 31        141345 -1.946  .0258
-    OPSO for MRG7gen.bin     using bits 21 to 30        142108   .685  .7534
-    OPSO for MRG7gen.bin     using bits 20 to 29        142743  2.875  .9980
-    OPSO for MRG7gen.bin     using bits 19 to 28        141850  -.205  .4190
-    OPSO for MRG7gen.bin     using bits 18 to 27        142075   .571  .7161
-    OPSO for MRG7gen.bin     using bits 17 to 26        141947   .130  .5517
-    OPSO for MRG7gen.bin     using bits 16 to 25        141982   .251  .5989
-    OPSO for MRG7gen.bin     using bits 15 to 24        141948   .133  .5530
-    OPSO for MRG7gen.bin     using bits 14 to 23        142102   .664  .7468
-    OPSO for MRG7gen.bin     using bits 13 to 22        142293  1.323  .9071
-    OPSO for MRG7gen.bin     using bits 12 to 21        141588 -1.108  .1339
-    OPSO for MRG7gen.bin     using bits 11 to 20        141607 -1.043  .1486
-    OPSO for MRG7gen.bin     using bits 10 to 19        142292  1.320  .9065
-    OPSO for MRG7gen.bin     using bits  9 to 18        142251  1.178  .8806
-    OPSO for MRG7gen.bin     using bits  8 to 17        142057   .509  .6947
-    OPSO for MRG7gen.bin     using bits  7 to 16        141905  -.015  .4940
-    OPSO for MRG7gen.bin     using bits  6 to 15        141652  -.887  .1874
-    OPSO for MRG7gen.bin     using bits  5 to 14        141692  -.749  .2268
-    OPSO for MRG7gen.bin     using bits  4 to 13        141735  -.601  .2739
-    OPSO for MRG7gen.bin     using bits  3 to 12        142076   .575  .7173
-    OPSO for MRG7gen.bin     using bits  2 to 11        141672  -.818  .2066
-    OPSO for MRG7gen.bin     using bits  1 to 10        141858  -.177  .4298
- OQSO test for generator MRG7gen.bin              
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OQSO for MRG7gen.bin     using bits 28 to 32        983040******* 1.0000
-    OQSO for MRG7gen.bin     using bits 27 to 31        142538  2.131  .9835
-    OQSO for MRG7gen.bin     using bits 26 to 30        141832  -.262  .3966
-    OQSO for MRG7gen.bin     using bits 25 to 29        141856  -.181  .4283
-    OQSO for MRG7gen.bin     using bits 24 to 28        142554  2.185  .9856
-    OQSO for MRG7gen.bin     using bits 23 to 27        142238  1.114  .8674
-    OQSO for MRG7gen.bin     using bits 22 to 26        142658  2.538  .9944
-    OQSO for MRG7gen.bin     using bits 21 to 25        141943   .114  .5454
-    OQSO for MRG7gen.bin     using bits 20 to 24        142168   .877  .8097
-    OQSO for MRG7gen.bin     using bits 19 to 23        142296  1.311  .9050
-    OQSO for MRG7gen.bin     using bits 18 to 22        142366  1.548  .9392
-    OQSO for MRG7gen.bin     using bits 17 to 21        141737  -.584  .2796
-    OQSO for MRG7gen.bin     using bits 16 to 20        141626  -.960  .1684
-    OQSO for MRG7gen.bin     using bits 15 to 19        142000   .307  .6207
-    OQSO for MRG7gen.bin     using bits 14 to 18        142144   .795  .7868
-    OQSO for MRG7gen.bin     using bits 13 to 17        142040   .443  .6711
-    OQSO for MRG7gen.bin     using bits 12 to 16        141736  -.588  .2784
-    OQSO for MRG7gen.bin     using bits 11 to 15        141899  -.035  .4860
-    OQSO for MRG7gen.bin     using bits 10 to 14        142191   .955  .8302
-    OQSO for MRG7gen.bin     using bits  9 to 13        142125   .731  .7676
-    OQSO for MRG7gen.bin     using bits  8 to 12        142431  1.768  .9615
-    OQSO for MRG7gen.bin     using bits  7 to 11        141769  -.476  .3171
-    OQSO for MRG7gen.bin     using bits  6 to 10        141979   .236  .5934
-    OQSO for MRG7gen.bin     using bits  5 to  9        141798  -.377  .3529
-    OQSO for MRG7gen.bin     using bits  4 to  8        142217  1.043  .8515
-    OQSO for MRG7gen.bin     using bits  3 to  7        141729  -.611  .2705
-    OQSO for MRG7gen.bin     using bits  2 to  6        141626  -.960  .1684
-    OQSO for MRG7gen.bin     using bits  1 to  5        141888  -.072  .4712
-  DNA test for generator MRG7gen.bin              
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-     DNA for MRG7gen.bin     using bits 31 to 32       1047552******* 1.0000
-     DNA for MRG7gen.bin     using bits 30 to 31        142256  1.023  .8468
-     DNA for MRG7gen.bin     using bits 29 to 30        142323  1.220  .8888
-     DNA for MRG7gen.bin     using bits 28 to 29        142129   .648  .7415
-     DNA for MRG7gen.bin     using bits 27 to 28        142457  1.616  .9469
-     DNA for MRG7gen.bin     using bits 26 to 27        142281  1.096  .8635
-     DNA for MRG7gen.bin     using bits 25 to 26        142218   .911  .8187
-     DNA for MRG7gen.bin     using bits 24 to 25        141662  -.730  .2328
-     DNA for MRG7gen.bin     using bits 23 to 24        142115   .607  .7280
-     DNA for MRG7gen.bin     using bits 22 to 23        141644  -.783  .2169
-     DNA for MRG7gen.bin     using bits 21 to 22        141809  -.296  .3836
-     DNA for MRG7gen.bin     using bits 20 to 21        141972   .185  .5733
-     DNA for MRG7gen.bin     using bits 19 to 20        141833  -.225  .4109
-     DNA for MRG7gen.bin     using bits 18 to 19        141727  -.538  .2953
-     DNA for MRG7gen.bin     using bits 17 to 18        142217   .908  .8180
-     DNA for MRG7gen.bin     using bits 16 to 17        142511  1.775  .9620
-     DNA for MRG7gen.bin     using bits 15 to 16        141732  -.523  .3005
-     DNA for MRG7gen.bin     using bits 14 to 15        141195 -2.107  .0176
-     DNA for MRG7gen.bin     using bits 13 to 14        142126   .639  .7386
-     DNA for MRG7gen.bin     using bits 12 to 13        141731  -.526  .2994
-     DNA for MRG7gen.bin     using bits 11 to 12        142050   .415  .6609
-     DNA for MRG7gen.bin     using bits 10 to 11        142541  1.863  .9688
-     DNA for MRG7gen.bin     using bits  9 to 10        141936   .079  .5314
-     DNA for MRG7gen.bin     using bits  8 to  9        141492 -1.231  .1092
-     DNA for MRG7gen.bin     using bits  7 to  8        142414  1.489  .9317
-     DNA for MRG7gen.bin     using bits  6 to  7        141769  -.414  .3395
-     DNA for MRG7gen.bin     using bits  5 to  6        142152   .716  .7630
-     DNA for MRG7gen.bin     using bits  4 to  5        141888  -.063  .4749
-     DNA for MRG7gen.bin     using bits  3 to  4        142315  1.197  .8843
-     DNA for MRG7gen.bin     using bits  2 to  3        142328  1.235  .8916
-     DNA for MRG7gen.bin     using bits  1 to  2        141856  -.157  .4375
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
-     :: Consider the file under test as a stream of bytes (four per   ::     
-     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
-     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
-     :: the stream of bytes provide a string of overlapping  5-letter ::     
-     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
-     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
-     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
-     :: we have a monkey at a typewriter hitting five keys with vari- ::     
-     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
-     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
-     :: lapping) 5-letter words, counts are made on the frequencies   ::     
-     :: for each word.   The quadratic form in the weak inverse of    ::     
-     :: the covariance matrix of the cell counts provides a chisquare ::     
-     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
-     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-   Test results for MRG7gen.bin    
- Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
-                               chisquare  equiv normal  p-value
-  Results fo COUNT-THE-1's in successive bytes:
- byte stream for MRG7gen.bin     24047.13    304.722     1.000000
- byte stream for MRG7gen.bin     24186.41    306.692     1.000000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
-     :: Consider the file under test as a stream of 32-bit integers.  ::     
-     :: From each integer, a specific byte is chosen , say the left-  ::     
-     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
-     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
-     :: the specified bytes from successive integers provide a string ::     
-     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
-     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
-     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
-     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
-     :: hitting five keys with with various probabilities::  37,56,70,::     
-     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
-     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
-     :: are made on the frequencies for each word. The quadratic form ::     
-     :: in the weak inverse of the covariance matrix of the cell      ::     
-     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
-     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
-     :: and 4-letter cell counts.                                     ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
-                      chisquare  equiv normal  p value
-  Results for COUNT-THE-1's in specified bytes:
-           bits  1 to  8  2487.05      -.183      .427335
-           bits  2 to  9  2506.48       .092      .536482
-           bits  3 to 10  2532.64       .462      .677813
-           bits  4 to 11  2471.13      -.408      .341537
-           bits  5 to 12  2404.48     -1.351      .088361
-           bits  6 to 13  2599.18      1.403      .919636
-           bits  7 to 14  2496.40      -.051      .479706
-           bits  8 to 15  2522.32       .316      .623866
-           bits  9 to 16  2619.28      1.687      .954184
-           bits 10 to 17  2604.87      1.483      .930979
-           bits 11 to 18  2492.75      -.103      .459177
-           bits 12 to 19  2563.14       .893      .814065
-           bits 13 to 20  2216.07     -4.015      .000030
-           bits 14 to 21  2566.84       .945      .827729
-           bits 15 to 22  2432.31      -.957      .169200
-           bits 16 to 23  2484.27      -.222      .411990
-           bits 17 to 24  2438.08      -.876      .190613
-           bits 18 to 25  2501.06       .015      .505993
-           bits 19 to 26  2507.98       .113      .544943
-           bits 20 to 27  2600.78      1.425      .922965
-           bits 21 to 28  2522.15       .313      .622961
-           bits 22 to 29  2528.51       .403      .656609
-           bits 23 to 30  2448.48      -.729      .233143
-           bits 24 to 31  2437.87      -.879      .189804
-           bits 25 to 32 50640.92    680.815     1.000000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::               THIS IS A PARKING LOT TEST                      ::     
-     :: In a square of side 100, randomly "park" a car---a circle of  ::     
-     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
-     :: time parking "by ear".  That is, if an attempt to park a car  ::     
-     :: causes a crash with one already parked, try again at a new    ::     
-     :: random location. (To avoid path problems, consider parking    ::     
-     :: helicopters rather than cars.)   Each attempt leads to either ::     
-     :: a crash or a success, the latter followed by an increment to  ::     
-     :: the list of cars already parked. If we plot n:  the number of ::     
-     :: attempts, versus k::  the number successfully parked, we get a::     
-     :: curve that should be similar to those provided by a perfect   ::     
-     :: random number generator.  Theory for the behavior of such a   ::     
-     :: random curve seems beyond reach, and as graphics displays are ::     
-     :: not available for this battery of tests, a simple characteriz ::     
-     :: ation of the random experiment is used: k, the number of cars ::     
-     :: successfully parked after n=12,000 attempts. Simulation shows ::     
-     :: that k should average 3523 with sigma 21.9 and is very close  ::     
-     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
-     :: andard normal variable, which, converted to a uniform varia-  ::     
-     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           CDPARK: result of ten tests on file MRG7gen.bin    
-            Of 12,000 tries, the average no. of successes
-                 should be 3523 with sigma=21.9
-            Successes: 3525    z-score:   .091 p-value: .536382
-            Successes: 3526    z-score:   .137 p-value: .554479
-            Successes: 3547    z-score:  1.096 p-value: .863437
-            Successes: 3525    z-score:   .091 p-value: .536382
-            Successes: 3534    z-score:   .502 p-value: .692266
-            Successes: 3525    z-score:   .091 p-value: .536382
-            Successes: 3524    z-score:   .046 p-value: .518210
-            Successes: 3525    z-score:   .091 p-value: .536382
-            Successes: 3541    z-score:   .822 p-value: .794438
-            Successes: 3515    z-score:  -.365 p-value: .357445
-
-           square size   avg. no.  parked   sample sigma
-             100.            3528.700        8.846
-            KSTEST for the above 10: p=  .893544
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::               THE MINIMUM DISTANCE TEST                       ::     
-     :: It does this 100 times::   choose n=8000 random points in a   ::     
-     :: square of side 10000.  Find d, the minimum distance between   ::     
-     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
-     :: pendent uniform, then d^2, the square of the minimum distance ::     
-     :: should be (very close to) exponentially distributed with mean ::     
-     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
-     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
-     :: formity for random points in the square. Test numbers=0 mod 5 ::     
-     :: are printed but the KSTEST is based on the full set of 100    ::     
-     :: random choices of 8000 points in the 10000x10000 square.      ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-               This is the MINIMUM DISTANCE test
-              for random integers in the file MRG7gen.bin    
-     Sample no.    d^2     avg     equiv uni            
-           5    1.1194    .7115     .675349
-          10     .5326   1.0150     .414471
-          15    1.9808   1.0205     .863410
-          20     .6401    .9247     .474475
-          25    1.2116    .9244     .704089
-          30     .9963    .9096     .632602
-          35     .6133    .8701     .460082
-          40    3.0540    .9839     .953549
-          45     .3950   1.0304     .327628
-          50    1.1322   1.0344     .679520
-          55    9.5186   1.2111     .999930
-          60     .1509   1.1398     .140713
-          65     .6610   1.0991     .485391
-          70    2.1817   1.1534     .888380
-          75     .1320   1.1512     .124260
-          80    1.2672   1.1313     .720165
-          85     .0967   1.1146     .092579
-          90    1.1534   1.1075     .686275
-          95     .1880   1.1006     .172201
-         100     .0969   1.0913     .092791
-     MINIMUM DISTANCE TEST for MRG7gen.bin    
-          Result of KS test on 20 transformed mindist^2's:
-                                  p-value= .666638
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::              THE 3DSPHERES TEST                               ::     
-     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
-     :: point, center a sphere large enough to reach the next closest ::     
-     :: point. Then the volume of the smallest such sphere is (very   ::     
-     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
-     :: the radius cubed is exponential with mean 30. (The mean is    ::     
-     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
-     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
-     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
-     ::  KSTEST is done on the 20 p-values.                           ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-               The 3DSPHERES test for file MRG7gen.bin    
- sample no:  1     r^3=  10.792     p-value= .30214
- sample no:  2     r^3=  50.895     p-value= .81668
- sample no:  3     r^3=  45.532     p-value= .78080
- sample no:  4     r^3=  27.570     p-value= .60109
- sample no:  5     r^3=  81.575     p-value= .93407
- sample no:  6     r^3=  31.273     p-value= .64740
- sample no:  7     r^3=  44.478     p-value= .77296
- sample no:  8     r^3=  65.468     p-value= .88721
- sample no:  9     r^3=   1.599     p-value= .05191
- sample no: 10     r^3=   3.176     p-value= .10044
- sample no: 11     r^3=   5.384     p-value= .16429
- sample no: 12     r^3=  13.272     p-value= .35751
- sample no: 13     r^3= 117.662     p-value= .98020
- sample no: 14     r^3=  38.601     p-value= .72382
- sample no: 15     r^3=  36.368     p-value= .70248
- sample no: 16     r^3=  15.779     p-value= .40902
- sample no: 17     r^3=   5.465     p-value= .16654
- sample no: 18     r^3=   6.436     p-value= .19308
- sample no: 19     r^3=  13.274     p-value= .35756
- sample no: 20     r^3=  24.616     p-value= .55980
-  A KS test is applied to those 20 p-values.
----------------------------------------------------------
-       3DSPHERES test for file MRG7gen.bin          p-value= .020315
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::      This is the SQEEZE test                                  ::     
-     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
-     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
-     ::  iterations necessary to reduce k to 1, using the reduction   ::     
-     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
-     ::  the file being tested.  Such j's are found 100,000 times,    ::     
-     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
-     ::  are used to provide a chi-square test for cell frequencies.  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-            RESULTS OF SQUEEZE TEST FOR MRG7gen.bin    
-         Table of standardized frequency counts
-     ( (obs-exp)/sqrt(exp) )^2
-        for j taking values <=6,7,8,...,47,>=48:
-     -.8     -.7     1.5      .8    -1.2      .8
-      .7    -1.3      .3      .4      .5     -.9
-      .2    -1.0      .7    -1.1     1.1     -.9
-     -.6    -1.3     1.1     -.3     2.3      .1
-     -.1     1.8     -.2     -.3     -.8      .3
-    -1.1     -.4      .5      .4      .9      .2
-      .3     -.1     -.8      .4     -.6    -1.0
-      .8
-           Chi-square with 42 degrees of freedom: 32.654
-              z-score= -1.020  p-value= .150658
-______________________________________________________________
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The  OVERLAPPING SUMS test                        ::     
-     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
-     :: form [0,1) variables.  Then overlapping sums,                 ::     
-     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
-     :: The S's are virtually normal with a certain covariance mat-   ::     
-     :: rix.  A linear transformation of the S's converts them to a   ::     
-     :: sequence of independent standard normals, which are converted ::     
-     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
-     :: KSTESTs are given still another KSTEST.                       ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-                Test no.  1      p-value  .010589
-                Test no.  2      p-value  .222644
-                Test no.  3      p-value  .179316
-                Test no.  4      p-value  .267617
-                Test no.  5      p-value  .612392
-                Test no.  6      p-value  .317048
-                Test no.  7      p-value  .140251
-                Test no.  8      p-value  .456468
-                Test no.  9      p-value  .026565
-                Test no. 10      p-value  .472545
-   Results of the OSUM test for MRG7gen.bin    
-        KSTEST on the above 10 p-values:  .982206
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
-     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
-     :: ing the 32-bit integers in the specified file. This example   ::     
-     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
-     :: contains an up-run of length 3, a down-run of length 2 and an ::     
-     :: up-run of (at least) 2, depending on the next values.  The    ::     
-     :: covariance matrices for the runs-up and runs-down are well    ::     
-     :: known, leading to chisquare tests for quadratic forms in the  ::     
-     :: weak inverses of the covariance matrices.  Runs are counted   ::     
-     :: for sequences of length 10,000.  This is done ten times. Then ::     
-     :: repeated.                                                     ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           The RUNS test for file MRG7gen.bin    
-     Up and down runs in a sample of 10000
-_________________________________________________ 
-                 Run test for MRG7gen.bin    :
-       runs up; ks test for 10 p's: .225121
-     runs down; ks test for 10 p's: .036353
-                 Run test for MRG7gen.bin    :
-       runs up; ks test for 10 p's: .479517
-     runs down; ks test for 10 p's: .717260
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
-     :: the number of wins and the number of throws necessary to end  ::     
-     :: each game.  The number of wins should be (very close to) a    ::     
-     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
-     :: p=244/495.  Throws necessary to complete the game can vary    ::     
-     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
-     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
-     :: Each 32-bit integer from the test file provides the value for ::     
-     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
-     :: and taking 1 plus the integer part of the result.             ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-                Results of craps test for MRG7gen.bin    
-  No. of wins:  Observed Expected
-                                98360    98585.86
-                  98360= No. of wins, z-score=-1.010 pvalue= .15621
-   Analysis of Throws-per-Game:
- Chisq=  19.49 for 20 degrees of freedom, p=  .50989
-               Throws Observed Expected  Chisq     Sum
-                  1    66134    66666.7   4.256    4.256
-                  2    37946    37654.3   2.259    6.515
-                  3    27060    26954.7    .411    6.927
-                  4    19311    19313.5    .000    6.927
-                  5    13965    13851.4    .931    7.858
-                  6     9889     9943.5    .299    8.157
-                  7     7171     7145.0    .094    8.252
-                  8     5164     5139.1    .121    8.373
-                  9     3702     3699.9    .001    8.374
-                 10     2642     2666.3    .221    8.595
-                 11     1943     1923.3    .201    8.797
-                 12     1356     1388.7    .772    9.568
-                 13      998     1003.7    .033    9.601
-                 14      770      726.1   2.649   12.250
-                 15      542      525.8    .497   12.747
-                 16      385      381.2    .039   12.786
-                 17      274      276.5    .023   12.809
-                 18      195      200.8    .169   12.978
-                 19      131      146.0   1.538   14.517
-                 20       99      106.2    .490   15.007
-                 21      323      287.1   4.485   19.492
-            SUMMARY  FOR MRG7gen.bin    
-                p-value for no. of wins: .156206
-                p-value for throws/game: .509890
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
- Results of DIEHARD battery of tests sent to file MRG7gen.all    

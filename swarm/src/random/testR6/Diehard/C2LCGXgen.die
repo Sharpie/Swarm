@@ -1,145 +1,0 @@
-       NOTE: Most of the tests in DIEHARD return a p-value, which            
-       should be uniform on [0,1) if the input file contains truly           
-       independent random bits.   Those p-values are obtained by             
-       p=F(X), where F is the assumed distribution of the sample             
-       random variable X---often normal. But that assumed F is just          
-       an asymptotic approximation, for which the fit will be worst          
-       in the tails. Thus you should not be surprised with                   
-       occasional p-values near 0 or 1, such as .0012 or .9983.              
-       When a bit stream really FAILS BIG, you will get p's of 0 or          
-       1 to six or more places.  By all means, do not, as a                  
-       Statistician might, think that a p < .025 or p> .975 means            
-       that the RNG has "failed the test at the .05 level".  Such            
-       p's happen among the hundreds that DIEHARD produces, even             
-       with good RNG's.  So keep in mind that " p happens".                  
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The tests OPSO, OQSO and DNA                      ::     
-     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
-     :: The OPSO test considers 2-letter words from an alphabet of    ::     
-     :: 1024 letters.  Each letter is determined by a specified ten   ::     
-     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
-     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
-     :: "keystrokes")  and counts the number of missing words---that  ::     
-     :: is 2-letter words which do not appear in the entire sequence. ::     
-     :: That count should be very close to normally distributed with  ::     
-     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
-     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
-     :: a time from the test file and uses a designated set of ten    ::     
-     :: consecutive bits. It then restarts the file for the next de-  ::     
-     :: signated 10 bits, and so on.                                  ::     
-     ::                                                               ::     
-     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
-     ::   The test OQSO is similar, except that it considers 4-letter ::     
-     :: words from an alphabet of 32 letters, each letter determined  ::     
-     :: by a designated string of 5 consecutive bits from the test    ::     
-     :: file, elements of which are assumed 32-bit random integers.   ::     
-     :: The mean number of missing words in a sequence of 2^21 four-  ::     
-     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
-     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
-     :: extensive simulation.                                         ::     
-     ::                                                               ::     
-     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
-     :: determined by two designated bits in the sequence of random   ::     
-     :: integers being tested.  It considers 10-letter words, so that ::     
-     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
-     :: mean number of missing words from a string of 2^21  (over-    ::     
-     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
-     :: The standard deviation sigma=339 was determined as for OQSO   ::     
-     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
-     :: three places), not determined by simulation.                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- OPSO test for generator C2LCGXgen.bin            
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OPSO for C2LCGXgen.bin   using bits 23 to 32        786514******* 1.0000
-    OPSO for C2LCGXgen.bin   using bits 22 to 31        141985   .261  .6029
-    OPSO for C2LCGXgen.bin   using bits 21 to 30        141210 -2.411  .0079
-    OPSO for C2LCGXgen.bin   using bits 20 to 29        141635  -.946  .1721
-    OPSO for C2LCGXgen.bin   using bits 19 to 28        142271  1.247  .8938
-    OPSO for C2LCGXgen.bin   using bits 18 to 27        141565 -1.187  .1175
-    OPSO for C2LCGXgen.bin   using bits 17 to 26        142187   .957  .8308
-    OPSO for C2LCGXgen.bin   using bits 16 to 25        141427 -1.663  .0481
-    OPSO for C2LCGXgen.bin   using bits 15 to 24        142358  1.547  .9391
-    OPSO for C2LCGXgen.bin   using bits 14 to 23        142097   .647  .7412
-    OPSO for C2LCGXgen.bin   using bits 13 to 22        142214  1.051  .8533
-    OPSO for C2LCGXgen.bin   using bits 12 to 21        141747  -.560  .2878
-    OPSO for C2LCGXgen.bin   using bits 11 to 20        142089   .620  .7322
-    OPSO for C2LCGXgen.bin   using bits 10 to 19        141604 -1.053  .1462
-    OPSO for C2LCGXgen.bin   using bits  9 to 18        141866  -.149  .4406
-    OPSO for C2LCGXgen.bin   using bits  8 to 17        141662  -.853  .1969
-    OPSO for C2LCGXgen.bin   using bits  7 to 16        142253  1.185  .8820
-    OPSO for C2LCGXgen.bin   using bits  6 to 15        142086   .609  .7288
-    OPSO for C2LCGXgen.bin   using bits  5 to 14        142038   .444  .6714
-    OPSO for C2LCGXgen.bin   using bits  4 to 13        141652  -.887  .1874
-    OPSO for C2LCGXgen.bin   using bits  3 to 12        141941   .109  .5435
-    OPSO for C2LCGXgen.bin   using bits  2 to 11        141436 -1.632  .0513
-    OPSO for C2LCGXgen.bin   using bits  1 to 10        141668  -.832  .2027
- OQSO test for generator C2LCGXgen.bin            
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OQSO for C2LCGXgen.bin   using bits 28 to 32        983040******* 1.0000
-    OQSO for C2LCGXgen.bin   using bits 27 to 31        141864  -.154  .4389
-    OQSO for C2LCGXgen.bin   using bits 26 to 30        142115   .697  .7572
-    OQSO for C2LCGXgen.bin   using bits 25 to 29        141628  -.954  .1701
-    OQSO for C2LCGXgen.bin   using bits 24 to 28        141322 -1.991  .0232
-    OQSO for C2LCGXgen.bin   using bits 23 to 27        142067   .534  .7035
-    OQSO for C2LCGXgen.bin   using bits 22 to 26        141784  -.425  .3355
-    OQSO for C2LCGXgen.bin   using bits 21 to 25        142176   .904  .8170
-    OQSO for C2LCGXgen.bin   using bits 20 to 24        141974   .219  .5868
-    OQSO for C2LCGXgen.bin   using bits 19 to 23        141741  -.571  .2841
-    OQSO for C2LCGXgen.bin   using bits 18 to 22        141716  -.655  .2561
-    OQSO for C2LCGXgen.bin   using bits 17 to 21        142316  1.379  .9160
-    OQSO for C2LCGXgen.bin   using bits 16 to 20        142138   .775  .7809
-    OQSO for C2LCGXgen.bin   using bits 15 to 19        141450 -1.557  .0597
-    OQSO for C2LCGXgen.bin   using bits 14 to 18        142080   .579  .7186
-    OQSO for C2LCGXgen.bin   using bits 13 to 17        142582  2.280  .9887
-    OQSO for C2LCGXgen.bin   using bits 12 to 16        141313 -2.021  .0216
-    OQSO for C2LCGXgen.bin   using bits 11 to 15        141922   .043  .5171
-    OQSO for C2LCGXgen.bin   using bits 10 to 14        141676  -.791  .2145
-    OQSO for C2LCGXgen.bin   using bits  9 to 13        141766  -.486  .3135
-    OQSO for C2LCGXgen.bin   using bits  8 to 12        142262  1.195  .8841
-    OQSO for C2LCGXgen.bin   using bits  7 to 11        142219  1.050  .8531
-    OQSO for C2LCGXgen.bin   using bits  6 to 10        141989   .270  .6064
-    OQSO for C2LCGXgen.bin   using bits  5 to  9        142315  1.375  .9155
-    OQSO for C2LCGXgen.bin   using bits  4 to  8        142148   .809  .7908
-    OQSO for C2LCGXgen.bin   using bits  3 to  7        142391  1.633  .9487
-    OQSO for C2LCGXgen.bin   using bits  2 to  6        141910   .002  .5009
-    OQSO for C2LCGXgen.bin   using bits  1 to  5        142500  2.002  .9774
-  DNA test for generator C2LCGXgen.bin            
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-     DNA for C2LCGXgen.bin   using bits 31 to 32       1047552******* 1.0000
-     DNA for C2LCGXgen.bin   using bits 30 to 31        142011   .300  .6179
-     DNA for C2LCGXgen.bin   using bits 29 to 30        141658  -.741  .2292
-     DNA for C2LCGXgen.bin   using bits 28 to 29        141930   .061  .5243
-     DNA for C2LCGXgen.bin   using bits 27 to 28        142007   .288  .6134
-     DNA for C2LCGXgen.bin   using bits 26 to 27        141620  -.853  .1967
-     DNA for C2LCGXgen.bin   using bits 25 to 26        142146   .698  .7575
-     DNA for C2LCGXgen.bin   using bits 24 to 25        142125   .636  .7377
-     DNA for C2LCGXgen.bin   using bits 23 to 24        141982   .214  .5849
-     DNA for C2LCGXgen.bin   using bits 22 to 23        142759  2.506  .9939
-     DNA for C2LCGXgen.bin   using bits 21 to 22        142108   .586  .7211
-     DNA for C2LCGXgen.bin   using bits 20 to 21        142120   .621  .7328
-     DNA for C2LCGXgen.bin   using bits 19 to 20        142320  1.211  .8871
-     DNA for C2LCGXgen.bin   using bits 18 to 19        142478  1.677  .9533
-     DNA for C2LCGXgen.bin   using bits 17 to 18        141907  -.007  .4973
-     DNA for C2LCGXgen.bin   using bits 16 to 17        142502  1.748  .9598
-     DNA for C2LCGXgen.bin   using bits 15 to 16        142456  1.613  .9466
-     DNA for C2LCGXgen.bin   using bits 14 to 15        141541 -1.087  .1386
-     DNA for C2LCGXgen.bin   using bits 13 to 14        141785  -.367  .3569
-     DNA for C2LCGXgen.bin   using bits 12 to 13        142576  1.967  .9754
-     DNA for C2LCGXgen.bin   using bits 11 to 12        141582  -.966  .1671
-     DNA for C2LCGXgen.bin   using bits 10 to 11        141171 -2.178  .0147
-     DNA for C2LCGXgen.bin   using bits  9 to 10        141871  -.113  .4550
-     DNA for C2LCGXgen.bin   using bits  8 to  9        142001   .270  .6066
-     DNA for C2LCGXgen.bin   using bits  7 to  8        141929   .058  .5231
-     DNA for C2LCGXgen.bin   using bits  6 to  7        141582  -.966  .1671
-     DNA for C2LCGXgen.bin   using bits  5 to  6        142378  1.383  .9166
-     DNA for C2LCGXgen.bin   using bits  4 to  5        142057   .436  .6684
-     DNA for C2LCGXgen.bin   using bits  3 to  4        142480  1.683  .9539
-     DNA for C2LCGXgen.bin   using bits  2 to  3        141304 -1.786  .0371
-     DNA for C2LCGXgen.bin   using bits  1 to  2        141900  -.028  .4890
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
- Results of DIEHARD battery of tests sent to file C2LCGXgen.die  

@@ -1,944 +1,0 @@
-       NOTE: Most of the tests in DIEHARD return a p-value, which            
-       should be uniform on [0,1) if the input file contains truly           
-       independent random bits.   Those p-values are obtained by             
-       p=F(X), where F is the assumed distribution of the sample             
-       random variable X---often normal. But that assumed F is just          
-       an asymptotic approximation, for which the fit will be worst          
-       in the tails. Thus you should not be surprised with                   
-       occasional p-values near 0 or 1, such as .0012 or .9983.              
-       When a bit stream really FAILS BIG, you will get p's of 0 or          
-       1 to six or more places.  By all means, do not, as a                  
-       Statistician might, think that a p < .025 or p> .975 means            
-       that the RNG has "failed the test at the .05 level".  Such            
-       p's happen among the hundreds that DIEHARD produces, even             
-       with good RNG's.  So keep in mind that " p happens".                  
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
-     :: Choose m birthdays in a year of n days.  List the spacings    ::     
-     :: between the birthdays.  If j is the number of values that     ::     
-     :: occur more than once in that list, then j is asymptotically   ::     
-     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
-     :: must be quite large, say n>=2^18, for comparing the results   ::     
-     :: to the Poisson distribution with that mean.  This test uses   ::     
-     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
-     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
-     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
-     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
-     :: from the left) from integers in the specified file.           ::     
-     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
-     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
-     :: Each set of bits provides a p-value, and the nine p-values    ::     
-     :: provide a sample for a KSTEST.                                ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
-           Results for PMMLCG2gen.bin 
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  1 to 24   1.976
-  duplicate       number       number 
-  spacings       observed     expected
-        0          66.       67.668
-        1         134.      135.335
-        2         140.      135.335
-        3          90.       90.224
-        4          50.       45.112
-        5          16.       18.045
-  6 to INF          4.        8.282
- Chisquare with  6 d.o.f. =     3.19 p-value=  .215445
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  2 to 25   1.938
-  duplicate       number       number 
-  spacings       observed     expected
-        0          59.       67.668
-        1         160.      135.335
-        2         130.      135.335
-        3          93.       90.224
-        4          33.       45.112
-        5          15.       18.045
-  6 to INF         10.        8.282
- Chisquare with  6 d.o.f. =    10.02 p-value=  .876320
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  3 to 26   2.000
-  duplicate       number       number 
-  spacings       observed     expected
-        0          64.       67.668
-        1         127.      135.335
-        2         151.      135.335
-        3          92.       90.224
-        4          47.       45.112
-        5          10.       18.045
-  6 to INF          9.        8.282
- Chisquare with  6 d.o.f. =     6.29 p-value=  .608297
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  4 to 27   1.894
-  duplicate       number       number 
-  spacings       observed     expected
-        0          77.       67.668
-        1         149.      135.335
-        2         127.      135.335
-        3          78.       90.224
-        4          47.       45.112
-        5          15.       18.045
-  6 to INF          7.        8.282
- Chisquare with  6 d.o.f. =     5.63 p-value=  .533802
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  5 to 28   1.830
-  duplicate       number       number 
-  spacings       observed     expected
-        0          69.       67.668
-        1         154.      135.335
-        2         144.      135.335
-        3          81.       90.224
-        4          36.       45.112
-        5          11.       18.045
-  6 to INF          5.        8.282
- Chisquare with  6 d.o.f. =     9.99 p-value=  .874892
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  6 to 29   1.974
-  duplicate       number       number 
-  spacings       observed     expected
-        0          66.       67.668
-        1         140.      135.335
-        2         139.      135.335
-        3          85.       90.224
-        4          44.       45.112
-        5          20.       18.045
-  6 to INF          6.        8.282
- Chisquare with  6 d.o.f. =     1.47 p-value=  .038634
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  7 to 30   1.916
-  duplicate       number       number 
-  spacings       observed     expected
-        0          64.       67.668
-        1         146.      135.335
-        2         142.      135.335
-        3          93.       90.224
-        4          39.       45.112
-        5           7.       18.045
-  6 to INF          9.        8.282
- Chisquare with  6 d.o.f. =     9.10 p-value=  .832150
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  8 to 31   1.976
-  duplicate       number       number 
-  spacings       observed     expected
-        0          79.       67.668
-        1         136.      135.335
-        2         116.      135.335
-        3          97.       90.224
-        4          41.       45.112
-        5          24.       18.045
-  6 to INF          7.        8.282
- Chisquare with  6 d.o.f. =     7.71 p-value=  .739956
-  :::::::::::::::::::::::::::::::::::::::::
-                   For a sample of size 500:     mean   
-          PMMLCG2gen.bin   using bits  9 to 32   3.908
-  duplicate       number       number 
-  spacings       observed     expected
-        0          13.       67.668
-        1          31.      135.335
-        2          76.      135.335
-        3         107.       90.224
-        4          97.       45.112
-        5          77.       18.045
-  6 to INF         99.        8.282
- Chisquare with  6 d.o.f. =  1399.75 p-value= 1.000000
-  :::::::::::::::::::::::::::::::::::::::::
-   The 9 p-values were
-        .215445   .876320   .608297   .533802   .874892
-        .038634   .832150   .739956  1.000000
-  A KSTEST for the 9 p-values yields  .998533
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
-     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
-     :: ion 32-bit random integers.  Each set of five consecutive     ::     
-     :: integers can be in one of 120 states, for the 5! possible or- ::     
-     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
-     :: each provide a state. As many thousands of state transitions  ::     
-     :: are observed,  cumulative counts are made of the number of    ::     
-     :: occurences of each state.  Then the quadratic form in the     ::     
-     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
-     :: equivalent to the likelihood ratio test that the 120 cell     ::     
-     :: counts came from the specified (asymptotically) normal dis-   ::     
-     :: tribution with the specified 120x120 covariance matrix (with  ::     
-     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           OPERM5 test for file PMMLCG2gen.bin 
-     For a sample of 1,000,000 consecutive 5-tuples,
- chisquare for 99 degrees of freedom= 83.385; p-value= .130001
-           OPERM5 test for file PMMLCG2gen.bin 
-     For a sample of 1,000,000 consecutive 5-tuples,
- chisquare for 99 degrees of freedom= 84.930; p-value= .157679
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
-     :: 31 bits of 31 random integers from the test sequence are used ::     
-     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
-     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
-     :: are rare, and their counts are pooled with those for rank 28. ::     
-     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
-     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-    Binary rank test for PMMLCG2gen.bin 
-         Rank test for 31x31 binary matrices:
-        rows from leftmost 31 bits of each 32-bit integer
-      rank   observed  expected (o-e)^2/e  sum
-        28       221     211.4   .434279     .434
-        29      5164    5134.0   .175182     .609
-        30     23184   23103.0   .283660     .893
-        31     11431   11551.5  1.257508    2.151
-  chisquare= 2.151 for 3 d. of f.; p-value= .529518
---------------------------------------------------------------
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
-     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
-     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
-     :: less than 29 are rare, and their counts are pooled with those ::     
-     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
-     :: and a chisquare test is performed on counts for ranks  32,31, ::     
-     :: 30 and <=29.                                                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-    Binary rank test for PMMLCG2gen.bin 
-         Rank test for 32x32 binary matrices:
-        rows from leftmost 32 bits of each 32-bit integer
-      rank   observed  expected (o-e)^2/e  sum
-        29      1511     211.4********** 7988.503
-        30     15513    5134.0**********28970.820
-        31     22976   23103.0   .69864828971.520
-        32         0   11551.5**********40523.043
-  chisquare=****** for 3 d. of f.; p-value=1.000000
---------------------------------------------------------------
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
-     :: six random 32-bit integers from the generator under test, a   ::     
-     :: specified byte is chosen, and the resulting six bytes form a  ::     
-     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
-     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
-     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
-     :: random matrices, and a chi-square test is performed on        ::     
-     :: counts for ranks 6,5 and <=4.                                 ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-         Binary Rank Test for PMMLCG2gen.bin 
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  1 to  8
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          991       944.3       2.309       2.309
-          r =5        21559     21743.9       1.572       3.882
-          r =6        77450     77311.8        .247       4.129
-                        p=1-exp(-SUM/2)= .87310
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  2 to  9
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          953       944.3        .080        .080
-          r =5        21802     21743.9        .155        .235
-          r =6        77245     77311.8        .058        .293
-                        p=1-exp(-SUM/2)= .13632
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  3 to 10
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          894       944.3       2.679       2.679
-          r =5        21631     21743.9        .586       3.266
-          r =6        77475     77311.8        .344       3.610
-                        p=1-exp(-SUM/2)= .83554
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  4 to 11
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          908       944.3       1.396       1.396
-          r =5        21815     21743.9        .232       1.628
-          r =6        77277     77311.8        .016       1.644
-                        p=1-exp(-SUM/2)= .56037
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  5 to 12
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          920       944.3        .625        .625
-          r =5        21595     21743.9       1.020       1.645
-          r =6        77485     77311.8        .388       2.033
-                        p=1-exp(-SUM/2)= .63815
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  6 to 13
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          974       944.3        .934        .934
-          r =5        21638     21743.9        .516       1.450
-          r =6        77388     77311.8        .075       1.525
-                        p=1-exp(-SUM/2)= .53348
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  7 to 14
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          925       944.3        .395        .395
-          r =5        21678     21743.9        .200        .594
-          r =6        77397     77311.8        .094        .688
-                        p=1-exp(-SUM/2)= .29111
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  8 to 15
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          918       944.3        .733        .733
-          r =5        21672     21743.9        .238        .970
-          r =6        77410     77311.8        .125       1.095
-                        p=1-exp(-SUM/2)= .42162
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits  9 to 16
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          977       944.3       1.132       1.132
-          r =5        21600     21743.9        .952       2.085
-          r =6        77423     77311.8        .160       2.245
-                        p=1-exp(-SUM/2)= .67446
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 10 to 17
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          938       944.3        .042        .042
-          r =5        21861     21743.9        .631        .673
-          r =6        77201     77311.8        .159        .831
-                        p=1-exp(-SUM/2)= .34015
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 11 to 18
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          935       944.3        .092        .092
-          r =5        22095     21743.9       5.669       5.761
-          r =6        76970     77311.8       1.511       7.272
-                        p=1-exp(-SUM/2)= .97364
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 12 to 19
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          930       944.3        .217        .217
-          r =5        21844     21743.9        .461        .677
-          r =6        77226     77311.8        .095        .773
-                        p=1-exp(-SUM/2)= .32045
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 13 to 20
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          943       944.3        .002        .002
-          r =5        21736     21743.9        .003        .005
-          r =6        77321     77311.8        .001        .006
-                        p=1-exp(-SUM/2)= .00287
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 14 to 21
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          976       944.3       1.064       1.064
-          r =5        21542     21743.9       1.875       2.939
-          r =6        77482     77311.8        .375       3.313
-                        p=1-exp(-SUM/2)= .80924
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 15 to 22
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          921       944.3        .575        .575
-          r =5        21793     21743.9        .111        .686
-          r =6        77286     77311.8        .009        .694
-                        p=1-exp(-SUM/2)= .29336
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 16 to 23
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          893       944.3       2.787       2.787
-          r =5        21864     21743.9        .663       3.450
-          r =6        77243     77311.8        .061       3.512
-                        p=1-exp(-SUM/2)= .82723
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 17 to 24
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          943       944.3        .002        .002
-          r =5        21534     21743.9       2.026       2.028
-          r =6        77523     77311.8        .577       2.605
-                        p=1-exp(-SUM/2)= .72814
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 18 to 25
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          938       944.3        .042        .042
-          r =5        21723     21743.9        .020        .062
-          r =6        77339     77311.8        .010        .072
-                        p=1-exp(-SUM/2)= .03522
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 19 to 26
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          954       944.3        .100        .100
-          r =5        21914     21743.9       1.331       1.430
-          r =6        77132     77311.8        .418       1.848
-                        p=1-exp(-SUM/2)= .60316
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 20 to 27
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          947       944.3        .008        .008
-          r =5        21743     21743.9        .000        .008
-          r =6        77310     77311.8        .000        .008
-                        p=1-exp(-SUM/2)= .00389
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 21 to 28
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          939       944.3        .030        .030
-          r =5        21682     21743.9        .176        .206
-          r =6        77379     77311.8        .058        .264
-                        p=1-exp(-SUM/2)= .12383
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 22 to 29
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          980       944.3       1.350       1.350
-          r =5        21711     21743.9        .050       1.399
-          r =6        77309     77311.8        .000       1.399
-                        p=1-exp(-SUM/2)= .50328
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 23 to 30
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          928       944.3        .281        .281
-          r =5        21687     21743.9        .149        .430
-          r =6        77385     77311.8        .069        .500
-                        p=1-exp(-SUM/2)= .22104
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 24 to 31
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4          967       944.3        .546        .546
-          r =5        21512     21743.9       2.473       3.019
-          r =6        77521     77311.8        .566       3.585
-                        p=1-exp(-SUM/2)= .83345
-        Rank of a 6x8 binary matrix,
-     rows formed from eight bits of the RNG PMMLCG2gen.bin 
-     b-rank test for bits 25 to 32
-                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
-          r<=4         3620       944.3    7581.652    7581.652
-          r =5        38207     21743.9   12464.812   20046.465
-          r =6        58173     77311.8    4737.877   24784.342
-                        p=1-exp(-SUM/2)=1.00000
-   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
- These should be 25 uniform [0,1] random variables:
-     .873102     .136317     .835538     .560375     .638148
-     .533479     .291115     .421615     .674458     .340149
-     .973642     .320446     .002875     .809239     .293357
-     .827235     .728142     .035217     .603162     .003888
-     .123826     .503278     .221045     .833449    1.000000
-   brank test summary for PMMLCG2gen.bin 
-       The KS test for those 25 supposed UNI's yields
-                    KS p-value= .900779
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::                   THE BITSTREAM TEST                          ::     
-     :: The file under test is viewed as a stream of bits. Call them  ::     
-     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
-     :: and think of the stream of bits as a succession of 20-letter  ::     
-     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
-     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
-     :: the number of missing 20-letter (20-bit) words in a string of ::     
-     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
-     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
-     :: number of missing words j should be (very close to) normally  ::     
-     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
-     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
-     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
-     :: twenty times.                                                 ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-       THE OVERLAPPING 20-tuples BITSTREAM TEST,
-            20 BITS PER WORD, 2^21 words.
-    This test samples the bitstream 20 times.
-  No. missing words should average  141909. with sigma=428.
------------------------------------        ---------------
- tst no  1:  147505 missing words,   13.07 sigmas from mean, p-value=1.00000
- tst no  2:  147025 missing words,   11.95 sigmas from mean, p-value=1.00000
- tst no  3:  148306 missing words,   14.95 sigmas from mean, p-value=1.00000
- tst no  4:  146894 missing words,   11.65 sigmas from mean, p-value=1.00000
- tst no  5:  147143 missing words,   12.23 sigmas from mean, p-value=1.00000
- tst no  6:  147323 missing words,   12.65 sigmas from mean, p-value=1.00000
- tst no  7:  147785 missing words,   13.73 sigmas from mean, p-value=1.00000
- tst no  8:  147456 missing words,   12.96 sigmas from mean, p-value=1.00000
- tst no  9:  146791 missing words,   11.41 sigmas from mean, p-value=1.00000
- tst no 10:  147593 missing words,   13.28 sigmas from mean, p-value=1.00000
- tst no 11:  147867 missing words,   13.92 sigmas from mean, p-value=1.00000
- tst no 12:  146873 missing words,   11.60 sigmas from mean, p-value=1.00000
- tst no 13:  146809 missing words,   11.45 sigmas from mean, p-value=1.00000
- tst no 14:  147145 missing words,   12.23 sigmas from mean, p-value=1.00000
- tst no 15:  147265 missing words,   12.51 sigmas from mean, p-value=1.00000
- tst no 16:  147411 missing words,   12.85 sigmas from mean, p-value=1.00000
- tst no 17:  147891 missing words,   13.98 sigmas from mean, p-value=1.00000
- tst no 18:  147497 missing words,   13.06 sigmas from mean, p-value=1.00000
- tst no 19:  146866 missing words,   11.58 sigmas from mean, p-value=1.00000
- tst no 20:  147210 missing words,   12.38 sigmas from mean, p-value=1.00000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The tests OPSO, OQSO and DNA                      ::     
-     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
-     :: The OPSO test considers 2-letter words from an alphabet of    ::     
-     :: 1024 letters.  Each letter is determined by a specified ten   ::     
-     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
-     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
-     :: "keystrokes")  and counts the number of missing words---that  ::     
-     :: is 2-letter words which do not appear in the entire sequence. ::     
-     :: That count should be very close to normally distributed with  ::     
-     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
-     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
-     :: a time from the test file and uses a designated set of ten    ::     
-     :: consecutive bits. It then restarts the file for the next de-  ::     
-     :: signated 10 bits, and so on.                                  ::     
-     ::                                                               ::     
-     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
-     ::   The test OQSO is similar, except that it considers 4-letter ::     
-     :: words from an alphabet of 32 letters, each letter determined  ::     
-     :: by a designated string of 5 consecutive bits from the test    ::     
-     :: file, elements of which are assumed 32-bit random integers.   ::     
-     :: The mean number of missing words in a sequence of 2^21 four-  ::     
-     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
-     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
-     :: extensive simulation.                                         ::     
-     ::                                                               ::     
-     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
-     :: determined by two designated bits in the sequence of random   ::     
-     :: integers being tested.  It considers 10-letter words, so that ::     
-     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
-     :: mean number of missing words from a string of 2^21  (over-    ::     
-     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
-     :: The standard deviation sigma=339 was determined as for OQSO   ::     
-     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
-     :: three places), not determined by simulation.                  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- OPSO test for generator PMMLCG2gen.bin           
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OPSO for PMMLCG2gen.bin  using bits 23 to 32        786502******* 1.0000
-    OPSO for PMMLCG2gen.bin  using bits 22 to 31        141239 -2.311  .0104
-    OPSO for PMMLCG2gen.bin  using bits 21 to 30        141468 -1.522  .0640
-    OPSO for PMMLCG2gen.bin  using bits 20 to 29        141804  -.363  .3582
-    OPSO for PMMLCG2gen.bin  using bits 19 to 28        142031   .420  .6626
-    OPSO for PMMLCG2gen.bin  using bits 18 to 27        141533 -1.298  .0972
-    OPSO for PMMLCG2gen.bin  using bits 17 to 26        141399 -1.760  .0392
-    OPSO for PMMLCG2gen.bin  using bits 16 to 25        141997   .302  .6188
-    OPSO for PMMLCG2gen.bin  using bits 15 to 24        141673  -.815  .2076
-    OPSO for PMMLCG2gen.bin  using bits 14 to 23        141561 -1.201  .1149
-    OPSO for PMMLCG2gen.bin  using bits 13 to 22        141837  -.249  .4015
-    OPSO for PMMLCG2gen.bin  using bits 12 to 21        142054   .499  .6911
-    OPSO for PMMLCG2gen.bin  using bits 11 to 20        142117   .716  .7630
-    OPSO for PMMLCG2gen.bin  using bits 10 to 19        142173   .909  .8184
-    OPSO for PMMLCG2gen.bin  using bits  9 to 18        141586 -1.115  .1324
-    OPSO for PMMLCG2gen.bin  using bits  8 to 17        141642  -.922  .1783
-    OPSO for PMMLCG2gen.bin  using bits  7 to 16        141616 -1.011  .1559
-    OPSO for PMMLCG2gen.bin  using bits  6 to 15        141862  -.163  .4352
-    OPSO for PMMLCG2gen.bin  using bits  5 to 14        142385  1.640  .9495
-    OPSO for PMMLCG2gen.bin  using bits  4 to 13        141985   .261  .6029
-    OPSO for PMMLCG2gen.bin  using bits  3 to 12        142084   .602  .7265
-    OPSO for PMMLCG2gen.bin  using bits  2 to 11        141863  -.160  .4365
-    OPSO for PMMLCG2gen.bin  using bits  1 to 10        141703  -.711  .2384
- OQSO test for generator PMMLCG2gen.bin           
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-    OQSO for PMMLCG2gen.bin  using bits 28 to 32        983040******* 1.0000
-    OQSO for PMMLCG2gen.bin  using bits 27 to 31        141521 -1.316  .0940
-    OQSO for PMMLCG2gen.bin  using bits 26 to 30        141402 -1.720  .0427
-    OQSO for PMMLCG2gen.bin  using bits 25 to 29        141445 -1.574  .0577
-    OQSO for PMMLCG2gen.bin  using bits 24 to 28        141935   .087  .5347
-    OQSO for PMMLCG2gen.bin  using bits 23 to 27        142095   .629  .7355
-    OQSO for PMMLCG2gen.bin  using bits 22 to 26        141787  -.415  .3392
-    OQSO for PMMLCG2gen.bin  using bits 21 to 25        142125   .731  .7676
-    OQSO for PMMLCG2gen.bin  using bits 20 to 24        141787  -.415  .3392
-    OQSO for PMMLCG2gen.bin  using bits 19 to 23        141404 -1.713  .0434
-    OQSO for PMMLCG2gen.bin  using bits 18 to 22        141338 -1.937  .0264
-    OQSO for PMMLCG2gen.bin  using bits 17 to 21        141908  -.005  .4982
-    OQSO for PMMLCG2gen.bin  using bits 16 to 20        142096   .633  .7366
-    OQSO for PMMLCG2gen.bin  using bits 15 to 19        142114   .694  .7561
-    OQSO for PMMLCG2gen.bin  using bits 14 to 18        141437 -1.601  .0547
-    OQSO for PMMLCG2gen.bin  using bits 13 to 17        141987   .263  .6038
-    OQSO for PMMLCG2gen.bin  using bits 12 to 16        141727  -.618  .2683
-    OQSO for PMMLCG2gen.bin  using bits 11 to 15        142058   .504  .6929
-    OQSO for PMMLCG2gen.bin  using bits 10 to 14        141984   .253  .5999
-    OQSO for PMMLCG2gen.bin  using bits  9 to 13        141731  -.605  .2728
-    OQSO for PMMLCG2gen.bin  using bits  8 to 12        142136   .768  .7789
-    OQSO for PMMLCG2gen.bin  using bits  7 to 11        142000   .307  .6207
-    OQSO for PMMLCG2gen.bin  using bits  6 to 10        141886  -.079  .4685
-    OQSO for PMMLCG2gen.bin  using bits  5 to  9        142434  1.779  .9623
-    OQSO for PMMLCG2gen.bin  using bits  4 to  8        141773  -.462  .3220
-    OQSO for PMMLCG2gen.bin  using bits  3 to  7        142191   .955  .8302
-    OQSO for PMMLCG2gen.bin  using bits  2 to  6        141906  -.011  .4955
-    OQSO for PMMLCG2gen.bin  using bits  1 to  5        141808  -.343  .3656
-  DNA test for generator PMMLCG2gen.bin           
-  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
-                                                           mw     z     p
-     DNA for PMMLCG2gen.bin  using bits 31 to 32       1047552******* 1.0000
-     DNA for PMMLCG2gen.bin  using bits 30 to 31        141722  -.553  .2903
-     DNA for PMMLCG2gen.bin  using bits 29 to 30        142268  1.058  .8550
-     DNA for PMMLCG2gen.bin  using bits 28 to 29        142564  1.931  .9733
-     DNA for PMMLCG2gen.bin  using bits 27 to 28        141876  -.098  .4608
-     DNA for PMMLCG2gen.bin  using bits 26 to 27        141643  -.786  .2160
-     DNA for PMMLCG2gen.bin  using bits 25 to 26        142088   .527  .7009
-     DNA for PMMLCG2gen.bin  using bits 24 to 25        142608  2.061  .9803
-     DNA for PMMLCG2gen.bin  using bits 23 to 24        141804  -.311  .3780
-     DNA for PMMLCG2gen.bin  using bits 22 to 23        141759  -.443  .3287
-     DNA for PMMLCG2gen.bin  using bits 21 to 22        141503 -1.199  .1153
-     DNA for PMMLCG2gen.bin  using bits 20 to 21        141725  -.544  .2933
-     DNA for PMMLCG2gen.bin  using bits 19 to 20        142072   .480  .6843
-     DNA for PMMLCG2gen.bin  using bits 18 to 19        142096   .551  .7091
-     DNA for PMMLCG2gen.bin  using bits 17 to 18        142123   .630  .7358
-     DNA for PMMLCG2gen.bin  using bits 16 to 17        141948   .114  .5454
-     DNA for PMMLCG2gen.bin  using bits 15 to 16        141695  -.632  .2636
-     DNA for PMMLCG2gen.bin  using bits 14 to 15        141961   .152  .5606
-     DNA for PMMLCG2gen.bin  using bits 13 to 14        141469 -1.299  .0970
-     DNA for PMMLCG2gen.bin  using bits 12 to 13        141949   .117  .5466
-     DNA for PMMLCG2gen.bin  using bits 11 to 12        142113   .601  .7260
-     DNA for PMMLCG2gen.bin  using bits 10 to 11        141350 -1.650  .0495
-     DNA for PMMLCG2gen.bin  using bits  9 to 10        141243 -1.966  .0247
-     DNA for PMMLCG2gen.bin  using bits  8 to  9        141982   .214  .5849
-     DNA for PMMLCG2gen.bin  using bits  7 to  8        141494 -1.225  .1103
-     DNA for PMMLCG2gen.bin  using bits  6 to  7        142096   .551  .7091
-     DNA for PMMLCG2gen.bin  using bits  5 to  6        142001   .270  .6066
-     DNA for PMMLCG2gen.bin  using bits  4 to  5        141672  -.700  .2419
-     DNA for PMMLCG2gen.bin  using bits  3 to  4        141518 -1.154  .1242
-     DNA for PMMLCG2gen.bin  using bits  2 to  3        141692  -.641  .2607
-     DNA for PMMLCG2gen.bin  using bits  1 to  2        141128 -2.305  .0106
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
-     :: Consider the file under test as a stream of bytes (four per   ::     
-     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
-     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
-     :: the stream of bytes provide a string of overlapping  5-letter ::     
-     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
-     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
-     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
-     :: we have a monkey at a typewriter hitting five keys with vari- ::     
-     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
-     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
-     :: lapping) 5-letter words, counts are made on the frequencies   ::     
-     :: for each word.   The quadratic form in the weak inverse of    ::     
-     :: the covariance matrix of the cell counts provides a chisquare ::     
-     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
-     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-   Test results for PMMLCG2gen.bin 
- Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
-                               chisquare  equiv normal  p-value
-  Results fo COUNT-THE-1's in successive bytes:
- byte stream for PMMLCG2gen.bin  24007.88    304.167     1.000000
- byte stream for PMMLCG2gen.bin  24150.72    306.187     1.000000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
-     :: Consider the file under test as a stream of 32-bit integers.  ::     
-     :: From each integer, a specific byte is chosen , say the left-  ::     
-     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
-     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
-     :: the specified bytes from successive integers provide a string ::     
-     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
-     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
-     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
-     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
-     :: hitting five keys with with various probabilities::  37,56,70,::     
-     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
-     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
-     :: are made on the frequencies for each word. The quadratic form ::     
-     :: in the weak inverse of the covariance matrix of the cell      ::     
-     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
-     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
-     :: and 4-letter cell counts.                                     ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
- Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
-                      chisquare  equiv normal  p value
-  Results for COUNT-THE-1's in specified bytes:
-           bits  1 to  8  2466.86      -.469      .319630
-           bits  2 to  9  2469.80      -.427      .334634
-           bits  3 to 10  2566.16       .936      .825280
-           bits  4 to 11  2508.70       .123      .548961
-           bits  5 to 12  2580.91      1.144      .873730
-           bits  6 to 13  2440.74      -.838      .200999
-           bits  7 to 14  2445.21      -.775      .219223
-           bits  8 to 15  2567.58       .956      .830404
-           bits  9 to 16  2414.90     -1.203      .114402
-           bits 10 to 17  2548.03       .679      .751531
-           bits 11 to 18  2495.38      -.065      .473943
-           bits 12 to 19  2549.52       .700      .758116
-           bits 13 to 20  2425.21     -1.058      .145099
-           bits 14 to 21  2529.24       .414      .660383
-           bits 15 to 22  2515.98       .226      .589372
-           bits 16 to 23  2556.55       .800      .788069
-           bits 17 to 24  2563.52       .898      .815486
-           bits 18 to 25  2556.60       .800      .788262
-           bits 19 to 26  2433.58      -.939      .173788
-           bits 20 to 27  2493.76      -.088      .464836
-           bits 21 to 28  2376.86     -1.741      .040806
-           bits 22 to 29  2590.24      1.276      .899059
-           bits 23 to 30  2531.91       .451      .674099
-           bits 24 to 31  2606.80      1.510      .934533
-           bits 25 to 32 50917.05    684.720     1.000000
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::               THIS IS A PARKING LOT TEST                      ::     
-     :: In a square of side 100, randomly "park" a car---a circle of  ::     
-     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
-     :: time parking "by ear".  That is, if an attempt to park a car  ::     
-     :: causes a crash with one already parked, try again at a new    ::     
-     :: random location. (To avoid path problems, consider parking    ::     
-     :: helicopters rather than cars.)   Each attempt leads to either ::     
-     :: a crash or a success, the latter followed by an increment to  ::     
-     :: the list of cars already parked. If we plot n:  the number of ::     
-     :: attempts, versus k::  the number successfully parked, we get a::     
-     :: curve that should be similar to those provided by a perfect   ::     
-     :: random number generator.  Theory for the behavior of such a   ::     
-     :: random curve seems beyond reach, and as graphics displays are ::     
-     :: not available for this battery of tests, a simple characteriz ::     
-     :: ation of the random experiment is used: k, the number of cars ::     
-     :: successfully parked after n=12,000 attempts. Simulation shows ::     
-     :: that k should average 3523 with sigma 21.9 and is very close  ::     
-     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
-     :: andard normal variable, which, converted to a uniform varia-  ::     
-     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           CDPARK: result of ten tests on file PMMLCG2gen.bin 
-            Of 12,000 tries, the average no. of successes
-                 should be 3523 with sigma=21.9
-            Successes: 3506    z-score:  -.776 p-value: .218799
-            Successes: 3491    z-score: -1.461 p-value: .071982
-            Successes: 3525    z-score:   .091 p-value: .536382
-            Successes: 3513    z-score:  -.457 p-value: .323972
-            Successes: 3545    z-score:  1.005 p-value: .842447
-            Successes: 3526    z-score:   .137 p-value: .554479
-            Successes: 3522    z-score:  -.046 p-value: .481790
-            Successes: 3536    z-score:   .594 p-value: .723613
-            Successes: 3509    z-score:  -.639 p-value: .261324
-            Successes: 3513    z-score:  -.457 p-value: .323972
-
-           square size   avg. no.  parked   sample sigma
-             100.            3518.600       14.743
-            KSTEST for the above 10: p=  .377194
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::               THE MINIMUM DISTANCE TEST                       ::     
-     :: It does this 100 times::   choose n=8000 random points in a   ::     
-     :: square of side 10000.  Find d, the minimum distance between   ::     
-     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
-     :: pendent uniform, then d^2, the square of the minimum distance ::     
-     :: should be (very close to) exponentially distributed with mean ::     
-     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
-     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
-     :: formity for random points in the square. Test numbers=0 mod 5 ::     
-     :: are printed but the KSTEST is based on the full set of 100    ::     
-     :: random choices of 8000 points in the 10000x10000 square.      ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-               This is the MINIMUM DISTANCE test
-              for random integers in the file PMMLCG2gen.bin 
-     Sample no.    d^2     avg     equiv uni            
-           5     .1008   1.4246     .096345
-          10     .5196   1.3168     .406766
-          15     .4768   1.0572     .380742
-          20    1.1121   1.0138     .672975
-          25     .6914    .8988     .500882
-          30     .2374    .9787     .212286
-          35     .4768    .9663     .380711
-          40    2.6807   1.0983     .932398
-          45     .4178   1.0501     .342888
-          50    1.8805   1.0449     .848922
-          55     .2087    .9933     .189248
-          60     .1010    .9538     .096536
-          65     .4612    .9239     .370937
-          70    2.3357    .9433     .904386
-          75    3.0143   1.0331     .951658
-          80     .2022   1.0048     .183928
-          85     .2088    .9847     .189323
-          90     .3466    .9605     .294107
-          95    2.1356    .9570     .883088
-         100     .2021    .9720     .183838
-     MINIMUM DISTANCE TEST for PMMLCG2gen.bin 
-          Result of KS test on 20 transformed mindist^2's:
-                                  p-value= .855662
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::              THE 3DSPHERES TEST                               ::     
-     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
-     :: point, center a sphere large enough to reach the next closest ::     
-     :: point. Then the volume of the smallest such sphere is (very   ::     
-     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
-     :: the radius cubed is exponential with mean 30. (The mean is    ::     
-     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
-     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
-     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
-     ::  KSTEST is done on the 20 p-values.                           ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-               The 3DSPHERES test for file PMMLCG2gen.bin 
- sample no:  1     r^3=   2.813     p-value= .08950
- sample no:  2     r^3=  33.105     p-value= .66830
- sample no:  3     r^3=  10.950     p-value= .30579
- sample no:  4     r^3=  27.649     p-value= .60213
- sample no:  5     r^3= 103.813     p-value= .96858
- sample no:  6     r^3=   3.110     p-value= .09849
- sample no:  7     r^3=  29.310     p-value= .62356
- sample no:  8     r^3=  41.675     p-value= .75072
- sample no:  9     r^3=  25.960     p-value= .57909
- sample no: 10     r^3=  43.678     p-value= .76682
- sample no: 11     r^3=  21.540     p-value= .51227
- sample no: 12     r^3=  13.419     p-value= .36064
- sample no: 13     r^3=  55.279     p-value= .84160
- sample no: 14     r^3=  36.429     p-value= .70308
- sample no: 15     r^3=  43.583     p-value= .76608
- sample no: 16     r^3=   8.672     p-value= .25103
- sample no: 17     r^3=  54.901     p-value= .83959
- sample no: 18     r^3=   2.130     p-value= .06854
- sample no: 19     r^3=   6.730     p-value= .20096
- sample no: 20     r^3=  26.082     p-value= .58080
-  A KS test is applied to those 20 p-values.
----------------------------------------------------------
-       3DSPHERES test for file PMMLCG2gen.bin       p-value= .225087
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::      This is the SQEEZE test                                  ::     
-     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
-     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
-     ::  iterations necessary to reduce k to 1, using the reduction   ::     
-     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
-     ::  the file being tested.  Such j's are found 100,000 times,    ::     
-     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
-     ::  are used to provide a chi-square test for cell frequencies.  ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-            RESULTS OF SQUEEZE TEST FOR PMMLCG2gen.bin 
-         Table of standardized frequency counts
-     ( (obs-exp)/sqrt(exp) )^2
-        for j taking values <=6,7,8,...,47,>=48:
-     -.8      .9      .8    -1.7      .8     1.2
-     1.0     -.2      .8     1.2    -2.2     -.5
-      .4      .0     -.3      .5     1.3    -1.9
-      .3      .9     -.5      .3     -.4     -.7
-      .8      .2      .3      .9    -1.6     -.3
-     -.7     -.5     -.1      .2     1.3     -.3
-     -.7     -.1      .1     1.0      .9    -1.0
-    -1.1
-           Chi-square with 42 degrees of freedom: 34.031
-              z-score=  -.869  p-value= .195339
-______________________________________________________________
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::             The  OVERLAPPING SUMS test                        ::     
-     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
-     :: form [0,1) variables.  Then overlapping sums,                 ::     
-     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
-     :: The S's are virtually normal with a certain covariance mat-   ::     
-     :: rix.  A linear transformation of the S's converts them to a   ::     
-     :: sequence of independent standard normals, which are converted ::     
-     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
-     :: KSTESTs are given still another KSTEST.                       ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-                Test no.  1      p-value  .711814
-                Test no.  2      p-value  .692972
-                Test no.  3      p-value  .815261
-                Test no.  4      p-value  .675993
-                Test no.  5      p-value  .050425
-                Test no.  6      p-value  .816990
-                Test no.  7      p-value  .608800
-                Test no.  8      p-value  .677290
-                Test no.  9      p-value  .368811
-                Test no. 10      p-value  .136536
-   Results of the OSUM test for PMMLCG2gen.bin 
-        KSTEST on the above 10 p-values:  .574650
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
-     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
-     :: ing the 32-bit integers in the specified file. This example   ::     
-     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
-     :: contains an up-run of length 3, a down-run of length 2 and an ::     
-     :: up-run of (at least) 2, depending on the next values.  The    ::     
-     :: covariance matrices for the runs-up and runs-down are well    ::     
-     :: known, leading to chisquare tests for quadratic forms in the  ::     
-     :: weak inverses of the covariance matrices.  Runs are counted   ::     
-     :: for sequences of length 10,000.  This is done ten times. Then ::     
-     :: repeated.                                                     ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-           The RUNS test for file PMMLCG2gen.bin 
-     Up and down runs in a sample of 10000
-_________________________________________________ 
-                 Run test for PMMLCG2gen.bin :
-       runs up; ks test for 10 p's: .583512
-     runs down; ks test for 10 p's: .854850
-                 Run test for PMMLCG2gen.bin :
-       runs up; ks test for 10 p's: .246526
-     runs down; ks test for 10 p's: .384434
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
-     :: the number of wins and the number of throws necessary to end  ::     
-     :: each game.  The number of wins should be (very close to) a    ::     
-     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
-     :: p=244/495.  Throws necessary to complete the game can vary    ::     
-     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
-     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
-     :: Each 32-bit integer from the test file provides the value for ::     
-     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
-     :: and taking 1 plus the integer part of the result.             ::     
-     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
-                Results of craps test for PMMLCG2gen.bin 
-  No. of wins:  Observed Expected
-                                98723    98585.86
-                  98723= No. of wins, z-score=  .613 pvalue= .73019
-   Analysis of Throws-per-Game:
- Chisq=  12.56 for 20 degrees of freedom, p=  .10461
-               Throws Observed Expected  Chisq     Sum
-                  1    66613    66666.7    .043     .043
-                  2    37822    37654.3    .747     .790
-                  3    27045    26954.7    .302    1.092
-                  4    19409    19313.5    .473    1.565
-                  5    13674    13851.4   2.273    3.837
-                  6     9970     9943.5    .070    3.908
-                  7     7065     7145.0    .896    4.804
-                  8     5106     5139.1    .213    5.017
-                  9     3640     3699.9    .969    5.985
-                 10     2682     2666.3    .092    6.078
-                 11     1922     1923.3    .001    6.079
-                 12     1447     1388.7   2.444    8.523
-                 13      991     1003.7    .161    8.684
-                 14      721      726.1    .036    8.720
-                 15      520      525.8    .065    8.785
-                 16      369      381.2    .387    9.172
-                 17      268      276.5    .264    9.436
-                 18      218      200.8   1.468   10.904
-                 19      149      146.0    .062   10.966
-                 20       97      106.2    .800   11.766
-                 21      272      287.1    .796   12.562
-            SUMMARY  FOR PMMLCG2gen.bin 
-                p-value for no. of wins: .730185
-                p-value for throws/game: .104613
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
- Results of DIEHARD battery of tests sent to file PMMLCG2gen.all 
