@@ -1,4 +1,4 @@
-// Copyright (C) 1995-1999 The Santa Fe Institute.
+// Copyright © 1995-2000 Swarm Development Group.
 // No warranty implied, see LICENSE for terms.
 
 #import <objectbase.h>
