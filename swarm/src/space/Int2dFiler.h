@@ -11,15 +11,16 @@
 // Tell it what message to send, and it sends it.
 // also knows how to construct probes.
 
-@interface Int2dFiler: SwarmObject {
-  Discrete2d * discrete2d;
+@interface Int2dFiler: SwarmObject 
+{
+  Discrete2d *discrete2d;
   SEL valueMessage;
   int background;
 }
 
--setDiscrete2dToFile: (Discrete2d *) aSpace;
--setValueMessage: (SEL) aSelector ;
--setBackground: (int) aValue ;
--fileTo: (char *) fileName ;
+- setDiscrete2dToFile: (Discrete2d *)aSpace;
+- setValueMessage: (SEL)aSelector;
+- setBackground: (int)aValue;
+- fileTo: (const char *)fileName;
 
 @end

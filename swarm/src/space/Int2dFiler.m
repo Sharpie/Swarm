@@ -12,46 +12,51 @@
 
 @implementation Int2dFiler
 
-+createBegin: aZone {
-  Int2dFiler * obj ;
++ createBegin: aZone
+{
+  Int2dFiler *obj;
 
-  obj = [super createBegin: aZone] ;
-  obj->valueMessage = NULL ;
-  obj->background = 0 ;
-  return obj ;
+  obj = [super createBegin: aZone];
+  obj->valueMessage = NULL;
+  obj->background = 0;
+  return obj;
 }
 
--setDiscrete2dToFile: (Discrete2d *) aSpace {
+- setDiscrete2dToFile: (Discrete2d *) aSpace 
+{
   discrete2d = aSpace;
   return self;
 }
 
--setValueMessage: (SEL) aSelector {
+- setValueMessage: (SEL) aSelector
+{
   valueMessage = aSelector;
   return self;
 }
 
--setBackground: (int) aValue {
-  background = aValue ;
-  return self ;
+- setBackground: (int) aValue
+{
+  background = aValue;
+  return self;
 }
 
--fileTo: (char *) aFileName {
+- fileTo: (const char *) aFileName
+{
   int x, y;
   id * lattice;
   long * offsets;
   int xsize, ysize;
-  id outFile ;
+  id outFile;
 
   if (discrete2d == nil)
     [InvalidArgument raiseEvent: 
       "Int2dFiler: attempted to file a (null) space object!\n"];
 
-  outFile = [OutFile create: [self getZone] withName: aFileName] ;
+  outFile = [OutFile create: [self getZone] withName: aFileName];
   
   if(!outFile){
-    fprintf(stderr,"Warning (Int2DFiler): could not open %s!\n", aFileName) ;
-    return self ;
+    fprintf(stderr,"Warning (Int2DFiler): could not open %s!\n", aFileName);
+    return self;
   }
 
   lattice = [discrete2d getLattice];
@@ -65,32 +70,32 @@
 	id potentialObject;
 
         if(x)
-          [outFile putString: " "] ;
+          [outFile putString: " "];
         
 	potentialObject = *discrete2dSiteAt(lattice, offsets, x, y);
 	if(potentialObject)
-          [outFile putLong: (long) [potentialObject perform: valueMessage]] ;
+          [outFile putLong: (long) [potentialObject perform: valueMessage]];
         else 
-          [outFile putInt: background] ;          
+          [outFile putInt: background];          
       }
       
-      [outFile putNewLine] ;
+      [outFile putNewLine];
     }
   } else {
     for(y = 0; y < ysize; y++){
       for(x = 0; x < xsize; x++){
         if(x)
-          [outFile putString: " "] ;
+          [outFile putString: " "];
 
-        [outFile putLong: (long) *discrete2dSiteAt(lattice, offsets, x, y)] ;
+        [outFile putLong: (long) *discrete2dSiteAt(lattice, offsets, x, y)];
       }      
-      [outFile putNewLine] ;
+      [outFile putNewLine];
     }
   }
 
-  [outFile drop] ;
+  [outFile drop];
 
-  return self ;
+  return self;
 }
 
 @end
