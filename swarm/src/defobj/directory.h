@@ -63,6 +63,7 @@ unsigned swarm_directory_java_hash_code (jobject javaObject);
 - javaEnsureObjc: (jobject)javaObject;
 - (jobject)objcEnsureJava: object;
 - (BOOL)objcRemove: obj;
+- (void)describe: outputCharStream;
 @end
 
 extern id swarmDirectory;

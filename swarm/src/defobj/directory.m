@@ -64,7 +64,11 @@ extern JNIEnv *jniEnv;
 
 id swarmDirectory;
 
-#define DIRECTORY_SIZE 7919
+#if 1
+#define DIRECTORY_SIZE 21599
+#else
+#define DIRECTORY_SIZE 263009
+#endif
 
 static const char *
 getObjcName (jobject javaObject, id object)
@@ -175,11 +179,6 @@ swarm_directory_java_hash_code (jobject javaObject)
                                              objJavaObject);
                                              
   return ret;
-}
-
-- (void)findDrop
-{
-  [getZone (self) freeIVars: self];
 }
 
 - (void)drop
@@ -521,6 +520,22 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
       return YES;
     }
   return NO;
+}
+
+- (void)describe: outputCharStream
+{
+  unsigned i;
+
+  for (i = 0; i < DIRECTORY_SIZE; i++)
+    {
+      if (table[i])
+        {
+          [outputCharStream catC: "["];
+          [outputCharStream catUnsigned: i];
+          [outputCharStream catC: "]:\n"];
+          xfprint (table[i]);
+        }
+    }
 }
 
 @end

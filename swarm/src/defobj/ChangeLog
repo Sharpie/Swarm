@@ -1,11 +1,18 @@
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (DIRECTORY_SIZE): Set to 21599.  Add an alternate
+	larger size.
+
+	* directory.[hm] ([Directory -describe:]): New method.
+
 1999-08-07  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
-	* directory.m ([-add:javaObject:]): Create the entry first thing,
-	with a globalref.
-	([-switchJavaEntry:javaObject:]): Likewise.
-	([-objcRemove:]): Likewise.  Use remove: instead of removeKey;
-	we are certain that this entry is it, and GC may screw up the
-	javaObject.
+	* directory.m ([Directory -add:javaObject:]): Create the entry
+	first thing, with a globalref.
+	([Directory -switchJavaEntry:javaObject:]): Likewise.
+	([Directory -objcRemove:]): Likewise.  Use remove: instead of
+	removeKey; we are certain that this entry is it, and GC may screw
+	up the javaObject.
 
 	* DefObject.m ([Object_s -drop]): Don't call objcRemove here.
 	* Zone.m ([Zone_c -freeIVars:], [Zone_c -freeIVarsComponent:]): 
@@ -20,17 +27,17 @@
 
 	* directory.h (Directory): new ivar findEntry.
 
-	* directory.m ([-javaFind:]): Use it.
+	* directory.m ([Directory -javaFind:]): Use it.
 	
 	* directory.m: Include defalloc.h.
-	([-add:javaObject:]):
-	([+createBegin:]): Preallocate an entry for searching for Java
-	objects.
-	([-drop], [-add:javaObject:],
-	[-switchJavaEntry:javaObject:]): Use getZone macro instead of
-	method.
+	([Directory -add:javaObject:]):
+	([Directory +createBegin:]): Preallocate an entry for searching
+	for Java objects.
+	([DirectoryEntry -drop], [Directory -add:javaObject:],
+	[Directory -switchJavaEntry:javaObject:]): Use getZone macro
+	instead of method.
 
-	* directory.[hm] ([-describe:], [-findDrop]): New methods.
+	* directory.[hm] ([DirectoryEntry -describe:]): New methods.
 
 1999-08-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
