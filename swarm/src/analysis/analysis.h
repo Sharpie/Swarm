@@ -280,6 +280,14 @@ CREATING
 //M: Convenience method for creating `graphical' EZGraph instances
 + create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
+//M: Convenience method for creating a non-graphical EZGraph, the
+//M: filename is generated from the sequence name
++ create: aZone setFileOutput: (BOOL)fileOutputFlag;
+
+//M: Convenience method for creating a non-graphical EZGraph, in this case, the
+//M: filename is explicitly set by the user
++ create: aZone setFileName: (const char *)aFileName;
+
 //M: The setGraphics method sets the state of the display. Set the state to 0 
 //M: if a graphical display of the graph is not required.
 //M: The default state is 1 meaning that by default the data appears

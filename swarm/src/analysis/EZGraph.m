@@ -38,6 +38,39 @@ PHASE(Creating)
   return [obj createEnd];
 }
 
++ create: aZone setFileOutput: (BOOL)fileOutputFlag
+{
+    EZGraph *obj = [super createBegin: aZone];    
+    obj->graphics = 0;
+    obj->fileOutput = 1;
+    obj->title = NULL;
+    obj->fileName = NULL;
+    obj->xLabel = NULL;
+    obj->yLabel = NULL;
+    obj->graphColors = defaultGraphColors;
+    obj->colorCount = NUMCOLORS;
+    obj->colorIdx = 0;
+
+    return [obj createEnd];
+}
+
+
++ create: aZone setFileName: (const char *)aFileName
+{
+    EZGraph *obj = [super createBegin: aZone];    
+    obj->graphics = 0;
+    obj->fileOutput = 1;
+    obj->title = NULL;
+    obj->fileName = aFileName;
+    obj->xLabel = NULL;
+    obj->yLabel = NULL;
+    obj->graphColors = defaultGraphColors;
+    obj->colorCount = NUMCOLORS;
+    obj->colorIdx = 0;
+
+    return [obj createEnd];
+}
+
 + createBegin: aZone
 {
   EZGraph *obj = [super createBegin: aZone];

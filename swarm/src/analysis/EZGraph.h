@@ -34,6 +34,8 @@
   unsigned colorIdx;
 }
 + create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl;
++ create: aZone setFileOutput: (BOOL)fileOutputFlag;
++ create: aZone setFileName: (const char *)aFileName;
 
 - setGraphics: (BOOL)state;
 - setFileOutput: (BOOL)state;
