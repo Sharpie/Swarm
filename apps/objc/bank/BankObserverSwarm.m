@@ -48,7 +48,7 @@
   controlPanel = [ControlPanel create: [self getZone]];
   actionCache = [ActionCache createBegin: [self getZone]];
   [actionCache setControlPanel: controlPanel];
-  [actionCache setControlPanelGeometryRecordName: "controlPanel"];
+  [actionCache setWindowGeometryRecordName: "actionCache"];
   actionCache = [actionCache createEnd]; 
 #else
   [super buildObjects];
