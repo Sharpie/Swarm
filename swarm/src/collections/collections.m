@@ -22,7 +22,10 @@ _collections_implement (void)
   [id_List_any setTypeImplemented: List];
   [id_List_linked setTypeImplemented: List];
   [id_List_mlinks setTypeImplemented: List];
+  [id_ListIndex_linked setTypeImplemented: ListIndex];
+  [id_ListIndex_mlinks setTypeImplemented: ListIndex];
   [id_Map_c setTypeImplemented: Map];
+  [id_MapIndex_c setTypeImplemented: MapIndex];
   [id_Set_c setTypeImplemented: Set];
   [id_OrderedSet_c setTypeImplemented: OrderedSet];
   [id_String_c setTypeImplemented: String];

@@ -1,3 +1,8 @@
+1999-10-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* collections.m (_collections_implement): Call setTypeImplemented
+	for List_linked, List_mlinks, and MapIndex_c.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.
