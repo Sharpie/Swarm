@@ -963,11 +963,8 @@ USING
 CREATING
 + createBegin: aZone;
 
-//M: Convenience method to create a Lisp Archiver from a specified path
-+ create: aZone setLispPath: (const char *)path;
-
-//M: Convenience method to create an HDF5 Archiver from a specified path
-+ create: aZone setHDF5Path: (const char *)path;
+//M: Convenience method to create an Archiver from a specified path
++ create: aZone setPath: (const char *)path setHDF5Flag: (BOOL)hdf5Flag;
 
 //M: Make the Archiver ignore any file found in the specified path
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;

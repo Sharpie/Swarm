@@ -1,8 +1,8 @@
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Archiver.[hm], defobj.h ([Archiver_c
-	+create:set{Lisp,HDF5}Path:]): Renamed from
-	+create:from{Lisp,HDF5}Path:.
+	+create:set{Lisp,HDF5}Path:]): Removed:
+	Added +create:setPath:setHDF5Flag:.
 
 1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

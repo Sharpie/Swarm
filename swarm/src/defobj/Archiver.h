@@ -27,8 +27,7 @@ extern id lispArchiver;
 }
 
 + createBegin: aZone;
-+ create: aZone setLispPath: (const char *)path;
-+ create: aZone setHDF5Path: (const char *)path;
++ create: aZone setPath: (const char *)path setHDF5Flag: (BOOL)hdf5Flag;
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - setPath: (const char *)path;
 - setHDF5Flag: (BOOL)hdf5Flag;
