@@ -681,15 +681,38 @@ typedef unsigned long PixelValue;
 @end
 
 @protocol _CanvasAbstractItem
+//S: An abstract class for items on a Canvas.
+
+//D: CanvasAbstractItem is the root class of all items drawn on a Canvas.
+
+//M: Designates the id of the Canvas in which this items resides.
 - setCanvas: canvas;
+
+//M: Designates the object to which this item refers.
 - setTargetId: target;
+
+//M: Sets the message that will be sent upon a click on this item.
 - setClickSel: (SEL)sel;
+
+//M: Sets the message that will effect the motion of the item on the canvas.
 - setMoveSel: (SEL)sel;
+
+//M: Sets the message that will dictate what happens after the item is moved.
 - setPostMoveSel: (SEL)sel;
+
+//M: Method to be implemented by subclass.
 - createItem;
-- createBindings;
+
+//M: Calls createItem and createBindings.
 - createEnd;
+
+//M: Called when a mouse click occurs.
 - clicked;
+
+//M: Method to be implemented by subclass.
+- createBindings;
+
+//M: Method to be implemented by subclass.
 - initiateMoveX: (long)delta_x Y: (long)delta_y; 
 @end
 
@@ -697,8 +720,14 @@ typedef unsigned long PixelValue;
 @end
 
 @protocol _CanvasItem
-- createItem;
+//S: An abstract superclass for simple Canvas items.
+
+//D: An abstract superclass for non-composite Canvas items.
+
+//M: Establishes the bindings for the buttons:  
 - createBindings;
+
+//M: Prepares for movement of the item within the canvas.
 - initiateMoveX: (long)delta_x Y: (long)delta_y; 
 @end
 
@@ -722,44 +751,115 @@ typedef unsigned long PixelValue;
 @end
 
 @protocol _NodeItem
+//S: A class for displaying a node on a Canvas.
+
+//D: A class for displaying a node on a Canvas.
+//D: A NodeItem has a position, a font, color, border color and width.
+
+//D: Set the position of the node.
 - setX: (int)x Y: (int)y;
+
+//D: Get the x position of the node on the canvas.
 - (int)getX;
+
+//D: Get the y position of the node on the canvas.
 - (int)getY;
+
+//M: Set the label to put on the node.
 - setString: (const char *)string;
+
+//M: Set the font with which to draw the label.
 - setFont: (const char *)the_font;
+
+//M: Set the color of the node.
 - setColor: (const char *)aColor;
+
+//M: Set the border color of the node.
 - setBorderColor: (const char *)aColor;
+
+//M: Set the width of the border.
 - setBorderWidth: (int)aVal;
+
+//M: Create the text for the node.
+- createText;
+
+//M: Create the space for the text for the node.
+- createPaddedText;
+
+//M: Set the mouse bindings for a NodeItem (e.g. dragging).
 - createBindings;
-@end
-
-@protocol _LinkItem
-- setFrom: from;
-- setTo: to;
-@end
-
-@protocol LinkItem <_LinkItem, CompositeItem>
 @end
 
 @protocol NodeItem <_NodeItem, CompositeItem>
 @end
 
+@protocol _LinkItem
+//S: A canvas item for displaying a link between two nodes.
+
+//D: A CompositeCanvsItem for displaying a link between two NodeItems.
+
+//M: Designate the node that will be the source of the link.
+- setFrom: from;
+
+//M: Designate the node that will be the destination of the link.
+- setTo: to;
+
+//M: Set the color of the link.
+- setColor: (const char *)aColor;
+
+//M: Redraw the link (especially due to the motion of nodes).
+- update;
+
+//M: Create a the lines that make up the link item.
+- createItem;
+
+//M: A LinkItem is passive; disable the mouse bindings.
+- createBindings;
+
+//M: Delete the lines that make up a LinkItem.
+- (void)drop;
+@end
+
+@protocol LinkItem <_LinkItem, CompositeItem>
+@end
+
 @protocol _OvalNodeItem
+//S: A circular NodeItem.
+
+//D: A NodeItem with a circular appearance.
+
+//M: Create the OvalNodeItem.
+- createItem;
 @end
 
 @protocol OvalNodeItem <_OvalNodeItem, NodeItem>
 @end
 
 @protocol _RectangleNodeItem
+//S: A rectangular NodeItem.
+
+//D: A NodeItem with a rectangular appearance.
+- createItem;
 @end
 
 @protocol RectangleNodeItem <_RectangleNodeItem, NodeItem>
 @end
 
 @protocol _TextItem
+//S: A CanvasItem that displays text.
+
+//D: A CanvasItem that displays text.
+
+//M: Set the coordinate for the center of the text.
 - setX: (int)x Y: (int)y;
+
+//M: Set the text to display.
 - setText: (const char *)the_text;
+
+//M: Set the font with which to display the text.
 - setFont: (const char *)the_font;
+
+//M: Create the TextItem.
 - createItem; 
 @end
 
@@ -767,18 +867,32 @@ typedef unsigned long PixelValue;
 @end
 
 @protocol _Circle
+//S: A CanvasItem that displays a circle.
+
+//D: A CanvasItem that displays a circle.
+
+//M: Set the x, y coordinates for the center of the circle.
 - setX: (int)x Y: (int)y;
+
+//M: Set the radius of the circle.
 - setRadius: (int)r;
+
+//M: Create the Circle.
 - createItem;
-- reportClick;
-- (int)reportMoveX: (int)d_x Y: (int)d_y;
 @end
 
 @protocol Circle <_Circle, CanvasItem>
 @end
 
 @protocol _Rectangle
+//S: A CanvasItem that displays a rectangle.
+
+//D: A CanvasItem that displays a rectangle.
+
+//M: Set the diagonal corner coordinates of the rectangle.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
+
+//M: Create the Rectangle.
 - createItem;
 @end
 
@@ -786,7 +900,14 @@ typedef unsigned long PixelValue;
 @end
 
 @protocol _Line
+//S: A CanvasItem that displays a line.
+
+//D: A CanvasItem that displays a line.
+
+//M: Set the end points of the line.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
+
+//M: Create the Line.
 - createItem;
 @end
 
