@@ -15,15 +15,19 @@ include ../Makefile.common
 CLASSPHASES := __c U
 INTERFACEPHASES := $(CLASSPHASES) S
 
-CLASSES = SwarmEnvironment NonUniqueMethodSignatureException SignatureNotFoundException Selector
-CLASSFILES = $(addsuffix .class,$(CLASSES))
-SWARMCLASSFILES = $(addprefix swarm/,$(CLASSFILES))
+PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector
+POSTCLASSES = SwarmEnvironment 
+PRECLASSFILES = $(addsuffix .class,$(PRECLASSES))
+POSTCLASSFILES = $(addsuffix .class,$(POSTCLASSES))
+SWARMCLASSFILES = $(addprefix swarm/,$(PRECLASSFILES) $(POSTCLASSFILES))
 
 GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))))
 
 GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS))))))))
 
-all: $(CLASSFILES)
+all: modules $(POSTCLASSFILES)
+
+modules: $(PRECLASSFILES) 
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 	cd .. ; JAVA_HOME=$(jdkdir) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 

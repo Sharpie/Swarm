@@ -3,6 +3,7 @@ jdkbindir=$(jdkdir)/bin
 JAVAC=$(jdkbindir)/javac
 JAVA=@JAVA@
 JAVACLASSES=@JAVACLASSES@
+JAVACOMPILE=$(JAVAC) -classpath ../..:$(JAVACLASSES)
 top_srcdir=@top_srcdir@
 
 CLASSPHASES := __c U
@@ -14,9 +15,10 @@ _CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(mod
 
 JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 
+include .deps
+
 all: $(CLASSES)
 
 .deps: $(JAVAFILES)
-        $(JAVA) -classpath $(top_srcdir)/java/jdeps.jar:@JAVACLASSES@ smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
+	$(JAVA) -classpath $(top_srcdir)/java/jdeps.jar:$(JAVACLASSES) smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
 
-include .deps

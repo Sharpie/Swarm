@@ -1,7 +1,12 @@
 1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (modules): New target.
+	(PRECLASSES, POSTCLASSES): Split CLASSES into two parts (before
+	and after compilation of modules).
+
 	* Makefile.rules.in (all): Use JavaDeps to create compilation rules
 	and dependencies.
+	(JAVACOMPILE): Set to be JAVAC + classpath directive.
 
 	* Makefile.in (CLASSES): Remove GlobalZone.
 
