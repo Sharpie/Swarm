@@ -1,3 +1,9 @@
+1999-09-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* configure.in (subdirs): Change option from
+	--enable-linuxprefix to --enable-subdirs.  Remove redundant /usr
+	check.
+
 1999-09-17  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (linuxprefix): Add new enable check, to force a

@@ -187,11 +187,11 @@ else
 fi
 AC_SUBST(JAVA_CLASSES_INSTALLED_AS)
 
-AC_ARG_ENABLE(linuxprefix,
-[  --enable-linuxprefix             Force a Linux-like /usr hierarchy],
-  enable_linuxprefix=yes)
+AC_ARG_ENABLE(subdirs,
+[  --enable-subdirs                 Add {include,lib}/swarm subdirs],
+  enable_subdirs=yes)
 
-if test $prefix = /usr || test "$enable_linuxprefix" = yes; then
+if test $prefix = /usr || test $enable_subdirs = yes; then
    includesubdir=swarm
    includedir=${includedir}/${includesubdir}
    libdir=${libdir}/swarm
@@ -234,12 +234,6 @@ if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_c
 fi
 
 AC_CHECK_HEADERS(sys/sigevent.h)
-
-if test $prefix = /usr; then
-  includesubdir=swarm
-  includedir=${includedir}/${includesubdir}
-  libdir=${libdir}/swarm
-fi
 
 swarm_prefix=$prefix
 if test $exec_prefix = NONE; then
