@@ -2,6 +2,7 @@
 
 	* Makefile.common.in (SWARMLIBS, OBJCLIBS): Select -l{swarm,objc}
 	or -l{swarm,objc}dll on the basis of USEDLL.
+	(SYSLIBS): Remove OBJCLIBS.
 
 	* Makefile.appl: Use $(OBJCLIBS) instead of -lobjc.
 
