@@ -72,7 +72,7 @@ USING
 - setWidth: (unsigned)width Height: (unsigned)height;
 
 //M: Set the position of the widget.
-- setPositionX: (int)x Y: (int)y;
+- setX: (int)x Y: (int)y;
 
 //M: Set the title on the widget.
 - setWindowTitle: (const char *)title;
@@ -85,6 +85,12 @@ USING
 
 //M: Get the widget the widget.
 - (unsigned)getWidth;
+
+//M: Get the X position of the widget.
+- (int)getX;
+
+//M: Get the Y position of the widget.
+- (int)getY;
 @end
 
 @protocol Widget <_Widget, SwarmObject>
@@ -103,21 +109,36 @@ CREATING
 //M: Create window geometry object using expression object.
 + in: aZone expr: expr;
 
-//M: Set the window geometry from geometry string.
-- setWindowGeometry: (const char *)theWindowGeometryString;
-
 USING
-//M: Get a string describing the window geometry.
-- (const char *)getWindowGeometry;
-
-//M: Print the geometry to a stream.
-- (void)describe: outputCharStream;
-
 //M: Load window geometry object using expression object.
 - in: expr;
 
 //M: Print window geometry to stream.
 - out: outputCharStream; 
+
+//M: Set the window position.
+- setX: (int)x Y: (int)y;
+
+//M: Set the window size.
+- setWidth: (unsigned)w Height: (unsigned)h;
+
+//M: Get the flag that indicates if the size has been set.
+- (BOOL)getSizeFlag;
+
+//M: Get the flag that indicates if the position has been set.
+- (BOOL)getPositionFlag;
+
+//M: Get the window's horizontal size.
+- (unsigned)getWidth;
+
+//M: Get the window's vertical size.
+- (unsigned)getHeight;
+
+//M: Get the window's horizontal position.
+- (int)getX;
+
+//M: Get the window's vertical position.
+- (int)getY;
 @end
 
 @protocol WindowGeometryRecord <_WindowGeometryRecord, SwarmObject>
@@ -743,10 +764,10 @@ CREATING
 
 USING
 //M: Get the width of the bitmap in pixels.
-- getWidth;
+- (unsigned)getWidth;
 
 //M: Get the height of the bitmap in pixels.
-- getHeight;
+- (unsigned)getHeight;
 
 //M: Draw the pixmap on the current raster at the given position.
 - drawX: (int)x Y: (int)y;

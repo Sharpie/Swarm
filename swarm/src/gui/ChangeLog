@@ -1,3 +1,12 @@
+1998-07-01  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* gui.h (Widget): Rename setPositionX:Y: to setX:Y:.  Add new
+	methods -getX and -getY.
+	(_WindowGeometryRecord): Remove getWindowGeometry and
+	setWindowGeometry:.  Remove -describe:.  Add setX:Y:,
+	setWidth:Height:, getSizeFlag, getPositionFlag, getWidth,
+	getHeight, getX, and getY.
+
 1998-06-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile: Remove.
