@@ -1,3 +1,8 @@
+2000-09-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Action.m ([ActionTo_c -_createCall_:]): Call setLanguage:
+	LanguageObjc if target is not a proxy.
+
 2000-09-13  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Action.m ([ActionTo_c -_createCall_:]): Use setLanguage: instead

@@ -266,9 +266,11 @@ PHASE(Using)
   id <FArguments> arguments =
     [FArguments createBegin: getCZone (getZone (self))];
   
+  [arguments setSelector: selector];
   if ([theTarget respondsTo: M(isJavaProxy)])
     [arguments setLanguage: LanguageJava];
-  [arguments setSelector: selector];
+  else
+    [arguments setLanguage: LanguageObjc];
   [self _addArguments_: arguments];
   arguments = [arguments createEnd];
 
