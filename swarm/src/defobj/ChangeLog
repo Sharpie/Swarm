@@ -1,3 +1,9 @@
+2003-08-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* HDF5Object.m (suppress_messages): adjust this function to
+	use macros as per advice in HDF5's header file H5Epublic.h.
+	This applies for HDF5-1.4.5 and 1.6.0 and after (AFAIK).
+
 2003-05-10    <pauljohn@localhost.localdomain>
 
 	* defobj.h: inserted headers and explanation for all methods listed 

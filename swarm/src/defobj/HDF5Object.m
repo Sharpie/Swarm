@@ -163,18 +163,22 @@ make_string_ref_type (void)
 static void
 suppress_messages (void (*func) ())
 {
-  void *client_data;
-  H5E_auto_t errfunc;
+ //  void *client_data;
+//   H5E_auto_t errfunc;
 
-  herr_t quiet_errfunc (void *client_data)
-    {
-      return 0;
-    }
+//   herr_t quiet_errfunc (void *client_data)
+//     {
+//       return 0;
+//     }
 
-  H5Eget_auto (&errfunc, &client_data);
-  H5Eset_auto (quiet_errfunc, NULL);
-  func ();
-  H5Eset_auto (errfunc, client_data);  
+//   H5Eget_auto (&errfunc, &client_data);
+//   H5Eset_auto (quiet_errfunc, NULL);
+  H5E_BEGIN_TRY {
+   func ();
+   }H5E_END_TRY;
+
+
+  // H5Eset_auto (errfunc, client_data);  
 }
   
 static unsigned
