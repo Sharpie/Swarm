@@ -1,3 +1,8 @@
+1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf (SWARMLIBS): Change from -ljavaobjc to -lawtobjc in
+	my AWT SWARMBACKEND config.
+
 1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf: Add SWARMBACKEND variable in my config with
