@@ -157,7 +157,7 @@ java_directory_switchupdate (JNIEnv *env,
   jobject_id *data;
   jobject_id *found;
   
-  old.java_object = old_java_object;
+  old.java_object = (*env)->NewGlobalRef(env, old_java_object);
   old.objc_object = objc_object;
   if (!avl_delete (objc_tree, &old))
     abort ();
@@ -166,10 +166,11 @@ java_directory_switchupdate (JNIEnv *env,
     abort ();
 
   (*env)->DeleteGlobalRef (env, found->java_object);
+  (*env)->DeleteGlobalRef (env, found->java_object);
 
   data = xmalloc (sizeof (jobject_id));
   data->objc_object = objc_object;
-  data->java_object = new_java_object;
+  data->java_object = (*env)->NewGlobalRef(env, new_java_object);
 
   return java_directory_update (env, new_java_object, objc_object);
 }

@@ -1,3 +1,9 @@
+1999-03-25  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
+
+	* directory.m (java_directory_switchupdate): Use global references
+	for searching and updateing directory. Delete old global references
+	once the update is performed.
+
 1999-03-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* JavaProxy.m ([JavaProxy -forward::]): Assign [fc getResult]
