@@ -1,5 +1,10 @@
 1999-08-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* javavars.h: Remove m_ClassGetClass.
+
+	* directory.m (create_method_refs): Remove initialization of
+	m_ClassGetClass.
+
 	* directory.m (get_type_field_for_class): Disable.
 	(get_primitive): Use alternate code that looks in SwarmEnvironment
 	for copies of the primtive types copied from static variables in

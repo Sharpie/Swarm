@@ -663,12 +663,6 @@ create_method_refs (JNIEnv *env)
 			     "(Ljava/lang/Object;C)V")))
     abort();
 
-  if (!(m_ClassGetClass = (*env)->GetMethodID (env,
-                                               c_Class,
-                                               "getClass",
-                                               "()Ljava/lang/Class;")))
-    abort ();
- 
   if (!(m_ClassGetDeclaredField =
       (*env)->GetMethodID (env, c_Class, "getDeclaredField",
 			   "(Ljava/lang/String;)Ljava/lang/reflect/Field;")))
