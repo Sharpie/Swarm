@@ -177,12 +177,12 @@
   // Create the graph widget to display unhappiness.
 
   unhappyGraph = [EZGraph createBegin: [self getZone]];
-  [unhappyGraph enableDestroyNotification: self
-                notificationMethod: @selector (_unhappyGraphDeath_:)];
   SET_WINDOW_GEOMETRY_RECORD_NAME (unhappyGraph);
   [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
   [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
   unhappyGraph = [unhappyGraph createEnd];
+  [unhappyGraph enableDestroyNotification: self
+                notificationMethod: @selector (_unhappyGraphDeath_:)];
 
   [unhappyGraph createAverageSequence: "unhappiness"
                          withFeedFrom: [heatbugModelSwarm getHeatbugList] 

@@ -5,6 +5,7 @@
 
 #import "HeatbugModelSwarm.h"
 #import <simtools.h>
+#import <random.h>
 
 @implementation HeatbugModelSwarm
 
@@ -41,7 +42,7 @@
 
 + createBegin: aZone
 {
-  HeatbugModelSwarm * obj;
+  HeatbugModelSwarm *obj;
   id <ProbeMap> probeMap;
 
   // First, call our superclass createBegin - the return value is the
@@ -161,48 +162,49 @@
 
   // Now a loop to create a bunch of heatbugs.
 
-  for (i = 0; i < numBugs; i++) {
-    Heatbug * hbug;
-    int idealTemp, outputHeat;
+  for (i = 0; i < numBugs; i++)
+    {
+      Heatbug * hbug;
+      int idealTemp, outputHeat;
+      
+      // Choose a random ideal temperature, output heat from the specified
+      // range (model parameters).
+      
+      //    idealTemp = [uniformRandom rMin: minIdealTemp Max: maxIdealTemp];
+      //    outputHeat = [uniformRandom rMin: minOutputHeat Max: maxOutputHeat];
+      
+      idealTemp = [uniformIntRand
+                    getIntegerWithMin: minIdealTemp withMax: maxIdealTemp];
+      outputHeat = [uniformIntRand
+                     getIntegerWithMin: minOutputHeat withMax: maxOutputHeat];
+      
+      
+      // Create the heatbug, set the creation time variables
+      
+      hbug = [Heatbug createBegin: [self getZone]];
+      [hbug setWorld: world Heat: heat];
+      hbug = [hbug createEnd];
+      
+      // Add the bug to the end of the list.
+      
+      [heatbugList addLast: hbug];
+      
+      // Now initialize the rest of the heatbug's state.
+      
+      [hbug setIdealTemperature: idealTemp];
+      [hbug setOutputHeat: outputHeat];
+      [hbug setRandomMoveProbability: randomMoveProbability];
+      
+      //    [hbug setX: [uniformRandom rMax: worldXSize]  // random position
+      //	  Y: [uniformRandom rMax: worldYSize]];
 
-    // Choose a random ideal temperature, output heat from the specified
-    // range (model parameters).
-
-//    idealTemp = [uniformRandom rMin: minIdealTemp Max: maxIdealTemp];
-//    outputHeat = [uniformRandom rMin: minOutputHeat Max: maxOutputHeat];
-
-    idealTemp = [uniformIntRand
-                  getIntegerWithMin: minIdealTemp withMax: maxIdealTemp];
-    outputHeat = [uniformIntRand
-                   getIntegerWithMin: minOutputHeat withMax: maxOutputHeat];
-
-
-    // Create the heatbug, set the creation time variables
-
-    hbug = [Heatbug createBegin: [self getZone]];
-    [hbug setWorld: world Heat: heat];
-    hbug = [hbug createEnd];
-
-    // Add the bug to the end of the list.
-
-    [heatbugList addLast: hbug];
-
-    // Now initialize the rest of the heatbug's state.
-
-    [hbug setIdealTemperature: idealTemp];
-    [hbug setOutputHeat: outputHeat];
-    [hbug setRandomMoveProbability: randomMoveProbability];
-
-//    [hbug setX: [uniformRandom rMax: worldXSize]  // random position
-//	  Y: [uniformRandom rMax: worldYSize]];
-
-    [hbug setX: [uniformIntRand
-                  getIntegerWithMin: 0L
-                  withMax: (worldXSize-1)]  // random position
-          Y: [uniformIntRand getIntegerWithMin: 0L withMax: (worldYSize-1)]];
-  }
+      [hbug setX: [uniformIntRand
+                    getIntegerWithMin: 0L
+                    withMax: (worldXSize-1)]  // random position
+            Y: [uniformIntRand getIntegerWithMin: 0L withMax: (worldYSize-1)]];
+    }
   [world setOverwriteWarnings: 1];		  // ok, done cheating.
-
+  
   return self;
 }
 

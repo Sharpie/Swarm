@@ -8,14 +8,11 @@
 // important object is the heatbugModelSwarm, but we also have
 // graphical windows and data analysis and stuff.
 
-#import <objectbase.h>
-#import <space.h>
-#import <activity.h>
-#import <collections.h>
-#import <simtools.h>
-#import <analysis.h>
-#import <gui.h>
+#import <simtoolsgui.h>
+#import <analysis.h> // EZGraph
 #import "HeatbugModelSwarm.h"
+
+#import <simtoolsgui/GUISwarm.h>
 
 @interface HeatbugObserverSwarm: GUISwarm
 {

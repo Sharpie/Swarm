@@ -3,7 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtools.h>                // ... for initSwarm() and swarmGUIMode
+#import <simtools.h>     // initSwarm () and swarmGUIMode
+#import <simtoolsgui.h>  // GUISwarm
 #import "HeatbugObserverSwarm.h"
 #import "HeatbugBatchSwarm.h"
 

@@ -11,7 +11,8 @@
 //   randomMoveProbability chance of moving to a random spot
 
 #import "Heatbug.h"
-#import <simtools.h>
+#import <simtoolsgui.h>
+#import <random.h>
 
 // Defining the methods for a Heatbug.
 
@@ -25,9 +26,12 @@
   // parameters to be immutable once set, so to be extrasafe we check:
   // it could catch an error later.
 
-  if (world != nil || heat != nil) {
-    [InvalidArgument raiseEvent: "You can only set the world/heat of a heatbug at once at creation time\n"];
-  }
+  if (world != nil || heat != nil)
+    {
+      [InvalidArgument
+        raiseEvent:
+          "You can only set the world/heat of a heatbug at creation time\n"];
+    }
   world = w;
   heat = h;
 
@@ -43,7 +47,8 @@
   // make sure the user set up world and heat.
 
   if (world == nil || heat == nil)
-    [InvalidCombination raiseEvent: "Heatbug was created without a world or heat.\n"];
+    [InvalidCombination
+      raiseEvent: "Heatbug was created without a world or heat.\n"];
   
   // Cache the worldSize for speed of later access. Note how we do
   // this in createEnd - it could also have been done when setWorld:Heat:
@@ -155,17 +160,18 @@
   // space library does not enforce boundary conditions.)
 
   if (((float)[uniformDblRand
-        getDoubleWithMin: 0.0 withMax: 1.0]) < randomMoveProbability) {
-
-    newX = (x +
-            [uniformIntRand
-              getIntegerWithMin: -1L withMax: 1L]); // pick a random spot
-
-    newY = (y + [uniformIntRand getIntegerWithMin: -1L withMax: 1L]);
-
-    newX = (newX + worldXSize) % worldXSize;      // normalize coords
-    newY = (newY + worldYSize) % worldYSize;
-  }
+        getDoubleWithMin: 0.0 withMax: 1.0]) < randomMoveProbability)
+    {
+      
+      newX = (x +
+              [uniformIntRand
+                getIntegerWithMin: -1L withMax: 1L]); // pick a random spot
+      
+      newY = (y + [uniformIntRand getIntegerWithMin: -1L withMax: 1L]);
+      
+      newX = (newX + worldXSize) % worldXSize;      // normalize coords
+      newY = (newY + worldYSize) % worldYSize;
+    }
 
   // Part of the heatbug simulation is that two bugs cannot be in the
   // same spot. The code to enforce that is done here: if the site we
