@@ -81,7 +81,7 @@
     their definition, from Heatbug.h:</para>
 
     <programlisting>     
-<![CDATA [ 
+<![CDATA[ 
 @interface Heatbug: SwarmObject {
  double unhappiness; // my current unhappiness
  int x, y; // my spatial coordinates
