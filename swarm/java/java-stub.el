@@ -561,8 +561,7 @@
   (let ((module-name (module-name (protocol-module protocol)))
         (name (java-name protocol phase interface-flag)))
     (if current-module
-        ;; Kaffe/Pizza complains even with `.' in classpath.
-        (if nil ; (string= module-name (module-name current-module))
+        (if (string= module-name (module-name current-module))
             name
             (concat "swarm." module-name "." name))
         (concat "swarm/" module-name "/" name))))
