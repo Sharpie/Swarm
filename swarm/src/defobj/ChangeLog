@@ -1,3 +1,8 @@
+1999-03-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Archiver.m (lisp_output_objects, [Archiver_c -registerClient:],
+	[Archiver_c -unregisterClient:]): Use isInstance instead of isClass.
+
 1999-03-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* FCall.h (JOBJECT): Define JOBJECT as void * if Java is not available

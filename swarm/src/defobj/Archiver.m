@@ -462,7 +462,7 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
             [outputCharStream catC: "#f"];
           else
             {
-              if (![member isClass])
+              if ([member isInstance])
                 {
                   if (deepFlag)
                     [member lispOutDeep: outputCharStream];
@@ -598,7 +598,7 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
 
 - registerClient: client
 {
-  if ([client isClass])
+  if (![client isInstance])
     {
       if (![classes contains: client])
         [classes addLast: client];
@@ -610,7 +610,7 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
 
 - unregisterClient: client
 {
-  if ([client isClass])
+  if (![client isInstance])
     [classes remove: client];
   else
     [instances remove: client];
