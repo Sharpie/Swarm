@@ -152,8 +152,7 @@ PHASE(Creating)
   
   if ((A > maxGen) || (v > 60) || (w > 60))
     {
-      printf("Generator parameters: A = %d  v = %d  w = %d
-maxA = %lu  maxv = 60  maxw = 60\n\n", 
+      printf("Generator parameters: A = %d  v = %d  w = %d maxA = %lu  maxv = 60  maxw = 60\n\n", 
              A,v,w,maxGen);
     [InvalidCombination
       raiseEvent:

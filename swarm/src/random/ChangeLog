@@ -1,3 +1,7 @@
+2001-06-21    <mgd@maya.santafe.edu>
+
+	* C2LCGXgen.m: Eliminate a multi-line string literal.
+
 2001-06-18    <mgd@DRONE>
 
 	* random.m (initRandom): Check for and use fixed seed from Arguments.
