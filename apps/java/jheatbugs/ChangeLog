@@ -5,6 +5,10 @@
 	be public, removing leading "_".  Probed variables must be public.
 	(buildActions): Remove now-obsolete boolean argument from FArguments.
 
+	* Heatbug.java: Change variables _x, _y, _unhappiness, 
+	_idealTemperature, _outputHeat, and _randomMoveProbability
+	to be public, removing leading "_".
+
 	* Makefile (all): Don't run executable by default.
 
 	* Remove ^M from all files.
