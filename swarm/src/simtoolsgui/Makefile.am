@@ -1,7 +1,7 @@
 MODULE = simtoolsgui
 simtoolsguidir = $(includedir)/$(MODULE)
 
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../gui -I$(srcdir)/../simtools -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 

@@ -1,7 +1,7 @@
 MODULE = activity
 activitydir = $(includedir)/$(MODULE)
 
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I.. -I$(srcdir)/..
 

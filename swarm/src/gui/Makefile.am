@@ -1,7 +1,7 @@
 MODULE = gui
 guidir = $(includedir)/$(MODULE)
 
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
-gui_HEADERS = gui.h
+
 

@@ -1,7 +1,7 @@
 MODULE = defobj
 defobjdir = $(includedir)/$(MODULE)
 
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc
 
@@ -18,5 +18,3 @@ bin_SCRIPTS = m2h make-h2x
 
 defobj_HEADERS = Create.h Customize.h DefClass.h DefObject.h Program.h \
 	Symbol.h Zone.h defalloc.h deftype.h $(module_headers)
-
-include_HEADERS = defobj.h

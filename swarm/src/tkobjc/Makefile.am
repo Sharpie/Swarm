@@ -1,7 +1,7 @@
 MODULE = tkobjc
 tkobjcdir = $(includedir)/$(MODULE)
 
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
@@ -9,7 +9,6 @@ TKINCLUDES = @TKINCLUDES@
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity $(TKINCLUDES) $(TCLINCLUDES) -I$(pngdir)/include -I$(zlibdir)/include
 
 CFLAGS += $(X_CFLAGS)
-LIBS += $(X_LIBS)
 
 lib_LIBRARIES = libtkobjc.a
 
@@ -34,5 +33,3 @@ tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	SuperButton.h MessageProbeEntry.h TextItem.h TkExtra.h \
 	VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h \
 	ZoomRaster.h common.h global.h internal.h win32dib.h
-
-include_HEADERS = tkobjc.h

@@ -1,7 +1,7 @@
 MODULE = collections
 collectionsdir = $(includedir)/$(MODULE)
 
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj
 
@@ -18,5 +18,3 @@ libcollections_a_SOURCES = Array.m Collection.m InputStream.m List.m \
 collections_HEADERS = Array.h Collection.h InputStream.h List.h List_GEN.h \
 	List_linked.h List_mlinks.h Map.h OrderedSet.h OutputStream.h Set.h \
 	String.h collections.h predicates.h $(module_headers)
-
-include_HEADERS = $(MODULE).h
