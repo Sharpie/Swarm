@@ -93,6 +93,21 @@
   ;; Are sections enumerated?
   #t)
 
+(define (printed-link)
+    (let* ((id (attribute-string "LINKEND"))
+           (nl (element-with-id id)))
+      (sosofo-append
+       (literal (id-to-indexitem id))
+       (literal " (see page: ")
+       (element-page-number-sosofo nl)
+       (literal ")"))))
+
+(element LINK (printed-link))
+
+(element (REFSECT1 PARA LINK)
+         (make paragraph 
+               (printed-link)))
+
 (element PRIMARYIE
          (sosofo-append
           (process-children)
