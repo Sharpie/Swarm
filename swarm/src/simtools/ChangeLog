@@ -1,11 +1,52 @@
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MessageProbeWidget.m ([MessageProbeWidget -Spawn]):
+	Use renamed CREATE_PROBE_DISPLAY macro.
+	([MessageProbeWidget -argSpawn:which]): Likewise.
+
+	* VarProbeWidget.m ([VarProbeWidget -Spawn]): Likewise.
+
+	* GUISwarm.m ([GUISwarm -buildObjects]): Use
+	SET_WINDOW_GEOMETRY_RECORD_NAME.
+
+	* GUISwarm.[hm]: Remove windowGeometryRecordNameForComponent and
+	windowGeometryRecordName. 
+	Add setWindowGeometryRecordNameForComponent:widget:.
+
+	* GUIComposite.m (compareFunc): New static function for comparing
+	component names.
+	([GUIComposite -createEnd]): Create the componentList.
+	([GUIComposite -setWindowGeometryRecordNameForComponent:widget:]): 
+	New method.
+	([GUIComposite -enableDestroyNotification:notificationMethod:]): Call
+	Apply enableDestroyNotification:notificationMethod: to each
+	component.
+
+	* GUIComposite.h (GUIComposite): Include collections.h.  Drop
+	notificationTarget and notificationMethod;
+	enableDestroyNotification can't be done passthru because some
+	users are createEnd, instead accumulate widgets in a
+	componentList.  Drop windowGeometryRecordNameForComponenet and
+	windowGeometryRecordName methods.  New method
+	setWindowGeometryRecordNameForComponent:widget:.
+
+	* ActionCache.m ([ActionCache -createProcCtrl]): Use new
+	SET_WINDOW_GEOMETRY_RECORD_NAME to set archiving name for panelWidget.
+
 	* GUIComposite.m ([GUIComposite
 	-enableDestroyNotification:notificationMethod:]): New method.
 
 	* GUIComposite.h (GUIComposite): Add notificationTarget and
 	notificationMethod.  Declare
 	enableDestroyNotification:notificationMethod.
+
+	* simtools.h: Drop windowGeometryRecordNameForComponent and
+	windowGeometryRecordName fro WindowGeometryRecordName protocol.
+	(SET_WINDOW_GEOMETRY_RECORD_NAME_FOR): New macro.
+	(SET_WINDOW_GEOMETRY_RECORD_NAME): New macro.
+	(CREATE_PROBE_DISPLAY, CREATE_COMPLETE_PROBE_DISPLAY,
+	CREATE_ARCHIVED_PROBE_DISPLAY,
+	CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY):  Rename to be in caps.
 
 	* CompleteProbeDisplay.m ([CompleteProbeDisplay -update]): Don't update
 	if marked for drop.

@@ -251,8 +251,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
   // make a widget for us, too. Bind buttons to messages to ourself.
   panelWidget = [ButtonPanel createBegin: [self getZone]];
-  [panelWidget setWindowGeometryRecordName: 
-                 [self windowGeometryRecordNameForComponent: "ButtonPanel"]];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
   [panelWidget setTargetName: "simctl"];
   panelWidget = [panelWidget createEnd];
   [panelWidget addButtonName: "Start" actionName: "sendStartAction"];

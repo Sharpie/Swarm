@@ -4,17 +4,17 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
+#import <collections.h>
 
 @interface GUIComposite: SwarmObject
 {
   const char *baseWindowGeometryRecordName;
-  id notificationTarget;
-  SEL notificationMethod;
+  id <Map> componentList;
 }
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-- (const char *)windowGeometryRecordNameForComponent: (const char *)componentName;
-- (const char *)windowGeometryRecordName;
+- setWindowGeometryRecordNameForComponent: (const char *)componentName
+                                   widget: widget;
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)notificationMethod;
 @end

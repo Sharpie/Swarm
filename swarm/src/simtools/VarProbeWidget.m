@@ -97,7 +97,7 @@
   id target = (*(id *)[myProbe probeRaw: myObject]);
   
   if (target)
-    createProbeDisplay (target);
+    CREATE_PROBE_DISPLAY (target);
   else
     {
       tkobjc_ringBell ();

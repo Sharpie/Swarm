@@ -20,8 +20,8 @@
 }
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-- (const char *)windowGeometryRecordNameForComponent: (const char *)componentName;
-- (const char *)windowGeometryRecordName;
+- setWindowGeometryRecordNameForComponent: (const char *)componentName
+                                   widget: aWidget;
 - buildObjects;
 - go;				   // returns Completed or ControlStateQuit
 @end

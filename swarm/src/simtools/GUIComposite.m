@@ -9,28 +9,44 @@
 
 @implementation GUIComposite
 
+static int
+compareFunc (id obj1, id obj2)
+{
+  return strcmp ((const char *)obj1, (const char *)obj2);
+}
+
+- createEnd
+{
+  [super createEnd];
+  componentList = [Map createBegin: [self getZone]];
+  [componentList setCompareFunction: compareFunc];
+  componentList = [componentList createEnd];
+  return self;
+}
+
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   baseWindowGeometryRecordName = windowGeometryRecordName;
   return self;
 }
 
-- (const char *)windowGeometryRecordName
+- setWindowGeometryRecordNameForComponent: (const char *)componentName
+                                   widget: widget
 {
-  return baseWindowGeometryRecordName;
-}
-
-- (const char *)windowGeometryRecordNameForComponent: (const char *)componentName
-{
-  return buildWindowGeometryRecordName (baseWindowGeometryRecordName, 
-                                        componentName);
+  [componentList at: (id)componentName replace: widget];
+  [widget setWindowGeometryRecordName: 
+            buildWindowGeometryRecordName (baseWindowGeometryRecordName, 
+                                           componentName)];
+  return self;
 }
 
 - enableDestroyNotification: theNotificationTarget
          notificationMethod: (SEL)theNotificationMethod
 {
-  notificationTarget = theNotificationTarget;
-  notificationMethod = theNotificationMethod;
+  [componentList forEach: 
+                   @selector(enableDestroyNotification:notificationMethod:)
+                 : theNotificationTarget
+                 : (id)theNotificationMethod];
   return self;
 }
 @end

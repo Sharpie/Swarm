@@ -36,10 +36,16 @@ USING
 extern id ControlStateRunning, ControlStateStopped;
 extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
+#define SET_WINDOW_GEOMETRY_RECORD_NAME_FOR(obj, theWidget) \
+  [(obj) setWindowGeometryRecordNameForComponent: #theWidget widget: theWidget]
+
+#define SET_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
+  SET_WINDOW_GEOMETRY_RECORD_NAME_FOR (self,theWidget)
+
 @protocol WindowGeometryRecordName <SwarmObject>
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-- (const char *)windowGeometryRecordNameForComponent: (const char *)componentName;
-- (const char *)windowGeometryRecordName;
+- setWindowGeometryRecordNameForComponent: (const char *)componentName
+                                   widget: widget;
 @end
 
 //
@@ -118,16 +124,16 @@ void _createCompleteProbeDisplay (id obj);
 void createArchivedProbeDisplayNamed (id obj, const char *name);
 void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 
-#define createProbeDisplay(anObject) \
+#define CREATE_PROBE_DISPLAY(anObject) \
   _createProbeDisplay(anObject)
 
-#define createCompleteProbeDisplay(anObject) \
+#define CREATE_COMPLETE_PROBE_DISPLAY(anObject) \
   _createCompleteProbeDisplay(anObject)
 
-#define createArchivedProbeDisplay(anObject) \
+#define CREATE_ARCHIVED_PROBE_DISPLAY(anObject) \
   createArchivedProbeDisplayNamed(anObject,#anObject)
 
-#define createArchivedCompleteProbeDisplay(anObject) \
+#define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
   createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
 
 

@@ -196,7 +196,7 @@ empty (const char *str)
 - Spawn
 {
   if (resultObject != nil)
-    createProbeDisplay (resultObject);
+    CREATE_PROBE_DISPLAY (resultObject);
   else
     tkobjc_ringBell ();
   
@@ -213,7 +213,7 @@ empty (const char *str)
   if (id_name != NULL)
     {
       arg_obj = tclObjc_nameToObject (id_name);
-      createProbeDisplay (arg_obj);
+      CREATE_PROBE_DISPLAY (arg_obj);
     }
   else
     tkobjc_ringBell ();
