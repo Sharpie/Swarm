@@ -1,4 +1,4 @@
-<ARTICLE ID="DISTRIB.ART">
+<ARTICLE ID="SWARM.INSTALLING.DISTRIB.ARTICLE">
 <ARTHEADER>
     <TITLE>Overview of the Swarm Distribution</TITLE>
 
@@ -19,47 +19,47 @@
 
     <ITEMIZEDLIST>
 
-      <LISTITEM><PARA><LINK LINKEND="DEFOBJ.REF">defobj</LINK> Support
+      <LISTITEM><PARA><LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj</LINK> Support
           of Swarm style Objective C programming</PARA>
       </LISTITEM>
 
       <LISTITEM>
-        <PARA><LINK LINKEND="COLLECTIONS.REF">collections</LINK> Collection
+        <PARA><LINK LINKEND="SWARM.SRC.COLLECTIONS.REF">collections</LINK> Collection
           library -- various objects that "collect" other objects </PARA>
       </LISTITEM>
       
       <LISTITEM>
-        <PARA><LINK LINKEND="ACTIVITY.REF">activity</LINK> Schedule
+        <PARA><LINK LINKEND="SWARM.SRC.ACTIVITY.REF">activity</LINK> Schedule
           execution mechanism -- the "process"</PARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK LINKEND="OBJECTBASE.REF">objectbase</LINK>
+      <LISTITEM><PARA><LINK LINKEND="SWARM.SRC.OBJECTBASE.REF">objectbase</LINK>
           Base class for simulated objects -- the "agents"</PARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK LINKEND="SPACE.REF">space</LINK> Spatial
+      <LISTITEM><PARA><LINK LINKEND="SWARM.SRC.SPACE.REF">space</LINK> Spatial
           environment library (currenly mostly 2D spaces are
           supported).</PARA></LISTITEM>
 
-      <LISTITEM><PARA><LINK LINKEND="RANDOM.REF">random</LINK> Random
+      <LISTITEM><PARA><LINK LINKEND="SWARM.SRC.RANDOM.REF">random</LINK> Random
           number library.</PARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK LINKEND="SIMTOOLS.REF">simtools</LINK>
+      <LISTITEM><PARA><LINK LINKEND="SWARM.SRC.SIMTOOLS.REF">simtools</LINK>
           Collected tools (non-GUI) useful for developing Swarm
           simulations</PARA>
       </LISTITEM>
 
       <LISTITEM><PARA><LINK
-          LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> Further tools
+          LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK> Further tools
           useful for interactive "GUI-oriented" simulations</PARA>
       </LISTITEM>
           
-      <LISTITEM><PARA><LINK LINKEND="GUI.REF">gui</LINK> Graphical
+      <LISTITEM><PARA><LINK LINKEND="SWARM.SRC.GUI.REF">gui</LINK> Graphical
           Interface library</PARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK LINKEND="ANALYSIS.REF">analysis</LINK>
+      <LISTITEM><PARA><LINK LINKEND="SWARM.SRC.ANALYSIS.REF">analysis</LINK>
           Objects that help with data processing</PARA>
       </LISTITEM>
 

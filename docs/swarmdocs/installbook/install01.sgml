@@ -1,4 +1,4 @@
-<ARTICLE id="install.art">
+<ARTICLE ID="SWARM.INSTALLING.INSTALL.ARTICLE">
 <ARTHEADER>
     <TITLE>Installing Swarm</TITLE>
     
@@ -27,8 +27,7 @@
      systems. Fixing this is a longterm project; if you absolutely
       must use Swarm on AIX or MachTen/PPC, contact us.</PARA>
     
-    <PARA>See the <ULINK
-        url="http://www.santafe.edu/projects/swarm/platforms.html">Platform
+    <PARA>See the <ULINK URL="http://www.santafe.edu/projects/swarm/platforms.html">Platform
         News</ULINK> web page for recent information.</PARA>
 
   </SIMPLESECT>
@@ -40,10 +39,8 @@
       system: the rest of this software is freely available. Expect to
       spend some time compiling and installing these packages. URLs on
       this page are to the home distribution site: as a convenience,
-      the Swarm ftp site <ULINK
-      url="ftp://ftp.santafe.edu/pub/swarm/needed-software/">ftp://ftp.santafe.edu/pub/swarm/</ULINK>
-      contains copies of the necessary packages in <ULINK
-      url="ftp://ftp.santafe.edu/pub/swarm/needed-software/">needed-software/</ULINK>.
+      the Swarm ftp site <ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/">ftp://ftp.santafe.edu/pub/swarm/</ULINK>
+      contains copies of the necessary packages in <ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/">needed-software/</ULINK>.
       </PARA>
 
     <PARA>
@@ -55,8 +52,7 @@
             <PARA>gcc is the FSF's C, C++, and Objective C
               compiler. You need gcc 2.7.2 or greater installed on
               your system, including the Objective C support,
-              libobjc.a.  The latest version is available from <ULINK
-              url="ftp://prep.ai.mit.edu/pub/gnu">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>. Note:
+              libobjc.a.  The latest version is available from <ULINK URL="ftp://prep.ai.mit.edu/pub/gnu">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>. Note:
               Swarm will not work with versions of gcc before
               2.7.2.</PARA>
 
@@ -73,22 +69,20 @@
               that are not supported by all makes: GNU make is the
               only one guaranteed to work. Linux systems probably use
               GNU make already. The latest version of GNU make should
-              be available on <ULINK
-              url="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK></PARA>
-          </FORMALPARA>
+              be available on <ULINK URL="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK></PARA>
+          </FORMALPARA></LISTITEM>
 
           <LISTITEM>
             <FORMALPARA><TITLE>gdb</TITLE> 
               
               <PARA>gdb is the GNU debugger: Swarm doesn't require
               this, but you will probably want gdb on your system to
-              <LINK linkend="debug.sect">debug programs</LINK>.  Gdb
-              is available on <ULINK
-                  url="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>.</PARA>
+              <LINK LINKEND="DEBUG.SECT">debug programs</LINK>.  Gdb
+              is available on <ULINK URL="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>.</PARA>
               
             </FORMALPARA>
             </LISTITEM>
-      </ITEMIZEDLIST>
+      </ITEMIZEDLIST></PARA>
 
       </SIMPLESECT>
 
@@ -114,8 +108,7 @@
           it installed. A reasonably modern version is needed: we've
           used version 3.4f. If you get complaints about "Object"
           being multiply defined, your version of libXpm is too
-          old. The library is available from <ULINK
-          url="ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz">ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz</ULINK>.</PARA>
+          old. The library is available from <ULINK URL="ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz">ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz</ULINK>.</PARA>
           </FORMALPARA>
         </LISTITEM>
 
@@ -123,10 +116,8 @@
         <FORMALPARA><TITLE>Tcl/Tk</TITLE> 
 
           <PARA>More common libraries: a scripting language and a GUI
-          toolkit. These libraries are available from <ULINK
-          url="ftp://ftp.smli.com/pub/tcl/">ftp://ftp.smli.com/pub/tcl/</ULINK>
-          or from <ULINK
-          url="http://www.tcltk.com">http://www.tcltk.com</ULINK>.
+          toolkit. These libraries are available from <ULINK URL="ftp://ftp.smli.com/pub/tcl/">ftp://ftp.smli.com/pub/tcl/</ULINK>
+          or from <ULINK URL="http://www.tcltk.com">http://www.tcltk.com</ULINK>.
           Swarm works with Tcl/Tk versions 7.4/4.0, 7.5/4.1, 7.6/4.2,
           and 8.0/8.0.  It may work with later versions, but it hasn't
           been tested.</PARA>
@@ -136,10 +127,8 @@
       <LISTITEM>
         <FORMALPARA><TITLE>BLT-2.3</TITLE> 
           <PARA>BLT is an add-on to Tk that provides more widgets. BLT
-            is available from <ULINK
-              url="http://www.tcltk.com/blt/index.html">http://www.tcltk.com/blt/index.html</ULINK>
-            or <ULINK
-              url="ftp://ftp.neosoft.com/pub/tcl/sorted/devel/">ftp://ftp.neosoft.com/pub/tcl/sorted/devel/</ULINK>
+            is available from <ULINK URL="http://www.tcltk.com/blt/index.html">http://www.tcltk.com/blt/index.html</ULINK>
+            or <ULINK URL="ftp://ftp.neosoft.com/pub/tcl/sorted/devel/">ftp://ftp.neosoft.com/pub/tcl/sorted/devel/</ULINK>
             .  Note that BLT 2.3 works with either Tcl/Tk 7.5/4.1 or
             7.6/4.2, whereas BLT 2.1 only works with versions up to and
             including Tcl/Tk 7.5/4.1.  There are problems with using BLT
@@ -155,8 +144,7 @@
 
           <PARA>Glue between TCL and Objective C. This version of the
             library is currently only available from the Swarm
-            authors, and is <ULINK
-            url="http://www.santafe.edu/projects/swarm/release.html">distributed</ULINK>
+            authors, and is <ULINK URL="http://www.santafe.edu/projects/swarm/release.html">distributed</ULINK>
             in the same place as Swarm.</PARA>
           </FORMALPARA>
       </LISTITEM>
@@ -179,7 +167,7 @@
       other OS-dependent libraries that might be required on your
       system.  In addition, if your OS doesn't have <LITERAL>ranlib</LITERAL>,
       then configure the <LITERAL>RANLIB=</LITERAL> line to just execute
-      <LITERAL>/bin/true</LITERAL>.
+      <LITERAL>/bin/true</LITERAL>.</PARA>
 
       <PARA>All of the procedures run by make are defined in the three
         top level makefiles <LITERAL>Makefile.conf</LITERAL>,
