@@ -1,5 +1,7 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
+	* VERSION: Bump.
+
 	* Makefile.appl.in (INCLUDES): Don't define if includedir is
 	/usr/include.
 
