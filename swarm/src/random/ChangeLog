@@ -6,10 +6,6 @@
 
 1998-10-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* BernoulliDist.m, ExponentialDist.m, GammaDist.m,
-	LogNormalDist.m, NormalDist.m, RandomBitDist.m,
-	UniformDoubleDist.m, UniformIntegerDist.m, UniformUnsignedDist.m:
-
 	* ACGgen.m, C2LCGXgen.m, C2MRG3gen.m, C2TAUSgen.m, C3MRG3gen.m,
 	C4LCGXgen.m, LCGgen.m, MRGgen.m, MT19937gen.m, MWCAgen.m,
 	MWCBgen.m, PMMLCGgen.m, PSWBgen.m, RWC2gen.m, RWC8gen.m, SCGgen.m,
@@ -17,6 +13,11 @@
 	-putStateInto, initState:, -describe:, and setStateFrom: (some of
 	these cases don't exist).  Use %u instead of %d as appropriate.
 	New method -reset.  Reformatting throughout.
+
+	* BernoulliDist.m, ExponentialDist.m, GammaDist.m,
+	LogNormalDist.m, NormalDist.m, RandomBitDist.m,
+	UniformDoubleDist.m, UniformIntegerDist.m, UniformUnsignedDist.m:
+	Reformatting throughout.
 	
 	* C2MRG3gen.h (C2MRG3gen): Make k unsigned.
 
