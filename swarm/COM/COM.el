@@ -21,6 +21,7 @@
       ("const char \\*" . "string")
       ("char \\*" . "string")
       ("const char \\*\\*" . "string-array")
+      ("const char \\* const \\*" . "string-array")
       
       ("nsXPTCVariantPtr" . "nsXPTCVariantPtr") ; pass-thru, not scriptable
       ("jsvalPtr" . "jsvalPtr") ; pass-thru, not scriptable
@@ -226,6 +227,7 @@
                   #'(lambda (name)
                       (cond ((string= name "context") "context_")
                             ((string= name "class") "class_")
+                            ((string= name "string") "string_")
                             (t name)))))
 
 (defun com-impl-type-from-idl-type (idl-type)
