@@ -23,6 +23,8 @@
   summary
   description-list
   included-protocol-list
+  macro-list
+  global-list
   example-list
   method-list
   expanded-methodinfo-list)
@@ -35,7 +37,13 @@
   description-list
   example-list)
 
-(defconst *doc-types* '(:method-doc :summary-doc :description-doc))
+(defstruct named-object
+  name
+  description-list)
+
+(defconst *doc-types* '(:method-doc :summary-doc :description-doc
+                        :macro-doc
+                        :global-doc :global-begin :global-end :global-break))
 
 (defun find-protocol ()
   (interactive)
@@ -164,6 +172,17 @@
                  0)))))
     (1+ index)))
 
+(defun update-extern ()
+  (unless (save-excursion
+            (beginning-of-line)
+            (looking-at "\\s-+//G:"))
+    (setq extern-name
+          (save-excursion
+            (backward-word 1) 
+            (let ((beg (point)))
+              (forward-word 1)
+              (buffer-substring beg (point)))))))
+
 (defun load-protocol (module)
   (interactive)
   (skip-whitespace)
@@ -177,84 +196,158 @@
          (description-doc-list nil)
          (summary-doc nil)
          (method-doc-list nil)
+         (macro-doc-list nil)
+         (global-doc-list nil)
+         (global-list nil)
+         (macro-list nil)
          (method-list nil)
          (global-example-list nil)
          (example-list nil)
          (phase nil)
          (tag nil)
+         (macro-sig nil)
+         (extern-sig nil)
+         (extern-name nil)
          (buf nil))
     (beginning-of-line 1)
     (while (and (zerop (forward-line 1)) (not (eq tag :end)))
       (beginning-of-line)
-      (cond ((looking-at "^CREATING")
+      (cond ((looking-at "CREATING")
              (setq tag :creating)
              (setq phase :creating))
-            ((looking-at "^SETTING")
+            ((looking-at "SETTING")
              (setq phase :setting)
              (setq tag :setting))
-            ((looking-at "^USING")
+            ((looking-at "USING")
              (setq phase :using)
              (setq tag :using))
-            ((looking-at "^[ \t]*$") (setq tag :newline))
-            ((looking-at "^-")
+            ((looking-at "[ \t]*$") (setq tag :newline))
+            ((looking-at "-")
              (setq tag :method))
-            ((looking-at "^+")
+            ((looking-at "+")
              (setq tag :factory-method))
-            ((looking-at "^//M:") 
+            ((looking-at "//M:") 
              (setq tag :method-doc))
-            ((looking-at "^//S:") (setq tag :summary-doc))
-            ((looking-at "^//D:") (setq tag :description-doc))
-            ((looking-at "^//E:") (setq tag :example-doc))
-            ((looking-at "^#if 0")
-               (c-forward-conditional 1)
+            ((looking-at "//S:") (setq tag :summary-doc))
+            ((looking-at "//D:") (setq tag :description-doc))
+            ((looking-at "//E:") (setq tag :example-doc))
+            ((looking-at "//#:") (setq tag :macro-doc))
+            ((looking-at "//G:") (setq tag :global-doc))
+            ((looking-at ".+//G:")
+             (setq tag :global-doc)
+             (search-forward "//G:")
+             (backward-char 4)
+             (let ((last-extern extern-name))
+               (update-extern)
+               (cond ((save-excursion
+                        (beginning-of-line)
+                        (looking-at ".*;.*//G:"))
+                      (setq tag :global-end))
+                     ((not (string= last-extern extern-name))
+                      (setq tag :global-break)))))
+            ((looking-at "#if 0")
+             (c-forward-conditional 1)
              (beginning-of-line 0))
-            ((looking-at "^@end") (setq tag :end))
-            ((looking-at "^// ") (setq tag :comment))
-            ((looking-at "^///M:") (setq tag :bogus-method))
+            ((looking-at "@end") (setq tag :end))
+            ((looking-at "// ") (setq tag :comment))
+            ((looking-at "#define\\s-+\\([^(]+\\)\\((.*)\\)?\\s-")
+             (setq tag :macro)
+             (setq macro-sig (concat (match-string 1) (match-string 2))))
+            ((looking-at "extern\\s-")
+             (setq tag :global)
+             (re-search-forward "\\s-+")
+             (setq extern-sig
+                   (let ((beg (point)))
+                     (re-search-forward "\\(;\\|//G:\\)")
+                     (backward-char)
+                     (let ((have-global-tag (looking-at ":")))
+                       (if have-global-tag
+                           (setq tag :global-begin)
+                           (progn
+                             (setq have-global-tag
+                                   (search-forward "//G:"
+                                                   (end-of-line-position) t))
+                             (when have-global-tag
+                               (setq tag :global-end)
+                               (backward-char))))
+                       (when have-global-tag
+                         (backward-char 3)
+                         (update-extern)
+                         (backward-word 1)
+                         (skip-chars-backward " \t\r\n")))
+                     (buffer-substring beg (point))))
+             (when (or (eq tag :global-begin) (eq tag :global-end))
+               (search-forward "//G: ")
+               (backward-char 5)))
+            ((looking-at "///M:") (setq tag :bogus-method))
             (t (error "Unknown text: [%s]"
                       (buffer-substring (point) (end-of-line-position)))))
       (let ((line (line-text))
-            (is-doc-type (and (member tag *doc-types*)
-                              (not (looking-at "^#")))))
+            (is-doc-type (member tag *doc-types*)))
         (flet ((extract-doc-string (str)
                  (if (> (length str) 5)
                      (substring str 5)
                      "")))
-          (if (eq tag last-tag)
-              (if is-doc-type
-                  (setq buf (concat 
-                             (if (string-match " $" buf) 
-                                 buf
-                                 (concat buf " "))
-                             (extract-doc-string line)))
-                  (when (eq tag :example-doc)
-                    (setq buf
-                          (concat buf "\n" (extract-doc-string line)))))
-              (progn
-                (case last-tag
-                  (:example-doc
-                   (push (concat buf "\n") example-list)
-                   (unless (or method-list method-doc-list)
-                     (setq global-example-list example-list)
-                     (setq example-list nil)))
-                  (:method-doc
-                   (push buf method-doc-list))
-                  (:summary-doc (if summary-doc
-                                    (error "summary already set")
-                                    (setq summary-doc buf)))
-                  (:description-doc (push buf description-doc-list)))
-                (when (or is-doc-type (eq tag :example-doc))
-                  (setq buf (extract-doc-string line)))))))
+          (if (member tag '(:global-begin :global-end :global-break))
+              (push (extract-doc-string line) global-doc-list)
+              
+              (if (eq tag last-tag)
+                  (if is-doc-type
+                      (setq buf (concat 
+                                 (if (string-match " $" buf) 
+                                     buf
+                                     (concat buf " "))
+                                 (extract-doc-string line)))
+                      (when (eq tag :example-doc)
+                        (setq buf
+                              (concat buf "\n" (extract-doc-string line)))))
+                  (progn
+                    (case last-tag
+                      (:example-doc
+                       (push (concat buf "\n") example-list)
+                       (unless (or method-list method-doc-list)
+                         (setq global-example-list example-list)
+                         (setq example-list nil)))
+                      (:method-doc
+                       (push buf method-doc-list))
+                      (:macro-doc
+                       (push buf macro-doc-list))
+                      (:global-doc
+                       (push (concat "(" buf ")") global-doc-list))
+                      (:global
+                       (push (concat "[" buf "]") global-doc-list))
+                      (:summary-doc (if summary-doc
+                                        (error "summary already set")
+                                        (setq summary-doc buf)))
+                      (:description-doc (push buf description-doc-list)))
+                    (when (or is-doc-type (eq tag :example-doc))
+                      (setq buf (extract-doc-string line))))))))
+
+      (cond ((member tag '(:method :factory-method))
+             (push (parse-method name
+                                 phase
+                                 (eq tag :factory-method)
+                                 (reverse method-doc-list)
+                                 (reverse example-list))
+                   method-list)
+             (setq method-doc-list nil))
+            ((eq tag :macro)
+             (while (looking-at ".*\\\\\\s-*$")
+               (forward-line))
+             (push (make-named-object
+                    :name macro-sig
+                    :description-list macro-doc-list)
+                   macro-list)
+             (setq macro-doc-list nil))
+            ((member tag '(:global :global-break :global-begin :global-end))
+             (push (make-named-object
+                    :name (concat extern-sig " " extern-name)
+                    :description-list global-doc-list)
+                   global-list)
+             (setq global-doc-list nil)))
       
-      (when (member tag '(:method :factory-method))
-        (push (parse-method name
-                            phase
-                            (eq tag :factory-method)
-                            (reverse method-doc-list)
-                            (reverse example-list))
-              method-list)
-        (setq method-doc-list nil))
       (setq last-tag tag))
+
     (make-protocol
      :module module
      :name name
@@ -262,6 +355,8 @@
      :included-protocol-list included-protocol-list
      :summary summary-doc
      :description-list (reverse description-doc-list)
+     :macro-list (reverse macro-list)
+     :global-list (reverse global-list)
      :method-list (reverse method-list))))
 
 (defun load-protocols (module)
@@ -466,17 +561,22 @@
               (while (search-forward ">" nil t)
                 (replace-match "&gt;")))))))))
 
+(defun sgml-refsect1-text-list (title text-list)
+  (when text-list
+    (insert "<REFSECT1>\n")
+    (insert "<TITLE>")
+    (insert title)
+    (insert "</TITLE>\n")
+    (loop for text in text-list
+          do 
+          (insert "<PARA>\n")
+          (insert-text text)
+          (insert "\n</PARA>\n"))
+    (insert "</REFSECT1>\n")))
+
 (defun sgml-refsect1-description (protocol)
-  (let ((description-list (protocol-description-list protocol)))
-    (when description-list
-      (insert "<REFSECT1>\n")
-      (insert "<TITLE>Description</TITLE>\n")
-      (loop for description in description-list
-            do 
-            (insert "<PARA>\n")
-            (insert-text description)
-            (insert "\n</PARA>\n"))
-      (insert "</REFSECT1>\n"))))
+  (sgml-refsect1-text-list "Description"
+                           (protocol-description-list protocol)))
 
 (defun sgml-method-description (protocol method)
   (let ((descriptions (method-description-list method)))
@@ -614,6 +714,35 @@
           (insert "</LISTITEM>\n"))
         (insert "</ITEMIZEDLIST>\n")))))
 
+(defun sgml-refsect1-named-object-list (title named-object-list)
+  (when named-object-list
+    (insert "<REFSECT1>\n")
+    (insert "<TITLE>")
+    (insert title)
+    (insert "</TITLE>\n")
+    (insert "<ITEMIZEDLIST>\n")
+    (loop for object in named-object-list
+          do
+          (insert "<LISTITEM>\n")
+          (insert "<PARA>")
+          (insert (named-object-name object))
+          (insert "</PARA>\n")
+          (loop for text in (named-object-description-list object)
+                do
+                (insert "<PARA>")
+                (insert text)
+                (insert "</PARA>\n"))
+          (insert "</LISTITEM>\n"))
+    (insert "</ITEMIZEDLIST>\n")))
+
+(defun sgml-refsect1-macro-list (protocol)
+  (sgml-refsect1-named-object-list "Macros"
+                                   (protocol-macro-list protocol)))
+
+(defun sgml-refsect1-global-list (protocol)
+  (sgml-refsect1-named-object-list "Global Variables"
+                                   (protocol-global-list protocol)))
+
 (defun sgml-examples (protocol)
   (let ((example-list (protocol-example-list protocol)))
     (when example-list
@@ -744,6 +873,8 @@
     (sgml-refsect1-description protocol)
     (sgml-refsect1-protocol-list protocol)
     (sgml-refsect1-method-list protocol)
+    (sgml-refsect1-macro-list protocol)
+    (sgml-refsect1-global-list protocol)
     (sgml-refsect1-examples protocol)
     (insert "</REFENTRY>\n")))
 
