@@ -268,13 +268,14 @@ get_base_class_name (JNIEnv *env, jobject jobj)
   if (!(methodID = (*env)->GetMethodID (env,
                                         clazz,
                                         "substring",
-                                        "(Ljava/lang/String;)I")))
+                                        "(Ljava/lang/String;)II")))
     abort ();
 
   if (!(baseClassNameObj = (*env)->CallObjectMethod (env,
                                                      classNameObj,
                                                      methodID,
-                                                     len - 4)))
+                                                     len - 4,
+                                                     len)))
     abort ();
 
   return baseClassNameObj;
