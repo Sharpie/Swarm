@@ -2,6 +2,10 @@
 
 	* java-stub.el (removed-method-p): Avoid all methods with an
 	ellipsis argument.
+	(java-print-methods-in-phase): Remove.
+	(java-print-interface-methods-in-phase): Loop over protocol methods.
+	(java-print-class-methods-in-phase): Loop over expanded list of
+	methods.
 
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

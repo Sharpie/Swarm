@@ -147,19 +147,18 @@
                   (eq (method-phase method) phase))
               (mapcar #'caddr 
                       (protocol-expanded-methodinfo-list protocol)))))
-  
-  (defun java-print-methods-in-phase (protocol phase native)
-  (loop for method in (method-list protocol phase) 
-	do
-        (when native
-          (insert "public native "))
-        (java-print-method method)))
 
 (defun java-print-class-methods-in-phase (protocol phase)
-  (java-print-methods-in-phase protocol phase t))
+  (loop for method in (method-list protocol phase) 
+	do
+        (insert "public native ")
+        (java-print-method method)))
 
 (defun java-print-interface-methods-in-phase (protocol phase)
-  (java-print-methods-in-phase protocol phase nil))
+  (loop for method in (protocol-method-list protocol)
+        when (and (not (removed-method-p method))
+                  (eq phase (method-phase method)))
+	do (java-print-method method)))
 
 (defun java-suffix-for-phase (phase)
   (case phase
