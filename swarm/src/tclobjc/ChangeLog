@@ -1,3 +1,8 @@
+1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* tclObjc.m (tclObjc_msgSendToClientData): Handle void return
+	(libffi and avcall).
+
 1999-06-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HashTable.m: Include swarmconfig.h.

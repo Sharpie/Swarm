@@ -517,6 +517,9 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
         case _C_CHARPTR:
           fret = &ffi_type_pointer;
           break;
+        case _C_VOID:
+          fret = &ffi_type_void;
+          break;
         default:
           abort ();
         }
@@ -560,7 +563,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
             case _C_LNG:
               av_long (alist, *(long *) obj);
               break;
-              
+
             case _C_CHARPTR:
               av_ptr (alist, const char *, *(const char **)obj);
               break;
@@ -581,6 +584,9 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
         case _C_UCHR:
           av_start_uchar (alist, imp, retframe);
           break;
+        case _C_UINT:
+          av_start_uint (alist, imp, retframe);
+          break;
         case _C_INT:
           av_start_int (alist, imp, retframe);
           break;
@@ -592,6 +598,9 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
           break;
         case _C_CHARPTR:
           av_start_ptr (alist, imp, const char *, retframe);
+          break;
+        case _C_VOID:
+          av_start_void (alist, imp);
           break;
         default:
           abort ();
