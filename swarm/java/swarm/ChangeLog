@@ -1,3 +1,7 @@
+1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Selector.java (hashCode, equals): New methods.
+
 1999-07-27  Vladimir Jojic  <vjojic@ute.santafe.edu>
 
 	* PhaseCImpl.java (_copy_creating_phase_to_using_phase): 

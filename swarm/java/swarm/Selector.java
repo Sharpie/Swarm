@@ -37,4 +37,13 @@ public class Selector {
         throw new SignatureNotFoundException ();
     }
   }
+  public int hashCode () {
+    return signature.hashCode ();
+  }
+  public boolean equals (Object obj) {
+    if (obj.getClass () == this.getClass ())
+      return ((Selector) obj).signature.equals (signature);
+    else
+      return false;
+  }
 }
