@@ -1,3 +1,13 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.tests.in (JAVASWARMLIBS): Substitute.
+	(LIBS): Use it.
+	(javaswarmdir): New variable.
+	(SWARMBUILDLDFLAGS): Use it.
+
+	* Makefile.common.in (JAVASWARMLIBS): Substitute.
+	(SWARMLIBS): Use it.
+
 1999-04-25  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.tests.in (libobjcdir): New variable to find the libobjc

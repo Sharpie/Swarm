@@ -72,7 +72,9 @@ SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB)
 
 SWARMMODULES = space analysis simtools simtoolsgui tkobjc tclobjc activity random objectbase collections defobj misc
 
-SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module))
+JAVASWARMLIBS = @JAVASWARMLIBS@
+
+SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(JAVASWARMLIBS)
 
 # Local variables:
 # mode: makefile

@@ -4,12 +4,15 @@ INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(
 
 builddir = $(shell cd ../../src; pwd)
 libobjcdir = $(shell cd ../../libobjc; pwd)
+javaswarmdir = $(shell cd ../../java/c; pwd)
 
-SWARMBUILDLDFLAGS = $(foreach module,$(SWARMMODULES),-L$(builddir)/$(module) -R $(builddir)/$(module)) -L$(libobjcdir) -R $(libobjcdir)
+JAVASWARMLIBS = @JAVASWARMLIBS@
+
+SWARMBUILDLDFLAGS = -L$(javaswarmdir) -R $(javaswarmdir) $(foreach module,$(SWARMMODULES),-L$(builddir)/$(module) -R $(builddir)/$(module)) -L$(libobjcdir) -R $(libobjcdir) 
 
 LDFLAGS = $(SWARMBUILDLDFLAGS) $(SUPPORTLDFLAGS)
 
-LIBS = $(SWARMLIBS) $(SYSLIBS) @LIBS@
+LIBS = $(JAVASWARMLIBS) $(SWARMLIBS) $(SYSLIBS) @LIBS@
 
 # Local Variables:
 # mode: makefile
