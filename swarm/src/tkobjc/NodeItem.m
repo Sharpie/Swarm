@@ -5,10 +5,6 @@
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/NodeItem.h>
@@ -25,14 +21,14 @@
 - setColor: (const char *)aColor
 {
   [globalTkInterp eval: "%s itemconfigure %s -fill %s",
-                  [canvas getWidgetName],item,aColor];  
+                  [canvas getWidgetName], item, aColor];  
   return self;
 }
 
 - setBorderColor: (const char *)aColor
 {
   [globalTkInterp eval: "%s itemconfigure %s -outline %s",
-                  [canvas getWidgetName],item,aColor];  
+                  [canvas getWidgetName], item, aColor];  
   return self;
 }
 
@@ -53,40 +49,39 @@
 
 - createBindings
 {
+  const char *canvasName = [canvas getWidgetName];
+  const char *objectName = [self getObjectName];
+
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-                  [canvas getWidgetName],
-                  item,
-                  tclObjc_objectToName (self)];
+                  canvasName, item, objectName];
   
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-                  [canvas getWidgetName],
-                  text,
-                  tclObjc_objectToName (self)];
+                  canvasName, text, objectName];
   
   [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
-                  [canvas getWidgetName],
+                  canvasName,
                   item,
                   "%x", "%y"];
   
   [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
-                  [canvas getWidgetName],
+                  canvasName,
                   text,
                   "%x", "%y"];
   
   [globalTkInterp eval: "%s bind %s <B1-Motion> {"
                   "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
                   "set curX %s; set curY %s}",
-                  [canvas getWidgetName],
+                  canvasName,
                   item,
-                  tclObjc_objectToName (self),
+                  objectName,
                   "%x", "%y", "%x", "%y"];
 
   [globalTkInterp eval: "%s bind %s <B1-Motion> {"
                   "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
                   "set curX %s; set curY %s}",
-                  [canvas getWidgetName],
+                  canvasName,
                   text,
-                  tclObjc_objectToName (self),
+                  objectName,
                   "%x", "%y", "%x", "%y"];
   return self;
 }

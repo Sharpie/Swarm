@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import "internal.h"
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <tkobjc/WindowGeometryRecord.h>
-
-#import "global.h"
+#import <tkobjc/global.h>
 
 void archiverUnregister (id client);
 void archiverRegister (id client);
@@ -105,10 +105,7 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
 {
   if (theNotificationTarget)
     {
-      Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
-                                         (char *)widgetName,
-                                         [globalTkInterp mainWindow]);
-      Tk_CreateEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
+      tkobjc_createEventHandler (self, structure_proc);
       
       destroyNotificationTarget = theNotificationTarget;
       destroyNotificationMethod = theNotificationMethod;
@@ -120,11 +117,7 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
 {
   if (destroyNotificationTarget != nil)
     {
-      Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
-                                         (char *)widgetName,
-                                         [globalTkInterp mainWindow]);
-      
-      Tk_DeleteEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
+      tkobjc_deleteEventHandler (self, structure_proc);
       destroyNotificationTarget = nil;
     }
   return self;

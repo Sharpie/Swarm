@@ -29,7 +29,7 @@
   [globalTkInterp 
     eval: "%s configure -command {%s markForDrop}",
     [self getWidgetName],
-    tclObjc_objectToName (probeDisplay)];
+    [probeDisplay getObjectName]];
   
   tkobjc_configureSpecialBitmap (self);
   

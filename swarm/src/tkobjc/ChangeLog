@@ -1,5 +1,50 @@
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* tkobjc.m (initTkObjc): Remove assignment to Colormap.
+
+	* tkobjc.h: Include tkobjc/Graph.h instead of tkobjc/BLTGraph.h
+	and tkobjc/Colormap.h instead of tkobjc/XColormap.h.
+
+	* internal.m: New functions tkobjc_createEventHandler and
+	tkobjc_deleteEventHandler.
+
+	* internal.h: Include X11/Xlib.h for XColormap and X11/Xutil.h for
+	ZoomRaster.  Include objc/objc.h.  Declare new functions
+	tkobjc_createEventHandler and tkobjc_deleteEventHandler.
+
+	* ZoomRaster.m: Reformatting throughout.
+
+	* Widget.m ([Widget -createEnd]): Use getObjectName instead of
+	tclObjc_objectToName.  Reformatting throughout.
+
+	* SimpleProbeDisplayHideButton.m ([SimpleProbeDisplayHideButton
+	-createEnd]): Use getObjectName instead of tclObjc_objectToName.
+
+	* NodeItem.m:  Don't include string.h, stdio.h, or stdlib.h.
+	([NodeItem -createBindings]): Store widget name and object
+	name in variables and use those.  Reformatting throughout.
+
+	* Makefile (OBJECTS, HEADERS): Change BLTGraph to Graph, and
+	XColormap to Colormap.
+	(Graph.o): Renamed from BLTGraph.o.
+	(Colormap.o): Renamed from Colormap.o.
+
+	* CanvasItem.m: Don't include string.h, stdio.h, or stdlib.h.
+	([CanvasItem -createBindings]): Use getObjectName instead of
+	tclObjc_objectToName.  Reformatting throughout.
+
+	* Canvas.m: Don't include string.h, stdio.h, or stdlib.h.
+
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-setWindowGeometryRecordName:]): Include internal.h.
+	([ArchivedGeometryWidget -setWindowGeometryRecordName:]): Change
+	from "global.h" to tkobjc/global.h.
+	([ArchivedGeometryWidget
+	-enableDestroyNotification:notificationMethod:]): Use
+	tkobjc_createEventHandler.
+	([ArchivedGeometryWidget -disableDestroyNotification]): Use
+	tkobjc_deleteEventHandler.
+
 	* tkobjc.m: Include internal.h and gui.h.  Don't include
 	tkobjc/TkExtra.h Define globalTkInterp to conform to the TkExtra
 	protocol.

@@ -37,8 +37,7 @@
     }
   [self setWidgetNameFromParent: parent];
   
-  // make our own copy of tclObjc_objectToName (it uses a static buffer.)
-  p = tclObjc_objectToName (self);
+  p = [self getObjectName];
   name = [[self getZone] alloc: strlen(p) + 1];
   strcpy (name, p);
   objcName = name;
@@ -47,7 +46,7 @@
 }
 
 // convenience interface for ease of setting.
-+ createParent: (Widget *) p
++ createParent: (Widget *)p
 {
   return [[[self createBegin: [p getZone]] setParent: p] createEnd];
 }
@@ -100,7 +99,7 @@
 {
   unsigned w, h;
   int x, y;
-  if (sscanf([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
     [WarningMessage raiseEvent: "Widget - invalid geometry"];
   return h;
 }
@@ -109,7 +108,7 @@
 {
   unsigned w, h;
   int x, y;
-  if (sscanf([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
     [WarningMessage raiseEvent: "Widget - invalid geometry"];
   return x;
 }
@@ -118,12 +117,12 @@
 {
   unsigned w, h;
   int x, y;
-  if (sscanf([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
     [WarningMessage raiseEvent: "Widget - invalid geometry"];
   return y;
 }
 
-// this really shouldn't be used to set width/height.
+// This really shouldn't be used to set width/height.
 - setWindowGeometry: (const char *)s
 {
   [globalTkInterp eval: "wm geometry %s \"%s\"",
@@ -131,24 +130,24 @@
   return self;
 }
 
-- setWidth: (unsigned) w
+- setWidth: (unsigned)w
 {
   [globalTkInterp eval: "%s configure -width %u", widgetName, w];
   return self;
 }
 
-- setHeight: (unsigned) h
+- setHeight: (unsigned)h
 {
   [globalTkInterp eval: "%s configure -height %u", widgetName, h];
   return self;
 }
 
-- setWidth: (unsigned) w Height: (unsigned) h
+- setWidth: (unsigned)w Height: (unsigned)h
 {
   return [[self setWidth: w] setHeight: h];
 }
 
-- setPositionX: (int) x Y: (int) y
+- setPositionX: (int)x Y: (int)y
 {
   char s[128];
 
@@ -170,7 +169,7 @@
   return self;
 }
 
-- packWith: (const char *) c
+- packWith: (const char *)c
 {
   [globalTkInterp eval: "pack %s %s;", widgetName, c];
   return self;

@@ -26,14 +26,21 @@
   // we do things to the parent widget that are really only allowed
   // on toplevels. This check is at least friendly.
   if (!([parent isKindOfClassNamed: "Frame"]) && ([parent getParent] == 0))
-    [WindowCreation raiseEvent: "Warning: ZoomRaster created as child of non toplevel. Resize code probably\nwill not work.\n"];
+    [WindowCreation 
+      raiseEvent: 
+        "Warning: ZoomRaster created as child of non toplevel.\n"
+      "Resize code probably\nwill not work.\n"];
   
   logicalWidth = width;
   logicalHeight = height;
   zoomFactor = 1U;
 
-  [globalTkInterp eval: "bind %s <Configure> { %s handleConfigureWidth: %s Height: %s }",
-		  [parent getWidgetName], [self getObjcName], "%w", "%h"];
+  [globalTkInterp 
+    eval: 
+      "bind %s <Configure> { %s handleConfigureWidth: %s Height: %s }",
+    [parent getWidgetName],
+    [self getObjcName],
+    "%w", "%h"];
   return self;
 }
 
@@ -58,7 +65,7 @@
   // save necessary state: old image, old zoom.
   oldZoom = zoomFactor;
 #ifdef REDRAWONZOOM
-  oldImage = XGetImage(display, pm, 0, 0, width, height, AllPlanes, XYPixmap);
+  oldImage = XGetImage (display, pm, 0, 0, width, height, AllPlanes, XYPixmap);
 #endif
   
   // zoom ourselves
@@ -68,18 +75,18 @@
 #ifdef REDRAWONZOOM
   // now build a new image from the data in the old one.
   // I hope this use of oldPixel is portable: why is image support so lousy?
-  XGetGCValues(display, gc, GCForeground, &oldgcv);   // save old colour
+  XGetGCValues (display, gc, GCForeground, &oldgcv);   // save old colour
   for (x = 0; x < logicalWidth; x++)
     for (y = 0; y < logicalHeight; y++) {
       unsigned long oldPixel;
-      oldPixel = XGetPixel(oldImage, x*oldZoom, y*oldZoom);
-      XSetForeground(display, gc, oldPixel);
-      XFillRectangle(display, pm, gc, x*zoomFactor, y*zoomFactor,
+      oldPixel = XGetPixel (oldImage, x*oldZoom, y*oldZoom);
+      XSetForeground (display, gc, oldPixel);
+      XFillRectangle (display, pm, gc, x*zoomFactor, y*zoomFactor,
 		     zoomFactor, zoomFactor);
     }
-  XChangeGC(display, gc, GCForeground, &oldgcv);  // now restore colour
+  XChangeGC (display, gc, GCForeground, &oldgcv);  // now restore colour
   
-  XDestroyImage(oldImage);
+  XDestroyImage (oldImage);
 #endif
   
   return self;
@@ -113,7 +120,7 @@
   logicalWidth = newWidth;
   logicalHeight = newHeight;
 
-  [super setWidth: newWidth*zoomFactor Height:newHeight*zoomFactor];
+  [super setWidth: newWidth * zoomFactor Height: newHeight * zoomFactor];
 
   // set up gridded geometry so this is resizeable. Only works if
   // the parent is a toplevel.

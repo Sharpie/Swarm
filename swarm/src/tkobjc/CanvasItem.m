@@ -5,10 +5,6 @@
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/CanvasItem.h>
@@ -27,19 +23,19 @@
   return self;
 }    
 
-- setClickSel: (SEL) the_sel
+- setClickSel: (SEL)the_sel
 {
   clickSel = the_sel;
   return self;
 }
 
-- setMoveSel: (SEL) the_sel
+- setMoveSel: (SEL)the_sel
 {
   moveSel = the_sel;
   return self;
 }
 
-- setPostMoveSel: (SEL) the_sel
+- setPostMoveSel: (SEL)the_sel
 {
   postMoveSel = the_sel;
   return self;
@@ -53,17 +49,18 @@
 
 - createBindings
 {
-  const char *temp = tclObjc_objectToName (self);
+  const char *temp = [self getObjectName];
+  const char *canvasName = [canvas getWidgetName];
 
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-    [canvas getWidgetName], item, temp];
+                  canvasName, item, temp];
   [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
-                  [canvas getWidgetName], item, "%x" , "%y"];
+                  canvasname, item, "%x" , "%y"];
 
   [globalTkInterp eval: "%s bind %s <B1-Motion> {"
                   "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
                   "set curX %s; set curY %s}",
-                  [canvas getWidgetName],
+                  canvasName,
                   item,
                   temp,
                   "%x", "%y", "%x", "%y"];

@@ -4,10 +4,11 @@
 // See file LICENSE for details and terms of copying.
 
 #include <tk.h>
-#include <tkobjc/TkExtra.h>
+
+#import <tkobjc/TkExtra.h>
+#import <tkobjc/Widget.h>
 
 extern TkExtra *globalTkInterp;
-
 
 Tk_Window 
 tkobjc_nameToWindow (const char *widgetName)
@@ -49,4 +50,18 @@ tkobjc_initTkInterp (int argc, const char *argv)
   globalTkInterp = [TkExtra alloc];
   [globalTkInterp initWithArgc: 1 argv: (char **)argv];
   registerInterp ();
+}
+
+void tkobjc_createEventHandler (id widget, Tk_EventProc proc)
+{
+  Tk_Window tkwin = tkobjc_nameToWindow ([widget getWidgetName]);
+
+  Tk_CreateEventHandler (tkwin, StructureNotifyMask, proc, widget);
+}
+
+void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
+{
+  Tk_Window tkwin = tkobjc_nameToWindow ([widget getWidgetName]);
+
+  Tk_DeleteEventHandler (tkwin, StructureNotifyMask, proc, widget);
 }

@@ -7,10 +7,13 @@
 #undef Colormap
 #define Colormap Colormap_
 #include <tk.h>
+#include <X11/Xlib.h>    // XColormap
 #include <X11/Xutil.h>  // ZoomRaster
 #import <X11/xpm.h>
 #undef Colormap
 #define Colormap Colormap__
+
+#include <objc/objc.h>
 
 Tk_Window tkobjc_nameToWindow (const char *widgetName);
 
@@ -18,3 +21,5 @@ void tkobjc_unlinkVar (const char *variableName);
 void tkobjc_linkVar (const char *variableName, void *p, int type);
 void tkobjc_initTclInterp (int argc, const char **argv);
 void tkobjc_initTkInterp (int argc, const char **argv);
+void tkobjc_createEventHandler (id widget, Tk_EventProc proc);
+void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc);

@@ -29,8 +29,6 @@ initTkObjc (int argc, const char **argv)
         }
     }
 
-  Colormap = [XColormap class];
-  
   deferror (WindowCreation, NULL);
   deferror (WindowUsage, NULL);
  

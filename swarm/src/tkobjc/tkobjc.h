@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/BLTGraph.h>
+#import <tkobjc/Graph.h>
 #import <tkobjc/Button.h>
 #import <tkobjc/ClassDisplayHideButton.h>
 #import <tkobjc/SimpleProbeDisplayHideButton.h>
@@ -21,7 +21,7 @@
 #import <tkobjc/Raster.h>
 #import <tkobjc/TkExtra.h>
 #import <tkobjc/Widget.h>
-#import <tkobjc/XColormap.h>
+#import <tkobjc/Colormap.h>
 #import <tkobjc/XDrawer.h>
 #import <tkobjc/XPixmap.h>
 #import <tkobjc/ZoomRaster.h>
