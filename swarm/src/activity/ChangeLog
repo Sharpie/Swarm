@@ -1,3 +1,7 @@
+1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (noinst_LTLIBRARIES): Switch from lib_LTLIBRARIES.
+
 1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmProcess.[hm] ([CSwarmProcess -getPageSize]: Change return

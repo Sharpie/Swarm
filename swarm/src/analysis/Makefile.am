@@ -8,7 +8,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../gui -I$(srcdir)/../simtools -I$(srcdir)/../simtoolsgui -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
-lib_LTLIBRARIES = libanalysis.la
+noinst_LTLIBRARIES = libanalysis.la
 
 SRC = ActiveGraph.m ActiveOutFile.m Averager.m EZBin.m EZDistribution.m \
 	EZGraph.m Entropy.m FunctionGraph.m

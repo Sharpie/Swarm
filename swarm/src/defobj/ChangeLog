@@ -1,3 +1,7 @@
+1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (noinst_LTLIBRARIES): Switch from lib_LTLIBRARIES.
+
 1999-05-24  Alex Lancaster  <alex@santafe.edu>
 
 	* make-h2x: Modify sed script that generates the .xm+ file, to

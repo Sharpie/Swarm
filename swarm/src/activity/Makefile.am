@@ -8,7 +8,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I.. -I$(srcdir)/..
 
-lib_LTLIBRARIES = libactivity.la
+noinst_LTLIBRARIES = libactivity.la
 
 module_headers = classes.h types.h activity.xm
 

@@ -8,7 +8,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_srcdir)/libobjc -I. -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I$(srcdir)/../random
 
-lib_LTLIBRARIES = libcollections.la
+noinst_LTLIBRARIES = libcollections.la
 
 module_headers = classes.h types.h collections.xm
 

@@ -4,15 +4,13 @@ REVISION = 0
 AGE = 0
 objectbasedir = $(includedir)/$(MODULE)
 
-FFIINCLUDES = @FFIINCLUDES@
-
 include $(top_srcdir)/src/Makefile.rules
 
-lib_LTLIBRARIES = libobjectbase.la
+noinst_LTLIBRARIES = libobjectbase.la
 
 JAVAINCLUDES = -I$(top_srcdir)/java/c @JAVAINCLUDES@
 
-INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc $(FFIINCLUDES) $(JAVAINCLUDES)
+INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc
 
 SRC = ActivityControl.m \
 	CompleteVarMap.m CompleteProbeMap.m \

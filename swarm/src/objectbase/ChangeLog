@@ -1,3 +1,9 @@
+1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (noinst_LTLIBRARIES): Switch from lib_LTLIBRARIES.
+	(FFIINCLUDES): Remove.
+	(INCLUDES): Don't include FFIINCLUDES.
+
 1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* objectbase.h (MessageProbe), MessageProbe.[hm] ([MessageProbe
