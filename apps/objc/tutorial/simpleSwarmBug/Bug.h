@@ -1,7 +1,6 @@
 // Bug.h					SimpleBug
 
 #import <objectbase/SwarmObject.h>
-#import <space.h>
 
 @interface Bug: SwarmObject
 {
@@ -20,4 +19,6 @@
 - step;
 
 @end
+
+
 
