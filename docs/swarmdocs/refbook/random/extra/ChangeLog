@@ -1,3 +1,9 @@
+1999-02-10  Alex Lancaster  <alex@santafe.edu>
+
+	* Usage-Guide.Bibliography.sgml: Finessing of BIBLIOGRAPHY to get
+	all information appearing and alpha-ordering.  Some minor SGML tag
+	abuse required.
+
 1999-02-10 Sven Thommesen <sthomme@humsci.auburn.edu>
 
 	* [*].sgml: minor textual editing.
