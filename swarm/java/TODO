@@ -22,8 +22,6 @@ Installshield [mgd]
  
 libffi / Bank [mgd]
 
-write forwarding type signatures in forwarding without register info [mgd]
-
 make check [mgd]
   - Alpha serialization
   - hppa avcall
@@ -33,3 +31,6 @@ make --with-package flags should reject bad arguments [mgd]
 Formalize GCC patches [mgd]
 
 Probes on Java objects (by serialization) [vjojic]
+
+Add either stubbing for string array conversions (e.g. Histogram) or
+add alternative interfaces that use objects.
