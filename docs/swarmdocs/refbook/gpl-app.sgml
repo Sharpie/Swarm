@@ -6,16 +6,15 @@
 
 <TITLE>GNU General Public Licence</TITLE>
 
-<ABSTRACT>
+<SIDEBAR>
     <TITLE>Terms</TITLE> <PARA>These are the license terms for the
     distribution of the Swarm example applications.</PARA>
-</ABSTRACT>
+</SIDEBAR>
 
 <SECT1>
 
 <TITLE>Text of Licence</TITLE>
 
-<SIDEBAR>
 <LITERALLAYOUT>
 		      GNU GENERAL PUBLIC LICENSE
                          Version 2, June 1991
@@ -375,7 +374,6 @@ applications with the library.  If this is what you want to do, use the
 GNU Library General Public License instead of this License.
 
 </LITERALLAYOUT>
-</SIDEBAR>
 </SECT1>
 </APPENDIX>
 

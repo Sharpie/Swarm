@@ -1,4 +1,4 @@
- <PREFACE ID="SWARM.COMPATIBILITY.SGML.PREFACE">
+<PREFACE ID="SWARM.COMPATIBILITY.SGML.PREFACE">
   <TITLE>Swarm Changes and Compatibility</TITLE>
 
   <SIDEBAR>
@@ -35,18 +35,20 @@
       application changes will be covered in the document explicitly.
     </PARA>
 
-    <PARA><EMPHASIS>Key for changes:</EMPHASIS></PARA>
+    <PARA><EMPHASIS>Key for changes:</EMPHASIS>
   
-    <SIMPLELIST>
+     <ITEMIZEDLIST>
 
-      <MEMBER>(*) = absolutely necessary changes (if not performed,
-        will fail to compile)</MEMBER>
-      <MEMBER>(x) = not-strictly necessary, but highly recommended
-        changes (deprecated coding practice, or will produce a
-        compiler warning, if not performed)
-      </MEMBER>
+      <LISTITEM><PARA>(*) = absolutely necessary changes (if not
+        performed, will fail to compile)</PARA></LISTITEM> 
+      
+      <LISTITEM><PARA>(x) = not-strictly necessary, but highly
+        recommended changes (deprecated coding practice, or will
+        produce a compiler warning, if not performed)</PARA>
+      </LISTITEM>
     
-    </SIMPLELIST>
+     </ITEMIZEDLIST>
+    </PARA>
   </SIDEBAR>
 
   <SECT1>

@@ -1,3 +1,17 @@
+1999-01-07  Alex Lancaster  <alex@santafe.edu>
+
+	* ref00a.sgml: Make SIMPLELIST an ITEMIZEDLIST.
+
+	* gpl-app.sgml: Remove SIDEBAR from wrapping the licence text,
+	SIDEBAR can't run over a page in the printed backend.  Make
+	introductory description a SIDEBAR.
+
+	* lgpl-app.sgml: Likewise.
+
+	* ref00.sgml: Replace SECT1 with two SIMPLESECTs.  Tidying and
+	reformatting.
+	(Acknowledgements): Updated.
+
 1998-12-22  Alex Lancaster  <alex@santafe.edu>
 
 	* probes-app.sgml ({customized,complete}-probe-map): Add IDs to

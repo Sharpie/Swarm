@@ -6,16 +6,15 @@
 
 <TITLE>GNU Library General Public Licence</TITLE>
 
-<ABSTRACT>
+<SIDEBAR>
     <TITLE>Terms</TITLE> <PARA>These are the license terms for the
     distribution of the Swarm libraries.</PARA>
-</ABSTRACT>
+</SIDEBAR>
 
 <SECT1>
 
 <TITLE>Text of Licence</TITLE>
 
-<SIDEBAR>
 <LITERALLAYOUT>
 		  GNU LIBRARY GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
@@ -500,7 +499,6 @@ necessary.  Here is a sample; alter the names:
 That's all there is to it!
 
 </LITERALLAYOUT>
-</SIDEBAR>
 </SECT1>
 </APPENDIX>
 
