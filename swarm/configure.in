@@ -120,6 +120,7 @@ fi
 md_FIND_TCL_SCRIPTS
 
 AC_SUBST(tclscriptdir)
+md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tcl)
 
 AC_ARG_WITH(tkdir,
 [  --with-tkdir=TKDIR               Use DIR/include and DIR/lib for Tk],
@@ -151,6 +152,8 @@ fi
 md_FIND_TK_SCRIPTS
 
 AC_SUBST(tkscriptdir)
+
+md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tk)
 
 AC_ARG_WITH(bltdir,
 [  --with-bltdir=DIR                Use DIR/include and DIR/lib for BLT],

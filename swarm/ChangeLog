@@ -3,6 +3,7 @@
 	* acconfig.h: Add LLFMT.
 
 	* configure.in: Call md_CHECK_long_long_printf.
+	Call md_CHECK_TCLTK_LIBINC_VERSION_MATCH for tcl and tk.
 
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
