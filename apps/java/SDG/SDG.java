@@ -27,9 +27,9 @@ public class SDG extends Organization {
 
   public Object buildObjects () {
     super.buildObjects ();
-    alex = new Alex2d (getZone (), this, 20, 20);
-    gepr = new Glen2d (getZone (), this, 10, 10);
-    mgd = new Marcus2d (getZone (), this, 0, 0);
+    alex = new Alex2d (getZone (), this, 25, 25);
+    gepr = new Glen2d (getZone (), this, 75, 75);
+    mgd = new Marcus2d (getZone (), this, 50, 50);
 
     userList = new LinkedList ();
 
