@@ -1,5 +1,7 @@
 1998-08-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* VERSION: Swarm 1.3 released.
+
 	* configure.in: Call AC_PATH_XTRA before md_CHECK_GUILIBS.
 	Check for -ldl and -ldld before setting RPATH.  Add a 
 	placeholder for the -ldld (HPUX) case.
@@ -8,8 +10,6 @@
 	* Makefile.am (install-data-local): Install libtool to bindir.
 
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
-
-	* VERSION: Swarm 1.3 released.
 
 	* README: Update for 1.3.
 
