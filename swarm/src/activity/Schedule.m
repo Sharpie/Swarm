@@ -435,7 +435,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 
   // add initial actions to new group
   newAction = createGroup (self);
-  newAction->ownerActions = existingAction->ownerActions;  // replace mem links
   *memptr = newAction;
   if (!newKey) 
     {
@@ -471,7 +470,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   // if existing action at key then insert into new group and return group
 
   existingAction->owner = (ActionType_c *) newAction->concurrentGroup;
-  newAction->ownerActions = existingAction->ownerActions;  // replace mem links
   [(id) newAction->concurrentGroup addLast: existingAction];
   *memptr = newAction;
   return newAction->concurrentGroup;
