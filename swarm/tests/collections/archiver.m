@@ -307,7 +307,7 @@
                    createEnd];
   if (mapFlag)
     coll = (deepFlag
-            ? [Map create: aZone];
+            ? [Map create: aZone]
             : [[[Map createBegin: aZone] setCompareCStrings] createEnd]);
   else
     coll = [List create: aZone];
