@@ -14,7 +14,8 @@
 
 @implementation Button
 
--createEnd {
+- createEnd
+{
   [super createEnd];
 
   // create the button
@@ -23,13 +24,15 @@
   return self;
 }
 
--setText: (char *) t {
-  [globalTkInterp eval: "%s configure -text \"%s\"", widgetName, t];
+- setText: (const char *)text
+{
+  [globalTkInterp eval: "%s configure -text \"%s\"", widgetName, text];
   return self;
 }
 
--setCommand: (char *) c {
-  [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, c];
+-setCommand: (const char *)command
+{
+  [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, command];
   return self;
 }
 

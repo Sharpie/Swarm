@@ -7,10 +7,11 @@
 
 #import <tkobjc/Widget.h>
 
-@interface Button : Widget {
+@interface Button : Widget
+{
 }
 
--setText: (char *) t;				  // give the button a name
--setCommand: (char *) c;			  // give the button a cmd
+- setText: (const char *)text;		  // give the button a name
+- setCommand: (const char *)command;	  // give the button a cmd
 
 @end

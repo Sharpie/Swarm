@@ -116,7 +116,8 @@
 }
 
 // this really shouldn't be used to set width/height.
--setWindowGeometry: (char *) s {
+-setWindowGeometry: (const char *) s
+{
   [globalTkInterp eval: "wm geometry %s \"%s\"",
 		  [[self getTopLevel] getWidgetName], s];
   return self;

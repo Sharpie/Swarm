@@ -9,12 +9,13 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/CanvasItem.h>
 
-@interface TextItem: CanvasItem {
-  char *text ;
+@interface TextItem: CanvasItem
+{
+  const char *text;
   int x, y ;
 }
 
--setX: (int) x Y: (int) y ;
--setText: (char *) text ;
--createItem ;
+- setX: (int) x Y: (int) y;
+- setText: (const char *) text;
+- createItem;
 @end

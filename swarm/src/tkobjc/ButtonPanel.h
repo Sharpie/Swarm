@@ -13,7 +13,7 @@
 }
 
 - setTargetName: (const char *)target;
-- addButtonName: (char *)n Command: (const char *) c;
+- addButtonName: (const char *)n Command: (const char *) c;
 - addButtonName: (const char *)n
      actionName: (const char *)action;
 

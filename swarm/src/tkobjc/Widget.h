@@ -8,7 +8,8 @@
 #import <defobj.h>
 #import <defobj/Create.h>
 
-@interface Widget : CreateDrop {
+@interface Widget : CreateDrop
+{
   Widget * parent;
   char * widgetName;
   char * objcName;
@@ -30,10 +31,10 @@
 -(int) getPositionX;
 -(int) getPositionY;
 
--setWidth: (unsigned) w Height: (unsigned) h;		  // set size
+-setWidth: (unsigned) w Height: (unsigned) h;	  // set size
 -setWidth: (unsigned) w;
 -setHeight: (unsigned) h;
--setWindowGeometry: (char *) s;			  // set geometry as a string
+-setWindowGeometry: (const char *) s;             // set geometry as a string
 -setPositionX: (int) x Y: (int) y;		  // set window position.
 
 -setWindowTitle: (char *) s;			  // window manager title

@@ -8,9 +8,10 @@
 #import <objc/Object.h>
 #import <tkobjc/Widget.h>
 
-@interface Label : Widget {
+@interface Label : Widget
+{
 }
 
--setText: (char *) t;				  // initialize the entry
+- setText: (const char *)t;			  // initialize the entry
 
 @end

@@ -13,7 +13,8 @@
 
 @implementation Label
 
--createEnd {
+- createEnd
+{
   [super createEnd];
 
   // create the label
@@ -22,8 +23,9 @@
   return self;
 }
 
--setText: (char *) t {
-  [globalTkInterp eval: "%s configure -text \"%s\"", widgetName, t];
+- setText: (const char *)text
+{
+  [globalTkInterp eval: "%s configure -text \"%s\"", widgetName, text];
   return self;
 }
 
