@@ -22,8 +22,8 @@
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        [Warning raiseEvent:
-                   "DefaultProbeMap object was not properly initialized\n"];
+        raiseEvent (WarningMessage,
+                    "DefaultProbeMap object was not properly initialized\n");
         return nil;
       }
   

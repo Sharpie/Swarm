@@ -6,7 +6,7 @@
 #import <objectbase/CompleteProbeMap.h>
 #import <collections.h>
 #import <objc/objc-api.h>
-#import <defobj.h> // Warning
+#import <defobj.h> // WarningMessage, raiseEvent
 
 #import "local.h"
 
@@ -26,8 +26,8 @@
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        [Warning raiseEvent:
-                   "CompleteProbeMap object was not properly initialized\n"];
+        raiseEvent (WarningMessage,
+                    "CompleteProbeMap object was not properly initialized\n");
         return nil;
       }
   

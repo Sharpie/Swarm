@@ -59,7 +59,8 @@ PHASE(Creating)
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        [Warning raiseEvent: "ProbeMap object was not properly initialized\n"];
+        raiseEvent (WarningMessage,
+                    "ProbeMap object was not properly initialized\n");
         return nil;
       }
   

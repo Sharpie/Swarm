@@ -131,7 +131,7 @@
   if (SAFEPROBES)
     if (probedClass != 0)
       {
-        [Warning raiseEvent: "It is an error to reset the class\n"];
+        raiseEvent (WarningMessage, "It is an error to reset the class\n");
         return nil;
       }
   probedClass = aClass;
@@ -148,7 +148,8 @@
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        [Warning raiseEvent: "ProbeMap object was not properly initialized\n"];
+        raiseEvent (WarningMessage,
+                    "ProbeMap object was not properly initialized\n");
         return nil;
       }
   numEntries = 0;
@@ -179,7 +180,8 @@
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        [Warning raiseEvent: "ProbeMap object was not properly initialized\n"];
+        raiseEvent (WarningMessage,
+                    "ProbeMap object was not properly initialized\n");
         return nil;
       }
   
@@ -300,9 +302,9 @@
         return self;
       }
 
-  [Warning raiseEvent:
-             "ProbeMap not added because %s is not a superclass of %s\n",
-           aClass->name, probedClass->name];
+  raiseEvent (WarningMessage,
+              "ProbeMap not added because %s is not a superclass of %s\n",
+              aClass->name, probedClass->name);
 
   return self;
 }
@@ -321,9 +323,9 @@
                            setC: strdup ([aProbe getProbedMessage])];
   
   if ([probes at: string] != nil)
-    [Warning raiseEvent:
-               "addProbe: There was already a probe for %s!!!\n",
-             [string getC]];
+    raiseEvent (WarningMessage,
+                "addProbe: There was already a probe for %s!!!\n",
+                [string getC]);
   
   aClass = [aProbe getProbedClass];
   
@@ -339,10 +341,9 @@
         return self;
       }
   
-  [Warning
-    raiseEvent:
-      "Probe not added to ProbeMap because %s is not a superclass of %s\n",
-    aClass->name, probedClass->name];
+ raiseEvent (WarningMessage,
+             "Probe not added to ProbeMap because %s is not a superclass of %s\n",
+             aClass->name, probedClass->name);
   
   return self;
 }
@@ -368,8 +369,9 @@
                      setC: strdup([aProbe getProbedMessage])];
 
   if ([probes at: string] != nil)
-    [Warning raiseEvent: "addProbe: There was already a probe for %s!!!\n",
-             [string getC]];
+    raiseEvent (WarningMessage,
+                "addProbe: There was already a probe for %s!!!\n",
+                [string getC]);
 
   [probes at: string insert: aProbe];
   numEntries++;
@@ -432,8 +434,9 @@
     { 
       // if not found
       if (SAFEPROBES)
-        [Warning raiseEvent:
-                   "The variable %s was not found\n",aVariable];
+        raiseEvent (WarningMessage,
+                    "The variable %s was not found\n",
+                    aVariable);
       return nil;
     }
   else
@@ -465,7 +468,9 @@
   if (res == nil)
     {
       if (SAFEPROBES)
-        [Warning raiseEvent: "The message %s was not found\n", aMessage];
+        raiseEvent (WarningMessage,
+                    "The message %s was not found\n",
+                    aMessage);
       return nil;
     }
   else

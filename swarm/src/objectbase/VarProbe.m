@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/VarProbe.h>
-#import <defobj.h> // Warning
+#import <defobj.h> // raiseEvent, WarningMessage
 #import "local.h"
 
 #include <objc/objc-api.h>
@@ -20,7 +20,8 @@ PHASE(Creating)
     {
       if (SAFEPROBES)
         {
-          [Warning raiseEvent: "It is an error to reset the variable\n"];
+          raiseEvent (WarningMessage,
+                      "It is an error to reset the variable\n");
           return nil;
         }
       else 
@@ -39,11 +40,8 @@ PHASE(Creating)
 
   if (SAFEPROBES)
     if (probedVariable == 0 || probedClass == 0)
-      {
-        [Warning raiseEvent: 
-                   "VarProbe object was not properly initialized\n"];
-        return nil;
-      }
+      raiseEvent (WarningMessage,
+                  "VarProbe object was not properly initialized\n");
   
   ivarList = probedClass->ivars;
   
@@ -57,7 +55,7 @@ PHASE(Creating)
     { 
       // if not found
       if (SAFEPROBES)
-        [Warning raiseEvent: "Warning: variable not found\n"];
+        raiseEvent (WarningMessage, "Warning: variable not found\n");
       return nil;
     }
   else
@@ -115,7 +113,9 @@ PHASE(Setting)
   if (probedType[0] == _C_FLT || probedType[0] == _C_DBL) 
     floatFormat = strdup (format);
   else
-    [Warning raiseEvent: "%s is not a float or double\n", probedVariable];
+    raiseEvent (WarningMessage, 
+                "%s is not a float or double\n",
+                probedVariable);
 
   return self;
 }
@@ -166,8 +166,9 @@ PHASE(Using)
 {
   if (safety)
     if (![anObject isKindOf: probedClass])
-      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
-               [probedClass name], [anObject name]];
+      raiseEvent (WarningMessage,
+                  "VarProbe for class %s tried on class %s\n",
+                  [probedClass name], [anObject name]);
   return (char *)anObject + dataOffset;
 }
 
@@ -178,9 +179,10 @@ PHASE(Using)
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
-               [probedClass name],
-               [anObject name]];
+      raiseEvent (WarningMessage,
+                  "VarProbe for class %s tried on class %s\n",
+                  [probedClass name],
+                  [anObject name]);
   
   p = ((char *)anObject) + dataOffset;
 
@@ -201,8 +203,9 @@ PHASE(Using)
     case _C_ULNG:    q = (void *)(PTRINT)*(unsigned long *)p; break;
    default:
       if (SAFEPROBES)
-        [Warning raiseEvent: "Invalid type %s to retrieve as a pointer...\n",
-                 probedType];
+        raiseEvent (WarningMessage,
+                    "Invalid type %s to retrieve as a pointer...\n",
+                    probedType);
       break;
     }
   return q;
@@ -215,8 +218,9 @@ PHASE(Using)
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
-               [probedClass name], [anObject name]];
+      raiseEvent (WarningMessage,
+                  "VarProbe for class %s tried on class %s\n",
+                  [probedClass name], [anObject name]);
   
   p = ((const char *)anObject) + dataOffset;
   
@@ -240,8 +244,9 @@ PHASE(Using)
       
     default:
       if (SAFEPROBES)
-        [Warning raiseEvent: "Invalid type %s to retrieve as an int...\n",
-                 probedType];
+        raiseEvent (WarningMessage,
+                    "Invalid type %s to retrieve as an int...\n",
+                    probedType);
       break;
     }
   return i;
@@ -254,9 +259,10 @@ PHASE(Using)
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
-               [probedClass name],
-               [anObject name]];
+      raiseEvent (WarningMessage,
+                  "VarProbe for class %s tried on class %s\n",
+                  [probedClass name],
+                  [anObject name]);
   
   p = ((const char *)anObject) + dataOffset;
   
@@ -279,8 +285,9 @@ PHASE(Using)
 
     default:
       if (SAFEPROBES)
-        [Warning raiseEvent: "Invalid type %s to retrieve as a double...\n",
-                 probedType];
+        raiseEvent (WarningMessage,
+                    "Invalid type %s to retrieve as a double...\n",
+                    probedType);
       break;
     }
   return d;
@@ -404,8 +411,9 @@ PHASE(Using)
 
   if (safety)
     if (![anObject isKindOf: probedClass])
-      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
-               [probedClass name], [anObject name]];
+      raiseEvent (WarningMessage,
+                  "VarProbe for class %s tried on class %s\n",
+                  [probedClass name], [anObject name]);
   
   p = (const char *)anObject + dataOffset;		  // probeData
   
@@ -428,7 +436,7 @@ PHASE(Using)
       
     default:
       if (SAFEPROBES)
-        [Warning raiseEvent: "Invalid type %s to set\n", probedType];
+        raiseEvent (WarningMessage, "Invalid type %s to set\n", probedType);
       break;
     }
   
@@ -482,8 +490,9 @@ PHASE(Using)
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
-               [probedClass name], [anObject name]];
+      raiseEvent (WarningMessage,
+                  "VarProbe for class %s tried on class %s\n",
+                  [probedClass name], [anObject name]);
 
   p = (char *)anObject + dataOffset;		  // probeData
 
@@ -562,13 +571,15 @@ PHASE(Using)
       
     default:
       if (SAFEPROBES)
-        [Warning raiseEvent: "Invalid type %s to set\n", probedType];
+        raiseEvent (WarningMessage, "Invalid type %s to set\n", probedType);
       break;
   }
 
   if (rc != 1 && SAFEPROBES)
     {
-      [Warning raiseEvent: "Error scanning for value in string %s\n", s];
+      raiseEvent (WarningMessage,
+                  "Error scanning for value in string %s\n",
+                  s);
       return NO;
     }
   

@@ -25,8 +25,8 @@
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        [Warning raiseEvent:
-                   "CompleteVarMap object was not properly initialized\n"];
+        raiseEvent (WarningMessage,
+                    "CompleteVarMap object was not properly initialized\n");
         return nil;
       }
 

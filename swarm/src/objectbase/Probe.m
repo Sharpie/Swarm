@@ -37,9 +37,11 @@
              respondsTo:
                M(eventOccurredOn:via:withProbeType:on:ofType:withData:)])
       && (![anObject respondsTo: M(forEach:)]))
-    raiseEvent(NotImplemented, "Object %0#p of class %s does not implement"
-	       "standard probe hook message.\n", 
-	       anObject, [[anObject class] name]);
+    raiseEvent (NotImplemented,
+                "Object %0#p of class %s does not implement"
+                "standard probe hook message.\n", 
+                anObject,
+                [[anObject class] name]);
   
   if (objectToNotify != nil)
     {
@@ -76,6 +78,7 @@
   
   return self;
 }
+
 - getObjectToNotify
 {
   return objectToNotify;
@@ -86,7 +89,7 @@
   if (SAFEPROBES)
     if (probedClass != 0)
       {
-        [Warning raiseEvent: "It is an error to reset the class\n"];
+        raiseEvent (WarningMessage, "It is an error to reset the class\n");
         return nil;
       }
   probedClass = aClass;
