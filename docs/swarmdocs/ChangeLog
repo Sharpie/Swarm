@@ -1,3 +1,8 @@
+1998-06-01  Marcus G. Daniels  <mgd@mogollon.santafe.edu>
+
+	* configure.in: Check for --with-swarm and --with-gridturtle.
+	Substitute swarm_srcdir and gridturtle_srcdir in the Makefiles.
+
 1998-05-29  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* common.dsl (term): Disable printing of commas in a variablelist.
