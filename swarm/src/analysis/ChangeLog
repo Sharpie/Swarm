@@ -1,3 +1,17 @@
+1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* analysis.h (ActiveGraph, ActiveOutFile, FunctionGraph):  Add 
+	protocols and class objects.
+
+	* ActiveGraph.[hm]: Moved from simtoolsgui.
+
+	* ActiveOutFile.[hm]: Moved from simtools.
+
+	* FunctionGraph.[hm]: New files.
+
+	* Makefile.am (SRC, analysis_HEADERS): Add ActiveGraph, ActiveOutFile,
+	and FunctionGraph.
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (lib_LIBRARIES, libanalysis_a_SOURCES): Remove.

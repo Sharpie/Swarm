@@ -12,6 +12,7 @@
 
 #import <objectbase.h>
 #import <simtoolsgui.h> // GUIComposite
+#import <gui.h> // GraphElement
 
 @protocol Averager <MessageProbe>
 //S: Averages together data, gives the data to whomever asks.
@@ -304,8 +305,100 @@ USING
 
 @end
 
+@protocol ActiveGraph <MessageProbe>
+//S: Provides a continuous data feed between Swarm and the GUI.
+
+//D: An active graph object is the glue between a MessageProbe (for reading
+//D: data) and a Graph GraphElement. ActiveGraphs are created and told
+//D: where to get data from and send it to, and then are scheduled to
+//D: actually do graphic functions. This class is used by EZGraph, and we
+//D: expect to see less direct usage of it by end-users as more analysis
+//D: tools (such as EZGraph) internalize its functionality.
+USING
+//M: Sets the graph element used to draw on.
+- setElement: ge;
+
+//M: Sets the object that will be probed for data.
+- setDataFeed: d;
+
+//M: Fires the probe, reads the value from the object, and draws it
+//M: on the graph element. The X value is implicitly the current
+//M: simulation time. Y is the value read. 
+- step;
+@end
+
+@protocol ActiveOutFile <MessageProbe>
+//S: An object that actively updates its file stream when updated.
+
+//D: This is the file I/O equivalent of ActiveGraph: it takes an OutFile 
+//D: object, a target (datafeed) object, and a selector, which it uses to
+//D: extract data from the object and send it to the file. 
+USING
+//M: The setFileObject: method sets the file object to which the data will be
+//M: sent.
+- setFileObject: aFileObj;
+
+//M: The setDataFeed: method sets the object that will be probed for data.
+- setDataFeed: d;
+
+//M: The step method fires the probe, reads the value from the object, and 
+//M: sends the value to the file.
+- step;
+@end
+
+@protocol FunctionGraph 
+//D: The FunctionGraph class is like the ActiveGraph except that instead of
+//D: plotting values versus time it plots them versus some specified range
+//D: on the x-axis.  Also, instead of plotting one value on each step (as
+//D: you would with time), FunctionGraph does a complete sampling whenever
+//D: the `graph' method is called.  That is, it graphs f(x) = y for all x
+//D: in [minX, maxX] where x = minX + n * stepS ize.
+
+//D: The user specifies stuff like minX, maxX, the number of steps between
+//D: minX and maxX to sample at and a method selector that is a wrapper for
+//D: the equation being graphed. The method selector must be in a
+//D: particular format: (BOOL) f: (double *) x : (double *) y If the method
+//D: returns FALSE then that x value is skipped, otherwise it is assummed
+//D: that y = f(x) and that value is plotted.
+
++ createBegin: aZone;
+- createEnd;
+
+//M: Convenience function for setting all of the needed slots.
+- setElement         : (id <GraphElement>)e
+          setDataFeed: f
+  setFunctionSelector: (SEL)sel;
+
+//M: Set the GraphElement to use for plotting.
+- setElement: (id <GraphElement>)graphElement;
+
+//M: Set the target to send the function method.
+- setDataFeed: feed;
+
+//M: Set the function method.
+- setFunctionSelector: (SEL)aSel;
+
+//M: If true, raise a warning if the function method failed to compute a value.
+- setArithmeticWarn: (BOOL)state;
+
+//M: Set the range and resolution of X values at which to compute values.
+- setXMin: (double)minx Max: (double)maxx Resolution: (int)steps;
+
+//M: Set the range and step size of X values at which to compute values.
+- setXMin: (double)minx Max: (double)maxx StepSize: (double)size;
+
+//M: Set the frequency at which to clear the graph element.
+- setResetFrequency: (unsigned)freq;
+
+//M: Draw the graph with the current contents of the graph element.
+- graph;
+@end
+
 @class Averager;
 @class Entropy;
 @class EZBin;
 @class EZDistribution;
 @class EZGraph;
+@class ActiveGraph;
+@class ActiveOutFile;
+@class FunctionGraph;

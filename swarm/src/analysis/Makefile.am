@@ -10,9 +10,12 @@ INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activ
 
 lib_LTLIBRARIES = libanalysis.la
 
-SRC = Averager.m EZBin.m EZDistribution.m EZGraph.m Entropy.m
+SRC = ActiveGraph.m ActiveOutFile.m Averager.m EZBin.m EZDistribution.m \
+	EZGraph.m Entropy.m FunctionGraph.m
 
 libanalysis_la_SOURCES = $(SRC)
 libanalysis_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(VERSION)
 
-analysis_HEADERS = Averager.h EZBin.h EZDistribution.h EZGraph.h Entropy.h
+analysis_HEADERS =  ActiveOutFile.h ActiveGraph.h Averager.h EZBin.h \
+	EZDistribution.h EZGraph.h Entropy.h FunctionGraph.h
+
