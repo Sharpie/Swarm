@@ -68,9 +68,9 @@
           DefaultProbeDisplay, which displays all the variables
           resident in that class structure.
 
-            <figure>
+            <figure id="gui-probemap-complete.figure">
               <title>Default ProbeMap (also showing the superclass)</title>
-              <graphic entityref="gui-probemap-complete"></graphic>
+              <graphic entityref="gui-probemap-complete" scale="80"></graphic>
             </figure>
 
           </para>
@@ -88,7 +88,7 @@
           instance variables in the
           <classname>MousetrapModelSwarm</classname> class, and have
           shown only one of the methods which the class understands).
-            <figure>
+            <figure id="gui-probemap-customized.figure">
               <title>Custom ProbeMap</title>
               <graphic entityref="gui-probemap-customized"></graphic>
             </figure>

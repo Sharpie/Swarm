@@ -1,5 +1,8 @@
 1999-05-18  Alex Lancaster  <alex@santafe.edu>
 
+	* user1.05.sgml: Scale gui-probemap-complete FIGURE by 80% for
+	print backend.  Add missing IDs for all FIGURE tags.
+
 	* catalog.in: Change catalog entries for gui-probemap-{complete,
 	customized, example}, gui-{graph, histogram, raster} EPS entities
 	to point to top_dossrcdir, since they are no longer generated
