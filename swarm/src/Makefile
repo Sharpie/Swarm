@@ -25,7 +25,7 @@ binary:  $(TMPOBJDIR) $(TMPOBJSUBDIR) distrib-files
 	for f in ../*.a; do (echo $$f; ar x $$f); done
 	@ echo " "
 	@ echo "DIST: Linking $(DISTOBJ)"
-	cd $(TMPOBJDIR); $(LINKER) $(MINLDFLAGS) -nostdlib -Wl,-r -o $(DISTOBJ) obj/*.o $(SYSLIBS)
+	cd $(TMPOBJDIR); $(LINKER) $(MINLDFLAGS) $(DISTLDFLAGS) -nostdlib -Wl,-r -o $(DISTOBJ) obj/*.o $(SYSLIBS)
 	rm -f $(TMPOBJSUBDIR)/* $(TMPOBJDIR)/*.a
 
 ### make and unpack the libraries into our temp object space 
