@@ -1,7 +1,7 @@
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* overmeta.sgml: Use overbookrevhistory.sgml instead of
-	overrevhistory.sgml.
+	overrevhistory.sgml.  Scale graphic to 100%.
 
 	* Makefile.am (GENERATED_SGML): Use $(NAME)revhistory.sgml
 	instead of overrevhistory.sgml.

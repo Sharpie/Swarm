@@ -5,7 +5,7 @@
 	(EXTRA_DIST): Use installbook.ent instead of install.ent.
 	
 	* installmeta.sgml: Use installbookrevhistory.sgml instead of
-	installrevhistory.sgml.
+	installrevhistory.sgml.  Scale graphic to 100%.
 
 1998-06-16  Alex Lancaster  <alex@santafe.edu>
 

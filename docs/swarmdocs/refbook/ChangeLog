@@ -1,7 +1,7 @@
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* refmeta.sgml: Use refbookrevhistory.sgml instead of
-	srcrevhistory.sgml.
+	srcrevhistory.sgml.  Scale graphic to 100%.
 
 	* refbook.sgml: Use refbook.ent instead of src.ent.
 
