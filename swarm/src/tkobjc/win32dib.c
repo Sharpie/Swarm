@@ -241,7 +241,7 @@ dib_line (dib_t *dib,
   oldPen = SelectObject (dib->sourceDC, pen);
   oldBrush = SelectObject (dib->sourceDC, GetStockObject (NULL_BRUSH));
 
-  MoveTo (dib->sourceDC, x0, y1);
+  MoveToEx (dib->sourceDC, x0, y1, NULL);
   LineTo (dib->sourceDC, x1, y1);
   
   DeleteObject (SelectObject (dib->sourceDC, oldPen));
