@@ -102,26 +102,32 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
   [self eval: "%s", 
         "bind Entry <Delete> [bind Entry <BackSpace>]; "
         "bind Text <Delete> [bind Text <BackSpace>]"];
-  
-  if (strcmp ([self getBltFullVersion], "8.0-unoff") == 0)
-    {
-      [self eval: "namespace import blt::barchart"];
-      [self eval: "namespace import blt::bitmap"];
-      [self eval: "namespace import blt::busy"];
-      [self eval: "namespace import blt::drag&drop"];
-      [self eval: "namespace import blt::graph"];
-      [self eval: "namespace import blt::BLT_ZoomStack"];
-      [self eval: "namespace import blt::vector"];
-      // Without the load below, on VarProbeEntry double-clicks, this occured:
-      //   Original error: no value given for parameter "start" to "tcl_wordBreakBefore"
-      // -mgd
-      [self eval: "if {[info library] == \"\"} { "
-            "source ./word.tcl "
-            "} else { "
-            "source [info library]/word.tcl "
-            "}"];
-    }
 
+  {
+    const char *fullVersion = [self getBltFullVersion];
+
+    if (strcmp (fullVersion, "8.0-unoff") == 0
+        || strcmp (fullVersion, "2.4") == 0)
+      {
+        [self eval: "namespace import blt::barchart"];
+        [self eval: "namespace import blt::bitmap"];
+        [self eval: "namespace import blt::busy"];
+        [self eval: "namespace import blt::drag&drop"];
+        [self eval: "namespace import blt::graph"];
+        [self eval: "namespace import blt::BLT_ZoomStack"];
+        [self eval: "namespace import blt::vector"];
+        // Without the load below, on VarProbeEntry double-clicks,
+        // this occured:
+        //   Original error: no value given for parameter "start" to
+        //   "tcl_wordBreakBefore"
+        // -mgd
+        [self eval: "if {[info library] == \"\"} { "
+              "source ./word.tcl "
+              "} else { "
+              "source [info library]/word.tcl "
+              "}"];
+      }
+  }
   return filename;
 }
 

@@ -1,3 +1,8 @@
+1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): Do namespace
+	import for BLT things in the case of BLT 2.4 (as with 8.0-unoff).
+
 1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CompleteProbeDisplayLabel.m ([CompleteProbeDisplayLabel
