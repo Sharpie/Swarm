@@ -1,7 +1,5 @@
 (require 'cl)
-(eval-and-compile
- (push (getenv "SWARMDOCS_BUILD_AREA") load-path))
-(require 'protocol)
+(load (concat (getenv "SWARMSRCDIR") "/etc/protocol.el"))
 
 (defvar *java-class-hash-table* (make-hash-table :test #'equal))
 (defvar *java-interface-hash-table* (make-hash-table :test #'equal))
@@ -37,6 +35,7 @@
   name
   type)
 
+
 (defun java-is-creatable (protocol)
   (loop for iprotocol in (protocol-included-protocol-list protocol)
 	do 
@@ -44,8 +43,19 @@
 	  (return  t)
 	  nil)))
 
-(defun java-get-interface (interface-name)
-  (gethash interface-name *java-interface-hash-table*))
+
+(defun java-get-interface (interface-name phase)
+  (let ((interface
+	 (if phase    
+	     (interface (gethash (concat interface-name "-s") 
+				 *java-interface-hash-table*))
+	   nil)))
+    (if interface
+	interface
+      (gethash interface-name *java-interface-hash-table*))))
+
+  
+	
 
 (defun java-get-protocol (protocolname)
   (gethash protocolname *protocol-hash-table*))
@@ -136,9 +146,6 @@
 			  (progn
 			    (princ (java-interface-p super))
 			    (princ (java-class-p super))
-			    (princ "||")
-			    (princ super)
-			    (princ "||")
 			    (princ "Problem"); super)
 			    nil))))
 		  nil)))
@@ -159,6 +166,21 @@
 (defun java-make-method-list (phase super interface-list) 
   (java-make-method-list-with-modifier phase nil super interface-list))
 	       
+(defun java-make-interface-list (protocol super-class phase)
+  (let ((super-class-name 
+	 (if super-class
+	     (java-class-name super-class)
+	   nil)))
+  (loop for iprotocol in (protocol-included-protocol-list protocol)
+       unless (string= (protocol-name iprotocol) super-class-name)
+       collect (let ((interface 
+		      (java-get-interface (protocol-name iprotocol) phase)))
+		 (if interface
+		     interface
+		   (progn
+		     (java-make-interface iprotocol)
+		     (java-get-interface (protocol-name iprotocol) phase)))))))
+
 ; add interface to hash-table!
 (defun java-make-interface (protocol)
   (if (java-is-creatable protocol)
@@ -172,7 +194,7 @@
 	      class
 	    (java-derive-classes protocol))))
     (let* ((interface-name (protocol-name protocol))
-	  (interface-list (java-make-interface-list protocol nil))
+	  (interface-list (java-make-interface-list protocol nil nil))
 	  (method-list (java-make-method-list-with-modifier 
 			nil nil nil interface-list))
 	  (new-interface (make-java-interface
@@ -184,8 +206,8 @@
       new-interface)))
 		    
 (defun java-make-interface-setting (protocol)
-  (let* ((interface-name (protocol-name protocol))
-	  (interface-list (java-make-interface-list protocol nil))
+  (let* ((interface-name (concat (protocol-name protocol) "-s"))
+	  (interface-list (java-make-interface-list protocol nil :setting))
 	  (method-list (java-make-method-list-with-modifier 
 			nil nil nil interface-list))
 	  (new-interface (make-java-interface
@@ -196,19 +218,6 @@
       (java-add-interface new-interface)
       new-interface))
    
-(defun java-make-interface-list (protocol super-class)
-  (let ((super-class-name 
-	 (if super-class
-	     (java-class-name super-class)
-	   nil)))
-  (loop for iprotocol in (protocol-included-protocol-list protocol)
-       collect (if (not (string-equal (protocol-name iprotocol) 
-				 super-class-name))
-		(let ((interface 
-		       (java-get-interface (protocol-name iprotocol))))
-		  (if interface
-		  interface
-		  (java-make-interface iprotocol)))))))
 
 (defun java-get-class (class-name)
   (gethash class-name *java-class-hash-table*))
@@ -244,29 +253,33 @@
     (setf (java-package-interface-list package)
 	    (cons interface (java-package-interface-list package)))))
 
+(defun java-get-super-class (super-class-name phase)
+  (progn
+    (if super-class-name
+	(let* ((super-class-modified-name 
+		(java-get-modified-class-name 
+		 super-class-name phase))
+	       (super-class
+		(java-get-class super-class-modified-name)))
+	  (if super-class
+	      super-class
+	    (let ((super-protocol (java-get-protocol super-class-name)))
+	      (if super-protocol
+		  (java-make-class super-protocol phase)
+		(progn
+		  (princ super-class-name)
+		  nil)))))
+      nil)))
+
 (defun java-make-class (protocol phase)
   (let* ((super
 	 (let ((super-class-name (java-get-super-class-name 
 				  (protocol-name protocol))))
-	   (if super-class-name
-	       (let* ((super-class-modified-name 
-		      (java-get-modified-class-name 
-		       super-class-name phase))
-		     (super-class
-		      (java-get-class super-class-modified-name)))
-		 (if super-class
-		     super-class
-		   (let ((super-protocol (java-get-protocol super-class-name)))
-		     (if super-protocol
-			 (java-make-class super-protocol phase)
-		       (progn
-			 (princ super-class-name)
-			 nil)))))
-	     nil)))
+	   (java-get-super-class super-class-name phase)))
 	 (class-name (java-get-modified-class-name 
 		      (protocol-name protocol)
 		      phase))
-	 (interface-list (java-make-interface-list protocol super))
+	 (interface-list (java-make-interface-list protocol super phase))
 	 (method-list (java-make-method-list-with-modifier 
 		       phase 'native super interface-list)))
 
@@ -305,32 +318,33 @@
 	  
 (defun java-derive-classes (protocol)
   (if (java-is-creatable protocol)
-      (java-link-classes (java-make-interface-setting protocol)
-			 (java-make-class protocol :creating)
-			 (java-make-class protocol :using))
-      (java-make-interface protocol)))
+      (let ((setting (java-make-interface-setting protocol))
+	    (using (java-make-class protocol :using))
+	    (creating (java-make-class protocol :creating)))
+	(java-link-classes setting creating using))
+    (java-make-interface protocol)))
 
 (defun java-print-argument (argument buffer)
   (progn
-    (princ (java-argument-type argument))
-    (princ " ")
-    (princ (java-argument-name argument))))
+    (princ (java-argument-type argument) buffer)
+    (princ " " buffer)
+    (princ (java-argument-name argument) buffer)))
 
 (defun java-print-argument-list (argument-list buffer)
   (let ((first t))
     (loop for argument in argument-list
 	do  (if first
 	      (setq first nil)
-	    (princ ", "))
+	    (princ ", " buffer))
 	  (java-print-argument argument buffer))))
 			     
 (defun java-print-method (method buffer)
   (progn
-    (princ (java-method-modifier method))
-    (princ " ")
-    (princ name)
-    (princ " ")
-    (princ "(")
+    (princ (java-method-modifier method) buffer)
+    (princ " " buffer)
+    (princ name buffer)
+    (princ " " buffer)
+    (princ "(" buffer)
     (java-print-argument-list (java-method-argument-list method) buffer)
     (princ ");\n" buffer)))
 
@@ -338,41 +352,50 @@
   (loop for method in method-list
 	do (java-print-method method buffer)))
 
-(defun java-print-dependencies (class buffer)
-  (let ((package (if (java-class-p class)
-		     (java-class-package class)
-		   (java-interface-package class)))
-	(first t)
-	(interface-list (if (java-class-p class)
-			  (java-class-implemented-interface-list class)
-			  (java-interface-extended-interface-list class))))
-    (loop for interface in interface-list
-	  do (progn
-	      (if first
-		  (setq first nil)
-		(princ ", ")) 
-	      (princ "swarm.")
-	      (if (java-class-p interface)
-		  (if (equal (java-class-package interface)
-			     package)
-		     nil
-		   (progn
-		     (princ (java-class-package interface))
-		     (princ ".")
-		     (princ (java-class-name interface)))
-		    (if (equal (java-interface-package interface)
-			       package)
-			nil
-		      (progn
-			(princ (java-interface-package interface))
-			(princ ".")
-			(princ (java-interface-name interface))))))))))
-	       
+(defun java-print-dependencies (class)
+  (with-output-to-string
+    (let ((package (if (java-class-p class)
+		       (java-class-package class)
+		     (java-interface-package class)))
+	  (first t)
+	  (interface-list (if (java-class-p class)
+			      (java-class-implemented-interface-list class)
+			    (java-interface-extended-interface-list class))))
+      (loop for interface in interface-list
+	    do 
+	    (if (java-class-p interface)
+		(if (not (equal (java-class-package interface)
+				package))
+		    (progn
+		      (if first
+			  (setq first nil)
+			(princ ", " )) 
+		      (princ "swarm.")
+		      (princ (java-class-package interface))
+		      (princ ".")
+		      (princ (java-class-name interface))))
+	      (if (not (equal (java-interface-package interface)
+			      package))
+		  (progn
+		    (if first
+			(setq first nil)
+		      (princ ", " )) 
+		    (princ "swarm.")
+		    (princ (java-interface-package interface))
+		    (princ ".")
+		    (princ (java-interface-name interface)))))))))
+
+
 (defun java-print-class (class buffer)
   (princ "package " buffer )
   (princ (java-class-package class) buffer)
-  (princ "\nimport " buffer)
-  (java-print-dependencies class buffer)
+  (princ ";\n" buffer)
+  (let ((deps (java-print-dependencies class)))
+    (if deps
+	(progn
+	  (princ "\nimport " buffer)
+	  (princ deps buffer)
+	  (princ ";\n" buffer))))
   (princ "\n\nclass " buffer)
   (princ (java-class-name class) buffer)
   (princ '{ buffer)
@@ -381,10 +404,16 @@
   (princ '} buffer))
 
 (defun java-print-interface (interface buffer)
-  (princ "package" buffer)
+  (princ "package " buffer)
   (princ (java-interface-package interface) buffer)
-  (princ "\nimport " buffer)
-  (java-print-dependencies interface buffer)
+  (princ ";\n" buffer)
+  (let ((deps (java-print-dependencies interface)))
+    (if deps
+	(progn
+	  (princ "\nimport " buffer)
+	  (princ deps buffer)
+	  (princ ";\n" buffer))))
+
   (princ "\n\ninterface " buffer)
   (princ (java-interface-name interface) buffer)
   (princ '{ buffer)
@@ -401,17 +430,22 @@
 	    do 
 	    (let ((buffer (generate-new-buffer 
 			   (concat new-path (java-class-name class)))))
-	      (java-print-class class buffer)))
+	      (java-print-class class buffer)
+	      (set-buffer buffer)
+	      (save-current-buffer)))
      (loop for interface in (java-package-interface-list package)
 	    do 
 	    (let ((buffer (generate-new-buffer 
 			   (concat new-path (java-interface-name interface)))))
-	      (java-print-interface interface buffer))))))
+	      (java-print-interface interface buffer)
+	      (set-buffer buffer)
+	      (save-current-buffer))))))
 
 (defun java-print-all (stub-directory)
   (let ((path (concat stub-directory "/")))
     (loop for package being each hash-value of *java-package-hash-table*
 	 do (java-print-package package path))))
+
 (defun java-ptest ()
   (java-print-all "/opt/src/vjojic/build/tests/java/stubs"))
 
