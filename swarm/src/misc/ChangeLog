@@ -1,3 +1,15 @@
+2001-06-17  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* xmalloc.c (xmalloc, xmalloc_atomic, xcalloc): Use
+	GC_MALLOC_UNCOLLECTABLE in USE_GC case.
+	(xcalloc): Memset to zero in USE_GC case.
+
+	* avltr.c (xfree): Declare.
+	(xltr_destroy, avltr_free, avltr_delete): Use it instead of free.
+
+	* avl.c (xfree): Declare.
+	(avl_destroy, avl_free, avl_delete): Use it instead of free.
+
 2000-09-10  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.am (SRC): Add avltr.c.

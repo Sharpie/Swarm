@@ -61,6 +61,7 @@
 
 #ifdef HAVE_XMALLOC
 void *xmalloc (size_t);
+void xfree (void *ptr);
 #else /* !HAVE_XMALLOC */
 /* Allocates SIZE bytes of space using malloc().  Aborts if out of
    memory. */
@@ -168,7 +169,7 @@ avl_destroy (avl_tree *tree, avl_node_func free_func)
 #if PSPP
 	      if (tree->owner == NULL)
 #endif
-		free (p);
+		xfree (p);
 	    }
 	}
     }
@@ -177,14 +178,14 @@ avl_destroy (avl_tree *tree, avl_node_func free_func)
 #if PSPP
   if (tree->owner == NULL)
 #endif
-    free (tree);
+    xfree (tree);
 }
 
 /* avl_destroy() with FREE_FUNC hardcoded as free(). */
 void
 avl_free (avl_tree *tree)
 {
-  avl_destroy (tree, (avl_node_func) free);
+  avl_destroy (tree, (avl_node_func) xfree);
 }
 
 /* Return the number of nodes in TREE. */
@@ -733,7 +734,7 @@ avl_delete (avl_tree *tree, const void *item)
 #if PSPP
   if (tree->owner == NULL)
 #endif
-    free (p);
+    xfree (p);
 
   assert (k > 0);
   /* D10. */

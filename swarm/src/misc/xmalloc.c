@@ -21,7 +21,7 @@ xmalloc (size_t size)
 #ifndef USE_GC
   ptr = malloc (size);
 #else
-  ptr = GC_MALLOC (size);
+  ptr = GC_MALLOC_UNCOLLECTABLE (size);
 #endif
   if (ptr == NULL) abort ();
   return ptr;
@@ -34,7 +34,7 @@ xmalloc_atomic (size_t size)
 #ifndef USE_GC
   ptr = malloc(size);
 #else
-  ptr = GC_MALLOC_ATOMIC (size);
+  ptr = GC_MALLOC_UNCOLLECTABLE (size);
 #endif
   if (ptr == NULL) abort ();
   return ptr;
@@ -47,7 +47,8 @@ xcalloc (size_t nmemb, size_t size)
 #ifndef USE_GC
   ptr = calloc (nmemb, size);
 #else
-  ptr = GC_MALLOC (nmemb * size);
+  ptr = GC_MALLOC_UNCOLLECTABLE (nmemb * size);
+  memset (ptr, 0, nmemb * size);
 #endif
   if (ptr == NULL) abort ();
   return ptr;

@@ -62,6 +62,7 @@ print_structure (avltr_tree *tree, avltr_node *node, int level);
 
 #ifdef HAVE_XMALLOC
 void *xmalloc (size_t);
+void xfree (void *);
 #else /* !HAVE_XMALLOC */
 /* Allocates SIZE bytes of space using malloc().  Aborts if out of
    memory. */
@@ -158,20 +159,20 @@ avltr_destroy (avltr_tree *tree, avl_node_func free_func)
       
 	      if (free_func)
 		free_func (p->data, tree->param);
-	      free (p);
+	      xfree (p);
 	    }
 	}
     }
 
  done:
-  free (tree);
+  xfree (tree);
 }
 
 /* avltr_destroy() with FREE_FUNC hardcoded as free(). */
 void
 avltr_free (avltr_tree *tree)
 {
-  avltr_destroy (tree, (avl_node_func) free);
+  avltr_destroy (tree, (avl_node_func) xfree);
 }
 
 /* Return the number of nodes in TREE. */
@@ -942,7 +943,7 @@ avltr_delete (avltr_tree *tree, const void *item)
       }
   }
 
-  free (p);
+  xfree (p);
 
   assert (k > 0);
   /* D10. */
