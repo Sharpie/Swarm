@@ -8,9 +8,9 @@ AC_TRY_COMPILE([#ifdef __CYGWIN__
 EXPORT_EXTERNDEF=
 IMPORT_EXTERN=extern
 AC_MSG_RESULT(using plain extern)],
-[EXPORT_EXTERN='"extern __attribute__ ((dllexport))"'
-EXPORT_EXTERNDEF='"__attribute__ ((dllexport))"'
-IMPORT_EXTERN='"extern __attribute__ ((dllimport))"'
+[EXPORT_EXTERN="extern __attribute__ ((dllexport))"
+EXPORT_EXTERNDEF="__attribute__ ((dllexport))"
+IMPORT_EXTERN="extern __attribute__ ((dllimport))"
 AC_MSG_RESULT(using dllimport and dllexport)])
 AC_SUBST(EXPORT_EXTERN)
 AC_SUBST(EXPORT_EXTERNDEF)
