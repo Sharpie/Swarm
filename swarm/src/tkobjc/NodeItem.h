@@ -8,7 +8,7 @@
 
 @interface NodeItem: CompositeItem <_NodeItem>
 {
-  int x,y;
+  int x, y;
   const char *text;
   const char *item;
   const char *string;
@@ -25,5 +25,6 @@
 - setBorderColor: (const char *)aColor;
 - setBorderWidth: (int)aVal;
 - createBindings;
+- createText;
 @end
 

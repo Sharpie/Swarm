@@ -33,12 +33,8 @@
                   [canvas getWidgetName],text];
   
   xfree ((void *)text);
-  
-  text = strdup ([[globalTkInterp 
-                    eval: 
-                      "%s create text %d %d -text \"%s\" -font %s -anchor c", 
-                    [canvas getWidgetName], x, y, string, font] result]);
-  
+
+  [self createText];
   [self createBindings];
   
   return self;

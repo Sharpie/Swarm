@@ -278,3 +278,16 @@ tkobjc_pack (id widget)
   [globalTkInterp eval: "pack %s -fill both -expand true;",
                   [widget getWidgetName]];
 }
+
+
+const char *
+tkobjc_createText (id widget, int x, int y, const char *text, const char *font)
+{
+  return strdup ([[globalTkInterp 
+                    eval: 
+                      "%s create text %d %d -text \"%s\" %s%s -anchor c", 
+                    [widget getWidgetName], x, y, text, 
+                    (font ? "-font " : ""),
+                    (font ? font : "")]
+                   result]);
+}

@@ -1,5 +1,17 @@
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* common.[hm] (tkobjc_createText): New function.
+
+	* TextItem.m ([TextItem -createItem]): Use tkobjc_createText.
+
+	* TextItem.[hm]: Reformatting throughout.
+
+	* OvalNodeItem.m ([OvalNodeItem -createItem]): Use -createText.
+
+	* RectangleNodeItem.m ([RectangleNodeItem -createItem]): Likewise.
+
+	* NodeItem.[hm] (-createText): New method.  Reformatting throughout.
+
 	* internal.m (tkobjc_raster_drawPoint): Use color index,
 	not pixel value.  (Thanks to Pietro Terna.)
 

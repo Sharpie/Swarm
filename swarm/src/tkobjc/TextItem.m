@@ -14,12 +14,21 @@
 {
   x = the_x;
   y = the_y;
+
   return self;
 }
 
 - setText: (const char *)the_text
 {
   text = the_text;
+
+  return self;
+}
+
+- setFont: (const char *)the_font
+{
+  font = the_font;
+
   return self;
 }
  
@@ -27,23 +36,14 @@
 {
   text = the_text;
   font = the_font;
-  return self;
-}
 
-- setFont: (const char *)the_font
-{
-  font = the_font;
   return self;
 }
 
 - createItem
 {
-  [globalTkInterp eval: 
-    "%s create text %d %d -text \"%s\" -font %s -anchor c", 
-                  [canvas getWidgetName], x, y, text, font];
-  
-  item = strdup ([globalTkInterp result]);
-  
+  item = tkobjc_createText (self, x, y, text, font);
+
   return self;
 }
 

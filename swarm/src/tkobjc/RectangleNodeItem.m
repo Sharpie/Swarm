@@ -12,7 +12,7 @@
 
 - createItem
 {
-  //font and size independence means I have to make a fake label first...
+  // font and size independence means I have to make a fake label first...
   text = 
     strdup ([[globalTkInterp 
                eval: 
@@ -39,13 +39,7 @@
 
   xfree ((void *)text);
 
-  text =
-    strdup ([[globalTkInterp
-               eval: 
-                 "%s create text %d %d -text \"%s\" -font %s -anchor c", 
-               [canvas getWidgetName],
-               x, y, string, font] result]);
-  
+  [self createText];
   [self createBindings];
 
   return self;

@@ -6,6 +6,7 @@
 #import <tkobjc/NodeItem.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/global.h>
+#import <tkobjc/common.h>
 
 @implementation NodeItem
 
@@ -13,6 +14,7 @@
 {
   x = the_x;
   y = the_y;
+
   return self;
 }
 
@@ -20,6 +22,7 @@
 {
   [globalTkInterp eval: "%s itemconfigure %s -fill %s",
                   [canvas getWidgetName], item, aColor];  
+
   return self;
 }
 
@@ -27,6 +30,7 @@
 {
   [globalTkInterp eval: "%s itemconfigure %s -outline %s",
                   [canvas getWidgetName], item, aColor];  
+
   return self;
 }
 
@@ -36,18 +40,21 @@
                   [canvas getWidgetName],
                   item,
                   aVal];  
+
   return self;
 }
 
 - setString: (const char *)the_text
 {
   string = the_text;
+
   return self;
 }
 
 - setFont: (const char *)the_font
 {
   font = the_font;
+
   return self;
 }
 
@@ -55,6 +62,7 @@
 {
   string = the_text;
   font = the_font;
+
   return self;
 }
 
@@ -119,17 +127,21 @@
   return self;
 }
 
--(void) drop
+- createText
 {
-  [globalTkInterp eval: "%s delete %s",
-                  [canvas getWidgetName],text];  
-  [globalTkInterp eval: "%s delete %s",
-                  [canvas getWidgetName],item];  
-  [super drop];
+  text = tkobjc_createText (canvas, x, y, string, font);
+
+  return self;
 }
 
+- (void)drop
+{
+  [globalTkInterp eval: "%s delete %s",
+                  [canvas getWidgetName], text];  
+  [globalTkInterp eval: "%s delete %s",
+                  [canvas getWidgetName], item];  
+  [super drop];
+}
+ 
 @end
-  
-  
-  
   

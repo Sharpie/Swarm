@@ -10,12 +10,12 @@
 {
   const char *text;
   const char *font;
-  int x, y ;
+  int x, y;
 }
 
-- setX: (int) x Y: (int) y;
-- setText: (const char *)the_text;
-- setText: (const char *)the_text usingFont: (const char *)the_font;
-- setFont: (const char *)the_font;
+- setX: (int)x Y: (int)y;
+- setText: (const char *)text;
+- setText: (const char *)text usingFont: (const char *)font;
+- setFont: (const char *)font;
 - createItem;
 @end
