@@ -9,6 +9,9 @@
 #import <simtools/ObjectLoader.h>
 #import <simtools/InFile.h>
 
+//S: A class to load an object's instance variables from a file.
+//D: This class is used to initialize the variables of a target object from
+//D: a data file. The data file is required to have a very simple format.
 @implementation ObjectLoader
 
 +createBegin: aZone {
@@ -24,6 +27,9 @@
   return anObj ;
 }
 
+//M: The load:from: method loads anObject from the previously opened 
+//M: aFileObject without returning an actual instance of the ObjectLoader 
+//M: class.  The FileObject remains open after the method has been called. 
 +load: anObject from: aFileObject {
   id anObj ;
 
@@ -34,6 +40,9 @@
   return self ;
 }
 
+//M: The load:fromFileNamed: method loads anObject from the file named 
+//M: aFileName.  The ObjectLoader class will open the file, initialize the 
+//M: object with its contents and then close the file.
 +load: anObject fromFileNamed: (const char *)aFileName
 {
   id anObj ;
@@ -74,11 +83,15 @@
   exit(-1) ;
 }
 
+//M: The setFileObject: method sets the source fileObject which the instance 
+//M: of the ObjectLoader class should use by sending it this message.
 -setFileObject: aFileObject {
   theFileObject = aFileObject ;
   return self ;
 }
 
+//M: The loadObject: message must be sent to an instance of the ObjectLoader 
+//M: class in order to initialize the target object from the requested file.
 - loadObject: anObject
 {
   id aProbeMap, aProbe ;
@@ -179,12 +192,17 @@
   return self ;  
 }
 
+//M: The setTemplateProbeMap: method is used to specify which variables of the
+//M: target object(s) should be loaded by the ObjectLoader instance to which
+//M: this message was sent.
 - setTemplateProbeMap: probeMap
 {
   probeMapCache = probeMap;
   return self;
 }
 
+//M: The updateCache: method should be called if an ObjectLoader instance is 
+//M: going to initialize a large number of objects from the same class.
 -updateCache: exampleTarget {
 
   if(!exampleTarget)

@@ -1,3 +1,9 @@
+1998-04-15  Irene Lee  <lee@wijiji.santafe.edu>
+
+	* ActiveOutFile.m, AppendFile.m, InFile.m, NSelect.m, ObjectLoader.m,
+	ObjectSaver.m, OutFile.m, QSort.m, UName.m, simtools.m:
+	Add comment tags with documentation.
+
 1998-04-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* simtools.h: Declare new function initSwarmArguments.

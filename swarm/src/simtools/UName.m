@@ -17,6 +17,9 @@ Library:      simtools
 
 @implementation UName
 
+//* The create:setBaseNameObject: method is used to create an instance of the
+//* UName class and set the base name given a const char *. This method will 
+//* automatically reset the counter.
 + create: aZone setBaseName: (const char *)aString
 {
   id obj;
@@ -27,6 +30,9 @@ Library:      simtools
   return obj;
 }
 
+//* The create:setBaseNameObject: method is used to create an instance of the
+//* UName class and set the base name given an object of class String. This 
+//* method will automatically reset the counter.
 + create: aZone setBaseNameObject: aStringObject
 {
   id obj;
@@ -44,6 +50,7 @@ Library:      simtools
   return self;
 }
 
+//* The setBaseName: method is used to set the base name given a const char *.
 - setBaseName: (const char *)aString
 {
   if (baseString)
@@ -56,6 +63,8 @@ Library:      simtools
   return self;
 }
 
+//* The setBaseNameObject: method is used to set the base name given an object
+//* of class String.
 - setBaseNameObject: aStringObject 
 {
   if (baseString)
@@ -82,6 +91,7 @@ Library:      simtools
   return self;
 }
 
+//* The getNewName method generates a new name as a character string.
 - (const char *)getNewName
 {
   id aCopy;
@@ -103,6 +113,7 @@ Library:      simtools
   return result;
 }
 
+//* The getNewNameObject generates a new name as a String Object.
 - getNewNameObject
 {
   id aCopy;

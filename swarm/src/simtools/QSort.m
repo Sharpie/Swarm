@@ -14,6 +14,12 @@ Library:      simtools
 #import <collections.h>
 #import <simtools/QSort.h>
 
+//S: A class to sort a collection.
+//D: QSort is simply a "wrapper" for the C native "qsort" function, as applied
+//D: to a Swarm collection. The values will appear in ascending order by
+//D: default. Reversing the order of a collection can be made by calling 
+//D: reverseOrderOf. All these methods modify the underlying collection, so
+//D: any indexes should always be regenerated. 
 @implementation QSort
 
 static id *flat ;
@@ -70,6 +76,9 @@ int cmpObjs(id *a,id *b){
   return (int) [*a perform: comp_selector with: *b] ;
 }
 
+//M: The sortObjectsIn: method will sort the objects in the collection with the
+//M: "compare' function for the object.  If the objects don't provide a
+//M: compare function, sortObjectsIn uses the default from the defobj library. 
 +(void) sortObjectsIn: aCollection {
 
   [self _flatten_: aCollection] ;
@@ -81,6 +90,9 @@ int cmpObjs(id *a,id *b){
   }
 }
 
+//M: The sortNumbersIn: method performs integer comparisons on the objects in
+//M: the collection using the default "compare" function.  The default assumes
+//M: that the numbers should be monotonically increasing.
 +(void) sortNumbersIn: aCollection {
 
   [self _flatten_: aCollection] ;
@@ -92,6 +104,8 @@ int cmpObjs(id *a,id *b){
   }
 }
 
+//M: The sortObjectsIn:using: method will sort the objects in the collection 
+//M: with the specified comparison function for the object.
 +(void) sortObjectsIn: aCollection using: (SEL) aSelector {
 
   [self _flatten_: aCollection] ;
@@ -105,6 +119,9 @@ int cmpObjs(id *a,id *b){
 
 }
 
+//M: The sortNumbersIn:using: method performs integer comparisons on the 
+//M: objects in the collection with the specified comparison function for the
+//M: object.
 +(void) sortNumbersIn: aCollection
                 using: (int(*)(const void*,const void*)) comp_fun {
 
@@ -118,6 +135,9 @@ int cmpObjs(id *a,id *b){
 
 }
 
+//M: The reverseOrderOf: method reverses the current order of a collection.
+//M: To make a "reversed" sort, simply call one of the appropriate "sort"
+//M: methods on a collection then call this function on the same collection.
 +(void) reverseOrderOf: aCollection {
   id index ;  // atOffset would cause repetitive traversal in lists etc.
   int i ;

@@ -16,6 +16,9 @@
 
 int swarmGUIMode;
 
+//M: The initSwarm method initializes the Swarm libraries.  The call to 
+//M: initSwarm should be the call in any Swarm code you write.  The argc and
+//M: argv are the input parameters to main().
 void
 initSwarm (int argc, const char **argv)
 {
