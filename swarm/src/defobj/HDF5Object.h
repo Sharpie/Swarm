@@ -50,7 +50,6 @@
   hid_t c_rnaid;
 #endif
   const char **c_rnbuf;
-#endif
 }
 + createBegin: aZone;
 - setParent: parent;
