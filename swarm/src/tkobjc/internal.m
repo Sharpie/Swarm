@@ -269,10 +269,3 @@ tkobjc_raster_copy (Raster *raster, Pixmap oldpm,
 #endif
 }
 
-#ifdef __WIN32__
-
-void Tcl_CreateFileHandler (int fd, int mask, Tcl_FileProc proc, ClientData cd)
-{ }
-void Tcl_DeleteFileHandler (int fd) { }
-
-#endif
