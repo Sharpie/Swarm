@@ -41,7 +41,7 @@ DLLOBJS = $(addsuffix .lo,$(basename $(libobjc_la_SOURCES)))
 
 objc.dll: libobjc.la objc.dll.c
 	$(CC) -c $(srcdir)/objc.dll.c -o objc.dll.o
-	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.o $(DLLOBJS) $(basename $(objc_thread_lo)).o
+	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
 
 install-data-local: 
 	$(INSTALL) libobjcdll.a $(libdir)
