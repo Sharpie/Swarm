@@ -897,7 +897,7 @@ PHASE(Using)
 #ifdef HAVE_HDF5
   return get_attribute (loc_id, attrName);
 #else
-  hdf5_not_availabe ();
+  hdf5_not_available ();
   return NULL;
 #endif
 }
