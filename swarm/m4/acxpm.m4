@@ -21,7 +21,7 @@ AC_TRY_COMPILE([#ifdef __CYGWIN32__
     XPMLDFLAGS=''
     XPMLIB=''
   else
-    AC_MSG_ERROR(Please use --with-xpmdir to specify location of XPM),
+    AC_MSG_ERROR(Please use --with-xpmdir to specify location of XPM.)
   fi
 fi
 
