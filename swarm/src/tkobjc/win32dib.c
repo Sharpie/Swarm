@@ -242,23 +242,23 @@ dib_augmentPalette (dib_t *dib,
 {
   unsigned lastSize = dib->colorMapSize;
   WORD depth = dib->dibInfo->bmiHead.biBitCount;
+  unsigned i;
+  RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
   
   dib->colorMapObjects[dib->colorMapBlocks] = object;
   dib->colorMapOffsets[dib->colorMapBlocks] = lastSize;
   dib->colorMapSize += colorMapSize;
   dib->colorMapBlocks++;
 
+  for (i = 0; i < colorMapSize; i++)
+    {
+      rgb[i].rgbRed = colorMap[i] & 0xff;
+      rgb[i].rgbGreen = (colorMap[i] >> 8) & 0xff;
+      rgb[i].rgbBlue = colorMap[i] >> 16;
+    }
+  
   if (depth == 8)
     {
-      unsigned i;
-      RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
-      
-      for (i = 0; i < colorMapSize; i++)
-	{
-	  rgb[i].rgbRed = colorMap[i] & 0xff;
-	  rgb[i].rgbGreen = (colorMap[i] >> 8) & 0xff;
-	  rgb[i].rgbBlue = colorMap[i] >> 16;
-	}
 
       if (dib->bitmap)
 	{

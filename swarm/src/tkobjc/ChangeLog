@@ -1,5 +1,8 @@
 1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* win32dib.c (dib_augmentPalette): Store to rgb array because
+	the drawing routines need this info, even in 24 bit mode.
+
 	* internal.m (tkobjc_raster_copy): Don't free old pixmap (X11 case).
 	(tkobjc_raster_setColormap): Raise a warning if colormap is nil.
 
