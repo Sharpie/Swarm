@@ -423,15 +423,13 @@ PHASE(UsingOnly)
           if (position == UNKNOWN_POS)
             position = (- position);
           else  // conditionalizes next statement
-            {
 #endif
-              position = (- position) - 1;
+            position = (- position) - 1;
 #if LINKED
-              return link->refObject;
+          return link->refObject;
 #elif MLINKS
-              return getMemberFromLink (link, collection->bits);
+          return getMemberFromLink (link, collection->bits);
 #endif
-            }
         }
     }
 }
