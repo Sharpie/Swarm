@@ -3,11 +3,9 @@
 #import "Bug.h"
 #import "FoodSpace.h"
 #import <objectbase/Swarm.h>
-#import <space.h>
-#import <activity.h>
 
-@interface ModelSwarm: Swarm {
-
+@interface ModelSwarm: Swarm 
+{
   int worldXSize, worldYSize;
   int xPos, yPos;
   float seedProb;
@@ -15,14 +13,13 @@
   FoodSpace * foodSpace;
   Bug * aBug;
   id modelSchedule;
-
 }
 
-+createBegin: (id) aZone;
--createEnd;
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
++ createBegin: aZone;
+- createEnd;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
 
 @end
 
