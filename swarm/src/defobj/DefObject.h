@@ -56,7 +56,9 @@ Library:      defobj
 - perform: (SEL)aSel with: anObject1 with: anObject2;
 - perform: (SEL)aSel with: anObject1 with: anObject2 with: anObject3;
 - (void) setDisplayName: (const char *)aName;
-- (const char *) getDisplayName;
+- (const char *)getDisplayName;
+- (const char *)getObjectName;
+- (const char *)getIdName;
 - (void) describe: outputCharStream;
 - (void) describeID: outputCharStream;
 - (void) xprint;

@@ -351,7 +351,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 // isSubclass: -- return true if self is a subclass of argument class
 //
-+ (BOOL) isSubclass: aClass
++ (BOOL)isSubclass: aClass
 {
   Class  superclass;
 
@@ -689,6 +689,29 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   return (const char *)[_obj_displayNameMap at: self];
 }
 
+- (const char *)getIdName
+{
+  return [self name];
+}
+
+#define ATDELIMCHAR '@'
+- (const char *)getObjectName
+{
+  static char name[512];
+  
+  if (self)
+    {
+#ifdef POINTER_FMT_HEX_PREFIX
+      sprintf (name, "%s%c%p", [self name], ATDELIMCHAR, self);
+#else
+      sprintf (name, "%s%c0x%p", [self name], ATDELIMCHAR, self);
+#endif
+      return name;
+    }
+  return "nil"; 
+}
+
+
 //
 // _obj_formatIDString() --
 //   function to generate object id string in standard format
@@ -812,7 +835,7 @@ initDescribeStream (void)
 // respondsTo() -- function to test if object responds to message  
 //
 BOOL
-respondsTo( id anObject, SEL aSel )
+respondsTo (id anObject, SEL aSel)
 {
   return sarray_get (getClass (anObject)->dtable, (size_t)aSel->sel_id) != 0;
 }

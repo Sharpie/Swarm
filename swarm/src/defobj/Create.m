@@ -13,7 +13,6 @@ Library:      defobj
 
 #include <swarmconfig.h>
 
-#define ATDELIMCHAR '@'
 //
 // CreateDrop_s -- superclass for create protocol with phase switching
 //
@@ -49,29 +48,6 @@ PHASE(Creating)
   createByCopy ();
   setNextPhase (self);
   return self;
-}
-
-PHASE(Using)
-
-- (const char *)getIdName
-{
-  return [self name];
-}
-
-- (const char *)getObjectName
-{
-  static char name[512];
-  
-  if (self)
-    {
-#ifdef POINTER_FMT_HEX_PREFIX
-      sprintf (name, "%s%c%p", [self name], ATDELIMCHAR, self);
-#else
-      sprintf (name, "%s%c0x%p", [self name], ATDELIMCHAR, self);
-#endif
-      return name;
-    }
-  return "nil"; 
 }
 
 @end

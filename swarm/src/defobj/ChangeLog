@@ -1,3 +1,8 @@
+1998-09-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.[hm] ([CreateDrop_s -getObjectName], [CreateDrop_s
+	-getIdName]): Move to DefObject.[hm].
+
 1998-09-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Zone.m ([Zone_c -alloc:]): Allocate enough for a size_t and
