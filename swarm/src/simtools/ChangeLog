@@ -1,5 +1,7 @@
 1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* QSort.m ([QSort +_unFlatten_:], [QSort +reverseOrderOf:]): Likewise.
+
 	* Archiver.m (defaultPath): Renamed from defaultFileName.
 	Return const char * instead of id.
 

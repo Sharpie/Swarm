@@ -6,7 +6,7 @@
 #import <simtools/QSort.h>
 #import <collections.h>
 
-#include <misc.h> // xmalloc, xfree, qsort
+#include <misc.h> // xmalloc, XFREE, qsort
 
 @implementation QSort
 
@@ -46,7 +46,7 @@ static SEL comp_selector;
     }
   
   [index drop];
-  xfree (flat);
+  XFREE (flat);
 }
 
 static int
@@ -152,7 +152,7 @@ cmpObjs (id *a, id *b)
         }
       
       [index drop];
-      xfree (flat);
+      XFREE (flat);
     }
 }
 
