@@ -1,3 +1,9 @@
+1999-06-19  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
+
+	* ltconfig: Don't use +I for hpux9.  Use hpux9 code for hpux10,
+	since there isn't a preprocessor symbol for hpux10.
+	(We'll call the constructors manually.)
+
 1999-06-13  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
 
 	* sendmsg.c (__objc_double_forward): Special case for double

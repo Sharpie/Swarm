@@ -15,6 +15,7 @@
 
 externvardef BOOL swarmGUIMode = NO;
 
+#ifdef hpux
 static void
 run_constructors (void)
 {
