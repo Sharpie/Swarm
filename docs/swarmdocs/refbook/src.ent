@@ -19,6 +19,7 @@
 <!entity refmeta.sgml system "refmeta.sgml">
 <!entity refcont.sgml system "refcont.sgml">
 <!entity ref00.sgml system "ref00.sgml">
+<!entity ref00a.sgml system "ref00a.sgml">
 <!entity refindex.sgml system "refindex.sgml">
 <!entity refapp.sgml system "refapp.sgml">
 <!entity lgpl-app.sgml system "lgpl-app.sgml">

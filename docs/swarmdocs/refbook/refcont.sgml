@@ -4,6 +4,9 @@
 <!-- preface -->
 &ref00.sgml;
 
+<!-- compatibility/changes -->
+&ref00a.sgml;
+
 <!-- list of REFERENCES -->
 &defobjcont.sgml;
 &spacecont.sgml;
