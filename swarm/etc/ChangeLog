@@ -1,3 +1,9 @@
+1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.appl.in (LDFLAGS): Remove SUPPORTLDFLAGS.
+	(LIBS): Remove.
+	($(APPEXE)): Remove LIBS and SYSLIBS.
+
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in (SWARMMODULES): Remove.
