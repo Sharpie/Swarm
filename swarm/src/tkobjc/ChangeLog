@@ -3,7 +3,7 @@
 	* ScheduleItem.h: Declare _drop_.
 
 	* internal.m (tkobjc_pixmap_create): Reverse bit order for paletted
-	bitmaps (less than 8 bits).
+	bitmaps (less than 8 bits) for both Unix and Win32 code.
 
 1998-10-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
