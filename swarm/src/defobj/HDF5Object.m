@@ -827,9 +827,6 @@ PHASE(Using)
           memcpy (buf + hoffset,
                   val_ptr,
                   fcall_type_size (type) * count);
-          if (H5Tconvert (tid_for_fcall_type (type), mtid, 
-                          count, buf + hoffset, NULL, H5P_DEFAULT) < 0)
-            raiseEvent (LoadError, "cannot convert member from native");
         }
       inum++;
     }

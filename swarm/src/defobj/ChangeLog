@@ -1,7 +1,7 @@
 2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
 
-	* HDF5Object.m: Fix packing and unpacking of compound types across
-	architectures.
+	* HDF5Object.m: Fix unpacking of compound types (across differing
+	architectures).
 
 2004-07-21  Scott Christley  <schristley@mac.com>
 
