@@ -1,3 +1,26 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* FLink.h: Reformatting throughout.
+
+	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Send
+	waitForControlEvent to actionCache, not controlPanel.
+	([BankObserverSwarm -buildObjects]): Use renamed setTitle and
+	setAxisLabelsX:Y: methods.
+
+	* BankObserverSwarm.h: Include gui.h.
+	(BankObserverSwarm): Make graphCanvas conform to the Graph
+	protocol instead of being statically typed to BLTGraph.  Make
+	investorData and borrorerData conform to the GraphElement protocol
+	instead of being statically typed to GraphElement.  Make
+	investorGrapher and borrowerGrapher conform to ActiveGraph instead
+	of being statically typed to ActiveGraph.
+	Reformatting throughout.
+
+	* BLink.m: Don't include tkobjc.h.
+	Reformatting throughout.
+
+	* BLink.h: Reformatting throughout.
+
 1998-01-16  Alex Lancaster  <alex@santafe.edu>
 
 	* readme.txt: Updated.

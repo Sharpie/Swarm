@@ -1,6 +1,7 @@
 #import "FLink.h"
 
-@interface BLink : FLink {
+@interface BLink : FLink
+{
 }
 
 @end

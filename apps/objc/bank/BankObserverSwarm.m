@@ -63,7 +63,7 @@
   CREATE_ARCHIVED_PROBE_DISPLAY (bankModelSwarm);
   CREATE_ARCHIVED_PROBE_DISPLAY (self);
   
-  [controlPanel waitForControlEvent];
+  [actionCache waitForControlEvent];
   if ([controlPanel getState] == ControlStateQuit)
     return self;
 
@@ -100,8 +100,8 @@
   SET_WINDOW_GEOMETRY_RECORD_NAME (investorGraph);
   investorGraph = [investorGraph createEnd];
 
-  [investorGraph title: "Entropy of investor link distribution"];
-  [investorGraph axisLabelsX: "time" Y: "prop. of Max. Entropy"];
+  [investorGraph setTitle: "Entropy of investor link distribution"];
+  [investorGraph setAxisLabelsX: "time" Y: "prop. of Max. Entropy"];
   [investorGraph pack];
 
   investorData = [investorGraph createElement];

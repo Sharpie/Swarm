@@ -3,26 +3,28 @@
 #import <collections.h>
 #import <simtools.h>
 #import <analysis.h>
+#import <gui.h>
 #import "BankModelSwarm.h"
 
-@interface BankObserverSwarm : GUISwarm {
+@interface BankObserverSwarm: GUISwarm
+{
   int displayFrequency;
   int interactiveGraph;
   id displayActions;	
   id displaySchedule;
 
-  BankModelSwarm * bankModelSwarm;
+  BankModelSwarm *bankModelSwarm;
 
-  id graphCanvas ;
+  id <Canvas> graphCanvas;
 
-  BLTGraph * investorGraph;			  
-  GraphElement * investorData;			  
-  Entropy * investorEntropy;   		  
+  id <Graph> investorGraph;			  
+  id <GraphElement> investorData;			  
+  Entropy *investorEntropy;   		  
   id <ActiveGraph> investorGrapher;		  
-  GraphElement * borrowerData;			  
-  Entropy * borrowerEntropy;   		  
+  id <GraphElement> borrowerData;			  
+  Entropy *borrowerEntropy;   		  
   id <ActiveGraph> borrowerGrapher;		  
-  id activeBanks ;
+  id activeBanks;
   
   /*
   XColormap * colormap;				  // allocate colours
@@ -34,12 +36,12 @@
   */
 }
 
-+createBegin: (id) aZone;
--createEnd;
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
++ createBegin: aZone;
+- createEnd;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
 
--redistribute ;
+- redistribute;
 
 @end

@@ -1,9 +1,10 @@
 #import <graph.h>
 
-@interface FLink: DiGraphLink {
+@interface FLink: DiGraphLink
+{
 }
 
--(int) isInvestLink ;
--(int) isBorrowLink ;
+- (int)isInvestLink;
+- (int)isBorrowLink;
 
 @end
