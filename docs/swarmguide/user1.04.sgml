@@ -70,7 +70,7 @@
       that will appear in many classes, for example, include:</para>
 
 <programlisting>
--createBegin;
++createBegin;
 -createEnd;
 -buildObjects;
 -buildActions;

@@ -462,7 +462,7 @@ id <Index> pplIndex    = nil;
 int numberOfFriends;
 
 pplIndex = [pplPresent begin: [self getZone]];
-while ([pplIndex next])) 
+while (([pplIndex next])) 
 {
   numberOfFriends = [[pplIndex get] getNumFriends];
   if (numberOfFriends > 3) 
@@ -490,7 +490,69 @@ while ([pplIndex next]))
      will point to the next valid member of the list.
     </para>
 
-    <para>One final note: it is important to <function>drop</function>
+    <caution>
+      <para>Watch out for nil objects when using "while" loops</para>
+      <para>If you loop through a list, checking only that the index
+      is not positioned over a nil object, your loop might end before
+      you expect if there is a nil object in your list.</para>
+    </caution>
+
+    <para>
+      A variable of type id might be unintialized, or nil.  Suppose
+       that, through intention or error, an object <varname>person1</varname> has been set to
+       nil, as in </para>
+<programlisting>   
+      person1=nil;
+</programlisting>
+    <para>This could happen if, for example, the object referred to by
+    the name person1 has been dropped, and the user is careful to set
+    the name equal to nil in order to be safe.</para>
+    
+    <para>Now suppose the program adds person1 to a list, and other
+    (nonnil) objects are added as well. If the program creates an
+    index and tries to loop through this list with the while
+    construction described above, there will be a major problem. The
+    loop will be executed, until the index object arrives at person1.
+    Since person1 is equal to nil, then [pplIndex next] will return
+    nil, <emphasis>and the program will exit the while list</emphasis>
+    and continue with the next commands.  If there is a danger that
+    some of the objects in a list might be nil, and the programmer
+    wants the loop to continue after "skipping over" the nil objects,
+    then the best approach is a for loop that takes advantage of some
+    symbols defined in the Swarm libraries. For each object in a list,
+    the Index protocol's method <function>getLoc</function> will tell
+    us whether the index is positioned in the list on a "Member."  If
+    the [index next] message causes the index to "step off the last"
+    object in a list, then the return from that message is "End."
+    </para>
+
+<programlisting>
+<![CDATA [
+{
+id <Index> pplIndex = [pplPresent begin: aZone];
+id member;
+
+for (member = [pplIndex next]; [pplIndex getLoc] == Member; member = [pplIndex next])
+   {
+    // do something with member ...
+    }
+        [index drop];   
+}
+]]>
+</programlisting>
+
+     <para>When it is created, the index is automatically positioned
+     at the Start. The first argument in the for statement positions
+     the index on the first member of the collection.  The second
+     argument says that the for loop continues as long as the returned
+     value from <function>getLoc</function> is equal to the symbol
+     Member.  And after the loop is complete, the third argument says
+     that the index is supposed to step to the next object in the list.</para>
+    
+      <caution>
+      <para>Be sure to drop index objects when you are finished with
+    them </para> </caution>
+    <para>It is important to <function>drop</function>
       the instance of <classname>Index</classname> when its use is
       completed.  That's accomplished by the <literal>[pplIndex
       drop];</literal> command in the last example.  If this is

@@ -407,28 +407,48 @@ listOfPuppies=[List create: [self getZone]];
 
     <para>To the Swarm user, the distinction between class and
       protocol is not vital most of the time.  The most important
-      Swarm objects, such as the type <classname>Swarm</classname>
+      Swarm protocols, such as the type <classname>Swarm</classname>
       (from <filename>objectbase/Swarm.h</filename>) or
       <classname>SwarmObject</classname> (from
-      <filename>objectbase/SwarmObject.h</filename>), are classes from
+      <filename>objectbase/SwarmObject.h</filename>), can be used as
+      if they were classes.  In the Swarm Reference Guide, there is a
+      list of all protocols.  The protocols that adopt the
+      <classname>CREATABLE</classname> protcol are the ones that users
+      can use as if they were factory objects.  For example, the
+      <classname>EZGraph</classname> protocol adopts the
+      CREATABLE protocol, so when the user needs to create an
+      instance, so the observer swarm file can use the EZGraph to
+      create graphs.</para>  
+
+    <para> Almost all of the Swarm protocols adopt the CREATABLE
+      protocol, so they can be used as if they were classes from
       which users subclass to make model swarms or individual
-      agents. It should not matter to the user that these classes have
+      agents.  It should not matter to the user that these are
+      abstract defined types that have
       adopted protocols (taken on the obligation to implement methods
       listed in protocols).  The class
       <classname>SwarmObject</classname>, for example, adopts
       protocols <classname>Create</classname> and
-      <classname>Drop</classname>. This means that objects from
-      <classname>SwarmObject</classname> class have the ability to
-      execute methods like <function>createBegin</function>,
-      <function>createEnd</function>, or <function>drop</function>.
-      Users who create classes using
-      <classname>SwarmObject</classname> inherit these methods. One of
-      the principal advantagesof protocol usage is that there will be
-      compile-time warnings if a class does not implement a method
-      that is listed in a protocol that the class adopts.  In a crude
-      way, adopting a protocol is like advertising that a class can do
-      certain things, and the compiler enforces a `truth in
-      advertising' policy. </para>
+      <classname>Drop</classname> as well as CREATABLE. This means
+      that the user can act as if there is a class called
+      <classname>SwarmObject</classname>, and that the SwarmObject
+      will be able to respond to class methods like
+      <function>createBegin</function>, and that instances created by
+      SwarmObject will be able to respond to 
+      <function>createEnd</function>, <function>drop</function>, or
+      any other method that is listed in a protocol listed by SwarmObject.</para>
+      
+    <para> One of the principal advantages of protocol usage is that
+      there will be compile-time warnings if the user's code tries to
+      send a "bad message" to an object.  If a message tells an object
+      to <function>goOutside</function>, and none of the protocols
+      adopted by that agent have a method called
+      <function>goOutside</function>, then the compiler will warn the
+      user about it.  In a crude way, adopting a protocol is like
+      advertising that a class can do certain things, and the compiler
+      enforces a `truth in advertising' policy. If the compiler flags
+      include -WERROR, causing all warnings to be treated as errors,
+      then these warnings will stop the compilation.</para>
 
     <para>The fact that many of the important components of the Swarm
       library are organized as protocols can, however, be important in
@@ -446,25 +466,48 @@ List * listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
 </programlisting>
 
-    <para>In contrast, when the <classname>List</classname> class
-      advertises that it adopts the <classname>List</classname>
-      protocol, the notation to define the type is different.  If one
+    <para>Swarm no longer allows users to statically allocate objects
+    in this way.  This code will make the compiler crash, because
+    there is no class inside Swarm called List, there is only a
+    protocol. The compiler will fail, and the user will get a vague
+    warning about a parse error in the vicinity of the List usage. </para>
+
+    <para>We know from the Swarm Reference Guide that the <classname>List</classname> protocol
+      advertises that it adopts the <classname>CREATABLE</classname>
+      protocol, so the mistake is not in the usage of List to
+      create the listOfPuppies.  Rather, the mistake is in the
+      declaration of the listOfPuppies itself.  If one
       needs to define a variable <varname>listOfPuppies</varname> that
       has the properties of a <classname>List</classname> class item,
       the recommended approach is to create a variable of type
       <type>id</type> and indicate the protocols adopted by that
       object in brackets:</para>
 
-<programlisting role="ObjC">
+    <programlisting role="ObjC">
 id &lt; List &gt;  listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
       </programlisting>
 
+    <para>It is also legal to define listOfPuppies as a generic
+    object, as in </para>
+<programlisting role="ObjC">
+id listOfPuppies;
+listOfPuppies=[List create: [self getZone]];
+</programlisting>
+
+    <para>This usage is legal, and the program should compile without
+    difficulty.  The only shortcoming is that the user will not be
+    warned if the listOfPuppies object is sent any inappropriate
+    messages within the program.  When these inappropriate messages
+    are sent during the run, then the program will crash, possibly
+    with a message that the object listOfPuppies does not respond to
+    the message it was sent. </para>
+
     <para>Since almost all of the important pieces of functionality in
-      the Swarm library are now written in the protocol format, these
-      details may be important in coding details. However, these
+      the Swarm library are now written in the protocol format and are
+      CREATABLE, these details may be important. However, these
       details do not significantly change the way applications are
-      designed.</para>
+      designed.  Swarm entities can still be treated as classes.</para>
 
 </sect1>
 </chapter>
