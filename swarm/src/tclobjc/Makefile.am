@@ -6,6 +6,8 @@ tclobjcdir = $(includedir)/tclobjc
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
 
+SUFFIXES = .m
+
 INCLUDES = $(TKINCLUDES) $(TCLINCLUDES)
 
 override CFLAGS += $(X_CFLAGS)
