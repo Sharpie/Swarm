@@ -18,7 +18,7 @@ public class User2d extends Agent2d {
   Schedule schedule;
 
   public User2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, .6, .1, 10, 5);
+    super (aZone, world, x, y, 1, .9, .1, 10, 5);
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -41,8 +41,7 @@ public class User2d extends Agent2d {
   }
 
   public void stepAgent () {
-    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1),
-               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1));
+    randomWalk ();
   }
 
   public Object drawSelfOn (Raster r) {

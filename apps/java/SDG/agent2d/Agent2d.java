@@ -24,17 +24,20 @@ public class Agent2d extends SwarmImpl {
     new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
   boolean frobbed, resisting;
   int direction, energy;
+  int scatter;
 
   Agent2d (Zone aZone,
            Grid2d world,
            int x,
            int y,
+           int scatter,
            double resistProbabilityMean, double resistProbabilityDeviation,
            int energyMean, int energyDeviation) {
     super (aZone);
     this.x = x;
     this.y = y;
     this.world = world;
+    this.scatter = scatter;
     this.resistProbabilityDistribution =
       new NormalDistImpl (aZone,
                           Globals.env.randomGenerator,
@@ -127,6 +130,11 @@ public class Agent2d extends SwarmImpl {
 
   public int sampleEnergy () {
     return (int) energyDistribution.getDoubleSample ();
+  }
+
+  public void randomWalk () {
+    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-scatter, scatter),
+               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-scatter, scatter));         
   }
 
   public boolean frob (int direction) {

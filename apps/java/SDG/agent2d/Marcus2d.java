@@ -27,7 +27,7 @@ public class Marcus2d extends Agent2d {
   boolean working;
 
   public Marcus2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, .25, .5, 60, 10);
+    super (aZone, world, x, y, 5, .25, .5, 60, 10);
     
     this.incubationTime = 40;
     schedule = new ScheduleImpl (aZone, true);
@@ -133,8 +133,7 @@ public class Marcus2d extends Agent2d {
         startIncubation (Globals.env.getCurrentTime () + 1);
     } 
     else {
-      moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-5, 5),
-                 Globals.env.uniformIntRand.getIntegerWithMin$withMax (-5, 5));
+      randomWalk ();
       incubationRemaining--;
       schedule.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
                                           this,
