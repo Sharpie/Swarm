@@ -14,9 +14,6 @@ externvardef id <TkExtra> globalTkInterp;
 
 #import "simtools_tcl.x"
 #import "analysis_tcl.x"
-#ifdef _WIN32
-#import "comm_tcl.x"
-#endif
 
 id <Error> WindowCreation, WindowUsage, MissingFiles,
   PaletteError, PixmapError,
@@ -57,14 +54,7 @@ initTkObjc (id arguments)
                       "}\n"];
 
       [globalTkInterp eval: analysis_tcl];
-#ifdef _WIN32
-      {
-        const char *appName = [arguments getAppName];
-
-        [globalTkInterp eval: comm_tcl];
-        [globalTkInterp eval: "set %s [comm new %s]", appName, appName];
-      }
-#endif
+      [globalTkInterp eval: "proc send {id args} { }"];
     }
 }
 

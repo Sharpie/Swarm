@@ -1,9 +1,10 @@
 2000-03-25    <mgd@HELEN>
 
-	* Makefile.am (TCLFILES): Remove tkbusy.tcl.
+	* Makefile.am (TCLFILES): Remove tkbusy.tcl and comm.tcl.
 
-	* tkobjc.m: Don't include tkbusy_tcl.x.
-	(initTkObjc): Don't eval tkbusy_tcl.
+	* tkobjc.m: Don't include tkbusy_tcl.x or comm_tcl.x.
+	(initTkObjc): Don't eval tkbusy_tcl or comm_tcl.
+	Disable `send'. 
 
 	* common.m (tkobjc_releaseAndUpdate, tkobjc_updateIdleTasks):
 	Remove ifdnef on _WIN32.
