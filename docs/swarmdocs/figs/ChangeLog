@@ -1,3 +1,10 @@
+1998-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* small-logo.png, switcheroo.png:  Added PNG files.
+
+	* figs.ent: In html - make settitlelogo point to "Small Swarm
+	Logo".
+
 1998-06-11  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* figs.ent: Use jpeg, not jpg.

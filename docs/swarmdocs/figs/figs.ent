@@ -2,7 +2,7 @@
 <![%html;[
 <!entity % print "IGNORE">
 <!entity switcheroo PUBLIC "-//SFI Hive//ENTITIES Switcheroo JPEG//EN" ndata jpeg>
-<!entity settitlelogo PUBLIC "-//SFI Hive//ENTITIES Swarm Logo JPEG//EN" ndata jpeg>
+<!entity settitlelogo PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo JPEG//EN" ndata jpeg>
 <!entity booktitlelogo PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo JPEG//EN" ndata jpeg>
 <!entity complete-probe-map PUBLIC "-//SFI Hive//ENTITIES Complete ProbeMap JPEG//EN" ndata jpeg>
 <!entity customized-probe-map PUBLIC "-//SFI Hive//ENTITIES Customized ProbeMap JPEG//EN" ndata jpeg>
