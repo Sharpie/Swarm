@@ -1,3 +1,7 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (modulePROTOCOLS): Use $(module)_creatable_PROTOCOLS.
+
 1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in ($(libjavaswarmstubs_la_OBJECTS)): Depend on 

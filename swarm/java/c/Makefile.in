@@ -30,7 +30,7 @@ override CPPFLAGS += $(JAVAINCLUDES) -I$(top_builddir)/libobjc -I$(top_srcdir)/l
 override CFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
-modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
+modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)_creatable_PROTOCOLS))
 
 libjavaswarmstubs_la_OBJECTS = $(addsuffix .lo, $(modulePROTOCOLS))
 javaswarmstubs_OBJECTS = $(addsuffix .o, $(modulePROTOCOLS))
