@@ -12,20 +12,16 @@ import swarm.gui.Raster;
 import swarm.Selector;
 
 public abstract class SocialAgent2d extends Agent2d {
-  int vision;
   Schedule schedule;
   
   public SocialAgent2d (Zone aZone, Grid2d world,
                         int x, int y,
                         int scatter, int size,
                         double resistProbabilityMean, double resistProbabilityDeviation,
-                        int energyMean, int energyDeviation,
-                        int vision) {
+                        int energyMean, int energyDeviation) {
     super (aZone, world, x, y, scatter, size,
            resistProbabilityMean, resistProbabilityDeviation,
            energyMean, energyDeviation);
-
-    this.vision = vision;
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -48,7 +44,7 @@ public abstract class SocialAgent2d extends Agent2d {
   }
 
   public void stepAgent () {
-    stepSocialAgent (getNeighbor (vision));
+    stepSocialAgent (getNeighbor (size));
   }
 
   public void stepSocialAgent (Agent2d neighbor) {

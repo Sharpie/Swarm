@@ -34,7 +34,7 @@ public class Alex2d extends SocialAgent2d {
   }
 
   public Alex2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 2, 4, .2, .1, 40, 20, 4);
+    super (aZone, world, x, y, 2, 4, .2, .1, 40, 20);
 
     people = new Hashtable (10);
   }
