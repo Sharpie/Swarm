@@ -2,6 +2,8 @@
 
 	* acobjc.m4: new file for compatability with AC_LIBOBJ
 	 and AM_DEPENDENCIES.  
+	* acargp.m4: replaced direct assignment to LIBOBJ with
+	  AC_LIBOBJ.  
 
 2003-08-12  Bill Northcott  <w.northcott@unsw.edu.au>
 
