@@ -26,14 +26,6 @@ static jobject o_globalZone, o_uniformIntRand, o_uniformDblRand;
 
 JNIEnv *jenv;
 
-static void 
-dump_node (void * node, void * param)
-{
-  fprintf (stderr, "node: %p %p!\n", ((jobject_id *)node)->java_object,
-	   ((jobject_id *)node)->objc_object);
-  fflush (stderr);
-}
-
 static void
 create_class_refs (JNIEnv *env)
 {

@@ -7,10 +7,7 @@
 	(java_directory_update): Move the creation of global references into
 	the update.
 	(java_instantiate): Remove global reference creation.
-	(dump_node): Add new function to print the jobject_id to be used
-	as an argument to avl_walk, when printing out the contents of a 
-	tree.
-
+		
 1999-03-24  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* directory.h: Facilitate addition of uniformDblRand to directory.
