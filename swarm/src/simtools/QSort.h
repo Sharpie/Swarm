@@ -5,7 +5,8 @@
 
 // QSort -> QuickSorts a collection!
 //
-// The values will appear in ascending order.
+// The values will appear in ascending order by default.
+// Reverse order can be obtained by calling reverseOrderOf
 
 #import <swarmobject/SwarmObject.h>
 
@@ -17,5 +18,6 @@
 +(void) sortNumbersIn: aCollection ;
 +(void) sortNumbersIn: aCollection
                 using: (int(*)(const void*,const void*)) comp_fun ;
++(void) reverseOrderOf: aCollection ;
 
 @end

@@ -44,7 +44,7 @@ static SEL comp_selector ;
   index = [aCollection begin: scratchZone] ;
   for(i = 0 ; i < size ; i++){
     [index next] ;
-    [index put: flat[i]] ;
+    [index put: flat[i]] ; 
   }
 
   [index drop] ;
@@ -116,6 +116,38 @@ int cmpObjs(id *a,id *b){
     [self _unFlatten_: aCollection] ;
   }
 
+}
+
++(void) reverseOrderOf: aCollection {
+  id index ;  // atOffset would cause repetitive traversal in lists etc.
+  int i ;
+
+// Do 'flatten':
+
+  size = [aCollection getCount] ;
+
+  if(size){
+
+    flat = malloc(sizeof(int)*size) ;
+
+    index = [aCollection begin: scratchZone] ;
+
+    for(i = 0 ; i < size ; i++)
+      flat[i] = [index next] ;
+
+// Now do a modified 'unflatten':
+
+    [index setLoc: Start];	// no need to re-create the index
+
+    for(i = 0 ; i < size ; i++){
+      [index next] ;
+      [index put: flat[size-1-i]] ;
+    }
+
+    [index drop] ;
+    free(flat) ;
+
+  }
 }
 
 @end
