@@ -1,3 +1,7 @@
+1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.appl.in (bltlibdir): Set bltlibdir instead of bltdir.
+
 1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* VERSION: 1.2, 1.2.0.

@@ -5,7 +5,7 @@ libdir = @libdir@
 
 tcllibdir = @tcllibdir@
 tklibdir = @tklibdir@
-bltdir = @bltdir@
+bltlibdir = @bltlibdir@
 tclobjcdir = @tclobjcdir@
 ffidir = @ffidir@
 zliblibdir = @zliblibdir@
