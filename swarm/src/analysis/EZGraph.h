@@ -127,6 +127,7 @@
 
 - setActiveOutFile: anActiveOutFile;
 - setActiveGrapher: aGrapher;
+- setUnsignedArg: (unsigned)val;
 
 - step;
 
@@ -142,6 +143,6 @@
 }
 
 - setAverager: anAverager;
-
+- setUnsignedArg: (unsigned)val;
 @end
 

@@ -273,13 +273,33 @@ USING
 CREATING
 SETTING
 USING
+
+//M: After a sequence has been created and a selector is set, this
+//M: method allows the user to specify a single unsigned integer argument
+//M: that is required by the message that the selector implies.  
+
+//E: For  example, suppose you have created an EZGraph called "heightGraph"
+//E: If one has an object "dog" in which there is a method 
+//E: - getFriendHeight: (unsigned)h; 
+
+//E: And one wants to create a line to plot the 5th dog, 
+//E: then the EZsequence can be created with a command like:
+//E: {
+//E:   id sequence = [heightGraph createSequence: "aName"
+//E:                                withFeedFrom: dog
+//E:                                andSelector: M(getFriendHeight:);
+//E:
+//E:   [sequence setUnsignedArg: 4];
+//E: }   
+- setUnsignedArg: (unsigned)val;
+
 @end
 
-@protocol EZAverageSequence <SwarmObject, RETURNABLE>
+@protocol EZAverageSequence <EZSequence, RETURNABLE>
 //S: Protocol for an EZAverageSequence
 
-//D: A sequence generated using an EZGraph instance returns an
-//D: object of this type
+//D: An averaging sequence generated using an EZGraph instance returns an
+//D: object of this type.
 CREATING
 SETTING
 USING

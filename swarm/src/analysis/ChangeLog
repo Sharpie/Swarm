@@ -1,3 +1,11 @@
+2001-01-17  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* EZGraph.[hm] (EZSequence, EZAverageSequence): Add
+	-setUnsignedArg:.
+
+	* analysis.h (EZSequence): Add setUnsignedArg:.
+	(EZAverageSequence): Adopt EZSequence.
+
 2000-10-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Entropy.m ([Entropy -update]): Remove obsolete comments.

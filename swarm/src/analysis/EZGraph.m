@@ -502,6 +502,12 @@ PHASE(Using)
   return self;
 }
 
+- setUnsignedArg: (unsigned)val
+{
+  [activeGrapher setArg: 0 ToUnsigned: val];
+  return self;
+}
+
 - step
 {
   if (activeGrapher)
@@ -559,6 +565,12 @@ PHASE(Using)
 {
   averager = anAverager;
 
+  return self;
+}
+
+- setUnsignedArg: (unsigned)val
+{
+  [averager setArg: 0 ToUnsigned: val];
   return self;
 }
 
