@@ -33,7 +33,6 @@ getInt (id obj, const char *ivarName)
    static struct argp_option options[] = {
      {"inputfile", 'I',"filename",0,"set fn",5},
      {"run",'R',"RunNumber",0,"Run is...",6},
-     {"randomSeed",'S',"SeedNumber",0,"Seed",7},
      {"bugDensity",'d',"D", 0, "Bug density", 8},
      {"seedProb",'p',"P",0,"Probability of Food",9},
      {"worldXSize",'x',"X",0,"Size of X dimension",10},
@@ -121,12 +120,7 @@ getInt (id obj, const char *ivarName)
       if (arg)
         worldYSize = atoi(arg);
       break;
-    
-    case 'S' :
-      if (arg)
-	randomSeed = atoi (arg);
-      break;
-     
+         
     case 'e' :
       if (arg)
 	experimentDuration = atoi (arg);
