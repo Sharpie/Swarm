@@ -1,6 +1,10 @@
 #ifndef _OBJC_EXTERNVAR_H
 #define _OBJC_EXTERNVAR_H
 
+#ifdef DLL_EXPORT
+#define DLL
+#endif
+
 #if defined(DLL) && !defined(INHIBIT_OBJC_DLL)
 
 #undef EXPORT_EXTERN

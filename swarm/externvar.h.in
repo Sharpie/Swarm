@@ -3,6 +3,10 @@
 
 #ifndef disable_externvar
 
+#ifdef DLL_EXPORT
+#define DLL
+#endif
+
 #ifdef DLL
 
 #undef EXPORT_EXTERN

@@ -1,6 +1,9 @@
-2001-07-23    <mgd@HELEN>
+2001-07-24    <mgd@HELEN>
 
-	* Makefile.am (objc.dll): Replace .lo with .o in objc.dll dllwrap link.
+	* configure.in: Call AC_LIBTOOL_WIN32_DLL before AC_PROG_LIBTOOL.
+
+	* sendmsg.c (RETVAL_FLOAT_IS_POINTER): Used || instead of && in
+	major/minor check.
 
 2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
 

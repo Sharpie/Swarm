@@ -34,7 +34,7 @@ Boston, MA 02111-1307, USA.  */
 #error cc1obj -print-runtime-info must report MFRAME_STACK_STRUCT
 #endif
 
-#if ((__GNUC__ == 3) || (__GNUC__ == 2 && __GNUC_MINOR__ == 96)) && defined(__i386__) 
+#if ((__GNUC__ == 3) || (__GNUC__ == 2 && __GNUC_MINOR__ == 96) || defined (__CYGWIN__)) && defined(__i386__) 
 #define RETVAL_FLOAT_IS_POINTER
 #endif
 

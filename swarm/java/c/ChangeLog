@@ -1,3 +1,8 @@
+2001-07-23    <mgd@HELEN>
+
+	* Makefile.in ($(JAVASWARM_DLL)): Remove FFILIB and manually specify
+	avcall.o and avcall-i386-msvc.o.
+
 2000-08-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* SwarmEnvironmentExtra.m (swarm_java_constructors): New function.

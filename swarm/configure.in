@@ -18,6 +18,7 @@ test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
 OBJCFLAGS="$OBJCFLAGS -Wall -Wno-import -Wno-protocol -Werror"
 AC_SUBST(OBJCFLAGS)
 
+AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
 SHLIBPATH_VAR=`./libtool --config | sed -n 's/^shlibpath_var=\(.*\)/\1/p'`
