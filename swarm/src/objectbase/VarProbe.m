@@ -906,6 +906,8 @@ JS_probe_as_string (COMobject cObj, const char *variableName,
     {
       if (probedType[0] == _C_ARY_B)
         strcpy (buf, "[..]");
+      else if (probedType[0] == _C_PTR)
+        sprintf (buf, PTRHEXFMT, (void *) anObject + dataOffset);
       else
         {
           fcall_type_t type = fcall_type_for_objc_type (probedType[0]);
