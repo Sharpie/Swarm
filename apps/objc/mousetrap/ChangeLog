@@ -1,3 +1,10 @@
+2000-01-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MousetrapBatchSwarm.m ([MousetrapBatchSwarm -buildObjects]): 
+	Use getWithZone:key:, not getWithZone:object:.
+
+	* main.m (main): Likewise.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (APPVERSION): Bump.

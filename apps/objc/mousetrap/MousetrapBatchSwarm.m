@@ -50,7 +50,7 @@
 
   // if we can't find the right key from the Archiver, raise an event
   if ((mousetrapModelSwarm = 
-       [archiver getWithZone: self object: "modelSwarm"]) == nil)
+       [archiver getWithZone: self key: "modelSwarm"]) == nil)
     raiseEvent(InvalidOperation, 
                "Can't find archiver file or appropriate key");
   

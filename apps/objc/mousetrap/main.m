@@ -44,7 +44,7 @@ main (int argc, const char **argv)
       // archiver will actually *instantiate* the object if the
       // parameters are found in the Lisp file
       if ((theTopLevelSwarm = 
-           [archiver getWithZone: globalZone object: "batchSwarm"]) == nil)
+           [archiver getWithZone: globalZone key: "batchSwarm"]) == nil)
         raiseEvent(InvalidOperation, 
                    "Can't find archiver file or appropriate key");
       
