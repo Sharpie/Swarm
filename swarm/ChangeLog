@@ -1,3 +1,9 @@
+2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VERSION: Bump.
+
+	* NEWS: Note that -count, -first, and -last have been removed.
+
 2000-09-10  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VERSION: Bump.
