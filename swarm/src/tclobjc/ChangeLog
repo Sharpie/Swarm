@@ -1,3 +1,7 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* TkInterp.[hm] ([TkInterp -stop]): Make return type void.
+
 2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* tclObjc.m (tclObjc_msgSendToClientData): Accomodate rename

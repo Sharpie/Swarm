@@ -212,7 +212,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
 }
 
 /* Send this to abort 'promptAndEval' loop */
-- stop
+- (void)stop
 {
   stopped = YES;
 #if HAVE_READLINE
@@ -221,7 +221,6 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
   //  rl_stuff_char(EOF);
   rl_stuff_char('\n');
 #endif
-  return self;
 }
 
 - promptAndEval

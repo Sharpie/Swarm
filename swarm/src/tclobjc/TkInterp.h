@@ -35,7 +35,7 @@
 }
 
 - (const char *)checkTkLibrary;
-- stop;
+- (void)stop;
 - (Tk_Window)mainWindow;
 
 @end
