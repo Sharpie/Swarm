@@ -154,7 +154,7 @@ PHASE(Setting)
               if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
                   || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
                 *((id *) ptr) = lispIn ([self getZone], val);
-              else if (strcmp (funcName, PARSE_FUNCTION_NAME) != 0)
+              else if (strcmp (funcName, MAKE_PARSE_FUNCTION_NAME) != 0)
                 raiseEvent (InvalidArgument, "function not %s",
                             MAKE_INSTANCE_FUNCTION_NAME
                             " or "
