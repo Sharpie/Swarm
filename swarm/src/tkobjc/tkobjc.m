@@ -37,11 +37,11 @@ initTkObjc(int argc, char ** argv) {
 
         bind $graph <Shift-ButtonPress-1> {
 
-          if {[%W element closest %s %y closestretval -interpolate 1]} {
+          if {[%%W element closest %s %y closestretval -interpolate 1]} {
              set foundclosest 1
-             %W marker configure active_info_marker \
+             %%W marker configure active_info_marker \
              -text \"$closestretval(x),$closestretval(y)\" -mapped 1
-             %W element activate $closestretval(name) $closestretval(index)
+             %%W element activate $closestretval(name) $closestretval(index)
           }
 
         }
@@ -49,22 +49,22 @@ initTkObjc(int argc, char ** argv) {
         bind $graph <ButtonRelease-1> {
 
              if {$foundclosest} {
-               %W marker configure active_info_marker -mapped 0
-               %W element deactivate $closestretval(name)
+               %%W marker configure active_info_marker -mapped 0
+               %%W element deactivate $closestretval(name)
                set foundclosest 0 
              }
         }
 
         bind $graph <Enter> {
-          focus %W
+               focus %%W
         }
 
         bind $graph <KeyPress-o> {
-               %W marker configure active_outlier_marker -mapped 1
+               %%W marker configure active_outlier_marker -mapped 1
         }
 
         bind $graph <KeyRelease-o> {
-               %W marker configure active_outlier_marker -mapped 0
+               %%W marker configure active_outlier_marker -mapped 0
         }
       }","%x"] ;
 /*
