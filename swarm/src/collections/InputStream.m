@@ -11,10 +11,12 @@ Library:      collections
 
 #import <collections.h>
 #import <collections/StringObject.h> // setLiteralFlag:
+#import <collections/OutputStream.h>
 #import <collections/InputStream.h>
 #include <objc/objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isspace, isdigit
 #include <collections/predicates.h>
+#include <defobj/internal.h>  // lisp_process_array
 
 @implementation InputStream_c
 
@@ -205,7 +207,7 @@ readString (id inStream, BOOL literalFlag)
     {
       id list = [List create: aZone];
         
-        while (1)
+        while (YES)
         {
           id newObj = [self getExpr];
 
@@ -259,7 +261,7 @@ readString (id inStream, BOOL literalFlag)
     }
   else if (c == ';')  // Lisp comment
     {
-      while (1)  // suck up the rest of line
+      while (YES)  // suck up the rest of line
         {
           c = fgetc (fileStream);
           if (c == '\n')            // end of comment (marked by end of line)
@@ -370,6 +372,18 @@ PHASE(Using)
   return keywordName;
 }
 
+- lispOutShallow: (id <OutputStream>)stream
+{
+  return [self lispOutDeep: stream];
+}
+
+- lispOutDeep: (id <OutputStream>)stream
+{
+  [stream catC: "#:"];
+  [stream catC: keywordName];
+  return self;
+}
+
 @end
     
 @implementation ArchiverArray_c
@@ -422,6 +436,8 @@ PHASE(Creating)
     default:
       raiseEvent (InvalidArgument, "Unknown number type");
     }
+
+  type = [proto getValueType];
   
   data = xcalloc (elementCount, elementSize);
   
@@ -506,6 +522,26 @@ PHASE(Using)
 - (size_t)getElementSize
 {
   return elementSize;
+}
+
+- (char)getArrayType
+{
+  return type;
+}
+
+- lispOutShallow: (id <OutputStream>)stream
+{
+  return [self lispOutDeep: stream];
+}
+
+- lispOutDeep: (id <OutputStream>)stream
+{
+  char buf[1 + 1];
+  
+  sprintf(buf, "%c", type);
+  lisp_process_array (objc_type_for_array (buf, rank, dims), 
+                      data, data, stream, YES);
+  return self;
 }
 
 - (void)drop
@@ -598,6 +634,42 @@ PHASE(Using)
   return value.obj;
 }
 
+- lispOutShallow: (id <OutputStream>)stream
+{
+  return [self lispOutDeep: stream];
+}
+
+- lispOutDeep: (id <OutputStream>)stream
+{
+  switch (type)
+    {
+    case _C_ID:
+      {
+        [stream catC: "id is of type = "];
+        // [stream catC: [value.obj getType]];
+        [stream catC: ""];
+        break;
+      }
+    case _C_DBL:
+      [stream catDouble: value.d];
+      break;
+    case _C_FLT:
+      [stream catFloat: value.f];
+      break;
+    case _C_INT:
+      [stream catInt: value.i];
+      break;
+    case _C_CHR:
+    case _C_UCHR:
+      [stream catChar: value.ch];
+      break;
+    default:
+      [stream catC: "not implemented yet"];
+      break;
+    }
+  return self;
+}
+
 @end
 
 @implementation ArchiverPair_c
@@ -625,4 +697,31 @@ PHASE(Using)
 {
   return cdr;
 }
+
+static void
+lisp_output_one_of_pair (id obj, id stream)
+{
+  if (listp (obj))
+    [stream catExpr: obj];
+  else if (stringp (obj) || valuep (obj) || arrayp (obj))
+    [obj lispOutDeep: stream];
+  else 
+    raiseEvent(InvalidArgument, "one of ArchiverPair_c can't be serialized");
+}
+
+- lispOutShallow: (id <OutputStream>)stream
+{
+  return [self lispOutDeep: stream];
+}
+
+- lispOutDeep: (id <OutputStream>)stream
+{
+  [stream catC: "(cons "];
+  lisp_output_one_of_pair (car, stream);
+  [stream catC: " "];
+  lisp_output_one_of_pair (cdr, stream);
+  [stream catC: ")"];
+  return self;
+}
+
 @end

@@ -24,4 +24,10 @@ Library:     collections
 + create: aZone setFileStream: (FILE *)file;
 - (FILE *)getFileStream;
 - (void)catC: (const char *)cstring;
+- (void)catChar: (char)ch;
+- (void)catDouble: (double)dbl;
+- (void)catFloat: (float)flt;
+- (void)catInt: (int)i;
+- (void)catUnsigned: (unsigned)un;
+- (void)catExpr: expr;
 @end

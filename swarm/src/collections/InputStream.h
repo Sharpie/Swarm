@@ -32,6 +32,8 @@ Library:     collections
 }
 - setKeywordName: (const char *)name;
 - (const char *)getKeywordName;
+- lispOutShallow: stream;
+- lispOutDeep: stream;
 @end
 
 @interface ArchiverArray_c: CreateDrop_s
@@ -40,6 +42,7 @@ Library:     collections
   unsigned *dims;
   size_t elementSize;
   unsigned elementCount;
+  char type;
   void *data;
 }
 - setArray: array;
@@ -47,6 +50,9 @@ Library:     collections
 - (unsigned *)getDims;
 - (size_t)getElementSize;
 - (unsigned)getElementCount;
+- (char)getArrayType;
+- lispOutShallow: stream;
+- lispOutDeep: stream;
 - (void)drop;
 @end
 
@@ -74,6 +80,8 @@ Library:     collections
 - (BOOL)getBoolean;
 - getObject;
 - (char)getValueType;
+- lispOutShallow: stream;
+- lispOutDeep: stream;
 @end
 
 @interface ArchiverPair_c: CreateDrop_s

@@ -27,7 +27,7 @@ PHASE(Creating)
   // create initial string of length zero
 
   newString->count  = 0;
-  newString->literalFlag = 0;
+  newString->literalFlag = NO;
   newString->string = "";
   return newString;
 }
@@ -185,11 +185,20 @@ PHASE(Using)
 
 - lispOutShallow: stream
 {
-  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [stream catC: [self getTypeName]];
-  [stream catC: " \""];
-  [stream catC: string];
-  [stream catC: "\")"];
+  if (literalFlag)
+    {
+      [stream catC: "\""];
+      [stream catC: string];
+      [stream catC: "\""];
+    }
+  else
+    {
+      [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
+      [stream catC: [self getTypeName]];
+      [stream catC: " \""];
+      [stream catC: string];
+      [stream catC: "\")"];
+    }
   return self;
 }
 

@@ -937,18 +937,39 @@ USING
 @protocol OutputStream <Create, Drop, CREATABLE>
 //S: Stream of output bytes.
 
-//D: The OutputStream type currently supports only the writing of a
-//D: character string to a file.  It is a placeholder for more general
+//D: The OutputStream type currently supports the writing of types to
+//D: a Lisp-like format. It is a placeholder for more general
 //D: stream types.  A stream is a collection that supports only sequential
 //D: addition of members (an output stream) or sequential removal of
-//D: members (an input stream).
+//D: members (an input stream).  With the exception of the -catC: method, 
+//D: all messages write to stream in Lisp archiver format.
 CREATING
 + create: aZone setFileStream: (FILE *)fileStream;
 - setFileStream: (FILE *)fileStream;
 
 USING
 - (FILE *)getFileStream;
+
+//M: Writes character string to stream
 - (void)catC: (const char *)cstring;
+
+//M: Writes a character to stream in Lisp archiver format
+- (void)catChar: (char)ch;
+
+//M: Writes a double to stream in Lisp archiver format
+- (void)catDouble: (double)dbl;
+
+//M: Writes a float to stream in Lisp archiver format
+- (void)catFloat: (float)flt;
+
+//M: Writes an integer to stream in Lisp archiver format
+- (void)catInt: (int)i;
+
+//M: Writes an unsigned to stream in Lisp archiver format
+- (void)catUnsigned: (unsigned)un;
+
+//M: Writes parsed Lisp InputStream list expression back to the stream
+- (void)catExpr: expr;
 @end
 
 @protocol InputStream <Create, Drop, CREATABLE>

@@ -1,3 +1,37 @@
+1999-06-05  Alex Lancaster  <alex@santafe.edu>
+
+	* collections.h (OutputStream): [OutputStream_c -cat{Expr, Double,
+	Float, Int, Unsigned}:] Add and document new functions.
+
+	* StringObject.m ([String_c -lispOutShallow:]): When literalFlag
+	set, don't generate the MAKE_INSTANCE_FUNCTION_NAME.
+
+	* InputStream.[hm] ([InputStream_c -getExpr]): Make uncondtional
+	while loops use Boolean (YES), rather than (1).
+	([ArchiverKeyword_c -lispOut{Shallow,Deep}:]): Implement
+	serialization.
+	([ArchiverArray_c -setArray:]): Save the type information in new
+	`type' slot.
+	([ArchiverArray_c -getArrayType]): New method.
+	([ArchiverArray_c -lispOut{Shallow,Deep}:]): Implement
+	serialization, use saved `type' information to regenerate the
+	array using lisp_process_array function call.
+	([ArchiverValue_c -lispOut{Shallow,Deep}:]): Serialization for the
+	atomic types, using [OutputStream_c -cat{Double, Float, Int,
+	Unsigned}:] functions.
+	(lisp_output_one_of_pair): New function.
+	([ArchiverPair_c -lispOut{Shallow,Deep}:]): Use
+	lisp_output_one_of_pair.  Serialization for pairs.  
+	Import <defobj/internal.h>.
+
+	* OutputStream.[hm] ([OutputStream_c -catChar:]): New method to
+	accept a character and write to a string in the format expected by
+	the Lisp archiver.
+	([OutputStream_c -cat{Double, Float, Int, Unsigned}:]): Likewise
+	for all respective types.
+	([OutputStream_c -catExpr:]): New method to write an expression
+	parsed by an InputStream instance back to a stream.
+
 1999-06-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* collections.h ([Set add:]): Remove remark about DupOption (moved to
