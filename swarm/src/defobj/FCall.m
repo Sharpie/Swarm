@@ -300,6 +300,7 @@ PHASE(Creating)
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   methodName = STRDUP (mtdName);
   (jobject) fobject = (*jniEnv)->NewGlobalRef (jniEnv, (jobject) obj);
+  fobjectPendingGlobalRefFlag = YES;
 #else
   java_not_available ();
 #endif
@@ -375,7 +376,7 @@ updateTarget (FCall_c *self, id target)
 {
 #ifdef HAVE_JDK
   if ([target respondsTo: M(isJavaProxy)])
-    self->fobject = SD_FINDJAVA (jniEnv, target);
+    updateJavaTarget (self, SD_FINDJAVA (jniEnv, target));
   else
 #endif
     self->fobject = target;
@@ -385,6 +386,11 @@ updateTarget (FCall_c *self, id target)
 void
 updateJavaTarget (FCall_c *self, JOBJECT target)
 {
+  if (self->fobjectPendingGlobalRefFlag)
+    {
+      (*jniEnv)->DeleteGlobalRef (jniEnv, (jobject) self->fobject);
+      self->fobjectPendingGlobalRefFlag = NO;
+    }
   self->fobject = target;
   add_ffi_types (self);
 }
@@ -753,10 +759,14 @@ PHASE(Using)
 - (void)drop
 {
 #ifdef HAVE_JDK
-  if (callType == javacall || callType == javastaticcall)
-    (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
   if (callType == javacall)
-    (*jniEnv)->DeleteGlobalRef (jniEnv, fobject);
+    {
+      if (fobjectPendingGlobalRefFlag)
+        (*jniEnv)->DeleteGlobalRef (jniEnv, fobject);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
+    }
+  else if (callType == javastaticcall)
+    (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
 #endif
   if (methodName)
     FREEBLOCK (methodName);

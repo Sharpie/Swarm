@@ -1,3 +1,13 @@
+1999-11-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m ([FCall_c -setJavaMethod:inObject:]): Set
+	fobjectPendignGlobalRefFlag for globalreffed object argument.
+	(updateTarget): Use updateJavaTarget.
+	(updateJavaTarget, [FCall_c -drop]): Handle
+	fobjectPendingGlobalRefFlag.
+
+	* FCall.h (FCall_c): New field fobjectPendingGlobalRefFlag.
+
 1999-11-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m ([FCall_c -setJavaMethod:inObject:], 

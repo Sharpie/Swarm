@@ -44,6 +44,7 @@ void updateJavaTarget (id self, JOBJECT target);
    void *fclass;
    void *fmethod;
    const char *methodName;
+   BOOL fobjectPendingGlobalRefFlag;
 }
 + createBegin: aZone;
 - setArguments: args;
