@@ -323,10 +323,16 @@ PHASE(Using)
 static void
 lispInLatticeValues (Discrete2d *self, id array)
 {
-  if ([array getElementSize] == sizeof (id))
-    [array convertToType: _C_LNG dest: (void *) self->lattice];
+  char type;
+
+  if (sizeof (long) == sizeof (id))
+    type = _C_LNG;
+  else if (sizeof (int) == sizeof (id))
+    type = _C_INT;
   else
     abort ();
+   
+  [array convertToType: type dest: (void *) self->lattice];
 }
 
 static void
