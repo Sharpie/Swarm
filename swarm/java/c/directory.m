@@ -28,13 +28,22 @@ create_class_refs (JNIEnv *env)
     {
       char class_name_buf[10 + strlen (name) + 1];
       char *p;
-      jclass ret;
+      jclass ret, clazz;
+      jfieldID field;
       
       p = stpcpy (class_name_buf, "java/lang/");
       p = stpcpy (p, name);
-      ret = (*env)->FindClass (env, class_name_buf);
-      if (ret == NULL)
+      clazz = (*env)->FindClass (env, class_name_buf);
+      if (clazz == NULL)
         abort ();
+      if (!(field = (*env)->GetStaticFieldID (env,
+                                                clazz,
+                                                "TYPE",
+                                                "Ljava/lang/Class;")))
+          abort ();
+      if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
+          abort ();  
+
       return ret;
     }
   if (!initFlag)
@@ -46,7 +55,10 @@ create_class_refs (JNIEnv *env)
       c_long = find ("Long");
       c_float = find ("Float");
       c_double = find ("Double");
-      c_object = find ("Object");
+      c_object = (*env)->FindClass (env, "java/lang/Object");
+
+      if (c_object == NULL)
+        abort ();
       
       {
         jclass clazz;

@@ -1,3 +1,8 @@
+1999-03-18  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.m (create_class_refs): Modify find to return primitive
+	type class instead of the java.lang wrapper.
+	
 1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (create_class_refs): Initialize globalZone via
