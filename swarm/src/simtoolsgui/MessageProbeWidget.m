@@ -36,7 +36,7 @@ printVal (val_t val)
   switch (val.type)
     {
     case _C_ID: 
-      return [val.val.object getDisplayName];
+      return val.val.object ? [val.val.object getDisplayName] : "<null>";
     case _C_SEL:
       return sel_get_name (val.val.selector);
     case _C_CHR:
@@ -86,7 +86,6 @@ printVal (val_t val)
     default:
       abort ();
     }
-  printf ("[%s]\n", buf);
   return buf;
 }
 
