@@ -5,7 +5,14 @@
 #import <defobj/FArguments.h>
 #import <defobj.h> // FCall
 
+#include <jni.h>
+
 @implementation JavaProxy
+
+- try: (const char *)str
+{
+  return nil;
+}
 
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
 {
@@ -34,7 +41,6 @@
       if (!type)
         abort ();
     }
-  printf ("sel `%s' type: `%s'\n", sel_get_name (aSel), type);
   fa = [FArguments createBegin: aZone];
   type = mframe_next_arg (type, &info);
   mframe_get_arg (argFrame, &info, &val);
@@ -50,14 +56,12 @@
   fa = [fa createEnd];
   
   fc = [[[[FCall createBegin: aZone] setArguments: fa]
-          setMethod: aSel inObject: self] createEnd];
+          setMethod: @selector (try:) inObject: self] createEnd];
   [fc performCall];
-  {
-    retval_t ret = [fc getReturnVal];
-    [fc drop];
-    [fa drop];
-    
-    return ret;
-  }
+  // [fa drop];
+
+  argFrame[0].arg_ptr = [fc getResult];
+  // [fc drop];
+  return argFrame[0].arg_ptr;
 }
 @end

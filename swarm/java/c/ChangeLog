@@ -1,5 +1,9 @@
 1999-03-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* JavaProxy.m ([JavaProxy -forward::]): Assign [fc getResult]
+	to argFrame[0].arg_ptr, the return value.  To make this work
+	on i386, use -mno-fp-ret-in-387.  -msoft-float may be needed on Sparc.
+	
 	* directory.[hm] (java_directory_objc_find_java): New function.
 
 	* Makefile.in ($(libjavaswarmstubs_la_OBJECTS)): Add dependency
