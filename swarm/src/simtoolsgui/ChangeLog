@@ -1,5 +1,8 @@
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MessageProbeWidget.m: Don't include stdlib.h.
+	([MessageProbeWidget -createEnd]): Use xmalloc instead of malloc.
+
 	* MultiVarProbeDisplay.h (CommonProbeDisplay): Make hideB
 	conform to SimpleProbeDisplayHideButton.
 

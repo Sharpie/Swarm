@@ -11,7 +11,6 @@
 #import <objc/objc-api.h>
 
 #include <misc.h> // strlen, strdup
-#include <stdlib.h>
 #include <ctype.h>
 
 // Avoid using chars as an index to ctype table.
@@ -117,12 +116,12 @@ PHASE(Creating)
   
   if (argCount)
     {
-      objWindows = (BOOL *)malloc (sizeof (BOOL) * argCount);
+      objWindows = (BOOL *)xmalloc (sizeof (BOOL) * argCount);
       argCount *= 2; 
-      myWidgets = (id <Widget> *)malloc (sizeof (id <Widget>) * argCount);
+      myWidgets = (id <Widget> *)xmalloc (sizeof (id <Widget>) * argCount);
     }
   else
-    myWidgets = (id <Widget> *)malloc (sizeof (id <Widget>));
+    myWidgets = (id <Widget> *)xmalloc (sizeof (id <Widget>));
   
   myWidgets[0] = [Button createParent: self];
   [(id <Button>)myWidgets[0] setButtonTarget: self
