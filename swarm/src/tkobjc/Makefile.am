@@ -12,12 +12,13 @@ XPMFILES = schedule.xpm trigger.xpm
 
 EXTRA_DIST = $(TCLFILES) $(XPMFILES)
 
+XPMINCLUDES = @XPMINCLUDES@
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
 ZLIBINCLUDES = @ZLIBINCLUDES@
 PNGINCLUDES = @PNGINCLUDES@
 
-INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity -I$(srcdir)/../tclobjc $(TKINCLUDES) $(TCLINCLUDES) $(PNGINCLUDES) $(ZLIBINCLUDES)
+INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity -I$(srcdir)/../tclobjc $(TKINCLUDES) $(TCLINCLUDES) $(XPMINCLUDES) $(PNGINCLUDES) $(ZLIBINCLUDES)
 
 override CFLAGS += $(X_CFLAGS)
 

@@ -1,7 +1,12 @@
-1998-10-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT): Increment.  Swarm 1.3.1 released.
-	(XPMFILES): New variable.
+	(XPMINCLUDES): New subsitituted variable.
+	(INCLUDES): Use it.
+
+1998-10-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (XPMFILES): New variable.
 	(EXTRA_DIST): Include it.
 	
 	* TkExtra.m (ensureBltSupportFiles): Check ../BLT/library instead
