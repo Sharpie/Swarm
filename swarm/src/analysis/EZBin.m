@@ -35,7 +35,8 @@ PHASE(Creating)
   anObj->fileOutput = 0;
   anObj->graphics = 1;
   anObj->monoColorBars = NO;
-  anObj->theTitle = NULL;
+  anObj->title = NULL;
+  anObj->fileName = NULL;
   anObj->xLabel = NULL;
   anObj->yLabel = NULL;
   anObj->precision = 3;
@@ -62,7 +63,15 @@ PHASE(Creating)
 
 - setTitle: (const char *)aTitle
 {
-  theTitle = aTitle;
+  title = aTitle;
+  if (!fileName)
+    fileName = title;
+  return self;
+}
+
+- setFileName: (const char *)aFileName
+{
+  fileName = aFileName;
   return self;
 }
 
@@ -107,8 +116,11 @@ PHASE(Creating)
   if (binNum <= 0)
     [InvalidCombination raiseEvent: "EZBin without a positive Bin Number!!!\n"];
 
-  if (!theTitle)
+  if (!title)
     [InvalidCombination raiseEvent: "EZBin without a title!!!\n"]; 
+
+  if (fileOutput && !fileName)
+    [InvalidCombination raiseEvent: "EZBin without an output-file name!\n"];
 
   if (min >= max)
     [InvalidCombination raiseEvent: "EZBin with invalid min-max range!!!\n"]; 
@@ -134,7 +146,7 @@ PHASE(Creating)
       aHisto = [aHisto createEnd];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
 
-      [aHisto setTitle: theTitle];
+      [aHisto setTitle: title];
       if(xLabel && yLabel) 
         [aHisto setAxisLabelsX: xLabel Y: yLabel];
       // [aHisto setLabels: binLabels];
@@ -164,7 +176,7 @@ PHASE(Creating)
     }
   
   if (fileOutput)
-    anOutFile = [OutFile create: [self getZone] withName: theTitle];
+    anOutFile = [OutFile create: [self getZone] withName: fileName];
   
   return self;
 }
@@ -315,6 +327,16 @@ PHASE(Using)
     }
 
   return self;
+}
+
+- (const char *)getTitle
+{
+  return title;
+}
+
+- (const char *)getFileName
+{
+  return fileName;
 }
 
 - (int *)getDistribution

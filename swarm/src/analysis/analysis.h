@@ -105,7 +105,12 @@ CREATING
 //M: The setTitle method uses a title string to label a graph window in the 
 //M: graphical version of EZBin.  The label appears at the top of the graph 
 //M: window. (Only relevant if the state of setGraphics is set to 1.)
-- setTitle: (const char *)aTitle;
+- setTitle: (const char *)title;
+
+//M: The setFileName method sets the name used for disk file data output.
+//M: (Only relevant if the state of seFileOutput is set to 1.)
+//M: If not set, the filename defaults to be the same as the graph title.
+- setFileName: (const char *)fileName;
 
 //M: The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
 //M: the histogram in the graphical version of EZBin. (Only relevant if the 
@@ -197,6 +202,12 @@ USING
 
 //M: Return the histogram widget.
 - (id <Histogram>)getHistogram;
+
+//M: Return the title string.
+- (const char *)getTitle;
+
+//M: Return the filename string.
+- (const char *)getFileName;
 @end
 
 @protocol EZDistribution <EZBin>
@@ -259,6 +270,11 @@ CREATING
 //M: if data for the sequences is to be sent to a file.  The default state is 0
 //M: meaning that by default no file I/O is carried out by the EZGraph class.
 - setFileOutput: (BOOL)state;
+
+//M: The setFileName method sets the name used for disk file data output.
+//M: (Only relevant if the state of setFileOutput is set to 1.)
+//M: The name set here is prepended to the names of each data sequence.
+- setFileName: (const char *)aFileName;
 
 //M: The setTitle method uses a title string to label a graph window in the 
 //M: graphical version of EZGraph.  The label appears at the top of the graph 
@@ -342,6 +358,12 @@ USING
 //M: methods. If the drop is successful, the method returns aSeq,
 //M: otherwise it returns nil.
 - dropSequence: aSeq;  
+
+//M: Return the title string.
+- (const char *)getTitle;
+
+//M: Return the file name prefix string.
+- (const char *)getFileName;
 
 //M: the -update method causes the underlying sequences to get the next set
 //M: of data values. If a sequence has a single object attached rather

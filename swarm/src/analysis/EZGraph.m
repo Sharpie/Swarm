@@ -26,6 +26,7 @@ PHASE(Creating)
   obj->graphics = 1;
   obj->fileOutput = 0;
   obj->title = NULL;
+  obj->fileName = NULL;
   obj->xLabel = NULL;
   obj->yLabel = NULL;
 
@@ -53,6 +54,15 @@ PHASE(Creating)
   return self;
 }
 
+- setFileName: (const char *)aFileName
+// In case of file output, this file name is 
+// prepended to the name of each data sequence
+{
+  fileName = aFileName;
+
+  return self;
+}
+
 - setAxisLabelsX: (const char *)xl Y:(const char *)yl
 { 
   xLabel = xl;
@@ -66,12 +76,12 @@ PHASE(Creating)
 
   if (graphics)
     {
-      theGraph = [Graph createBegin: [self getZone]];
-      SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (theGraph);
-      theGraph = [theGraph createEnd];
-      [theGraph setTitle: title];
-      [theGraph setAxisLabelsX: xLabel Y: yLabel];
-      [theGraph pack];
+      graph = [Graph createBegin: [self getZone]];
+      SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (graph);
+      graph = [graph createEnd];
+      [graph setTitle: title];
+      [graph setAxisLabelsX: xLabel Y: yLabel];
+      [graph pack];
     }
   
   sequenceList = [List create: [self getZone]];
@@ -83,28 +93,28 @@ PHASE(Using)
 
 - setScaleModeX: (BOOL)xs Y: (BOOL)ys
 {
-  [theGraph setScaleModeX: xs Y: ys];
+  [graph setScaleModeX: xs Y: ys];
 
   return self;
 }
 
 - setRangesXMin: (double)xmin Max: (double)xmax
 {
-  [theGraph setRangesXMin: xmin Max: xmax];
+  [graph setRangesXMin: xmin Max: xmax];
 
   return self;
 }
 
 - setRangesYMin: (double)ymin Max: (double)ymax
 {
-  [theGraph setRangesYMin: ymin Max: ymax];
+  [graph setRangesYMin: ymin Max: ymax];
 
   return self;
 }
 
-- (id <Graph>) getGraph
+- (id <Graph>)getGraph
 {
-  return theGraph;
+  return graph;
 }
 
 - dropSequence: aSeq
@@ -120,6 +130,16 @@ PHASE(Using)
   }
 }
 
+- (const char *)getTitle
+{
+  return title;
+}
+
+- (const char *)getFileName
+{
+  return fileName;
+}
+
 // internal method called by createSequence:withFeedFrom:andSelector
 - createGraphSequence: (const char *)aName
           forSequence: aSeq
@@ -127,12 +147,13 @@ PHASE(Using)
           andSelector: (SEL)aSel
 {
   id aGrapher;
+  char fName[128];
   
   if (graphics)
     {
       id anElement;
       
-      anElement = [theGraph createElement];
+      anElement = [graph createElement];
       [anElement setLabel: aName];
       [anElement setColor: graphColors[colorIdx++ % NUMCOLORS]];
 
@@ -148,8 +169,12 @@ PHASE(Using)
   if (fileOutput)
     {
       id aFileObj;
-      
-      aFileObj = [OutFile create: [self getZone] withName: aName];
+      char *p;
+
+      p = stpcpy (fName, fileName);
+      p = stpcpy (p, ".");
+      p = stpcpy (p, aName);      
+      aFileObj = [OutFile create: [self getZone] withName: fName];
       
       aGrapher = [ActiveOutFile createBegin: [self getZone]];
       [aGrapher setFileObject: aFileObj];
@@ -333,7 +358,7 @@ PHASE(Using)
 {
   id index, aSequence;
   
-  [theGraph drop];
+  [graph drop];
 
   index = [sequenceList begin: [self getZone]];
   while ((aSequence = [index next]))
@@ -352,25 +377,25 @@ PHASE(Using)
 
 - setActiveOutFile: anActiveOutFile
 {
-  theActiveOutFile = anActiveOutFile;
+  activeOutFile = anActiveOutFile;
 
   return self;
 }
 
 - setActiveGrapher: aGrapher
 {
-  theActiveGrapher = aGrapher;
+  activeGrapher = aGrapher;
 
   return self;
 }
 
 - step
 {
-  if (theActiveGrapher)
-    [theActiveGrapher step];
+  if (activeGrapher)
+    [activeGrapher step];
   
-  if (theActiveOutFile)
-    [theActiveOutFile step];
+  if (activeOutFile)
+    [activeOutFile step];
   
   return self;
 }
@@ -385,24 +410,24 @@ PHASE(Using)
 
 - outputGraph
 {
-  if (theActiveGrapher)
-    [theActiveGrapher step];
+  if (activeGrapher)
+    [activeGrapher step];
 
   return self;
 }
 
 - outputToFile
 {
-  if (theActiveOutFile)
-    [theActiveOutFile step];
+  if (activeOutFile)
+    [activeOutFile step];
 
   return self;
 }
 
 - (void)drop
 {
-  [theActiveGrapher drop];
-  [theActiveOutFile drop];
+  [activeGrapher drop];
+  [activeOutFile drop];
   [super drop];
 }
 
@@ -413,14 +438,14 @@ PHASE(Using)
 
 - setAverager: anAverager
 {
-  theAverager = anAverager;
+  averager = anAverager;
 
   return self;
 }
 
 - step
 {
-  [theAverager update];
+  [averager update];
   [super step];
   
   return self;
@@ -428,13 +453,13 @@ PHASE(Using)
 
 - update
 {
-  [theAverager update];
+  [averager update];
   return [super update];
 }
 
 - (void)drop
 {
-  [theAverager drop];
+  [averager drop];
   [super drop];
 }
 

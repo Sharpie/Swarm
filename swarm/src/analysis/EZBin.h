@@ -18,7 +18,8 @@
 
   BOOL monoColorBars;
 
-  const char *theTitle;
+  const char *fileName;
+  const char *title;
   const char *xLabel;
   const char *yLabel;
 
@@ -37,6 +38,7 @@
   unsigned precision;
 }
 
+- setFileName: (const char *)aFileName;
 - setTitle: (const char *)aTitle; 
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
@@ -44,9 +46,9 @@
 - setFileOutput: (BOOL)state;
 - setMonoColorBars: (BOOL)mcb;
 
-- setBinNum: (int)theBinNum;
-- setLowerBound: (double)theMin;
-- setUpperBound: (double)theMax;
+- setBinNum: (int)binNum;
+- setLowerBound: (double)min;
+- setUpperBound: (double)max;
 - setCollection: (id)aCollection;
 - setProbedSelector: (SEL)aSel;
 - setPrecision: (unsigned)precision;
@@ -63,7 +65,9 @@
 - (int)getOutliers;
 - (int)getBinNum;
 - (double)getUpperBound;
-- (double) getLowerBound;
+- (double)getLowerBound;
+- (const char *)getFileName;
+- (const char *)getTitle;
 
 - (double)getMin;
 - (double)getMax;

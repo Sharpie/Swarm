@@ -16,7 +16,7 @@
 @interface EZGraph: GUIComposite
 {
   int graphics;
-  id <Graph> theGraph;
+  id <Graph> graph;
 
   int fileOutput;
 
@@ -25,6 +25,8 @@
   const char *xLabel;
   const char *yLabel;
   const char *title;
+  const char *fileName;
+
   unsigned colorIdx;
 }
 
@@ -32,6 +34,7 @@
 - setFileOutput: (BOOL)state;
 
 - setTitle: (const char *)aTitle;
+- setFileName: (const char *)aFileName;
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
 - createEnd;
@@ -73,6 +76,9 @@
 
 - dropSequence: aSeq;
 
+- (const char *)getTitle;
+- (const char *)getFileName;
+
 - step;
 
 - update;
@@ -83,8 +89,8 @@
 
 @interface EZSequence : SwarmObject
 {
-  id theActiveOutFile;
-  id theActiveGrapher;
+  id activeOutFile;
+  id activeGrapher;
 }
 
 - setActiveOutFile: anActiveOutFile;
@@ -100,7 +106,7 @@
 
 @interface EZAverageSequence : EZSequence
 {
-  id theAverager;
+  id averager;
 }
 
 - setAverager: anAverager;
