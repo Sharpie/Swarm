@@ -1,3 +1,9 @@
+1998-09-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* CommonProbeDisplay.m ([CommonProbeDisplay -createEnd]): 
+	Use addWidget:X:Y:centerFlag on canvas instead of assertPosition
+	on frame.
+
 1998-09-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): Use

@@ -38,7 +38,7 @@ PHASE(Creating)
 
   topFrame =  [Frame createParent: canvas];
   [topFrame setBorderWidth: 0];
-  [topFrame assertPosition];
+  [canvas addWidget: topFrame X: 0 Y: 0 centerFlag: NO];
 
   markedForDropFlag = NO;
   return self;
