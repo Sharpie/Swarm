@@ -15,7 +15,6 @@ extern id _i_Collection_any_getLast (id, SEL);
 #define COLLECTION_ATOFFSET(coll, offset) _i_Collection_any_atOffset_ (coll, M(atAOffset:), offset)
 #define COLLECTION_GETLAST(coll) _i_Collection_any_getLast (coll, M(getLast))
 #define COLLECTION_GETFIRST(coll) _i_Collection_any_getFirst (coll, M(getFirst))
-
 extern id _i_List_linked__removeLast (id, SEL);
 #define LIST_REMOVELAST(list) _i_List_linked__removeLast(list, M(removeLast))
 extern id _i_List_linked__removeFirst (id, SEL);
@@ -117,3 +116,4 @@ extern id _i_OrderedSet_c__remove_ (struct OrderedSet_c *, struct objc_selector 
 
 #endif
 
+#define COLLECTION_COUNT(coll) (((Collection_any *) coll)->count)

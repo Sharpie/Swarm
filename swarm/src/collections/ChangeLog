@@ -1,7 +1,7 @@
 2001-07-29  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
-	* macros.h (COLLECTION_{REMOVE,ATOFFSET,GETLAST,GETFIRST,
-	LIST_{{ADD,REMOVE}{LAST,FIRST}}): Add
+	* macros.h (COLLECTION_{REMOVE,ATOFFSET,GETLAST,GETFIRST,COUNT},
+	LIST_{{ADD,REMOVE}{LAST,FIRST}}): Add.
 
 2001-07-28  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
