@@ -5,3 +5,4 @@
 <!entity emacs.sgml system "emacs.sgml">
 <!entity debug.sgml system "debug.sgml">
 
+<!entity techrevhistory.sgml system "techrevhistory.sgml">
