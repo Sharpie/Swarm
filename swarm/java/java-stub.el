@@ -519,6 +519,8 @@
                   "BernoulliDist"
                   "C2TAUS2gen")
                 :test #'string=))
+     (string= signature "+create:setGenerator:setMean:setVariance:")
+     (string= signature "+create:setGenerator:setVirtualGenerator:setMean:setVariance:")
      (string= signature "+createParent:"))))
   
 (defun match-create-signature (signature)
