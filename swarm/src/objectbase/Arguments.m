@@ -5,7 +5,6 @@
 
 #import <objectbase/Arguments.h>
 #import <objectbase.h> // arguments
-#import <collections.h> // String
 #include <misc.h> // strdup, getenv, access, stpcpy, stat
 #include <misc/argp.h>
 #include <swarmconfig.h> // CONFPATH
@@ -15,7 +14,8 @@ const char *program_invocation_name;
 const char *program_invocation_short_name;
 #endif
 
-#define SIGNATURE_FILE "etc/swarm/Makefile.appl"
+#define SIGNATURE_FILE "Makefile.appl"
+#define SIGNATURE_SUBPATH "etc/swarm/"
 
 #include "version.h"
 
@@ -96,6 +96,7 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   argp->help_filter = NULL;
 
   obj->defaultAppConfigPath = "./";
+  obj->defaultAppDataPath = "./";
 
   return obj;
 }
@@ -226,22 +227,33 @@ PHASE(Setting)
   return self;
 }
 
-- setDefaultAppConfigPath: (const char *)path
+const char *
+ensureEndingSlash (const char *path)
 {
   unsigned len = strlen (path);
 
   if (path[len - 1] != '/')
     {
       char *p, *buf;
-
+      
       buf = xmalloc (len + 2);
       p = stpcpy (buf, path);
       stpcpy (p, "/");
-      
-      defaultAppConfigPath = buf;
+      return buf;
     }
-  else
-    defaultAppConfigPath = path;
+  return strdup (path);
+}
+
+- setDefaultAppConfigPath: (const char *)path
+{
+  defaultAppConfigPath = ensureEndingSlash (path);
+
+  return self;
+}
+
+- setDefaultAppDataPath: (const char *)path
+{
+  defaultAppDataPath = ensureEndingSlash (path);
 
   return self;
 }
@@ -343,7 +355,7 @@ static char *
 findSwarm (id arguments)
 {
   const char *swarmPrefix = "swarm-";
-  const char *signatureFile = SIGNATURE_FILE;
+  const char *signatureFile = SIGNATURE_SUBPATH;
   int len = strlen (swarmPrefix) + strlen (swarm_version) + 1 + strlen (signatureFile) + 1;
   char *swarmVersionPathBuf = xmalloc (len);
   char *p, *swarmPath;
@@ -355,10 +367,10 @@ findSwarm (id arguments)
   
   swarmPath = findDirectory (arguments, swarmVersionPathBuf);
   if (swarmPath == NULL)
-    swarmPath = findDirectory (arguments, "swarm/" SIGNATURE_FILE);
+    swarmPath = findDirectory (arguments, "swarm/" SIGNATURE_SUBPATH);
   if (swarmPath)
     {
-      unsigned i, dropCount = countSlashes (SIGNATURE_FILE) + 1;
+      unsigned i, dropCount = countSlashes (SIGNATURE_SUBPATH) + 1;
       
       for (i = 0; i < dropCount; i++)
         swarmPath = dropDirectory (swarmPath);
@@ -391,45 +403,53 @@ findSwarm (id arguments)
   return swarmHome;
 }
 
-- (const char *)getSwarmConfigPath
+- (const char *)_getPath_: (const char *)fixed subpath: (const char *)subpath
 {
-  id configDir = [String create: [self getZone] setC: CONFPATH];
-  id configTestFile;
+  const char *signature = SIGNATURE_FILE;
+  char *filepath = xmalloc (strlen (fixed) + strlen (signature) + 1), *p;
   const char *ret;
 
-  [configDir catC: "/"];
-  configTestFile = [configDir copy: [self getZone]];
-  [configTestFile catC: "Makefile.appl"];
+  p = strcpy (filepath, fixed);
+  stpcpy (p, signature);
 
-  if (access ([configTestFile getC], R_OK) != -1)
-    ret = strdup ([configDir getC]);
+  if (access (filepath, R_OK) != -1)
+    ret = fixed;
   else
     {
       const char *home = [self getSwarmHome];
       if (home)
         {
-          id configNewDir = [String create: [self getZone] setC: home];
-          if (home[strlen (home) - 1] != '/')
-            [configNewDir catC: "/"];
-          
-          [configNewDir catC: "etc/swarm/"];
-          ret = strdup ([configNewDir getC]);
-          [configNewDir drop];
+          const char *newHome = ensureEndingSlash (home);
+          char *buf = xmalloc (strlen (newHome) + strlen (subpath) + 1);
+            
+          p = stpcpy (buf, newHome);
+          stpcpy (p, subpath);
+          ret = buf;
+          xfree ((char *)newHome);
         }
       else
         ret = NULL;
     }
-  [configDir drop];
-  [configTestFile drop];
+  xfree (filepath);
   return ret;
 }
 
-- (const char *)getAppConfigPath
+- (const char *)getConfigPath
+{
+  return [self _getPath_: SYSCONFDIR subpath: SIGNATURE_SUBPATH];
+}
+
+- (const char *)getDataPath
+{
+  return [self _getPath_: DATADIR subpath: "share/swarm/"];
+}
+
+- (BOOL)_runningFromInstall_
 {
   char *executablePath = strdup ([self getExecutablePath]);
   const char *possibleHome = dropDirectory (dropDirectory (executablePath));
   const char *home = [self getSwarmHome];
-  char *appConfigPath = (char *)defaultAppConfigPath;
+  BOOL ret = NO;
 
   if (home && possibleHome)
     {
@@ -437,26 +457,50 @@ findSwarm (id arguments)
       
       if (stat (possibleHome, &possibleHomeStatBuf) != -1
           && stat (home, &homeStatBuf) != -1)
-        if (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino)
-          {
-            const char *configPath = [self getSwarmConfigPath];
-            const char *appName = [self getAppName];
-            char *p;
-            
-            if (!configPath)
-              return NULL;
-            
-            appConfigPath = xmalloc (strlen (configPath) +
-                                     strlen (appName) + 2);
-            p = stpcpy (appConfigPath, configPath);
-            p = stpcpy (p, appName);
-            p = stpcpy (p, "/");
-          }
+        ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
     }
   xfree (executablePath);
+  return ret;
+}
+
+- (const char *)_appendAppName_: (const char *)basePath
+{
+  const char *appName = [self getAppName];
+  char *p;
+  char *path = xmalloc (strlen (basePath) + strlen (appName) + 2);
+  p = stpcpy (path, basePath);
+  p = stpcpy (p, appName);
+  p = stpcpy (p, "/");
+
+  return path;
+}
+
+- (const char *)getAppConfigPath
+{
+  char *appConfigPath = (char *)defaultAppConfigPath;
+
+  if ([self _runningFromInstall_])
+    {
+      const char *configPath = [self getConfigPath];
   
+      if (configPath)
+        return [self _appendAppName_: configPath];
+    }
   return appConfigPath;
 }
 
+- (const char *)getAppDataPath
+{
+  char *appDataPath = (char *)defaultAppDataPath;
+
+  if ([self _runningFromInstall_])
+    {
+      const char *dataPath = [self getDataPath];
+
+      if (dataPath)
+        return [self _appendAppName_: dataPath];
+    }
+  return appDataPath;
+}
 @end
 

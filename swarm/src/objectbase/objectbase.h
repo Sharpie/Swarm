@@ -741,9 +741,12 @@ USING
 - (const char **)getArgv;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
-- (const char *)getSwarmConfigPath;
-//M: A path where application-specific data or configuration files can
-//M: be expected to be found.
+- (const char *)getConfigPath;
+- (const char *)getDataPath;
+//M: A path where application-specific data files can be expected to be found.
+- (const char *)getAppDataPath;
+//M: A path where application-specific configuration files can be expected
+//M: to be found.
 - (const char *)getAppConfigPath;
 @end
 

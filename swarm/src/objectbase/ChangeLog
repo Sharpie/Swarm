@@ -1,3 +1,23 @@
+1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Arguments.m (ensureEndingSlash): New function.
+	([Arguments -setDefaultAppConfigPath:], [Arguments
+	-setDefaultAppDataPath:]): Use it.
+	([Arguments -_getPath_:subpath:]): New method.
+	([Arguments -getConfigPath], [Arguments -getDataPath]): Use it
+	(latter is new).
+	([Arguments -_runningFromInstall_], [Arguments -_appendAppName_:]): 
+	([Arguments -getAppConfigPath], [Arguments -getAppDataPath]): Use them
+	(latter is new).
+
+	* Arguments.[hm]: New ivar defaultAppDataPath and setter.
+
+	* Arguments.m ([Arguments +createBegin:]): Set a default for it.
+
+	* Arguments.h, objectbase.h: Declare -getDataPath and getAppDataPath.
+
+	* objectbase.h: Declare setDefaultAppDataPath:.
+
 1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* objectbase.h: Declare setDefaultAppConfigPath:.
@@ -18,7 +38,7 @@
 	(countSlashes): New function.
 	(findSwarm): Use it to determine how many directories to drop.
 
-	* objectbase.h, Arguments.[hm]: New methods getSwarmConfigPath
+	* objectbase.h, Arguments.[hm]: New methods getConfigPath
 	and getAppConfigPath.
 
 	* Arguments.h: Don't declare singleton Arguments object here.
