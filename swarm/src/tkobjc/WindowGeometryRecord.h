@@ -21,7 +21,7 @@
 - (unsigned)getWidth;
 - (unsigned)getHeight;
 
-- in: expr;
-+ in: aZone expr: expr;
-- out: outputCharStream;
+- lispin: expr;
++ lispin: aZone expr: expr;
+- lispout: outputCharStream;
 @end

@@ -2,7 +2,7 @@
 
 	* internal.m: Include defobj.h instead of objectbase/Arguments.h.
 
-	* WindowGeometryRecord.m ([WindowGeometryRecord +lispin:expr:]): 
+	* WindowGeometryRecord.[hm] ([WindowGeometryRecord +lispin:expr:]): 
 	Renamed from +in:expr:.
 	([WindowGeometryRecord -lispin:]): Renamed from -in:.
 	([WindowGeometryRecord -lispout:]): Renamed from -out:.
