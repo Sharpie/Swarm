@@ -12,7 +12,7 @@
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
 #import <defobj/JavaProxy.h>
-#import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA
+#import "../defobj/java.h" // SD_JAVA_FIND_CLASS_JAVA
 #endif
 
 #import "local.h"
@@ -44,7 +44,7 @@ PHASE(Creating)
       jclass currentClass, nextClass;
       jclass classObject;
 
-      classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+      classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
 
       if (!classObject)
 	raiseEvent (SourceMessage,
