@@ -1,6 +1,10 @@
 swarmdocs NEWS --- history of major changes to swarmdocs.  -*- text -*-
 Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
+* Release Notes for swarmdocs 1.4
+
+** Updates for DocBook stylesheets 1.32.
+
 * Release Notes for swarmdocs 1.3.1
 
 ** Updates for Jade 1.1.90 and DocBook stylesheets 1.14.

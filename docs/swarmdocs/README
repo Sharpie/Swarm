@@ -31,11 +31,10 @@ DTD, aimed at computer documentation.  It can be found at:
 
   http://www.oreilly.com/davenport/docbook/current/
 
-* The modular DocBook stylesheets (version 1.08)
-
-The DocBook stylesheets are used to parse the Swarm SGML in
-conjunction with the DocBook DTD and generate the html, tex and rtf
-output.  The latest version can be found at:
+* The modular DocBook stylesheets The DocBook stylesheets are used to
+parse the Swarm SGML in conjunction with the DocBook DTD and generate
+the html, tex and rtf output.  The current version required is listed
+in the Release Notes section in NEWS and can be found at:
 
   http://nwalsh.com/docbook/dsssl/
 

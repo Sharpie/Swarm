@@ -1,3 +1,13 @@
+1999-01-04  Alex Lancaster  <alex@santafe.edu>
+
+	* AUTHORS: Move Irene to emeritus list, add Vladimir.
+
+	* README (Requirements): Remove explicit reference to stylesheet
+	version - point user to NEWS file.
+
+	* NEWS: Add Release Notes for 1.4 changes so far (DocBook
+	stylesheets version 1.32).
+
 1998-12-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.rules (top_dossrcdir): Substitute.
