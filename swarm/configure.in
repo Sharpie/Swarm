@@ -189,7 +189,7 @@ AC_SUBST(JAVA_CLASSES_INSTALLED_AS)
 
 AC_ARG_ENABLE(subdirs,
 [  --enable-subdirs                 Add {include,lib}/swarm subdirs],
-  enable_subdirs=yes)
+  ,enable_subdirs=no)
 
 if test $prefix = /usr || test $enable_subdirs = yes; then
    includesubdir=swarm
