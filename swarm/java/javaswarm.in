@@ -2,11 +2,6 @@
 
 swarm_prefix="@swarm_prefix@"
 swarm_exec_prefix="@swarm_exec_prefix@"
-if test '@PATHDELIM@' = '/' ; then
-  swarmclassdir="@swarm_datadir@"
-else
-  swarmclassdir=`cygpath -w "@swarm_datadir@"`
-fi
 jdkdir=@jdkdir@
 
 if test @USEDLL@ = yes; then
@@ -28,9 +23,11 @@ fi
 if test @USEDOSCLASSPATH@ = yes; then
   PS='@PATHSEP@'
   PD='@PATHDELIM@'
+  swarmclassdir=`cygpath -w "@swarm_datadir@"`
 else
   PS=/
   PD=:
+  swarmclassdir="@swarm_datadir@"
 fi
 
 JAVALIBS=@JAVALIBS@
