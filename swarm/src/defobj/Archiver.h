@@ -18,7 +18,8 @@ extern id archiver;
   const char *hdf5Path;
 #endif
 @public
-  id <List> instances, classes;
+  id <List> classes;
+  id <List> instances;
 }
 
 + createBegin: aZone;
@@ -35,11 +36,11 @@ void archiverRegister (id client);
 void archiverUnregister (id client);
 void archiverSave (void);
 
-void lispArchiverPut (const char *key, id object);
+void lispArchiverPut (const char *key, id object, BOOL deepFlag);
 id lispArchiverGet (const char *key);
 #ifdef HAVE_HDF5
-void HDF5ArchiverPut (const char *key, id object);
-id HDF5ArchiverGet (const char *key);
+void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
+id hdf5ArchiverGet (const char *key);
 #endif
 
 @end

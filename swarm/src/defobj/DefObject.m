@@ -932,12 +932,14 @@ lisp_output_type (const char *type,
                   const void *ptr,
                   unsigned offset,
                   void *data,
-                  id <OutputStream> stream);
+                  id <OutputStream> stream,
+                  BOOL deepFlag);
 
 static void
 lisp_process_array (const char *type,
                     const void *ptr, void *data,
-                    id <OutputStream> stream)
+                    id <OutputStream> stream,
+                    BOOL deepFlag)
 {
   const char *space;
   
@@ -972,7 +974,7 @@ lisp_process_array (const char *type,
                                       unsigned offset,
                                       void *data)
     {
-      return lisp_output_type (type, ptr, offset, data, stream);
+      return lisp_output_type (type, ptr, offset, data, stream, deepFlag);
     }
     
   process_array (type,
@@ -992,7 +994,8 @@ lisp_output_type (const char *type,
                   const void *ptr,
                   unsigned offset,
                   void *data,
-                  id <OutputStream> stream)
+                  id <OutputStream> stream,
+                  BOOL deepFlag)
 {
   char buf[22];  // 2^64
 
@@ -1004,8 +1007,10 @@ lisp_output_type (const char *type,
 
         if (obj == nil)
           [stream catC: "nil"];
+        else if (deepFlag)
+          [obj lispOut: stream deep: YES];
         else
-          [obj lispOut: stream];
+          [stream catC: "#:skipped"];
         break;
       }
     case _C_CLASS:
@@ -1083,7 +1088,7 @@ lisp_output_type (const char *type,
       raiseEvent (NotImplemented, "Atoms not supported");
       break;
     case _C_ARY_B:
-      lisp_process_array (type, ptr, data, stream);
+      lisp_process_array (type, ptr, data, stream, deepFlag);
       break;
     case _C_ARY_E:
       abort ();
@@ -1107,10 +1112,10 @@ lisp_output_type (const char *type,
   return type + 1;
 }
 
-- lispOut: stream
+- lispOut: stream deep: (BOOL)deepFlag
 {
   struct objc_ivar_list *ivars = getClass (self)->ivars;
-
+  
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self name]];
   [stream catC: " "];
@@ -1132,7 +1137,8 @@ lisp_output_type (const char *type,
                             (void *) self + ivar_list[i].ivar_offset,
                             0,
                             NULL,
-                            stream);
+                            stream,
+                            deepFlag);
         }
     }
   
@@ -1141,7 +1147,7 @@ lisp_output_type (const char *type,
 }
 
 #ifdef HAVE_HDF5
-- hdf5Out: hdf5obj
+- hdf5Out: hdf5obj deep: (BOOL)deepFlag
 {
   return self;
 }

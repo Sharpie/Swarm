@@ -72,11 +72,11 @@ Library:      defobj
 - (void)xfprintid;
 - lispInCreate: expr;
 - lispIn: expr;
-- lispOut: stream;
+- lispOut: stream deep: (BOOL)deepFlag;
 #ifdef HAVE_HDF5
 - hdf5InCreate: expr;
 - hdf5In: expr;
-- hdf5Out: hdf5obj;
+- hdf5Out: hdf5obj deep: (BOOL)deepFlag;
 #endif
 - updateArchiver;
 @end

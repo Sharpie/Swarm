@@ -32,16 +32,20 @@ compareStrings (id val1, id val2)
 @interface Application: CreateDrop
 {
   const char *name;
-  id <Map> lispMap;
+  id <Map> lispDeepMap;
+  id <Map> lispShallowMap;
 #ifdef HAVE_HDF5
-  id <Map> HDF5Map;
+  id <Map> hdf5DeepMap;
+  id <Map> hdf5ShallowMap;
 #endif
 }
 + createBegin: aZone;
 - setName: (const char *)name;
-- getLispMap;
+- getLispDeepMap;
+- getLispShallowMap;
 #ifdef HAVE_HDF5
-- getHDF5Map;
+- getHDF5DeepMap;
+- getHDF5ShallowMap;
 #endif
 @end
 
@@ -50,10 +54,14 @@ compareStrings (id val1, id val2)
 {
   Application *obj = [super createBegin: aZone];
 
-  obj->lispMap =
+  obj->lispDeepMap =
+    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+  obj->lispShallowMap =
     [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
 #ifdef HAVE_HDF5
-  obj->HDF5Map =
+  obj->hdf5DeepMap =
+    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+  obj->hdf5ShallowMap =
     [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
 #endif
   obj->name = "EMPTY";
@@ -67,23 +75,35 @@ compareStrings (id val1, id val2)
   return self;
 }
 
-- getLispMap
+- getLispDeepMap
 {
-  return lispMap;
+  return lispDeepMap;
+}
+
+- getLispShallowMap
+{
+  return lispShallowMap;
 }
 
 #ifdef HAVE_HDF5
-- getHDF5Map
+- getHDF5DeepMap
 {
-  return HDF5Map;
+  return hdf5DeepMap;
+}
+
+- getHDF5ShallowMap
+{
+  return hdf5ShallowMap;
 }
 #endif
 
 - (void)drop
 {
-  [lispMap deleteAll];
+  [lispShallowMap deleteAll];
+  [lispDeepMap deleteAll];
 #ifdef HAVE_HDF5
-  [HDF5Map deleteAll];
+  [hdf5ShallowMap deleteAll];
+  [hdf5DeepMap deleteAll];
 #endif
   [super drop];
 }
@@ -217,7 +237,7 @@ lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
                   createEnd];
           [applicationMap at: key insert: app];
         }
-      lispProcessMakeObjcPairs (aZone, value, [app getLispMap]);
+      lispProcessMakeObjcPairs (aZone, value, [app getLispDeepMap]);
     }
   lispProcessPairs (aZone, expr, mapUpdate);
 }
@@ -270,9 +290,10 @@ archiverUnregister (id client)
 }
 
 void
-lispArchiverPut (const char *key, id object)
+lispArchiverPut (const char *key, id object, BOOL deepFlag)
 {
-  id map = [[archiver getApplication] getLispMap];
+  id app = [archiver getApplication];
+  id map = deepFlag ? [app getLispDeepMap] : [app getLispShallowMap];
   id keyObj = [String create: [archiver getZone] setC: key];
   
   if ([map at: keyObj])
@@ -285,7 +306,12 @@ id
 lispArchiverGet (const char *key)
 {
   id string = [String create: [archiver getZone] setC: key];
-  id result = [[[archiver getApplication] getLispMap] at: string];
+  id app = [archiver getApplication];
+  id result;
+
+  result = [[app getLispDeepMap] at: string];
+  if (result == nil)
+    result = [[app getLispShallowMap] at: string];
   
   [string drop];
   return result;
@@ -381,6 +407,55 @@ PHASE(Using)
   return app;
 }
 
+static void
+lisp_print_appkey (id <String> appKey, id <OutputStream> outputCharStream)
+{
+  const char *str = [appKey getC];
+  FILE *fp = [outputCharStream getFileStream];
+  
+  [outputCharStream catC: "'("];
+  while (*str && *str != '/')
+    {
+      fputc (*str, fp);
+      str++;
+    }
+  if (*str == '/')
+    {
+      fputc (' ', fp);
+      str++;
+      while (*str)
+        {
+          fputc (*str, fp);
+          str++;
+        }
+    }
+  [outputCharStream catC: ")"];
+}
+
+static void
+lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
+{
+  id objectMapIndex = [objectMap begin: scratchZone];
+  id key, member;
+  
+  while ((member = [objectMapIndex next: &key]))
+    {
+      [outputCharStream catC: "\n        (cons '"];
+      [outputCharStream catC: [key getC]];
+      [outputCharStream catC: "\n          "];
+      if (![member isClass])
+        [member lispOut: outputCharStream deep: deepFlag];
+      else
+        {
+          SEL sel = M(lispOut:deep:);
+          IMP func = get_imp (id_CreatedClass_s, sel);
+          
+          func (member, sel, outputCharStream, NO);
+        }
+      [outputCharStream catC: ")"];
+    }
+}
+
 - lispOut: outputCharStream
 {
   id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
@@ -389,78 +464,45 @@ PHASE(Using)
   
   [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  (list"];
   
+  [outputCharStream catC: "\n    (cons "];
   while ((app = [appMapIndex next: &appKey]))
     {
-      id objectMap = [app getLispMap];
-      id objectMapIndex = [objectMap begin: scratchZone];
-      id key, member;
-      
-      [outputCharStream catC: "\n    (cons '("];
-      {
-        const char *str = [appKey getC];
-        FILE *fp = [outputCharStream getFileStream];
-        
-        while (*str && *str != '/')
-          {
-            fputc (*str, fp);
-            str++;
-          }
-        if (*str == '/')
-          {
-            fputc (' ', fp);
-            str++;
-            while (*str)
-              {
-                fputc (*str, fp);
-                str++;
-              }
-          }
-      }
-      [outputCharStream catC: ")"];
+      lisp_print_appkey (appKey, outputCharStream);
       [outputCharStream catC: "\n      (list"];
-      while ((member = [objectMapIndex next: &key]))
-        {
-          [outputCharStream catC: "\n        (cons '"];
-          [outputCharStream catC: [key getC]];
-          [outputCharStream catC: "\n          "];
-          if (![member isClass])
-            [member lispOut: outputCharStream];
-          else
-            {
-              IMP func = get_imp (id_CreatedClass_s, M(lispOut:));
-              
-              func (member, M(lispOut:), outputCharStream);
-            }
-          [outputCharStream catC: ")"];
-        }
-      [outputCharStream catC: "))"];
+      lisp_output_objects ([app getLispShallowMap], outputCharStream, NO);
+      lisp_output_objects ([app getLispDeepMap], outputCharStream, YES);
+      [outputCharStream catC: ")"];
     }
-  [outputCharStream catC: "))\n"];
+  [outputCharStream catC: ")))\n"];
   [appMapIndex drop];
+  return self;
+}
+
+- updateArchiver
+{
+  id <Index> index;
+  id item;
+  IMP func = get_imp (id_CreatedClass_s, M(updateArchiver));
+  
+  index = [classes begin: [self getZone]];
+  while ((item = [index next]))
+    func (item, M(updateArchiver));
+  [index drop];
+  [instances forEach: @selector (updateArchiver)];
   return self;
 }
 
 - save
 {
+  [self updateArchiver];
   if (lispPath)
     {
       FILE *fp = fopen (lispPath, "w");
       id outStream;
       
       if (fp == NULL)
-        raiseEvent (InvalidArgument, "Cannot open lisp archive %s", lispPath);
+        raiseEvent (SaveError, "Cannot open lisp archive %s", lispPath);
       outStream = [OutputStream create: scratchZone setFileStream: fp];
-      {
-        id <Index> index;
-        id item;
-        IMP func = get_imp (id_CreatedClass_s, M(updateArchiver));
-
-        index = [classes begin: [self getZone]];
-        while ((item = [index next]))
-          func (item, M(updateArchiver));
-        [index drop];
-      }
-      [instances forEach: @selector (updateArchiver)];
       [self lispOut: outStream];
       fclose (fp);
       [outStream drop];
@@ -472,6 +514,9 @@ PHASE(Using)
       if ((fid = H5Fcreate (hdf5Path, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT))
           < 0)
         raiseEvent (SaveError, "Failed to create HDF5 file `%s'", hdf5Path);
+      // [self hdfOut: fid];
+      if (H5Fclose (fid) < 0)
+        raiseEvent (SaveError, "Failed to close HDF5 file `%s'", hdf5Path);
     }
   return self;
 }

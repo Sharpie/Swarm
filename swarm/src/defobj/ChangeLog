@@ -1,5 +1,27 @@
 1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.h (Serialization): Add deep: option to lispOut and hdf5Out.
+	(Archiver): Add deep argument to lispArchiverPut, hdf5ArchvierPut.
+
+	* DefClass.m ([CreatedClass_s -updateArchiver]): Pass NO
+	to new deep-archive argument of lispArchiverPut.
+
+	* DefClass.[hm] ([CreatedClass_s -lispOut:deep:], [CreatedClass_s
+	-hdf5Out:deep:): Add deep: argument.
+
+	* DefObject.[hm] ([Object_s -lispOut:deep:], [Object_s
+	-hdf5Out:deep:]): Likewise.
+	(lisp_process_array, lisp_output_type): Add deep-archive argument.
+
+	* Archiver.m (Application): Split lispMap and hdf5Map into
+	shallow/deep pairs.  Add accessors, and drop support.
+	(lisp_print_appkey, lisp_output_objects): New static functions.
+	([Archiver_c -lispOut:]): Use them.
+	([Archiver_c -updateArchiver]): New method.
+	([Archiver_c -save]): Use it.
+
+	* Archiver.[hm] (lispArchiverPut, hdf5ArchiverPut): Add deep flag.
+
 	* defobj.h (LoadError, SaveError): New error types.
 
 	* Archiver.[hm]: Use hdf5Path instead of HDF5Path throughtout.

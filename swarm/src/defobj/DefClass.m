@@ -482,7 +482,7 @@ process_type (const char *varType,
   return baseType;
 }
 
-- lispOut: stream
+- lispOut: stream deep: (BOOL)deepFlag
 {
   struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
   unsigned i, count = ivars->ivar_count;
@@ -532,7 +532,7 @@ process_type (const char *varType,
   return nil;
 }
 
-- hdf5Out: stream
+- hdf5Out: stream deep: (BOOL)deepFlag
 {
   raiseEvent (NotImplemented, "DefClass / hdf5Out:");
   return nil;
@@ -540,7 +540,7 @@ process_type (const char *varType,
 
 - updateArchiver
 {
-  lispArchiverPut ([self name], self);
+  lispArchiverPut ([self name], self, NO);
   return self;
 }
 

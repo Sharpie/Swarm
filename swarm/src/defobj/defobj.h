@@ -42,13 +42,14 @@ USING
 - lispIn: expr;
 
 //M: Output a Lisp representation of object state to a stream.
-- lispOut: stream;
+- lispOut: stream deep: (BOOL)deepFlag;
 
 #ifdef HAVE_HDF5
 - hdf5In: expr;
 
 //M: Output a HDF5 representation of objectstate to a stream.
-- hdf5Out: hdf5obj;
+- hdf5Out: hdf5obj deep: (BOOL)deepFlag;
+
 #endif
 
 - updateArchiver;
@@ -766,7 +767,11 @@ CREATING
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
 - lispIn: expr;
-- lispOut: stream;
+- lispOut: stream deep: (BOOL)deepFlag;
+#ifdef HAVE_HDF5
+- hdf5In: expr;
+- hdf5Out: stream deep: (BOOL)deepFlag;
+#endif
 - updateArchiver;
 extern Class copyClass (Class class);
 extern void addVariable (Class class, const char *name, const char *type);
@@ -957,10 +962,10 @@ extern void archiverSave (void);
 extern void archiverRegister (id client);
 extern void archiverUnregister (id client);
 extern id lispArchiverGet (const char *key);
-extern void lispArchiverPut (const char *key, id object);
+extern void lispArchiverPut (const char *key, id object, BOOL deepFlag);
 #ifdef HAVE_HDF5
-extern id HDF5ArchiverGet (const char *key);
-extern void HDF5ArchiverPut (const char *key, id object);
+extern id hdf5ArchiverGet (const char *key);
+extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
 #endif
 @end
 
