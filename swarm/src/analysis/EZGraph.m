@@ -9,9 +9,9 @@
 #import <analysis.h>
 
 #define NUMCOLORS 10
-char graphColors[NUMCOLORS][10] ={"Red", "Green", "Blue", 
+char graphColors[NUMCOLORS][12] ={"Red", "Green", "Blue", 
 				  "Pink", "SeaGreen", "LightBlue", 
-				  "Purple", "OliveGreen", "DarkBlue", 
+				  "Purple", "DarkGreen", "DarkBlue", 
 				  "Black"};
 
 @implementation EZGraph
