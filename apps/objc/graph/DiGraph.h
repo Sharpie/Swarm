@@ -9,11 +9,15 @@
   id nodeList;
   id <Canvas> canvas;
 
+  int randPosSeed;
+  id randGPosition, uRandPosition;
   // For BoingDistribute...
   float springLength;
 }
 
+- setRandPosSeed: (int)seed;
 - setCanvas: aCanvas;
+- setCanvas: aCanvas withRandPosSeed: (int)seed;
 - createEnd;
 - showCanvas: aCanvas;
 - hideCanvas;

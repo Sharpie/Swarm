@@ -27,14 +27,39 @@
 
   obj = [super createBegin: aZone];
   obj->springLength = DEFAULT_SPRING_LENGTH;
+  obj->randPosSeed = DEFAULT_RANDOM_SEED;
 
   return obj;
 }
 
+- setRandPosSeed: (int)seed
+{
+  randPosSeed = seed;
+  return self;
+}
+
 - setCanvas: aCanvas
 {
+  [self setCanvas: aCanvas withRandPosSeed: randPosSeed];
+  return self;
+}
+
+- setCanvas: aCanvas withRandPosSeed: (int)seed
+{  
   canvas = aCanvas;
-  [nodeList forEach: @selector(setCanvas:) :aCanvas];
+
+  randGPosition = [PMMLCG1 createBegin: [self getZone]];
+  [randGPosition setStateFromSeed: seed];
+  randGPosition = [randGPosition createEnd];
+  
+  // distribution for the random node positions
+  uRandPosition = [UniformInteger createBegin: [self getZone]];
+  [uRandPosition setGenerator: randGPosition];
+  uRandPosition = [uRandPosition createEnd];
+
+  [nodeList forEach: @selector(setCanvas:withRandPosFunc:) 
+            :aCanvas: uRandPosition];
+
   return self;
 }
 
@@ -45,7 +70,7 @@
 }
 
 - createEnd
-{ 
+{
   nodeList = [List create: [self getZone]];
   return self;
 }
@@ -62,31 +87,27 @@
    else
      {
        canvas = aCanvas; // set the DiGraph's canvas
+
+       // generator for the random node positions
+       randGPosition = [PMMLCG1 createBegin: [self getZone]];
+       [randGPosition setStateFromSeed: randPosSeed];
+       randGPosition = [randGPosition createEnd];
        
-       // step through all nodes in list
-       // creating graphical nodes
-       index = [nodeList begin: globalZone];
+       // distribution for the random node positions
+       uRandPosition = [UniformInteger createBegin: [self getZone]];
+       [uRandPosition setGenerator: randGPosition];
+       uRandPosition = [uRandPosition createEnd];
        
-       while ((node = [index next]))
-         [node setCanvas: aCanvas];
-       [index drop];
-       
+       [nodeList forEach: @selector(setCanvas:withRandPosFunc:) 
+                 :aCanvas: uRandPosition];
+
        // step through all nodes in list
        // creating  graphical links for each node 
        index = [nodeList begin: globalZone];
        
        while ((node = [index next]))
          {
-           
            [[node getToLinks] forEach: M(setCanvas:): aCanvas];
-           
-           //  [[node getFromLinks] forEach: M(setCanvas:): aCanvas];
-           
-           // while ( (link = [toLinkIndex next]) ) {
-           //   [link setCanvas: aCanvas];
-           
-           // } //loop creating links...
-           // [toLinkIndex drop];
          }
        [index drop];
      }
@@ -115,14 +136,6 @@
       while ((node = [index next]))
         {
           [[node getToLinks] forEach: M(hideLink)];
-          
-          //  [[node getFromLinks] forEach: M(setCanvas:) : aCanvas];
-          
-          // while ( (link = [toLinkIndex next]) ) {
-         //   [link setCanvas: aCanvas];
-          
-          // } //loop creating links...
-          // [toLinkIndex drop];
         }
       [index drop];
       
@@ -147,7 +160,7 @@
 {
   [nodeList addFirst: aNode];
   if (canvas)
-    [aNode setCanvas: canvas];
+    [aNode setCanvas: canvas withRandPosFunc: uRandPosition];
   return self;
 }
 
@@ -395,7 +408,7 @@
 - update
 {
   if (canvas)
-    [globalTkInterp eval: "update idletasks"];
+    GUI_UPDATE_IDLE_TASKS();
   return self;
 }
 
