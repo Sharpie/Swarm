@@ -25,16 +25,14 @@ AGE = 0
 
 lib_LTLIBRARIES = libswarm.la
 libswarm_la_SOURCES = empty.m
-LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lgcc # $(SYSLIBS)
+LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
 
 empty.m:
 	echo > empty.m
 
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) # -L../libobjc
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc
 
-
-
-
-
+swarm.dll: libswarm.la
+	dllwrap --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll $(foreach module,$(SWARMMODULES),$(module)/.libs/lib$(module).al $(SUPPORTLDFLAGS) $(SYSLIBS)
 
 
