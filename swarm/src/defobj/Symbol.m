@@ -12,9 +12,7 @@ Library:      defobj
 #import <defobj/Symbol.h>
 #import <collections.h>
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <misc.h> // strcpy
+#include <misc.h> // strcpy, fprintf, va_start
 
 // standard program-wide allocation zones
 

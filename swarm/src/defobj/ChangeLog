@@ -1,5 +1,7 @@
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Symbol.m: Don't include stdio.h or stdarg.h.
+
 	* DefObject.[hm], defobj.h: New method +conformsTo:.
 
 	* Customize.h: Include DefClass.h.
