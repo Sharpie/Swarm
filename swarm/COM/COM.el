@@ -286,8 +286,7 @@
          (let ((signature (get-method-signature method)))
            (or
             (string= signature "+createFromMethod:")
-            (string= signature "-COMinvoke::")
-            (string= signature "-JSinvoke::")))))
+            (string= signature "-getMethod")))))
 
 (defun com-idl-print-method-declaration (protocol phase method)
   (let* ((arguments (method-arguments method))
@@ -477,7 +476,10 @@
                   :factory-flag t
                   :arguments (list (list "createFromMethod" "COMmethod" "method"))
                   :return-type "id <Selector>")
-
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "getMethod" nil nil))
+                  :return-type "COMmethod")
                  (make-method
                   :phase :using
                   :arguments (list (list "setObjectArg" "unsigned" "index"))
@@ -548,16 +550,6 @@
                   :phase :using
                   :arguments (list (list "getArgFcallType" "unsigned" "index"))
                   :return-type "fcall_type_t")
-                 (make-method
-                  :phase :using
-                  :arguments (list (list "COMinvoke" "id" "obj")
-                                   (list nil "nsXPTCVariantPtr" "params"))
-                  :return-type "void")
-                 (make-method
-                  :phase :using
-                  :arguments (list (list "JSinvoke" "id" "obj")
-                                   (list nil "jsvalPtr" "params"))
-                  :return-type "void")
                  )))
                  
                  
@@ -658,7 +650,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, getComponentName, copyComponentID, normalize, selectorCreate, selectorQuery, selectorIsJavaScript, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorCOMInvoke, selectorJSInvoke, COMcreateParams, COMsetArg, COMsetReturn, COMfreeParams, isJavaScript, JScreateParams, JSsetArg, JSsetReturn, JSfreeParams, JSprobeVariable, JSsetVariable, COMcollect, JScollect, COMmethodName, COMmethodArgCount, COMmethodParamFcallType, COMmethodSetReturn, COMmethodInvoke };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, getComponentName, copyComponentID, normalize, selectorCreate, selectorMethod, selectorQuery, selectorIsJavaScript, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, COMcreateParams, COMsetArg, COMsetReturn, COMfreeParams, isJavaScript, JScreateParams, JSsetArg, JSsetReturn, JSfreeParams, JSprobeVariable, JSsetVariable, COMcollect, JScollect, COMmethodName, COMmethodArgCount, COMmethodParamFcallType, COMmethodSetReturn, COMmethodInvoke };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
@@ -1071,7 +1063,7 @@
 
 (defun com-init ()
   (setq *extra-removed-methods* '("-addJavaObject:"
-                                  "-setJavaMethod:inObject:"
+                                  "-setJavaMethodFromName:inObject:"
                                   "-initSwarmUsing:version:bugAddress:args:"))
   
   (setq *extra-unwanted-create-method-signatures*
