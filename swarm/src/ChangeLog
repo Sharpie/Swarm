@@ -1,6 +1,7 @@
 2001-07-23    <mgd@HELEN>
 
-	* Makefile.am (swarm.dll): Substitute .lo with .o in dllwrap link.
+	* Makefile.am (swarm.dll): Manually specify avcall.o and
+	avcall-i386-msvc.o. 
 
 2001-07-20  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
