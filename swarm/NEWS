@@ -17,36 +17,38 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** collections
 **** New classes Archiver{Array,Keyword,Pair,Value} to simplify
      InputStream expressions.
-**** Map, List, Collection
-***** Implement serialization methods lispInCreate:, lispIn:, and lispOut:
-      using create-time option handling (_lispInAttr_:, _lispOutAttr_:)
-      in Collection.
+**** Map, List
+***** Serialization methods {hdf5,lisp}InCreate:, {hdf5,lisp}In:,
+      and {hdf5,lisp}Out:.
 **** PermutedIndex
 ***** New index type for iterating through a collection in random order.
  
 *** defobj
-**** New functions lispIn{Boolean,Integer,String,Keyword} for reading
-     expected types from a list index.
-**** New function defobj_lookup_type for accessing types (protocols) by name.
+**** New protocol Archiver, the high level interface to serialization.
 **** Arguments
 ***** Support for variable expansion in environment variables 
       (e.g. SWARMROOT in SWARMHOME).
 ***** New option --no-init-file for preventing ~/.swarmArchiver from
       being loaded.
 **** Object_s
-***** New function lispIn for instantiating and loading an object.
-***** New methods lispInCreate:, lispIn:, lispOut:, implementing
-      the default serialization protocol.
+***** New function {hdf5,lisp}In for instantiating and loading an object.
+***** New methods {hdf5,lisp}InCreate:, {hdf5,lisp}In:, and
+      {hdf5,lisp}Out{Shallow,Deep}: for serialization.
+**** New protocol HDF5Object, Objective C interface to HDF5 library.
+**** New functions lispIn{Boolean,Integer,String,Keyword} for reading
+     expected types from a list index.
+**** New function defobj_lookup_type for accessing types (protocols) by name.
 
 *** gui (tkobjc)
-**** Colormap / Raster
+**** Colormap / Raster / Pixmap
 ***** Support for window-specific virtual colormaps when default palette 
       is exhausted.
 
 *** simtools
 **** New function initSwarmAppOptions for adding options without subclassing
      from Arguments.
-**** New function initSwarmBatch for initializing Swarm without GUI features.
+**** New functions initSwarm{App{Options}}Batch for initializing
+     Swarm without GUI features.
 
 *** simtoolsgui
 **** ActionCache and GUISwarm now have drop methods.
@@ -79,8 +81,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 ** Other changes
 *** defobj, objectbase, simtools
-**** Arguments and Archiver are now a part of defobj.  This is to facilitate
-     low-level serialization.
+**** Arguments is now a part of defobj.  This is to facilitate serialization.
 *** collections / simtools
 **** ListShuffler moved to collections
 *** simtools

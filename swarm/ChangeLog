@@ -1,5 +1,7 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* NEWS: Note Archiver and HDF5 serialization features.
+
 	* VERSION: Bump.
 
 1999-01-18  Alex Lancaster  <alex@santafe.edu>
