@@ -3,6 +3,7 @@
 	* acffi.m4 (md_FIND_FFI): If external libffi or ffcall are not
 	found, don't abort; instead, set FFILIB as avcall.lo
 	and FFIINCLUDES, FFILDFLAGS to local avcall build directory.
+	Handle `no' for --with-ffidir and with-ffcalldir.
 
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
