@@ -1,3 +1,68 @@
+1999-07-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* CompleteProbeMap.m: Import directory.h and declare as extern global
+	variables that are needed.
+	([CompleteProbeMap -createEnd]): If probed class is Java class, then
+	use JNI calls to initialize fields andd methods list of the class 
+	and all of its the superclasses and corresponding probes.
+
+	* CompleteVarMap.m: Import directory.h and declare as extern global
+	variables that are needed.
+	([CompleteVarMap -createEnd]): If probed class is Java class, then
+	use JNI calls to initialize fields list of the class and all the 
+	superclasses and corresponding probes.
+
+	* DefaultProbeMap.m: Import directory.h and declare as extern global
+	variables that are needed.
+	([DefaultProbeMap -createEnd]): If probed class is Java class, then
+	use JNI calls to initialize fields list and corresponding probes.
+
+	* Probe.h: Add new field isJavaProxy.
+
+	* Probe.m ([Probe -setProbedClass:]):  Check to see if the probed 
+	class is a JavaProxy instance.
+
+	* ProbeMap.h (SwarmObject): Add new field isJavaProxy.
+
+	* ProbeMap.m: Import directory.h and declare as extern needed 
+	global variables.
+	([ProbeMap -setProbedClass:]): Check to see if the probed class is
+	a JavaProxy instance.
+	([ProbeMap -createEnd]): If probed class is Java class, then use
+	JNI to initialize list of fields and methods and corresponding 
+	probes.
+
+	* VarProbe.h (VarProbe>): Add new fields fieldObject, fieldType,
+	classObject.
+
+	* VarProbe.m: Import directory.h and declare as extern global
+	variables with c_ m_ and f_ prefixes that are used.
+	([VarProbe -createEnd]): If probed class is a new class on
+	Java side, get all field information through JNI.
+	([VarProbe -probeRaw:]): Prohibit raw probing of Java objects.
+	([VarProbe -probeAsPointer:]): Prohibit probing as pointer of
+	Java objects.
+	(java_probe_as_int): Add new function that extracts integer
+	from a field.
+	([VarProbe -probeAsInt:]): If probing Java object use 
+	java_probe_as_int.
+	(java_probe_as_double): Add new function that extracts double
+	from a field.
+	([VarProbe -probeAsDouble:]):  If probing Java object use 
+	java_probe_as_double.
+	(java_probe_as_string): Add new function that converts field
+	value to string.
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): If probing
+	Java object use java_probe_as_string.
+	([VarProbe -setData:To:]): Prohibit setting fields in Java objects
+	from a pointer to a value.
+	(setFieldFromString): Add new function that sets field in Java
+	object from string.
+	([VarProbe -setData:ToString:]): If probing Java object use
+	setFieldFromString.
+	([VarProbe -drop]): Delete global references to instance variables
+	refering to Java objects.
+
 1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* objectbase.h, MessageProbe.[hm] ([MessageProbe

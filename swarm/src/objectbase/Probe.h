@@ -16,6 +16,7 @@ extern id <Symbol> DefaultString, CharString, IntString;
   Class probedClass;
   const char *probedType;
   int safety;
+  unsigned isJavaProxy;
   id <Symbol> stringReturnType ;
   id objectToNotify;  // could be an object or a list
 }

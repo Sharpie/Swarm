@@ -10,6 +10,12 @@
 
 #import "local.h"
 
+#ifdef HAVE_JDK
+#import "../defobj/directory.h" // java_ensure_selector
+extern jmethodID  m_ClassGetDeclaredFields,
+  m_FieldGetName;
+#endif
+
 @implementation CompleteVarMap
 
 - createEnd
@@ -36,6 +42,70 @@
 	
   if (probes == nil)
     return nil;
+#ifdef HAVE_JDK
+
+  if (isJavaProxy)
+    { 
+      jarray fields;
+      jsize fieldslength;
+      unsigned i;
+      jclass currentClass;
+
+      classObject = JFINDJAVA(jniEnv, probedClass);
+
+      if (!classObject)
+	raiseEvent (SourceMessage,
+		    "Java class to be probed can not be found!\n");      
+      currentClass = classObject;
+
+      numEntries = 0;
+      while (currentClass)
+	{
+	  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, currentClass, 
+						  m_ClassGetDeclaredFields)))
+	    abort(); 
+	  fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
+      
+	  if (fieldslength)
+	    {
+	      numEntries += fieldslength;
+	  
+	      for (i=0; i<numEntries; i++)
+		{
+		  jobject field;
+		  jstring name;
+		  const char * buf;
+		  jboolean isCopy;
+		  
+		  field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
+		  
+		  name = (*jniEnv)->CallObjectMethod (jniEnv, field,
+						      m_FieldGetName);
+		  
+		  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+		  
+		  a_probe = [VarProbe createBegin: [self getZone]];
+		  [a_probe setProbedClass: probedClass];
+		  [a_probe setProbedVariable: buf];
+		  
+		  if (objectToNotify != nil) 
+		    [a_probe setObjectToNotify: objectToNotify];
+		  a_probe = [a_probe createEnd];
+		  
+		  [probes at: [String create: [self getZone] setC: buf]
+			  insert: a_probe];
+		  
+		  if (isCopy)
+		    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
+		  
+		}
+	    }
+	  currentClass = (*jniEnv)->GetSuperclass (jniEnv, currentClass);
+	}
+
+      return self;
+    }
+#endif
 
   classList = [List create: [self getZone]];
   if(!classList) 

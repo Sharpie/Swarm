@@ -16,6 +16,12 @@
   unsigned rank;
   unsigned *dims;
   const char *baseType;
+
+#ifdef HAVE_JDK
+  void *fieldObject;
+  void *fieldType;
+  void *classObject;
+#endif
 }
 
 - setProbedVariable: (const char *)aVariable;

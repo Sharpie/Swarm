@@ -18,6 +18,9 @@
   int numEntries;
   id probes;
   id objectToNotify;  //could be an object or a list
+
+  unsigned isJavaProxy;
+  void *classObject;
 }
 
 + createBegin: aZone;

@@ -12,14 +12,49 @@
 
 #include "../defobj/internal.h" // process_array
 
+#ifdef HAVE_JDK
+#include "../defobj/directory.h" // directory services for Java Proxy lookup
+#endif
+
 #include <swarmconfig.h> // PTRUINT
+
+#ifdef HAVE_JDK
+extern jclass c_boolean,
+  c_char, c_byte,
+  c_int, 
+  c_short, c_long,
+  c_float, c_double,
+  c_object, c_string, 
+  c_void;
+
+extern jclass c_Boolean, 
+  c_Char, c_Byte, 
+  c_Integer, c_Short,
+  c_Long, c_Float,
+  c_Double;
+  
+extern jclass c_field, c_class;
+
+extern jmethodID m_BooleanValueOf,
+  m_ByteValueOf, 
+  m_IntegerValueOf, 
+  m_ShortValueOf, m_LongValueOf,   
+  m_FloatValueOf, m_DoubleValueOf, 
+  m_StringValueOf, 
+  m_FieldSet, m_FieldSetChar,
+  m_ClassGetDeclaredField,
+  m_FieldGetType,
+  m_FieldGetInt,
+  m_FieldGetDouble,
+  m_FieldGet;
+#endif
 
 @implementation VarProbe
 
 PHASE(Creating)
 
 - setProbedVariable: (const char *)aVariable
-{
+{ 
   if (probedVariable)
     {
       if (SAFEPROBES)
@@ -46,7 +81,36 @@ PHASE(Creating)
     if (probedVariable == 0 || probedClass == 0)
       raiseEvent (WarningMessage,
                   "VarProbe object was not properly initialized\n");
-  
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    {
+      classObject = JFINDJAVA(jniEnv, probedClass);
+      if (!classObject)
+	raiseEvent (SourceMessage,
+		    "Java class to be probed can not be found!\n");      
+      fieldObject = 
+	(*jniEnv)->CallObjectMethod(jniEnv, classObject, 
+				    m_ClassGetDeclaredField, 
+				    (*jniEnv)->NewStringUTF(jniEnv, 
+							    probedVariable));
+      if (!fieldObject)
+	raiseEvent (SourceMessage,
+		    "Can not find field to be probed in the Java class !\n"); 
+      fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, fieldObject);
+
+      fieldType = (*jniEnv)->CallObjectMethod(jniEnv, fieldObject, 
+					      m_FieldGetType);      
+      if (!fieldType)
+	raiseEvent (SourceMessage,
+		    "Unknown type of probed field!\n");
+      fieldType = (*jniEnv)->NewGlobalRef (jniEnv, fieldType);
+
+
+      interactiveFlag = YES;
+      return self;
+    }
+#endif   
+
   ivarList = probedClass->ivars;
   
   // search the ivar list for the requested variable.
@@ -197,6 +261,10 @@ PHASE(Using)
 // no guarantees about alignment here.
 - (void *)probeRaw: anObject
 {
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    raiseEvent (SourceMessage, "Java objects do not permit raw probing!\n");
+#endif
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
@@ -210,6 +278,12 @@ PHASE(Using)
   void *p;
   void *q = NULL;
   
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    raiseEvent (SourceMessage, 
+		"Java objects do not permit probing with pointers!\n");
+#endif
+
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
@@ -242,6 +316,17 @@ PHASE(Using)
     }
   return q;
 }
+
+#ifdef HAVE_JDK
+int
+java_probe_as_int (jobject field, jobject object)
+{
+  int res;
+  res = (*jniEnv)->CallIntMethod (jniEnv, field, m_FieldGetInt, object);
+  return res;
+}
+
+#endif
 
 static int
 probe_as_int (const char *probedType, const void *p)
@@ -279,7 +364,11 @@ probe_as_int (const char *probedType, const void *p)
 - (int)probeAsInt: anObject
 {
   const void *p;
-  
+
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    return java_probe_as_int (fieldObject, JFINDJAVA(jniEnv, anObject));
+#endif
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
@@ -290,6 +379,16 @@ probe_as_int (const char *probedType, const void *p)
 
   return probe_as_int (probedType, p);
 }
+
+#ifdef HAVE_JDK
+double
+java_probe_as_double (jobject field, jobject object)
+{
+  double res;
+  res = (*jniEnv)->CallDoubleMethod (jniEnv, field, m_FieldGetDouble, object);
+  return res;
+}
+#endif
 
 static double
 probe_as_double (const char *probedType, const void *p)
@@ -326,7 +425,11 @@ probe_as_double (const char *probedType, const void *p)
 - (double)probeAsDouble: anObject
 {
   const void *p;
-  
+
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    return java_probe_as_double (fieldObject, JFINDJAVA (jniEnv, anObject));
+#endif  
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
@@ -347,6 +450,29 @@ probe_as_double (const char *probedType, const void *p)
   return buf;
 }
 
+#ifdef HAVE_JDK
+const char *
+java_probe_as_string (jclass fieldType, jobject field, jobject object,
+		      char * buf, int precision)
+{
+  jobject value;
+  jobject str;
+  jboolean isCopy;
+  const char * result;
+  value = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGet, object);
+  str = (*jniEnv)->CallStaticObjectMethod (jniEnv, c_string, m_StringValueOf, 
+					   value);
+  
+  result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
+  sprintf (buf, "%s", (char *) result);
+  if (isCopy)
+    (*jniEnv)->ReleaseStringUTFChars (jniEnv, str, result);
+  return buf;
+
+}
+
+#endif
+
 - (const char *)probeAsString: anObject
                        Buffer: (char *)buf 
             withFullPrecision: (int)precision
@@ -358,6 +484,13 @@ probe_as_double (const char *probedType, const void *p)
       sprintf (buf, "VarProbe for class %s tried on class %s\n",
                [probedClass name], [anObject name]);
   
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    return java_probe_as_string(fieldType, fieldObject, 
+				JFINDJAVA (jniEnv, anObject), 
+				buf, precision);
+#endif
+
   p = (const char *)anObject + dataOffset; // probeData
   
   switch (probedType[0])
@@ -524,6 +657,11 @@ probe_as_double (const char *probedType, const void *p)
 {
   const void *p;
 
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    raiseEvent (SourceMessage, "Setting probed fields in Java object from a void pointer to new value is not implemented!\n");
+#endif
+
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
@@ -583,6 +721,135 @@ probe_as_double (const char *probedType, const void *p)
   return self;
 }
 
+
+void
+setFieldFromString (id anObject, jobject field, 
+		    jclass fieldType, const char * value)
+{
+
+  unsigned classcmp(jclass matchClass, jclass fieldType) 
+    {
+      return ((*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass));
+    }
+
+  if (classcmp (fieldType, c_boolean))
+    {
+      jobject boolObject;
+      jobject javaString;
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      boolObject = 
+	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Boolean, 
+					   m_BooleanValueOf,
+					   javaString);        
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 boolObject);      
+    }
+  else if (classcmp (fieldType, c_char))
+    {
+      jchar javaChar = value[0];
+      
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSetChar, 
+				 JFINDJAVA (jniEnv, anObject),
+				 javaChar);      
+    }
+  else if (classcmp (fieldType, c_byte))
+    {
+      jobject byteObject;
+      jobject javaString;
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      byteObject = 
+	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Byte, 
+					   m_ByteValueOf,
+					   javaString);        
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 byteObject);      
+    }
+  else  if (classcmp (fieldType, c_int))
+    {
+      jobject intObject;
+      jobject javaString;
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      intObject = 
+	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Integer, 
+					   m_IntegerValueOf,
+					   javaString);        
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 intObject);      
+    }
+  else   if (classcmp (fieldType, c_short))
+    {
+      jobject shortObject;
+      jobject javaString;
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      shortObject = 
+	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Short, 
+					   m_ShortValueOf,
+					   javaString);        
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 shortObject);      
+    }
+  else    if (classcmp (fieldType, c_long))
+    {
+      jobject longObject;
+      jobject javaString;
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      longObject = 
+	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Long, 
+					   m_LongValueOf,
+					   javaString);        
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 longObject);      
+    }
+  else   if (classcmp (fieldType, c_float))
+    {
+      jobject floatObject;
+      jobject javaString;
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      floatObject = 
+	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Float, 
+					   m_FloatValueOf,
+					   javaString);        
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 floatObject);      
+    }
+  else   if (classcmp (fieldType, c_double))
+    {
+      jobject doubleObject;
+      jobject javaString;
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      doubleObject = 
+ 	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Double, 
+					   m_DoubleValueOf,
+					   javaString);        
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 doubleObject);
+    }
+  else   if (classcmp (fieldType, c_string))
+    {
+      jobject javaString;
+      
+      javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
+      
+      (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
+				 JFINDJAVA (jniEnv, anObject),
+				 javaString);      
+    }
+}
+
 // sets data to the string passed in. Some duplicated code with
 // setData:To:, but it's not too bad. Note we don't allow setting
 // pointers here, because textual representations of pointers are
@@ -602,6 +869,16 @@ probe_as_double (const char *probedType, const void *p)
   } value;
   int rc = 0;
   void *p;
+#ifdef HAVE_JDK
+
+  if (isJavaProxy)
+    {
+      setFieldFromString (anObject, fieldObject, fieldType, s);
+      rc = 1;
+    }
+  else
+    {
+#endif  
   
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -690,6 +967,11 @@ probe_as_double (const char *probedType, const void *p)
       break;
   }
 
+#ifdef HAVE_JDK
+  // closes else branch  of if (isJavaProxy)
+    }
+#endif
+
   if (rc != 1 && SAFEPROBES)
     {
       raiseEvent (WarningMessage,
@@ -729,6 +1011,16 @@ probe_as_double (const char *probedType, const void *p)
 
 - (void)drop
 {
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    {
+      (*jniEnv)->DeleteGlobalRef (jniEnv, fieldObject);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, fieldType);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, classObject);
+    }
+
+#endif
+
   if (probedVariable)
     XFREE (probedVariable);
   if (dims)

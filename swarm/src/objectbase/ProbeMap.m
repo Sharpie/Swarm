@@ -10,6 +10,14 @@
 #import "local.h"
 #include <misc.h> // strdup
 
+#ifdef HAVE_JDK
+#import "../defobj/directory.h" // java_ensure_selector
+extern jclass c_Selector;
+extern jmethodID  m_ClassGetDeclaredFields,
+  m_ClassGetDeclaredMethods, m_MethodGetName,
+  m_SelectorConstructor, m_FieldGetName;
+#endif
+
 @implementation ProbeMap
 
 + createBegin: aZone
@@ -134,6 +142,12 @@
         raiseEvent (WarningMessage, "It is an error to reset the class\n");
         return nil;
       }
+
+#ifdef HAVE_JDK
+  // if class passed to setProbedClass is 
+  isJavaProxy = [aClass respondsTo: M(isJavaProxy)];     
+#endif
+
   probedClass = aClass;
   return self;
 }
@@ -184,7 +198,7 @@
                     "ProbeMap object was not properly initialized\n");
         return nil;
       }
-  
+
   if (objectToNotify == nil)
     [self setObjectToNotify: 
             [probeLibrary getObjectToNotify]];
@@ -195,7 +209,120 @@
   
   if (probes == nil)
     return nil;
+
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    { 
+      jarray fields;
+      jsize fieldslength;
+      jarray methods;
+      jsize methodslength;
+      unsigned i;
+
+      numEntries = 0;
+      classObject = JFINDJAVA(jniEnv, probedClass);
+      if (!classObject)
+	raiseEvent (SourceMessage,
+		    "Java class to be probed can not be found!\n");      
+
+      if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
+						  m_ClassGetDeclaredFields)))
+	abort(); 
+      fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
+      
+      if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
+						  m_ClassGetDeclaredMethods)))
+	abort();
+      
+      methodslength = (*jniEnv)->GetArrayLength (jniEnv, methods);
+
+      numEntries = fieldslength;
+
+      for (i=0; i<numEntries; i++)
+	{
+	  jobject field;
+	  jstring name;
+	  const char * buf;
+	  jboolean isCopy;
+
+	  field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
+	  
+	  name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+	  
+	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+
+	  a_probe = [VarProbe createBegin: [self getZone]];
+          [a_probe setProbedClass: probedClass];
+          [a_probe setProbedVariable: buf];
+	  
+          if (objectToNotify != nil) 
+            [a_probe setObjectToNotify: objectToNotify];
+          a_probe = [a_probe createEnd];
+          
+          [probes at: [String create: [self getZone] setC: buf]
+                  insert: a_probe];
+	  
+	  if (isCopy)
+	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
+
+	  
+	}
+
+      if (methodslength)
+	{
+	  numEntries += methodslength;
+	  
+	  inversionList = [List create: [self getZone]];
+	  
+	  for (i=0; i<methodslength; i++)
+	    {
+	      jobject method;
+	      jstring name;
+	      jobject selector;
+	      SEL sel;
+
+	      method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, i);
+	      name = (*jniEnv)->CallObjectMethod (jniEnv, method, 
+						  m_MethodGetName);
+	      selector = (*jniEnv)->NewObject (jniEnv, c_Selector, 
+					       m_SelectorConstructor, 
+					       classObject,
+					       name, 0);
+	      sel = java_ensure_selector (jniEnv, selector);
+	      	      
+	      a_probe = [MessageProbe createBegin: [self getZone]];
+	      [a_probe setProbedClass: probedClass];
+	      [a_probe setProbedSelector: sel];
+	      if (objectToNotify != nil) 
+		[a_probe setObjectToNotify: objectToNotify];
+	      
+	      a_probe = [a_probe createEnd];
+	      
+	      if(a_probe)
+		[inversionList addFirst: a_probe];
+	      else
+		numEntries--;
+	    }
+      
+	  index = [inversionList begin: [self getZone]];
+	  while ((a_probe = [index next]))
+	    {
+	      [probes at: 
+			[String 
+			  create: [self getZone] 
+			  setC: [a_probe getProbedMessage]] 
+		      insert: 
+			a_probe];
+	      [index remove];
+	    }	
+	  [index drop];
+	  [inversionList drop];
+	}
+      return self;
+    }
   
+#endif
+      
   if (!(ivarList = probedClass->ivars))
     numEntries = 0;
   else
@@ -254,7 +381,8 @@
         }	
       [index drop];
       [inversionList drop];
-  }
+    }
+
   return self;
 }
 
