@@ -2,9 +2,9 @@ AC_DEFUN(md_FIND_LIB,
 [name=$1
 libname=$2
 AC_MSG_CHECKING(directory of lib${libname})
-for suffix in .so .a; do
-  for dir in $$1dir/lib $defaultdir/lib /usr/lib /usr/local/lib; do
-    if test -f $dir/lib${libname}${suffix} ; then
+for dir in $$1dir/lib $defaultdir/lib /usr/lib /usr/local/lib; do
+  for suffix in .so .a; do
+    if test -r $dir/lib${libname}${suffix} ; then
       $1dir=$dir
       break
     else
