@@ -108,7 +108,7 @@
 
 -saveObject: anObject {
   id aProbeMap, aProbe, anIndex ;
-  char aBuffer[200] ;
+  char aBuffer[2000] ;
 
   if(templateProbeMap)
     aProbeMap = templateProbeMap ;
