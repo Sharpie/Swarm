@@ -1,0 +1,9 @@
+<html>
+<script language="javascript">
+  netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+  var test = Components.classes["component://swarm/collections/ListCImpl"].createInstance ();
+  test = test.QueryInterface(Components.interfaces.swarmICollectionC);
+  test.setReplaceOnly (true);
+</script>
+
+</html>

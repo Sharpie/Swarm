@@ -708,8 +708,8 @@
   (insert "\"component://swarm/")
   (insert (symbol-name (module-sym (protocol-module protocol))))
   (insert "/")
-  (insert (downcase (com-phase-name protocol phase)))
-  (insert "\"\n"))
+  (insert (com-phase-name protocol phase))
+  (insert "Impl\"\n"))
 
 (defun com-impl-generate-component-ids ()
   (with-temp-file (c-path "componentIDs.h")
