@@ -174,6 +174,7 @@ Library:      activity
   else
     newActivity->breakFunction = _activity_trace;
   
+  printf ("[%d]\n", [self conformsTo: @protocol (ActionGroup)]);
   // create index on the plan actions for traversal by the activity
   if ([self getDefaultOrder] == (id) Randomized && 
       [self isKindOf: [ActionGroup_c class]])

@@ -482,7 +482,7 @@ PHASE(Using)
 //
 
 @implementation ForEachActivity_c
-
+PHASE(Creating)
 + _create_: forEachAction: anActivity
 {
   Activity_c *owner, *newActivity;
@@ -551,16 +551,15 @@ PHASE(Using)
   return newIndex->memberAction;
 }
 
+PHASE(Using)
 - getCurrentMember
 {
   return [currentIndex get];
 }
-
 @end
 
 
 @implementation ForEachIndex_c
-
 - nextAction: (id *)status
 {
   // reload and return the action being used to execute each member

@@ -18,6 +18,9 @@
 	(ScheduleActivity_c): Implement ScheduleActivity protocol.
 	(SwarmActivity_c): Implement SwarmActivity protocol.
 
+	* ActionGroup.m (ForEachActivity_c): Add creating and using phase
+	tags.
+
 	* ActionGroup.h (ActionGroup_c): Implement ActionGroup protocol.
 	(ForEachActivity_c): Implement ForEachActivity protocol.
 
