@@ -11,11 +11,13 @@ test "x$ACLOCAL" = xaclocal && ACLOCAL="aclocal -I m4"
 AM_CONFIG_HEADER(swarmconfig.h externvar.h)
 
 AC_PROG_CC
+LT_AC_PROG_SED
+AC_SUBST(SED)
 
 test -n "$OBJC" || OBJC="$CC"
 AC_SUBST(OBJC)
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
-OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long -Werror"
+OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)
 
 AC_LIBTOOL_WIN32_DLL

@@ -7,6 +7,8 @@ test "x$ACLOCAL" = xaclocal && ACLOCAL="aclocal -I m4"
 AC_PROG_CC
 AM_CONFIG_HEADER(config.h objc/externvar.h)
 AC_PROG_INSTALL
+LT_AC_PROG_SED
+AC_SUBST(SED)
 
 #gccdir=`$CC -print-libgcc-file-name | sed 's/\/libgcc.a//'`
 #AC_SUBST(gccdir)
@@ -23,7 +25,7 @@ AC_PROG_LIBTOOL
 test -n "$OBJC" || OBJC="$CC"
 AC_SUBST(OBJC)
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
-OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long -Werror"
+OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)   
 
 # Pass with no value to take the default

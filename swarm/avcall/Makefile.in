@@ -49,6 +49,7 @@ SHELL = /bin/sh
 
 # Needed by $(LIBTOOL).
 top_builddir = .
+SED = @SED@
 
 OBJECTS = avcall.lo structcpy.lo
 ifeq ($(OS),cygwin)
