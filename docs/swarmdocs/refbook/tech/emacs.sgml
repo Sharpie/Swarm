@@ -29,24 +29,27 @@
     objc-mode on all files that end in <LITERAL>.m</LITERAL> or
     <LITERAL>.h</LITERAL>:</PARA>
 
-  <PROGRAMLISTING>
+<PROGRAMLISTING>
 (setq auto-mode-alist
 (append '(("\\.h$" . objc-mode)
 ("\\.m$" . objc-mode))))
-  </PROGRAMLISTING>
+</PROGRAMLISTING>
 
-  <FORMALPARA><TITLE>Highlighting code</TITLE> <PARA>Emacs running
+  <FORMALPARA><TITLE>Highlighting code</TITLE> 
+
+    <PARA>Emacs running
       under X has the ability to colour your source code according to
       syntax. There are two packages to do this:
       <LITERAL>font-lock</LITERAL> and
-      <LITERAL>hilit19</LITERAL>.<PARA>
+      <LITERAL>hilit19</LITERAL>.</PARA>
   </FORMALPARA>
 
-  <FORMALPARA><TITLE>font-lock</TITLE> <PARA> emacs-20.1 and later
-     also has a font-lock mode for Objective-C that supports the
-     method syntax unique to Objective-C. See the emacs manual for how
-     to turn on this feature to highlight .h and .m files
-     automatically.</PARA>
+  <FORMALPARA><TITLE>font-lock</TITLE> 
+    <PARA> emacs-20.1 and later
+      also has a font-lock mode for Objective-C that supports the
+      method syntax unique to Objective-C. See the emacs manual for how
+      to turn on this feature to highlight .h and .m files
+      automatically.</PARA>
   </FORMALPARA>
     
   <FORMALPARA><TITLE>hilit19</TITLE>
@@ -86,7 +89,8 @@
    ;; key words
    ("[^_]\\<\\(return\\|goto\\|if\\|else\\|case\\|default\\|switch\\|break\\|continue\\|while\\|do\\|for\\|super\\|self\\)\\>[^_]" 1 keyword)))))
 </PROGRAMLISTING>
-
+      
+    </PARA>
   </FORMALPARA>
 </SECT1>
 
