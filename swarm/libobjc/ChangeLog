@@ -1,3 +1,7 @@
+1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am: Remove intermediate libobjc_.la library.
+
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (objc.dll): Use .o suffix to distinguish from

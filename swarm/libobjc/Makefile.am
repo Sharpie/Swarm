@@ -21,14 +21,10 @@ EXTRA_LTLIBRARIES = libobjc.la
 bin_PROGRAMS = @OBJC_DLL@
 EXTRA_PROGRAMS = objc.dll
 
-libobjc_la_SOURCES = 
-libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir)
-libobjc_la_LIBADD = libobjc_.la
-
-libobjc__la_SOURCES = $(CSRC) $(MSRC)
-libobjc__la_LDFLAGS = -L$(dir $(shell $(CC) -print-libgcc-file-name))
-libobjc__la_LIBADD = $(objc_thread_lo) -lgcc
-libobjc__la_DEPENDENCIES = $(objc_thread_lo)
+libobjc_la_SOURCES = $(CSRC) $(MSRC)
+libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libobjc_la_LIBADD = $(objc_thread_lo) -lgcc
+libobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
 override CPPFLAGS += -DBUILDING_LIBOBJC
 
@@ -42,7 +38,7 @@ compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
 if USEDLL
-DLLOBJS = $(addsuffix .lo,$(basename $(libobjc__la_SOURCES)))
+DLLOBJS = $(addsuffix .lo,$(basename $(libobjc_la_SOURCES)))
 
 objc.dll: libobjc_.la objc.dll.c
 	$(CC) -c $(srcdir)/objc.dll.c -o objc.dll.o
