@@ -35,55 +35,65 @@ printVal (val_t val)
   
   switch (val.type)
     {
-    case _C_ID: 
+    case fcall_type_boolean:
+      return val.val.boolean ? "true" : "false";
+    case fcall_type_string:
+      return val.val.string;
+    case fcall_type_object:
       return val.val.object ? [val.val.object getDisplayName] : "<null>";
-    case _C_SEL:
+    case fcall_type_selector:
       return sel_get_name (val.val.selector);
-    case _C_CHR:
+    case fcall_type_schar:
       sprintf (buf, "%c", val.val.schar);
       break;
-    case _C_UCHR:
+    case fcall_type_uchar:
       switch (val.val.uchar)
         {
         case NO:       
-          sprintf (buf, "%o (NO)", (unsigned) val.val.uchar);
+          sprintf (buf, "%o (false)", (unsigned) val.val.uchar);
           break;
         case YES:       
-          sprintf (buf, "%o (YES)", (unsigned) val.val.uchar);
+          sprintf (buf, "%o (true)", (unsigned) val.val.uchar);
           break;  
         default:
           sprintf (buf, "%o", (unsigned) val.val.uchar);
           break;
         }
       break;
-    case _C_SHT:
+    case fcall_type_sshort:
       sprintf (buf, "%hd", val.val.sshort);
       break;
-    case _C_USHT:
+    case fcall_type_ushort:
       sprintf (buf, "%hu", val.val.ushort);
       break;
-    case _C_INT:
+    case fcall_type_sint:
       sprintf (buf, "%d", val.val.sint);
       break;
-    case _C_UINT:
+    case fcall_type_uint:
       sprintf (buf, "%u", val.val.uint);
       break;
-    case _C_LNG:
+    case fcall_type_slong:
       sprintf (buf, "%ld", val.val.slong);
       break;
-    case _C_ULNG:
+    case fcall_type_ulong:
       sprintf (buf, "%lu", val.val.ulong);
       break;
-    case _C_FLT:
+    case fcall_type_float:
       sprintf (buf, "%f", val.val._float);
       break;
-    case _C_DBL:
+    case fcall_type_double:
       sprintf (buf, "%f", val.val._double);
       break;
-    case _C_VOID:
+    case fcall_type_void:
       strcpy (buf, "none");
       break;
-    default:
+    case fcall_type_iid:
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+    case fcall_type_slonglong:
+    case fcall_type_ulonglong:
+    case fcall_type_long_double:
+    case fcall_type_class:
       abort ();
     }
   return buf;
@@ -210,11 +220,11 @@ PHASE(Using)
   {
     val_t ret = [myProbe dynamicCallOn: myObject];
   
-    if (ret.type != _C_VOID && ![myProbe getHideResult])
+    if (ret.type != fcall_type_void && ![myProbe getHideResult])
       {
         [resultMessageProbeEntry setActiveFlag: YES];
         [resultMessageProbeEntry setValue: printVal (ret)];
-        if (ret.type == _C_ID)
+        if (ret.type == fcall_type_object)
           resultObject = ret.val.object;
         [resultMessageProbeEntry setActiveFlag: NO];
       }
@@ -236,7 +246,7 @@ PHASE(Using)
 {
   val_t val = [myProbe getArg: which];
  
-  if (val.type == _C_ID)
+  if (val.type == fcall_type_object)
     CREATE_PROBE_DISPLAY (val.val.object);
   else
     GUI_BEEP ();
@@ -273,7 +283,7 @@ PHASE(Using)
 {
   val_t val = [myProbe getArg: which];
   
-  if (val.type != _C_ID)
+  if (val.type != fcall_type_object)
     {
       GUI_BEEP ();
       return "";
