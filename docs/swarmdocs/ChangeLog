@@ -1,3 +1,8 @@
+1998-06-15  Alex Lancaster  <alex@santafe.edu>
+
+	* catalog.in: Removed PUBLIC identifier for "Installing Preface" -
+	no longer used.
+
 1998-06-13  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* print.dsl (example-title, example-entry-text, make-list, 

@@ -126,7 +126,6 @@ PUBLIC "-//SFI Hive//ENTITIES Overview Revision History//EN" over/overrevhistory
 
 PUBLIC "-//SFI Hive//ENTITIES Installing Metadata//EN" @top_srcdir@/install/installmeta.sgml
 PUBLIC "-//SFI Hive//ENTITIES Installing Content//EN" @top_srcdir@/install/installcont.sgml
-PUBLIC "-//SFI Hive//ENTITIES Installing Preface//EN" @top_srcdir@/install/install00.sgml
 PUBLIC "-//SFI Hive//ENTITIES Installing Article 1//EN" @top_srcdir@/install/install01.sgml
 PUBLIC "-//SFI Hive//ENTITIES Installing Article 2//EN" @top_srcdir@/install/install02.sgml
 PUBLIC "-//SFI Hive//ENTITIES Installing Revision History//EN" install/installrevhistory.sgml
