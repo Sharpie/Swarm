@@ -1,3 +1,11 @@
+1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acfind.m4 (md_FIND_LIB): Use -R instead of -rpath.
+
+	* acffi.m4 (md_FIND_FFI): Likewise.
+
+	* actcltk.m4 (md_FIND_TCL_LIBRARIES, md_FIND_TK_LIBRARIES): Likewise.
+
 1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* acjdk.m4 (vj_FIND_JDK): Assign java include directories

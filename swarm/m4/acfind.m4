@@ -30,7 +30,7 @@ else
 fi
 if test -n "$$1libdir" ; then
   if test "$suffix" = .so; then
-    _ldflags="-L\${$1libdir} -rpath \${$1libdir}"
+    _ldflags="-L\${$1libdir} -R \${$1libdir}"
   else
     _ldflags='-L${$1libdir}'
   fi
