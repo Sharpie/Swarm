@@ -104,12 +104,12 @@ else
           if test -d "${expand_jdkdir}/jre/lib/${proc}/${threads}_threads"; then
             JAVALIBS="\${jdkdir}/jre/lib/${proc}/${threads}_threads"
           fi
+          JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}"
           if test -d "${expand_jdkdir}/jre/lib/${proc}/hotspot"; then
             JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}/hotspot"
           elif test -d "${expand_jdkdir}/jre/lib/${proc}/classic"; then
             JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}/classic"
           fi
-          JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}"
         elif test -d "${expand_jdkdir}/lib/${proc}/${threads}_threads"; then
           JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
         else
@@ -117,7 +117,7 @@ else
         fi
       fi
     fi
-    test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/${proc}/${threads}_threads/java"
+    test -n "$JAVACMD" || JAVACMD="\${jdkdir}/jre/bin/${proc}/${threads}_threads/java"
     if test -f ${expand_jdkdir}/jre/lib/rt.jar; then
       JAVACLASSES=${jdkdir}/jre/lib/rt.jar
     elif test -f ${expand_jdkdir}/lib/rt.jar; then
