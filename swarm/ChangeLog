@@ -2,6 +2,8 @@
 
 	* configure.in (AC_OUTPUT): Extract java/c/Makefile,
 	java/swarm/Makefile, and java/swarm/Makefile.rules.
+	(JAVAC): Get path using AC_PATH_PROG.
+	(javaprefix): Infer from JAVAC.
 
 1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
