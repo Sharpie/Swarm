@@ -1,4 +1,4 @@
-<SECT1 ID="SWARM.SRC.OBJC.SECT">
+<SECT1 ID="SWARM.TECH.SGML.SECT1.OBJC">
 <TITLE>Objective C Web Resources</TITLE>
 
   <PARA>The main technical skill required of a Swarm user is the
@@ -24,10 +24,11 @@
 
         <ULINK
           URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html"><CITETITLE>Object-Oriented
-          Programming and the Objective-C Language</CITETITLE></ULINK> An
-          excellent (online!) book on Objective C. This is for generic
-          NeXT Objective C: Swarm uses GNU Objective C in addition to
-          our own <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj</LINK>
+          Programming and the Objective-C Language</CITETITLE></ULINK>
+          An excellent (online!) book on Objective C. This is for
+          generic NeXT Objective C: Swarm uses GNU Objective C in
+          addition to our own <LINK
+          LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj</LINK>
           extensions.</PARA>
 
     </LISTITEM>
