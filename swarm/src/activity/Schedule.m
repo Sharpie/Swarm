@@ -363,8 +363,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		      // faster way to deal with this would be:
 		      // scheduleIndex->position++;
 
-		      [scheduleIndex setLoc:Start];
-		      [scheduleIndex findNext:successor_action];
+		      [scheduleIndex setLoc: Start];
+		      [scheduleIndex findNext: successor_action];
 		      
 		      ((ScheduleIndex_c *) scheduleIndex)->currentAction = 
 			[scheduleIndex prev];
