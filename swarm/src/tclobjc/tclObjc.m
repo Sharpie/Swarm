@@ -786,7 +786,6 @@ static float
 getFloatReturn (void *p)
 {
   return *(float *) p;
-#endif
 }
 
 static double
