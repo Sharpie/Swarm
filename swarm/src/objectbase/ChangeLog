@@ -1,3 +1,9 @@
+1999-04-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* CustomProbeMap.m ([CustomProbeMap
+	+create:forClass:withIdentifiers:]): Check for NULL `identifier'
+	before deferencing.
+	
 1999-04-01  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* objectbase.h: Protocol Swarm inherits protocols SwarmProcess and

@@ -39,7 +39,7 @@ PHASE(Creating)
             getProbeForVariable: identifier
             inClass: aClass]];
       identifier = va_arg (argumentPointer, const char *);
-    } while (identifier[0] != ':' && identifier != NULL);
+    } while (identifier && identifier[0] != ':');
   
   // now do the methods
   while ((identifier = va_arg (argumentPointer, const char *)) != NULL)
