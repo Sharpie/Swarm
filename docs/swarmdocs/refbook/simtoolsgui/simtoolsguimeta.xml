@@ -1,0 +1,17 @@
+<referenceinfo>
+  <title>Simtoolsgui Library</title>
+
+  <abstract>    <title>Documentation and Implementation Status</title>
+    
+    <para>First creation of simtoolsgui documentation.</para>
+    
+  </abstract>
+
+ &simtoolsguirevhistory.xml;
+  
+  </referenceinfo>
+<!--
+Local Variables:
+sgml-parent-document:("simtoolsguicont.xml" "referenceinfo")
+End:
+-->

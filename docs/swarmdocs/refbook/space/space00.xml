@@ -1,51 +1,44 @@
-<PARTINTRO>
-  <title>Space Introduction</title>
+<partintro>  <title>Space Introduction</title>
 
-  <SIDEBAR>
-    <TITLE>Overview</TITLE>
+  <sidebar>    <title>Overview</title>
 
-    <PARA>The Swarm Space library is the beginnings of a library to
+    <para>The Swarm Space library is the beginnings of a library to
       assist in building environments for interacting agents. In
       general, environments can be just as varied as the agents
       themselves (in one view, the environment itself is simply
       another agent). However, many simulations have similar types of
       environments that can be helpfully supported by generic
-      code.</PARA>
+      code.</para>
 
-    <PARA>The current space library only addresses simple kinds of
+    <para>The current space library only addresses simple kinds of
       discretized 2d space. Improvement is planned in the
       future. Briefly, coordinates need to be elevated to the status
       of objects, which should hopefully allow spaces of different
       scales and boundary conditions to interact through a common
       reference system. In addition, other types of spaces are
       desired: continuous coordinates, other dimensions, arbitrary
-      graphs, etc</PARA>
+      graphs, etc</para>
 
-  </SIDEBAR>
+  </sidebar>
 
-  <SECT1 xreflabel="Space Dependencies" ID="SWARM.SPACE.SGML.SECT1.DEPEND">
-        <TITLE>Dependencies</TITLE> 
+  <sect1 xreflabel="Space Dependencies" id="SWARM.SPACE.SGML.SECT1.DEPEND">        <title>Dependencies</title> 
 
-    <PARA>Following are the other header files imported by
-    &lt;space.h&gt;:
+    <para>Following are the other header files imported by
+    <filename>space.h</filename>:
 
-<PROGRAMLISTING>
-#import &lt;objectbase.h&gt;
-#import &lt;gui.h&gt;
-</PROGRAMLISTING>
+<programlisting>#import &lt;objectbase.h&gt;
+#import &lt;gui.h&gt;</programlisting>
 
-      </PARA>
+      </para>
 
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="Space Compatibility" ID="SWARM.SPACE.SGML.SECT1.COMPAT">
-        <TITLE>Compatibility</TITLE>
+  <sect1 xreflabel="Space Compatibility" id="SWARM.SPACE.SGML.SECT1.COMPAT">        <title>Compatibility</title>
 
-    <PARA>No explicit compatibility issues for particular versions of
-    Swarm</PARA>
+    <para>No explicit compatibility issues for particular versions of
+    Swarm</para>
 
-  </SECT1>
-
+  </sect1>
 <!--
   <SECT1 xreflabel="Space Usage Guide" ID="SWARM.SPACE.SGML.SECT1.USAGE">
         <TITLE>Usage Guide</TITLE>
@@ -82,12 +75,9 @@
   </SECT1>
 
 -->
-
-</PARTINTRO>
-
+</partintro>
 <!--
 Local Variables:
-sgml-parent-document:("spacecont.sgml" "PARTINTRO")
+sgml-parent-document:("spacecont.xml" "partintro")
 End:
 -->
-

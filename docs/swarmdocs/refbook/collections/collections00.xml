@@ -1,0 +1,102 @@
+<partintro>  <title>Collections Introduction</title>
+
+  <sidebar>    <title>Overview</title>
+
+    <para>The object types of the collections library establish a
+      general-purpose foundation to maintain object references or
+      other values as members of structured collections.
+      Customization options consolidate a wide range of basic
+      collection structures into a few core types (Array, List, Set,
+      Map).  These types are defined strictly by their interface, not
+      their internal implementation.  Specialized options, however,
+      give control and flexibility for efficient, low-level use (such
+      as implementing other libraries).</para>
+
+  </sidebar>
+
+  <sect1 xreflabel="Collections Dependencies" id="SWARM.COLLECTIONS.SGML.SECT1.DEPEND">        <title>Dependencies</title>
+
+    <para>Following are the other header files imported by
+      <filename>collections.h</filename>:</para>
+    
+<programlisting>#import defobj.h</programlisting>
+
+    <para>The collections library follows the <link linkend="SWARM.LIBRARY.SGML.APPENDIX">library interface
+      conventions</link> of the <link linkend="SWARM.DEFOBJ.SGML.REFERENCE">defobj library</link>.  It also
+      depends on standard supertypes and classes defined by this
+      library.  Initialization of the collections library
+      automatically initializes the defobj library as well.  Since
+      defobj also requires the collections library, both must always
+      be linked into an application together.</para>
+
+  </sect1>
+
+  <sect1 xreflabel="Collections Compatibility" id="SWARM.COLLECTIONS.SGML.SECT1.COMPAT">        <title>Compatibility</title>
+    
+    <para>No explicit incompatibilites for particular versions of Swarm</para>
+
+  </sect1>
+  
+  <sect1 xreflabel="Collections Usage Guide" id="SWARM.COLLECTIONS.SGML.SECT1.USAGE">        <title>Usage Guide</title>
+    
+    <para>This section of documentation is not yet available.  In the
+      meantime, see the <link linkend="SWARM.GRID.SGML.APPENDIX">GridTurtle test
+        programs</link> for the most complete examples of collections
+      library usage.  If you can't find an example there that
+      exercises a message or option that you want to use, chances are
+      it's not implemented.</para>
+
+  </sect1>
+
+  <sect1 xreflabel="Collections Advanced Usage Guide" id="SWARM.COLLECTIONS.SGML.SECT1.ADVUSAGE">        <title>Advanced Usage Guide</title>
+    <para>Unavailable</para>
+  </sect1>
+  
+  <sect1 xreflabel="Collections Subclassing Reference" id="SWARM.COLLECTIONS.SGML.SECT1.SUBCLASS">        <title>Subclassing Reference</title>
+
+    <para>Until the collections library has been fully implemented,
+      subclassing conventions from collections implementation classes
+      are still in flux.  In general, these classes will be among the
+      most complex uses of multiple classes selected to implement an
+      independent object type. (See <link linkend="SWARM.LIBRARY.SGML.APPENDIX">library definition
+      conventions</link> for a summary of the distinction between
+      types and classes.)  New methods are being developed to simplify
+      subclassing from such implementations.  In the meantime, if you
+      need to use to a collection within the implementation of your
+      own class, just put an instance variable in your class and put
+      the collection in that, and pass through the messages of the
+      collection you want to have available on your class to this
+      variable.  In many if not most cases, this is better design
+      anyway, because you control all use of the underlying
+      structure.</para>
+
+  </sect1>
+
+  <sect1 xreflabel="Collections Interface Design Notes" id="SWARM.COLLECTIONS.SGML.SECT1.DESIGN">        <title>Interface Design Notes</title>
+
+    <para>A collections library is one of the most important
+      foundation services for object-oriented programming.  Most
+      object-oriented systems provide at least the start of a
+      general-purpose collections library.  The GNUSTEP, project, for
+      example, provides the libobject library (currently in alpha test
+      at <ulink url="ftp://alpha.prep.ai.mit.edu/"></ulink>) which
+      includes a collections library along with other services
+      intended to parallel those of the OpenStep framework developed
+      by Next.</para>
+
+    <para>Swarm has implemented its own collection library to meet the
+      specialized needs of its agent simulation framework.  </para>
+
+  </sect1>
+
+  <sect1 xreflabel="Collections Implementation Notes" id="SWARM.COLLECTIONS.SGML.SECT1.IMPL">        <title>Implementation Notes</title>
+
+    <para>Unavailable</para>
+
+  </sect1>
+  </partintro>
+<!--
+Local Variables:
+sgml-parent-document:("collectionscont.xml" "partintro")
+End:
+-->

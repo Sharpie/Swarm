@@ -1,0 +1,19 @@
+<reference id="SWARM.SIMTOOLS.SGML.REFERENCE">
+  &simtoolsmeta.xml;
+  
+  <title>Simtools Library</title>
+  <titleabbrev>Simtools</titleabbrev>
+  
+  <!-- partintro -->
+  &simtools00.xml;
+  
+  <!-- actual reference content -->
+  &simtoolspages.xml;
+
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+End:
+-->

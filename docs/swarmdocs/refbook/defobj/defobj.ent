@@ -1,5 +1,10 @@
-<!entity defobjcont.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Content//EN">
-<!entity defobjrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Revision History//EN">
-<!entity defobjmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Metadata//EN">
-<!entity defobj00.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Introduction//EN">
-<!entity defobjpages.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Generated Content//EN">
+<!ENTITY defobjcont.xml PUBLIC "-//SFI Hive//ENTITIES Defobj Content//EN"
+"ignore.sysid">
+<!ENTITY defobjrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Defobj Revision History//EN"
+"ignore.sysid">
+<!ENTITY defobjmeta.xml PUBLIC "-//SFI Hive//ENTITIES Defobj Metadata//EN"
+"ignore.sysid">
+<!ENTITY defobj00.xml PUBLIC "-//SFI Hive//ENTITIES Defobj Introduction//EN"
+"ignore.sysid">
+<!ENTITY defobjpages.xml PUBLIC "-//SFI Hive//ENTITIES Defobj Generated Content//EN"
+"ignore.sysid">

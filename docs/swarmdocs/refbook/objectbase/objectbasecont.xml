@@ -1,0 +1,19 @@
+<reference id="SWARM.OBJECTBASE.SGML.REFERENCE">
+  &objectbasemeta.xml;
+  
+  <title>Objectbase Library</title>
+  <titleabbrev>Objectbase</titleabbrev>
+  
+  <!-- partintro -->
+  &objectbase00.xml;
+  
+  <!-- actual reference content -->
+  &objectbasepages.xml;
+
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+end:
+-->

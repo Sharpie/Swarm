@@ -1,24 +1,22 @@
 <referenceinfo>
+  <title>Collections Library</title>
 
-  <TITLE>Collections Library</TITLE>
+  <abstract>    <title>Documentation and Implementation Status</title> 
 
-  <ABSTRACT>
-    <TITLE>Documentation and Implementation Status</TITLE> 
-
-    <PARA>The collections library has an almost complete set of
+    <para>The collections library has an almost complete set of
       Interface Reference documents, and the design of the interface is
       almost entirely final.  The implementation of the collections library,
       however, doesn't yet implement many of the more advanced features of
       this interface.
-    </PARA>
+    </para>
 
-    <PARA>Collections library development has concentrated on the
+    <para>Collections library development has concentrated on the
       specific features needed by the activity library.  This library uses
       collections for its underlying support of actions to be executed in
       schedules.  The collections library itself is still being completed
-      for use as a general-purpose library.</PARA>
+      for use as a general-purpose library.</para>
 
-    <PARA>The Array and List types have all basic capability fully
+    <para>The Array and List types have all basic capability fully
       implemented.  Set and Map have basic messages defined, but currently
       rely on a crude implementation based on sorted lists.  (This
       implementation is more than adequate for the usually small and
@@ -26,42 +24,41 @@
       the most forgiving when change does take place within members being
       traversed.)  Much more efficient implementations based on both
       balanced trees and hash tables are in the works.
-    </PARA>
+    </para>
 
-    <PARA>OrderedSet is currently supported only with the low-level
+    <para>OrderedSet is currently supported only with the low-level
       option for an internal member slot, and the implemented messages do
       not match the ones documented in the Interface Reference.  Support for
-      groups of duplicate members is missing from both Set and Map.</PARA>
+      groups of duplicate members is missing from both Set and Map.</para>
 
-    <PARA>None of the special options for restricted usage modes on
+    <para>None of the special options for restricted usage modes on
       any type of collection (e.g., read-only restriction) has been
       implemented.  Stack and Queue are not implemented, but are nothing
       more than restricted uses of a List.  There is no support for any
       member type except id or smaller (other member types will depend on a
-      data type facility to be supplied by defobj).</PARA>
+      data type facility to be supplied by defobj).</para>
 
-    <PARA>Even though incomplete, the portion of capability that is
+    <para>Even though incomplete, the portion of capability that is
       implemented has been exercised very heavily.  The interfaces to
       Set and Map structures will remain the same even as their
       underlying implementations improve, so there is no harm in using
-      them.  See the <LINK LINKEND="SWARM.GRID.SGML.APPENDIX">GridTurtle
-      test programs</LINK> for the most complete examples of
-      collections usage.</PARA>
+      them.  See the <link linkend="SWARM.GRID.SGML.APPENDIX">GridTurtle
+      test programs</link> for the most complete examples of
+      collections usage.</para>
 
-    <PARA>The collections library follows the documentation structure
-      suggested by the <LINK
-      LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">library interface
-      conventions</LINK> of the defobj library.  There are
+    <para>The collections library follows the documentation structure
+      suggested by the <link linkend="SWARM.DEFOBJ.SGML.REFERENCE">library interface
+      conventions</link> of the defobj library.  There are
       placeholders at least for each section of documentation (some of
       which merely indicate that the section is not available yet) so
       that all links should at least link up with something, whether
-      or not there's anything there.</PARA>
+      or not there's anything there.</para>
 
-    <PARA>Throughout the documentation, a parenthesized comment that
+    <para>Throughout the documentation, a parenthesized comment that
       starts with (..  indicates an editorial comment on the current status
-      of implementation or documentation.</PARA>
+      of implementation or documentation.</para>
 
-    <PARA>The documentation priority for all libraries is to complete
+    <para>The documentation priority for all libraries is to complete
       at least their interface reference documents, so that there is the
       equivalent of Unix "man pages" that summarize all basic capability.  A
       second priority is to complete the complementary "Usage Guide"
@@ -69,26 +66,24 @@
       a task-oriented organization, and will lead the initial user through
       actual code examples in the rough order a typical user is likely to
       need them.  It will serve the role of a tutorial on each
-      library.</PARA>
+      library.</para>
 
-    <PARA>The Usage Guide code examples have not yet been developed.
-      For the time being, a directory of test programs (<LINK
-      LINKEND="SWARM.GRID.SGML.APPENDIX">GridTurtle test
-      programs</LINK>, contained within the documentation release
+    <para>The Usage Guide code examples have not yet been developed.
+      For the time being, a directory of test programs (<link linkend="SWARM.GRID.SGML.APPENDIX">GridTurtle test
+      programs</link>, contained within the documentation release
       directory) provides code examples of many of the basic features
       of the defobj, collections, and activity libraries.  These code
       examples also help indicate the portions of the libraries which
       are fully implemented and working, since they are run on each
-      new release of these libraries.</PARA>
+      new release of these libraries.</para>
 
-  </ABSTRACT>
+  </abstract>
 
-  &collectionsrevhistory.sgml;
-
+  &collectionsrevhistory.xml;
+  
 </referenceinfo>
-
 <!--
 Local Variables:
-sgml-parent-document:("collectionscont.sgml" "REFERENCEINFO")
+sgml-parent-document:("collectionscont.xml" "referenceinfo")
 End:
 -->

@@ -1,0 +1,699 @@
+<partintro>  <title>Objectbase Introduction</title>
+
+  <sidebar>    <title>Overview</title>
+
+    <para>The <emphasis>objectbase</emphasis> library encapsulates
+      various fundamental aspects of the <emphasis>Swarm</emphasis>
+      object model and defines the probing machinery used to take data
+      from <emphasis>Swarm</emphasis> objects. Most of the underlying
+      functionality of the classes defined here is contained in the
+      <emphasis><link linkend="SWARM.DEFOBJ.SGML.REFERENCE">defobj</link></emphasis>
+      and <emphasis><link linkend="SWARM.ACTIVITY.SGML.REFERENCE">activity</link></emphasis>
+      libraries.
+    </para>
+
+  
+    <formalpara><title>Probes</title> 
+      
+      <para>Probes are idealized entities that are intended to allow
+        the user to monitor and modify the innards of objects without
+        explicitly providing the functionality to do so at compile
+        time. Hence, they allow dynamic interaction with an objects
+        instance variables and methods. Most of the functionality of
+        probes is implemented here; but, at present, they are
+        intimately linked to the <emphasis><link linkend="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtools</link></emphasis>
+        library, which contains all the widgetry needed to use probes
+        from a GUI. Despite this intimacy, probes are intended to be a
+        general purpose mechanism for <emphasis>any</emphasis> agent
+        or device to interact dynamically with
+        <emphasis>Swarm</emphasis> objects.  The Probes section in the
+        &userbook; will explain more about the
+        reasoning and purpose behind probes.
+      </para>
+    </formalpara>
+
+  </sidebar>
+
+  <sect1 xreflabel="Objectbase Dependencies" id="SWARM.OBJECTBASE.SGML.SECT1.DEPEND">        <title>Dependencies</title> 
+
+    <para>Following are the other header files imported by
+    <filename>objectbase.h</filename>:
+
+<programlisting>#import &lt;defobj.h&gt;
+#import &lt;activity.h&gt;</programlisting>
+
+      The <emphasis>defobj</emphasis> library interface is included to
+      provide the basic object support. 
+    </para>
+<!-- Removed by AKL 1998-05-06
+ 
+    The <EMPHASIS>SwarmObject</EMPHASIS> class header file was
+    provided for backward compatibility since the
+  <EMPHASIS>objectbase</EMPHASIS> library has been brought into
+    agreement with the library standards.  
+-->
+    
+  </sect1>
+
+  <sect1 xreflabel="Objectbase Compatibility" id="SWARM.OBJECTBASE.SGML.SECT1.COMPAT">        <title>Compatibility</title>
+
+    <itemizedlist>      <listitem>        <formalpara><title>1.0.4 =&gt; 1.0.5</title>
+          <para>No changes.</para></formalpara>
+      </listitem>
+
+      <listitem>        <formalpara><title>1.0.3 =&gt; 1.0.4</title>
+
+          <para>The name of this library is now
+            <emphasis><literal>objectbase</literal></emphasis>, it is has
+            been renamed from
+            <emphasis><literal>swarmobject</literal></emphasis> largely to
+            reflect the more generic nature of the library and also
+            motivated by the impending port of Swarm to Windows NT (to
+            avoid filename conflicts with the
+            <literal>SwarmObject</literal> class). There should be
+            little, or no effect on the user, the only visible change
+            is the fact that the actual library (.a) or (.so) file
+            will now have a different name and the header file name
+            has changed. A symbolic link from
+            <literal>objectbase.h</literal> to
+            <literal>swarmobject.h</literal> has been provided in the
+            distribution, to ensure backwards compatibility, however,
+            users should <emphasis>not</emphasis> continue to rely on
+            this being so.  Users should port references to
+            <literal>swarmobject.h</literal> in their code to
+            <literal>objectbase.h</literal>, because this symlink will
+            be removed in a future release.</para></formalpara>
+
+        <para><emphasis><emphasis>Note</emphasis>: this is no way affects
+          the</emphasis> <literal>SwarmObject</literal> class which
+          remains the same as in all previous
+          releases.</para>
+
+      </listitem>
+
+      <listitem>        <formalpara>          <title>1.0.0 =&gt; 1.0.1</title>
+
+          <para>The interface has changed again!
+            <emphasis>EmptyProbeMap</emphasis> is now a subclass of
+            <emphasis>CustomProbeMap</emphasis>, which is subclassed
+            from <emphasis>ProbeMap</emphasis>. And a shortcut
+            <literal>create:</literal> method was added to that
+            branch.</para></formalpara>
+
+        <para>Also, a new method was added to
+          <emphasis>ProbeLibrary</emphasis> called
+          <literal>isProbeMapDefinedFor</literal> that serves to
+          non-invasively test for the existence of a
+          <emphasis>ProbeMap</emphasis> for a given
+          class.</para>
+
+      </listitem>
+
+      <listitem><formalpara>
+          <title><emphasis>Beta</emphasis> =&gt; 1.0.0</title>
+
+          <para>The new interface for the
+            <emphasis>swarmobject</emphasis> library might cause some
+            problems for apps that worked under the Beta release of
+            Swarm. To get the whole scoop, read the <link linkend="SWARM.LIBRARY.SGML.APPENDIX">Library Interface
+            Conventions</link>.
+
+            <!-- To get a few hints at explicit changes you might need
+            to make, check out: <LINK
+            LINKEND="SWARM.OBJECTBASE.SGML.PORTINGAPPSTONEWINTERFACE.HTML">Porting
+            apps to use the new <EMPHASIS>swarmobject</EMPHASIS>
+            interface</LINK>.  -->
+
+          </para>
+        </formalpara>
+
+      </listitem>
+    </itemizedlist>
+
+
+  </sect1>
+
+  <sect1 xreflabel="Objectbase Usage Guide" id="SWARM.OBJECTBASE.SGML.SECT1.USAGE">        <title>Usage Guide</title>
+
+    <sect2>      <title>Overview</title>
+
+      <para>The <emphasis>objectbase</emphasis> library contains the
+        most basic objects users need to design their agents and
+        swarms.  It also serves, at present, as a repository for the
+        probe machinery, which is provided for every
+        <emphasis>SwarmObject</emphasis>.  The way the classes in this
+        library are to be used is varied.  But, basically, it is
+        provided so that the user will have something to subclass from
+        for her own objects and Swarms.
+      </para>
+    </sect2>
+
+    <sect2>      <title>Example Usage of <emphasis>SwarmObject</emphasis></title>
+
+      <para>The best way to explain how the library should be used is
+        to walk through an example.  So, using Heatbugs, we'll walk
+        through the ways <emphasis>objectbase</emphasis> is used and
+        discuss them.  Since more documentation is usually better than
+        less, I'm going to explain things at a low level so that those
+        not familiar with Objective C will understand the discussion.
+        If you already are familiar with Objective C, then you should
+        skip this part.
+      </para>
+
+      <para>First off, the basic elements of the Heatbugs simulation
+        are the heatbugs, the model swarm (which bundles the
+        heatbugs), and the observer swarm (which bundles the displays
+        of the probes poking into the model swarm and the heatbugs).
+        The interface files for each show what must be imported and
+        the declaration syntax needed to subclass from
+        <emphasis>SwarmObject</emphasis>.
+      </para>
+
+      <para>We'll use <literal>Heatbug.h</literal> for our discussion
+        here.  The first part of the file shows the C-preprocessor
+        imports needed:
+
+<programlisting>#import objectbase/SwarmObject.h
+#import space.h			 
+#import "HeatSpace.h"			 
+#import tkobjc/Raster.h		 </programlisting>
+
+      </para>
+
+      <para>The <literal>#import objectbase/SwarmObject.h;</literal>
+          is included in order to subclass from
+          <emphasis>SwarmObject</emphasis>.  However, to provide
+          backwards compatibility, we've placed this import in the
+          library interface file <literal>objectbase.h</literal> as
+          well, which means one could subclass from
+          <emphasis>SwarmObject</emphasis> by simply importing the
+          <literal>objectbase.h</literal> file.  This is discouraged
+          in order to make the library interfaces as standard as
+          possible.
+      </para>
+
+      <para>The next <emphasis>objectbase</emphasis> relevant piece of
+      code in this file is:
+
+<programlisting>@interface Heatbug: SwarmObject
+{
+  double unhappiness;		
+  int x, y;			
+  HeatValue idealTemperature;	
+  HeatValue outputHeat;		
+  float randomMoveProbability;	
+  				
+  Grid2d * world;		
+  int worldXSize, worldYSize;	
+  HeatSpace * heat;		
+  Color bugColor;		
+}</programlisting>
+
+      </para>
+
+      <para>The <literal>@interface</literal> keyword indicates that
+        you are beginning the definition of the part of an object (a
+        <emphasis>Heatbug</emphasis> in this case) that will be
+        visible to other objects.  The <literal>Heatbug:
+        SwarmObject</literal> indicates that you are calling this
+        object <emphasis>Heatbug</emphasis> and it is a subclass of
+        <emphasis>SwarmObject</emphasis>.  What follows between the
+        curly braces ({}) are the instance variables defined for the
+        <emphasis>Heatbug</emphasis> class <emphasis>above and
+        beyond</emphasis> those inherited from the
+        <emphasis>SwarmObject</emphasis> class.
+      </para>
+
+      <para>Inside this "agent," we have defined several parameters
+        associated with either the agent, itself, or the space in
+        which it sits.  Any data that will need to be present
+        throughout all the behavior and lifetime of the agent should
+        be declared here.  Also, anything declared here will be
+        accessible to the probe machinery, and so will be capable of
+        being manipulated and viewed from outside the agent.
+      </para>
+
+      <para>Next come the message prototypes to which this agent will
+        respond.  And it is worth noting again that these are
+        <emphasis>in addition to</emphasis> those declared in the
+        <emphasis>SwarmObject</emphasis> superclass.  So, not only
+        will other objects be able to send messages to this agent that
+        are declared here, but other objects will be able to send all
+        the messages declared in the
+        <literal>objectbase/SwarmObject.h</literal> imported
+        previously.  The messages prototyped here will dictate what
+        the compiler thinks this object can respond to.  Hence, if any
+        part of any of these prototypes differs from the corresponding
+        function definition in the <literal>Heatbug.m</literal> file,
+        then the compiler will say something like <literal>Object:
+        aHeatbug does not respond to xyz</literal>, where "xyz" is the
+        name of the message that is being sent to the
+        <literal>Heatbug</literal>.  A script is provided with the
+        Swarm distribution that fixes header file prototypes to match
+        the message declarations in the corresponding ".m" file.  This
+        script should be in the <literal>$SWARMHOME/bin</literal>
+        directory and is called <literal>m2h</literal>.
+      </para>
+
+      <para>One more thing to notice about these prototypes is that
+        some of them are duplicates of what appears in the
+        <literal>objectbase/SwarmObject.h</literal> file.  This means
+        that when the message is called on a
+        <emphasis>Heatbug</emphasis> object, it will execute the
+        method defined here and not the one in the
+        <emphasis>SwarmObject</emphasis> class.  In the
+        <emphasis>objectbase</emphasis> library, the following
+        messages are intended to be overridden, as necessry:
+        <literal>create:, createBegin:, createEnd, customizeBegin:,
+        customizeEnd, customizeCopy:, describe:, and
+        getInstanceName.</literal> Each of these messages do specific
+        things that may change from subclass to subclass of
+        <emphasis>SwarmObject</emphasis>.  In this case, however,
+        we're only overriding <literal>createEnd</literal>.  The
+        differences between we implement it in
+        <emphasis>Heatbugs</emphasis> and the default is not that
+        significant.  But, it should be pointed out that when
+        overriding certain messages, like
+        <literal>createBegin:</literal> and
+        <literal>createEnd</literal>, the new method should call the
+        superclass' version of the message, as well.  This is done
+        using the default pointer to the superclass, designated
+        <emphasis>super</emphasis>.  The syntax in the
+        <emphasis>Heatbugs</emphasis> case is:
+
+<programlisting>[super createEnd];</programlisting>
+
+      </para>
+
+      <para>The reasons for doing this are related to the object phase
+        protocols used by <emphasis>defobj</emphasis>.  If you would
+        like more info on that, see the .
+      </para>
+
+      <para>Finally, the <literal>@end</literal> keyword signifies the
+        end of the interface definition.  GNU Objective C allows one
+        to leave this off; but, it is not good practice.</para>
+
+      <para>And that's it.  Of course, there're a few tricky aspects
+        to using the <emphasis>objectbase</emphasis> library that
+        weren't mentioned here.  Some of them will be mentioned in the
+        <link linkend="SWARM.OBJECTBASE.SGML.SECT1.ADVUSAGE">Advanced Usage
+        Notes</link> and the <link linkend="SWARM.OBJECTBASE.SGML.SECT1.IMPL">Implementation
+        Notes</link>; but, the best way to learn is to examine the way
+        the demo applications do it and try to make some changes
+        yourself.</para>
+    
+    </sect2>
+
+    <sect2>      <title>Subclassing from <emphasis>Swarm</emphasis></title>
+
+      <para>Subclassing from the <emphasis>Swarm</emphasis> class
+        works very similar to subclassing from
+        <emphasis>SwarmObject</emphasis>.
+      </para>
+
+      </sect2>
+    
+    <sect2>      <title>ActivityControl</title>
+
+      <para>The <emphasis>ActivityControl</emphasis> object provides
+        much more finely grained control over the execution of an
+        interactive simulation.  It addresses both the problems of not
+        being able to stop the simulation at any given point in any
+        given activity and provides an initial step towards a Swarm
+        debugger.
+      </para>
+
+      <para>An activity controller can be attached to
+        <emphasis>any</emphasis> activity that is created in a Swarm
+        simulation, including those that are created for use only by
+        the Swarm kernel.  The controller then provides the basic
+        activity manipulation messages on that activity, which are:
+        <literal>run, stop, next, step, stepUntil,</literal> and
+        <literal>terminate</literal>.
+      </para>
+
+      <para>The presence of the <emphasis>ActivityControl</emphasis>
+        object might cause some confusion about what role the
+        <emphasis>ControlPanel</emphasis> should play in the
+        controlled execution of the various schedules.  The
+        <emphasis>ControlPanel</emphasis> should still be used for the
+        top-level control of any simulation that is running in a
+        context where <emphasis>random</emphasis> interference is expected
+        (like under a GUISwarm where the user may click a button at
+        any time).  The reason this is true is because the
+        <emphasis>ControlPanel</emphasis> sends pseudo-interrupts to
+        the infinite loop we use to perpetuate execution of the top
+        level Swarm (which can only be seen in the form of the
+        <literal>go</literal> message on a
+        <emphasis>GUISwarm</emphasis> at present).  <emphasis>This type
+        of control may change in the future!</emphasis> But, for now, it
+        is how we monitor the control state of the simulation.
+      </para>
+
+      <para>Now, having said that, the
+        <emphasis>ControlPanel</emphasis> should no longer be used to
+        run the simulation.  It should only be used to instantiate the
+        control context and quit the entire simulation.  That means
+        that sometime in the future, the <literal>Go</literal> and the
+        <literal>Stop</literal> buttons will be removed from the
+        <emphasis>ControlPanel</emphasis> display.  They have been
+        left in for backwards compatibility so that applications that
+        do not use the new <emphasis>ActivityControl</emphasis> will
+        retain their (albeit handicapped) controllability.  Also, the
+        current <literal>Time Step</literal> button will be renamed to
+        <literal>Start</literal> to be consistent with it's new
+        purpose.
+      </para>
+      
+      <para>In order to use the new control mechanism, you must place
+        code like the following in the top-level Swarm.  (This code
+        was taken from a modified mousetrap demo app.)
+        
+      </para>
+
+<programlisting>observerActCont = [ActivityControl createBegin: [self getZone]];
+observerActCont = [observerActCont createEnd];
+[observerActCont attachToActivity: [self getSwarmActivity]];
+[probeDisplayManager createProbeDisplayFor: observerActCont];</programlisting>
+
+      <para>This creates an <emphasis>ActivityControl</emphasis> and
+        attaches it to the top-level activity (in this case an
+        <literal>observerSwarm</literal>).  It also creates a display
+        for the controller. (The probe map for the
+        <emphasis>ActivityControl</emphasis> class is designed within
+        the <emphasis>ActivityControl</emphasis>, itself.  This is
+        done because all of these objects are expected to look the
+        same to any outside object.)  With this activity controller,
+        you will then be able to <literal>run, stop, next, step,
+        stepUntil,</literal> and <literal>terminate</literal> that
+        activity.
+      </para>
+
+      <para>There are some tricky aspects to successfully using an
+        <emphasis>ActivityControl</emphasis> object that the <link linkend="SWARM.OBJECTBASE.SGML.SECT1.ADVUSAGE"> Advanced Usage
+        Notes</link> will cover.
+      </para>
+
+    </sect2>
+
+  </sect1>
+
+  <sect1 xreflabel="Objectbase Advanced Usage Guide" id="SWARM.OBJECTBASE.SGML.SECT1.ADVUSAGE">        <title>Advanced Usage Guide</title>
+
+    <sect2>      <title>ProbeMap design</title>
+
+      <para>When designing a <emphasis>ProbeMap</emphasis> for a given
+        (subclass of) <emphasis>SwarmObject</emphasis>, inclusion of
+        instance variables or messages defined in the super class
+        might be desirable.  The normal <emphasis>ProbeMap</emphasis>
+        design code might look like (this code was taken from the
+        tutorial app called "hello-world"):
+      </para>
+
+<programlisting>probeMap = [CustomProbeMap createBegin: [self getZone]];
+[probeMap setProbedClass: [person class]];
+probeMap = [probeMap createEnd];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "room"
+  				 inClass: [person class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "party"
+  				 inClass: [person class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "name"
+  				 inClass: [person class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "stillhere"
+  				 inClass: [person class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "listOfFriends"
+  				 inClass: [person class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "myColor"
+  				 inClass: [person class]]];
+[probeLibrary setProbeMap: probeMap For: [person class]];
+[probeDisplayManager createProbeDisplayFor: person];</programlisting>
+
+      <para>where <literal>room, party, name, stillhere,
+          listOfFriends,</literal> and <literal>myColor</literal> are
+          instance variables declared in the interface to the
+          <emphasis>Person</emphasis> subclass.  And
+          <emphasis>Person</emphasis> is a subclass of
+          <emphasis>Agent2d</emphasis>, which is a subclass of
+          <emphasis>SwarmObject</emphasis>.
+      </para>
+
+      <para>Now let's say that there are two variables declared in
+        <emphasis>Agent2d</emphasis> that you want to put into this
+        custom probe in addition to the ones you've picked out of
+        <emphasis>Person</emphasis>.  Call them <literal>x</literal>
+        and <literal>y</literal>.  The way to add them to the
+        <literal>probeMap</literal> is to add the following two lines
+        of code to the above.
+      </para>
+
+<programlisting>[probeMap addProbe: [probeLibrary getProbeForVariable: "x"
+  				 inClass: [Agent2d class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "y"
+					 inClass: [Agent2d class]]];</programlisting>
+
+      <para>And that's it!  The two superclass-declared variables,
+        which are, in fact, instance variables of the instance of the
+        subclass, are now included in the probe.
+      </para>
+
+      <para>In addition, a convenience message has been added to the
+        <emphasis>CustomProbeMap</emphasis> interface to compress the
+        above rather cluttered mechanism into one message.  This
+        convenience message can be used in the usual case where a
+        <emphasis>ProbeMap</emphasis> will consist of variables and
+        messages from the same class.  For example, the first part of
+        the custom probe creation above can be shortened to:
+
+<programlisting>probeMap = [CustomProbeMap create: [self getZone] forClass: [person class]
+      withIdentifiers: "room", "party", "name", "stillhere",
+                       "listOfFriends", "myColor", NULL];</programlisting>
+
+        And if the user wanted messages in the probe as well, it could
+        be extended to:
+
+<programlisting>probeMap = [CustomProbeMap create: [self getZone] 
+                          forClass: [person class]
+                   withIdentifiers: "room", "party", "name",
+                       "stillhere", "listOfFriends", "myColor", 
+                       ":",
+                       "setWorld:Room:Party:",
+                       "setPerson:Topic_array:ShowSpeech:",
+                       NULL];</programlisting>
+
+      </para>
+
+      <para>At present, this message doesn't search the superclasses
+        for the message names listed here.  But, that will soon be
+        rectified.</para>
+    </sect2>
+
+    <sect2>      <title>ActivityControl Issues</title>
+
+      <para> It is completely reasonable to assume that explicit
+        control can be had over all the activities in a simulation.
+        However, at present, this control is limited because the
+        context in which an activity runs determines how it behaves.
+        To understand how an <emphasis>ActivityControl</emphasis> is
+        to be used, we will have to explore the behavior of activities
+        in context.  (For a more complete explanation of the behavior
+        of activities, see the <emphasis><link linkend="SWARM.ACTIVITY.SGML.REFERENCE">activity
+        library</link></emphasis> documentation.)
+      </para>
+
+      <para>There are two ways to get an activity started, one can
+        activate the activity in <literal>nil</literal> or in some
+        other activity.  So called "top-level" activities are
+        activated in <literal>nil</literal> and are intended to be
+        independent of the sophisticated scheduling activity that
+        dictates the execution of actions in any other context in the
+        simulation.  I.e. the only activities that should be activated
+        in <literal>nil</literal> are those sets of events that are
+        expected to preserve the same behavior no matter what goes on
+        in any other part of the simulation.
+      </para>
+
+      <para>The other type of activity, those activated in some other
+        activity, is intended to be an integral part of its owner
+        activity.  However, this doesn't mean that it
+        <emphasis>must</emphasis> depend on the outcome of actions
+        happening in the owner activity.  In fact, an
+        <emphasis>ActionPlan</emphasis> can be designated as
+        containing actions that are capable of being processed in
+        parallel, via code like the following:
+
+
+<programlisting>[anActionPlan setDefaultOrder: Concurrent];</programlisting>
+
+        But these activities are <emphasis>still</emphasis> intended to be
+        meshed with their owner activities.  In other words, they are
+        part and parcel of the same model or simulation.</para>
+
+      <para>Now, the operational effect of activating an activity in
+        <literal>nil</literal> is that it will not be meshed with the
+        rest of the Swarm activity structure.  This gives the user (or
+        process) complete control over the execution of that activity.
+        A <literal>run</literal> on that activity will run either to
+        completion or until a stop flag is set by a sequence of events
+        purely internal to that activity.  Or, one can stop it from
+        the outside with a message from something like an
+        <emphasis>ActivityControl</emphasis>.
+      </para>
+      
+      <para>What all this means is that, while one can attach an
+        <emphasis>ActivityControl</emphasis> to <emphasis>any</emphasis>
+        activity, only the "top-level" activities (those having been
+        activated in <literal>nil</literal>) are going to respond well
+        to it.  Any sub-activity will respond half-heartedly, if at
+        all.  For example, in the <emphasis>Mousetrap</emphasis> demo
+        distributed with Swarm, an
+        <emphasis>ActivityControl</emphasis> has been placed on both
+        the <emphasis>ObserverSwarm</emphasis> and the
+        <emphasis>ModelSwarm</emphasis> activities.  Now, if one sends
+        a <literal>run</literal> message to the
+        <emphasis>ActivityControl</emphasis> that is attached to the
+        <literal>observerSwarm</literal>'s activity, the entire model
+        continues to run to completion, unless the user sends a
+        <literal>stop</literal> message.  However, if the sim is
+        stopped at some point, a <literal>run</literal> message to the
+        <literal>modelSwarm</literal>'s activity will have no effect
+        at all.  (<emphasis>Note:</emphasis> If you do this via the
+        activity controllers, you see the
+        <literal>currentTime</literal> variable get updated; but, the
+        actual <literal>run</literal> message to the activity, itself,
+        has no effect.)
+      </para>
+
+      <para>So, the rule of thumb, for the present, is to attach
+        <emphasis>ActivityControl</emphasis> objects only to
+        "top-level" activities, like the
+        <emphasis>ObserverSwarm</emphasis>.
+      </para>
+
+    </sect2>
+
+
+  </sect1>
+
+  <sect1 xreflabel="Objectbase Subclassing Reference" id="SWARM.OBJECTBASE.SGML.SECT1.SUBCLASS">        <title>Subclassing Reference</title>
+
+    <para>The main classes defined here that are intended to be
+      subclassed by users are Swarm and SwarmObject. The probing
+      functionality provided here is mainly for use within the
+      <emphasis>Swarm</emphasis> kernel. However, this probe machinery
+      should be used when designing any interface between
+      <emphasis>Swarm</emphasis> and any other agent or
+      device. </para>
+
+    <formalpara><title>SwarmObject</title>
+      <para><emphasis>SwarmObject</emphasis> is the base class for all
+      interactive agents in <emphasis>Swarm</emphasis>.  It defines
+      the standard behavior for Swarmstyle agents, which includes
+      hooks for creation, probing, zoned memory allocation, and
+      destruction.</para>
+    </formalpara>
+
+    <formalpara><title>Swarm</title>
+
+      <para>The <emphasis>Swarm</emphasis> class encapsulates all of
+      the abstract execution machinery in the
+      <emphasis>activity</emphasis> library, as well as the notion of
+      a group of related objects. Metaphorically, a "Swarm" is a
+      combination of a collection of objects and a schedule of
+      activity over those objects. Hence, the
+      <emphasis>Swarm</emphasis> class provides the behavior necessary
+      for creating such an object and starting up the schedule.</para>
+    </formalpara>
+
+    <para>Further details on subclassing are also described in the
+      <link linkend="SWARM.OBJECTBASE.SGML.SECT1.USAGE">Usage
+      Guide</link></para>
+
+  </sect1>
+
+  <sect1 xreflabel="Objectbase Interface Design Notes" id="SWARM.OBJECTBASE.SGML.SECT1.DESIGN">        <title>Interface Design Notes</title>
+
+    <para>Unfortunately, this interface has not undergone a rigorous
+      design review.  As such it is subject to change in the future.
+      However, there are rumours that this library will be integrated
+      into the <emphasis><link linkend="SWARM.DEFOBJ.SGML.REFERENCE">defobj
+      library</link></emphasis> anyway.  So, even though little
+      thought was given to the design of this interface (and it is not
+      likely to be worthwhile designing a robust interface at this
+      time), it was implemented in order to provide a first step
+      towards bringing all the various libraries in line with the
+      standard set by <emphasis>defobj</emphasis>.</para>
+
+    <para>Along these lines, a few notes are relevant.
+    
+      <orderedlist>
+        <listitem>          <para><emphasis>Probe</emphasis>s may become an inherent
+          part of any object.</para>
+        </listitem>
+
+        <listitem>          <para><emphasis>ActivityControl</emphasis>s will become a
+            part of a larger set of tools used for debugging Swarm
+            models. </para>
+        </listitem>
+<!--  Removed by AKL 1998-05-06
+ 
+      <LISTITEM>
+      <PARA>The explicit importation of the
+      <EMPHASIS>SwarmObject</EMPHASIS> interface should be
+        removed.  This is only provided for backward compatibility
+        and when all the libraries follow the interface
+        conventions, then those conventions should be
+        encouraged.</PARA>
+      </listitem>
+-->
+
+      </orderedlist>
+    </para>
+
+  </sect1>
+
+  <sect1 xreflabel="Objectbase Implementation Notes" id="SWARM.OBJECTBASE.SGML.SECT1.IMPL">        <title>Implementation Notes</title>
+
+    <orderedlist>      
+      <listitem>        <para>Right now, <emphasis>Probe</emphasis>'s rely on a
+          special method, <literal>getInstanceName</literal>, that has
+          to be implemented in any probe-able object in order to get
+          anything other than the class name of that object into the
+          object designation widget.  However, a more general
+          capability has been added to <emphasis>defobj</emphasis> to
+          give a meaningful name to any object.
+          <emphasis>Probe</emphasis>s will be changed to take
+          advantage of this new capability.
+        </para>
+      </listitem>
+
+      <listitem>        <para>In the <emphasis>ActivityControl</emphasis> the
+          frequency of the message <literal>updateStateVar</literal>
+          is very high.  It is sent at least once every cycle and
+          <emphasis>every</emphasis> time a message is sent to the
+          <emphasis>ActivityControl</emphasis>.  This is
+          unsatisfactory.  Some of these messages can be pruned out of
+          the object.</para>
+      </listitem>
+
+      <listitem>        <para>The <literal>probeMap</literal> designed for use with an
+          <emphasis>ActivityControl</emphasis> was chosen fairly
+          arbitrarily.  Right now, it serves as a default for the
+          class.  A user can override it by designing a new one and
+          inserting it into the <literal>probeLibrary</literal>.
+          </para></listitem>
+
+      <listitem>        <para>Errors specific to objects in the
+          <emphasis>objectbase</emphasis> library need to be gathered
+          and initialized like those in the
+          <emphasis>defobj</emphasis> library.</para>
+      </listitem>
+
+    </orderedlist>
+
+  </sect1>
+</partintro><!--
+Local Variables:
+sgml-parent-document:("objectbasecont.sgml" "PARTINTRO")
+End:
+-->

@@ -1,3 +1,9 @@
+2001-11-25  Alex Lancaster  <alex@swarm.org>
+
+	* space.ent: Make entities conform with strict XML.
+
+	* *.sgml: Converted to strict XML and renamed with .xml extension.
+
 2000-07-04  Alex Lancaster  <alex@santafe.edu>
 
 	* space00.sgml: Give PARTINTRO a TITLE, and all SECT1 xreflabel

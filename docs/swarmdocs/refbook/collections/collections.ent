@@ -1,5 +1,10 @@
-<!entity collectionscont.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Content//EN">
-<!entity collectionsrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Revision History//EN">
-<!entity collectionsmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Metadata//EN">
-<!entity collections00.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Introduction//EN">
-<!entity collectionspages.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Generated Content//EN">
+<!ENTITY collectionscont.xml PUBLIC "-//SFI Hive//ENTITIES Collections Content//EN"
+"ignore.sysid">
+<!ENTITY collectionsrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Collections Revision History//EN"
+"ignore.sysid">
+<!ENTITY collectionsmeta.xml PUBLIC "-//SFI Hive//ENTITIES Collections Metadata//EN"
+"ignore.sysid">
+<!ENTITY collections00.xml PUBLIC "-//SFI Hive//ENTITIES Collections Introduction//EN"
+"ignore.sysid">
+<!ENTITY collectionspages.xml PUBLIC "-//SFI Hive//ENTITIES Collections Generated Content//EN"
+"ignore.sysid">

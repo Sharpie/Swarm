@@ -1,0 +1,17 @@
+<referenceinfo>
+  <title>Objectbase Library</title>
+
+  <abstract>    <title>Documentation and Implementation Status</title>
+    
+    <para></para>
+
+  </abstract>
+
+&objectbaserevhistory.xml;  
+  
+</referenceinfo>
+<!--
+Local Variables:
+sgml-parent-document:("objectbasecont.xml" "referenceinfo")
+End:
+-->

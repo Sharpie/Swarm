@@ -1,0 +1,19 @@
+<reference id="SWARM.DEFOBJ.SGML.REFERENCE">
+&defobjmeta.xml;
+
+<title>Defobj Library</title>
+<titleabbrev>Defobj</titleabbrev>
+
+<!-- partintro -->
+&defobj00.xml;
+
+<!-- actual reference content -->
+&defobjpages.xml;
+
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+End:
+-->

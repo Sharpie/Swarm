@@ -1,49 +1,39 @@
-<PARTINTRO>
-  <title>GUI Introduction</title>
+<partintro>  <title>GUI Introduction</title>
 
-  <SIDEBAR>
-    <TITLE>Overview</TITLE>
+  <sidebar>    <title>Overview</title>
 
-    <PARA>The GUI library is intended to be a toolkit-independent
+    <para>The GUI library is intended to be a toolkit-independent
     description Swarm-specific GUI widgets. The user specifies a
-    specific back-end (such as Tk or Java AWT) at link time.</PARA>
+    specific back-end (such as Tk or Java AWT) at link time.</para>
 
-  </SIDEBAR>
+  </sidebar>
 
-  <SECT1 xreflabel="GUI Dependencies" ID="SWARM.GUI.SGML.SECT1.DEPEND">
-        <TITLE>Dependencies</TITLE> 
+  <sect1 xreflabel="GUI Dependencies" id="SWARM.GUI.SGML.SECT1.DEPEND">        <title>Dependencies</title> 
 
-    <PARA>Following are the other header files imported by
-    &lt;gui.h&gt;:
+    <para>Following are the other header files imported by
+    <filename>gui.h</filename>:
 
-<PROGRAMLISTING>
-#import &lt;objectbase.h&gt;
-</PROGRAMLISTING>
+<programlisting>#import objectbase.h</programlisting>
 
-      </PARA>
+      </para>
 
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="GUI Compatibility" ID="SWARM.GUI.SGML.SECT1.COMPAT">
-        <TITLE>Compatibility</TITLE>
+  <sect1 xreflabel="GUI Compatibility" id="SWARM.GUI.SGML.SECT1.COMPAT">        <title>Compatibility</title>
 
-    <ITEMIZEDLIST>
+    <itemizedlist>
+      <listitem>        <formalpara>          <title>1.0.5 - 1.1</title> 
 
-      <LISTITEM>
-        <FORMALPARA>
-          <TITLE>1.0.5 -&gt; 1.1</TITLE> 
-
-          <PARA>This library was created with the Swarm 1.1 release,
+          <para>This library was created with the Swarm 1.1 release,
           earlier version of Swarm used the tkobjc functions
-          directly.</PARA>
+          directly.</para>
 
-        </FORMALPARA>
-      </LISTITEM>
+        </formalpara>
+      </listitem>
 
     </itemizedlist>
     
-  </SECT1>
-
+  </sect1>
 <!--
 
   <SECT1 xreflabel="GUI Usage Guide" ID="SWARM.GUI.SGML.SECT1.USAGE">
@@ -81,11 +71,9 @@
   </SECT1>
 
 -->
-
-</PARTINTRO>
-
+</partintro>
 <!--
 Local Variables:
-sgml-parent-document:("guicont.sgml" "PARTINTRO")
+sgml-parent-document:("guicont.xml" "partintro")
 End:
 -->

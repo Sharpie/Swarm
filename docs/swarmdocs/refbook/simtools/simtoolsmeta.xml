@@ -1,9 +1,7 @@
-<REFERENCEINFO>
+<referenceinfo>
+  <title>Simtools Library</title>
 
-  <TITLE>Simtools Library</TITLE>
-
-  <ABSTRACT>
-    <TITLE>Documentation and Implementation Status</TITLE>
+  <abstract>    <title>Documentation and Implementation Status</title>
     
     <para>The simtools library has undergone an upgrade to the status
       of a library as of 1.0.4. This means the interface now conforms
@@ -12,14 +10,12 @@
       should be no affect on the user.
    </para>
  
-  </ABSTRACT>
-  
-&simtoolsrevhistory.sgml;
-  
-</REFERENCEINFO>
+  </abstract>
 
-<!--
+&simtoolsrevhistory.xml;  
+
+  </referenceinfo><!--
 Local Variables:
-sgml-parent-document:("simtoolscont.sgml" "REFERENCEINFO")
+sgml-parent-document:("simtoolscont.xml" "referenceinfo")
 End:
 -->

@@ -1,5 +1,10 @@
-<!entity spacecont.sgml PUBLIC "-//SFI Hive//ENTITIES Space Content//EN">
-<!entity spacerevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Space Revision History//EN">
-<!entity spacemeta.sgml PUBLIC "-//SFI Hive//ENTITIES Space Metadata//EN">
-<!entity space00.sgml PUBLIC "-//SFI Hive//ENTITIES Space Introduction//EN">
-<!entity spacepages.sgml PUBLIC "-//SFI Hive//ENTITIES Space Generated Content//EN">
+<!ENTITY spacecont.xml PUBLIC "-//SFI Hive//ENTITIES Space Content//EN"
+"ignore.sysid">
+<!ENTITY spacerevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Space Revision History//EN"
+"ignore.sysid">
+<!ENTITY spacemeta.xml PUBLIC "-//SFI Hive//ENTITIES Space Metadata//EN"
+"ignore.sysid">
+<!ENTITY space00.xml PUBLIC "-//SFI Hive//ENTITIES Space Introduction//EN"
+"ignore.sysid">
+<!ENTITY spacepages.xml PUBLIC "-//SFI Hive//ENTITIES Space Generated Content//EN"
+"ignore.sysid">

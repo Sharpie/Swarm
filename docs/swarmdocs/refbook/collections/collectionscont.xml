@@ -1,0 +1,19 @@
+<reference id="SWARM.COLLECTIONS.SGML.REFERENCE">
+  &collectionsmeta.xml;
+  
+  <title>Collections Library</title>
+  <titleabbrev>Collections</titleabbrev>
+  
+  <!-- partintro -->
+  &collections00.xml;
+  
+  <!-- actual reference content -->
+  &collectionspages.xml;
+  
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+End:
+-->

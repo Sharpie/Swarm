@@ -1,91 +1,76 @@
-<PARTINTRO>
-  <title>Simtools Introduction</title>
+<partintro>  <title>Simtools Introduction</title>
 
-  <SIDEBAR>
-    <TITLE>Overview</TITLE>
+  <sidebar>    <title>Overview</title>
 
-    <PARA>Simtools is the stdlib of Swarm. In other words, it is the
+    <para>Simtools is the stdlib of Swarm. In other words, it is the
       library where we have parked many miscellaneous classes which,
       while very useful, are not specific enough to be placed in any
       other library. So, for example, simtools contains InFile,
       ObjectLoader and other I/O classes.  Simtools contains all
       <emphasis>non-GUI</emphasis> classes - for the miscellaneous
       classes that do depend on a GUI toolkit being present at
-      link-time, see the documentation for the <LINK
-      LINKEND="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</LINK> library.
+      link-time, see the documentation for the <link linkend="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</link> library.
 
-    </PARA>
+    </para>
 
-  </SIDEBAR>
+  </sidebar>
 
-  <SECT1 xreflabel="Simtools Dependencies" ID="SWARM.SIMTOOLS.SGML.SECT1.DEPEND">
-        <TITLE>Dependencies</TITLE> 
+  <sect1 xreflabel="Simtools Dependencies" id="SWARM.SIMTOOLS.SGML.SECT1.DEPEND">        <title>Dependencies</title> 
 
-    <PARA>Following are the other header files imported by
-    &lt;simtools.h&gt;:
+    <para>Following are the other header files imported by
+    <filename>simtools.h</filename>:
 
-<PROGRAMLISTING>
-#import &lt;objectbase.h&gt;
-</PROGRAMLISTING>
+<programlisting>#import &lt;objectbase.h&gt;</programlisting>
 
-      The <EMPHASIS>objectbase</EMPHASIS> library interface is
+      The <emphasis>objectbase</emphasis> library interface is
       included to provide the basic object support. The
-      <EMPHASIS>random </EMPHASIS>library is <EMPHASIS>no longer
-      included</EMPHASIS> by default.  You will need to explicitly
+      <emphasis>random </emphasis>library is <emphasis>no longer
+      included</emphasis> by default.  You will need to explicitly
       include it to use the default random number generators.
-    </PARA>
+    </para>
 
-    <PARA>Special global functions - global.h. Users need to include
+    <para>Special global functions - global.h. Users need to include
       simtools.h in their code in order to call
-      <LITERAL>initSwarm()</LITERAL> but also in order to get access
+      <literal>initSwarm()</literal> but also in order to get access
       to a set of important pre-initialized objects which are
-      generated in every simulation (e.g. <LITERAL>
-      probeDisplayManager</LITERAL>).
-    </PARA>
+      generated in every simulation (e.g. <literal>      probeDisplayManager</literal>).
+    </para>
 
 
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="Simtools Compatibility" ID="SWARM.SIMTOOLS.SGML.SECT1.COMPAT">
-        <TITLE>Compatibility</TITLE>
+  <sect1 xreflabel="Simtools Compatibility" id="SWARM.SIMTOOLS.SGML.SECT1.COMPAT">        <title>Compatibility</title>
 
-    <ITEMIZEDLIST>
-
-      <LISTITEM>
-        <FORMALPARA>
-          <TITLE>1.0.5 -&gt; 1.1</TITLE> <PARA>simtools has been split
-          into two: simtools and <LINK
-          LINKEND="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</LINK>.  The latter
+    <itemizedlist>
+      <listitem>        <formalpara>          <title>1.0.5 - 1.1</title> <para>simtools has been split
+          into two: simtools and <link linkend="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</link>.  The latter
           now contains all the classes which were GUI-related, so that
           users can compile and link pure-batch mode simulations
           (i.e. simulations that don't require Tk/Tcl/BLT, Java AWT or
-          any GUI toolkit).</PARA>
-        </FORMALPARA>
-      </LISTITEM>
+          any GUI toolkit).</para>
+        </formalpara>
+      </listitem>
 
-      <LISTITEM>
-        <FORMALPARA><TITLE> 1.0.4 -&gt; 1.0.5</TITLE>
+      <listitem>        <formalpara><title> 1.0.4 - 1.0.5</title>
 
-          <PARA>GUISwarm now inherits from GUIComposite.  Because
+          <para>GUISwarm now inherits from GUIComposite.  Because
             GUIComposite handles the passthru of archiving keys to
             tkobjc primitives, the method
             setControlPanelGeometryRecordName is no longer needed;
             instead, the macro SET_WINDOW_GEOMETRY_RECORD_NAME is
-            provided.</PARA>
-        </FORMALPARA>
-      </LISTITEM>
+            provided.</para>
+        </formalpara>
+      </listitem>
 
-      <LISTITEM>
-        <FORMALPARA> <TITLE>1.0.3 -&gt; 1.0.4</TITLE>
-          <PARA>All functions maintain backward compatibility.  There
+      <listitem>        <formalpara> <title>1.0.3 - 1.0.4</title>
+          <para>All functions maintain backward compatibility.  There
             are additional features, however, and features previously
-            undocumented.</PARA>
-        </FORMALPARA>
-      </LISTITEM>
-    </ITEMIZEDLIST>
+            undocumented.</para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
       
-  </SECT1>
-
+  </sect1>
 <!-- 
 
   <SECT1 xreflabel="Simtools Usage Guide" ID="SWARM.SIMTOOLS.SGML.SECT1.USAGE">
@@ -123,11 +108,9 @@
   </SECT1>
 
 -->
-
-</PARTINTRO>
-
+</partintro>
 <!--
 Local Variables:
-sgml-parent-document:("simtoolscont.sgml" "PARTINTRO")
+sgml-parent-document:("simtoolscont.xml" "partintro")
 End:
 -->

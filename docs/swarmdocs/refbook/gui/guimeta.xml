@@ -1,0 +1,17 @@
+<referenceinfo>
+  <title>Gui Library</title>
+
+  <abstract>    <title>Documentation and Implementation Status</title>
+
+    <para></para>
+
+  </abstract>
+
+  &guirevhistory.xml;  
+  
+  </referenceinfo>
+<!--
+Local Variables:
+sgml-parent-document:("guicont.xml" "referenceinfo")
+End:
+-->

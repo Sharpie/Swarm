@@ -1,5 +1,10 @@
-<!entity simtoolscont.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Content//EN">
-<!entity simtoolsrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Revision History//EN">
-<!entity simtoolsmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Metadata//EN">
-<!entity simtools00.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Introduction//EN">
-<!entity simtoolspages.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Generated Content//EN">
+<!ENTITY simtoolscont.xml PUBLIC "-//SFI Hive//ENTITIES Simtools Content//EN"
+"ignore.sysid">
+<!ENTITY simtoolsrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Simtools Revision History//EN"
+"ignore.sysid">
+<!ENTITY simtoolsmeta.xml PUBLIC "-//SFI Hive//ENTITIES Simtools Metadata//EN"
+"ignore.sysid">
+<!ENTITY simtools00.xml PUBLIC "-//SFI Hive//ENTITIES Simtools Introduction//EN"
+"ignore.sysid">
+<!ENTITY simtoolspages.xml PUBLIC "-//SFI Hive//ENTITIES Simtools Generated Content//EN"
+"ignore.sysid">

@@ -1,5 +1,9 @@
-<!entity guicont.sgml PUBLIC "-//SFI Hive//ENTITIES GUI Content//EN">
-<!entity guirevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES GUI Revision History//EN">
-<!entity guimeta.sgml PUBLIC "-//SFI Hive//ENTITIES GUI Metadata//EN">
-<!entity gui00.sgml PUBLIC "-//SFI Hive//ENTITIES GUI Introduction//EN">
-<!entity guipages.sgml PUBLIC "-//SFI Hive//ENTITIES GUI Generated Content//EN">
+<!ENTITY guicont.xml PUBLIC "-//SFI Hive//ENTITIES GUI Content//EN"
+"ignore.sysid">
+<!ENTITY guirevhistory.xml PUBLIC "-//SFI Hive//ENTITIES GUI Revision History//EN">
+<!ENTITY guimeta.xml PUBLIC "-//SFI Hive//ENTITIES GUI Metadata//EN"
+"ignore.sysid">
+<!ENTITY gui00.xml PUBLIC "-//SFI Hive//ENTITIES GUI Introduction//EN"
+"ignore.sysid">
+<!ENTITY guipages.xml PUBLIC "-//SFI Hive//ENTITIES GUI Generated Content//EN"
+"ignore.sysid">

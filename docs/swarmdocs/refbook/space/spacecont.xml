@@ -1,0 +1,19 @@
+<reference id="SWARM.SPACE.SGML.REFERENCE">
+
+    &spacemeta.xml;
+  
+  <title>Space Library</title>
+  
+  <!-- partintro --> 
+    &space00.xml;
+  
+  <!-- actual reference content -->
+  &spacepages.xml;
+  
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+End:
+-->

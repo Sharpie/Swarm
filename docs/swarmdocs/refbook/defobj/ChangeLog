@@ -1,3 +1,9 @@
+2001-11-25  Alex Lancaster  <alex@swarm.org>
+
+	* defobj.ent: Make entities conform with strict XML.
+
+	* *.sgml: Converted to strict XML and renamed with .xml extension.
+
 2000-11-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* defobj00.sgml: Change Objective C reference URL.

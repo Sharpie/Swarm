@@ -1,0 +1,19 @@
+<reference id="SWARM.GUI.SGML.REFERENCE">
+  &guimeta.xml;
+  
+  <title>Gui Library</title>
+  <titleabbrev>Gui</titleabbrev>
+  
+  <!-- partintro -->
+  &gui00.xml;
+  
+  <!-- actual reference content -->
+  &guipages.xml;
+
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+End:
+-->

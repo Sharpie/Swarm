@@ -1,30 +1,24 @@
-<REFERENCEINFO>
+<referenceinfo>
+<title>Space Library</title>
 
-<TITLE>Space Library</TITLE>
+<abstract><title>Documentation and Implementation Status</title>
 
-<ABSTRACT>
-<TITLE>Documentation and Implementation Status</TITLE>
-
-<PARA>Swarm is an open ended system which is meant to grow in response
+<para>Swarm is an open ended system which is meant to grow in response
 to the requirements of the user base, either by inhouse development or
 through user re-contributions. We are therefore maintaining a list of
 the most popular requests (both in terms of tools and libraries) so
 that groups of users can recognize common requirements, make more
-informed suggestions and so forth:
-</PARA>
+informed suggestions and so forth:</para>
 
-<PARA>
-A 'Double' Space
+<para>A 'Double' Space
 
        Which could deal with notions of "distance" and answer
        questions of the form: "which other objects are within X radius
        of me"? An initial implementation of such a space has been
        re-contributed by Ginger Booth and may serve as a good
-       foundation for such a space.
-</PARA>
+       foundation for such a space.</para>
 
-<PARA>
-Complete Batch-Mode Support
+<para>Complete Batch-Mode Support
 
 Swarm can now run in batch mode, which should allow the user to
 organize large parameter sweeps over the models s/he is
@@ -33,24 +27,19 @@ standardized support for file operations (it should be easy, for
 example, to load the parameters of an experiment from a file). In
 order to do this we will provide File objects which will allow users
 to avoid ad-hoc coding of their file-I/O. This support will be in
-place well before V1.0.
-</PARA>
+place well before V1.0.</para>
 
-<PARA>
-More Analysis Tools The averager object can generate the Mean, Max,
+<para>More Analysis Tools The averager object can generate the Mean, Max,
 Min, and Count of a given input stream. We would like to add similar
 tools to calculate entropies, mutual information and other such
-measures.
-</PARA>
+measures.</para>
+</abstract>
 
-</ABSTRACT>
+&spacerevhistory.xml;
 
-&spacerevhistory.sgml;
-
-</REFERENCEINFO>
-
+</referenceinfo>
 <!--
 Local Variables:
-sgml-parent-document:("spacecont.sgml" "REFERENCEINFO")
+sgml-parent-document:("spacecont.xml" "referenceinfo")
 End:
 -->
