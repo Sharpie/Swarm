@@ -1,7 +1,7 @@
 #ifndef _OBJC_EXTERNVAR_H
 #define _OBJC_EXTERNVAR_H
 
-#ifdef DLL
+#if defined(DLL) && !defined(INHIBIT_OBJC_DLL)
 
 #ifdef BUILDING_LIBOBJC
 #define externobjcvar @EXPORT_EXTERN@

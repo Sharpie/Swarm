@@ -1,3 +1,8 @@
+1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* externvar.h.in: Add INHIBIT_OBJC_DLL, a flag to inhibit
+	import/export attributes.
+
 1999-06-05    <mgd@HELEN>
 
 	* thr.h, array.h: Include objc/externvar.h.
