@@ -22,11 +22,11 @@ public class SDG extends Organization {
 
   public Object buildObjects () {
     world = new Grid2dImpl (getZone (), 100, 100);
-    mgd = new Marcus2d (getZone (), world, 0, 0);
-    gepr = new Glen2d (getZone (), world, 10, 10);
-    alex = new Alex2d (getZone (), world, 20, 20);
-    user1 = new User2d (getZone (), world, 30, 30);
-    user2 = new User2d (getZone (), world, 40, 40);
+    mgd = new Marcus2d (getZone (), world, 0, 0, .25, .8, 100, 25);
+    gepr = new Glen2d (getZone (), world, 10, 10, .5, .25, 100, 50);
+    alex = new Alex2d (getZone (), world, 20, 20, .75, .1, 40, 20);
+    user1 = new User2d (getZone (), world, 30, 30, .6, .1, 10, 5);
+    user2 = new User2d (getZone (), world, 40, 40, .6, .1, 10, 5);
 
     return this;
   }

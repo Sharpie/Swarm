@@ -14,7 +14,6 @@ import swarm.Selector;
 import swarm.Globals;
 
 public class Marcus2d extends Agent2d {
-  int remaining;
   Schedule schedule;
   Selector incubateSelector;
   Selector checkWorkSelector;
@@ -22,10 +21,17 @@ public class Marcus2d extends Agent2d {
   Action xmoveNext, ymoveNext;
   int xoffset, yoffset;
   int xfreq, yfreq;
-  
+  int incubationRemaining;
+  boolean working;
 
-  public Marcus2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y);
+  public Marcus2d (Zone aZone, Grid2d world,
+                   int x, int y,
+                   double resistProbabilityMean, double resistProbabilityDeviation,
+                   int energyMean, int energyDeviation) {
+    super (aZone, world,
+           x, y,
+           resistProbabilityMean, resistProbabilityDeviation,
+           energyMean, energyDeviation);
 
     schedule = new ScheduleImpl (aZone, true);
 
@@ -56,16 +62,19 @@ public class Marcus2d extends Agent2d {
   }
 
   public void startIncubation (int t) {
-    remaining = 10;
+    working = false;
+    incubationRemaining = 10;
+    resistProbability = sampleResistProbability ();
+    energy = sampleEnergy ();
     schedule.at$createActionTo$message (t, this, incubateSelector);
   }
 
   public void startWork (int t) {
-    int direction =
-      Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359);
-
-    remaining = Globals.env.uniformIntRand.getIntegerWithMin$withMax (50, 100);
-
+    working = true;
+    if (!frobbed)
+      direction =
+        Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359);
+    
     if (direction == 90) {
       yfreq = 1;
       xfreq = 0;
@@ -120,12 +129,16 @@ public class Marcus2d extends Agent2d {
   }
 
   public void incubate () {
-    if (remaining == 0) {
-      startWork (Globals.env.getCurrentTime () + 1);
+    if (incubationRemaining == 0 || frobbed) {
+      frobbed = false;
+      if (energy > 0)
+        startWork (Globals.env.getCurrentTime () + 1);
+      else
+        startIncubation (Globals.env.getCurrentTime () + 1);
     } else {
       moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1),
                  Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1));
-      remaining--;
+      incubationRemaining--;
       schedule.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
                                           this,
                                           incubateSelector);
@@ -133,7 +146,7 @@ public class Marcus2d extends Agent2d {
   }
 
   public void checkWork () {
-    if (remaining == 0) {
+    if (energy == 0) {
       if (xmoveNext != null) {
         schedule.remove (xmoveNext);
         xmoveNext = null;
@@ -145,7 +158,7 @@ public class Marcus2d extends Agent2d {
       startIncubation (Globals.env.getCurrentTime () + 1);
     }
     else {
-      remaining--;
+      energy--;
       schedule.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
                                           this,
                                           checkWorkSelector);
@@ -164,7 +177,11 @@ public class Marcus2d extends Agent2d {
                                                     this,
                                                     ymoveSelector);
   }
-  
+
+  public boolean frob (int direction) {
+    return working ? false : super.frob (direction);
+  }
+
   public Object drawSelfOn (Raster r) {
     r.drawPointX$Y$Color (x, y, (byte) 1);
     return this;

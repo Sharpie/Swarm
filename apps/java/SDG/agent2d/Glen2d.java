@@ -15,8 +15,14 @@ import swarm.Globals;
 public class Glen2d extends Agent2d {
   Schedule schedule;
 
-  public Glen2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y);
+  public Glen2d (Zone aZone, Grid2d world,
+                 int x, int y,
+                 double resistProbabilityMean, double resistProbabilityDeviation,
+                 int energyMean, int energyDeviation) {
+    super (aZone, world,
+           x, y,
+           resistProbabilityMean, resistProbabilityDeviation,
+           energyMean, energyDeviation);
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -41,16 +47,15 @@ public class Glen2d extends Agent2d {
   public void stepAgent () {
     Agent2d neighbor = getNeighbor (4);
     if (neighbor != null) {
-      if (!neighbor.frob ()) {
+      if (!neighbor.frob (Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359))) {
         moveAgent (neighbor.x - x, neighbor.y - y);
         return;
       }
     }
-
     moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3),
                Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3));
   }
-
+  
   public Object drawSelfOn (Raster r) {
     r.drawPointX$Y$Color (x, y, (byte) 2);
     return this;

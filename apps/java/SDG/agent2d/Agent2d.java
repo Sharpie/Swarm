@@ -5,6 +5,10 @@ import swarm.objectbase.Swarm;
 import swarm.defobj.Zone;
 import swarm.space.Grid2d;
 import swarm.gui.Raster;
+import swarm.random.NormalDist;
+import swarm.random.NormalDistImpl;
+import swarm.random.BernoulliDist;
+import swarm.random.BernoulliDistImpl;
 
 import swarm.Globals;
 
@@ -12,16 +16,36 @@ public class Agent2d extends SwarmImpl {
   public int x, y;
   Grid2d world;
 
-  double resistProbabilityMean;
-  double resistProbabilityDeviation;
-  int resistEnergyMean;
-  int resistEnergyDeviation;
+  double resistProbabilityMean, resistProbabilityDeviation;
+  NormalDist resistProbabilityDistribution;
+  NormalDist energyDistribution;
+  double resistProbability = 0.0;
+  BernoulliDist bernoulliDist =
+    new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
+  boolean frobbed;
+  int direction, energy;
 
-  Agent2d (Zone aZone, Grid2d world, int x, int y) {
+  Agent2d (Zone aZone,
+           Grid2d world,
+           int x,
+           int y,
+           double resistProbabilityMean, double resistProbabilityDeviation,
+           int energyMean, int energyDeviation) {
     super (aZone);
     this.x = x;
     this.y = y;
     this.world = world;
+    this.resistProbabilityDistribution =
+      new NormalDistImpl (aZone,
+                          Globals.env.randomGenerator,
+                          resistProbabilityMean,
+                          resistProbabilityDeviation);
+    this.energyDistribution =
+      new NormalDistImpl (aZone,
+                          Globals.env.randomGenerator,
+                          energyMean,
+                          energyDeviation);
+    this.frobbed = false;
     world.putObject$atX$Y (this, x, y);
   }
   
@@ -37,7 +61,7 @@ public class Agent2d extends SwarmImpl {
   
     return (Agent2d) world.getObjectAtX$Y (x, y);
   }
-    
+
   public Agent2d getNeighbor (int width) {
     int agentCount = 0;
     int xi, yi;
@@ -94,10 +118,31 @@ public class Agent2d extends SwarmImpl {
     world.putObject$atX$Y (this, x, y);
   }
 
-  public boolean frob () {
-    System.out.println ("Frobbed! " + this);
-    return false;
+  public double sampleResistProbability () {
+    double prob;
+
+    do {
+      prob = resistProbabilityDistribution.getDoubleSample ();
+    } while (prob < 0.0 || prob > 1.0);
+    return prob;
   }
+
+  public int sampleEnergy () {
+    return (int) energyDistribution.getDoubleSample ();
+  }
+
+  public boolean frob (int direction) {
+    if (!bernoulliDist.getSampleWithProbability (resistProbability) || energy == 0) {
+      frobbed = true;
+      
+      this.direction = direction;
+      return true;
+    } else {
+      energy--;
+      return false;
+    }
+  }
+  
 
   public Object drawSelfOn (Raster r) {
     return this;

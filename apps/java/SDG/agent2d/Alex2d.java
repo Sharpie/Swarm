@@ -15,8 +15,16 @@ import swarm.Globals;
 public class Alex2d extends Agent2d {
   Schedule schedule;
 
-  public Alex2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y);
+  public Alex2d (Zone aZone,
+                 Grid2d world,
+                 int x, int y,
+                 double resistProbabilityMean, double resistProbabilityDeviation,
+                 int energyMean, int energyDeviation) {
+    super (aZone,
+           world,
+           x, y,
+           resistProbabilityMean, resistProbabilityDeviation,
+           energyMean, energyDeviation);
 
     schedule = new ScheduleImpl (aZone, 1);
 
