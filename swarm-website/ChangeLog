@@ -1,5 +1,27 @@
 2003-06-05  Alex Lancaster  <alex@swarm.org>
 
+	* dtd/website.dtd: Use full system id (overriden by XML catalog).
+
+	* configure.in: Extract catalog_file as a substitution variable.
+
+	* Makefile.am (xsl): Use catalog_file if extracted. Use
+	XML_CATALOG_FILES, rather than SGML_CATALOG_FILES, add --nonet
+	option to prevent silent fetching over the web.
+
+	* catalog.in: Convert from SGML to new-style XML catalog.
+
+	* website.xml: Move old news into a separate "news-archive" page.
+	Make a link to new Savannah news page.  Add an introduction to the
+	software.
+
+	* org.xsl: More flexible system for selecting
+	nongraphical.admonition, now add role to containing <sect1>
+	element.
+
+	* contact.xml: Link to PayPal seal.
+
+2003-06-05  Alex Lancaster  <alex@swarm.org>
+
 	* org.xsl: Merge in changes made against original SFI repository
 	that weren't checked in before migration.
 

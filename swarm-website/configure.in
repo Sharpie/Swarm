@@ -64,6 +64,7 @@ else
   catopts="-c $catalog_file"
 fi
 
+AC_SUBST(catalog_file)
 AC_SUBST(catopts)
 AC_SUBST(docbookstyle_srcdir)
 AC_SUBST(docbookdtd_srcdir)

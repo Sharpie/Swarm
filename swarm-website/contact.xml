@@ -1,7 +1,7 @@
 <webpage navto="yes" id="contact">
   <config class="html" param="banner" value="contact_us-tab.png"/>
-  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:12 $"/>
-  <config class="html" param="author" value="$Author: mgd $"/>
+  <config class="html" param="rcsdate" value="$Date: 2003-06-05 12:41:46 $"/>
+  <config class="html" param="author" value="$Author: alexl $"/>
   <head>
     <title>Contact Us!</title>
     <abstract>
@@ -27,6 +27,23 @@
   </address>
 
   <para>Note: we now accept payments through <ulink url="http://paypal.com">paypal.com</ulink> with <literal>swarm at swarm.org</literal> as the contact address.</para>
+
+<!-- Begin Official PayPal Seal -->
+  <para>
+   <ulink url="https://www.paypal.com/verified/pal=swarm%40swarm.org">
+    <inlinemediaobject>
+     <imageobject>
+      <imagedata fileref="http://images.paypal.com/images/verification_seal.gif"/>
+     </imageobject>
+     <textobject>
+      <phrase>Official PayPal Seal</phrase>
+     </textobject>
+    </inlinemediaobject>
+   </ulink>
+  </para>
+<!-- End Official PayPal Seal -->
+
+
  </sidebar>
  
  <sidebar>

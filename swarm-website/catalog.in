@@ -1,3 +1,32 @@
+<!DOCTYPE catalog
+  PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+  "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+
+ <nextCatalog catalog="file:///etc/xml/catalog"/>
+ 
+ <!-- website stuff -->
+
+ <public publicId="-//SDG Hive//ENTITIES Website Entities//EN" uri="website.ent"/>
+ <public publicId="-//OASIS//DTD DocBook XML V4.0//EN" uri="file://@srcdir@/dtd/docbookx.dtd"/> 
+ <public publicId="-//Norman Walsh//DTD Website V1.6//EN" uri="file://@srcdir@/dtd/website.dtd"/>
+
+ <group xml:base="file://@srcdir@">
+  <rewriteURI uriStartString="http://docbook.sourceforge.net/release/website/1.6/xsl/" rewritePrefix="xsl/website/"/> 
+ </group>
+
+ <!-- these are not used anymore, so this may be broken -->
+ <group prefer="public" xml:base="file://@srcdir@/graphics">
+  <public publicId="-//SDG Hive//ENTITIES SwarmFest 2001 EPS//EN" uri="swarmfest2001.eps"/>
+  <public publicId="-//SDG Hive//ENTITIES SDG Logo EPS//EN" uri="sdg.eps"/>
+  <public publicId="-//SDG Hive//ENTITIES SDG Small Logo EPS//EN" uri="sdg-small.eps"/>
+ </group>
+
+</catalog>
+
+<!-- old SGML-style catalog entries
+
 PUBLIC "-//Norman Walsh//DTD Website V1.6//EN" @website_dtd_srcdir@/website.dtd
 PUBLIC "-//Norman Walsh//DOCUMENT DocBook Website Stylesheet//EN" @website_style_srcdir@/website.dsl
 PUBLIC "-//Norman Walsh//DOCUMENT DocBook XPointer Stylesheet//EN" @website_style_srcdir@/xpointer.dsl
@@ -17,3 +46,11 @@ PUBLIC "-//SDG Hive//ENTITIES SDG Small Logo EPS//EN" @srcdir@/graphics/sdg-smal
 
 OVERRIDE YES
 PUBLIC "-//OASIS//DTD DocBook XML V4.0//EN" @xml_dtd_srcdir@/docbookx.dtd
+
+-->
+
+<!-- 
+Local variables:
+mode: xml
+End:
+-->

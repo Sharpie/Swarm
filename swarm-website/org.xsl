@@ -35,7 +35,7 @@
     <strong><xsl:apply-templates/></strong>
   </xsl:template>
 
-  <xsl:template match="homepage/sect1/sect2/note|homepage/sect1/sect2/important|homepage/sect1/sect2/warning|homepage/sect1/sect2/caution|homepage/sect1/sect2/tip">
+  <xsl:template match="sect1[@role='nongraphical.admonition']//note|sect1[@role='nongraphical.admonition']//important|sect1[@role='nongraphical.admonition']//warning|sect1[@role='nongraphical.admonition']//caution|sect1[@role='nongraphical.admonition']//tip">
     <xsl:choose>
       <xsl:when test="$admon.graphics != 0">
         <xsl:call-template name="graphical.admonition.homepage"/>

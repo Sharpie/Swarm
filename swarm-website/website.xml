@@ -1,4 +1,4 @@
-<!DOCTYPE website PUBLIC "-//Norman Walsh//DTD Website V1.6//EN" "dtd/website.dtd" [
+<!DOCTYPE website PUBLIC "-//Norman Walsh//DTD Website V1.6//EN" "http://docbook.sourceforge.net/release/website/1.6/website.dtd" [
 
 <!ENTITY % website.ent PUBLIC "-//SDG Hive//ENTITIES Website Entities//EN" "bogus.ent">
 %website.ent;
@@ -56,8 +56,8 @@ in duration starting the date of subscription</title><para></para></note>'>
  
  <homepage id="index">
   <config class="html" param="desc" value="www.swarm.org"/>  
-  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:25 $"/>
-  <config class="html" param="author" value="$Author: mgd $"/>
+  <config class="html" param="rcsdate" value="$Date: 2003-06-05 12:41:46 $"/>
+  <config class="html" param="author" value="$Author: alexl $"/>
   <config class="html" param="footer" value="about.html" altval="About..."/>
   <config class="html" param="homebanner" value="graphics/sdg.jpeg" altval="SDG Home"/>
   <config class="html" param="banner" value="graphics/sdg-small.png" altval="SDG Home"/>
@@ -94,33 +94,88 @@ in duration starting the date of subscription</title><para></para></note>'>
    </author>
   </head>
   
-  
-  <sect1>
+  <sect1 role="nongraphical.admonition">
    <title>Welcome to <literal>www.swarm.org</literal>!</title> 
    
-   <para><emphasis>Your one-stop site for all Swarm information, software,
-     user community information and publications.</emphasis></para>
-   
+   <para>Swarm is a software package for multi-agent simulation of
+    complex systems. Swarm is intended to be a useful tool for
+    researchers in a variety of disciplines. The basic architecture of
+    Swarm is the simulation of collections of concurrently interacting
+    agents: with this architecture, we can implement a large variety
+    of agent based models.  Swarm is <ulink
+     url="http://www.gnu.org/philosophy/free-sw.html">free
+     software</ulink>, released under the <ulink
+     url="http://www.gnu.org/licenses/gpl.html">GNU General Public
+     License</ulink> (GPL).</para>
+
    <sidebar>
-    <para>The Swarm Development Group (SDG) located at
-     <literal>www.swarm.org</literal>, is a 501c(3)
-     not-for-profit organization dedicated to advancing the
-     state-of-the-art in multi agent based simulation through the
-     continued advancement of the Swarm Simulation System and
-     support of the Swarm user community.</para>
+    <para>The <link linkend="sdg">Swarm Development Group</link> (SDG)
+     responsible for Swarm , is a 501c(3) not-for-profit organization
+     dedicated to advancing the state-of-the-art in multi agent based
+     simulation through the continued advancement of the Swarm
+     Simulation System and support of the Swarm user community.</para>
    </sidebar>
    
    <sect2>
     <title>Latest news</title>
+    <note revision="2003-06-05">
+    <title>Latest news can now be found at our Savannah site: <ulink url="http://savannah.nongnu.org/news/?group=swarm">http://savannah.nongnu.org/news/?group=swarm</ulink></title>
+    <para>News items older than 2003-06-05 are in an <link linkend="news-archive">archive.</link></para>
+    </note>
+   </sect2>
+  </sect1>
 
-    <note revision="2003-02-27">
-     <title>MacOS X binaries of CVS snapshot</title>
+  <sect1>
+   <title></title>
+   <sidebar>
 
-     <para>Thanks to Bill Northcott's hard work, binaries to build
-      Swarm models on MacOS X 10.2.x are now available on Swarm's
-      Savannah site: <ulink
-       url="http://savannah.nongnu.org/files/?group=swarm">http://savannah.nongnu.org/files/?group=swarm</ulink>
-     </para>
+    <para>Swarm has been supported by Grant No. N00014-94-1-G014
+     from the Department of the Navy, Naval Research Laboratory,
+     acting in cooperation with the Advanced Research Projects
+     Agency, and by Sandia National Laboratory Grant No. AU-4978.
+     Swarm has also benefited from support from The Carol
+     O'Donnell Foundation, Mr. and Mrs. Michael Grantham and the
+     Joint Warfare Analysis Center (JWAC).
+    </para>
+   </sidebar>
+  </sect1>
+  
+  &about;
+  
+ </homepage>
+ 
+ &intro;
+ &release;
+ &sdg;
+ &community;
+ &resources;  
+ &contact;
+
+ <webpage id="news-archive">
+  <config class="html" param="rcsdate" value="$Date: 2003-06-05 12:41:46 $"/>
+  <config class="html" param="author" value="$Author: alexl $"/>
+  <head>
+   <title>Archive (old news)</title>
+   <abstract>
+    <para>News can now be found at our Savannah site: <ulink url="http://savannah.nongnu.org/news/?group=swarm">http://savannah.nongnu.org/news/?group=swarm</ulink></para>
+   </abstract>
+  </head>
+
+  <sect1 role="nongraphical.admonition">
+  <para>This is the news item for items <emphasis>older</emphasis>
+   than 2003-06-05.   The latest news can now be found at our Savannah
+   site: <ulink
+    url="http://savannah.nongnu.org/news/?group=swarm">http://savannah.nongnu.org/news/?group=swarm</ulink>
+</para>
+
+  <note revision="2003-02-27">
+   <title>MacOS X binaries of CVS snapshot</title>
+   
+   <para>Thanks to Bill Northcott's hard work, binaries to build
+    Swarm models on MacOS X 10.2.x are now available on Swarm's
+    Savannah site: <ulink
+     url="http://savannah.nongnu.org/files/?group=swarm">http://savannah.nongnu.org/files/?group=swarm</ulink>
+   </para>
 
       <para>Step-by-step instructions for this snapshot released on
       2003-02-26, are available at: <ulink
@@ -407,34 +462,11 @@ in duration starting the date of subscription</title><para></para></note>'>
       on Swarm - see the reference [<link
       linkend="luna">Luna:Stefansson:2000</link>] for more information
       and the publisher's abstract.</para>
-      </note>
-      </sect2>
-    </sect1>
+   </note>
 
-  <sect1>
-   <title></title>
-   <sidebar>
-    <para>Swarm has been supported by Grant No. N00014-94-1-G014
-     from the Department of the Navy, Naval Research Laboratory,
-     acting in cooperation with the Advanced Research Projects
-     Agency, and by Sandia National Laboratory Grant No. AU-4978.
-     Swarm has also benefited from support from The Carol
-     O'Donnell Foundation, Mr. and Mrs. Michael Grantham and the
-     Joint Warfare Analysis Center (JWAC).
-    </para>
-   </sidebar>
   </sect1>
-  
-  &about;
-  
- </homepage>
- 
- &intro;
- &release;
- &sdg;
- &community;
- &resources;  
- &contact;
+ </webpage>
+
 <!--  &webcams; -->
  
 </website>

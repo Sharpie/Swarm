@@ -1,4 +1,5 @@
-SUBDIRS = graphics biblio archive
+SUBDIRS = graphics archive
+#SUBDIRS = graphics biblio archive
 
 AUTOMAKE_OPTIONS = foreign
 NAME = website
@@ -54,7 +55,7 @@ index.html: xsl
 
 xsl: $(GENERAL) org.xsl
 #	$(XMLLINT) $(CATOPTS) -s $(top_srcdir)/xml.dcl $(top_srcdir)/website.xml
-	SGML_CATALOG_FILES=catalog $(XSLTPROC) --catalogs $(top_srcdir)/org.xsl $(top_srcdir)/website.xml
+	XML_CATALOG_FILES="catalog @catalog_file@" $(XSLTPROC) --nonet $(top_srcdir)/org.xsl $(top_srcdir)/website.xml
 	for i in $(SUBDIRS); do \
 	$(MAKE) -C $$i; \
 	done
