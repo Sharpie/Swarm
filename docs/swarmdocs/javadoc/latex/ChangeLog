@@ -1,0 +1,14 @@
+1999-07-05  Alex Lancaster  <alex@santafe.edu>
+
+	* LatexDoclet.class: Regenerated.
+
+	* LatexDoclet.java (LatexDoclet.{optionLength,readOptions}): Add
+	-noparamtable, -noclass Swarm-specific options.  Add {paramTable,
+	showClass} private variables.
+	(LatexDoclet.processClass): Only start a newpage for interfaces,
+	not for classes.  Only print comments for classes if showClass is
+	set. Suppress the field list if showClass is not set
+	(LatexDoclet.processMethods): Only print parameter tables if
+	paramTable set.
+	
+
