@@ -1,3 +1,16 @@
+1998-12-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* DefClass.m ([CreatedClass_s +createBegin:]): Don't use temporary
+	variable.
+	([CreatedClass_s -setDefiningClass:]): Copy protocolList, too.
+
+	* DefClass.h (Class_s): Add unused1, unused2, and protocolList.
+
+	* Customize.h (createByCopy, createByMessageTo,
+	createByMessageToCopy): Return YES/NO instead of 1/0.
+
+	* Create.m: Don't include swarmconfig.h. 
+
 1998-12-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* defobj.m (_defobj_implement): Call setTypeImplemented: Archiver

@@ -10,17 +10,12 @@ Library:      defobj
 */
 
 #import <defobj/Create.h>
-
-#include <swarmconfig.h>
-
 //
 // CreateDrop_s -- superclass for create protocol with phase switching
 //
 
 @implementation CreateDrop_s
-
 PHASE(Creating)
-
 //
 // create: -- allocate and initialize an object in a specified zone
 //
@@ -34,10 +29,7 @@ PHASE(Creating)
 //
 + createBegin: aZone
 {
-  CreateDrop_s  *newObject;
-
-  newObject = [aZone allocIVars: self];
-  return newObject;
+  return [aZone allocIVars: self];
 }
 
 //

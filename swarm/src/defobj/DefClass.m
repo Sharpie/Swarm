@@ -34,7 +34,7 @@ _obj_getClassData (Class_s *class)
   if (!classData)
     {
       classData = _obj_initAlloc (sizeof *classData);
-      _obj_classes[CLS_GETNUMBER (class) - 1] = (id)classData;
+      _obj_classes[CLS_GETNUMBER (class) - 1] = (id) classData;
     }
   return classData;
 }
@@ -97,10 +97,7 @@ PHASE(CreatingOnly)
 
 + createBegin: aZone
 {
-  CreatedClass_s  *newClass;
-
-  newClass = [aZone allocIVars: self];
-  return newClass;
+  return [aZone allocIVars: self];
 }
 
 - setName: (const char *)className
@@ -127,13 +124,14 @@ PHASE(CreatingOnly)
   instanceSize = ((Class_s *) aClass)->instanceSize;
   ivarList = ((Class_s *) aClass)->ivarList;
   methodList = ((Class_s *) aClass)->methodList;
+  protocolList = ((Class_s *) aClass)->protocolList;
 }
 
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod
 {
   if (!dtable)
     {
-      if (! superclass)
+      if (!superclass)
         raiseEvent (InvalidCombination,
                     "must specify superclass before adding methods to a created class\n");
       

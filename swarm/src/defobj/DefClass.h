@@ -33,6 +33,10 @@ typedef struct methodDefs *methodDefs_t;
   void *ivarList;         // compiler-generated list of local ivars
   void *methodList;       // compiler-generated list of local methods
   struct sarray  *dtable; // dispatch table
+  void *unused1;
+  void *unused2;
+  void *protocolList;
+  
 }
 /*** methods in Class_s (inserted from .m file by m2h) ***/
 @end
