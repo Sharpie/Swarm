@@ -80,7 +80,7 @@ PHASE(Using)
   return self;
 }
 
-- update
+- (void)update
 {
   id index;
   id member;
@@ -99,8 +99,6 @@ PHASE(Using)
         break;
       }
   [index drop];
-  
-  return self;
 }
 
 - (const char *)_computeProbeDisplayKeyFor_: (const char *)variableName

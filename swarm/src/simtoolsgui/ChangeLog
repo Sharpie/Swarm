@@ -1,3 +1,8 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* MultiVarProbe{Display,Widget}.[hm], ProbeDisplayManager.[hm]:
+	Change to void returns as appropriate: -update, -pack, -packFillLeft.
+
 2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* ClassDisplayWidget.[hm], CommonProbeDisplay.[hm],

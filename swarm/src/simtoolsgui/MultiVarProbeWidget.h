@@ -32,7 +32,7 @@
 - setFieldLabelingFlag: (BOOL)labelingFlag;
 - setObjectNameSelector: (SEL)agentNameSelector;
 
-- update;
-- pack;
+- (void)update;
+- (void)pack;
 - (void)drop;
 @end

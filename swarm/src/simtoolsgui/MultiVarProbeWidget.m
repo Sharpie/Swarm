@@ -141,7 +141,7 @@ findObject (id entryMap, const char *windowName,
   return self;
 }
 
-- update
+- (void)update
 {
   id <MapIndex> emi = [entryMap begin: [self getZone]];
   char buffer[512];
@@ -167,18 +167,14 @@ findObject (id entryMap, const char *windowName,
         }
     }
   [emi drop];
-
-  return self;
 }
 
-- packFillLeft
+- (void)packFillLeft
 {
   [frame packFillLeft: NO];
 
   [label pack];
   [entryMap forEach: M(pack)];
-  
-  return self;
 }
 
 - (void)drop
@@ -395,22 +391,19 @@ PHASE(Creating)
   return self;
 } 
 
-- update
+- (void)update
 {
   [multiProbeMap forEach: M(update)];
   GUI_UPDATE ();
-  return self;
 }
 
-- pack 
+- (void)pack 
 {
   [objectsLabelFrame packFillLeft: NO];
   [multiProbeMap forEach: M(packFillLeft)];
 
   [objectsTitleLabel pack];
   [labelMap forEach: M(pack)];
-  
-  return self;
 }
 
 - (void)drop

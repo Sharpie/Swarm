@@ -33,5 +33,5 @@
 - addProbeDisplay: probeDisplay;
 - dropProbeDisplaysFor: anObject;
 - removeProbeDisplay: probeDisplay;
-- update;
+- (void)update;
 @end

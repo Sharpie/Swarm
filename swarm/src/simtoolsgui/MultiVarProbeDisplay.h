@@ -25,7 +25,7 @@
 - setObjectNameSelector: (SEL)aSel;
 - setFieldLabelingFlag: (BOOL)labelingFlag;
 - createEnd;
-- update;
+- (void)update;
 - (void)drop;
 
 - (const char *)package: (const char *)windowName;

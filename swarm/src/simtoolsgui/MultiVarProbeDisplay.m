@@ -97,12 +97,10 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- update
+- (void)update
 {
   if (!markedForDropFlag)
     [widget update];
-  
-  return self;
 }
 
 - (void)drop
