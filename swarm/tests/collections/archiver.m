@@ -24,16 +24,16 @@
 
 @interface Key: CreateDrop
 {
-  int offset;
+  unsigned offset;
   const char *key;
 }
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 - (int)getOffset;
 - createEnd;
 @end
 
 @implementation Key
-- setOffset: (int)theOffset
+- setOffset: (unsigned)theOffset
 {
   offset = theOffset;
   return self;
@@ -95,7 +95,7 @@
 }
 - setDeepFlag: (BOOL)deepFlag;
 - setUpdateFlag: (BOOL)updateFlag;
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 - adjustToOffset;
 - updateArchiver: archiver;
 - (int)getOffset;
@@ -131,7 +131,7 @@
   return self;
 }
 
-- setOffset: (int)theOffset
+- setOffset: (unsigned)theOffset
 {
   offset = theOffset;
   return self;
