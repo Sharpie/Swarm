@@ -1,3 +1,8 @@
+1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Schedule.m ([Schedule_c -createEnd]): Use compareUnsigned instead
+	of compareIDs.
+
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Makefile.am (SUBDIRS): Remove. Directory tests moved to the top. 
