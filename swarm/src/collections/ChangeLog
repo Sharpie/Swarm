@@ -1,3 +1,8 @@
+1999-12-26    <mgd@DRONE>
+
+	* collections.m (_collections_implement): Turn off _CLS_DEFINEDCLASS
+	in List_linked, List_mlinks after calling setTypeImplemented.
+
 1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Collection.m ([Collection_any -allSameClass]): Handle leading

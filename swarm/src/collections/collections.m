@@ -22,6 +22,9 @@ _collections_implement (void)
   [id_List_any setTypeImplemented: List];
   [id_List_linked setTypeImplemented: List];
   [id_List_mlinks setTypeImplemented: List];
+  setBit (((Class) id_List_linked)->info, _CLS_DEFINEDCLASS, 0);
+  setBit (((Class) id_List_mlinks)->info, _CLS_DEFINEDCLASS, 0);
+  
   [id_ListIndex_linked setTypeImplemented: ListIndex];
   [id_ListIndex_mlinks setTypeImplemented: ListIndex];
   [id_Map_c setTypeImplemented: Map];
