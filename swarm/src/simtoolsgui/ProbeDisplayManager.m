@@ -112,22 +112,31 @@ PHASE(Using)
 - (id <ProbeDisplay>)_createDefaultProbeDisplayFor_     : anObject 
                              setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
-  id tempPD, tempPM;
-
-  tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
-  [tempPM setProbedObject: anObject];
-  [tempPM setObjectToNotify: [probeLibrary getObjectToNotify]];
-  tempPM = [tempPM createEnd];
-
-  [probeLibrary setProbeMap: tempPM ForObject: anObject];
-
-  tempPD = [ProbeDisplay createBegin: getZone (self)];
-  [tempPD setProbedObject: anObject];
-  [tempPD setProbeMap: tempPM];
-  [tempPD setWindowGeometryRecordName: windowGeometryRecordName];
-  tempPD = [tempPD createEnd];
-  
-  return tempPD;
+  if (!anObject)
+    {
+      raiseEvent (InvalidArgument,
+                  "request to make nil default probe display");
+      return nil;
+    }
+  else
+    {
+      id tempPD, tempPM;
+      
+      tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
+      [tempPM setProbedObject: anObject];
+      [tempPM setObjectToNotify: [probeLibrary getObjectToNotify]];
+      tempPM = [tempPM createEnd];
+      
+      [probeLibrary setProbeMap: tempPM ForObject: anObject];
+      
+      tempPD = [ProbeDisplay createBegin: getZone (self)];
+      [tempPD setProbedObject: anObject];
+      [tempPD setProbeMap: tempPM];
+      [tempPD setWindowGeometryRecordName: windowGeometryRecordName];
+      tempPD = [tempPD createEnd];
+      
+      return tempPD;
+    }
 }
 
 - (id <ProbeDisplay>)_createProbeDisplayFor_      : anObject
