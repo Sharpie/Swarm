@@ -24,32 +24,32 @@ public class SwarmEnvironment {
     PrimitiveDouble = Double.TYPE;
     PrimitiveVoid = Void.TYPE;
   }
-  public Class getPrimitiveBoolean () {
-    return PrimitiveBoolean;
+  public boolean booleanp (Class cls) {
+    return PrimitiveBoolean.equals (cls);
   }
-  public Class getPrimitiveCharacter () {
-    return PrimitiveCharacter;
+  public boolean characterp (Class cls) {
+    return PrimitiveCharacter.equals (cls);
   }
-  public Class getPrimitiveByte () {
-    return PrimitiveByte;
+  public boolean bytep (Class cls) {
+    return PrimitiveByte.equals (cls);
   }
-  public Class getPrimitiveInteger () {
-    return PrimitiveInteger;
+  public boolean integerp (Class cls) {
+    return PrimitiveInteger.equals (cls);
   }
-  public Class getPrimitiveShort () {
-    return PrimitiveShort;
+  public boolean shortp (Class cls) {
+    return PrimitiveShort.equals (cls);
   }
-  public Class getPrimitiveLong () {
-    return PrimitiveLong;
+  public boolean longp (Class cls) {
+    return PrimitiveLong.equals (cls);
   }
-  public Class getPrimitiveFloat () {
-    return PrimitiveFloat;
+  public boolean floatp (Class cls) {
+    return PrimitiveFloat.equals (cls);
   }
-  public Class getPrimitiveDouble () {
-    return PrimitiveDouble;
+  public boolean doublep (Class cls) {
+    return PrimitiveDouble.equals (cls);
   }
-  public Class getPrimitiveVoid () {
-    return PrimitiveVoid;
+  public boolean voidp (Class cls) {
+    return PrimitiveVoid.equals (cls);
   }
   public native void initSwarm (String args[]);
   public native int getCurrentTime ();
