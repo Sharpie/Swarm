@@ -1,6 +1,6 @@
 bin_SCRIPTS = print-hdf5
 SCHEME = print-table.scm swarm.scm
-EXTRA_DIST = print-hdf5.in $(SCHEME)
+EXTRA_DIST = as print-hdf5.in $(SCHEME)
 
 pkgdata_DATA = $(SCHEME)
 
