@@ -1250,9 +1250,6 @@ CREATING
 + createBegin: (id <Zone>)aZone;
 - setCollection: collection;
 - setUniformRandom: rnd;
-
-USING
-- generatePermutation;
 @end
 
 

@@ -1,3 +1,7 @@
+2000-02-10    <mgd@nest.swarm.org>
+
+	* collections.h (Permutation): Remove -generatePermuation.
+
 2000-01-23    <mgd@nest.swarm.org>
 
 	* Makefile.am (INCLUDES): Add JAVAINCLUDES.
