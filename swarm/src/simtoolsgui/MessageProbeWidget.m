@@ -10,8 +10,7 @@
 #import <objectbase.h> // val_t
 #import <objc/objc-api.h>
 
-#include <misc.h> // strlen
-#import "../defobj/internal.h" // isSpace
+#include <misc.h> // strlen, isSpace
 
 static BOOL
 empty (const char *str)
