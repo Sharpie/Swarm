@@ -95,7 +95,11 @@ PHASE(Using)
   if (bu > 255)
     bu = 255;
 
+#if 0
   sprintf (colorName, "rgb:%02x/%02x/%02x", ru, gu, bu);
+#else
+  sprintf (colorName, "#%02x%02x%02x", ru, gu, bu);
+#endif
   return [self setColor: c ToName: colorName];
 }
 
