@@ -18,11 +18,9 @@
 #import <collections.h> // Map
 
 #include <swarmconfig.h>  // HAVE_JDK
-#define extern
 #ifdef HAVE_JDK
 #import "java.h" // swarm_directory_{java_hash_code,find_class_named,class_for_object}, SD_JAVA_FINDJAVA
 #endif
-#undef extern
 
 #define internalimplementation implementation // defeat make-h2x
 
