@@ -31,38 +31,17 @@ Library:      activity
 // mixin inheritance for create phase (provided by source inclusion)
 //
 
-- (void) setDefaultOrder: aSymbol
-{
-  if ( aSymbol == Concurrent ) {
-    setBit( bits, BitConcurrent, 1 );
-  } else if ( aSymbol == Sequential ) {
-    setBit( bits, BitConcurrent, 0 );
-    setBit( bits, BitRandomized, 0 );
-  } else if ( aSymbol == Randomized ) {
-    setBit( bits, BitRandomized, 1 );
-  } else {
-    raiseEvent( InvalidArgument, nil );
-  }
-}
-
 - (void) setAutoDrop: (BOOL)autoDrop
 {
-  setBit( bits, BitAutoDrop, autoDrop );
+  setBit (bits, BitAutoDrop, autoDrop);
 }
 
-#elif   defined( MIXIN_C )
-#undef  MIXIN_C
+#elif defined( MIXIN_C )
+#undef MIXIN_C
 
 //
 // mixin inheritance for finalized instance(provided by source inclusion)
 //
-
-- getDefaultOrder
-{
-  if ( bits & BitConcurrent ) return Concurrent;
-  if ( bits & BitRandomized ) return Randomized;
-  return Sequential;
-}
 
 - (BOOL)getAutoDrop
 {

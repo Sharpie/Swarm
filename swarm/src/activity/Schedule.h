@@ -24,10 +24,8 @@ Library:      activity
   timeval_t  repeatInterval;       // rescheduling interval, or zero
 }
 /*** methods implemented in CompoundAction.m file ***/
-- (void) setDefaultOrder: aSymbol;
-- (void) setAutoDrop: (BOOL)autoDrop;
-- getDefaultOrder;
-- (BOOL) getAutoDrop;
+- (void)setAutoDrop: (BOOL)autoDrop;
+- (BOOL)getAutoDrop;
 - activate;
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : activityClass : indexClass;

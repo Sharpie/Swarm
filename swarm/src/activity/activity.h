@@ -96,57 +96,6 @@ USING
 @end
 
 
-@deftype DefaultOrder
-//S: The DefaultOrder option indicates the ordering to be assumed among
-//S: actions of the plan when no other explicit ordering has been assigned.
-
-//D: The DefaultOrder option indicates the ordering to be assumed among
-//D: actions of the plan when no other explicit ordering has been assigned.
-//D: Beyond this initial ordering, additional ordering constraints can be
-//D: added selectively using partial order specifications on individual
-//D: actions.  (.. Partial order order constraints are not yet
-//D: implemented.)
-
-//D: The value for DefaultOrder is a symbol that may have one of the
-//D: following values: Concurrent, Sequential, Randomized;
-
-//D: The Concurrent value of the DefaultOrder option indicates that can
-//D: actions be run in any order (including at the same time, if hardware
-//D: and software to do this is available) without no impact on the net
-//D: outcome of the actions.  The claim that action results are independent
-//D: of their execution order gives the processing machinery explicit
-//D: leeway to execute them in any order it chooses.  In the current
-//D: implementation on a single, serial processor, actions are always
-//D: processed sequentially even if marked concurrent, because that is the
-//D: only way they can be.  In future versions, however, special runtime
-//D: processing modes may be defined even for a serial processor, which
-//D: would mix up execution order just to confirm the independence of model
-//D: results.
-
-//D: The Sequential value for the DefaultOrder option is the default.  It
-//D: specifies that the actions must always be executed in the same order
-//D: as they occur in the plan.  This order is ordinarily the same order in
-//D: which actions are first created in the plan, unless actions are
-//D: explicitly added elsewhere the collection that underlies a plan.  This
-//D: option is always the safest to assure predictability of results, but
-//D: it excludes the ability to run the actions in parallel.  To better
-//D: understand and document a model design, it is worth annotating action
-//D: plans with an explicit indication as to whether they do or do not
-//D: depend on a Sequential order.
-
-//D: The Randomized value for the DefaultOrder option specifies that the
-//D: model results do depend on execution order, but that the order in
-//D: which the actions were created or added has no special significance.
-//D: Instead, the method of dealing with order dependence is to generate a
-//D: random order each time a collection of same-time actions is processed.
-//D: The random order will be generated from an random number generator
-//D: internal to the processing machinery.
-CREATING
-- (void)setDefaultOrder: aSymbol;
-USING
-- getDefaultOrder;
-@end
-
 @deftype AutoDrop
 //S: Specify that an action is dropped after being processed.
 
@@ -173,7 +122,7 @@ USING
 - (BOOL)getAutoDrop;
 @end
 
-@deftype CompoundAction <ActionType, Collection, DefaultOrder, AutoDrop>
+@deftype CompoundAction <ActionType, Collection, AutoDrop>
 //S: A collection of actions to be performed in any order consistent with a
 //S: set of ordering constraints.
 
@@ -185,9 +134,6 @@ USING
 //D: created instead.  ActionPlan inherits the basic ability to be
 //D: activated for execution from ActionType.
 @end
-
-//G: values for DefaultOrder
-extern id <Symbol>  Concurrent, Sequential, Randomized;
 
 @deftype ActionCreatingCall
 //S: An action that calls a C function.
@@ -295,25 +241,14 @@ USING
 //S: A collection of actions under total or partial order constraints.
 
 //D: An action group is an action plan whose basic representation is a
-//D: sequence of actions that have been created within it.  Even though a
-//D: sequence is used to represent the actions of the collection, this does
-//D: not necessarily mean that the execution machinery will process them in
-//D: this order, since the permissible order of execution is still
-//D: controlled by the DefaultOrder option inherited from ActionPlan.  This
-//D: initial order may also be further constrained by partial order
-//D: constraints among the actions.  (.. Partial order constraints are
-//D: currently unimplemented.)
+//D: sequence of actions that have been created within it. 
 
 //D: An action group inherits its underlying representation from the
 //D: OrderedSet type of the collections library.  All the members of the
 //D: ordered set must consist only of actions that are created by one of
 //D: the createAction messages defined on ActionGroup itself.  Once the
 //D: actions are created, they may be accessed or traversed using standard
-//D: messages of the OrderedSet type.  Partial orders on these actions are
-//D: also established by inherited messages.  (.. Currently, partial orders
-//D: are not implemented on either collections or action plans, but the
-//D: messages inherited from OrderedSet will be the basic method for
-//D: maintaining them once implemented.)
+//D: messages of the OrderedSet type. 
 
 //D: The action objects are an integral, controlled component of the action
 //D: plan in which they are created.  If they are removed from the action
@@ -321,16 +256,6 @@ USING
 //D: they may be reinserted is the same collection from which they came.
 //D: It is permissible, however, to modify the base representation sequence
 //D: by removing from one position and reinserting at another.
-
-//D: The contents of the action objects would ordinarily be referenced only
-//D: by general-purpose tools to display or analyze an action plan
-//D: structure.  The action object id, however, can also be used to
-//D: establish additional ordering constraints on any of the actions in a
-//D: plan.  These constraints supplement any initial order constraints
-//D: established by the DefaultOrder option.  Constraints may be
-//D: established not only within the same plan, but between actions in
-//D: different plans.  (.. Partial order constraints are not yet
-//D: implemented.)
 @end
 
 #ifndef DEFINED_timeval_t
@@ -414,24 +339,6 @@ USING
 //D: message will return an object having all the structure of a standard
 //D: ActionGroup object.
 
-//E: For example, if you want to specify that actions at the same time step
-//E: are to be processed in random order, you could use the following
-//E: procedure:
-
-//E: concurrentGroupType = [ActionGroup customizeBegin: aZone];
-//E: [concurrentGroupType setDefaultOrder: Random];
-//E: concurrentGroupType = [concurrentGroupType customizeEnd];
-
-//E: aSchedule = [Schedule createBegin: aZone];
-//E: [aSchedule setConcurrentGroupType: concurrentGroupType];
-//E: aSchedule = [aSchedule createEnd];
-
-//D: Note that instead of using the normal createBegin/End sequence to
-//D: create an instance, the concurrentGroupType is initialized using the
-//D: customizeBegin/End sequence to customize a type without creating an
-//D: instance.  For more information, see the defobj library
-//D: documentation.
-
 //D: In addition to overriding the standard ActionGroup type, the
 //D: concurrent group type may be implemented by a custom subclass of the
 //D: ActionGroup implementation which you supply yourself.  A custom
@@ -487,11 +394,7 @@ USING
 //D: messages defined on Schedule itself.  Once the actions are created,
 //D: they may be accessed or traversed using standard messages of the Map
 //D: type.  The key values of this collection, however, must be cast to and
-//D: from the id type defined for key values by the Map type.  Partial
-//D: orders on these actions can also established by messages inherited
-//D: from Map.  (.. Currently, partial orders are not implemented on either
-//D: collections or action plans, but the inherited messages will be the
-//D: basic method for maintaining them once implemented.)
+//D: from the id type defined for key values by the Map type. 
 
 //D: The messages to create actions within a schedule are essentially the
 //D: same as those for ActionGroup, except for the presence of an initial
@@ -551,21 +454,7 @@ USING
 - getSynchronizationType;
 @end
 
-@deftype InternalTimeMultiplier
-//S: Unimplemented internal time unit.
-
-//D: (.. This option will be used in the future to support an internal time
-//D: unit within the swarm that can be more fine-grained than the context
-//D: in which the swarm is included. ..)
-
-CREATING
-- (void)	setInternalTimeMultiplier: (timeval_t)multiplier;
-
-USING
-- (timeval_t)	getInternalTimeMultiplier;
-@end
-
-@deftype SwarmProcess <ActionType, Zone, CREATABLE, SynchronizationType, InternalTimeMultiplier>
+@deftype SwarmProcess <ActionType, Zone, CREATABLE, SynchronizationType>
 //S: An object that holds a collection of concurrent subprocesses.
 
 //D: SwarmProcess inherits the messages of both ActionType and Zone.
@@ -628,16 +517,6 @@ USING
 //D: being executed.  This means that the function or message called by an
 //D: action cannot itself remove that same action from its action plan.
 //D: This restriction will be removed in the future.)
-
-//D: No matter what the type of action, the default ordering constraints
-//D: established by its membership in an owning plan may be supplemented by
-//D: explicit specification.  These specifications are made directly
-//D: between actions in the same plan, or between actions in different
-//D: plans if they are suitably qualified.  Given any action belonging to
-//D: any plan, the set of specific explicit ordering constraints in which
-//D: it participates may be obtained by one of the messages getSuccessors,
-//D: getPredecessors, getCostarts, and Coends inherited from the
-//D: KeyedCollection type.
 
 //D: Separate subtypes of Action are defined for each of the various forms
 //D: of createAction messages that create them.  The current representation

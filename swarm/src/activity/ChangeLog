@@ -1,3 +1,16 @@
+1998-06-14  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* activity.h: Remove DefaultOrder; don't adopt it in CompoundAction.
+	Remove example that uses it in ConcurrentGroupType.
+	Remove mention of partially ordered sets from ActionGroup, Schedule,
+	and Action.
+	Remove InternalTimeMultiplier; don't adopt it in SwarmProcess.
+
+	* ActionGroup.h, Schedule.h: Don't declare setDefaultOrder: or
+	getDefaultOrder.
+
+	* CompoundAction.m: Don't define setDefaultOrder: or getDefaultOrder.
+
 1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* activity.h: Add/update documentation tags.  Declare
