@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <defobj.h>
-#import <defobj/Create.h>
+#import "JavaProxy.h"
+#include <swarmconfig.h>
 
-@interface JavaCollection: CreateDrop
+@interface JavaCollection: JavaProxy
 {
 }
 #ifdef HAVE_JDK
@@ -15,6 +15,13 @@
 - begin: aZone;
 - beginPermuted: aZone;
 - getFirst;
+- (void)addLast: obj;
 - (void)forEach: (SEL)sel :arg1;
+- (void)lispIn: expr;
+- (void)lispOutDeep: stream;
+- (void)lispOutShallow: stream;
+- (void)hdf5In: hdf5Obj;
+- (void)hdf5OutDeep: hdf5Obj;
+- (void)hdf5OutShallow: hdf5Obj;
 #endif
 @end

@@ -1493,6 +1493,20 @@ java_instantiate (jclass clazz)
   return (*jniEnv)->NewObject (jniEnv, clazz, mid);
 }
 
+ObjectEntry *
+java_instantiate_pair (jclass clazz)
+{
+  id proxy;
+  ObjectEntry *entry;
+  jobject lref = java_instantiate (clazz);
+  
+  proxy = [JavaProxy create: globalZone];
+  entry = SD_JAVA_ADD (lref, proxy);
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+  return entry;
+}
+
+
 static const char *
 java_class_name_for_typename (const char *typeName, BOOL usingFlag)
 {
@@ -1550,14 +1564,20 @@ java_class_name_for_objc_class (Class class)
   return javaClassName;
 }
 
-static jclass
+jclass
 java_find_class (const char *javaClassName, BOOL failFlag)
 {
   jobject ret;
   jobject throwable;
+  size_t i, len = strlen (javaClassName);
+  char buf[len + 1];
+
+  for (i = 0; i < len; i++)
+    buf[i] = (javaClassName[i] == '.') ? '/' : javaClassName[i];
+  buf[len] = '\0';
   
   (*jniEnv)->ExceptionClear (jniEnv);
-  ret = (*jniEnv)->FindClass (jniEnv, javaClassName);
+  ret = (*jniEnv)->FindClass (jniEnv, buf);
   
   if (failFlag)
     {

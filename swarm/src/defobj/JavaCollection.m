@@ -42,6 +42,28 @@
   return (*jniEnv)->CallIntMethod (jniEnv, coll, method);
 }
 
+- (void)addLast: anObject
+{
+  // do the lookup here since Collection is an interface
+  // and Kaffe has problems caching method ids from interfaces
+  jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
+  jclass class;
+  jmethodID method;
+  
+  if (!(class = (*jniEnv)->GetObjectClass (jniEnv, coll)))
+    abort ();
+  
+  if (!(method =
+        (*jniEnv)->GetMethodID (jniEnv,
+                                class,
+                                "add",
+                                "(Ljava/lang/Object;)Z")))
+    abort ();
+  (*jniEnv)->CallBooleanMethod (jniEnv, coll, method,
+                                SD_JAVA_ENSUREJAVA (anObject));
+  (*jniEnv)->DeleteLocalRef (jniEnv, class);
+}
+
 - begin: aZone
 {
   jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
@@ -201,7 +223,60 @@
   [index drop];
   return ret;
 }
+
+- lispIn: expr
+{
+  id index, member;
+
+  index = [(id) expr begin: scratchZone];
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    [(id) self addLast: lispIn ([self getZone], member)];
+  [index drop];
+  return self;
+}
+
+#include "../collections/List_HDF5in.m"
+
+PHASE(Using)
+
+- (void)_lispOut_: outputCharStream deep: (BOOL)deepFlag
+{
+  id index, member;
+
+  [outputCharStream catStartMakeInstance: [self getTypeName]];
+  [outputCharStream catSeparator];
+  index = [(id) self begin: getCZone (getZone (self))];
+  if (deepFlag)
+    {
+      for (member = [index next];
+           [index getLoc] == Member; 
+           member = [index next])
+        if (member)
+          [member lispOutDeep: outputCharStream];
+    }
+  else
+    {
+      for (member = [index next];
+           [index getLoc] == Member; 
+           member = [index next])
+        if (member)
+          [member lispOutShallow: outputCharStream];
+    }
+  [index drop];
+  [outputCharStream catEndExpr];
+}
+
+- (void)lispOutDeep: stream
+{
+  [self _lispOut_: stream deep: YES];
+}
+
+- (void)lispOutShallow: stream
+{
+  [self _lispOut_: stream deep: NO];
+}
+
+#include "../collections/List_HDF5out.m"
+
 #endif
 @end
-
-

@@ -13,6 +13,8 @@
 
 extern JNIEnv *jniEnv;
 
+extern jclass java_find_class (const char *name, BOOL failFlag);
+extern ObjectEntry *java_instantiate_pair (jclass clazz);
 extern const char *java_signature_for_fcall_type (fcall_type_t type);
 extern fcall_type_t fcall_type_for_java_class (jclass class);
 extern const char *java_ensure_selector_type_signature (jobject jsel);
@@ -76,6 +78,7 @@ extern void java_drop (jobject jobj);
 #define SD_JAVA_NEXTPHASE(jobj) swarm_directory_java_next_phase (jobj)
 #define SD_JAVA_ENSUREOBJCMETHOD(jobj) swarm_directory_java_ensure_selector (jobj)
 #define SD_JAVA_ENSUREOBJCCLASS(jclazz) swarm_directory_java_ensure_class (jclazz)
+#define SD_JAVA_INSTANTIATE(clazz) java_instantiate_pair (clazz)
 
 #define JAVA_COPY_STRING(javaString) java_copy_string (javaString)
 #define JAVA_CLEANUP_STRINGS(stringArray) java_cleanup_strings (stringArray, sizeof (stringArray) / sizeof (const char *))
@@ -85,5 +88,4 @@ extern void java_drop (jobject jobj);
 #define JAVA_OBJCENTRY(theObject) JAVA_ENTRY(theObject,0)
 #define JAVA_JAVAENTRY(theJavaObject) JAVA_ENTRY(0,theJavaObject)
 #define JAVA_FIND_OBJECT_ENTRY(theJavaObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.java = theJavaObject; _findEntry; })
-
 

@@ -1,5 +1,32 @@
 2000-06-29  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* java.[hm] (java_find_class): Extern.
+	(java_instantiate_pair, SD_JAVA_INSTANTIATE): New function
+	and wrapper macro.
+
+	* JavaProxy.m ([JavaProxy -createJavaCounterpart:]): Use
+	java_find_class instead of JNI FindClass.
+	([JavaProxy -createJavaCounterpart:]): If Java object
+	is a collection assign the class to JavaCollection.
+
+	* JavaCollection.m: Include List_HDF5in.m in
+	setting phase and List_HDF5out.m in using phase.
+	([JavaCollection -lispIn:,-lispOut{Deep,Shallow):,-_lispOut_:deep:]): 
+	New methods.
+
+	* JavaCollection.h: Include JavaProxy.h and swarmconfig.h
+	instead of defobj.h and defobj/Create.h. 
+	(JavaCollection): Inherit from JavaProxy.
+
+	* HDF5Object.m: Include java.h and JavaProxy.h when HAVE_JDK is set.
+	(check_for_empty_class): Remove.
+	(create_class_from_compound_type): Remove
+	alignment return flag from create_class_from_compound_type.
+	Remove error checking on class (it was too Objective C specific).
+	Use swarm_directory_ensure_class_named instead of objc_lookup_class.
+	([HDF5CompoundType_c -createEnd]): Handle proxy classes.
+	([HDF5_c -getClass]): Use SD_GETCLASS instead of -class.
+
 	* {DefClass,DefObject}.[hm], defobj.h: Remove return type from
 	{hdf5,lisp}Out{Shallow,Deep}: and updateArchiver:.
 

@@ -3,13 +3,18 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <swarmconfig.h> // HAVE_HDF5, PTRINT
+#include <swarmconfig.h> // HAVE_HDF5, PTRINT, HAVE_JDK
 
 #import <defobj/HDF5Object.h>
 #import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
 #import <defobj/defalloc.h> // getZone
+#import <defobj/directory.h> // swarm_directory_ensure_class_named
 
 #import "internal.h" // map_object_ivars, class_generate_name, ivar_ptr_for_name
+#ifdef HAVE_JDK
+#import "java.h"
+#import <defobj/JavaProxy.h>
+#endif
 
 #ifdef HAVE_HDF5
 
@@ -309,13 +314,6 @@ fcall_type_for_tid (hid_t tid)
   return type;
 }
 
-static void
-check_for_empty_class (Class class)
-{
-  if (class->ivars == NULL || class->ivars->ivar_count == 0)
-    raiseEvent (InvalidArgument, "attempt to create empty compound type");
-}
-
 #else
 
 static void
@@ -381,8 +379,6 @@ create_compound_type_from_prototype (id prototype)
       offset += fcall_type_size (type);
     }
 
-  // check_for_empty_class ([prototype class]);
-
   offset = 0;
   insertFlag = NO;
   map_object_ivars (prototype, insert_var);
@@ -398,7 +394,7 @@ create_compound_type_from_prototype (id prototype)
   return tid;
 }
 
-static BOOL
+static void
 create_class_from_compound_type (id aZone,
                                  hid_t tid,
                                  hid_t did,
@@ -408,7 +404,6 @@ create_class_from_compound_type (id aZone,
   unsigned i, count;
   size_t tid_size;
   Class class;
-  BOOL alignedFlag = YES;
   
   if (H5Tget_class (tid) != H5T_COMPOUND)
     abort ();
@@ -423,69 +418,8 @@ create_class_from_compound_type (id aZone,
     raiseEvent (LoadError,
                 "unable to get compound type size");
   
-  if ((class = objc_lookup_class (typeName)))
-    {
-      size_t min_offset; 
-      size_t size;
-      struct objc_ivar *ivar_list;
-      
-      check_for_empty_class (class);
-      
-      ivar_list = class->ivars->ivar_list;
-      min_offset = ivar_list[0].ivar_offset;
-      size = class->instance_size - min_offset;
-     
-      // Note: ivar count and size can differ with HDF5 type when pointers
-      // are skipped.
-
-      for (i = 0; i < count; i++)
-        {
-          const char *name;
-          struct objc_ivar *ivar;
-
-          if ((name = H5Tget_member_name (tid, i)) < 0)
-            raiseEvent (LoadError,
-                        "unable to get compound type member name #%u",
-                        i);
-
-          ivar = find_ivar (class, name);
-          {
-            hid_t mtid;
-            fcall_type_t type;
-
-            if ((mtid = H5Tget_member_type (tid, i)) < 0)
-              raiseEvent (LoadError,
-                          "unable to get compound type member type #%u",
-                          i);
-            
-            type = fcall_type_for_tid (mtid);
-
-            if (type == fcall_type_sint && *ivar->ivar_type == _C_CHARPTR)
-              {
-                if (get_attribute_levels_string_list (did,
-                                                      name,
-                                                      NULL) == 0)
-                  raiseEvent (LoadError, "int / char * mismatch");
-              }
-            else if (!compare_types (fcall_type_for_objc_type (*ivar->ivar_type), type))
-              raiseEvent (LoadError,
-                          "compound type member type (%d) != ivar type (%s)",
-                          type, ivar->ivar_type);
-          }
-          {
-            int offset;
-            
-            if ((offset = H5Tget_member_offset (tid, i)) < 0)
-              raiseEvent (LoadError,
-                          "unable to get compound type offset #%u",
-                          i);
-            if (offset != ivar->ivar_offset - min_offset)
-              alignedFlag = NO;
-          }
-        }
-      *classPtr = class;
-      return alignedFlag;
-    }
+  if ((class = swarm_directory_ensure_class_named (typeName)))
+    *classPtr = class;
   else
     {
       Class newClass = [CreateDrop class];
@@ -533,12 +467,7 @@ create_class_from_compound_type (id aZone,
                                  fcall_type_alignment (type));
           
           if (min_offset > 0)
-            {
-              hoffset += min_offset;
-              
-              if (noffset != hoffset)
-                alignedFlag = NO;
-            }
+            hoffset += min_offset;
           
           ivar_list[i].ivar_type = objc_type_for_fcall_type (type);
           ivar_list[i].ivar_name = name;
@@ -568,7 +497,6 @@ create_class_from_compound_type (id aZone,
         ((Class) classObj)->instance_size = size;
       }
       *classPtr = [classObj createEnd];
-      return alignedFlag;
     }
 }
 #endif
@@ -591,7 +519,15 @@ create_class_from_compound_type (id aZone,
       Class class;
 
       create_class_from_compound_type (aZone, tid, did, name, &class);
-      prototype = [aZone allocIVars: class];
+      {
+#ifdef HAVE_JDK
+        jclass clazz = SD_JAVA_FINDJAVACLASS (class);
+        if (clazz)
+          prototype = SD_JAVA_INSTANTIATE (clazz)->object;
+        else
+#endif
+          prototype = [aZone allocIVars: class];
+      }
       if (did)
         {
           void process_ivar (const char *ivarName, fcall_type_t type,
@@ -1500,7 +1436,7 @@ PHASE(Using)
   if (datasetFlag)
     {
       if (compoundType)
-        return [[compoundType getPrototype] class];
+        return SD_GETCLASS ([compoundType getPrototype]);
       else
         abort ();
     }

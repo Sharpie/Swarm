@@ -3,11 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include "JavaProxy.h"
+#import "JavaProxy.h"
+#import "JavaCollection.h"
 #import <defobj/directory.h>
 #import <swarmconfig.h>
 #ifdef HAVE_JDK
 #import "java.h"
+#import "javavars.h"
 #endif
 
 @implementation JavaProxy
@@ -22,7 +24,7 @@
   [self createEnd];
 #ifdef HAVE_JDK
   {
-    jclass class = (*jniEnv)->FindClass (jniEnv, typeName);
+    jclass class = java_find_class (typeName, YES);
     
     if (!class)
       raiseEvent (SourceMessage,
@@ -52,6 +54,9 @@
               abort ();
           }
         }
+      if ((*jniEnv)->IsInstanceOf (jniEnv, jobj, c_Collection))
+        self->isa = [JavaCollection self];
+
       SD_JAVA_ADD (jobj, self);
       
       (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
