@@ -145,11 +145,15 @@
     (insert "<REFMETA>\n")
     (insert "<REFENTRYTITLE>")
     (insert title)
+    (if (deprecated-p object)
+        (insert " [Deprecated]\n")
+      )
     (insert "</REFENTRYTITLE>\n")
     (insert "<REFMISCINFO>")
     (insert module-name)
     (insert "</REFMISCINFO>\n")
     (insert "</REFMETA>\n")))
+
 
 (defun sgml-namediv (object)
   (insert "<REFNAMEDIV>\n")
@@ -161,12 +165,20 @@
   (insert "\n</REFPURPOSE>\n")
   (insert "</REFNAMEDIV>\n"))
 
-(defun sgml-refsect1-text-list (title text-list)
+(defun sgml-refsect1-text-list (title text-list object)
   (when text-list
     (insert "<REFSECT1>\n")
     (insert "<TITLE>")
     (insert-text title)
     (insert "</TITLE>\n")
+    (if (deprecated-p object)
+        (progn
+          (insert "<PARA><EMPHASIS>Deprecated: \n")
+          (loop for item in (generic-deprecated-list object)
+                do
+                (insert item))
+          (insert "\n</EMPHASIS></PARA>\n")
+          ))
     (loop for text in text-list
           do 
           (insert "<PARA>\n")
@@ -175,7 +187,8 @@
     (insert "</REFSECT1>\n")))
 
 (defun sgml-refsect1-description (object)
-  (sgml-refsect1-text-list "Description" (generic-description-list object)))
+  (sgml-refsect1-text-list "Description" (generic-description-list object)
+                           object))
 
 (defun sgml-funcsynopsisinfo (class-name description-list)
   (insert "<FUNCSYNOPSISINFO>\n")

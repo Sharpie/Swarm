@@ -1,3 +1,13 @@
+1999-06-21  Alex Lancaster  <alex@santafe.edu>
+
+	* sgml.el (sgml-refmeta): If deprecated protocol, print Deprecated
+	in square braces after REFENTRYTITLE.
+	(sgml-refsect1-text-list): Print out the deprecated doc-string if
+	set, as a PARA element with EMPHASIS before description text.
+	(sgml-refsect1-description): Pass object to
+	`sgml-refsect1-text-list', so it can determine whether to print
+	deprecated doc-string.
+
 1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (protocol.elc): Remove rule.
