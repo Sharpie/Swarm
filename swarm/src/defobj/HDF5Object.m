@@ -2197,9 +2197,10 @@ hdf5_store_attribute (hid_t did,
 #ifdef HAVE_HDF5
   hid_t aid, sid;
   hid_t memtid = make_string_ref_type ();
+  hid_t dtid;
   int rank;
   hsize_t dims[1];
-  const char **buf;
+  char **outbuf;
 
   if ((aid = H5Aopen_name (loc_id, ROWNAMES)) < 0)
     raiseEvent (LoadError, "could not get row names attribute");
@@ -2209,7 +2210,10 @@ hdf5_store_attribute (hid_t did,
   
   if ((rank = H5Sget_simple_extent_ndims (sid)) < 0)
     raiseEvent (LoadError, "could not get row names space rank");
-  
+
+  if ((dtid = H5Aget_type (aid)) < 0)
+    raiseEvent (LoadError, "could not get row names type");
+
   if (rank != 1)
     raiseEvent (LoadError, "row names space rank should be 1");
   
@@ -2219,10 +2223,23 @@ hdf5_store_attribute (hid_t did,
   if (c_count != dims[0])
     raiseEvent (LoadError, "row names vector different size from table");
 
-  buf = [getZone (self) alloc: sizeof (const char *) * c_count];
+  {
+    unsigned i;
+    size_t datasize = H5Tget_size (dtid);
+    size_t memsize = H5Tget_size (memtid);
+    size_t size = datasize > memsize ? datasize : memsize;
+    char *buf = [getZone (self) alloc: size * c_count];
 
-  if (H5Aread (aid, memtid, buf) < 0)
-    raiseEvent (LoadError, "could not get row names vecotr");
+    outbuf = [getZone (self) alloc: sizeof (char *) * c_count];
+    
+    if (H5Aread (aid, memtid, buf) < 0)
+      raiseEvent (LoadError, "could not get row names vector");
+    
+    for (i = 0; i < c_count; i++)
+      outbuf[i] = ((char **) buf)[i];
+    
+    [getZone (self) free: buf];
+  }
   
   if (H5Aclose (aid) < 0)
     raiseEvent (LoadError, "could not close row names attribute");
@@ -2233,7 +2250,10 @@ hdf5_store_attribute (hid_t did,
   if (H5Tclose (memtid) < 0)
     raiseEvent (LoadError, "could not close reference type");
 
-  return buf;
+  if (H5Tclose (dtid) < 0)
+    raiseEvent (LoadError, "could not close reference type");
+
+  return (const char **) outbuf;
 #else
   hdf5_not_available ();
   return NULL;

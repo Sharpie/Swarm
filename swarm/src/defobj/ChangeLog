@@ -1,3 +1,9 @@
+2004-02-19  Marcus G. Daniels <mgd@santafe.edu>
+
+	* HDF5Object.m (readRowNames): Accomodate
+	the possibility of a memory ref_type that is larger than the
+	native type.  Needed for change below.
+
 2004-01-02  glen e. p. ropella  <gepr@tempusdictum.com>
 
 	* HDF5Object.m (make_string_ref_type): Re-disable H5Tset_size
