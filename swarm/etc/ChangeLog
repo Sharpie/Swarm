@@ -1,0 +1,4 @@
+1998-07-13  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am, config.swarm.in: New files.  
+
