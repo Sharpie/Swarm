@@ -369,14 +369,12 @@ extern void _initSwarm_ (int argc, const char **argv, const char *appName,
  _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, NULL, NULL, YES)
 
 //#: Like initSwarmApp, but specifies a parsing function .
-#define initSwarmAppOptions(argc, argv, version, bugAddress, options, \
-                             optionFunc) \
+#define initSwarmAppOptions(argc, argv, version, bugAddress, options, optionFunc) \
  _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, options, \
                optionFunc, NO)
 
 //#: Like initSwarmAppOptions, but initializes in batch-mode only
-#define initSwarmAppOptionsBatch(argc, argv, version, bugAddress, \
-                                 options, optionFunc) \
+#define initSwarmAppOptionsBatch(argc, argv, version, bugAddress, options, optionFunc) \
  _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, options, \
                optionFunc, YES)
 
@@ -388,8 +386,7 @@ extern void _initSwarm_ (int argc, const char **argv, const char *appName,
 
 //#: Like initSwarmApp, but specifies what class to use for argument
 //#: parsing, typically this will be a subclass of Arguments.
-#define initSwarmAppArguments(argc, argv, version, bugAddress, \
-                                    argumentsClass) \
+#define initSwarmAppArguments(argc, argv, version, bugAddress, argumentsClass)\
  _initSwarm_ (argc, argv, APPNAME, version, bugAddress, argumentsClass, \
                NULL, NULL, NO)
 
