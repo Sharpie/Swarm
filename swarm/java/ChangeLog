@@ -1,3 +1,11 @@
+2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (java-argument-print-conversion,
+	java-print-method-invocation-arguments, java-print-native-method):
+	Accomodate renames of string routines and drop the jniEnv
+	arguments to all our macros.
+	(java-print-native-class): Include java.h instead of directory.h.
+
 2000-04-28    <mgd@nest.swarm.org>
 
 	* java-stub.el: Change from SD_* to SD_JAVA_*.
