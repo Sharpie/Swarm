@@ -226,11 +226,9 @@ PHASE(Using)
 
 - _createPermutedIndex_: (id)aZone
 {
-  GroupPermutedIndex_c *newIndex;
-
-  newIndex = [GroupPermutedIndex_c createBegin: aZone forCollection: self];
-  newIndex = [newIndex createEnd];
-  return newIndex;
+  return [[[GroupPermutedIndex_c createBegin: aZone]
+	    setCollection: self]
+	   createEnd];
 }
 
 //
@@ -404,22 +402,26 @@ PHASE(Using)
 
 @implementation GroupPermutedIndex_c
 
-
-+ createBegin: aZone forCollection: aCollection;
++ createBegin: aZone
 {
   GroupPermutedIndex_c *newIndex;
 
-  newIndex = [aZone allocIVars: self];
-  newIndex->collection = [Permutation createBegin:  [aZone getComponentZone] 
-				      forCollection: aCollection];;
-  newIndex->collection = [newIndex->collection createEnd];
-
+  newIndex = [super createBegin: aZone];
+  newIndex->collection = [Permutation createBegin: [aZone getComponentZone]];
   return newIndex;
+}
+
+- setCollection: aCollection
+{
+  [(Permutation_c *) collection setCollection: aCollection];
+  return self;
 }
 
 - createEnd
 {
-  index = [collection begin: [getZone(self) getComponentZone]];  
+  [super createEnd];
+  [[self getCollection] createEnd];
+  index = [collection begin: [getZone (self) getComponentZone]];
   return self;
 }
 
@@ -518,9 +520,8 @@ PHASE(Creating)
 
   newIndex->memberIndex = [((ActionForEach_0 *) forEachAction)->target
                              beginPermuted: getCZone (ownerZone)];
-  [((PermutedIndex_c *) newIndex->memberIndex) generatePermutation];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
-  ((ActionForEach_0 *)newIndex->memberAction)->target = nil;
+  ((ActionForEach_0 *) newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
 

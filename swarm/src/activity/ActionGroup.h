@@ -86,7 +86,8 @@ Library:      activity
 @public
   id <Activity> activity;
 }
-+ createBegin: aZone forCollection: aGroup;
++ createBegin: aZone;
+- setCollection: aGroup;
 - createEnd;
 - getHoldType;
 - nextAction: (id *)status;
