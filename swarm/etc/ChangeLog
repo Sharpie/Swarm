@@ -1,3 +1,8 @@
+1999-05-27  Alex Lancaster  <alex@santafe.edu>
+
+	* config.swarm.in (swarm_SWARMLIBS): Replace explicit list of
+	libraries with `-lswarm'.
+
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.appl.in (LDFLAGS): Remove SUPPORTLDFLAGS.

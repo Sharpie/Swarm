@@ -60,7 +60,7 @@ swarm_SYSLIBS="${swarm_BLTLIB} ${swarm_TKLIB} ${swarm_TCLLIB} ${swarm_XPMLIB} ${
 
 swarm_JAVASWARMLIBS=@JAVASWARMLIBS@
 
-swarm_SWARMLIBS="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc"
+swarm_SWARMLIBS="-lswarm"
 
 swarm_LIBS="@LIBS@"
 
