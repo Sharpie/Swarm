@@ -1,6 +1,5 @@
-Call cleanup (e.g. String conversions)
-  - stubs
-  - do something with Java allocated things in FArguments (string conversions)
+String conversion from MessageProbes will leak memory -- it's entered
+in the directory and points to strdupped stuff on the heap.
 
 Java-side (return) proxies
 
