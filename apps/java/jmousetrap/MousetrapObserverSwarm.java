@@ -159,10 +159,8 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
       System.out.println ("Exception trigger : " + e.getMessage ());
     }
     
-    displayWindow = new ZoomRasterImpl (getZone ());
-    
-    Globals.env.setWindowGeometryRecordName (displayWindow, "displayWindow");
-
+    displayWindow = new ZoomRasterImpl (getZone (),
+                                        "displayWindow");
     try {
       displayWindow.
         enableDestroyNotification$notificationMethod

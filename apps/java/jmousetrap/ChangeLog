@@ -1,3 +1,8 @@
+1999-09-14  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapObserverSwarm.java (buildObjects): Pass windowGeometry
+	record name in ZoomRaster creation
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* StartMousetrap.java: Pass appName, version, and bug
