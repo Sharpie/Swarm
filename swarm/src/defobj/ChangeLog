@@ -1,6 +1,13 @@
 1999-07-05    <mgd@HELEN>
 
-	* Arguments.m ([Arguments_c -getExecutablePath]): Use it.
+	* Arguments.m: When __CYGWIN__, include sys/cygwin.h and
+	windows.h.
+	(stripSlash, convertToLongPath): New internal functions.
+	([Arguments_c -_runningFromInstall_]): Convert candidate SWARMHOME
+	directories to Win32, and then expand them for strcmp (continue
+	to use inode comparision for Unix).
+
+	([Arguments_c -getExecutablePath]): Use it.
 	(findDirectory): Handle empty executablePath.
 	([Arguments_c -_runningFromInstall_]): Likewise.
 

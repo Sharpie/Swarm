@@ -19,6 +19,11 @@ const char *program_invocation_name;
 const char *program_invocation_short_name;
 #endif
 
+#ifdef __CYGWIN__
+#include <sys/cygwin.h> // cygwin32_conv_to_full_win32_path
+#include <windows.h> // FindFirstFile
+#endif
+
 #define VARCHAR(ch) (isalnum ((int)ch) || ((ch) == '_'))
 
 #define SIGNATURE_FILE "swarmconfig.h"
@@ -690,6 +695,66 @@ expandvars (const char *path)
   return [self _getPath_: DATADIR "swarm/" subpath: "share/swarm/"];
 }
 
+#ifdef __CYGWIN__
+static char *
+stripSlash (char *buf)
+{
+  size_t len = strlen (buf);
+  
+  if (buf[len - 1] == '\\')
+    buf[len - 1] = '\0';
+  return buf;
+}
+
+static const char *
+convertToLongPath (const char *path)
+{
+  WIN32_FIND_DATA findData;
+  char newPath[MAXPATHLEN + 1], *p;
+  char buf[MAXPATHLEN + 1];
+  unsigned count = 0;
+
+  strcpy (buf, path);
+  do
+    {
+      if (FindFirstFile (stripSlash (buf), &findData) == 0)
+	abort ();
+      if (buf[3] == '\0')
+	break;
+      count++;
+    }
+  while (dropdir (buf));
+
+  {
+    const char *components[count];
+    unsigned i = count;
+    
+    strcpy (buf, path);
+    do
+      {
+	i--;
+	if (FindFirstFile (stripSlash (buf), &findData) == 0)
+	  abort ();
+	if (buf[3] == '\0')
+	  break;
+	components[i] = strdup (findData.cFileName);
+      }
+    while (dropdir (buf));
+
+    strncpy (newPath, path, 3);
+    p = newPath + 3;
+    
+    for (i = 0; i < count; i++)
+      {
+	p = stpcpy (p, components[i]);
+	*p++ = '\\';
+      }
+    *p = '\0';
+  }
+  return strdup (newPath);
+}
+#endif
+
 - (BOOL)_runningFromInstall_
 {
   if (!executablePath)
@@ -708,35 +773,28 @@ expandvars (const char *path)
       
       if (homeSrc && possibleHomeSrc)
 	{
-	  struct stat possibleHomeStatBuf, homeStatBuf;
-	  size_t possibleHomeLen = strlen (possibleHomeSrc);
-	  size_t homeLen = strlen (homeSrc);
-	  {
-	    char possibleHome[possibleHomeLen + 1];
-	    char home[homeLen + 1];
-	    
 #ifdef __CYGWIN__
-	    unsigned i;
-	    // Inodes are computed from a pathname hash, so normalize to lowercase.
-	    for (i = 0; i < possibleHomeLen; i++)
-	      possibleHome[i] = tolower (possibleHomeSrc[i]);
-	    possibleHome[i] = '\0';
-	    for (i = 0; i < homeLen; i++)
-	      home[i] = tolower (homeSrc[i]);
-	    home[i] = '\0';
+	  char possibleHome[MAXPATHLEN + 1];
+	  char home[MAXPATHLEN + 1];
+	  const char *longHome, *longPossibleHome;
+	  
+	  cygwin32_conv_to_full_win32_path (possibleHomeSrc, possibleHome);
+	  cygwin32_conv_to_full_win32_path (homeSrc, home);
+	  longHome = convertToLongPath (home);
+	  longPossibleHome = convertToLongPath (possibleHome);
+	  ret = strcmp (longHome, longPossibleHome) == 0;
 #else
-	    strcpy (possibleHome, possibleHomeSrc);
-	    strcpy (home, homeSrc);
+	  struct stat possibleHomeStatBuf, homeStatBuf;
+
+	  if (stat (possibleHomeSrc, &possibleHomeStatBuf) != -1
+	      && stat (homeSrc, &homeStatBuf) != -1)
+	    ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
 #endif
-	    if (stat (possibleHome, &possibleHomeStatBuf) != -1
-		&& stat (home, &homeStatBuf) != -1)
-	      ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
-	    if (ret == NO && !ignoringEnvFlag)
-	      {
-		ignoringEnvFlag = YES;
-		goto retry;
-	      }
-	  }
+	  if (ret == NO && !ignoringEnvFlag)
+	    {
+	      ignoringEnvFlag = YES;
+	      goto retry;
+	    }
 	}
       XFREE (executableBuf);
       return ret;
