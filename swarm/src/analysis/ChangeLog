@@ -1,3 +1,15 @@
+1999-01-16  Alex Lancaster  <alex@santafe.edu>
+
+	* analysis.h ([EZGraph -setFileName:]): Update method
+	documentation.
+
+	* EZGraph.m (sequence_graph_filename): Add static function to
+	generate the filename for the EZGraph in batch mode.  If the
+	fileName iVar is *not* set, don't prepend it to the SEQUENCENAME.
+	([EZGraph
+	-createGraphSequence:forSequence:withFeedFrom:andSelector:]): Use
+	it.
+
 1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* EZBin.m ([EZBin -createEnd]): Use setColors:count: instead

@@ -86,7 +86,7 @@ PHASE(Creating)
     }
   
   sequenceList = [List create: [self getZone]];
-  
+
   return self;
 }
 
@@ -141,6 +141,27 @@ PHASE(Using)
   return fileName;
 }
 
+static const char *
+sequence_graph_filename(const char *fileName, const char *aName)
+{ 
+  if (fileName == NULL)
+    {
+      char *buf = xmalloc(strlen (aName) + 1), *p;
+      p = stpcpy (buf, aName);            
+      return (buf);
+    }
+  else
+    {      
+      const char *delim = ".";
+      char *buf = 
+        xmalloc(strlen (fileName) + strlen (delim) + strlen (aName) + 1), *p;
+      p = stpcpy (buf, fileName);
+      p = stpcpy (p, delim);
+      p = stpcpy (p, aName);  
+      return (buf);
+    }
+}
+
 // internal method called by createSequence:withFeedFrom:andSelector
 - createGraphSequence: (const char *)aName
           forSequence: aSeq
@@ -169,13 +190,9 @@ PHASE(Using)
   if (fileOutput)
     {
       id aFileObj;
-      char *p;
-      const char *delim = ".";
-      char fName[strlen (fileName) + strlen (delim) + strlen (aName) + 1];
+      const char *fName;
 
-      p = stpcpy (fName, fileName);
-      p = stpcpy (p, delim);
-      p = stpcpy (p, aName);      
+      fName = sequence_graph_filename(fileName, aName);
       aFileObj = [OutFile create: [self getZone] withName: fName];
       
       aGrapher = [ActiveOutFile createBegin: [self getZone]];
@@ -185,6 +202,7 @@ PHASE(Using)
       aGrapher = [aGrapher createEnd];
       
       [aSeq setActiveOutFile: aGrapher];    
+      
     }
   
   [sequenceList addLast: aSeq];

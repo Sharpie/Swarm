@@ -274,6 +274,8 @@ CREATING
 //M: The setFileName method sets the name used for disk file data output.
 //M: (Only relevant if the state of setFileOutput is set to 1.)
 //M: The name set here is prepended to the names of each data sequence.
+//M: If file name is NOT set, with this method, the file name for the sequence
+//M: will default simply to the sequence name.
 - setFileName: (const char *)aFileName;
 
 //M: The setTitle method uses a title string to label a graph window in the 
