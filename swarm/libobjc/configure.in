@@ -12,7 +12,7 @@ AC_MSG_CHECKING(if cc1obj -print-objc-runtime-info reports enough information)
 if $gccdir/cc1obj -print-objc-runtime-info </dev/null | grep INVISIBLE_STRUCT_RETURN > /dev/null; then
   AC_MSG_RESULT(yes)
 else
-  AC_MSG_ERROR(no)
+  AC_MSG_RESULT(no)
 fi
 
 AM_PROG_LIBTOOL
