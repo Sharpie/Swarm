@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objc/objc.h>
-#import <collections/String.h>
+#import <collections/StringObject.h>
 
 BOOL
 stringp (id obj)

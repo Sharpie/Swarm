@@ -1,3 +1,10 @@
+1998-07-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am: Replace String with StringObject.
+
+	* StringObject.m, predicates.m: Include StringObject.h instead of
+	String.h.
+
 1998-07-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* collections.h: Remove Stack and Queue (now in design document).

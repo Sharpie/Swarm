@@ -4,12 +4,12 @@
 // See file LICENSE for details and terms of copying.
 
 /*
-Name:         String.m
+Name:         StringObject.m
 Description:  character string object   
 Library:      collections
 */
 
-#import <collections/String.h>
+#import <collections/StringObject.h>
 #import <defobj/defalloc.h>
 
 #include <assert.h>
