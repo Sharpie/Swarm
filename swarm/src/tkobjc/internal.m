@@ -836,10 +836,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         check_for_overlaps (display, topWindow,
                             &overlapWindows, &overlapCount);
 
-        [globalTkInterp eval: "uplevel #0 {\n"
-                        "set obscured no\n"
-                        "}\n"];
-
         [globalTkInterp eval: "bind %s <Visibility> {\n"
                         "uplevel #0 {\n"
                         "if {\"%%s\" != \"VisibilityUnobscured\"} {\n"
@@ -865,6 +861,10 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       retry:
         if (obscured)
           {
+            [globalTkInterp eval: "uplevel #0 {\n"
+                            "set obscured no\n"
+                            "}\n"];
+
             for (i = 0; i < overlapCount; i++)
               {
                 printf ("unmapping: %x\n", overlapWindows[i]);
