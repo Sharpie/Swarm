@@ -2,6 +2,7 @@
 
 	* directory.m (create_class_refs): Type of the field global zone
 	is set to swarm/GlobalZone in GetFieldId call.
+	(create_class_refs): Remove diagnostics.
 
 1999-03-22  Vladimir Jojic  <vjojic@chama.santafe.edu>
 

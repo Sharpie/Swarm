@@ -46,8 +46,6 @@ create_class_refs (JNIEnv *env)
       if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
           abort ();  
       ret = (*env)->NewGlobalRef (env, ret);
-      fprintf (stderr, "Class %s ref Ok!\n", name);
-  fflush (stdout);
       return ret;
     }
   if (!initFlag)
@@ -60,19 +58,12 @@ create_class_refs (JNIEnv *env)
       c_float = find ("Float");
       c_double = find ("Double");
       c_void = find ("Void");
-      fprintf (stderr, "trying to get object!\n");
-	  fflush (stderr);
       
       c_object = (*env)->FindClass (env, "java/lang/Object");
-fprintf (stderr, "got object!\n");
-	  fflush (stderr);
       
       if (c_object == NULL)
-	{
-	  fprintf (stderr, "object null!\n");
-	  fflush (stderr);
         abort ();
-	}
+
       c_object = (*env)->NewGlobalRef (env, c_object);
 
       {
@@ -80,28 +71,19 @@ fprintf (stderr, "got object!\n");
         jfieldID field;
 
         if (!(clazz = (*env)->FindClass (env, "swarm/SwarmEnvironment")))
-	  {
-	    fprintf (stderr, "globalZone null!\n");
-	  fflush (stderr);
           abort ();
-	  }fprintf (stderr, "globalZone not null!\n");
-	  fflush (stderr);
         if (!(field = (*env)->GetFieldID (env,
                                           clazz,
                                           "globalZone",
                                           "Lswarm/GlobalZone;")))
           abort ();
 
-	fprintf (stderr, "GlobalZone!\n");
-	fflush (stderr);
         if (!(c_globalZone = (*env)->GetObjectField (env, clazz, field)))
           abort ();
 	c_globalZone = (*env)->NewGlobalRef (env, c_globalZone);
       }
       initFlag = YES;
     }
-  fprintf (stderr, "Class refs Ok!\n");
-  fflush (stdout);
 }
 
 jobject_id *
@@ -399,6 +381,5 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
     (*env)->ReleaseStringUTFChars (env, string, utf);
   else
     XFREE (name);
-  fprintf (stderr, "Ok");
   return sel;
 }
