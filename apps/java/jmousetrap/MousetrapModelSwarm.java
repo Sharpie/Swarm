@@ -81,7 +81,7 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
 
     public Object buildObjects()
     {
-        int x,y;
+        int x, y;
 
         super.buildObjects();
     
@@ -113,12 +113,13 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     
     public Object scheduleTriggerAt$For (int n, Mousetrap trap)
     {
-        Selector slct;
+        //Selector slct;
         try {
-            if (trap == null);
-            slct = new Selector (trap.getClass(), "trigger", false);
-            if (slct == null);
-            modelSchedule.at$createActionTo$message (n, trap, slct);
+            //if (trap == null);
+            //slct = new Selector (trap.getClass(), "trigger", false);
+            //if (slct == null);
+            modelSchedule.at$createActionTo$message 
+                (n, trap, new Selector (trap.getClass(), "trigger", false));
         } catch (Exception e) { 
             System.out.println ("Exception:" + e.getMessage());
         }
@@ -127,19 +128,14 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
 
     public Object activateIn (Object swarmContext)
     {
-        ActivityControlCImpl actCon;
         super.activateIn (swarmContext);
         modelSchedule.activateIn (this);
    
-        modelActCont = new ActivityControlImpl ();
-        actCon = new ActivityControlCImpl (modelActCont);
-        actCon.createBegin (this.getZone());
-        actCon.attachToActivity (this.getActivity());
-        modelActCont = (ActivityControlImpl) actCon.createEnd();
+        modelActCont = new ActivityControlImpl ((ZoneImpl)this.getZone());
+        modelActCont.attachToActivity (this.getActivity());
 
         //    modelActCont.setDisplayName ("Model Swarm Controller");
-
+        
         return this.getActivity();
-    
     }
 }

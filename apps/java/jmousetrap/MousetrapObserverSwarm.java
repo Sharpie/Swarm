@@ -91,32 +91,31 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         colormap.setColor$ToName ((byte) 2, "red");
     
         triggerGraph = 
-          new EZGraphImpl ((ZoneImpl)this.getZone(), "Trigger data vs. time",
-                           "time", "number triggered");
+          new EZGraphImpl ((ZoneImpl)this.getZone(), "Trigger data vs. time",  
+                           "number triggered", "time");
 
         Globals.env.setWindowGeometryRecordName (triggerGraph);
-
+        
         try {
             Selector slct1, slct2;
             slct1 = new Selector (mousetrapModelSwarm.getStats().getClass(),
-                                  "getNumTriggered", false);
+                                "getNumTriggered", false);
             triggerGraph.createSequence$withFeedFrom$andSelector 
-                ("Total triggered", mousetrapModelSwarm.getStats(), slct1);
-            //      nag ("first part");
+                ("Total triggered", mousetrapModelSwarm.getStats(),
+                 slct1);
             slct2 = new Selector (mousetrapModelSwarm.getStats().getClass(),
                                   "getNumBalls", false);
-            //      nag ("done selector");
             triggerGraph.createSequence$withFeedFrom$andSelector 
                 ("Pending triggers", mousetrapModelSwarm.getStats(),
                  slct2);
-            //      nag ("done sequence");
-            
         } catch (Exception e) { 
-                System.out.println ("Exception trigger : " + e.getMessage());
+          System.out.println ("Exception trigger : " + e.getMessage());
         }
 
         displayWindow = new ZoomRasterImpl ((ZoneImpl)this.getZone());
+
         Globals.env.setWindowGeometryRecordName (displayWindow);
+
         try {
             Selector slct;
             slct = new Selector (this.getClass(), 
@@ -187,6 +186,7 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
             
             slct = new Selector (triggerGraph.getClass(), "step", true);
             displayActions.createActionTo$message (triggerGraph, slct);
+            
             slct = new Selector (Globals.env.probeDisplayManager.getClass(), 
                                  "update", true);
             displayActions.createActionTo$message 
@@ -201,6 +201,7 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
                                                        slct);
             
             displaySchedule.at$createAction (0, displayActions);
+            
         } catch (Exception e) {
             System.out.println ("Exception doTkE: " + e.getMessage());
         }
@@ -210,27 +211,18 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 
     public Object activateIn (Object swarmContext)
     {
-        ActivityControlCImpl iac;
         super.activateIn (swarmContext);
 
         mousetrapModelSwarm.activateIn (this);
         displaySchedule.activateIn (this);
 
-        observerActCont = new ActivityControlImpl ();
-        iac = new ActivityControlCImpl (observerActCont);
-        iac.createBegin (this.getZone());
-        nag ("control create begin");
-        iac.attachToActivity (this.getActivity());
-        nag ("attach to activity"); 
-    
-        observerActCont = (ActivityControlImpl) iac.createEnd ();
-        nag ("control create end");
+        observerActCont = new ActivityControlImpl ((ZoneImpl)this.getZone());
+        observerActCont.attachToActivity (this.getActivity());
     
         observerActCont.setDisplayName ("Observer Swarm Controller");
 
-        nag ("archived probe display");
         Globals.env.createArchivedProbeDisplay (observerActCont);
-        nag ("probe display");
+
         return this.getActivity();
     
     }
