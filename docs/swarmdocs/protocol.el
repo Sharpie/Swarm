@@ -1752,8 +1752,7 @@
 (defun run-all ()
   (interactive)
   (load-and-process-modules)
-  (sgml-create-refentries-for-all-modules)
-  (sgml-generate-indices)
+  (sgml-create-refentries-for-all-modules)  (sgml-generate-indices)
   nil)
 
 (defun vcg-graph-all-protocols ()
@@ -1761,7 +1760,7 @@
         using (hash-values module-items)
         for module-name = (concat "M:" (symbol-name module-sym))
         do
-        (insert "graph: {\nfolding: 0 color: blue title: \"")
+        (insert "graph: {\nfolding: 1 color: blue title: \"")
         (insert (capitalize module-name))
         (insert "\"\n")
         (insert "node: { title: \"")
@@ -1790,7 +1789,7 @@
                            (insert "\" }\n")))))
         (insert "}\n")))
 
-(defun vcg-output-protocol-graph ()
+(defun vcg-output-protocols-graph ()
   (interactive)
   (with-temp-file (concat (get-swarmdocs-build-area) "protocols.vcg")
     (insert "graph: {\n")
@@ -1798,6 +1797,110 @@
     (vcg-graph-all-protocols)
     (insert "}\n")))
 
-  
+(defun dot-graph-all-protocols ()
+  (loop for module-sym being each hash-key of *module-hash-table*
+        using (hash-values module-items)
+        for module-name = (symbol-name module-sym)
+        do
+        (loop for module-item in module-items do
+              (cond ((and (protocol-p module-item)
+                          (not (internal-protocol-p module-item)))
+                     (loop for included-protocol in
+                           (protocol-included-protocol-list module-item)
+                           unless (internal-protocol-p included-protocol)
+                           do
+                           (insert "\"")
+                           (insert (protocol-name module-item))
+                           (insert "\" -> \"")
+                           (insert (protocol-name included-protocol))
+                           (insert "\"\n")))))
+        (insert "subgraph cluster_")
+        (insert module-name)
+        (insert " { label=\"")
+        (insert (capitalize module-name))
+        (insert "\"\n")
+        (loop for module-item in module-items do
+              (cond ((and (protocol-p module-item)
+                          (not (internal-protocol-p module-item)))
+                     (insert "\"")
+                     (insert (protocol-name module-item))
+                     (insert "\"; "))))
+        (insert "}\n")))
 
+(defun dot-output-protocols-graph ()
+  (interactive)
+  (with-temp-file (concat (get-swarmdocs-build-area) "protocols.dot")
+    (insert "digraph \"Swarm Protocols\" {\n");
+    (insert "page=\"10,7.5\"\n")
+    (insert "ratio=auto\n")
+    (dot-graph-all-protocols)
+    (insert "}\n")))
+
+(defun dot-graph-module (edge-hash-table module-sym &optional module-items)
+  (unless module-items 
+    (setq module-items (gethash module-sym *module-hash-table*)))
+  (let ((module-name (symbol-name module-sym))
+        (included-module-hash-table (make-hash-table))
+        local-protocols)
+    (loop for module-item in module-items do
+          (cond ((and (protocol-p module-item)
+                      (not (internal-protocol-p module-item)))
+                 (loop for included-protocol in
+                       (protocol-included-protocol-list module-item)
+                       for included-module-sym = 
+                       (module-sym (protocol-module included-protocol))
+                       unless (internal-protocol-p included-protocol)
+                       do
+                       (let ((edge-key (cons module-item included-protocol)))
+                         (unless (gethash edge-key edge-hash-table)
+                           (insert "\"")
+                           (insert (protocol-name module-item))
+                           (insert "\" -> \"")
+                           (insert (protocol-name included-protocol))
+                           (insert "\"\n")
+                           (setf (gethash edge-key edge-hash-table) t)))
+                       (if (eq included-module-sym module-sym)
+                           (push included-protocol local-protocols)
+                           (push included-protocol
+                                 (gethash included-module-sym
+                                          included-module-hash-table))
+                           )))))
+    (insert "subgraph cluster_")
+    (insert module-name)
+    (insert " { label=\"")
+    (insert (capitalize module-name))
+    (insert "\"\n")
+    (loop for module-item in (append module-items local-protocols) do
+          (cond ((and (protocol-p module-item)
+                      (not (internal-protocol-p module-item)))
+                 (insert "\"")
+                 (insert (protocol-name module-item))
+                 (insert "\"; "))))
+    (insert "}\n")
+    (loop for included-module-sym being each hash-key of
+          included-module-hash-table
+          do
+          (dot-graph-module edge-hash-table
+                            included-module-sym 
+                            (gethash included-module-sym
+                                     included-module-hash-table)))))
+
+(defun dot-output-module-graph (module-sym)
+  (let ((edge-hash-table (make-hash-table :test #'equal)))
+    (with-temp-file (concat (get-swarmdocs-build-area)
+                            (symbol-name module-sym)
+                            ".dot")
+      (insert "digraph ")
+      (insert (capitalize (symbol-name module-sym)))
+      (insert " {\n")
+      (insert "size=\"10,7.5\"\n")
+      (insert "ratio=compress\n")
+      (insert "rotate=90\n")
+      (dot-graph-module edge-hash-table module-sym)
+      (insert "}\n"))))
+
+(defun dot-output-each-module-graph ()
+  (interactive)
+    (loop for module-sym being each hash-key of *module-hash-table* do
+          (dot-output-module-graph module-sym)))
 

@@ -1,6 +1,14 @@
+1998-12-04  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* protocol.el (dot-graph-all-protocols,
+	dot-output-protocols-graph, dot-graph-module,
+	dot-output-module-graph, dot-output-each-module-graph): 
+	New functions.  Dot graph generation support (former is across
+	all modules and latter functions are for reduce per-module graphs).
+
 1998-12-03  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* protocol.el (vcg-graph-all-protocols, vcg-output-protocol-graph): 
+	* protocol.el (vcg-graph-all-protocols, vcg-output-protocols-graph): 
 	New functions.  VCG graph generation support.
 
 1998-10-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
