@@ -19,6 +19,7 @@ RANLIB=@RANLIB@
 INSTALL=@INSTALL@
 LIBTOOL=@LIBTOOL@
 DLLWRAP=@DLLWRAP@
+MACOSJAVA=@MACOSJAVA@
 
 VPATH=$(srcdir)
 
@@ -69,8 +70,13 @@ install-dll: all
 $(_LIBJAVASWARMSTUBS_LA): $(libjavaswarmstubs_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) $^
 
+ifeq ($(MACOSJAVA),yes)
 $(_LIBJAVASWARM_LA): $(_LIBJAVASWARMSTUBS_LA) $(libjavaswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(DESTDIR)$(libdir) $(libjavaswarm_la_OBJECTS) $(_LIBJAVASWARMSTUBS_LA) -L$(abs_top_builddir)/src $(SWARMLIBS) -lswarmobjc
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -shrext .jnilib -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(DESTDIR)$(libdir) $(libjavaswarm_la_OBJECTS) $(_LIBJAVASWARMSTUBS_LA) -L$(abs_top_builddir)/src $(SWARMLIBS) $(OBJCLIBS)
+else
+$(_LIBJAVASWARM_LA): $(_LIBJAVASWARMSTUBS_LA) $(libjavaswarm_la_OBJECTS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(DESTDIR)$(libdir) $(libjavaswarm_la_OBJECTS) $(_LIBJAVASWARMSTUBS_LA) -L$(abs_top_builddir)/src $(SWARMLIBS) $(OBJCLIBS)
+endif
 
 ENTRYCMD=-e @JAVASWARM_DLL_ENTRY@
 

@@ -1,3 +1,8 @@
+2003-08-12  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Makefile.in: allow libjavaswarm to build against combined
+	libswarm. and add MACOSJAVA for .jnilib ext in libjavaswarm.
+
 2003-06-29  mgd  <mgd@drone>
 
 	* Makefile.in ($(JAVASWARM_DLL)): Add classList.o to link.

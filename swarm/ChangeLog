@@ -1,3 +1,8 @@
+2003-08-12  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* configure.in: allow libjavaswarm to build against combined
+	libswarm. and add MACOSJAVA for .jnilib ext in libjavaswarm.
+
 2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* m4/aclibtool.m4: provide appropriate libtool macros for

@@ -207,7 +207,7 @@ fi
 
 AC_ARG_ENABLE(onelib,
 [  --enable-onelib                        build as a single library],
-  enable_onelib=yes, enable_onelib=no)
+        , enable_onelib=no)
 if test x$enable_onelib = xyes; then
 	ONELIB=yes
 else
@@ -328,6 +328,7 @@ AC_SUBST(noinst_LIBS)
 AC_SUBST(inst_LIBS)
 AC_SUBST(inst_LDFLAGS)
 AC_SUBST(ONELIB)
+AC_SUBST(MACOSJAVA)
 
 AC_PATH_PROG(EMACS, emacs, missing)
 
@@ -337,18 +338,19 @@ AC_SUBST(AVCALLDIR)
 OBJCDEPMODE='depmode=gcc3'
 AC_SUBST(OBJCDEPMODE)
 
-AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/collections/Makefile tests/defobj/Makefile tests/objectbase/Makefile tests/simtools/Makefile tests/space/Makefile tools/Makefile tools/print-hdf5 java/Makefile java/javaswarm java/javacswarm java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules COM/Makefile COM/c/Makefile])
-
-abs_srcdir=`cd $srcdir; pwd`
-
 test -d libobjc || mkdir libobjc
-(cd libobjc ; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/libobjc/configure --srcdir=$abs_srcdir/libobjc --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static --enable-onelib=$enable_onelib --host=$host --target=$target --build=$build)
+AC_CONFIG_SUBDIRS(libobjc)
 
 if test -n "$AVCALLDIR"; then
   test -d avcall || mkdir avcall
-  (cd avcall; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/avcall/configure --srcdir=$abs_srcdir/avcall --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static --host=$host --target=$target --build=$build)
+  AC_CONFIG_SUBDIRS(avcall)
 else
   test -d avcall || mkdir avcall
   # avcall.h finds its way into dependency information
   touch avcall/avcall.h
 fi
+
+AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/collections/Makefile tests/defobj/Makefile tests/objectbase/Makefile tests/simtools/Makefile tests/space/Makefile tools/Makefile tools/print-hdf5 java/Makefile java/javaswarm java/javacswarm java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules COM/Makefile COM/c/Makefile])
+
+# abs_srcdir=`cd $srcdir; pwd`
+
