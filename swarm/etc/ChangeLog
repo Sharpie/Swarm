@@ -1,7 +1,7 @@
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* protocol.el (fixup-method): Add VarProbe, MessageProbe, and
-	ProbeMap cases.
+	* protocol.el (fixup-method): Add VarProbe, MessageProbe,
+	ProbeMap cases.  Convert activateIn: to id <Swarm>.
 
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -256,7 +256,10 @@
           ((string= sig "-getProbeForVariable:")
            (setf (method-return-type method) "id <VarProbe>"))
           ((string= sig "-getProbeForMessage:") 
-           (setf (method-return-type method) "id <MessageProbe>")))
+           (setf (method-return-type method) "id <MessageProbe>"))
+          ((string= sig "-activateIn:")
+           (let ((first-argument (first (method-arguments method))))
+             (setf (nth 1 first-argument) "id <Swarm>"))))
     method))
 
 (defun parse-method (protocol
