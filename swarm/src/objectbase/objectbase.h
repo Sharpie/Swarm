@@ -340,7 +340,7 @@ USING
 //M: The stringDynamicCallOn: method generates a dynamic message call on the 
 //M: target object. This method assumes the user knows the return type to be 
 //M: const char *.
-- (const char*)stringDynamicCallOn: target;
+- (const char *)stringDynamicCallOn: target;
 
 //M: The objectDynamicCallOn: method generates a dynamic message call on the 
 //M: target object. This method assumes the user knows the return type to be 
