@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Suggested Exercises for Swarm Sugarscape</title>
+</head>
+
+<body bgcolor="#ffffff">
+<h1>Suggested Exercises for Swarm Sugarscape</h1>
+
+Here are some ideas to get you working with Sugarscape and Swarm. Some
+of these require just running Swarm and playing with it - some require
+modifying the source code of Swarm in simple or complicated ways. A
+guideline of the difficulty of each problem is put in parenthesis.<p>
+
+<h2>I. Working with the existing model</h2>
+
+<ol>
+  <li>(Easy, sss-1) Do an experiment on how the final carrying capacity of
+      the system varies with the initial population. Write down a
+      hypothesis, then design an experiment to test that hypothesis by
+      varying the initial population size. Draw a graph of the result,
+      evaluate the hypothesis, and draw conclusions.
+
+  <li>(Medium, sss-1) Do an experiment to discover the effects of maximum
+      vision and metabolism on agent survival. Follow the procedure
+      described in I.1 - make a hypothesis, design an experiment, plot
+      the results, draw conclusions.
+      
+  <li>(Medium, sss-1) The file <tt>sugarscape.pgm</tt> contains the
+      layout of the
+      maximum food in the world. It's in a simple format. Copy
+      <tt>sss-1</tt> and <tt>sugarscape.pgm</tt> into your own
+      directory and modify <tt>sugarscape.pgm</tt> so the world has a
+      different topography. (You can use any text editor, like
+      <tt>emacs</tt> or <tt>xedit</tt> to edit the file).
+      Make four hills
+      instead of two, or a valley, or something entirely unrealistic.
+      What effect does the new shape of the world have on the system
+      dynamics?
+
+  <li>(Medium - Hard, sss-2) What causes the uneven wealth distribution we
+      see in <a href="cdrom/animate/ch2/ch2_03.mov">animation
+      II-3</a>? Is it the agent death and replacement rule <b>R</b>?
+      Is it the uneven distribution of food in <tt>sugarspace.pgm</tt>?
+      Is it the variance in maximum age, or metabolism or vision? Pick
+      one or two parameters of the model with the replacement rule and
+      see how their variance affects the wealth distribution.
+
+  <li>(Medium) Write a small critique of the model. Explain what some
+      of the assumptions built into the model are and evaluate whether
+      those assumptions are reasonable. How would you improve the
+      model to make it more realistic?
+
+      
+</ol>
+
+<h2>II. Changing the Swarm Program</h2>
+
+These assignments require modifying the Swarm source code in simple
+ways. They require some programming skill, but are not too difficult.
+Doing one of these exercises will make you more familiar with the program.<p>
+
+<ol>
+  <li>(Easy) Change the initial position of agents so they all start
+      in the corner. This produces a migration pattern, as in page 42
+      of the book and
+      in <a href="cdrom/animate/ch2/ch2_06.mov">animation II-6</a>.
+  <li>(Medium) Add seasonal migration, as in page 45 of the book and
+      in <a href="cdrom/animate/ch2/ch2_07.mov">animation II-7</a>.
+  <li>(Medium) Change the agent movement rule so the agent picks any
+      of the best spots it can see - not just the closest.
+  <li>(Medium) Change the system so two agents can be on the same
+      square. Does this change anything?
+</ol>
+
+<h2>III. Adding things to the model</h2>
+
+These exercises require more sophisticated programming - adding new
+objects to the model an new behaviours. It's great if you can do one
+of these, but don't feel bad if it seems too complicated at first.<p>
+
+<ol>
+  <li>(Medium) Add in sex - allow agents to have children. Page 54.
+  <li>(Hard) Add in inheritance - children inherit their parents'
+      wealth when the parents die. Page 67.
+  <li>(Hard) Add culture, page 71.
+  <li>(Medium) Add a second commodity - spice. Make agents require spice as
+      well as sugar to live. (Chapter 4 - page 94).
+  <li>(Hard) Have agents trade spice with each other. Page 101
+      describes a complicated trade rule, but feel free to invent
+      something simpler.
+</ol>
+
+<hr>
+<address><a href="http://nelson.www.media.mit.edu/people/nelson/">Nelson Minar &lt;nelson@media.mit.edu&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Sat Jul 26 19:36:00 MET DST 1997
+<!-- hhmts end -->
+</body> </html>

@@ -1,0 +1,157 @@
+Paul Johnson <pauljohn@ku.edu>
+2003-04-18
+
+Swarm SugarScape was done by Nelson Minar and now it has undergone
+some updating/facelifting.  I think sss is an interesting and
+important piece of code not only because the Epstein & Axtell book
+"Growing Artificial Societies" was a landmark accomplishment, but also
+because this code shows several handy ways to design Swarm models and
+incorporate external data sources.  In particular, I like very much
+the way this code (unlike many Swarm examples) creates one 
+"environment class"--the SugarSpace--that holds a variety of 
+Swarm spaces.  In there one finds the agent grid and various
+grids that monitor the state of the environment.  I have found 
+this to be a very useful organizing principle and I strongly
+suspect it planted that idea in my mind and caused me to 
+re-do it in the new version of the Schelling segregation model
+(schelling2-2.0-Swarm-2.1.141) that was just now released.
+
+Now, about the features.  First, you can make movies!
+You can cause the model to create a stream of ppm
+pictures if you do a "make clean" and then build with
+
+make EXTRACPPFLAGS=-DMAKEMOVIE
+
+Second, I've replaced the old "ObjectLoader" with Swarm's lisp
+archiver to manage model parameters.  The model will run with defaults
+set in ModelSwarm.m if you don't tell it otherwise.  The "otherwise"
+happens when you load a parameter file.  This model can grab
+parameters for a ModelSwarm from the parameters directory and put them
+to use. Actually, it creates an instance of ModelSwarm and sets some
+variables according to the file. It works like this.  Note in the
+parameters subdirectory there are files with names like "test.scm".
+The ObserverSwarm's probe display is set so that if you type just
+"test", hit return, and punch the "setParameters:" button, it will
+load the parameter file from "parameters/test.scm".  Similarly, if you
+want to save the parameters you currently have specified, then type in
+a word like "testAgain", hit enter, and then punch the
+"saveParameters:" button.  The convenience, which many new users
+do not notice, is that you can edit the *.scm file and run a new
+model without recompiling.
+
+Warning: you cannot load a saved parameters file back into a Swarm
+model without editing it.  The saved file has many variables--the ones
+that are created in buildObjects--set as nil. Unfortunately, the
+instance variable "activity" is set to nil.  That "erases" the
+pre-existing activity variable that ModelSwarm inherits from its super
+class.  That makes the model die.  So if you want to read a parameter
+file back in, use an editor to delete the nil variables, at least the
+activity variable. Then it will work to read those parameters back
+into a model.  
+
+The model could be redesigned to avoid that problem.  The more proper
+approach would be to create a separate Parameter class, and then
+archive that file. That way, no complications due to the nils will
+result.  That is a proper topic in the issue of "serialization."  I
+have other models which demonstrate how that can be done. 
+
+Nelson's original parameter directory had some files named *.obs,
+which were all empty. They originally had been planned for
+ObserverSwarm parameters, but I figure if I really want to archive
+them, I'll just go ahead and make a Parameters object to hold all
+parameters.  So, as of now, there is no way to read in the parameters
+for the ObserverSwarm.  I've left the example settings he specified
+for the ModelSwarm. His settings are in files called *.model, while
+the ones I intend for the current version of sss are in files called
+*.scm.
+
+I notice that there have been some other undocumented changes
+in this program since Nelson wrote it. One is that the user
+has the choice of reading in the data from the old-fashioned
+sugarspace.pgm file, or from the new, hdf5 technique. There is
+an R program distributed with this program called "hdf5.R". If
+you install the hdf5 library for R that Marcus Daniels created,
+and then run this R program, it will create an hdf5 file
+with the data in it. (Use the h5dump program from hdf5 to see the
+contents.) I've included with this package one example hdf file, 
+"sss.hdf".  That was created by teh R program.
+
+To compile and use the hdf5 data, build with
+
+make EXTRACPPFLAGS=-DUSE_HDF5
+
+One might wonder "why would I want hdf5 data?"  Well, you can hand
+edit "sugarspace.pgm" all you want, but it might kill you.  On the
+other hand, if you study up on R a bit, you will see it is a
+fully-fledged, wonderful statistics and mathematical programming
+system. In R, you could write arbitrarily complicated/interesting
+patterns for the sugar.
+
+
+Of course, if you want movies and hdf5, do
+
+make EXTRACPPFLAGS="-DUSE_HDF5 -DMAKEMOVIE"
+
+Other changes:
+
+ * The Shuffler class is now deleted, because Swarm's collections
+   library now includes the same class with the name ListShuffler.
+ * Methods in SugarSpace that read in the *.pgm file and copy
+   one Discrete2d to another have been deleted, because those
+   functions have been incorporated into Discrete2d itself.
+
+If you find other things that can be updated or adapted, 
+please let me know.
+
+
+Here's Nelson's original README content:
+
+-----------------------------------------
+
+SugarScape in Swarm
+
+sss is a Swarm implementation of some of the models from Joshua
+Epstein and Robert Axtell's book "Growing Artificial Societies".
+  http://www.brookings.edu/SUGARS~1/DEFAULT.HTM
+
+This code should be used in conjunction with the book; the text
+describes the various models, and in general is an interesting
+exercise in agent based modelling of social systems. This Swarm code
+implements the basics of the Sugarscape model, mostly the versions in
+chapter 2. In particular, the growth rule G_alpha, the movement rule
+M, and the replacement rule R are implemented here. These are the
+basics of an ecosystem - the rest of the book covers adding more
+social features to the system such as combat, sex, cultural exchange,
+etc.
+
+This code could serve as a base for implementing more sophisticated
+versions of the Sugarscape models. It was originally written for a
+series of lectures on Swarm and complex systems modelling. See the
+file Exercises.html for some suggested exercises.
+
+There are two basic types of objects in the system. One is SugarAgent,
+the actors in the model. The other is SugarSpace, the state of the
+world. Both of these objects are hybrids of a lot of different
+functions and behaviours.
+
+There are a couple of nice Swarm coding tricks here. One is the
+SugarSpace method
+  -(int) setDiscrete2d: (Discrete2d *) a toFile: (char *) filename;
+It's used to read the file sugarspace.pgm into the SugarSpac as data.
+PGM is a simple greyscale image format.
+
+// pj 2003-04-17 this next paragraph is outmoded by the 
+// lisp archiver approach discussed in the beginning of this file.
+The other trick is the parameterFile in the ObserverSwarm. It uses the
+ObjectLoader to override the probe windows if asked to. The files in
+the subdirectory parameters/ can then be used to load in parameter
+sets in a GUI swarm.
+
+This code is free software. It is distributed under the GPL, see the
+file LICENSE for details. All code is Copyright (c) Nelson Minar,
+1997. It was written while kindly being hosted by the Systems Lab at
+the Central European University (http://www.syslab.ceu.hu/)
+
+Nelson Minar              nelson@media.mit.edu
+http://nelson.www.media.mit.edu/people/nelson/
+Budapest                               7/26/97

@@ -1,0 +1,243 @@
+2003-04-18  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* SugarSpace.m ([SugarSpace -createEnd]): change usage of methods
+	"setDiscrete2d:ToFile" and "copyDiscrete2d:ToDiscret2d". Those
+	methods are in the Swarm library now, no longer need for "self"
+
+	* SugarSpace.m : Delete methods "setDiscrete2d:ToFile" and
+	"copyDiscrete2d:ToDiscret2d". They are in the Discrete2d class now.
+
+	* SugarSpace.h (SwarmObject): xsize,ysize should be declared
+	unsigned.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): delete
+	usage of ObjectLoader, replace with LispArchiver.
+
+	* ModelSwarm.m ([ModelSwarm +createBegin:]): added probe for
+	addNewRandomAgent.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildActions]): change [self
+	getZone] to self.
+	([ObserverSwarm -writeFrame]): MAKEMOVIE code fixed, use Pixmap
+
+	* ModelSwarm.m ([ModelSwarm -buildObjects]): change shuffler to
+	use Swarm's ListShuffler class.
+
+	* Shuffler.m: deleted
+	 
+	* Shuffler.h: deleted
+
+2000-03-06    <mgd@nest.swarm.org>
+
+	* hdf5.R: Symbol-string arguments to hdf5save must be strings.
+
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Makefile (SWARMHOME, APPVERSION): Update to 2.1.
+	(BUGADDRESS): Update to SDG.
+
+	* Shuffler.h (Shuffler): Use UniformIntegerDist instead of
+	UniformInteger.
+
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile (APPLICATION, BUGADDRESS): Add.
+
+1999-06-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SugarSpace.m ([SugarSpace setDiscrete2d:toFile:]): Use
+	InFile create:setName: instead of create:withName:.
+	
+1999-06-28  Alex Lancaster  <alex@santafe.edu>
+
+	* SugarSpace.m ([SugarSpace -createEnd]): Call the hdf5AppArchiver
+	global instance variable directly, skip temporary HDF5Archiver
+	creation.
+
+1999-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* main.m: Import simtools.h, now required for initSwarm* macros.
+
+1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* hdf5.R: Reorganize per new Discrete2d serialization scheme.
+
+	* SugarSpace.m ([SugarSpace -createEnd]): Use Discrete2d
+	serialization, instead of ad-hoc Class/VarProbe object loading.
+
+	* SugarSpace.[hm]: Remove setDiscrete2d:toObject:.
+
+	* ObserverSwarm.m: Include simtools.h.
+	([ObserverSwarm -buildObjects]): Use setBinCount: instead of
+	setBinNum:.
+
+1999-03-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* hdf5.R: New file.
+
+1999-02-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SugarSpace.m ([SugarSpace -createEnd]): Only call
+	setDiscrete2d:toObject: if an object was found.
+
+1999-02-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SugarSpace.m ([SugarSpace -createEnd]): Use setDiscrete2d:toObject:
+	when USE_HDF5 is set.
+
+	* SugarSpace.[hm] ([SugarSpace -setDiscrete2d:toObject:]): Include
+	for USE_HDF5.
+
+1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (DATAFILES): Add sugarspace.pgm.
+	Remove template comments.
+
+	* ModelSwarm.m ([ModelSwarm +createBegin:]): Use getAppDataPath
+	to find sugarspace.pgm.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Load
+	based on path from getAppDataPath.  Set a default
+	directory of `parameters'.
+
+	* Makefile (SWARMHOME): Bump default SWARMHOME to swarm-1998-08-20.
+	(APPLIBS): Remove.
+	(DATAFILES): Enumerate 1,2,3 x obs,type.
+
+1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile: Include Makefile.appl from $(SWARMHOME)/etc/swarm.
+
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* SugarSpace.[hm]: Make arguments to setDiscrete2d:ToFile:
+	and copyDiscrete2d:toDiscretee2d: conform to the Discrete2d protocol.
+	Constify argument to setMaxSugarDataFile:.
+	Make getSugarValues return an object that conforms to the
+	
+	* SugarSpace.m: Include misc.h instead of string.h.
+	Reformatting throughout.  Modify getters like below.
+
+	* SugarSpace.h: Include objectbase/SwarmObject.h.
+	(SugarSpace): Constify maxSugarDataFile.  Make sugar and maxSugar
+	conform to Discrete2d protocol.  Make agentGrid and getter conform to
+	Discrete2d protocol. 
+
+	* Shuffler.h: Include objectbase/SwarmObject.h instead of
+	objectbase.h.
+
+	* ObserverSwarm.h: Include space.h.  Make sugarDisplay conform to
+	Value2dDisplay protocol.  Make agentDisplay conform to the
+	Object2Display protocol.  Make populationGraph, attributeGraph
+	conform to the EZGraph protocol.  Make wealthHistogram conform to
+	the EZBin protocol.
+
+	* ModelSwarm.h: Include objectbase/Swarm.h instead of objectbase.h.
+	Reformatting throughout.
+	(ModelSwarm): Constify datafile.  
+
+1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m: Include simtoolsgui.h.
+
+	* Shuffler.h: Include random.h. Don't include simtools.h.
+
+	* ObserverSwarm.m: Include simtoolsgui.h.
+
+	* ObserverSwarm.h: Don't include objectbase.h or gui.h.  Include
+	simtoolsgui/GUISwarm.h.
+
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Use Colormap
+	not XColormap for colormap. Switch from setDisplayWidget:Colormap:
+	to setDisplayWidget:colormap:.  Revert GUI_ButtonRight change.
+
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* SugarAgent.h: Include gui.h instead of tkobjc/Raster.h.
+	Make drawSelfOn: argument an id <Raster> instead of a Raster*.
+	Reformatting throughout.
+
+	* SugarAgent.m ([SugarAgent -drawSelfOn:]):  Likewise.
+
+	* SugarSpace.h: Reformatting throughout.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Use GUI_ButtonRight
+	instead of ButtonRight.
+
+	* ObserverSwarm.h: Include gui.h.
+	(ObserverSwarm): Make colormap conform to Colormap protocol
+	instead of being statically typed to XColormap.  Make worldRaster
+	conform to ZoomRaster protocol instead of being statically typed.
+
+	* SugarAgent.m ([SugarAgent -drawSelfOn:]): Make argument an
+	id <Raster> instead of Raster*.
+
+1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Use SET_WINDOW_GEOMETRY_RECORD_NAME for
+	observerSwarm.
+
+	* ObserverSwarm.m ([ObserverSwarm -_worldRasterDeath_:]): New
+	method.
+	([ObserverSwarm -buildObjects]): Use
+	SET_WINDOW_GEOMETRY_RECORD_NAME for worldRaster, populationGraph,
+	attributeGraph, wealthHistogram.
+	([ObserverSwarm -buildObjects]): Enable destroy notificaition for
+	worldRaster, send to our _worldRasterDeath_.
+	([ObserverSwarm -_updateDisplay_]): New method called to update
+	sugarDisplay, agentDisplay, and worldDisplay, contigent on the
+	existence of worldRaster.
+	([ObserverSwarm -buildActions]): Add single call to _updateDisplay_ 
+	instead of separate entries in action group.
+
+1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm -_wealthHistogramDeath_:]): New
+	method.
+	([ObserverSwarm -buildObjects]): Enable destroy notification.
+	([ObserverSwarm -_updateHistogram_]): New method.
+	([ObserverSwarm -buildActions]): Call our _updateHistogram_ instead of
+	individual actions on wealthHistogram.
+
+1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Use
+	CREATE_ARCHIVED_PROBE_DISPLAY to create probe displays for modelSwarm
+	and modelObserverSwarm.
+
+	* Makefile (SWARMHOME): Don't define if already defined.  Default
+	is swarm-1.0.5.
+
+1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Set base window geometry record name for
+	observer GUIswarm.  Minor reformatting.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Revert
+	inline setup of observerSwarm; GUISwarm is now more intelligent.
+
+1998-01-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Create
+	ControlPanel and ActionCache instead of calling superclass
+	buildObjects.  Set windowGeometryRecordName during create phase of
+	ActionCache. Use setWindowGeometryRecordName versions of
+	createProbeDisplayFor setWindowGeometryRecordName for modelSwarm
+	and observerSwarm. Call setWindowGeometryRecordName for
+	worldRaster, populationGraph, attributeGraph, wealthHistogram.
+	Reformatting throughout.
+
+	* ObserverSwarm.h (ObserverSwarm): Constify parameterFile.
+	Reformatting throughout.
+
+1997-12-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* SugarSpace.m: Use <InFile> f, not InFile *f to prevent warning.
+
+	* ObserverSwarm.m ([ObserverSwarm +createBegin:aZone]): Use id
+	<ProbeMap> not ProbeMap *.
+	([ObserverSwarm -buildActions]): Send doTkEvents to actionCache,
+	not controlPanel.
+
