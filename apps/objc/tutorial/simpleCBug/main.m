@@ -13,7 +13,7 @@ main (int argc, const char **argv)
 
   int i;
 
-  initSwarm (argc, argv);		// Always first in Swarm main.m 
+  initSwarmBatch (argc, argv);		// Always first in Swarm main.m 
 
   printf("I started at X = %d Y = %d \n\n", xPos, yPos);
 

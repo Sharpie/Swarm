@@ -20,7 +20,7 @@ main (int argc, const char **argv)
   id aBug;
   id foodSpace;
 
-  initSwarm (argc, argv);
+  initSwarmBatch (argc, argv);
 
   // Create and initialize a "food" space
 
@@ -37,11 +37,8 @@ main (int argc, const char **argv)
   
   [aBug setX: xPos Y: yPos];
 
-  for(i = 0; i < 100; i++) {
-
+  for (i = 0; i < 100; i++) 
     [aBug step];
-
-  }
 
   return 0;
 

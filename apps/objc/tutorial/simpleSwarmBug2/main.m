@@ -13,11 +13,11 @@
 int
 main (int argc, const char ** argv)
 {
-  ModelSwarm * modelSwarm;
+  ModelSwarm *modelSwarm;
 
   // Swarm initialization: all Swarm apps must call this first.
 
-  initSwarm (argc, argv);
+  initSwarmBatch (argc, argv);
 
   // Make the bug model swarm
 

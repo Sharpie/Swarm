@@ -16,18 +16,15 @@ main (int argc, const char **argv)
 
   id aBug;			// "id" is the default type for objects
 
-  initSwarm(argc, argv);
+  initSwarmBatch (argc, argv);
 
   aBug = [Bug create: globalZone]; 	// Make us aBug please!
 					// and initialize it
   [aBug setX: xPos Y: yPos];	
   [aBug setWorldSizeX: worldXSize Y: worldYSize];
 
-  for(i = 0; i < 100; i++) {
-
+  for(i = 0; i < 100; i++)
     [aBug step]; 			// Tell it to act
-
-  }
 
   return 0;
 

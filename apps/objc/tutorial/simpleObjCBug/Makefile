@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../../swarm-1998-08-17
+SWARMHOME=../../swarm-1999-03-09
 endif
 APPLICATION=bug
 OBJECTS= main.o  Bug.o
