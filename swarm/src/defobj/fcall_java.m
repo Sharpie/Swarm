@@ -15,7 +15,6 @@
 
 #import "fcall_java.h"
 #include <avcall.h>
-#endif
 #import "java.h"
 #import <defobj/FArguments.h>
 
@@ -41,4 +40,5 @@ java_setup_static_call (FArguments_c *fa,
 
 #define JAVA
 #include "_fcall.m"
+#endif
 #endif
