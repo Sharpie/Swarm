@@ -32,16 +32,19 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/genunix"
     fi
     if test "$host_os" = cygwin; then
+      JAVACMD='${jdkdosdir}\bin\java'
       JAVACLASSES='${jdkdosdir}\lib\classes.zip'
+      JAVAENV='JAVA_HOME=${jdkdosdir}'
+      JAVAC='JAVA_HOME=${jdkdosdir} ${jdkdosdir}\bin\javac'
     else
+      JAVACMD='${jdkdir}/bin/java'
       JAVACLASSES='${jdkdir}/lib/classes.zip'
+      JAVAENV='JAVA_HOME=${jdkdir}'
+      JAVAC='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
-    JAVACMD='${jdkdir}/bin/java'
-    JAVAENV='JAVA_HOME=${jdkdosdir}'
     JAVA='${JAVAENV} ${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
-    JAVAC='JAVA_HOME=${jdkdosdir} ${jdkdir}/bin/javac'
   elif test -f $jdkdir/include/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include/japhar"
     JAVACLASSES="`$jdkdir/bin/japhar-config info datadir`"
