@@ -1,3 +1,9 @@
+1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtoolsgui.h (CommonProbeDisplay): Declare -getTopLevel.
+
+	* CommonProbeDisplay.[hm]: Add -getTopLevel.
+
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT): Increment.  Swarm 1.3 released.

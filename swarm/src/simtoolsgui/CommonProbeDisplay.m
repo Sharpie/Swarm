@@ -60,6 +60,11 @@ PHASE(Using)
   return markedForDropFlag;
 }
 
+- getTopLevel
+{
+  return topLevel;
+}
+
 - install
 {
   [topLevel deiconify];

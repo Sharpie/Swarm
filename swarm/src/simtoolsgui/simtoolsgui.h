@@ -137,6 +137,7 @@ USING
 - update;
 
 - (BOOL)getMarkedForDropFlag;
+- getTopLevel;
 @end
 
 @protocol SingleProbeDisplay <CommonProbeDisplay>
