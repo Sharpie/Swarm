@@ -1,1 +1,1 @@
-Implement HeatbugBatchSwarm.
+HeatbugBatchSwarm dies after timestep 169 in batch mode.
