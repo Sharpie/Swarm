@@ -21,6 +21,14 @@
 	(process-changelog): Use position to do sorting when dates are equal.
 	(decode-time-as-gmt): Remove.
 
+	* Makefile.common (EMACS): Use DOS version of
+	abs_{top_}builddir.
+
+	* Makefiles.rules: Quote all usages of HTML and PRINT.  Disable
+	HTML and PRINT where used as dependencies.  (Because these include
+	DOS paths which have colons which look like dependencies.)
+	(%.ps): Don't make an error code from DVIPS stop the build.
+
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: Remove LGPL, GPL entities, create new PUBLIC entity

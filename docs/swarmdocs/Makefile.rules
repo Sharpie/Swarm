@@ -59,9 +59,9 @@ CLEANFILES = $(NAME).tex _$(NAME).tex $(nodist_html_DATA) $(nodist_dvi_DATA) $(n
 $(FIGS):
 	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
 
-_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)
+_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) # $(PRINT)
 
-$(NAME).html: $(GENERAL) $(HTML)
+$(NAME).html: $(GENERAL) # $(HTML)
 
 $(NAME).dvi: $(top_srcdir)/tex/macros.tex
 
@@ -80,22 +80,22 @@ rtf: all-recursive $(NAME).rtf
 html: all-recursive $(NAME).html
 
 %.fot: %.sgml
-	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ @DOSIFYEXPR@
+	$(RUNJADE) $(CATOPTS) -t fot -iprint -d '$(PRINT)' -o $@ @DOSIFYEXPR@
 
 _%.tex: %.sgml
-	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d $(PRINT) -o $@ @DOSIFYEXPR@
+	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d '$(PRINT)' -o $@ @DOSIFYEXPR@
 
 %.rtf: %.sgml
-	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ @DOSIFYEXPR@
+	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d '$(PRINT)' -o $@ @DOSIFYEXPR@
 
 %.html: %.sgml
-	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) @DOSIFYEXPR@
+	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d '$(HTML)' @DOSIFYEXPR@
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
 
 %.ps: %.dvi
-	$(DVIPS) -o $@ $<
+	- $(DVIPS) -o $@ $<
 
 # Local variables:
 # mode: makefile
