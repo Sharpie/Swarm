@@ -5,6 +5,7 @@
 
 #import "ModelSwarm.h"
 #import <simtoolsgui/GUISwarm.h>
+#import <objectbase/SwarmObject.h>
 #import <objectbase.h>
 #import <analysis.h>
 
