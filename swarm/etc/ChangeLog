@@ -1,3 +1,10 @@
+1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.tests.in (CPPFLAGS): Use instead of OBJCFLAGS for
+	APPNAME, BUGADDRESS, and APPVERSION.  Don't quote values.
+
+	* Makefile.appl.in (CPPFLAGS, _APPVERSION, _BUGADDRESS): Likewise.
+
 1999-06-10  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.tests.in (OBJCFLAGS): Add -D macros for APPNAME (get
