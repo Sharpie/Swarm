@@ -10,10 +10,10 @@ noinst_DATA = versions.ent
 alldist: htmldist dvidist rtfdist psdist
 
 html dvi rtf fot ps htmldist dvidist rtfdist psdist: all
-	- make -C installbook $@
-	- make -C overbook $@
-	- make -C refbook $@
-	- make -C set $@
+	- $(MAKE) -C installbook $@
+	- $(MAKE) -C overbook $@
+	- $(MAKE) -C refbook $@
+	- $(MAKE) -C set $@
 
 versions.ent: FORCE
 	((echo '<!ENTITY swarm-release-number "' ; head -1 $(swarm_srcdir)/VERSION ; echo '">') | tr -d '\n' ; echo) > versions.ent

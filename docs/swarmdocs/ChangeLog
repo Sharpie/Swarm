@@ -1,3 +1,8 @@
+1998-09-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (html dvi rtf fot ps htmldist dvidist rtfdist
+	psdist): Use $(MAKE) instead of make.
+
 1998-09-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.common: Export SWARMSRCDIR to run of history.el.
