@@ -41,7 +41,14 @@ Library:      defobj
 #include <misc.h> // strcpy, strlen, sprintf, isDigit
 #include <collections/predicates.h> // arrayp, keywordp, archiver_list_p, stringp
 
+#ifdef GNUSTEP
+#include <Foundation/NSMethodSignature.h>
+#include <mframe.h>
+#else
+#ifdef USE_MFRAME
 #include <objc/mframe.h>
+#endif
+#endif
 
 #ifdef HAVE_JDK
 #include "java.h"
@@ -612,6 +619,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   return mptr (self, aSel, anObject1, anObject2, anObject3);
 }
 
+#ifdef USE_MFRAME
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
 {
   NSArgumentInfo info;
@@ -730,6 +738,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       return NULL;
     }
 }
+#endif
 
 //
 // methods inherited from Object that are blocked because they do not support

@@ -17,7 +17,7 @@ TK_LIBRARY = @tkscriptdir@
 
 SUFFIXES = .m
 
-INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../misc -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES) $(XINCLUDES)
+INCLUDES = $(LIBOBJCINCLUDES) -I$(srcdir)/../misc -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES) $(XINCLUDES)
 
 # Solaris 2.8 has a pragma in Xlib.h
 override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@ 

@@ -3,7 +3,16 @@
 #import <defobj/Create.h>
 #import <defobj/defalloc.h> // getCZone, getZone
 #include <misc.h> // printf, stpcpy, strlen
+
+// mframe_build_signature
+#ifdef GNUSTEP
+#include <Foundation/NSMethodSignature.h>
+#include <Foundation/NSInvocation.h>
+#include <Foundation/NSAutoreleasePool.h>
+#include <mframe.h>
+#else
 #include <objc/mframe.h>
+#endif
 
 @interface AnotherObject: CreateDrop
 {
@@ -231,6 +240,23 @@ strip_type_sig (const char *sig)
   }
 }
 
+#ifdef GNUSTEP
+- (void) forwardInvocation: (NSInvocation*)anInvocation
+{
+  id fa, fc;
+  SEL aSel = [anInvocation selector];
+  const char *type = sel_get_type (aSel);
+  NSArgumentInfo info;  
+  types_t val;
+  const char *stripped_type;
+
+  fprintf(stderr, "GNUstep forwardInvocation: \n");
+  fprintf(stderr, "type %s\n", type);
+
+  [anInvocation invokeWithTarget: delegateObject];
+}
+#endif
+
 - (retval_t)forward: (SEL)aSel :(arglist_t)argFrame
 {
   id fa, fc;
@@ -295,9 +321,16 @@ int
 main (int argc, const char **argv)
 {
   id obj;
+#ifdef GNUSTEP
+  NSAutoreleasePool *pool;
+#endif
 
   initSwarmBatch (argc, argv);
-  
+
+#ifdef GNUSTEP
+  pool = [NSAutoreleasePool new];
+#endif
+
   obj = [[BaseObject createBegin: globalZone]
              setDelegateObject: [DelegateObject create: globalZone]];
 

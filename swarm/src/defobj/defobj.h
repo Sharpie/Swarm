@@ -1129,7 +1129,11 @@ CREATING
 - addDouble: (double)value;
 - addLongDouble: (long double)value;
 - addString: (const char *)value;
+#ifdef GNUSTEP
+- (void)addObject: obj;
+#else
 - addObject: obj;
+#endif
 - addSelector: (SEL)aSel;
 - addJavaObject: (JOBJECT)obj;
 - setObjCReturnType: (char)type;

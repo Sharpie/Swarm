@@ -6,7 +6,7 @@ collectionsdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-INCLUDES = -I$(top_builddir)/libobjc -I$(top_builddir) -I$(top_srcdir)/libobjc -I. -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I$(srcdir)/../random $(JAVAINCLUDES)
+INCLUDES = $(LIBOBJCINCLUDES) -I$(top_builddir) -I. -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I$(srcdir)/../random $(JAVAINCLUDES) $(GNUSTEPLIBINCLUDES)
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@

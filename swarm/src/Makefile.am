@@ -1,6 +1,6 @@
-SUBDIRS = misc collections defobj activity objectbase tclobjc tkobjc gui random simtools simtoolsgui analysis space
+SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) gui random simtools simtoolsgui analysis space $(GNUSTEPMODULE)
 
-SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc objectbase activity defobj collections misc
+SWARMMODULES = space analysis $(GNUSTEPMODULE) $(SIMTOOLSGUIMODULE) simtools random $(TCLTKGUIDIR) objectbase activity defobj collections misc
 
 EXTRA_DIST = Makefile.rules getters.el SwarmEnvironment_getters.m
 
@@ -28,7 +28,7 @@ AGE = 0
 
 lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
-libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la) ../libobjc/libswarmobjc.la
+libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la) $(LIBOBJCDEP)
 
 libswarm_la_SOURCES = SwarmEnvironment.m classList.m
 BUILT_SOURCES = classList.m
@@ -48,12 +48,12 @@ $(abs_top_builddir)/interface.elc: $(abs_top_builddir)/protocol.elc
 $(srcdir)/SwarmEnvironment_getters.m: swarm.h getters.elc
 	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@getters.elc' -f generate-SwarmEnvironment-getters
 
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(FFILDFLAGS) $(SUPPORTLDFLAGS) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) $(LIBOBJCLDFLAGS) $(FFILDFLAGS) $(SUPPORTLDFLAGS) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 libswarm_la_LIBADD = $(SWFFILIB)
 
-LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(libswarm_la_LIBADD) -lswarmobjc $(SYSLIBS)
+LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(libswarm_la_LIBADD) $(LIBOBJCLIB) $(SYSLIBS)
 
-INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools -I$(srcdir)/gui -I$(srcdir)/simtoolsgui -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES)
+INCLUDES = $(LIBOBJCINCLUDES) -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools -I$(srcdir)/gui -I$(srcdir)/simtoolsgui -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES) $(GNUSTEPLIBINCLUDES)
 
 DLLWRAP = @DLLWRAP@
 if USEDLL

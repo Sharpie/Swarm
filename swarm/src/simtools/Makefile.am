@@ -6,7 +6,7 @@ simtoolsdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../random -I$(srcdir)/../gui -I$(srcdir)/../simtoolsgui -I$(srcdir)/../misc 
+INCLUDES = $(LIBOBJCINCLUDES) -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../random -I$(srcdir)/../gui -I$(srcdir)/../simtoolsgui -I$(srcdir)/../misc $(GNUSTEPLIBINCLUDES)
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@

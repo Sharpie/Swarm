@@ -1,3 +1,7 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* gui.h (GUI_*): Exclude tk macros for GNUstep.
+
 2003-06-23  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* gui.h: declare ZoomRaster method - (void)fillCenteredRectangleX0:

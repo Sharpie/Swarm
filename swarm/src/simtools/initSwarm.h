@@ -1,4 +1,6 @@
+#ifndef STRINGIFY
 #define STRINGIFY(sym) #sym
+#endif
 #define STRINGIFYSYM(sym) STRINGIFY(sym)
 #define APPNAME_STRING STRINGIFYSYM(APPNAME)
 #ifdef APPVERSION

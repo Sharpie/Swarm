@@ -1,3 +1,11 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* Makefile.am (INCLUDES): Use libobjc definition. Add GNUstep includes.
+
+	* InputStream.m: Include internal.h for long double definition
+	required for GNUstep.  No long double encoding support in the
+	libobjc library.
+
 2004-04-20  Marcus G. Daniels <mgd@santafe.edu>
 
 	* List_HDF5out.m ([.. hdf5OutShallow:]): Call writeRowNames.

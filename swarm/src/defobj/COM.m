@@ -1,7 +1,17 @@
 #import "COM.h"
 #import <defobj/directory.h>
 #import <defobj/COMProxy.h>
-#import <objc/mframe.h> // mframe_build_signature
+
+// mframe_build_signature
+#ifdef GNUSTEP
+#include <Foundation/NSMethodSignature.h>
+#include <mframe.h>
+#else
+#ifdef USE_MFRAME
+#include <objc/mframe.h>
+#endif
+#endif
+
 #import "internal.h" // objc_type_for_fcall_type
 #include <misc.h> // strdup
 

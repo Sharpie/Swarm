@@ -73,6 +73,18 @@ AC_ARG_WITH(xpmlibname,
 
 md_FIND_XPM
 
+AC_ARG_ENABLE(libobjc,
+[  --disable-libobjc                Disable local ObjC library],
+  ,enable_libobjc=yes)
+
+AC_ARG_ENABLE(gnustep,
+[  --enable-gnustep                 Enable Swarm for use with GNUstep],
+  ,enable_gnustep=no)
+
+if test "$enable_gnustep" = yes; then
+md_FIND_GNUSTEPLIB
+fi
+
 AC_ARG_WITH(tcldir,
 [  --with-tcldir=DIR                Use DIR/include and DIR/lib for Tcl],
   tclincludedir=$withval/include
@@ -90,6 +102,10 @@ AC_ARG_WITH(tclscriptdir,
 [  --with-tclscriptdir=DIR          Use DIR for Tcl scripts],
   tclscriptdir=$withval)
 
+if test "$enable_gnustep" = yes; then
+   echo GNUstep integration is enabled.  Skipping configuration of tclobjc
+else
+
 md_FIND_TCL
 md_FIND_TCL_HEADERS
 if test -z "$tclincludedir" ; then
@@ -105,6 +121,11 @@ md_FIND_TCL_SCRIPTS
 
 AC_SUBST(tclscriptdir)
 md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tcl)
+
+TCLMODULE=tclobjc
+AC_SUBST(TCLMODULE)
+
+fi
 
 AC_ARG_WITH(tkdir,
 [  --with-tkdir=TKDIR               Use DIR/include and DIR/lib for Tk],
@@ -123,6 +144,10 @@ AC_ARG_WITH(tklibname,
 [  --with-tklibname=NAME            Use -lNAME for Tk],
   tklibname=$withval)
 
+if test "$enable_gnustep" = yes; then
+   echo GNUstep integration is enabled.  Skipping configuration of tkobjc
+else
+
 md_FIND_TK_HEADERS
 if test -z "$tkincludedir" ; then
   AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
@@ -139,6 +164,11 @@ AC_SUBST(tkscriptdir)
 
 md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tk)
 
+TKMODULE=tkobjc
+AC_SUBST(TKMODULE)
+
+fi
+
 AC_ARG_WITH(bltdir,
 [  --with-bltdir=DIR                Use DIR/include and DIR/lib for BLT],
   bltdir=$withval)
@@ -147,7 +177,16 @@ AC_ARG_WITH(bltlibname,
 [  --with-bltlibname=NAME           Use -lNAME for BLT],
   bltlibname=$withval)
 
+if test "$enable_gnustep" = yes; then
+   echo GNUstep integration is enabled.  Skipping configuration of BLT
+else
+
 md_FIND_BLT
+
+SIMTOOLSGUIMODULE=simtoolsgui
+AC_SUBST(SIMTOOLSGUIMODULE)
+
+fi
 
 AC_ARG_WITH(ffidir,
 [  --with-ffidir=DIR                Use DIR/include and DIR/lib for libffi],
@@ -334,8 +373,35 @@ AC_PATH_PROG(EMACS, emacs, missing)
 test -n "$ffidir" || AVCALLDIR=avcall
 AC_SUBST(AVCALLDIR)
 
-test -d libobjc || mkdir libobjc
-AC_CONFIG_SUBDIRS(libobjc)
+if test "$enable_libobjc" = yes; then
+   LIBOBJCDIR='libobjc'
+   LIBOBJCINCLUDES='-I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc'
+   LIBOBJCLDFLAGS='-L../libobjc'
+   LIBOBJCLIB='-lswarmobjc'
+   LIBOBJCDEP='$(top_builddir)/libobjc/libswarmobjc.la'
+   AC_DEFINE([USE_MFRAME], 1, [Define if mframe functions to be used.])
+   # test -d libobjc || mkdir libobjc
+   AC_CONFIG_SUBDIRS(libobjc)
+else
+   echo Skipping configuration of local ObjC library.
+   LIBOBJCDIR=
+   LIBOBJCINCLUDES=
+   LIBOBJCLDFLAGS=
+   LIBOBJCLIB='-lobjc'
+   LIBOBJCDEP=
+fi
+AC_SUBST(LIBOBJCDIR)
+AC_SUBST(LIBOBJCINCLUDES)
+AC_SUBST(LIBOBJCLDFLAGS)
+AC_SUBST(LIBOBJCLIB)
+AC_SUBST(LIBOBJCDEP)
+
+if test "$enable_gnustep" = no; then
+   TCLTKGUIDIR='tclobjc tkobjc'
+else
+   TCLTKGUIDIR=
+fi
+AC_SUBST(TCLTKGUIDIR)
 
 if test -n "$AVCALLDIR"; then
   test -d avcall || mkdir avcall
@@ -346,7 +412,23 @@ else
   touch avcall/avcall.h
 fi
 
-AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/collections/Makefile tests/defobj/Makefile tests/objectbase/Makefile tests/simtools/Makefile tests/space/Makefile tools/Makefile tools/print-hdf5 java/Makefile java/javaswarm java/javacswarm java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules COM/Makefile COM/c/Makefile])
+AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile
+src/analysis/Makefile src/collections/Makefile src/defobj/Makefile
+src/gui/Makefile src/misc/Makefile src/objectbase/Makefile
+src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile
+src/space/Makefile etc/modules etc/config.swarm etc/Makefile.appl
+etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile
+tests/Makefile tests/activity/Makefile tests/collections/Makefile
+tests/defobj/Makefile tests/objectbase/Makefile
+tests/simtools/Makefile tests/space/Makefile tools/Makefile
+tools/print-hdf5 java/Makefile java/javaswarm java/javacswarm
+java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules
+COM/Makefile COM/c/Makefile])
+
+if test "$enable_gnustep" = no; then
+AC_OUTPUT([src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile])
+else
+AC_OUTPUT([src/swarmgstep/Makefile])
+fi
 
 # abs_srcdir=`cd $srcdir; pwd`
-

@@ -1,0 +1,11 @@
+2004-03-13  Scott Christley  <schristl@nd.edu>
+
+	* ChangeLog: New file.
+	* Makefile.am: New file.
+	* GNUstepSwarm.m: New file.
+	* GNUstepSwarm.h: New file.
+	* swarmgstep.m: New file.
+	* Raster.h: New file.
+	* Raster.m: New file.
+	* ZoomRaster.h: New file.
+	* ZoomRaster.m: New file.

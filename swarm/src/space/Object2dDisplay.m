@@ -129,8 +129,10 @@ PHASE(Using)
       obj = [discrete2d getObjectAtX: x Y: y];
       if (obj)
         CREATE_PROBE_DISPLAY (obj);
+#ifndef GNUSTEP
       else
         GUI_BEEP ();
+#endif
     }
   else
     raiseEvent (WarningMessage, 

@@ -1,3 +1,21 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* Makefile.am (INCLUDES): Use libobjc definition. Add GNUstep includes.
+
+	* internal.h: Define _C_LNG_DBL for GNUstep.
+
+	* defobj.h ([FArguments -addObject:]): Definition conflicts with
+	NSArray, so use NSArray definition for GNUstep.
+
+	* java.m: Use GNUstep mframe for GNUstep.  USE_MFRAME to allow
+	compilation to continue without mframe.
+
+	* FCall.m: Likewise.
+
+	* DefObject.m: Likewise.
+
+	* COM.m: Likewise.
+
 2004-02-25  Marcus G. Daniels <mgd@santafe.edu>
 
 	* HDF5Object.m (get_attribute_string_list, [HDF5_c loadDataset:]):

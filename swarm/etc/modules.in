@@ -1,10 +1,11 @@
 space
 analysis
-simtoolsgui
+@SIMTOOLSGUIMODULE@
+@GNUSTEPMODULE@
 simtools
 random
-tkobjc
-tclobjc
+@TKMODULE@
+@TCLMODULE@
 objectbase
 activity
 defobj

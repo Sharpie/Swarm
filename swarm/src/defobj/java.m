@@ -5,7 +5,18 @@
 #import <defobj/JavaClassProxy.h>
 #import <defobj/JavaCollection.h>
 #import <defobj/defalloc.h>
-#include <objc/mframe.h> // mframe_build_signature
+#include <misc.h>
+
+// mframe_build_signature
+#ifdef GNUSTEP
+#include <Foundation/NSMethodSignature.h>
+#include <mframe.h>
+#else
+#ifdef USE_MFRAME
+#include <objc/mframe.h>
+#endif
+#endif
+
 #import "internal.h" // FCALL_TYPE_COUNT, objc_type_for_fcall_type
 
 #define extern

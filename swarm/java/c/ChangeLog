@@ -1,3 +1,8 @@
+2004-07-16  Scott Christley  <schristley@mac.com>
+
+	* Makefile.in (clean): New target.
+	(CPPFLAGS): Use libobjc definition.  Add GNUstep includes.
+
 2003-09-15  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.in: fix undefined symbol issue when linking against

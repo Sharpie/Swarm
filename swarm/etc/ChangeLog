@@ -1,3 +1,28 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* modules.in: New file.  The modules file is now a template so
+	that tkobjc and tclobjc can be disabled and the GNUstep module
+	can be added to the list.
+
+	* modules: Remove file.
+
+	* Makefile.tests.in (INCLUDES):  Use libobjc variable.
+	(SWARMBUILDLDFLAGS): Recode to allow for $(libobjcdir) to have
+	a blank value.
+
+	* config.swarm.in: Add GNUstep definitions.
+
+	* Makefile.appl.in: Add GNUstep libraries and flags; remove libobjc.
+
+	* Makefile.common.in: Likewise.
+
+	* Makefile.rules: Likewise.
+
+	* swarm.make: New file.  This file defines the Swarm libraries
+	with the GNUstep make system.
+
+	* Makefile.am: Install swarm.make.
+
 2003-08-13  Marcus Daniels  <mgd@dhcp159.santafe.edu>
 
 	* interface.el (dump-dispatch-hash-table): When computing the class

@@ -1,3 +1,8 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* Makefile.am (INCLUDES): Use libobjc definition.  Add GNUstep
+	includes.
+
 2002-09-13    <pjohnson@localhost.localdomain>
 
 	* MessageProbeWidget.m ([MessageProbeWidget -drop]): changed i to int.

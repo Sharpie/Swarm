@@ -1,0 +1,238 @@
+README
+======
+
+When it comes to integrating Swarm and GNUstep, the expected gain is
+to take advantage of the GNUstep classes for easier construction of
+Swarm applications.  However, Swarm must be fit into the GNUstep
+Makefile System because only it knows how to properly create a GNUstep
+application; which is essentially what a Swarm application will become.
+The goal is to minimize changes to Swarm's internal Makefile system;
+while allowing an installed Swarm to act as a 3rd party library within
+the GNUstep Makefile System.
+
+There are several milestones and some long-term goals:
+
+1) COMPLETE: ween Swarm from its own libobjc.  Figure out mframe
+stuffage, move to gcc?
+
+2) COMPLETE: Get a GNUstep application to link with Swarm libraries.  
+
+3) IN PROGRESS: Replace tcl/tk/blt interface with GNUstep one.
+
+4) Analyze what Swarm internal implementations can be replaced with
+GNUstep base/gui classes.
+
+5) IN PROGRESS: Swarm running within NSThread, multi-threaded issues,
+gcc.  Possibly finish out Swarm's ability to dynamically load code
+using NSBundle, and/or package Swarm agent classes into NSBundles.
+
+6) Allow Swarm classes/agents to be palette in GORM.
+
+7) Creation of Swarm application type within ProjectCenter to provide a
+set of templates files with some standard classes, menus, and windows
+pre-defined for the user.
+
+
+Current Progress
+----------------
+August 7, 2003 --
+There has been significant progress since the last report.  I have
+been able to run heatbugs in batch mode from a GNUstep application.  I
+created a GNUstep Makefile fragment for Swarm called swarm.make; by
+including this into your GNUstep Makefile it automatically handles the
+compiling and linking Swarm into the GNUstep application.
+
+After studying Swarm's scheduling design, specifically how the
+integration between running the simulation and processing tcl/tk/blt
+gui events, I realized that such a design will not work within
+GNUstep.  The primary reason is that Swarm's current design maintains
+complete control of the processing loop and occasionally lets
+tcl/tk/blt check for gui events.  In the GNUstep world, GNUstep needs
+to maintain control of the processing loop because it has a much more
+complicated graphical system.  Attempting to alter Swarm's scheduling
+design so that it could be merged with GNUstep's application runloop
+seems very difficult, so I decided a better approach would be to run
+Swarm within its own thread.  This would entail minimal changes to
+either GNUstep's or Swarm's processing loop.
+
+Unfortunately I have discovered that the threading system on my SUSE
+6.4 GNU/Linux system is not up to the task.  It does not pass
+GNUstep's thread tests, and is based upon the older pthreads package
+instead of the newer LinuxThreads which has threads integrated with
+the Linux kernel.  Therefore I have moved to a RedHat 9.0 system, but
+discovered that the default compiler and other tools, though they
+appear to be the right version, have problems.  Review the System
+Setup section below for what packages I needed to get everything
+working.
+
+A Swarm simulation now runs within its own NSThread.  This was
+accomplished by creating two new classes: GNUstepSwarmController and
+GNUstepSwarm.  GNUstepSwarmController is a subclass of NSObject and
+acts as a helper class.  It is responsible for detaching the NSThread
+which the Swarm simulation runs within, and it also provides an API
+for controlling the simulation, essentially your standard start, stop,
+step, etc. operations.  GNUstepSwarmController is meant to hide the
+implementation details of the threads from the user.  GNUstepSwarm is
+a subclass of Swarm and is designed to replace the GUISwarm class for
+Swarm applications.  Current Swarm applications generally have an
+observer swarm class, like HeatbugObserverSwarm in heatbugs, which is
+a subclass of GUISwarm and is responsible for constructing the various
+user interface elements for the simulation.  For Swarm/GNUstep
+applications, that observer swarm class must be made a subclass of
+GNUstepSwarm.  GNUstepSwarm main purpose is to add a schedule with an
+activity that checks for messages from the main gui thread; any
+messages are processed by GNUstepSwarmController.  I have put these
+two classes into the swarmgstep module.
+
+I still don't have much progress with the GUI integration.  One thing
+that I discovered about GNUstep, which seems to be different from
+Apple, is that secondary threads are not allowed to perform any
+graphics operations.  All graphics operations must be performed on the
+main thread.  This means that if a Swarm simulation is running in its
+own thread, and one of the agents wishes to redraw itself due to some
+state change; it cannot just perform some graphic operations.  Instead
+it must message the main gui thread that its state has changed, then
+the main gui thread can perform the necessary graphics operations.  I
+still need to investigate and work out the design in more detail, but
+I expect that an API provided by the GNUstepSwarm class will suffice.
+
+My previous thoughts about the GUI integration entailed writing
+GNUstep versions of the various classes in the tkobjc and tclobjc
+modules.  However, as I delve deeper into understanding the current
+Swarm GUI design; I am beginning to believe that working within that
+current design is not the best approach.  There are numerous reasons
+but the main one goes back to the fundamental differences between
+Swarm and GNUstep; Swarm's tcl/tk gui is procedural design that has
+been carefully merged with Swarm's scheduling capability.  Now that
+I've managed to use threads to keep Swarm's schedule separate from
+GNUstep's application runloop; I don't want to merge them again for
+the sake of the graphical interface.  A primary result of taking this
+path is that Swarm applications will look very different from the
+current applications, though only with respect to GUI interaction.  It
+will also require some more significant modifications to Swarm,
+including possibly leaving removing the simtoolsgui module or
+substantially altering those classes to fit in the GNUstep scheme.
+
+
+April 6, 2003 --
+I've been #ifndef out lines of code that call tcl/tk/blt and
+discovered the module and modulemap stuff.  This lead to turning
+etc/modules into a template file at etc/modules.in; this removed some
+of the Makefile references to the tkobjc and tclobjc modules.  This
+is half the way for the third milestone.
+
+There is also a new module called swarmgstep which currently has the
+full set of classes from tkobjc with all the tcl/tk/blt calls #ifndef
+out.  I could not figure out how to cut out those protocols and
+classes; I suspect that I will need to move further up the train.
+This is the other way for the third milestone.
+
+
+March 26, 2003 --
+I've managed to meet the first two milestones that I've set; that is,
+ween Swarm from its own libobjc, and get a GNUstep app to run heatbugs
+in batch mode.  For that I'm going to checkin my code.  My GNUstep
+application is Calculator :-) from the examples; it writes out the
+unhappiness.output file produced by the batch heatbugs.  This cannot
+be written into a real application until the GNUstep gui is integrated
+into Swarm.
+
+There are issues with heatbugs searching for its heatbugs.scm file
+because its looking under the share directory of SWARMHOME instead of
+the current application directory.
+
+mframe issues still need to be figured out as all of the Swarm tests
+pass except for the forwarding test; it gets a nil pointer exception.
+
+For the next milestone to replace the tcl/tk/blt gui with GNUstep,
+I'm going to first just write the grid display that heatbugs show, so that
+I can get a somewhat working heatbugs as soon as possible.  The
+control panel will be replaced by NSMenu, and the probe map will
+require some thought about how best to implement.
+
+
+System Setup
+------------
+
+I have a RedHat 9.0 GNU/Linux system, it comes with a gcc 3.2.2
+installed; it compiled GNUstep fine but got an internal error when
+trying to compile Swarm, so I used the stock gcc 3.2.2 that I used on
+my previous SUSE system.  This system also has recent versions of
+libtool, autoconf and automake, but Swarm doesn't seem to like them,
+so I used the known working versions.
+
+* Compile and install gcc 3.2.2.  I'm not sure if threads are enabled
+  by default, so I explicitly enable them when configuring gcc.  The
+  basic set of steps is sufficient to compile gcc on this system.
+
+  mkdir gcc-obj
+  cd gcc-obj
+  ../gcc-3.2.2/configure --enable-threads --prefix=<prefix path>
+  make bootstrap
+  make install
+
+* Compile and install GNUstep.  I got the GNUstep source with anon cvs
+  at :pserver:anoncvs@subversions.gnu.org:/cvsroot/gnustep; their HEAD
+  branch is the latest stable releases.  Then review the compile-all
+  in core and the GNUstep-HOWTO in core/make.
+
+* Compile and install Swarm need packages.  I highly recommend that
+  you install these packages into a personal user area or /usr/local;
+  overwriting the system packages will undoubtedly cause problems.
+  Make sure to modify your environment, like PATH and LD_LIBRARY_PATH,
+  to reference these over the system packages before trying to compile
+  Swarm.
+
+  Packages that I installed:
+  libtool 1.4.3
+  autoconf 2.5.2
+  automake 1.5
+  tcl8.4.1
+  tk8.4.1
+  blt2.4z
+  hdf5-1.4.5
+
+* Compile and install Swarm.  The GNUstep port is on its own branch.
+
+  cvs -z3 checkout -r gnustep_port-branch swarm
+  ./autogen.sh
+  ./configure --enable-gnustep --prefix=<prefix path>
+  make
+
+
+The gdb on the system works fine, but it does not contain the objc
+changes; I have not bothered to compile a new gdb with the objc patch
+yet.  The objc patch for gdb can be found on the GNUstep Wiki page,
+http://wiki.gnustep.org.  Look under the misc stuff.
+
+
+Replacing Swarm Internals
+-------------------------
+A list of possible areas to consider for replacing Swarm's internal
+implementation with a GNUstep version.
+
+* Defaults put into GNUstep defaults.
+
+* Collections.
+
+
+Eventual Merge with CVS HEAD Branch
+-----------------------------------
+
+I've created a gnustep_port branch because with the great amount of
+work required; I wanted to checkin all my changes after some
+milestones.  My expectation is that this branch will be merged back
+into HEAD once I better figure out how to code some of the changes.
+
+In anticipation of this merge, I'm mainly commenting out changes until
+I figure out how to handle merging the differences.  One main
+unresolved issue is libobjc which is inactive with GNUstep and active
+without GNUstep.
+
+
+
+Authors
+-------
+Scott Christley
+<schristley@mac.com>
+March 26, 2003

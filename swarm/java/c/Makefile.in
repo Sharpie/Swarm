@@ -25,7 +25,7 @@ VPATH=$(srcdir)
 
 JAVAINCLUDES=@JAVAINCLUDES@
 
-override CPPFLAGS += $(JAVAINCLUDES) -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src $(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir)
+override CPPFLAGS += $(JAVAINCLUDES) $(LIBOBJCINCLUDES) -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src $(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir) $(GNUSTEPLIBINCLUDES)
 
 # Solaris JNI headers have some pragmas
 override CFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
@@ -49,6 +49,11 @@ _LIBJAVASWARMSTUBS_LA = lib${JAVASWARM_LIB_NAME}stubs.la
 all: $(JAVASWARM_DLL) $(LIBJAVASWARM_LA)
 
 $(libjavaswarmstubs_la_OBJECTS): $(top_srcdir)/src/defobj/directory.h
+
+clean:
+	-rm -rf .libs _libs
+	-rm -f *.lo
+	-rm -f *.o
 
 USEDLL = @USEDLL@
 ifeq ($(USEDLL),no)

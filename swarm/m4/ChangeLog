@@ -1,3 +1,7 @@
+2004-07-16  Scott Christley  <schristley@mac.com>
+
+	* acgnustep.m4: New file.
+
 2004-07-16  Marcus G. Daniels <mgd@santafe.edu>
 
 	* actcltk.m4 (md_FIND_BLT): Check for BLT30 and terminate as soon

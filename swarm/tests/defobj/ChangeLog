@@ -1,3 +1,9 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* forwarding.m ([BaseObject -forwardInvocation:]): Use GNUstep
+	mechanism to forward the message instead of Swarm internal.
+	(main): Create NSAutoreleasePool.
+
 2001-02-06  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* forwarding.m ([BaseObject -forward::]): Accomodate rename of

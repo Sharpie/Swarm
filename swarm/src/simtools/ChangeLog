@@ -1,3 +1,11 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* Makefile.am (INCLUDES): Use libobjc definition.  Add GNUstep
+	includes.
+
+	* initSwarm.h (STRINGIFY): Do not define macro if it is already
+	defined.
+
 2003-06-21  Marcus G. Daniels  <mgd@santafe.edu>
 
 	* simtools.h (__objc_exec_class_for_all_init_modules): Declare.

@@ -45,7 +45,14 @@ Library:      defobj
 #endif
 
 #include <misc.h>
+#ifdef GNUSTEP
+#include <Foundation/NSMethodSignature.h>
+#include <mframe.h>
+#else
+#ifdef USE_MFRAME
 #include <objc/mframe.h>
+#endif
+#endif
 
 #import <defobj/directory.h>
 

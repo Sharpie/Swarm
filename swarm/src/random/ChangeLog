@@ -1,3 +1,8 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* Makefile.am (INCLUDES): Use libobjc definition.  Add GNUstep
+	includes.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* ACGgen.h, ACGgen.m, BernoulliDist.h, BernoulliDist.m,

@@ -32,6 +32,7 @@ Library:      collections
 #include <objc/objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isDigit, isSpace
 #include <collections/predicates.h>
+#include "internal.h"
 
 @implementation InputStream_c
 

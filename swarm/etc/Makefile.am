@@ -7,3 +7,4 @@ install-data-local:
 	$(INSTALL_DATA) Makefile.lib $(DESTDIR)$(sysconfdir)/swarm
 	$(INSTALL_DATA) Makefile.common $(DESTDIR)$(sysconfdir)/swarm
 	$(INSTALL_DATA) $(srcdir)/Makefile.rules $(DESTDIR)$(sysconfdir)/swarm
+	$(INSTALL_DATA) $(srcdir)/swarm.make $(DESTDIR)$(sysconfdir)/swarm

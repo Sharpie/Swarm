@@ -1,3 +1,15 @@
+2004-07-16  Scott Christley <schristley@mac.com>
+
+	* Makefile.am (SUBDIRS): Use tcl/tk gui definition.  Add GNUstep
+	definition.
+	(SWARMMODULES): Use tcl/tk gui module definition.  Add GNUstep
+	module definition.
+	(INCLUDES): Use libobjc definition. Add GNUstep includes.
+	(libswarm_la_LDFLAGS): Use libobjc definition
+
+	* SwarmEnvironment.m ([SwarmEnvironment updateDisplay]): Do not
+	call GUI_EVENT_ASYNC() for GNUstep.
+
 2004-02-25  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.am:add libswarmobjc to libswarm deps.

@@ -23,6 +23,8 @@
 #import <objectbase/swarm_rts_routines.h>
 #include <misc.h> // abort, isDigit
 
+#include "internal.h"
+
 const char*
 skip_type_qualifiers (const char *type)
 {

@@ -8,7 +8,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 noinst_HEADERS = include.dists.creating.m include.dists.setting.m include.dists.using.m include.gens.creating.m include.gens.setting.m include.gens.using.m include.xgens.creating.m include.xgens.setting.m include.xgens.using.m
 
-INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I.. -I$(srcdir)/../activity -I$(srcdir)/..
+INCLUDES = $(LIBOBJCINCLUDES) -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I.. -I$(srcdir)/../activity -I$(srcdir)/.. $(GNUSTEPLIBINCLUDES)
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
