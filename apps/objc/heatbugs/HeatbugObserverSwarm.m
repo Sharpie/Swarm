@@ -176,9 +176,9 @@
   unhappyGraph = 
     [EZGraph create: self
              setTitle: "Unhappiness of bugs vs. time"
-             setAxisLabelsX: "time" Y: "unhappiness"];
+             setAxisLabelsX: "time" Y: "unhappiness"
+             setWindowGeometryRecordName: "unhappyGraph"];
   
-  SET_WINDOW_GEOMETRY_RECORD_NAME (unhappyGraph);
   [unhappyGraph enableDestroyNotification: self
                 notificationMethod: @selector (_unhappyGraphDeath_:)];
 
