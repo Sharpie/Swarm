@@ -23,15 +23,16 @@
       ("float" . "float")
       ("unsigned" . "int")
       ("unsigned long" . "int")
-      ("unsigned long long int" . "long"); really?
       ("BOOL" . "boolean")
-      ("void \\*" . "Object")
-      ("ref_t" . "Object")
-      ("val_t" . "Object")
-      ("Protocol \\*" . "Class")
-      ("SEL" . "java.lang.reflect.Method")
-      ;("notify_t" . "Notify_t")
+      ("SEL" . "java_lang_reflect_Method")
+
+      ("void \\*" . freaky)
+      ("ref_t" . freaky)
+      ("val_t" . freaky)
+      ("Protocol \\*" . freaky)
+
       ("notify_t" . freaky)
+      ("unsigned long long int" . "long"); really?
       
       ("const char \\* const \\*" . freaky)
       ("int \\*" . freaky)
@@ -72,7 +73,7 @@
 (defun freaky-message (objc-type)
   )
 
-(defun java-type-for-objc-type (objc-type)
+(defun java-objc-to-java-type (objc-type)
   (if objc-type
       (let ((ret
              (find objc-type *objc-to-java-type-alist*
@@ -86,7 +87,7 @@
       "Object"))
 
 (defun java-print-type (objc-type)
-  (let ((java-type (java-type-for-objc-type objc-type)))
+  (let ((java-type (java-objc-to-java-type objc-type)))
     (unless java-type
       (error "No Java type for `%s'" objc-type))
     (if (freakyp java-type)
@@ -245,7 +246,7 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
-(defmacro with-protocol-file (protocol phase interface &rest body)
+(defmacro with-protocol-java-file (protocol phase interface &rest body)
   (let ((dir (make-symbol "dir")))
     `(let ((,dir
             (concat *stub-directory*
@@ -260,33 +261,145 @@
                               ".java")
         ,@body))))
 
+(defmacro with-protocol-c-file (protocol &rest body)
+  (let ((dir (make-symbol "dir")))
+    `(let ((,dir
+            (concat *stub-directory*
+                    "swarm/"
+                    (module-name (protocol-module ,protocol))
+                    "/")))
+      (ensure-directory ,dir)
+      (with-temp-file (concat ,dir (protocol-name ,protocol) ".c")
+        ,@body))))
+
 (defun java-print-package (protocol)
   (insert "package swarm.")
   (insert (symbol-name (module-sym (protocol-module protocol))))
   (insert ";\n"))
       
 (defun java-print-class-phase-to-file (protocol phase)
-  (with-protocol-file protocol phase nil
-                      (java-print-package protocol)
-                      (java-print-imports protocol phase)
-                      (java-print-imports protocol :setting)
-                      (java-print-class-phase protocol phase)))
+  (with-protocol-java-file protocol phase nil
+                           (java-print-package protocol)
+                           (java-print-imports protocol phase)
+                           (java-print-imports protocol :setting)
+                           (java-print-class-phase protocol phase)))
 
 (defun java-print-class (protocol)
   (loop for phase in '(:creating :using)
         do (java-print-class-phase-to-file protocol phase)))
 
 (defun java-print-interface-phase-to-file (protocol phase)
-  (with-protocol-file protocol phase t
-                      (java-print-package protocol)
-                      (java-print-imports protocol phase)
-                      (unless (eq phase :setting)
-                        (java-print-imports protocol :setting))
-                      (java-print-interface-phase protocol phase)))
+  (with-protocol-java-file protocol phase t
+                           (java-print-package protocol)
+                           (java-print-imports protocol phase)
+                           (unless (eq phase :setting)
+                             (java-print-imports protocol :setting))
+                           (java-print-interface-phase protocol phase)))
 
 (defun java-print-interface (protocol)
   (loop for phase in '(:creating :setting :using)
         do (java-print-interface-phase-to-file protocol phase)))
+
+(defun mangle-signature (str)
+  (with-output-to-string 
+      (with-temp-buffer
+        (let ((beg (point)))
+          (insert str)
+          (let ((end (point)))
+            (save-excursion
+              (save-restriction
+                (narrow-to-region beg end)
+                (goto-char (point-min))
+                (while (search-forward "." nil t)
+                  (replace-match "_"))))))
+        (princ (buffer-string)))))
+
+(defun java-type-to-signature (type)
+  (cond ((string= "boolean" type) "Z")
+        ((string= "byte" type) "B")
+        ((string= "char" type) "C")
+        ((string= "short" type) "S")
+        ((string= "int" type) "I")
+        ((string= "long" type) "J")
+        ((string= "float" type) "F")
+        ((string= "double" type) "D")
+        ((string= "String" type) "Ljava_lang_String_2")
+        ((or (string= "Object" type)
+             (eq type 'freaky)) "Ljava_lang_Object_2")
+        (t (mangle-signature (concat "L" type "_2")))))
+
+(defun java-type-to-native-type (type)
+  (cond ((string= "byte" type) "jbyte")
+        ((string= "char" type) "jchar")
+        ((string= "short" type) "jshort")
+        ((string= "int" type) "jint")
+        ((string= "long" type) "jlong")
+        ((string= "float" type) "jfloat")
+        ((string= "double" type) "jdouble")
+        ((string= "String" type) "jstring")
+        (t "jobject")))
+
+(defun java-argument-convert (argument convert)
+  (let* ((type-and-varname (cdr argument))
+         (varname (cadr type-and-varname)))
+    ;; the case of method with no arguments
+    (when varname
+      (funcall convert
+               (java-objc-to-java-type
+                (car type-and-varname))))))
+
+(defun java-argument-empty-p (argument)
+  (null (third argument)))
+
+(defun java-print-native-method (method protocol)
+  (flet ((insert-arg (arg)
+           (insert-char ?\  30)
+           (insert arg)))
+    (let* ((arguments (method-arguments method))
+           (first-argument (car arguments)))
+      (insert (java-type-to-native-type (java-objc-to-java-type 
+                                         (method-return-type method))))
+      (insert "\n")
+      (insert "Java_swarm_")
+      (insert (module-name (protocol-module protocol)))
+      (insert "_")
+      (insert (car first-argument))
+      (loop for argument in (cdr arguments)
+            for nameKey = (car argument)
+            when nameKey
+            do
+            (insert (upcase (substring nameKey 0 1)))
+            (insert (substring nameKey 1)))
+      (unless (java-argument-empty-p first-argument)
+        (insert "_")
+        (insert (java-argument-convert first-argument
+                                       #'java-type-to-signature))
+        (loop for argument in (cdr arguments)
+              do
+              (insert "_")
+              (insert (java-argument-convert argument
+                                             #'java-type-to-signature))))
+      (insert " (JNIEnv *env, jobject jobj")
+      (unless (java-argument-empty-p (car arguments))
+        (loop for argument in arguments
+              do
+              (insert ",\n")
+              (insert-arg
+               (java-argument-convert argument #'java-type-to-native-type))
+              (insert " ")
+              (insert (third argument))))
+      (insert ")\n")
+      (insert "{\n")
+      (insert "}\n"))))
+
+(defun java-print-native-class (protocol)
+  (with-protocol-c-file protocol
+    (insert "#include <jni.h>\n")
+    (loop for method in (protocol-method-list protocol)
+          unless (removed-method-p method)
+          do
+          (java-print-native-method method protocol)
+          (insert "\n"))))
   
 (defun java-print-classes ()
   (interactive)
@@ -296,8 +409,11 @@
         do
         (setq *last-protocol* protocol)
         (java-print-interface protocol)
-        (java-print-class protocol)))
+        (java-print-class protocol)
+        (java-print-native-class protocol)))
 
 (defun java-run-all ()
   (load-and-process-modules)
   (java-print-classes))
+
+

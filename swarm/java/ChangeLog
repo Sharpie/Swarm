@@ -3,9 +3,20 @@
 	* java-stub.el (removed-method-p): Avoid all methods with an
 	ellipsis argument.
 	(java-print-methods-in-phase): Remove.
-	(java-print-interface-methods-in-phase): Loop over protocol methods.
+	(java-print-interface-methods-in-phase): Loop over protocol
+	methods.
 	(java-print-class-methods-in-phase): Loop over expanded list of
 	methods.
+	(*objc-to-java-type-alist*): Treat void*, ref_t, val_t, Protocol*,
+	and unsigned long long int as freaky.
+	(java-objc-to-java-type): Renamed from java-type-for-objc-type.
+	(with-protocol-java-file): Renamed from with-protocol-file.
+	(with-protocol-c-file): New macro.
+	(mangle-signature, java-type-to-signature,
+	java-type-to-native-type, java-argument-convert,
+	java-argument-empty-p, java-print-native-method,
+	java-print-native-class): New functions.
+	(java-print-classes): Call java-print-native-class.
 
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
