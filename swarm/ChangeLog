@@ -2,7 +2,8 @@
 
 	* Makefile.conf (SYSLIBS): Make SYSLIBS conditional on SWARMBACKEND.
 	Remove dependence on tclobjc in Java config.
-
+	(SFI): Add SWARMBACKEND conditional, with AWT variables.
+	
 1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (mgd-SFI-Solaris): Add FF{PREFIX,INC,LIB} and use in
