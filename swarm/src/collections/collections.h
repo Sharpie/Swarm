@@ -299,6 +299,7 @@ USING
 //M: offset.
 - setOffset: (unsigned)offset;
 
+#ifndef IDL
 //M: The compare: message compares the current location of one index with
 //M: the current location of another index passed as its argument.  If the
 //M: two indexes have the same location, compare: returns zero.  Otherwise,
@@ -309,6 +310,7 @@ USING
 //M: End or an immediately adjacent member, compare: returns the
 //M: UnknownOffset integer value.
 - (int)compare: anIndex;
+#endif
 
 //#: Predicate to test if index is at the start.
 #define INDEXSTARTP(obj) ((id) (obj) == (id) Start)
@@ -340,21 +342,10 @@ externvar id <Error> OffsetOutOfRange, NoMembers,
 //D: collection.  Methods implemented offer the same functionality as 
 //D: Index class does, except that traversal is randomized. 
 CREATING
-+ createBegin: (id <Zone>)aZone;
 - setCollection: aCollection;
 - setUniformRandom: rnd;
-- createEnd;
 USING
 - reshuffle;
-- next;
-- prev;
-- findNext: anObject;
-- findPrev: anObject;
-- get;
-- (id <Symbol>)getLoc;
-- (void)setLoc: (id <Symbol>)locSymbol;
-- (int)getOffset;
-- setOffset: (unsigned)offset;
 @end;
 
 @protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
@@ -1208,8 +1199,6 @@ CREATING
 //M: to the Shuffler (run after createBegin:).
 - setUniformRandom: dist;
 
-- createEnd;
-
 //M: The create:setUniformRandom method creates the Shuffler
 //M: and connects the supplied distribution object.
 + create: (id <Zone>)aZone setUniformRandom: dist;
@@ -1245,10 +1234,8 @@ USING
 //D: of contents of Permutation will not reflect on the original collection.
 
 CREATING
-+ createBegin: (id <Zone>)aZone;
 - setCollection: collection;
 - setUniformRandom: rnd;
 @end
-
 
 #import <collections/types.h>

@@ -1,3 +1,12 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* collections.h ([Index -compare:]): Protect with #ifndef IDL.
+	([PermutedIndex +createBegin:, -createEnd, -next, -prev,
+	-findNext, -findPrev, -get, -getLoc, -setLoc:, getOffset,
+	-setOffset:]): Remove.
+	([ListShuffler -createEnd]): Remove.
+	([Permutation +createBegin:]): Remove.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Makefile.am (REVISION): Bump.  Swarm 2.1.1 frozen.
