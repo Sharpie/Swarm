@@ -13,7 +13,7 @@
 
 - seedFoodWithProb: (float)seedProb
 {
-  int x,y;
+  unsigned int x,y;
   
   food = 0;
 

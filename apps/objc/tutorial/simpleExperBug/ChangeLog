@@ -1,3 +1,11 @@
+2003-03-11  David H. Clements <dclement@mines.edu>
+
+	* FoodSpace.m: Removed the comparison between an unsigned and a signed
+	value by making x and y unsigned ints--this fits with the Discrete2d
+	value types as well.
+	
+	* ModelSwarm.m: Removed comparison between unsigned and signed in buildObjects.
+
 2000-04-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile (SWARMHOME, APPVERSION): Update.

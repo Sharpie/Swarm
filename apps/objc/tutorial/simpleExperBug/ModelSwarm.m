@@ -75,7 +75,7 @@
 - buildObjects
 {
   Bug *aBug;
-  int x,y;
+  unsigned int x,y;
   
   // Here, we create the objects in the model
 
