@@ -1,3 +1,18 @@
+1999-09-07  Alex Lancaster  <alex@santafe.edu>
+
+	* EZGraph.[hm] (EZSequence): Make interface conform to protocol.
+	Add PHASE tags in implementation.
+	(EZAverageSequence): Likewise.
+
+	* analysis.h (EZAverageSequence): New protocol, make RETURNABLE.
+
+	* analysis.h (EZGraph), EZGraph.[hm]:
+	([EZGraph -createSequence:withFeedFrom:andSelector:]) returns an
+	object of type EZSequence.
+	([EZGraph
+	-create{Average,Min,Max,Count}Sequence:withFeedFrom:andSelector:]):
+	returns an object of type EZAverageSequence.
+	
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0 released.

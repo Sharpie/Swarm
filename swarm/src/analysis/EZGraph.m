@@ -273,7 +273,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
   return self;
 }
 
-- createSequence: (const char *)aName
+- (id <EZSequence>)createSequence: (const char *)aName
     withFeedFrom: anObj 
      andSelector: (SEL)aSel
 {
@@ -287,7 +287,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
   return aSeq;
 }
 
-- createAverageSequence: (const char *)aName 
+- (id <EZAverageSequence>)createAverageSequence: (const char *)aName 
            withFeedFrom: aCollection 
             andSelector: (SEL)aSel
 {
@@ -310,7 +310,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
   return aSeq;
 }
 
-- createTotalSequence: (const char *)aName
+- (id <EZAverageSequence>)createTotalSequence: (const char *)aName
          withFeedFrom: aCollection 
           andSelector: (SEL)aSel
 {
@@ -333,7 +333,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
   return aSeq;
 }
 
-- createMinSequence: (const char *)aName 
+- (id <EZAverageSequence>)createMinSequence: (const char *)aName 
        withFeedFrom: aCollection 
         andSelector: (SEL)aSel
 {
@@ -357,7 +357,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
 }
 
-- createMaxSequence: (const char *)aName
+- (id <EZAverageSequence>)createMaxSequence: (const char *)aName
        withFeedFrom: aCollection 
         andSelector: (SEL)aSel
 {
@@ -381,7 +381,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
 }
 
-- createCountSequence: (const char *)aName
+- (id <EZAverageSequence>)createCountSequence: (const char *)aName
          withFeedFrom: aCollection 
           andSelector: (SEL) aSel
 {
@@ -458,6 +458,10 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
 @implementation EZSequence
 
+PHASE(Creating)
+PHASE(Setting)
+PHASE(Using)
+
 - setActiveOutFile: anActiveOutFile
 {
   activeOutFile = anActiveOutFile;
@@ -518,6 +522,10 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
 
 @implementation EZAverageSequence
+
+PHASE(Creating)
+PHASE(Setting)
+PHASE(Using)
 
 - setAverager: anAverager
 {

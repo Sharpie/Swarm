@@ -59,27 +59,27 @@
          withFeedFrom: anObj 
           andSelector: (SEL)aSel;
 
-- createSequence: (const char *)aName
+- (id <EZSequence>)createSequence: (const char *)aName
     withFeedFrom: anObj 
      andSelector: (SEL) aSel;
 
-- createAverageSequence: (const char *)aName 
+- (id <EZAverageSequence>)createAverageSequence: (const char *)aName 
            withFeedFrom: aCollection 
             andSelector: (SEL) aSel;
 
-- createTotalSequence: (const char *)aName 
+- (id <EZAverageSequence>)createTotalSequence: (const char *)aName 
          withFeedFrom: aCollection 
           andSelector: (SEL) aSel;
 
-- createMinSequence: (const char *)aName
+- (id <EZAverageSequence>)createMinSequence: (const char *)aName
        withFeedFrom: aCollection 
         andSelector: (SEL) aSel;
 
-- createMaxSequence: (const char *)aName
+- (id <EZAverageSequence>)createMaxSequence: (const char *)aName
        withFeedFrom: aCollection 
         andSelector: (SEL) aSel;
 
-- createCountSequence: (const char *)aName
+- (id <EZAverageSequence>)createCountSequence: (const char *)aName
          withFeedFrom: aCollection 
           andSelector: (SEL) aSel;
 
@@ -96,7 +96,7 @@
 
 @end
 
-@interface EZSequence : SwarmObject
+@interface EZSequence : SwarmObject <EZSequence>
 {
   id activeOutFile;
   id activeGrapher;
@@ -113,7 +113,7 @@
 
 @end
 
-@interface EZAverageSequence : EZSequence
+@interface EZAverageSequence : EZSequence <EZAverageSequence>
 {
   id averager;
 }
