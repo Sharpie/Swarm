@@ -309,7 +309,7 @@ objc_class_for_class_name (const char *classname)
         
         // If non-CREATABLE then implementation will be set to Creating
         // and class will not be a real one, retry by appending "_c"
-        if ([ret isInstance] && [ret getImplementation] == Creating)
+        if (ret && [ret isInstance] && [ret getImplementation] == Creating)
           {
             char buf[len + 2];
 
