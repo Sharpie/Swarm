@@ -1,6 +1,8 @@
 1998-12-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* DefClass.[hm] (CreatedClass_s): Return self for setName:.
+	* defobj.h (Symbol): Remove setName:.
+
+	* DefClass.[hm], defobj.h (CreatedClass): Return self for setName:.
 
 1998-12-18  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 

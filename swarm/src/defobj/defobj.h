@@ -502,12 +502,6 @@ CREATING
 //M: convenience.  See combination messages for a summary of conventions
 //M: on combination messages.
 + create: aZone setName: (const char *)name;
-
-//M: The Name option may be set only at create time.  Its value is a
-//M: null-terminated character string that remains fixed for the life of
-//M: the object.  The inherited getName message returns this name from a
-//M: created instance.
-- (void)setName: (const char *)name;
 @end
 
 @protocol EventType <Symbol>
@@ -759,7 +753,7 @@ USING
 //D: Class with variables and/or methods defined at runtime.
 
 CREATING
-- (void)setName: (const char *)name;
+- setName: (const char *)name;
 - (void)setClass: aClass;
 - (void)setSuperclass: aClass;
 - (void)setDefiningClass: aClass;
