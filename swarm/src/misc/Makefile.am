@@ -21,6 +21,8 @@ EXTRA_DIST = memchr.c memcpy.c memset.c \
 	stpcpy.c strchr.c strcmp.c strlen.c strncmp.c \
 	strndup.c strnlen.c strpbrk.c strsep.c strtoll.c argp.h $(ARGP_SRC)
 
+EXTRA_HEADERS = argp.h
+
 SRC = xmalloc.c find_executable.c dropdir.c avl.c avltr.c debugabort.c strdup.c quicksort.c
 
 noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h

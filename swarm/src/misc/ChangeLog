@@ -1,7 +1,6 @@
 2001-09-07  Marcus G. Daniels  <mgd@condor>
 
-	* Makefile.am (EXTRA_DIST): Move argp.h from EXTRA_HEADERS to here.
-	(EXTRA_HEADERS): Remove.
+	* Makefile.am (EXTRA_DIST): Add argp.h.
 
 2001-06-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
