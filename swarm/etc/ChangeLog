@@ -1,3 +1,8 @@
+1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* Makefile.common.in (SUPPORTLDFLAGS): Move HDF5LDFLAGS to the
+	front.
+
 1999-12-25    <mgd@DRONE>
 
 	* protocol.el (fixup-method): Add conversion for getPopulation.
