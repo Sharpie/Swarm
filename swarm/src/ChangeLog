@@ -1,3 +1,7 @@
+1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules (CPPFLAGS): Append -Dextern=@EXPORT_EXTERN@.
+
 1999-05-27  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (swarm_dll_SOURCES): Set to dllinit.c, so automake
