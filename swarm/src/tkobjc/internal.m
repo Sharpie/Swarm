@@ -283,10 +283,10 @@ tkobjc_raster_flush (Raster *raster)
 void
 tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight)
 {
+#ifdef _WIN32
   Tk_Window tkwin = raster->tkwin;
   Display *display = Tk_Display (tkwin);
   Window w = Tk_WindowId (tkwin);
-#ifdef _WIN32
   HPALETTE oldPalette, palette;
   HBRUSH brush;
   HWND hwnd = TkWinGetHWND (w);
