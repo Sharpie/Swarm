@@ -1,3 +1,7 @@
+2002-03-09  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* Map.m ([Map_c -lispIn:]): Fix integer key handling.  
+
 2002-01-16    <mgd@marcus.santafe.edu>
 
 	* collections.h (INDEX{STARTP,ENDP}, REMOVEDP, ARCHIVERDOTP): Cast

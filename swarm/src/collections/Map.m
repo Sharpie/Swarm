@@ -228,7 +228,7 @@ PHASE(Setting)
           
           if (valuep (keyExpr))
             {
-              if ([keyExpr getValueType] != _C_INT)
+              if ([keyExpr getValueType] != fcall_type_slonglong)
                 raiseEvent (InvalidArgument, "ArchiverValue not integer");
               key = (id) (PTRINT) [keyExpr getInteger];
             }
