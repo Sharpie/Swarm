@@ -26,6 +26,7 @@ Boston, MA 02111-1307, USA.  */
 
 #include "objc.h"
 #include "runtime.h"		/* the kitchen sink */
+#include <string.h> // memset
 
 #if OBJC_WITH_GC
 # include <gc.h>

@@ -1,3 +1,7 @@
+1999-05-16  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
+
+	* archive.c, objects.c, selector.c: Include string.h.
+
 1999-05-15  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
 
 	* config/alpha/mframe-generic.h (MFRAME_STACK_STRUCT): Add.

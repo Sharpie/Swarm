@@ -32,6 +32,8 @@ Boston, MA 02111-1307, USA.  */
 #include <stdlib.h>
 #endif
 
+#include <string.h> /* strcpy, strlen */ 
+
 extern int fflush(FILE*);
 
 #define ROUND(V, A) \
