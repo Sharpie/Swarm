@@ -1,3 +1,11 @@
+1999-02-26  Alex Lancaster  <alex@santafe.edu>
+
+	* Value2dDisplay.m ([Value2dDisplay -setDiscrete2dToDisplay:]):
+	Check for Discrete2d instead of _Discrete2d.
+
+	* Object2dDisplay.m ([Object2dDisplay -setDiscrete2dToDisplay:]):
+	Likewise.
+	
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* space.h: Merge _Discrete2d with Discrete2d.  Add CREATABLE
