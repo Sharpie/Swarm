@@ -29,10 +29,6 @@ Library:      collections
 #define GROUP_KEYS "keys"
 #define GROUP_VALUES "values"
 
-#define PTRINT long
-#define PTRINTFMT "%ld"
-#define PTRUINT unsigned long
-#define PTRUINTFMT "%lu"
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
