@@ -1,4 +1,7 @@
 MODULE = random
+CURRENT = 0
+REVISION = 0
+AGE = 0
 randomdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
@@ -6,13 +9,18 @@ include $(top_srcdir)/src/Makefile.rules
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I.. -I$(srcdir)/..
 
 lib_LIBRARIES = librandom.a
+lib_LTLIBRARIES = librandom.la
+librandom_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
-librandom_a_SOURCES = ACGgen.m BernoulliDist.m C2LCGXgen.m C2MRG3gen.m \
+SRC = ACGgen.m BernoulliDist.m C2LCGXgen.m C2MRG3gen.m \
 	C2TAUSgen.m C3MWCgen.m C4LCGXgen.m ExponentialDist.m GammaDist.m \
 	LCGgen.m LogNormalDist.m MRGgen.m MT19937gen.m MWCAgen.m MWCBgen.m \
 	NormalDist.m PMMLCGgen.m PSWBgen.m RWC2gen.m RWC8gen.m \
 	RandomBitDist.m SCGgen.m SWBgen.m TGFSRgen.m UniformDoubleDist.m \
 	UniformIntegerDist.m UniformUnsignedDist.m random.m
+
+librandom_a_SOURCES = $(SRC)
+librandom_la_SOURCES = $(SRC)
 
 random_HEADERS = ACGgen.h BernoulliDist.h C2LCGXgen.h C2MRG3gen.h C2TAUSgen.h \
 	C3MWCgen.h C4LCGXgen.h ExponentialDist.h GammaDist.h LCGgen.h \

@@ -1,4 +1,7 @@
 MODULE = collections
+CURRENT = 0
+REVISION = 0
+AGE = 0
 collectionsdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
@@ -6,14 +9,19 @@ include $(top_srcdir)/src/Makefile.rules
 INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj
 
 lib_LIBRARIES = libcollections.a
+lib_LTLIBRARIES = libcollections.la
 
 module_headers = classes.h types.h
 
 BUILT_SOURCES = $(module_headers)
 
-libcollections_a_SOURCES = Array.m Collection.m InputStream.m List.m \
+SRC = Array.m Collection.m InputStream.m List.m \
 	List_linked.m List_mlinks.m Map.m OrderedSet.m OutputStream.m Set.m \
 	String.m collections.m predicates.m
+
+libcollections_a_SOURCES = $(SRC)
+libcollections_la_SOURCES = $(SRC)
+libcollections_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
 collections_HEADERS = Array.h Collection.h InputStream.h List.h List_GEN.h \
 	List_linked.h List_mlinks.h Map.h OrderedSet.h OutputStream.h Set.h \

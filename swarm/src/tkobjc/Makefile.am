@@ -1,4 +1,7 @@
 MODULE = tkobjc
+CURRENT = 0
+REVISION = 0
+AGE = 0
 tkobjcdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
@@ -11,8 +14,9 @@ INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objec
 CFLAGS += $(X_CFLAGS)
 
 lib_LIBRARIES = libtkobjc.a
+lib_LTLIBRARIES = libtkobjc.la
 
-libtkobjc_a_SOURCES = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
+SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
 	Canvas.m CanvasAbstractItem.m CanvasItem.m CheckButton.m Circle.m \
 	ClassDisplayHideButton.m ClassDisplayLabel.m Colormap.m \
 	CompleteProbeDisplayLabel.m CompositeItem.m Entry.m Form.m Frame.m \
@@ -22,6 +26,10 @@ libtkobjc_a_SOURCES = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
 	SimpleProbeDisplayHideButton.m SuperButton.m TextItem.m TkExtra.m \
 	VarProbeEntry.m VarProbeLabel.m Widget.m WindowGeometryRecord.m \
 	ZoomRaster.m common.m internal.m tkobjc.m win32dib.c
+
+libtkobjc_a_SOURCES = $(SRC)
+libtkobjc_la_SOURCES = $(SRC)
+libtkobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
 tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	CanvasAbstractItem.h CanvasItem.h CheckButton.h Circle.h \

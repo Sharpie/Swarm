@@ -1,17 +1,25 @@
 MODULE = objectbase
+CURRENT = 0
+REVISION = 0
+AGE = 0
 objectbasedir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
 lib_LIBRARIES = libobjectbase.a
+lib_LTLIBRARIES = libobjectbase.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc -I$(ffidir)/include
 
-libobjectbase_a_SOURCES = ActivityControl.m Arguments.m \
+SRC = ActivityControl.m Arguments.m \
 	CompleteVarMap.m CompleteProbeMap.m \
 	CustomProbeMap.m CustomProbeMap.m DefaultProbeMap.m EmptyProbeMap.m \
 	MessageProbe.m Probe.m ProbeLibrary.m ProbeMap.m Swarm.m \
 	SwarmObject.m VarProbe.m probing.m swarm_rts_routines.m
+
+libobjectbase_a_SOURCES = $(SRC)
+libobjectbase_la_SOURCES = $(SRC)
+libobjectbase_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
 objectbase_HEADERS = ActivityControl.h Arguments.h CompleteProbeMap.h \
 	CompleteVarMap.h CustomProbeMap.h DefaultProbeMap.h EmptyProbeMap.h \
