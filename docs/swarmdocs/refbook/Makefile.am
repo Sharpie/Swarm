@@ -45,7 +45,7 @@ $(top_builddir)/protocol.elc: $(swarm_srcdir)/etc/protocol.el $(top_builddir)/co
 	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/protocol.el
 
 $(top_builddir)/sgml.elc: $(top_srcdir)/sgml.el $(top_builddir)/protocol.elc $(top_builddir)/common.elc
-	-cp $(top_srcdir)/sgml.el $(top_builddir)
+	-cp -f $(top_srcdir)/sgml.el $(top_builddir)
 	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/sgml.el
 
 refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
