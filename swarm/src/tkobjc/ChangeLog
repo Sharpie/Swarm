@@ -1,3 +1,8 @@
+1998-12-31  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Widget.m ([Widget -drop]): Handle widgets which had shell
+	Frames at create time.
+
 1998-12-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* ArchivedGeometryWidget.m: Include defobj.h instead of declaring

@@ -287,10 +287,18 @@ get_geometry_element (id widget, unsigned offset)
 { 
   [self disableDestroyNotification];
 
-  if (!destroyedFlag && parent == nil)
-    Tk_DestroyWindow (tkobjc_nameToWindow ([self getWidgetName]));
-  
-  [super drop];
+  if (!destroyedFlag)
+    {
+      if (parent == nil)
+	{
+	  Tk_DestroyWindow (tkobjc_nameToWindow ([self getWidgetName]));
+	  [super drop];
+	}
+      // If parent has default name, assume it is a shell frame for
+      // a single widget.
+      else if (strncmp ([parent getWidgetName], ".w", 2) == 0)
+	[parent drop];
+    }
 }
 
 - (BOOL)getDestroyedFlag
