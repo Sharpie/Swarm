@@ -970,7 +970,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
           }
         void add (jobject class)
           {
-            char type;
+            char type = '\0';
               
             jboolean classp (jclass matchClass)
               {
