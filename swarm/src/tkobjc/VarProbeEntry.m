@@ -77,21 +77,24 @@ tkobjc_bindFocusInToSetSelection (id widget)
 
 PHASE(Creating)
 
-- setProbeType: (char)theProbeType
+- setVarProbe: aVarProbe
 {
-  probeType = theProbeType;
+  varProbe = aVarProbe;
+
   return self;
 }
 
 - setInteractiveFlag: (BOOL)theInteractiveFlag
 {
   interactiveFlag = theInteractiveFlag;
+
   return self;
 }
 
 - setOwner: theOwner
 {
   owner = theOwner;
+
   return self;
 }
 
@@ -109,7 +112,7 @@ PHASE(Creating)
   else
     [self setActiveFlag: NO];
 
-  if (probeType == _C_ID)
+  if (([varProbe getProbedType])[0] == _C_ID)
     {
       tkobjc_bindButton3ToSpawn (self, owner, 0);
       tkobjc_dragAndDropTarget (self, owner);
@@ -118,6 +121,13 @@ PHASE(Creating)
   else
     tkobjc_bindButton3ToBeUnhelpful (self);
   return self;
+}
+
+PHASE(Using)
+
+- (id <VarProbe>)getVarProbe
+{
+  return varProbe;
 }
 
 @end

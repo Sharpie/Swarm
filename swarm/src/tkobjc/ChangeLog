@@ -1,3 +1,16 @@
+1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* common.m (tkobjc_dragAndDropTarget, dragAndDropTargetArg): Pass
+	window name (%%W) to idReceive:.
+
+	* VarProbeEntry.m ([VarProbeEntry -createEnd]): Replace call
+	to getProbedType with ([getVarProbe getProbedType])[0].
+
+	* VarProbeEntry.h (VarProbeEntry): Replace probeType with varProbe.
+
+	* VarProbeEntry.[hm] ([VarProbeEntry -setVarProbe:]): Change accessor
+	for same.  Add getVarProbe.
+
 1998-07-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* simtools.tcl (do_package): Pass window to package:.

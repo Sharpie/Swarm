@@ -16,7 +16,7 @@ tkobjc_dragAndDropTarget (id target, id object)
 {
   [globalTkInterp
     eval:
-      "drag&drop target %s handler id {%s idReceive}",
+      "drag&drop target %s handler id {%s idReceive: %%W}",
     [target getWidgetName],
     [object getObjectName]];
 }
@@ -25,7 +25,7 @@ static void
 dragAndDropTargetArg (id target, id object, int arg)
 {
   [globalTkInterp
-    eval: "drag&drop target %s handler id {%s idReceive: %d}", 
+    eval: "drag&drop target %s handler id {%s idReceive: %%W arg: %d}", 
     [target getWidgetName],
     [object getObjectName],
     arg];

@@ -9,13 +9,14 @@
 @interface VarProbeEntry: Entry <_VarProbeEntry>
 {
   id owner;
-  char probeType;
+  id <VarProbe> varProbe;
   BOOL interactiveFlag;
 }
 
 - setInteractiveFlag: (BOOL)interactiveFlag;
 - setOwner: owner;
-- setProbeType: (char)probeType;
+- setVarProbe: varProbe;
 - createEnd;
+- getVarProbe;
 
 @end
