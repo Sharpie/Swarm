@@ -315,7 +315,7 @@ dynamicCallOn (const char *probedType,
     }
 #endif
   [fc drop];
-  // [fa drop];
+  [fa drop];
 }
 
 - (val_t)dynamicCallOn: target
