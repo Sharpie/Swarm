@@ -1,5 +1,8 @@
 1999-12-22    <mgd@nest.swarm.org>
 
+	* Action.m ([ActionTo_c -_createCall_:]): Use setJavaFlag:
+	followed by setSelector: instead of previous combination method.
+
 	* Action.[hm] ([FActionForEachHeterogeneous_c -createEnd]): Remove.
 	This was just a check that the call type was Objective C, which
 	was not a necessary constraint.
@@ -15,7 +18,7 @@
 1999-12-15    <mgd@nest.swarm.org>
 
 	* Action.m ([ActionTo_c -_createCall_:]): Use new FCall
-	+create:withTarget:withSelector:withArguments: method instead of
+	+create:target:selector:arguments: method instead of
 	conditional on respondsTo: M(isJavaProxy).
 
 1999-12-13    <mgd@nest.swarm.org>

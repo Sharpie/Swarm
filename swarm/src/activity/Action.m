@@ -245,15 +245,15 @@ PHASE(Using)
   id <FArguments> arguments =
     [FArguments createBegin: getCZone (getZone (self))];
   
-  [arguments setSelector: selector
-             setJavaFlag: [theTarget respondsTo: M(isJavaProxy)]];
+  [arguments setJavaFlag: [theTarget respondsTo: M(isJavaProxy)]];
+  [arguments setSelector: selector];
   [self _addArguments_: arguments];
   arguments = [arguments createEnd];
 
   return [FCall create: getCZone (getZone (self))
-                withTarget: theTarget
-                withSelector: selector
-                withArguments: arguments];
+                target: theTarget
+                selector: selector
+                arguments: arguments];
 }
 
 - (void)_performAction_: (id <Activity>)anActivity
