@@ -781,7 +781,7 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
   unsigned width = pixmap->width;
   unsigned height = pixmap->height;
 #ifndef _WIN32
-  unsigned ncolors = pixmap->xpmimage.ncolors
+  unsigned ncolors = pixmap->xpmimage.ncolors;
 #else
   dib_t *dib = pixmap->pixmap;
   unsigned ncolors = dib->colorMapSize;
