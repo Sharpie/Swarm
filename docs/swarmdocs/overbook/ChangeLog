@@ -1,3 +1,9 @@
+1999-01-13  Alex Lancaster  <alex@santafe.edu>
+
+	* overmeta.sgml: Include the newly-defined
+	{doc,swarm}-legalnotice entities from global.ent.  Move CORPAUTHOR
+	inside BOOKBIBLIO.
+
 1998-12-27  Alex Lancaster  <alex@santafe.edu>
 
 	* over01.sgml, over02.sgml, over03.sgml, over04.sgml, over05.sgml:

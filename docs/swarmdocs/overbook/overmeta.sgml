@@ -4,11 +4,13 @@
 
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
 
-  <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
-
   <BOOKBIBLIO>
+  <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
     &bibliodata;
   </BOOKBIBLIO>
+
+  &doc-legalnotice;
+  &swarm-legalnotice;
 
   <ABSTRACT>
     <TITLE>A Top-Down Introduction To Implementing an Experiment Using
