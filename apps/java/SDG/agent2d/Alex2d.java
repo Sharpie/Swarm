@@ -9,39 +9,54 @@ import swarm.defobj.Zone;
 import swarm.space.Grid2d;
 import swarm.gui.Raster;
 
+import java.util.Hashtable;
+
 import swarm.Selector;
 import swarm.Globals;
 
 import ObserverSwarm;
 
-public class Alex2d extends Agent2d {
-  Schedule schedule;
+public class Alex2d extends SocialAgent2d {
+  Hashtable people;
+
+  class Location {
+    int x;
+    int y;
+
+    Location (int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
 
   public Alex2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 2, .2, .1, 40, 20);
+    super (aZone, world, x, y, 2, .2, .1, 40, 20, 4);
 
-    schedule = new ScheduleImpl (aZone, 1);
-
-    try {
-      schedule.at$createActionTo$message
-        (0,
-         this,
-         new Selector (getClass (), "stepAgent", false));
-    } catch (Exception e) {
-      e.printStackTrace (System.err);
-      System.exit (1);
-    }
-    color = ObserverSwarm.AlexTourColor;
+    people = new Hashtable (10);
   }
   
-  public Activity activateIn (Swarm context) {
-    super.activateIn (context);
+  public void stepSocialAgent (Agent2d neighbor) {
+    if (neighbor != null) {
+      Location location = (Location) people.get (neighbor);
 
-    schedule.activateIn (this);
-    return getActivity ();
+      if (location != null)
+        {
+          System.out.println ("Updating neighbor " + neighbor);
+          location.x = neighbor.x;
+          location.y = neighbor.y;
+        }
+      else
+        {
+          System.out.println ("New neighbor " + neighbor);
+          location = new Location (neighbor.x, neighbor.y);
+          people.put (neighbor, location);
+        }
+    }
+    randomWalk ();
   }
 
-  public void stepAgent () {
-    randomWalk ();
+  public Object drawSelfOn (Raster r) {
+    r.drawPointX$Y$Color (x, y, ObserverSwarm.AlexTourColor);
+    return this;
   }
 }

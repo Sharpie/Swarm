@@ -119,7 +119,18 @@ public class Agent2d extends SwarmImpl {
       world.putObject$atX$Y (this, x, y);
     }
   }
-  
+
+  public void moveAdjacentToNeighbor (Agent2d neighbor) {
+    if (neighbor.x > x)
+      moveAgent (neighbor.x - x - 1, neighbor.y - y);
+    else if (neighbor.y > y)
+      moveAgent (neighbor.x - x, neighbor.y - y - 1);
+    else if (x > neighbor.x)
+      moveAgent (neighbor.x - x + 1, neighbor.y - y);
+    else if (y > neighbor.y)
+      moveAgent (neighbor.x - x + 1, neighbor.y - y + 1);
+  }
+
   public double sampleResistProbability () {
     double prob;
 
