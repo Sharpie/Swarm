@@ -770,8 +770,10 @@ USING
 - (id <FActionForEachHeterogeneous>)at: (timeval_t)tVal createFActionForEachHeterogeneous: target call: (id <FCall>)call;
 - (id <FActionForEachHomogeneous>)at: (timeval_t)tVal createFActionForEachHomogeneous: target call: (id <FCall>)call;
 
+#ifndef IDL
 //M: Remove action from either schedule or concurrent group.
 - remove: anAction;
+#endif
 
 - (id <ActionGroup>)insertGroup: (timeval_t)tVal;
 
@@ -935,8 +937,10 @@ USING
 //M: Method to sort concurrent merge actions in the order of swarm activation.
 - (void)addLast: mergeAction;
 
+#ifndef IDL
 //M: Method to remove concurrent merge action from sorted group
 - remove: mergeAction;
+#endif
 @end
 
 //G: Error issued when an internal zone is expected, but absent.

@@ -1,3 +1,8 @@
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* activity.h ([{ActivationOrder,Schedule} remove:]): Hide in
+	a #ifndef IDL.
+
 2000-05-15  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* XActivity.m ([Activity_c -_run_]): Remove (subactivity) 
