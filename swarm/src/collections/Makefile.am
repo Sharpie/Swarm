@@ -16,7 +16,7 @@ BUILT_SOURCES = $(TYPEINFO)
 
 EXTRA_DIST = List_GEN.m
 
-SRC = Array.m Collection.m InputStream.m List.m \
+SRC = Array.m Collection.m InputStream.m Stream.m List.m \
 	List_linked.m List_mlinks.m ListShuffler.m \
 	Map.m OrderedSet.m OutputStream.m Set.m \
 	Permutation.m StringObject.m collections.m predicates.m
@@ -24,10 +24,10 @@ SRC = Array.m Collection.m InputStream.m List.m \
 libcollections_la_SOURCES = $(SRC)
 libcollections_la_LDFLAGS = @inst_LDFLAGS@
 
-collections_HEADERS = Array.h Collection.h InputStream.h List.h List_GEN.h \
-	List_linked.h List_mlinks.h ListShuffler.h Map.h OrderedSet.h \
-	OutputStream.h Set.h Permutation.h StringObject.h collections.h \
-	predicates.h
+collections_HEADERS = Array.h Collection.h InputStream.h Stream.h \
+	List.h List_GEN.h List_linked.h List_mlinks.h ListShuffler.h \
+	Map.h OrderedSet.h OutputStream.h Set.h Permutation.h StringObject.h \
+	collections.h predicates.h
 
 install-data-local:
 	$(INSTALL_DATA) classes.h $(collectionsdir)

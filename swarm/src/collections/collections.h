@@ -996,9 +996,10 @@ USING
 CREATING
 + create: (id <Zone>)aZone setFileStream: (FILE *)fileStream;
 - setFileStream: (FILE *)fileStream;
-
+- setExprFlag: (BOOL)exprFlag;
 USING
 - (FILE *)getFileStream;
+- getExpr;
 
 //M: Writes character string to stream
 - (void)catC: (const char *)cstring;
@@ -1022,8 +1023,8 @@ USING
 - (void)catInt: (int)i;
 
 //M: Writes an unsigned to stream in Lisp archiver format
-
 - (void)catUnsigned: (unsigned)un;
+
 - (void)catShort: (short)sht;
 - (void)catUnsignedShort: (unsigned short)usht;
 - (void)catLong: (long)lng;
@@ -1031,6 +1032,7 @@ USING
 - (void)catLongLong: (long long)lnglng;
 - (void)catUnsignedLongLong: (unsigned long long)ulnglng;
 - (void)catPointer: (void *)ptr;
+- (void)catLiteral: (const char *)str;
 - (void)catStartExpr;
 - (void)catEndExpr;
 - (void)catKeyword: (const char *)keyword;
@@ -1039,13 +1041,21 @@ USING
 - (void)catSeparator;
 - (void)catArrayRank: (unsigned)rank;
 - (void)catType: (const char *)type;
-- (void)catClass: (const char *)className;
+- (void)catClass: (Class)class;
+- (void)catStartFunction: (const char *)functionName;
+- (void)catEndFunction;
 - (void)catStartCons;
+- (void)catEndCons;
 - (void)catStartList;
+- (void)catEndList;
 - (void)catStartQuotedList;
+- (void)catEndQuotedList;
 - (void)catStartParse;
+- (void)catEndParse;
 - (void)catStartMakeInstance: (const char *)typeName;
+- (void)catEndMakeInstance;
 - (void)catStartMakeClass: (const char *)className;
+- (void)catEndMakeClass;
 - (void)catUnsignedPair: (unsigned)a : (unsigned)b;
 @end
 
@@ -1056,8 +1066,9 @@ USING
 //D: comments: semi-colons `;'
 CREATING
 + create: (id <Zone>)aZone setFileStream: (FILE *)file;
++ create: (id <Zone>)aZone setExpr: expr;
+- setExpr: expr;
 - setFileStream: (FILE *)fileStream;
-
 USING
 - (FILE *)getFileStream;
 - getExpr;

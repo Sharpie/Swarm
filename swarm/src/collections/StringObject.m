@@ -186,15 +186,11 @@ PHASE(Using)
 - lispOutShallow: stream
 {
   if (literalFlag)
-    {
-      [stream catC: "\""];
-      [stream catC: string];
-      [stream catC: "\""];
-    }
+    [stream catString: string];
   else
     {
-      [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-      [stream catC: [self getTypeName]];
+      [stream catStartMakeInstance: [self getTypeName]];
+      [stream catSeparator];
       [stream catC: " \""];
       [stream catC: string];
       [stream catC: "\")"];

@@ -10,11 +10,11 @@ Library:      collections
 */
 
 #import <collections/OutputStream.h>
-#import <collections/InputStream.h>
-#import <collections/predicates.h>
 #import <defobj/internal.h> // lisp_type_for_objc_type
+#import <defobj/defalloc.h> // getZone
+#import <collections.h> // ArchiverValue, ArchiverKeyword, ArchiverQuoted
 #include <misc.h> // FILE, fputs, isPrint
-#include <swarmconfig.h> // PRINTF_LL_FMT, PTRUINT, PTRUINTFMT
+#include <swarmconfig.h> // PTRHEXFMT
 
 @implementation OutputStream_c
 
@@ -28,9 +28,20 @@ PHASE(Creating)
   return newStream;
 }
 
-- (void) setFileStream: (FILE *)file
+- setFileStream: (FILE *)file
 {
   fileStream = file;
+  return self;
+}
+
+- setExprFlag: (BOOL)exprFlag
+{
+  if (exprFlag)
+    {
+      expr = nil;
+      exprStack = [List create: getZone (self)];
+    }
+  return self;
 }
 
 - createEnd
@@ -56,251 +67,458 @@ PHASE(Using)
   return fileStream;
 }
 
-- (void)catC: (const char *)cstring
+- getExpr
 {
-  fputs (cstring, fileStream);
+  return expr;
+}
+
+- (void)_addExpr_: theExpr
+{
+  if ([exprStack getCount] == 0)
+    expr = theExpr;
+  else
+    [[exprStack getFirst] addLast: theExpr];
+}
+
+#define ADDEXPR(theExpr) [self _addExpr_: theExpr]
+#define ADDVALUE(type,value) ADDEXPR([[[ArchiverValue createBegin: getZone (self)] set##type: value] createEnd])
+#define ADDCASTINT(value) ADDEXPR([[[ArchiverValue createBegin: getZone (self)] setLongLong: (long long) value] createEnd])
+
+- (void)catC: (const char *)string
+{
+  if (!exprStack)
+    fputs (string, fileStream);
+}
+
+- (void)catLiteral: (const char *)string
+{
+  if (exprStack)
+    ADDEXPR ([String create: getZone (self) setC: string]);
+  else
+    [self catC: string];
 }
 
 - (void)catBoolean: (BOOL)bool
 {
-  [self catC: bool ? "#t" : "#f"];
+  if (exprStack)
+    ADDVALUE (Boolean, bool);
+  else
+    [self catC: bool ? "#t" : "#f"];
+  
 }
 
 - (void)catChar: (char)ch
 {
-  char buf[DSIZE(char) + 1];
-  [self catC: "#\\"];
-  {
-    if (isPrint ((unsigned char) ch))
+  if (exprStack)
+    ADDVALUE (Char, ch);
+  else
+    {
+      char buf[DSIZE(char) + 1];
+
+      [self catC: "#\\"];
       {
-        buf[0] = (unsigned char) ch;
-        buf[1] = '\0';
+        if (isPrint ((unsigned char) ch))
+          {
+            buf[0] = (unsigned char) ch;
+            buf[1] = '\0';
+          }
+        else
+          sprintf (buf, "%03o", (unsigned) ch);
       }
-    else
-      sprintf (buf, "%03o", (unsigned) ch);
-  }
-  [self catC: buf];
+      [self catC: buf];
+    }
 }
 
 - (void)catFloat: (float)flt
 {
-  char buf[20 + 1];
-  sprintf (buf, "%fF0", flt);
-  [self catC: buf];
+  if (exprStack)
+    ADDVALUE (Float, flt);
+  else
+    {
+      char buf[20 + 1];
+      sprintf (buf, "%fF0", flt);
+      [self catC: buf];
+    }
 }
 
 - (void)catDouble: (double)dbl
 {
-  char buf[30 + 1];
-  sprintf (buf, "%fD0", dbl);
-  [self catC: buf];
+  if (exprStack)
+    ADDVALUE (Double, dbl);
+  else
+    {
+      char buf[30 + 1];
+      sprintf (buf, "%fD0", dbl);
+      [self catC: buf];
+    }
 }
 
 - (void)catLongDouble: (long double)ldbl
 {
-  char buf[30 + 1];
-  sprintf (buf, "%fL0", (double) ldbl);
-  [self catC: buf];
+  if (exprStack)
+    ADDVALUE (LongDouble, ldbl);
+  else
+    {
+      char buf[30 + 1];
+      sprintf (buf, "%fL0", (double) ldbl);
+      [self catC: buf];
+    }
 }
 
 - (void)catInt: (int)i
 {
-  char buf[DSIZE (int) + 1];
-  sprintf (buf, "%d", i);
-  [self catC: buf];
+  if (exprStack)
+    ADDCASTINT (i);
+  else
+    {
+      char buf[DSIZE (int) + 1];
+      sprintf (buf, "%d", i);
+      [self catC: buf];
+    }
 }
 
 - (void)catUnsigned: (unsigned)un
 {
-  char buf[DSIZE (unsigned) + 1];
-  sprintf (buf, "%u", un);
-  [self catC: buf];
+  if (exprStack)
+    ADDCASTINT (un);
+  else
+    {
+      char buf[DSIZE (unsigned) + 1];
+      sprintf (buf, "%u", un);
+      [self catC: buf];
+    }
 }
 
 - (void)catShort: (short)sht
 {
-  char buf[DSIZE (short) + 1];
-  sprintf (buf, "%hd", sht);
-  [self catC: buf];
+  if (exprStack)
+    ADDCASTINT (sht);
+  else
+    {
+      char buf[DSIZE (short) + 1];
+      sprintf (buf, "%hd", sht);
+      [self catC: buf];
+    }
 }
 
 - (void)catUnsignedShort: (unsigned short)usht
 {
-  char buf[DSIZE (unsigned short) + 1];
-  sprintf (buf, "%hu", usht);
-  [self catC: buf];
+  if (exprStack)
+    ADDCASTINT (usht);
+  else
+    {
+      char buf[DSIZE (unsigned short) + 1];
+      sprintf (buf, "%hu", usht);
+      [self catC: buf];
+    }
 }
 
 - (void)catLong: (long)lng
 {
-  char buf[DSIZE (long) + 1];
-  sprintf (buf, "%ld", lng);
-  [self catC: buf];
+  if (exprStack)
+    ADDCASTINT (lng);
+  else
+    {
+      char buf[DSIZE (long) + 1];
+      sprintf (buf, "%ld", lng);
+      [self catC: buf];
+    }
 }
 
 - (void)catUnsignedLong: (unsigned long)ulng
 {
-  char buf[DSIZE (unsigned long) + 1];
-  sprintf (buf, "%ld", ulng);
-  [self catC: buf];
+  if (exprStack)
+    ADDCASTINT (ulng);
+  else
+    {
+      char buf[DSIZE (unsigned long) + 1];
+      sprintf (buf, "%ld", ulng);
+      [self catC: buf];
+    }
 }
 
 - (void)catLongLong: (long long)lnglng
 {
-  char buf[DSIZE (long long) + 1];
-
+  if (exprStack)
+    ADDVALUE (LongLong, lnglng);
+  else
+    {
+      char buf[DSIZE (long long) + 1];
+      
 #if SIZEOF_LONG_LONG != SIZEOF_LONG
 #ifdef LLFMT
-  sprintf (buf, "%" LLFMT "d", lnglng);
+      sprintf (buf, "%" LLFMT "d", lnglng);
 #else
-  raiseEvent (NotImplemented, "No printf format specifier for long long");
+      raiseEvent (NotImplemented, "No printf format specifier for long long");
 #endif
 #else
-  sprintf (buf, "%ld", (long) lnglng);
+      sprintf (buf, "%ld", (long) lnglng);
 #endif
-  [self catC: buf];
+      [self catC: buf];
+    }
 }
 
 - (void)catUnsignedLongLong: (unsigned long long)ulnglng
 {
-  char buf[DSIZE (unsigned long long) + 1];
-
+  if (exprStack)
+    ADDCASTINT (ulnglng);
+  else
+    {
+      char buf[DSIZE (unsigned long long) + 1];
+      
 #if SIZEOF_LONG_LONG != SIZEOF_LONG
 #ifdef LLFMT
-  sprintf (buf, "%" LLFMT "u", ulnglng);
+      sprintf (buf, "%" LLFMT "u", ulnglng);
 #else
-  raiseEvent (NotImplemented, "Not format specifier for unsigned long long");
+      raiseEvent (NotImplemented, "Not format specifier for unsigned long long");
 #endif
 #else
-  sprintf (buf, "%lu", (long) ulnglng);
+      sprintf (buf, "%lu", (long) ulnglng);
 #endif
-  [self catC: buf];
+      [self catC: buf];
+    }
 }
 
 - (void)catPointer: (void *)ptr
 {
-  char buf[20];
-
-  sprintf (buf, PTRHEXFMT, ptr);
-  [self catC: buf];
+  if (exprStack)
+    abort ();
+  else
+    {
+      char buf[20];
+      
+      sprintf (buf, PTRHEXFMT, ptr);
+      [self catC: buf];
+    }
 }
 
 - (void)catStartExpr
 {
-  [self catC: "("];
+  if (exprStack)
+    [exprStack addFirst: [ArchiverList create: getZone (self)]];
+  else
+    [self catC: "("];
 }
 
 - (void)catEndExpr
 {
-  [self catC: ")"];
+  if (exprStack)
+    ADDEXPR ([exprStack removeFirst]);
+  else
+    [self catC: ")"];
 }
 
 - (void)catSeparator
 {
-  [self catC: " "];
+  if (!exprStack)
+    [self catC: " "];
 }
 
 - (void)catKeyword: (const char *)keyword
 {
-  [self catC: "#:"];
-  [self catC: keyword];
+  if (exprStack)
+    ADDEXPR ([[[ArchiverKeyword createBegin: getZone (self)]
+                setKeywordName: keyword]
+               createEnd]);
+  else
+    {
+      [self catC: "#:"];
+      [self catC: keyword];
+    }
 }
 
-- (void)catSymbol: (const char *)symbol
+- (void)catSymbol: (const char *)symbolName
 {
-  [self catC: "'"];
-  [self catC: symbol];
+  if (exprStack)
+    ADDEXPR ([[[ArchiverQuoted createBegin: getZone (self)]
+                setQuotedObject: [String create: getZone (self)
+                                         setC: symbolName]]
+               createEnd]);
+  else
+    {
+      [self catC: "'"];
+      [self catC: symbolName];
+    }
 }
 
 - (void)catString: (const char *)str
 {
-  [self catC: "\""];
-  [self catC: str];
-  [self catC: "\""];
+  if (exprStack)
+    ADDEXPR ([String create: getZone (self) setC: str]);
+  else
+    {
+      [self catC: "\""];
+      [self catC: str];
+      [self catC: "\""];
+    }
 }
 
-- (void)catClass: (const char *)className
+- (void)catClass: (Class)class
 {
-  [self catC: "<"];
-  [self catC: className];
-  [self catC: ">"];
+  if (exprStack)
+    ADDVALUE (Class, class);
+  else
+    {
+      [self catC: "<"];
+      [self catC: class->name];
+      [self catC: ">"];
+    }
 }
 
 - (void)catArrayRank: (unsigned)rank
 {
-  [self catC: "#"];
-  [self catUnsigned: rank];
+  if (!exprStack)
+    {
+      [self catC: "#"];
+      [self catUnsigned: rank];
+    }
+}
+
+- (void)catArrayType: (const char *)type
+{
+  [self catStartExpr];
+  [self catLiteral: "array"];
+  [self catSeparator];
+  [self catSymbol: lisp_type_for_objc_type (type, NULL)];
+  {
+    void outputCount (unsigned dim, unsigned count)
+      {
+        [self catSeparator];
+        [self catUnsigned: count];
+      }
+    lisp_type_for_objc_type (type, outputCount);
+  }
+  [self catEndExpr];
 }
 
 - (void)catType: (const char *)type
 {
   if (*type == _C_ARY_B)
-    {
-      [self catC: "(array '"];
-      [self catC: lisp_type_for_objc_type (type, NULL)];
-      {
-        void outputCount (unsigned dim, unsigned count)
-          {
-            [self catSeparator];
-            [self catUnsigned: count];
-          }
-        lisp_type_for_objc_type (type, outputCount);
-      }
-      [self catC: ")"];
-    }
+    [self catArrayType: type];
   else
     [self catSymbol: lisp_type_for_objc_type (type, NULL)];
 }
 
 - (void)catStartCons
 {
-  [self catStartExpr];
-  [self catC: "cons"];
+  [self catStartFunction: "cons"];
+}
+
+- (void)catEndCons
+{
+  if (exprStack)
+    {
+      id consExpr = [exprStack removeFirst];
+
+      [consExpr removeFirst];
+      ADDEXPR ([[[[ArchiverPair createBegin: getZone (self)]
+                  setConsFormatFlag: YES]
+                  setCar: [consExpr getFirst]]
+                 setCdr: [consExpr getLast]]);
+      [consExpr drop];
+    }
+  else
+    [self catC: ")"];
 }
 
 - (void)catStartParse
 {
-  [self catStartExpr];
-  [self catC: "parse"];
+  [self catStartFunction: "parse"];
+}
+
+- (void)catEndParse
+{
+  [self catEndFunction];
 }
 
 - (void)catStartList
 {
-  [self catStartExpr];
-  [self catC: "list"];
+  [self catStartFunction: "list"];
+}
+
+- (void)catEndList
+{
+  [self catEndFunction];
 }
 
 - (void)catStartQuotedList
 {
-  [self catC: "'("];
+  if (exprStack)
+    [self catStartExpr];
+  else
+    [self catC: "'("];
+}
+
+- (void)catEndQuotedList
+{
+  if (exprStack)
+    ADDEXPR ([[[ArchiverQuoted createBegin: getZone (self)]
+                setQuotedObject: [exprStack removeFirst]]
+               createEnd]);
+  else
+    [self catC: ")"];
+}
+
+- (void)catStartFunction: (const char *)functionName
+{
+  [self catStartExpr];
+  [self catLiteral: functionName];
+}
+
+- (void)catEndFunction
+{
+  [self catEndExpr];
 }
 
 - (void)catStartMakeInstance: (const char *)typeName
 {
-  [self catStartExpr];
-  [self catC: MAKE_INSTANCE_FUNCTION_NAME];
+  [self catStartFunction: MAKE_INSTANCE_FUNCTION_NAME];
   [self catSeparator];
   [self catSymbol: typeName];
 }
 
+- (void)catEndMakeInstance
+{
+  [self catEndFunction];
+}
+
 - (void)catStartMakeClass: (const char *)className
 {
-  [self catStartExpr];
-  [self catC: MAKE_CLASS_FUNCTION_NAME];
+  [self catStartFunction: MAKE_CLASS_FUNCTION_NAME];
   [self catSeparator];
   [self catSymbol: className];
 }
 
+- (void)catEndMakeClass
+{
+  [self catEndFunction];
+}
+
 - (void)catUnsignedPair: (unsigned)x : (unsigned)y
 {
-  [self catC: "'"];
-  [self catStartExpr];
-  [self catUnsigned: x];
-  [self catSeparator];
-  [self catC: "."];
-  [self catSeparator];
-  [self catUnsigned: y];
-  [self catEndExpr];
+  if (!exprStack)
+    {
+      [self catC: "'"];
+      [self catStartExpr];
+      [self catUnsigned: x];
+      [self catSeparator];
+      [self catC: "."];
+      [self catSeparator];
+      [self catUnsigned: y];
+      [self catEndExpr];
+    }
+  else
+    {
+      id car = [[[ArchiverValue createBegin: getZone (self)]
+                  setLongLong: (long long) x]
+                 createEnd];
+      id cdr = [[[ArchiverValue createBegin: getZone (self)]
+                  setLongLong: (long long) y]
+                 createEnd];
+      ADDEXPR ([[[[ArchiverPair createBegin: getZone (self)]
+                   setCar: car]
+                  setCdr: cdr]
+                 createEnd]);
+    }
 }
 @end
-

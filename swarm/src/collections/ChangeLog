@@ -1,3 +1,40 @@
+2000-01-03  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* StringObject.m ([String_c -lispOutShallow:]): Use catString:
+	and catStartMakeInstance:.
+
+	* OutputStream.m: Don't include InputStream.h.
+	Include collections.h and defobj/defalloc.h.
+	([OutputStream_c -_addExpr_:]): New method.
+	Update all cat* routines to handle exprStack.
+	([OutputStream_c -catType:]): Use -catArrayType:.
+
+	* OutputStream.[hm], collections.h ([OutputStream_c
+	-setExprFlag:], [OutputStream_c -catLiteral:],
+	([OutputStream_c -catArrayType:], [OutputStream_c
+	-catStartFunction:], [OutputStream_c -catEndFunction],
+	[OutputStream_c -catEndList],
+	[OutputStream_c -catEndQuotedList],
+	[OutputStream_c -catEndParse],
+	[OutputStream_c -catEndMakeInstance],
+	[OutputStream_c -catEndMakeClass]): New methods.
+	([OutputStream_c -catClass:]): Use Class as argument type.
+
+	* OutputStream.h (OutputStream_c): Add expr and exprStack.
+
+	* Map.m ([Map_c -_lispOut_:deep:]): Use catEndCons instead
+	of catEndExpr.
+
+	* Makefile.am (SRC): Add Stream.m.
+	(collections_HEADERS): Add Stream.h.
+
+	* InputStream.[hm] ([InputStream_c -setExpr:],
+	([InputStream_c +create:setExpr:]): New methods.  Split out
+	Archiver_{Keyword,Array,Value,Pair,List,Quoted} into new files
+	Stream.[hm].  Include Stream.h.
+	([InputStream_c -getExpr]): Handle preset expr / non-filestream
+	case.
+
 1999-12-31  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* OutputStream.m: Include defobj/internal.h for

@@ -16,14 +16,19 @@ Library:     collections
 {
 @public
   FILE *fileStream;
+  id <List> exprStack;
+  id expr;
 }
 /*** methods in OutputStream_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void)setFileStream: (FILE *)file;
+- setFileStream: (FILE *)file;
+- setExprFlag: (BOOL)exprFlag;
 - createEnd;
 + create: aZone setFileStream: (FILE *)file;
 - (FILE *)getFileStream;
+- getExpr;
 - (void)catC: (const char *)cstring;
+- (void)catLiteral: (const char *)cstring;
 - (void)catBoolean: (BOOL)bool;
 - (void)catChar: (char)ch;
 - (void)catFloat: (float)flt;
@@ -45,14 +50,23 @@ Library:     collections
 - (void)catString: (const char *)str;
 - (void)catSeparator;
 - (void)catArrayRank: (unsigned)rank;
+- (void)catArrayType: (const char *)type;
 - (void)catType: (const char *)type;
-- (void)catClass: (const char *)className;
+- (void)catClass: (Class)class;
+- (void)catStartFunction: (const char *)functionName;
+- (void)catEndFunction;
 - (void)catStartCons;
+- (void)catEndCons;
 - (void)catStartList;
+- (void)catEndList;
 - (void)catStartQuotedList;
+- (void)catEndQuotedList;
 - (void)catStartParse;
+- (void)catEndParse;
 - (void)catStartMakeInstance: (const char *)typeName;
+- (void)catEndMakeInstance;
 - (void)catStartMakeClass: (const char *)className;
+- (void)catEndMakeClass;
 - (void)catUnsignedPair: (unsigned)a : (unsigned)b;
 @end
 

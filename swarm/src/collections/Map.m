@@ -793,7 +793,7 @@ PHASE(Using)
         [member lispOutDeep: outputCharStream];
       else
         [member lispOutShallow: outputCharStream];
-      [outputCharStream catEndExpr];
+      [outputCharStream catEndCons];
     }
   [index drop];
   
