@@ -45,9 +45,9 @@
   text =
     strdup ([[globalTkInterp
                eval: 
-                 "%s create text %d %d -text \"%s\" -anchor c", 
+                 "%s create text %d %d -text \"%s\" -font %s -anchor c", 
                [canvas getWidgetName],
-               x, y, string] result]);
+               x, y, string, font] result]);
   
   [self createBindings];
 

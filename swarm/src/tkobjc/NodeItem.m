@@ -47,15 +47,14 @@
   return self;
 }
 
-/* Might want to return an indicator of whether the given font is 
- * available or not.
- */
-- setFont: (const char *) the_font {
+- setFont: (const char *)the_font
+{
   font = the_font;
   return self;
 }
 
-- setString: (const char *) the_text usingFont: (const char *) the_font {
+- setString: (const char *)the_text usingFont: (const char *)the_font
+{
   string = the_text;
   font = the_font;
   return self;

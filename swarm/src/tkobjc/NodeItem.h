@@ -20,8 +20,8 @@
 - (int)getX;
 - (int)getY;
 - setString: (const char *)string;
-- setFont: (const char *) the_font;
-- setString: (const char *) the_text usingFont: (const char*) the_font;
+- setFont: (const char *)the_font;
+- setString: (const char *)the_text usingFont: (const char *)the_font;
 - setColor: (const char *)aColor;
 - setBorderColor: (const char *)aColor;
 - setBorderWidth: (int)aVal;
