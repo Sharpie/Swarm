@@ -11,6 +11,9 @@
   int var2;
   char char1;
 }
+- (int)getVar1;
+- (int)getVar2;
+- (char)getChar1;
 - method1: (int)a1;
 - method2: (int)a2;
 - method3: (char)a3;

@@ -1,3 +1,16 @@
+1999-01-19  Alex Lancaster  <alex@santafe.edu>
+
+	* TestObject.[hm]: Add `getVar1', `getVar2', `getChar1' accessor
+	methods.  Reformatting throughout.
+
+	* QSortTest.m (main): Add conditionals that will return `1' if any
+	of the tests fail, as expected by automake, otherwise return a `0'
+	(pass).  Compacted the diagnostic output.
+
+	* ObjectLoaderTest.m (main): Likewise.
+
+	* AppendFileTest.m (main): Likewise.
+
 1999-01-18  Alex Lancaster  <alex@santafe.edu>
 
 	* ObjectLoaderTest.m Get the path to the `test.data' file from the

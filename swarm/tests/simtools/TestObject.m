@@ -7,7 +7,8 @@
 
 @implementation TestObject
 
-+createBegin: (id) aZone {
++ createBegin: aZone 
+{
   TestObject * obj;
   
   obj = [super createBegin: aZone];
@@ -19,24 +20,42 @@
   return obj;
 }
 
--method1: (int) a1 {
+- (int)getVar1
+{
+  return var1;
+}
+
+- (int)getVar2
+{
+  return var2;
+}
+
+- (char)getChar1
+{
+  return char1;
+}
+
+- method1: (int)a1 
+{
   var1 = a1*var1;
   return self;
 }
 
--method2: (int) a2 {
+- method2: (int)a2 
+{
   var2 = var2 + a2;
   return self;
 }
 
--method3: (char) a3 {
+- method3: (char)a3 
+{
   char1 = a3;
   return self;
 }
 
 
--printObject {
-  
+- printObject 
+{
   printf("var1 = %d\n", var1);
   printf("var2 = %d\n", var2);
   printf("char = %c\n", char1);

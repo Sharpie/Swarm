@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1999 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -12,9 +12,10 @@
 int
 main(int argc, const char ** argv) 
 {
-  id  theList;
+  id theList;
   id index;
   id member;
+  int currMax, currMin;
 
   initSwarmBatch(argc, argv);
 
@@ -31,49 +32,65 @@ main(int argc, const char ** argv)
   [theList addLast: (id) 99];
 
   // check list in unsorted order
-
   printf("unsorted list...\n");
   index = [theList begin: globalZone];
-  while ( (member = [index next]) ) {
-    printf("member = %d\n", (int) member);
-  }
+  
+  while ( (member = [index next]) ) 
+    {
+      printf("%d, ", (int) member);
+    }
   [index drop];
 
   // reverse the list...
   [QSort reverseOrderOf: theList];
 
   // check reversed order
-
   printf("\nreversed list...\n");
   index = [theList begin: globalZone];
-  while ( (member = [index next]) ) {
-    printf("member = %d\n", (int) member);
-  }
+  while ( (member = [index next]) ) 
+    {
+      printf("%d, ", (int) member);
+    }
   [index drop];
 
   // sort the list...
-  
   [QSort sortNumbersIn: theList];
 
   // check list in sorted order
-
-  printf("\nsorted list...\n");
+  currMax = 0;
+  printf("\nsorted (ascending) list...\n");
   index = [theList begin: globalZone];
-  while ( (member = [index next]) ) {
-    printf("member = %d\n", (int) member);
-  }
+  while ( (member = [index next]) ) 
+    {
+      if (currMax > (int)member)
+        {
+          fprintf(stderr, "list is not sorted in ascending order\n");
+          return 1;
+        }
+      currMax = (int) member;
+      printf("%d, ", (int) member);
+    }
   [index drop];
 
   // now reverse list...
-  
+  currMin = 999;  
   [QSort reverseOrderOf: theList];
   
-  printf("\nsorted and reversed list...\n");
+  printf("\nsorted and reversed list (descending)...\n");
   index = [theList begin: globalZone];
-  while ( (member = [index next]) ) {
-    printf("member = %d\n", (int) member);
-  }
+  while ( (member = [index next]) ) 
+    {
+      if (currMin < (int)member)
+        {
+          fprintf(stderr, "list is not sorted in descending order\n");
+          return 1;
+        }
+      currMin = (int) member;
+      printf("%d, ", (int) member);
+    }
   [index drop];
+
+  printf("\n");
 
   return 0;
 }
