@@ -1,5 +1,8 @@
 1998-07-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (libmisc.la): Depend on libmisc_la_LIBADD (dependency
+	not generated due to not using LIBOBJS).
+
 	* realpath.c (realpath): Renamed from myrealpath.
 
 	* misc.h: Include string.h stdlib.h, and config.h.
@@ -8,9 +11,9 @@
 	myrealpath.
 
 	* Makefile.am (libmisc_la_LIBADD): Set to substituted value
-	of MISCOBJS.  Remove memchr, memcpy, memset, realpath,
+	of MISCOBJS.  Move memchr, memcpy, memset, realpath,
 	stpcpy, strchr, strcmp, strdup, strlen, strncmp, strndup, strnlen,
-	strpbrk, and strsep from SRC.
+	strpbrk, and strsep from SRC to EXTRA_DIST.
 
 	* misc.h: Declare removed functions above if corresponding HAVE_*
 	macro is not defined.  
