@@ -102,7 +102,7 @@ PHASE(Using)
   id aProbe;
   char aString[200], aChar;
 
-  if(probeMapCache)
+  if (probeMapCache)
     aProbeMap = probeMapCache;
   else
     aProbeMap = [probeLibrary getCompleteVarMapFor: [anObject class]];
