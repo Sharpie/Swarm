@@ -1,3 +1,7 @@
+2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (INCLUDES): Add -I$(srcdir)/../simtoolsgui.
+
 2000-06-29    <mgd@DRONE>
 
 	* ArchivedGeometryWidget.[hm]
