@@ -53,6 +53,9 @@ for each required package.
 `--with-tclincludedir=DIR' --- Use DIR for Tcl header files.
 `--with-tkincludedir=DIR' --- Use DIR for Tk header files.  
 `--with-tclobjcincludedir=DIR' --- Use DIR for tclobjc headers. 
+`--with-zlibincludedir=DIR' --- Use DIR for zlib include files    
+`--with-pngincludedir=DIR' --- DIR for PNG include files  
+
 
 These options can be used in conjunction with their respective
 --with-tcldir, --with-tkdir, --with-tcldir options, if their header
@@ -60,6 +63,8 @@ files are for some reason installed in a different location to the
 libraries. This is sometimes the case with Debbian or RedHat GNU/Linux
 distributions.
 
+`--with-tcllibname=NAME' --- Use -lNAME for Tcl   
+`--with-tklibname=NAME' --- Use -lNAME for Tk     
 `--with-tclobjclibname=NAME' --- Use -lNAME for tclobjc.  
 `--with-bltlibname=NAME' --- Use -lNAME for BLT.  
 

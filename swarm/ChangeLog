@@ -1,5 +1,7 @@
 1998-06-24  Alex Lancaster  <alex@santafe.edu>
 
+	* INSTALL: Add extra `configure' options.
+
 	* NEWS: Elaborate on command-line and graphics features.
 
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
