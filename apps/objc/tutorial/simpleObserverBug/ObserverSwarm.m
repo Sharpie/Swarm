@@ -58,7 +58,7 @@
   // First, create a colormap: this is a global resource, the information
   // here is used by lots of different objects.
 
-  colorMap = [XColormap create: [self getZone]];
+  colorMap = [Colormap create: [self getZone]];
 
   [colorMap setColor: 0 ToName: "black"];
   [colorMap setColor: 1 ToName: "red"];
@@ -78,7 +78,7 @@
   // display arbitrary 2d value arrays on a given Raster widget.
 
   foodDisplay = [Value2dDisplay createBegin: [self getZone]];
-  [foodDisplay setDisplayWidget: worldRaster Colormap: colorMap];
+  [foodDisplay setDisplayWidget: worldRaster colormap: colorMap];
   [foodDisplay setDiscrete2dToDisplay: [modelSwarm getFood]];
   foodDisplay = [foodDisplay createEnd];
 

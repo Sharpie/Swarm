@@ -1,3 +1,11 @@
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Constify argv.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Use
+	setDisplayWidget:colormap: instead of setDisplayWidget:Colormap:.
+	Use Colormap instead of XColormap for colorMap.
+
 1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ObserverSwarm.m ([ObserverSwarm +createBegin:]): Include 
