@@ -1598,11 +1598,11 @@ PHASE(Using)
           
           {
             fcall_type_t type = [self getDatasetType];
-            unsigned char buf[ivar_elementCount (obj,
-                                                 ivarName,
-                                                 type,
-                                                 rank,
-                                                 dims) *
+            unsigned char buf[object_getVariableElementCount (obj,
+                                                              ivarName,
+                                                              type,
+                                                              rank,
+                                                              dims) *
                              fcall_type_size (type)];
             
             [self loadDataset: buf];

@@ -1609,11 +1609,11 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
       if ([obj respondsTo: M(isJavaProxy)])
         {
           fcall_type_t type = [expr getArrayType];
-          unsigned count = object_getElementCount (obj,
-                                                   ivarName,
-                                                   type,
-                                                   [expr getRank],
-                                                   [expr getDims]);
+          unsigned count = object_getVariableElementCount (obj,
+                                                           ivarName,
+                                                           type,
+                                                           [expr getRank],
+                                                           [expr getDims]);
           {
             unsigned char buf[fcall_type_size (type) * count];
 
