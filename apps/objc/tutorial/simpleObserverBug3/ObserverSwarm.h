@@ -11,6 +11,7 @@
   id displaySchedule;
   id stopSchedule;
 
+  long currentTime;
 
   ModelSwarm *modelSwarm;          		  // the Swarm we're observing
 

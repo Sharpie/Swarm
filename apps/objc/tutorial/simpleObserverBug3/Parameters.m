@@ -17,15 +17,6 @@ makeProbe (id obj, const char *ivarName)
   return [probe createEnd];
 }
 
-double
-getDouble (id obj, const char *ivarName)
-{
-  id probe = makeProbe (obj, ivarName);
-  double ret = [probe probeAsDouble: obj];
-  [probe drop];
-  return ret;
-}
-
 int
 getInt (id obj, const char *ivarName)
 {
@@ -152,6 +143,16 @@ getInt (id obj, const char *ivarName)
       return [super parseKey: key arg: arg];
     }
   return 0;
+}
+
+- (double)getSeedProb
+{
+  return seedProb;
+}
+
+- (double)getBugDensity
+{
+  return bugDensity;
 }
 
 @end

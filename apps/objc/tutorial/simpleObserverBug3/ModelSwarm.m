@@ -43,10 +43,10 @@
   
   // These retrieve values from the Parameters object
 
-  worldXSize = getInt (arguments, "worldXSize");
-  worldYSize = getInt (arguments,"worldYSize");
-  seedProb   = getDouble (arguments,"seedProb");
-  bugDensity = getDouble (arguments, "bugDensity");
+  worldXSize = getInt ((Parameters *)arguments, "worldXSize");
+  worldYSize = getInt ((Parameters *)arguments,"worldYSize");
+  seedProb   = [(Parameters *)arguments getSeedProb];
+  bugDensity = [(Parameters *)arguments getBugDensity];
 
 
   // Here, we create the objects in the model

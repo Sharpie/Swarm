@@ -36,6 +36,9 @@
   [probeMap addProbe: [probeLibrary getProbeForVariable: "displayFrequency"
                                     inClass: [self class]]];
 
+  [probeMap addProbe: [probeLibrary getProbeForMessage: "takeScreenShot"
+				    inClass: [self class]]];
+
   // Now install our custom probeMap into the probeLibrary.
 
   [probeLibrary setProbeMap: probeMap For: [self class]];
@@ -147,7 +150,7 @@
 {
   char filename[40];
   id aPix;
-  sprintf (filename, "screenRun%03dTime%07ld.png",getInt(arguments,"run"), getCurrentTime ());
+  sprintf (filename, "screenRun%03dTime%07ld.png",getInt((Parameters*)arguments,"run"),currentTime);
   [actionCache doTkEvents];
   
   aPix =[ Pixmap createBegin: self];
@@ -165,7 +168,9 @@
   // If compiled with the EXTRACPPFLAG=-DUNATTENDED, a picture will be
   // saved in the current directory
 
-	if((long)getCurrentTime () == getInt(arguments,"experimentDuration"))
+  currentTime = getCurrentTime();
+
+	if(currentTime == getInt((Parameters*)arguments,"experimentDuration"))
 	{
 #ifdef UNATTENDED
   //First, we need a picture 
@@ -224,7 +229,7 @@
   //stops the simulation when it reaches the "duration".
 
 
- stopSchedule = [Schedule createBegin: [self getZone]];
+    stopSchedule = [Schedule createBegin: [self getZone]];
     [stopSchedule setRepeatInterval: 1];
     stopSchedule = [stopSchedule createEnd];
     [stopSchedule at: 0 createActionTo: self message: M(stopRunning)];

@@ -3,9 +3,6 @@
 id
 makeProbe (id obj, const char *ivarName);
 
-double
-getDouble (id obj, const char *ivarName);
-
 int
 getInt (id obj, const char *ivarName);
 
@@ -25,6 +22,9 @@ getInt (id obj, const char *ivarName);
 
 - (int)parseKey: (int) key arg: (const char*) arg;
 
+- (double)getSeedProb;
+
+- (double)getBugDensity;
 
 @end
 
