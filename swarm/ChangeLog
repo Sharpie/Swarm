@@ -1,7 +1,8 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (TCLVERS): Change to use Tcl 7.6, Tk 4.2,
-	BLT 2.3, and tclobjc-1.2.
+	BLT 2.3, and tclobjc-1.2 in SFI config.
+	(EXTRALDFLAGS): Add -R pointer to BLT in SFI config.
 
 	* Makefile (SWARMDIST): Bump to 1.0.5.
 
