@@ -116,15 +116,15 @@ USING
 CREATING
 //M: The setProbedClass: method sets the class of the object the probe points
 //M: at and must be called at create time.
-- setProbedClass ;
+- setProbedClass: (Class)class;
 SETTING
 //M: The setSafety method turns on the option of checking the compatibility of 
 //M: the class of the object before any actions are performed on the object. 
-- setSafety ;     // There should be a setSafety: BOOL
+- setSafety;     // There should be a setSafety: BOOL
 
 //M: The unsetSafety method turns off the option of checking the compatibility 
 //M: of the class of the object before any actions are performed on the object.
-- unsetSafety ;   // and getSafety methods instead...
+- unsetSafety;   // and getSafety methods instead...
 
 USING
 //M: The clone: method returns a clone of the probe. If the initial probe was
@@ -132,11 +132,11 @@ USING
 //M: generation, the probe should be cloned prior to making changes to it 
 //M: to avoid having the changes affect the other potential users of the 
 //M: probe.
-- clone: aZone ;
+- clone: aZone;
 
 //M: The getProbedClass method returns the class of the object the probe points
 //M: at as a Class pointer.
-- (Class)getProbedClass ;
+- (Class)getProbedClass;
 
 //M: The getProbedType method returns the typing of the probed variable or 
 //M: message. The typing is represented using the string-format provided by 
@@ -310,7 +310,6 @@ USING
 //M: target object. This method assumes the user knows the type to be double 
 //M: and would like a direct translation into type double.
 - (double)doubleDynamicCallOn: target;
-
 @end
 
 @protocol ProbeMap <SwarmObject, ProbeConfig>
@@ -327,7 +326,7 @@ CREATING
 //M: The setProbedClass: method sets the class of the object that the set of 
 //M: probes that constitute the probe map points at. This message must be sent 
 //M: before createEnd. 
-- setProbedClass: (Class) class;
+- setProbedClass: (Class)class;
 
 USING
 //M: The getNumEntries method returns the number of probes in the ProbeMap.
