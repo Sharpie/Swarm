@@ -45,6 +45,7 @@ empty.c:
 	echo > empty.c
 
 objc.dll: libobjc_.la dllinit.c
+	$(CC) -c $(srcdir)/dllinit.c
 	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o objc.dll dllinit.o $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
 install-data-local: 
