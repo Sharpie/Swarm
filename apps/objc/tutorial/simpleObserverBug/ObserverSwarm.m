@@ -35,8 +35,8 @@
   // First, we create the model that we're actually observing. The
   // model is a subswarm of the observer. Note that creating the
   // modelSwarm in the current Swarm, by referring to "self" in the
-  // [ModelSwarm create: self] call does actually create the new Swarm
-  // in it's *own* segregated Zone. 
+  // [lispAppArchiver getWithZone: self object: "modelSwarm"] call
+  // does actually create the new Swarm in it's *own* segregated Zone.
 
   // However, it does this in such a way that when current
   // (ObserverSwarm) is dropped it will also drop the ModelSwarm and all
@@ -45,8 +45,16 @@
   // Thus there should be no need to explicitly create any Zones,
   // except for the top level Zone, unless specifically required for a
   // particular application
+
+  // Make the bug model swarm, creating the object from the default
+  // `lispAppArchiver' instance which looks for the `bug.scm'
+  // datafile, so we don't have to recompile everytime we want to
+  // change something
   
-  modelSwarm = [ModelSwarm create: self];
+  if ((modelSwarm = 
+       [lispAppArchiver getWithZone: self object: "modelSwarm"]) == nil)
+    raiseEvent(InvalidOperation,
+               "Can't find the modelSwarm parameters");
 
   // Instruct the control panel to wait for a button event.
   // We halt here until someone hits a control panel button.

@@ -1,3 +1,16 @@
+1999-06-23  Alex Lancaster  <alex@santafe.edu>
+
+	* model.setup: Remove file.
+
+	* bug.scm: New file.
+
+	* ModelSwarm.m ([ModelSwarm -buildObjects]): Remove ObjectLoader
+	call, parameter initialization now done in ObserverSwarm.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Call the
+	`lispAppArchiver' inside `self' to instantiate the `modelSwarm'
+	object rather than instantiating directly.
+
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ModelSwarm.m ([ModelSwarm -buildObjects]): Use ObjectLoader's
