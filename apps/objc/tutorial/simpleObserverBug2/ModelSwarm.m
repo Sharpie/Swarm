@@ -82,7 +82,7 @@
 
   // Then, create the food space and initialize it
 
-  food = [FoodSpace createBegin: [self getZone]];
+  food = [FoodSpace createBegin: self];
   [food setSizeX: worldXSize Y: worldYSize];
   food = [food createEnd];
   
@@ -91,20 +91,20 @@
   // Now set up the grid used to represent agent position
   // Grid2d enforces only 1 bug per site
 
-  world = [Grid2d createBegin: [self getZone]];
+  world = [Grid2d createBegin: self];
   [world setSizeX: worldXSize Y: worldYSize];
   world = [world createEnd];
   [world fillWithObject: nil];
 
   // Now, create a bunch of bugs to live in the world
 
-  bugList = [List create: [self getZone]];
+  bugList = [List create: self];
 
   for (y = 0; y < worldYSize; y++)
     for (x = 0; x < worldXSize; x++) 
       if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity) {
 
-         aBug = [Bug createBegin: [self getZone]];
+         aBug = [Bug createBegin: self];
          [aBug setWorld: world Food: food];
          aBug = [aBug createEnd];
          [aBug setX: x Y: y];
@@ -123,7 +123,7 @@
   // M(foo) means "The message called <foo>". You can send a message
   // To a particular object, or ForEach object in a collection.
 
-  modelActions = [ActionGroup create: [self getZone]];
+  modelActions = [ActionGroup create: self];
   [modelActions createActionForEach: bugList    message: M(step)];
 
   // Then we create a schedule that executes the modelActions. modelActions
@@ -136,7 +136,7 @@
   // This is a simple schedule, with only one action that is just
   // repeated every time. See mousetraps for more complicated schedules.
 
-  modelSchedule = [Schedule createBegin: [self getZone]];
+  modelSchedule = [Schedule createBegin: self];
   [modelSchedule setRepeatInterval: 1];
   modelSchedule = [modelSchedule createEnd];
   [modelSchedule at: 0 createAction: modelActions]; 
