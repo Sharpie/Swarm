@@ -54,7 +54,7 @@ PHASE(Creating)
   [panelWidget addButtonName: "Save"  method: @selector (sendSaveAction)];
   [panelWidget addButtonName: "Quit"  method: @selector (sendQuitAction)];
   [panelWidget setWindowTitle: "ProcCtrl"];
-
+  [panelWidget setWindowGeometry: "120x180"];
   return panelWidget;
 }
 
