@@ -15,13 +15,42 @@ static avl_tree *objc_tree;
 
 BOOL initFlag = NO;
 
-static jclass c_boolean,
+jclass c_boolean,
   c_char, c_byte,
   c_int, 
   c_short, c_long,
   c_float, c_double,
   c_object, c_string, 
   c_void;
+
+jclass c_Boolean, 
+  c_Char, c_Byte, 
+  c_Integer, c_Short,
+  c_Long, c_Float,
+  c_Double;
+  
+jclass c_field, c_class, c_method, c_Selector;
+
+jmethodID m_BooleanValueOf,
+  m_ByteValueOf, 
+  m_IntegerValueOf, 
+  m_ShortValueOf, m_LongValueOf,   
+  m_FloatValueOf, m_DoubleValueOf, 
+  m_StringValueOf, 
+  m_FieldSet, m_FieldSetChar,
+  m_ClassGetDeclaredField,
+  m_ClassGetDeclaredFields,
+  m_ClassGetDeclaredMethods,
+  m_FieldGetType,
+  m_FieldGetInt,
+  m_FieldGetDouble,
+  m_FieldGet,
+  m_FieldGetName,
+  m_MethodGetName,
+  m_SelectorConstructor;  
+
+jfieldID f_nameFid, f_retTypeFid, 
+  f_argTypesFid, f_objcFlagFid;
 
 extern JNIEnv *jniEnv;
 
@@ -68,17 +97,150 @@ create_class_refs (JNIEnv *env)
       c_float = find_primitive ("Float");
       c_double = find_primitive ("Double");
       c_void = find_primitive ("Void");
+
+      c_Boolean = find ("Boolean");
+      c_Char = find ("Character");
+      c_Byte= find ("Byte");
+      c_Integer = find ("Integer");
+      c_Short = find ("Short");
+      c_Long = find ("Long");
+      c_Float = find("Float");
+      c_Double = find ("Double");
+     
       c_string = find ("String");
       c_object = find ("Object");
-      
-      if (c_object == NULL)
+      c_class = find ("Class");
+
+      if (!(c_field = (*env)->FindClass (env, "java/lang/reflect/Field")))
         abort ();
-      
-      c_object = (*env)->NewGlobalRef (env, c_object);
-      
+      c_field = (*env)->NewGlobalRef (env, c_field);
+
+      if (!(c_method = (*env)->FindClass (env, "java/lang/reflect/Method")))
+        abort ();
+      c_method = (*env)->NewGlobalRef (env, c_method);
+
+      if (!(c_Selector = (*env)->FindClass (env, "swarm/Selector")))
+        abort ();
+      c_Selector = (*env)->NewGlobalRef (env, c_Selector);
+
       initFlag = YES;
     }
 }
+
+void 
+create_method_refs (JNIEnv *env)
+{
+  jmethodID findMethodID (const char *name, jclass clazz)
+    {
+      char sig[31 + strlen (name) + 2];
+      char *p;
+
+      jmethodID res;
+      p = stpcpy (sig, "(Ljava/lang/String;)Ljava/lang/");
+      p = stpcpy (p, name);
+      p = stpcpy (p, ";");
+
+      if (!(res = (*env)->GetStaticMethodID (env, clazz, "valueOf", sig)))
+	abort ();
+
+      return res;
+    }   
+  
+  m_BooleanValueOf = findMethodID ("Boolean", c_Boolean);
+  
+  m_ByteValueOf = findMethodID ("Byte", c_Byte);
+  
+  m_IntegerValueOf = findMethodID ("Integer", c_Integer);
+  
+  m_ShortValueOf = findMethodID ("Short", c_Short);
+  
+  m_LongValueOf = findMethodID ("Long", c_Long);
+  
+  m_FloatValueOf = findMethodID ("Float", c_Float);
+  
+  m_DoubleValueOf = findMethodID ("Double", c_Double);
+  
+  if (!(m_StringValueOf = 
+      (*env)->GetStaticMethodID (env, c_string, "valueOf", 
+				 "(Ljava/lang/Object;)Ljava/lang/String;")))
+    abort ();
+
+  if (!(m_FieldSet = 
+	(*env)->GetMethodID (env, c_field, "set", 
+			     "(Ljava/lang/Object;Ljava/lang/Object;)V")))
+    abort();
+
+  if (!(m_FieldSetChar = 
+	(*env)->GetMethodID (env, c_field, "setChar", 
+			     "(Ljava/lang/Object;C)V")))
+    abort();
+ 
+  if (!(m_ClassGetDeclaredField =
+      (*env)->GetMethodID (env, c_class, "getDeclaredField",
+			   "(Ljava/lang/String;)Ljava/lang/reflect/Field;")))
+    abort();
+
+  if (!(m_ClassGetDeclaredFields =
+  	(*env)->GetMethodID (env, c_class, "getDeclaredFields",
+			     "()[Ljava/lang/reflect/Field;")))
+    abort();
+  
+  if (!(m_ClassGetDeclaredMethods =
+  	(*env)->GetMethodID (env, c_class, "getDeclaredMethods",
+  		     "()[Ljava/lang/reflect/Method;")))
+    abort();
+
+  if (!(m_FieldGetName = 
+	(*env)->GetMethodID (env, c_field, "getName", "()Ljava/lang/String;")))
+    abort();
+
+  if (!(m_FieldGetType =
+	(*env)->GetMethodID (env, c_field, "getType", "()Ljava/lang/Class;")))
+    abort();
+  
+  if (!(m_FieldGetInt =
+      (*env)->GetMethodID (env, c_field, "getInt", 
+			   "(Ljava/lang/Object;)I")))
+    abort();
+
+  if (!(m_FieldGetDouble =
+      (*env)->GetMethodID (env, c_field, "getDouble", 
+			   "(Ljava/lang/Object;)D")))
+    abort();
+
+  if (!(m_FieldGet =
+      (*env)->GetMethodID (env, c_field, "get",
+			   "(Ljava/lang/Object;)Ljava/lang/Object;")))
+    abort();
+
+  if (!(m_MethodGetName =
+	(*env)->GetMethodID (env, c_method, "getName",
+			     "()Ljava/lang/String;")))
+    abort();
+  
+  if (!(m_SelectorConstructor =
+	(*env)->GetMethodID (env, c_Selector, "<init>", 
+			     "(Ljava/lang/Class;Ljava/lang/String;Z)V")))
+    abort();
+}
+
+
+void
+create_field_refs (JNIEnv * env)
+{
+
+  if (!(f_nameFid = (*env)->GetFieldID (env, c_Selector, "signature", "Ljava/lang/String;")))
+    abort ();
+  if (!(f_retTypeFid = (*env)->GetFieldID (env, c_Selector, "retType", "Ljava/lang/Class;")))
+    abort ();
+  if (!(f_argTypesFid = (*env)->GetFieldID (env, c_Selector, "argTypes", "[Ljava/lang/Class;")))
+    abort ();
+  if (!(f_objcFlagFid = (*env)->GetFieldID (env, c_Selector, "objcFlag", "Z")))
+    abort ();
+
+
+}
+
 
 static jclass
 java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
@@ -164,10 +326,13 @@ java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag)
           Class class = getClass (objc_object);
           jclass javaClass;
 
-          if (getBit (class->info, _CLS_DEFINEDCLASS))
+	  if (getBit (class->info, _CLS_DEFINEDCLASS))
             {
-              Class_s *nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
-              Type_c *typeImpl = [class getTypeImplemented];
+
+              Type_c *typeImpl;
+	      Class_s *nextPhase;
+	      nextPhase= ((BehaviorPhase_s *) class)->nextPhase;
+              typeImpl = [class getTypeImplemented];
               javaClass = java_class_for_typename (env,
                                                    typeImpl->name,
                                                    nextPhase == NULL);
@@ -470,6 +635,8 @@ java_directory_init (JNIEnv *env,
   objc_tree = avl_create (compare_objc_objects, NULL);
   
   create_class_refs (env);
+  create_method_refs (env);
+  create_field_refs (env);
 
   if (!(class = (*env)->GetObjectClass (env, swarmEnvironment)))
     abort ();
@@ -530,39 +697,22 @@ java_directory_drop (JNIEnv *env)
 SEL
 java_ensure_selector (JNIEnv *env, jobject jsel)
 {
-  jclass clazz;
-  jfieldID nameFid; 
   jstring string;
   const char *utf;
   char *name, *p;
   SEL sel;
   unsigned i;
   jboolean copyFlag;
-  jfieldID retTypeFid;
-  jfieldID argTypesFid;
-  jfieldID objcFlagFid;
   jclass retType;
   jboolean objcFlag;
   jarray argTypes;
   jsize argCount;
 
-
-  clazz = (*env)->GetObjectClass (env, jsel);
-  if (!(nameFid = (*env)->GetFieldID (env, clazz, "signature", "Ljava/lang/String;")))
-    abort ();
-  if (!(retTypeFid = (*env)->GetFieldID (env, clazz, "retType", "Ljava/lang/Class;")))
-    abort ();
-  if (!(argTypesFid = (*env)->GetFieldID (env, clazz, "argTypes", "[Ljava/lang/Class;")))
-    abort ();
-      
-  if (!(objcFlagFid = (*env)->GetFieldID (env, clazz, "objcFlag", "Z")))
-    abort ();
-
-  retType = (*env)->GetObjectField (env, jsel, retTypeFid);
-  objcFlag = (*env)->GetBooleanField (env, jsel, objcFlagFid);
-  argTypes = (*env)->GetObjectField (env, jsel, argTypesFid);
+  retType = (*env)->GetObjectField (env, jsel, f_retTypeFid);
+  objcFlag = (*env)->GetBooleanField (env, jsel, f_objcFlagFid);
+  argTypes = (*env)->GetObjectField (env, jsel, f_argTypesFid);
   argCount = (*env)->GetArrayLength (env, argTypes);
-  string = (*env)->GetObjectField (env, jsel, nameFid);
+  string = (*env)->GetObjectField (env, jsel, f_nameFid);
   utf = (*env)->GetStringUTFChars (env, string, &copyFlag);
 
   if (objcFlag)
@@ -642,6 +792,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
 
       sel = sel_register_typed_name (name, signatureBuf);
     }
+
   java_directory_update (env, jsel, (id) sel);
 
   if (copyFlag)
@@ -655,17 +806,14 @@ Class
 java_ensure_class (JNIEnv *env, jclass javaClass)
 {
   Class objcClass;
-  jstring name = get_class_name (env, (*env)->AllocObject (env, javaClass));
-  
-  {
-    jboolean isCopy;
-    const char *className =
+  jstring name = get_class_name (env, javaClass);
+  jboolean isCopy;
+  const char *className =
       (*env)->GetStringUTFChars (env, name, &isCopy);
-    
-    objcClass = objc_lookup_class (className);
-    if (isCopy)
-      (*env)->ReleaseStringUTFChars (env, name, className);
-  }
+   
+  objcClass = objc_lookup_class (className);
+  if (isCopy)
+    (*env)->ReleaseStringUTFChars (env, name, className);
 
   // if the corresponding class does not exist create new Java Proxy
 
@@ -697,4 +845,5 @@ java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count)
   for (i = 0; i < count; i++)
     XFREE (stringArray[i]);
 }
+
 #endif

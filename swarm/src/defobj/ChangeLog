@@ -1,3 +1,21 @@
+1999-07-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.m: Remove static from declarations of variables
+	with prefix c_.
+	Add new global variables with prefixes c_/m_/f_ standing
+	for class/method/field objects.
+	(create_class_refs): Add initialization for new global class 
+	variables.
+	(create_method_refs): Add new function. Intialize global method
+	variables.
+	(create_field_refs): Add new function. Intialize global field 
+	variables.
+	(java_directory_init): Call create_method_refs and 
+	create_field_refs after create_class_refs.
+	(java_ensure_selector): Remove declarations and initializations
+	of variables that are now global and set in create_class_refs or
+	create_field_refs.
+
 1999-07-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (java_directory_init): Make o_globalZone,
