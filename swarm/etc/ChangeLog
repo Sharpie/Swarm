@@ -1,3 +1,9 @@
+1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.appl.in (EXTRALDFLAGS): Add USE_EXTRALDFLAGS as 
+	so that Makefile.appl doesn't have to be modified to get no-console
+	Window apps.
+
 1998-09-30  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.appl.in (swarm_{prefix,exec_prefix,libdir}): Extract
