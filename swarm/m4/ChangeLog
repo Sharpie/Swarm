@@ -1,5 +1,7 @@
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* acjdk.m4 (vj_FIND_JDK): Add check for $jdkdir/include/winnt.
+
 	* acxpm.m4 (md_FIND_XPM): Use AC_TRY_COMPILE instead of simple
 	file tests.  Add messages.  Don't do xpm.h tests if gnuwin32.
 	(md_STRUCT_XPM_ALLOCPIXELS): Use X11/xpm.h or xpm.h depending on
