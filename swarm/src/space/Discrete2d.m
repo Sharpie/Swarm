@@ -382,15 +382,15 @@ lispInLatticeObjects (Discrete2d *self, id expr)
                 raiseEvent (InvalidArgument, "missing value");
 
               // keyword `lattice' assumes a custom list to parse
-              if (listp (val)) 
+              if (archiver_list_p (val)) 
                 {
                   id site;
                   id l = [(id) val begin: scratchZone];
 
                   // get first `parse' string
                   site = [l next];
-                  if (stringp (site) &&
-                      strcmp ([site getC], PARSE_FUNCTION_NAME) == 0)
+                  if (stringp (site)
+                      && strcmp ([site getC], PARSE_FUNCTION_NAME) == 0)
                     {
                       // skip to next element after `parse' string
                       site = [l next];
