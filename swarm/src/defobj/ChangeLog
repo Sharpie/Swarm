@@ -1,3 +1,40 @@
+2003-05-10    <pauljohn@localhost.localdomain>
+
+	* defobj.h: inserted headers and explanation for all methods listed in next entries.
+
+	* DefObject.[hm]: New methods to facilitate
+	serialization. Explanation will be inserted into defobj.h
+	
+- (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
+- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;
+- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val;
+- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val;
+- (void)lispSaveStream: stream Integer: (const char*)aName Value: (int)val;
+- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val;
+- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val;
+- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val;
+- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val;
+- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val;
+- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val;
+- (void)lispSaveStream: stream Double: (const char*) aName Value: (double)val;
+
+        These methods are for saving all kinds of dynamically allcated
+	arrays. Previously, there were methods for Integers and
+	Doubles. After using/testing those methods, I decided I needed the
+	same for other types of primitive.
+	
+- (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
+- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;
+- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val;
+- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val;
+- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val;
+- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val;
+- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val;
+- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val;
+- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val;
+- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val;
+
+	
 2003-05-01    <mgd@arrow.santafe.edu>
 
 	* DefObject.m ([Object_s -dropAllocations:]): Use DROP again;

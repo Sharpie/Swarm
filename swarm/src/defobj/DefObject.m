@@ -1060,12 +1060,206 @@ initDescribeStream (void)
   map_object_ivars (self, store_object);
 }
 
-- (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream 
+// Sometimes the desired effect is not found by saving all variables
+// deep or shallow. One can individually save variables in lisp format
+// with these methods.
+
+
+- (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catBoolean: val];
+}
+
+
+- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catChar: val];
+}
+
+
+- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catShort: val];
+}
+
+
+- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catUnsignedShort: val];
+}
+
+
+- (void)lispSaveStream: stream Integer: (const char*)aName Value: (int)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catInt: val];
+}
+
+
+- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catUnsigned: val];
+}
+
+
+
+- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catLong: val];
+}
+
+
+- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catUnsignedLong: val];
+}
+
+- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catLongLong: val];
+}
+
+
+- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catUnsignedLongLong: val];
+}
+
+
+
+- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catFloat: val];
+}
+
+
+- (void)lispSaveStream: stream Double: (const char*) aName Value: (double)val
+{
+  [stream catSeparator];
+  [stream catKeyword: aName ];
+  [stream catSeparator];
+  [stream catDouble: val];
+}
+
+
+
+
+
+// Go in order through fcall_type_* types in internal.m and and enable
+// storage of arrays of each
+
+- (void)lispStoreBooleanArray: (BOOL *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream 
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_boolean,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreCharArray: (char *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_schar,ptr,NULL,stream,NO);
+}
+
+//I'm not doing uchar. Don't understand it.
+
+- (void)lispStoreShortArray: (short int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_sshort,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
 {
   [stream catSeparator];
   [stream catKeyword: keyword];
   [stream catSeparator];
   lisp_process_array (rank, dims,fcall_type_sint,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreUnsignedArray: (unsigned int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_uint,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreLongArray: (long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_slong,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreUnsignedLongArray: (unsigned long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_ulong,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_slonglong,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreUnsignedLongLongArray: (unsigned long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_ulonglong,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreFloatArray: (float *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_float,ptr,NULL,stream,NO);
 }
 
 - (void)lispStoreDoubleArray: (double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
@@ -1075,6 +1269,15 @@ initDescribeStream (void)
   [stream catSeparator];
   lisp_process_array (rank, dims,fcall_type_double,ptr,NULL,stream,NO);
 }
+
+- (void)lispStoreLongDoubleArray: (long double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_long_double,ptr,NULL,stream,NO);
+}
+
 
 - (void)_lispOut_: stream deep: (BOOL)deepFlag
 {

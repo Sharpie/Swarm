@@ -1208,6 +1208,107 @@ USING
 //M: deep or shallow per deepFlag.
 - (void)lispOutVars: stream deep: (BOOL)deepFlag;
 
+//M: On the given stream, save a Boolean variable called "aName" 
+//M: which has value "val".
+//M: Explanation: 
+//M: The Swarm lisp serialization approach assumes that objects have
+//M: lispOutDeep: and lispOutShallow: methods which indicate which
+//M: variables are supposed to be saved.  If an object is 
+//M: subclassed from SwarmObject, there are default lispOutDeep: 
+//M: and lispOutShallow: methods. Those methods employ on the method,
+//M: lispOutVars:deep:, which is the "default" approach to try to save
+//M: all variables, either deep or shallow.  Sometimes one needs
+//M: to selectively list particular instance variables to be saved.
+
+//M: This is necessary, for example, if one wants to save a Swarm
+//M: itself, because the usage of lispOutVars: will result in 
+//M: a variable "activity" being saved as nil, and so when the
+//M: saved values are read back in, the "activity" variable will be
+//M: erased and nil will appear in its place.  
+
+//M: Here is an example of how a subclass called "BFagent" 
+//M: might override lispOutDeep: to customize 
+//M: the selection of variables to be saved.  Note that the
+//M: same could be used to override lispOutShallow:. 
+
+//M: The key thing
+//M: to remember is that when one tries to do a deep save on
+//M: a high level object, such as a Swarm, then the Swarm
+//M: libraries will try to track from top to bottom, finding
+//M: all collections and objects, and all objects and collections
+//M: inside them, and so forth, and each will be told to execute
+//M: its lispOutDeep: method.  So all objects you want to save need
+//M: a lispOutDeep: method, or else the default will try to save all
+//M: variables.  If you omit some objects or variables from your
+//M: lispOutDeep: method, then they will not appear in the saved
+//M: file, which is what you want if you want to be sure that
+//M: pre-existing interited values of variables are not obliterated 
+//M: by bogus saved values.
+
+//M:- (void)lispOutDeep: stream
+//M:{
+//M:  [stream catStartMakeInstance: "BFagent"];
+//M:  [self lispSaveStream: stream Double: "demand" Value: demand];
+//M:  [self lispSaveStream: stream Double: "profit" Value: profit];
+//M:  [self lispSaveStream: stream Double: "wealth" Value: wealth];
+//M:  [self lispSaveStream: stream Double: "position" Value: position];
+//M:  [self lispSaveStream: stream Double: "cash" Value: cash];
+//M:  [self lispSaveStream: stream Double: "price" Value: price];
+//M:  [self lispSaveStream: stream Double: "dividend" Value: dividend];
+//M:  [self lispSaveStream: stream Integer: "myID" Value: myID];
+//M:  [stream catEndMakeInstance];
+//M:
+//M:}
+//M: An example of such a usage can be found in version 2.4 of the
+//M: Artificial Stock Market (http://ArtStkMkt.sourceforge.net). 
+
+- (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
+
+//M: On the given stream, save a character variable called "aName"
+//M: which has value "val".
+- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;
+
+//M: On the given stream, save a short integer variable called "aName"
+//M: which has value "val".
+- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val;
+
+//M: On the given stream, save an unsigned short integer variable
+//M: called "aName" which has value "val".
+- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val;
+
+//M: On the given stream, save an integer variable called "aName"
+//M: which has value "val".
+- (void)lispSaveStream: stream Integer: (const char*)aName Value: (int)val;
+
+//M: On the given stream, save an unsigned integer variable called
+//M: "aName" which has value "val".
+- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val;
+
+//M: On the given stream, save a long integer variable called "aName"
+//M: which has value "val".
+- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val;
+
+//M: On the given stream, save an unsigned long integer variable
+//M: called "aName" which has value "val".
+- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val;
+
+//M: On the given stream, save a long long integer variable called
+//M: "aName" which has value "val".
+- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val;
+
+//M: On the given stream, save an unsigned long long variable called
+//M: "aName" which has value "val".
+- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val;
+
+//M: On the given stream, save a float valued variable called "aName"
+//M: which has value "val".
+- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val;
+
+//M: On the given stream, save a double valued variable called "aName"
+//M: which has value "val".
+- (void)lispSaveStream: stream Double: (const char*) aName Value: (double)val;
+
+
 //M: For customized archiving of dynamically allocated arrays within
 //M: objects. To use this method, override the object's lispOutDeep:
 //M: method as follows. The array is assumed allocated in one long
@@ -1222,12 +1323,42 @@ USING
 //M: - (void)lispOutDeep: stream
 //M: {
 //M:  [stream catStartMakeInstance: "Attribute"];
-//M:  [super lispOutVars: stream deep: NO]; //saves ints, doubles, BOOLs, and static arrays
-
+//M:  [super lispOutVars: stream deep: NO]; //saves all ints, doubles, BOOLs, and static arrays. Saves the values of all other objects as nil
+//M:  // Note one can use the previous "lispSaveStream:..." methods to
+//M:  // customize the choice of variables to be saved.
+//M:  // Now save an array called "culture", which has 1 row 
+//M:  // and "numDims" columns, onto the stream.
 //M:  [super lispStoreIntegerArray: culture Keyword: "culture" Rank: 1 Dims: &numDims Stream: stream];
 //M:  [stream catEndMakeInstance];
 //M: }
 - (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of Booleans, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreBooleanArray: (BOOL *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of characters, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreCharArray: (char *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of short integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreShortArray: (short int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of unsigned integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreUnsignedArray: (unsigned int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreLongArray: (long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of unsigned long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreUnsignedLongArray: (unsigned long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of long long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of unsigned long long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreUnsignedLongLongArray: (unsigned long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of floats, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreFloatArray: (float *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
 //M: Lisp save array of doubles, see lispStoreIntegerArray:Keyword:Rank:Dims.
 - (void)lispStoreDoubleArray: (double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;

@@ -92,8 +92,31 @@ Library:      defobj
 - lispIn: expr;
 - hdf5InCreate: expr;
 - hdf5In: expr;
+
+- (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
+- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;
+- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val;
+- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val;
+- (void)lispSaveStream: stream Integer: (const char*)aName Value: (int)val;
+- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val;
+- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val;
+- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val;
+- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val;
+- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val;
+- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val;
+- (void)lispSaveStream: stream Double: (const char*) aName Value: (double)val;
+
 - (void)lispOutVars: stream deep: (BOOL)deepFlag;
+- (void)lispStoreBooleanArray: (BOOL *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreCharArray: (char *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreShortArray: (short int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreUnsignedArray: (unsigned int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreLongArray: (long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreUnsignedLongArray: (unsigned long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreUnsignedLongLongArray: (unsigned long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreFloatArray: (float *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispStoreDoubleArray: (double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispOutDeep: stream;
 - (void)lispOutShallow: stream;
