@@ -1,8 +1,10 @@
 NAME = refbook
-SUBDIRS = activity analysis collections defobj gui objectbase random simtools simtoolsgui space
+SUBDIRS = activity analysis collections defobj gui objectbase random simtools simtoolsgui space tech
 
 swarm_srcdir = @swarm_srcdir@
 gridturtle_srcdir = @gridturtle_srcdir@
+
+swarm_ChangeLog =
 
 include $(top_srcdir)/Makefile.rules
 
@@ -21,7 +23,7 @@ PAGES = activity/activitypages.sgml \
 
 GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml
 
-noinst_DATA = $(GENERATED_SGML)
+noinst_DATA = srcrevhistory.sgml $(GENERATED_SGML)
 
 SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml 
 

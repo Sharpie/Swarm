@@ -46,3 +46,4 @@
 <!entity lgpl-app.sgml system "@srcdir@/lgpl-app.sgml">
 <!entity gpl-app.sgml system "@srcdir@/gpl-app.sgml">
 
+<!entity srcrevhistory.sgml system "srcrevhistory.sgml">
