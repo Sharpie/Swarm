@@ -1,3 +1,25 @@
+1998-04-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Discrete2d.m: Include space.h.  
+
+	* Discrete2d.[hm] (copyDiscrete2d:toDiscrete2d:,
+	setDiscrete2d:toFile:): Replace static typing of Discrete2d with
+	generic objects. In implementation, check for compliance
+	with the Discrete2d protocol.
+
+	* Object2dDisplay.[hm], Value2dDisplay.[hm]: Replace static
+	typings of Discrete2d with objects conforming to the Discrete2d
+	protocol. 
+	(setDiscrete2dDisplay): Argument is a generic object which is
+	checked for protocol conformance at runtime.
+
+	* Ca2d.m, ConwayLife2d.m, DblBuffer2d.m, Diffuse2d.m
+	Discrete2d.m, Grid2d.m, Int2dFiler.m, Object2dDisplay.m,
+	Value2dDisplay.m, space.h: Move documentation tags here.
+
+	* space.h: Now a protocol definition file instead of a full
+	set of includes.
+
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Object2dDisplay.h, Discrete2d.h, Int2dFiler.h: Include 

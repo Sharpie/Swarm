@@ -8,11 +8,9 @@
 // the display widget.
 
 #import <space/Int2dFiler.h>
+#import <space/Discrete2d.h> // discrete2dSiteAt
 #import <simtools.h>
 
-//S: Saves the state of a Discrete2d object.
-//D: The Int2dFiler class is used to save the state of any Discrete2d
-//D: object (or a subclass thereof) to a specified file.
 @implementation Int2dFiler
 
 + createBegin: aZone
@@ -25,39 +23,27 @@
   return obj;
 }
 
-//M: Set the target space to be filled.
-//M: This message can be used more than once, but often it is useful
-//M: to keep one Int2dFiler per space
-//M: (e.g. when the space is saved multiple times). 
-- setDiscrete2dToFile: (Discrete2d *)aSpace 
+- setDiscrete2dToFile: aSpace 
 {
   discrete2d = aSpace;
+
   return self;
 }
 
-//M: This message is optional. It is used when the target Discrete2d
-//M: contains objects.  By sending each object the message specified by
-//M: the selector, the Int2dFiler is able to get from the object an
-//M: integer representing its state, which it then writes to the file. 
 - setValueMessage: (SEL)aSelector
 {
   valueMessage = aSelector;
+
   return self;
 }
 
-//M: This message is optional.  It is used when the target Discrete2d
-//M: contains objects.  If a particular location in the space has no
-//M: resident object, the argument of this message is the value which
-//M: gets writtent to the file. The default background value is 0. 
 - setBackground: (int)aValue
 {
   background = aValue;
+
   return self;
 }
 
-//M: When the Int2dFiler receives this message, it opens a file called
-//M: fileName, stores the state of a pre-specified space into it, and
-//M: then closes the file. 
 - fileTo: (const char *)aFileName
 {
   int x, y;

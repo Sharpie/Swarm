@@ -14,13 +14,13 @@
 @interface Object2dDisplay: SwarmObject
 {
   id <Raster> displayWidget;
-  Discrete2d *discrete2d;
+  id <Discrete2d> discrete2d;
   SEL displayMessage;
   id objectCollection;
 }
 
 - setDisplayWidget: (id <Raster>)r;
-- setDiscrete2dToDisplay: (Discrete2d *)c;
+- setDiscrete2dToDisplay: c;
 - setDisplayMessage: (SEL)s;
 - setObjectCollection: objects;			  // optional collection
 - createEnd;

@@ -16,21 +16,9 @@
 // Summary: only *read* from lattice, only *write* to newLattice.
 
 
-//S: A double buffered space.
-//D: DblBuffer2d augments Discrete2d to provide a form of double buffered
-//D: space. Two lattices are maintained: lattice (the current state), and
-//D: newLattice (the future state). All reads take place from lattice, all
-//D: writes take place to newLattice. newLattice is copied to lattice when
-//D: updateLattice is called.  DblBuffer2d can be used to implement one
-//D: model of concurrent action, like in Ca2ds.  NOTE: be very careful if
-//D: you're using low-level macro access to the world, in particular be
-//D: sure that you preserve the write semantics on the newLattice.
-
 @implementation DblBuffer2d
 
 // allocate buffers.
-//M: Rewrites the method from Discrete2d. Allocate two lattices,
-//M: makes the offsets.
 - createEnd
 {
   if (xsize == 0 || ysize == 0)
@@ -47,14 +35,12 @@
   return self;
 }
 
-//M: Return a pointer to the newLattice buffer.
 - (id *)getNewLattice
 {
   return newLattice;
 }
 
 // swap lattice pointers around (see comment at top of file.)
-//M: Copy newLattice to lattice, in effect updating the lattice. 
 - updateLattice
 {
   if (lattice == wBuf1 && newLattice == wBuf2)
@@ -83,7 +69,6 @@
 }
 
 // override puts to use new lattice, not old.
-//M: Overridden so writes happen to newLattice.
 - putObject: anObject atX: (int)x Y: (int)y
 {
   *discrete2dSiteAt (newLattice, offsets, x, y) = anObject;
@@ -91,7 +76,6 @@
 }
 
 // override puts to use new lattice, not old.
-//M: Overridden so writes happen to newLattice.
 - putValue: (long)v atX: (int)x Y: (int)y
 {
   *discrete2dSiteAt (newLattice, offsets, x, y) = (id)v;

@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <space/Discrete2d.h>
+#import <space.h>
 #import <gui.h>
 
 // generic object to handle display 2d values
@@ -13,14 +14,14 @@
   id <Raster> displayWidget;
   IMP drawPointImp;
   id <Colormap> colormap;
-  Discrete2d *discrete2d;			  // read only
+  id <Discrete2d> discrete2d;			  // read only
   int numCaStates;
   int modFactor;
   int colorConstant;
 }
 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
-- setDiscrete2dToDisplay: (Discrete2d *)c;
+- setDiscrete2dToDisplay: c;
 - setDisplayMappingM: (int)m C: (int)c;	  // linear mapping
 - display;
 @end

@@ -12,12 +12,12 @@
 
 @interface Int2dFiler: SwarmObject 
 {
-  Discrete2d *discrete2d;
+  id <Discrete2d> discrete2d;
   SEL valueMessage;
   int background;
 }
 
-- setDiscrete2dToFile: (Discrete2d *)aSpace;
+- setDiscrete2dToFile: aSpace;
 - setValueMessage: (SEL)aSelector;
 - setBackground: (int)aValue;
 - fileTo: (const char *)fileName;

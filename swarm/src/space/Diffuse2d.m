@@ -13,15 +13,11 @@
 //   k is the diffusion constant
 //   evap is the evaporation rate.
 
-//S: 2d difussion with evaporation.
-//D: Discrete 2nd order approximation to 2d diffusion with evaporation. 
-//D: Math is done in integers on the range [0,0x7fff]. 
 @implementation Diffuse2d
 
 const unsigned maxStates = 0x7fff;
 
-//M: Set diffusion constant and evaporation rate to 1.0, numStates to 0x7fff.
-+ createBegin: (id) aZone
++ createBegin: aZone
 {
   id r = [super createBegin: aZone];
 
@@ -32,7 +28,6 @@ const unsigned maxStates = 0x7fff;
   return r;
 }
 
-//M: Set the diffusion constant. Values over 1.0 might not be valid.
 - setDiffusionConstant: (double)d
 {
   diffusionConstant = d;
@@ -40,7 +35,6 @@ const unsigned maxStates = 0x7fff;
   return self;
 }
 
-//M: Set the evaporation rate. Values over 1.0 don't make much sense
 - setEvaporationRate: (double)e
 {
   evaporationRate = e;
@@ -48,7 +42,6 @@ const unsigned maxStates = 0x7fff;
   return self;
 }
 
-//M: Initialize world to 0.
 - initializeLattice
 {
   unsigned x, y;
@@ -69,9 +62,6 @@ const unsigned maxStates = 0x7fff;
   return self;
 }
 
-//M: Run discrete approximation to diffusion. Roughly, it's 
-//M: newHeat = evapRate * (self + diffuseConstant*(nbdavg - self)) 
-//M: where nbdavg is the weighted average of the 8 neighbours. 
 - stepRule
 {
   unsigned x, y;
