@@ -1,3 +1,7 @@
+2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* objc.h: Declare objc_msg_lookup_objc.
+
 2000-09-22  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* hash.h: Include string.h for strcmp.
