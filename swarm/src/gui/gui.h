@@ -135,7 +135,6 @@
 - setUser: user;
 @end
 
-
 @protocol Entry <Widget>
 - (const char *)getValue;
 - setValue: (const char *)value;
@@ -178,7 +177,7 @@ typedef unsigned long PixelValue;
 typedef unsigned long Pixmap;     // X.h defines it as an XID
 #endif
 
-@protocol Colormap <CreateDrop>
+@protocol Colormap <Create>
 - (PixelValue *)map;
 - (PixelValue)black;
 - (BOOL)setColor: (Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
@@ -211,10 +210,12 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 @end
 
-@protocol Pixmap <Drawer>
+@protocol Pixmap <Drawer, Create>
 - setFile: (const char *)filename;
-- createEnd;
 - setRaster: raster;
+- createEnd;
+- getWidth;
+- getHeight;
 - drawX: (int)x Y: (int)y;
 @end
 
@@ -317,6 +318,7 @@ void initTkObjc (id arguments);
 @class OvalNodeItem;
 @class Pixmap;
 @class RectangleNodeItem;
+@class Raster;
 @class ZoomRaster;
 
 #define ButtonLeft 1

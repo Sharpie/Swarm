@@ -1,7 +1,9 @@
 1998-04-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* gui.h: Colormap protocol now conforms to CreateDrop protocol.
-	(Thanks to Ken Cline.)
+	* gui.h: Colormap and Pixmap protocols now are drived from Create
+	protocol.  (Thanks to Ken Cline.)
+	Add "@class Raster".  (Thanks to Pietro Terna.)
+	(Pixmap): Add getWidth and getHeight methods to protocol.
 
 1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
