@@ -1,5 +1,7 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* configure.in: Use md_CHECK_DLLEXTERN.
+
 	* Makefile.am (CPPFLAGS): Add -Dextern=@EXPORT_EXTERN@.
 
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
