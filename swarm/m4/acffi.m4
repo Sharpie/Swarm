@@ -59,6 +59,7 @@ if test -n "$ffidir" ; then
 			if test -f $ffidir_expand/include/ffi.h ; then
 			  AC_MSG_RESULT($ffidir_expand/include)
 			  FFILIB=-lffi
+			  SWFFILIB=${FFILIB}
 			  break
 			fi
 		done
