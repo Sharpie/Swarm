@@ -6,6 +6,12 @@
 
 	* configure.in: Fix typo in cygwin host_os check.
 
+	* common.dsl (id-to-indexitem): Remove SET case.  Return #f when
+	there's not a special case.
+
+	* print.dsl (printed-link): Run process-children when id-to-indexitem
+	returns #f.
+	
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: Remove LGPL, GPL entities, create new PUBLIC entity

@@ -33,8 +33,11 @@
     (let* ((id (attribute-string "LINKEND"))
            (nl (element-with-id id)))
       (sosofo-append
-       (literal (id-to-indexitem id))
-       ($italic-seq$ 
+       (let ((indexitem (id-to-indexitem id)))
+         (if indexitem
+             (literal indexitem)
+             (process-children)))
+       ($italic-seq$
         (sosofo-append
          (literal " (see page ")
          (element-page-number-sosofo nl)
