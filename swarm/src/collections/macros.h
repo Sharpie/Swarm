@@ -28,6 +28,7 @@ extern id _i_MapIndex_c__prev (struct MapIndex_c *, struct objc_selector *);
 extern void _i_MapIndex_c__setLoc_ (struct MapIndex_c *, struct objc_selector *, id <Symbol>);
 extern id <Symbol> _i_MapIndex_c__getLoc (struct MapIndex_c *, struct objc_selector *);
 extern BOOL _i_Map_c__at_insert_ (struct Map_c *, struct objc_selector *, id, id);
+extern id _i_OrderedSet_c__remove_ (struct OrderedSet_c *, struct objc_selector *, id);
 
 #define LIST_BEGIN(list) beginLinkedList (list)
 #define LIST_INDEX_NEXT(index) _i_ListIndex_linked__next (index, M(next))
@@ -52,6 +53,8 @@ extern BOOL _i_Map_c__at_insert_ (struct Map_c *, struct objc_selector *, id, id
 #define MAP_INDEX_PREV(index) _i_MapIndex_c__prev (index, M(prev))
 #define MAP_INDEX_SETLOC(index, sym) _i_MapIndex_c__setLoc_ (index, M(setLoc:), sym)
 #define MAP_INDEX_GETLOC(index) _i_MapIndex_c__getLoc (index, M(getLoc:))
+
+#define ORDEREDSET_REMOVE(set, obj) _i_OrderedSet_c__remove_ (set, M(remove:), obj)
 
 #else
 
@@ -78,5 +81,7 @@ extern BOOL _i_Map_c__at_insert_ (struct Map_c *, struct objc_selector *, id, id
 #define MAP_INDEX_PREV(index) [index prev]
 #define MAP_INDEX_SETLOC(index, sym) [index setLoc: sym]
 #define MAP_INDEX_GETLOC(index) [index getLoc]
+
+#define ORDEREDSET_REMOVE(set, obj) [set remove: obj]
 
 #endif

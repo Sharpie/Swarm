@@ -1335,10 +1335,7 @@ PHASE(Using)
 //
 - (void)dropAllocations: (BOOL)componentAlloc
 {
-  extern id _i_OrderedSet_c__remove_ (id, SEL, id);
-#define REMOVE(l, obj) _i_OrderedSet_c__remove_ (l, M(remove:), obj)
-  REMOVE (((Schedule_c *) collection)->activityRefs, activity);
-#undef REMOVE
+  ORDEREDSET_REMOVE (((Schedule_c *) collection)->activityRefs, activity);
   [super dropAllocations: YES];
 }
 
