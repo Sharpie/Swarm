@@ -35,7 +35,6 @@ if test $USEDLL = yes; then
   LIBJAVASWARMSTUBS_LA=
   JAVASWARM_DLL=javaswarm.dll
   noinst_LIBS='lib$(MODULE).la'
-  inst_LIBS=
   inst_LDFLAGS=
 else
   LIBSWARM_LA=libswarm.la
@@ -43,8 +42,10 @@ else
   LIBJAVASWARM_LA=libjavaswarm.la
   LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
   JAVASWARM_DLL=
-  noinst_LIBS=
-  inst_LIBS='lib$(MODULE).la'
+  case "$target_os" in
+    irix6*) noinst_LIBS='lib$(MODULE).la' ;;
+    *) inst_LIBS='lib$(MODULE).la' ;;
+  esac
   inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
 fi
 AC_SUBST(SWARM_DLL)

@@ -1,5 +1,7 @@
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* configure.in: For irix6, don't create component shared libraries.
+
 	* NEWS: Note support for parallel builds and DLLs.
 
 	* configure.in (LIBSWARM_LA): Build it even in USEDLL case.
