@@ -1,5 +1,9 @@
 1998-12-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* EZGraph.m: Include misc.h.
+	 ([EZGraph -createGraphSequence:forSequence:withFeedFrom:andSelector:]):
+	Prepend filename to ".SEQUENCENAME".
+
 	* EZBin.[hm], EZGraph.[hm]: Add filename and accessors.  Rename
 	theTitle to title.  Default filename to title in setTitle.
 

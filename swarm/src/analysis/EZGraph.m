@@ -4,9 +4,10 @@
 // See file LICENSE for details and terms of copying.
 
 #import <analysis/EZGraph.h>
+#import <analysis.h> // ActiveGraph, ActiveOutFile
 #import <gui.h> // Graph
 #import <simtools.h> // OutFile
-#import <analysis.h> // ActiveGraph, ActiveOutFile
+#import <misc.h> // strlen, stpcpy
 
 #define NUMCOLORS 12
 const char graphColors[NUMCOLORS][16] =
@@ -147,7 +148,6 @@ PHASE(Using)
           andSelector: (SEL)aSel
 {
   id aGrapher;
-  char fName[128];
   
   if (graphics)
     {
@@ -170,9 +170,11 @@ PHASE(Using)
     {
       id aFileObj;
       char *p;
+      const char *delim = ".";
+      char fName[strlen (fileName) + strlen (delim) + strlen (aName) + 1];
 
       p = stpcpy (fName, fileName);
-      p = stpcpy (p, ".");
+      p = stpcpy (p, delim);
       p = stpcpy (p, aName);      
       aFileObj = [OutFile create: [self getZone] withName: fName];
       
