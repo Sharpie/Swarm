@@ -531,7 +531,7 @@ PHASE(Using)
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     {
       [stream catC: " "];
-      if (member == (id) ArchiverEOL)
+      if (ARCHIVEREOLP (member))
         break;
       else if (keywordp (member)
                || valuep (member)

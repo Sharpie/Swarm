@@ -309,13 +309,13 @@ USING
 #endif
 
 //#: Predicate to test if index is at the start.
-#define INDEXSTARTP(obj) ((id) (obj) == (id) Start)
+#define INDEXSTARTP(obj) ((void *) (obj) == (void *) Start)
 
 //#: Predicate to test if index is at the end.
-#define INDEXENDP(obj) ((id) (obj) == (id) End)
+#define INDEXENDP(obj) ((void *) (obj) == (void *) End)
 
 //#: Predicate to test if item at index has been removed.
-#define REMOVEDP(obj) ((id) (obj) == (id) Removed)
+#define REMOVEDP(obj) ((void *) (obj) == (void *) Removed)
 
 //G: values for index location
 externvar id <Symbol> Start, End, Between, Removed, Member;
@@ -1139,7 +1139,8 @@ USING
 - (void)lispOutDeep: (id <OutputStream>)stream;
 @end
 
-#define ARCHIVERDOTP(obj) ((id) (obj) == (id) ArchiverDot)
+#define ARCHIVERDOTP(obj) ((void *) (obj) == (void *) ArchiverDot)
+#define ARCHIVEREOLP(obj) ((void *) (obj) == (void *) ArchiverEOL)
 
 @protocol String <Create, Drop, Copy, CREATABLE>
 //S: Character string object (later to support collection behavior).
