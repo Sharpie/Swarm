@@ -16,8 +16,10 @@ if test $jdkdir = no; then
 else
   if test -f $jdkdir/include/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include -I$jdkdir/include/solaris -I$jdkdir/include/genunix"
+    JAVACLASSES='${jdkdir}/lib/classes.zip'
   elif test -f $jdkdir/include/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include/japhar"
+    JAVACLASSES=`$jdkdir/bin/japhar-config info datadir`/classes.zip
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
@@ -28,6 +30,7 @@ fi
 
 AC_SUBST(JAVASTUBS)
 AC_SUBST(JAVAINCLUDES)
+AC_SUBST(JAVACLASSES)
 AC_SUBST(jdkdir)
 ])
 
