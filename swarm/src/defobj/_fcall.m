@@ -2,14 +2,14 @@
 #define AVALIST(fa) fa->objc_avalist
 #define ADD_PRIMITIVE objc_add_primitive
 #define SET_RETURN_TYPE objc_set_return_type
-#define AV_CALL objc_av_call
+#define AV_CALL objc_call
 #endif
 
 #ifdef JAVA
 #define AVALIST(fa) fa->java_avalist
 #define ADD_PRIMITIVE java_add_primitive
 #define SET_RETURN_TYPE java_set_return_type
-#define AV_CALL java_av_call
+#define AV_CALL java_call
 #endif
 
 #import <defobj/FArguments.h>
