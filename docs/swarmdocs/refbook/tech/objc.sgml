@@ -9,17 +9,27 @@
     than a day or so.</PARA>
 
   <ITEMIZEDLIST>
-    <LISTITEM><PARA><ULINK URL="http://www.santafe.edu/projects/swarm/ObjC/objective-c.html">Objective
+
+    <LISTITEM><PARA>
+
+        <ULINK
+          URL="http://www.santafe.edu/projects/swarm/ObjC/objective-c.html">Objective
           C references</ULINK> List of Objective C references on the
           Web. Includes a 10 minute overview to Objective C that is
           most of what you need to know about Objective C.  Originally
           contributed by Nelson Minar</PARA>
       </LISTITEM>
 
-    <LISTITEM><PARA><ULINK URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html">Object-Oriented
-          Programming and the Objective-C Language</ULINK> An excellent
-        (online!) book on Objective C. This is for generic NeXT Objective C:
-        Swarm uses GNU Objective C in addition to our own <LINK LINKEND="DEFOBJ.REF">defobj</LINK> extensions.</PARA>
+    <LISTITEM><PARA>
+
+        <ULINK
+          URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html"><CITETITLE>Object-Oriented
+          Programming and the Objective-C Language</CITETITLE></ULINK> An
+          excellent (online!) book on Objective C. This is for generic
+          NeXT Objective C: Swarm uses GNU Objective C in addition to
+          our own <LINK LINKEND="DEFOBJ.REF">defobj</LINK>
+          extensions.</PARA>
+
     </LISTITEM>
 
   </ITEMIZEDLIST>
