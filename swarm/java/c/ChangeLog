@@ -3,6 +3,8 @@
 	* Makefile.in (libjavaswarm.la): Missing object list.
 	(OBJC, OBJCFLAGS): Substitute; switch to Objective C stubs. 
 	Disable warnings about unknown pragmas.
+	(INSTALL): Substitute.
+	(install): New target.
 
 1999-02-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

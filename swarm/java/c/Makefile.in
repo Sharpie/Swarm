@@ -4,6 +4,7 @@ AGE = 0
 include ../Makefile.common
 OBJC=@OBJC@
 RANLIB=@RANLIB@
+INSTALL=@INSTALL@
 top_builddir=../..
 SHELL=@SHELL@
 LIBTOOL=@LIBTOOL@
@@ -29,6 +30,9 @@ libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 
 all: libjavaswarm.la
+
+install: all
+	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
 
 libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) $(LDFLAGS) -o $@ -rpath $(libdir) $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) $(LIBS)
