@@ -588,12 +588,18 @@ x_pixmap_create_from_window (Pixmap *pixmap, Window window)
 }
 #else
 static void
-win32_pixmap_create_from_window (Pixmap *pixmap, HWND window)
+win32_pixmap_create_from_window (Pixmap *pixmap,
+				 Window window,
+				 BOOL parentFlag)
 {
   dib_t *dib = dib_create ();
-  dib->window = window;
+  dib->window = (!window
+		 ? GetDesktopWindow () 
+		 : (!parentFlag
+		    ? TkWinGetHWND (window)
+		    : (HWND)window));
+  
   pixmap->pixmap = dib;
-
   {
     RECT rect;
 
@@ -601,7 +607,7 @@ win32_pixmap_create_from_window (Pixmap *pixmap, HWND window)
     pixmap->height = rect.bottom - rect.top;
     pixmap->width = rect.right - rect.left;
   }
-  dib_snapshot (dib);
+  dib_snapshot (dib, parentFlag);
 }
 #endif
 
@@ -616,7 +622,7 @@ pixmap_create_from_root_window (Pixmap *pixmap)
   root = RootWindow (pixmap->display, DefaultScreen (pixmap->display));
   x_pixmap_create_from_window (pixmap, root);
 #else
-  win32_pixmap_create_from_window (pixmap, GetDesktopWindow ());
+  win32_pixmap_create_from_window (pixmap, 0, NO);
 #endif
 }
 
@@ -644,11 +650,17 @@ keep_inside_screen (Tk_Window tkwin, Window window)
     [PixmapError raiseEvent: "Cannot get geometry for root window"];
 #else
   RECT rect, rootrect;
+  // wm frame returns a hwnd
+  HWND hwnd = ((Tk_WindowId (tkwin) == window) ?
+	       TkWinGetHWND (window) 
+	       : (HWND)window);
   
-  if (GetWindowRect (TkWinGetHWND (window), &rect) == FALSE)
+  if (GetWindowRect (hwnd, &rect) == FALSE)
     [PixmapError raiseEvent: "Cannot get geometry for window"];
   h = rect.bottom - rect.top;
   w = rect.right - rect.left;
+  x = rect.left;
+  y = rect.top;
 
   if (GetWindowRect (GetDesktopWindow (), &rootrect) == FALSE)
     [PixmapError raiseEvent: "Cannot get geometry for desktop"];
@@ -658,7 +670,7 @@ keep_inside_screen (Tk_Window tkwin, Window window)
   rh = rootrect.bottom - rootrect.top;
   rw = rootrect.right - rootrect.left;
 #endif
-  
+
   if (Tk_WindowId (tkwin) == window)
     {
       x = Tk_X (tkwin);
@@ -703,13 +715,13 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       Tk_Window tkwin = tkobjc_nameToWindow (widgetName);
       Window window;
 
-      if (parentFlag)
+      if (!parentFlag)
+        window = Tk_WindowId (tkwin);
+      else
         {
           [globalTkInterp eval: "wm frame %s", widgetName];
           sscanf ([globalTkInterp result], "0x%x", &window);
         }
-      else
-        window = Tk_WindowId (tkwin);
       [globalTkInterp eval: "wm deiconify %s", widgetName];
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
       keep_inside_screen (tkwin, window);
@@ -719,7 +731,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       pixmap->display = Tk_Display (tkwin);
       x_pixmap_create_from_window (pixmap, window);
 #else
-      win32_pixmap_create_from_window (pixmap, Tk_GetHWND (window));
+      win32_pixmap_create_from_window (pixmap, window, parentFlag);
 #endif
     }
 }

@@ -1,11 +1,21 @@
 1998-09-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* internal.m (tkobjc_pixmap_save): palbuf needs same scope as 
+	* win32dib.[ch] (dib_snapshot): Add windowDCFlag.  When
+	set, use whole window DC, not just contents.
+
+	* internal.m (tkobjc_pixmap_save): palbuf needs same scope as
 	row_pointers.
 	(keep_inside_screen): Change usage from widget to tkwin and window
-	arguments (latter serves to distinguish parent from non-parent 
+	arguments (latter serves to distinguish parent from non-parent
 	snapshots).  Compute relocation to ensure enough is visible for
 	parent case.
+	(win32_pixmap_create_from_window): Change usage to take Window,
+	not a HWND and add parentFlag argument.  Take Window = 0 to mean a
+	request for root window.  Conditional to get HWND for these cases.
+	Pass parentFlag to dib_snapshot.
+	(keep_inside_screen): Handle parent case for Win32.
+	(tkobjc_pixmap_create_from_widget): Pass parent flag to
+	win32_pixmap_create_from_window.
 
 	* internal.[hm] (tkobjc_pixmap_create_from_widget): New argument
 	parentFlag.  When set, request the window's parent window, which

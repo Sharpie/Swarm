@@ -125,10 +125,10 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
 #define SNAPSHOTPALETTE ((void *)0xdeaf)
 
 void
-dib_snapshot (dib_t *dib)
+dib_snapshot (dib_t *dib, BOOL windowDCFlag)
 {
   int i;
-  HDC hdc = GetDC (dib->window);
+  HDC hdc = windowDCFlag ? GetWindowDC (dib->window) : GetDC (dib->window);
   HDC hmemdc = CreateCompatibleDC (hdc);
   HDC hbmmem;
   RECT rect;

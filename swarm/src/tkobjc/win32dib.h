@@ -70,7 +70,7 @@ BOOL dib_copy (dib_t *source, dib_t *dest, int destx, int desty, unsigned width,
 LPBYTE dib_lock (dib_t *dib);
 void dib_unlock (dib_t *dib);
 
-void dib_snapshot(dib_t *dib);
+void dib_snapshot(dib_t *dib, BOOL windowDCFlag);
 
 #if 0
 /* Used to control what part of the bitmap gets shown to the screen */
