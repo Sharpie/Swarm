@@ -1,3 +1,10 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* List_HDF5out.m ([-..hdf5OutShallow]): Don't call writeRowNames.
+	(Common-case of HDF5 usage is logging many points, and this
+	will be a big blob of dumb sequential data.  R should create
+	the row.names on-the-fly for the data frame.)
+
 2000-06-30  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* InputStream.m ([InputStream_c -getExpr]): Handle DSSSL/Kawa
