@@ -1,11 +1,15 @@
 CURRENT = 0
 REVISION = 0
 AGE = 0
+STUBSCURRENT = 0
+STUBSREVISION = 0
+STUBSAGE = 0
 include ../Makefile.common
 
 top_srcdir=@top_srcdir@
 top_builddir=../..
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
+abs_builddir := $(shell pwd)
 srcdir=@srcdir@
 
 include $(top_builddir)/etc/Makefile.common
@@ -29,18 +33,25 @@ override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 
-libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(foreach impmodule,$(SWARMMODULES),-L$(abs_top_builddir)/src/$(impmodule)/.libs) -L$(abs_top_builddir)/libobjc/.libs $(SUPPORTLDFLAGS) -rpath $(libdir)
+libjavaswarmstubs_la_LDFLAGS = -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir)
 
-libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS)) \
-	directory.lo setup.lo JavaProxy.lo SwarmEnvironment.lo
+libjavaswarmstubs_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 
-all: libjavaswarm.la
+libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_builddir)/.libs $(foreach impmodule,$(SWARMMODULES),-L$(abs_top_builddir)/src/$(impmodule)/.libs) -L$(abs_top_builddir)/libobjc/.libs $(SUPPORTLDFLAGS) -rpath $(libdir)
+
+libjavaswarm_la_OBJECTS = directory.lo setup.lo JavaProxy.lo SwarmEnvironment.lo
+
+all: libjavaswarm.la libjavaswarmstubs.la
 
 install: all
 	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
+	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir)
 
-libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) $(SWARMLIBS) $(SYSLIBS)
+libjavaswarmstubs.la: $(libjavaswarmstubs_la_OBJECTS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs_la_LDFLAGS) $(libjavaswarmstubs_la_OBJECTS)
+
+libjavaswarm.la: $(libjavaswarm_la_OBJECTS) libjavaswarmstubs.la
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) -ljavaswarmstubs $(SWARMLIBS) $(SYSLIBS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
