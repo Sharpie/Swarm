@@ -1,3 +1,13 @@
+2004-07-23  Marcus G. Daniels <mgd@santafe.edu>
+
+	* configure.in:  Don't use /usr/lib/swarm for --enable-subdirs
+	on Cygwin.  ../bin is the install location for DLLs, and we don't
+	want /usr/lib/bin/cygswarm-0.dll.  There is no proliferation of
+	libraries in the case of Cygwin because the DLL consolidates the
+	module libraries.
+
+	* VERSION: Bump.
+
 2004-07-22  Marcus G. Daniels <mgd@santafe.edu>
 
 	* configure.in: Don't have multiple AC_OUTPUTs for disable-gui,

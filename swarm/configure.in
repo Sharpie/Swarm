@@ -264,7 +264,14 @@ AC_ARG_ENABLE(subdirs,
 if test $prefix = /usr || test $enable_subdirs = yes; then
    includesubdir=swarm
    includedir=${includedir}/${includesubdir}
-   libdir=${libdir}/swarm
+  
+   if ! test -x $prefix/bin/cygwin1.dll; then
+     # Cygwin will want to use ../bin for DLLs, which will result
+     # in /usr/lib/bin/cygswarm.dll.  Anyway, the shared libraries 
+     # are consolidated into a single DLL, so there is no proliferation 
+     # of libraries
+     libdir=${libdir}/swarm
+   fi
 fi
 
 md_CHECK_LINKFLAGS
