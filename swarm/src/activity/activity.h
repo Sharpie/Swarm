@@ -760,6 +760,9 @@ CREATING
 //M: Convenience method for creating an AutoDrop Schedule
 + create: (id <Zone>)aZone setAutoDrop: (BOOL)autoDrop;
 
+//M: Indicate whether an empty schedule should be dropped and ignored or
+//M: or kept and attended to (default is YES).
+- setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 USING
 - at: (timeval_t)tVal createAction: anActionType;
 
@@ -790,10 +793,6 @@ USING
 #endif
 
 - (id <ActionGroup>)insertGroup: (timeval_t)tVal;
-
-//M: Indicate whether an empty schedule should be dropped and ignored or
-//M: or kept and attended to (default is YES).
-- setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 @end
 
 @protocol ScheduleActivity <Activity, RETURNABLE>
