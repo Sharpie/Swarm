@@ -58,10 +58,8 @@
 
 @interface MyDiscrete2d: Discrete2d
 {
-  BOOL objectFlag;
   BOOL updateFlag;
 }
-- setObjectFlag: (BOOL)objectFlag;
 - setUpdateFlag: (BOOL)updateFlag;
 - updateArchiver: archiver;
 - (BOOL)checkObject;
@@ -74,12 +72,6 @@
 
   obj->updateFlag = YES;
   return obj;
-}
-
-- setObjectFlag: (BOOL)theObjectFlag;
-{
-  objectFlag = theObjectFlag;
-  return self;
 }
 
 - setUpdateFlag: (BOOL)theUpdateFlag
