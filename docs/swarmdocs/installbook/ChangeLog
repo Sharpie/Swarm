@@ -1,3 +1,7 @@
+1998-10-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* installbook.tex.in: Include tex/macros.tex.
+
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* installmeta.sgml: Make more conservative.  Remove statements
