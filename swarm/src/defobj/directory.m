@@ -81,7 +81,7 @@ getIndex (jobject javaObject)
   return self;
 }
 
-- (const char *)getObjCName
+- (const char *)getObjcName
 {
   return ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Selector)
           ? (object ? sel_get_name ((SEL) object) : "M(<nil>)")
@@ -92,8 +92,8 @@ getIndex (jobject javaObject)
 {
 #if 0
   printf ("`%s'%p/%p vs `%s'%p/%p\n",
-          [self getObjCName], object, javaObject,
-          [obj getObjCName], 
+          [self getObjcName], object, javaObject,
+          [obj getObjcName], 
           ((DirectoryEntry *) obj)->object,
           ((DirectoryEntry *) obj)->javaObject);
 #endif
@@ -138,7 +138,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return obj;
 }
 
-- findJava: (jobject)theJavaObject
+- javaFind: (jobject)theJavaObject
 {
   unsigned index = getIndex (theJavaObject);
   id m = table[index];
@@ -154,14 +154,14 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return nil;
 }
 
-- findJavaObjC: (jobject)theJavaObject
+- javaFindObjc: (jobject)theJavaObject
 {
-  DirectoryEntry *entry = [self findJava: theJavaObject];
+  DirectoryEntry *entry = [self javaFind: theJavaObject];
 
   return entry ? entry->object : nil;
 }
 
-- findObjC: theObject
+- objcFind: theObject
 {
   id findEntry = OBJCENTRY (theObject);
   DirectoryEntry *ret;
@@ -171,9 +171,9 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return ret;
 }
 
-- (jobject)findObjCJava: theObject
+- (jobject)objcFindJava: theObject
 {
-  DirectoryEntry *entry = [self findObjC: theObject];
+  DirectoryEntry *entry = [self objcFind: theObject];
 
   return entry ? entry->javaObject : NULL;
 }
@@ -196,64 +196,94 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return entry;
 }
 
-- switchJava: theObject javaObject: (jobject)theJavaObject
+- switchJavaEntry: (DirectoryEntry *)entry javaObject: (jobject)theJavaObject
 {
   unsigned index;
   id <Map> m;
-  id entry;
-  DirectoryEntry *ret;
-
-  entry = OBJCENTRY (theObject);
-
-  if (!(ret = avl_find (objc_tree, entry)))
-    abort ();
-  index = getIndex (ret->javaObject);
+  
+  index = getIndex (entry->javaObject);
   m = table[index];
 
-  {
-    id lastEntry = JAVAENTRY (ret->javaObject);
-    [m remove: lastEntry];
-    (*jniEnv)->DeleteGlobalRef (jniEnv, ret->javaObject);
-    [lastEntry drop];
-  }
+  [m remove: entry];
+  (*jniEnv)->DeleteGlobalRef (jniEnv, entry->javaObject);
   
   index = getIndex (theJavaObject);
   [entry setJavaObject: theJavaObject];
-  [table[index] at: entry replace: entry];
-  return entry;
+  [table[index] at: entry insert: entry];
+  return self;
 }
 
-- switchObjC: theObject javaObject: (jobject)theJavaObject
+- switchJava: theObject javaObject: (jobject)theJavaObject
 {
-  unsigned index;
-  id <Map> m;
   DirectoryEntry *entry;
+  id findEntry = OBJCENTRY (theObject);
 
-  entry = JAVAENTRY (theJavaObject);
-
-  index = getIndex (theJavaObject);
-  m = table[index];
-  entry  = [table[index] at: entry];
-
-  {
-    id lastEntry = OBJCENTRY (entry->object);
-    avl_delete (objc_tree, entry);
-    
-    [lastEntry drop];
-  }
-  [entry setObject: theObject];
-  avl_probe (objc_tree, entry);
+  if (!(entry = avl_find (objc_tree, findEntry)))
+    abort ();
+  [self switchJavaEntry: entry javaObject: theJavaObject];
+  [findEntry drop];
   return (id) entry;
 }
 
-- ensureObjC: (jobject)javaObject
+- nextPhase: nextPhase currentJavaPhase: (jobject)currentJavaPhase
+{
+  jobject nextJavaPhase = SD_NEXTJAVAPHASE (jniEnv, currentJavaPhase);
+  id findEntry = OBJCENTRY (nextPhase);
+  DirectoryEntry **entryptr;
+  
+  entryptr = (DirectoryEntry **) avl_probe (objc_tree, findEntry);
+  [self switchJavaEntry: *entryptr javaObject: nextJavaPhase];
+  if (*entryptr != findEntry)
+    [findEntry drop];
+  {
+    id currentObject = SD_FINDOBJC (jniEnv, currentJavaPhase);
+    id currentEntry = OBJCENTRY (currentObject);
+    id ret;
+    
+    ret = avl_delete (objc_tree, currentEntry);
+    [currentEntry drop];
+    if (ret)
+      [ret drop];
+  }
+  return (id) *entryptr;
+}
+
+- switchObjc: theObject javaObject: (jobject)theJavaObject
+{
+  id findEntry = OBJCENTRY (theObject);
+  DirectoryEntry *entry;
+  unsigned index;
+  id <Map> m;
+  
+  index = getIndex (theJavaObject);
+  m = table[index];
+  entry = [table[index] at: findEntry];
+  if (!entry)
+    abort ();
+  [findEntry drop];
+  
+  if (!avl_delete (objc_tree, entry))
+    abort ();
+  entry->object = theObject;
+
+  {
+    void **foundEntry;
+    
+    foundEntry = avl_probe (objc_tree, entry);
+    if (*foundEntry != entry)
+      abort ();
+  }
+  return entry;
+}
+
+- javaEnsureObjc: (jobject)javaObject
 {
   DirectoryEntry *result; 
 
   if (!javaObject)
     abort ();
   
-  result = [swarmDirectory findJava: javaObject];
+  result = [swarmDirectory javaFind: javaObject];
 
   if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_string))
     {
@@ -302,42 +332,45 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
   return (*env)->FindClass (env, javaClassName);
 }
 
-- (jobject)ensureJava: object
+- (jclass)objcFindJavaClass: (Class)class
+{
+  jclass javaClass;
+  
+  if (getBit (class->info, _CLS_DEFINEDCLASS))
+    {
+      
+      Type_c *typeImpl;
+      Class_s *nextPhase;
+      nextPhase= ((BehaviorPhase_s *) class)->nextPhase;
+      typeImpl = [class getTypeImplemented];
+      javaClass = java_class_for_typename (jniEnv,
+                                           typeImpl->name,
+                                           nextPhase == NULL); 
+    }
+  else
+    {
+      Type_c *typeImpl;
+      typeImpl = [class getTypeImplemented];
+      
+      if (typeImpl)
+        javaClass = java_class_for_typename (jniEnv, typeImpl->name, YES);
+      else 
+        javaClass = java_class_for_typename (jniEnv, class->name, YES);
+    }
+  return javaClass;
+}
+  
+- (jobject)objcEnsureJava: object
 {
   DirectoryEntry *result; 
   
-  result = [swarmDirectory findObjC: object];
+  result = [swarmDirectory objcFind: object];
   
   if (!result)
     {
       Class class = getClass (object);
-      jclass javaClass;
-      
-      if (getBit (class->info, _CLS_DEFINEDCLASS))
-        {
-          
-          Type_c *typeImpl;
-          Class_s *nextPhase;
-          nextPhase= ((BehaviorPhase_s *) class)->nextPhase;
-          typeImpl = [class getTypeImplemented];
-          javaClass = java_class_for_typename (jniEnv,
-                                               typeImpl->name,
-                                               nextPhase == NULL); 
-            }
-      else
-        {
-          Type_c *typeImpl;
-          typeImpl = [class getTypeImplemented];
-          if (typeImpl)
-            javaClass = java_class_for_typename (jniEnv,
-                                                 typeImpl->name,
-                                                 YES);
-          else 
-            javaClass = java_class_for_typename (jniEnv, 
-                                                 [[object getClass]
-                                                   getName],
-                                                 YES);
-        }
+      jclass javaClass = [self objcFindJavaClass: class];
+
       result = SD_ADD (jniEnv, 
                        swarm_directory_java_instantiate (jniEnv, javaClass),
                        object);
