@@ -1,3 +1,9 @@
+2000-02-29    <mgd@nest.swarm.org>
+
+	* Swarmdocs 2.1 frozen.
+	
+	* install01.sgml: Updates for 2.1.
+	
 1999-09-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* install01.sgml: Update versions for fcall, BLT.  Add note about

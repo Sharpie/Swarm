@@ -5,8 +5,8 @@
   </ARTHEADER>
   
   <SIDEBAR><PARA>Unless you are using a Windows or a Unix system with
-pre-built package manager support (Debian GNU/Linux 2.0, Redhat 5.2,
-Solaris 2.5), installing Swarm will take some time: various external
+pre-built package manager support (Debian GNU/Linux 2.2, Redhat 6.1,
+Solaris 2.7), installing Swarm will take some time: various external
 libraries need to be acquired, compiled, and installed, and then Swarm
 itself needs to be compiled.  Please report any problems during
 installation back so that we can try to fix them in the
@@ -36,7 +36,6 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
     
   </SIDEBAR>
 
-  
   <SIMPLESECT>
     <TITLE>Supported Systems</TITLE> 
 
@@ -48,12 +47,10 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
           
           <PARA>Our intention is that Swarm will run on any modern
             Unix system. Ideally, Swarm itself should be 100%
-            portable. Swarm is currently known to be running on SunOS
-            4.1.3, Solaris, libc5- and glibc- based GNU/Linux systems,
-            HPUX 9 and 11, IRIX 5.3 and 6.4, and MachTen/68k.  
-            Significant potential obstacles to getting Swarm running
-            on a new Unix platform are 1) poor support for GCC Objective C
-            and 2) portability problems with libffi or ffcall.
+            portable. Swarm has been known to run on SunOS 4.1.3,
+            Solaris 2.[567], GNU/Linux systems for Intel, Sparc, and
+            PPC, FreeBSD, HPUX 9, 10, and 11, IRIX 5.3 & 6.5, Digital
+            Unix for Alpha and MachTen/68k.
             </PARA>
         </FORMALPARA>
       </LISTITEM>
@@ -62,15 +59,10 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
         <FORMALPARA>
           <TITLE>Windows NT</TITLE>
           
-          <PARA>We have also ported Swarm to work on Windows NT.  The
-            following discussion largely pertains to installing Swarm
-            under Linux/Unix systems.  In the case of Windows NT, the
-            installation of the `Prerequisite Programs' is replaced by
-            installing the Cygnus Win32 environment, and a Swarm
-            "Install Shield" has been created to install Swarm on
-            Windows NT (also replacing the job of installing the
-            `Prerequisite Libraries').  Please see the Swarm <ULINK
-            URL="http://www.santafe.edu/projects/swarm/release.html">release
+          <PARA>Swarm can be used on Windows.  Installation on Windows
+            is a simple matter of running the InstallShield package.
+            Please see the <ULINK
+            URL="http://www.swarm.org/release-swarm.html">release
             page</ULINK>, for more details.</PARA>
 
         </FORMALPARA>      
@@ -80,7 +72,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
     </ITEMIZEDLIST>
 
     <PARA>See the <ULINK
-        URL="http://www.santafe.edu/projects/swarm/platforms.html">Platform
+        URL="http://www.swarm.org/release-platforms.html">Platform
         News</ULINK> web page for the most up-to-date
         information.</PARA>
 
@@ -93,22 +85,19 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
       system: the rest of this software is freely available. Expect to
       spend some time compiling and installing these packages. URLs on
       this page are to the home distribution site: as a convenience,
-      the Swarm ftp site <ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/">ftp://ftp.santafe.edu/pub/swarm/</ULINK>
-      contains copies of the necessary packages in <ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/">needed-software/</ULINK>.
+      the Swarm ftp site contains copies of the necessary packages in <ULINK URL="ftp://ftp.swarm.org/pub/swarm/needed-software">needed-software</ULINK>.
     </PARA>
     
     <PARA>
       <ITEMIZEDLIST>
         
         <LISTITEM>
-          <FORMALPARA><TITLE>gcc 2.7.x / gcc 2.8.x / egcs 1.x</TITLE> 
+          <FORMALPARA><TITLE>GNU gcc</TITLE> 
             
-            <PARA>gcc is the FSF's C, C++, and Objective C
-              compiler. You need gcc 2.7.2 or greater installed on
-              your system, including the Objective C support,
-              libobjc.a.  The latest version is available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu">ftp://ftp.gnu.org/pub/gnu/</ULINK>. Note:
-              Swarm will not work with versions of gcc before
-              2.7.2.</PARA>
+            <PARA>gcc is the FSF's GNU Compiler Collection.
+              You need gcc 2.95.2 or greater installed on
+              your system, including the Objective C support.
+              The latest version is available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu">ftp://ftp.gnu.org/pub/gnu/gcc</ULINK>. </PARA>
 
           </FORMALPARA>
         </LISTITEM>
@@ -124,11 +113,11 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
               makes: GNU make is the only one guaranteed to
               work. Linux systems probably use GNU make
               already. The latest version of GNU make is
-              available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu/">GNU</ULINK>.</PARA>
+              available <ULINK URL="ftp://ftp.gnu.org/pub/gnu/make">here</ULINK>.</PARA>
           </FORMALPARA></LISTITEM>
 
         <LISTITEM>
-          <FORMALPARA><TITLE>gdb</TITLE>
+          <FORMALPARA><TITLE>GNU gdb</TITLE>
             
             <PARA>gdb is the GNU debugger: Swarm doesn't require
               this, but you will probably want gdb on your system
@@ -136,7 +125,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
 
               <!-- <LINK LINKEND="SWARM.TECH.SGML.SECT1.DEBUG"></LINK> -->
 
-              debug programs.  gdb is available on <ULINK URL="ftp://ftp.gnu.org/pub/gnu/">GNU</ULINK>.</PARA>
+              debug programs.  gdb is available <ULINK URL="ftp://ftp.gnu.org/pub/gnu/gdb">here</ULINK>.</PARA>
             
           </FORMALPARA>
         </LISTITEM>
@@ -147,7 +136,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
           programmable text processing system and editor.  Emacs is
           needed if you want to build Swarm for Java from source code.
           Emacs is also a good program for editing Objective C and Java
-          code.  Emacs is available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu/emacs/">GNU</ULINK>.</PARA>
+          code.  Emacs is available <ULINK URL="ftp://ftp.gnu.org/pub/gnu/emacs/">here</ULINK>.</PARA>
           </FORMALPARA>
           </LISTITEM>
           
@@ -187,7 +176,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
           <TITLE><ULINK URL="http://www.scriptics.com">Tcl/Tk</ULINK></TITLE> 
 
           <PARA>Swarm works with Tcl/Tk versions
-            <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tcl8.0p2.tar.gz">8.0p2</ULINK>/<ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tk8.0p2.tar.gz">8.0p2</ULINK> and later.</PARA>
+            <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_2/tcl8.2.3.tar.gz">8.2.3</ULINK>/<ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_2/tk8.2.3.tar.gz">8.2.3</ULINK> and later.</PARA>
         </FORMALPARA>
       </LISTITEM>
 
@@ -196,7 +185,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
             <TITLE><ULINK URL="http://www.tcltk.com/blt/index.html">BLT</ULINK></TITLE>
 
             <PARA>BLT is an add-on to Tk that provides more widgets.  
-<ULINK URL="http://ftp.tcltk.com/pub/blt/BLT2.4i.tar.gz">BLT 2.4i</ULINK>
+<ULINK URL="http://ftp.tcltk.com/pub/blt/BLT2.4o.tar.gz">BLT 2.4o</ULINK>
 is the current version. 
           </PARA>
           </FORMALPARA>
@@ -208,6 +197,7 @@ is the current version.
             
             <PARA>Either ffcall or libffi can be used in Swarm to
               provide the underlying support for message probing.
+              ffcall is provided with Swarm and works for most platforms.
               Both libraries provide a portable, high level
               programming interface to various platform calling
               conventions. This allows a programmer to call any
@@ -220,7 +210,7 @@ is the current version.
           </FORMALPARA>
           
           <PARA>The latest version of ffcall is
-            <ULINK URL="ftp://ftp.santafe.edu/pub/gnu/ffcall-1.6.tar.gz">1.5</ULINK>
+            <ULINK URL="ftp://ftp.swarm.org/pub/gnu/ffcall-1.6.tar.gz">1.6</ULINK>
           </PARA>
           <PARA>The latest version of libffi is:
             <ULINK URL="ftp://ftp.cygnus.com:/pub/green/libffi-1.20.tar.gz">1.20</ULINK>
@@ -236,7 +226,7 @@ is the current version.
             </PARA>
           </FORMALPARA>
           <PARA>The current version is 
-            <ULINK URL="ftp://swrinde.nde.swri.edu/pub/png/src/libpng-1.0.3.tar.gz">1.0.2</ULINK>
+            <ULINK URL="ftp://swrinde.nde.swri.edu/pub/png/src/libpng-1.0.5.tar.gz">1.0.5</ULINK>
           </PARA>
           <FORMALPARA>
             <TITLE><ULINK URL="http://www.cdrom.com/pub/infozip/zlib">zlib</ULINK></TITLE>
@@ -314,28 +304,9 @@ is the current version.
     
     <PARA>Swarm applications are distributed separately: you will need
       to download and unpack applications independently. After the
-      application is unpacked, you will have to change the
-      <LITERAL>SWARMHOME</LITERAL> variable in the Makefile. It is
-      setup, by default to point to "../swarm", as if the Swarm
-      libraries were in a sibling directory called "swarm". Just edit
-      that string to point to where you installed the Swarm
-      libraries. No other configuration should be necessary.  For
-      example in the Makefile for your Swarm application, change:
-
-<PROGRAMLISTING>
-SWARMHOME=../swarm
-</PROGRAMLISTING>
-to the following format:
-
-<PROGRAMLISTING>
-SWARMHOME=&lt;path to where Swarm is installed&gt;
-</PROGRAMLISTING>
-
-For example, a typical place a system admin might install Swarm is:
-
-<PROGRAMLISTING>
-SWARMHOME=/usr/local/swarm-&lt;version_number&gt;
-</PROGRAMLISTING>
+      application is unpacked, you will have to set the
+      <LITERAL>SWARMHOME</LITERAL> environment variable to where you
+      installed Swarm.
 
       All you need to do now, to compile an application is type
       <COMMAND>make</COMMAND>.</PARA>
@@ -369,16 +340,6 @@ SWARMHOME=/usr/local/swarm-&lt;version_number&gt;
       directory, you can run <COMMAND>make uninstall</COMMAND> and
       then <COMMAND>make clean</COMMAND>- see 
       <FILENAME>INSTALL</FILENAME> file again here.</PARA>
-
-    <PARA>For debugging purposes, you should pass the
-      <LITERAL>-g</LITERAL> option to <COMMAND>configure</COMMAND>, to
-      whit: <COMMAND>CFLAGS=-g ./configure &lt;the rest of your
-      options&gt;</COMMAND> and leave the sources in the build or
-      source tree. However, your applications will run faster if you
-      compile with optimization, <COMMAND>CFLAGS=-O3
-      -g</COMMAND>. This will make debugging inside the Swarm
-      libraries strange, but gives noticeable performance improvement.
-    </PARA>
 
   </SIMPLESECT>
 
