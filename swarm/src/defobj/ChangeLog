@@ -1,3 +1,11 @@
+1999-12-26    <mgd@DRONE>
+
+	* directory.[hm] (swarm_directory_dump): New function.
+	([Directory -describe:]): New method.
+
+	* Zone.m ([Zone_c -createEnd]): Use List_any instead of List_linked
+	for creating population.
+
 1999-12-22    <mgd@nest.swarm.org>
 
 	* FArguments.[hm], defobj.h: New method -setJavaFlag.  Replace

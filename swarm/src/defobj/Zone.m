@@ -104,7 +104,7 @@ PHASE(Creating)
   ((ComponentZone_c *) componentZone)->baseZone = self;
   ((ComponentZone_c *) componentZone)->componentZone = componentZone;
 
-  population = [List_linked createBegin: componentZone];
+  population = [List_any createBegin: componentZone];
   [population setIndexFromMemberLoc: -indexOffset];
   population = [(id)population createEnd];
   populationTotal = 0;

@@ -46,6 +46,7 @@ void swarm_directory_entry_drop (JNIEnv *env, DirectoryEntry *entry);
 void swarm_directory_entry_describe (JNIEnv *env,
                                      DirectoryEntry *entry,
                                      id outputCharStream);
+- (void)describe: outputCharStream;
 @end
 
 @interface Directory: CreateDrop
@@ -68,6 +69,8 @@ jclass swarm_directory_objc_find_java_class (JNIEnv *env, Class class);
 @end
 
 extern id swarmDirectory;
+
+extern void swarm_directory_dump ();
 
 #define SD_FINDOBJC(env, jobj)  swarm_directory_java_find_objc (env, jobj)
 #define SD_ENSUREOBJC(env, jobj) swarm_directory_java_ensure_objc (env, jobj)

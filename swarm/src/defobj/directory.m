@@ -141,6 +141,12 @@ swarm_directory_entry_describe (JNIEnv *env,
   FREECLASSNAME (className);
 }
 
+- (void)describe: outputCharStream
+{
+  swarm_directory_entry_describe (jniEnv, self, outputCharStream);
+  
+}
+
 @end
 
 static int
@@ -1517,3 +1523,9 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
     }
 }
 #endif
+
+void
+swarm_directory_dump (void)
+{
+  xprint (swarmDirectory);
+}
