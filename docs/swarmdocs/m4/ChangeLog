@@ -1,0 +1,4 @@
+1998-10-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add acprogs.m4.
+
