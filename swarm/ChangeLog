@@ -1,7 +1,7 @@
 1999-02-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* configure.in (AC_OUTPUT): Extract java/c/Makefile and
-	java/swarm/Makefile.
+	* configure.in (AC_OUTPUT): Extract java/c/Makefile,
+	java/swarm/Makefile, and java/swarm/Makefile.rules.
 
 1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
