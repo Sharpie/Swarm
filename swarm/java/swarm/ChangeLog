@@ -1,3 +1,13 @@
+1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in (INTERFACES, CLASSES): Use computed
+	variable name to get module protocol list.
+	(all): Depend on CLASSFILES.
+
+	* Makefile.in (GENCLASSFILES): New variable.
+	(CLASSFILES): Include swarm/ prefix.
+	(all): Pass CLASSFILES and GENCLASSFILES to jar.
+
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* GlobalZone.java: New file.

@@ -4,13 +4,14 @@ jdkdir=@jdkdir@
 CLASSPHASES := __c _u
 PHASES := $(CLASSPHASES) _s
 
-INTERFACES := $(subst __c,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$(addprefix i_,$(modulePROTOCOLS)))))
+INTERFACES := $(subst __c,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS)))))
 
-CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$(modulePROTOCOLS))))
+CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))
 
 CLASSFILES = $(addsuffix .class,$(CLASSES)) $(addsuffix .class,$(INTERFACES))
+
+all: $(CLASSFILES)
 
 $(CLASSFILES): $(addsuffix .java,$(CLASSES)) $(addsuffix .java,$(INTERFACES))
 	JAVA_HOME=$(jdkdir) $(JAVAC) -classpath ../..:$(jdkdir)/lib/classes.zip $^
 
-all: $(CLASSFILES)
