@@ -6,14 +6,14 @@ OBJECTS=ControlPanel.o GUISwarm.o simtools.o ProbeDisplay.o \
 	ClassDisplayWidget.o ProbeDisplayManager.o \
 	UName.o InFile.o ObjectLoader.o OutFile.o AppendFile.o ObjectSaver.o \
 	ActiveGraph.o ActiveOutFile.o QSort.o NSelect.o \
-	ActionCache.o ActionHolder.o Archiver.o 
+	ActionCache.o ActionHolder.o Archiver.o GUIComposite.o
 HEADERS=ControlPanel.h GUISwarm.h global.h ProbeDisplay.h \
 	CommonProbeDisplay.h SimpleProbeDisplay.h CompleteProbeDisplay.h \
         VarProbeWidget.h MessageProbeWidget.h \
 	ClassDisplayWidget.h ProbeDisplayManager.h \
 	UName.h InFile.h ObjectLoader.h OutFile.h AppendFile.h ObjectSaver.h \
 	ActiveGraph.h ActiveOutFile.h QSort.h NSelect.h \
-	ActionCache.h ActionHolder.h Archiver.h
+	ActionCache.h ActionHolder.h Archiver.h GUIComposite.h
 
 include $(SWARMHOME)/Makefile.lib
 
@@ -41,3 +41,4 @@ NSelect.o: NSelect.m NSelect.h
 ActionCache.o: ActionCache.h ActionCache.m
 ActionHolder.o: ActionHolder.h ActionHolder.m
 Archiver.o: Archiver.h Archiver.m
+GUIComposite.o: GUIComposite.h GUIComposite.m

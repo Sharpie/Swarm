@@ -24,12 +24,6 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return self;
 }
 
-- setControlPanelGeometryRecordName: (const char *)name;
-{
-  controlPanelGeometryRecordName = name;
-  return self;
-}
-
 - createEnd
 {
   [super createEnd];
@@ -257,7 +251,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
   // make a widget for us, too. Bind buttons to messages to ourself.
   panelWidget = [ButtonPanel createBegin: [self getZone]];
-  [panelWidget setWindowGeometryRecordName: controlPanelGeometryRecordName];
+  [panelWidget setWindowGeometryRecordName: 
+                 [self windowGeometryRecordNameForComponent: "controlPanel"]];
   [panelWidget setTargetName: "simctl"];
   panelWidget = [panelWidget createEnd];
   [panelWidget addButtonName: "Start" actionName: "sendStartAction"];

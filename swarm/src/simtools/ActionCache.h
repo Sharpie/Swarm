@@ -6,23 +6,20 @@
 #import <collections.h>
 #import <activity.h>
 #import <tkobjc.h>
-#import <objectbase/SwarmObject.h>
+#import <simtools/GUIComposite.h>
 
-@interface ActionCache : SwarmObject
+@interface ActionCache : GUIComposite
 {
   id <List> actionCache;
   id <Schedule> destinationSchedule;
   id ctrlPanel;
   
-  const char *controlPanelGeometryRecordName;
-
   // widget IVar
   ButtonPanel *panel;
 }
 
 // Create Phase methods
 - setControlPanel: cp;
-- setControlPanelGeometryRecordName : (const char *)name;
 - createEnd;
 
 // Use phase methods
@@ -42,7 +39,6 @@
 - (ButtonPanel *)createProcCtrl;
 - (ButtonPanel *)getPanel;
 - doTkEvents;
-
 
 @end
 
