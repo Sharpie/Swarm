@@ -21,6 +21,11 @@ HDF5    (source)   http://hdf.ncsa.uiuc.edu/
 BLT     (source)   http://sourceforge.net/projects/blt
 BLT (patches and binary)  http://savannah.nongnu.org/patch/?group=swarm
 
+As of 2 Jan 03 you proably need also
+A recent fsf version of gcc any time after October 2002 should do.  The bugs in the Apple build have been reported.  So they may be fixed. http://gcc.gnu.org/
+An updated version of sed from http://ftp.gnu.org/pub/gnu/sed/ (the MacOS X one is from 1997!).  Hopefully Apple will fix this
+A recent version of gperf from http://ftp.gnu.org/pub/gnu/gperf/.  Maybe Apple will fix this?
+
 Documentation on MacOS X porting issues can be found at
 http://developer.apple.com/unix/
 and more specifically

@@ -128,16 +128,8 @@
 			path = "compiler-info-generic.h";
 			refType = 4;
 		};
-		792AD47203C3B79D00000164 = {
-			fileEncoding = 30;
-			isa = PBXExecutableFileReference;
-			name = configure.sh;
-			path = build/configure.sh;
-			refType = 2;
-		};
 		792AD47303C3B7A600000164 = {
 			children = (
-				792AD47203C3B79D00000164,
 			);
 			isa = PBXGroup;
 			name = build;
@@ -6139,6 +6131,13 @@
 			isa = PBXRezBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		79BF3D4203C682F900000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			name = configure;
+			path = /Users/billn/Public/Swarm/swarm/configure;
+			refType = 0;
+		};
 		79CEDEB603C15B1500000164 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -6149,6 +6148,7 @@
 		79CEDED903C172AD00000164 = {
 			children = (
 				F6EF84C703A43AC5015E7421,
+				79BF3D4203C682F900000164,
 				79CEDEE203C1736700000164,
 				79CEDEE103C1735800000164,
 				79CEDEE003C1734000000164,
@@ -9149,7 +9149,6 @@
 			buildPhases = (
 			);
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -11522,9 +11521,7 @@
 				F6EF83C503A43AC0015E7421,
 				F6EF83C603A43AC0015E7421,
 				F6EF83C703A43AC0015E7421,
-				F6EF83C803A43AC0015E7421,
 				F6EF83C903A43AC0015E7421,
-				F6EF83CA03A43AC0015E7421,
 				F6EF83CB03A43AC0015E7421,
 				F6EF83CC03A43AC0015E7421,
 				F6EF83CD03A43AC0015E7421,
@@ -11562,22 +11559,10 @@
 			path = Globals.java;
 			refType = 4;
 		};
-		F6EF83C803A43AC0015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF83C903A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = Makefile.in;
-			refType = 4;
-		};
-		F6EF83CA03A43AC0015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile.rules;
 			refType = 4;
 		};
 		F6EF83CB03A43AC0015E7421 = {
@@ -18850,7 +18835,7 @@
 			buildPhases = (
 			);
 			buildSettings = {
-				OTHER_CFLAGS = "-fgnu-runtime";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = config;

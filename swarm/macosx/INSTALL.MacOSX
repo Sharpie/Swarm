@@ -17,7 +17,7 @@ cd $SRCROOT/macosx/swarmx/build
 ../../../autogen.sh
 
 ../../../configure \
-CC='cc -fgnu-runtime -no-cpp-precomp' \
+CC='cc -no-cpp-precomp' \
 --prefix=$SRCROOT/macosx/swarmx/build/dst/usr \
 --with-tcldir='your tcl path' \
 --without-jdkdir \
@@ -36,6 +36,8 @@ To start over delete everything in $SRCROOT/macosx/swarmx/build
 Start fixing bugs where it crashes.
 
 If you have any fixes please let me know, and regularly update from the cvs so that you get other developers fixes.  There is no kudos reinventing the wheel.
+
+NB. If you need to compile any GNU utilities ensure you have -no-cpp-precomp as an option for any Apple compiler.
 
 Bill Northcott
 w.northcott@unsw.edu.au
