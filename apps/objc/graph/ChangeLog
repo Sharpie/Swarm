@@ -1,4 +1,10 @@
-1998-01-16  Alex Lancaster  <alexl@bigfoot.com>
+1998-01-19  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile: Added $(CURDIR), $(DISTSRC) and $(SRCS) to create a
+	completely generic "make dist" target for eventual inclusion in
+	a configuration Makefile.
+
+1998-01-16  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile (dist): Added new target to create archive. Creates it
 	in the current directory with a directory name specified by a
