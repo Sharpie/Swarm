@@ -421,8 +421,10 @@ CREATING
 - (void)setIndexFromMemberLoc: (int)byteOffset;
 
 USING
+#ifndef IDL
 //M: Note: copies are shallow; members inside the collection are not copied.
 - copy: (id <Zone>)aZone;
+#endif
 
 - (BOOL)getReplaceOnly;
 
@@ -1182,7 +1184,6 @@ USING
 - (const char *)getC;
 - (void)catC: (const char *)cstring;
 - (unsigned)getCount;
-- (int)compare: aString;
 @end
 
 @protocol ListShuffler <Create, Drop, CREATABLE>

@@ -1,3 +1,8 @@
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* collections.h ([Collection copy:]): Protect with #ifndef IDL.
+	([String compare:]): Remove (since there's no documentation, anyway).
+
 2000-04-27    <mgd@nest.swarm.org>
 
 	* collections.h ([Index -compare:]): Protect with #ifndef IDL.
