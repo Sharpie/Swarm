@@ -95,7 +95,7 @@ notifyObjectDropped ( id anObject, id realloc, id pd)
         }
     }
   
-  updateIdleTasksAndHold ();
+  tkobjc_updateIdleTasksAndHold ();
   
   if (probeMap == nil)
     probeDisplay = [CompleteProbeDisplay createBegin: [self getZone]];
@@ -115,7 +115,7 @@ notifyObjectDropped ( id anObject, id realloc, id pd)
                                 withArgument: (void *)probeDisplay ]];
   [probeDisplay setRemoveRef: 1];  // set this every time a reference is added
   
-  releaseAndUpdate ();
+  tkobjc_releaseAndUpdate ();
   
   [self drop] ;
   

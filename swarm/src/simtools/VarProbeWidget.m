@@ -60,68 +60,32 @@
   myLabel  = [Label  createParent: myLeft];
   [myLabel setText: [myProbe getProbedVariable]];
   
-  setAnchorEast (myLabel);
+  tkobjc_setAnchorEast (myLabel);
   if (maxLabelWidth)
-    setWidth (myLabel, maxLabelWidth);
+    tkobjc_setWidth (myLabel, maxLabelWidth);
     
   myEntry  = [Entry  createParent: myRight];
   theType = ([myProbe getProbedType])[0];
   
   if ([myProbe isInteractive])
     {
-      [globalTkInterp
-        eval:
-          "bind %s <Return> {%s configure -highlightcolor red;"
-        "update;"
-        "%s setValue};"
-        "bind %s <KeyRelease-Return> {%s configure -highlightcolor black;"
-        "update};"
-        "bind %s <FocusIn> {%s selection range 0 end};"
-        "bind %s <FocusOut> {%s selection clear}",
-        [myEntry getWidgetName],
-        [myEntry getWidgetName],
-        tclObjc_objectToName(self),
-        [myEntry getWidgetName],
-        [myEntry getWidgetName],
-        [myEntry getWidgetName],
-        [myEntry getWidgetName],
-        [myEntry getWidgetName],
-        [myEntry getWidgetName]];
+      tkobjc_bindReturnToSetValue (myEntry, self);
+      tkobjc_bindKeyReleaseReturnToResetColorAndUpdate (myEntry);
+      tkobjc_bindFocusInToSetSelection (myEntry);
+      tkobjc_bindFocusOutToClearSelection (myEntry);
       interactive = 1;
     }
   else
-    disabledState (myEntry);
+    tkobjc_disabledState (myEntry);
   
   if (theType == _C_ID)
     {
-      [globalTkInterp
-        eval:
-          "bind %s <Button-3> {focus %s; %s configure -highlightcolor red;"
-        "update;"
-        "%s Spawn;"
-        "%s configure -highlightcolor black;"
-        "update};",
-        [myEntry getWidgetName],
-        [myEntry getWidgetName],
-        [myEntry getWidgetName], 
-        tclObjc_objectToName(self),
-        [myEntry getWidgetName]];
-      
+      tkobjc_bindButton3ToSpawn (myEntry, self, 0);
       dragAndDropTarget (myEntry, self);
       dragAndDrop (myEntry, self);
     }
   else
-    [globalTkInterp
-      eval:
-        "bind %s <Button-3> {focus %s; %s configure -highlightcolor red;"
-      "update;"
-      "bell; update; "
-      "%s configure -highlightcolor black;"
-      "update};",
-      [myEntry getWidgetName],
-      [myEntry getWidgetName],
-      [myEntry getWidgetName], 
-      [myEntry getWidgetName]];
+    tkobjc_bindButton3ToBeUnhelpful (myEntry, nil);
   
   [self update];
   
@@ -130,16 +94,14 @@
 
 - Spawn
 {
-  id target;
-  
-  target = (*(id *)[myProbe probeRaw: myObject]);
+  id target = (*(id *)[myProbe probeRaw: myObject]);
   
   if (target)
     [probeDisplayManager createProbeDisplayFor: target];   
   else
     {
-      ringBell ();
-      update ();
+      tkobjc_ringBell ();
+      tkobjc_update ();
     }
   return self;
 }
@@ -165,14 +127,14 @@
   
   if (!interactive)
     {
-      normalState (myEntry);
+      tkobjc_normalState (myEntry);
       [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
-      disabledState (myEntry);
+      tkobjc_disabledState (myEntry);
     }
   else
     [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
   
-  update ();
+  tkobjc_update ();
   
   return self;
 }
@@ -187,13 +149,10 @@
 
 - idReceive
 {
-  id resObj;
-  
-  resObj = tclObjc_nameToObject ([[globalTkInterp
-                                    eval: 
-                                      "gimme $DDOBJ"] result]);
-  [myProbe setData: myObject To: &resObj ]; 
-  focus (myEntry);
+  id resObj = tkobjc_gimme_ddobj ();
+
+  [myProbe setData: myObject To: &resObj]; 
+  tkobjc_focus (myEntry);
   [self update];
   return self;
 }
@@ -204,8 +163,8 @@
 
   if (*content == nil)
     {
-      ringBell ();
-      update ();
+      tkobjc_ringBell ();
+      tkobjc_update ();
       return "";
     }
   return tclObjc_objectToName (*content);
@@ -217,5 +176,3 @@
 }
 
 @end
-
-

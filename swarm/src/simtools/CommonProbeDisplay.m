@@ -18,19 +18,19 @@
   topLevel = [Frame createBegin: [self getZone]];
   [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
   topLevel = [topLevel createEnd];
-  [topLevel setWindowTitle: getId (probedObject)];
-  withdrawWindow (topLevel);
+  [topLevel setWindowTitle: tkobjc_getId (probedObject)];
+  tkobjc_withdrawWindow (topLevel);
   c_Frame =  [Frame createParent: topLevel]; 
 
   canvas = [Canvas createParent: c_Frame];
-  configureProbeCanvas (canvas);
+  tkobjc_configureProbeCanvas (canvas);
 
   [c_Frame pack];
 
   topFrame =  [Frame createParent: canvas];
-  setBorderWidth (topFrame, 0);
+  tkobjc_setBorderWidth (topFrame, 0);
 
-  createWindow (topFrame);
+  tkobjc_createWindow (topFrame);
 
   markedForDropFlag = NO;
   return self;
@@ -78,8 +78,8 @@
 
 - install
 {
-  deiconify (topLevel);
-  assertGeometry (topFrame);
+  tkobjc_deiconify (topLevel);
+  tkobjc_assertGeometry (topFrame);
 
   [probeDisplayManager addProbeDisplay: self];
   return self;

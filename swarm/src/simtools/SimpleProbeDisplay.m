@@ -42,26 +42,27 @@
   top_top_Frame =  [Frame createParent: topFrame];  
 
   raisedFrame =  [Frame createParent: top_top_Frame];  
-  setRelief (raisedFrame);
+  tkobjc_setRelief (raisedFrame);
 
   myTitle = [Label createParent: raisedFrame];
-  [myTitle setText: getId (probedObject)];
+  [myTitle setText: tkobjc_getId (probedObject)];
   
-  setAnchorWest (myTitle);
-  setColorBlue (myTitle);
+  tkobjc_setAnchorWest (myTitle);
+  tkobjc_setColorBlue (myTitle);
 
   dragAndDrop (myTitle, self);
 
-  configureButton3ForCompleteProbeDisplay (myTitle, probedObject, 
-					   probeDisplayManager);
-  configureWindowEntry (myTitle);
-  configureWindowExit (myTitle);
+  tkobjc_bindButton3ForCompleteProbeDisplay (myTitle,
+                                             probedObject, 
+                                             probeDisplayManager);
+  tkobjc_bindWindowEntry (myTitle);
+  tkobjc_bindWindowExit (myTitle);
   
   [myTitle pack];
   
   hideB = [Button createParent: top_top_Frame];
 
-  configureHideButton (self, hideB, raisedFrame);
+  tkobjc_configureHideButton (self, hideB, raisedFrame);
 
   middleFrame =  [Frame  createParent: topFrame] ;  
   leftFrame =  [Frame createParent: middleFrame];
@@ -124,9 +125,9 @@
       [index pack] ;
     }
 
-  packFill (top_top_Frame);
-  packFillLeft (leftFrame, 0);
-  packFillLeft (rightFrame, 1);
+  tkobjc_packFill (top_top_Frame);
+  tkobjc_packFillLeft (leftFrame, 0);
+  tkobjc_packFillLeft (rightFrame, 1);
 
   [middleFrame pack];
   [bottomFrame pack];
@@ -137,47 +138,47 @@
 
 - update
 {
-  int i ;
+  int i;
 
   for (i = 0; i < numberOfProbes; i++)
-    [widgets[i] update] ;
+    [widgets[i] update];
   
   return self;
 }
 
 - (void)drop
 {
-  int i ;
+  int i;
+  
+  [leftFrame drop];
+  [rightFrame drop];
+  [middleFrame drop];
+  [bottomFrame drop];
 
-  [leftFrame drop] ;
-  [rightFrame drop] ;
-  [middleFrame drop] ;
-  [bottomFrame drop] ;
+  for (i = 0; i < numberOfProbes; i++)
+    [widgets[i] drop];
 
-  for(i = 0 ; i < numberOfProbes ; i++)
-    [widgets[i] drop] ;
+  if (numberOfProbes)
+    [[self getZone] free: widgets];
 
-  if(numberOfProbes)
-    [[self getZone] free: widgets] ;
-
-  [topLevel drop] ;
+  [topLevel drop];
 
   [probeDisplayManager removeProbeDisplay: self];
 
   if (removeRef)
     [probedObject removeRef: objectRef];
   
-  [super drop] ;
+  [super drop];
 }
 
 - (const char *)package
 {
-  return packageName (probedObject);
+  return tkobjc_packageName (probedObject);
 }
 
 - (const char *)getId
 {
-  return getId (probedObject);
+  return tkobjc_getId (probedObject);
 }
 
 @end

@@ -227,7 +227,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   ButtonPanel * panelWidget;
 
   // Make a command for ourselves
-  registerCommand (self, "simctl");
+  tkobjc_registerCommand (self, "simctl");
   
   // These methods are bound to the Tk buttons. They get invoked directly
   // by the Tk interpreter (via tclobjc). ObserverSwarm uses these states
@@ -259,10 +259,10 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 //   until one of those conditions changes. (This lets the user press the
 //   Go or Quit buttons to quit.)
 // Finally, return a status that tells whether we need to quit.
--doTkEvents
+- doTkEvents
 {
   // do all events pending, but don't block.
-  while (doOneEventAsync ()) {}
+  while (tkobjc_doOneEventAsync ()) {}
   return self;
 }
 

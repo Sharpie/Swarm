@@ -9,35 +9,36 @@
 #import <simtools/VarProbeWidget.h>
 #import <simtools/MessageProbeWidget.h>
 
-@interface ClassDisplayWidget : Frame {
+@interface ClassDisplayWidget : Frame
+{
   id probedObject;
-  Class theClass ;
-  Label *myTitle ;
+  Class theClass;
+  Label *myTitle;
   ProbeMap * probeMap;
   Frame *leftFrame, *rightFrame, *middleFrame, *bottomFrame;
-  id hideB ;
-  id superB ;
-  id topRow ;
+  id hideB;
+  id superB;
+  id topRow;
   int numberOfProbes;
-  int maxLabelWidth ;
+  int maxLabelWidth;
   id *widgets;
-  id mySuperClass ;
-  id mySubClass ;
-  id owner ;
+  id mySuperClass;
+  id mySubClass;
+  id owner;
 }
 
-+createBegin: aZone ;
--setProbedObject: anObject;
--setClassToDisplay: (Class) aClass ;
--setMaxLabelWidth: (int) width ;
--setOwner: anOwner ;
--setMySuperClass: aWidget ;
--setMySubClass: aWidget ;
--createEnd;
++ createBegin: aZone;
+- setProbedObject: anObject;
+- setClassToDisplay: (Class)aClass;
+- setMaxLabelWidth: (int)width;
+- setOwner: anOwner;
+- setMySuperClass: aWidget;
+- setMySubClass: aWidget;
+- createEnd;
 
--getProbedObject;
--getProbeMap;
--armSuperButton;
--update;
+- getProbedObject;
+- getProbeMap;
+- armSuperButton;
+- update;
 
 @end

@@ -102,8 +102,8 @@ max_class_var_length (Class class)
 
 - do_resize
 {
-  packForget (canvas);
-  assertGeometry (topFrame);
+  tkobjc_packForgetAndExpand (canvas);
+  tkobjc_assertGeometry (topFrame);
   return self;
 }
 

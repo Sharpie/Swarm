@@ -79,7 +79,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 {
   [self setState: ControlStateStopped];
   while (state == ControlStateStopped)
-    doOneEventSync ();
+    tkobjc_doOneEventSync ();
   return nil;
 }
 

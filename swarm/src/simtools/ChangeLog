@@ -1,3 +1,81 @@
+1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VarProbeWidget.m ([VarProbeWidget -createEnd]): Update to new or
+	renamed tkobjc_setAnchorEast, tkobjc_setWidth,
+	tkobjc_bindReturnToSetValue,
+	tkobjc_bindKeyReleaseReturnToResetColorAndUpdate,
+	tkobjc_bindFocusInToSetSelection,
+	tkobjc_bindFocusOutToClearSelection, tkobjc_disabledState,
+	tkobjc_bindButton3ToSpawn, tkobjc_bindButton3ToBeUnhelpful.
+	([VarProbeWidget -Spawn]): Update to renamed tkobjc_ringBell and
+	tkobjc_update.
+	([VarProbeWidget -update]): Update to renamed
+	tkobjc_normalState, tkobjc_disabledState, and tkobjc_update.
+	([VarProbeWidget -idReceive]): Update to renamed tkobjc_focus.
+	([VarProbeWidget -package]): Update to renamed tkobjc_ringBell
+	and tkobjc_update.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): Update
+	to renamed tkobjc_setRelief, tkobjc_getId, tkobjc_setAnchorWest,
+	tkobjc_setColorBlue, tkobjc_bindButton3ForCompleteProbeDisplay,
+	tkobjc_bindWindowEntry, tkobjcWindowExit,
+	tkobjc_configureHideButton, tkobjc_packFill, and
+	tkobjc_packFillLeft.
+	([SimpleProbeDisplay -package]): Update to renamed tkobjc_packageName.
+	([SimpleProbeDisplay -getId]): Update to renamed tkobjc_getId.
+
+	* ProbeDisplay.m ([ProbeDisplay -createEnd]): Update to renamed
+	tkobjc_updateIdleTasksAndHold and tkobjc_releaseAndUpdate.
+
+
+	* MessageProbeWidget.m ([MessageProbeWidget -createEnd]): Update
+	to new or renamed tkobjc_disabledState, tkobjc_setWidth,
+	tkobjc_bindButton3ToSpawn, tkobjc_bindButton3ToBeUnhelpful,
+	tkobjc_packFillLeft, tkobjc_setText, and
+	tkobjc_bindButton3ToArgSpawn.  Reformatting throughout.
+	([MessageProbeWidget -dynamic]): Update to renamed
+	tkobjc_ringBell, tkobjc_normalState, tkobjc_disabledState.
+	([MessageProbeWidget -Spawn]): Update to renamed tkobjc_ringBell.
+	([MessageProbeWidget -argSpawn:which]): Likewise.
+	([MessageProbeWidget -package]): Likewise.
+	([MessageProbeWidget -package:which]): Likewise.
+	([MessageProbeWidget -idReceive:which]): Use new tkobjc wrapper
+	function tkobjc_gimme_ddobj.  Use renamed tkobjc_normalState,
+	tkobjc_disabledState, and tkobjc_update.
+	Reformatting throughout.
+
+	* ControlPanel.m ([ControlPanel -waitForControlEvent]): Update
+	to renamed tkobjc_doOneEventSync.
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -do_resize]): Update
+	to renamed tkobjc_packForgetAndExpand, tkobjc_assertGeometry.
+
+	* CommonProbeDisplay.m ([CommonProbeDisplay -createEnd]): Update
+	to renamed tkobjc_getId, tkobjc_withdrawWindow,
+	tkobjc_configureProbeCanvas, tkobjc_setBorderWidth,
+	tkobjc_createWindow,
+	([CommonProbeDisplay -install]): Update to renamed tkobjc_deiconify,
+	tkobjc_assertGeometry.
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): Update
+	to new or renamed tkobjc_setRelief, tkobjc_setAnchorWest,
+	tkobjc_setColorBlue, tkobjc_packForgetArmSuperAndResize,
+	tkobjc_configureHideBitmap, tkobjc_configureWidgetToDrop,
+	tkobjc_configureSpecialBitmap, tkobjc_configureSuperBitmap,
+	tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize,
+	tkobjc_configureWidgetToBeep, tkobjc_disabledState,
+	tkobjc_packToRight,
+	tkobjc_packBeforeAndFillLeft,tkobjc_packFillLeft.
+	([ClassDisplayWidget -armSuperButton]): Update to
+	renamedtkobjc_normalState.
+	Reformatting throughout.
+
+	* ClassDisplayWidget.h: Reformat throughout.
+
+	* ActionCache.m ([ActionCache -createProcCtrl]): Update to
+	renamed tkobjc_registerCommand.
+	([ActionCache -doTkEvents]): Update to renamed tkobjc_doOneEventAsync.
+
 1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* InFile.m ([InFile +create:withName:]): Constify withName argument.
