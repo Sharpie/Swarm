@@ -1,5 +1,7 @@
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* NEWS: Note serialization support for Discrete2d.
+
 	* configure.in: Make an (explicit) call to AC_CANONICAL_SYSTEM.
 	Call md_CHECK_PATH_SYNTAX.
 	Get absolute path of $srcdir and use that for running libobjc's
