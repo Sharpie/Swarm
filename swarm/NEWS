@@ -36,6 +36,10 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** Support for window-specific virtual colormaps when default palette 
       is exhausted.
 
+*** simtools
+**** New function initSwarmAppFunc, for initialization of 
+     version, bug address as well as options and option processing function.
+
 ** Autoconfiguration
 *** Support for Cygwin B20.
 *** Build with -Wall -Werror.
@@ -59,6 +63,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** defobj, objectbase, simtools
 **** Arguments and Archiver are now a part of defobj.  This is to facilitate
      low-level serialization.
+*** collections / simtools
+**** ListShuffler moved to collections
+
 
 * Release Notes for Swarm 1.3.1
 
