@@ -703,7 +703,8 @@ x_get_managed_toplevel_window (Display *display, Window window)
       if (parent == root)
         return 0;
     }
-  return x_get_parent_window (display, parent);
+  w = x_get_parent_window (display, parent);
+  return (w == root) ? parent : w;
 }
 
 static void
@@ -1201,22 +1202,19 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
           unsigned overlapCount, i;
           Window *overlapWindows;
           Display *display = pixmap->display;
-          XWindowAttributes top_attr;
+          XWindowAttributes top_attr, test_top_attr;
           BOOL obscured = NO;
           Window lastParent = x_get_parent_window (display, topWindow);
           Window root;
           unsigned lastx, lasty, lastw, lasth;
           unsigned lastbw, lastdepth;
+          BOOL mapRetry = NO;
           
           if (!XGetGeometry (display, topWindow, &root,
                              &lastx, &lasty, &lastw, &lasth,
                              &lastbw, &lastdepth))
             abort ();
-          
-          keep_inside_screen (tkwin, window);
-          check_for_overlaps (display, topWindow,
-                              &overlapWindows, &overlapCount);
-          
+
           [globalTkInterp eval: "uplevel #0 {\n"
                           "set obscured no\n"
                           "}\n"];
@@ -1232,19 +1230,37 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                           "set obscured yes\n"
                           "}\n}\n}\n", widgetName, widgetName];
           
-          x_set_override_redirect (display, topWindow, YES);
+          if (!XGetWindowAttributes (display, topWindow, &top_attr))
+            abort ();
+
+mapretry:
+          if (top_attr.map_state == IsUnmapped)
+            {
+              XMapWindow (display, topWindow);
+              x_set_override_redirect (display, topWindow, YES);
+            }
+          
+          if (!XGetWindowAttributes (display, topWindow, &test_top_attr))
+            abort ();
+
+          if (test_top_attr.map_state == IsUnmapped)
+            { 
+              if (mapRetry)
+                abort ();
+              raiseEvent (WarningMessage, "Window manager won't allow map\n");
+              mapRetry = YES;
+              goto mapretry; 
+            }
+          keep_inside_screen (tkwin, window);
+          check_for_overlaps (display, topWindow,
+                              &overlapWindows, &overlapCount);
+
           for (i = 0; i < overlapCount; i++)
             x_set_override_redirect (display, overlapWindows[i], YES);
           
-          if (!XGetWindowAttributes (display, topWindow, &top_attr))
-            abort ();
-          
-          if (top_attr.map_state == IsUnmapped)
-            XMapWindow (display, topWindow);
-          
           {
             Window root = RootWindowOfScreen (Tk_Screen (tkwin));
-            
+           
             if (lastParent != root)
               {
                 reparentedFlag = YES;
@@ -1266,7 +1282,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
               obscured = YES;
               goto retry;
             }
-          XFlush (display);
           x_pixmap_create_from_window (pixmap, window);
           
           if (reparentedFlag)

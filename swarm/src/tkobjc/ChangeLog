@@ -1,3 +1,10 @@
+1999-08-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (x_get_managed_toplevel_window): Check to see
+	if return value is root.  If so, go back one.
+	(tkobjc_pixmap_create_from_widget): Do override_redirect
+	on topWindow after Map attempt, if map fails, retry once w/ warning.
+
 1999-08-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (x_toplevel_p, x_get_parent_function): New functions.
