@@ -16,6 +16,15 @@ LT_AC_PROG_SED
 AC_SUBST(SED)
 
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
+case ${host} in
+        *-*-darwin*)
+                # Use MGD's 'as' wrapper to stop dyld doing Next stuff
+				expand_srcdir=`eval pwd`/${srcdir}
+                OBJCFLAGS="$OBJCFLAGS -B${expand_srcdir}/tools"
+                ;;
+        *)
+                ;;
+esac
 OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)
 
