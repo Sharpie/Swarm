@@ -1202,6 +1202,10 @@ create_method_refs (void)
         (*jniEnv)->GetMethodID (jniEnv, c_Field, "get",
                                 "(Ljava/lang/Object;)Ljava/lang/Object;")))
     abort();
+
+  if (!(m_FieldGetModifiers =
+	(*jniEnv)->GetMethodID (jniEnv, c_Field, "getModifiers", "()I")))
+    abort ();
   
   if (!(m_MethodGetName =
 	(*jniEnv)->GetMethodID (jniEnv, c_Method, "getName",

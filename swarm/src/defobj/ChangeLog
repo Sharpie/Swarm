@@ -1,3 +1,7 @@
+2000-06-17    <mgd@DRONE>
+
+	* java.[hm] (create_method_refs): Add m_FieldGetModifiers.
+
 2000-06-07  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* java.m (fcall_type_for_java_signature): Skip over uint and
