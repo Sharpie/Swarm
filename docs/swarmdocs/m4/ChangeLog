@@ -3,5 +3,7 @@
 	* Makefile.am (EXTRA_DIST): Add acprogs.m4.
 
 	* acprogs.m4: Check for gswin32c as well as gs (gswin32 will open
-	a window during test).
+	a window during test).  Write to out$$.png instead of /dev/null, which 
+	Win32 version of GhostScript doesn't know about.
+
 

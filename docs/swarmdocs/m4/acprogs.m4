@@ -10,11 +10,13 @@ if test "$GS" = missing ; then
 fi
 for device in png256 ppm ; do
   AC_MSG_CHECKING(that GhostScript can convert eps to $device)
-  errs=`$GS -q -dNOPAUSE -sDEVICE=$device -sOutputFile=/dev/null $srcdir/figs/swarm.eps -c quit 2>&1`
+  outfile=out$$.png
+  errs=`$GS -q -dNOPAUSE -sDEVICE=$device -sOutputFile=$outfile $srcdir/figs/swarm.eps -c quit 2>&1`
   if test -n "$errs" ; then
     echo "[$errs]"
     AC_MSG_ERROR(Could not convert eps to $device.  Please get a better-equipped version of GhostScript)
   fi
+  rm -f $outfile
   AC_MSG_RESULT(yes)
 done
 ])
