@@ -33,20 +33,27 @@
 
 - buildObjects
 {
-  id modelZone;                                   // zone for model.
-  
   [super buildObjects];
   
   // First, we create the model that we're actually observing. The
-  // model is a subswarm of the observer. We also create the model in
-  // its own zone, so storage is segregated.
+  // model is a subswarm of the observer. Note that creating the
+  // modelSwarm in the current Swarm, by referring to "self" in the
+  // [ModelSwarm create: self] call does actually create the new Swarm
+  // in it's *own* segregated Zone. H
 
-  modelZone = [Zone create: [self getZone]];
-  modelSwarm = [ModelSwarm create: modelZone];
+  // However, it does this in such a way that when current
+  // (ObserverSwarm) is dropped it will also drop the ModelSwarm and all
+  // its allocated storage (Zone)
+
+  // Thus there should be no need to explicitly create any Zones,
+  // except for the top level Zone, unless specifically required for a
+  // particular application
+  
+  modelSwarm = [ModelSwarm create: self];
 
   // Instruct the control panel to wait for a button event.
   // We halt here until someone hits a control panel button.
-
+   
   [controlPanel setStateStopped];
 
   // OK - the user said "go" so we're ready to start
@@ -58,7 +65,7 @@
   // First, create a colormap: this is a global resource, the information
   // here is used by lots of different objects.
 
-  colorMap = [Colormap create: [self getZone]];
+  colorMap = [Colormap create: self];
 
   [colorMap setColor: 0 ToName: "black"];
   [colorMap setColor: 1 ToName: "red"];
@@ -66,7 +73,7 @@
 
   // Next, create a 2d window for display, set its size, zoom factor, title.
 
-  worldRaster = [ZoomRaster create: [self getZone]];
+  worldRaster = [ZoomRaster create: self];
   [worldRaster setColormap: colorMap];
   [worldRaster setZoomFactor: 4];
   [worldRaster setWidth: [[modelSwarm getWorld] getSizeX]
@@ -77,7 +84,7 @@
   // Now create a Value2dDisplay: this is a special object that will
   // display arbitrary 2d value arrays on a given Raster widget.
 
-  foodDisplay = [Value2dDisplay createBegin: [self getZone]];
+  foodDisplay = [Value2dDisplay createBegin: self];
   [foodDisplay setDisplayWidget: worldRaster colormap: colorMap];
   [foodDisplay setDiscrete2dToDisplay: [modelSwarm getFood]];
   foodDisplay = [foodDisplay createEnd];
@@ -85,7 +92,7 @@
   // And also create an Object2dDisplay: this object draws bugs on
   // the worldRaster widget for us.
 
-  bugDisplay = [Object2dDisplay createBegin: [self getZone]];
+  bugDisplay = [Object2dDisplay createBegin: self];
   [bugDisplay setDisplayWidget: worldRaster];
   [bugDisplay setDiscrete2dToDisplay: [modelSwarm getWorld]];
   [bugDisplay setObjectCollection: [modelSwarm getBugList]];
@@ -109,7 +116,7 @@
   // actions could be executed in parallel, but we don't explicitly
   // notate that here.
 
-  displayActions = [ActionGroup create: [self getZone]];
+  displayActions = [ActionGroup create: self];
 
   // Schedule up the methods to draw the display of the world
 
@@ -123,7 +130,7 @@
   // own Swarm data structure. Display is frequently the slowest part of a
   // simulation, so redrawing less frequently can be a help.
 
-  displaySchedule = [Schedule createBegin: [self getZone]];
+  displaySchedule = [Schedule createBegin: self];
   [displaySchedule setRepeatInterval: displayFrequency]; // note frequency!
   displaySchedule = [displaySchedule createEnd];
   [displaySchedule at: 0 createAction: displayActions];
