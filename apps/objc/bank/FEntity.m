@@ -151,7 +151,8 @@
       if (canvas)
         {
           //set the border width once and for all somewhere else...
-          [[nodeItem setBorderColor: "blue"] setBorderWidth: 3];
+          [nodeItem setBorderColor: "blue"];
+          [nodeItem setBorderWidth: 3];
           GUI_UPDATE_IDLE_TASKS ();
         }
       [[borrowLink getTo] requestLoan];

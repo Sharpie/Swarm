@@ -1,3 +1,8 @@
+2001-04-18  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* FEntity.m ([FEntity -generateIOP]): Don't use nested expression
+	for setting border color and width.
+
 2000-02-27    <mgd@nest.swarm.org>
 
 	* Makefile (SWARMHOME, APPVERSION): Update for 2.1.
