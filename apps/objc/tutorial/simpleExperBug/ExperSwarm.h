@@ -5,7 +5,7 @@
 
 #import "ModelSwarm.h"
 
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <activity.h>
 #import <collections.h>
 #import <simtools.h>
