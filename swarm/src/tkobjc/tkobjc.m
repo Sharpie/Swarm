@@ -67,10 +67,6 @@ initTkObjc (id arguments)
         [globalTkInterp eval: tkbusy_tcl];
       }
 #endif
-      [globalTkInterp eval: "uplevel #0 {\n"
-                      "set obscured no\n"
-                      "}\n"];
-      
     }
 }
 
