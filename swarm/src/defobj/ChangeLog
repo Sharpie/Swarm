@@ -1,5 +1,8 @@
 1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.h: Remove readOnly accessors from SetInitialValue protocol
+	(moved to design document).
+
 	* defobj.m (initDefobj): Call Archiver create: instead of ensure:.
 
 	* Makefile.am (INCLUDES): Add $(HDF5INCLUDES).

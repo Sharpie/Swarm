@@ -463,9 +463,6 @@ USING
 //D: removed after an object has already been created.
 
 CREATING
-+ create: aZone setInitialValue: initialValue;
-+ create: aZone setReadOnlyValue: readOnlyValue;
-
 //M: The setInitialValue: message requires another object as its argument,
 //M: from which the value of a newly created object is to be taken.  Unlike
 //M: a copy message, the object used as the source of the new value need
@@ -474,26 +471,6 @@ CREATING
 //M: which it can accept, along with any special conversion or
 //M: interpretation it might apply to such a value.
 - (void)setInitialValue: initialValue;
-
-//M: The setReadOnlyValue: message is equivalent to a combination of a
-//M: setInitialValue: message with an added ReadOnly restriction.
-- (void)setReadOnlyValue: readOnlyValue;
-
-SETTING
-
-//M: The ReadOnly flag specifies that the value of an object may not be
-//M: modified further by other messages on an object.  If such messages are
-//M: attempted then an error is raised.  If the ReadOnly flag is set at
-//M: create time, the object is first created in read-only mode.  Typically
-//M: an initial value is always provided for an initial read-only object,
-//M: since otherwise the created object would have only an empty or initial
-//M: default value.  
-- (void)setReadOnly: (BOOL)readOnly;
-
-USING
-
-//M: Returns the ReadOnly status.
-- (BOOL)getReadOnly;
 @end
 
 
