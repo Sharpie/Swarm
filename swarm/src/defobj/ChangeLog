@@ -3,6 +3,9 @@
 	* DefObject.[hm], defobj.h:  getClass always returns Class.
 	Qualify hdf5Obj arguments to be id <HDF5>.
 
+	* HDF5Archiver.m ([HDF5Archiver -ensureApp:]): Always treat
+	hdf5Obj as of type id <HDF5>.
+
 2004-11-07  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Arguments.[hm]: Make argp ivar opaque.  Adapt references with
