@@ -11,3 +11,4 @@
 #undef PREFIX
 #undef HAVE_HDF5
 #undef HAVE_JDK
+#undef HAVE_XPM_ALLOCPIXELS

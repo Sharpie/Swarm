@@ -1,6 +1,10 @@
-1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VERSION: Bump.
+
+	* configure.in: Use md_STRUCT_XPM_ALLOCPIXELS.
+
+	* acconfig.h (HAVE_XPM_ALLOCPIXELS): New symbol.
 
 1999-04-26  Alex Lancaster  <alex@santafe.edu>
 
