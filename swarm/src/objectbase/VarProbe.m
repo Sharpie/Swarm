@@ -542,6 +542,8 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     str = GETSTROBJECT (float, Float);
   else if (TYPEP (double))
     str = GETSTROBJECT (double, Double);
+  else if (TYPEP (String))
+    str = GETVALUE (Object);
   else
     str = (*jniEnv)->CallObjectMethod (jniEnv, fieldType, m_ClassGetName);
   result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);

@@ -1,4 +1,8 @@
-2000-04-15    <mgd@nest.swarm.org>
+2000-04-20    <mgd@nest.swarm.org>
+
+	* VarProbe.m (java_probe_as_string): Handle strings.
+
+x2000-04-15    <mgd@nest.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -addJavaFields:]): Use m_ClassGetFields
 	instead of m_ClassGetDeclaredFields.  (Want the publics, and inherited
