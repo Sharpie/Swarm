@@ -32,12 +32,10 @@ objectbase_HEADERS = ActivityControl.h Arguments.h \
 $(libobjectbase_la_OBJECTS): version.h
 
 version.h: $(top_srcdir)/VERSION
-	echo '#define SWARM_VERSION "' | tr -d '\n' > version.h
-	head -1 $(top_srcdir)/VERSION | tr -d '\n' >> version.h
-	echo '"' >> version.h
-	tail -1 $(top_srcdir)/VERSION | sed 's/^\([0-9][0-9]*\)\..*/#define SWARM_MAJOR \1/' >> version.h
-	tail -1 $(top_srcdir)/VERSION | sed 's/^[0-9][0-9]*\.\([0-9][0-9]*\)\..*/#define SWARM_MINOR \1/' >> version.h
-	tail -1 $(top_srcdir)/VERSION | sed 's/^[0-9][0-9]*\.[0-9][0-9]*\.\([0-9][0-9]*\)/#define SWARM_SUBMINOR \1/' >> version.h 
+	sed -n '1s/.*/#define SWARM_VERSION "&"/p' < $< > $@
+	sed -n '2s/^\([0-9][0-9]*\)\..*/#define SWARM_MAJOR \1/p' < $< >> $@
+	sed -n '2s/^[0-9][0-9]*\.\([0-9][0-9]*\)\..*/#define SWARM_MINOR \1/p' < $< >> $@
+	sed -n '2s/^[0-9][0-9]*\.[0-9][0-9]*\.\([0-9][0-9]*\)/#define SWARM_SUBMINOR \1/p' < $< >> $@
 
 install-data-local:
 	$(INSTALL_DATA) version.h $(objectbasedir)
