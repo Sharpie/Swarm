@@ -1,5 +1,8 @@
 1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Makefile.am: Add -Wno-implicit-int (but this may not be portable
+	enough).
+
 	* WindowGeometryRecord.[hm]: Remove lispInCreate: stub (will 
 	inherit).
 
