@@ -4,7 +4,8 @@
 	Add gcc28 subconfig for mgd-PSU-Irix5 with two different tclobjcs.
 	Likewise for mgd-PSU-GNU/Linux-glibc2. 
 	Quote CC argument for .h.xm
-
+	Update Irix 5.3 config to use prefix variables for Tcl and Tk.
+	
 	* Makefile (dist): Don't match SETUP to the $(SWARMSETUP) case.
 
 	* Makefile.conf (TCLVERS): Upgrade mgd-SFI-Solaris to Tcl 7.6.
