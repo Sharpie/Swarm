@@ -32,8 +32,12 @@ override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 
-libjavaswarmstubs__la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
-libjavaswarm__la_OBJECTS = setup.lo SwarmEnvironment.lo
+libjavaswarmstubs__la_OBJECTS = $(addsuffix .lo, $(modulePROTOCOLS))
+javaswarmstubs_OBJECTS = $(addsuffix .o, $(modulePROTOCOLS))
+
+javaswarm_entities = SwarmEnvironment
+libjavaswarm__la_OBJECTS = $(addsuffix .lo, $(javaswarm_entities))
+javaswarm_OBJECTS = $(addsuffix .o, $(javaswarm_entities))
 
 JAVASWARM_DLL = @JAVASWARM_DLL@
 LIBJAVASWARM_LA = @LIBJAVASWARM_LA@
@@ -60,7 +64,7 @@ install-dll: all
 libjavaswarmstubs_.la: $(libjavaswarmstubs__la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs__la_LDFLAGS) $(libjavaswarmstubs__la_OBJECTS)
 
-libjavaswarm_.la: $(libjavaswarm__la_OBJECTS)
+libjavaswarm_.la: 
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm__la_OBJECTS)
 
 libjavaswarmstubs.la: libjavaswarmstubs_.la
@@ -71,7 +75,7 @@ libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
 
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la $(top_srcdir)/src/dllinit.c
 	$(CC) -c $(top_srcdir)/src/dllinit.c
-	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarm.a --driver-name $(CC) -o javaswarm.dll dllinit.o $(addsuffix .o,$(modulePROTOCOLS)) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) -L../libobjc/.libs $(top_builddir)/libobjc/*.o $(SUPPORTLDFLAGS) $(SYSLIBS)
+	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarm.a --driver-name $(CC) -o javaswarm.dll dllinit.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) -L../libobjc/.libs $(top_builddir)/libobjc/*.o $(SUPPORTLDFLAGS) $(SYSLIBS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<

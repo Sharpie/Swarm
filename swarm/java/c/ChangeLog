@@ -1,3 +1,10 @@
+1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (javaswarm_entities, javaswarm_OBJECTS,
+	javaswarmstubs_OBJECTS): New variables.
+	(libjavaswarm__la_OBJECTS): Use javaswarm_entities.  Remove setup.lo.
+	(javaswarm.dll): Use javaswarm_OBJECTS and javaswarmstubs_OBJECTS.
+
 1999-06-05    <mgd@HELEN>
 
 	* Makefile.in (javaswarm.dll): Use .o instead of .lo stubs files.
