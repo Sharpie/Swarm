@@ -152,7 +152,6 @@ fi
 if test $prefix = /usr; then
   includedir=${includedir}/swarm
   libdir=${libdir}/swarm
-  sysconfdir=${sysconfdir}/swarm
 fi
 
 swarm_prefix=$prefix

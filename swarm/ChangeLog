@@ -10,7 +10,7 @@
 	* Makefile.appl.in, Makefile.lib.in: Moved to etc. 
 
 	* configure.in: In the case prefix=/usr, append "swarm" to libdir,
-	includedir, and sysconfdir.  Extract Makefile.appl and Makefile.lib
+	and includedir.  Extract Makefile.appl and Makefile.lib
 	to etc.
 
 	* VERSION: Bump.
