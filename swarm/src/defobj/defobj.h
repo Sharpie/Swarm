@@ -21,6 +21,9 @@ Library:      defobj
 //D: support.
 
 @protocol Serialization
+//S: Object serialization protocol.
+//D: Object serialization protocol.
+
 CREATING
 //M: Process keyword parameters in expression in order to get 
 //M: create-time parameters.
@@ -928,6 +931,8 @@ USING
 @end
 
 @protocol Archiver <Create, Drop, CREATABLE>
+//S: High level serialization interface.
+//D: High level serialization interface.
 CREATING
 + createBegin: aZone;
 - createEnd;
