@@ -1,3 +1,10 @@
+1999-08-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* selector.c: Include ctype.h.
+	(sel_types_match): Allow signed vs. unsigned differences because
+	for Java we (Swarm) want to be able to constructor selectors
+	using only signed integer types.
+
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.c: Provide #defines for Win32, where we want to avoid
