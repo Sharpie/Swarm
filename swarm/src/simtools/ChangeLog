@@ -1,3 +1,15 @@
+1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Archiver.m (defaultPath): Renamed from defaultFileName.
+	Return const char * instead of id.
+
+	* Archiver.h (Archiver): Replace archiveFileNameString with path,
+	a const char * instead of id.
+
+	* Archiver.[hm]: Replace load:fromFileNamed: with load:path:.
+	Replace ensure:archiveFileName: with ensure:path:.
+	Replace setArchiveFileName: with setPath:.
+
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ObjectLoader.[hm] ([ObjectLoader +load:fromAppConfigFileNamed:]): 

@@ -7,11 +7,11 @@
 
 extern id archiver;
 
-@interface Archiver : SwarmObject
+@interface Archiver: SwarmObject
 {
   id currentApplicationKey;
   id applicationMap;
-  id archiveFileNameString;
+  const char *path;
   id clients;
 }
 
@@ -20,18 +20,18 @@ extern id archiver;
 // If default archive exists, loads and returns archive, otherwise return nil.
 + load: aZone;
 
-// If archiveFileName exists, loads and returns archive, otherwise return nil.
-+ load: aZone fromFileNamed: (const char *)archiveFileName;
+// If path exists, loads and returns archive, otherwise return nil.
++ load: aZone fromPath: (const char *)path;
 
-// If archiveFileName exists, loads and returns archive, otherwise
+// If path exists, loads and returns archive, otherwise
 // return empty archive (archiveFileName is set to argument).
-+ ensure: aZone archiveFileName: (const char *)archiveFileName;
++ ensure: aZone path: (const char *)path;
 
 // If default archive exists, loads and returns archive, otherwise
 // return empty archive (archiveFilename is set to default).
 + ensure: aZone;
 
-- setArchiveFileName : (const char *)archiveFileName;
+- setPath: (const char *)path;
 - save;
 - getMap;
 

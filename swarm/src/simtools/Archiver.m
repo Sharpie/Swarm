@@ -11,22 +11,33 @@
 
 #import <objc/objc-api.h>
 
-#include <misc.h> // access, getenv
+#include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
 
 #define ARCHIVER_FUNCTION_NAME "archiver"
 #define MAKE_OBJC_FUNCTION_NAME "make-objc"
+
+#define SWARMARCHIVER ".swarmArchiver"
 
 id archiver;
 
 @implementation Archiver
 
-static id
-defaultFileName (id aZone)
+static const char *
+defaultPath (void)
 {
-  id string = [String create: aZone setC: getenv ("HOME")];
+  const char *home = getenv ("HOME");
 
-  [string catC: "/.swarmArchiver"];
-  return string;
+  if (home)
+    {
+      char *buf = xmalloc (strlen (home) + 1 + strlen (SWARMARCHIVER) + 1), *p;
+
+      p = stpcpy (buf, home);
+      p = stpcpy (p, "/");
+      p = stpcpy (p, SWARMARCHIVER);
+      
+      return buf;
+    }
+  return NULL;
 }
 
 static int
@@ -43,7 +54,7 @@ compareStrings (id val1, id val2)
   [map setCompareFunction: &compareStrings];
   newArchiver->applicationMap = [map createEnd];
   newArchiver->clients = [List create: aZone];
-  newArchiver->archiveFileNameString = defaultFileName (aZone);
+  newArchiver->path = defaultPath ();
   return newArchiver;
 }
 
@@ -60,9 +71,10 @@ compareStrings (id val1, id val2)
   return self;
 }
 
-- setArchiveFileName: (const char *)fileName
+- setPath: (const char *)thePath
 {
-  [archiveFileNameString setC: fileName];
+  path = strdup (thePath);
+
   return self;
 }
 
@@ -252,17 +264,18 @@ compareStrings (id val1, id val2)
   return [[Archiver create: aZone] in: expr];
 }
 
-+ load: aZone fromFileNamed: (const char *)archiveFileName;
++ load: aZone fromPath: (const char *)archivePath
 {
-  if (archiveFileName && access (archiveFileName, R_OK) != -1)
+  if (archivePath && access (archivePath, R_OK) != -1)
     {
-      FILE *fp = fopen (archiveFileName, "r");
+      FILE *fp = fopen (archivePath, "r");
+
       // Create a temporary zone to simplify destruction of expression
       id inStreamZone = [Zone create: scratchZone];
       id inStream = [InputStream create: inStreamZone setFileStream: fp];
-      id newArchiver = [Archiver in: aZone
-                                 expr: [inStream getExpr]];
-      [newArchiver setArchiveFileName: archiveFileName];
+      id newArchiver = [Archiver in: aZone expr: [inStream getExpr]];
+
+      [newArchiver setPath: archivePath];
       [inStreamZone drop]; 
       fclose (fp);
       return newArchiver;
@@ -272,22 +285,17 @@ compareStrings (id val1, id val2)
 
 + load: aZone
 {
-  id newArchiver = [Archiver load: aZone
-                             fromFileNamed: [defaultFileName (aZone) getC]];
-
-  return newArchiver;
+  return [Archiver load: aZone fromPath: defaultPath ()];
 }
 
-+ ensure: aZone archiveFileName: (const char *)archiveFileName
++ ensure: aZone path: (const char *)archivePath
 {
-  Archiver *newArchiver;
+  Archiver *newArchiver = [Archiver load: aZone fromPath: archivePath];
 
-  newArchiver = [Archiver load: aZone
-                          fromFileNamed: archiveFileName];
   if (newArchiver == nil)
     {
       newArchiver = [Archiver create: aZone];
-      [newArchiver setArchiveFileName: archiveFileName];
+      [newArchiver setPath: archivePath];
     }
   return newArchiver;
 }
@@ -373,23 +381,27 @@ compareStrings (id val1, id val2)
 
 - save
 {
-  FILE *fp = fopen ([archiveFileNameString getC], "w");
-  id outStream;
-  
-  if (fp == NULL)
-    return nil;
-  outStream = [OutputStream create: scratchZone setFileStream: fp];
-  [clients forEach: @selector(updateArchiver)];
-  [self out: outStream];
-  fclose (fp);
-  [outStream drop];
+  if (path)
+    {
+      FILE *fp = fopen (path, "w");
+      id outStream;
+      
+      if (fp == NULL)
+        return nil;
+      outStream = [OutputStream create: scratchZone setFileStream: fp];
+      [clients forEach: @selector(updateArchiver)];
+      [self out: outStream];
+      fclose (fp);
+      [outStream drop];
+    }
   return self;
 }
 
 - (void)drop
 {
   [applicationMap drop];
-  [archiveFileNameString drop];
+  if (path)
+    XFREE (path);
   [clients drop];
   [super drop];
 }
