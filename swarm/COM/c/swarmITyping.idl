@@ -3,7 +3,7 @@
 [scriptable, uuid(7dfd88b3-4978-454e-8b7b-7f3c305abce9)]
 interface swarmITyping : nsISupports
 {
-  [noscript] readonly attribute nsIIDPtr primaryiid;
-  [noscript] readonly attribute nsCIDPtr cid;
+  [noscript] readonly attribute nsIIDPtr primaryIID;
+  [noscript] readonly attribute nsCIDPtr CID;
 };
 

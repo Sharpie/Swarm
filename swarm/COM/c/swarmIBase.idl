@@ -4,6 +4,6 @@
 [scriptable, uuid(f4043a90-b0b2-4c6d-81c5-e626c195df9f)]
 interface swarmIBase : nsISupports
 {
-  attribute nsIXPCNativeCallContext nativeCallContext;
+  attribute nsIXPConnectWrappedNative wrapper;
 };
 

@@ -1,17 +1,21 @@
 #include "swarmBase.h"
 
 NS_IMETHODIMP
-swarmBase::GetNativeCallContext (nsIXPCNativeCallContext **ret)
+swarmBase::GetWrapper (nsIXPConnectWrappedNative **ret)
 {
-  *ret = nativeCallContext;
+  NS_ADDREF (*ret = wrapper);
   return NS_OK;
 }
 
 NS_IMETHODIMP
-swarmBase::SetNativeCallContext (nsIXPCNativeCallContext *ret)
+swarmBase::SetWrapper (nsIXPConnectWrappedNative *val)
 {
-  nativeCallContext = ret;
+  wrapper = val;
   return NS_OK;
+}
+
+swarmBase::~swarmBase ()
+{
 }
 
 

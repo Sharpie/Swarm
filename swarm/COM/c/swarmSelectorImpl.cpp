@@ -26,14 +26,14 @@ swarmSelectorImpl::~swarmSelectorImpl ()
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::GetPrimaryiid (nsIID **aiid)
+swarmSelectorImpl::GetPrimaryIID (nsIID **aiid)
 {
   *aiid = (nsIID *) &NS_GET_IID (swarmISelector);
   return NS_OK;
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::GetCid (nsCID **acid)
+swarmSelectorImpl::GetCID (nsCID **acid)
 {
   static NS_DEFINE_CID (cid, SWARM_SELECTOR_CID);
   *acid = (nsCID *) &cid;

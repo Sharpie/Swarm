@@ -253,12 +253,17 @@ COMcreateComponent (COMclass cClass)
 const char *
 COMcopyString (const char *str)
 {
-  const char *ret = (const char *)
-    nsMemory::Clone (str, sizeof (char) * (PL_strlen (str) + 1));
-
-  if (!ret)
-    abort ();
-  return ret;
+  if (str)
+    {
+      const char *ret = (const char *)
+        nsMemory::Clone (str, sizeof (char) * (PL_strlen (str) + 1));
+      
+      if (!ret)
+        abort ();
+      return ret;
+    }
+  else
+    return NULL;
 }
 
 const char *
@@ -281,7 +286,7 @@ COMgetName (COMobject cObj)
     {
       nsCID *cid;
 
-      rv = typing->GetCid (&cid);
+      rv = typing->GetCID (&cid);
       if (NS_FAILED (rv))
         abort ();
 
@@ -302,7 +307,7 @@ COMgetClass (COMobject cObj)
     {
       nsCID *cid;
 
-      rv = typing->GetCid (&cid);
+      rv = typing->GetCID (&cid);
       if (NS_FAILED (rv))
         abort ();
 
@@ -1067,12 +1072,11 @@ setJSval (val_t *inval, jsval *outval)
         swarmITyping *cObject = SD_COM_ENSURE_OBJECT_COM (inval->val.object);
         nsCOMPtr <swarmIBase> base (do_QueryInterface (cObject));
         nsCOMPtr <nsIXPCNativeCallContext> callContext;
-        base->GetNativeCallContext (getter_AddRefs (callContext));
-        nsCOMPtr <nsIXPConnectWrappedNative> calleeWrapper;
-        callContext->GetCalleeWrapper (getter_AddRefs (calleeWrapper));
+        nsCOMPtr <nsIXPConnectWrappedNative> wrapper;
+        base->GetWrapper (getter_AddRefs (wrapper));
 
         JSObject *jsObj;
-        if (!NS_SUCCEEDED (calleeWrapper->GetJSObject (&jsObj)))
+        if (!NS_SUCCEEDED (wrapper->GetJSObject (&jsObj)))
           abort ();
         *outval = OBJECT_TO_JSVAL (jsObj);
       }
@@ -1236,7 +1240,7 @@ JSmethodInvoke (COMobject cObj, const char *methodName, void *params)
 
   if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
     abort ();
-  
+
   if (!JS_CallFunctionName (currentJSContext (),
                             jsobj,
                             methodName,
@@ -1288,7 +1292,9 @@ COM_add_object_COM (swarmITyping *cObject, id oObject)
   nsCOMPtr <swarmIBase> base (do_QueryInterface (cObject));
   if (!base)
     abort ();
-  if (!NS_SUCCEEDED (base->SetNativeCallContext (callContext)))
+  nsCOMPtr <nsIXPConnectWrappedNative> wrapper;
+  callContext->GetCalleeWrapper (getter_AddRefs (wrapper));
+  if (!NS_SUCCEEDED (base->SetWrapper (wrapper)))
     abort ();
   return NS_STATIC_CAST (swarmITyping *, swarm_directory_COM_add_object_COM (cObject, oObject));
 }

@@ -5,9 +5,10 @@
 
 class swarmBase: public swarmIBase
 {
-  nsIXPCNativeCallContext *nativeCallContext;
+  nsCOMPtr <nsIXPConnectWrappedNative> wrapper;
 
  public:
  NS_DECL_SWARMIBASE
+ virtual ~swarmBase ();
 };
 #endif
