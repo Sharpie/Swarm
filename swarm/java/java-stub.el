@@ -72,87 +72,118 @@
       ("ProbeMap \\*" . freaky) 
       ))
 
-(defconst *removed-protocols* '("CREATABLE"
-                                "RETURNABLE"
+(defconst *removed-protocols* 
+    '(
+      "CREATABLE"
+      "RETURNABLE"
+      
+      ;; problematic types
+      "Arguments"
+
+      ;; should be done by archiver
+      "ArchiverKeyword"
+      "ArchiverArray"
+      "ArchiverValue"
+      "ArchiverPair"
+      "ArchiverList"
+      "InputStream"
+      "OutputStream"
+
+      "HDF5CompoundType"
+
+      ;; deprecated
+      "InFile"
+      "OutFile" 
+      "AppendFile"
+      "ObjectSaver"
+      "ObjectLoader"
                                 
-                                ;; problematic types
-                                "Arguments"
+      ;; weird / broken collections
+      "Set"
+      "OrderedSet"
+      "_Set"
 
-                                ;; should be done by archiver
-                                "ArchiverKeyword"
-                                "ArchiverArray"
-                                "ArchiverValue"
-                                "ArchiverPair"
-                                "ArchiverList"
-                                "InputStream"
-                                "OutputStream"
+      ;; objectbase creatable
+      "CustomProbeMap"
+      "CompleteProbeMap"
+      "CompleteVarMap"
 
-                                "HDF5CompoundType"
+      ;; objectbase non-creatable
+      "ProbeConfig"
 
-                                ;; deprecated
-                                "InFile"
-                                "OutFile" 
-                                "AppendFile"
-                                "ObjectSaver"
-                                "ObjectLoader"
+      ;; gui creatable
+      "Frame"
+      "Canvas"
+      "ProbeCanvas"
+      "Label"
+      "ClassDisplayLabel"
+      "VarProbeLabel"
+      "CompleteProbeDisplayLabel"
+      "Button"
+      "ClassDisplayHideButton"
+      "SimpleProbeDisplayHideButton"
+      "SuperButton"
+      "Entry"
+      "MessageProbeEntry"
+      "VarProbeEntry"
+      "ButtonPanel"
+      "Form"
+      "CheckButton"
+      "CanvasItem"
+      "NodeItem"
+      "LinkItem"
+      "ScheduleItem"
+      "OvalNodeItem"
+      "RectangleNodeItem"
+      "TextItem"
+      "Circle"
+      "Rectangle"
+      "Line"
                                 
-                                ;; weird / broken collections
-                                "Set"
-                                "OrderedSet"
-                                "_Set"
+      ;; gui non-creatable
+      "Widget"
+      "WindowGeometryRecord"
+      "ArchivedGeometryWidget"
+      "GraphElement"
+      "InputWidget"
+      "CompositeItem"
 
-                                ;; objectbase creatable
-                                "CustomProbeMap"
-                                "CompleteProbeMap"
-                                "CompleteVarMap"
+      ;; simtoolsgui non-creatable
+      "WindowGeometryRecordName"
+      "CompositeWindowGeometryRecordName"
+      "GUIComposite"
+      "MessageProbeWidget"
+      "MultiVarProbeWidget"
 
-                                ;; objectbase non-creatable
-                                "ProbeConfig"
+      ;; random generators
+      "LCGgen" "LCG1gen" "LCG2gen" "LCG3gen"
 
-                                ;; gui creatable
-                                "Frame"
-                                "Canvas"
-                                "ProbeCanvas"
-                                "Label"
-                                "ClassDisplayLabel"
-                                "VarProbeLabel"
-                                "CompleteProbeDisplayLabel"
-                                "Button"
-                                "ClassDisplayHideButton"
-                                "SimpleProbeDisplayHideButton"
-                                "SuperButton"
-                                "Entry"
-                                "MessageProbeEntry"
-                                "VarProbeEntry"
-                                "ButtonPanel"
-                                "Form"
-                                "CheckButton"
-                                "CanvasItem"
-                                "NodeItem"
-                                "LinkItem"
-                                "ScheduleItem"
-                                "OvalNodeItem"
-                                "RectangleNodeItem"
-                                "TextItem"
-                                "Circle"
-                                "Rectangle"
-                                "Line"
-                                
-                                ;; gui non-creatable
-                                "Widget"
-                                "WindowGeometryRecord"
-                                "ArchivedGeometryWidget"
-                                "GraphElement"
-                                "InputWidget"
-                                "CompositeItem"
 
-                                ;; simtoolsgui non-creatable
-                                "WindowGeometryRecordName"
-                                "CompositeWindowGeometryRecordName"
-                                "GUIComposite"
-                                "MessageProbeWidget"
-                                "MultiVarProbeWidget"
-                                ))
+      "PMMLCGgen" "PMMLCG1gen" 
+      ;; "PMMLCG2gen" "PMMLCG3gen" "PMMLCG4gen"
+      ;; "PMMLCG5gen" "PMMLCG6gen" "PMMLCG7gen" "PMMLCG8gen" "PMMLCG9gen"
+
+      "ACGgen"
+      "SCGgen"
+
+      "SWBgen" "SWB1gen" "SWB2gen" "SWB3gen"
+
+      "MWCAgen"
+      "MWCBgen"
+      "RWC2gen"
+      "RWC8gen"
+
+      "TGFSRgen" "TT403gen" "TT775gen" "TT800gen"
+
+      "MRGgen" "MRG5gen" "MRG6gen" "MRG7gen"
+      "C2MRG3gen"
+      "C3MWCgen"
+
+      "Split" "SplitOut" "SplitSingleSeed" "SplitMultiSeed" 
+      "SplitRandomGenerator"
+
+      "C2LCGXgen" "C4LCGXgen"
+      ))
 
 (defconst *removed-modules* '())
 

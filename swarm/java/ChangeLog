@@ -1,3 +1,9 @@
+1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-protocols*): Disable all generators but
+	MT19937, PSWB, C2TAUS, and PMMLCG1gen (which Mousetrap happened to
+	use).
+
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-class-phase): Extend GUISwarmImpl
