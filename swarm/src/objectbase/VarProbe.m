@@ -1100,7 +1100,6 @@ setFieldFromString (id anObject, jobject field,
 
     case _C_DBL:
       if ((rc = sscanf (s, "%lf", &value.d)) == 1) 
-      printf ("setData:ToString: %f\n", value.d);
         *(double *) p = value.d; 
       break;
 
