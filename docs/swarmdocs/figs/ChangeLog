@@ -1,6 +1,12 @@
+1998-10-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (%.jpeg, %.png): Use redirection of input PostScript
+	file instead of path.  This prevents problems with Cygwin32 UNC
+	paths being handed to non-Cygwin32 Ghostscript.
+
 1998-10-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.am (GS_LIB): Subsitute.  Use in GS rules.
+	* Makefile.am (GS_LIB): Substitute.  Use in GS rules.
 
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 	
