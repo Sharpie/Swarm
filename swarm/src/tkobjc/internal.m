@@ -703,18 +703,13 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
         x_pixmap_create_from_window (pixmap, window);
       }
 #else
-      {
-        HWND w = Tk_GetHWND (window);
-
-#if 1
-        [globalTkInterp eval: "blt::winop raise %s", 
-                        [[widget getTopLevel] getWidgetName]];
+#if 0
+      [globalTkInterp eval: "blt::winop raise %s", 
+                      [[widget getTopLevel] getWidgetName]];
 #else
-        SetWindowPos (w, HWND_TOPMOST, 0, 0, 0, 0,
-                      SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+      Tk_RestackWindow (tkwin, Above, NULL);
 #endif
-        win32_pixmap_create_from_window (pixmap, w);
-      }
+      win32_pixmap_create_from_window (pixmap, Tk_GetHWND (window));
 #endif
     }
 }
