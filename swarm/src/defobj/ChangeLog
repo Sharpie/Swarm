@@ -1,3 +1,12 @@
+1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m: Include directory.h instead of jni.h.
+
+	* FArguments.m: Include directory.h instead of jni.h with jniEnv
+	extern declaration.
+
+	* DefObject.m: Don't include jni.h.
+
 1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* DefObject.h (Object_s): Adopt GetName.

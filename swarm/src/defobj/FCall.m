@@ -28,9 +28,8 @@ Library:      defobj
 #include <misc.h>
 
 #ifdef HAVE_JDK
-#include <jni.h>
-JNIEnv *jniEnv;
 #include <directory.h>
+JNIEnv *jniEnv;
 #endif
 
 #ifdef HAVE_JDK
