@@ -5,6 +5,7 @@
 
 #import <simtools.h>
 #import <simtools/NSelect.h>
+#import <collections.h> // getCount, addLast
 #import <random.h>
 
 @implementation NSelect
