@@ -1,3 +1,11 @@
+2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ProbeDisplayManager.m: Use ForObject methods throughout.
+	Include defalloc.h, use use getZone as appropriate.
+
+	* MessageProbeWidget.m: Include probing.h.
+	(printVal): Use string_convert instead of inline code.
+
 2001-01-29  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* MessageProbeWidget.m: Change from _C_* values to fcall_type_*

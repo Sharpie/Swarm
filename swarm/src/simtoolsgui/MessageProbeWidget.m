@@ -11,6 +11,7 @@
 #import <objc/objc-api.h>
 
 #include <misc.h> // strlen, isSpace
+#include "../objectbase/probing.h" // string_convert
 
 static BOOL
 empty (const char *str)
@@ -33,69 +34,11 @@ printVal (val_t val)
 {
   static char buf[128];
   
-  switch (val.type)
-    {
-    case fcall_type_boolean:
-      return val.val.boolean ? "true" : "false";
-    case fcall_type_string:
-      return val.val.string;
-    case fcall_type_object:
-      return val.val.object ? [val.val.object getDisplayName] : "<null>";
-    case fcall_type_selector:
-      return sel_get_name (val.val.selector);
-    case fcall_type_schar:
-      sprintf (buf, "%c", val.val.schar);
-      break;
-    case fcall_type_uchar:
-      switch (val.val.uchar)
-        {
-        case NO:       
-          sprintf (buf, "%o (false)", (unsigned) val.val.uchar);
-          break;
-        case YES:       
-          sprintf (buf, "%o (true)", (unsigned) val.val.uchar);
-          break;  
-        default:
-          sprintf (buf, "%o", (unsigned) val.val.uchar);
-          break;
-        }
-      break;
-    case fcall_type_sshort:
-      sprintf (buf, "%hd", val.val.sshort);
-      break;
-    case fcall_type_ushort:
-      sprintf (buf, "%hu", val.val.ushort);
-      break;
-    case fcall_type_sint:
-      sprintf (buf, "%d", val.val.sint);
-      break;
-    case fcall_type_uint:
-      sprintf (buf, "%u", val.val.uint);
-      break;
-    case fcall_type_slong:
-      sprintf (buf, "%ld", val.val.slong);
-      break;
-    case fcall_type_ulong:
-      sprintf (buf, "%lu", val.val.ulong);
-      break;
-    case fcall_type_float:
-      sprintf (buf, "%f", val.val._float);
-      break;
-    case fcall_type_double:
-      sprintf (buf, "%f", val.val._double);
-      break;
-    case fcall_type_void:
-      strcpy (buf, "none");
-      break;
-    case fcall_type_iid:
-    case fcall_type_jobject:
-    case fcall_type_jstring:
-    case fcall_type_slonglong:
-    case fcall_type_ulonglong:
-    case fcall_type_long_double:
-    case fcall_type_class:
-      abort ();
-    }
+  string_convert (val.type,
+                  &val.val,
+                  NULL,
+                  [probeLibrary getDisplayPrecision],
+                  DefaultString, buf);
   return buf;
 }
 

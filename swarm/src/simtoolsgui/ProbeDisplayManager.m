@@ -21,7 +21,8 @@
 
 #import <simtoolsgui.h> // ProbeDisplay, CompleteProbeDisplay
 
-#import <defobj/directory.h> // swarm_directory_swarm_class
+#import <defobj/directory.h> // SD_GETCLASS
+#import <defobj/defalloc.h> // getZone
 
 @implementation ProbeDisplayManager
 PHASE(Creating)
@@ -114,38 +115,31 @@ PHASE(Using)
                              setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   id tempPD, tempPM;
-  Class cls;
-  cls = swarm_directory_swarm_class (anObject);
+
   tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
-  [tempPM setProbedClass: cls];
+  [tempPM setProbedObject: anObject];
   [tempPM setObjectToNotify: [probeLibrary getObjectToNotify]];
   tempPM = [tempPM createEnd];
 
-  [probeLibrary setProbeMap: tempPM For: cls];
+  [probeLibrary setProbeMap: tempPM ForObject: anObject];
 
-  tempPD = [ProbeDisplay createBegin: [self getZone]];
+  tempPD = [ProbeDisplay createBegin: getZone (self)];
   [tempPD setProbedObject: anObject];
   [tempPD setProbeMap: tempPM];
   [tempPD setWindowGeometryRecordName: windowGeometryRecordName];
   tempPD = [tempPD createEnd];
   
   return tempPD;
-  //  return [[[ProbeDisplay createBegin: [self getZone]]
-  //	    setProbedObject: anObject]
-  //	   createEnd];
 }
 
 - (id <ProbeDisplay>)_createProbeDisplayFor_      : anObject
                        setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
-  Class cls;
-    
-  cls = swarm_directory_swarm_class (anObject);
-  if ([probeLibrary isProbeMapDefinedFor: cls])
-    return [[[[[ProbeDisplay createBegin: [self getZone]]
+  if ([probeLibrary isProbeMapDefinedForObject: anObject])
+    return [[[[[ProbeDisplay createBegin: getZone (self)]
                 setProbedObject: anObject]
                setWindowGeometryRecordName: windowGeometryRecordName]
-              setProbeMap: [probeLibrary getProbeMapFor: cls]]
+              setProbeMap: [probeLibrary getProbeMapForObject: anObject]]
 	     createEnd];
   else    
     return [self _createDefaultProbeDisplayFor_: anObject
