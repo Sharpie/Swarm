@@ -1,4 +1,4 @@
-<DOCINFO>
+<REFERENCEINFO>
 
   <TITLE>Simtools Library</TITLE>
 
@@ -16,10 +16,10 @@
   
 &simtoolsrevhistory.sgml;
   
-</DOCINFO>
+</REFERENCEINFO>
 
 <!--
 Local Variables:
-sgml-parent-document:("simtoolscont.sgml" "DOCINFO")
+sgml-parent-document:("simtoolscont.sgml" "REFERENCEINFO")
 End:
 -->
