@@ -1,3 +1,8 @@
+1999-01-26  Alex Lancaster  <alex@santafe.edu>
+
+	* overmeta.sgml: Move bibliodata entity outside of BOOKBIBLIO - so
+	legalnotice links work.
+
 1999-01-13  Alex Lancaster  <alex@santafe.edu>
 
 	* overmeta.sgml: Include the newly-defined

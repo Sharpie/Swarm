@@ -6,9 +6,9 @@
 
   <BOOKBIBLIO>
   <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
-    &bibliodata;
   </BOOKBIBLIO>
-
+  
+  &bibliodata;
   &doc-legalnotice;
   &swarm-legalnotice;
 
