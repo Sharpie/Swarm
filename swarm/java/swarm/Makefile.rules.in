@@ -24,5 +24,5 @@ JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 all: $(CLASSES)
 
 .deps: $(JAVAFILES)
-	$(JAVA) -classpath "$(top_dossrcdir)/java/jdeps.jar@PATHSEP@$(JAVACLASSES)" smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
+	$(JAVA) -classpath '$(top_dossrcdir)/java/jdeps.jar@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
 
