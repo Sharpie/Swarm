@@ -3,14 +3,14 @@
   <TITLE>Getting Started with Swarm</TITLE>
 
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
-
-  <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
-
+  
   <BOOKBIBLIO>
-
+   <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
     &bibliodata;
-
   </BOOKBIBLIO>
+
+  &doc-legalnotice;
+  &swarm-legalnotice;
 
   <ABSTRACT><TITLE>Overview</TITLE> 
     <PARA>
