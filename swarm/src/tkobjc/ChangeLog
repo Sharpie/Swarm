@@ -1,3 +1,8 @@
+1998-09-04  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* internal.m (tkobjc_pixmap_save): Write RGB PNG file when
+	color count exceeds 256.
+
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* tkobjc.m (initTkObjc): Define fmtx Tcl procedure.

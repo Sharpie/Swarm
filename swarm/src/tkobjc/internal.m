@@ -842,52 +842,85 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
     }
   
   png_init_io (png_ptr, fp);
-
-  png_set_IHDR (png_ptr, info_ptr,
-		width, height,
-                8, PNG_COLOR_TYPE_PALETTE,
-                PNG_INTERLACE_NONE,
-                PNG_COMPRESSION_TYPE_DEFAULT,
-                PNG_FILTER_TYPE_DEFAULT);
   {
+#ifndef _WIN32
+    unsigned *data = pixmap->xpmimage.data;
+    XpmColor *colorTable = pixmap->xpmimage.colorTable;
+#else
+    BYTE *data = dib->bits;
+    RGBQUAD *rgb = dib->dibInfo->rgb;
+#endif
     png_color palette[ncolors];
-    int i;
+    unsigned ci;
+    unsigned yi, xi;
+    png_bytep row_pointers[height];
     
-    for (i = 0; i < ncolors; i++)
+    for (ci = 0; ci < ncolors; ci++)
       {
 #ifndef _WIN32
         unsigned red, green, blue;
-
-        sscanf (pixmap->xpmimage.colorTable[i].c_color, "#%4x%4x%4x", 
+        
+        sscanf (colorTable[ci].c_color, "#%4x%4x%4x", 
                 &red, &green, &blue);
-        palette[i].red = red >> 8;
-        palette[i].green = green >> 8;
-        palette[i].blue = blue >> 8;
+        palette[ci].red = red >> 8;
+        palette[ci].green = green >> 8;
+        palette[ci].blue = blue >> 8;
 #else
-	palette[i].red = dib->dibInfo->rgb[i].rgbRed;
-	palette[i].green = dib->dibInfo->rgb[i].rgbGreen;
-	palette[i].blue = dib->dibInfo->rgb[i].rgbBlue;
+        palette[ci].red = rgb[ci].rgbRed;
+        palette[ci].green = rgb[ci].rgbGreen;
+        palette[ci].blue = rgb[ci].rgbBlue;
 #endif
       }
-    png_set_PLTE (png_ptr, info_ptr, palette, ncolors);
-    png_write_info (png_ptr, info_ptr);
-  }
-  {
-    png_byte buf[height][width];
-    png_bytep row_pointers[height];
+    
+    if (ncolors > 256)
+      {
+        png_byte buf[height][width][3];
+        
+        png_set_IHDR (png_ptr, info_ptr,
+                      width, height,
+                      8, PNG_COLOR_TYPE_RGB,
+                      PNG_INTERLACE_NONE,
+                      PNG_COMPRESSION_TYPE_DEFAULT,
+                      PNG_FILTER_TYPE_DEFAULT);
+        
+        png_set_sRGB (png_ptr, info_ptr, PNG_sRGB_INTENT_PERCEPTUAL);
+        png_write_info (png_ptr, info_ptr);
+        
+        for (yi = 0; yi < height; yi++)
+          for (xi = 0; xi < width; xi++)
+            {
+              png_color color = palette[*data++];
+              buf[yi][xi][0] = color.red;
+              buf[yi][xi][1] = color.green;
+              buf[yi][xi][2] = color.blue;
+            }
+        for (yi = 0; yi < height; yi++)
+          row_pointers[yi] = &buf[yi][0][0];
+      }
+    else
+      {
+        png_byte buf[height][width];
 #ifndef _WIN32
-    unsigned *data = pixmap->xpmimage.data;
+        unsigned *data = pixmap->xpmimage.data;
 #else
-    BYTE *data = dib->bits;
+        BYTE *data = dib->bits;
 #endif
-    int yi, xi;
-    
-    for (yi = 0; yi < height; yi++)
-      for (xi = 0; xi < width; xi++)
-        buf[yi][xi] = (png_byte)*data++;
-    
-    for (yi = 0; yi < height; yi++)
-      row_pointers[yi] = &buf[yi][0];
+        png_set_IHDR (png_ptr, info_ptr,
+                      width, height,
+                      8, PNG_COLOR_TYPE_PALETTE,
+                      PNG_INTERLACE_NONE,
+                      PNG_COMPRESSION_TYPE_DEFAULT,
+                      PNG_FILTER_TYPE_DEFAULT);
+        png_set_PLTE (png_ptr, info_ptr, palette, ncolors);
+        png_write_info (png_ptr, info_ptr);
+        
+        for (yi = 0; yi < height; yi++)
+          for (xi = 0; xi < width; xi++)
+            buf[yi][xi] = (png_byte)*data++;
+        
+        for (yi = 0; yi < height; yi++)
+          row_pointers[yi] = &buf[yi][0];
+      }
     png_write_image (png_ptr, row_pointers);
   }
   png_write_end (png_ptr, info_ptr);
