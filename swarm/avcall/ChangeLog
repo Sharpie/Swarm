@@ -1,3 +1,13 @@
+1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* avcall-i386-msvc.c (__msvc_builtin_avcall): Rename from
+	__builtin_apply.
+
+	* avcall.h.in (av_call): Call __msvc_builtin_avcall in the 
+	case of MSVC.
+	(__msvc_builtin_avcall): Declare instead of __builtin_avcall when
+	MSVC.
+
 1999-07-05    <mgd@HELEN>
 
 	* avcall.h.in (MSVC): Set on _MSC_VER.
