@@ -1,7 +1,7 @@
 1998-01-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (TCLOBJLIB): Remove extra TCLOBJCINC; the 
-	value was appropriate for TCLOBJLIB.
+	value was appropriate for TCLOBJCLIB.
 
 1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
