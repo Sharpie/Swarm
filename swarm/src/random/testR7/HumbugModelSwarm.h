@@ -6,13 +6,13 @@
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 
 #import <random.h>
-#import <swarmobject/Swarm.h>
+#import <objectbase/Swarm.h>
 
-@interface HumbugModelSwarm : Swarm {
-
+@interface HumbugModelSwarm: Swarm
+{
   int debugPrint;
 
 // Internal data objects:
@@ -76,16 +76,15 @@
   id modelPreSchedule, modelPostSchedule;
 
   id myStream;	// output stream
-
 }
 
 // Create the object:
-+createBegin: (id) aZone;
--createEnd;
++ createBegin: aZone;
+- createEnd;
 
 // Do the usual Swarm things:
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
 
 @end

@@ -6,7 +6,7 @@
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools.h>
 
 #import "HumbugModelSwarm.h"
@@ -17,7 +17,8 @@
 
 @implementation HumbugModelSwarm
 
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   HumbugModelSwarm * obj;
 
   obj = [super createBegin: aZone];
@@ -29,12 +30,13 @@
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--genTest7: (id) myGenerator {
-
+- genTest7: myGenerator
+{
    printf("%30s magic = %12u  bufSize = %u\n",
      [myGenerator getName],
      [myGenerator getMagic],
@@ -43,8 +45,8 @@
    return self;
 }
 
--distTest7: (id) myDistribution {
-
+- distTest7: myDistribution
+{
    printf("%30s magic = %12u  bufSize = %u\n",
      [myDistribution getName],
      [myDistribution getMagic],
@@ -53,16 +55,16 @@
    return self;
 }
 
--genDisplay7: (id) myGenerator {
-
+- genDisplay7: myGenerator
+{
    [myGenerator describe: myStream];
    [myStream catC: "\f"];
 
    return self;
 }
 
--distDisplay7: (id) myDistribution {
-
+- distDisplay7: myDistribution
+{
    [myDistribution describe: myStream];
    // [[myDistribution getGenerator] describe: myStream];
    [myStream catC: "\f"];
@@ -70,7 +72,8 @@
    return self;
 }
 
--buildObjects {
+- buildObjects
+{
   unsigned int mySeeds[1024];
  
   [super buildObjects];
@@ -456,15 +459,15 @@ printf("\n\nDistribution data:\n\n");
   return self;
 }
 
--buildActions {
-
+- buildActions
+{
   [super buildActions];
 
   return self;
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   [super activateIn: swarmContext];
 
   return [self getSwarmActivity];
