@@ -1,3 +1,7 @@
+1999-09-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javaswarm.in (JAVAENV): Quote substitution.
+
 1999-09-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm.in: Only convert @swarm_bindir@ with cygpath -w.
