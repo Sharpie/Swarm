@@ -448,8 +448,8 @@ PHASE(Creating)
                 (*jniEnv)->DeleteLocalRef (jniEnv, obj);
               }
           }
-      }
 #endif
+      }
     else
       raiseEvent (InvalidArgument,
                   "Collection not homogeneous, finalization cannot be used");
