@@ -1,4 +1,4 @@
-include ../../../etc/Makefile.tests.in
+include ../../etc/Makefile.tests.in
 
 noinst_PROGRAMS = ForEachRandomized ForEach ActionGroupRandomized ActionGroup ConcurrentGroupRandomized ConcurrentGroup Schedule DynamicSchedule DynamicScheduleRepeat
 
