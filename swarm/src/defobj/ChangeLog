@@ -1,6 +1,11 @@
-2000-02-14    <mgd@nest.swarm.org>
+2000-02-16    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump.  Version 2.1.
+
+	* internal.m (objc_process_array): Throw an exception if
+	array subtype is struct or union.
+
+2000-02-14    <mgd@nest.swarm.org>
 
 	* directory.m (swarm_directory_init): Add randomGenerator.
 

@@ -215,8 +215,13 @@ objc_process_array (const char *type,
   unsigned rank = get_rank (type);
   unsigned dims[rank];
   fcall_type_t baseType;
-  
-  baseType = fcall_type_for_objc_type (*fill_dims (type, dims));
+  char objcArraySubtype = *fill_dims (type, dims);
+
+  if (objcArraySubtype == _C_UNION_B || objcArraySubtype == _C_STRUCT_B)
+    raiseEvent (NotImplemented,
+                "Probing and serialization of unions and structures not supported");
+
+  baseType = fcall_type_for_objc_type (objcArraySubtype);
   
   if (setup_array)
     setup_array (rank, dims, baseType);
