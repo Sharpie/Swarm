@@ -1,6 +1,7 @@
 2004-11-11  Marcus G. Daniels <mgd@santafe.edu>
 
 	* DefObject.[hm], defobj.h:  getClass always returns Class.
+	Qualify hdf5Obj arguments to be id <HDF5>.
 
 2004-11-07  Marcus G. Daniels <mgd@santafe.edu>
 

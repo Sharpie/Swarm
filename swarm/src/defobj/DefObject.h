@@ -90,8 +90,8 @@ Library:      defobj
 - (void)xfprintid;
 - lispInCreate: expr;
 - lispIn: expr;
-- hdf5InCreate: expr;
-- hdf5In: expr;
+- hdf5InCreate: (id <HDF5>)hdf5Obj;
+- hdf5In: (id <HDF5>)hdf5Obj;
 
 - (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
 - (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;

@@ -98,7 +98,7 @@ PHASE(Creating)
   return self;
 }
 
-- hdf5InCreate: hdf5Obj
+- hdf5InCreate: (id <HDF5>)hdf5Obj
 {
   return self;
 }
@@ -126,7 +126,7 @@ PHASE(Setting)
   return self;
 }
 
-- hdf5In: hdf5Obj
+- hdf5In: (id <HDF5>)hdf5Obj
 {
   if ([hdf5Obj getDatasetFlag])
     [hdf5Obj shallowLoadObject: self];
