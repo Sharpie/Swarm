@@ -1,6 +1,6 @@
 // simpleBug - tutorial application
 
-#import <simtools.h>                // ... for initSwarm() 
+#import <simtools.h>                // ... for initSwarmBatch () 
 #import <activity.h>
 #import "ModelSwarm.h"
 
