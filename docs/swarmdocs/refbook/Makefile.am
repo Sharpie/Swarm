@@ -27,7 +27,7 @@ ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
 SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml
 
-EXTRA_DIST = Makefile.rules refbook.ent $(SGML)
+EXTRA_DIST = Makefile.rules refbook.ent sgml.el $(SGML)
 
 SGML_FILES = $(SGML) $(ENT) $(GENERATED_SGML)
 
@@ -40,13 +40,9 @@ EXAMPLES = GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
 gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
 	- (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.GRID.SGML.EXAMPLE.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $(gridturtle_srcdir)/$$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > $@
 
-$(top_builddir)/protocol.elc: $(swarm_srcdir)/etc/protocol.el $(top_builddir)/common.elc
-	cp -f $(swarm_srcdir)/etc/protocol.el $(top_builddir)
-	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/protocol.el
+protocol.elc: $(swarm_srcdir)/etc/protocol.el
 
-$(top_builddir)/sgml.elc: $(top_srcdir)/sgml.el $(top_builddir)/protocol.elc $(top_builddir)/common.elc
-	-cp -f $(top_srcdir)/sgml.el $(top_builddir)
-	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/sgml.el
+sgml.elc: $(abs_top_builddir)/common.elc protocol.elc
 
 refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/analysis/analysis.h \
@@ -58,9 +54,8 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/simtools/simtools.h \
 	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
 	$(swarm_srcdir)/src/space/space.h \
-	$(top_builddir)/protocol.elc $(top_builddir)/common.elc \
-	$(top_builddir)/sgml.elc
-	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l $(top_builddir)/sgml.elc -f run-all $(swarm_dossrcdir)
+	$(abs_top_builddir)/common.elc protocol.elc sgml.elc
+	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l sgml.elc -f run-all $(swarm_dossrcdir)
 
 # Local variables:
 # mode: makefile

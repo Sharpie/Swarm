@@ -1,8 +1,13 @@
 1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am ($(top_builddir)/protocol.elc, 
-	$(top_builddir)/sgml.elc): New rules.
-	(refindex.sgml $(PAGES)): Depend on local elc files.
+	* Makefile.am
+	(protocol.elc): Dependency on $(swarm_srcdir)/etc/protocol.el.
+	(sgml.elc): Dependency on common.elc and protocol.elc.
+	Both rely on implicit rules.
+	(EXTRA_DIST): Add sgml.el.
+
+	* sgml.el (sgml-generate-indices): Use get-top-builddir instead of
+	get-swarmdocs-build-area.
 
 1999-02-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
