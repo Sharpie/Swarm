@@ -9,6 +9,7 @@
  * Floats are placed in the frame as doubles.
  */
 
+#define MFRAME_STACK_STRUCT     1
 #define MFRAME_STRUCT_BYREF     1
 #define MFRAME_SMALL_STRUCT     0
 #define MFRAME_ARGS_SIZE        144

@@ -1,3 +1,9 @@
+1999-09-25  Marcus Daniels  <mgd@ip174.santafe.edu>
+
+	* powerpc/compiler-info-linux-gnu.h: New file.
+
+	* powerpc/mframe-linux-gnu.h (MFRAME_STACK_STRUCT): Add.
+
 1999-09-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* i386/Makefile.am (EXTRA_DIST): Add compiler-info-generic.h.
