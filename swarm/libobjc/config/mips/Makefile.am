@@ -1,0 +1,1 @@
+EXTRA_DIST = compiler-info-irix6.h mframe-irix6.h
