@@ -155,8 +155,8 @@
 }
 
 // scale by zoom factor
--handleButton: (int) n X: (long) x Y: (long) y {
-  return [super handleButton: n X: (x / (long)zoomFactor) Y: (y / (long)zoomFactor)];
+-handleButton: (int) n X: (int) x Y: (int) y {
+  return [super handleButton: n X: (x / (int)zoomFactor) Y: (y / (int)zoomFactor)];
 }
 
 @end

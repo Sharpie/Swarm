@@ -13,7 +13,7 @@
 // calls to the controlPanels' doTkEvents method.
 
 @interface GUISwarm : Swarm {
-  ControlPanel * controlPanel;
+  id <ControlPanel> controlPanel;
   id actionCache;
 }
 

@@ -174,7 +174,7 @@
   return self;
 }
 
--handleButton: (int) n X: (long) x Y: (long) y {
+-handleButton: (int) n X: (int) x Y: (int) y {
   id c = 0;
   SEL sel = 0;
   switch(n) {
