@@ -1,3 +1,8 @@
+1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (install-dll): Use JAVASWARM_DLL here instead of literal.
+	($(JAVASWARM_DLL)): Likewise.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): Set

@@ -58,7 +58,7 @@ install-la: all
 	$(LIBTOOL) --mode=finish $(libdir)
 
 install-dll: all
-	$(INSTALL) javaswarm.dll $(bindir)
+	$(INSTALL) $(JAVASWARM_DLL) $(bindir)
 
 %_stubs.m: $(addsuffix .m,$(%_creatable_PROTOCOLS))
 	cat $(addsuffix .m,$($*_creatable_PROTOCOLS)) > $*_stubs.m
@@ -69,10 +69,10 @@ libjavaswarmstubs.la: $(libjavaswarmstubs_la_OBJECTS)
 libjavaswarm.la: libjavaswarmstubs.la $(libjavaswarm_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(libdir) $(libjavaswarm_la_OBJECTS) libjavaswarmstubs.la -L$(abs_top_builddir)/src $(SWARMLIBS) -lobjc
 
-javaswarm.dll: libjavaswarm.la libjavaswarmstubs.la javaswarm.dll.c
+$(JAVASWARM_DLL): libjavaswarm.la libjavaswarmstubs.la javaswarm.dll.c
 	$(CC) -g -c $(srcdir)/javaswarm.dll.c
-	#$(DLLWRAP) --add-stdcall-alias --entry __cygwin_noncygwin_dll_entry@12 --export-all --output-def javaswarm.def --driver-name $(CC) -o javaswarm.dll javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS)
-	ld-new -shared --add-stdcall-alias -e __cygwin_noncygwin_dll_entry@12 --export-all-symbols -o javaswarm.dll javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
+	#$(DLLWRAP) --add-stdcall-alias --entry __cygwin_noncygwin_dll_entry@12 --export-all --output-def javaswarm.def --driver-name $(CC) -o $(JAVASWARM_DLL) javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS)
+	ld-new -shared --add-stdcall-alias -e __cygwin_noncygwin_dll_entry@12 --export-all-symbols -o $(JAVASWARM_DLL) javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
