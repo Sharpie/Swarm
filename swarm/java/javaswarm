@@ -16,6 +16,6 @@ if test -z "$1" ; then
   echo $LD_LIBRARY_PATH
 else
   export LD_LIBRARY_PATH
- java $*
+  java -classpath ${swarm_datadir}/swarm/swarm.jar $*
 fi
 

@@ -1,5 +1,7 @@
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* javaswarm: Pass -classpath for swarm.jar.
+
 	* java-stub.el (java-print-method): Denote factory methods with
 	static.
 	(create-method-p): New method.
