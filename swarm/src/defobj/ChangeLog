@@ -1,3 +1,12 @@
+1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* swarm_types.h: New file. 
+
+	* FCall.h: New file.
+
+	* FCall.m: New file.
+	
+
 1999-02-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.h: Put all setters needed for createEnd to creating
