@@ -147,7 +147,7 @@ PHASE(Using)
 #ifdef LLFMT
   sprintf (buf, "%" LLFMT "d", lnglng);
 #else
-  raiseEvent (NotImplemented, "Not format specifier for long long");
+  raiseEvent (NotImplemented, "No printf format specifier for long long");
 #endif
 #else
   sprintf (buf, "%ld", (long) lnglng);
