@@ -19,6 +19,7 @@ Library:      activity
 #import <defobj/FCall.h>
 #endif
 #import <defobj/defalloc.h> // getZone
+#include <misc.h> // abort in ActionForEachHomogeneous
 
 extern id uniformUnsRand;
 @protocol _MinimalRandom

@@ -1,3 +1,7 @@
+2001-04-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Action.m: Include misc.h.
+
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* XActivity.[hm], activity.h ([Activity_c -stop]): Make return
