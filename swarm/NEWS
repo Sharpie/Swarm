@@ -6,6 +6,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** activity
 **** Schedule
 ***** Support for insertion of actions leading earliest pending action.
+**** ActionGroup / Schedule
+***** Support for randomized execution order for concurrent actions
+      via the DefaultOrder protocol.
 
 *** analysis
 **** EZBin, EZGraph
@@ -18,7 +21,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** Implement serialization methods lispInCreate:, lispIn:, and lispOut:
       using create-time option handling (_lispInAttr_:, _lispOutAttr_:)
       in Collection.
-
+**** PermutedIndex
+***** New index type for iterating through a collection in random order.
+ 
 *** defobj
 **** New functions lispIn{Boolean,Integer,String,Keyword} for reading
      expected types from a list index.
@@ -37,14 +42,16 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
       is exhausted.
 
 *** simtools
-**** New function initSwarmAppOptions, for initialization of 
-     version, bug address as well as options and option processing function.
+**** New function initSwarmAppOptions, for adding options without subclassing
+     from Arguments.
 
 ** Autoconfiguration
 *** Support for Cygwin B20.
 *** Build with -Wall -Werror.
 *** Protocol compliance is inherited in subclasses (Swarm is compiled
     with -Wno-protocol).
+*** Use modularized language support in automake-1.3d.  This means that
+    there are now the Objective C specific compiler flags OBJC and OBJCFLAGS.
 
 ** Bug fixes
 *** `make clean' cleans up after make-h2x.
