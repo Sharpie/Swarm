@@ -1,3 +1,8 @@
+1998-08-12  Alex Lancaster  <alex@santafe.edu>
+
+	* acswarm.m4 (al_SWARM_LOAD): Search for config.swarm in
+	$(swarmdir)/etc/swarm not $(swarmdir)/etc.
+	
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acffi.m4: Assign to ffidir even when ffcall is specified.

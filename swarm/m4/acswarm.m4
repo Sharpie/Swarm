@@ -2,8 +2,8 @@ AC_DEFUN(al_SWARM_LOAD,
 [# Prefer explicitly selected file to automatically selected ones.
 AC_MSG_CHECKING(Swarm configuration)
 if test -z "$CONFIG_SWARM"; then
-  if test -f "$swarmdir/etc/config.swarm"; then
-    CONFIG_SWARM="$swarmdir/etc/config.swarm"
+  if test -f "$swarmdir/etc/swarm/config.swarm"; then
+    CONFIG_SWARM="$swarmdir/etc/swarm/config.swarm"
     AC_MSG_RESULT($CONFIG_SWARM)
   else
     AC_MSG_RESULT(no)
