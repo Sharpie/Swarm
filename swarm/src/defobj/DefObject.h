@@ -13,7 +13,7 @@ Library:      defobj
 #import <defobj.h>
 
 #ifdef INHERIT_OBJECT
-@interface Object_s : Object
+@interface Object_s: Object <DefinedClass>
 {
 @public
   unsigned long zbits;  // word that contains zone in which object allocated, plus
@@ -30,7 +30,7 @@ Library:      defobj
 }
 #endif
 /*** methods in Object_s (inserted from .m file by m2h) ***/
-+ (const char *) getName;
++ (const char *)getName;
 + (BOOL) respondsTo: (SEL)aSel;
 - (BOOL) respondsTo: (SEL)aSel;
 + getClass;

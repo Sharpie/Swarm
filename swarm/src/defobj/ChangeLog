@@ -1,6 +1,9 @@
-1998-04-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Create.h: Make CreateDrop conform to Create protocol.
+	* defobj.h (GetName): getName is factory method.
+	(DefinedClass): All methods are factory methods.
+
+	* DefObject.h (Object_s): Make it conform to DefinedClass protocol.
 
 1998-03-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

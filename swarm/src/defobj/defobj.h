@@ -75,7 +75,7 @@ CREATING
 // GetName - get name which identifies object in its context of use
 //
 @deftype GetName
-- (const char *)	getName;
++ (const char *)getName;
 @end
 
 //
@@ -197,13 +197,13 @@ extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
 // DefinedClass -- class which implements an interface of a type
 //
 @deftype DefinedClass <DefinedObject, GetName>
--		getSuperclass;
-- (BOOL)	isSubclass: aClass;
++		getSuperclass;
++ (BOOL)	isSubclass: aClass;
 
-- (void)	setTypeImplemented: aType;
--		getTypeImplemented;
++ (void)	setTypeImplemented: aType;
++		getTypeImplemented;
 
-- (IMP)		getMethodFor: (SEL)aSel;
++ (IMP)		getMethodFor: (SEL)aSel;
 @end
 
 //

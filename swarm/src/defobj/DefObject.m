@@ -56,7 +56,7 @@ static id describeStream;
 //
 // getName -- return name of class
 //
-+ (const char *) getName
++ (const char *)getName
 {
   return (const char *)((Class)self)->name;
 }
