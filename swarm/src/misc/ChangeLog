@@ -1,3 +1,8 @@
+1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* dropdir.c (SLASHP): New macro. 
+	(dropdir): Use it.
+
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* find_executable.c (find_executable): Have realpath write
