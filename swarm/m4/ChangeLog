@@ -1,3 +1,8 @@
+1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* actcltk.m4 (md_CHECK_TCLTK_LIBINC_VERSION_MATCH): Eval include
+	pathname to expand embedded environment variables.
+
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Don't override JAVAC when --with-jdkdir is absent.
