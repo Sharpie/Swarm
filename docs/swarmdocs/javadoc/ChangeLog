@@ -1,0 +1,20 @@
+1999-06-17  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (NAME): Set to `refbook-java'. Use throughout.
+	(STUBS): Generate a list of generated stub directories and
+	`package.html' file to make stub generation only happen on demand,
+	not perfect, but better than forcing each run.
+	($(STUBS)): New rule for actually generating the stubs, formerly
+	`stubs'.
+	(latex): New rule to generate a LaTeX version of the
+	documentation.  Depend on $(NAME).tex and the
+	latex/LatexDoclet.class file.
+	(html): Depend on $(NAME)/index.html and html/swarm-doclet.jar.
+	($(NAME)/index.html): Run javadoc here for html output. Create a
+	$(NAME) subdirectory to place all the generated html from the
+	javadoc run.  Depend on $(STUBS)
+	($(NAME).tex): Likewise for LaTeX output.  Depend on $(STUBS)
+	(MOSTLYCLEANFILES, clean-local): Macros for cleanup.
+	(SUBDIRS): New subdirectories `html' and `latex' for the
+	respective javadoc doclets.
+
