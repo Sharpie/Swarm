@@ -43,7 +43,7 @@ Library:     collections
   unsigned *dims;
   size_t elementSize;
   unsigned elementCount;
-  char type;
+  const char *type;
   void *data;
 }
 - setArray: array;
@@ -52,6 +52,7 @@ Library:     collections
 - (size_t)getElementSize;
 - (unsigned)getElementCount;
 - (char)getArrayType;
+- convertToType: (char)destType dest: (void *)ptr;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;

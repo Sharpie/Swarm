@@ -1038,6 +1038,7 @@ USING
 - (size_t)getElementSize;
 - (unsigned)getElementCount;
 - (char)getArrayType;
+- convertToType: (char)destType dest: (void *)ptr;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;

@@ -1,3 +1,13 @@
+1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputStream.m ([ArchiverArray_c -setArray:]): Use size_for_objc_type
+	instead of switch.
+
+	* InputStream.[hm], collections.h. ([ArchiverArray_c
+	-convertToType:dest:]): New method.
+
+	* InputStream.h (ArchiverArray_c): Switch type to const char *.
+
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputStream.[hm], collections.h ([ArchiverValue_c -setLong:],

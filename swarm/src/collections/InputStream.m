@@ -17,7 +17,7 @@ Library:      collections
 #include <objc/objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isspace, isdigit
 #include <collections/predicates.h>
-#include <defobj/internal.h>  // lisp_process_array
+#include <defobj/internal.h>  // lisp_process_array, size_for_objc_type
 
 @implementation InputStream_c
 
@@ -403,33 +403,15 @@ PHASE(Creating)
         elementCount *= dims[dimnum];
       }
   }
-  
-  switch ([proto getValueType])
-    {
-    case _C_ID:
-      elementSize = sizeof (id);
-      break;
-    case _C_LNG_LNG:
-      elementSize = sizeof (long long);
-      break;
-    case _C_DBL:
-      elementSize = sizeof (double);
-      break;
-    case _C_LNG_DBL:
-      elementSize = sizeof (long double);
-      break;
-    case _C_FLT:
-      elementSize = sizeof (float);
-      break;
-    case _C_UCHR:
-      elementSize = sizeof (unsigned char);
-      break;
-    default:
-      raiseEvent (InvalidArgument, "Unknown number type");
-    }
 
-  type = [proto getValueType];
-  
+  {
+    char *typebuf = [getZone (self) alloc: 2];
+    
+    typebuf[0] = [proto getValueType];
+    typebuf[1] = '\0';
+    type = typebuf;
+  }
+  elementSize = size_for_objc_type (type);
   {
     size_t size = elementCount * elementSize;
 
@@ -472,7 +454,7 @@ PHASE(Creating)
                 mult *= dims[i];
                 offset += coord[i - 1] * mult;
               }
-            switch ([val getValueType])
+            switch (*type)
               {
               case _C_ID:
                 ((id *) data) [offset] = [val getObject];
@@ -509,6 +491,69 @@ PHASE(Using)
   return data;
 }
 
+- convertToType: (char)destType dest: (void *)ptr
+{
+  unsigned coord[rank];
+  void permute (unsigned dim)
+    {
+      unsigned i;
+
+      if (dim < rank)
+        {
+          for (i = 0; i < dims[dim]; i++)
+            coord[dim] = i;
+          permute (dim + 1);
+        }
+      else
+        {
+          unsigned offset = 0;
+          unsigned mult = 1;
+          long long val = *(long long *) data;
+          
+          offset = coord[rank - 1];
+          for (i = rank - 1; i > 0; i--)
+            {
+              mult *= dims[i];
+              offset += coord[i - 1] * mult;
+            }
+          switch (destType)
+            {
+            case _C_INT:
+              ((int *) ptr)[offset] = (int) val;
+              break;
+            case _C_UINT:
+              ((unsigned *) ptr)[offset] = (unsigned) val;
+              break;
+            case _C_LNG:
+              ((long *) ptr)[offset] = (long) val;
+              break;
+            case _C_ULNG:
+              ((unsigned long *) ptr)[offset] = (unsigned long) val;
+              break;
+            case _C_LNG_LNG:
+              ((long long *) ptr)[offset] = (long long) val;
+              break;
+            case _C_ULNG_LNG:
+              ((unsigned long long *) ptr)[offset] = (unsigned long long) val;
+              break;
+            case _C_SHT:
+              ((short *) ptr)[offset] = (short) val;
+              break;
+            case _C_USHT:
+              ((unsigned short *) ptr)[offset] = (unsigned short) val;
+              break;
+            default:
+              abort ();
+            }
+        }
+    }
+  if (*type == _C_LNG_LNG)
+    permute (0);
+  else
+    memcpy (ptr, data, size_for_objc_type (type) * elementCount);
+  return self;
+}
+
 - (unsigned *)getDims
 {
   return dims;
@@ -526,7 +571,7 @@ PHASE(Using)
 
 - (char)getArrayType
 {
-  return type;
+  return *type;
 }
 
 - lispOutShallow: (id <OutputStream>)stream
@@ -536,11 +581,7 @@ PHASE(Using)
 
 - lispOutDeep: (id <OutputStream>)stream
 {
-  char buf[1 + 1];
-  
-  buf[0] = type;
-  buf[1] = '\0';
-  lisp_process_array (objc_type_for_array (buf, rank, dims), 
+  lisp_process_array (objc_type_for_array (type, rank, dims), 
                       data, data, stream, YES);
   return self;
 }
@@ -549,6 +590,7 @@ PHASE(Using)
 {
   [getZone (self) free: dims];
   [getZone (self) free: data];
+  [getZone (self) free: (void *) type];
   [super drop];
 }
 
