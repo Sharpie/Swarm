@@ -149,6 +149,8 @@ fillHiddenArguments (FCall_c *self)
     {
     case ccall:
       break;
+    case COMcall:
+      break;
     case objccall: 
       fargs->hiddenArgumentCount = 2;	
 #ifdef USE_AVCALL
@@ -298,38 +300,37 @@ PHASE(Creating)
   return self;
 }
 
-- _setJavaMethod_: (const char *)mtdName inObject: (JOBJECT)obj
+- _setJavaMethod_: (const char *)theMethodName inObject: (JOBJECT)jObj
 {
 #ifdef HAVE_JDK
   jclass lref;
   callType = javacall;
   if (fclass)
     (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
-  lref = (*jniEnv)->GetObjectClass (jniEnv, (jobject) obj);
+  lref = (*jniEnv)->GetObjectClass (jniEnv, (jobject) jObj);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  methodName = STRDUP (mtdName);
-  fobject = obj;
+  methodName = STRDUP (theMethodName);
+  fobject = jObj;
 #else
   java_not_available ();
 #endif
   return self;
 }    
 
-- setJavaMethod: (const char *)mtdName inObject: (JOBJECT)obj
+- setJavaMethod: (const char *)theMethodName inObject: (JOBJECT)jObj
 {
 #ifdef HAVE_JDK
-  [self _setJavaMethod_: mtdName
-        inObject: (*jniEnv)->NewGlobalRef (jniEnv, obj)];
+  [self _setJavaMethod_: theMethodName
+        inObject: (*jniEnv)->NewGlobalRef (jniEnv, jObj)];
   fobjectPendingGlobalRefFlag = YES;
 #else
   java_not_available ();
 #endif
   return self;
 }
-  
-   
-- setJavaMethod: (const char *)mtdName inClass: (const char *)className
+
+- setJavaMethod: (const char *)theMethodName inClass: (const char *)className
 { 
 #ifdef HAVE_JDK
   jclass lref;
@@ -340,12 +341,21 @@ PHASE(Creating)
   lref = (*jniEnv)->FindClass (jniEnv, className);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  methodName = STRDUP (mtdName);
+  methodName = STRDUP (theMethodName);
 #else
   java_not_available ();
 #endif
   return self;
 }
+
+- setCOMMethod: (const char *)theMethodName  inObject: (COMOBJECT)cObj
+{
+  callType = COMcall;
+
+  methodName = STRDUP (theMethodName);
+
+  return self;
+}  
 
 - createEnd
 {
