@@ -63,6 +63,8 @@
   
   <sect1 id="swarm.user.user1.04-swarm.sect1">
     <title>The (Swarm) OOP way</title> 
+
+    <indexterm><primary>SwarmTopics</primary><secondary>common syntax</secondary></indexterm>
     
     <para>Swarm models follow a common syntax that helps users to
       understand the way their parts interact. The observer swarm and
@@ -107,6 +109,8 @@
   <sect1 id="swarm.user.user1.04-memory.sect1">
     <title>Managing Memory in Swarms</title>
     
+    <indexterm><primary>memory allocation</primary><secondary>Swarm Zones</secondary></indexterm>
+
     <para>The allocation and deallocation of memory is a necessary
       feature in any simulation project. Allocating and deallocating
       memory is one of the most troublesome elements of designing
@@ -127,6 +131,9 @@
   <sect1 id="swarm.user.user1.04-buildobj.sect1">
     <title>What goes on in the <function>buildObjects</function> method?</title>
     
+    <indexterm><primary>object creation</primary><secondary>buildObjects method</secondary></indexterm>
+      <indexterm><primary>buildObjects</primary><see>object creation</see></indexterm>
+
     <para>If the reader inspects just a few of the sample Swarm
       programs, the importance of the building objects should become
       apparent.  Objects are named and memory is set aside for them in
@@ -184,6 +191,9 @@
     
     <title>What goes on in the <function>buildActions</function> method?</title>
     
+    <indexterm><primary>Schedule</primary><secondary>buildActions method</secondary></indexterm>
+    <indexterm><primary>buildActions</primary><see>Schedule</see></indexterm>
+
     <para> In the standard case, the <function>buildActions</function>
       method has two important components.  It creates objects of
       these two classes.
@@ -199,6 +209,8 @@
       </itemizedlist>
 
     </para>
+
+    <indexterm><primary>arborgames</primary></indexterm>
 
     <para>In the <function>buildActions</function> methods of the
       Arborgames model, there are plenty of interesting examples.  In
@@ -229,8 +241,12 @@
       a logical way.  One of the strengths of the Swarm toolkit is
       that it maintains a coherent, master schedule. The schedules of
       each sub Swarm are merged into the schedule of next higher
-      level. Finally all schedules are merged in the top level
-      Swarm</para>
+      level. Finally all schedules are merged in the top level Swarm.
+      This synchronization is managed by the Swarm Activity library
+      when the <function>activateIn:</function>method is called in
+      each successive element of the hierarchy. </para>
+
+    <indexterm><primary>activateIn: method</primary></indexterm>
 
     <para>This multi-level integration of swarm schedules means that
       the model can indeed be thought of as a nested hierarchy of

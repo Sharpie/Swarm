@@ -1,6 +1,8 @@
 <chapter id="swarm.user.user1.03.chapter">
   <title>Nuts and bolts of Objective-C</title>
 
+  <indexterm><primary>Objective-C</primary></indexterm>
+
   <para>Objective-C was created by Brad Cox. The aim was to create an
     elegant, object-oriented extension of C in the style of the
     Smalltalk language. (need reference here).  Objective-C was used
@@ -306,6 +308,9 @@ void rand_move(int i) {
   <sect1 id="swarm.user.user1.03-objc-inst.sect1">
     <title>Giving Life to Classes: Instantiation</title>
     
+
+    <indexterm><primary>object creation</primary><secondary>instantiation</secondary></indexterm>
+
     <para>After the code is written for the interface and
       implementation, there is still work to be done. Instances of the
       class must be created. The creation of instances of a class is
@@ -337,6 +342,8 @@ void rand_move(int i) {
       method called <function>buildObjects</function>, which is
       usually a method that houses all object creation. For example:</para>
     
+     <indexterm><primary>object creation</primary><secondary>createBegin/createEnd</secondary></indexterm>
+
 <programlisting role="ObjC">
 //Excerpt from ModelSwarm.m that creates a puppy instance
 #import "Puppy.h"
@@ -393,6 +400,8 @@ listOfPuppies=[List create: [self getZone]];
 <sect1 id="swarm.user.user1.03-classes.sect1">
     <title>A Brief Clarification: Classes and Protocols</title>
 
+    <indexterm><primary>protocols</primary><secondary>usage in Swarm</secondary></indexterm>
+
     <para>There is one additional complication that readers should be
       aware of.  Objective-C allows the creation of entities called
       protocols.  A protocol, as readers will recall from their study
@@ -403,7 +412,7 @@ listOfPuppies=[List create: [self getZone]];
       the methods listed in the protocols.  Hence, in the Swarm
       Reference materials present the libraries as a collection of
       classes, each of which adheres to a given set of
-      protocols. </para>
+      protocols.</para>
 
     <para>To the Swarm user, the distinction between class and
       protocol is not vital most of the time.  The most important
@@ -420,6 +429,8 @@ listOfPuppies=[List create: [self getZone]];
       instance, so the observer swarm file can use the EZGraph to
       create graphs.</para>  
 
+    <indexterm><primary>object creation</primary><secondary>CREATABLE protocol</secondary></indexterm>
+    
     <para> Almost all of the Swarm protocols adopt the CREATABLE
       protocol, so they can be used as if they were classes from
       which users subclass to make model swarms or individual
@@ -449,6 +460,8 @@ listOfPuppies=[List create: [self getZone]];
       enforces a `truth in advertising' policy. If the compiler flags
       include -WERROR, causing all warnings to be treated as errors,
       then these warnings will stop the compilation.</para>
+
+    <indexterm><primary>variable declarations</primary><secondary>protocol usage in</secondary></indexterm>
 
     <para>The fact that many of the important components of the Swarm
       library are organized as protocols can, however, be important in

@@ -20,8 +20,17 @@
     generators.  With that point being clear, we often refer to them
     as random number generators.  </para>
  
+  <para>In his section of the Swarm User Guide, we provide a survey of
+    the basics of using the Swarm Random Library. A detailed technical
+    manual has been prepared and it is included as an appendix to this
+    guide. It goes into considerably greater depth on the technical
+    issues that arise in generating random numbers.</para>
+
   <sect1 id="swarm.user.user3.04-rand-built.sect1">
     <title>Built-in Random Number Distributions</title>
+
+    <indexterm><primary>ProbabilityDistribution Protocol</primary><see>random numbers</see></indexterm>
+    <indexterm><primary>random numbers</primary><secondary>built-in distributions</secondary></indexterm>
 
     <para>Since not all users want to become experts in random (well,
       pseudo-random) numbers, we will start with the easy alternative.
@@ -85,7 +94,7 @@
     <para>
       When a Swarm program starts, it initializes these random number
       creators.  <emphasis>They will deliver the same stream of
-      numbers every time the program is run</emphasis> unless the user
+	numbers every time the program is run</emphasis> unless the user
       adds the "vary seed" parameter when the program is run.  This
       parameter is <option>-s</option> and is added on the command
       line.  For a full list of possible options, type the name of the
@@ -185,10 +194,10 @@
       and connect it to the predefined <classname>MT19937</classname>
       generator, this code will suffice:</para>
     
-<programlisting>#import &lt;random.h&gt;   //This includes the Swarm random library
-id &lt;NormalDist&gt; myNormalDist;  //This names your object and adopts the NormalDist protocol
-myNormalDist = [NormalDist create: [self getZone]
-setRandomGenerator: randomGenerator];</programlisting>
+    <programlisting>#import &lt;random.h&gt;   //This includes the Swarm random library
+      id &lt;NormalDist&gt; myNormalDist;  //This names your object and adopts the NormalDist protocol
+      myNormalDist = [NormalDist create: [self getZone]
+      setRandomGenerator: randomGenerator];</programlisting>
 
     <para>
       If for some reason, one does not want to use
@@ -220,7 +229,7 @@ setRandomGenerator: randomGenerator];</programlisting>
       create a generator that uses the system default value for the
       seed is shown here:</para>
 
-<programlisting>myGenerator = [RWC8gen createWithDefaults: [self getZone]];</programlisting>
+    <programlisting>myGenerator = [RWC8gen createWithDefaults: [self getZone]];</programlisting>
 
     <para>Another example of the versatility of the Swarm random
       library is in the design of the distribution classes themselves.
@@ -255,6 +264,8 @@ setRandomGenerator: randomGenerator];</programlisting>
   
   <sect1 id="swarm.user.user3.04-rand-gen.sect1">
     <title>The Random Number Generators</title> 
+
+    <indexterm><primary>random numbers</primary><secondary>generators</secondary></indexterm>
     
     <para>Recall that computers can't create real random numbers, just
       streams of numbers that appear random to the outside observer.
@@ -268,36 +279,41 @@ setRandomGenerator: randomGenerator];</programlisting>
       replication of previous studies.  The current generators in
       Swarm are:
 
-        <itemizedlist>
-          <listitem><para>ACGgen: Additive Congruential Generator</para></listitem>
-          <listitem><para>C2LCGXgen: A short component based generator. This is considered a high quality generator</para></listitem>
-          <listitem><para>C2MRG3gen:  Combined Multiple Recursive Generator</para></listitem>
-          <listitem><para>C2TAUSUS<emphasis>x</emphasis>gen: A Family of Combined Trausworthe generators</para></listitem>
-          <listitem><para>C3MWCgen: Combined Multiply With Carry Generator</para></listitem>
-          <listitem><para>C4LCGXgen: Combined random generator using 4 (PMM)LGC generators</para></listitem>
-          <listitem><para>LCG<emphasis>x</emphasis>gen: Family of Linear Congruential Generators</para></listitem>
-          <listitem><para>MRG<emphasis>x</emphasis>gen: Family of Multiple Recrusive (LCG) Generators</para></listitem>
-          <listitem><para>MT19937gen: 'Mersenne Twister' Twisted GFSR generator. The Swarm default</para></listitem>
-          <listitem><para>MWC<emphasis>x</emphasis>gen: Family of Multiply-With Carry generators  </para></listitem>
-          <listitem><para>PMMLCG<emphasis>x</emphasis>gen: Family of Prime Modulus Multiplicative Linear Congruential Generators</para></listitem>
-          <listitem><para>PSWBgen: Subract-With-Borrow Congruential Generator with prime modulus</para></listitem>
-          <listitem><para>RWC2gen: 2-lag Recursion With Carry generator  </para></listitem>
-          <listitem><para>RWC8gen: Multiply With Carry generator</para></listitem>
-          <listitem><para>SCG: Subtractive Congruential Generator </para></listitem>
-          <listitem><para>SWB<emphasis>x</emphasis>gen: Family of Subtract-With-Borrow Congruential Generators   </para></listitem>
-          <listitem><para>TGFSRgen: Twisted GFSR generator</para></listitem>
+      <itemizedlist>
+	<listitem><para>ACGgen: Additive Congruential Generator</para></listitem>
+	<listitem><para>C2LCGXgen: A short component based generator. This is considered a high quality generator</para></listitem>
+	<listitem><para>C2MRG3gen:  Combined Multiple Recursive Generator</para></listitem>
+	<listitem><para>C2TAUSUS<emphasis>x</emphasis>gen: A Family of Combined Trausworthe generators</para></listitem>
+	<listitem><para>C3MWCgen: Combined Multiply With Carry Generator</para></listitem>
+	<listitem><para>C4LCGXgen: Combined random generator using 4 (PMM)LGC generators</para></listitem>
+	<listitem><para>LCG<emphasis>x</emphasis>gen: Family of Linear Congruential Generators</para></listitem>
+	<listitem><para>MRG<emphasis>x</emphasis>gen: Family of Multiple Recrusive (LCG) Generators</para></listitem>
+	<listitem><para>MT19937gen: 'Mersenne Twister' Twisted GFSR generator. The Swarm default</para></listitem>
+	<listitem><para>MWC<emphasis>x</emphasis>gen: Family of Multiply-With Carry generators  </para></listitem>
+	<listitem><para>PMMLCG<emphasis>x</emphasis>gen: Family of Prime Modulus Multiplicative Linear Congruential Generators</para></listitem>
+	<listitem><para>PSWBgen: Subract-With-Borrow Congruential Generator with prime modulus</para></listitem>
+	<listitem><para>RWC2gen: 2-lag Recursion With Carry generator  </para></listitem>
+	<listitem><para>RWC8gen: Multiply With Carry generator</para></listitem>
+	<listitem><para>SCG: Subtractive Congruential Generator </para></listitem>
+	<listitem><para>SWB<emphasis>x</emphasis>gen: Family of Subtract-With-Borrow Congruential Generators   </para></listitem>
+	<listitem><para>TGFSRgen: Twisted GFSR generator</para></listitem>
 
-         <listitem><para>TT403gen: A single long generator recommended for use</para></listitem>
-         <listitem><para>TT775gen: A single long generator recommended for use</para></listitem>
+	<listitem><para>TT403gen: A single long generator recommended for use</para></listitem>
+	<listitem><para>TT775gen: A single long generator recommended for use</para></listitem>
         <listitem><para>TT800gen: A single long generator recommended for use</para></listitem>
 
-        </itemizedlist>
+      </itemizedlist>
     </para>
+
+    <para>Issues involved in choosing among these are discussed in
+      further depth in the appendix on the Random Library</para>
     
   </sect1>
 
   <sect1 id="swarm.user.user3.04-rand-dist.sect1">
     <title>The Distributions in Swarm</title> 
+
+    <indexterm><primary>random numbers</primary><secondary>creatable distributions</secondary></indexterm>
     
     <para>All distributions are created through the two-step process
       outlined above.  First one needs a random number generator.  Then

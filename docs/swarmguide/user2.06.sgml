@@ -4,6 +4,8 @@
   <sect1 id="swarm.user.user2.06-monitor.sect1">
     <title>Monitoring a Swarm </title>
 
+    <indexterm><primary>GUISwarm</primary></indexterm>
+
     <para> When a Swarm program is running in the GUI mode, what the
       user sees is controlled by the top level Swarm that we often
       call the observer swarm.  The observer swarm adopts the
@@ -16,6 +18,8 @@
       their project, as in <filename>HeatbugObserverSwarm.m</filename>
       or <filename>ForestModelSwarm.m</filename>
     </para>
+
+    <indexterm><primary>control panel</primary></indexterm>
 
     <para>
       The most prominent of the extra features of the observer swarm
@@ -37,6 +41,8 @@
       created in <filename>ObserverSwarm.m</filename>. These two
       are:</para>
 
+    <indexterm><primary>ZoomRaster</primary></indexterm>
+
       <itemizedlist>
         <listitem>
           <formalpara><title>The <classname>ZoomRaster</classname></title>
@@ -55,7 +61,10 @@
 
           <formalpara>
             <title>The Data Display Graphs</title>
-            
+ 
+	  <indexterm><primary>EZGraph</primary></indexterm>
+	  <indexterm><primary>EZDistribution</primary></indexterm>
+           
           <para>For the visual presentation of summary information,
             Swarm provides a set of tools for presenting information
             in graphic format.  Two of the most common sorts are the
@@ -82,6 +91,10 @@
   <sect1 id="swarm.user.user2.06-zoomraster.sect1">
     <title>Making a clickable
     <classname>ZoomRaster</classname></title>
+
+
+    <indexterm><primary>ZoomRaster</primary></indexterm>
+
 
     <para>There is no doubt that one of the most impressive aspects of
       a Swarm presentation is the visually intriguing movement of
@@ -445,6 +458,10 @@ treeDisplay = [treeDisplay createEnd];</programlisting>
   <sect1 id="swarm.user.user2.06-graphs.sect1">
     <title>Displaying Results in Graphs</title>
 
+
+    <indexterm><primary>GUISwarm</primary><secondary>data display graphs</secondary></indexterm>
+    <indexterm><primary>EZGraph</primary></indexterm>
+	
     <para>The most commonly used graphs in Swarm are histograms, which
       display the frequency distribution of a variable, and line
       plots, which show changes over time in real-valued numbers.

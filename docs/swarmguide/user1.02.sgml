@@ -95,10 +95,10 @@
       <firstterm>message</firstterm> is often used to refer to an
       instruction that tells an object to carry out one of its
       methods. (For readers more familiar to C++, the term
-      <firstterm>member function</firstterm>, refers to the same
-      thing).  Here is an example of a message that tells an object
-      known as <varname>bobDole</varname> to execute its method
-      <function>runForPresident</function>.</para>
+      <firstterm>member function</firstterm>, refers to the same thing
+      as the term method).  Here is an example of a message that tells
+      an object known as <varname>bobDole</varname> to execute its
+      method <function>runForPresident</function>.</para>
     
     &startlisting-objc;[bobDole runForPresident];&java;bobDole.runForPresident();&endlisting;
     
@@ -312,3 +312,4 @@ Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->
+

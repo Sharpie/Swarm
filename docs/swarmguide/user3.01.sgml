@@ -79,6 +79,9 @@ for any corresponding short options.</screen>
       the University of Michigan.
     </para>
 
+    <indexterm><primary>Drone</primary></indexterm>
+    <indexterm><primary>Arguments protocol</primary></indexterm>
+
     <para>If the user wants to pass additional parameters in the
       command line, Swarm has built in procedures that make argument
       processing a bit easier than using the command line processing

@@ -3,6 +3,9 @@
 
   <sect1 id="swarm.user.user1.05-gui-elem.sect1">
     <title>Elements of the Swarm GUI</title>
+    
+    <indexterm><primary>GUISwarm</primary><secondary>graph types</secondary></indexterm>
+    <indexterm><primary>graphical interface</primary><see>GUISwarm</see></indexterm>
 
     <para>Swarm provides a number of classes and protocols which
       generate a graphical user interface (GUI) to the user running a
@@ -46,6 +49,8 @@
 
   <sect1 id="swarm.user.user1.05-gui-probe.sect1">
     <title>GUI Probe Displays</title>
+
+    <indexterm><primary>probe displays</primary></indexterm>
 
     <para>Graphical <firstterm>probes</firstterm> allow a user to view
       a snapshot of any object in a Swarm simulation in a graphical

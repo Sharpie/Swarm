@@ -5,7 +5,7 @@
     at <ulink url="http://www.santafe.edu">Santa Fe Institute</ulink>
      (<acronym>SFI</acronym>)in New Mexico.  It is currently based at
     the non-for-profit organization, <ulink
-                                            url="http://www.swarm.org">Swarm Development Group</ulink> also
+     url="http://www.swarm.org">Swarm Development Group</ulink> also
     based in Santa Fe, New Mexico.  The aim was to develop both a
     vocabulary and a set of standard computer tools for the
     development of multi-agent simulation models (so-called
@@ -21,6 +21,8 @@
 
   <sect1 id="swarm.user.user1.01-facts.sect1">
     <title>Basic Facts About Swarm</title> 
+
+    <indexterm><primary>SwarmTopics</primary><secondary>described</secondary></indexterm>
 
     <para>Swarm is a collection of software libraries which provide
       support for simulation programming. Among the most prominent
@@ -89,7 +91,9 @@
                                                       url="http://www.opensource.org/osd.html">Open Source
         Definition</ulink>
         </para>
-      </footnote>.  The current Swarm distribution is effectively
+      </footnote>.  
+
+        The current Swarm distribution is effectively
         <footnote> <para>The core Swarm libraries are currently
         released under the <ulink
                                   url="http://www.gnu.org/copyleft/lgpl.html">LGPL</ulink>, but

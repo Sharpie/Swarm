@@ -14,8 +14,8 @@
   <sect1 id="swarm.user.user2.05-list-class.sect1">
     <title>The <classname>List</classname> Class</title> 
 
-    <indexterm><primary>List</primary></indexterm>
-    
+    <indexterm><primary>List Protocol</primary><see>collections</see></indexterm>    
+    <indexterm><primary>collections</primary><secondary>lists</secondary></indexterm>
     
     <para> This section is not intended as a comprehensive review of
       Swarm's Collections library.  That job is left to a later
@@ -78,7 +78,7 @@ nameOfSomeList = [List create: self];
       instance, while other classes would use <literal>[self
       getZone]</literal> in place of <varname>self</varname>.</para>
 
-    <indexterm><primary>List</primary><secondary>adding and removing objects</secondary></indexterm>
+    <indexterm><primary>collections</primary><secondary>lists</secondary><tertiary>adding and removing objects</tertiary></indexterm>
     
     <para>Once a list object exists, it can carry out many
       instructions. In the <classname>List</classname> protocol,
@@ -283,6 +283,7 @@ nameOfSomeList = [List create: self];
       <classname>List</classname> objects.  </para>
 
     <indexterm><primary>getCount</primary></indexterm>
+    <indexterm><primary>getCount</primary><see>collections</see></indexterm>
 
     <para> The ability to pass a list to the observer swarm in order
       to create a graph is just one benefit of Swarm
@@ -321,9 +322,10 @@ nameOfSomeList = [List create: self];
   <sect1 id="swarm.user.user2.05-lists-chores.sect1">
     <title>Lists: Organizing Repetitive Chores inside Objects</title> 
 
-     <indexterm><primary>List</primary><secondary>looping through members</secondary></indexterm>
+     <indexterm><primary>collections</primary><secondary>lists</secondary><tertiary>looping through members</tertiary></indexterm>
 
-      <indexterm><primary>Index</primary><secondary>usage with Lists</secondary></indexterm>
+    <indexterm><primary>Index Protocol</primary><see>collections</see></indexterm>
+      <indexterm><primary>collections</primary><secondary>index usage</secondary></indexterm>
 
     <para> In the <application>Hello World</application> example, each
       instance of the <classname>Person</classname> class is aware of
@@ -504,7 +506,7 @@ while (([pplIndex next]))
      will point to the next valid member of the list.
     </para>
 
-    <indexterm><primary>List</primary><secondary>nil objects in</secondary></indexterm>
+    <indexterm><primary>collections</primary><secondary>nil objects in</secondary></indexterm>
 
     <caution>
       <para>Watch out for nil objects when using "while" loops</para>

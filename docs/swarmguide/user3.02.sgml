@@ -7,6 +7,10 @@
       <classname>Map</classname> and <classname>Array</classname>
       Protocols</title>
 
+ 
+    <indexterm><primary>Map</primary><see>collections</see></indexterm>
+    <indexterm><primary>Array</primary><see>collections</see></indexterm>
+
     <para>The most frequently used kinds of collections are the
       <classname>List</classname>, <classname>Map</classname> and
       <classname>Array</classname> protocols.  They have some elements
@@ -51,15 +55,21 @@
       to keep in Swarm collections and use recommended procedures for
       retrieving them.
     </para>
+    <indexterm><primary>collections</primary><secondary>wrapper usage in</secondary></indexterm>
+    <indexterm><primary>wrapper</primary></indexterm>
 
     <para>
       Some commands that work in Swarm collections are: 
       <itemizedlist>
         <listitem>
+	  <indexterm><primary>getCount</primary></indexterm>
           <para><function>getCount</function>: 
               Returns the number of members in the collection</para>
           </listitem>
         <listitem>
+	  <indexterm><primary>atOffset:</primary></indexterm>
+	  <indexterm><primary>atOffset:</primary><see>collections</see></indexterm>
+
           <para><function>atOffset: i</function>: 
               Retrieves the <varname>i</varname>th member of the collection
             </para></listitem>
@@ -75,12 +85,15 @@
               Removes object obj
             </para></listitem>
         <listitem>
-          <para><function>removeAll</function>: 
+	  <indexterm><primary>removeAll</primary></indexterm>
+         <para><function>removeAll</function>: 
               Removes all objects from collection, but leaves the objects in memory</para></listitem>
         <listitem>
+	  <indexterm><primary>deleteAll</primary></indexterm>
           <para><function>deleteAll</function>: 
               Removes all objects from collection and deletes them from memory</para></listitem>
         <listitem>
+	  <indexterm><primary>forEach:</primary></indexterm>
           <para><function>forEach:M(message)</function>: 
               Sends message to all members</para></listitem>
       </itemizedlist>
@@ -100,6 +113,9 @@
     <title>Choosing between <classname>List</classname>s,
       <classname>Map</classname>s, and
       <classname>Array</classname>s</title>
+
+   <indexterm><primary>collections</primary><secondary>maps</secondary><tertiary>contrast with arrays</tertiary></indexterm>
+    <indexterm><primary>collections</primary><secondary>arrays</secondary><tertiary>contrast with maps</tertiary></indexterm>
 
     <para>The different kinds of collections objects are useful for
       different purposes.  The <classname>List</classname> class can
@@ -236,6 +252,8 @@
   <sect1 id="swarm.user.user3.02-array.sect1">
     <title>Using Swarm <classname>Array</classname>s</title> 
 
+    <indexterm><primary>collections</primary><secondary>array</secondary><tertiary>usage</tertiary></indexterm>
+
     <para>The Swarm <classname>Array</classname> is the easiest to use
       of the Swarm collections. At create-time, the size of the
       <classname>Array</classname> is set.  For example, to create an
@@ -312,6 +330,8 @@ retrievedObject=[foods atOffset: 6];</programlisting>
   <sect1 id="swarm.user.user3.02-map.sect1">
     <title>Swarm <classname>Map</classname>s</title> 
 
+    <indexterm><primary>collections</primary><secondary>maps</secondary><tertiary>usage</tertiary></indexterm>
+
     <para>Experienced programmers are familiar with the term "key" as
       it refers to management of collections.  People who are new to
       programming and Swarm often find this idea quite confusing.
@@ -340,6 +360,7 @@ retrievedObject=[foods atOffset: 6];</programlisting>
     <example>
       <title>Maps and keys</title>
 
+      <indexterm><primary>collections</primary><secondary>maps</secondary><tertiary>keys</tertiary></indexterm>
       <para>Here is a simple example.  Suppose we are creating a
         series of objects in a for loop.  In each step, we tell the
         class Person, which is subclassed from
@@ -484,6 +505,8 @@ mapOfPreferences = [mapOfPreferences createEnd];</programlisting>
       store and retrieve the values of integers, and these objects can
       be used as keys in Swarm <classname>Map</classname>s.
     </para>
+
+    <indexterm><primary>wrapper</primary><secondary>integer wrapper as map key</secondary></indexterm>
 
     <para>Here is the integer wrapper class <footnote> <para>There is
         an example of a program by Marcus Daniels that uses integer
@@ -636,6 +659,8 @@ printf("The preference Object gives this output \n");
   <sect1 id="swarm.user.user3.02-index.sect1">
     <title>Accessing Collections with Indices</title>
 
+   
+
     <para>Any collection can generate an <classname>Index</classname>
       that can be used to access its members.  The command to create
       an <classname>Index</classname> for a given collection is
@@ -646,6 +671,8 @@ printf("The preference Object gives this output \n");
       <function>beginPermuted:</function> is the necessary command.
     </para>
 
+
+    <indexterm><primary>collections</primary><secondary>index usage</secondary></indexterm>
     <para> An <classname>Index</classname> object will understand
       messages like <function>get</function>, which will return the
       object at which the <classname>Index</classname> is currently
@@ -737,3 +764,28 @@ Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
