@@ -3,12 +3,27 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+// Mousetraps are, well, mousetraps that live in fixed positions on
+// a 2D lattice. Each mousetrap has N "ping-pong" balls. When "triggered"
+// (hit by another ping-pong ball) it releases its ping-pong balls
+// into the air, which hit other mousetraps and trigger them.
+// Tossing ping-pong balls into the air to trigger other mousetraps
+// is accomplished by picking "nearby" mousetraps, and arranging for
+// them to be sent trigger messages in the "near" future.
+
+// This is a discrete-event model of object updates in time.
+// The discrete event model is implemented via *dynamic scheduling*
+
 #import "Mousetrap.h"
 #import <tkobjc.h>
 #import <simtools.h>
 #import "MousetrapModelSwarm.h"
 
 @implementation Mousetrap
+
+  // Here, we just use the simplified create message instead of
+  // the more general createBegin/createEnd pair.
+  // During create, we initialize a mousetraps crucial state
 
 +create: aZone setModelSwarm:  s setXCoord: (int)x setYCoord: (int)y {
   Mousetrap *newTrap;
@@ -17,67 +32,103 @@
   newTrap->modelSwarm = s;
   newTrap->xCoord = x;
   newTrap->yCoord = y;
+
   return newTrap;
 }
 
 // Mousetraps draw themselves during the trigger event. Kind of messy
 // for a functional split, but it's efficient.
+
+// Here we record who to display ourselves on.
+
 -setDisplayWidget: w {
   displayWidget = w;
   return self;
 }
 
+ // The crucial step for a Mousetrap (equivalent to "step" for a Heatbug)
+
 -trigger {
   int n, xTrigger, yTrigger;
   unsigned triggerTick;
 
-  // take this ball out of the air
+  // We've been "hit" by a trigger message (ping-pong ball)
+
+  // First, take this ball out of the air for stats reporting
+
   [[modelSwarm getStats] removeOneBall];
 
+  // If we have not already been triggered (i.e., if triggered = 0)
   // calculate whether we actually fire in response to the event.
+
   if (!triggered &&
       ([modelSwarm getTriggerLikelihood] >= 1.0 ||
        [uniformRandom rFloat] < [modelSwarm getTriggerLikelihood])) {
 
-    // mark ourselves as triggered
+    // mark ourselves as triggered, do book-keeping, and draw 
+    // ourselves as triggered on the display widget
+
     triggered = 1;
 
-    // keep stats, draw it on the screen
     [[modelSwarm getStats] addOneTriggered];
+
     if (displayWidget)
       [displayWidget drawPointX: xCoord Y: yCoord Color: 2];
 
     // now schedule trigger events for neighbours.
+    // We have n ping-pong balls to toss into the air, so we
+    // need to pick n other mousetraps "nearby" and arrange for
+    // them to be sent trigger messages in the "near" future.
+    // "near" in both cases is set by parameters.
+
     for ( n = [modelSwarm getNumberOutputTriggers]; n > 0; n-- ) {
       int size, maxD;
       Mousetrap * trap;
 
-      // Find a nearby trap
+      // This is where *dynamic scheduling* of actions is prepared for
+
+      // First, find a nearby trap - done by picking a random X,Y location near us
+      // Note how wraparound is handled by adding "size" and then taking
+      // the result modulo "size".
+
       size = [modelSwarm getGridSize];
       maxD = [modelSwarm getMaxTriggerDistance];
       xTrigger = (xCoord + size + [uniformRandom rMin: -maxD Max: maxD + 1]) % size;
       yTrigger = (yCoord + size + [uniformRandom rMin: -maxD Max: maxD + 1]) % size;
 
-      // schedule a trigger for it in the future.
+      // Then, decide on a "nearby" time in the future to fire the selected trap
+
       triggerTick = getCurrentTime() + [uniformRandom rMin: 1 Max: [modelSwarm getMaxTriggerTime]];
 
+      // Now, we get the id of the trap at our randomly chosen X,Y position
+
       trap = [modelSwarm getMousetrapAtX: xTrigger Y: yTrigger];
+
       if (trap) {
-	// Add a new ball in the air.
+
+        // If there was a trap at those X,Y coordinates:
+	// First, we add a new "ball" in the air, for statistics purposes
+        // Then, we tell our modelSwarm to schedule a trigger message
+        // to be sent to that mousetrap at the selected time.
+        // This is where *dynamic scheduling* is actually accomplished
+
 	[[modelSwarm getStats] addOneBall];
 	[modelSwarm scheduleTriggerAt: triggerTick For: trap];
       }
     }
   }
+
+  // That's all!
+
+  // If we were triggered already, or if there was no mousetrap at the
+  // randomly selected positions, we simply return without doing
+  // anything except for statistics bookeeping (we "absorb" a ball
+  // that landed on us, and, if we were not already triggered, we
+  // "toss" N balls into the "air"  - we did all this in the code
+  // above.) 
+
   return self;
 }
 
-// recover the trap
--reload {
-  triggered = 0;
-  if (displayWidget)
-    [displayWidget drawPointX: xCoord Y: yCoord Color: 1];
-  return self;
-}
 
 @end

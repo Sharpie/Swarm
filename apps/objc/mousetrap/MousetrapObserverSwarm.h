@@ -3,29 +3,46 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+// The MousetrapObserverSwarm is a swarm of objects set up to observe a
+// Mousetrap model when the graphical interface is running. The most
+// important object is the MousetrapModelSwarm, but we also have
+// graphical windows and data analysis and stuff.
+
 #import <swarmobject.h>
+#import <space.h>
+#import <activity.h>
+#import <tkobjc.h>
+#import <collections.h>
+#import <simtools.h>
+#import <analysis.h>
 #import "MousetrapModelSwarm.h"
 
 @interface MousetrapObserverSwarm : GUISwarm {
-  int displayFrequency;
+  int displayFrequency;				// one parameter: update frequency
 
-  id displayActions;
+  id displayActions;				// schedule data structs
   id displaySchedule;
 
-  MousetrapModelSwarm * mousetrapModelSwarm;
+  MousetrapModelSwarm * mousetrapModelSwarm;	// the Swarm we're observing
 
-  XColormap * colormap;
-  ZoomRaster * displayWindow;
-  BLTGraph *triggerGraph;
-  GraphElement *triggerData, *deltaTriggerData;
-  ActiveGraph *triggerGrapher, *deltaTriggerGrapher;
+ // Display objects, widgets, etc.
+
+  XColormap * colormap;				// allocate colors
+  ZoomRaster * displayWindow;			// 2d display widget
+  EZGraph *triggerGraph;			// graphing widget
+
+  Object2dDisplay * mousetrapDisplay;           // to Probe mousetraps
+
 }
 
+// Methods overriden to make the Swarm
+
 +createBegin: (id) aZone;
+-createEnd;
 -buildObjects;
 -buildActions;
--activateIn: (id) swarmContext;
+-activateIn: (id) swarmContext;			// Context is self (ObserverSwarm).
 
--checkToStop;
+-checkToStop;					// Method to end simulation
 
 @end

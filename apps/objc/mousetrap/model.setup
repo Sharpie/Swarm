@@ -1,0 +1,8 @@
+@begin
+gridSize 40
+triggerLikelihood 1.0
+numberOutputTriggers 4
+maxTriggerDistance 4
+maxTriggerTime 16
+trapDensity 1.0
+@end

@@ -3,6 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+// The Mousetrap Model swarm encapsulates all the objects used in the
+// simulated mousetrap world itself (but not the user interface objects)
+
+// The actions built here implement *dynamic scheduling*
+// Note that the MousetrapModelSwarm uses dynamic scheduling
+// while the MousetrapObserverSwarm uses static scheduling
+
 #import <swarmobject.h>
 #import <space.h>
 #import <activity.h>
@@ -11,7 +18,9 @@
 #import "Mousetrap.h"
 
 // First, a special object to help in collecting statistics.
+
 @interface MousetrapStatistics : SwarmObject {
+
   int numTriggered;
   int numBalls;
 }
@@ -20,39 +29,48 @@
 -removeOneBall;
 -(int) getNumTriggered;
 -(int) getNumBalls;
+
 @end
 
-// Now, the swarm.
+// Now, the the mousetrap model swarm.
+
 @interface MousetrapModelSwarm : Swarm {
-  int gridSize;					  // simulation parameters
+
+  int gridSize;					      // simulation parameters
   double triggerLikelihood;
   int numberOutputTriggers;
   int maxTriggerDistance;
   int maxTriggerTime;
   double trapDensity;
 
-  id modelActions;				  // scheduling data structures
+  id modelActions;				      // scheduling data structures
   id modelSchedule;
 
-  MousetrapStatistics * stats;			  // statistics object
-  Grid2d * grid;				  // world
+  MousetrapStatistics * stats;			      // statistics object
+  Grid2d * grid;				      // world
 }
 
--(MousetrapStatistics *)getStats;
--(int) getGridSize;
--(Mousetrap *) getMousetrapAtX: (int) x Y: (int) y;
+// Methods for the MousetrapModelSwarm
+
+-(MousetrapStatistics *) getStats;		      // modelSwarm methods
+-(int) getGridSize;				      // These methods allow the 
+-(Mousetrap *) getMousetrapAtX: (int) x Y: (int) y;   // model swarm to be observed
 -(double) getTriggerLikelihood;
 -(int) getNumberOutputTriggers;
 -(int) getMaxTriggerDistance;
 -(int) getMaxTriggerTime;
+-(Grid2d *) getWorld;                                 // for Probes
+
+// Methods overridden to create the model Swarm
 
 +createBegin: (id) aZone;
+-createEnd;
 -buildObjects;
 -buildActions;
 -activateIn: (id) swarmContext;
 
--scheduleTriggerAt: (int) n For: (Mousetrap *) trap; // dynamic scheduling
+// A special method for *dynamic scheduling*
 
--reloadAll;
+-scheduleTriggerAt: (int) n For: (Mousetrap *) trap;   
 
 @end

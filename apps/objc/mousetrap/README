@@ -1,0 +1,99 @@
+ 		The Better-Mousetrap Application
+
+-------------------------------------------------------------------------
+
+  This (better-mousetrap) version differs from the earlier one in that:
+
+	a) it is fully commented, 
+	b) uses the EZGraph object to display graphs, 
+	c) has full batchmode capability, and
+	d) it allows probes on the traps under the GUI interface. 
+
+To invoke batchmode (no-graphics) type "mousetrap -batchmode". 
+The files batch.setup and model.setup allow setting parameters for 
+the runs, ala the parameter and probe windows in the GUI version.
+
+-------------------------------------------------------------------------
+
+		   	   Mousetraps
+
+  The Mousetrap app was developed to illustrate *dynamic scheduling* 
+(also called "discrete-event" scheduling).
+
+  In some applications, like Heatbugs, the schedule of events in a 
+Swarm is fixed at startup by building a schedule at startup and then 
+executing it over and over again. In other models, however, one may 
+not know in advance of running the model which messages should be 
+sent to which objects at what times, so the schedule cannot be built 
+in advance. 
+
+  Thus, Swarm provides the capability for objects to insert actions 
+(messages to objects) onto schedules dynamically, on the fly. 
+The Mousetrap application illustrates this capability. 
+
+  Mousetrap is a simulation of a chain-reaction process in which one 
+object triggers several others, which each trigger several others, 
+etc. ala nuclear fission.
+
+  It is based on a demonstration that used to be given to school 
+children in the 50's and 60's to illustrate nuclear fission. 
+
+In the demonstration, a gymnasium floor was tiled with mousetraps, 
+each containing two-ping-pong balls. The traps were set and two 
+ping-pong balls were placed on top of each trap. When all the traps 
+were laid out, someone would toss a single ping-pong ball into the 
+middle of the array of traps, triggering a mousetrap. On being 
+triggered, the mousetrap would toss its two ping-pong balls into 
+the air, triggering two more traps, which would toss their four balls 
+into the air, triggering more traps, and etc. (Of course, some wiseguy 
+kid would always toss a wad of gum out before the traps had been all 
+set, triggering the whole thing too soon). It was a very effective 
+demonstration of a chain-reaction. At its peak there would be hundreds 
+of ping-pong balls in the air accompanied by a tremendous racket of 
+many traps going off simultaneously
+
+  In the Swarm version, each mousetrap is modeled by an agent, and a 
+mousetrap agent is located at each point of a 2D lattice. At the 
+beginning of the simulation, the schedule only contains one action, 
+which is to send a "trigger" message to the center mousetrap agent. 
+When it receives the trigger message, it simply picks two "nearby" 
+mousetrap agents at random, and inserts actions on the schedule to 
+send trigger messages to them at specific times in the "near" future. 
+The scheduler then moves on to the next action on the schedule, which 
+is one of the two trigger actions that were just inserted on the 
+schedule. These trigger actions will result in more trigger actions 
+being inserted on the schedule, and the process continues. 
+
+  Once the process gets started, a mousetrap-agent may randomly pick 
+a trap which has already been triggered, which will respond to its 
+trigger message by simply returning, without attempting to schedule 
+any other mousetraps. As this is a finite world, the schedule grows 
+initially as more and more trigger events are added to it, but 
+eventually more and more trigger events are invoked on mousetraps 
+that have already been triggered. Thus, after a while, the schedule 
+will stop growing and the scheduler will consume trigger events 
+faster than they are being added.  Eventually, no more trigger 
+events will be scheduled and the scheduler will run out of actions 
+to perform. At this point, the simulation stops. At the moment, we 
+keep track of the number of pending trigger events in a special
+statistics-gathering object, but in the near future, the schedule 
+itself will respond to queries about its size, and will be able to 
+halt itself when the schedule is empty (size = 0).
+
+  This is an example of a "Discrete-Event" management of updates in 
+time, where events to be performed are what drives the simulation, 
+rather than objects that *might* need to act. Clearly, one could have 
+queried every mousetrap on each time-step to see if it was supposed to 
+trigger.  However, during most of the simulation, most of the 
+mousetraps don't have anything to do, so rather than cycle through 
+all the objects, ala Heatbugs, we only schedule those mousetraps 
+that have something to do. 
+
+  This is a simple model, but should illustrate fairly clearly 
+the principles of dynamic scheduling.
+
+  To find the parts of the code that deal directly with dynamic
+scheduling, "grep" for the string "*dynamic scheduling*". Most
+of the relevant code is to be found in MousetrapModelSwarm.m
+
+
