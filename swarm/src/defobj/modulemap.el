@@ -56,7 +56,6 @@
       (insert "%%\n")
       (insert "SwarmEnvironment,-1\n")
       (insert "Phase,-2\n")
-      (insert "ActionConcurrent_c,-3\n")
       (print-keywords module-list)
       (insert "%%\n")
       (print-module-lookup-function)

@@ -1,3 +1,7 @@
+2000-11-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* modulemap.el (generate-module-map): Remove ActionConcurrent_c.
+
 2000-11-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.m (swarm_directory_objc_ensure_java): Add abort
