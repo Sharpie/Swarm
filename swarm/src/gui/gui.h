@@ -764,18 +764,18 @@ USING
 
 @protocol _Pixmap
 CREATING
-//M: Set the bitmap file to load.
-- setFile: (const char *)filename;
+//M: Create a pixmap from a widget, or from the root window if widget is nil.
++ create: aZone widget: widget;
 
+//M: Create a pixmap from a PNG file.
++ create: aZone file: (const char *)filename;
+
+USING
 //M: Set the raster that the pixmap will be shown on.
-//M: This is a required call.  It's used to needed to determine the
+//M: This is a required call.  It's used to determine the
 //M: color palette in use.
 - setRaster: (id <Raster>)raster;
 
-//M: Load the bitmap file and create the backend pixmap object.
-- createEnd;
-
-USING
 //M: Get the width of the bitmap in pixels.
 - (unsigned)getWidth;
 
@@ -784,6 +784,11 @@ USING
 
 //M: Draw the pixmap on the current raster at the given position.
 - drawX: (int)x Y: (int)y;
+
+//M: Save the pixmap to a file.
+- save: (const char *)filename;
+
+- (void)drop;
 @end
 
 @protocol Pixmap <_Pixmap, Drawer, Create>
