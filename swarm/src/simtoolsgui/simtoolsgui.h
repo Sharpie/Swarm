@@ -113,6 +113,7 @@ USING
 - getPanel;
 - doTkEvents;  // should change to pollGUI or something
 - waitForControlEvent;
+- (void)drop;
 @end
 
 //G: Type Symbols for ActionCache
@@ -311,6 +312,7 @@ USING
 //M: requested to terminate) or ControlStateQuit (the user pressed
 //M: the quit button).
 - go;
+- (void)drop;
 @end
 
 @protocol MessageProbeWidget

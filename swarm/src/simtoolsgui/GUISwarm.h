@@ -24,4 +24,5 @@
                                    widget: aWidget;
 - buildObjects;
 - go;				   // returns Completed or ControlStateQuit
+- (void)drop;
 @end

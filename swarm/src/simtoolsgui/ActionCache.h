@@ -41,6 +41,6 @@
 // widget methods
 - (id <ButtonPanel>)getPanel;
 - doTkEvents;
-
+- (void)drop;
 @end
 

@@ -353,4 +353,9 @@ PHASE(Using)
   return self;
 }
 
+- (void)drop
+{
+  [panel drop];
+  [super drop];
+}
 @end

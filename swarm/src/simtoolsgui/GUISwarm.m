@@ -55,4 +55,10 @@ PHASE(Using)
   return [self getActivity];
 }
 
+- (void)drop
+{
+  [actionCache drop];
+  [controlPanel drop];
+  [super drop];
+}
 @end

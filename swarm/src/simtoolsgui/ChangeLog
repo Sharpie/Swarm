@@ -1,3 +1,11 @@
+1998-12-31  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* simtoolsgui.h (ActionCache, GUISwarm): Declare -drop.
+
+	* GUISwarm.[hm] ([GUISwarm -drop]): New method.
+
+	* ActionCache.[hm] ([ActionCache -drop]): New method.
+
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* MessageProbeWidget.m: Don't include ctype.h.
