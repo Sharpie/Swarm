@@ -349,7 +349,9 @@
                        (sosofo-append
                         (literal "Example")
                         (literal " ")
-                        (literal (example-label example-node)))))))
+                        (literal (example-label example-node))
+                        (literal " ")
+                        (process-children))))))
 
 (define (collect-example-protocols nl)
     (let loop ((nl nl))

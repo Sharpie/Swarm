@@ -1,6 +1,8 @@
 1998-06-18  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* common.dsl (extract-module-list): Reverse list.
+	(formal-object-title-mode example title): Add title;
+	process-children.
 
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
