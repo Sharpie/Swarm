@@ -3,7 +3,8 @@
 	* Makefile.am (JAVASWARMSCRIPTS): New substitution.
 	(bin_SCRIPTS): Use it.
 	(EXTRA_SCRIPTS: Add javacswarm and javaswarm.
-
+	(EXTRA_DIST): Use it.
+	
 1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* javaswarm, javacswarm: Adjust classpath per
