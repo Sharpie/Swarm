@@ -25,6 +25,12 @@ Provides: swarm-base
 Conflicts: swarm-hdf5
 
 %define prefix      /usr
+
+# this prefix_hdf5 is a hack to trick rpm into doing a second
+# build/install without erasing the first build, ultimately the prefix
+# should be switched back to /usr before packaging the installed files
+# in the %files macro - have still got to figure out how to do this
+# ;-) 
 %define prefix_hdf5 /usr-hdf5
 
 %define makebuilddir() test -d %1 || mkdir %1 && cd %1
