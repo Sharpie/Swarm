@@ -31,10 +31,11 @@ proc sitecmd {state token} {
     }  
 }
 
-proc do_package {probe window token} {
-    set local [$probe package: $window]
+proc do_package {probe token} {
+    set wlocal [winfo parent $token]
+    set local [$probe package: $wlocal]
     if {$local != {}} {
-        set label_text [$probe getId: $window]
+        set label_text [$probe getId: $wlocal]
         if {[winfo children $token] == {}} {
             label $token.l -text $label_text -fg black
             pack $token.l
@@ -44,10 +45,11 @@ proc do_package {probe window token} {
         return $local
 }   }
 
-proc do_package_arg {probe window arg_num token} {
-    set local [$probe package: $window arg: $arg_num]
+proc do_package_arg {probe arg_num token} {
+    set wlocal [winfo parent $token]
+    set local [$probe package: $wlocal arg: $arg_num]
     if {$local != {}} {
-        set label_text [$probe getId: $window arg: $arg_num]
+        set label_text [$probe getId: $wlocal arg: $arg_num]
         if {[winfo children $token] == {}} {
             label $token.l -text $label_text -fg black
             pack $token.l

@@ -38,7 +38,7 @@ oldSetupDragAndDrop (id source, id object)
   const char *sourceWidgetName = [source getWidgetName];
   
   [globalTkInterp
-    eval: "drag&drop source %s config -packagecmd {do_package %s %%W} -sitecmd sitecmd -button 1", 
+    eval: "drag&drop source %s config -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
     sourceWidgetName,
     objectName];
 }
@@ -46,11 +46,11 @@ oldSetupDragAndDrop (id source, id object)
 static void
 newSetupDragAndDrop (id source, id object)
 {
-  const char *sourceWidgetName = [source getWidgetName];
   const char *objectName = [object getObjectName];
+  const char *sourceWidgetName = [source getWidgetName];
 
   [globalTkInterp
-    eval: "drag&drop source %s -packagecmd {do_package %s %%W %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
+    eval: "drag&drop source %s -packagecmd {do_package %s %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
     sourceWidgetName,
     objectName];
 }
@@ -71,7 +71,7 @@ oldSetupDragAndDropArg (id source, id object, int arg)
   const char *objectName = [object getObjectName];
 
   [globalTkInterp
-    eval: "drag&drop source %s config -packagecmd {do_package_arg %s %%W %d} -sitecmd sitecmd -button 1",
+    eval: "drag&drop source %s config -packagecmd {do_package_arg %s %d} -sitecmd sitecmd -button 1",
     sourceWidgetName,
     objectName,
     arg];
@@ -84,7 +84,7 @@ newSetupDragAndDropArg (id source, id object, int arg)
   const char *objectName = [object getObjectName];
 
   [globalTkInterp
-    eval: "drag&drop source %s -packagecmd {do_package_arg %s %%W %d %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
+    eval: "drag&drop source %s -packagecmd {do_package_arg %s %d %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
     sourceWidgetName,
     objectName,
     arg];
