@@ -54,16 +54,16 @@ init_tables (void)
 
 @implementation Responder
 
-+ create: aZone withId: (int)id
++ create: aZone withId: (int)val
 {
   Responder *resp = [aZone allocIVars: self];
-  resp->Id = id;
+  resp->Id = val;
   return resp; 
 }
 
-- setId: (int)id
+- setId: (int)val
 {
-  Id = id;
+  Id = val;
   return self;
 }
 
