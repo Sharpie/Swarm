@@ -1,8 +1,9 @@
 1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* collections.m (_collections_implement): Setup PermutationItem.
-
 	* collections.h (PermutationItem): New protocol.
+	(PermutedIndex): Remove no-update qualification.
+
+	* collections.m (_collections_implement): Setup PermutationItem.
 
 	* Collection.m: Include Permutation.h and collections.h.
 	([PermutedIndex_c -next], [PermutedIndex_c -prev]): Use

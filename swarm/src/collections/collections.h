@@ -1096,10 +1096,8 @@ USING
 //S: General PermutedIndex class. 
 
 //D: PermutedIndex class may be used for randomized traversals of a 
-//D: collection. Methods implemented offer the same functionality as 
+//D: collection.  Methods implemented offer the same functionality as 
 //D: Index class does, except that traversal is randomized. 
-//D: PermutedIndex does not allow any update of the collection. It may 
-//D: be used only for traversal of the collection.
 CREATING
 + createBegin: aZone;
 - setCollection: aCollection;
