@@ -5,23 +5,24 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface OutFile : SwarmObject {
-  FILE *theFile ;
+@interface OutFile : SwarmObject
+{
+  FILE *theFile;
 }
 
-+create: aZone withName: (char *) theName ;
++ create: aZone withName: (const char *)theName;
 
--_setFile_: (FILE *) aFile ;
+- _setFile_: (FILE *) aFile;
 
--putString: (char *) aString ;
--putInt: (int) anInt ;
--putUnsigned: (unsigned) anUnsigned;
--putLong: (long) aLong ;
--putUnsignedLong: (unsigned long) anUnsLong ;
--putDouble: (double) aDouble ;
--putFloat: (float) aFloat ;
--putChar: (char) aChar ;
--putTab ;
--putNewLine ;
+- putString: (const char *)aString;
+- putInt: (int) anInt;
+- putUnsigned: (unsigned) anUnsigned;
+- putLong: (long) aLong;
+- putUnsignedLong: (unsigned long) anUnsLong;
+- putDouble: (double) aDouble;
+- putFloat: (float) aFloat;
+- putChar: (char) aChar;
+- putTab;
+- putNewLine;
 
 @end

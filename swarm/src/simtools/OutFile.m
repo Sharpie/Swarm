@@ -10,91 +10,96 @@
 
 @implementation OutFile
 
-+create: aZone withName: (char *) theName {
-  FILE *aFile ;
-  id anObj ;
-
-  aFile = fopen(theName,"w") ;
-  if(aFile == NULL){
-    fprintf(stderr,
-      "Unable to open %s as an OutFile object!\n",theName) ;
-    return nil ;
-  }
-
-  anObj = [OutFile create: aZone] ;
-  [anObj _setFile_: aFile] ;
++ create: aZone withName: (const char *)theName
+{
+  FILE *aFile;
+  id anObj;
   
-  return anObj ;
+  aFile = fopen (theName, "w");
+  if (aFile == NULL)
+    {
+      fprintf (stderr,
+               "Unable to open %s as an OutFile object!\n",
+               theName);
+      return nil;
+    }
+  
+  anObj = [OutFile create: aZone];
+  [anObj _setFile_: aFile];
+  
+  return anObj;
 }
 
--_setFile_: (FILE *) aFile {
-  theFile = aFile ;
-  return self ;
-}
-
--putString: (char *) aString {
-
-  fprintf(theFile,"%s",aString)  ;
-  return self ;
-}
-
--putInt: (int) anInt {
-
-  fprintf(theFile,"%d",anInt) ;
-  return self ;
-}
-
--putUnsigned: (unsigned) anUnsigned {
-
-  fprintf(theFile,"%u",anUnsigned) ;
-  return self ;
-}
-
--putLong: (long) aLong {
-
-  fprintf(theFile,"%ld",aLong);
+-_setFile_: (FILE *)aFile
+{
+  theFile = aFile;
   return self;
 }
 
--putUnsignedLong: (unsigned long) anUnsLong {
-
-  fprintf(theFile, "%lu",anUnsLong);
+- putString: (const char *)aString
+{
+  fprintf (theFile, "%s", aString);
   return self;
 }
 
--putDouble: (double) aDouble {
-
-  fprintf(theFile,"%+24.16e",aDouble) ;
-  return self ;
+- putInt: (int)anInt
+{
+  fprintf (theFile, "%d", anInt);
+  return self;
 }
 
--putFloat: (float) aFloat {
-
-  fprintf(theFile,"%+15.7e",aFloat) ;
-  return self ;
+- putUnsigned: (unsigned)anUnsigned
+{
+  fprintf (theFile, "%u", anUnsigned);
+  return self;
 }
 
--putChar: (char) aChar {
-
-  fprintf(theFile,"%c",aChar) ;
-  return self ;  
+- putLong: (long)aLong
+{
+  fprintf (theFile, "%ld", aLong);
+  return self;
 }
 
--putNewLine {
-
-  fprintf(theFile,"\n") ;
-  return self ;
+- putUnsignedLong: (unsigned long)anUnsLong
+{
+  fprintf(theFile, "%lu", anUnsLong);
+  return self;
 }
 
--putTab {
-
-  fprintf(theFile,"\t") ;
-  return self ;
+- putDouble: (double)aDouble
+{
+  fprintf(theFile, "%+24.16e", aDouble);
+  return self;
 }
 
--(void) drop {
-  fclose(theFile) ;
-  [super drop] ;
+- putFloat: (float)aFloat
+{
+  fprintf(theFile, "%+15.7e", aFloat);
+  return self;
+}
+
+- putChar: (char)aChar
+{
+  fprintf (theFile, "%c", aChar);
+  return self;  
+}
+
+- putNewLine
+{
+  fprintf (theFile, "\n");
+  return self;
+}
+
+- putTab
+{
+  fprintf (theFile, "\t");
+  return self;
+}
+
+- (void)drop
+{
+  fclose (theFile);
+  [super drop];
 }
 
 @end
