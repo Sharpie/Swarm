@@ -1,5 +1,8 @@
 1999-02-18    <mgd@HELEN>
 
+	* win32dib.c (dib_fill): In 24 bit case, adjust frame width up to
+	four byte boundary.  Compute ybase from this adjusted width and clipx.
+
 	* internal.m (tkobjc_pixmap_create): Round width and row_width
 	(new variable) up to a four byte boundary.  row_width adjusts
 	adjusts for 8/24 bit width.  Set new variable row_pos from
