@@ -5,7 +5,7 @@
 
 #import <activity.h>
 #import <simtools.h>
-#import <defobj.h> // archiverSave
+#import <defobj.h> // archiver
 
 #import <simtoolsgui/ControlPanel.h>
 #import <simtoolsgui/global.h>
@@ -145,7 +145,7 @@ PHASE(Using)
 
 - setStateSave
 {
-  archiverSave ();
+  [archiver save];
 
   return self;
 }
