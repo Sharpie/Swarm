@@ -1,3 +1,24 @@
+2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* javavars.h (c_ObjCProxy, c_ProxyClassLoader,
+	m_ProxyClassLoaderLoadClass): New variables.
+
+	* java.m (proxyClassLoader): New static global.
+	(create_class_refs, create_methods_Refs): Initialize new javavars.
+	(create_object_refs): New function.
+	(create_refs): Call it.
+	(swarm_directory_java_associate_objects): Associate scratchZone,
+	Start, Member, and End.
+	(find_java_wrapper_class): Call the proxy loader if class name not
+	found.
+	(swarm_directory_objc_ensure_java): Use SD_JAVA_FINDJAVACLASS
+	isntead of find_java_wrapper_class.
+
+	* java.[hm] (java_objc_proxy_p): New function.
+
+	* HDF5Object.m ([HDF5CompoundType_c -createEnd]): 
+	Don't instantiate Java object if class is a proxy.
+
 2000-07-01  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* directory.m (swarm_directory_swarm_class): Don't abort

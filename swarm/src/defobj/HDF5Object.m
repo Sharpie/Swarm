@@ -522,7 +522,8 @@ create_class_from_compound_type (id aZone,
       {
 #ifdef HAVE_JDK
         jclass clazz = SD_JAVA_FINDJAVACLASS (class);
-        if (clazz)
+
+        if (clazz && !java_objc_proxy_p (clazz))
           prototype = SD_JAVA_INSTANTIATE (clazz)->object;
         else
 #endif

@@ -61,6 +61,7 @@ extern void java_cleanup_strings (const char **stringArray, size_t count);
 extern const char *java_class_name (jobject obj);
 extern BOOL java_field_usable_p (jobject field);
 extern BOOL java_method_usable_p (jobject method);
+extern BOOL java_objc_proxy_p (jclass class);
 extern void java_drop (jobject jobj);
 
 

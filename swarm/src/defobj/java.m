@@ -14,6 +14,8 @@
 
 static BOOL initFlag = NO;
 
+static jobject proxyClassLoader;
+
 static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "C", "S", "S",
   "I", "I", "J", "J", 
@@ -141,6 +143,12 @@ java_signature_for_class (jclass class)
       return buf;
     }
   return SSTRDUP (type);
+}
+
+BOOL
+java_objc_proxy_p (jclass class)
+{
+  return classp (class, c_ObjCProxy);
 }
 
 static fcall_type_t
@@ -1110,6 +1118,18 @@ create_class_refs (void)
       c_SwarmEnvironment = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
+      if (!(lref = (*jniEnv)->FindClass (jniEnv,
+                                         "swarm/ProxyClassLoader")))
+	abort ();
+      c_ProxyClassLoader = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+
+      if (!(lref = (*jniEnv)->FindClass (jniEnv,
+                                         "swarm/ObjCProxy")))
+	abort ();
+      c_ObjCProxy = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+
       initFlag = YES;
    }
 }
@@ -1314,6 +1334,11 @@ create_method_refs (void)
                                 "_copy_creating_phase_to_using_phase",
                                 "()V")))
     abort();
+
+  if (!(m_ProxyClassLoaderLoadClass =
+	(*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader, "loadClass",
+                                "(Ljava/lang/String;)Ljava/lang/Class;")))
+    abort();
 }
 
 
@@ -1338,12 +1363,24 @@ create_field_refs (void)
 }
 
 static void
+create_object_refs ()
+{
+  jmethodID mid;
+  
+  if (!(mid = (*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader,
+                                      "<init>", "()V")))
+    abort ();
+  proxyClassLoader = (*jniEnv)->NewObject (jniEnv, c_ProxyClassLoader, mid);
+}
+
+static void
 create_refs (void)
 {
   create_bootstrap_refs ();
   create_class_refs ();
   create_method_refs ();
   create_field_refs ();
+  create_object_refs ();
 }
 
 void
@@ -1358,13 +1395,22 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
 #define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
   create_refs ();
 
+  ASSOCIATE (scratchZone);
   ASSOCIATE (globalZone);
 
   ASSOCIATE (hdf5Archiver);
   ASSOCIATE (lispArchiver);
   ASSOCIATE (hdf5AppArchiver);
   ASSOCIATE (lispAppArchiver);
-  
+
+  {
+    extern id <Symbol> Start, Member, End;
+
+    ASSOCIATE (Start);
+    ASSOCIATE (Member);
+    ASSOCIATE (End);
+  }
+
   {
     extern id <Symbol> Randomized;
     extern id <Symbol> Sequential;
@@ -1598,15 +1644,24 @@ static jclass
 find_java_wrapper_class (Class class)
 {
   const char *name = java_class_name_for_objc_class (class);
+  jclass ret;
 
   if (name)
     {
-      jclass ret = java_find_class (name, YES);
+      ret = java_find_class (name, YES);
       FREECLASSNAME (name);
-      return ret;
     }
   else
-    return 0;
+    {
+      jstring str = (*jniEnv)->NewStringUTF (jniEnv, class->name);
+
+      ret = (*jniEnv)->CallObjectMethod (jniEnv,
+                                         proxyClassLoader,
+                                         m_ProxyClassLoaderLoadClass,
+                                         str);
+      (*jniEnv)->DeleteLocalRef (jniEnv, str);
+    }
+  return ret;
 }
 
 
@@ -1619,16 +1674,15 @@ swarm_directory_objc_ensure_java (id object)
     return 0;
 
   result = swarm_directory_objc_find_object (object);
-  
+
   if (!result)
     {
       Class class = getClass (object);
-      jclass javaClass = find_java_wrapper_class (class);
+      jclass javaClass = SD_JAVA_FINDJAVACLASS (class);
       jobject lref = java_instantiate (javaClass);
-      
+
       result = SD_JAVA_ADD (lref, object);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-      (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
     }
   else if (result->type != foreign_java)
     abort ();

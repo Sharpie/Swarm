@@ -10,12 +10,12 @@ extern jclass c_boolean,
 extern jclass c_Boolean, 
   c_Char, c_Byte, 
   c_Integer, c_Short,
-  c_Long, c_Float,
-  c_Class, c_Field, c_Method, c_Selector,
-  c_Object, c_String, 
-  c_Double, c_PhaseCImpl, c_Primitives,
-  c_SwarmEnvironment, c_Collection,
-  c_Modifier;
+  c_Long, c_Float, c_Double,
+  c_Class, c_Object, c_String, 
+  c_Field, c_Method, c_Modifier,
+  c_Collection,
+  c_Selector, c_PhaseCImpl, c_Primitives, c_ObjCProxy, c_ProxyClassLoader,
+  c_SwarmEnvironment;
 
 extern jmethodID m_BooleanValueOf,
   m_ByteValueOf, 
@@ -58,7 +58,8 @@ extern jmethodID m_BooleanValueOf,
   m_HashCode,
   m_Equals,
   m_PhaseCImpl_copy_creating_phase_to_using_phase,
-  m_PrimitivesGetTypeMethod;
+  m_PrimitivesGetTypeMethod,
+  m_ProxyClassLoaderLoadClass;
 
 extern jfieldID f_nameFid,
   f_retTypeFid,
