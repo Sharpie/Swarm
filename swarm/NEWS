@@ -52,6 +52,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** Improved detection of link option for setting internal 
     pointer to shared libraries for an executable (rpath).
 *** Support for EGCS 1.1.
+*** New --with-xpm* configure-time flags, for locating libXpm and xpm.h.
 
 ** Bug fixes
 *** analysis
