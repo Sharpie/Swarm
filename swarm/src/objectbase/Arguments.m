@@ -34,6 +34,17 @@ getApplicationValue (const char *ptr)
         appStr = ptr + 1;
       ptr++;
     }
+  ptr = strdup (appStr);
+  appStr = ptr;
+  while (*ptr)
+    {
+      if (*ptr == '.')
+        {
+          *ptr = '\0';
+          break;
+        }
+      ptr++;
+    }
   return appStr;
 }
 
