@@ -348,7 +348,7 @@ void _obj_initModule (void *module)
 }
 
 //
-// Type_c -- type object generated for @deftype definition in header
+// Type_c -- type object generated for @protocol definition in header
 //
 
 @implementation Type_c

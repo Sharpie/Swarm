@@ -1,5 +1,9 @@
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Program.m: Tweak comment (@deftype -> @protocol).
+
+	* make-h2x: Search for @protocol instead of @deftype.
+
 	* defobj.h: Replace @deftype with @protocol throughout.
 
 	* Create.m (ATDELIM): Go back to `@' until BLT 2.4 is for real.
