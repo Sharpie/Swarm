@@ -9,7 +9,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 *** analysis
 **** EZBin, EZGraph
-***** New method setFilename:.
+***** New method setFilename:.  Thanks to Sven Thommesen.
 
 *** collections
 **** New classes Archiver{Array,Keyword,Pair,Value} to simplify
