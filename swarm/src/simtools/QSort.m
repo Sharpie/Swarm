@@ -8,6 +8,8 @@
 
 #include <misc.h> // xmalloc, XFREE, qsort
 
+#include <swarmconfig.h> // PTRINT
+
 @implementation QSort
 
 static id *flat;
@@ -73,7 +75,7 @@ cmpInts (int *a, int *b)
 static int
 cmpObjs (id *a, id *b)
 {
-  return (int) [*a perform: comp_selector with: *b];
+  return (int) (PTRINT) [*a perform: comp_selector with: *b];
 }
 
 + (void)sortObjectsIn: aCollection
