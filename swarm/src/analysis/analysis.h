@@ -3,6 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+//D: This is the library where tools primarily related to analysis tasks,
+//D: reside. This includes tools which simplify the task of graphing
+//D: values or displaying distributions as well as more specific
+//D: measurement tools (such as Average, Entropy). 
+
 #import <analysis/Averager.h>
 #import <analysis/Entropy.h>
 #import <analysis/EZBin.h>

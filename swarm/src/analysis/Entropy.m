@@ -3,11 +3,15 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
 #import <math.h>
 #import <collections.h>
 #import <analysis.h>
+
+//D: Entropy objects read probabilities (via a MessageProbe) from a
+//D: collection of objects and calculate the entropy of the
+//D: underlying distribution.
+
+//L: Note1
 
 @implementation Entropy
 
@@ -27,8 +31,9 @@
   return [super createEnd];
 }
 
-//M: The update method polls the collection and updates the entropy. This method
-//M: should be scheduled prior to collecting the data using getEntropy.
+//M: The update method polls the collection and updates the entropy.
+//M: This method should be scheduled prior to collecting the data using
+//M: getEntropy.
 - update
 {
   id iter, obj;
@@ -39,10 +44,10 @@
 
   count = [collection getCount];   
 
-  if(!count)
+  if (!count)
     return self;
   
-  maximum = log( 1.0 / ((double) count));
+  maximum = log (1.0 / ((double) count));
 
   obj = [collection getFirst];
   // [self updateMethodCache: obj];

@@ -3,6 +3,9 @@
 	* Averager.m, EZBin.m, EZDistribution.m, EZGraph.m, Entropy.m:
         Change method documentation sentinel from "//*" to "//M:".
 
+	* Averager.m, EZBin.m, EZDistribution.m, EZGraph.m, Entropy.m,
+	analysis.h: Merge more documentation using //D: and //S: comments.
+
 1998-04-09  Irene Lee  <lee@wijiji.santafe.edu>
 
 	* Averager.m, EZBin.m, EZDistribution.m, EZGraph.m, Entropy.m:

@@ -12,6 +12,15 @@
 
 #include <misc.h> // xmalloc
 
+//S: An EZBin that treats data as a distribution.
+
+//D: This is a subclass of EZBin which normalizes the data and treats
+//D: it as a distribution.
+//D: This means that in addition to the statistics it can calculate by virtue
+//D: of being a subclass of EZBin, it can also calculate the entropy of the
+//D: distribution as well as return the probabilities associated with the
+//D: individual bins.
+
 @implementation EZDistribution
 
 - createEnd
@@ -44,6 +53,7 @@
 
   return self;
 }
+
 //M: The output method causes the graphical display to be updated with the 
 //M: information extracted by the previous call to update.  When file I/O is 
 //M: enabled (the state of setFileOutput is set to 1), the probability
@@ -88,8 +98,8 @@
   return probabilities;
 }
 
-//M: The getEntropy method returns the entropy of the distribution as calculated
-//M: in the previous call to update.
+//M: The getEntropy method returns the entropy of the distribution as
+//M: calculated in the previous call to update.
 - (double)getEntropy
 {
   if (clean)

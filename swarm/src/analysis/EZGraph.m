@@ -13,6 +13,19 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
                                           "Purple", "DarkGreen", "Goldenrod", 
                                           "Black" };
 
+//S: A class for easily create graphs.
+
+//D: This class allows the user to easily create graphs of various
+//D: quantities in the model s/he is investigating. 
+//D: The user first creates the EZGraph, and then creates "Sequences"; 
+//D: (lines) which will appear in the graph. 
+//D: The sequences are generated based on data provided by a 
+//D: single object or a collection of target objects, in reponse to a
+//D: specified selector.
+//D: One of the features of the EZGraph is that it will automatically
+//D: generate average, total, min, max and count sequences without the
+//D: user having to mess with Averagers amd other low-level classes.
+
 @implementation EZGraph
 
 + createBegin: aZone
@@ -29,8 +42,9 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
 }
 
 //M: The setGraphics method sets the state of the display. Set the state to 0 
-//M: if a graphical display of the graph is not required. The default state is 1
-//M: meaning that by default the data appears graphically in a window. 
+//M: if a graphical display of the graph is not required.
+//M: The default state is 1 meaning that by default the data appears
+//M: graphically in a window. 
 - setGraphics: (int)state
 {
   graphics = state;

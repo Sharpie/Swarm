@@ -6,10 +6,11 @@
 #import <collections.h>
 #import <analysis/Averager.h>
 
-// Implemenation of data collection facilities. Code like this
-// eventually belongs in the Swarm libraries.
+//S: Averages together data, gives the data to whomever asks.
 
-// Averager: averages together data, gives the data to whomever asks.
+//D: Averager objects read a value (via a MessageProbe) from a
+//D: collection (typically a list) of objects and collect statistics over them.
+
 @implementation Averager
 
 //M: The setCollection method sets the collection of objects that will be 
