@@ -1,3 +1,9 @@
+1998-02-24  Alex Lancaster  <alex@santafe.edu>
+
+	* common.[hm] (tkobjc_updateIdleTasks): Renamed from
+	(tkobjc_updateIdleTasksAndHold) and parameterized to take an
+	argument (int hold) to specify hold status.
+
 1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): Constify argv.
