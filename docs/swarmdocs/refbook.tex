@@ -1,4 +1,20 @@
 \def\lt{{\tt <}}
 \def\gt{{\tt >}}
 \def\Entity#1{\csname #1\endcsname}
+\def\endDisplayNIC{%
+ \ifnum\KeepWithNext=1\nobreak\fi
+ \ifx\Keep\@empty\else\goodbreak\fi
+ \endgroup
+ \global\LastSpaceNom=\@sAfterNom
+ \global\LastSpaceMax=\@sAfterMax
+ \global\LastSpaceMin=\@sAfterMin
+ \global\edef\LastSpacePriority{\@sAfterPriority}%
+ \@tempdima\@sAfterNom
+ \advance\@tempdima by -\@sAfterMin
+ \@tempdimb\@sAfterNom
+ \advance\@tempdimb by -\@sAfterMax
+ \vskip \@sAfterNom plus \@tempdimb minus \@tempdima
+ \global\LastDisplayStack=\DisplayStack
+ \advance\DisplayStack by -1
+}
 \input wrapped.tex
