@@ -272,6 +272,45 @@
   // Activate returns the swarm activity - the thing that's ready to run,
   // which is the activity tree rooted in "nil" that we've just added
   // ourselves onto as new leaves
+
+  //                      Activity Control Usage
+  // Attach an activity controller to the swarm activity.  This
+  //   will take the place of the control panel in controlling the
+  //   execution of both the observer swarm and it's subactivities,
+  //   which includes the model swarm activity.  But, the control
+  //   state must be set to "stopped" for this to function, because
+  //   if the control panel flag "ControlStateRunning" is true, 
+  //   then the GUISwarm will continually tell the activity to 
+  //   "run," defeating the activity controller's "stop" command.
+  //   This will be fixed in a later version of Swarm.  The current
+  //   controlPanel behavior was left in for compatibility with the
+  //   beta versions.
+  observerActCont = [ActivityControl createBegin: [self getZone]];
+
+  // In the future, there may be specific create-phase options that
+  //   will allow optimization of the controller (like preknowledge
+  //   of what type of object is using the controller).
+  observerActCont = [observerActCont createEnd];
+
+  // Every object that inherits from DefinedObject (which ActivityController
+  //   does) inherits the ability to be "named" in the object database.  In
+  //   this case, the ActivityControl passes this name on to the probing
+  //   mechanism.  
+  [observerActCont setDisplayName: "Observer Swarm Controller"];
+
+  // Attach the AC.  The AC contains a pointer to the id of the activity
+  //   it's controlling.  This is problematic in addressing the termination
+  //   or removal of the activity in that the controller must not attempt
+  //   to execute methods on that activity after that.  This is taken care
+  //   of in the ActivityControl methods.
+  [observerActCont attachToActivity: [self getSwarmActivity]];
+
+  // Create a probe display for the AC.  This indicates that we are only
+  //   using the ActivityControl in the context of a GUISwarm for now.
+  //   If some other object (like another program) were to control the
+  //   activity, then this would be replaced with whatever instantiated
+  //   the interface for that object (like a tcp/ip address or a socket).
+  [probeDisplayManager createProbeDisplayFor: observerActCont];
   
   return [self getSwarmActivity];
 }

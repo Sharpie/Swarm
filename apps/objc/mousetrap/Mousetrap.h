@@ -5,6 +5,7 @@
 
 #import <activity.h>
 #import <swarmobject.h>
+#import <random.h>
 
 // The definition of a mousetrap object. We inherit code from the generic
 // SwarmObject, which provides memory allocation and other niceties. It
@@ -14,17 +15,21 @@
 @interface Mousetrap : SwarmObject {
 
   // First, the variables for a mousetrap object
-
+@public
   int xCoord;				// X and Y coordinates
   int yCoord;
   int triggered;			// Triggered state (0=no, 1=yes)
   id displayWidget;			// Where we are displayed
   id modelSwarm;			// our modelSwarm
+@private
+  id <UniformDouble> uniform0to1;
+  id <UniformInteger> uniformRadius;
+  id <UniformUnsigned> uniformTrigTime;
 }
 
   // Methods that a mousetrap responds to
 
-+create: aZone setModelSwarm: modelSwarm setXCoord: (int)x setYCoord: (int)y;
++create: aZone setModelSwarm: modelSwarm setXCoord: (int)x setYCoord: (int)y setGenerator: (id) randGen;
 -trigger;
 -setDisplayWidget: (id) widget;
 

@@ -11,10 +11,12 @@
 // while the MousetrapObserverSwarm uses static scheduling
 
 #import <swarmobject.h>
+#import <swarmobject/SwarmObject.h>
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
 #import <simtools.h>
+#import <random.h>
 #import "Mousetrap.h"
 
 // First, a special object to help in collecting statistics.
@@ -48,6 +50,14 @@
 
   MousetrapStatistics * stats;			      // statistics object
   Grid2d * grid;				      // world
+
+  // Declare the ActivityControl, which will serve as an interface to
+  //   the model swarm activity.
+  id <ActivityControl> modelActCont;
+
+@private
+  id <PMMLCG1> randomGenerator;
+  id <UniformDouble> uniform0to1;
 }
 
 // Methods for the MousetrapModelSwarm

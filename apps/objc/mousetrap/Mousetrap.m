@@ -25,13 +25,33 @@
   // the more general createBegin/createEnd pair.
   // During create, we initialize a mousetraps crucial state
 
-+create: aZone setModelSwarm:  s setXCoord: (int)x setYCoord: (int)y {
++create: aZone setModelSwarm:  s setXCoord: (int)x setYCoord: (int)y setGenerator: (id) randGen {
   Mousetrap *newTrap;
+  int maxD;
 
   newTrap = [self create: aZone];
   newTrap->modelSwarm = s;
   newTrap->xCoord = x;
   newTrap->yCoord = y;
+
+  // create the distributions to be used
+  maxD = [newTrap->modelSwarm getMaxTriggerDistance];
+  newTrap->uniform0to1 =
+    [UniformDouble create: [newTrap->modelSwarm getZone]
+		   setGenerator: randGen
+		   setDoubleMin: (double) 0.0L
+		   setMax: (double) 1.0L];
+  newTrap->uniformRadius =
+    [UniformInteger create: [newTrap->modelSwarm getZone]
+		    setGenerator: randGen
+		    setIntegerMin: -maxD
+		    setMax: maxD];
+
+  newTrap->uniformTrigTime =
+    [UniformUnsigned create: [newTrap->modelSwarm getZone]
+		     setGenerator: randGen
+		     setUnsignedMin: 1L
+		     setMax: [newTrap->modelSwarm getMaxTriggerTime]];
 
   return newTrap;
 }
@@ -63,7 +83,10 @@
 
   if (!triggered &&
       ([modelSwarm getTriggerLikelihood] >= 1.0 ||
-       [uniformRandom rFloat] < [modelSwarm getTriggerLikelihood])) {
+       (float)[uniform0to1 getDoubleSample] < 
+       [modelSwarm getTriggerLikelihood])) {
+
+    int size;
 
     // mark ourselves as triggered, do book-keeping, and draw 
     // ourselves as triggered on the display widget
@@ -81,8 +104,8 @@
     // them to be sent trigger messages in the "near" future.
     // "near" in both cases is set by parameters.
 
+    size = [modelSwarm getGridSize];
     for ( n = [modelSwarm getNumberOutputTriggers]; n > 0; n-- ) {
-      int size, maxD;
       Mousetrap * trap;
 
       // This is where *dynamic scheduling* of actions is prepared for
@@ -91,14 +114,14 @@
       // Note how wraparound is handled by adding "size" and then taking
       // the result modulo "size".
 
-      size = [modelSwarm getGridSize];
-      maxD = [modelSwarm getMaxTriggerDistance];
-      xTrigger = (xCoord + size + [uniformRandom rMin: -maxD Max: maxD + 1]) % size;
-      yTrigger = (yCoord + size + [uniformRandom rMin: -maxD Max: maxD + 1]) % size;
+      xTrigger =
+	(xCoord + size + [uniformRadius getIntegerSample]) % size;
+      yTrigger =
+	(yCoord + size + [uniformRadius getIntegerSample]) % size;
 
       // Then, decide on a "nearby" time in the future to fire the selected trap
 
-      triggerTick = getCurrentTime() + [uniformRandom rMin: 1 Max: [modelSwarm getMaxTriggerTime]];
+      triggerTick = getCurrentTime() + [uniformTrigTime getUnsignedSample];
 
       // Now, we get the id of the trap at our randomly chosen X,Y position
 

@@ -33,6 +33,9 @@
 
   Object2dDisplay * mousetrapDisplay;           // to Probe mousetraps
 
+  // declare the activity controller, which provides an interface 
+  //   to the observerSwarm activity.
+  id <ActivityControl> observerActCont;
 }
 
 // Methods overriden to make the Swarm

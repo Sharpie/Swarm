@@ -149,7 +149,7 @@
 
   // Activate returns the swarm activity - the thing that's ready to run.
 
-  return [self getSwarmActivity];
+  return [self getActivity];
 }
 
 // the MousetrapObserverSwarm had a go method inherited from GUISwarm,
@@ -167,14 +167,14 @@
     printf("It is logging data every %d timesteps to: trigger.output.\n",
                loggingFrequency);
 
-  [swarmActivity run]; 			// Run it!
+  [[self getActivity] run]; 			// Run it!
 
   // The model swarm completed. Close up and quit.
 
   if(loggingFrequency)
     [triggerGraph drop] ;               // Close the output file.
 
-  return [swarmActivity getStatus];
+  return [[self getActivity] getStatus];
 }
 
 // monitor method - if all the balls have landed, time to quit!

@@ -110,7 +110,17 @@
 // just be inherited. But it's here to show you a place to customize.)
 
 -createEnd {
-  return [super createEnd];
+  id tempObj;
+
+  tempObj = [super createEnd];
+
+  randomGenerator = [PMMLCG1 create: [self getZone]
+			     setStateFromSeed: 1234567890];
+  uniform0to1 = [UniformDouble create: [self getZone]
+			       setGenerator: randomGenerator
+			       setDoubleMin: 0.0L
+			       setMax: 1.0L];
+  return tempObj;
 }
 
 // Now it's time to build the model objects. We use various parameters
@@ -144,11 +154,14 @@
 
   for (y = 0; y < gridSize; y++)
     for (x = 0; x < gridSize; x++)
-      if (trapDensity >= 1.0 || [uniformRandom rFloat] < trapDensity) {
+      if (trapDensity >= 1.0 || 
+	  (float)[uniform0to1 getDoubleSample] < trapDensity) {
 	Mousetrap * aMousetrap;
 	aMousetrap = [Mousetrap create: [self getZone]
 				setModelSwarm: self
-				setXCoord: x setYCoord: y];
+				setXCoord: x 
+				setYCoord: y
+				setGenerator: randomGenerator];
 	[grid putObject: aMousetrap atX: x Y: y];
       }
   
@@ -209,15 +222,38 @@
 
   // First, activate ourselves via the superclass activateIn: method.
   // Just pass along the context: the activity library does the right thing.
-
   [super activateIn: swarmContext];
 
   // Now activate our own schedule.
-
   [modelSchedule activateIn: self];
 
-  // Finally, return our activity.
 
+  //                  Activity Control Usage
+  //   Attach a controller to the model swarm activity.  This interface
+  // will function in the same way as the interface to the observer
+  // swarm activity; but, the methods will not do the same things.
+  // A "run" command to the observer swarm will execute the events
+  // on the observer swarm schedule until that activity gets a command
+  // telling it to stop.  A "run" on the model swarm, however, will
+  // not do anything because the model swarm activity is not controllable.
+  // This will change when we have a run-level tree or stack that will
+  // provide the bookkeeping necessary to safely run subactivities.  With
+  // the execution of the "run" method on the ActivityControl that is 
+  // controlling a subactivity, will update the state variables shown
+  // on the ActivityControl dashboard even though no messages were sent
+  // to the activity, itself.
+  //   See the comments for the ActivityControl attached to the observer
+  // swarm in MousetrapObserverSwarm.m
+  //
+  modelActCont = [ActivityControl createBegin: [self getZone]];
+  modelActCont = [modelActCont createEnd];
+  [modelActCont setDisplayName: "Model Swarm Controller"];
+  // attach the AC
+  [modelActCont attachToActivity: [self getSwarmActivity]];
+  // create a probe display for the AC
+  [probeDisplayManager createProbeDisplayFor: modelActCont];
+
+  // Finally, return our activity.
   return [self getSwarmActivity];
 }
 
