@@ -36,6 +36,12 @@ PHASE(Creating)
   return self;
 }
 
+- setSaveSizeFlag: (BOOL)theSaveSizeFlag
+{
+  saveSizeFlag = theSaveSizeFlag;
+  return self;
+}
+
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: widget
 {
@@ -47,7 +53,6 @@ PHASE(Creating)
   [widget setWindowGeometryRecordName: 
             buildWindowGeometryRecordName (baseWindowGeometryRecordName, 
                                            componentName)];
-
   return self;
 }
 

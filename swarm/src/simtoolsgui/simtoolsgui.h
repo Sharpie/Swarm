@@ -22,6 +22,8 @@ CREATING
 //M: when recording its geometry information.
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
+- setSaveSizeFlag: (BOOL)saveSizeFlag;
+
 //#: This macro uses the instance name of theWidget to set its name
 //#: in the window geometry record.
 #define SET_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
@@ -281,8 +283,8 @@ extern const char *buildWindowGeometryRecordName (const char *baseName,
 
 @protocol GUIComposite <CompositeWindowGeometryRecordName>
 //S: Base class for objects that use several GUI components.
-
 //D: Base class for objects that use several GUI components.
+
 USING
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)notificationMethod;

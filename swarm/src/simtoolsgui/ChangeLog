@@ -1,3 +1,10 @@
+2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* GUIComposite.[hm], GUISwarm.[hm], CommonProbeDisplay.[hm]: Add
+	saveSizeFlag and setter.
+
+	* simtoolsgui.h (WindowGeometryRecordName): Declare -setSaveSizeFlag:.
+
 2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* simtoolsgui.h: Include gui.h.

@@ -17,9 +17,11 @@
   id <ControlPanel> controlPanel;
   id <ActionCache> actionCache;
   const char *baseWindowGeometryRecordName;
+  BOOL saveSizeFlag;
 }
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- setSaveSizeFlag: (BOOL)saveSizeFlag;
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: aWidget;
 - (id <ActionCache>)getActionCache;

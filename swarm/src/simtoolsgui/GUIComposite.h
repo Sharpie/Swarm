@@ -11,11 +11,13 @@
 {
   const char *baseWindowGeometryRecordName;
   id <Map> componentList;
+  BOOL saveSizeFlag;
 }
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: widget;
+- setSaveSizeFlag: (BOOL)saveSizeFlag;
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)notificationMethod;
 - disableDestroyNotification;

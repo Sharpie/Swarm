@@ -6,6 +6,7 @@
 #import <simtoolsgui/CommonProbeDisplay.h>
 #import <simtoolsgui.h> // probeDisplayManager
 #import <gui.h>
+#include <defobj.h> // STRDUP
 
 @implementation CommonProbeDisplay
 
@@ -13,7 +14,13 @@ PHASE(Creating)
 
 - setWindowGeometryRecordName: (const char *)theName
 {
-  windowGeometryRecordName = theName;
+  windowGeometryRecordName = theName ? STRDUP (theName) : NULL;
+  return self;
+}
+
+- setSaveSizeFlag: (BOOL)theSaveSizeFlag
+{
+  saveSizeFlag = theSaveSizeFlag;
   return self;
 }
 
@@ -23,6 +30,7 @@ PHASE(Creating)
   
   topLevel = [Frame createBegin: [self getZone]];
   [topLevel setWindowGeometryRecordName: windowGeometryRecordName];
+  [topLevel setSaveSizeFlag: saveSizeFlag];
   topLevel = [topLevel createEnd];
   [topLevel enableDestroyNotification: self
             notificationMethod: @selector (markForDrop)];
@@ -80,6 +88,8 @@ PHASE(Using)
   [topFrame drop];
   [canvas drop];
   [topLevel drop];
+  if (windowGeometryRecordName)
+    FREEBLOCK (windowGeometryRecordName);
   [super drop];
 }
 

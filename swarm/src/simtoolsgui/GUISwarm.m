@@ -18,6 +18,12 @@ PHASE(Creating)
   return self;
 }
 
+- setSaveSizeFlag: (BOOL)theSaveSizeFlag
+{
+  saveSizeFlag = theSaveSizeFlag;
+  return self;
+}
+
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: theWidget
 {
@@ -36,6 +42,7 @@ PHASE(Using)
   // create the actionCache, we will initialize it in activateIn
   actionCache = [ActionCache createBegin: [self getZone]];
   SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (actionCache);
+  [actionCache setSaveSizeFlag: saveSizeFlag];
   [actionCache setControlPanel: controlPanel];
   actionCache = [actionCache createEnd];
   return self;

@@ -15,12 +15,14 @@
   BOOL horizontalScrollbarFlag;
   BOOL markedForDropFlag;
   const char *windowGeometryRecordName;
+  BOOL saveSizeFlag;
 }
 
 - createEnd;
 - install;
 
 - setWindowGeometryRecordName : (const char *)windowGeometryRecordName;
+- setSaveSizeFlag: (BOOL)saveSizeFlag;
 - (void)markForDrop;
 - (BOOL)getMarkedForDropFlag;
 - getTopLevel;
