@@ -13,6 +13,7 @@ if test $jdkdir = no; then
   AC_MSG_RESULT(no)
   jdkdir=
   JAVASTUBS=
+  JAVASWARMLIBS=
 else
   if test -f $jdkdir/include/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include"
@@ -52,9 +53,11 @@ else
   AC_MSG_RESULT($jdkdir)
   AC_DEFINE(HAVE_JDK)
   JAVASTUBS=stubs
+  JAVASWARMLIBS=-ljavaswarm
 fi 
 
 AC_SUBST(JAVASTUBS)
+AC_SUBST(JAVASWARMLIBS)
 AC_SUBST(JAVASTUBS_FUNCTION)
 AC_SUBST(JAVAINCLUDES)
 AC_SUBST(JAVALIBS)

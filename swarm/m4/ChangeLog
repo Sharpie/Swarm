@@ -1,3 +1,7 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (JAVASWARMLIBS): New substitution.
+
 1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Add acargp.m4.
