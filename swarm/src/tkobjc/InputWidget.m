@@ -33,6 +33,11 @@
   return self;
 }
 
+- linkVariableInt: (void *)p
+{
+  return [self linkVariable: p Type: TCL_LINK_INT];
+}
+
 - (const char *)getValue
 {
   [globalTkInterp eval: "%s get", widgetName];

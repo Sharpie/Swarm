@@ -1,5 +1,7 @@
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* InputWidget.[hm]: New method linkVariableInt:.
+
 	* tkobjc.m (initTkObjc): Remove assignment to Colormap.
 
 	* tkobjc.h: Include tkobjc/Graph.h instead of tkobjc/BLTGraph.h

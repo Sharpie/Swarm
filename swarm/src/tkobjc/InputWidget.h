@@ -18,6 +18,7 @@
 
 - (const char *)getValue;
 - linkVariable: (void *)p Type: (int)type;
+- linkVariableInt: (void *)p;
 - setValue: (const char *)v;
 
 @end

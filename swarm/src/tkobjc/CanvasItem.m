@@ -55,7 +55,7 @@
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
                   canvasName, item, temp];
   [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
-                  canvasname, item, "%x" , "%y"];
+                  canvasName, item, "%x" , "%y"];
 
   [globalTkInterp eval: "%s bind %s <B1-Motion> {"
                   "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"

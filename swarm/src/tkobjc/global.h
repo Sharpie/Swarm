@@ -11,6 +11,7 @@
 - (BOOL)newBLTp;
 - eval: (const char *)fmt, ...;
 - (const char *)result;
+- linkVariableInt: (const char *)variableName;
 @end
 
 id <TkExtra> globalTkInterp;
