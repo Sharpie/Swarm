@@ -1,3 +1,17 @@
+1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	From Sven Thommesen <sthomme@humsci.auburn.edu>:
+	
+	* analysis.h (EZGraph): Note sequence return value for
+	create{,Average,Count,Min,Max,Total}Sequence:withFeedFrom: methods.
+	Declare new method -dropSequence:.
+
+	* EZGraph.m ([EZGraph -dropSequence:]): New method.
+
+	* EZGraph.m ([EZGraph -create
+	{,Average,Count,Min,Max,Total}Sequence:withFeedFrom:andSelector:]):
+	Return sequence instead of self.
+	
 1998-08-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	From Sven Thommesen <sthomme@humsci.auburn.edu>:

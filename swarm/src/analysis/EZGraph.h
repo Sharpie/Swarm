@@ -70,6 +70,8 @@
          withFeedFrom: aCollection 
           andSelector: (SEL) aSel;
 
+- dropSequence: aSeq;
+
 - step;
 
 - update;

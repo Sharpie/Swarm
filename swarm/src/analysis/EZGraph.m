@@ -106,6 +106,19 @@ PHASE(Using)
   return theGraph;
 }
 
+- dropSequence: aSeq
+{
+  if ([sequenceList contains: aSeq])
+  {
+    [sequenceList remove: aSeq];
+    [aSeq drop];
+    return aSeq;
+  } else {
+    // Say nothing, do nothing, but return nil as signal
+    return nil;
+  }
+}
+
 // internal method called by createSequence:withFeedFrom:andSelector
 - createGraphSequence: (const char *)aName
           forSequence: aSeq
@@ -162,7 +175,7 @@ PHASE(Using)
   [self createGraphSequence: aName forSequence: aSeq
 	withFeedFrom: anObj andSelector: aSel];
   
-  return self;
+  return aSeq;
 }
 
 - createAverageSequence: (const char *)aName 
@@ -185,7 +198,7 @@ PHASE(Using)
 	withFeedFrom: anAverager 
 	andSelector: M(getAverage)];
 
-  return self;
+  return aSeq;
 }
 
 - createTotalSequence: (const char *)aName
@@ -208,7 +221,7 @@ PHASE(Using)
 	withFeedFrom: anAverager 
 	andSelector: M(getTotal)];
 
-  return self;
+  return aSeq;
 }
 
 - createMinSequence: (const char *)aName 
@@ -231,7 +244,7 @@ PHASE(Using)
 	withFeedFrom: anAverager 
 	andSelector: M(getMin)];
 
-  return self;
+  return aSeq;
 
 }
 
@@ -255,7 +268,7 @@ PHASE(Using)
 	withFeedFrom: anAverager 
 	andSelector: M(getMax)];
 
-  return self;
+  return aSeq;
 
 }
 
@@ -280,7 +293,7 @@ PHASE(Using)
 	withFeedFrom: anAverager 
 	andSelector: M(getCount)];
   
-  return self;
+  return aSeq;
 
 }
 
