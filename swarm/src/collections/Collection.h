@@ -95,8 +95,6 @@ Library:      collections
 - reshuffle;
 - next;
 - prev;
-- findNext: anObject;
-- findPrev: anObject;
 - get;
 - put: anObject;
 - remove;

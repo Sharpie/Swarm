@@ -289,7 +289,7 @@ indexAtOffset (Collection_any *self, unsigned offset)
   char  buffer[100];
 
   [super describe: outputCharStream];
-  sprintf( buffer, "> number of members: %d\n", count );
+  sprintf ( buffer, "> number of members: %d\n", count );
   [outputCharStream catC: buffer];
 }
 
@@ -356,7 +356,7 @@ PHASE(Using)
       if (member == anObject)
         return member;
     }
-  return NULL;
+  return nil;
 }
 
 - findPrev: anObject
@@ -468,19 +468,39 @@ PHASE(Using)
   return self;
 }
 
+- (id <Symbol>)_getLoc_
+{
+  if (![(Permutation_c *) collection getTouchedFlag])
+    return Start;
+  else if (![(Permutation_c *) collection getUntouchedFlag])
+    return nextFlag ? Member : End; 
+  else
+    return Member;
+}
+
 - (void)_updatePermutation_
 {
   Permutation_c *perm = (Permutation_c *) collection;
   Collection_any *original = (Collection_any *) perm->collection;
-
   collection = [[[[[Permutation createBegin: getCZone (getZone (self))]
                     setCollection: original]
                    setLastPermutation: perm]
                   setUniformRandom: perm->rnd]
                  createEnd];
-  [self reshuffle];
-  [index next]; // for the case of a get, put, or remove
-  [index prev];
+  {
+    id <Symbol> loc = [self _getLoc_];
+    id current = loc == Member ? [self get] : nil;
+    
+    [self reshuffle];
+    if (loc == Member)
+      {
+        while ([index getLoc] != End)
+          if (((PermutationItem_c *) [index next])->item == current)
+            break;
+      }
+    else
+      [index setLoc: loc];
+  }
   [perm drop];
 }
 
@@ -506,7 +526,7 @@ PHASE(Using)
               return pi->item;
             }
 	}
-      else
+     else
 	break;
     }
   return nil;
@@ -531,26 +551,6 @@ PHASE(Using)
 	break;
     }
   return nil;
-}
-
-- findNext: anObject;
-{
-  PermutationItem_c *pi;
-
-  [self _updatePermutation_];
-  [self _clearDirection_];
-  pi = [index findNext: anObject];
-  return pi ? pi->item : nil;
-}
-
-- findPrev: anObject;
-{
-  PermutationItem_c *pi;
-
-  [self _updatePermutation_];
-  [self _clearDirection_];
-  pi = [index findPrev: anObject];
-  return pi ? pi->item : nil;
 }
 
 - get
@@ -604,13 +604,7 @@ PHASE(Using)
 - (id <Symbol>)getLoc
 {
   [self _updatePermutation_];
-
-  if (![(Permutation_c *) collection getTouchedFlag])
-    return Start;
-  else if (![(Permutation_c *) collection getUntouchedFlag])
-    return nextFlag ? Member : End; 
-  else
-    return Member;
+  return [self _getLoc_];
 }
 
 - (void)setLoc: (id <Symbol>)locSymbol
