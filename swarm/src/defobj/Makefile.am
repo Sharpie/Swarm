@@ -8,7 +8,7 @@ FFIINCLUDES = @FFIINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
-EXTRA_DIST = make-h2x m2h internal.h java.h modulemap.el fcall_objc.h fcall_java.h _fcall.m COM.h macros.h
+EXTRA_DIST = make-h2x m2h internal.h java.h modulemap.el fcall_objc.h fcall_java.h _fcall.m COM.h
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(JAVAINCLUDES) $(HDF5INCLUDES) $(FFIINCLUDES)
 
@@ -43,7 +43,8 @@ defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h	  \
 	FCall.h FArguments.h defalloc.h deftype.h directory.h \
 	JavaProxy.h JavaClassProxy.h JavaCollection.h JavaCollectionIndex.h \
 	javavars.h \
-	COMProxy.h
+	COMProxy.h \
+	macros.h
 
 $(OBJECTS): version.h
 
