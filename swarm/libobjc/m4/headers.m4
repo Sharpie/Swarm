@@ -12,6 +12,7 @@ case "$target_os" in
   linux) target_os=linux-gnu ;;
   irix6.5) target_os=irix6 ;;
   hpux9* | hpux10*) target_os=hpux ;;
+  darwin5.2) target_os=darwin ;;
 esac
 
 

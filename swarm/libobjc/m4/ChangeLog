@@ -1,3 +1,7 @@
+2002-01-16  Marcus G. Daniels  <mgd@marcus.santafe.edu>
+
+	* headers.m4: Add case for darwin.
+
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* headers.m4: Add solaris2.8 -> solaris2 conversion.
