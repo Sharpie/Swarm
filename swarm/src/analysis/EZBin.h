@@ -3,11 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objectbase/MessageProbe.h>
+#import <objectbase/SwarmObject.h>
 
 // EZBin object: used to generate histograms.
 
-@interface EZBin : MessageProbe
+@interface EZBin : SwarmObject
 {
   int graphics;
   id aHisto;
@@ -29,6 +29,7 @@
   int count;
   int outliers;
   id collection;
+  SEL probedSelector;
 
   double minval, maxval, average, average2, std;
 }
@@ -44,6 +45,7 @@
 - setLowerBound: (double)theMin;
 - setUpperBound: (double)theMax;
 - setCollection: (id)aCollection;
+- setProbedSelector: (SEL)aSel;
 
 - reset;
 - update;

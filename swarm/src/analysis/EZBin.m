@@ -13,6 +13,8 @@
 
 #import <tkobjc/control.h>
 
+#include <objc/objc-api.h>
+
 @implementation EZBin
 
 + createBegin: aZone
@@ -80,6 +82,12 @@
 - setCollection: aCollection
 {
   collection = aCollection;
+  return self;
+}
+
+- setProbedSelector: (SEL) aSel
+{
+  probedSelector = aSel;
   return self;
 }
 
@@ -160,12 +168,20 @@
 - update
 {
   id iter, obj;
-  
+  char type0 = sel_get_type (sel_get_any_typed_uid (sel_get_name (probedSelector)))[0];
+
   iter = [collection begin: [self getZone]];
   while ((obj = [iter next]))
     {
       int i;
-      double v = [self doubleDynamicCallOn: obj];
+      double v;
+      
+      if (type0 == _C_DBL)
+        v = (* ((double (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
+      else if (type0 == _C_FLT)
+        v = (double)(* ((float (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
+      else
+        v = (double)(* ((int (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
       
       if (v > max || v < min)
         {
