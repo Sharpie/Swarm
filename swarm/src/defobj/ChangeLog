@@ -1,3 +1,7 @@
+2000-02-12    <mgd@HELEN>
+
+	* Makefile.am ($(srcdir)/modulemap.c): Don't pass SWARMSRCDIR here.
+
 2000-02-12    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump.  Version 2.1.
