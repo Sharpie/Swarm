@@ -110,7 +110,7 @@ else
       USEDOSCLASSPATH=yes
       # ${jdkdir}/lib/kaffe is included so that .la file can be found
       JAVALIBS="`cygpath -w ${jdkdir}/bin`;`cygpath -w ${jdkdir}/lib/kaffe`"
-      JAVASWARM_DLL_NAME=libkaffeswarm
+      JAVASWARM_DLL_NAME=kaffeswarm
       JAVASWARM_DLL_ENTRY=''
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
