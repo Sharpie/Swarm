@@ -9,15 +9,10 @@ Description:  function to initialize activity group
 Library:      collections
 */
 
-#import <objc/objc.h>
-id LiteralString;
-
-#define LiteralString LiteralString_
-
 #include "collections.xm"
 #import <collections/Collection.h>
 
-#undef LiteralString
+extern id <String> LiteralString;
 
 //
 // _collections_implement() -- generate implementations for defobj module

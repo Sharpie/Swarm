@@ -862,6 +862,7 @@ USING
 
 //G: values for DupOption
 extern id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
+
 @end
 
 @deftype Sorted
@@ -1383,7 +1384,8 @@ USING
 - (BOOL)getLiteralFlag;
 @end
 
-@class LiteralString;
+//G: This is a modified string class that prints with quotes
+extern id <String> LiteralString;
 
 
 #import <collections/types.h>

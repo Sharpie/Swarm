@@ -1,3 +1,13 @@
+1998-06-05  Alex Lancaster  <alex@santafe.edu>
+
+	* collections.h (LiteralString): Made an extern id <String>,
+	rather than @class variable.  Added doc tag.
+	(DupOption): Put space between global variable tag and @end
+	directive - causing problems for make-h2x script.
+
+	* collections.m: (LiteralString): Likewise, removed dummy
+	#defines.
+	
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* collections.h: Updated documentation tags.
