@@ -8,11 +8,18 @@
 
 @interface WindowGeometryRecord: SwarmObject <_WindowGeometryRecord>
 {
-  id windowGeometryString;
+  BOOL positionFlag, sizeFlag;
+  unsigned width, height;
+  int x, y;
 }
-- (const char *)getWindowGeometry;
-- setWindowGeometry: (const char *)theWindowGeometryString;
-- (void)describe: outputCharStream;
+- setX: (int)x Y: (int)y;
+- setWidth: (unsigned)w Height: (unsigned)h;
+- (BOOL)getSizeFlag;
+- (BOOL)getPositionFlag;
+- (int)getX;
+- (int)getY;
+- (unsigned)getWidth;
+- (unsigned)getHeight;
 
 - in: expr;
 + in: aZone expr: expr;

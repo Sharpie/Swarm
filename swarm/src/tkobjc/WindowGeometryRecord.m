@@ -6,23 +6,26 @@
 #import <tkobjc/WindowGeometryRecord.h>
 #import <collections.h>
 
-#import <collections/predicates.h> // for literal_string_p
+#import <collections/predicates.h> // for stringp
 
 @implementation WindowGeometryRecord
 
 PHASE(Creating)
 
-- setWindowGeometry: (const char *)theWindowGeometryString;
+- setX: (int)theX Y: (int)theY
 {
-  if (theWindowGeometryString)
-    {
-      windowGeometryString = [[[String createBegin: [self getZone]]
-                                setLiteralFlag: YES]
-                               createEnd];
-      [windowGeometryString setC: theWindowGeometryString];
-    }
-  else
-    windowGeometryString = nil;
+  positionFlag = YES;
+  x = theX;
+  y = theY;
+
+  return self;
+}
+
+- setWidth: (unsigned)theWidth Height: (unsigned)theHeight
+{
+  sizeFlag = YES;
+  width = theWidth;
+  height = theHeight;
 
   return self;
 }
@@ -34,38 +37,116 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (const char *)getWindowGeometry;
+static int
+getVal (id obj)
 {
-  return [windowGeometryString getC];
+  if (stringp (obj))
+    return atoi ([obj getC]);
+  else
+    abort ();
 }
 
-- _badType_: obj
+static id
+getValueList (id index)
 {
-  abort ();
-}
+  id l = [index next];
+  
+  if ([l getFirst] != ArchiverLiteral)
+    abort ();
 
-- _badValue_: obj
-{
-  abort ();
+  return [l getLast];
 }
 
 - in: expr
 {
-  if (!literal_string_p (expr))
-    [self _badType_: expr];
-  [self setWindowGeometry: [expr getC]];
+  id index = [expr begin: scratchZone];
+  id obj;
+
+  while ((obj = [index next]))
+    {
+      if (stringp (obj))
+        {
+          const char *str = [obj getC];
+          if (str[0] == ':')
+            {
+              str++;
+
+              if (strcmp (str, "position") == 0)
+                {
+                  id l = getValueList (index);
+
+                  positionFlag = YES;
+                  x = getVal ([l getFirst]);
+                  y = getVal ([l getLast]);
+                }
+              else if (strcmp (str, "size") == 0)
+                {
+                  id l = getValueList (index);
+
+                  sizeFlag = YES;
+                  width = getVal ([l getFirst]);
+                  height = getVal ([l getLast]);
+                }
+              else
+                abort ();
+            }
+        }
+      else
+        abort ();
+    }
+
   return self;
 }
 
 - out: outputCharStream
 {
-  [windowGeometryString out: outputCharStream];
+  char buf[20];
+
+  if (sizeFlag)
+    {
+      [outputCharStream catC: " :size '("];
+      sprintf (buf, "%u %u", width, height);
+      [outputCharStream catC: buf];
+      [outputCharStream catC: ")"];
+    }
+  if (positionFlag)
+    {
+      [outputCharStream catC: " :position '("];
+      sprintf (buf, "%d %d", x, y);
+      [outputCharStream catC: buf];
+      [outputCharStream catC: ")"];
+    }
   return self;
 }
 
-- (void)describe: outputCharStream
+- (BOOL)getPositionFlag
 {
-  [outputCharStream catC: [windowGeometryString getC]];
+  return positionFlag;
+}
+
+- (BOOL)getSizeFlag
+{
+  return sizeFlag;
+}
+
+- (unsigned)getWidth
+{
+  return width;
+}
+
+- (unsigned)getHeight
+{
+  return height;
+}
+
+- (int)getX
+{
+  return x;
+}
+
+- (int)getY
+{
+  return y;
 }
 
 @end

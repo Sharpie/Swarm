@@ -144,7 +144,7 @@ PHASE(Using)
   return h;
 }
 
-- (int)getPositionX
+- (int)getX
 {
   unsigned w, h;
   int x, y;
@@ -155,7 +155,7 @@ PHASE(Using)
   return x;
 }
 
-- (int)getPositionY
+- (int)getY
 {
   unsigned w, h;
   int x, y;
@@ -194,7 +194,7 @@ PHASE(Using)
   return [[self setWidth: w] setHeight: h];
 }
 
-- setPositionX: (int)x Y: (int)y
+- setX: (int)x Y: (int)y
 {
   char s[128];
 

@@ -27,14 +27,14 @@
 - (const char *)getWindowGeometry;		  // get geometry as a string
 - (unsigned)getWidth;				  // get geometry values
 - (unsigned)getHeight;
-- (int)getPositionX;
-- (int)getPositionY;
+- (int)getX;
+- (int)getY;
 
 - setWidth: (unsigned)w Height: (unsigned)h;	  // set size
 - setWidth: (unsigned)w;
 - setHeight: (unsigned)h;
 - setWindowGeometry: (const char *)s;             // set geometry as a string
-- setPositionX: (int) x Y: (int) y;		  // set window position.
+- setX: (int) x Y: (int) y;		  // set window position.
 
 - setWindowTitle: (const char *)s;		  // window manager title
 

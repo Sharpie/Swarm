@@ -12,12 +12,14 @@
   id destroyNotificationTarget;
   SEL destroyNotificationMethod;
   BOOL destroyedFlag;
+  BOOL saveSizeFlag;
 }
 
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)destroyNotificationMethod;
 - disableDestroyNotification;
 - setWindowGeometryRecordName: (const char *)recordName;
+- setSaveSizeFlag: (BOOL)saveSizeFlag;
 - loadWindowGeometryRecord;
 - updateArchiver;
 - createEnd;

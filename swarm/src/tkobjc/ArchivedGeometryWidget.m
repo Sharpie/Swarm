@@ -26,9 +26,16 @@ PHASE(Creating)
   return obj;
 }
 
-- setWindowGeometryRecordName : (const char *)name
+- setWindowGeometryRecordName: (const char *)name
 {
   windowGeometryRecordName = name;
+  return self;
+}
+
+- setSaveSizeFlag: (BOOL)theSaveSizeFlag
+{
+  saveSizeFlag = theSaveSizeFlag;
+
   return self;
 }
 
@@ -48,7 +55,14 @@ PHASE(Creating)
   archiverRegister (self);
   windowGeometryRecord = [self loadWindowGeometryRecord];
   if (windowGeometryRecord)
-    [self setWindowGeometry: [windowGeometryRecord getWindowGeometry]];
+    {
+      if ([windowGeometryRecord getSizeFlag])
+        [self setWidth: [windowGeometryRecord getWidth]
+              Height: [windowGeometryRecord getHeight]];
+      if ([windowGeometryRecord getPositionFlag])
+        [self setX: [windowGeometryRecord getX]
+              Y: [windowGeometryRecord getY]];
+    }
   return self;
 }
 
@@ -69,8 +83,11 @@ PHASE(Using)
       
       if (windowGeometryRecord == nil)
         windowGeometryRecord = [WindowGeometryRecord create: [self getZone]];
-      
-      [windowGeometryRecord setWindowGeometry: [self getWindowGeometry]];
+
+      if (saveSizeFlag)
+        [windowGeometryRecord setWidth: [self getWidth]
+                              Height: [self getHeight]];
+      [windowGeometryRecord setX: [self getX] Y: [self getY]];
       archiverPut (windowGeometryRecordName, windowGeometryRecord);
     }
   return self;

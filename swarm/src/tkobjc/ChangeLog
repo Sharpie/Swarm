@@ -1,3 +1,32 @@
+1998-07-01  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* WindowGeometryRecord.m ([WindowGeometryRecord -in:]): Recognize
+	:position and :size keywords.
+	(getVal, getValueList): New functions.
+	([WindowGeometryRecord -out:]): Modify to output :size and :position
+	lists per sizeFlag and positionFlag.
+
+	* WindowGeometryRecord.h (WindowGeometryRecord): New ivars
+	positionFlag and sizeFlag.
+
+	* WindowGeometryRecord.[hm]: Remove -getWindowGeometry and
+	-setWindowGeometry:.  Add setX:Y:, setWidth:Height:, -getX, -getY,
+	-getWidth, -getHeight, -getSizeFlag, -getPositionFlag.
+
+	* Widget.[hm]: Remove "position" from name of getPositionX,
+	getPositionY, and setPositionX:Y:.
+
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-setSaveSizeFlag:]):  New method.
+	([ArchivedGeometryWidget -registerAndLoad]): Check to see
+	if size or position are set in geometry record, and if so set them
+	in the widget.
+	([ArchivedGeometryWidget -updateArchiver]): Use setWidth:Height: 
+	instead of setWindowGeometry:.
+
+	* ArchivedGeometryWidget.h (ArchivedGeometryWidget): New ivar
+	saveSizeFlag.  Declare -setSaveSizeFlag:.
+
 1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* TkExtra.m ([TkExtra -getBltFullVersion]): Put blt_versions
