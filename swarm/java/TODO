@@ -37,3 +37,6 @@ Ensure that javaswarm and javacswarm get installed with execute permissions
 Handle long PATHs in InstallSheild (PathSet error)
 
 Support hdf5-1.2.0
+
+Get color indexes working for multiple calls to setColormap
+  - when are there multiple entries on a dib?
