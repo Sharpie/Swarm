@@ -1,0 +1,3 @@
+2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* swarmx/buildlibs.sh: no more continue through build errors
