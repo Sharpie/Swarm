@@ -1,3 +1,4 @@
 #undef PACKAGE
 #undef VERSION
 #undef USE_FFCALL
+#undef POINTER_FMT_HEX_PREFIX

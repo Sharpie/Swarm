@@ -148,6 +148,7 @@ AC_ARG_WITH(pngincludedir,
 md_FIND_PNG
 md_CHECK_INLINING
 md_CHECK_OBJC_LIBS
+md_CHECK_POINTER_FMT
 
 AC_CHECK_LIB(dl,main)
 md_REPLACE_FUNCS(memchr memcpy memset realpath stpcpy strchr strcmp strdup strlen strncmp strndup strnlen strpbrk strsep)
