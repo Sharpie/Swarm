@@ -143,7 +143,7 @@ matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
                          &pair->value.methodIndex,
                          &pair->value.methodInfo)))
         {
-          pair->value.iid = iid;
+          pair->value.methodIID = iid;
           return (void *) pair;
         }
       NS_RELEASE (interface);
@@ -346,6 +346,19 @@ selectorCreate (COMmethod cMethod)
   return cSel;
 }
 
+COMmethod
+selectorMethod (COMselector cSel)
+{
+  COMmethod cMethod;
+  swarmISelector *_cSel = NS_STATIC_CAST (swarmISelector *, cSel);
+
+  if (!NS_SUCCEEDED (_cSel->GetMethod (&cMethod)))
+    abort ();
+  
+  return cMethod;
+}
+
+
 COMselector
 selectorQuery (COMobject cObj)
 {
@@ -450,14 +463,14 @@ selectorJSInvoke (COMselector cSel, COMobject cObj, void *params)
 }
 
 PRBool
-findMethod (nsISupports *obj, const char *methodName, nsIID **iid, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
+findMethod (nsISupports *obj, const char *methodName, const nsIID **iid, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
 {
   struct method_pair pair = {{ obj, methodName }};
 
   if (find (matchMethodName, &pair))
     {
       *index = pair.value.methodIndex;
-      *iid = pair.value.iid;
+      *iid = pair.value.methodIID;
       *methodInfo = pair.value.methodInfo;
       return PR_TRUE;
     }
@@ -519,7 +532,7 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
           
           struct method_value *method = new method_value;
           
-          if (!NS_SUCCEEDED (interfaceInfo->GetIID (&method->iid)))
+          if (!NS_SUCCEEDED (interfaceInfo->GetIID ((nsIID **) &method->methodIID)))
             abort ();
           method->methodIndex = i;
           method->methodInfo = methodInfo;
@@ -780,7 +793,7 @@ COMmethodInvoke (COMmethod cMethod, COMobject obj, void *params)
   nsISupports *_obj = NS_STATIC_CAST (nsISupports *, obj);
   nsISupports *interface;
 
-  if (!NS_SUCCEEDED (_obj->QueryInterface (*method->iid,
+  if (!NS_SUCCEEDED (_obj->QueryInterface (*method->methodIID,
                                            (void **) &interface)))
     abort ();
 

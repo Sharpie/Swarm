@@ -1,3 +1,5 @@
+#ifndef __COMsupport_h__
+#define __COMsupport_h__
 #include "nsISupports.h"
 #include "nsIInterfaceInfo.h"
 #include <objc/objc.h>
@@ -12,7 +14,7 @@ void printGetters (nsISupports *obj);
 fcall_type_t JSToFcallType (unsigned type);
 
 struct method_value {
-  nsIID *iid;
+  const nsIID *methodIID;
   PRUint16 methodIndex;
   const nsXPTMethodInfo *methodInfo;
 };
@@ -42,6 +44,7 @@ fcall_type_t selectorArgFcallType (COMselector cSel, unsigned argIndex);
 void selectorCOMInvoke (COMselector cSel, COMobject obj, void *params);
 void selectorJSInvoke (COMselector cSel, COMobject obj, void *params);
 COMselector selectorCreate (COMmethod cMethod);
+COMmethod selectorMethod (COMselector cSel);
 
 void *COMcreateParams (unsigned size);
 void COMfreeParams (void *args);
@@ -82,3 +85,4 @@ swarmITyping *COM_add_object_COM (swarmITyping *cObject, id oObject);
 #define SD_COM_ENSURE_THIS_OBJECT_OBJC() SD_COM_ENSURE_OBJECT_OBJC(NS_STATIC_CAST(swarmITyping*,this))
 #define SD_COM_ADD_THIS_OBJECT_COM(oObject) COM_add_object_COM (NS_STATIC_CAST(swarmITyping*,this),oObject)
 #define SD_COM_UPDATE_PHASE_RETURN(oObject, type) *ret = NS_STATIC_CAST (type, swarm_directory_update_phase_COM (oObject))
+#endif

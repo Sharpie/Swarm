@@ -7,6 +7,7 @@
 #include "xptinfo.h"
 #include "xptcall.h"
 #include "jsapi.h"
+#include "COMsupport.h" // method_value
 
 class swarmSelectorImpl: public swarmISelector, public swarmITyping
 {
@@ -17,9 +18,7 @@ public:
   unsigned argCount;
   const char *methodName;
 
-  const nsIID *methodIID;
-  PRUint16 methodIndex;
-  const nsXPTMethodInfo *methodInfo;
+  struct method_value method;
 
   JSFunction *jsFunc;
   unsigned *jsArgTypes;

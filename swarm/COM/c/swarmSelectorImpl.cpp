@@ -41,16 +41,24 @@ swarmSelectorImpl::GetCid (nsCID **acid)
 }
 
 NS_IMETHODIMP
+swarmSelectorImpl::GetMethod (COMmethod *ret)
+
+{
+  *ret = &method;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
 swarmSelectorImpl::IsBooleanReturn (PRBool *ret)
 {
-  if (methodInfo)
+  if (method.methodInfo)
     {
-      PRUint16 count = methodInfo->GetParamCount ();
+      PRUint16 count = method.methodInfo->GetParamCount ();
       
       if (count > 0)
         {
           PRUint16 i = count - 1;
-          const nsXPTParamInfo param = methodInfo->GetParam (i);
+          const nsXPTParamInfo param = method.methodInfo->GetParam (i);
           
           if (param.IsRetval ())
             *ret = param.GetType () == nsXPTType::T_BOOL;
@@ -68,14 +76,14 @@ swarmSelectorImpl::IsBooleanReturn (PRBool *ret)
 NS_IMETHODIMP
 swarmSelectorImpl::IsVoidReturn (PRBool *ret)
 {
-  if (methodInfo)
+  if (method.methodInfo)
     {
-      PRUint16 count = methodInfo->GetParamCount ();
+      PRUint16 count = method.methodInfo->GetParamCount ();
       
       if (count > 0)
         {
           PRUint16 i = count - 1;
-          const nsXPTParamInfo param = methodInfo->GetParam (i);
+          const nsXPTParamInfo param = method.methodInfo->GetParam (i);
           *ret = !param.IsRetval ();
         }
       else
@@ -112,8 +120,8 @@ swarmSelectorImpl::GetArgFcallType (unsigned argIndex, unsigned short *retPtr)
                        : jsArgTypes[argIndex]);
       ret = JSToFcallType (type);
     }
-  else if (methodInfo)
-    ret = methodParamFcallType (methodInfo, argIndex);
+  else if (method.methodInfo)
+    ret = methodParamFcallType (method.methodInfo, argIndex);
   *retPtr = (unsigned) ret;
   return NS_OK;
 }
@@ -198,14 +206,14 @@ swarmSelectorImpl::SetVoidReturn ()
 NS_IMETHODIMP
 swarmSelectorImpl::IsJavaScript (PRBool *ret)
 {
-  *ret = methodInfo == NULL;
+  *ret = method.methodInfo == NULL;
   return NS_OK;
 }
 
 void
 swarmSelectorImpl::setupCOMselector ()
 {
-  uint8 paramCount = methodInfo->GetParamCount ();
+  uint8 paramCount = method.methodInfo->GetParamCount ();
   PRBool voidReturn;
   
   if (!NS_SUCCEEDED (IsVoidReturn (&voidReturn)))
@@ -214,18 +222,16 @@ swarmSelectorImpl::setupCOMselector ()
   argCount = (unsigned) paramCount;
   if (!voidReturn)
     argCount--;
-  methodName = (char *) methodInfo->GetName ();
+  methodName = (char *) method.methodInfo->GetName ();
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::CreateFromMethod (COMmethod method,
+swarmSelectorImpl::CreateFromMethod (COMmethod inmethod,
                                      swarmISelector **ret)
 {
-  struct method_value *value = (struct method_value *) method;
+  struct method_value *value = (struct method_value *) inmethod;
 
-  methodIID = value->iid;
-  methodIndex = value->methodIndex;
-  methodInfo = value->methodInfo;
+  method = *value;
   
   jsArgTypes = NULL;
 
@@ -269,12 +275,14 @@ swarmSelectorImpl::Create (nsISupports *obj,
       methodName = JS_strdup (cx, wantedMethodName);
       if (argCount > 0)
         jsArgTypes = (unsigned *) JS_malloc (cx, sizeof (unsigned) * argCount);
-      methodInfo = NULL;
+      method.methodInfo = NULL;
     }
   else
     {
       if (!findMethod (obj, wantedMethodName,
-                       &methodIID, &methodIndex, &methodInfo))
+                       &method.methodIID,
+                       &method.methodIndex,
+                       &method.methodInfo))
         return NS_ERROR_NOT_IMPLEMENTED;
 
       setupCOMselector ();
@@ -290,17 +298,18 @@ swarmSelectorImpl::COMinvokeX (nsISupports *obj, nsXPTCVariant *params)
   nsISupports *methodInterface;
   nsresult rv;
 
-  if (!methodInfo)
+  if (!method.methodInfo)
     abort ();
 
-  rv = obj->QueryInterface (*methodIID, (void **) &methodInterface);
+  rv = obj->QueryInterface (*method.methodIID,
+                            (void **) &methodInterface);
 
   if (!NS_SUCCEEDED (rv))
     return rv;
 
   rv = XPTC_InvokeByIndex (methodInterface,
-                           methodIndex,
-                           methodInfo->GetParamCount (),
+                           method.methodIndex,
+                           method.methodInfo->GetParamCount (),
                            params);
   NS_RELEASE (methodInterface);
   return rv;
