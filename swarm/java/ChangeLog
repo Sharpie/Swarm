@@ -1,3 +1,17 @@
+1999-02-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*java-path*, *c-path*): New constants.
+	(with-protocol-c-file): Use *c-path*.
+	(*stub-directory*): Remove.
+	(module-path): Don't use *stub-directory*.
+	(java-print-makefiles): Simplify to use templates.  Generate
+	only Makefile.common with protocol and module lists, and
+	per-module Makefiles.
+	(java-print-classes): Use *java-path* instead of literal.
+
+	* Makefile.am (stubs): Run stub generation in c and swarm
+	directories.
+
 1999-02-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (removed-method-p): Avoid all methods with an

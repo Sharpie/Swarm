@@ -27,3 +27,5 @@ java-stub.elc: protocol.elc
 
 stubs: java-stub.elc
 	$(EMACS) -batch -l ./java-stub.elc -f java-run-all
+	$(MAKE) -C c stubs
+	$(MAKE) -C swarm stubs

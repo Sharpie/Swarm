@@ -3,8 +3,10 @@
  (push (getenv "BUILDDIR") load-path))
 (require 'protocol)
 
+(defconst *java-path* "swarm/")
+(defconst *c-path* "c/")
+
 (defvar *last-protocol*)
-(defconst *stub-directory* "./")
 
 (defun freakyp (java-type)
   (eq java-type 'freaky))
@@ -247,8 +249,7 @@
     (make-directory dir)))
 
 (defun module-path (module-sym)
-  (concat *stub-directory*
-          "swarm/"
+  (concat *java-path*
           (symbol-name module-sym)
           "/"))
 
@@ -264,11 +265,10 @@
         ,@body))))
 
 (defmacro with-protocol-c-file (protocol &rest body)
-  (let ((dir (make-symbol "dir")))
-    `(let ((,dir (module-path (module-sym (protocol-module ,protocol)))))
-      (ensure-directory ,dir)
-      (with-temp-file (concat ,dir (protocol-name ,protocol) ".c")
-        ,@body))))
+  `(progn
+    (ensure-directory *c-path*)
+    (with-temp-file (concat *c-path* (protocol-name ,protocol) ".c")
+      ,@body)))
 
 (defun java-print-package (protocol)
   (insert "package swarm.")
@@ -400,39 +400,43 @@
           (insert "\n"))))
 
 (defun java-print-makefiles ()
-  (loop for module-sym being each hash-key of *module-hash-table* 
-        using (hash-value protocol-list)
-        do
-        (with-temp-file (concat (module-path module-sym) "Makefile")
-          (insert "CC=gcc\n")
-          (insert "CPPFLAGS=-I/opt/SUNWjava/usr/java1.2/include -I/opt/SUNWjava/usr/java1.2/include/solaris\n")
-          (insert "\n")
-          (insert "%.class: %.java\n")
-          (insert "\tjavac -sourcepath ../.. $<\n")
-          (insert "\n")
-          (insert "all:")
+  (ensure-directory *c-path*)
+  (with-temp-file "Makefile.common"
+    (loop for module-sym being each hash-key of *module-hash-table* 
+          using (hash-value protocol-list)
+          for dir = (module-path module-sym)
+          do
+          (insert (symbol-name module-sym))
+          (insert "PROTOCOLS =")
           (loop for obj in protocol-list
                 when (and (protocol-p obj)
                           (not (the-CREATABLE-protocol-p obj)))
                 do
                 (insert " ")
-                (insert (protocol-name obj))
-                (insert ".o")
-                (loop for phase in '(:creating :using :setting)
-                      do
-                      (insert " ")
-                      (insert (java-interface-name obj phase))
-                      (insert ".class")
-                      unless (eq phase :setting)
-                      do
-                      (insert " ")
-                      (insert (java-class-name obj phase))
-                      (insert ".class")))
-          (insert "\n"))))
-  
+                (insert (protocol-name obj)))
+          (insert "\n\n"))
+    (insert "MODULES =")
+    (loop for module-sym being each hash-key of *module-hash-table*
+          do
+          (insert " ")
+          (insert (symbol-name module-sym)))
+    (insert "\n"))
+  (loop for module-sym being each hash-key of *module-hash-table*
+        using (hash-value protocol-list)
+        for dir = (module-path module-sym)
+        do
+        (ensure-directory dir)
+        (with-temp-file (concat dir "Makefile")
+          (insert "include ../../Makefile.common\n")
+          (insert "modulePROTOCOLS = $(")
+          (insert (symbol-name module-sym))
+          (insert "PROTOCOLS")
+          (insert ")\n")
+          (insert "include ../Makefile.rules\n"))))
+
 (defun java-print-classes ()
   (interactive)
-  (ensure-directory "swarm")
+  (ensure-directory *java-path*)
   (java-print-makefiles)
   (loop for protocol being each hash-value of *protocol-hash-table* 
         unless (the-CREATABLE-protocol-p protocol)
