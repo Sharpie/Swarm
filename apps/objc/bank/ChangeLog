@@ -1,3 +1,12 @@
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* BankObserverSwarm.m: Include analysis.h.
+
+	* BankObserverSwarm.h (BankObserverSwarm): Instead of being
+	statically typed, make investorEntropy,
+	and borrowerEntropy objects that conform to the analysis 
+	Entropy protocol.
+
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* BankBatchSwarm.m: Include activity.h instead of collections.h.

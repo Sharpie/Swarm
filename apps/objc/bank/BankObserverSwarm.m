@@ -2,6 +2,7 @@
 #import "BankObserverSwarm.h"
 #import "BankModelSwarm.h"
 #import <simtoolsgui.h> // ActiveGraph
+#import <analysis.h> // Entropy
 
 @implementation BankObserverSwarm
 
