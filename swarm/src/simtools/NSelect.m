@@ -3,24 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-/*
-Name:         NSelect.m
-Description:  Selection Routine
-Library:      simtools
-*/
-
 #import <simtools.h>
 #import <simtools/NSelect.h>
 #import <random.h>
 
-//S: A class to select exactly N elements at random from a collection.
-//D: NSelect selects exactly N elements from a collection without repetition.
-//D: A target collection must be provided.
 @implementation NSelect
 
-//M: The select:from:into: method selects exactly N elements from a collection
-//M: without repetition into another collection.  The selection algorithm was 
-//M: written by Donald Knuth.
 + (void)select: (int)n from: aCollection into: bCollection
 {
   id a;

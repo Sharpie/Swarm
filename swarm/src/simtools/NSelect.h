@@ -8,9 +8,10 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface NSelect : SwarmObject {
+@interface NSelect: SwarmObject
+{
 }
 
-+(void) select: (int) n from: aCollection into: bCollection ;
++ (void)select: (int) n from: aCollection into: bCollection;
 
 @end
