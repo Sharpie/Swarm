@@ -1,7 +1,7 @@
 (require 'cl)
 
 (eval-and-compile
- (push (getenv "BUILDDIR") load-path))
+ (push (getenv "TOP_BUILDDIR") load-path))
 
 (require 'protocol)
 

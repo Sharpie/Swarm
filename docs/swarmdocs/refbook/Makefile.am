@@ -41,7 +41,7 @@ EXAMPLES = GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
 gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
 	- (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.GRID.SGML.EXAMPLE.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $(gridturtle_srcdir)/$$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > $@
 
-sgml.elc: $(abs_top_builddir)/common.elc protocol.elc
+sgml.elc: $(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc
 
 refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/analysis/analysis.h \
@@ -53,10 +53,10 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/simtools/simtools.h \
 	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
 	$(swarm_srcdir)/src/space/space.h \
-	$(abs_top_builddir)/common.elc protocol.elc sgml.elc
+	$(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc sgml.elc
 	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l sgml.elc -f run-all $(swarm_dossrcdir)
 
-graph: $(abs_top_builddir)/common.elc protocol.elc graph.elc
+graph: $(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc graph.elc
 	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l graph.elc -f create-graphs
 	for m in $(MODULES); do dot -Tps $$m.dot > $$m.ps ; dot -Tps $${m}-singlepage.dot > $${m}-singlepage.ps ; done
 	dot -Tps protocols.dot > protocols.ps

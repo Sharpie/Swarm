@@ -1,3 +1,12 @@
+1999-06-22  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (sgml.elc): Depend on
+	$(abs_top_builddir)/protocol.elc, rather than just protocol.elc.
+	(refindex.sgml $(PAGES)): Likewise.
+	(graph): Likewise.
+
+	* sgml.el (load-path): Set to TOP_BUILDDIR, rather than BUILDDIR.
+
 1999-06-21  Alex Lancaster  <alex@santafe.edu>
 
 	* sgml.el (sgml-refmeta): If deprecated protocol, print Deprecated
