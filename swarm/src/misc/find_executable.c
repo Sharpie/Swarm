@@ -124,13 +124,12 @@ find_executable (const char *program_name)
       resolve:
     /* resolve program_name */
     {
-      executable_name = (char *) xmalloc (MAXPATHLEN);
-      if (realpath ((char *)program_name, executable_name) == NULL)
-        {
-          XFREE (executable_name);
-          goto notfound;
-        }
-      return executable_name;
+      char buf[MAXPATHLEN];
+
+      memset (buf, 0, MAXPATHLEN);
+      if (realpath ((char *) program_name, buf) == NULL)
+        goto notfound;
+      return strdup (buf);
     }
     errno = ENOENT;
   notfound:

@@ -1,3 +1,9 @@
+1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* find_executable.c (find_executable): Have realpath write
+	into a zeroed-out stack array, then strdup the result -- eliminate
+	a Checker warning.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute
