@@ -1,3 +1,8 @@
+2004-08-12  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* config.sub, config.guess, ltmainsh: update to
+	libtool 1.5.8.
+	
 2004-01-22  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* configure.in
