@@ -31,7 +31,7 @@
   
   p = stpcpy (bcmd, [target getObjectName]);
   strcpy (p, " dynamic");
-  [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, command];
+  [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, bcmd];
   
   return self;
 }
