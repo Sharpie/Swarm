@@ -2,6 +2,9 @@
 
 	* Zone.m: Include string.h for memset.
 
+	* defobj.m: Don't include nil_method redefinition unless we
+	are using gcc >= 2.8.0.
+
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.m: Reformatting throughout.

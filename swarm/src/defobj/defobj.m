@@ -96,6 +96,7 @@ nameToObject (const char *name)
   abort ();
 }
 
+#if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)
 id
 nil_method (id receiver, SEL op, ...)
 {
@@ -104,3 +105,4 @@ nil_method (id receiver, SEL op, ...)
 
   return nil;
 }
+#endif
