@@ -72,8 +72,8 @@ avcall-mipsn32.o : $(srcdir)/avcall-mipsn32.s
 avcall-mips64.o : $(srcdir)/avcall-mips64.s
 	$(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-mips64.s
 
-avcall-alpha.o : $(srcdir)/avcall-alpha.s
-	$(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-alpha.s
+avcall-alphaev56.o avcall-alpha.o : $(srcdir)/avcall-alpha.s
+	$(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-alpha.s -o $@
 
 avcall-hppa.o : $(srcdir)/avcall-hppa.s
 	$(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-hppa.s
