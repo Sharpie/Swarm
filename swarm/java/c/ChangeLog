@@ -1,9 +1,23 @@
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (compare_java_objects, compare_objc_objects): Moved
+	into java_directory_init.  Use IsSameObject for former.
+	(java_directory_update): Create GlobalRefs when items are added 
+	to tree.
+	(java_directory_switchupdate, java_directory_drop): Call DeleteRef
+	when items are removed from tree.
+
+	* directory.[hm] (java_directory_java_find, java_directory_update,
+	java_directory_switchupdate, java_directory_update_java,
+	java_directory_switchupdate_java): Add JNIEnv first argument.
+
+	* directory.h (JFINDOBJC, JFINDJAVA, JUPDATE, JSWITCHUPDATE):
+	Accomodate.
+	
 	* directory.[hm] (java_instantiate_name): Rename from java_instantiate.
 	(java_instantiate): Now takes jclass as argument.
 
-	* directory.h (JINSTANTIATENAME, JINSTANTIATE): Likewise.
+ 	* directory.h (JINSTANTIATENAME, JINSTANTIATE): Likewise.
 
 1999-03-19  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
 

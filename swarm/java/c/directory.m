@@ -80,26 +80,8 @@ create_class_refs (JNIEnv *env)
     }
 }
 
-static int 
-compare_java_objects (const void *A, const void *B, void *PARAM)
-{
-  if (((jobject_id *) A)->java_object < ((jobject_id *) B)->java_object)
-    return -1;
-
-  return (((jobject_id *) A)->java_object > ((jobject_id *) B)->java_object);
-}
-
-static int 
-compare_objc_objects (const void *A, const void *B, void *PARAM)
-{
-  if (((jobject_id *) A)->objc_object < ((jobject_id *) B)->objc_object)
-    return -1;
-
-  return (((jobject_id *) A)->objc_object > ((jobject_id *) B)->objc_object);
-}
-
 jobject_id *
-java_directory_java_find (jobject java_object)
+java_directory_java_find (JNIEnv *env, jobject java_object)
 {
   jobject_id pattern;
   jobject_id *result; 
@@ -107,7 +89,8 @@ java_directory_java_find (jobject java_object)
   pattern.java_object = java_object;
   result = avl_find (java_tree, &pattern);
   if (!result) 
-    result = java_directory_update (java_object,
+    result = java_directory_update (env,
+                                    java_object,
                                     [JavaProxy create: globalZone]);
   return result;
 }
@@ -126,7 +109,7 @@ java_directory_objc_find (id objc_object)
 }
 
 jobject_id * 
-java_directory_update (jobject java_object, id objc_object)
+java_directory_update (JNIEnv *env, jobject java_object, id objc_object)
 {
   jobject_id *data;
   jobject_id **foundptr;
@@ -143,42 +126,53 @@ java_directory_update (jobject java_object, id objc_object)
 
   if (*foundptr != data)
     XFREE (data);
+  else
+    (*env)->NewGlobalRef (env, java_object);
     
   return *foundptr;
 }
 
 jobject_id * 
-java_directory_switchupdate (jobject old_java_object,
+java_directory_switchupdate (JNIEnv *env,
+                             jobject old_java_object,
                              jobject new_java_object,
                              id objc_object)
 {
   jobject_id old;
   jobject_id *data;
+  jobject_id *found;
   
   old.java_object = old_java_object;
   old.objc_object = objc_object;
-  avl_delete (java_tree, &old);
-  avl_delete (objc_tree, &old);
+  if (!avl_delete (objc_tree, &old))
+    abort ();
+
+  if (!(found = avl_delete (java_tree, &old)))
+    abort ();
+
+  (*env)->DeleteGlobalRef (env, found->java_object);
 
   data = xmalloc (sizeof (jobject_id));
   data->objc_object = objc_object;
   data->java_object = new_java_object;
 
-  return java_directory_update (new_java_object, objc_object);
+  return java_directory_update (env, new_java_object, objc_object);
 }
 
 jobject
-java_directory_update_java (jobject java_object, id objc_object)
+java_directory_update_java (JNIEnv *env, jobject java_object, id objc_object)
 {
-  return java_directory_update (java_object, objc_object)->java_object;
+  return java_directory_update (env, java_object, objc_object)->java_object;
 }
 
 jobject
-java_directory_switchupdate_java (jobject old_java_object,
+java_directory_switchupdate_java (JNIEnv *env,
+                                  jobject old_java_object,
                                   jobject new_java_object,
                                   id objc_object)
 {
-  return java_directory_switchupdate (old_java_object,
+  return java_directory_switchupdate (env,
+                                      old_java_object,
                                       new_java_object,
                                       objc_object)->java_object;
 }
@@ -203,18 +197,40 @@ java_instantiate_name (JNIEnv *env, const char *className)
 void
 java_directory_init (JNIEnv *env)
 {
+  int compare_java_objects (const void *A, const void *B, void *PARAM)
+    {
+      return ((*env)->IsSameObject (env,
+                                    ((jobject_id *) A)->java_object,
+                                    ((jobject_id *) B)->java_object) ==
+              JNI_FALSE);
+    }
+  int compare_objc_objects (const void *A, const void *B, void *PARAM)
+    {
+      if (((jobject_id *) A)->objc_object <
+          ((jobject_id *) B)->objc_object)
+        return -1;
+      
+      return (((jobject_id *) A)->objc_object >
+              ((jobject_id *) B)->objc_object);
+    }
+
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
   
   create_class_refs (env);
-  java_directory_update (c_globalZone, globalZone);
+  java_directory_update (env, c_globalZone, globalZone);
 }
 
 void
-java_directory_drop (void)
+java_directory_drop (JNIEnv *env)
 {
+  void destroy_func (void *data, void *param)
+    {
+      (*env)->DeleteGlobalRef (env, ((jobject_id *) data)->java_object);
+      XFREE (data);
+    }
   avl_destroy (java_tree, NULL);
-  avl_free (objc_tree);
+  avl_destroy (objc_tree, destroy_func);
 }
 
 SEL
