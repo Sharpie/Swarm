@@ -9,6 +9,12 @@
 #import <simtools/Archiver.h>
 #import <gui.h>
 
+#ifdef USE_JAVA
+#import <simtools/ControlPanel.h>
+#import <awtobjc/JavaControlPanel.h>
+#import <awtobjc/JavaInput.h>
+#endif
+
 // Type Symbols
 id <Symbol> Control, Probing, Spatial;
 // Error symbols
@@ -43,9 +49,27 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   //	       createActionCall: xprint
   //	       : destinationSchedule];
   
-  
+#ifndef USE_JAVA
   // Create the panel widget that will send the mouse control events to me.
   panel = [self createProcCtrl];
+#else
+  {
+    id buttons;
+
+    // make a control button GUI object
+    buttons = [JavaControlPanel create: [self getZone]];
+    // the Swarm controller needs to know about it
+    [ctrlPanel setCtlObj: buttons];
+    
+    // and, the control panel needs to know about the action cache
+    // so that it can queue up commands for it
+    [buttons setActionCache: self];
+  }
+#endif
+#ifdef USE_JAVA
+  // create an object to represent the global input queue
+  inputQueue = [[[JavaInput create: [self getZone]] init] createEnd]; 
+#endif
   
   //
   // Symbols
@@ -307,8 +331,14 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 // Finally, return a status that tells whether we need to quit.
 - doTkEvents
 {
+#ifndef USE_JAVA
   // do all events pending, but don't block.
   while (GUI_EVENT_ASYNC ()) {}
+#else
+  fprintf (stderr,"doTkEvents / checkEvents\n");
+  [inputQueue checkEvents];
+#endif
+
   return self;
 }
 
