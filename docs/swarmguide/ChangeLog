@@ -1,3 +1,8 @@
+1999-05-25  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.06.sgml: Cleaned up some typographical/editing mistakes,
+ 	added a section on creating graphs.
+
 1999-05-21  Alex Lancaster  <alex@santafe.edu>
 
 	* user1.01.sgml: Add description for all NOTE, TIP, IMPORTANT,
