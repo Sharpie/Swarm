@@ -53,7 +53,8 @@ jfieldID f_nameFid, f_retTypeFid,
   f_argTypesFid, f_objcFlagFid;
 
 extern id ControlStateRunning, ControlStateStopped,
-  ControlStateStepping, ControlStateQuit,ControlStateNextTime;
+  ControlStateStepping, ControlStateQuit,ControlStateNextTime, 
+  probeLibrary, probeDisplayManager, uniformIntRand, uniformDblRand;
   
 extern JNIEnv *jniEnv;
 
@@ -299,11 +300,12 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
     }
   else if (!result) 
     result = java_directory_update (env,
-                                    java_object,
-                                    [JavaProxy create: globalZone]);
-  
+				      java_object,
+				      [JavaProxy create: globalZone]);
+
   return result;
 }
+
 
 id
 java_directory_java_find_objc (JNIEnv *env, jobject java_object)
@@ -320,7 +322,7 @@ java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag)
     {
       jobject_id pattern;
       jobject_id *result; 
-      
+
       pattern.objc_object = objc_object;
       result = avl_find (objc_tree, &pattern);
 
@@ -328,7 +330,7 @@ java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag)
         {
           Class class = getClass (objc_object);
           jclass javaClass;
-
+	
 	  if (getBit (class->info, _CLS_DEFINEDCLASS))
             {
 
@@ -336,19 +338,24 @@ java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag)
 	      Class_s *nextPhase;
 	      nextPhase= ((BehaviorPhase_s *) class)->nextPhase;
               typeImpl = [class getTypeImplemented];
-              javaClass = java_class_for_typename (env,
-                                                   typeImpl->name,
-                                                   nextPhase == NULL);
+	      javaClass = java_class_for_typename (env,
+						   typeImpl->name,
+						   nextPhase == NULL); 
             }
           else
 	    {
 	      Type_c *typeImpl;
 	      typeImpl = [class getTypeImplemented];
-	      javaClass = java_class_for_typename (env,
-						   typeImpl->name,
-						   YES);
+	      if (typeImpl)
+		  javaClass = java_class_for_typename (env,
+						       typeImpl->name,
+						       YES);
+	       else 
+		   javaClass = java_class_for_typename (env, 
+						      [[objc_object getClass]
+							getName],
+						      YES);
 	    }
-          
           result = java_directory_update (env, 
                                           java_instantiate (env, javaClass),
                                           objc_object);
@@ -365,8 +372,7 @@ java_directory_objc_find_java (JNIEnv *env, id objc_object, BOOL createFlag)
   if (objc_object)
     {
       jobject_id *obj =
-        java_directory_objc_find (env, objc_object, createFlag);
-      
+		java_directory_objc_find (env, objc_object, createFlag);
       if (obj)
         return obj->java_object;
       else
@@ -380,7 +386,6 @@ java_directory_update (JNIEnv *env, jobject java_object, id objc_object)
 {
   jobject_id *data;
   jobject_id **foundptr;
-  
   data = xmalloc (sizeof (jobject_id));
   data->java_object = (*env)->NewGlobalRef(env, java_object);
   data->objc_object = objc_object;
@@ -388,14 +393,16 @@ java_directory_update (JNIEnv *env, jobject java_object, id objc_object)
   foundptr = (jobject_id **) avl_probe (java_tree, data);
   (*foundptr)->objc_object = objc_object;
 
-  foundptr = (jobject_id **) avl_probe (objc_tree, data);
-  (*foundptr)->java_object = data->java_object;
-
   if (*foundptr != data)
-      {
-	  (*env)->DeleteGlobalRef (env, data->java_object);
-	  XFREE (data);
-      }
+    {	
+      (*env)->DeleteGlobalRef (env, data->java_object);
+      XFREE (data);
+    }
+  else
+    {
+      foundptr = (jobject_id **) avl_probe (objc_tree, data);
+      (*foundptr)->java_object = data->java_object;
+    }
   return *foundptr;
 }
 
@@ -406,7 +413,6 @@ java_directory_switchupdate (JNIEnv *env,
                              id objc_object)
 {
   jobject_id old;
-  jobject_id *data;
   jobject_id *found;
 
   old.java_object = (*env)->NewGlobalRef(env, old_java_object);
@@ -418,11 +424,6 @@ java_directory_switchupdate (JNIEnv *env,
     abort ();
 
   (*env)->DeleteGlobalRef (env, found->java_object);
-
-  data = xmalloc (sizeof (jobject_id));
-  data->objc_object = objc_object;
-  data->java_object = (*env)->NewGlobalRef(env, new_java_object);
-
   return java_directory_update (env, new_java_object, objc_object);
 }
 
@@ -447,7 +448,13 @@ java_directory_switchupdate_java (JNIEnv *env,
 jobject
 java_instantiate (JNIEnv *env, jclass clazz)
 {
-  return (*env)->AllocObject (env, clazz);
+  jmethodID mid;
+  jobject value;
+  mid = (*env)->GetMethodID (env, clazz, "<init>","()V");
+  value = (*env)->AllocObject (env, clazz);
+  (*env)->CallVoidMethod (env, value, mid);
+  return value;
+
 }
 
 static jstring
@@ -579,7 +586,7 @@ java_next_phase (JNIEnv *env, jobject jobj)
   if (!(fid = (*env)->GetFieldID (env, class, "nextPhase", sig)))
     abort ();
   XFREE (sig);
-  return (*env)->GetObjectField (env, jobj, fid);
+  return (*env)->GetObjectField(env, jobj, fid);
 }
 
 int
@@ -609,58 +616,24 @@ java_directory_init (JNIEnv *env,
                      jobject swarmEnvironment)
 
 {
-  jobject o_globalZone, o_uniformIntRand, o_uniformDblRand,
-    o_probeLibrary, o_controlStateRunning, o_controlStateStopped,
-    o_controlStateStepping, o_controlStateQuit, o_controlStateNextTime;
-  jfieldID globalZoneFid, uniformIntRandFid, uniformDblRandFid,
-    probeLibraryFid, controlStateRunningFid, controlStateStoppedFid,
-    controlStateSteppingFid, controlStateQuitFid, controlStateNextTimeFid;
-  jclass class;
+  jclass c_SwarmEnvironment;
+  void setFieldInSwarm(char  *className,  char  *fieldName, id objcObject)
+    {
+      jclass clazz;
+      jfieldID fid;
+      jobject value;
+      const char *sig;
 
-  jclass probeLibraryClass =
-    java_class_for_typename (env, "ProbeLibrary", YES);
-  jclass zoneClass =
-    java_class_for_typename (env, "Zone", YES);
-  jclass uniformIntegerDistClass =
-    java_class_for_typename (env, "UniformIntegerDist", YES);
-  jclass uniformDoubleDistClass =
-    java_class_for_typename (env, "UniformDoubleDist", YES);
-  jclass symbolClass =
-    java_class_for_typename (env, "Symbol", YES);
-
-  const char *zoneClassSig,
-    *uniformIntegerDistClassSig, *uniformDoubleDistClassSig,
-    *probeLibraryClassSig, *symbolClassSig;
-
-  o_globalZone = (*env)->AllocObject (env, zoneClass);
-  o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
-
-  o_uniformIntRand = (*env)->AllocObject (env, uniformIntegerDistClass);
-  o_uniformIntRand = (*env)->NewGlobalRef (env, o_uniformIntRand);
-
-  o_uniformDblRand = (*env)->AllocObject (env, uniformDoubleDistClass);
-  o_uniformDblRand = (*env)->NewGlobalRef (env, o_uniformDblRand);
-
-  o_probeLibrary = (*env)->AllocObject (env, probeLibraryClass);
-  o_probeLibrary = (*env)->NewGlobalRef (env, o_probeLibrary);
-
-  o_controlStateRunning = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
-  o_controlStateStopped = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
-  o_controlStateStepping = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
-  o_controlStateQuit = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
-  o_controlStateNextTime = (*env)->NewGlobalRef (env, (*env)->AllocObject (env,symbolClass));
-
-  zoneClassSig =
-    create_signature_from_object (env, o_globalZone);
-  uniformIntegerDistClassSig =
-    create_signature_from_object (env, o_uniformIntRand);
-  uniformDoubleDistClassSig =
-    create_signature_from_object (env, o_uniformDblRand);
-  probeLibraryClassSig =
-    create_signature_from_object (env, o_probeLibrary);
-  symbolClassSig =
-    create_signature_from_object (env, o_controlStateRunning);
-
+      clazz = java_class_for_typename (env, className, YES);
+      value = (*env)->AllocObject (env, clazz);
+      sig = create_signature_from_object (env, value);
+      fid = (*env)->GetFieldID (env, c_SwarmEnvironment, fieldName, sig);
+      (*env)->SetObjectField (env,
+			      swarmEnvironment,
+			      fid, value);	
+     
+      java_directory_update (env, value, objcObject);
+    }
   jniEnv = env;
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
@@ -669,112 +642,22 @@ java_directory_init (JNIEnv *env,
   create_method_refs (env);
   create_field_refs (env);
 
-  if (!(class = (*env)->GetObjectClass (env, swarmEnvironment)))
+  if (!(c_SwarmEnvironment = (*env)->GetObjectClass (env, swarmEnvironment)))
     abort ();
-  
-  globalZoneFid = (*env)->GetFieldID (env, class, "globalZone", 
-                                      zoneClassSig);
-                                      
-  XFREE (zoneClassSig);
 
-  uniformIntRandFid = 
-      (*env)->GetFieldID (env, class, "uniformIntRand",
-                          uniformIntegerDistClassSig);
-
-  XFREE (uniformIntegerDistClassSig);
-
-  uniformDblRandFid =
-      (*env)->GetFieldID (env, class, "uniformDblRand",
-                          uniformDoubleDistClassSig);
-
-
-  XFREE (uniformDoubleDistClassSig);
-
-  probeLibraryFid = 
-    (*env)->GetFieldID (env, class, "probeLibrary",
-			probeLibraryClassSig);
+  setFieldInSwarm ("ProbeLibrary", "probeLibrary", probeLibrary);
+  setFieldInSwarm ("Zone", "globalZone", globalZone);
+  setFieldInSwarm ("UniformIntegerDist",  "uniformIntRand", uniformIntRand);
+  setFieldInSwarm ("UniformDoubleDist", "uniformDblRand", uniformDblRand);
+  setFieldInSwarm ("Symbol", "ControlStateRunning", ControlStateRunning);
+  setFieldInSwarm ("Symbol", "ControlStateStopped", ControlStateStopped);
+  setFieldInSwarm ("Symbol", "ControlStateStepping", ControlStateStepping);
+  setFieldInSwarm ("Symbol", "ControlStateQuit", ControlStateQuit);
+  setFieldInSwarm ("Symbol", "ControlStateNextTime", ControlStateNextTime);
+  setFieldInSwarm ("ProbeDisplayManager","probeDisplayManager", 
+		   probeDisplayManager);
   
 
-  XFREE (probeLibraryClassSig);
-
-  controlStateRunningFid = (*env)->GetFieldID (env, class, 
-					    "ControlStateRunning",
-					    symbolClassSig);
-  controlStateStoppedFid = (*env)->GetFieldID (env, class, 
-					    "ControlStateStopped",
-					    symbolClassSig);
-  controlStateSteppingFid = (*env)->GetFieldID (env, class, 
-					     "ControlStateStepping",
-					     symbolClassSig);
-  controlStateQuitFid = (*env)->GetFieldID (env, class, "ControlStateQuit",
-					 symbolClassSig);
-  controlStateNextTimeFid = (*env)->GetFieldID (env, class, 
-					     "ControlStateNextTime",
-					     symbolClassSig);
-
-  XFREE (symbolClassSig);
-
-  (*env)->SetObjectField (env,
-                          swarmEnvironment,
-                          globalZoneFid,
-                          o_globalZone);
-
-  (*env)->SetObjectField (env,
-                          swarmEnvironment, 
-                          uniformIntRandFid,
-                          o_uniformIntRand);
-
-  (*env)->SetObjectField (env,
-                          swarmEnvironment, 
-                          uniformDblRandFid,
-                          o_uniformDblRand);    
- 
-  (*env)->SetObjectField (env,
-			  swarmEnvironment,
-			  uniformDblRandFid,
-			  o_probeLibrary);
-
-
-  (*env)->SetObjectField (env,
-			  swarmEnvironment,
-			  controlStateRunningFid,
-			  o_controlStateRunning);
-  
-  (*env)->SetObjectField (env,
-			  swarmEnvironment,
-			  controlStateStoppedFid,
-			  o_controlStateStopped);
-  
-  (*env)->SetObjectField (env,
-			  swarmEnvironment,
-			  controlStateSteppingFid,
-			  o_controlStateStepping);
-  
-  (*env)->SetObjectField (env,
-			  swarmEnvironment,
-			  controlStateQuitFid,
-			  o_controlStateQuit);
-
-  (*env)->SetObjectField (env,
-			  swarmEnvironment,
-			  controlStateNextTimeFid,
-			  o_controlStateNextTime);
-
-
-  java_directory_update (env, o_globalZone, globalZone);
-  {
-    extern id uniformIntRand, uniformDblRand, probeLibrary;
-
-    java_directory_update (env, o_uniformIntRand, uniformIntRand);
-    java_directory_update (env, o_uniformDblRand, uniformDblRand);
-    java_directory_update (env, o_probeLibrary, probeLibrary);
-
-    java_directory_update (env, o_controlStateRunning, ControlStateRunning );
-    java_directory_update (env, o_controlStateStopped, ControlStateStopped );
-    java_directory_update (env, o_controlStateStepping, ControlStateStepping );
-    java_directory_update (env, o_controlStateQuit, ControlStateQuit );
-    java_directory_update (env, o_controlStateNextTime, ControlStateNextTime );
-  }
 }
 
 void
@@ -803,6 +686,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
   jarray argTypes;
   jsize argCount;
 
+  if (!jsel) return NULL;
   retType = (*env)->GetObjectField (env, jsel, f_retTypeFid);
   objcFlag = (*env)->GetBooleanField (env, jsel, f_objcFlagFid);
   argTypes = (*env)->GetObjectField (env, jsel, f_argTypesFid);
@@ -871,7 +755,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
           else if (classp (c_void))
             type = _C_VOID;
           else
-            abort ();
+            type = _C_ID;
           add_type (type);
         }
       
@@ -893,7 +777,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
 	sel = sel_register_typed_name (name, signatureBuf);
     }
 
-  java_directory_update (env, (*env)->NewGlobalRef(env, jsel), (id) sel);
+  java_directory_update (env, jsel, (id) sel);
 
   if (copyFlag)
     (*env)->ReleaseStringUTFChars (env, string, utf);
@@ -910,16 +794,17 @@ java_ensure_class (JNIEnv *env, jclass javaClass)
   jboolean isCopy;
   const char *className =
       (*env)->GetStringUTFChars (env, name, &isCopy);
-   
   objcClass = objc_lookup_class (className);
+  
   if (isCopy)
     (*env)->ReleaseStringUTFChars (env, name, className);
 
   // if the corresponding class does not exist create new Java Proxy
 
   if (objcClass == nil)
-    objcClass = [JavaProxy create: globalZone];
-   
+      if (!(objcClass = java_directory_java_find_objc (env, javaClass)))
+	  objcClass = [JavaProxy create: globalZone];
+
   java_directory_update (env, (jobject) javaClass, (id) objcClass);
   return objcClass;
 }
@@ -946,4 +831,23 @@ java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count)
     XFREE (stringArray[i]);
 }
 
+Class java_get_class_from_objc_object (id object)
+{
+  jobject jobj;
+  jclass jcls;
+  id proxy;
+  if ((jobj = java_directory_objc_find_java (jniEnv, object, NO)))
+    {
+      jcls = (*jniEnv)->GetObjectClass (jniEnv,jobj);
+      if ((proxy = java_directory_java_find_objc (jniEnv, jcls)))
+	return proxy;
+      else
+	return java_ensure_class (jniEnv, jcls);
+    }
+  else
+    return [object getClass];
+}
 #endif
+
+
+

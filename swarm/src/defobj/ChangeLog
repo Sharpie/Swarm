@@ -1,3 +1,24 @@
+1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.m: Add new global variables for different Control 
+	States.
+	(java_directory_objc_find): Add two additional cases for different
+	Objective-C classes.
+	(java_directory_update): Erase data entry after serach in java tree
+	to eliminate redundancy.
+	(java_instantiate): Create object by instantiating and calling 
+	constructor on it.
+	(java_directory_init): New function setFieldInSwarm that sets field
+	in the SwarmEnvironment.
+	(java_get_class_from_objc_object): New function that returns class
+	for Objective-C object, and if it is a JavaProxy returns
+	Objective-C class the corresponds to the Java class of the Java
+	object JavaProxy represents.
+
+	* DefObject.m: Declare extern global variable f_nameFid.
+	([Object_s -forward::]): Use f_nameFid field id for signature
+	field in Selector.
+
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Zone.m ([Zone_c -alloc:]): Pad return pointer up to

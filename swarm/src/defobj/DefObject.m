@@ -60,6 +60,10 @@ static id suballocPrototype;
 //
 static id describeStream;
 
+#ifdef HAVE_JDK
+extern jfieldID f_nameFid;
+#endif
+
 @implementation Object_s
 
 PHASE(Creating)
@@ -678,7 +682,6 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   const char *type = sel_get_type (aSel);
   jobject jobj = JFINDJAVA (jniEnv, self);
   jobject jsel;
-  
   if (jobj == NULL)
     [self doesNotRecognize: aSel];
   
@@ -706,17 +709,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   fa = [fa createEnd];
 
   {
-    jclass clazz = (*jniEnv)->GetObjectClass (jniEnv, jsel);
-    jfieldID nameFid;
     jstring string;
     const char *methodName;
     jboolean copyFlag;
     
-    if (!(nameFid = (*jniEnv)->GetFieldID (jniEnv, clazz,
-                                         "signature",
-                                         "Ljava/lang/String;")))
-      abort ();
-    string = (*jniEnv)->GetObjectField (jniEnv, jsel, nameFid);
+    string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
     methodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copyFlag);
    
     fc = [[[[FCall createBegin: aZone] setArguments: fa]
@@ -732,7 +729,6 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     retval_t retVal;
                       
     retVal = [fc getRetVal: retValBuf buf: &typebuf];
-
     [fc drop];
     [fa drop];
     return retVal;
