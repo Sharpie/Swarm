@@ -131,11 +131,16 @@
             problems for apps that worked under the Beta release of
             Swarm. To get the whole scoop, read the <LINK
             LINKEND="LIBRARY.APP">Library Interface
-            Conventions</LINK>.  To get a few hints at explicit
+            Conventions</LINK>.  
+
+            <!-- To get a few hints at explicit
             changes you might need to make, check out: <LINK
             LINKEND="OBJECTBASE.PORTINGAPPSTONEWINTERFACE.HTML">Porting
             apps to use the new <EMPHASIS>swarmobject</EMPHASIS>
-            interface</LINK>.</PARA>
+            interface</LINK>.
+            -->
+
+          </PARA>
         </FORMALPARA>
 
       </LISTITEM>
