@@ -35,11 +35,7 @@ libswarm_la_SOURCES = empty.c
 empty.c:
 	echo > empty.c
 
-if USEBUILTINAVCALL
-EXTRALIBS = -lswarm
-endif
-
-LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lobjc $(SYSLIBS) $(EXTRALIBS)
+LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lobjc $(SYSLIBS)
 
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(SUPPORTLDFLAGS) -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 
