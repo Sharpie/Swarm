@@ -1,3 +1,7 @@
+1999-01-20  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note stylesheets version is now 1.33.
+
 1999-01-14  Alex Lancaster  <alex@santafe.edu>
 
 	* common.dsl (common-titlepage-verso-elements): Re-order elements
