@@ -487,3 +487,6 @@
 <external-specification id="docbook" document="docbook.dsl">
 </style-sheet>
 
+;; Local variables:
+;; mode: DSSSL
+;; end:

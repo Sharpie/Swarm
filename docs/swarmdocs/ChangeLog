@@ -1,7 +1,8 @@
 1998-06-02  Alex Lancaster  <alex@santafe.edu>
 	
-	* swarmbook.dsl.in: Added file.  Added @stylesheets_srcdir@
-	directive in place of hard-coded path.
+	* swarmbook.dsl.in: Added file.  
+	Added @stylesheets_srcdir@ directive in place of hard-coded path.
+	Added local variable to set DSSSL mode for emacs.
 	
 	* swarmbook.dsl:  Renamed to swarmbook.dsl.in.
 	
