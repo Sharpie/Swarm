@@ -1,3 +1,9 @@
+1999-04-06  Alex Lancaster  <alex@santafe.edu>
+
+	* set.sgml: Change PUBLIC identifier for DTD to "-//OASIS//DTD
+	DocBook V3.1//EN".  Remove JPEG notation class: now part of the
+	3.1 DTD.
+
 1999-01-13  Alex Lancaster  <alex@santafe.edu>
 
 	* setmeta.sgml: Remove old LEGALNOTICE text.  Refer to the
