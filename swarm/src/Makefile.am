@@ -42,4 +42,4 @@ swarm.dll: libswarm.la
 	dllwrap --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll $(foreach module,$(SWARMMODULES),`ls .dll/$(module)/*.lo`) $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 install-data-local: 
-	test -n "$SWARMDLL" && $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a
+	test -n "$(SWARMDLL)" && $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a
