@@ -5,6 +5,7 @@
 	(included-method-p): New function.
 	(method-list, java-print-interface-methods-in-phase,
 	java-print-native-class): Use included-method-p.
+	(java-print-native-class): Import defobj.h.
 
 1999-03-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

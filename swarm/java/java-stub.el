@@ -396,6 +396,13 @@
         (insert "return ")
         (insert 
          (cond ((string= ret "int") "0")
+               ((string= ret "unsigned") "0")
+               ((string= ret "unsigned long") "0")
+               ((string= ret "float") "0.0")
+               ((string= ret "long") "0")
+               ((string= ret "char") "'\\0'")
+               ((string= ret "unsigned char") "'\\0'")
+               ((string= ret "BOOL") "NO")
                ((string= ret "double") "0.0")
                (t "NULL")))
         (insert ";\n"))
@@ -405,6 +412,7 @@
 (defun java-print-native-class (protocol)
   (with-protocol-c-file protocol
     (insert "#include <jni.h>\n")
+    (insert "#import <defobj.h>\n")
     (loop for phase in '(:creating :using)
           do
           (loop for method in (protocol-method-list protocol)
