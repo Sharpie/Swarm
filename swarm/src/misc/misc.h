@@ -19,4 +19,8 @@ char *stpcpy (char *dest, const char *src);
 char *strsep (char **string, const char *delim);
 
 size_t strnlen (const char *string, size_t maxlen);
+
+const char *myrealpath (const char *path, char *resolved_path);
+const char *find_executable (const char *program_name);
+
 #endif

@@ -1,3 +1,8 @@
+1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (other_routines): Add realpath and find_executable.
+	realpath.c, find_executable.c: New files.
+
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* strdup.c, strndup.c, strsep.c, and stpcpy.c:  New files.
