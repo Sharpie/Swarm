@@ -16,11 +16,11 @@ public class StartMousetrap {
         new MousetrapObserverSwarm (Globals.env.globalZone);
         
       Globals.env.setWindowGeometryRecordName (topLevelSwarm);
-      topLevelSwarm.buildObjects ();
-      topLevelSwarm.buildActions ();
-      topLevelSwarm.activateIn (null);
-      topLevelSwarm.go ();
-        
+      if (topLevelSwarm.buildObjects () != null) {
+        topLevelSwarm.buildActions ();
+        topLevelSwarm.activateIn (null);
+        topLevelSwarm.go ();
+      }
     }
     else {
       MousetrapBatchSwarm topLevelSwarm =

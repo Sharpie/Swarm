@@ -1,5 +1,10 @@
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* MousetrapObserverSwarm.java (buildObjects): Return null on Quit.
+
+	* StartMousetrap.java: Don't do anything if buildObjects returns null;
+	the user hit Quit.
+
 	* Mousetrap.java, MousetrapObserverSwarm.java,
 	MousetrapModelSwarm.java, MousetrapStatistics.java,
 	StartMousetrap.java: Do minimal, explicit imports.  Use SwarmImpl

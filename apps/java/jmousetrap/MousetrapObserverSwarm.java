@@ -96,7 +96,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
    * instrumentation that observes the model.  */
   public Object buildObjects () {
     super.buildObjects ();
-    
+
     mousetrapModelSwarm = new MousetrapModelSwarm (getZone ());
     
     Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm);
@@ -105,7 +105,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
     getActionCache ().waitForControlEvent ();
     
     if (getControlPanel ().getState () == Globals.env.ControlStateQuit)
-      return this;
+      return null;
     
     mousetrapModelSwarm.buildObjects ();
     
@@ -229,7 +229,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
    * activate the schedules so they're ready to run.  The swarmContext
    * argument has to do with what we were activated *in*.  Typically
    * the ObserverSwarm is the top-level Swarm, so it's activated in
-   * "nil". But other Swarms and Schedules and such will be activated
+   * `nil'. But other Swarms and Schedules and such will be activated
    * inside of us.
    **/
   public ActivityImpl activateIn (SwarmImpl swarmContext) {
