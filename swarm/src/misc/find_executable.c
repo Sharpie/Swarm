@@ -93,13 +93,8 @@ find_executable (const char *program_name)
                 /* We have a path item at p, of length p_len.
                    Now concatenate the path item and program_name. */
                 {
-                  char *concat_name = (char *)malloc (p_len + strlen (program_name) + 2);
+                  char *concat_name = (char *) xmalloc (p_len + strlen (program_name) + 2);
 
-                  if (concat_name == NULL)
-                    {
-                      errno = ENOMEM;
-                      goto notfound;
-                    }
                   if (p_len == 0)
                     strcpy (concat_name, program_name);
                   else
@@ -113,7 +108,7 @@ find_executable (const char *program_name)
                       program_name = concat_name;
                       goto resolve;
                     }
-                  free (concat_name);
+                  XFREE (concat_name);
                 }
               }
           }
@@ -126,15 +121,10 @@ find_executable (const char *program_name)
       resolve:
     /* resolve program_name */
     {
-      executable_name = (char *)malloc (MAXPATHLEN);
-      if (executable_name == NULL)
-        {
-          errno = ENOMEM;
-          goto notfound;
-        }
+      executable_name = (char *) xmalloc (MAXPATHLEN);
       if (realpath ((char *)program_name, executable_name) == NULL)
         {
-          free (executable_name);
+          XFREE (executable_name);
           goto notfound;
         }
       return executable_name;

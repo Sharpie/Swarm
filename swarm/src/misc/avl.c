@@ -22,20 +22,11 @@
 
 /* This is file avl.c in libavl, version 1.1.0. */
 
-#if HAVE_CONFIG_H
-#include <swarmconfig.h>
-#endif
-#if PSPP
-#include "common.h"
-#include "arena.h"
-#define HAVE_XMALLOC 1
-#endif
 #if SELF_TEST 
 #include <limits.h>
 #include <time.h>
 #endif
-#include <stdio.h>
-#include <stdlib.h>
+#include <misc.h> // xmalloc
 #include <assert.h>
 #include "avl.h"
 
@@ -50,28 +41,6 @@
 #define unused
 #endif
 #endif
-
-#ifdef HAVE_XMALLOC
-void *xmalloc (size_t);
-#else /* !HAVE_XMALLOC */
-/* Allocates SIZE bytes of space using malloc().  Aborts if out of
-   memory. */
-static void *
-xmalloc (size_t size)
-{
-  void *vp;
-  if (size == 0)
-    return NULL;
-  vp = malloc (size);
-  assert (vp != NULL);
-  if (vp == NULL)
-    {
-      fprintf (stderr, "virtual memory exhausted\n");
-      exit (EXIT_FAILURE);
-    }
-  return vp;
-}
-#endif /* !HAVE_XMALLOC */
 
 /* Creates an AVL tree in arena OWNER (which can be NULL).  The arena
    is owned by the caller, not by the AVL tree.  CMP is a order

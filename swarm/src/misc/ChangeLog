@@ -1,3 +1,10 @@
+1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* avl.c: Include misc.h and remove xmalloc #ifdef logic.
+
+	* find_executable.c (find_executable): Use xmalloc and XFREE
+	instead of malloc and free.
+
 1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.h: Catch the case that jmalloc.h (from Kaffe) was included
