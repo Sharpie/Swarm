@@ -1,3 +1,20 @@
+1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]):
+	Remove inline configuration of the ActionCache and ControlPanel;
+	GUISwarm's buildObjects is now more intelligent.
+	([HeatbugObserverSwarm -buildObjects]): Add call to
+	setupDestroyNotification to configure handling of widget kills
+	by the window manager.
+	([HeatbugObserverSwarm -_updateDisplay_]): New method (calls
+	display on heatDisplay and heatbugDisplay, and then drawSelf
+	on worldRaster).
+	([HeatbugObserverSwarm -buildActions]): Only create action
+	to _updateDisplay, instead of the three above.
+
+	* main.m (main): Use setWindowGeometryRecordName to set a *base*
+	name for internal derived-names in the GUISwarm.
+
 1998-01-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]):

@@ -13,7 +13,8 @@
 
 // createBegin: here we set up the default observation parameters.
 
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   HeatbugObserverSwarm * obj;
   id <ProbeMap> probeMap;
   
@@ -52,29 +53,27 @@
 // createEnd: create objects we know we'll need. In this case, none,
 // but you might want to override this.
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
+}
+
+- _worldRasterDeath_
+{
+  worldRaster = nil;
+  return self;
 }
 
 // Create the objects used in the display of the model. This code is
 // fairly complicated because we build a fair number of widgets. It's
 // also a good example of how to use the display code.
 
--buildObjects
+- buildObjects
 {
   id modelZone;					  // zone for model.
   int i;
 
-#if 1
-  // Perhaps a need for startBuildObjects endBuildObjects (at least)? -mgd
-  controlPanel = [ControlPanel create: [self getZone]];
-  actionCache = [ActionCache createBegin: [self getZone]];
-  [actionCache setControlPanel: controlPanel];
-  [actionCache setWindowGeometryRecordName: "actionCache"];
-  actionCache = [actionCache createEnd];
-#else
   [super buildObjects];
-#endif
   
   // First, we create the model that we're actually observing. The
   // model is a subswarm of the observer. We also create the model in
@@ -98,7 +97,7 @@
   // until someone hits a control panel button so the user can get a
   // chance to fill in parameters before the simulation runs
 
-  [controlPanel setStateStopped] ;
+  [controlPanel setStateStopped];
 
   // OK - the user has specified all the parameters for the simulation.
   // Now we're ready to start.
@@ -136,6 +135,8 @@
   worldRaster = [ZoomRaster createBegin: [self getZone]];
   [worldRaster setWindowGeometryRecordName : "worldRaster"];
   worldRaster = [worldRaster createEnd];
+  [worldRaster setupDestroyNotification: self
+               notificationMethod: @selector (_worldRasterDeath_)];
   [worldRaster setColormap: colormap];
   [worldRaster setZoomFactor: 4];
   [worldRaster setWidth: [[heatbugModelSwarm getWorld] getSizeX]
@@ -173,14 +174,25 @@
   [unhappyGraph setWindowGeometryRecordName : "graphWindow"];
   [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
   [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
-  unhappyGraph = [unhappyGraph createEnd] ;
+  unhappyGraph = [unhappyGraph createEnd];
 
   [unhappyGraph createAverageSequence: "unhappiness"
                          withFeedFrom: [heatbugModelSwarm getHeatbugList] 
-                          andSelector: M(getUnhappiness)] ;
+                          andSelector: M(getUnhappiness)];
 
   return self;
 }  
+
+- _updateDisplay_
+{
+  if (worldRaster)
+    {
+      [heatDisplay display];
+      [heatbugDisplay display];
+      [worldRaster drawSelf];
+    }
+  return self;
+}
 
 // Create the actions necessary for the simulation. This is where
 // the schedule is built (but not run!)
@@ -206,9 +218,7 @@
 
   // Schedule up the methods to draw the display of the world
 
-  [displayActions createActionTo: heatDisplay         message: M(display)];
-  [displayActions createActionTo: heatbugDisplay      message: M(display)];
-  [displayActions createActionTo: worldRaster         message: M(drawSelf)];
+  [displayActions createActionTo: self message: M(_updateDisplay_)];
 
   // Now schedule the update of the unhappiness graph
 //  [displayActions createActionTo: unhappinessAverager message: M(update)];
@@ -243,8 +253,8 @@
 // in "nil". But other Swarms and Schedules and such will be activated
 // inside of us.
 
--activateIn: (id) swarmContext {
-
+- activateIn:  swarmContext
+{
   // First, activate ourselves (just pass along the context).
 
   [super activateIn: swarmContext];
@@ -268,12 +278,13 @@
 // to happen when the model and observer actually start running. But
 // the default GUISwarm go is probably good enough.
 
--graphBug: aBug {
+- graphBug: aBug
+{
   [unhappyGraph createSequence: "Bug" 
                   withFeedFrom: aBug 
-                   andSelector: M(getUnhappiness)] ;
+                   andSelector: M(getUnhappiness)];
 
-  return self ;
+  return self;
 }
 
 @end

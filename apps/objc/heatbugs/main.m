@@ -22,8 +22,13 @@ main(int argc, char ** argv) {
   // typed heatbugs -batchmode. Otherwise, it's set to 0.
   
   if (swarmGUIMode == 1)
-    // We've got graphics, so make a full ObserverSwarm to get GUI objects
-    theTopLevelSwarm = [HeatbugObserverSwarm create: globalZone];
+    {
+      // We've got graphics, so make a full ObserverSwarm to get GUI objects
+      theTopLevelSwarm = [HeatbugObserverSwarm create: globalZone];
+      // Internally, this could have been a fixed name, e.g. GUISwarm, but 
+      // that would preclude *not* using archiving.
+      [theTopLevelSwarm setWindowGeometryRecordName: "heatbugObserverSwarm"];
+    }
   else
     // No graphics - make a batchmode swarm and run it.
     theTopLevelSwarm = [HeatbugBatchSwarm create: globalZone];
