@@ -5,30 +5,34 @@
 
 #import <defobj/Create.h>
 #import <defobj.h>
+#import <collections.h>
 
 extern id archiver;
 
 @interface Archiver: CreateDrop_s
 {
   id currentApplicationKey;
-  id applicationMap;
+  id <Map> applicationMap;
   const char *lispPath;
 @public
   id clients;
 }
 
 + createBegin: aZone;
+- getApplication;
 - setLispPath: (const char *)lispPath;
 - save;
-- getMap;
 
 - lispOut: outputCharStream;
 
 void archiverRegister (id client);
 void archiverUnregister (id client);
-void archiverPut (const char *key, id object);
-id archiverGet (const char *key);
 void archiverSave (void);
+
+void lispArchiverPut (const char *key, id object);
+id lispArchiverGet (const char *key);
+void HDF5ArchiverPut (const char *key, id object);
+id HDF5ArchiverGet (const char *key);
 
 @end
 

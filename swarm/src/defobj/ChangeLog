@@ -1,5 +1,30 @@
 1998-12-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Archiver.m: Don't include objc/objc-api.h.
+	(Application): New internal class.
+	(lispProcessPairs): Pass map update function instead reader
+	function and map.
+	(lispProcessMakeObjcPairs, lispProcessApplicationPairs): Add map
+	update function, pass it to lispProcessPairs.
+	(lispArchiverPut, lispArchiverGet): Get object map from
+	Application object.
+	([Archiver +createBegin:]): Initialize applicationMap in 
+	one expression.
+	([Archiver -lispOut:]): Get objectMap from Application object
+	using getLispMap.
+	([Archiver -drop]): Delete members and then drop applicationMap.
+
+	* Archiver.[hm] ([Archiver -getApplication]): New method.
+	(lispArchiver{Get,Put}): Renamed from archiver{Get,Put}.
+	([Archiver -getMap]): Remove.
+
+	* defobj.h: Add archiver{Register,Unregister}, and
+	{HDF5,lisp}Archiver{Get,Put} to Serialization protocol.
+
+	* Archiver.h: Include collections.h and make applicationMap
+	an object conforming to Map.
+	(HDF5Archiver{Get,Put}): Add.
+	
 	* defobj.h (Symbol): Remove setName:.
 
 	* DefClass.[hm], defobj.h (CreatedClass): Return self for setName:.

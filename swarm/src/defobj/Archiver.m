@@ -6,10 +6,8 @@
 #import <defobj/Archiver.h>
 
 #import <collections.h>
-#import <collections/predicates.h>
+#import <collections/predicates.h> // list_literal_p, listp, pairp, stringp
 #import <defobj.h> // arguments
-
-#import <objc/objc-api.h>
 
 #include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
 
@@ -18,6 +16,86 @@
 #define SWARMARCHIVER ".swarmArchiver"
 
 Archiver *archiver;
+
+static int
+compareStrings (id val1, id val2)
+{
+  return [val1 compare: val2];
+}
+
+@interface Application: CreateDrop
+{
+  const char *name;
+  id <Map> lispMap;
+  id <Map> HDF5Map;
+}
++ createBegin: aZone;
+- setName: (const char *)name;
+- getLispMap;
+- getHDF5Map;
+@end
+
+@implementation Application
++ createBegin: aZone
+{
+  Application *obj = [super createBegin: aZone];
+
+  obj->lispMap =
+    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+  obj->HDF5Map =
+    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+  obj->name = "EMPTY";
+
+  return obj;
+}
+
+- setName: (const char *)theName
+{
+  name = strdup (theName);
+  return self;
+}
+
+- getLispMap
+{
+  return lispMap;
+}
+
+- getHDF5Map
+{
+  return HDF5Map;
+}
+
+- (void)drop
+{
+  [lispMap deleteAll];
+  [HDF5Map deleteAll];
+  [super drop];
+}
+
+@end
+
+@interface HDF5: CreateDrop
+{
+  id parent;
+}
+- setParent: parent;
+- createEnd;
+@end
+
+@implementation HDF5
+PHASE(Creating)
+- setParent: theParent
+{
+  parent = theParent;
+  return self;
+}
+
+- createEnd
+{
+  return self;
+}
+PHASE(Using)
+@end
 
 static const char *
 lispDefaultPath (void)
@@ -37,14 +115,10 @@ lispDefaultPath (void)
   return NULL;
 }
 
-static int
-compareStrings (id val1, id val2)
-{
-  return [val1 compare: val2];
-}
-
 static void
-lispProcessPairs (id aZone, id obj, id (*func)(id, id), id map)
+lispProcessPairs (id aZone, 
+                  id obj,
+                  void (*mapUpdateFunc) (id, id))
 {
   if (!listp (obj))
     raiseEvent (InvalidArgument, "argument to processPairs not a list");
@@ -86,14 +160,7 @@ lispProcessPairs (id aZone, id obj, id (*func)(id, id), id map)
             
             if (!stringp (key))
               raiseEvent (InvalidArgument, "key not a string");
-            {
-              id value = func (aZone, [consObject getCdr]);
-              
-              if ([map at: key])
-                [map at: key replace: value];
-              else
-                [map at: key insert: value];
-            }
+            mapUpdateFunc (key, [consObject getCdr]);
           }
         }
     }
@@ -101,24 +168,42 @@ lispProcessPairs (id aZone, id obj, id (*func)(id, id), id map)
   }
 }
 
-static id
-lispProcessMakeObjcPairs (id aZone, id expr)
+static void
+lispProcessMakeObjcPairs (id aZone, id expr, id objectMap)
 {
-  id objectMap = [Map createBegin: aZone];
-  [objectMap setCompareFunction: &compareStrings];
-  objectMap = [objectMap createEnd];
-  
-  lispProcessPairs (aZone, expr, lispIn, objectMap);
-          
-  return objectMap;
+  {
+    void mapUpdate (id key, id valexpr)
+      {
+        id value = lispIn (aZone, valexpr);
+
+        if ([objectMap at: key])
+          [objectMap at: key replace: value];
+        else
+          [objectMap at: key insert: value];
+      }
+    lispProcessPairs (aZone, expr, mapUpdate);
+  }
 }
 
 static void
 lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
 {
-  lispProcessPairs (aZone, expr, lispProcessMakeObjcPairs, applicationMap);
+  void mapUpdate (id key, id value)
+    {
+      Application *app = [applicationMap at: key];
+      
+      if (app == nil)
+        {
+          app = [[[Application createBegin: aZone]
+                   setName: [key getC]]
+                  createEnd];
+          [applicationMap at: key insert: app];
+        }
+      lispProcessMakeObjcPairs (aZone, value, [app getLispMap]);
+    }
+  lispProcessPairs (aZone, expr, mapUpdate);
 }
-  
+
 static void
 lispLoadArchiverExpr (id applicationMap, id expr)
 {
@@ -162,9 +247,9 @@ archiverUnregister (id client)
 }
 
 void
-archiverPut (const char *key, id object)
+lispArchiverPut (const char *key, id object)
 {
-  id map = [archiver getMap];
+  id map = [[archiver getApplication] getLispMap];
   id keyObj = [String create: [archiver getZone] setC: key];
   
   if ([map at: keyObj])
@@ -174,10 +259,10 @@ archiverPut (const char *key, id object)
 }
 
 id
-archiverGet (const char *key)
+lispArchiverGet (const char *key)
 {
   id string = [String create: [archiver getZone] setC: key];
-  id result = [[archiver getMap] at: string];
+  id result = [[[archiver getApplication] getLispMap] at: string];
   
   [string drop];
   return result;
@@ -196,10 +281,9 @@ PHASE(Creating)
 + createBegin: aZone
 {
   Archiver *newArchiver = [super createBegin: aZone];
-  id map = [Map createBegin: aZone];
 
-  [map setCompareFunction: &compareStrings];
-  newArchiver->applicationMap = [map createEnd];
+  newArchiver->applicationMap = 
+    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
   newArchiver->clients = [List create: aZone];
   newArchiver->lispPath = lispDefaultPath ();
   return newArchiver;
@@ -244,33 +328,30 @@ PHASE(Setting)
 }
 
 PHASE(Using)
-
-- getMap
+     
+- getApplication
 {
-  id objectMap;
-
-  objectMap = [applicationMap at: currentApplicationKey];
-
-  if (objectMap == nil)
+  id app = [applicationMap at: currentApplicationKey];
+  
+  if (app == nil)
     {
-      objectMap = [Map createBegin: [self getZone]];
-      [objectMap setCompareFunction: &compareStrings];
-      objectMap = [objectMap createEnd];
-      
-      [applicationMap at: currentApplicationKey insert: objectMap];
+      app = [Application create: [self getZone]];
+      [applicationMap at: currentApplicationKey insert: app];
     }
-  return objectMap;
+  return app;
 }
 
 - lispOut: outputCharStream
 {
-  id appMapIndex = [applicationMap begin: scratchZone];
-  id objectMap, appKey;
+  id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
+  id app;
+  id <String> appKey;
   
   [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  (list"];
   
-  while ((objectMap = [appMapIndex next: &appKey]))
+  while ((app = [appMapIndex next: &appKey]))
     {
+      id objectMap = [app getLispMap];
       id objectMapIndex = [objectMap begin: scratchZone];
       id key, member;
       
@@ -332,6 +413,7 @@ PHASE(Using)
 
 - (void)drop
 {
+  [applicationMap deleteAll];
   [applicationMap drop];
   if (lispPath)
     XFREE (lispPath);

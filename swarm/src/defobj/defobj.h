@@ -62,6 +62,13 @@ extern id lispInKeyword (id index);
 
 //F: Save objects registered with archiver.
 extern void archiverSave (void);
+
+void archiverRegister (id client);
+void archiverUnregister (id client);
+id lispArchiverGet (const char *key);
+void lispArchiverPut (const char *key, id object);
+id HDF5ArchiverGet (const char *key);
+void HDF5ArchiverPut (const char *key, id object);
 @end
 
 @protocol DefinedObject <Serialization>
