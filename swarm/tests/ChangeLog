@@ -1,3 +1,7 @@
+1999-01-18  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (SUBDIRS): Add objectbase to list.
+
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Makefile.am (SUBDIRS): New variable. Assign activity to SUBDIRS.
