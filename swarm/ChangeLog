@@ -1,6 +1,12 @@
+1998-04-27  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.conf (alex-SFI-GNU/Linux): Fixed again.  Added
+	$(PNGLIBDIR) to  list of EXTRALDFLAGS.
+
 1998-04-24  Alex Lancaster  <alex@santafe.edu>
 
-	* Updated alex-SFI-GNU/Linux config for latest Swarm.
+	* Makefile.conf (alex-SFI-GNU/Linux): Updated config for latest
+	Swarm.
 
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
