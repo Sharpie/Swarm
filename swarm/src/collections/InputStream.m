@@ -13,6 +13,7 @@ Library:      collections
 #import <collections/InputStream.h>
 #include <objc/objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isspace, isdigit
+#include <collections/predicates.h>
 
 @implementation InputStream_c
 
@@ -211,7 +212,6 @@ readString (id inStream, BOOL literalFlag)
       id string;
       BOOL isNumeric = YES;
       char type = _C_INT;
-      BOOL isDouble = NO;
 
       ungetc (c, fileStream);
       string = readString (self, 0);
@@ -227,7 +227,7 @@ readString (id inStream, BOOL literalFlag)
             
             if (ch == '.')
               type = _C_DBL;
-            else if (!isdigit (ch) && !(pos == 0 && ch == '-'))
+            else if (!isdigit ((int)ch) && !(pos == 0 && ch == '-'))
               {
                 if (pos == len - 2)
                   {
@@ -286,6 +286,7 @@ readString (id inStream, BOOL literalFlag)
       else
         [self _badType_ : string];
     }
+  abort ();
 }
 
 @end
