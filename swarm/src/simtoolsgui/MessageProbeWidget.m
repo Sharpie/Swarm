@@ -39,7 +39,7 @@ printVal (val_t val)
   switch (val.type)
     {
     case _C_ID: 
-      return [val.val.object getIdName];
+      return [val.val.object getDisplayName];
     case _C_SEL:
       return sel_get_name (val.val.selector);
     case _C_CHR:
@@ -293,7 +293,7 @@ PHASE(Using)
 
 - (const char *)getId: (const char *)windowName arg: (int)which
 {
-  return [((id <MessageProbeEntry>)myWidgets [which * 2 + 1]) getValue];
+  return [((id <MessageProbeEntry>) myWidgets [which * 2 + 1]) getValue];
 }
 
 - idReceive: (const char *)windowName arg: (int)which
@@ -306,7 +306,7 @@ PHASE(Using)
   which += 1;
 
   [myWidgets[which] setActiveFlag: YES];
-  [((id <Entry>)myWidgets[which]) setValue: [resObj getIdName]];
+  [((id <Entry>)myWidgets[which]) setValue: [resObj getDisplayName]];
   [myWidgets[which] setActiveFlag: NO];
 
   GUI_UPDATE ();

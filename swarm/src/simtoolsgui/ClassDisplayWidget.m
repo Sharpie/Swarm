@@ -259,7 +259,7 @@ PHASE(Using)
 
 - (const char *)getId: (const char *)windowName
 {
-  return [probedObject getIdName];
+  return [probedObject getDisplayName];
 }
 
 #ifndef USE_FRAME

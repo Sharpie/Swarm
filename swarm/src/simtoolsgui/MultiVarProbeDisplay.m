@@ -124,7 +124,7 @@ PHASE(Using)
 
 - (const char *)getId: (const char *)windowName
 {
-  return [[objectList getFirst] getIdName];
+  return [[objectList getFirst] getDisplayName];
 }
 
 @end

@@ -1,3 +1,15 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SingleProbeDisplay.m ([SingleProbeDisplay -getId:]): Use
+	getDisplayName instead of getIdName.
+
+	* MultiVarProbeDisplay.m ([MultiVarProbeDisplay -getId:]): Likewise.
+
+	* MessageProbeWidget.m ([MessageProbeWidget -idReceive:arg:]):
+	Likewise.
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget -getId:]): Likewise.
+
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtoolsgui.h (ControlPanel, ActionCache, CommonProbeDisplay,

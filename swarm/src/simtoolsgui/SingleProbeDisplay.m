@@ -48,7 +48,7 @@ PHASE(Using)
 
 - (const char *)getId: (const char *)windowName
 {
-  return [probedObject getName];
+  return [probedObject getDisplayName];
 }
 
 @end
