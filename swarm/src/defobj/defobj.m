@@ -74,6 +74,7 @@ void _defobj_initialize( void )
 }
 
 #include <stdio.h>
+#include <objc/objc-api.h>
 
 id
 nameToObject (const char *name)

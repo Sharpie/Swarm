@@ -1,7 +1,7 @@
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.m (nameToObject): New function.  Include <stdio.h>
-	on its behalf.
+	and objc/objc-api.h on its behalf.
 
 	* defobj.h: Declare nameToObject function.
 
