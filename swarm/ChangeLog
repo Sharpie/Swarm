@@ -1,5 +1,7 @@
 1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* VERSION: Swarm 1.1.
+
 	* Makefile.conf: Use `sh' to run make-h2x.
 
 1998-03-17  Alex Lancaster  <alex@santafe.edu>
