@@ -439,18 +439,22 @@ PHASE(Creating)
 
 - setCollection: aCollection
 {
-  [(Permutation_c *) collection setCollection: aCollection];
+  [(id <Permutation>) collection setCollection: aCollection];
   return self;
 }
 
-- setUniformRandom: rnd
+- setUniformRandom: theRnd
 {
-  [(Permutation_c *) collection setUniformRandom: rnd];
+  rnd = theRnd;
   return self;
 }
 
 - createEnd
 {
+  extern id uniformUnsRand;
+  if (!rnd)
+    rnd = uniformUnsRand;
+  [(id <Permutation>) collection setUniformRandom: rnd];
   collection = [collection createEnd];
   index = [collection begin: getCZone (getZone (self))];
   setMappedAlloc (self);  
@@ -461,23 +465,47 @@ PHASE(Using)
 
 - reshuffle 
 {
-  id shuffler = ((Permutation_c *) collection)->shuffler;
-  [shuffler shuffleWholeList: collection];
+  [((Permutation_c *) collection)->shuffler shuffleWholeList: collection];
   [index drop];
   index = [collection begin: getCZone (getZone (self))];
   return self;
 }
 
+- (void)_updatePermutation_
+{
+  Permutation_c *perm = (Permutation_c *) collection;
+  Collection_any *original = (Collection_any *) perm->collection;
+  
+  if (original->count > perm->count)
+    {
+      collection = [[[[Permutation createBegin: getCZone (getZone (self))]
+                       setCollection: original]
+                      setLastPermutation: perm]
+                     createEnd];
+      [self reshuffle];
+      [getZone (perm) freeIVarsComponent: perm];
+    }
+}
+
+- (void)_clearDirection_
+{
+  [collection forEach: M(setLastDirection:) : (id) 0];
+}
+
 - next
 {
+  [self _updatePermutation_];
   while (1)
     {
       PermutationItem_c *pi = [index next];
       
       if (pi)
 	{
-	  if (pi->position >= 0)
-	    return pi->item;
+	  if (pi->position >= 0 && pi->lastDirection != 1)
+            {
+              pi->lastDirection = 1;
+              return pi->item;
+            }
 	}
       else
 	break;
@@ -487,14 +515,18 @@ PHASE(Using)
 
 - prev
 {
+  [self _updatePermutation_];
   while (1)
     {
       PermutationItem_c *pi = [index prev];
-      
+
       if (pi)
 	{
 	  if (pi->position >= 0)
-	    return pi->item;
+            {
+              pi->lastDirection = -1;
+              return pi->item;
+            }
 	}
       else
 	break;
@@ -504,26 +536,40 @@ PHASE(Using)
 
 - findNext: anObject;
 {
-  PermutationItem_c *pi = [index findNext: anObject];
+  PermutationItem_c *pi;
+  
+  [self _updatePermutation_];
+  [self _clearDirection_];
+  pi = [index findNext: anObject];
   return pi ? pi->item : nil;
 }
 
 - findPrev: anObject;
 {
-  PermutationItem_c *pi = [index findPrev: anObject];
+  PermutationItem_c *pi;
+
+  [self _updatePermutation_];
+  [self _clearDirection_];
+  pi = [index findPrev: anObject];
   return pi ? pi->item : nil;
 }
 
 - get
 {
-  PermutationItem_c *pi = [index get];
+  PermutationItem_c *pi;
+
+  [self _updatePermutation_];
+  pi = [index get];
   return pi ? pi->item : nil;
 }
 
 - put: anObject;
 {
-  PermutationItem_c *pi = [index get];
+  PermutationItem_c *pi;
 
+  [self _updatePermutation_];
+  [self _clearDirection_];
+  pi = [index get];
   if (pi != nil)
     {
       if (pi->position >= 0)
@@ -539,8 +585,11 @@ PHASE(Using)
 
 - remove
 {
-  PermutationItem_c *pi = [index get];
+  PermutationItem_c *pi;
 
+  [self _updatePermutation_];
+  [self _clearDirection_];
+  pi = [index get];
   if (pi != nil)
     {
       id ret;
@@ -560,8 +609,12 @@ PHASE(Using)
 
 - (id <Symbol>)getLoc
 {
-  PermutationItem_c *pi = [index get];
-  id loc = [index getLoc];
+  PermutationItem_c *pi;
+  id <Symbol> loc;
+
+  [self _updatePermutation_];
+  pi = [index get];
+  loc = [index getLoc];
 
   if (pi)
     {
@@ -573,16 +626,21 @@ PHASE(Using)
 
 - (void)setLoc: (id <Symbol>)locSymbol
 {
+  [self _updatePermutation_];
+  [self _clearDirection_];
   return [index setLoc: locSymbol];
 }
 
 - (int)getOffset
 {
+  [self _updatePermutation_];
   return [index getOffset];
 }
 
 - setOffset: (unsigned)offset;
 {
+  [self _updatePermutation_];
+  [self _clearDirection_];
   return [index setOffset: offset];
 }
 

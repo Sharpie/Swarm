@@ -1,3 +1,34 @@
+2000-06-23  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* collections.h (Permutation): Declare setLastPermutation:.
+
+	* Permutation.[hm] (Permutation_c): Qualify ivars with protocol
+	info.  Likewise for associated methods.
+	([PermutationItem_c setLastDirection:]): New method.
+	([Permutation_c setLastPermutation:]): New method.
+	([Permutation_c -createEnd]): Handle the case of merging
+	a collection with a previous permutation.
+
+	* Permutation.m ([Permutation_c -setUniformRandom:]): Setup
+	shufflerhere.
+
+	* Collection.m ([PermutedIndex_c -setUniformRandom:]): Cache rnd
+	until createEnd.
+	([PermutedIndex_c -createEnd]): If rnd is unset, pass
+	uniformUnsRand.  Call setUniformRandom on Permutation (in order to
+	set up shuffler).
+	([PermutedIndex_c -_updatePermutation_]): New method.
+	([PermutedIndex_c
+	-{next,prev,findNext:findPrev,get,put:remove,getLoc,setLoc:,
+	getOffset,setOffset:]): Call it first thing.
+	([PermutedIndex_c -next]): Skip over PermutationItem_c's that are
+	tagged with lastDirection = 1.
+	([PermutedIndex_c -_clearDirection_]): New method.
+	([PermutedIndex_c
+	-{findNext:,findPrev:,put:,remove,setLoc:,setOffset:]): Call it.
+
+	* Collection.h (PermutedIndex_c): Add ivar rnd.
+
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* collections.h ([Collection copy:]): Protect with #ifndef IDL.

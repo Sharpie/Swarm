@@ -1220,7 +1220,6 @@ USING
 CREATING
 - setItem: item;
 - setPosition: (unsigned)position;
-
 USING
 - getItem;
 - (unsigned)getPosition;
@@ -1235,7 +1234,8 @@ USING
 //D: of contents of Permutation will not reflect on the original collection.
 
 CREATING
-- setCollection: collection;
+- setCollection: (id <Collection>)collection;
+- setLastPermutation: (id <Permutation>)permutation;
 - setUniformRandom: rnd;
 @end
 

@@ -27,6 +27,12 @@ PHASE(Creating)
   return self;
 }
 
+- setLastDirection: (int)theLastDirection
+{
+  lastDirection = theLastDirection;
+  return self;
+}
+
 PHASE(Using)
 - getItem
 {
@@ -38,7 +44,7 @@ PHASE(Using)
   return position;
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   [super describe: outputCharStream];
   [item describe: outputCharStream];
@@ -49,23 +55,24 @@ PHASE(Using)
 @implementation Permutation_c
 PHASE(Creating)
 
-+ createBegin: aZone
-{
-  Permutation_c *obj = [super createBegin: aZone];
-
-  obj->shuffler = [ListShuffler createBegin: getCZone (aZone)];
-  return obj;
-}
-
-- setCollection: aCollection
+- setCollection: (id <Collection>)aCollection
 {
   collection = aCollection;
   return self;
 }
 
+- setLastPermutation: (id <Permutation>)aPermutation
+{
+  lastPermutation = aPermutation;
+  shuffler = ((Permutation_c *) aPermutation)->shuffler;
+  return self;
+}
+
 - setUniformRandom: rnd
 {
-  [shuffler setUniformRandom: rnd];
+  shuffler = [[[ListShuffler createBegin: getCZone (getZone (self))]
+                setUniformRandom: rnd]
+               createEnd];
   return self;
 }
 
@@ -73,6 +80,7 @@ PHASE(Creating)
 {
   id elem, index;
   unsigned i;
+  unsigned permutationCount = lastPermutation ? [lastPermutation getCount] : 0;
 
   count = [collection getCount];
 
@@ -81,22 +89,35 @@ PHASE(Creating)
   if (collection == nil)
     raiseEvent (InvalidArgument, "Source collection required for Permutation");
 
-  shuffler = [shuffler createEnd];
-  index = [collection begin: scratchZone];
+  index = [collection begin: scratchZone];  
   for (elem = [index next], i = 0; i < count; elem = [index next], i++)
-    [self atOffset: i put: 
-	    [[[[PermutationItem createBegin: getCZone (getZone (self))]
-		setPosition: i]
-	       setItem: elem]
-	      createEnd]];
+    {
+      PermutationItem_c *pi = nil;
+
+      if (i < permutationCount)
+        {
+          pi = [lastPermutation atOffset: i];
+          if (pi->position < 0)
+            pi = nil;
+          else
+            pi->position = i;
+        }
+      if (pi == nil)
+        pi = [[[[PermutationItem createBegin: getCZone (getZone (self))]
+                 setPosition: i]
+                setItem: elem]
+               createEnd];
+      [self atOffset: i put: pi];
+    }
   [index drop];
   [shuffler shuffleWholeList: self];
   return self;
 }
 
+PHASE(Setting)
 PHASE(Using)
 
-- getCollection
+- (id <Collection>)getCollection
 {
   return collection;
 }

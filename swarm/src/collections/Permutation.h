@@ -16,26 +16,28 @@ Library:      collections
 @public
   id item;
   int position; // negative is to indicate removed
+  int lastDirection; // -1 = prev, 0 = none, 1 = next
 }
 - setItem: item;
 - setPosition: (unsigned)position;
+- setLastDirection: (int)lastDirection;
 - getItem;
 - (unsigned)getPosition;
 - (void)describe: outputCharStream;
 @end
 
-@interface Permutation_c: Array_c
+@interface Permutation_c: Array_c <Permutation>
 {
   @public
-   id collection;
-   id uniformRandom;
-   id shuffler;
+   id <Collection> collection;
+   id <Permutation> lastPermutation; 
+   id <ListShuffler> shuffler;
 }
-+ createBegin: aZone;
-- setCollection: collection;
+- setCollection: (id <Collection>)collection;
 - setUniformRandom: rnd;
+- setLastPermutation: (id <Permutation>)permutation;
 - createEnd;
-- getCollection;
+- (id <Collection>)getCollection;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;
 @end

@@ -86,6 +86,7 @@ Library:      collections
 {
 @public
   id index;
+  id rnd;
 }
 + createBegin: aZone;
 - setCollection: collection;
