@@ -17,6 +17,7 @@ pnglibdir = @pnglibdir@
 
 CC = @CC@
 CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
 
 INCLUDES = -I$(includedir)
 

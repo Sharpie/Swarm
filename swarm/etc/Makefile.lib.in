@@ -11,6 +11,7 @@ INCFILE = $(LIBNAME).h
 RANLIB = @RANLIB@
 CC = @CC@
 CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
 INCLUDES = -I$(includedir)
 
 .PHONY: install-headers install-lib
@@ -38,7 +39,7 @@ $(LIBRARY): $(OBJECTS)
 .SUFFIXES: .m .xm
 
 .m.o:
-	$(CC) -c -Wno-import $(CFLAGS) $(INCLUDES) $<   
+	$(CC) -c -Wno-import $(CPPFLAGS) $(CFLAGS) $(INCLUDES) $<   
 
 # Local variables:
 # mode: makefile

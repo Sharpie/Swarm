@@ -1,5 +1,8 @@
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.lib.in, Makefile.appl.in: Substitute CPPFLAGS and
+	add to compilation rule.
+
 	* Makefile.appl.in (datadir): Substitute.
 	(swarmdatadir, swarmsysconfdir): Appends /swarm.
 	(install-config): Use swarmsysconfdir instead.
