@@ -1,3 +1,7 @@
+1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* config.swarm.in (JAVA_CLASSES_INSTALLED_AS): New substitution.
+
 1999-04-25  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.tests.in (INCLUDES): Add include for src/gui directory,
