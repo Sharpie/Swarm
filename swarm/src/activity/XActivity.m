@@ -65,7 +65,7 @@ auditRunRequest (Activity_c *self, const char *request)
 //  external method to advance top-level activity to a status of Stopped,
 //  Terminated, or Completed
 //
-- run
+- (id <Symbol>)run
 {
   auditRunRequest (self, "run");
   ownerActivity = _activity_current;
@@ -97,7 +97,7 @@ auditRunRequest (Activity_c *self, const char *request)
 // in which case it runs until it reaches a status of either Holding or
 // Completed.
 //
-- _run_
+- (id <Symbol>)_run_
 {
   id  initStatus, subStatus, nextAction;
 
@@ -331,7 +331,7 @@ installNext (id activity)
 //
 // next -- advance activity to the next action within activity
 //
-- next
+- (id <Symbol>)next
 {
   Activity_c *subactivity;
 
@@ -376,7 +376,7 @@ installStep (id activity)
 //
 // step -- advance activity by a single action
 //
-- step
+- (id <Symbol>)step
 {
   Activity_c  *subactivity;
 
@@ -401,7 +401,7 @@ installStep (id activity)
 // getStatus -- return symbol for current processing status
 //              (overridden in ForEachActivity_c)
 //
-- getStatus
+- (id <Symbol>)getStatus
 {
   return status;
 }
@@ -409,7 +409,7 @@ installStep (id activity)
 //
 // getHoldType -- return HoldStart or HoldEnd status as provided by index
 //
-- getHoldType
+- (id <Symbol>)getHoldType
 {
   return [currentIndex getHoldType];
 }

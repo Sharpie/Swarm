@@ -678,7 +678,7 @@ USING
 //M: activity is already running.  run returns either a Stopped or
 //M: Completed status that the activity has when it is no longer eligible
 //M: to be run further.
-- run;
+- (id <Symbol>)run;
 
 //M: The stop message causes the a currently running tree of activities to
 //M: stop further processing and return a Stopped status.  
@@ -695,15 +695,15 @@ USING
 //M: The next executes actions within a single compound action while
 //M: skipping over all processing of any complete action plans executed by
 //M: those actions.
-- next;
+- (id <Symbol>)next;
 
 //M: The step message executes a single action within a tree of activities. 
-- step;
+- (id <Symbol>)step;
 
 //M: The getStatus message returns one of the following codes for the current
 //M: run status of a particular activity:
 //M: Initialized, Running, Stopped, Holding, Released, Terminated, Completed.
-- getStatus;
+- (id <Symbol>)getStatus;
 
 //M: The getHoldType returns a code for the particular hold constraint
 //M: under which an activity is currently holding (HoldStart or HoldEnd).
@@ -713,7 +713,7 @@ USING
 //M: (.. Currently no hold
 //M: constraints other than merging within a swarm are supported, and this
 //M: message always returns nil.)
-- getHoldType;
+- (id <Symbol>)getHoldType;
 
 //M: Get action containing parameter bindings for the local activity.
 - getAction;

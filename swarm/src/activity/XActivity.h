@@ -29,14 +29,14 @@ Library:      activity
   BOOL keepEmptyFlag;
 }
 /*** methods in Activity_c (inserted from .m file by m2h) ***/
-- run;
-- _run_;
+- (id <Symbol>)run;
+- (id <Symbol>)_run_;
 - (void)terminate;
 - stop;
-- next;
-- step;
-- getStatus;
-- getHoldType;
+- (id <Symbol>)next;
+- (id <Symbol>)step;
+- (id <Symbol>)getStatus;
+- (id <Symbol>)getHoldType;
 - getActionType;
 - getAction;
 - _getSubactivityAction_;

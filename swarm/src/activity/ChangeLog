@@ -1,3 +1,13 @@
+1999-05-26  Alex Lancaster  <alex@santafe.edu>
+
+	* activity.h, XActivity.[hm] ([Activity_c -run]): Cast return to
+	(id <Symbol>).
+	([Activity_c -_run_]): Likewise.
+	([Activity_c -next]): Likewise.
+	([Activity_c -step]): Likewise.
+	([Activity_c -getStatus]): Likewise.
+	([Activity_c -getHoldType]): Likwise
+
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES): Switch from lib_LTLIBRARIES.
