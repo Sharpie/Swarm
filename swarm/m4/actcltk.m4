@@ -56,8 +56,7 @@ fi
 INCPLACES="$USER_TCL_INCLUDE $USER_TK_INCLUDE $INCPLACES"
 
 AC_MSG_CHECKING(directory of tcl.h)
-tclincludedir=""
-for dir in "$TCL_INCLUDE_DIR" $INCPLACES; do
+for dir in $tclincludedir "$TCL_INCLUDE_DIR" $INCPLACES; do
   if test -r $dir/tcl.h; then
     tclincludedir=$dir
     break;
@@ -143,8 +142,7 @@ INCPLACES="$INCPLACES \
 	$POTENTIALINCDIR/tk4.0/include \
 	$POTENTIALINCDIR/tk/include"
 AC_MSG_CHECKING(directory of tk.h)
-tkincludedir=""
-for dir in "$TK_INCLUDE_DIR" $INCPLACES; do
+for dir in $tkincludedir "$TK_INCLUDE_DIR" $INCPLACES; do
   if test -r $dir/tk.h; then
     tkincludedir=$dir
     break;
