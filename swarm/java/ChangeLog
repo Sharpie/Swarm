@@ -1,5 +1,11 @@
 1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* java-stub.el (*objc-to-java-type-alist*): Handle unsigned short
+	and short.  Map unsigned long to long, not int.
+	(*removed-methods*): Don't include addArgument:ofObjCType:
+	(from FArguments).
+	(java-print-native-method): Handle Class.
+
 	* Makefile.am (bin_SCRIPTS): Add javacswarm.
 
 	* javacswarm: New file.

@@ -23,11 +23,13 @@
       ("char" . "char")
       ("unsigned char" . "byte")
       ("int" . "int")
+      ("short" . "short")
+      ("unsigned short" . "short")
       ("long" . "long")
+      ("unsigned long" . "long")
       ("double" . "double")
       ("float" . "float")
       ("unsigned" . "int")
-      ("unsigned long" . "int")
       ("BOOL" . "boolean")
       ("timeval_t" . "long")
       ("size_t" . "long")
@@ -119,9 +121,14 @@
 
       ;; FCall
       "-setJavaMethod:inObject:" ; void* parameter
-      "-getResult"; void* return
       "-getRetVal:buf:"; retval_t return
-      
+
+      ;; FArguments
+      "-addArgument:ofObjCType:" ; void* parameter
+
+      ;; FCall, FArguments
+      "-getResult"; void* return
+
       ;; Array
       "-getData"; void* return
       "+create:setMemberBlock:setCount:" ; id* parameter
@@ -691,6 +698,9 @@
                      t)
                     ((string= "-createEnd" signature)
                      (insert "JSWITCHUPDATE (env, jobj, JINSTANTIATEUSING (env, jobj), ")
+                     t)
+                    ((string= java-return "Class")
+                     (insert "(jclass) JFINDJAVA (")
                      t)
                     ((string= java-return "Object")
                      (insert "JFINDJAVA (")
