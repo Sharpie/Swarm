@@ -3,6 +3,8 @@
 	* HDF5Object.m: Fix unpacking of compound types (across differing
 	architectures).
 
+	* Makefile.am (modulemap.c): Add GUIOPT.
+
 2004-07-21  Scott Christley  <schristley@mac.com>
 
 	* java.m (swarm_directory_java_associate_objects): Exclude
