@@ -1,3 +1,9 @@
+1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile (SWARMHOME): Default to 1999-03-09.
+
+	* main.m (main): Call initSwarmBatch instead of initSwarm.
+
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (SWARMHOME): Default to 1998-08-17.

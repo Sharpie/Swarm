@@ -9,11 +9,11 @@ main (int argc, const char **argv)
 {
   id modelSwarm;
 
-  initSwarm (argc, argv);
+  initSwarmBatch (argc, argv);
 
   // Make the model swarm
 
-  modelSwarm =  [ModelSwarm create: globalZone];
+  modelSwarm = [ModelSwarm create: globalZone];
 
   // Now send messages to the newly created swarm telling it
   // to build its internal objects and its activities.

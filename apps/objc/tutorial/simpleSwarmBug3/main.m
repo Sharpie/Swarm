@@ -1,6 +1,5 @@
 // simpleBug - tutorial application
 
-
 #import <simtools.h>                // ... for initSwarm() 
 #import <activity.h>
 #import "ModelSwarm.h"
@@ -12,11 +11,11 @@
 int
 main (int argc, const char **argv)
 {
-  ModelSwarm * modelSwarm;
+  ModelSwarm *modelSwarm;
 
   // Swarm initialization: all Swarm apps must call this first.
 
-  initSwarm(argc, argv);
+  initSwarmBatch (argc, argv);
 
   // Make the bug model swarm
 
@@ -39,5 +38,3 @@ main (int argc, const char **argv)
   return 0;
 
 }
-
-
