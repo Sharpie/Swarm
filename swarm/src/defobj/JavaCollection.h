@@ -17,6 +17,7 @@
 - getFirst;
 - (void)addLast: obj;
 - (void)forEach: (SEL)sel :arg1;
+- (void)describeForEach: stream;
 - lispIn: expr;
 - (void)lispOutDeep: stream;
 - (void)lispOutShallow: stream;

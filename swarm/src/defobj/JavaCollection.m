@@ -137,28 +137,13 @@ PHASE(Using)
 
 - (void)forEach: (SEL)sel :arg1
 {
-  id <FCall> call;
-  id <FArguments> arguments =
-    [FArguments createBegin: getCZone (getZone (self))];
-  jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
   jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
-  const char *sig = java_ensure_selector_type_signature (jsel);
-  jobject javaTarget;
-  jsize i, size;
-  jclass class;
+  jint size;
   jmethodID method;
-  char *selname, *ptr;
 
+  jclass class;
   if (!(class = (*jniEnv)->GetObjectClass (jniEnv, coll)))
-    abort ();
-  
-  [arguments setJavaSignature: sig];
-  [arguments setObjCReturnType: _C_ID];
-  [arguments addObject: arg1];
-  arguments = [arguments createEnd];
-
-  call = [FCall createBegin: getCZone (getZone (self))];
-  [call setArguments: arguments];
+        abort ();
 
   if (!(method =
 	(*jniEnv)->GetMethodID (jniEnv,
@@ -167,32 +152,53 @@ PHASE(Using)
 				"()I")))
     abort ();
   size = (*jniEnv)->CallIntMethod (jniEnv, coll, method);
-  if (!(method =
-	(*jniEnv)->GetMethodID (jniEnv,
-				class,
-				"get",
-				"(I)Ljava/lang/Object;")))
-    abort ();
-  (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  javaTarget = (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
-  selname = SSTRDUP (sel_get_name (sel));
-  ptr = strchr (selname, ':');
-  *ptr = '\0';
-  [call setJavaMethod: selname inObject: javaTarget];
-  call = [call createEnd];
-  [call performCall];
-  (*jniEnv)->DeleteLocalRef (jniEnv, javaTarget);
-  for (i = 1; i < size; i++)
+  
+  if (size > 0)
     {
-      javaTarget = (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
-      updateJavaTarget (call, javaTarget);
+      id <FCall> call;
+      id <FArguments> arguments =
+        [FArguments createBegin: getCZone (getZone (self))];
+      jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
+      const char *sig = java_ensure_selector_type_signature (jsel);
+      jobject javaTarget;
+      jint i;
+      char *selname, *ptr;
+      
+      [arguments setJavaSignature: sig];
+      [arguments setObjCReturnType: _C_ID];
+      [arguments addObject: arg1];
+      arguments = [arguments createEnd];
+      
+      call = [FCall createBegin: getCZone (getZone (self))];
+      [call setArguments: arguments];
+      
+      if (!(method =
+            (*jniEnv)->GetMethodID (jniEnv,
+                                    class,
+                                    "get",
+                                    "(I)Ljava/lang/Object;")))
+        abort ();
+      javaTarget = (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
+      selname = SSTRDUP (sel_get_name (sel));
+      ptr = strchr (selname, ':');
+      *ptr = '\0';
+      [call setJavaMethod: selname inObject: javaTarget];
+      call = [call createEnd];
       [call performCall];
       (*jniEnv)->DeleteLocalRef (jniEnv, javaTarget);
+      for (i = 1; i < size; i++)
+        {
+          javaTarget = (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
+          updateJavaTarget (call, javaTarget);
+          [call performCall];
+          (*jniEnv)->DeleteLocalRef (jniEnv, javaTarget);
+        }
+      [call drop]; 
+      [arguments drop];
+      [scratchZone free: (void *) selname];
+      [scratchZone free: (void *) sig];
     }
-  [call drop]; 
-  [arguments drop];
-  [scratchZone free: (void *) selname];
-  [scratchZone free: (void *) sig];
+  (*jniEnv)->DeleteLocalRef (jniEnv, class);
 }
 
 - (BOOL)allSameClass
@@ -240,6 +246,21 @@ PHASE(Using)
     (*jniEnv)->DeleteLocalRef (jniEnv, firstJavaClass);
   [index drop];
   return ret;
+}
+
+- (void)describeForEach: stream
+{
+  id member;
+  id <Index> index = [self begin: getCZone (getZone (self))];
+
+  for (member = [index next];
+       [index getLoc] == Member; 
+       member = [index next])
+    if (member)
+      [member describe: stream];
+    else
+      [stream catC: " NULL"];
+  [index drop];
 }
 
 - (void)_lispOut_: outputCharStream deep: (BOOL)deepFlag
