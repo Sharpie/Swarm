@@ -1,5 +1,9 @@
 1998-03-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* internal.m: Include sys/time.h, protecting against redefinition
+	of timezone.  Undo (X11) Status define to avoid warnings in
+	Win32 header files.
+
 	* win32dib.h: Declare new function dib_copy. 
 	Uncomment dib_{un}lock.
 

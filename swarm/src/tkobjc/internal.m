@@ -8,12 +8,18 @@
 #include <tk.h>
 
 #ifdef _WIN32
+// Get a definition of timeval, but avoid redefinition of timezone.
+#define timezone timezone__
+#include <sys/time.h>
+#undef timezone
+// Undo X11 definition
+#undef Status
 #include "win32dib.h"
 #define BOOL BOOL_
 #include "tkInt.h"
 #undef BOOL
 
-#define Arguments WindowsArguments
+#define Arguments Win32Arguments
 #define Colormap X11Colormap
 #include "tkWinInt.h"
 #undef Colormap
