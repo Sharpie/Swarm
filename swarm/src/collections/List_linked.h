@@ -11,3 +11,5 @@ Library:      collections
 
 #define LINKED 1
 #import <collections/List_GEN.h>
+
+id <ListIndex> beginLinkedList (struct List_linked *list);

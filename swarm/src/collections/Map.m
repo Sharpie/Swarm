@@ -42,18 +42,6 @@ compare_t compareFuncs[] = { compareIntegers,
                              compareCStrings,
                              compareIDs };
 
-static id <ListIndex>
-beginLinkedList (struct List_linked *list)
-{
-  ListIndex_linked *newIndex;
-
-  newIndex = COMPONENT_ALLOCIVARS (getZone (list), id_ListIndex_linked);
-  newIndex->collection = list;
-  newIndex->link = (link_t) Start;
-  newIndex->position = 0;
-  return newIndex;
-}
-
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
