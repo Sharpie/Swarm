@@ -1,3 +1,15 @@
+1999-04-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* JavaProxy.[hm] ([JavaProxy -forward::]): Moved to Object_s.
+
+	* directory.m (java_directory_java_find): Handle string conversion
+	(resyncing Objective C entry with call to GetStringUTFChars each
+	request).
+	(java_ensure_selector): Handle void.
+	(java_directory_objc_find_java): Return NULL if
+	java_directory_objc_find fails.
+	(java_directory_objc_find): Don't abort if item is not found.
+
 1999-04-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* JavaProxy.m: Include directory.h.

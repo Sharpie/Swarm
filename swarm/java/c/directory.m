@@ -86,13 +86,26 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
   jobject_id *result; 
   jobject newRef;
 
- 
   newRef = (*env)->NewGlobalRef (env, java_object);
   
   pattern.java_object = newRef;
   result = avl_find (java_tree, &pattern);
   (*env)->DeleteGlobalRef(env, newRef);
-  if (!result) 
+  if ((*env)->IsInstanceOf (env, java_object, c_string))
+    {
+      jboolean isCopy;
+      const char *utf, *str;
+      
+      if (result)
+        XFREE (result->objc_object);
+
+      utf = (*env)->GetStringUTFChars (env, java_object, &isCopy);
+      str = strdup (utf);
+      if (isCopy)
+        (*env)->ReleaseStringUTFChars (env, java_object, utf);
+      result = java_directory_update (env, java_object, (id) str);
+    }
+  else if (!result) 
     result = java_directory_update (env,
                                     java_object,
                                     [JavaProxy create: globalZone]);
@@ -108,16 +121,21 @@ java_directory_objc_find (id objc_object)
   
   pattern.objc_object = objc_object;
   result = avl_find (objc_tree, &pattern);
-  if (!result) 
-    abort ();
-      return result;
+  return result;
 }
 
 jobject
 java_directory_objc_find_java (id objc_object)
 {
   if (objc_object)
-    return java_directory_objc_find (objc_object)->java_object;
+    {
+      jobject_id *obj = java_directory_objc_find (objc_object);
+
+      if (obj)
+        return obj->java_object;
+      else
+        return NULL;
+    }
   return NULL;
 }
 
@@ -498,6 +516,11 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
               type = _C_DBL;
               pos = alignto (pos, __alignof__ (double));
               size = sizeof (double);
+            }
+          else if (classp (c_void))
+            {
+              type = _C_VOID;
+              size = 0;
             }
           else
             abort ();
