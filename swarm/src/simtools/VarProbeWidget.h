@@ -18,7 +18,7 @@
   VarProbe *myProbe;
   id <Frame> myLeft;
   id <Frame> myRight;
-  id <Label> myLabel;
+  id <VarProbeLabel> myLabel;
   int maxLabelWidth;
   int interactive;
   id <VarProbeEntry> myEntry;
@@ -42,7 +42,6 @@
 - (const char *)package;
 - (const char *)getId;
 #ifndef USE_WIDGET
-- focus;
 - setParent: parent;
 #endif
 @end

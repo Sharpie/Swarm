@@ -81,6 +81,10 @@
   id index;
   id probe;
 
+#ifndef USE_FRAME
+  widgetName = [parent makeWidgetNameFor: self];
+  GUI_MAKE_FRAME (self);
+#endif
   [super createEnd];
 
   if (SAFEPROBES)
@@ -94,7 +98,9 @@
         }
     }
 
+#ifdef USE_FRAME
   [self enableRelief];
+#endif
 
   probeMap = [[[ProbeMap createBegin: [self getZone]] 
                        setProbedClass: theClass]
@@ -104,10 +110,8 @@
   
   topRow = [Frame createParent: self];
 
-  myTitle  = [Label createParent: topRow];
+  myTitle = [ClassDisplayLabel createParent: topRow];
   [myTitle setText: theClass->name];
-  [myTitle anchorWest];
-  [myTitle colorBlue];
 
   GUI_DRAG_AND_DROP (myTitle, self);
   
@@ -244,6 +248,26 @@
 {
   return [probedObject getIdName];
 }
+
+#ifndef USE_FRAME
+- setParent: theParent
+{
+  parent = theParent;
+  return self;
+}
+
+- (const char *)getWidgetName
+{
+  return widgetName;
+}
+
+- pack
+{
+  GUI_PACK (self);
+  return self;
+}
+
+#endif
 
 @end
 

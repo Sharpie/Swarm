@@ -1,3 +1,34 @@
+1998-01-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VarProbeWidget.m ([VarProbeWidget -createEnd]): Create
+	myLabel from a VarProbeLabel instead of a Label; remove
+	call to anchorEast.
+	([VarProbeWidget -setParent:]): Don't define focus method
+	in non-USE_WIDGET case.
+	([VarProbeWidget -idReceive]): Call GUI_FOCUS instead of using
+	now-nonexistent focus widget method.
+
+	* VarProbeWidget.h (VarProbeWidget): Make myLabel conform
+	to the VarProbeLabel instead of Label protocol.
+	Remove declaration of focus method in non-USE_WIDGET case.
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): Define
+	widgetName and create a frame unless USE_FRAME.
+	([ClassDisplayWidget -createEnd]): Disable relief.  Create myTitle
+	from a ClassDisplayLabel instead of a Label; remove calls to
+	anchorWest and colorBlue.
+	([ClassDisplayWidget -setParent:], [ClassDisplayWidget
+	-getWidgetName], [ClassDisplayWidget -pack]): Define versions unless
+	USE_FRAME.
+
+	* ClassDisplayWidget.h (ClassDisplayWidget): Don't include
+	tkobjc/Frame.h, and inherit from SwarmObject unless USE_FRAME.
+	Make myTitle conform to the ClassDisplayLabel protocol instead of
+	the Label protocol.  Make hideB conform to the
+	ClassDisplayHideButotn protocol.  Make SuperButton conform to the
+	SuperButton protocol.  Include widgetName and parent instance
+	variables and setters unless USE_FRAME.
+
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* simtools.m: Include gui.h instead of tkobjc.h.  Use GUI_INIT

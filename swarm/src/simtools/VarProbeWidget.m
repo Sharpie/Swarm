@@ -54,10 +54,9 @@
 {
   [super createEnd];
 
-  myLabel = [Label createParent: myLeft];
+  myLabel = [VarProbeLabel createParent: myLeft];
   [myLabel setText: [myProbe getProbedVariable]];
-  [myLabel anchorEast];
-
+  
   if (maxLabelWidth)
     [myLabel setWidth: maxLabelWidth];
     
@@ -122,12 +121,6 @@
 }
 
 #ifndef USE_WIDGET
-- focus
-{
-  GUI_FOCUS (self);
-  return self;
-}
-
 - setParent: theParent
 {
   parent = theParent;
@@ -148,7 +141,7 @@
   id resObj = GUI_DRAG_AND_DROP_OBJECT ();
   
   [myProbe setData: myObject To: &resObj]; 
-  [self focus];
+  GUI_FOCUS (self);
   [self update];
   return self;
 }
