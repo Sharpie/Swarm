@@ -1,3 +1,9 @@
+2000-06-27  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* tclObjc.m: Include DefObject.h and defalloc.h.
+	(tclObjc_msgSendToClientData): Put FCall and FArguments in
+	component zone.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Makefile.am (REVISION): Bump.  Swarm 2.1.1 frozen.

@@ -27,6 +27,9 @@
    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */ 
 #include <swarmconfig.h>
+#import <defobj.h> // FArguments, FCall
+#import <defobj/DefObject.h> // mapalloc_t for defalloc
+#import <defobj/defalloc.h> // getCZone
 
 #include "tclObjc.h"
 #include <tcl.h>
@@ -36,8 +39,6 @@
   
 #include <objc/objc-api.h>
 #include <objc/encoding.h>
-
-#import <defobj.h> // FArguments, FCall
 
 int (*tclObjc_eventHook) ();
 
@@ -208,7 +209,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     void *ret = NULL;
     unsigned argnum;
 
-    fa = [FArguments createBegin: scratchZone];
+    fa = [FArguments createBegin: getCZone (scratchZone)];
     [fa setObjCReturnType: *(objc_skip_type_qualifiers (seltype))];
     type = objc_skip_argspec (seltype);
     type = objc_skip_argspec (type);
@@ -334,7 +335,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
             }
         }
       }
-    fc = [[[[FCall createBegin: scratchZone]
+    fc = [[[[FCall createBegin: getCZone (scratchZone)]
              setArguments: [fa createEnd]]
             setMethod: sel inObject: target]
            createEnd];
