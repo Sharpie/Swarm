@@ -52,7 +52,7 @@ PHASE(Creating)
 
 - createEnd
 {
-  if (createByMessageToCopy( self, createEnd))
+  if (createByMessageToCopy (self, createEnd))
     return self;
 
   if (internalZone)
@@ -190,9 +190,7 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
   
   // get zone in which activities to be created
   
-  activityZone = (_activity_current
-                  ? getZone ((Activity_c *) _activity_current)
-                  : _activity_zone);
+  activityZone = swarmContext ?: _activity_zone;
   
   // create a special schedule to merge subschedule activities
   

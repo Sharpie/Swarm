@@ -1,3 +1,8 @@
+1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmProcess.m ([CSwarmProcess -activateIn:]): Take swarmContext
+	as Zone or _activity_zone when context is nil.
+
 1999-09-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* XActivity.m ([Activity_c -dropAllocations:]): New method.
