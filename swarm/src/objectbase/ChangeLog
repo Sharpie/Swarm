@@ -1,3 +1,24 @@
+1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* swarm_rts_routines.[hm] (swarm_method_get_number_of_arguments):
+	Remove.  Remove my_objc prefixes.  Change skip_argspec to
+	return NULL when current type character is \0.
+
+	* objectbase.h (val_t): Define.  Change declarations per 
+	MessageProbe.h changes below.
+
+	* MessageProbe.h: Include objectbase.h.
+	Remove Imp types and use of Imp types.
+	Remove probedMessage, argNum and argLabels. 
+	arguments is now of type val_t.  
+	Hide result flag is now boolean and named hideResultFlag (not hr).
+	Remove setProbedMessage and setArg:ToObjectName. 
+	Rename setArg:To: to setArg:ToString.
+	hideResult accessors are boolean, as are isResultId and isArgumentId:
+	Rename getArgNum to getArgCount.
+
+	* MessageProbe.m:  Rewritten to use avcall library.
+
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbe.m ([MessageProbe -_trueDynamicCallOn_:resultStorage:]):

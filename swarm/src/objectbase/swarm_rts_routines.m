@@ -12,23 +12,23 @@
 #define isDigit(ch) isdigit((int)ch)
 
 inline const char*
-my_objc_skip_type_qualifiers (const char *type)
+skip_type_qualifiers (const char *type)
 {
   while (*type == _C_CONST
-	 || *type == _C_IN 
-	 || *type == _C_INOUT
-	 || *type == _C_OUT 
-	 || *type == _C_BYCOPY
-	 || *type == _C_ONEWAY)
+         || *type == _C_IN 
+         || *type == _C_INOUT
+         || *type == _C_OUT 
+         || *type == _C_BYCOPY
+         || *type == _C_ONEWAY)
     type++;
   return type;
 }
 
 const char* 
-my_objc_skip_typespec (const char * type)
+skip_typespec (const char *type)
 {
-  type = my_objc_skip_type_qualifiers (type);
-
+  type = skip_type_qualifiers (type);
+  
   switch (*type)
     {
     case _C_ID:
@@ -67,7 +67,7 @@ my_objc_skip_typespec (const char * type)
       /* skip digits, typespec and closing ']' */
       
       while (isDigit (*++type));
-      type = my_objc_skip_typespec (type);
+      type = skip_typespec (type);
       if (*type == _C_ARY_E)
         return ++type;
       else
@@ -78,7 +78,7 @@ my_objc_skip_typespec (const char * type)
       
       while (*type != _C_STRUCT_E && *type++ != '=');
       while (*type != _C_STRUCT_E) 
-        type = my_objc_skip_typespec (type);
+        type = skip_typespec (type);
       return ++type;
       
     case _C_UNION_B:
@@ -86,13 +86,13 @@ my_objc_skip_typespec (const char * type)
       
       while (*type != _C_UNION_E && *type++ != '=');
       while (*type != _C_UNION_E)
-        type = my_objc_skip_typespec (type);
+        type = skip_typespec (type);
       return ++type;
       
     case _C_PTR:
       /* Just skip the following typespec */
       
-      return my_objc_skip_typespec (++type);
+      return skip_typespec (++type);
       
     default:
       abort();
@@ -100,46 +100,29 @@ my_objc_skip_typespec (const char * type)
 }
 
 inline const char* 
-my_objc_skip_offset (const char* type)
+skip_offset (const char* type)
 {
   if (*type == '+')
     type++;
   while (isDigit (*++type));
-  return type;
+  return (*type == '\0') ? NULL : type;
 }
 
 const char*
-my_objc_skip_argspec (const char* type)
+skip_argspec (const char* type)
 {
-  type = my_objc_skip_typespec (type);
-  type = my_objc_skip_offset (type);
+  type = skip_typespec (type);
+  type = skip_offset (type);
   return type;
 }
 
 int
-my_method_get_number_of_arguments (struct objc_method* mth)
+get_number_of_arguments (const char *type)
 {
-  int i = 0;
-  const char* type = mth->method_types;
-
-  while (*type)
-    {
-      type = my_objc_skip_argspec (type);
-      i++;
-    }
-  return i - 1;
-}
-
-int
-get_number_of_arguments (const char* type)
-{
-  int i = 0;
+  int i;
  
-  while (*type)
-    {
-      type = my_objc_skip_argspec (type);
-      i++;
-    }
+  for (i = 0; type; type = skip_argspec (type))
+    i++;
   return i - 1;
 }
 

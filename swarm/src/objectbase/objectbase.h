@@ -25,7 +25,7 @@ Date:            1996-12-12
 @protocol SwarmObject <Create, Drop>
 USING
 - (const char *)getInstanceName;
-- (id)		getProbeMap;
+- 		getProbeMap;
 -		getCompleteProbeMap;
 -		getProbeForVariable: (const char *)aVariable;
 -		getProbeForMessage: (const char *)aMessage;
@@ -37,7 +37,7 @@ USING
 //   the probelibrary.
 //
 @protocol ProbeConfig
--              setObjectToNotify: (id) anObject;
+-              setObjectToNotify: anObject;
 -              getObjectToNotify;
 @end
 
@@ -93,7 +93,7 @@ USING
 - (int)		probeAsInt: anObject;
 - (double)	probeAsDouble: anObject;
 - (const char *)probeAsString: anObject Buffer: (char *)buffer;
-- (const char *)probeAsString: (id) anObject Buffer: (char *)buf
+- (const char *)probeAsString: anObject Buffer: (char *)buf
             withFullPrecision: (int) precision;
 -		setData: anObject To: (void *) newValue;  // pass by reference.
 - (int)		setData: anObject ToString: (const char *)s; 
@@ -104,31 +104,35 @@ USING
 //   Allows the user to call a given message on any candidate
 //   which is an instance of, or inherits from, a given class
 //
+
+typedef struct val {
+  char type;
+  union {
+    id object;
+    SEL selector;
+    int _int;
+    float _float;
+    double _double;
+  } val;
+} val_t;
+
 @protocol MessageProbe <Probe>
 CREATING
 -		setProbedSelector: (SEL)aSel;
--		setProbedMessage: (const char *)aMessage;
--		setHideResult: (int)val;
+-		setHideResult: (BOOL)val;
 USING
--(int)		isResultId ;                  // I doubt that a user will 
--(int)		isArgumentId: (int)which;    // ever need these.
+- (BOOL)	isResultId;                  // I doubt that a user will 
+- (BOOL)	isArgumentId: (int)which;    // ever need these.
 
 - (const char *)getProbedMessage;
-- (int)		getArgNum;
+- (int)		getArgCount;
 - (const char *)getArg: (int)which;
 - (const char *)getArgName: (int)which;
-- (int)		getHideResult;
+- (BOOL)	getHideResult;
 
-- setArg: (int)which To: (const char *) what;
-- setArg: (int)which ToObjectName: object;
+- setArg: (int)which ToString: (const char *)what;
 
--		dynamicCallOn: target resultStorage: (const char **) result;
--		dynamicCallOn: target;
-
--		updateMethodCache: anObject;
-- (int)		intDynamicCallOn: target;
-- (float)	floatDynamicCallOn: target;
-- (double)	doubleDynamicCallOn: target;
+- (val_t)       dynamicCallOn: target;
 @end
 
 //
@@ -228,17 +232,17 @@ extern id  <ProbeLibrary> probeLibrary;
 //
 @protocol ActivityControl <SwarmObject>
 CREATING
-- attachToActivity: (id) anActivity;
+- attachToActivity: anActivity;
 USING
 - run;
 - stop;
 - next;
 - step;
-- stepUntil: (timeval_t) stopTime;
-- (void) terminateActivity;
+- stepUntil: (timeval_t)stopTime;
+- (void)terminateActivity;
 - updateStateVar;
 - getStatus;
-- (const char *) getInstanceName;
+- (const char *)getInstanceName;
 @end
 
 @class Probe;
