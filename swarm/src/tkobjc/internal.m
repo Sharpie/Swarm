@@ -683,7 +683,8 @@ keep_inside_screen (id topLevel)
 }
 
 void
-tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
+tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
+                                  BOOL parentFlag)
 {
 
   if (widget == nil)
@@ -693,13 +694,20 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
       id topLevel = [widget getTopLevel];
       const char *widgetName = [topLevel getWidgetName];
       Tk_Window tkwin = tkobjc_nameToWindow (widgetName);
-      Window window = Tk_WindowId (tkwin);
+      Window window;
 
       [globalTkInterp eval: "wm deiconify %s", widgetName];
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
       keep_inside_screen (topLevel);
       Tk_RestackWindow (tkwin, Above, NULL);
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+      if (parentFlag)
+        {
+          [globalTkInterp eval: "wm frame %s", widgetName];
+          sscanf ([globalTkInterp result], "0x%x", &window);
+        }
+      else
+        window = Tk_WindowId (tkwin);
 #ifndef _WIN32
       pixmap->display = Tk_Display (tkwin);
       x_pixmap_create_from_window (pixmap, window);

@@ -233,6 +233,13 @@ PHASE(Creating)
   return self;
 }
 
+- setParentFlag: (BOOL)theParentFlag
+{
+  parentFlag = theParentFlag;
+
+  return self;
+}
+
 + createBegin: aZone
 {
   Pixmap *obj = [super createBegin: aZone];
@@ -240,6 +247,7 @@ PHASE(Creating)
   obj->widget = nil;
   obj->directory = "./";
   obj->filename = NULL;
+  obj->parentFlag = NO;
 
   return obj;
 }
@@ -249,7 +257,7 @@ PHASE(Creating)
   if (filename)
     [self _loadPNG_];
   else
-    tkobjc_pixmap_create_from_widget (self, widget);
+    tkobjc_pixmap_create_from_widget (self, widget, parentFlag);
   
   return self;
 }

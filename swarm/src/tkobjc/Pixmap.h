@@ -13,6 +13,7 @@
   const char *directory;
   const char *filename;
   id <Widget> widget;
+  BOOL parentFlag;
 
   @public
 #ifndef _WIN32
