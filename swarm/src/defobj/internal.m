@@ -1061,6 +1061,8 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           CONVERTNUMBER (expr,long long,getLongLong,ivar_type,buf);
           break;
         case fcall_type_schar:
+          if (ivar_type == fcall_type_uchar) // conflated by lisp_output_type
+            ivar_type = fcall_type_schar;
           ENSUREVALUETYPE (expr, getChar, fcall_type_schar, ivar_type, ivar_name, buf.schar);
           break;
         default:

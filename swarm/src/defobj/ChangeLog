@@ -1,3 +1,8 @@
+2001-02-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* internal.m (object_setVariableFromExpr): Handle conflation
+	of signed and unsigned by Lisp serialization.
+
 2001-02-10  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* internal.m (map_objc_class_ivars): Skip structs.
