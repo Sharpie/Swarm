@@ -136,9 +136,7 @@
         ((eq java-type-category 'protocol)
          (let* ((protocol-name (match-string 1 objc-type))
                 (protocol (lookup-protocol protocol-name)))
-           (if (real-class-p protocol)
-               (java-qualified-name current-module protocol :using t)
-               "Object")))
+           (java-qualified-name current-module protocol :using t)))
         (t java-type-category)))
 
 (defun java-objc-to-java-type (current-module objc-type)

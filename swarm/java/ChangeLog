@@ -1,3 +1,8 @@
+2001-08-10  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* java-stub.el (java-type-category-to-java-type): Always use
+	protocol name when it is a protocol.
+
 2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
 	
 	* Makefile.am: Change libgcjswarm.la libtool usages to libtool-new.
