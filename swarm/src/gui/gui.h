@@ -58,6 +58,7 @@
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 - (id <GraphElement>)createElement;
 - setScaleModeX: (int)xs Y: (int)ys;
+- setRangesYMin: (double)miny Max:(double)maxy;
 @end
 
 @protocol Histogram <ArchivedGeometryWidget>
@@ -133,6 +134,7 @@
 @protocol Entry <Widget>
 - (const char *)getValue;
 - setValue: (const char *)value;
+- linkVariableInt: (void *)p;
 @end
 
 @protocol MessageProbeEntry <Entry>

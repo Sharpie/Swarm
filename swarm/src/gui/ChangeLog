@@ -1,3 +1,8 @@
+1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (Entry): Add linkVariableInt: to protocol (used in testIPD).
+	(Graph) Add setRangesYMin:Max:.
+
 1998-02-24  Alex Lancaster  <alex@santafe.edu>
 
 	* gui.h (GUI_UPDATE_IDLE_TASKS): Added to call the new
