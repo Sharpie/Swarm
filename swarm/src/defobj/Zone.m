@@ -55,7 +55,7 @@ dalloc (size_t blockSize)
   
   XFREE (block);
   block = xmalloc (blockSize + 7);
-  return ((void *) (((unsigned long)block + 7) & ~0x7));
+  return ((void *) (((unsigned long) block + 7) & ~0x7));
 }
 
 //
@@ -155,7 +155,7 @@ PHASE(Using)
   memset (newObject, 0, size);
   setClass (newObject, aClass);   
   newObject->zbits = (unsigned long) self;   
-  return (id)newObject;
+  return (id) newObject;
 }
 
 //
@@ -443,7 +443,7 @@ PHASE(Using)
   id index, member;
 
   index = [population begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     [member describe: outputCharStream];
   [index drop];
 }
@@ -457,7 +457,7 @@ PHASE(Using)
   id index, member;
 
   index = [population begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     [member describeID: outputCharStream];
   [index drop];
 }
@@ -476,7 +476,7 @@ PHASE(Using)
   mapalloc->descriptor = t_PopulationObject;
 
   index = [population begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     {
       [index prev];
       mapAlloc (mapalloc, member);

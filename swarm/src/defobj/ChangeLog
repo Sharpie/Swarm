@@ -1,5 +1,8 @@
 1999-09-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Zone.m ([Zone_c -describeForEachID:], [Zone_c -mapAllocations:]): 
+	Quit on getLoc != Member, not nil.
+
 	* Zone.[mh] ([Zone_c -allocIVars:]): Use Class argument type.
 
 1999-09-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
