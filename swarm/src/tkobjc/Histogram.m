@@ -156,12 +156,9 @@ PHASE(Using)
 
 - hideLegend
 {
-  if ([globalTkInterp newBLTp])
-    [globalTkInterp eval: "%s legend configure -hide yes",
-                    [self getWidgetName]];
-  else
-    [globalTkInterp eval: "%s legend configure -mapped 0",
-                    [self getWidgetName]];
+  [globalTkInterp eval: "%s legend configure $hideOption $hideYes",
+                  [self getWidgetName]];
+  
   return self;
 }
 
@@ -169,27 +166,19 @@ PHASE(Using)
 {
   [globalTkInterp eval: "active_item_info %s",
                   [self getWidgetName]];
+
   return self;
 }
 
 - setupActiveOutlierMarker
 {
-  if ([globalTkInterp newBLTp])
-    [globalTkInterp
-      eval: 
-        "%s marker create text -coords { -Inf +Inf } "
-      "-name active_outlier_marker "
-      "-anchor nw -justify right "
-      "-bg {} -hide yes",
-      [self getWidgetName]];
-  else
-    [globalTkInterp
-      eval: 
-        "%s marker create text -coords { -Inf +Inf } "
-      "-name active_outlier_marker "
-      "-anchor nw -justify right "
-      "-bg {} -mapped 0",
-      [self getWidgetName]];
+  [globalTkInterp
+    eval: 
+      "%s marker create text -coords { -Inf +Inf } "
+    "-name active_outlier_marker "
+    "-anchor nw -justify right "
+    "-bg {} $hideOption $hideNo",
+    [self getWidgetName]];
 
   return self;
 }

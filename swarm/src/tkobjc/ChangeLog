@@ -1,9 +1,13 @@
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Histogram.m ([Histogram -setupActiveOutlierMarker]): Handle
-	new versions of BLT; "-hide yes" instead of "-mapped 0".
+	* analysis.tcl: Declare hideOption, hideYes, and hideNo as globals.
+	Use throughout for -hide/-mapped.
 
-	* analysis.tcl: Use "-hide yes" instead of "-mapped 0".
+	* Histogram.m ([Histogram -hideLegend],
+	[Histogram -setupActiveOutlierMarker]): Use hide{Option,Yes,No}.
+
+	* tkobjc.m (initTkObjc): Define globals hideOption, hideYes, and 
+	hideNo per newBLTp.
 
 1998-08-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

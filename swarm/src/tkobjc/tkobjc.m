@@ -43,6 +43,20 @@ initTkObjc (id arguments)
       tkobjc_initTkInterp (arguments);
       
       [globalTkInterp eval: simtools_tcl];
+
+      if ([globalTkInterp newBLTp])
+        [globalTkInterp eval: "uplevel #0 {"
+                        "set hideOption -hide\n"
+                        "set hideYes yes\n"
+                        "set hideNo no\n"
+                        "}\n"];
+      else
+        [globalTkInterp eval: "uplevel #0 {"
+                        "set hideOption -mapped\n"
+                        "set hideYes 1\n"
+                        "set hideNo 0\n"
+                      "}\n"];
+
       [globalTkInterp eval: analysis_tcl];
 #ifdef _WIN32
       {
