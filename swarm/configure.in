@@ -127,7 +127,7 @@ AC_ARG_WITH(pngdir,
   pngincludedir=$withval/include)
 
 AC_ARG_WITH(pngincludedir,
-[  --with-pngincludedir=DIR                Use DIR for PNG include files],
+[  --with-pngincludedir=DIR         Use DIR for PNG include files],
   pngincludedir=$withval)
 
 md_FIND_PNG
