@@ -11,8 +11,8 @@ SUFFIXES = .m
 
 INCLUDES = -I$(srcdir)/../misc $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
 
-override CFLAGS += $(X_CFLAGS)
-override CPPFLAGS += -DList=TclObjcList -Wno-implicit-int
+override OBJCFLAGS += $(X_CFLAGS) -Wno-implicit-int
+override CPPFLAGS += -DList=TclObjcList
 
 lib_LTLIBRARIES = libtclobjc.la
 

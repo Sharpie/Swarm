@@ -1,3 +1,8 @@
+1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am: Add -Wno-implicit-int to OBJCFLAGS instead of
+	CPPFLAGS.
+
 1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (CPPFLAGS): Add -Wno-implicit-int.
