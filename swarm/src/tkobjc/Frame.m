@@ -55,14 +55,6 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- assertPosition
-{
-  [globalTkInterp eval: "%s create window 0 0 -anchor nw -window %s",
-                  [[self getParent] getWidgetName],
-                  [self getWidgetName]];
-  return self;
-}
-
 - assertGeometry
 {
   id canvas = [self getParent];
@@ -91,16 +83,6 @@ PHASE(Using)
 {
   [globalTkInterp eval: "wm deiconify %s", [self getWidgetName]];
   return self;
-}
-
-- (void)drop
-{
-  void archiverUnregister (id client);
-  
-  archiverUnregister (self);
-
-  if (parent == nil && !destroyedFlag)
-    [globalTkInterp eval: "destroy %s", [self getWidgetName]]; 
 }
 
 @end

@@ -163,7 +163,8 @@ tkobjc_animate_message (id srcWidget,
                         id destWidget,
                         int sx, int sy,
                         int dx, int dy,
-                        BOOL triggerFlag)
+                        BOOL triggerFlag,
+                        unsigned sleepTime)
 {
 #ifndef _WIN32
   Tk_Window src_tkwin = tkobjc_nameToWindow ([srcWidget getWidgetName]);
@@ -205,37 +206,50 @@ tkobjc_animate_message (id srcWidget,
 
     attr.override_redirect = True;
     window = XCreateWindow (display, rootWindow, nsx, nsy, width, height, 0,
-                       image->depth,
-                       InputOutput, CopyFromParent,
-                       CWOverrideRedirect, &attr);
+                            image->depth,
+                            InputOutput, CopyFromParent,
+                            CWOverrideRedirect, &attr);
     XMapWindow (display, window);
     XPutImage (display, window, gc, image, 0, 0, 0, 0, width, height);
   }
   {
-    int xstep = width * 3;
-    int ystep = height * 3;
-    int xdiff = ndx - nsx;
-    int ydiff = ndy - nsy;
-    unsigned xdist = xdiff < 0 ? -xdiff : xdiff;
-    unsigned ydist = ydiff < 0 ? -ydiff : ydiff;
-    unsigned xsteps =  xdist / xstep;
-    unsigned ysteps = ydist / ystep;
-    unsigned steps = ((xsteps > ysteps) ? xsteps : ysteps);
-    int x = nsx;
-    int y = nsy;
-    int i;
+    double stepFactor = 2.0;
+    int xstep = width * stepFactor;
+    int ystep = height * stepFactor;
+    if (xstep == 0)
+      xstep = 1;
+    if (ystep == 0)
+      ystep = 1;
+    {
+      int xdiff = ndx - nsx;
+      int ydiff = ndy - nsy;
+      unsigned xdist = xdiff < 0 ? -xdiff : xdiff;
+      unsigned ydist = ydiff < 0 ? -ydiff : ydiff;
+      unsigned xsteps =  xdist / xstep;
+      unsigned ysteps = ydist / ystep;
+      unsigned steps = ((xsteps > ysteps) ? xsteps : ysteps);
+      int x = nsx;
+      int y = nsy;
+      int i;
 
-    xstep = xdiff / (int)steps;
-    ystep = ydiff / (int)steps;
+      xstep = xdiff / (int)steps;
+      ystep = ydiff / (int)steps;
+      if (xstep == 0)
+        xstep = 1;
+      if (ystep == 0)
+        ystep = 1;
     
-    for (i = 0; i < steps; i++)
-      {
-        XMoveWindow (display, window, x, y);
-        while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
-        XFlush (display);
-        x += xstep;
-        y += ystep;
-      }
+      for (i = 0; i < steps; i++)
+        {
+          XMoveWindow (display, window, x, y);
+          if (triggerFlag && sleepTime)
+            Tcl_Sleep (sleepTime);
+          while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+          XFlush (display);
+          x += xstep;
+          y += ystep;
+        }
+    }
   }
   XDestroyWindow (display, window);
 #endif
@@ -902,7 +916,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
 
       window = decorationsFlag ? topWindow : Tk_WindowId (tkwin);
 
-      [globalTkInterp eval: "wm deiconify %s", widgetName];
+      [topLevel deiconify];
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
 #ifndef _WIN32
       pixmap->display = Tk_Display (tkwin);

@@ -11,4 +11,6 @@
 }
 
 - createEnd;
+- addWidget: widget X: (int)x Y: (int)y centerFlag: (BOOL)centerFlag;
+- removeWidget: widget;
 @end

@@ -1,3 +1,31 @@
+1998-09-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_animate_message): Handle stepFactors
+	that result in 0 xstep or ystep.  Use sleepTime to handle
+	slow-stepping `trigger' animation.
+	(tkobjc_pixmap_create_from_widget): Use deiconify message instead
+	of doing it by globalTkInterp.
+
+	* ScheduleItem.[hm] ([ScheduleItem -getSleepTime]): New method.
+
+	* Schedule.m ([ScheduleItem -drop]): Do drops of line,
+	minTextItem, maxTextItem, and sleepTime manually.
+	([ScheduleItem -trigger:X:Y:]): Handle zoomFactor.
+
+	* ScheduleItem.h (ScheduleItem): Add line, minTextItem, maxTextItem,
+	and sleepTime. 
+
+	* Frame.h: Remove assertPosition (functionality now
+	in Canvas as addWidget:X:Y:centerFlag:).
+
+	* Canvas.[hm] ([Canvas -addWidget:X:Y:centerFlag:], 
+	[Canvas -removeWidget:]): New methods.
+
+	* ArchivedGeometryWidget.[hm]: Move destroy notifcation
+	support to Widget.[hm] (drop, getDestroyedFlag, _notify_Target_, 
+	structure_proc, enableDestroyNotification:notificationMethod:,
+	disableDestroyNotifcation.
+
 1998-09-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CompleteProbeDisplayLabel.m: Include misc.h

@@ -38,7 +38,7 @@ void tkobjc_initTkInterp (id arguments);
 void tkobjc_createEventHandler (id widget, Tk_EventProc proc);
 void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc);
 
-void tkobjc_animate_message (id srcWidget, id destWidget, int sx, int sy, int dx, int dy, BOOL triggerFlag);
+void tkobjc_animate_message (id srcWidget, id destWidget, int sx, int sy, int dx, int dy, BOOL triggerFlag, unsigned sleepTime);
 void tkobjc_move (id toplevel, int x, int y);
 
 void tkobjc_raster_create (Raster *raster);

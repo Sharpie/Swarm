@@ -4,12 +4,28 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/ScheduleItem.h>
+#include <tkobjc/global.h>
+
+#import <activity/Schedule.h>
+#include <objc/objc-api.h>
+#include <misc.h>
+
 #define BARSIZE 10
 #define BAROFFSET 30
-#define TEXTOFFSET 45
+#define ENTRYOFFSET 200
+#define DESCOFFSET 50
+
+#define ANIMATEOFFSET 300
 
 static void
-destroyNotify (id obj, id reallocAddress, void *arg)
+canvasFrameDestroyNotify (id obj, id reallocAddress, void *canvas)
+{
+  [(id)canvas removeWidget: obj];
+  [globalTkInterp eval: "destroy %s", [obj getWidgetName]];
+}
+
+static void
+canvasItemDestroyNotify (id obj, id reallocAddress, void *canvas)
 {
   [obj drop];
 }
@@ -81,10 +97,11 @@ destroyNotify (id obj, id reallocAddress, void *arg)
   wx = x * zoomFactor;
   wy = y * zoomFactor;
 
-  bx = [scheduleItem getXForBar];
+  bx = [scheduleItem getXForBar] + ANIMATEOFFSET;
   by = [scheduleItem getYForTime: t];
 
-  tkobjc_animate_message (widget, canvas, wx, wy, bx, by, NO);
+  tkobjc_animate_message (widget, canvas, wx, wy, bx, by, NO,
+			  [scheduleItem getSleepTime]);
   return self;
 }
 
@@ -144,7 +161,12 @@ PHASE(Using)
 - update
 {
   if (zone)
-    [zone drop];
+    {
+      [line drop];
+      [minTextItem drop];
+      [maxTextItem drop];
+      [zone drop];
+    }
 
   [self _createItem_];
   while (GUI_EVENT_ASYNC ()) {}  
@@ -169,13 +191,13 @@ PHASE(Using)
   int key;
   id <MapIndex> mi;
   int xbarpos, ymaxpos;
-  id <Line> line;
   timeval_t max;
 
   if (schedule == nil)
     return self;
   
   zone = [Zone create: [self getZone]];
+
   mi = [schedule begin: zone];
   if ([mi next: (id *)&key])
     {
@@ -195,7 +217,6 @@ PHASE(Using)
   xbarpos = [self getXForBar];
   [line setTX: xbarpos TY: yoffset LX: xbarpos LY: ymaxpos];
   line = [line createEnd];
-  [line addRef: destroyNotify withArgument: NULL];
   
   {
     char buf[20];
@@ -207,8 +228,7 @@ PHASE(Using)
     [text setX: xoffset Y: yoffset];
     sprintf (buf, "%d", min);
     [text setText: buf];
-    text = [text createEnd];
-    [text addRef: destroyNotify withArgument: NULL];
+    minTextItem = [text createEnd];
 
     text = [TextItem createBegin: zone];
     [text setCanvas: canvas];
@@ -216,8 +236,7 @@ PHASE(Using)
     [text setX: xoffset Y: ymaxpos];
     sprintf (buf, "%d", max);
     [text setText: buf];
-    text = [text createEnd];
-    [text addRef: destroyNotify withArgument: NULL];
+    maxTextItem = [text createEnd];
   }
 
   {
@@ -239,20 +258,57 @@ PHASE(Using)
           [bar setTX: xbarpos - BARSIZE/2 TY: ypos
                LX: xbarpos + BARSIZE/2 LY: ypos];
           bar = [bar createEnd];
-          [bar addRef: destroyNotify withArgument: NULL];
+          [bar addRef: canvasItemDestroyNotify withArgument: NULL];
         }
         {
           id <TextItem> text;
-
+          
           text = [TextItem createBegin: zone];
           [text setCanvas: canvas];
           [text setCenterFlag: NO];
-          [text setX: xoffset + TEXTOFFSET Y: ypos];
-          [text setText: [action name]];
-          text = [text createEnd];
-          [text addRef: destroyNotify withArgument: NULL];
+          [text setX: xoffset + DESCOFFSET Y: ypos];
+          {
+            char *buf;
+            if ([action isKindOf: [ActionConcurrent_c class]])
+              {
+                buf = xmalloc (10);
+                sprintf (buf, "%u",
+                         [((ActionConcurrent_c *)
+                           action)->concurrentGroup getCount]);
+                [text setText: buf];
+              }
+            else
+              {
+                const char *targetName = [[action getTarget] name];
+                const char *selName =
+                  sel_get_name ([action getMessageSelector]);
+                unsigned len = 
+                  2 + strlen (targetName) + 1 + strlen (selName) + 2;
+
+                buf = xmalloc (len  + 1);
+                sprintf (buf, "\\[%s %s\\]", targetName, selName);
+                [text setText: buf];
+              }
+            text = [text createEnd];
+            XFREE (buf);
+          }
+          [text addRef: canvasItemDestroyNotify withArgument: NULL];
         }
-      }
+        {
+          id <CompleteProbeDisplayLabel> label;
+          
+          label = [CompleteProbeDisplayLabel createBegin: zone];
+          [label setProbedObject: action];
+          [label setParent: canvas];
+          [label setTargetWidget: self];
+          label = [label createEnd];
+          [label setText: [action getIdName]];
+          [canvas addWidget: label
+                  X: xoffset + ENTRYOFFSET Y: ypos
+                  centerFlag: YES];
+          [label addRef: canvasFrameDestroyNotify withArgument: canvas];
+        }
+     }
     [mi drop];
   }
   return self;
@@ -275,13 +331,20 @@ PHASE(Using)
 
 - trigger: widget X: (int)x Y: (int)y
 {
+  int zoomFactor = ([widget respondsTo: @selector(getZoomFactor)]
+                  ? [widget getZoomFactor]
+                  : 1);
   tkobjc_animate_message (canvas, widget,
-                          [self getXForBar],
+                          [self getXForBar] + ANIMATEOFFSET,
                           [self getYForTime: getCurrentTime ()],
-                          x, y, YES);
+                          x * zoomFactor, y * zoomFactor, YES, sleepTime);
   return self;
 }
 
+- (unsigned)getSleepTime
+{
+  return sleepTime;
+}
 
 - (void)drop
 {

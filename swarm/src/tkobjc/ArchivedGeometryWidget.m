@@ -98,54 +98,9 @@ PHASE(Using)
 
 - (void)drop
 { 
-  [self disableDestroyNotification];
   archiverUnregister (self);
 
-  if (!destroyedFlag)
-    [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
   [super drop];
 }
-
-- (BOOL)getDestroyedFlag
-{
-  return destroyedFlag;
-}
-
-- _notifyTarget_
-{
-  destroyedFlag = YES;
-  [destroyNotificationTarget perform: destroyNotificationMethod with: self];
-  return self;
-}
-
-static void
-structure_proc (ClientData clientdata, XEvent *eventptr)
-{
-  if (eventptr->type == DestroyNotify)
-    [(id)clientdata _notifyTarget_];
-}
-
-- enableDestroyNotification: theNotificationTarget
-         notificationMethod: (SEL)theNotificationMethod
-{
-  if (theNotificationTarget)
-    {
-      tkobjc_createEventHandler (self, structure_proc);
-      
-      destroyNotificationTarget = theNotificationTarget;
-      destroyNotificationMethod = theNotificationMethod;
-    }
-  return self;
-}
-
-- disableDestroyNotification
-{
-  if (destroyNotificationTarget != nil)
-    {
-      tkobjc_deleteEventHandler (self, structure_proc);
-      destroyNotificationTarget = nil;
-    }
-  return self;
-}
-
 @end
+

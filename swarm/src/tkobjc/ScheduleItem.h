@@ -15,8 +15,13 @@
   id <List> pendingEvents;
   int xoffset, yoffset;
   timeval_t min;
+  id <Line> line;
+  id <TextItem> minTextItem;
+  id <TextItem> maxTextItem;
+  unsigned sleepTime;
 }
 
++ createBegin: aZone;
 - _createItem_;
 - createBindings;
 - setSchedule: schedule;
@@ -28,5 +33,6 @@
 - (int)getXForBar;
 - (int)getYForTime: (timeval_t)tval;
 - trigger: widget X: (int)x Y: (int)y;
+- (unsigned)getSleepTime;
 - (void)drop;
 @end

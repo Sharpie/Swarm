@@ -3,6 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#include "internal.h" // XEvent
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/Frame.h>
@@ -272,5 +273,58 @@ get_geometry_element (id widget, unsigned offset)
 
   return self;
 }
+
+- (void)drop
+{ 
+  [self disableDestroyNotification];
+
+  if (!destroyedFlag && parent == nil)
+    Tk_DestroyWindow (tkobjc_nameToWindow ([self getWidgetName]));
+  
+  [super drop];
+}
+
+- (BOOL)getDestroyedFlag
+{
+  return destroyedFlag;
+}
+
+- _notifyTarget_
+{
+  destroyedFlag = YES;
+  [destroyNotificationTarget perform: destroyNotificationMethod with: self];
+  return self;
+}
+
+static void
+structure_proc (ClientData clientdata, XEvent *eventptr)
+{
+  if (eventptr->type == DestroyNotify)
+    [(id)clientdata _notifyTarget_];
+}
+
+- enableDestroyNotification: theNotificationTarget
+         notificationMethod: (SEL)theNotificationMethod
+{
+  if (theNotificationTarget)
+    {
+      tkobjc_createEventHandler (self, structure_proc);
+      
+      destroyNotificationTarget = theNotificationTarget;
+      destroyNotificationMethod = theNotificationMethod;
+    }
+  return self;
+}
+
+- disableDestroyNotification
+{
+  if (destroyNotificationTarget != nil)
+    {
+      tkobjc_deleteEventHandler (self, structure_proc);
+      destroyNotificationTarget = nil;
+    }
+  return self;
+}
+
 
 @end

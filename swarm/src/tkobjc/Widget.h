@@ -13,6 +13,11 @@
 {
   Widget *parent;
   const char *widgetName;
+
+  id destroyNotificationTarget;
+  SEL destroyNotificationMethod;
+  BOOL destroyedFlag;
+
 }
 
 // creation time messages
@@ -54,4 +59,10 @@
 - setWidgetNameFromParentName: (const char *)parentWidgetName;
 - (const char *)makeWidgetNameFor: widget;
 
+- enableDestroyNotification: notificationTarget
+         notificationMethod: (SEL)destroyNotificationMethod;
+- disableDestroyNotification;
+- (BOOL)getDestroyedFlag;
+
+- (void)drop;
 @end
