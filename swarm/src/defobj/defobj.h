@@ -1099,7 +1099,7 @@ USING
 - (void *)getResult;
 @end
 
-typedef enum callTypes { ccall, COMcall, javacall, javastaticcall,  objccall } call_t;
+typedef enum callTypes { ccall, COMcall, JScall, javacall, javastaticcall,  objccall } call_t;
 
 @protocol FCall <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic calls.

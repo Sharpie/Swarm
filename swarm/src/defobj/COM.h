@@ -25,17 +25,25 @@ struct COMInterface {
   COMobject (*normalize) (COMobject);
 
   COMselector (*selectorQuery) (COMobject cObj);
+  BOOL (*selectorIsJavaScript) (COMselector cSel);
   BOOL (*selectorIsVoidReturn) (COMselector cSel);
   BOOL (*selectorIsBooleanReturn) (COMselector cSel);
   const char *(*selectorName) (COMselector cSel);
   unsigned (*selectorArgCount) (COMselector cSel);
   fcall_type_t (*selectorArgFcallType) (COMselector cSel, unsigned index);
-  void (*selectorInvoke) (COMselector cSel, void *args);
 
-  void *(*createArgVector) (unsigned size);
-  void (*setArg) (void *args, unsigned pos, fcall_type_t type, types_t *value);
-  void (*setReturn) (void *args, unsigned pos, fcall_type_t type, void *value);
-  void (*freeArgVector) (void *args);
+  void (*selectorCOMInvoke) (COMselector cSel, void *args);
+  void (*selectorJSInvoke) (COMselector cSel, void *args);
+
+  void *(*COMcreateArgVector) (unsigned size);
+  void (*COMsetArg) (void *args, unsigned pos, fcall_type_t type, types_t *value);
+  void (*COMsetReturn) (void *args, unsigned pos, fcall_type_t type, types_t *value);
+  void (*COMfreeArgVector) (void *args);
+
+  void *(*JScreateArgVector) (unsigned size);
+  void (*JSsetArg) (void *args, unsigned pos, fcall_type_t type, types_t *value);
+  void (*JSsetReturn) (void *args, unsigned pos, fcall_type_t type, types_t *value);
+  void (*JSfreeArgVector) (void *args);
 };
 
 extern void initCOM (COMEnv *env);
@@ -55,12 +63,21 @@ extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *COM_copy_string (const char *str);
 extern const char *COM_class_name (COMobject cObj);
 
+extern BOOL COM_selector_is_javascript (COMselector cSel);
 extern BOOL COM_selector_is_boolean_return (COMselector cSel);
 extern void COM_selector_invoke (COMselector cSel, void *args);
+extern void JS_selector_invoke (COMselector cSel, void *args);
+
 extern void *COM_create_arg_vector (unsigned size);
 extern void COM_set_arg (void *args, unsigned pos, fcall_type_t type, types_t *value);
-extern void COM_set_return (void *args, unsigned pos, fcall_type_t type, void *value);
+extern void COM_set_return (void *args, unsigned pos, fcall_type_t type, types_t *value);
 extern void COM_free_arg_vector (void *args);
+
+extern void *JS_create_arg_vector (unsigned size);
+extern void JS_set_arg (void *args, unsigned pos, fcall_type_t type, types_t *value);
+extern void JS_set_return (void *args, unsigned pos, fcall_type_t type, types_t *value);
+extern void JS_free_arg_vector (void *args);
+
 
 extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
 extern void swarm_directory_COM_add_selector (COMselector cSel, SEL oSel);

@@ -153,6 +153,7 @@ fillHiddenArguments (FCall_c *self)
     case ccall:
       break;
     case COMcall:
+    case JScall:
       break;
     case objccall: 
       fargs->hiddenArgumentCount = 2;	
@@ -243,6 +244,21 @@ add_ffi_types (FCall_c *fc)
                       fa->returnType,
                       &fa->resultVal);
     }
+  else if (fc->callType == JScall)
+    {
+      fc->COM_args = JS_create_arg_vector (fa->assignedArgumentCount + 1);
+      
+      for (i = 0; i < fa->assignedArgumentCount; i++)
+        {
+          unsigned pos = i + MAX_HIDDEN;
+          
+          JS_set_arg (fc->COM_args, i, fa->argTypes[pos], fa->argValues[pos]);
+        }
+      JS_set_return (fc->COM_args,
+                     fa->assignedArgumentCount,
+                     fa->returnType,
+                     &fa->resultVal);
+    }
   else
     {
 #ifndef USE_AVCALL
@@ -310,11 +326,11 @@ PHASE(Creating)
 
 - setMethod: (SEL)sel inObject: obj
 {
-  COMobject cSel;
+  COMselector cSel;
 
   if (swarmDirectory && (cSel = SD_COM_FIND_SELECTOR_COM (sel)))
     {
-      callType = COMcall;
+      callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
       (COMselector) fmethod = cSel;
     }
   else
@@ -415,7 +431,7 @@ PHASE(Creating)
 #endif
   add_ffi_types (self);
 #ifndef USE_AVCALL
-  if (callType != COMcall)
+  if (callType != COMcall && callType != JScall)
     {
       unsigned res;
       
@@ -514,9 +530,9 @@ PHASE(Using)
     }
 #endif
   if (callType == COMcall)
-    {
-      COM_selector_invoke ((COMselector) fmethod, COM_args);
-    }
+    COM_selector_invoke ((COMselector) fmethod, COM_args);
+  else if (callType == JScall)
+    JS_selector_invoke ((COMselector) fmethod, COM_args);
 #ifndef USE_AVCALL
   else
     {
@@ -875,6 +891,8 @@ PHASE(Using)
 {
   if (callType == COMcall)
     COM_free_arg_vector (COM_args);
+  else if (callType == JScall)
+    JS_free_arg_vector (COM_args);
 #ifdef HAVE_JDK
   else if (callType == javacall)
     {

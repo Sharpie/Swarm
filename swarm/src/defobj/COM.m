@@ -31,6 +31,12 @@ COM_class_name (COMobject cObj)
 }
 
 BOOL
+COM_selector_is_javascript (COMselector cSel)
+{
+  return comEnv->selectorIsJavaScript (cSel);
+}
+
+BOOL
 COM_selector_is_boolean_return (COMselector cSel)
 {
   return comEnv->selectorIsBooleanReturn (cSel);
@@ -39,32 +45,63 @@ COM_selector_is_boolean_return (COMselector cSel)
 void
 COM_selector_invoke (COMselector cSel, void *args)
 {
-  comEnv->selectorInvoke (cSel, args);
+  comEnv->selectorCOMInvoke (cSel, args);
+}
+
+void
+JS_selector_invoke (COMselector cSel, void *args)
+{
+  comEnv->selectorJSInvoke (cSel, args);
 }
 
 void *
 COM_create_arg_vector (unsigned size)
 {
-  return comEnv->createArgVector (size);
+  return comEnv->COMcreateArgVector (size);
 }
 
 void
 COM_set_arg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 {
-  comEnv->setArg (args, pos, type, value);
+  comEnv->COMsetArg (args, pos, type, value);
 }
 
 void
-COM_set_return (void *args, unsigned pos, fcall_type_t type, void *value)
+COM_set_return (void *args, unsigned pos, fcall_type_t type, types_t *value)
 {
-  comEnv->setReturn (args, pos, type, value);
+  comEnv->COMsetReturn (args, pos, type, value);
 }
 
 void
 COM_free_arg_vector (void *args)
 {
-  comEnv->freeArgVector (args);
+  comEnv->COMfreeArgVector (args);
 }
+
+void *
+JS_create_arg_vector (unsigned size)
+{
+  return comEnv->JScreateArgVector (size);
+}
+
+void
+JS_set_arg (void *args, unsigned pos, fcall_type_t type, types_t *value)
+{
+  comEnv->JSsetArg (args, pos, type, value);
+}
+
+void
+JS_set_return (void *args, unsigned pos, fcall_type_t type, types_t *value)
+{
+  comEnv->JSsetReturn (args, pos, type, value);
+}
+
+void
+JS_free_arg_vector (void *args)
+{
+  comEnv->JSfreeArgVector (args);
+}
+
 
 COMobject 
 swarm_directory_objc_find_object_COM (id oObject)
@@ -226,10 +263,7 @@ swarm_directory_COM_ensure_selector (COMselector cSel)
         if (comEnv->selectorIsVoidReturn (cSel))
           add_type (fcall_type_void);
         else
-          {
-            argCount--;
-            add_type (comEnv->selectorArgFcallType (cSel, argCount));
-          }
+          add_type (comEnv->selectorArgFcallType (cSel, argCount));
         add_type (fcall_type_object);
         add_type (fcall_type_selector);
 

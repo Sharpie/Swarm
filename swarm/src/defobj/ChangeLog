@@ -1,5 +1,23 @@
 2001-01-05  Marcus G. Daniels  <mgd@drone.swarm.org>
 
+	* defobj.h (callTypes): Add JScall.
+
+	* FCall.m (fillHiddenArguments, add_ffi_types,
+	[FCall_c -createEnd],
+	[FCall_c -dropAllocations:]): [FCall_c -performCall]): Handle JScall.
+	([FCall_c -setMethod:inObject:]): Check for JavaScript selector to
+	switch between JScall and COMcall.
+
+	* COM.m (swarm_directory_COM_ensure_selector): argCount now does
+	not include return value.
+
+	* COM.[hm] (COMInterface (selectorIsJavaScript,
+	selector{COM,JS}Invoke,
+	{COM,JS}{createArgVector,setArg,setReturn,freeArgVector)): Add JS
+	support.
+	(JS_{selector_invoke,create_arg_vector,set_arg,set_return,
+	free_arg_vector): Likewise.
+
 	* java.h: Protect from double-inclusion.
 
 2000-12-17  Marcus G. Daniels  <mgd@drone.swarm.org>
