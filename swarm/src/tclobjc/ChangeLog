@@ -1,7 +1,7 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (CPPFLAGS): Add export defs for externvar and
-	externvardef, and import for externobjcvar.
+	externvardef.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
