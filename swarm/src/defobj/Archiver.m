@@ -29,6 +29,9 @@ defaultPath (const char *swarmArchiver)
 {
   const char *home = getenv ("HOME");
 
+  if (!home)
+    home = getenv ("SWARMHOME");
+
   if (home)
     {
       size_t homelen = strlen (home);

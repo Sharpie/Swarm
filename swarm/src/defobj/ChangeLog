@@ -1,3 +1,7 @@
+2004-11-15  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Archiver.m (defaultPath): If HOME doesn't exist use SWARMHOME.
+
 2004-11-11  Marcus G. Daniels <mgd@santafe.edu>
 
 	* HDF5Archiver.m ([HDF5Archiver -ensureApp:]): Always treat
