@@ -1,3 +1,7 @@
+1999-09-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* actcltk.m4: Handle Tcl/Tk 8.2.
+
 1999-08-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Handle Blackdown JDK 1.2 and general case of 1.2 library

@@ -11,24 +11,27 @@ AC_DEFUN(md_FIND_TCL,dnl
 if test -n "$with_tcldir" ; then               
   PATH=${with_tcldir}/bin:$PATH
 fi
-AC_CHECK_PROG(tclsh81_found, tclsh8.1, yes, no)
-if test $tclsh81_found = no ; then
-  AC_CHECK_PROG(tclsh80_found, tclsh8.0, yes, no)
-  if test $tclsh80_found = no ; then
-    AC_CHECK_PROG(tclsh_found, tclsh, yes, no)
+AC_CHECK_PROG(tclsh82_found, tclsh8.2, yes, no)
+if test $tclsh82_found = no ; then
+  AC_CHECK_PROG(tclsh81_found, tclsh8.1, yes, no)
+  if test $tclsh81_found = no ; then
+    AC_CHECK_PROG(tclsh80_found, tclsh8.0, yes, no)
+    if test $tclsh80_found = no ; then
+      AC_CHECK_PROG(tclsh_found, tclsh, yes, no)
+    fi
   fi
 fi
 changequote(<,>)dnl
 tclLibrary=''
-if test $tclsh81_found = yes; then
+if test $tclsh82_found = yes; then
+  tclLibrary=`echo "puts [info library]" | tclsh8.2`
+elif test $tclsh81_found = yes; then
   tclLibrary=`echo "puts [info library]" | tclsh8.1`
-else
-  if test $tclsh80_found = yes; then
+elif test $tclsh80_found = yes; then
     tclLibrary=`echo "puts [info library]" | tclsh8.0`
-  else
-    if test $tclsh_found = yes; then
-      tclLibrary=`echo "puts [info library]" | tclsh`
-    fi
+else
+  if test $tclsh_found = yes; then
+    tclLibrary=`echo "puts [info library]" | tclsh`
   fi
 fi
 PATH=$lastPATH
@@ -128,7 +131,7 @@ for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
         break
       fi
     else
-      for version in 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
+      for version in 82 8.2 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
         if test -r $expand_dir/libtcl${version}${suffix}; then
           tcllibdir=$dir  
           tcllibname=tcl$version
@@ -224,7 +227,7 @@ for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
         break
       fi
     else
-      for version in 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
+      for version in 82 8.2 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
         if test -r $expand_dir/libtk${version}${suffix}; then
           tklibdir=$dir
           tklibname=tk${version}
@@ -289,7 +292,7 @@ fi
 AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
-for name in $bltlibname BLT BLT24 BLT8.0 BLT80 ; do
+for name in $bltlibname BLT24 BLT8.0 BLT80 BLT; do
   md_FIND_LIB(blt,$name,$bltdir/lib/shared,1)
   if test -n "$_ldflags" ; then
     bltlibname=$name
