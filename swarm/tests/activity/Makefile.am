@@ -10,7 +10,7 @@ include $(top_srcdir)/tests/Makefile.rules
 
 EXTRA_DIST = Holder.h Holder.m
 
-$(OBJECTS): headers
+$(OBJECTS): $(TYPEINFO)
 
 Responder_SOURCES = Responder.m Responder.h
 ForEachRandomized_SOURCES = ForEachRandomized.m $(Responder_SOURCES) $(type_SOURCES)
