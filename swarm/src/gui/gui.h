@@ -773,12 +773,12 @@ CREATING
 - setWidget: (id <Widget>)widget;
 
 - createEnd;
-SETTING
+
+USING
 //M: Set the raster that the pixmap will be shown on.
 //M: It's used to augment raster the color palette as necessary.
 - setRaster: (id <Raster>)raster;
 
-USING
 //M: Get the width of the bitmap in pixels.
 - (unsigned)getWidth;
 
