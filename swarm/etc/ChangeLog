@@ -2,10 +2,10 @@
 
 	* common.el (*old-push-mark*, set-verbosity): Add.
 
-	* interface.el (create-dispatch-hash-table): Use tools/findImp,
-	better error handling.
-	(c-objc-type, impl-print-method-declaration, impl-print-method-setup):
-	Add.
+	* interface.el ({create,load}-dispatch-hash-table): Use
+	tools/findImp, better error handling.
+	(c-objc-type, impl-print-method-declaration,
+	impl-print-method-setup): Add.
 
 	* protocol.el (load-all-modules): Use set-verbosity.
 

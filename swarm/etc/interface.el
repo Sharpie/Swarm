@@ -591,9 +591,8 @@
   (insert (substring (get-method-signature method) 1))
   (insert "\");\n"))
 
-(defun create-dispatch-hash-table (protocol phase)
-  (let ((ht (make-hash-table))
-        (ml (expanded-method-list protocol phase)))
+(defun load-dispatch-hash-table (protocol phase ht)
+  (let ((ml (expanded-method-list protocol phase)))
     (set-verbosity nil)
     (with-temp-buffer 
       (if (eql 0 (apply #'call-process
@@ -626,7 +625,11 @@
                                (buffer-substring beg (point)))))))
               (skip-whitespace)))
         (message (concat (protocol-name protocol) " failed"))))
-    (set-verbosity t)
+    (set-verbosity t)))
+    
+(defun create-dispatch-hash-table (protocol phase)
+  (let ((ht (make-hash-table)))
+    ;(load-dispatch-hash-table protocol phase ht)
     ht))
   
 (defun c-objc-type (type)
