@@ -37,63 +37,63 @@ java_not_available (void)
 
 #ifdef HAVE_JDK
 void 
-init_javacall_tables (void)
+init_javacall_tables (JNIEnv * jEnv)
 {
   java_static_call_functions[swarm_type_void] = 
-      FFI_FN ((*jniEnv)->CallStaticVoidMethod);
+      FFI_FN ((*jEnv)->CallStaticVoidMethod);
   java_static_call_functions[swarm_type_uchar] = 
-      FFI_FN ((*jniEnv)->CallStaticCharMethod);
+      FFI_FN ((*jEnv)->CallStaticCharMethod);
   java_static_call_functions[swarm_type_schar] = 
-      FFI_FN ((*jniEnv)->CallStaticCharMethod);
+      FFI_FN ((*jEnv)->CallStaticCharMethod);
   java_static_call_functions[swarm_type_ushort] = 
-      FFI_FN ((*jniEnv)->CallStaticShortMethod);
+      FFI_FN ((*jEnv)->CallStaticShortMethod);
   java_static_call_functions[swarm_type_sshort] = 
-      FFI_FN ((*jniEnv)->CallStaticShortMethod);
+      FFI_FN ((*jEnv)->CallStaticShortMethod);
   java_static_call_functions[swarm_type_uint] = 
-      FFI_FN ((*jniEnv)->CallStaticIntMethod);
+      FFI_FN ((*jEnv)->CallStaticIntMethod);
   java_static_call_functions[swarm_type_sint] =
-      FFI_FN ((*jniEnv)->CallStaticIntMethod);
+      FFI_FN ((*jEnv)->CallStaticIntMethod);
   java_static_call_functions[swarm_type_ulong] =
-      FFI_FN ((*jniEnv)->CallStaticLongMethod);
+      FFI_FN ((*jEnv)->CallStaticLongMethod);
   java_static_call_functions[swarm_type_slong] = 
-      FFI_FN ((*jniEnv)->CallStaticLongMethod);
+      FFI_FN ((*jEnv)->CallStaticLongMethod);
   java_static_call_functions[swarm_type_float] =
-      FFI_FN ((*jniEnv)->CallStaticFloatMethod);
+      FFI_FN ((*jEnv)->CallStaticFloatMethod);
   java_static_call_functions[swarm_type_double] = 
-      FFI_FN ((*jniEnv)->CallStaticDoubleMethod);
+      FFI_FN ((*jEnv)->CallStaticDoubleMethod);
   java_static_call_functions[swarm_type_pointer] = NULL;
   java_static_call_functions[swarm_type_string] = 
-      FFI_FN ((*jniEnv)->CallStaticObjectMethod);
+      FFI_FN ((*jEnv)->CallStaticObjectMethod);
   java_static_call_functions[swarm_type_jobject] = 
-      FFI_FN ((*jniEnv)->CallStaticObjectMethod);
+      FFI_FN ((*jEnv)->CallStaticObjectMethod);
 
   java_call_functions[swarm_type_void] = 
-      FFI_FN ((*jniEnv)->CallVoidMethod);
+      FFI_FN ((*jEnv)->CallVoidMethod);
   java_call_functions[swarm_type_uchar] = 
-      FFI_FN ((*jniEnv)->CallCharMethod);
+      FFI_FN ((*jEnv)->CallCharMethod);
   java_call_functions[swarm_type_schar] = 
-      FFI_FN ((*jniEnv)->CallCharMethod);
+      FFI_FN ((*jEnv)->CallCharMethod);
   java_call_functions[swarm_type_ushort] = 
-      FFI_FN ((*jniEnv)->CallShortMethod);
+      FFI_FN ((*jEnv)->CallShortMethod);
   java_call_functions[swarm_type_sshort] = 
-      FFI_FN ((*jniEnv)->CallShortMethod);
+      FFI_FN ((*jEnv)->CallShortMethod);
   java_call_functions[swarm_type_uint] = 
-      FFI_FN ((*jniEnv)->CallIntMethod);
+      FFI_FN ((*jEnv)->CallIntMethod);
   java_call_functions[swarm_type_sint] =
-      FFI_FN ((*jniEnv)->CallIntMethod);
+      FFI_FN ((*jEnv)->CallIntMethod);
   java_call_functions[swarm_type_ulong] =
-      FFI_FN ((*jniEnv)->CallLongMethod);
+      FFI_FN ((*jEnv)->CallLongMethod);
   java_call_functions[swarm_type_slong] = 
-      FFI_FN ((*jniEnv)->CallLongMethod);
+      FFI_FN ((*jEnv)->CallLongMethod);
   java_call_functions[swarm_type_float] =
-      FFI_FN ((*jniEnv)->CallFloatMethod);
+      FFI_FN ((*jEnv)->CallFloatMethod);
   java_call_functions[swarm_type_double] = 
-      FFI_FN ((*jniEnv)->CallDoubleMethod);
+      FFI_FN ((*jEnv)->CallDoubleMethod);
   java_call_functions[swarm_type_pointer] = NULL;
   java_call_functions[swarm_type_string] = 
-      FFI_FN ((*jniEnv)->CallObjectMethod);
+      FFI_FN ((*jEnv)->CallObjectMethod);
   java_call_functions[swarm_type_jobject] = 
-      FFI_FN ((*jniEnv)->CallObjectMethod);
+      FFI_FN ((*jEnv)->CallObjectMethod);
 }
 #endif
 
