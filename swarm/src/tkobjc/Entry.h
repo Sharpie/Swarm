@@ -7,7 +7,8 @@
 
 #import <tkobjc/InputWidget.h>
 
-@interface Entry : InputWidget {
+@interface Entry : InputWidget
+{
 }
 
 @end

@@ -13,29 +13,37 @@
 @implementation InputWidget
 
 // you shouldn't instantiate this yourself.
--createEnd {
+- createEnd
+{
+  char *buf;
   [super createEnd];
-
-  variableName = malloc(strlen([self getObjcName]) + 5);
-  sprintf(variableName, "%s-var", [self getObjcName]);
-
+  
+  buf = malloc (strlen ([self getObjcName]) + 5);
+  sprintf (buf, "%s-var", [self getObjcName]);
+  variableName = buf;
+  
   return self;
 }
 
 // link the supplied variable to the variable the input widget is using
--linkVariable: (void *) p Type: (int) type{
-  Tcl_UnlinkVar([globalTkInterp interp], variableName); // unlink anything there
-  Tcl_LinkVar([globalTkInterp interp], variableName, p, type);
+- linkVariable: (void *)p Type: (int)type
+{
+  // unlink anything there
+  Tcl_UnlinkVar ([globalTkInterp interp], (char *)variableName); 
+  Tcl_LinkVar ([globalTkInterp interp], (char *)variableName, p, type);
   return self;
 }
 
--(const char *) getValue {
+- (const char *)getValue
+{
   [globalTkInterp eval: "%s get", widgetName];
   return [globalTkInterp result];
 }
 
--setValue: (char *) v {
+- setValue: (const char *)v
+{
   [SubclassMustImplement raiseEvent];
   return nil;
 }
+
 @end

@@ -15,24 +15,29 @@
 
 @implementation Entry
 
--createEnd {
+-createEnd
+{
   [super createEnd];
-
+  
   // create the Entry
-  [globalTkInterp eval: "entry %s; %s configure -width 10 -relief sunken;", widgetName, widgetName];
-  [globalTkInterp eval: "%s configure -textvariable %s;", widgetName, variableName];
+  [globalTkInterp eval: "entry %s; %s configure -width 10 -relief sunken;",
+                  widgetName, widgetName];
+  [globalTkInterp eval: "%s configure -textvariable %s;",
+                  widgetName, variableName];
   return self;
 }
 
 
--setValue: (char *) t {
+- setValue: (const char *)t
+{
   [globalTkInterp eval: "%s delete 0 end; %s insert 0 \"%s\"",
 		  widgetName, widgetName, t];
   return self;
 }
 
 // ignore the height: doesn't work for entries.
--setWidth: (unsigned) w Height: (unsigned) h {
+- setWidth: (unsigned) w Height: (unsigned) h
+{
   [globalTkInterp eval: "%s configure -width %u", widgetName, w];
   return self;
 }

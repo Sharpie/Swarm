@@ -12,23 +12,27 @@
 #import <tkobjc/CheckButton.h>
 
 inline int
-stringIsFalse(const char * s) {
+stringIsFalse (const char *s)
+{
   return s[0] == '0' && s[1] == '\0';
 }
 
 @implementation CheckButton
 
--createEnd {
+- createEnd
+{
   [super createEnd];
-
+  
   // create the checkbutton
   [globalTkInterp eval: "checkbutton %s;", widgetName];
-  [globalTkInterp eval: "%s configure -variable %s;", widgetName,
+  [globalTkInterp eval: "%s configure -variable %s;",
+                  widgetName,
 		  variableName];
   return self;
 }
 
--setBoolValue: (BOOL) v {
+- setBoolValue: (BOOL)v
+{
   if (v)
     [globalTkInterp eval: "%s select;", widgetName];
   else
@@ -36,23 +40,21 @@ stringIsFalse(const char * s) {
   return self;
 }
 
--setValue: (char *) v {
-  return [self setBoolValue: stringIsFalse(v)];
+- setValue: (const char *)v
+{
+  return [self setBoolValue: stringIsFalse (v)];
 }
 
 
 // just ignore this entirely - does it mean anything?
--setWidth: (unsigned) w Height: (unsigned) h {
+- setWidth: (unsigned)w Height: (unsigned)h
+{
   return self;
 }
 
--(BOOL) getBoolValue {
-  const char * v;
-  v = [self getValue];
-  if (stringIsFalse(v))
-    return 0;
-  else
-    return 1;
+- (BOOL)getBoolValue
+{
+  return !stringIsFalse ([self getValue]);
 }
 
 // could do setvalue with Tcl select/deselect

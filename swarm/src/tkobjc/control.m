@@ -265,6 +265,13 @@ focus (id widget)
 }
 
 const char *
+dynamicEval (const char *cmd)
+{
+  [globalTkInterp eval: "%s", cmd];
+  return strdup ([globalTkInterp result]);
+}
+
+const char *
 packageName (id probedObject)
 {
   return tclObjc_objectToName (probedObject);

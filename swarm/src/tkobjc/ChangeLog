@@ -1,5 +1,31 @@
 1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* control.m (dynamicEval): Add.
+
+	* control.h: Add dynamicEval.
+
+	* InputWidget.m ([InputWidget -setValue:]): Constify argument.
+	Reformatting throughout.
+	([InputWidget -linkVariable:Type:]): Cast variableName to char*
+	for Tcl_UnlinkVar and TclLinkVar.
+	([InputWidget -createEnd]): Add char * buf variable to
+	write the value for variableName.
+
+	* InputWidget.h (InputWidget): Constify variableName.
+	Constify argument to setValue.
+	Reformatting throughout.
+
+	* Entry.m ([Entry -setValue:]): Constify argument.
+	Reformatting throughout.
+
+	* Entry.h (InputWidget): Reformatting throughout.
+
+	* CheckButton.m (stringIsFalse): Constify argument.
+	([CheckButton -setValue:]): Constify argument.
+	Reformatting throughout.
+
+	* CheckButton.h: Reformatting throughout.
+
 	* analysis.tcl: New file.
 
 	* simtools.tcl: New file.

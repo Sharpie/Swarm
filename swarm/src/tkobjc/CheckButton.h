@@ -7,9 +7,10 @@
 
 #import <tkobjc/InputWidget.h>
 
-@interface CheckButton : InputWidget {
+@interface CheckButton : InputWidget
+{
 }
 
--(BOOL) getBoolValue;
--setBoolValue: (BOOL) v;
+- (BOOL)getBoolValue;
+- setBoolValue: (BOOL)v;
 @end

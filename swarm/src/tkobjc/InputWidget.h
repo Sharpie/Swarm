@@ -11,12 +11,13 @@
 
 #import <tkobjc/Widget.h>
 
-@interface InputWidget: Widget {
-  char * variableName;
+@interface InputWidget: Widget 
+{
+  const char *variableName;
 }
 
--(const char *) getValue;
--linkVariable: (void *) p Type: (int) type;
--setValue: (char *) v;
+- (const char *)getValue;
+- linkVariable: (void *)p Type: (int)type;
+- setValue: (const char *)v;
 
 @end

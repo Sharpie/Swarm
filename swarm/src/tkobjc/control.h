@@ -36,6 +36,7 @@ void normalState (id widget);
 void disabledState (id widget);
 void update (void);
 void focus (id widget);
+const char *dynamicEval (const char *cmd);
 
 const char *packageName (id probedObject);
 const char *getId (id probedObject);
