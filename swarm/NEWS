@@ -5,6 +5,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ** Other changes
 *** Java arguments and return types consistently use generic interface typing.
 
+** Autoconfiguration / Portability
+*** Support for Tcl/Tk 8.2.
+
 * Release Notes for Swarm 2.0
 ** New features
 *** Java layer

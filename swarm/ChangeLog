@@ -1,3 +1,7 @@
+1999-09-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note support for Tcl/Tk 8.2.
+
 1999-09-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note Java interface argument and return typing.
