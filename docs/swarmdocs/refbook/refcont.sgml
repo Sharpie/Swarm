@@ -19,7 +19,7 @@
 &techcont.sgml;
 
 <!-- library interface conventions -->
-&refapp.sgml;
+&conventions-app.sgml;
 
 <!-- GNU LGPL -->
 &lgpl-app.sgml;
