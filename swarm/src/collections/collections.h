@@ -821,6 +821,8 @@ typedef struct { void *memberData[2]; id owner; } dupmember_t;
 @end
 
 @protocol _Set
+//S: Methods common to Set and OrderedSet
+//D: Methods common to Set and OrderedSet
 USING
 //M: The add: message adds a new member to a set.  It returns true if
 //M: member added matched the key of any member already contained in the
