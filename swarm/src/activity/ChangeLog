@@ -1,3 +1,10 @@
+1999-11-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Schedule.m (_activity_insertAction): Test for non-predecessor
+	even when current time and new time are the same (in order to add
+	upstream actionmerges on new activations).
+	(ensureLeadingMerge): Break out from above function.
+
 1999-11-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Schedule.m ([ActionConcurrent_c -describe:]): Add more info.

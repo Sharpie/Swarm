@@ -281,7 +281,46 @@ _update_mergeSchedules (Schedule_c *self,
     }
 }
 
-
+static void
+ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
+{
+  if (![index prev])
+    {
+      id indexrefs;
+      ScheduleActivity_c *activity;
+      
+      indexrefs = [self->activityRefs begin: scratchZone];
+      [indexrefs setLoc: Start];
+      activity = [indexrefs next];
+		  
+      while (activity)
+        {
+          ScheduleIndex_c *scheduleIndex, *mergeScheduleIndex;
+          Schedule_c *mergeSchedule;
+          Activity_c *swarmActivity;
+          
+          scheduleIndex = activity->currentIndex;
+          [scheduleIndex setLoc: Start];
+          scheduleIndex->currentAction = 0; 
+          scheduleIndex->currentTime = tVal;
+          if (scheduleIndex->startTime > tVal)
+            scheduleIndex->startTime -= self->repeatInterval;
+          swarmActivity = activity->swarmActivity;
+          if (swarmActivity)
+            {
+              mergeScheduleIndex = swarmActivity->currentIndex;
+              mergeSchedule = 
+                (Schedule_c *) mergeScheduleIndex->collection;
+              _activity_insertAction (mergeSchedule,
+                                      tVal, 
+                                      activity->mergeAction);
+            }
+          activity = [indexrefs next];
+        }
+      [indexrefs drop];
+    }
+}
+  
 
 //
 // _activity_insertAction: routine to create concurrent action group if needed
@@ -307,115 +346,74 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   newKey = [self at: (id) tVal memberSlot: &memptr];
   
   // if no previous action at key, then return unless singleton group required 
-    
   if (newKey) 
     {
       // if _activity_current is not NULL, simulation is running
-      
-      if (_activity_current && getCurrentTime() < tVal) 
+      if (_activity_current && getCurrentTime () <= tVal) 
 	{
-	  id index = [self createIndex: scratchZone fromMember: anAction];
-	  id successor_action;
-	  
+          id index = [self createIndex: scratchZone fromMember: anAction];
+          id successor_action;
+          
           successor_action = [index next];
-	  
-	  // Successor action is used for "adjacency test":
-	  // this action is the successor of action that was
-	  // just added to the schedule.
-	  // If successor action is equal to the action that 
-	  // currentIndex points to, that means that new action 
-	  // was added before pending time for the schedule, therefor
-	  // index and merge schedule have to be updated (they have to
-	  // point to the new action.
-	  // Since schedule can be activated in several different
-	  // Swarms we have to perform "adjacency test" on each
-	  // activity in activityRefs.
-	  
-	  if (successor_action)
-	    {
-	      timeval_t oldTime;  // time of the pending action
+          // Successor action is used for "adjacency test": this
+          // action is the successor of action that was just added to
+          // the schedule.  If successor action is equal to the action
+          // that currentIndex points to, that means that new action
+          // was added before the pending time for the schedule,
+          // therefore the index and merge schedule have to be updated
+          // (they have to point to the new action.  Since schedule
+          // can be activated in several different Swarms we have to
+          // perform "adjacency test" on each activity in
+          // activityRefs.
+          
+          if (successor_action)
+            {
+              timeval_t oldTime;  // time of the pending action
               id indexrefs;
               ScheduleActivity_c *activity;
-	      
-	      oldTime = (timeval_t) [index getKey];		   
-	      indexrefs = [self->activityRefs begin: scratchZone];
-	      [indexrefs setLoc: Start];
-	      activity = [indexrefs next];
-	      
-	      while (activity)
-		{
-		  ScheduleIndex_c *scheduleIndex;
-		  
-		  scheduleIndex = activity->currentIndex;
-		  if ([scheduleIndex get] == successor_action) 
-		    {
-		      id swarmActivity;
-		      
-		      // update of index, if we were to perform
-		      // prev on scheduleIndex without update
-		      // it would take us to Start, instead to
-		      // the previous action - action that 
-		      // was just added
-  
-		      // scheduleIndex linear search is needed due
-		      // to a bug in collections library
-		      // faster way to deal with this would be:
-		      // scheduleIndex->position++;
-
-		      [scheduleIndex setLoc: Start];
-		      [scheduleIndex findNext: successor_action];
-		      
-		      scheduleIndex->currentAction = [scheduleIndex prev];
-		      scheduleIndex->currentTime = tVal;
-		      swarmActivity = activity->swarmActivity;
-		      _update_mergeSchedules (self, swarmActivity, oldTime, tVal);
-		    }
-		  activity = [indexrefs next];
-		}
-	      [indexrefs drop];
-	    }
-	  else
-	    {
-	      id predecessor_action;
+              
+              oldTime = (timeval_t) [index getKey];		   
+              indexrefs = [self->activityRefs begin: scratchZone];
+              [indexrefs setLoc: Start];
+              activity = [indexrefs next];
+              
+              while (activity)
+                {
+                  ScheduleIndex_c *scheduleIndex;
+                  
+                  scheduleIndex = activity->currentIndex;
+                  if ([scheduleIndex get] == successor_action) 
+                    {
+                      // update of index, if we were to perform
+                      // prev on scheduleIndex without update
+                      // it would take us to Start, instead to
+                      // the previous action - action that 
+                      // was just added
+                      
+                      // scheduleIndex linear search is needed due
+                      // to a bug in collections library
+                      // faster way to deal with this would be:
+                      // scheduleIndex->position++;
+                      
+                      [scheduleIndex setLoc: Start];
+                      [scheduleIndex findNext: successor_action];
+                      
+                      scheduleIndex->currentAction = [scheduleIndex prev];
+                      scheduleIndex->currentTime = tVal;
+                      _update_mergeSchedules (self,
+                                              activity->swarmActivity,
+                                              oldTime, tVal);
+                    }
+                  activity = [indexrefs next];
+                }
+              [indexrefs drop];
+            }
+          else
+            {
               [index prev];
-	      predecessor_action = [index prev];
-	      if (!predecessor_action)
-		{
-		  id indexrefs;
-		  ScheduleActivity_c *activity;
-		  
-		  indexrefs = [self->activityRefs begin: scratchZone];
-		  [indexrefs setLoc: Start];
-		  activity = [indexrefs next];
-		  
-		  while (activity)
-		    {
-		      ScheduleIndex_c *scheduleIndex, *mergeScheduleIndex;
-		      Schedule_c *mergeSchedule;
-		      Activity_c *swarmActivity;
-	       
-		      scheduleIndex = activity->currentIndex;
-		      [scheduleIndex setLoc: Start];
-		      scheduleIndex->currentAction = 0; 
-		      scheduleIndex->currentTime = tVal;
-		      if (scheduleIndex->startTime > tVal)
-			scheduleIndex->startTime -= self->repeatInterval;
-		      swarmActivity = activity->swarmActivity;
-		      if (swarmActivity)
-			{
-			  mergeScheduleIndex = swarmActivity->currentIndex;
-			  mergeSchedule = 
-                            (Schedule_c *) mergeScheduleIndex->collection;
-			  _activity_insertAction (mergeSchedule,
-                                                  tVal, 
-						  activity->mergeAction);
-			}
-		      activity = [indexrefs next];
-		    }
-		  [indexrefs drop];
-		}
-	    }
-	  [index drop];
+              ensureLeadingMerge (self, index, tVal);
+            }
+          [index drop];
 	}
       if (!(self->bits & BitSingletonGroups))
 	return;
@@ -423,7 +421,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
     }
   else 
     {
-      
       // if concurrent group already exists, then just add new action to group
       existingAction = *memptr;
       if (getClass (existingAction) == id_ActionConcurrent_c) 
