@@ -12,27 +12,26 @@ Library:      activity
 #import <activity/ActionPlan.h>
 #import <activity.h>
 
-@interface Action_c : Object_s
+@interface CAction : Object_s
 {
 @public
-  ActionPlan_c  *ownerPlan;    // ActivityPlan which owns action
-  member_t      ownerActions;  // list of actions owned by ActivityPlan
+  ActionPlan_c  *owner;        // action type that binds action in its context
+  member_t      ownerActions;  // internal links in actions owned by ActionType
 }
-/*** methods implemented in .m file ***/
+/*** methods in CAction (inserted from .m file) ***/
 - getOwner;
 @end
 
-@interface ActionCall_0 : Action_c
+@interface ActionCall_0 : CAction
 {
 @public
   func_t  funcPtr;      // pointer to function to be called
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionCall_0 (inserted from .m file) ***/
 - (void) setFunctionPointer: (func_t)fptr;
 - (func_t) getFunctionPointer;
 - (int) getNArgs;
 - (void) _performAction_: anActivity;
-- (void) _dropFrom_: aZone;
 @end
 
 @interface ActionCall_1 : ActionCall_0
@@ -40,7 +39,7 @@ Library:      activity
 @public
   id  arg1;           // first argument
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionCall_1 (inserted from .m file) ***/
 - (int) getNArgs;
 - (void) setArg1: anArg;
 - getArg1;
@@ -52,7 +51,7 @@ Library:      activity
 @public
   id  arg2;           // second argument
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionCall_2 (inserted from .m file) ***/
 - (int) getNArgs;
 - (void) setArg2: anArg;
 - getArg2;
@@ -64,27 +63,26 @@ Library:      activity
 @public
   id  arg3;           // third argument
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionCall_3 (inserted from .m file) ***/
 - (int) getNArgs;
 - (void) setArg3: anArg;
 - getArg3;
 - (void) _performAction_: anActivity;
 @end
 
-@interface ActionTo_0 : Action_c
+@interface ActionTo_0 : CAction
 {
 @public
   id   target;         // receiver of action message
   SEL  selector;       // selector of message to send
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionTo_0 (inserted from .m file) ***/
 - (void) setTarget: aTarget;
 - getTarget;
 - (void) setMessageSelector: (SEL)aSel;
 - (SEL) getMessageSelector;
 - (int) getNArgs;
 - (void) _performAction_: anActivity;
-- (void) _dropFrom_: aZone;
 @end
 
 @interface ActionTo_1 : ActionTo_0
@@ -92,7 +90,7 @@ Library:      activity
 @public
   id  arg1;           // first argument
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionTo_1 (inserted from .m file) ***/
 - (int) getNArgs;
 - (void) setArg1: anArg;
 - getArg1;
@@ -104,7 +102,7 @@ Library:      activity
 @public
   id  arg2;           // second argument
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionTo_2 (inserted from .m file) ***/
 - (int) getNArgs;
 - (void) setArg2: anArg;
 - getArg2;
@@ -116,7 +114,7 @@ Library:      activity
 @public
   id  arg3;           // third argument
 }
-/*** methods implemented in .m file ***/
+/*** methods in ActionTo_3 (inserted from .m file) ***/
 - (int) getNArgs;
 - (void) setArg3: anArg;
 - getArg3;
@@ -124,21 +122,21 @@ Library:      activity
 @end
 
 @interface ActionForEach_0 : ActionTo_0
-/*** methods implemented in .m file ***/
+/*** methods in ActionForEach_0 (inserted from .m file) ***/
 - (void) _performAction_: anActivity;
 @end
 
 @interface ActionForEach_1 : ActionTo_1
-/*** methods implemented in .m file ***/
+/*** methods in ActionForEach_1 (inserted from .m file) ***/
 - (void) _performAction_: anActivity;
 @end
 
 @interface ActionForEach_2 : ActionTo_2
-/*** methods implemented in .m file ***/
+/*** methods in ActionForEach_2 (inserted from .m file) ***/
 - (void) _performAction_: anActivity;
 @end
 
 @interface ActionForEach_3 : ActionTo_3
-/*** methods implemented in .m file ***/
+/*** methods in ActionForEach_3 (inserted from .m file) ***/
 - (void) _performAction_: anActivity;
 @end

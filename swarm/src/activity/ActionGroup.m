@@ -26,16 +26,16 @@ PHASE(Creating)
 {
   if ( createByMessageToCopy( self, createEnd ) ) return self;
 
-  if ( variableDefs ) [self _createVarDefsArray_];
-  [(id)self setIndexFromMemberLoc: offsetof( Action_c, ownerActions )];
+  [(id)self setIndexFromMemberLoc: offsetof( CAction, ownerActions )];
   setNextPhase( self );
+  setMappedAlloc( self );
   return self;
 }
 
 PHASE(Using)
 
 //
-// mix in action plan finalized instance methods by source inclusion
+// mix in using-phase methods from ActionPlan by source inclusion
 //
 #define  MIXIN_C
 
@@ -80,7 +80,7 @@ PHASE(Using)
 {
   ActionCall_0  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_0];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_0];
   newAction->funcPtr = fptr;
   [self addLast: newAction];
   return newAction;
@@ -90,7 +90,7 @@ PHASE(Using)
 {
   ActionCall_1  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_1];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_1];
   newAction->funcPtr = fptr;
   newAction->arg1    = arg1;
   [self addLast: newAction];
@@ -101,7 +101,7 @@ PHASE(Using)
 {
   ActionCall_2  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_2];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_2];
   newAction->funcPtr = fptr;
   newAction->arg1    = arg1;
   newAction->arg2    = arg2;
@@ -113,7 +113,7 @@ PHASE(Using)
 {
   ActionCall_3  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_3];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_3];
   newAction->funcPtr = fptr;
   newAction->arg1    = arg1;
   newAction->arg2    = arg2;
@@ -126,7 +126,7 @@ PHASE(Using)
 {
   ActionTo_0  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_0];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_0];
   newAction->target   = target;
   newAction->selector = aSel;
   [self addLast: newAction];
@@ -137,7 +137,7 @@ PHASE(Using)
 {
   ActionTo_1  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_1];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_1];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -149,7 +149,7 @@ PHASE(Using)
 {
   ActionTo_2  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_2];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_2];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -162,7 +162,7 @@ PHASE(Using)
 {
   ActionTo_3  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_3];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_3];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -176,7 +176,7 @@ PHASE(Using)
 {
   ActionForEach_0  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_0];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_0];
   newAction->target   = target;
   newAction->selector = aSel;
   [self addLast: newAction];
@@ -187,7 +187,7 @@ PHASE(Using)
 {
   ActionForEach_1  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_1];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_1];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -199,7 +199,7 @@ PHASE(Using)
 {
   ActionForEach_2  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_2];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_2];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -212,7 +212,7 @@ PHASE(Using)
 {
   ActionForEach_3  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_3];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_3];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -222,12 +222,30 @@ PHASE(Using)
   return newAction;
 }
 
+//
+// mapAllocations: -- standard method to identify internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  id  index, member, nextMember;
+
+  if ( activityRefs ) mapObject( mapalloc, activityRefs );
+
+  index = [self begin: scratchZone];
+  nextMember = [index next];
+  while ( (member = nextMember) ) {
+    nextMember = [index next];
+    mapObject( mapalloc, member );
+  }
+  // no [super mapAllocations: mapalloc] because all links are internal
+}
+
 @end
+
 
 //
 // GroupActivity_c -- activity to process a concurrent group of a schedule
 //
-
 @implementation GroupActivity_c
 @end
 
@@ -256,7 +274,7 @@ PHASE(Using)
 
   if ( ((ActionGroup_c *)collection)->bits & Bit_AutoDrop && position > 0 ) {
     removedAction = [self remove];
-    [((ActionGroup_c *)collection)->zone freeIVars: removedAction];
+    [getZone( (ActionGroup_c *)collection ) freeIVarsComponent: removedAction];
   }
 
   // get next action to be executed
@@ -267,12 +285,12 @@ PHASE(Using)
 }
 
 //
-// drop -- standard drop message for index
+// dropAllocations: -- drop index as component of activity
 //
-- (void) drop
+- (void) dropAllocations: (BOOL)componentAlloc
 {
   [((ActionGroup_c *)collection)->activityRefs remove: activity];
-  [super drop];
+  [super dropAllocations: 1];
 }
 
 @end
@@ -287,24 +305,25 @@ PHASE(Using)
 + _create_: forEachAction : anActivity
 {
   Activity_c      *owner, *newActivity;
+  id              ownerZone;
   ForEachIndex_c  *newIndex;
 
   // create new activity containing custom index into target collection
 
   owner = anActivity;
-  newActivity = [owner->zone allocIVars: id_ForEachActivity_c];
-  newIndex    = [owner->zone allocIVars: id_ForEachIndex_c];
+  ownerZone = getZone( owner );
+  newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
+  newIndex    = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
 
-  newActivity->zone           = owner->zone;
   newActivity->ownerActivity  = anActivity;
   newActivity->status         = Initialized;
   newActivity->breakFunction  = owner->breakFunction;
   newActivity->currentIndex   = newIndex;
   newIndex->activity          = anActivity;
 
-  newIndex->memberIndex =
-    [((ActionForEach_0 *)forEachAction)->target begin: owner->zone];
-  newIndex->memberAction = [owner->zone copyIVars: forEachAction];
+  newIndex->memberIndex = [((ActionForEach_0 *)forEachAction)->target
+                             begin: getComponentZone( owner )];
+  newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
   ((ActionForEach_0 *)newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
@@ -349,11 +368,10 @@ PHASE(Using)
   return nil;
 }
 
-- (void) drop
+- (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  [(id)memberIndex drop];
-  [((Activity_c *)activity)->zone freeIVars: memberAction];
-  [((Activity_c *)activity)->zone freeIVars: self];
+  mapObject( mapalloc, memberIndex );
+  mapObject( mapalloc, memberAction );
 }
 
 @end

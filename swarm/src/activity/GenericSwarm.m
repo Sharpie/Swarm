@@ -21,7 +21,6 @@ PHASE(Creating)
   GenericSwarm_c  *newPlan;
 
   newPlan = [aZone allocIVars: self];
-  newPlan->zone      = aZone;
   setClass( newPlan, self );
   return newPlan;
 }
@@ -47,9 +46,6 @@ PHASE(Creating)
 - createEnd
 {
   if ( createByMessageToCopy( self, createEnd )  ) return self;
-
-  // if ( variableDefs ) [(id)self _createVarDefsArray_];
-  // [(id)self setIndexFromMemberLoc: offsetof( Action_c, ownerActions )];
 
   if ( ! concrtGroupType ) concrtGroupType = ActivationOrder;
   if ( getClass( self ) == GenericSwarm ) setNextPhase( self );
@@ -102,9 +98,9 @@ PHASE(Using)
   SwarmActivity_c  *ownerSwarmActivity;
 
   if ( ! swarmActivity ) return nil;
-  ownerSwarmActivity = [swarmActivity _getCurrentSwarmActivity_];
+  ownerSwarmActivity = [[swarmActivity getOwnerActivity] getSwarmActivity];
   if ( ! ownerSwarmActivity ) return nil;
-  return ownerSwarmActivity->swarm;
+  return swarmActivity->swarm;
 }
 
 //
@@ -125,14 +121,14 @@ PHASE(Using)
 
   // get zone in which activities to be created
 
-  activityZone = _activity_zone;
-  if ( _activity_current )
-    activityZone = ((Activity_c *)_activity_current)->zone;
+  activityZone = ( _activity_current ?
+    getZone( (Activity_c *)_activity_current ) : _activity_zone );
 
   // create a special schedule to merge subschedule activities
 
   if ( 1 /* bits & Bit_ConcrntGroupSet */ ) {
-    mergeSchedule = [Schedule createBegin: activityZone];
+    mergeSchedule =
+      [Schedule createBegin: [activityZone getInternalComponentZone]];
     [mergeSchedule setConcurrentGroupType: concrtGroupType];
     if ( 0 /* bits & Bit_SingletonGroups */ )
       [mergeSchedule setSingletonGroups: 1];
@@ -152,7 +148,7 @@ PHASE(Using)
   swarmActivity = newActivity;
   newActivity->swarm = self;
 
-  subswarms = [List createBegin: zone];
+  subswarms = [List createBegin: getZone( self )];
   [subswarms setIndexFromMemberLoc: offsetof( GenericSwarm_c, memberOfSub )];
   subswarms = [subswarms createEnd];
 
@@ -160,15 +156,27 @@ PHASE(Using)
 }
 
 //
-// drop -- customize drop method
+// mapAllocations: -- standard method to identify internal allocations
 //
-- (void) drop
+- (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  if ( swarmActivity ) [swarmActivity drop];
-  [subswarms drop];
-  [zone freeIVars: self];
+  if ( swarmActivity ) mapObject( mapalloc, swarmActivity );
+  mapObject( mapalloc, subswarms );
 
   // if ( ownerSwarm ) [((Swarm_super *)ownerSwarm)->subswarms remove: self];
+  //!! (not adding anything to subswarms list, yet)
+}
+
+//
+// _performPlan_ -- create an activity to run plan under the current activity
+//
+- (void) _performPlan_
+{
+  Activity_c  *newActivity;
+
+  newActivity = [self activateIn: nil];
+  newActivity->ownerActivity = _activity_current;
+  newActivity->ownerActivity->currentSubactivity = newActivity;
 }
 
 @end
@@ -190,20 +198,17 @@ PHASE(Using)
   while ( (nextAction = [index next]) ) {
     if ( getClass( nextAction ) == id_ActionMerge_c ) {
       [nextAction->subactivity terminate];
-      [index remove];
     } else {  // concurrent group
-      groupIndex =
-        [(id)((ActionConcurrent_c *)nextAction)->actionPlan begin: scratchZone];
-      while ( (groupAction = [groupIndex next]) ) {
+      groupIndex = [(id)((ActionConcurrent_c *)nextAction)->actionPlan
+                      begin: scratchZone];
+      while ( (groupAction = [groupIndex next]) )
 	[groupAction->subactivity terminate];
-	[groupIndex remove];
-      }
       [groupIndex drop];
     }
   }
   [index drop];
 
-  // terminate running subactivities as well (not in merge schedule when active)
+  // terminate running subactivities also (not in merge schedule when active)
 
   if ( currentSubactivity ) [currentSubactivity terminate];
   status = Terminated;
@@ -234,12 +239,24 @@ PHASE(Using)
 }
 
 //
-// _drop_ -- special _drop_ method to remove swarm object reference
+// mapAllocations: -- standard method to map internal allocations
 //
-- (void) _drop_
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  id  mergeSchedule;
+
+  mergeSchedule = ((ScheduleIndex_c *)currentIndex)->collection;
+  [super mapAllocations: mapalloc];
+  mapObject( mapalloc, mergeSchedule );
+}
+
+//
+// dropAllocations: -- remove reference to dropped activity from swarm object
+//
+- (void) dropAllocations: (BOOL)componentAlloc
 {
   swarm->swarmActivity = nil;
-  [super _drop_];
+  [super dropAllocations: componentAlloc];
 }
 
 @end
@@ -266,7 +283,7 @@ PHASE(Using)
   // Return next pending subschedule activity to be run under current owner
   // (either the swarm activity itself, or an subactivity for a concurrent
   // group in the swarm merge schedule).  Start the subschedule activity with
-  // a status of Released  so that the action pending at the current index
+  // a status of Released so that the action pending at the current index
   // will be executed without an initial nextAction.
   //
   subactivity->ownerActivity = _activity_current;  // owner while sub is active
@@ -276,6 +293,15 @@ PHASE(Using)
   return;
 }
 
+//
+// mapAllocations: -- standard method to map internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  mapalloc->descriptor = t_LeafObject;
+  mapAlloc( mapalloc, subactivity );
+}
+
 @end
 
 //
@@ -283,10 +309,28 @@ PHASE(Using)
 //
 @implementation ActivationOrder_c
 
+//
+// addLast: --
+//  method to make a schedule usable in the special role as a concurrent group
+//
 - (void) addLast: mergeAction
 {
   [self at: (id)((ActionMerge_c *)mergeAction)->subactivity->activationNumber
-        insert: mergeAction];
+    insert: mergeAction];
+}
+
+//
+// mapAllocations: -- standard method to map internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  //
+  // Skip over normal inheritance from Schedule_c so as not to map any
+  // member actions.  The schedule containing a concurrent group is
+  // responsible for mapping all its actions including those in concurrent
+  // groups; the concurrent group must only map itself.
+  //
+  callMethodInClass( id_Map_c, mapAllocations:, mapalloc );
 }
 
 @end

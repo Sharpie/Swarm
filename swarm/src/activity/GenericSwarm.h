@@ -9,7 +9,6 @@ Description:  object to coordinate a collection of started activities
 Library:      activity
 */
 
-#import <activity/ActionGroup.h>
 #import <activity/Schedule.h>
 #import <activity/Activity.h>
 
@@ -24,21 +23,22 @@ Library:      activity
   member_t         memberOfSub;      // membership link in owner subswarms list
   id               concrtGroupType;  // type for group of actions at same time
 }
-/*** methods implemented in .m file ***/
-- createEnd;
+/*** methods in GenericSwarm_c (inserted from .m file) ***/
 + createBegin: aZone;
 - (void) setConcurrentGroupType: groupType;
 - (void) setSingletonGroups: (BOOL)singletonGroups;
+- (void) setSwarmPlan: aSwarmPlan;
 - createEnd;
 - (void) setSwarmObjects: aCollection;
 - getSwarmObjects;
-- getSwarmActivity;
 - getConcurrentGroupType;
 - (BOOL) getSingletonGroups;
+- getSwarmActivity;
 - getOwner;
 - getSubswarms;
 - activateIn: swarmContext;
-- (void) drop;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void) _performPlan_;
 @end
 
 @interface SwarmActivity_c : ScheduleActivity_c
@@ -47,22 +47,27 @@ Library:      activity
   GenericSwarm_c  *swarm;          // swarm object for swarm activity
   int             nextActivation;  // next unused activation number
 }
-/*** methods implemented in .m file ***/
+/*** methods in SwarmActivity_c (inserted from .m file) ***/
 - (void) terminate;
 - getSubactivities;
 - getSwarm;
 - getMergingActivities;
-- (void) _drop_;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void) dropAllocations: (BOOL)componentAlloc;
 @end
 
-@interface ActionMerge_c : Action_c
+@interface ActionMerge_c : CAction
 {
 @public
-  Activity_c  *subactivity;  // activity holding for merge 
+  ScheduleActivity_c  *subactivity;  // activity holding for merge 
 }
-- (void) _performAction_: anActivity;
+/*** methods in ActionMerge_c (inserted from .m file) ***/
+- (void) _performAction_: callerActivity;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ActivationOrder_c : Schedule_c
-- (void) addLast: anObject;
+/*** methods in ActivationOrder_c (inserted from .m file) ***/
+- (void) addLast: mergeAction;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end

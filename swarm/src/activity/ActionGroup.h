@@ -9,42 +9,30 @@ Description:  collection of actions under partial order constraints
 Library:      activity
 */
 
+#import <collections/OrderedSet.h>
 #import <activity/ActionPlan.h>
 #import <activity/Activity.h>
-#import <activity/GenericSwarm.h>
-#import <collections/OrderedSet.h>
 
 @interface ActionGroup_c : OrderedSet_c
 {
 @public
 // variables for ActionPlan mixin inheritance (referenced by source inclusion)
-  id  variableDefs;     // variable defs referenceable within plan
   id  activityRefs;     // activities currently running this plan
 }
 /*** methods implemented in ActionPlan.m file ***/
 - (void) setDefaultOrder: aSymbol;
 - (void) setAutoDrop: (BOOL)autoDrop;
-- defineVariable;
-- defineArgument;
-- defineResult;
-- (void) _createVarDefsArray_;
-/*** methods implemented in .m file ***/
-- createEnd;
-/*** methods implemented in ActionPlan.m file ***/
 - getDefaultOrder;
 - (BOOL) getAutoDrop;
-- getActivities;
-- getVariableDefs;
-- _createActivity_: activityClass : indexClass;
-- (void) _performPlan_;
-- _activateIn_: swarmContext : activityClass : indexClass;
 - activateIn: swarmContext;
-- activateIn: swarmContext : arg1;
-- activateIn: swarmContext : arg1 : arg2;
-- activateIn: swarmContext : arg1 : arg2 : arg3;;
+- _activateIn_: swarmContext : activityClass : indexClass;
+- (void) _performPlan_;
+- _createActivity_: ownerActivity : activityClass : indexClass;
 - (void) drop;
-/*** methods implemented in .m file ***/
+/*** methods in ActionGroup_c (inserted from .m file) ***/
+- createEnd;
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
+- createAction: anActionType;
 - createActionCall: (func_t)fptr;
 - createActionCall: (func_t)fptr : arg1;
 - createActionCall: (func_t)fptr : arg1 : arg2;
@@ -57,9 +45,11 @@ Library:      activity
 - createActionForEach: target message: (SEL)aSel : arg1;
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2;
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface GroupActivity_c : Activity_c
+/*** methods in GroupActivity_c (inserted from .m file) ***/
 @end
 
 @interface GroupIndex_c : ListIndex_mlinks
@@ -69,13 +59,13 @@ Library:      activity
 }
 /*** methods implemented in ActionPlan.m file ***/
 - getHoldType;
-/*** methods implemented in .m file ***/
+/*** methods in GroupIndex_c (inserted from .m file) ***/
 - nextAction: (id *)status;
-- (void) drop;
+- (void) dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface ForEachActivity_c : Activity_c
-/*** methods implemented in .m file ***/
+/*** methods in ForEachActivity_c (inserted from .m file) ***/
 + _create_: forEachAction : anActivity;
 - getCurrentMember;
 @end
@@ -84,13 +74,13 @@ Library:      activity
 {
 @public
   id <Activity>    activity;       // activity for which index created
-  id <Index>       memberIndex;    // index into ActionForEach target collection
+  id <Index>       memberIndex;    // index into target collection
   ActionForEach_0  *memberAction;  // local copy of original ForEach action
 }
-/*** methods implemented in .m file ***/
+/*** methods in ForEachIndex_c (inserted from .m file) ***/
 - nextAction: (id *)status;
 - get;
 - getLoc;
 - getHoldType;
-- (void) drop;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end

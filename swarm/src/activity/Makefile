@@ -9,7 +9,7 @@ INCLIB = $(INCDIR)/activity
 all: install-headers install-lib
 
 clean:
-	- rm -f activity.x[ctm] *.o *.a core
+	- rm -rf ,m2h activity.x[ctm] $(OBJECTS)
 
 activity.o: activity.xm
 ActionGroup.o: ActionPlan.m

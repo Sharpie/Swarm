@@ -13,54 +13,58 @@ Library:      activity
 typedef unsigned   timeval_t;        // type for time values
 
 //
-// ActionPlan -- a collection of actions to be performed in a defined order
+// ActionType -- specification of a executable process
 //
-@deftype ActionPlan <Collection, ActionType>
+// ActionType will eventually consolidate support for parameterization
+// of all actions, including both actions compiled in the host language
+// (C functions and Objective C messages) and compound actions built at
+// runtime for interpretation by the Swarm abstract machine.
+//
+// Parameterization of actions will be based a uniform framework that
+// defines all input parameters, internal state variables, and/or return
+// results, and that provides for binding of these data in the context of
+// execution.  The Action type itself defines only those actions that have
+// not yet been bound for execution in any specific context.  Once a specific
+// context of execution has been bound, a new object of type Action is
+// is created that records the specific context of its binding.
+//
+// For now, the parameterization framework is still being established, but
+// the Action type is already used to refer to the common abstraction of an
+// executable action, whether compiled or interpreted.
+//
+@deftype ActionType
+-		activateIn: processContext;
+@end
+
+//
+// CompoundAction --
+//   a collection of actions to be performed
+//   in any order that is consistent with a set of ordering constraints
+//
+@deftype CompoundAction <ActionType, Collection>
 CREATING
 - (void)	setDefaultOrder: aSymbol;
 - (void)	setAutoDrop: (BOOL)autoDrop;
-
--		defineVariable;
 USING
 -		getDefaultOrder;
 - (BOOL)	getAutoDrop;
-
--		activateIn: swarmContext;
--		activateIn: swarmContext : arg1;
--		activateIn: swarmContext : arg1 : arg2;
--		activateIn: swarmContext : arg1 : arg2 : arg3;
-
--		getActivities;
-
--		getVariableDefs;
 @end
 
 // values for DefaultOrder
 
 extern id <Symbol>  Concurrent, Sequential, Randomized;
-
-//
-// VariableDefinition, ArgumentDefinition, ResultDefinition --
-//   variables defined as part of action plan
-//
-
-@deftype VariableDefinition <DefinedObject>
--		getActionPlan;
-@end
-
-@deftype ArgumentDefinition <VariableDefinition> @end
-@deftype ResultDefinition   <VariableDefinition> @end
 
 
 //
-// ActionGroup -- a collection of actions under partial order constraints
-//             (can be subclassed to define custom rules of action composition)
+// ActionCreating, TimeIndexing --
+//   "mixin" protocols included by the creatable types defined below
 //
-@deftype ActionGroup <ActionPlan, OrderedSet, CREATABLE>
+
+//
+// ActionCreating -- standard messages to create actions within an action plan
+//
+@deftype ActionCreating
 - createAction: anActionType;
-- createAction: anActionType : arg1;
-- createAction: anActionType : arg1 : arg2;
-- createAction: anActionType : arg1 : arg2 : arg3;
 
 - createActionCall: (func_t)fptr;
 - createActionCall: (func_t)fptr : arg1;
@@ -79,10 +83,12 @@ extern id <Symbol>  Concurrent, Sequential, Randomized;
 @end
 
 //
-// TimeIndexedPlan -- messages shared by Schedule and Swarm
+// TimeIndexing -- messages shared by Schedule and Swarm
 //
-@deftype TimeIndexedPlan
+@deftype TimeIndexing
 CREATING
++		create: aZone setRepeatInterval: (timeval_t)tVal;
+
 - (void)	setConcurrentGroupType: groupType;
 - (void)	setSingletonGroups: (BOOL)singletonGroups;
 SETTING
@@ -92,18 +98,29 @@ USING
 - (BOOL)	getSingletonGroups;
 - (timeval_t)	getRepeatInterval;
 @end
+
 
 //
 // GenericSwarm -- object to coordinate a collection of started activities
 //
-@deftype GenericSwarm <ActionGroup, TimeIndexedPlan, GetOwner, CREATABLE>
+// (The Generic prefix on this name avoids conflict with the Swarm superclass
+// from which user implementations of swarm behavior must currently inherit.)
+//
+@deftype GenericSwarm <ActionType, TimeIndexing, Zone, CREATABLE>
 SETTING
--		setSwarmObjects: aCollection;
+-		setPopulation: aCollection;
 USING
--		getSwarmObjects;
-
--		getSwarmActivity;
+-		getPopulation;
 -		getSubswarms;
+
+-		getCurrentActivity;
+@end
+
+//
+// ActionGroup --
+//   a collection of actions under total or partial order constraints
+//
+@deftype ActionGroup <CompoundAction, ActionCreating, OrderedSet, CREATABLE>
 @end
 
 //
@@ -113,19 +130,23 @@ USING
 @end
 
 //
+// ConcurrentGroup -- default concurrent group type for schedule
+//
+@deftype ConcurrentGroup <ActionGroup, CREATABLE>
+@end
+
+//
 // Schedule -- collection of actions ordered by time values
 //
-@deftype Schedule <ActionPlan, TimeIndexedPlan, Map, CREATABLE>
+@deftype Schedule <CompoundAction, TimeIndexing, ActionCreating, Map,
+                   CREATABLE>
 CREATING
 - (void)	create: aZone setRepeatInterval: (timeval_t)repeatInterval;
 - (void)	setRelativeTime: (BOOL)relative;
 USING
 - (BOOL)	getRelativeTime;
 
-- at: (timeval_t)tVal createAction: actionType;
-- at: (timeval_t)tVal createAction: actionType : arg1;
-- at: (timeval_t)tVal createAction: actionType : arg1 : arg2;
-- at: (timeval_t)tVal createAction: actionType : arg1 : arg2 : arg3;
+- at: (timeval_t)tVal createAction: anActionType;
 
 - at: (timeval_t)tVal createActionCall: (func_t)fptr;
 - at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1;
@@ -146,9 +167,22 @@ USING
 
 
 //
-// ActionArgs -- messages shared by ActionCall, ActionTo, and ActionForEach
+// Action -- a binding of an action type for execution in some context
 //
-@deftype ActionArgs <GetOwner>
+@deftype Action <GetOwner>
+-		getActionType;
+@end
+
+//
+// ActionArgs -- supertype of ActionCall, ActionTo, and ActionForEach
+//
+// The ActionArgs subtypes all implement a specific, hard-coded method for
+// binding an action to a fixed number of arguments that all have types
+// compatible with id type.  Eventually, more generic forms of binding for
+// any type of action along with its arguments and return values will also
+// be provided.
+//
+@deftype ActionArgs <Action>
 - (int)		getNArgs;
 - (void)	setArg1: arg1;
 -		getArg1;
@@ -159,9 +193,9 @@ USING
 @end
 
 //
-// ActionCall <ActionArgs>
+// ActionCall -- an action defined by calling a C function
 //
-@deftype ActionCall<ActionArgs>
+@deftype ActionCall <ActionArgs>
 - (void)	setFunctionPointer: (func_t)fptr;
 - (func_t)	getFunctionPointer;
 @end
@@ -177,28 +211,17 @@ USING
 @end
 
 //
-// ActionForEach -- an action defined by sending to every member of a collection
+// ActionForEach --
+//   an action defined by sending a message to every member of a collection
 //
 @deftype ActionForEach <ActionTo>
 @end
 
 
 //
-// Activity -- state of processing within an action plan
+// Activity -- state of processing within an action type
 //
 @deftype Activity <DefinedObject, Drop>
--		getCompound;
--		getEventLog;
-
-- (void)	setVar: aVariableDef to: value;
--		getVar: aVariableDef;
-- (void)	setArg: (int)argPos to: value;
--		getArg: (int)argPos;
-- (void)	setResult: value;
--		getResult;
-
--		getVariableValues;
-
 -		run;
 -               stop;
 - (void)	terminate;
@@ -211,37 +234,31 @@ USING
 -		getStatus;
 -		getHoldType;
 
--		getRunContext;
-- (void)	setOwnerActivity: anActivity;  // unimplemented
--		getOwnerActivity;
--		getSubactivities;
+-		getActionType;
+-		getAction;
 
--		getHoldingActions;   // unimplemented
--		getReleasedActions;  // unimplemented
+- (void)	setOwnerActivity: ownerActivity;
+-		getOwnerActivity;
+
+-		getControllingActivity;
+-		getTopLevelActivity;
+-		getSwarmActivity;
+-		getScheduleActivity;
+
+-		getSubactivities;
 
 -		setSerialMode: (BOOL)serialMode;
 - (BOOL)	getSerialMode;
 
--		getCurrentAction;       // serial mode only
 -		getCurrentSubactivity;  // serial mode only
 @end
 
 // values returned by getStatus and getHoldType
 
-extern id <Symbol>  Initialized, Running, Stopped, Holding, Released,
-                    Terminated, Completed;
+extern id <Symbol>  Initialized, Running, Holding, Released,
+                    Stopped, Terminated, Completed;
 extern id <Symbol>  HoldStart, HoldEnd;
-
-// action plan variable which supplies the activity running an action
-
-extern id  currentActivityVar;
 
-
-//
-// GroupActivity -- state of processing within an ActionGroup
-//
-@deftype GroupActivity <Activity>
-@end
 
 //
 // ForEachActivity -- state of execution within a ForEach action
@@ -257,72 +274,113 @@ extern id  currentActivityVar;
 -		setTerminateAtEnd: (BOOL)terminateAtEnd;
 - (BOOL)	getTerminateAtEnd;
 
-- (void)	setMergeMode: (BOOL)mergeMode;
--		getMergeMode;
+- (void)	setSynchronizedMode: (BOOL)synchronizedMode;
+-		getSynchronizedMode;
 
 - (timeval_t)   getCurrentTime;
 
--		stepUntil: (timeval_t)tVal;  // unimplemented
-- (void)        resetTimes: (timeval_t)tVal;  // unimplemented
+-		stepUntil: (timeval_t)tVal;   // unimplemented
+- (void)        shiftTimes: (timeval_t)tVal;  // unimplemented
 @end
 
 //
 // SwarmActivity -- a collection of started subactivities
 //
 @deftype SwarmActivity <ScheduleActivity>
--		getMergingActivities;
+-		getSynchronizedSubactivities;
 @end
-
-extern id <Error>  AlreadyStarted;
 
 
 //
-// Access to execution context of current action.
+// Macros to access to the current context in which an action is executing
 //
-@deftype ActivityMessages  // declare messages used by macros
-- (timeval_t)	_getCurrentTime_;
--		_getCurrentScheduleActivity_;
--		_getCurrentSwarmActivity_;
--		_getTopLevelActivity_;
-@end
-
-extern id    _activity_current;      // global variable for current activity
-extern BOOL (*_activity_trace)(id);  // trace function for activity execution
-
-#define getCurrentActivity() \
-_activity_current
-
-#define getCurrentAction() \
-[getCurrentActivity() getCurrentAction]
-
-#define getCurrentTime() \
-[getCurrentActivity() _getCurrentTime_]
-
-#define getCurrentScheduleActivity() \
-[getCurrentActivity() _getCurrentScheduleActivity_]
-
-#define getCurrentSchedule() \
-[getCurrentScheduleActivity() getActionPlan]
-
-#define getCurrentSwarmActivity() \
-[getCurrentActivity() _getCurrentSwarmActivity_]
 
 #define getCurrentSwarm() \
-[getCurrentSwarmActivity()] getSwarm]
+({ id swarmActivity; \
+ if ( ! _activity_current || \
+   ! (swarmActivity = [_activity_current getSwarmActivity]) ) \
+   _activity_context_error( "getCurrentSwarm" ); \
+ [swarmActivity getActionType]; })
 
-#define getCurrentSwarmActivity() \
-[getCurrentActivity() _getCurrentSwarmActivity_]
+#define getCurrentSchedule() \
+({ id scheduleActivity; \
+ if ( ! _activity_current || \
+    ! (scheduleActivity = [_activity_current getScheduleActivity]) ) \
+  _activity_context_error( "getCurrentSchedule" ); \
+ [scheduleActivity getActionType]; })
+
+#define getCurrentTime() \
+({ id scheduleActivity; \
+ if ( ! _activity_current || \
+  ! (scheduleActivity = [_activity_current getScheduleActivity]) ) \
+  _activity_context_error( "getCurrentTime" ); \
+ [scheduleActivity getCurrentTime]; })
+
+#define getCurrentAction() \
+ ( _activity_current ? [_activity_current getAction] : \
+ _activity_context_error( "getCurrentAction" ) )
 
 #define getTopLevelActivity() \
-[getCurrentActivity() _getTopLevelActivity_]
+ ( _activity_current ? [_activity_current getTopLevelActivity] : \
+ _activity_context_error( "getTopLevelActivity" ) )
+
+#define getCurrentSwarmActivity() \
+ ( _activity_current ? [_activity_current getSwarmActivity] : \
+ _activity_context_error( "getCurrentSwarmActivity" ) )
+
+#define getCurrentScheduleActivity() \
+ ( _activity_current ? [_activity_current getScheduleActivity] : \
+ _activity_context_error( "getCurrentScheduleActivity" ) )
+
+#define getCurrentOwnerActivity() \
+ ( _activity_current ? _activity_current : \
+ _activity_context_error( "getCurrentOwnerActivity" ) )
+
+#define getCurrentActivity() \
+ ( _activity_current ? [_activity_current getCurrentSubactivity] : \
+ _activity_context_error( "getCurrentActivity" ) )
 
 //
-// _activity_argval -- inline function to wrap non-id values as action arguments
+// _activity_zone -- global variable for zone in which activity objects created
 //
-extern inline id _activity_argval( id argval );
-#define V(argval) _activity_argval( argval )
+extern id  _activity_zone;
 
 //
-// Include automatically generated definitions for this module.
+// _activity_trace --
+//   global variable for function to be called on every change in the
+//   activity tree
+//
+// Note: support for any specific form of this trace facility is not guaranteed
+// in future versions.  Some form of trace facility will remain for debug
+// purposes, however, at least until a full form of event history logging has
+// been implemented as an integral part of the Activity type.
+// 
+extern BOOL (*_activity_trace)(id);  // trace function for activity execution
+
+
+//
+// internal support declarations
+//
+
+//
+// _activity_current -- global variable containing the current activity
+//
+extern id  _activity_current;
+
+//
+// _activity_context_error() --
+//   function to generate error message if invalid context query
+//
+extern id _activity_context_error( char *macroName );
+
+//
+// include automatically generated definitions for activity package
 //
 #import <activity/types.h>
+
+//
+// temporary access to current action from owner activity
+//
+@deftype GetSubaction
+-		getSubaction;
+@end

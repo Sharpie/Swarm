@@ -23,6 +23,18 @@ PHASE(Creating)
 #define  MIXIN_CREATE
 #include "ActionPlan.m"
 
+//
+// create:setRepeatInterval: -- convenience create message
+//
++ create: aZone setRepeatInterval: (timeval_t)rptInterval
+{
+  id  new;
+
+  new = [self createBegin: aZone];
+  [new setRepeatInterval: rptInterval];
+  return [new createEnd];
+}
+
 - (void) setConcurrentGroupType: groupType
 {
   concurrentGroupType = groupType;
@@ -49,21 +61,20 @@ PHASE(Creating)
 
     setBit( bits, Bit_RelativeTime, 1 );  // force relative time for repeat
   }
-  [(id)self setCompareFunction: _activity_compareIDs];
+  [(id)self setCompareFunction: compareIDs];
 
   if ( createByMessageToCopy( self, createEnd ) ) return self;
 
-  if ( ! concurrentGroupType ) concurrentGroupType = ActionGroup;
-  if ( variableDefs ) [self _createVarDefsArray_];
+  if ( ! concurrentGroupType ) concurrentGroupType = ConcurrentGroup;
   [super createEnd];
   return self;
 }
 
 PHASE(Setting)
 
-- (void) setRepeatInterval: (timeval_t)tVal
+- (void) setRepeatInterval: (timeval_t)rptInterval
 {
-  if ( tVal == 0 )
+  if ( rptInterval == 0 )
     raiseEvent( InvalidArgument,
                 "repeat interval must be greater than zero\n" );
 
@@ -71,7 +82,7 @@ PHASE(Setting)
     raiseEvent( InvalidCombination,
       "cannot specify a repeat interval after schedule created without it\n" );
 
-  repeatInterval = tVal;
+  repeatInterval = rptInterval;
 }
 
 PHASE(Using)
@@ -123,14 +134,18 @@ PHASE(Using)
   // initialize new activity to run underneath swarm
 
   swarmActivity = swarmContext;
-  newActivity = [self _createActivity_: activityClass : indexClass];
+  newActivity =
+    [self _createActivity_: swarmActivity : activityClass : indexClass];
+  newActivity->ownerActivity    = nil;
   newActivity->swarmActivity    = swarmActivity;
   newActivity->activationNumber = swarmActivity->nextActivation++;
 
   // create merge action for use by swarm in merging schedule subactivities
 
   newIndex = newActivity->currentIndex;
-  mergeAction = [swarmActivity->zone allocIVars: id_ActionMerge_c];
+  mergeAction =
+    [getZone( swarmActivity ) allocIVarsComponent: id_ActionMerge_c];
+  setMappedAlloc( mergeAction );
   mergeAction->subactivity = newActivity;
   newActivity->mergeAction = mergeAction;
 
@@ -144,9 +159,6 @@ PHASE(Using)
 
   [newIndex nextAction: (id *)&newActivity->status];
 
-  // keep ownerActivity set to nil when not actually running under swarm
-
-  newActivity->ownerActivity = nil;
   return newActivity;
 }
 
@@ -160,11 +172,12 @@ static ActionConcurrent_c *createGroup( Schedule_c *self )
 
   // create new concurrent group to receive new action
 
-  newGroup = [self->concurrentGroupType create: self->zone];
+  newGroup = [self->concurrentGroupType create: getComponentZone( self )];
   setBit( newGroup->bits, Bit_ConcurrentGroup, 1 );
 
-  newAction = [self->zone allocIVars: id_ActionConcurrent_c];
-  newAction->ownerPlan  = (id)self;
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionConcurrent_c];
+  setMappedAlloc( newAction );
+  newAction->owner      = (id)self;
   newAction->actionPlan = (id)newGroup;
   return newAction;
 }
@@ -172,12 +185,12 @@ static ActionConcurrent_c *createGroup( Schedule_c *self )
 //
 // _activity_insertAction: routine to create concurrent action group if needed
 //
-void
-_activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
+void _activity_insertAction( Schedule_c *self, timeval_t tVal,
+                             CAction *anAction )
 {
   BOOL                newKey;
   id                  *memptr;
-  Action_c            *existingAction;
+  CAction             *existingAction;
   ActionConcurrent_c  *newAction;
   ActionGroup_c       *existingGroup;
 
@@ -187,7 +200,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 
   // attempt to insert as first action at key
 
-  anAction->ownerPlan = (id)self;
+  anAction->owner = (id)self;
   memptr = &anAction;
   newKey = [self at: (id)tVal memberSlot: &memptr];
 
@@ -204,7 +217,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
     existingAction = *memptr;
     if ( getClass( existingAction ) == id_ActionConcurrent_c ) {
       existingGroup = (id)((ActionConcurrent_c *)existingAction)->actionPlan;
-      anAction->ownerPlan = (id)existingGroup;
+      anAction->owner = (id)existingGroup;
       [existingGroup addLast: anAction];
       return;
     }
@@ -216,10 +229,10 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
   newAction->ownerActions = existingAction->ownerActions;  // replace mem links
   *memptr = newAction;
   if ( ! newKey ) {
-    existingAction->ownerPlan = newAction->actionPlan;
+    existingAction->owner = newAction->actionPlan;
     [(id)newAction->actionPlan addLast: existingAction];
   }
-  anAction->ownerPlan = (id)newAction->actionPlan;
+  anAction->owner = (id)newAction->actionPlan;
   [(id)newAction->actionPlan addLast: anAction];
 }
 
@@ -247,7 +260,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 
   // if existing action at key then insert into new group and return group
 
-  existingAction->ownerPlan = newAction->actionPlan;
+  existingAction->owner = newAction->actionPlan;
   newAction->ownerActions = existingAction->ownerActions;  // replace mem links
   [(id)newAction->actionPlan addLast: existingAction];
   *memptr = newAction;
@@ -263,16 +276,19 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
     raiseEvent( InvalidArgument,
       "object to be removed from schedule is not an action\n" );
 
-  if ( respondsTo( ((Action_c *)anAction)->ownerPlan, M(getRelativeTime) ) ) {
-    if ( _obj_debug && ((Action_c *)anAction)->ownerPlan != (id)self )
+  if ( respondsTo( ((CAction *)anAction)->owner, M(getRelativeTime) ) ) {
+    if ( _obj_debug && ((CAction *)anAction)->owner != (id)self )
       raiseEvent( InvalidArgument,
         "action to be removed from schedule does not belong to schedule\n" );
     [super remove: anAction];
-  } else {
-    [(id)((Action_c *)anAction)->ownerPlan remove: anAction];
-    if ( [((Action_c *)anAction)->ownerPlan getCount] == 0 ) {
+  } else {  // concurrent group
+    [(id)((CAction *)anAction)->owner remove: anAction];
+    if ( [((CAction *)anAction)->owner getCount] == 0 ) {
+      //!! ?? is this right?  how get the concurrent action to be removed?
       [super remove: anAction];
-      [anAction _dropFrom_: zone];
+      raiseEvent( SourceMessage,
+        "removing concurrent group but not action\n" );
+      [anAction dropAllocations: 1];
     }
   }
   return anAction;
@@ -295,7 +311,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionCall_0  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_0];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_0];
   newAction->funcPtr = fptr;
   _activity_insertAction( self, tVal, newAction );
   return newAction;
@@ -305,7 +321,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionCall_1  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_1];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_1];
   newAction->funcPtr = fptr;
   newAction->arg1    = arg1;
   _activity_insertAction( self, tVal, newAction );
@@ -316,7 +332,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionCall_2  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_2];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_2];
   newAction->funcPtr = fptr;
   newAction->arg1    = arg1;
   newAction->arg2    = arg2;
@@ -328,7 +344,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionCall_3  *newAction;
 
-  newAction = [zone allocIVars: id_ActionCall_3];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_3];
   newAction->funcPtr = fptr;
   newAction->arg1    = arg1;
   newAction->arg2    = arg2;
@@ -341,7 +357,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionTo_0  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_0];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_0];
   newAction->target   = target;
   newAction->selector = aSel;
   _activity_insertAction( self, tVal, newAction );
@@ -352,7 +368,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionTo_1  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_1];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_1];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -364,7 +380,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionTo_2  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_2];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_2];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -378,7 +394,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionTo_3  *newAction;
 
-  newAction = [zone allocIVars: id_ActionTo_3];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_3];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -392,7 +408,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionForEach_0  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_0];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_0];
   newAction->target   = target;
   newAction->selector = aSel;
   _activity_insertAction( self, tVal, newAction );
@@ -403,7 +419,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionForEach_1  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_1];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_1];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -415,7 +431,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionForEach_2  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_2];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_2];
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -428,7 +444,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 {
   ActionForEach_2  *newAction;
 
-  newAction = [zone allocIVars: id_ActionForEach_3];
+  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_3];
   newAction->target   = t;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
@@ -437,8 +453,131 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
   return newAction;
 }
 
+//
+// createAction... -- convenience messages to create actions at time value zero
+//
+
+- createAction: anActionType
+{
+  return [self at: 0 createAction: anActionType];
+}
+
+- createActionCall: (func_t)fptr
+{
+  return [self at: 0 createActionCall: fptr];
+}
+
+- createActionCall: (func_t)fptr : arg1
+{
+  return [self at: 0 createActionCall: fptr : arg1];
+}
+
+- createActionCall: (func_t)fptr : arg1 : arg2
+{
+  return [self at: 0 createActionCall: fptr : arg1 : arg2];
+}
+
+- createActionCall: (func_t)fptr : arg1 : arg2 : arg3
+{
+  return [self at: 0 createActionCall: fptr : arg1 : arg2 : arg3];
+}
+
+- createActionTo: target message: (SEL)aSel
+{
+  return [self at: 0 createActionTo: target message: aSel];
+}
+
+- createActionTo: target message: (SEL)aSel : arg1
+{
+  return [self at: 0 createActionTo: target message: aSel : arg1];
+}
+
+- createActionTo: target message: (SEL)aSel : arg1 : arg2
+{
+  return [self at: 0 createActionTo: target message: aSel : arg1 : arg2];
+}
+
+- createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
+{
+  return [self at: 0 createActionTo: target message: aSel : arg1:arg2:arg3];
+}
+
+- createActionForEach: target message: (SEL)aSel
+{
+  return [self at: 0 createActionForEach: target message: aSel];
+}
+
+- createActionForEach: target message: (SEL)aSel : arg1
+{
+  return [self at: 0 createActionForEach: target message: aSel : arg1];
+}
+
+- createActionForEach: target message: (SEL)aSel : arg1 : arg2
+{
+  return [self at: 0 createActionForEach: target message: aSel : arg1 : arg2];
+}
+
+- createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3
+{
+  return [self at: 0 createActionForEach: target message: aSel:arg1:arg2:arg3];
+}
+
+//
+// mapAllocations: -- standard method to identify internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  id  index, member, groupIndex, groupMember, nextMember;
+
+  if ( activityRefs ) mapObject( mapalloc, activityRefs );
+
+  index = [self begin: scratchZone];
+  while ( (member = [index next]) ) {
+
+    // if action is for a concurrent group, then map all actions in the group
+
+    if ( getClass( member ) == id_ActionConcurrent_c ) {
+      groupIndex = [(id)((ActionConcurrent_c *)member)->actionPlan
+                     begin: scratchZone];
+      nextMember = [groupIndex next];
+      while ( (groupMember = nextMember) ) {
+        nextMember = [groupIndex next];
+        mapObject( mapalloc, groupMember );
+      }
+      [groupIndex drop];
+    }
+
+    // map the action contained in the schedule itself
+
+    mapObject( mapalloc, member );
+  }
+  [index drop];
+  [super mapAllocations: mapalloc];
+}
+
 @end
 
+//
+// ConcurrentGroup_c -- action group that does not own its member actions
+//
+@implementation ConcurrentGroup_c
+
+PHASE(Creating)
+
+//
+// createEnd --
+//   same create method as ActionGroup, only do *not* set MappedAlloc bit
+//
+- createEnd
+{
+  if ( createByMessageToCopy( self, createEnd ) ) return self;
+
+  [(id)self setIndexFromMemberLoc: offsetof( CAction, ownerActions )];
+  setNextPhase( self );
+  return self;
+}
+
+@end
 
 //
 // ActionConcurrent_c -- minimal action just for concurrent group of schedule
@@ -450,23 +589,14 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
   [(id)actionPlan _performPlan_];
 }
 
-- (void) _dropFrom_: aZone
+//
+// mapAllocations: -- standard method to identify internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  id  index, member;
+  // identify the action group that held the concurrent actions
 
-  // drop all the actions that were included in the concurrent group
-
-  index = [(id)actionPlan begin: scratchZone];
-  while ( (member = [index next]) ) {
-    [index remove];
-    [member _dropFrom_: aZone];
-  }
-  [index drop];
-
-  // drop the concurrent group itself and the action that refers to it
-
-  [actionPlan drop];
-  [aZone freeIVars: self];
+  mapObject( mapalloc, actionPlan );
 }
 
 @end
@@ -487,12 +617,27 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 }
 
 //
-// _drop_ -- special _drop_ method to free mergeAction along with activity
+// stepUntil: -- advance activity until requested time has been reached
 //
-- (void) _drop_
+- stepUntil: (timeval_t)tVal
 {
-  if ( mergeAction ) [zone freeIVars: mergeAction];
-  [super _drop_];
+  id  nextStatus = nil;
+
+  while ( [self getCurrentTime] < tVal &&
+          (nextStatus = [self next]) != Completed );
+  return ( nextStatus ? nextStatus : [self getStatus] );
+}
+
+//
+// mapAllocations: -- standard method to identify internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  [super mapAllocations: mapalloc];
+  if ( mergeAction ) {
+    mapalloc->descriptor = t_LeafObject;
+    mapAlloc( mapalloc, mergeAction );
+  }
 }
 
 @end
@@ -537,9 +682,11 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
     if ( currentAction != (actionAtIndex = [super get]) ) {
       //!! (later -- when Map implementation has stabilized --
       //!! get actionAtIndex directly from the underlying implementation)
-      newAction = [id_ActionChanged_c create: ((Activity_c *)activity)->zone];
+      newAction =
+        [id_ActionChanged_c create: getZone( (Activity_c *)activity )];
       newAction->actionAtIndex = actionAtIndex;
       currentAction = newAction;
+      setMappedAlloc( self );
       return newAction;     // return special object to handle _performAction_:
     }      // (change object need only be dropped to disappear without a trace)
 
@@ -548,7 +695,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
     //
     if ( ((Schedule_c *)collection)->bits & Bit_AutoDrop ) {
       removedAction = [super remove];
-      [removedAction _dropFrom_: ((Schedule_c *)collection)->zone];
+      [removedAction dropAllocations: 1];
     }
   }
 
@@ -590,11 +737,13 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
   // to Holding, so that the run loop will not attempt further processing
   // at this time.
   //
-  if ( ((Activity_c *)activity)->swarmActivity &&
+  if ( ((ScheduleActivity_c *)activity)->swarmActivity &&
        ( currentAction ||
-         ((Activity_c *)activity)->swarmActivity->status == Initialized )  ) {
+         ((ScheduleActivity_c *)activity)->swarmActivity->status ==
+         Initialized )  ) {
 
-    swarmIndex = ((Activity_c *)activity)->swarmActivity->currentIndex;
+    swarmIndex =
+      ((ScheduleActivity_c *)activity)->swarmActivity->currentIndex;
     _activity_insertAction( (id)swarmIndex->collection, currentTime,
 			    ((ScheduleActivity_c *)activity)->mergeAction );
     if ( currentAction ) 
@@ -659,16 +808,25 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 - (timeval_t) getCurrentTime
 {
   if ( [self getLoc] == Start ) return startTime;
-  return ( startTime + (timeval_t)((entry_t)[listIndex get])->key );
+  return ( startTime + (timeval_t)((mapentry_t)[listIndex get])->key );
 }
 
 //
-// drop -- standard drop message for index
+// mapAllocations: -- standard method to identify internal allocations
 //
-- (void) drop
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  if ( getClass( currentAction ) == id_ActionChanged_c )
+    mapObject( mapalloc, currentAction );
+}
+
+//
+// dropAllocations: -- drop index as component of activity
+//
+- (void) dropAllocations: (BOOL)componentAlloc
 {
   [((Schedule_c *)collection)->activityRefs remove: activity];
-  [super drop];
+  [super dropAllocations: 1];
 }
 
 @end
@@ -689,6 +847,7 @@ _activity_insertAction( Schedule_c *self, timeval_t tVal, Action_c *anAction )
 
   schedIndex = ((Activity_c *)anActivity)->currentIndex;
   schedIndex->currentAction = actionAtIndex;
+  unsetMappedAlloc( schedIndex );
   [actionAtIndex _performAction_: anActivity];
   [((Activity_c *)anActivity)->currentSubactivity->currentIndex
     nextAction: &unusedStatus];

@@ -13,13 +13,11 @@ Library:      activity
 #import <activity.h>
 
 extern id   _activity_activityRefsType;
-extern int  _activity_compareIDs( id, id );
 
 @interface ActionPlan_c : Collection_any
                          // mixin inheritance for ActionGroup or Schedule
 {                        // (variables here are for documentation only)
 @public
-  id   variableDefs;   // array of variable objects defined for plan
   id   activityRefs;   // activities currently running this plan
 }
 #define Bit_Concurrent       1 << 8   // actions may be executed concurrently
@@ -29,26 +27,10 @@ extern int  _activity_compareIDs( id, id );
 #define Bit_RelTimeSet       1 << 13  // RelativeTime setting not just default
 #define Bit_ConcrntGroupSet  1 << 14  // create conc group for single actions
 #define Bit_SingletonGroups  1 << 15  // create conc group for single actions
-#define Bit_ConcurrentGroup  1 << 16  // plan is conc group created by schedule 
-#define Bit_ResultVarDef     1 << 17  // result variable defined 
+#define Bit_ConcurrentGroup  1 << 16  // plan is conc group created by schedule
 @end
 
 @interface ActionPlan_create : ActionPlan_c
-/*** methods implemented in .m file ***/
+/*** methods in ActionPlan_create ***/
 + implement: (id *)typeID;
-@end
-
-@interface VariableDefinition_c : Object_s
-{
-@public
-  ActionPlan_c  *actionPlan;
-  int           valueOffset;
-}
-- getActionPlan;
-@end
-
-@interface ArgumentDefinition_c : VariableDefinition_c
-@end
-
-@interface ResultDefinition_c : VariableDefinition_c
 @end

@@ -9,7 +9,7 @@ Description:  Schedule -- collection of actions ordered by time values
 Library:      activity
 */
 
-#import <activity/ActionPlan.h>
+#import <activity/ActionGroup.h>
 #import <activity/Activity.h>
 #import <collections/Map.h>
 
@@ -17,7 +17,6 @@ Library:      activity
 {
 @public
 // variables for ActionPlan mixin inheritance (referenced by source inclusion)
-  id  variableDefs;     // variable defs referenceable within plan
   id  activityRefs;     // activities currently running this plan
 // locally defined variables
   id         concurrentGroupType;  // type for group of actions at same time
@@ -26,38 +25,29 @@ Library:      activity
 /*** methods implemented in ActionPlan.m file ***/
 - (void) setDefaultOrder: aSymbol;
 - (void) setAutoDrop: (BOOL)autoDrop;
-- defineVariable;
-- defineResult;
-- defineArgument;
-/*** methods implemented in .m file ***/
+- getDefaultOrder;
+- (BOOL) getAutoDrop;
+- activateIn: swarmContext;
+- _activateIn_: swarmContext : activityClass : indexClass;
+- (void) _performPlan_;
+- _createActivity_: ownerActivity : activityClass : indexClass;
+- (void) drop;
+/*** methods in Schedule_c (inserted from .m file) ***/
++ create: aZone setRepeatInterval: (timeval_t)rptInterval;
 - (void) setConcurrentGroupType: groupType;
 - (void) setSingletonGroups: (BOOL)singletonGroups;
 - (void) setRelativeTime: (BOOL)relativeTime;
-- (void) setRepeatInterval: (timeval_t)tVal;
 - createEnd;
-/*** methods implemented in ActionPlan.m file ***/
-- getDefaultOrder;
-- (BOOL) getAutoDrop;
-- getActivities;
-- getVariableDefs;
-- _createActivity_: activityClass : indexClass;
-- (void) _performPlan_;
-- _activateIn_: swarmContext : activityClass : indexClass;
-- activateIn: swarmContext;
-- activateIn: swarmContext : arg1;
-- activateIn: swarmContext : arg1 : arg2;
-- activateIn: swarmContext : arg1 : arg2 : arg3;;
-- (void) drop;
-/*** methods implemented in .m file ***/
+- (void) setRepeatInterval: (timeval_t)rptInterval;
 - getConcurrentGroupType;
 - (BOOL) getSingletonGroups;
 - (BOOL) getRelativeTime;
-- (void) setRepeatInterval: (timeval_t)tVal;
 - (timeval_t) getRepeatInterval;
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
 - insertGroup: aKey;
 - remove: anAction;
-- at: (timeval_t)tVal createActionCall: (func_t)fptr;;
+- at: (timeval_t)tVal createAction: anActionType;
+- at: (timeval_t)tVal createActionCall: (func_t)fptr;
 - at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1;
 - at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2;
 - at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2 : arg3;
@@ -69,27 +59,50 @@ Library:      activity
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1;
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
 - at: (timeval_t)tVal createActionForEach: t message: (SEL)aSel:arg1:arg2:arg3;;
+- createAction: anActionType;
+- createActionCall: (func_t)fptr;
+- createActionCall: (func_t)fptr : arg1;
+- createActionCall: (func_t)fptr : arg1 : arg2;
+- createActionCall: (func_t)fptr : arg1 : arg2 : arg3;
+- createActionTo: target message: (SEL)aSel;
+- createActionTo: target message: (SEL)aSel : arg1;
+- createActionTo: target message: (SEL)aSel : arg1 : arg2;
+- createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- createActionForEach: target message: (SEL)aSel;
+- createActionForEach: target message: (SEL)aSel : arg1;
+- createActionForEach: target message: (SEL)aSel : arg1 : arg2;
+- createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-extern void _activity_insertAction( Schedule_c *, timeval_t, Action_c *);
+extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 
-@interface ActionConcurrent_c : Action_c
+@interface ConcurrentGroup_c : ActionGroup_c
+/*** methods in ConcurrentGroup_c (inserted from .m file) ***/
+- createEnd;
+@end
+
+@interface ActionConcurrent_c : CAction
 {
 @public
   ActionPlan_c  *actionPlan;      // plan to be executed by action
 }
+/*** methods in ActionConcurrent_c (inserted from .m file) ***/
 - (void) _performAction_: anActivity;
-- (void) _dropFrom_: aZone;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ScheduleActivity_c : Activity_c
 {
 @public
-  id    mergeAction;   // merge action running activity under swarm
+  Activity_c  *swarmActivity;    // controlling swarm activity, if any
+  id          mergeAction;       // merge action of swarm activity, if any
+  int         activationNumber;  // sequential id of activation within swarm
 }
-/*** methods implemented in .m file ***/
+/*** methods in ScheduleActivity_c (inserted from .m file) ***/
 - (timeval_t) getCurrentTime;
-- (void) _drop_;
+- stepUntil: (timeval_t)tVal;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ScheduleIndex_c : MapIndex_c
@@ -102,12 +115,13 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, Action_c *);
 }
 /*** methods implemented in ActionPlan.m file ***/
 - getHoldType;
-/*** methods implemented in .m file ***/
+/*** methods in ScheduleIndex_c (inserted from .m file) ***/
 - nextAction: (id *)status;
 - remove;
 - get;
 - (timeval_t) getCurrentTime;
-- (void) drop;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void) dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface ActionChanged_c : CreateDrop
@@ -115,6 +129,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, Action_c *);
 @public
   ActionConcurrent_c  *actionAtIndex;   // action for new concurrent group
 }
+/*** methods in ActionChanged_c (inserted from .m file) ***/
 - (void) _performAction_: anActivity;
 @end
 

@@ -14,11 +14,11 @@ Library:      activity
 #import <activity/Schedule.h>
 
 
-@implementation Action_c
+@implementation CAction
 
 - getOwner
 {
-  return ownerPlan;
+  return owner;
 }
 
 @end
@@ -44,11 +44,6 @@ Library:      activity
 - (void) _performAction_: anActivity
 {
   funcPtr();
-}
-
-- (void) _dropFrom_: aZone
-{
-  [aZone freeIVars: self];
 }
 
 @end
@@ -159,11 +154,6 @@ Library:      activity
 - (void) _performAction_: anActivity
 {
   [target perform: selector];
-}
-
-- (void) _dropFrom_: aZone
-{
-  [aZone freeIVars: self];
 }
 
 @end
@@ -280,6 +270,7 @@ Library:      activity
   setClass( memberAction, id_ActionTo_2 );
 }
 
+@end
 
 @implementation ActionForEach_3
 

@@ -24,6 +24,7 @@ void _activity_implement( void )
   [id_ActionGroup_c     setTypeImplemented: ActionGroup ];
   [id_Schedule_c        setTypeImplemented: Schedule    ];
   [id_GenericSwarm_c    setTypeImplemented: GenericSwarm];
+  [id_ConcurrentGroup_c setTypeImplemented: ConcurrentGroup];
   [id_ActivationOrder_c setTypeImplemented: ActivationOrder];
 }
 
@@ -32,7 +33,7 @@ void _activity_initialize( void )
 
   _activity_zone = globalZone;
 
-  _activity_activityRefsType = [OrderedSet customizeBegin: _obj_initZone];
+  _activity_activityRefsType = [OrderedSet customizeBegin: globalZone];
   [_activity_activityRefsType
     setIndexFromMemberLoc: offsetof( Activity_c, activityRefs )];
   _activity_activityRefsType = [_activity_activityRefsType customizeEnd];
