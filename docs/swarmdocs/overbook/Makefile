@@ -1,3 +1,4 @@
-html: overbook.html
+DRIVER=overbook
 
 include ../Makefile.conf
+
