@@ -1,3 +1,10 @@
+2001-06-22  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* sendmsg.c (RETVAL_FLOAT_IS_POINTER): Define if GCC 3 and i386.
+	(__objc_float_forward): New function.  Handle above.
+	(__objc_double_forward): Handle RETVAL_FLOAT_IS_POINTER.
+	(__objc_get_forward_imp): Set if "f" type.
+
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* sendmsg.c (__objc_print_dtable_stats): Don't split expression

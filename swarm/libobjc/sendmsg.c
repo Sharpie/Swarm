@@ -34,6 +34,10 @@ Boston, MA 02111-1307, USA.  */
 #error cc1obj -print-runtime-info must report MFRAME_STACK_STRUCT
 #endif
 
+#if (__GNUC__ == 3) && defined(__i386__)
+#define RETVAL_FLOAT_IS_POINTER
+#endif
+
 /* The uninstalled dispatch table */
 externobjcvardef struct sarray* __objc_uninstalled_dtable = 0;   /* !T:MUTEX */
 
@@ -52,6 +56,7 @@ static void __objc_init_install_dtable(id, SEL);
    __objc_word_forward for pointers or types that fit in registers.
    */
 static double __objc_double_forward(id, SEL, ...);
+static double __objc_float_forward(id, SEL, ...);
 static id __objc_word_forward(id, SEL, ...);
 typedef struct { id many[8]; } __big;
 #if MFRAME_STACK_STRUCT
@@ -74,7 +79,9 @@ __objc_get_forward_imp (SEL sel)
   if (t && (*t == '[' || *t == '(' || *t == '{')
       && objc_sizeof_type(t) > MFRAME_SMALL_STRUCT)
     return (IMP)__objc_block_forward;
-  else if (t && (*t == 'f' || *t == 'd'))
+  else if (t && (*t == 'f'))
+    return (IMP)__objc_float_forward;
+  else if (t && (*t == 'd'))
     return (IMP)__objc_double_forward;
   else
     return (IMP)__objc_word_forward;
@@ -505,6 +512,25 @@ __objc_word_forward (id rcv, SEL op, ...)
     return res;
 }
 
+static double
+__objc_float_forward (id rcv, SEL op, ...)
+{
+  void *args, *res;
+
+  args = __builtin_apply_args ();
+  res = __objc_forward (rcv, op, args);
+#if !defined(__alpha__) && !defined(RETVAL_FLOAT_IS_POINTER)
+  __builtin_return (res);
+#elif defined(RETVAL_FLOAT_IS_POINTER)
+  return *((float *) res);
+#else
+  {
+    register double ret asm ("$f0");
+    return ret;
+  }
+#endif
+}
+
 /* Specific routine for forwarding floats/double because of
    architectural differences on some processors.  i386s for
    example which uses a floating point stack versus general
@@ -517,8 +543,10 @@ __objc_double_forward (id rcv, SEL op, ...)
 
   args = __builtin_apply_args ();
   res = __objc_forward (rcv, op, args);
-#ifndef __alpha__
+#if !defined(__alpha__) && !defined(RETVAL_FLOAT_IS_POINTER)
   __builtin_return (res);
+#elif defined(RETVAL_FLOAT_IS_POINTER)
+  return *((double *) res);
 #else
   {
     register double ret asm ("$f0");
