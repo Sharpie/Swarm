@@ -13,11 +13,11 @@ Prefix: %prefix
 BuildRoot: /tmp/swarm-root
 %ifarch ppc
 BuildPrereq: libffi >= 1.20
-BuildPrereq: kaffe = 1.0b4
+#BuildPrereq: kaffe = 1.0b4
 %else
 BuildPrereq: kaffe = @kaffe_version@
-%endif
 BuildPrereq: jikes = @jikes_version@
+%endif
 #Icon: swarm.xpm
 Packager: @packager@
 Distribution: @distribution@
@@ -48,6 +48,10 @@ or better, and the blt library package.
 
 
 %changelog
+* Thu Oct 01 1999 Alex Lancaster <alex@santafe.edu>
+
+- Disable generation of swarm-kaffe package on ppc, kaffe broken.
+
 * Thu Sep 30 1999 Alex Lancaster <alex@santafe.edu>
 
 - Add "%ifarch ppc" directives to apply 2.0.1-ppc.patch;
@@ -175,15 +179,17 @@ the Sun JDK.
 
 %ifnarch ppc
 %define ffiflag --without-ffidir
+%define jdkflag --with-jdkdir=/usr
 %define cflags %{?dummy-macro}
 %define objcflags %{?dummy-macro}
 %else
 %define ffiflag --with-ffidir=/usr
+%define jdkflag --without-jdkdir
 %define cflags CFLAGS='-O -g'
 %define objcflags OBJCFLAGS='-fdollars-in-identifiers'
 %endif
 
-%objcflags %cflags %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --without-hdf5dir --disable-jar %ffiflag 
+%objcflags %cflags %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --without-hdf5dir --disable-jar %ffiflag %jdkflag 
 make JAVAC=/usr/bin/jikes
 
 %install
@@ -205,11 +211,14 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
 
 /sbin/ldconfig
 
+%ifnarch ppc
 %post kaffe
 %define kaffepathfiles bin/java*swarm lib/swarm/libkaffeswarm*.la
 %fix_path %kaffepathfiles
 
 /sbin/ldconfig
+
+%endif
 
 %files -f without-hdf
 %defattr(-,root,root)
@@ -217,6 +226,7 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
 %files static -f static
 %defattr(-,root,root)
 
+%ifnarch ppc
 %files kaffe
 %defattr(-,root,root)
 %verify(not size md5 mtime) %{prefix}/bin/javaswarm
@@ -224,6 +234,7 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
 %verify(not size md5 mtime) %{prefix}/lib/swarm/libkaffeswarm*.la
 %{prefix}/lib/swarm/libkaffeswarm*.so*
 %{prefix}/share/swarm
+%endif
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
