@@ -5,8 +5,7 @@ INSTALL=@INSTALL@
 jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
 JAR=@JAR@
-JAR_HOME=@JAR_HOME@
-JAVAC=$(jdkbindir)/javac
+JAVAC=@JAVAC@
 JAVACLASSES=@JAVACLASSES@
 srcdir=@srcdir@
 VPATH=$(srcdir)
@@ -35,7 +34,7 @@ modules: deps $(PRECLASSFILES)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 
 jar: modules $(POSTCLASSFILES)
-	cd .. ; unset CLASSPATH ; JAVA_HOME=$(JAR_HOME) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
+	cd .. ; unset CLASSPATH ; $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
 install: all
 	test -d $(datadir) || mkdir $(datadir)
@@ -43,4 +42,4 @@ install: all
 	$(INSTALL) swarm.jar $(datadir)/swarm
 
 %.class: %.java
-	JAVA_HOME=$(jdkdir) $(JAVAC) -d .. -classpath $(srcdir)/..:../:$(JAVACLASSES) $<
+	$(JAVAC) -d .. -classpath $(srcdir)/..:../:$(JAVACLASSES) $<
