@@ -63,7 +63,7 @@ PHASE(Creating)
 
   if (newString->count > 0)
     {
-      newString->string = [aZone allocBlock: newString->count + 1];
+      newString->string = [getZone (newString) allocBlock: newString->count + 1];
       memcpy (newString->string, cstring, newString->count + 1);
     }
   else
@@ -125,7 +125,7 @@ PHASE(Using)
   return string;
 }
 
-- (void) catC: (const char *)cstring
+- (void)catC: (const char *)cstring
 {
   id zone;
   int appendCount;
@@ -147,22 +147,22 @@ PHASE(Using)
     }
 }
 
-- (int) getCount
+- (int)getCount
 {
   return count;
 }
 
-- (int) count
+- (int)count
 {
   return count;
 }
 
-- (int) length
+- (int)length
 {
   return count;
 }
 
-- (int) compare: aString
+- (int)compare: aString
 {
   return strcmp (string, ((String_c *)aString)->string);
 }
