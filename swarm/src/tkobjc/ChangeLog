@@ -1,3 +1,9 @@
+1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* WindowGeometryRecord.[hm] ([WindowGeometryRecord -lispOutDeep:]): 
+	([WindowGeometryRecord -lispOutShallow:]): Split -lispOut:deep:
+	into two methods.
+
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* internal.m: Use raiseEvent macro instead of method throughout.

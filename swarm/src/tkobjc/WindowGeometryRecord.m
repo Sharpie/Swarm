@@ -87,7 +87,7 @@ getVal (id obj)
   return self;
 }
 
-- lispOut: stream deep: (BOOL)deepFlag
+- lispOutShallow: stream
 {
   char buf[20];
 
@@ -111,6 +111,11 @@ getVal (id obj)
     }
   [stream catC: ")"];
   return self;
+}
+
+- lispOutDeep: stream
+{
+  return [self lispOutShallow: stream];
 }
 
 - (BOOL)getPositionFlag
