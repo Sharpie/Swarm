@@ -11,8 +11,8 @@
   id windowGeometryString;
 }
 - (const char *)getWindowGeometry;
-- setWindowGeometry : (const char *)theWindowGeometryString;
-- (void)describe : outputCharStream;
+- setWindowGeometry: (const char *)theWindowGeometryString;
+- (void)describe: outputCharStream;
 
 - in: expr;
 + in: aZone expr: expr;
