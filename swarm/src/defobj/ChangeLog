@@ -8,6 +8,7 @@
 	use 3-digit octal.  Return type + 1 in default return.
 
 	* defobj.h, DefObject.[hm]: Replace +lispin:expr with lispin ().
+	Declare archiverSave.
 
 	* Archiver.m (callLispIn): Remove.
 	(processMakeObjcPairs): Call lispin directly.

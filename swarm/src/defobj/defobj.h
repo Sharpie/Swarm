@@ -1022,6 +1022,9 @@ extern id nameToObject (const char *name);
 //F: Get value component of quoted expression.
 extern id lispinQuotedExpr (id expr);
 
+//F: Save objects registered with archiver.
+extern void archiverSave (void);
+
 //
 // macros used to create and initialize warning and error symbols
 // (obsolete once module system in use)
