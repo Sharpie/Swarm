@@ -1,3 +1,8 @@
+1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules (.m.o): Use OBJC instead of CC, and OBJCFLAGS
+	instead of CFLAGS.  Remove -Wno-import and -Wno-protocol.
+
 1999-06-18  Alex Lancaster  <alex@santafe.edu>
 
 	* protocol.el (protocol): Add deprecated-list to defstruct.
@@ -17,9 +22,6 @@
 1999-06-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in (OBJCFLAGS): Append EXTRAOBJCFLAGS.
-
-	* Makefile.rules (.m.o): Use OBJCFLAGS instead of CFLAGS.
-	Remove -Wno-import and -Wno-protocol.
 
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
