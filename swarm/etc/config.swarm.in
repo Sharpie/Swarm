@@ -44,7 +44,7 @@ swarm_X_LIBS="@X_LIBS@"
 swarm_GUILIBS="@GUILIBS@"
 
 swarm_DLLIB="@DLLIB@"
-swarm_OBJCLIBS="@OBJCLIBS@"
+swarm_OBJCLIBS="-lobjc"
 
 swarm_SYSLIBS="${swarm_BLTLIB} ${swarm_TKLIB} ${swarm_TCLLIB} ${swarm_XPMLIB} ${swarm_PNGLIB} ${swarm_HDF5LIB} ${swarm_ZLIBLIB} ${swarm_FFILIB}  ${swarm_GUILIBS} -lm ${swarm_OBJCLIBS} ${swarm_DLLIB}"
 
