@@ -1,3 +1,8 @@
+2001-04-04  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* interface.el (*removed-methods*): Removed -setLabels:count:
+	and -setColors:count:.
+
 2001-03-27  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* protocol.el (set-first-argument): New function.

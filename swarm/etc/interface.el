@@ -260,8 +260,8 @@
       "-addLineName:Double:" ; double* parameter
 
       ;; Histogram
-      "-setLabels:count:" ; const char * const * parameter
-      "-setColors:count:" ; const char * const * parameter
+      ; "-setLabels:count:" ; const char * const * parameter
+      ; "-setColors:count:" ; const char * const * parameter
       "-drawHistogramWithInt:" ; int * parameter
       "-drawHistogramWithInt:atLocations:" ; int*, double* parameters
       "-drawHistogramWithDouble:" ; double * parameter
