@@ -1,0 +1,8 @@
+@begin
+#var1 2
+@begin
+method1 2
+method2 3
+@end       
+#var2 3
+@end
