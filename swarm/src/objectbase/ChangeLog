@@ -1,5 +1,10 @@
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MessageProbe.m (copy_to_nth_colon): Use xmalloc not malloc.
+	([MessageProbe -dynamicCallOn:]): Use long long buffer for return
+	value.  New macro VAL to deference to desired type. In mips64
+	case, adjust pointer.
+
 	* Arguments.m: Note use of access from misc.h.
 
 	* VarProbe.m ([VarProbe -setProbedVariable:]): Use xfree instead

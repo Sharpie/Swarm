@@ -165,7 +165,7 @@ copy_to_nth_colon (const char *str, int n)
 
   end = count;
 
-  new_str = malloc ((end - beginning) + 1);
+  new_str = xmalloc ((end - beginning) + 1);
 
   count = 0;
   for (i = beginning; i < end; i++)
@@ -320,7 +320,6 @@ copy_to_nth_colon (const char *str, int n)
   av_alist alist = &alist_buf;
   ffi_type *types_buf[acnt];
   void *values_buf[acnt];
-  void *ret_addr;
 
   void push_argument (val_t *arg)
     {
@@ -396,31 +395,24 @@ copy_to_nth_colon (const char *str, int n)
     {
     case _C_ID: 
       fret = &ffi_type_pointer;
-      ret_addr = &retVal.val.object;
       break;
     case _C_SEL:
       fret = &ffi_type_pointer;
-      ret_addr = &retVal.val.selector;
       break;
     case _C_UCHR:
       fret = &ffi_type_uchar;
-      ret_addr = &retVal.val._uchar;
       break;
     case _C_INT:
       fret = &ffi_type_sint;
-      ret_addr = &retVal.val._int;
       break;
     case _C_FLT:
       fret = &ffi_type_float;
-      ret_addr = &retVal.val._float;
       break;
     case _C_DBL:
       fret = &ffi_type_double;
-      ret_addr = &retVal.val._double;
       break;
     case _C_CHARPTR:
       fret = &ffi_type_pointer;
-      ret_addr = &retVal.val.string;
       break;
 
     default:
@@ -434,7 +426,45 @@ copy_to_nth_colon (const char *str, int n)
   if (!imp)
     abort ();
 
-  ffi_call (&cif, (void *)imp, ret_addr, values_buf);
+  {
+    long long ret;
+    
+    ffi_call (&cif, (void *)imp, &ret, values_buf);
+    
+#ifdef __mips64
+#define VAL(type, var) (*((type *)(((void *)&var)+(sizeof(var)-sizeof(type)))))
+#else
+#define VAL(type, var) (*((type *)&var))
+#endif
+
+    switch (retVal.type)
+      {
+      case _C_ID: 
+        retVal.val.object = VAL(id, ret);
+        break;
+      case _C_SEL:
+        retVal.val.selector = VAL(SEL, ret);
+        break;
+      case _C_UCHR:
+        retVal.val._uchar = VAL(unsigned char, ret);
+        break;
+      case _C_INT:
+        retVal.val._int = VAL(int, ret);
+        break;
+      case _C_FLT:
+        retVal.val._float = VAL(float, ret);
+        break;
+      case _C_DBL:
+        retVal.val._double = VAL(double, ret);
+        break;
+      case _C_CHARPTR:
+        retVal.val.string = VAL(const char *, ret);
+        break;
+        
+      default:
+        abort ();
+      }
+  }
   
   return retVal;
 }
