@@ -1,3 +1,8 @@
+2001-05-08    <mgd@coyote.santafe.edu>
+
+	* CustomProbeMap.m (addProbesWithIdentifers): Don't requires a
+	variable.
+
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* objectbase.h, ActivityControl.[hm]: Change run to runActivity

@@ -27,7 +27,7 @@ addProbesWithIdentifers(id theProbeLibrary,
   
   // start with the variables
   identifier = vars;
-  do
+  while (identifier && identifier[0] != ':')
     {
       [customProbeMap 
         addProbe: 
@@ -35,7 +35,7 @@ addProbesWithIdentifers(id theProbeLibrary,
             getProbeForVariable: identifier
             inClass: aClass]];
       identifier = va_arg (argumentPointer, const char *);
-    } while (identifier && identifier[0] != ':');
+    }
   
   // now do the methods
   while ((identifier = va_arg (argumentPointer, const char *)) != NULL)
