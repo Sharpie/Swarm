@@ -174,7 +174,7 @@ PHASE(Using)
 
   if (population)
     {
-      MLINK_ADD (population, newObject);
+      MLIST_ADDLAST (population, newObject);
       populationTotal += size;
     }
 
@@ -227,8 +227,8 @@ PHASE(Using)
   swarm_directory_objc_remove (anObject);
 
   size = getClass (anObject)->instance_size;
-  index = MLINK_CREATEINDEX_FROMMEMBER (population, getCZone (scratchZone), anObject);
-  MLINK_INDEX_REMOVE (index);
+  index = MLIST_CREATEINDEX_FROMMEMBER (population, getCZone (scratchZone), anObject);
+  MLIST_INDEX_REMOVE (index);
   DROP (index);
   populationTotal -= size;
 
