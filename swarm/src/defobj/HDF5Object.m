@@ -5,9 +5,10 @@
 
 #include <swarmconfig.h> // HAVE_HDF5
 
-#ifdef HAVE_HDF5
 
 #import <defobj/HDF5Object.h>
+
+#ifdef HAVE_HDF5
 #import <defobj/internal.h>
 
 #include <hdf5.h>
@@ -62,6 +63,7 @@ hdf5_tid_for_objc_type (const char *type)
     }
   return tid;
 }
+#endif
 
 @implementation HDF5CompoundType_c
 PHASE(Creating)
@@ -73,6 +75,7 @@ PHASE(Creating)
 
 - createEnd
 {
+#ifdef HAVE_HDF5
   void insert_var (struct objc_ivar *ivar)
     {
       if (H5Tinsert (tid, ivar->ivar_name, ivar->ivar_offset,
@@ -86,15 +89,22 @@ PHASE(Creating)
     raiseEvent (SaveError, "unable to create compound type");
   
   map_ivars (class->ivars, insert_var);
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 PHASE(Using)
 - (void)drop
 {
+#ifdef HAVE_HDF5
   if (H5Tclose (tid) < 0)
     raiseEvent (SaveError, "unable to close compound type");
   [super drop];
+#else
+  hdf5_not_available ();
+#endif
 }
 @end
 
@@ -146,6 +156,7 @@ PHASE(Creating)
   return self;
 }
 
+#ifdef HAVE_HDF5
 static herr_t
 ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
             size_t count, void *buf, void *bkg)
@@ -168,7 +179,7 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
         }
     }
   return 0;
-}     
+}
 
 static void
 store_type_name (hid_t did, const char *name)
@@ -202,10 +213,11 @@ store_type_name (hid_t did, const char *name)
   if (H5Sclose (type_sid) < 0)
     raiseEvent (SaveError, "unable to close type name space");
 }
-
+#endif
 
 - createEnd
 {
+#ifdef HAVE_HDF5
   [super createEnd];
   if (parent == nil)
     {
@@ -273,7 +285,9 @@ store_type_name (hid_t did, const char *name)
         raiseEvent (SaveError, "unable to register ref->string converter");
       hdf5InstanceCount++;
     }
-      
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
@@ -286,6 +300,7 @@ PHASE(Using)
 
 - storeAsDataset: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
 {
+#ifdef HAVE_HDF5
   hid_t scalar_space (void)
     {
       hid_t space;
@@ -378,30 +393,40 @@ PHASE(Using)
 
       store (scalar_space (), tid, tid);
     }
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 - selectRecord: (unsigned)recordNumber
 {
+#ifdef HAVE_HDF5
   hssize_t coord[1][1];
   
   coord[0][0] = recordNumber;
   if (H5Sselect_elements (c_sid, H5S_SELECT_SET, 1,
                           (const hssize_t **) coord) < 0)
     raiseEvent (SaveError, "unable to select record: %u", recordNumber);
-  
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName
 {
+#ifdef HAVE_HDF5
   c_rnbuf[recordNumber] = strdup (recordName);
-
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 - numberRecord: (unsigned)recordNumber
 {
+#ifdef HAVE_HDF5
   char fmt[2 + c_rnlen + 1 + 1];
   char buf[c_rnlen + 1];
 
@@ -409,20 +434,27 @@ PHASE(Using)
   sprintf (buf, fmt, recordNumber);
   
   c_rnbuf[recordNumber] = strdup (buf);
-
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 - storeObject: obj
 {
+#ifdef HAVE_HDF5
   if (H5Dwrite (c_did, ((HDF5CompoundType_c *) c_type)->tid,
                 c_msid, c_sid, H5P_DEFAULT, obj) < 0)
     raiseEvent (SaveError, "unable to store object");
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 - (void)drop
 {
+#ifdef HAVE_HDF5
   if (parent == nil)
     {
       if (H5Fclose (loc_id) < 0)
@@ -475,8 +507,9 @@ PHASE(Using)
         raiseEvent (SaveError, "unable to unregister ref->string converter");
     }
   [super drop];
-
+#else
+  hdf5_not_available ();
+#endif
 }  
 
 @end
-#endif

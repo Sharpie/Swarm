@@ -1,3 +1,13 @@
+1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* defobj.[hm] (hdf5_not_available): New function for raising an error
+	any time a HDF5 feature is used but HDF5 not present in
+	configuration.
+
+	* Archiver.[hm], DefClass.h, DefObject.[hm], HDF5Object.[hm]:
+	Don't ifdef out HDF5 support when HAVE_HDF5 not set, call
+	hdf5_not_available instead.
+
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* HDF5Object.[hm], defobj.h ([HDF5_c +createBegin:]): New method.

@@ -62,12 +62,14 @@ PHASE(Creating)
   return self;
 }
 
-#ifdef HAVE_HDF5
 - hdf5InCreate: expr
 {
+#ifdef HAVE_HDF5
   return self;
-}
+#else
+  hdf5_not_available ();
 #endif
+}
 
 PHASE(Using)
 
@@ -1036,9 +1038,9 @@ lisp_output_type (const char *type,
   return self;
 }
 
-#ifdef HAVE_HDF5
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
+#ifdef HAVE_HDF5
   if (deepFlag)
     {
       void store_object (struct objc_ivar *ivar)
@@ -1070,8 +1072,10 @@ lisp_output_type (const char *type,
   else
     [hdf5Obj storeObject: self];
   return self;
-}
+#else
+  hdf5_not_available ();
 #endif
+}
 
 - updateArchiver
 {
@@ -1180,12 +1184,14 @@ find_ivar (id obj, const char *name)
   return self;
 }
 
-#ifdef HAVE_HDF5
 - hdf5In: expr
 {
+#ifdef HAVE_HDF5
   return self;
-}
+#else
+  hdf5_not_available ();
 #endif
+}
 
 //
 // xfprintid -- print id for each member of a collection on debug output stream

@@ -10,8 +10,17 @@
 #import <defobj.h> // arguments
 #import <defobj/HDF5Object.h>
 
+#import <defobj/internal.h> // hdf5_not_available
 #include <swarmconfig.h> // HAVE_HDF5
+
 #include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
+
+#ifdef HAVE_HDF5
+#define SWARMARCHIVER_HDF5 "swarmArchiver.hdf"
+#endif
+#define SWARMARCHIVER_LISP ".swarmArchiver"
+
+#define ARCHIVER_FUNCTION_NAME "archiver"
 
 Archiver_c *archiver;
 
@@ -283,10 +292,10 @@ lispArchiverPut (const char *key, id object, BOOL deepFlag)
     [map at: keyObj insert: object];
 }
 
-#ifdef HAVE_HDF5
 void
 hdf5ArchiverPut (const char *key, id object, BOOL deepFlag)
 {
+#ifdef HAVE_HDF5
   id app = [archiver getApplication];
   id map = deepFlag ? [app getHDF5DeepMap] : [app getHDF5ShallowMap];
   id keyObj = [String create: [archiver getZone] setC: key];
@@ -295,8 +304,10 @@ hdf5ArchiverPut (const char *key, id object, BOOL deepFlag)
     [map at: keyObj replace: object];
   else
     [map at: keyObj insert: object];
-}
+#else
+  hdf5_not_available ();
 #endif
+}
 
 id
 lispArchiverGet (const char *key)
@@ -313,10 +324,10 @@ lispArchiverGet (const char *key)
   return result;
 }
 
-#ifdef HAVE_HDF5
 id
 hdf5ArchiverGet (const char *key)
 {
+#ifdef HAVE_HDF5
   id string = [String create: [archiver getZone] setC: key];
   id app = [archiver getApplication];
   id result;
@@ -327,8 +338,10 @@ hdf5ArchiverGet (const char *key)
   
   [string drop];
   return result;
-}
+#else
+  hdf5_not_available ();
 #endif
+}
 
 void
 archiverSave (void)
@@ -412,14 +425,15 @@ PHASE(Setting)
   return self;
 }
 
-#ifdef HAVE_HDF5
 - setHDF5Path: (const char *)thePath
 {
+#ifdef HAVE_HDF5
   hdf5Path = strdup (thePath);
-  
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
-#endif
 
 PHASE(Using)
      
@@ -558,9 +572,11 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
         }
     }
 }
+#endif
 
 - (unsigned)countHDF5Objects: (BOOL)deepFlag
 {
+#ifdef HAVE_HDF5
   id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
   id app;
   id <String> appKey;
@@ -571,10 +587,14 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
                getCount];
   [appMapIndex drop];
   return count;
+#else
+  hdf5_not_available ();
+#endif
 }
 
 - hdf5Out: hdf5Obj
 {
+#ifdef HAVE_HDF5
   id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
   id app;
   id <String> appKey;
@@ -588,9 +608,10 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
     }
   [appMapIndex drop];
   return self;
-}
-
+#else
+  hdf5_not_available ();
 #endif
+}
 
 - updateArchiver
 {

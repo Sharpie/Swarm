@@ -18,6 +18,8 @@ Library:      defobj
 #include <misc.h> // strcmp, sscanf
 #include <collections/predicates.h> // keywordp, listp, stringp
 
+#include <swarmconfig.h> // HAVE_HDF5
+
 id  t_Object, t_ByteArray;
 BOOL _warning_dropFrom = YES;
 BOOL _obj_debug = YES;
@@ -290,3 +292,12 @@ nameToObject (const char *name)
     return object;
   abort ();
 }
+
+#ifndef HAVE_HDF5
+void
+hdf5_not_available (void)
+{
+  raiseEvent (NotImplemented,
+              "HDF5 serialization not available on this configuration");
+}
+#endif

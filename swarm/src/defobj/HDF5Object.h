@@ -6,7 +6,6 @@
 #include <swarmconfig.h>
 
 #ifdef HAVE_HDF5
-
 #define id hdf5id
 #include <hdf5.h>
 #undef id
@@ -16,9 +15,11 @@
 
 @interface HDF5CompoundType_c: CreateDrop_s
 {
+#ifdef HAVE_HDF5
   Class class;
 @public
   hid_t tid;
+#endif
 }
 - setSourceClass: (Class)class;
 - createEnd;
@@ -27,6 +28,7 @@
 
 @interface HDF5_c: CreateDrop_s
 {
+#ifdef HAVE_HDF5
   hid_t loc_id;
   id parent;
   const char *name;
@@ -44,6 +46,7 @@
   hid_t c_rnsid;
   hid_t c_rnaid;
   const char **c_rnbuf;
+#endif
 }
 + createBegin: aZone;
 - setParent: parent;

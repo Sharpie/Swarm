@@ -69,11 +69,9 @@ void _obj_initMethodInterfaces (Class_s *class);
 - lispInCreate: expr;
 - lispIn: expr;
 - lispOut: stream deep: (BOOL)deepFlag;
-#ifdef HAVE_HDF5
 - hdf5InCreate: expr;
 - hdf5In: expr;
 - hdf5Out: stream deep: (BOOL)deepFlag;
-#endif
 - createEnd;
 Class copyClass (Class class);
 void addVariable (Class class, const char *name, const char *type);

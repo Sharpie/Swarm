@@ -10,7 +10,6 @@ Library:      defobj
 */
 
 #import <defobj/deftype.h>
-#include <swarmconfig.h> // HAVE_HDF5
 
 //S: Standard objects for GNU Objective C extensions
 
@@ -29,9 +28,7 @@ CREATING
 //M: create-time parameters.
 - lispInCreate: expr;
 
-#ifdef HAVE_HDF5
 - hdf5InCreate: expr;
-#endif
 
 //F: Load an object of the form (make-objc :arg1 x :arg 2)
 extern id lispIn (id aZone, id expr);
@@ -44,13 +41,10 @@ USING
 //M: Output a Lisp representation of object state to a stream.
 - lispOut: stream deep: (BOOL)deepFlag;
 
-#ifdef HAVE_HDF5
 - hdf5In: expr;
 
 //M: Output a HDF5 representation of objectstate to a stream.
 - hdf5Out: hdf5obj deep: (BOOL)deepFlag;
-
-#endif
 
 - updateArchiver;
 
@@ -768,10 +762,8 @@ CREATING
 - lispInCreate: expr;
 - lispIn: expr;
 - lispOut: stream deep: (BOOL)deepFlag;
-#ifdef HAVE_HDF5
 - hdf5In: expr;
 - hdf5Out: stream deep: (BOOL)deepFlag;
-#endif
 - updateArchiver;
 extern Class copyClass (Class class);
 extern void addVariable (Class class, const char *name, const char *type);
@@ -952,9 +944,7 @@ CREATING
 - createEnd;
 SETTING
 - setLispPath: (const char *)lispPath;
-#ifdef HAVE_HDF5
 - setHDF5Path: (const char *)HDF5Path;
-#endif
 USING
 - getApplication;
 - save;
@@ -965,13 +955,10 @@ extern void archiverRegister (id client);
 extern void archiverUnregister (id client);
 extern id lispArchiverGet (const char *key);
 extern void lispArchiverPut (const char *key, id object, BOOL deepFlag);
-#ifdef HAVE_HDF5
 extern id hdf5ArchiverGet (const char *key);
 extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
-#endif
 @end
 
-#ifdef HAVE_HDF5
 @protocol HDF5 <Create, Drop, CREATABLE>
 //S: HDF5 interface
 //D: HDF5 interface
@@ -992,6 +979,8 @@ USING
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
 - (void)drop;
+
+void hdf5_not_available (void);
 @end
 
 @protocol HDF5CompoundType <Create, Drop, CREATABLE>
@@ -1003,7 +992,6 @@ CREATING
 - createEnd;
 USING
 @end
-#endif
 
 //G: The singleton arguments object.
 extern id arguments;
