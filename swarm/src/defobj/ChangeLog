@@ -1,3 +1,16 @@
+1999-06-29  Alex Lancaster  <alex@santafe.edu>
+
+	* Archiver.[hm] ([Archiver_c +createBegin:]): Initialize
+	variables.
+	([Archiver_c +create:setPath:]): Set path variable.
+
+	* HDF5Archiver.m ([HDF5Archiver_c +createBegin:]): Don't init
+	variables here, call super class.
+	([HDF5Archiver_c +create:setPath:]): Likewise.
+
+	* LispArchiver.m ([LispArchiver_c +createBegin:]): Likewise.
+	([LispArchiver_c +create:setPath:]): Likewise.
+
 1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* modulemap.el (generate-module-map): Add "Phase" as a non-module

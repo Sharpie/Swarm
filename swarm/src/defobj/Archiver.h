@@ -52,6 +52,8 @@ const char *defaultAppPath (const char *appDataPath, const char *appName,
   id <List> classes;
   id <List> instances;
 }
++ createBegin: aZone;
++ create: aZone setPath: (const char *)thePath;
 
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - setPath: (const char *)path;

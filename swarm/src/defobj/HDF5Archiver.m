@@ -19,22 +19,12 @@ PHASE(Creating)
 + createBegin: aZone
 {
   HDF5Archiver_c *newArchiver = [super createBegin: aZone];
-
-  newArchiver->applicationMap = [Map create: aZone];
-  newArchiver->classes = [List create: aZone];
-  newArchiver->instances = [List create: aZone];
-  newArchiver->path = NULL;
-  newArchiver->inhibitLoadFlag = NO;
-  newArchiver->systemArchiverFlag = NO;
-  
   return newArchiver;
 }
 
 + create: aZone setPath: (const char *)thePath
 {
-  HDF5Archiver_c *obj = [self createBegin: aZone];
-  obj->path = thePath;
-  return [obj createEnd];
+  return [super create: aZone setPath: thePath];
 }
 
 - setDefaultPath
