@@ -406,7 +406,8 @@ PHASE(Using)
 PHASE(Creating)
 + createBegin: aZone
 {
-  PermutedIndex_c *obj = [aZone allocIVars: self];
+  PermutedIndex_c *obj = [aZone allocIVars: [self getClass]];
+  setClass (obj, self);
   obj->collection = [Permutation createBegin: getCZone (aZone)];
   return obj;
 }

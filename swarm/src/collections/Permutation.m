@@ -51,8 +51,8 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  Permutation_c *obj = [super createBegin: aZone];
-
+  Permutation_c *obj = [aZone allocIVars: [self getClass]];
+  setClass (obj, self);
   obj->shuffler = [ListShuffler createBegin: getCZone(aZone)];
   return obj;
 }

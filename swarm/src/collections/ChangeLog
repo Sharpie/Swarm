@@ -1,3 +1,12 @@
+1999-03-04  Vladimir Jojic  <vjojic@chama.santafe.edu>
+	
+	* Permutation.m ([Permutation_c +createBegin:]): Call allocIVars:
+	with [self getClass] as an arguments instead of self and setClass
+	to self.
+
+	* Collection.m ([PermutedIndex_c +createBegin:]): Likewise.
+	
+
 1999-03-03  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* Permutation.m ([Permutation_c -createEnd]): Use macro getCZone
