@@ -19,10 +19,7 @@
   <!ENTITY user2.05.sgml system "user2.05.sgml">
   <!ENTITY user2.06.sgml system "user2.06.sgml">
   <!ENTITY user2.07.sgml system "user2.07.sgml">
-  <!ENTITY user2.08.sgml system "user2.08.sgml">
-  <!ENTITY user2.09.sgml system "user2.09.sgml">
-  <!ENTITY user2.10.sgml system "user2.10.sgml">
-  <!ENTITY user2.11.sgml system "user2.11.sgml">
+
   <!ENTITY user3.01.sgml system "user3.01.sgml">
   <!ENTITY user3.02.sgml system "user3.02.sgml">
   <!ENTITY user3.03.sgml system "user3.03.sgml">
@@ -67,10 +64,6 @@
   &user2.05.sgml;
   &user2.06.sgml;
   &user2.07.sgml;
-  &user2.08.sgml;
-  &user2.09.sgml;
-  &user2.10.sgml;
-  &user2.11.sgml;
 
 </chapter>
 

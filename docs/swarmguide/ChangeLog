@@ -1,3 +1,22 @@
+1999-05-19  Alex Lancaster  <alex@santafe.edu>
+
+	* user2.04.sgml: Section on activating of Swarms (formerly
+	user2.11.sgml) reinserted here as placeholder.  Correct SGML tags
+	for VARNAME, CLASSNAME, FILENAME, FUNCTION used consistently
+	throughout.  Fixed `ActivityGroups' -> `ActionGroups'.
+
+	* user2.07.sgml: Replace old section with section snarfed from
+	Reference Guide, some textual reworking and some material from old
+	user2.10.sgml was reinserted here.
+
+	* user2.08.sgml, user2.09.sgml, user2.10.sgml, user2.11.sgml:
+	Remove.  Old material either outdated or re-organized into other
+	sections.
+	
+	* Makefile.am (SGML): Likewise remove the files.
+
+	* userbook.sgml: Likewise remove entity references to these files.
+
 1999-05-18  Alex Lancaster  <alex@santafe.edu>
 
 	* html.dsl (%show-comments%): Set to true for editorial purposes.
