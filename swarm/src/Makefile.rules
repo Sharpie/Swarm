@@ -1,9 +1,4 @@
-SUFFIXES = .m
-
 .PHONY: headers
-
-.m.o:
-	$(COMPILE) -Wno-import -c $< 
 
 headers: $(module_headers)
 
