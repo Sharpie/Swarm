@@ -6,7 +6,9 @@ final public class Globals {
 
   static {
     try {
-      System.loadLibrary ("@JAVASWARM_DLL_LOADNAME@");
+      System.loadLibrary ((System.getProperty ("java.vm.name") == "Kaffe")
+                          ? "kaffeswarm"
+                          : "javaswarm");
     }
     catch (Exception e) {
       System.err.println ("Exception caught: " + e.getMessage ());
