@@ -83,16 +83,17 @@ PUBLIC "-//SFI Hive//ENTITIES Tech Objective C//EN" @top_srcdir@/src/tech/objc.s
 PUBLIC "-//SFI Hive//ENTITIES Tech Swarm Objective C//EN" @top_srcdir@/src/tech/swarmobjc.sgml
 PUBLIC "-//SFI Hive//ENTITIES Tech Revision History//EN" src/tech/techrevhistory.sgml
 
-PUBLIC "-//SFI Hive//ENTITIES Complete ProbeMap JPEG//EN" @top_srcdir@/figs/complete.jpg
-PUBLIC "-//SFI Hive//ENTITIES Complete ProbeMap EPS//EN" @top_srcdir@/figs/complete.eps
-PUBLIC "-//SFI Hive//ENTITIES Customized ProbeMap JPEG//EN" @top_srcdir@/figs/customized.jpg
-PUBLIC "-//SFI Hive//ENTITIES Customized ProbeMap EPS//EN" @top_srcdir@/figs/customized.eps
-PUBLIC "-//SFI Hive//ENTITIES Swarm Logo JPEG//EN" @top_srcdir@/figs/swarm.jpg
+PUBLIC "-//SFI Hive//ENTITIES Complete ProbeMap JPEG//EN" figs/complete.jpeg
+PUBLIC "-//SFI Hive//ENTITIES Complete ProbeMap EPS//EN" figs/complete.eps
+PUBLIC "-//SFI Hive//ENTITIES Customized ProbeMap JPEG//EN" figs/customized.jpeg
+PUBLIC "-//SFI Hive//ENTITIES Customized ProbeMap EPS//EN" figs/customized.eps
+PUBLIC "-//SFI Hive//ENTITIES Swarm Logo JPEG//EN" figs/swarm.jpeg
 PUBLIC "-//SFI Hive//ENTITIES Swarm Logo EPS//EN" @top_srcdir@/figs/swarm.eps
-PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo JPEG//EN" @top_srcdir@/figs/smalllogo.jpg
-PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo EPS//EN" @top_srcdir@/figs/smalllogo.eps
-PUBLIC "-//SFI Hive//ENTITIES Switcheroo JPEG//EN" @top_srcdir@/figs/switcheroo.jpg
-PUBLIC "-//SFI Hive//ENTITIES Switcheroo EPS//EN" @top_srcdir@/figs/switcheroo.eps
+
+PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo JPEG//EN" figs/small-logo.jpeg
+PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo EPS//EN" figs/small-logo.eps
+PUBLIC "-//SFI Hive//ENTITIES Switcheroo JPEG//EN" figs/switcheroo.jpeg
+PUBLIC "-//SFI Hive//ENTITIES Switcheroo EPS//EN" figs/switcheroo.eps
 
 PUBLIC "-//SFI Hive//ENTITIES Globals//EN" @top_srcdir@/global.ent
 PUBLIC "-//SFI Hive//ENTITIES Versions//EN" versions.ent

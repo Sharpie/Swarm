@@ -1,4 +1,4 @@
-SUBDIRS = src installing overview set
+SUBDIRS = figs src installing overview set
 
 all-recursive-am: versions.ent
 

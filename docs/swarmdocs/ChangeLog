@@ -1,3 +1,11 @@
+1998-06-11  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (SUBDIRS):  Add figs.
+
+	* catalog.in: Find jpeg, and generated EPS files in build directory.
+
+	* configure.in: Extract figs/Makefile.
+
 1998-06-11  Alex Lancaster  <alex@santafe.edu>
 
 	* html.dsl (nav-context): Local override to this function of
@@ -14,6 +22,7 @@
 	(common-titlepage-verso-elements): Uncommented 'abstract' from
 	list - added 'bookbiblio'.
 
+>>>>>>> 1.52
 1998-06-10  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* print.dsl ($img$): New function (handle public identifiers,
