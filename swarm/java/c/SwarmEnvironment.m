@@ -2,10 +2,8 @@
 #include <misc.h> // xmalloc, strdup
 #import <simtools.h> // initSwarm, swarmGUIMode
 #import <defobj.h> // defobj_java_call_init_tables
-#import "directory.h" // java_directory_init
+#import "directory.h" // java_directory_init, JAVA_APPNAME
 #import <simtoolsgui.h> // probe display macros
-#include <jni.h>
-
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSwarm (JNIEnv *env, jobject obj)
@@ -140,7 +138,7 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
     }
 
   defobj_init_java_call_tables ((void *) env);
-#define APPNAME "javaswarm"
+#define APPNAME JAVA_APPNAME
   initSwarmApp (argc, argv, VERSION, "bug-swarm@santafe.edu");
 #ifdef hpux
   {
