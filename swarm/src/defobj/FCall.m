@@ -48,8 +48,8 @@ void * java_static_call_functions[FCALL_TYPE_COUNT];
 void * java_call_functions[FCALL_TYPE_COUNT];
 
 #define GCINFO_SIZE (2 * sizeof (void *))
-#define gc_fclass javaInfo[0]
-#define gc_fobject javaInfo[1]
+#define gc_fclass gcInfo[0]
+#define gc_fobject gcInfo[1]
 #endif
 
 #ifndef HAVE_JDK
@@ -322,7 +322,7 @@ PHASE(Creating)
     JOBJECT *ptr = [_obj_GCFixedRootZone allocBlock: GCINFO_SIZE];
     
     memset (ptr, 0, GCINFO_SIZE);
-    newCall->javaInfo = ptr;
+    newCall->gcInfo = ptr;
   }
 #endif
   return newCall;
@@ -570,28 +570,26 @@ PHASE(Creating)
 void
 updateTarget (FCall_c *self, id target)
 {
+  if (self->fargs->language == LanguageObjc)
+    {
+      self->gc_fobject = target;
+      add_ffi_types (self);
+    }
 #ifdef HAVE_JDK
-  {
-    jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (target);
+  else if (self->fargs->language == LanguageJava)
+    {
+      jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (target);
 
-    if (jObj)
-      {
-        updateJavaTarget (self, jObj);
-        return;
-      }
-  }
+      updateJavaTarget (self, jObj);
+    }
 #endif
-  {
-    COMobject cObj = SD_COM_FIND_OBJECT_COM (target);
+  else if (self->fargs->language == LanguageCOM)
+    {
+      COMobject cObj = SD_COM_FIND_OBJECT_COM (target);
 
-    if (cObj)
-      {
-        (COMobject) self->gc_fobject = cObj;
-        return;
-      }
-  }
-  self->gc_fobject = target;
-  add_ffi_types (self);
+      (COMobject) self->gc_fobject = cObj;
+      add_ffi_types (self);
+    }
 }
 
 #ifdef HAVE_JDK
@@ -1024,7 +1022,7 @@ PHASE(Using)
   else if (callType == javastaticcall)
     (*jniEnv)->DeleteGlobalRef (jniEnv, gc_fclass);
 
-  [_obj_GCFixedRootZone freeBlock: javaInfo blockSize: GCINFO_SIZE];
+  [_obj_GCFixedRootZone freeBlock: gcInfo blockSize: GCINFO_SIZE];
 
 #endif
   if (methodName)

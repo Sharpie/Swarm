@@ -41,7 +41,7 @@ void updateJavaTarget (id self, JOBJECT target);
 #endif
    void *COM_params;
    func_t ffunction;
-   JOBJECT *javaInfo;
+   void **gcInfo;
    void *fmethod;
    const char *methodName;
    BOOL fobjectPendingGlobalRefFlag;

@@ -1,10 +1,9 @@
 2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
-	* FCall.m: Change java_f* to gc_f* throughout.  Change JAVAINFO
-	GCINFO throughout.
+	* FCall.m: Change java_f* to gc_f* throughout.  Change JAVAINFO_SIZE
+	and javaInfo to GCINFO_SIZE and gcInfo throughout.
 	(updateTarget): Don't use COMProxy or JavaProxy checks.
-	Rely on lookups.  Restructure so that COM comes second and that
-	there aren't elseif ifdef problems.
+	Use Language instead of proxies or lookups to determine implementation.
 
 2001-07-06  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
