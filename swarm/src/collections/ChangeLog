@@ -1,3 +1,9 @@
+1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* OutputStream.m ([OutputStream_c -catLongLong:],
+	[OutputStream_c -catUnsignedLongLong:]): Compose fmt from LLFMT
+	for long long output.
+
 1999-07-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* collections.h (_Set): Split out common Set features into

@@ -13,6 +13,7 @@ Library:      collections
 #import <collections/InputStream.h>
 #import <collections/predicates.h>
 #include <misc.h> // FILE, fputs
+#include <swarmconfig.h> // PRINTF_LL_FMT
 
 @implementation OutputStream_c
 
@@ -135,7 +136,7 @@ PHASE(Using)
 {
   char buf[DSIZE (long long) + 1];
 
-  sprintf (buf, "%ld", (long) lnglng);
+  sprintf (buf, "%" LLFMT "d", lnglng);
   [self catC: buf];
 }
 
@@ -143,7 +144,7 @@ PHASE(Using)
 {
   char buf[DSIZE (unsigned long long) + 1];
 
-  sprintf (buf, "%lu", (unsigned long) ulnglng);
+  sprintf (buf, "%" LLFMT "u", ulnglng);
   [self catC: buf];
 }
 
