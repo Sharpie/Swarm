@@ -6,8 +6,6 @@
 #import <objectbase/SwarmObject.h>
 #include <misc/argp.h>
 
-extern id arguments;
-
 @interface Arguments: SwarmObject
 {
   int argc;
@@ -39,6 +37,8 @@ extern id arguments;
 - (const char **)getArgv;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
+- (const char *)getSwarmConfigPath;
+- (const char *)getSwarmAppConfigPath;
 
 @end
 

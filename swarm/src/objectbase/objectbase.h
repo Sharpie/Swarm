@@ -738,8 +738,12 @@ USING
 - (const char **)getArgv;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
-
+- (const char *)getSwarmConfigPath;
+- (const char *)getSwarmAppConfigPath;
 @end
+
+//G: The singleton arguments object.
+extern id arguments;
 
 @class Probe;
 @class VarProbe;

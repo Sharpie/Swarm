@@ -4,16 +4,18 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/Arguments.h>
-
+#import <objectbase.h> // arguments
+#import <collections.h> // String
 #include <misc.h> // strdup, getenv, access
 #include <misc/argp.h>
+#include <swarmconfig.h> // CONFPATH
 
 #ifndef __GLIBC__
 const char *program_invocation_name;
 const char *program_invocation_short_name;
 #endif
 
-#define SIGNATURE_FILE "VERSION"
+#define SIGNATURE_FILE "etc/swarm/Makefile.appl"
 
 #include "version.h"
 
@@ -303,6 +305,18 @@ findDirectory (id arguments, const char *directoryName)
   return NULL;
 }
 
+static unsigned
+countSlashes (const char *path)
+{
+  unsigned count = 0;
+  char *newPath = strdup (path);
+  char *scratchPath = newPath;
+
+  while ((scratchPath = dropDirectory (scratchPath))) count++;
+  xfree (newPath);
+  return count;
+}
+
 static char *
 findSwarm (id arguments)
 {
@@ -321,7 +335,13 @@ findSwarm (id arguments)
   if (swarmPath == NULL)
     swarmPath = findDirectory (arguments, "swarm/" SIGNATURE_FILE);
   if (swarmPath)
-    return dropDirectory (swarmPath);
+    {
+      unsigned i, dropCount = countSlashes (SIGNATURE_FILE) + 1;
+      
+      for (i = 0; i < dropCount; i++)
+        swarmPath = dropDirectory (swarmPath);
+      return swarmPath;
+    }
   else
     return NULL;
 }
@@ -332,6 +352,56 @@ findSwarm (id arguments)
     if ((swarmHome = getenv ("SWARMHOME")) == NULL)
       swarmHome = findSwarm (self);
   return swarmHome;
+}
+
+- (const char *)getSwarmConfigPath
+{
+  id configDir = [String create: [self getZone] setC: CONFPATH];
+  id configTestFile;
+  const char *ret;
+
+  [configDir catC: "/"];
+  configTestFile = [configDir copy: [self getZone]];
+  [configTestFile catC: "Makefile.appl"];
+
+  if (access ([configTestFile getC], R_OK) != -1)
+    ret = strdup ([configDir getC]);
+  else
+    {
+      const char *home = [self getSwarmHome];
+      if (home)
+        {
+          id configNewDir = [String create: [self getZone] setC: home];
+          if (home[strlen (home) - 1] != '/')
+            [configNewDir catC: "/"];
+          
+          [configNewDir catC: "etc/swarm/"];
+          ret = strdup ([configNewDir getC]);
+          [configNewDir drop];
+        }
+      else
+        ret = NULL;
+    }
+  [configDir drop];
+  [configTestFile drop];
+  return ret;
+}
+
+- (const char *)getSwarmAppConfigPath
+{
+  const char *configPath = [self getSwarmConfigPath];
+  const char *appName = [self getAppName];
+  char *appConfigPath, *p;
+  
+  if (!configPath)
+    return NULL;
+
+  appConfigPath = xmalloc (strlen (configPath) + strlen (appName) + 2);
+  p = stpcpy (appConfigPath, configPath);
+  p = stpcpy (p, appName);
+  p = stpcpy (p, "/");
+
+  return appConfigPath;
 }
 
 @end

@@ -1,6 +1,18 @@
-1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* objectbase.h: 
+	* Arguments.m: Include objectbase.h, collections.h, and swarmconfig.h.
+	Change SIGNATURE_FILE to etc/swarm/Makefile.appl.
+	(countSlashes): New function.
+	(findSwarm): Use it to determine how many directories to drop.
+
+	* objectbase.h, Arguments.[hm]: New methods getSwarmConfigPath
+	and getSwarmAppConfigPath.
+
+	* Arguments.h: Don't declare singleton Arguments object here.
+
+	* objectbase.h: Do it here.
+
+1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Arguments.m: Add show-current-time option.
 
