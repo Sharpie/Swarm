@@ -1,13 +1,7 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-       "file:///usr/share/sgml/docbook/xml-dtd-4.1.2/docbookx.dtd"> 
-
-<!-- use this as local SYSTEM identifier in place of PUBLIC identifer
-  above if using Red Hat RPMs for DTD parsing under PSGML in Emacs:
-     "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
--->
+     "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 
 <!-- content originally written 04/26/00 -->
-
 <!-- XML-smithed from original Word document via AbiWord Word to
 DocBook converter by AKL: 2001-11-12 -->
 
@@ -24,6 +18,13 @@ DocBook converter by AKL: 2001-11-12 -->
 	<address><city>Northhampton</city> <state>MA</state></address>
       </affiliation>
     </author>
+    <editor>
+      <firstname>Alex</firstname>
+      <surname>Lancaster</surname>
+      <affiliation>
+	<orgname>Swarm Development Group</orgname>
+      </affiliation>
+    </editor>
     <abstract>
 	<para>based on Objective C code and original text by Chris
 	Langton &amp; and the <ulink url="http://www.swarm.org/">Swarm
