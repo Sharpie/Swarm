@@ -1,3 +1,8 @@
+1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (JAVACOMPILE): New variable.
+	(%.class): Use it.
+
 1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (JAVADEPS): Use expanded jdeps.jar directory,
