@@ -370,7 +370,7 @@
       else
         [coll addLast: obj];
     }
-  [myArchiver save];
+  [myArchiver sync];
   return self;
 }
 
