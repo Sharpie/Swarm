@@ -468,6 +468,7 @@ PHASE(Using)
     case fcall_type_string:
       ptr = &buf->string;
       break;
+#ifdef HAVE_JDK
     case fcall_type_jobject:
       buf->object = JFINDOBJC (jniEnv, (jobject) buf->object);
       ptr = &buf->object;
@@ -482,6 +483,7 @@ PHASE(Using)
       }
       ptr = &buf->string;
       break;
+#endif
     default:
       abort ();
     }

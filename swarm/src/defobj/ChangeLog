@@ -1,3 +1,8 @@
+1999-04-26  Alex Lancaster  <alex@lucero.santafe.edu>
+
+	* FCall.m ([FCall_c -getRetVal:]): (fcall_type_jobject,
+	fcall_type_jstring): Likewise protect Java-specific functions.
+
 1999-04-25  Alex Lancaster  <alex@santafe.edu>
 
 	* FCall.m ([FCall_c -getRetVal:]): Protect Java-specific function
