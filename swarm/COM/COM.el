@@ -584,13 +584,11 @@
           (insert "COMswarm_newobj = ")
           (com-impl-print-call-imp-pointer-body method)
           (insert ";\n")
-          (insert "  rv = QueryInterface (NS_GET_IID (" )
-          (insert (com-impl-defining-interface protocol phase method))
-          (insert "), (void **) ret);\n")
-          (insert "  if (rv != NS_OK)\n") 
-          (insert "    return rv;\n")
-          (insert "  NS_ADDREF (*ret);\n")
-          (insert "  (void) SD_COM_ADD_OBJECT_COM (*ret, COMswarm_newobj);\n"))
+          ;; there is no QueryInterface here because we shouldn't
+          ;; ever be dealing with a non-interface to begin with?
+          (insert "  *ret = (")
+          (insert (com-impl-return-type protocol phase method))
+          (insert ") SD_COM_ADD_OBJECT_COM (this, COMswarm_newobj);\n"))
       (progn
         (unless (string= ret-type "void")
           (insert "*ret = "))
