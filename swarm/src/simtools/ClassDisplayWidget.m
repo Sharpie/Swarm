@@ -103,13 +103,7 @@
   [globalTkInterp
     eval: "%s configure -anchor w -foreground blue", [myTitle getWidgetName]] ;
 
-  [globalTkInterp 
-        eval: "drag&drop source %s config -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
-        [myTitle getWidgetName],
-        tclObjc_objectToName(self)] ;
-  [globalTkInterp
-        eval: "drag&drop source %s handler id send_id", 
-        [myTitle getWidgetName]] ;
+  dragAndDrop (myTitle, self);
 
   hideB = [Button createParent: topRow] ;
   if(mySubClass != nil){
@@ -161,7 +155,7 @@
   i = 0 ;
   while( (probe = [index next]) ){
 
-    if([probe isMemberOf: [VarProbe class]]){
+    if([probe isKindOf: [VarProbe class]]){
       widgets[i] =	
         [[VarProbeWidget createBegin: [self getZone]] setParent: self] ;
 
@@ -185,7 +179,7 @@
 
   while( (probe = [index next]) ){
 
-    if([probe isMemberOf: [MessageProbe class]]){
+    if([probe isKindOf: [MessageProbe class]]){
       widgets[i] =	
         [[MessageProbeWidget createBegin: [self getZone]] 
                             setParent: bottomFrame] ;
