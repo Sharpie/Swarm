@@ -3,7 +3,7 @@
 
 <para>The way in which objects are created depends on a computer's
 compiler and the software libraries available to the user. The
-implementaiton of Objective-C on a system using the GNU compiler will
+implementation of Objective-C on a system using the GNU compiler will
 not be exactly the same as the implementation on a Next system.  While
 most of the points made in the literature on Objective-C easily carry
 over to Swarm modeling, the commands needed to create objects are an
@@ -81,7 +81,7 @@ is defined.  Since HeatbugObserverSwarm is subclassed from GUISwarm,
 it is important to be sure that all of the important variables of a
 GUISwarm object are initialized and inherited by HeatbugObserverSwarm.
 This is done in one step by telling the superclass to execute its
-createbegin method.  Since the classes are linked together in a
+createBegin method.  Since the classes are linked together in a
 hierarchy, each higher level class in turn executes its createBegin
 statement. That is how the instance of the class ends up setting values
 for all the variables that it inherits. 
@@ -99,7 +99,7 @@ The reader can investigate in the Swarm source code to see
 that GUISwarm inherits through a hierarchical chain the ability to
 create memory zones and objects.  GUISwarm is subclassed from Swarm,
 which in turn inherits from CSwarmProcess.  That class is defined in
-the activity directory of the source code in a file calle
+the activity directory of the source code in a file called
 <filename>SwarmProcess.m</filename>.  This is the first place where you will find
 createBegin and createEnd methods as you move up the inheritance tree,
 so it must be that these are the methods that are executed when
@@ -123,7 +123,7 @@ createEnd method from the somewhere above in the family tree.
 <para>
 There are cases in which the createEnd statement may be more
 substantial.  In the createBegin phase, we typically find commands 
-that set permanent features of objectss.  Some methods that initialize
+that set permanent features of objects.  Some methods that initialize
 instance variables can also be included. In the example above, the variable
 "display frequency" inside *obj is set equal to 1.  These variables
 are set at the first possible opportunity because other variables may
@@ -187,9 +187,9 @@ The create statements used in Swarm typically have this flavor:
 <programlisting>
 someUserCreatedObject = [SomeSwarmLibraryObject  create: someMemoryZoneHere];
 </programlisting>
-(The method <function>create</function> can be replaced by a <function>createBegin</function> <function>createEnd</function> pair as described
+(The method <function>create</function> can be replaced by a <function>createBegin</function>/<function>createEnd</function> pair as described
 above.) 
-More speicific examples are discussed below and are of course scattered throughout
+More specific examples are discussed below and are of course scattered throughout
 the Swarm examples.  The important thing is that an object in the Swarm library
 is able to respond to a method that creates an instance of itself and that instance
 lives in a memory zone that is managed by the Swarm library.
