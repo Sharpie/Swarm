@@ -2,6 +2,7 @@
 
 	* Makefile.conf (BLTLIBRARY): Add to mgd-SFI-Solaris and 
 	provide a default of ../library.
+	(SYSDEPLIBS): Provide -ldld for SYS=HPUX.
 
 	* Makefile (bininc): If to see if BLTLIBRARY directory exists, copy
 	the contents of that directory to the binary distribution.
