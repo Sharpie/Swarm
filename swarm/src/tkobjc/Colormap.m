@@ -9,10 +9,6 @@
 #import <gui.h>
 
 @implementation Colormap
-// create a new colourmap. Right now we use the Tk widget name
-// just to get info about the X server connection. Later, we could
-// use it for private colourmap installation, etc. For now, just
-// init with the widget ".", that works fine.
 
 PHASE(Creating)
 
@@ -29,24 +25,7 @@ PHASE(Creating)
   screen = DefaultScreen (display);
   white = WhitePixel (display, screen);
   black = BlackPixel (display, screen);
-#if 0
-  {
-    X11Colormap defaultColormap = DefaultColormap (display, screen);
-    XVisualInfo vinfo;
-
-    if (!XMatchVisualInfo (display, screen, 
-                           DefaultDepth (display, screen),
-                           PseudoColor, 
-                           &vinfo))
-      abort ();
-
-    cmap = XCreateColormap (display, xwin, vinfo.visual, AllocNone);
-    if (cmap == defaultColormap)
-      abort ();
-  }
-#else
   cmap = DefaultColormap (display, screen);
-#endif
   
   for (i = 0; i < MAXCOLORS; i++)
     isSet[i] = NO;
@@ -102,15 +81,16 @@ PHASE(Using)
           map[c] = white;
           return NO;
         }
-      rc = XAllocColor (display, cmap, &sxc);
-      if (!rc)
+      for (;;)
         {
+          rc = XAllocColor (display, cmap, &sxc);
+          if (rc)
+            break;
           [ResourceAvailability
             raiseEvent:
-              "Problem allocating color %s. Substituting white.\n",
+              "Problem allocating color %s.  Switching to virtual colormap.\n",
             colorName];
-          map[c] = white;
-          return NO;
+          cmap = XCopyColormapAndFree (display, cmap);
         }
       map[c] = sxc.pixel;
       return YES;
