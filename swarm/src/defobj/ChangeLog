@@ -1,10 +1,11 @@
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* DefObject.m (find_ivar): New function.
+	* DefObject.m: Include predicates.h.
+	(find_ivar): New function.
 	([Object_s -lispin:]): Handle arrays, numbers, strings, and 
 	object creation.
 	(output_type): Print character when isprint-able, otherwise
-	use 3-digit octal. 
+	use 3-digit octal.  Return type + 1 in default return.
 
 	* defobj.h, DefObject.[hm]: Replace +lispin:expr with lispin ().
 

@@ -15,6 +15,7 @@ Library:      defobj
 #import <defobj/defalloc.h>
 #import <collections.h>
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
+#include <collections/predicates.h>
 
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
@@ -953,7 +954,7 @@ output_type (const char *type,
       [stream catC: buf];
       break;
     case _C_DBL:
-      sprintf (buf, "%lfD0", ((double *) ptr)[offset]);
+      sprintf (buf, "%fD0", ((double *) ptr)[offset]);
       [stream catC: buf];
       break;
     case _C_BFLD:
@@ -1081,6 +1082,7 @@ output_type (const char *type,
       abort ();
       break;
     }
+  return type + 1;
 }
 
 - lispout: stream
@@ -1125,7 +1127,7 @@ find_ivar (id obj, const char *name)
 
       for (i = 0; i < ivar_count; i++)
         {
-          if (strcmp (ivars->ivar_list[i].ivar_name, name) == 0)
+          if (strcmp (ivar_list[i].ivar_name, name) == 0)
             return &ivars->ivar_list[i];
         }
       return NULL;
