@@ -167,47 +167,26 @@ PHASE(Creating)
 {
   size_t size = 0;
   unsigned offset = MAX_HIDDEN + assignedArgumentCount;
-#ifdef HAVE_JDK
-  jstring string;
-#endif
 
   if (assignedArgumentCount == MAX_ARGS)
     raiseEvent (SourceMessage,
                 "Types already assigned to maximum number arguments in the call!\n");
 
 #ifdef HAVE_JDK
-  if (javaFlag)
-    {
-      if (type == fcall_type_object)
-	{
-          jobject jobj;
-
-	  type = fcall_type_jobject;
-	  size = fcall_type_size (type);
-          jobj = SD_FINDJAVA (jniEnv, *(id *) value);
-          value = &jobj;
-	}
-      else if (type == fcall_type_string)
-        {
-          const char *str = *(const char **) value;
-          
-          string = (*jniEnv)->NewStringUTF (jniEnv, str);
-          size = sizeof (jstring);
-          value = &string;
-          type = fcall_type_jstring;
-        }
-      else
-        size = fcall_type_size (type);
-    }
+  if (type == fcall_type_object)
+    [self addObject: *(id *) value];
+  else if (type == fcall_type_string)
+    [self addString: *(const char **) value];
   else
 #endif
-    size = fcall_type_size (type);
-  argTypes[offset] = type;
-  argValues[offset] = ALLOCBLOCK (size);
-  memcpy (argValues[offset], value, size);
-  javaSignatureLength += strlen (java_type_signature[type]);
-  assignedArgumentCount++;
-
+    {
+      size = fcall_type_size (type);
+      argTypes[offset] = type;
+      argValues[offset] = ALLOCBLOCK (size);
+      memcpy (argValues[offset], value, size);
+      javaSignatureLength += strlen (java_type_signature[type]);
+      assignedArgumentCount++;
+    }
   return self;
 }
 
@@ -310,15 +289,52 @@ get_fcall_type_for_objc_type (char objcType)
   return self;
 }
 
-- addString: (const char *)value
+- addString: (const char *)str
 {
-  ADD_PRIMITIVE (fcall_type_string, const char *, value);
+#ifdef HAVE_JDK
+  if (javaFlag)
+    {
+      unsigned offset = MAX_HIDDEN + assignedArgumentCount;
+      jstring string;
+      size_t size;
+      void *ptr;
+      
+      string = (*jniEnv)->NewStringUTF (jniEnv, str);
+      size = sizeof (jstring);
+      ptr = &string;
+      argTypes[offset] = fcall_type_jstring;
+      argValues[offset] = ALLOCBLOCK (size);
+      memcpy (argValues[offset], ptr, size);
+      javaSignatureLength += strlen (java_type_signature[fcall_type_jstring]);
+      assignedArgumentCount++;
+    }
+  else
+#endif
+    ADD_PRIMITIVE (fcall_type_string, const char *, str);
   return self;
 }
 
 - addObject: value
 {
-  ADD_PRIMITIVE (fcall_type_object, id, value);
+#ifdef HAVE_JDK
+  if (javaFlag)
+    {
+      jobject jobj;
+      unsigned offset = MAX_HIDDEN + assignedArgumentCount;
+      size_t size;
+      void *ptr;
+      size = sizeof (jobject);
+      jobj = SD_FINDJAVA (jniEnv, value);
+      ptr = &jobj;
+      argTypes[offset] = fcall_type_jobject;
+      argValues[offset] = ALLOCBLOCK (size);
+      memcpy (argValues[offset], ptr, size);
+      javaSignatureLength += strlen (java_type_signature[fcall_type_jobject]);
+      assignedArgumentCount++;
+    }
+  else
+#endif
+    ADD_PRIMITIVE (fcall_type_object, id, value);
   return self;
 }
 
@@ -441,6 +457,21 @@ PHASE(Using)
   return result;
 }
 
+- (void)drop
+{
+  unsigned i;
+  
+  for (i = 0; i < assignedArgumentCount; i++)
+    {
+      unsigned offset = i + MAX_HIDDEN;
+      fcall_type_t type = argTypes[offset];
+      
+      if (type == fcall_type_jstring)
+        (*jniEnv)->DeleteLocalRef (jniEnv, argValues[offset]);
+    }
+  [super drop];
+}
+
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
   unsigned i;
@@ -454,13 +485,7 @@ PHASE(Using)
       unsigned offset = i + MAX_HIDDEN;
       fcall_type_t type = argTypes[offset];
 
-#ifdef HAVE_JDK      
-      if (javaFlag && type == fcall_type_string)
-        mapalloc->size = sizeof (jstring);
-      else
-#endif
-        mapalloc->size = fcall_type_size (type);
-      
+      mapalloc->size = fcall_type_size (type);
       mapAlloc (mapalloc, argValues[offset]);
     }
 

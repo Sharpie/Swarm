@@ -701,7 +701,6 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   id <FArguments> fa;
   id <FCall> fc;
   types_t val;
-  id aZone = getZone (self);
   const char *type = sel_get_type (aSel);
   jobject jobj = SD_FINDJAVA (jniEnv, self);
   jobject jsel;
@@ -726,7 +725,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
                 jobj,
                 swarm_directory_java_hash_code (jniEnv, jobj));
   
-  fa = [FArguments createBegin: aZone];
+  fa = [FArguments createBegin: getZone (self)];
   {
     const char *sig =
       swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
@@ -755,10 +754,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
     methodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copyFlag);
    
-    fc = [[[[FCall createBegin: aZone] setArguments: fa]
+    fc = [[[[FCall createBegin: getZone (self)] setArguments: fa]
             setJavaMethod: methodName inObject: jobj] createEnd];
     if (copyFlag)
       (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, methodName);
+    (*jniEnv)->DeleteLocalRef (jniEnv, string);
   }
   [fc performCall];
   {
@@ -1152,13 +1152,12 @@ initDescribeStream (void)
     [hdf5Obj shallowStoreObject: self];
   else
     {
-      id aZone = getZone (self);
-      id cType = [[[HDF5CompoundType createBegin: aZone]
+      id cType = [[[HDF5CompoundType createBegin: getZone (self)]
                     setClass: [self class]]
                    createEnd];
       const char *objName = [hdf5Obj getName];
 
-      id cDataset = [[[[[[HDF5 createBegin: aZone]
+      id cDataset = [[[[[[HDF5 createBegin: getZone (self)]
                           setName: objName]
                          setCreateFlag: YES]
                         setParent: hdf5Obj]

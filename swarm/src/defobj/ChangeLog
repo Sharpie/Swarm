@@ -1,5 +1,29 @@
 1999-09-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (get_class_name, swarm_directory_java_class_name,
+	[-add:javaObject:],
+	[-switchJavaEntry:javaObject:],
+	[-nextPhase:currentJavaPhase:],
+	[-objcEnsureJava:], get_type_field_for_class, create_class_refs,
+	get_swarmEnvironment_field, swarm_directory_init, classp,
+	swarm_directory_ensure_selector, swarm_directory_swarm_class,
+	swarm_directory_ensure_selector_type_signature): Handle cleanup
+	of localrefs.
+	(swarm_directory_class_from_objc_object): Disable.
+
+	* FCall.m ([FCall_c -drop]): New method.  Delete local ref
+	to Java class.
+
+	* FArguments.m ([FArguments_c -_addArgument_:ofType:]): Call
+	addObject: and addString: for object and string cases.
+	([FArguments_c -addString:], [FArguments_c -addObject:]): 
+	Handle Java conversions here.
+	([FArguments_c -drop]): New method.  Delete local refs to
+	string copies.
+
+	* DefObject.m ([Object_s -forward::]): Delete method name
+	local ref after FCall is setup.
+
 	* directory.m (swarm_directory_get_java_class_name): Renamed
 	from get_class_name_from_object.
 

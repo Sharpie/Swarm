@@ -178,6 +178,7 @@ fillHiddenArguments (FCall_c *self)
       break;
 #endif
     }
+
 }
 
 #ifndef USE_AVCALL
@@ -678,6 +679,13 @@ PHASE(Using)
     return ptr;
   }
 #endif
+}
+
+- (void)drop
+{
+  if (callType == javacall || callType == javastaticcall)
+    (*jniEnv)->DeleteLocalRef (jniEnv, self->fclass);
+  [super drop];
 }
 
 @end

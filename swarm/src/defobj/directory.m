@@ -70,22 +70,28 @@ static const char *
 get_class_name (JNIEnv *env, jclass class)
 {
   jobject string;
+  const char *ret;
 
   if (!(string = (*env)->CallObjectMethod (env, class, m_ClassGetName)))
     abort ();
 
-  return swarm_directory_copy_java_string (env, string);  
+  ret = swarm_directory_copy_java_string (env, string);
+  (*env)->DeleteLocalRef (env, string);
+  return ret;
 }
 
 const char *
 swarm_directory_java_class_name (JNIEnv *env, jobject obj)
 {
   jclass class;
+  const char *ret;
 
   if (!(class = (*env)->GetObjectClass (env, obj)))
     abort ();
 
-  return get_class_name (env, class);
+  ret = get_class_name (env, class);
+  (*env)->DeleteLocalRef (env, class);
+  return ret;
 }
 
 unsigned
@@ -93,11 +99,8 @@ swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject)
 {
   int hashCode;
 
-  javaObject = (*env)->NewGlobalRef (env, javaObject);
   hashCode = (*env)->CallIntMethod (env, javaObject, m_HashCode);
-  hashCode = (hashCode < 0 ? - hashCode : hashCode) % DIRECTORY_SIZE;
-  (*env)->DeleteGlobalRef (env, javaObject);
-  return hashCode;
+  return (hashCode < 0 ? - hashCode : hashCode) % DIRECTORY_SIZE;
 }
 
 @internalimplementation DirectoryEntry
@@ -129,10 +132,8 @@ swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject)
   jobject objJavaObject = ((DirectoryEntry *) obj)->javaObject;
 
 #if 0
-  printf ("`%s'%p/%p vs `%s'%p/%p\n",
+  printf ("`%s'%p/%p vs %p\n",
           [self getObjcName], object, javaObject,
-          [obj getObjcName], 
-          ((DirectoryEntry *) obj)->object,
           ((DirectoryEntry *) obj)->javaObject);
 #endif
   ret = (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
@@ -200,13 +201,12 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - javaFind: (jobject)theJavaObject
 {
+  id ret;
   unsigned index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
   id <Map> m = table[index];
-  id ret;
-
+  
   findEntry->javaObject = theJavaObject;
   ret = m ? [m at: findEntry] : nil;
-
   return ret;
 }
 
@@ -232,14 +232,15 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return entry ? entry->javaObject : NULL;
 }
 
-- add: theObject javaObject: (jobject)theJavaObject
+- add: theObject javaObject: (jobject)lref
 {
   unsigned index;
   id <Map> m;
-  id entry;
+  DirectoryEntry *entry;
+  jobject javaObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   
-  entry = ENTRY (theObject, (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject));
-  index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
+  entry = ENTRY (theObject, javaObject);
+  index = swarm_directory_java_hash_code (jniEnv, javaObject);
   m = table[index];
 
   if (m == nil)
@@ -284,6 +285,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 {
   jobject nextJavaPhase = SD_NEXTJAVAPHASE (jniEnv, currentJavaPhase);
   id currentPhase = SD_FINDOBJC (jniEnv, currentJavaPhase);
+  DirectoryEntry *retEntry;
   
   if (currentPhase != nextPhase)
     {
@@ -303,7 +305,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
           abort ();
         [ret drop];
       }
-      return *entryptr;
+      retEntry = *entryptr;
     }
   else
     {
@@ -313,9 +315,11 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
         abort ();
 
       [self switchJavaEntry: entry javaObject: nextJavaPhase];
-
-      return entry;
+      
+      retEntry = entry;
     }
+  (*jniEnv)->DeleteLocalRef (jniEnv, nextJavaPhase);
+  return retEntry;
 }
 
 - switchObjc: theObject javaObject: (jobject)theJavaObject
@@ -452,10 +456,11 @@ objcFindJavaClassName (Class class)
     {
       Class class = getClass (object);
       jclass javaClass = [self objcFindJavaClass: class];
+      jobject lref = swarm_directory_java_instantiate (jniEnv, javaClass);
       
-      result = SD_ADD (jniEnv,
-                       swarm_directory_java_instantiate (jniEnv, javaClass),
-                       object);
+      result = SD_ADD (jniEnv, lref, object);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
     }
   return result->javaObject;
 }
@@ -526,6 +531,7 @@ get_java_class (JNIEnv *env, const char *name)
     abort ();
   
   ret = (*env)->NewGlobalRef (env, clazz);
+  (*env)->DeleteLocalRef (env, clazz);
   return ret;
 }
 
@@ -534,21 +540,25 @@ get_type_field_for_class (JNIEnv *env, jclass clazz)
 {
   jfieldID field;
   jclass ret;
+  jobject lref;
   
   if (!(field = (*env)->GetStaticFieldID (env,
                                           clazz,
                                           "TYPE",
                                           "Ljava/lang/Class;")))
     abort ();
-  if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
+  if (!(lref = (*env)->GetStaticObjectField (env, clazz, field)))
     abort ();
-  ret = (*env)->NewGlobalRef (env, ret);
+  ret = (*env)->NewGlobalRef (env, lref);
+  (*env)->DeleteLocalRef (env, lref);
   return ret;
 }
 
 static void
 create_class_refs (JNIEnv *env)
 {
+  jclass lref;
+
   jclass get_primitive (const char *name)
     {
       return get_type_field_for_class (env, get_java_class (env, name));
@@ -578,26 +588,31 @@ create_class_refs (JNIEnv *env)
       c_Object = get_java_class (env, "Object");
       c_Class = get_java_class (env, "Class");
 
-      if (!(c_Field = (*env)->FindClass (env, "java/lang/reflect/Field")))
+      if (!(lref = (*env)->FindClass (env, "java/lang/reflect/Field")))
         abort ();
-      c_Field = (*env)->NewGlobalRef (env, c_Field);
+      c_Field = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
 
-      if (!(c_Method = (*env)->FindClass (env, "java/lang/reflect/Method")))
+      if (!(lref = (*env)->FindClass (env, "java/lang/reflect/Method")))
         abort ();
-      c_Method = (*env)->NewGlobalRef (env, c_Method);
+      c_Method = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
 
-      if (!(c_Selector = (*env)->FindClass (env, "swarm/Selector")))
+      if (!(lref = (*env)->FindClass (env, "swarm/Selector")))
         abort ();
-      c_Selector = (*env)->NewGlobalRef (env, c_Selector);
+      c_Selector = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
       
-      if (!(c_PhaseCImpl = (*env)->FindClass (env, "swarm/PhaseCImpl")))
+      if (!(lref = (*env)->FindClass (env, "swarm/PhaseCImpl")))
         abort ();
-      c_PhaseCImpl = (*env)->NewGlobalRef (env, c_PhaseCImpl);
+      c_PhaseCImpl = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
 
-      if (!(c_SwarmEnvironment = (*env)->FindClass (env,
-						    "swarm/SwarmEnvironment")))
+      if (!(lref = (*env)->FindClass (env,
+                                      "swarm/SwarmEnvironment")))
 	abort ();
-      c_SwarmEnvironment = (*env)->NewGlobalRef (env, c_SwarmEnvironment);
+      c_SwarmEnvironment = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
 
       initFlag = YES;
    }
@@ -873,7 +888,7 @@ get_swarmEnvironment_field (JNIEnv *env,
 			    jobject swarmEnvironment,
 			    const char *fieldName)
 {
-  jobject fieldObject;
+  jobject fieldObject, ret;
   
   if (!(fieldObject =
 	(*env)->CallObjectMethod (env,
@@ -881,11 +896,13 @@ get_swarmEnvironment_field (JNIEnv *env,
 				  m_ClassGetDeclaredField,
 				  (*env)->NewStringUTF (env, fieldName))))
     abort ();
-  
-  return (*env)->CallObjectMethod (env,
-				   fieldObject,
-				   m_FieldGetObject,
-				   swarmEnvironment);
+
+  ret = (*env)->CallObjectMethod (env,
+                                  fieldObject,
+                                  m_FieldGetObject,
+                                  swarmEnvironment);
+  (*env)->DeleteLocalRef (env, fieldObject);
+  return ret;
 }
 
 void
@@ -901,11 +918,13 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
 {
   void associate (const char *fieldName, id objcObject)
     {
+      jobject lref = get_swarmEnvironment_field (env,
+                                                 swarmEnvironment,
+                                                 fieldName);
       SD_ADD (env,
-	      get_swarmEnvironment_field (env,
-					  swarmEnvironment,
-					  fieldName),
+              lref,
 	      objcObject);
+      (*env)->DeleteLocalRef (env, lref);
     }
 #define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
 
@@ -940,12 +959,24 @@ classp (JNIEnv *env, jclass class, jclass matchClass)
 {
   jobject clazz;
   
-  for (clazz = class;
-       clazz;
-       clazz = (*env)->GetSuperclass (env, clazz))
-    if ((*env)->IsSameObject (env, clazz, matchClass))
-      return YES;
-  return NO;
+  if ((*env)->IsSameObject (env, class, matchClass))
+    return YES;
+  else
+    {
+      jclass nextClass;
+      
+      for (clazz = (*env)->GetSuperclass (env, class);
+           clazz;
+           nextClass = (*env)->GetSuperclass (env, clazz), 
+             (*env)->DeleteLocalRef (env, clazz),
+             clazz = nextClass)
+        if ((*env)->IsSameObject (env, clazz, matchClass))
+          {
+            (*env)->DeleteLocalRef (env, clazz);
+            return YES;
+          }
+      return NO;
+    }
 }
 
 char
@@ -1056,7 +1087,12 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
         add_type (_C_SEL);
 
         for (ti = 0; ti < argCount; ti++)
-          add ((*env)->GetObjectArrayElement (env, argTypes, ti));
+          {
+            jobject lref = (*env)->GetObjectArrayElement (env, argTypes, ti);
+
+            add (lref);
+            (*env)->DeleteLocalRef (env, lref);
+          }
       
         sel = sel_get_any_typed_uid (name);
         if (sel)
@@ -1080,6 +1116,9 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
 
       if (copyFlag)
         (*env)->ReleaseStringUTFChars (env, string, utf);
+      (*env)->DeleteLocalRef (env, retType);
+      (*env)->DeleteLocalRef (env, argTypes);
+      (*env)->DeleteLocalRef (env, string);
       SFREEBLOCK (name);
     }
   return sel;
@@ -1130,21 +1169,26 @@ swarm_directory_cleanup_strings (JNIEnv *env,
     SFREEBLOCK (stringArray[i]);
 }
 
-Class
-swarm_directory_class_from_objc_object (id object)
+#if 0
+static Class
+swarm_directory_class_from_objc_object (JNIEnv *env, id object)
 {
   jobject jobj;
 
-  if ((jobj = SD_FINDJAVA (jniEnv, object)))
+  if ((jobj = SD_FINDJAVA (env, object)))
     {
       jclass jcls;
+      Class ret;
       
-      jcls = (*jniEnv)->GetObjectClass (jniEnv,jobj);
-      return swarm_directory_ensure_class (jniEnv, jcls);
+      jcls = (*env)->GetObjectClass (env,jobj);
+      ret = swarm_directory_ensure_class (env, jcls);
+      (*env)->DeleteLocalRef (env, jcls);
+      return ret;
     }
   else
     return [object getClass];
 }
+#endif
 #endif
 
 Class 
@@ -1158,18 +1202,16 @@ swarm_directory_swarm_class (id object)
       jclass jcls;
       const char *className;
       Class result;
-      id proxy;
 
       jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
       className = swarm_directory_java_class_name (jniEnv, jobj);
       result = objc_class_for_class_name (className);
       FREECLASSNAME (className);
-      if (result)
-        return result;      
-      if ((proxy = SD_FINDOBJC (jniEnv, jcls)))
-        return proxy;
-      else
-        return swarm_directory_ensure_class (jniEnv, jcls);
+      if (!result)
+        if (!(result = SD_FINDOBJC (jniEnv, jcls)))
+          result = swarm_directory_ensure_class (jniEnv, jcls);
+      (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
+      return result;
     }
   else
 #endif
@@ -1280,6 +1322,7 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
             
             argSigs[ai] = swarm_directory_signature_for_class (env, member);
             typeSigLen += strlen (argSigs[ai]);
+            (*env)->DeleteLocalRef (env, member);
           }
         typeSigLen++;
         retSig = swarm_directory_signature_for_class (env, retType);
@@ -1301,6 +1344,8 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
                                 jsel,
                                 f_typeSignatureFid,
                                 (*env)->NewStringUTF (env, sig));
+        (*env)->DeleteLocalRef (env, argTypes);
+        (*env)->DeleteLocalRef (env, retType);
         return sig;
       }
     }
@@ -1315,6 +1360,7 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
       sig = SSTRDUP (utf);
       if (copyFlag)
         (*env)->ReleaseStringUTFChars (env, typeSignature, utf);
+      (*env)->DeleteLocalRef (env, typeSignature);
       return sig;
     }
 }
