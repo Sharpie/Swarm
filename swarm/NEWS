@@ -5,15 +5,13 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ** New features
 *** defobj
 **** Archiver
+***** Now an `abstract' protocol only, LispArchiver and HDF5Archiver are
+      the `instantiatable' classes.
 ***** Instances of Archiver can be created to not to write
       and expect application and application mode metadata, and this is now in
       fact the default behavior.  (Internally, the system archivers,
       hdf5Archiver and lispArchiver, use the new method setSystemArchiverFlag: 
       to continue to read and write this metadata.)
-***** In the Lisp backend, `lazy' creation (instantiation) and saving of 
-      objects is now the default behavior.  Objects are now only 
-      instantiated upon request, and unchanged objects are written out
-      from the parsed Lisp expression, not from the object itself.  
 ***** Objects can be created in specified Zones, using the new method:
       -getWithZone: aZone object: keyStr, rather than in the Archiver's Zone.
 ***** Each Swarm application now has two application-specific 
@@ -22,6 +20,14 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       respectively.  The archiver will first look for a file with this name
       in a directory $SWARMHOME/swarm/appName/, thence in the current 
       directory.  This feature is intended to replace Object{Loader,Saver}.
+**** LispArchiver
+***** New protocol.
+***** In the Lisp backend, `lazy' creation (instantiation) and saving of 
+      objects is now the default behavior.  Objects are now only 
+      instantiated upon request, and unchanged objects are written out
+      from the parsed Lisp expression, not from the object itself.  
+**** HDF5Archiver
+***** New protocol.
       
 *** collections
 **** InputStream
@@ -67,6 +73,8 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** collections
 **** Permutation
 ***** Fixed memory leak
+**** ListShuffler
+***** Fixed broken -create:setUniformRandom: factory method.
 
 *** activity
 **** CompoundAction

@@ -1,3 +1,8 @@
+1999-06-29  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note ListShuffler bug fix.  Note split of Archiver into
+	LispArchiver and HDF5Archiver.
+
 1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ltconfig: Don't use +I for hpux9.  Use hpux9 code for hpux10,
