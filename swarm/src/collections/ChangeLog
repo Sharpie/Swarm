@@ -2,6 +2,7 @@
 
 	* Collection.m ([PermutedIndex_c -mapAllocations:mapalloc]): 
 	mapAllocations: implemented.
+	([PermutedIndex_c -createEnd]): Add setMappedAlloc.
 
 	* Collection.h: Add mapAllocations: method to PermutedIndex_c.
 

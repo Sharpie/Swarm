@@ -342,7 +342,7 @@ indexAtOffset (Collection_any *self, int offset)
   permutation = [permutation createEnd];
   permutationIndex = [permutation begin: getZone(self)];
   index = [collection begin: getZone(self)];
-  
+  setMappedAlloc(self);  
   return self;
 }
 
