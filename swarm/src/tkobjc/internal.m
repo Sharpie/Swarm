@@ -846,6 +846,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                                           CWOverrideRedirect,
                                           &attr))
               abort ();
+            XUnmapWindow (display, overlapWindows[i]);
           }
 
         if (!XGetWindowAttributes (display, topWindow, &top_attr))
@@ -866,10 +867,13 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                                       CWOverrideRedirect, &attr))
           abort ();
         for (i = 0; i < overlapCount; i++)
-          if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                        CWOverrideRedirect,
-                                        &attr))
-            abort ();
+          {
+            XMapWindow (display, overlapWindows[i]);
+            if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                          CWOverrideRedirect,
+                                          &attr))
+              abort ();
+          }
         xfree (overlapWindows);
       }
 #else
