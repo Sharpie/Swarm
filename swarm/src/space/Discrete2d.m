@@ -88,6 +88,26 @@ PHASE(Creating)
       
       [latticeDataset drop];
     }
+  else if ([hdf5Obj getCompoundType])
+    {
+      unsigned i, c_count = [hdf5Obj getCount];
+      const char **rowNames = [hdf5Obj readRowNames];
+      unsigned xmax = 0, ymax =0;
+      
+      for (i = 0; i < c_count; i++)
+        {
+          unsigned x, y;
+
+          sscanf (rowNames[i], "%u,%u", &x, &y);
+          if (x > xmax)
+            xmax = x;
+          if (y > ymax)
+            ymax = y;
+        }
+      xsize = xmax + 1;
+      ysize = ymax + 1;
+      XFREE (rowNames); // but not the contents
+    }
   else
     {
       BOOL gotX = NO, gotY = NO;
@@ -154,6 +174,25 @@ PHASE(Setting)
             [ivarsDataset drop];
           }
       }
+    }
+  else if ([hdf5Obj getCompoundType])
+    {
+      id aZone = [self getZone];
+      Class class = [hdf5Obj getClass];
+      unsigned i, c_count = [hdf5Obj getCount];
+      const char **rowNames = [hdf5Obj readRowNames];
+      
+      for (i = 0; i < c_count; i++)
+        {
+          id obj = [class create: aZone];
+          unsigned x, y;
+
+          [hdf5Obj selectRecord: i];
+          [hdf5Obj shallowLoadObject: obj];
+          sscanf (rowNames[i], "%u,%u", &x, &y);
+          [self putObject: obj atX: x Y: y];
+        }
+      XFREE (rowNames); // but not the contents
     }
   else
     {
