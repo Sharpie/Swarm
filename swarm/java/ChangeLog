@@ -1,5 +1,8 @@
 1999-03-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (SUBMAKEFILES): Use instead of MAKEFILES.  (MAKEFILES
+	is the environmental equivalent of include!)
+
 	* java-stub.el (java-print-native-method): Take phase argument.
 	(java-print-native-class): Loop over creating and using phase,
 	passing to java-print-native-method.

@@ -13,7 +13,7 @@ endef
 
 MODULES = defobj collections activity objectbase random simtools gui simtoolsgui space analysis
 
-MAKEFILES = $(foreach module,$(MODULES),swarm/$(module)/Makefile)
+SUBMAKEFILES = $(foreach module,$(MODULES),swarm/$(module)/Makefile)
 
 .PHONY: all stubs
 
@@ -37,7 +37,7 @@ all: stubs
 
 # although this excludes all the Java and C stubs, it is useful
 # because it makes makefile regeneration automatic.
-stubs: Makefile.common $(MAKEFILES)
+stubs: Makefile.common $(SUBMAKEFILES)
 
-Makefile.common $(MAKEFILES): java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
+Makefile.common $(SUBMAKEFILES): java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
 	$(EMACS) -batch -l ./java-stub.elc -f java-run-all
