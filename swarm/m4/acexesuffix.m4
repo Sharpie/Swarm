@@ -1,0 +1,10 @@
+AC_DEFUN(md_CHECK_EXESUFFIX,
+[AC_MSG_CHECKING(for executable suffix)
+AC_TRY_COMPILE([#ifdef __CYGWIN32__
+#error
+#endif],[],
+EXESUFFIX='',
+EXESUFFIX=.exe,
+AC_MSG_RESULT($EXESUFFIX)
+AC_SUBST(EXESUFFIX)
+])

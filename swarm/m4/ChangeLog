@@ -1,3 +1,9 @@
+1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add acexesuffix.m4 and acguilibs.m4.
+	
+	* acexesuffix.m4, acguilibs.m4: New files.
+
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Add acinstall.m4.

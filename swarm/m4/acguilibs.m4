@@ -1,0 +1,10 @@
+AC_DEFUN(md_CHECK_GUILIBS,
+[AC_MSG_CHECKING(for GUI libs)
+AC_TRY_COMPILE([#ifdef __CYGWIN32__
+#error
+#endif],[],
+GUILIBS='-lXpm -lX11 $(X_EXTRA_LIBS)',
+GUILIBS='-luser32 -lgdi32')
+AC_MSG_RESULT($GUILIBS)
+AC_SUBST(GUILIBS)
+])
