@@ -16,6 +16,11 @@ html dvi rtf fot ps htmldist dvidist rtfdist psdist:
 	- $(MAKE) -C set $@
 
 versions.ent: FORCE
-	((echo '<!ENTITY swarm-release-number "' ; head -1 $(swarm_srcdir)/VERSION ; echo '">') | tr -d '\n' ; echo) > versions.ent
-	echo '<!ENTITY swarm-doc-release-number "@VERSION@">' >> versions.ent
-	((echo '<!ENTITY pubdate "' ; date +'%d %B %Y' ; echo '">') | tr -d '\n' ; echo) >> versions.ent
+	((echo '<!ENTITY swarm-release-number "' ; head -1 $(swarm_srcdir)/VERSION ; echo '">') | tr -d '\n' ; echo) > versions.ent.new
+	echo '<!ENTITY swarm-doc-release-number "@VERSION@">' >> versions.ent.new
+	((echo '<!ENTITY pubdate "' ; date +'%d %B %Y' ; echo '">') | tr -d '\n' ; echo) >> versions.ent.new
+	if test -f versions.ent && cmp versions.ent versions.ent.new; then \
+	  $(RM) versions.ent.new; \
+	else \
+	  mv versions.ent.new versions.ent; \
+	fi

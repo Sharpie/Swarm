@@ -1,6 +1,7 @@
 1998-10-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.rules ($(DATA)): 
+	* Makefile.am (versions.ent): Check to see if it's actually
+	changed before touching.
 
 1998-10-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
