@@ -1,0 +1,7 @@
+# Config file for applications generated automatically during Swarm 
+# installation
+CC="@CC@"
+SWARM_LDADD="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc @TCLOBJCLIB@ @BLTLIB@ @TKLIB@ @TCLLIB@ -lpng -lz @FFILIB@ @GUILIBS@ -lobjc -lm @LIBS@"
+SWARM_LDFLAGS="-L@prefix@/lib @RPATH@@prefix@/lib -L@tcllibdir@ -R@tcllibdir@ -L@tklibdir@ -R@tklibdir@ -L@bltlibdir@ -R@bltlibdir@ -L@tclobjcdir@/lib -L@ffidir@/lib -R@ffidir@/lib -L@pnglibdir@ -R@pnglibdir@ -L@zliblibdir@  @X_LIBS@" 
+
+
