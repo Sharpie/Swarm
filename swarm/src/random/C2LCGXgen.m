@@ -164,10 +164,11 @@ for (j=0; j<COMPONENTS; j++)
 }
 
 
--setA: (unsigned) A setv: (unsigned) v setw: (unsigned) w {
+- setA: (unsigned)A setv: (unsigned)v setw: (unsigned)w
+{
    unsigned log2A;
    int i;
-   unsigned maxGen;
+   unsigned long maxGen;
 
    // LIMITS:
 
@@ -176,7 +177,7 @@ for (j=0; j<COMPONENTS; j++)
    // On Intel, LONG_MAX = 2^31 = 2,147,483,648 = 2GB
    // Currently, vGenStruct is 40 bytes => maxGen = 53,687,091 < 2^26
 
-   maxGen = LONG_MAX / sizeof(struct vGenStruct);
+   maxGen = (unsigned long)LONG_MAX / sizeof (struct vGenStruct);
 
    // Add this test, in case someone has 64-bit memory:
    if (maxGen > MAXVGEN) maxGen = MAXVGEN;		// see RandomDefs.h
@@ -185,7 +186,7 @@ for (j=0; j<COMPONENTS; j++)
 
    if ((A > maxGen) || (v > 60) || (w > 60)) {
    printf("Generator parameters: A = %d  v = %d  w = %d
-    maxA = %d  maxv = 60  maxw = 60\n\n", 
+    maxA = %lu  maxv = 60  maxw = 60\n\n", 
       A,v,w,maxGen);
    [InvalidCombination raiseEvent:
      "%s Bad initialization parameters: A, v or w too large\n",genName];
@@ -220,7 +221,7 @@ for (j=0; j<COMPONENTS; j++)
    if ((log2A+v+w) > 60) {
    printf("Generator parameters: log2(A) = %d  v = %d  w = %d
     maxv = 60  maxw = 60 maxSum = 60\n\n", log2A,v,w);
-   printf("Generator parameters: A = %d  V = %lld  W = %lld  maxA = %d\n\n", 
+   printf("Generator parameters: A = %d  V = %lld  W = %lld  maxA = %lu\n\n", 
        A,segmentMax,countMax,maxGen);
    [InvalidCombination raiseEvent:
      "%s Bad initialization parameters: a+v+w too large\n",genName];

@@ -1,3 +1,11 @@
+1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* C2LCGXgen.m ([C -setA:setv:setw:]): Make maxGen an unsigned long.
+	Cast LONG_MAX to unsigned long in assignment to maxGen.  Change
+	to %lu for maxGen printf field.
+
+	* C4LCGXgen.m ([C -setA:setv:setw:]): Likewise.
+
 1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* RandomVars.h:  initRandom now takes an argument object
