@@ -3,12 +3,12 @@
 	* global.ent: Remove swarm-release-number,
 	swarm-doc-release-number, and pubdate.
 
-	* configure.in: Don't extract src.ent.
+	* configure.in: Don't extract src.ent, refbook.sgml, or set.sgml.
 
 	* catalog.in: refindex.sgml, refindex.sgml, srcrevhistory.sgml,
 	gridexamples.sgml are generated; use relative paths in the
-	top_builddir.  Add new identifiers for Globals, Versions, Src, and
-	all module .ent files.  
+	top_builddir.  Add new identifiers for Globals, Versions, Src, 
+	all module .ent files, overview, install, and set metadata.
 
 	* Makefile.am (noinst_DATA): Add version.ent.
 	(versions.ent): Generate from VERSION, SWARMHOME VERSION, and date.

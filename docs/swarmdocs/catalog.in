@@ -111,5 +111,10 @@ PUBLIC "-//SFI Hive//ENTITIES Figure List//EN" @top_srcdir@/figs/figs.ent
 
 PUBLIC "-//SFI Hive//ENTITIES Src List//EN" @top_srcdir@/src/src.ent
 
+PUBLIC "-//SFI Hive//ENTITIES Overview List//EN" @top_srcdir@/overview/over.ent
+PUBLIC "-//SFI Hive//ENTITIES Install List//EN" @top_srcdir@/installing/install.ent
+
+PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN" @top_srcdir@/set/setmeta.sgml
+
 SGMLDECL "@top_srcdir@/docbook.dcl"
 
