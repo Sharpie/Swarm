@@ -2,73 +2,47 @@
 
 #import "ExperSwarm.h"
 #import <simtoolsgui.h>
+#include <misc.h> // unlink
 
 @implementation ParameterManager
 
   // The ParameterManager handles the parameter manipulation for
   //     the series of models run during the experiment
 
-
-- initializeParameters
+- (void)initializeParameters
 {
-  // Now, build a custom probemap to display parameterManager variables
-
-  pmProbeMap = [EmptyProbeMap createBegin: [self getZone]];
-  [pmProbeMap setProbedClass: [self class]];
-  pmProbeMap = [pmProbeMap createEnd];
-
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "worldXSize"
-                                  inClass: [self class]]];
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "worldYSize"
-                                  inClass: [self class]]];
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "seedProb"
-                                  inClass: [self class]]];
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "bugDensity"
-                                  inClass: [self class]]];
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "seedProbInc"
-                                  inClass: [self class]]];
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "bugDensityInc"
-                                  inClass: [self class]]];
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "seedProbMax"
-                                  inClass: [self class]]];
-  [pmProbeMap addProbe: [probeLibrary getProbeForVariable: "bugDensityMax"
-                                  inClass: [self class]]];
-
-  [probeLibrary setProbeMap: pmProbeMap For: [self class]];
-
-  // Finally, create a probeDisplay to show the parameterManager
+  // Create a probeDisplay to show the parameterManager
 
   CREATE_ARCHIVED_PROBE_DISPLAY (self);
-
-  return self;
 }
 
-- initializeModel: (ModelSwarm *)theModel
+- (void)initializeModel: theModel
 {
   [theModel setWorldXSize: worldXSize YSize: worldYSize];
   [theModel setSeedProb: seedProb bugDensity: bugDensity];
-  return self;
 }
 
 
-- stepParameters
+- (BOOL)stepParameters
 {
   seedProb += seedProbInc;
-  bugDensity+= bugDensityInc;
+  bugDensity += bugDensityInc;
  
   if ((seedProb > seedProbMax) || (bugDensity > bugDensityMax))
-    return nil;
+    return NO;
 
-  return self;
+  return YES;
 }
 
-- printParameters: (id <OutFile>)anOutFile
+- (void)printParameters: (id <Archiver>)archiver
+                 number: (unsigned)number
+                   time: (unsigned)theTime
 {
-  [anOutFile putNewLine];
-  [ObjectSaver save: self to: anOutFile withTemplate: pmProbeMap];
-  [anOutFile putNewLine];
+  char buf[5 + DSIZE (unsigned) + 1];
 
-  return self;
+  time = theTime;
+  sprintf (buf, "model%03u", number);
+  [archiver putShallow: buf object: self];
 }
 
 @end
@@ -105,12 +79,6 @@
   [probeLibrary setProbeMap: theProbeMap For: [self class]];
 
   return obj;		// We return the newly created ExperSwarm
-}
-
-
-- createEnd
-{
-  return [super createEnd];
 }
 
 
@@ -167,9 +135,13 @@
 
   [controlPanel setStateStopped];
 
-  // Create the OutFile object to log the runs
-
-  logFile = [OutFile create: self setName: "log.file"];
+#ifndef USE_LISP
+  unlink ("output.hdf");
+  archiver = [HDF5Archiver create: self setPath: "output.hdf"];
+#else
+  unlink ("output.scm");
+  archiver = [LispArchiver create: self setPath: "output.scm"];
+#endif
 
   return self;
 }
@@ -335,7 +307,7 @@
 }
 
 
-- (int)getModelTime
+- (unsigned)getModelTime
 {
   // This method feeds the EZGraph "runTime" sequence  
   // this always points to the current modelSwarm 
@@ -346,34 +318,21 @@
 
 - logResults
 {
-  // This uses the OutFile object to log the parameters 
-  //   and results of a run to the file "log.file"
-
-  [logFile putString: "--------------------------------\n\n"];
-
-  [logFile putString: "Model # "]; 
-  [logFile putInt: numModelsRun];
-
-  [logFile putNewLine];
-
   // have the parameterManager log its state
-  [parameterManager printParameters: logFile];
-
-  [logFile putNewLine];
-
-  [logFile putString: "Time for this run = "];
-  [logFile putInt: modelTime];
-
-  [logFile putNewLine];
-
+  [parameterManager printParameters: archiver
+                    number: numModelsRun - 1
+                    time: modelTime];
+#ifdef USE_LISP
+  [archiver sync];
+#endif
   return self;
 }
-
 
 - showStats
 {
   if (resultGraph)
     [resultGraph step];			// step the result Graph
+
   return self;
 }
 
@@ -395,8 +354,7 @@
   // If we step the parameterManager and it exceeds the parameter bounds,
   // it returns nil, so we have stepped through all the models and
   // we can quit the experiment. We first make sure that the
-  // displays are updated, then we drop the logFile to close it,
-  // and set the controlPanel to "stop".
+  // displays are updated, and set the controlPanel to "stop".
 
   if (!([parameterManager stepParameters]))
     {
@@ -405,8 +363,8 @@
       [actionCache doTkEvents];
       
       printf("\n All the models have run!\n");
-      
-      [logFile drop];
+
+      [archiver drop];
       [controlPanel setStateStopped];
     }
   

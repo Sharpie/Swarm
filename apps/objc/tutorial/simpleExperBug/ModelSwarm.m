@@ -24,12 +24,12 @@
   return foodSpace;
 }
 
-- (int)getTime
+- (unsigned)getTime
 {
    return time;
 }
 
-- setWorldXSize: (int)x YSize: (int)y
+- setWorldXSize: (unsigned)x YSize: (unsigned)y
 {
   worldXSize = x;
   worldYSize = y;

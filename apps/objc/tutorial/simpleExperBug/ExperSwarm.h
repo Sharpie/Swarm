@@ -8,14 +8,14 @@
 #import <objectbase/SwarmObject.h>
 #import <objectbase.h>
 #import <analysis.h>
-#import <simtools.h> // OutFile
+#import <defobj.h> // Archiver
 
 // First, the interface for the ParameterManager
 
 @interface ParameterManager: SwarmObject
 {
-  int worldXSize;
-  int worldYSize;
+  unsigned worldXSize;
+  unsigned worldYSize;
 
   float seedProb;
   float bugDensity;
@@ -26,13 +26,13 @@
   float seedProbMax;
   float bugDensityMax;
 
-  id <ProbeMap> pmProbeMap;
+  unsigned time;
 }
 
-- initializeParameters;
-- initializeModel: theModel;
-- stepParameters;
-- printParameters: anOutFile;
+- (void)initializeParameters;
+- (void)initializeModel: theModel;
+- (BOOL)stepParameters;
+- (void)printParameters: (id <Archiver>)archiver number: (unsigned)sn time: (unsigned)tv;
 
 @end
 
@@ -43,8 +43,8 @@
 
 @interface ExperSwarm: GUISwarm
 {
-  int modelTime;				// model run time
-  int numModelsRun;				// number of models run
+  unsigned modelTime;				// model run time
+  unsigned numModelsRun;			// number of models run
 
   id experActions;				// schedule data structs
   id experSchedule;
@@ -54,18 +54,17 @@
   ParameterManager *parameterManager; 		// An object to manage model
 						// parameters
 
-  id <OutFile> logFile;				// File to log run results
+  id <Archiver> archiver;                       // for storing output
 
  // Display objects, widgets, etc.
 
-  id <EZGraph> resultGraph;				// graphing widget
+  id <EZGraph> resultGraph;			// graphing widget
   id <ProbeMap> modelProbeMap;			// the ProbeMap for the modelSwarm
 }
 
 // Methods overriden to make the the Experiment Swarm
 
 + createBegin: aZone;
-- createEnd;
 
 - buildObjects;
 - buildActions;

@@ -1,3 +1,34 @@
+2000-04-28  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ModelSwarm.[hm]: Make world{X,Y}Size and time unsigned
+	and getter/setters.
+
+	* ExperSwarm.m ([ParameterManager -initializeParameters]): Don't
+	set up pmProbeMap.
+	([ParameterManager -initializeModel:]): Remove typign from
+	argument.
+	([ParameterManager -printParameters:number:time:]): Replaces
+	-printParameters:.
+	([ParameterManager -createEnd]): Replaces -printParameters:.
+	([ExperSwarm -buildObjects]): Set up archiver instead of logFile
+	per USE_LISP.  Destroy any previous archive.
+	([ExperSwarm -logResults]): Use a single call to
+	printParameters:number:time: followed by a sync in the case of 
+	USE_LISP.
+	([ExperSwarm -checkToStop]): Drop archiver instead of logFile.
+
+	* ExperSwarm.h: Include defobj.h instead of simtools.h.
+	(ParameterManager): Make world{X,Y}Size unsigned.  Remove
+	pmProbeMap.
+	(ExperSwarm): Change modelTime and numModelsRun to unsigned.
+	Replace logFile with archiver.
+
+	* ExperSwarm.[hm] ([ExperSwarm -getModelTime]): Return unsigned
+	([ExperSwarm -createEnd]): Remove.
+	([ParameterManager -initializeParameters],
+	[ParameterManager -initializeModel:]): Return void.
+	([ParameterManager -stepParameters]): Return BOOL.
+	
 2000-02-27    <mgd@nest.swarm.org>
 
 	* Makefile (SWARMHOME, APPVERSION): Update to 2.1.

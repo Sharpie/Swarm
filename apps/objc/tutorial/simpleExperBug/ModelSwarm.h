@@ -8,12 +8,12 @@
 
 @interface ModelSwarm: Swarm
 {
-  int worldXSize, worldYSize;
+  unsigned worldXSize, worldYSize;
 
   float seedProb;
   float bugDensity;
 
-  int time;
+  unsigned time;
 
   FoodSpace *foodSpace;
   id <Grid2d> world;
@@ -26,9 +26,9 @@
 - getWorld;
 - getFoodSpace;
 - getBugList;
-- (int)getTime;
+- (unsigned)getTime;
 
-- setWorldXSize: (int)x YSize: (int)y;
+- setWorldXSize: (unsigned)x YSize: (unsigned)y;
 - setSeedProb: (float)s bugDensity: (float)b;
 
 + createBegin: aZone;
