@@ -9,6 +9,11 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** New method -setPrecision: to specify number of significant digits
       shown for labels on major ticks.
 
+*** defobj
+**** Zone
+***** Statistics for population total size and alloc:'ed total size 
+      are maintained and reported by -describe:.
+
 *** gui (tkobjc)
 **** Histogram
 ***** New method -setXaxisMin:max:step:precision: for specifying the number
