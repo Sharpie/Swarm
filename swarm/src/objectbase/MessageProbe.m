@@ -316,10 +316,12 @@ copy_to_nth_colon (const char *str, int n)
   if (probedType)
     [fa setReturnType: fcall_type_for_objc_type (*probedType)];
   
-  if ([target respondsTo: M(isJavaProxy)])
-    [fa setLanguage: LanguageJava];
   if (probedSelector)
-    [fa setSelector: probedSelector];
+    [fa setSelector: probedSelector];  // will set Language
+  else if ([target respondsTo: M(isJavaProxy)])
+    [fa setLanguage: LanguageJava];
+  else if ([target respondsTo: M(isCOMProxy)])
+    [fa setLanguage: LanguageCOM];
   {
     unsigned i;
     unsigned argCount = [self getArgCount];

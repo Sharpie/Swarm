@@ -13,7 +13,8 @@
 	_createFCall_:.  Modify to cache call if there are no arguments.
 	Only drop fc and fa when there is no cached call.  Call
 	setProbedObject: during setup to ensure argument call is set
-	(in COM case).
+	(in COM case).  Use FArguments setSelector first to set Language
+	and then only if there is a proxy.
 
 	* MessageProbe.h (MessageProbe): Add `call'.
 
