@@ -1,3 +1,9 @@
+1999-08-16    <mgd@HELEN>
+
+	* Makefile.in (javaswarm.dll): Use new linker instead of dllwrap.
+	Don't make import library (don't need it and new linker can't do it
+	right).
+
 1999-08-15    <mgd@HELEN>
 
 	* Makefile.in (libjavaswarmstubs_la_OBJECTS, javaswarmstubs_OBJECTS): 
