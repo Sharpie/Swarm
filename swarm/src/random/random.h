@@ -16,35 +16,31 @@ Modified:	 1997-12-08 (v. 0.75) by Sven Thommesen
 
 #import <defobj.h>
 
-// InternalState --
-//   Methods to save the internal state of an object (generator, distribution)
-//   to a memory buffer allocated by the calling program, and to set the state
-//   of an object from previously saved state data, provided in a memory buffer.
-//   Method -getStateSize specifies the minimum buffer size needed.
-//
-// NOTE: the putStateInto/setStateFrom methods are NOT portable across 
-//   architectures, since they store integers and doubles using different
-//   byte orders. A portable storage method may be provided in the next
-//   release.
-// 
 @deftype InternalState
-- (unsigned)	getStateSize;			// size of buffer needed
-- (void)	putStateInto: (void *) buffer;	// save state data for later use
-- (void)	setStateFrom: (void *) buffer;	// set state from saved data
-- (void)	describe: (id) outStream;	// prints ascii data to stream
-- (const char *)getName;			// returns name of object
-- (unsigned)	getMagic;			// object's 'magic number'
+//S: Archiving routines for internal generator and distribution state.
+
+//D: Methods to save the internal state of an object (generator, distribution)
+//D: to a memory buffer allocated by the calling program, and to set the state
+//D: of an object from previously saved state data, provided in a memory
+//D: buffer.
+
+//D: NOTE: the putStateInto/setStateFrom methods are NOT portable across 
+//D: architectures, since they store integers and doubles using different
+//D: byte orders. A portable storage method may be provided in the next
+//D: release.
+
+USING
+//M: Specifies the minimum buffer size needed.
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 @end
 
-// -----------------------------
-
 #import <random/generators.h>
-
 #import <random/distributions.h>
-
 #import <random/RandomVars.h>
-
 #import <random/RandomDefs.h>
-
-// -----------------------------
 

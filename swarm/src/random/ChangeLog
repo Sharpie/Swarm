@@ -1,3 +1,7 @@
+1998-05-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* random.h, distributions.h, generators.h:  Add documentation tags.
+
 1998-03-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* random.m: Declare gettimeofday for cygwin.
