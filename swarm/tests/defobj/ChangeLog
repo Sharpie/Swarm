@@ -1,3 +1,8 @@
+1999-06-10  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* forwarding.m (strip_type_sig): New function.
+	([BaseObject -forward::]): Use it.
+
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
 
 	* archiver.m ([MyClass -setUpdateFlag:]): New method and instance

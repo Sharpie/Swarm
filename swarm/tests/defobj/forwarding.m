@@ -138,6 +138,30 @@
   return self;
 }
 
+#define isnumeric(c) (isdigit ((int) c) || c == '+' || c == '-')
+
+static const char *
+strip_type_sig (const char *sig)
+{
+  size_t i;
+  size_t newlen = 0;
+  
+  for (i = 0; sig[i]; i++)
+    if (!isnumeric (sig[i]))
+      newlen++;
+  
+  {
+    char *newsig = xmalloc (newlen + 1);
+    
+    newlen = 0;
+    for (i = 0; sig[i]; i++)
+      if (!isnumeric (sig[i]))
+        newsig[newlen++] = sig[i];
+    newsig[newlen] = '\0';
+    return newsig;
+  }
+}
+
 - (retval_t)forward: (SEL)aSel :(arglist_t)argFrame
 {
   id fa, fc;
@@ -154,7 +178,8 @@
       if (!type)
         abort ();
     }
-  
+
+  type = strip_type_sig (type);
   {
     const char *sig = mframe_build_signature (type, NULL, NULL, NULL);
 
