@@ -1,96 +1,284 @@
 <sect1 id="swarm.user.user2.03.sect1">
-  <title>Object-oriented basics</title>
+  <title>Doing the Chores: Set and Get</title>
+<para> Object-oriented programming organizes the way programmers think about
+information in a new way.  The objects maintain their variables (the "instance
+variables, or IVARs for short) and the information contained in those variables
+is private, self-contained within the object. This has benefits in the 
+design of code and it also captures some intuitions the autonomy of individual
+agents in a simulation exercise.
+</para>
+<para>
+Objects are thus insulated, more or less, and although this makes some things
+easier to code, it also makes some things more difficult.  For example, in C
+a variable can be set and its value can be changed anywhere in the program. In
+object-oriented languages like Objective-C, an object can hold several 
+variables and those values can only be changed by the object itself if we
+remain within the recommended limits of good programming habits.  Some ways
+to go outside those bounds will be discussed below, but generally speaking
+it is a good idea to respect the fact that objects maintain their own data.
+</para>
+<para>
+If objects are maintaining their own data, how do we manage information in a
+Swarm project.  Early on in the development of Swarm, the coders started using
+the convention that the term "set" starts a method name that sets a value
+inside an object, such as "setIdealTemperature" or "setAge."  The term 
+"get" is used as the beginning of a method that causes the agent to return 
+some value, such as "getIdealTemperature" or "getAge".
+</para>
 
 <sect2>
- <title>Typical create phase</title> 
+ <title>Get and Set Methods</title> 
+<para>
+Get and set methods are needed to pass information among objects.  
+For example, consider Heatbugs.  In the Heatbug.m code, one finds a 
+methods that set information inside the bug and also methods that retrieve
+information from it.  Consider the method "setIdealTemperature" 
+<programlisting> 
+- setIdealTemperature: (HeatValue)i
+{
+  idealTemperature = i;
+  return self;
+}
+</programlisting>
+The heatbug object has an instance variable called idealTemperature, and this 
+sets the value of that variable.  
+</para>
+<para>
+If some other object needs to know the heatbug's ideal temperature, what
+has to be done?  We would have to add a method to the Heatbug.m that returns
+the value of idealTemperature.  Something like this might suffice:
+<programlisting>
+- (double) getIdealTemperature
+{
+  return idealTemperature;
+}
+</programlisting>
+As much as possible, it is recommended that information be exchanged in this
+way.  Hence, when the observer swarm needs a list of all the agents in a 
+simulation in order to create a graph, the model swarm should have a
+method, such as getAgentList, that returns a list of agents that the observer swarm can use.
+</para>
+</sect2>
 
 
-    <programlisting>
+<sect2>
+ <title>Using set methods during object creation</title> 
+<para>
+Consider the way the model swarm level of a simulation can be designed.  
+If the values of many variables are set inside the ModelSwarm.m file, 
+and those values are to be passed to the individual agents at the time 
+of creation, then the code that creates individual objects might be 
+designed like this: 
+
+<programlisting>
 aBug = [Bug createBegin: globalZone];
 aBug = [aBug createEnd];
 [aBug setWorldSizeX: xsize Y: ysize];
 [aBug setFoodSpace: foodSpace];
 [aBug setX: xPos Y: yPos];
+[aBug setIdealTemp: [uniformDblRand getDoubleSample]];
 </programlisting>
-
-    <orderedlist>
-
-      <listitem><para>Allocate memory etc.  </para></listitem>
-
-      <listitem><para>Set all necessary parameters </para></listitem>
-
-      <listitem><para>Finish initialization and return proper instance
-          of object</para></listitem>
-
-    </orderedlist>
-
-</sect2>
-
-<sect2>
- <title>Bug in ObjC II: The FoodSpace</title> 
-
-    <para>Here create a world for the bug to roam around in.  The world is 
-      defined in <classname>FoodSpace</classname>, a subclass of 
-      <classname>Discrete2d</classname></para>
-
-    <para><classname>Discrete2d</classname> manages a lattice of integer values 
-      By passing the Bug a pointer to FoodSpace it can 'talk' to  (i.e. forage in) the 
-      other object</para>
-
-    <programlisting>main
-Bug
-FoodSpace
-</programlisting>
-
-</sect2>
-
-<sect2>
- <title>The FoodSpace class</title> 
-
-    <para>By subclassing from <classname>Discrete2d</classname>,
-      <classname>FoodSpace</classname> inherits several Ivars and about 
-      16 methods to store and retrieve values in 2d space
-    </PARA>
-
-    <para>The only addition is a method to fill space with 'food'
-
-      <programlisting>
-
--seedFoodWithProb:(float)seedProb 
+This code presupposes that the ModelSwarm.m file has pre-existing 
+variables (probably integers)  xsize, size, xPos, and yPos, as well as an 
+object "foodSpace" and an object "uniformDblRand" that can give back a 
+random number.  This code also presupposes that set methods exist for the Bug
+class that can get these jobs done.
+</para>
+<para>
+There are some matters of "taste" and "judgment" that affect model design.
+One might ask, for example, "why does this code set the ideal temperature 
+in this way? Why not create a method inside the Bug.m file, such as 
+"initializeValues," like so:
+<programlisting>
+- initializeValues
 {
-
- int x,y;
- for (y = 0; y &#060 ysize; y++) 
-  {
-   for (x = 0; x &#060 xsize; x++) 
-    {
-     if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0]&#060=seedProb)
-       [self putValue: 1 atX: x Y: y];
-    }
-  }
- return self;
+idealTemperature= [uniformDblRand getDoubleSample] 
+return self;
 }
 </programlisting>
+If this method existed, then the code that creates the bug and sets values 
+in it could have the command
+<programlisting>
+ [aBug setIdealTemp: [uniformDblRand getDoubleSample]];
+</programlisting>
 
-      Inherited method Inherited variables
+replaced with this:
+<programlisting>
+ [aBug initializeValues];
+</programlisting>
+This would achieve the purpose of setting the idealTemperature variable inside
+the object called "aBug".  And, from the information-hiding perspective of
+object-oriented programming, it seems better because the value drawn for
+the variable idealTemperature is never exposed to any other object.
+</para>
+<para>
+There are a few practical reasons why the first way of setting the ideal
+temperature might be preferred. First, for the programmer's convenience, it
+is nice to have as many of the "parametric" changes in a single file as 
+possible.  The Bug class can be written and never edited again if all of 
+the changes needed are kept in the ModelSwarm.m file.  Second, you might 
+save memory dealing with these things in the ModelSwarm.m file. Suppose 
+that the object "uniformDblRand" has to be created in order to draw a random number.  If you insist on writing a method like 
+"initializeValues" inside the Bug.m, then
+you need to worry about how that random number generator object is created 
+inside each bug object. It certainly saves memory to create just one random
+generator in the ModelSwarm.m file and then draw numbers from it inside the
+model swarm itself.  There are some good arguments for this approach in the
+literature on random number generation.  The issue seems somewhat esoteric,
+but the argument is that one is better off making repeated draws from the
+same random number generator than making one call against each of the many
+random number generators. For reasons like this, Swarm examples tend to 
+have information translated into objects from the model swarm level, even
+though it is technically allowable to have that information-creation process
+completely isolated within the object.           
+</para>
+</sect2>
+<sect2>
+<title>Passing information around: getting the import statements right</title>
+<para>
+In order to send messages to objects from another class, it is necessary
+not only to use the correct message, but also to import that class's
+header file into the code.  The ObserverSwarm.m file can only tell
+the HeatbugModelSwarm to run its createBegin method if ObserverSwarm.m includes
+the header file for the HeatbugModelSwarm. In HeatbugObserverSwarm.m, we find this:
+<programlisting>
+#import "HeatbugModelSwarm.h"
+</programlisting>
 </para>
 
+<para>
+The inclusion in the "m" file is sufficient if no reference to the
+HeatbugModelSwarm is necessary in the HeatbugObserverSwarm.h file.  It may 
+be necessary to move the import statement into the header file (the "h" file),
+however, if any references to a class are contained in the "h" file. In 
+HeatbugModelSwarm.h, for example, one finds these import statements:
+<programlisting>
+#import "Heatbug.h"
+#import "HeatSpace.h"
+</programlisting>
+Since these are included, the variable and method definitions can refer to 
+elements of these classes. The variable list declares a pointer to an 
+object of type HeatSpace: 
+<programlisting>
+HeatSpace *heat
+</programlisting>
+and there is a method that has an object of type "Heatbug" as an argument:
+<programlisting>
+-addHeatbug: (Heatbug *)bug;
+</programlisting>
+</para>
+<para>
+Many Swarm programmers have run into the following problem.  As we have seen, 
+It is not difficult to have the model swarm level create 
+an object.  Through the set methods, various values can be set inside 
+the object by commands in the
+model swarm.  However, the programmer wants the agent to be able to access
+variables inside the model swarm as the simulation progresses.  Suppose
+the HeatbugModelSwarm has an instance variable called numberOfBugsAlive, and 
+inside HeatbugModelSwarm we define a method getNumberOfBugsAlive that returns that number.  Suppose
+further we want any heatbug to be able to find out how many bugs are alive
+at any instant.  It is tempting to write inside Heatbugs.m something like 
+<programlisting>
+[heatbugModelSwarm getNumberOfBugsAlive];
+</programlisting>
+to access that information.
+</para>
+<para>
+That construction will not work, however, unless we take some special 
+precautions.  First, each Heatbug has to be made "aware" of what model 
+swarm it belongs to. Inside Heatbug.h, a variable would have to be defined:
+<programlisting>
+id heatbugModelSwarm;
+</programlisting>
+To set the value of this variable, the Heatbug.m file needs to have a 
+method like this:
+
+<programlisting>
+- setModelSwarm: (id) nameOfSwarm
+{
+heatbugModelSwarm = nameOfSwarm;
+return self;
+}
+</programlisting>
+The value of the instance variable heatbugModelSwarm has to be set in the 
+model swarm when other values are set.  When the HeatbugModelSwarm is 
+creating bugs, it sets the other values like the ideal temperature and the 
+position, but further it would set itself
+as the model swarm to which that bug belongs, like so:
+<programlisting>
+aBug = [Bug createBegin: globalZone];
+aBug = [aBug createEnd];
+[aBug setWorldSizeX: xsize Y: ysize];
+[aBug setFoodSpace: foodSpace];
+[aBug setX: xPos Y: yPos];
+[aBug setIdealTemp: [uniformDblRand getDoubleSample]];
+[aBug setModelSwarm: self];
+</programlisting>
+This assures that, inside aBug, the value of the instance variable 
+heatbugModelSwarm is defined.
+
+</para>
+<para>
+The final precaution is that the header file HeatbugModelSwarm.h must be
+imported into Heatbug.m.  It is very important that the import statement
+is added to Heatbug.m, not Heatbug.h.  If it is added to Heatbug.h, then
+the program will not compile because the inclusion causes a circularity: 
+Heatbug.h is included in HeatbugModelSwarm.h, but HeatbugModelSwarm.h is 
+also included in Heatbug.h.  Putting the import statement in the "m" file 
+avoids that ciruclarity.  And, since the import has to be in the "m" file, 
+the definition of the variable heatbugModelSwarm in Heatbug.h uses the 
+generic type id, rather than a specific type, such as HeatbugModelSwarm. 
+</para>
+<para>
+Many swarm examples are designed to avoid the need to allow objects 
+created by model swarm to also access information directly from it. This
+is usually done by creating a "space" object that keeps records on the
+model swarm.  Individual agents report their positions to the space and the
+space calculates any necessary statistics about the swarm.  The code
+for the space object can include get methods that the individual agents can
+execute when they need information about their environment. This approach
+has the added advantage that additional methods can be inherited from the
+general space objects in the Swarm library.
+</para>
 </sect2>
 
+
+
 <sect2>
- <title>The power of inheritance</title> 
+ <title>Circumventing the object-oriented guidelines</title> 
 
-    <formalpara><title>Defobj</title><para>
-        Root class of Swarm. Memory management, create, drop etc.
-      </para></formalpara>
+    <para>If one wants to avoid treating objects as containers that
+hold both data and methods, one can do so.  The C language allows
+the creation of global variables, ones that can be accessed in any
+part of the code. These "external" variables exist outside a particular
+class and are thus available to it.  The names used for external variables
+must be unique.  One cannot have a global variable called "temperature" as well
+as a temperature variable defined as an instance variable for each object.
+There are some occasions in which a program can be made to run more
+quickly if the whole get/set exercise is circumvented by creating a global 
+variable.
+</para>
+<para>
+Another way in which the object-oriented guidelines can be circumvented 
+is the use of the -> operator.  Suppose we have an object called "dog" and it
+has instance variables "numberOfBones" and "timeSpentSleeping".  Ordinarily, 
+within the object-oriented paradigm, the numberOfBones would have to be
+set by a method such as "setNumberOfBones."  However, the language does
+allow a shortcut of the following sort. The syntax 
+"dog->numberOfBones" refers to the value of the instance variable numberOfBones
+inside the object named dog.  Hence, one could have a statement 
+<programlisting>
+dog->numberOfBones = 3;
+</programlisting>
+that sets the numberOfBones to 3 inside the dog.  This kind of code is 
+considered to be heavy-handed and brutish because it does not use the methods
+written for the dog class with which it can set that value and update it. 
+A mistake made with the -> operator can corrupt the values inside an object.
+Nevertheless, one does find examples of this syntax in Swarm code.  Almost all
+Swarm examples use this kind of shortcut in the createBegin phase of the model
+swarm file, for example.Here create a world for the bug to roam around in. 
+</para>
 
-    <formalpara><title>SwarmObject</title>
-      <para>Adds support for probes</para></formalpara>
-
-    <formalpara><title>Discrete2d</title>
-      <para>2d lattice management</para></formalpara>
-
-    <formalpara><title>FoodSpace</title><para></para></formalpara> 
 
 </sect2>
 </sect1>
