@@ -1,10 +1,17 @@
 #include "asmsparc.h"
 .text
 	.align 4
+#ifndef __CHECKER__
 	.global C(__builtin_avcall)
 	DECLARE_FUNCTION(__builtin_avcall)
 	.proc	04
 C(__builtin_avcall:)
+#else
+	.global C(chkr.__builtin_avcall)
+	DECLARE_FUNCTION(chkr.__builtin_avcall)
+	.proc	04
+C(chkr.__builtin_avcall:)
+#endif
 	!$PROLOGUE$ 0
 	save %sp,-1152,%sp
 	!$PROLOGUE$ 1
