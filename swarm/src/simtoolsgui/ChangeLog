@@ -1,3 +1,10 @@
+1999-12-14    <mgd@nest.swarm.org>
+
+	* ProbeDisplayManager.m ([ProbeDisplayManager
+	-_createProbeDisplayFor_:setWindowGeometryRecordName:]): Don't
+	check to see that object responds to getProbeMap.  We're asking
+	the probeLibrary, anyway.
+
 1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ActionCache.h (ActionCache): Make ctrlPanel conform to ControlPanel.

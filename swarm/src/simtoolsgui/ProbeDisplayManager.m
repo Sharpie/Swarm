@@ -141,8 +141,7 @@ PHASE(Using)
   Class cls;
     
   cls = swarm_directory_swarm_class (anObject);
-  if (([anObject respondsTo: @selector(getProbeMap)]) &&
-      ([probeLibrary isProbeMapDefinedFor: cls]))
+  if ([probeLibrary isProbeMapDefinedFor: cls])
     return [[[[[ProbeDisplay createBegin: [self getZone]]
                 setProbedObject: anObject]
                setWindowGeometryRecordName: windowGeometryRecordName]
