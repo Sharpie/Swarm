@@ -18,23 +18,23 @@ INTERFACEPHASES := $(CLASSPHASES) S
 
 PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector
 POSTCLASSES = SwarmEnvironment
-PRECLASSFILES = $(addsuffix .class,$(PRECLASSES))
-POSTCLASSFILES = $(addsuffix .class,$(POSTCLASSES))
-SWARMCLASSFILES = $(PRECLASSFILES) $(POSTCLASSFILES)
+SWARMCLASSES = $(PRECLASSES) $(POSTCLASSES)
 
 define module-class-files
-$(addsuffix .class,$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))))
+$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))
 endef
 
 define module-interface-files
-$(addsuffix .class,$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS)))))))
+$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS))))))
 endef
 
-GENCLASSFILES := $(addprefix swarm/,$(foreach module,$(MODULES),$(module-class-files)))
+GENCLASSFILES := $(addsuffix .class,$(addprefix swarm/,$(foreach module,$(MODULES),$(module-class-files))))
 
-GENINTERFACEFILES := $(addprefix swarm/,$(foreach module,$(MODULES),$(module-interface-files)))
+GENINTERFACEFILES := $(addsuffix .class,$(addprefix swarm/,$(foreach module,$(MODULES),$(module-interface-files))))
 
-ALLCLASSFILES = $(addprefix swarm/$(SWARMCLASSFILES)) $(GENCLASSFILES) $(GENINTERFACEFILES)
+SWARMCLASSFILES = $(addsuffix .class,$(addprefix swarm/,$(SWARMCLASSES)))
+
+ALLCLASSFILES = $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
 all: modules $(POSTCLASSFILES)
 
@@ -55,10 +55,10 @@ install-java-classes-as-jar: jar
 install-java-classes-as-files: all
 	test -d $(datadir) || mkdir $(datadir)
 	$(RM) ../filelist
-	for f in $(SWARMCLASSFILES); do echo $$f >> ../filelist ; done
+	for f in $(SWARMCLASSES); do echo $$f >> ../filelist ; done
 	$(foreach module,$(MODULES),for f in $(module-class-files); do echo $$f >> ../filelist; done;)
 	$(foreach module,$(MODULES),for f in $(module-interface-files); do echo $$f >> ../filelist; done;)
-	sed 's,^,swarm/' < ../filelist > ../filelist.new
+	sed -e 's,^,swarm/,' -e 's,$,.class,' < ../filelist > ../filelist.new
 	(cd ..; tar -c -f - -T filelist.new) | (cd $(datadir); tar xf -)
 	$(RM) ../filelist ../filelist.new
 

@@ -1,10 +1,12 @@
 1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (install-java-classes-as-files): Add swarm/ prefix
-	to filelist using sed.  Remove swarm/ prefix from module-class-files
-	and module-interface-files.
-	(GENCLASSFILES, GENINTERFACEFILES, ALLCLASSFILES): Use addprefix swarm/
-	as appropriate.
+	and .class suffix to filelist using sed.  Remove swarm/ prefix and
+	.class suffix from module-class-files and module-interface-files.
+	(GENCLASSFILES, GENINTERFACEFILES, ALLCLASSFILES): Use addprefix
+	swarm/ as appropriate.
+	(SWARMCLASSES): New variable.
+	(install-java-classes-as-files, SWARMCLASSFILES): Use it.
 
 1999-05-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
