@@ -1,3 +1,7 @@
+1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-protocols*): Add OutFile and AppendFile.
+
 1999-08-15    <mgd@HELEN>
 
 	* java-stub.el (java-print-native-class): Use import of

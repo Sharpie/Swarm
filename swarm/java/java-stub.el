@@ -83,6 +83,8 @@
                                 "HDF5"
                                 "HDF5CompoundType"
                                 "InFile"
+                                "OutFile" 
+                                "AppendFile"
                                 "Arguments"
                                 ))
 
