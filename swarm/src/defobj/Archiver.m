@@ -10,6 +10,7 @@
 #import <defobj.h> // arguments
 #import <defobj/HDF5Object.h>
 
+#include <swarmconfig.h> // HAVE_HDF5
 #include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
 
 Archiver_c *archiver;
