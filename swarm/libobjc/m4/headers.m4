@@ -13,6 +13,7 @@ esac
 
 if test -d $configsrcdir/$host_cpu -a "`echo $configsrcdir/$host_cpu/*`" != "$host_cpu/*"; then
     cpudir=$configsrcdir/$host_cpu
+    cpu=$host_cpu
 else
     echo '*************** Warning ****************'
     echo libobjc backend information for $host_cpu is
@@ -20,12 +21,13 @@ else
     echo Using information from unknown.
     echo '****************************************'
     cpudir=$configsrcdir/unknown
+    cpu=unknown
 fi
 
 if test -f $cpudir/compiler-info-${target_os}.h; then
-  COMPILERINFOHEADER="\${top_srcdir}/config/$host_cpu/compiler-info-${target_os}.h"
+  COMPILERINFOHEADER="\${top_srcdir}/config/$cpu/compiler-info-${target_os}.h"
 else
-  COMPILERINFOHEADER="\${top_srcdir}/config/$host_cpu/compiler-info-generic.h"
+  COMPILERINFOHEADER="\${top_srcdir}/config/$cpu/compiler-info-generic.h"
   echo '*************** Warning ****************'
   echo The mframe software has not been ported to $target_cpu-$target_os.
   echo Using information from $COMPILERINFOHEADER
@@ -34,9 +36,9 @@ fi
 AC_SUBST(COMPILERINFOHEADER)
 
 if test -f $cpudir/mframe-${target_os}.h; then
-  MFRAMEHEADER="\${top_srcdir}/config/$host_cpu/mframe-${target_os}.h"
+  MFRAMEHEADER="\${top_srcdir}/config/$cpu/mframe-${target_os}.h"
 else
-  MFRAMEHEADER="\${top_srcdir}/config/$host_cpu/mframe-generic.h"
+  MFRAMEHEADER="\${top_srcdir}/config/$cpu/mframe-generic.h"
   echo '*************** Warning ****************'
   echo The mframe software has not been ported to $target_cpu-$target_os.
   echo Using information from $MFRAMEHEADER
