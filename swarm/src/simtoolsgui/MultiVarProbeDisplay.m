@@ -63,7 +63,7 @@ PHASE(Creating)
 
   title = [CompleteProbeDisplayLabel createBegin: [self getZone]];
   [title setParent: raisedFrame];
-  [title setProbeDisplay: self];
+  [title setTargetWidget: self];
   [title setProbedObject: nil];
   title = [title createEnd];
   [title setText: [[objectList getFirst] name]];

@@ -1,5 +1,10 @@
 1998-09-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): Use
+	setTargetWidget: instead of setProbeDisplay:
+
+	* MultiVarProbeDisplay.m ([MultiVarProbeDisplay -createEnd]): Likewise.
+
 	* MultiVarProbeDisplay.m ([MultiVarProbeDisplay -createEnd]): Remove 
 	call to setProbeDisplayManager.
 

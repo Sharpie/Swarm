@@ -44,7 +44,7 @@
 
   title = [CompleteProbeDisplayLabel createBegin: [self getZone]];
   [title setParent: raisedFrame];
-  [title setProbeDisplay: self];
+  [title setTargetWidget: self];
   [title setProbedObject: probedObject];
   title = [title createEnd];
   [title setText: [self getId: NULL]];
