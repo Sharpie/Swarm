@@ -1,5 +1,8 @@
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* make-h2x: Don't accept @implementation with leading spaces or
+	with a name starting with "_".
+
 	* defobj.h (archiver{Register,Unregister},
 	{lisp,HDF5}Archiver{Get,Put}): Prefix declaration with `extern'.
 
