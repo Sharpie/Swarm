@@ -1,0 +1,47 @@
+<!entity % activity.entities PUBLIC "-//SFI Hive//ENTITIES Activity List//EN">
+%activity.entities;
+
+<!entity % analysis.entities PUBLIC "-//SFI Hive//ENTITIES Analysis List//EN">
+%analysis.entities;
+
+<!entity % collections.entities PUBLIC "-//SFI Hive//ENTITIES Collections List//EN">
+%collections.entities;
+
+<!entity % defobj.entities PUBLIC "-//SFI Hive//ENTITIES Defobj List//EN">
+%defobj.entities;
+
+<!entity % gui.entities PUBLIC "-//SFI Hive//ENTITIES GUI List//EN">
+%gui.entities;
+
+<!entity % objectbase.entities PUBLIC "-//SFI Hive//ENTITIES Objectbase List//EN">
+%objectbase.entities;
+
+<!entity % random.entities PUBLIC "-//SFI Hive//ENTITIES Random List//EN">
+%random.entities;
+
+<!entity % simtools.entities PUBLIC "-//SFI Hive//ENTITIES Simtools List//EN">
+%simtools.entities;
+
+<!entity % simtoolsgui.entities PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI List//EN">
+%simtoolsgui.entities;
+
+<!entity % space.entities PUBLIC "-//SFI Hive//ENTITIES Space List//EN">
+%space.entities;
+
+<!entity % tech.entities PUBLIC "-//SFI Hive//ENTITIES Tech List//EN">
+%tech.entities;
+
+<!entity refmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Metadata//EN">
+<!entity refcont.sgml PUBLIC "-//SFI Hive//ENTITIES Reference//EN">
+<!entity ref00.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Preface//EN">
+<!entity ref00a.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Changes//EN">
+<!entity refindex.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Index//EN">
+<!entity grid-app.sgml PUBLIC "-//SFI Hive//ENTITIES Grid Turtle//EN">
+<!entity gridexamples.sgml PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN">
+<!entity probes-app.sgml PUBLIC "-//SFI Hive//ENTITIES Probes//EN">
+<!entity conventions-app.sgml PUBLIC "-//SFI Hive//ENTITIES Conventions//EN">
+<!entity lgpl-app.sgml PUBLIC "-//SFI Hive//ENTITIES LGPL//EN">
+<!entity gpl-app.sgml PUBLIC "-//SFI Hive//ENTITIES GPL//EN">
+<!entity srcrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN">
+
+
