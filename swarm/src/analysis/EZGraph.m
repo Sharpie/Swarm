@@ -60,7 +60,7 @@ const char graphColors[NUMCOLORS][16] ={"Red", "Green", "Yellow",
   if (graphics)
     {
       theGraph = [BLTGraph createBegin: [self getZone]];
-      SET_WINDOW_GEOMETRY_RECORD_NAME (theGraph);
+      SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (theGraph);
       theGraph = [theGraph createEnd];
       [theGraph title: title];
       [theGraph axisLabelsX: xLabel Y: yLabel];

@@ -119,7 +119,8 @@
   if (graphics)
     {
       aHisto = [Histo createBegin: [self getZone]];
-      SET_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
+      SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
+      aHisto = [aHisto createEnd];
       [aHisto title: theTitle];
       if(xLabel && yLabel) 
         [aHisto axisLabelsX: xLabel Y: yLabel];
