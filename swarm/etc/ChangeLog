@@ -1,3 +1,9 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* interface.el (*removed-protocols*): Remove Arguments.
+	(*removed-methods*): Add methods with bad types from Arguments.
+	(get-variable-name-for-getter-method): Moved from getters.el.
+
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* interface.el (print-makefile.common): Don't process swarm

@@ -15,9 +15,6 @@
       "CREATABLE"
       "RETURNABLE"
       
-      ;; problematic types
-      "Arguments"
-
       ;; should be done by archiver
       "ArchiverKeyword"
       "ArchiverArray"
@@ -156,6 +153,12 @@
 
       ;; FCall, FArguments
       "-getResult"; void* return
+
+      ;; Arguments
+      "-setOptionFunc:"
+      "-addOptions:"
+      "+createArgc:Argv:appName:version:bugAddress:options:optionFunc:inhibitExecutableSearchFlag:"
+      "-getArgv"
 
       ;; Array
       "-getData"; void* return
@@ -560,3 +563,11 @@
       (insert (funcall convert-name-func varname))
       t)))
 
+(defun get-variable-name-for-getter-method (method)
+  (let* ((first-argument (first (method-arguments method)))
+         (name (strip-regexp (first first-argument) "^get"))
+         (ret-type (method-return-type method)))
+    (cond ((string= "id <Symbol>" ret-type) name)
+          ((string= "GuiFlag" name) "swarmGUIMode")
+          (t (concat (downcase (substring name 0 1))
+                     (substring name 1))))))
