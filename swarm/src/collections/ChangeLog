@@ -1,3 +1,10 @@
+1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* List.[hm] ([List_any -lispOut:deep:]): Renamed from lispOut:; added
+	deep serialization boolean option.
+
+	* Map.[hm]: Likewise.
+
 1999-01-09  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* InputStream.m ([InputStream_c -getExpr]): Handle nil and Nil

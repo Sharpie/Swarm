@@ -36,7 +36,7 @@ typedef struct link *link_t;
 - (int)getCountPerBlock;
 - lispInCreate: expr;
 - lispIn: expr;
-- lispOut: stream;
+- lispOut: stream deep: (BOOL)deepFlag;
 @end
 
 @interface ListIndex_any: Index_any

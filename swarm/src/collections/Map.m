@@ -402,7 +402,7 @@ PHASE(Using)
   return self;
 }
 
-- lispOut: outputCharStream
+- lispOut: outputCharStream deep: (BOOL)deepFlag
 {
   id index, member, key;
 
@@ -413,7 +413,7 @@ PHASE(Using)
     {
       [outputCharStream catC: " (cons "];
       if (compareFunc == compareIDs)
-        [key lispOut: outputCharStream];
+        [key lispOut: outputCharStream deep: deepFlag];
       else
         {
           char buf[12];
@@ -422,7 +422,7 @@ PHASE(Using)
           [outputCharStream catC: buf];
         }
       [outputCharStream catC: " "];
-      [member lispOut: outputCharStream];
+      [member lispOut: outputCharStream deep: deepFlag];
       [outputCharStream catC: ")"];
     }
   [index drop];

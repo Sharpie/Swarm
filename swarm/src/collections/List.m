@@ -127,7 +127,7 @@ PHASE(Using)
   return self;
 }
 
-- lispOut: outputCharStream
+- lispOut: outputCharStream deep: (BOOL)deepFlag
 {
   id index, member;
 
@@ -135,7 +135,7 @@ PHASE(Using)
 
   index = [(id) self begin: scratchZone];
   while ((member = [index next]))
-    [member lispOut: outputCharStream];
+    [member lispOut: outputCharStream deep: (BOOL)deepFlag];
   [index drop];
 
   [self _lispOutAttr_: outputCharStream];
