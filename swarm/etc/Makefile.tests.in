@@ -8,6 +8,8 @@ javaswarmdir = $(shell cd ../../java/c; pwd)
 
 JAVASWARMLIBS = @JAVASWARMLIBS@
 
+OBJCFLAGS += -DAPPNAME=\"$(basename $@)\" -DBUGADDRESS=\"bug-swarm@santafe.edu\" -DAPPVERSION=\"$(VERSION)\"
+
 SWARMBUILDLDFLAGS = -L$(javaswarmdir) -R $(javaswarmdir) -L$(builddir)	\
 -R $(builddir) -L$(libobjcdir) -R $(libobjcdir)
 
