@@ -1245,7 +1245,17 @@ create_method_refs (void)
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "setChar", 
                                 "(Ljava/lang/Object;C)V")))
     abort();
+
+  if (!(m_FieldSetFloat = 
+	(*jniEnv)->GetMethodID (jniEnv, c_Field, "setFloat", 
+                                "(Ljava/lang/Object;F)V")))
+    abort();
   
+  if (!(m_FieldSetDouble = 
+	(*jniEnv)->GetMethodID (jniEnv, c_Field, "setDouble", 
+                                "(Ljava/lang/Object;D)V")))
+    abort();
+
   if (!(m_ClassGetField =
       (*jniEnv)->GetMethodID (jniEnv, c_Class, "getField",
                               "(Ljava/lang/String;)Ljava/lang/reflect/Field;")))
