@@ -1,3 +1,7 @@
+2003-09-15  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* make-h2x : Add configured SED to allow for bad default sed.
+
 2003-09-03  Alex Lancaster  <alex@swarm.org>
 
 	* defobj.h: Use '//E:' syntax instead of '//M:' to tag examples

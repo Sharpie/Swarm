@@ -1,3 +1,7 @@
+2003-09-15  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* Makefile.rules : Add configured SED to make-h2x invocation.
+
 2003-06-29  mgd  <mgd@drone>
 
 	* Makefile.am (libswarm_la_LDFLAGS): Add -no-undefined.

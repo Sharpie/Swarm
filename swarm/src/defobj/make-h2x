@@ -39,7 +39,7 @@ echo \
 # sed script to remove the `extern' after identification
 grep -v '^#import' $srcdir/$m.h | \
 sh -c "$OBJC $OBJCFLAGS -Ddisable_externvar -x objective-c -E -" | \
-sed -n \
+$SED -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \
   -e 's/[ ][ ]*//g'  -e 's///g' \
@@ -47,21 +47,21 @@ sed -n \
   -e '/externvarid<Warning>/,/^\($\|#[0-9]\)/p' \
   -e '/externvarid<Error>/,/^\($\|#[0-9]\)/p' \
   -e '/externvarid<Event>/,/^\($\|#[0-9]\)/p' | \
-sed -e '/^#[0-9]/d;s/externvar/externvardef /g' >$m.xm+
+$SED -e '/^#[0-9]/d;s/externvar/externvardef /g' >$m.xm+
 
 # define symbol identifiers in generated file
 
-sed -e 's/<.*>/ /' -e '/^$/d' -e 's/\([,;]\)/=0\1/g' <$m.xm+ >>$m.xm
+$SED -e 's/<.*>/ /' -e '/^$/d' -e 's/\([,;]\)/=0\1/g' <$m.xm+ >>$m.xm
 
 # generate array of defined symbols
 
 echo '
 void *_'$m'_symbols[]={' >>$m.xm
-sed <$m.xm+ >>$m.xm \
+$SED <$m.xm+ >>$m.xm \
   -e 's/externvardef id<.*>//g' -e '/^$/d' -e 's/;/,/g' \
   -e 's/\([A-Za-z0-9_][A-Za-z0-9_]*\)/\&\1/g'
 echo 0, >>$m.xm
-sed <$m.xm+ >>$m.xm \
+$SED <$m.xm+ >>$m.xm \
   -e '/^$/d' -e 's/externvardef id[ ]*<\(.*\)>/0\1,/g' -e 's/;/,/g' \
   -e 's/\([A-Za-z0-9_][A-Za-z0-9_]*\)/"\1"/g' -e 's/<"/"\\r/g'
 echo '0};
@@ -69,7 +69,7 @@ echo '0};
 
 # extract all declared types into temporary file
 
-sed <$srcdir/$m.h >$m.xm+ \
+$SED <$srcdir/$m.h >$m.xm+ \
   -e 's/	//g' \
   -e '/^@protocol/!d' \
   -e 's/@protocol[ *]\([A-Za-z0-9_][A-Za-z0-9_]*\).*/\1/'
@@ -79,11 +79,11 @@ sed <$srcdir/$m.h >$m.xm+ \
 
 echo 'extern void *_'$m'_[];
 ' >$m.xt
-sed 's/\(.*\)/externvar id \1;/' <$m.xm+ >>$m.xt
+$SED 's/\(.*\)/externvar id \1;/' <$m.xm+ >>$m.xt
 
 # define type identifiers in generated file
 
-sed 's/\(.*\)/externvardef id \1=0;/' <$m.xm+ >>$m.xm
+$SED 's/\(.*\)/externvardef id \1=0;/' <$m.xm+ >>$m.xm
 echo '
 #ifdef DEFINE_CLASSES
 #import <'$m'/classes.h>
@@ -93,16 +93,16 @@ echo '
 
 echo '
 void *_'$m'_types[]={' >>$m.xm
-sed 's/\(.*\)/\&\1,/' <$m.xm+ >>$m.xm
+$SED 's/\(.*\)/\&\1,/' <$m.xm+ >>$m.xm
 echo 0, >>$m.xm
-sed 's/\(.*\)/@protocol(\1),/' <$m.xm+ >>$m.xm
+$SED 's/\(.*\)/@protocol(\1),/' <$m.xm+ >>$m.xm
 echo '0};
 ' >>$m.xm
 
 # extract all implemented classes into temporary file
 
 for object in $OBJECTS; do
-  base=`echo $object | sed -e 's/\.lo$//' -e 's/\.o$//'`
+  base=`echo $object | $SED -e 's/\.lo$//' -e 's/\.o$//'`
   source=$srcdir/${base}.m
   if [ -f $source ]; then sources="$sources $source"; fi
 done
@@ -110,7 +110,7 @@ if [ "$sources" = "" ]; then
   echo "no files with .m suffix found to match any .o file in $(OBJECTS)"
   exit 1
 fi
-cat $sources | sed >$m.xm+ \
+cat $sources | $SED >$m.xm+ \
   -e 's/	//g' \
   -e '/^[ ]*@implementation[ ][ ]*_/d' \
   -e '/^[ ]*@implementation/!d' \
@@ -118,23 +118,23 @@ cat $sources | sed >$m.xm+ \
 
 # generate module.xc file (exported by make file as <module/classes.h>)
 
-sed 's/\(.*\)/externvar id id_\1;/' <$m.xm+ >>$m.xc
+$SED 's/\(.*\)/externvar id id_\1;/' <$m.xm+ >>$m.xc
 
 # define class identifiers in generated file
 
-sed 's/\(.*\)/externvardef id id_\1=0;/' <$m.xm+ >>$m.xm
+$SED 's/\(.*\)/externvardef id id_\1=0;/' <$m.xm+ >>$m.xm
 
 # generate array of defined classes
 
 echo '
 void *_'$m'_classes[]={' >>$m.xm
-sed 's/\(.*\)/\&id_\1,/' <$m.xm+ >>$m.xm
+$SED 's/\(.*\)/\&id_\1,/' <$m.xm+ >>$m.xm
 echo '0};
 ' >>$m.xm
 
 # generate declarations for classes referenced below
 
-sed 's/\(.*\)/@class \1;/' <$m.xm+ >>$m.xm
+$SED 's/\(.*\)/@class \1;/' <$m.xm+ >>$m.xm
 
 # generate initial contents of module definition object
 
@@ -166,7 +166,7 @@ echo '
 + initialize
 {
 // initialize class id constants and link all classes into module' >>$m.xm
-sed 's/\(.*\)/id_\1=[\1 self];/' <$m.xm+ >>$m.xm
+$SED 's/\(.*\)/id_\1=[\1 self];/' <$m.xm+ >>$m.xm
 echo '
 // return module object
 return (id)_'$m'_;
