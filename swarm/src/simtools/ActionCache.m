@@ -141,20 +141,20 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
               message: [actionHolder getSelector]];
           // if "Save", "Start", "Step", or "Quit" send a message directly
           // to activitycontroller
-          else if ((strcmp (actionName, "Step") == 0) 
+          else if (strcmp (actionName, "Step") == 0
                    || (strcmp (actionName, "Start") == 0)
                    // Save is here because otherwise archiving won't run
                    // until execution resumes.  I (mgd) think this is bad: if
                    // you push on a button it should do something.  
                    // Also, as long as Quit is immediate, Save needs
                    // to be immediate as well or it could get ignored.
-                   || strcmp (actionName, "Save") == 0)
+                   || strcmp (actionName, "Save") == 0
                    // Quit is here because otherwise there will be
                    // a timestep the user may observe before the application
                    // actually exits.  This probably ought to become a
                    // scheduled action for when there are non-GUI 
                    // ControlPanels being frobbed by other Swarms.
-                   || (strcmp (actionName, "Quit") == 0))
+                   || strcmp (actionName, "Quit") == 0)
             [[actionHolder getActionTarget]
               perform: [actionHolder getSelector]];
           else
