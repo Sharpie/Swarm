@@ -1,0 +1,34 @@
+<DOCINFO>
+
+  <TITLE>Objectbase Library</TITLE>
+
+  <ABSTRACT>
+    <TITLE>Documentation and Implementation Status</TITLE>
+    
+    <PARA>Meta-information on the state of the documentation with
+      respect to the low-level documentation is included in this
+      DOCINFO section. Currently none.</PARA>
+    
+  </ABSTRACT>
+  
+  <REVHISTORY>
+
+    <REVISION>
+      <REVNUMBER>1.1</REVNUMBER>
+      <DATE>1998-05-06</DATE>
+      <AUTHORINITIALS>AKL</AUTHORINITIALS>
+
+      <REVREMARK>Created the updated SGML documentation version of the 
+       Swarm library "Objectbase".</REVREMARK>
+
+    </REVISION>
+
+  </REVHISTORY>
+  
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("objectbasecont.sgml" "DOCINFO")
+End:
+-->

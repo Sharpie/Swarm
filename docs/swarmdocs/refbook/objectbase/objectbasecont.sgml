@@ -1,0 +1,19 @@
+<REFERENCE ID="OBJECTBASE.REF">
+  &objectbasemeta.sgml;
+  
+  <TITLE>Objectbase Library</TITLE>
+  <TITLEABBREV>Objectbase</TITLEABBREV>
+  
+  <!-- partintro -->
+  &objectbase00.sgml;
+  
+  <!-- actual reference content -->
+  &objectbasepages.sgml;
+
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->
