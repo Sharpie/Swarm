@@ -1,3 +1,9 @@
+1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbe.m (java_probe_as_object): Handle localref cleanup
+	for GETVALUE.
+	(java_probe_as_string): Drop localref to temp Java string.
+
 1999-09-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ProbeMap.m ([ProbeMap -addJavaFields:]): Handle localref cleanup.

@@ -538,6 +538,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   strcpy (buf, result);
   if (isCopy)
     (*jniEnv)->ReleaseStringUTFChars (jniEnv, str, result);
+  (*jniEnv)->DeleteLocalRef (jniEnv, str);
   return buf;
 }
 
@@ -680,12 +681,18 @@ id
 java_probe_as_object (jclass fieldType, jobject field, jobject object)
 {
   char type = swarm_directory_objc_type_for_java_class (jniEnv, fieldType);
+  jobject jobj;
+  id ret;
+
   if (type != _C_ID)
     raiseEvent (WarningMessage,
                 "Invalid type `%c' to retrieve object from a Java object",
                 type);
-  
-  return SD_FINDOBJC (jniEnv, GETVALUE (Object));
+
+  jobj = GETVALUE (Object);
+  ret = SD_FINDOBJC (jniEnv, jobj);
+  (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
+  return ret;
 }
 #endif
 
