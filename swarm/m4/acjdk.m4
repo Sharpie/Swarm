@@ -42,6 +42,7 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
       JAVALIBS=no
       JAVACMD='${jdkdir}/bin/java'
+      DLLWRAP="${DLLWRAP} -Wl,-e,__cygwin_noncygwin_dll_entry@12"
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/genunix"
       JAVACMD='${jdkdir}/bin/java'
