@@ -72,13 +72,16 @@ PHASE(Creating)
 
 - createEnd
 {
+  id <HDF5> appFile;
+  
   [super createEnd];
-  [self ensureApp: 
-          [[[[[HDF5 createBegin: getZone (self)]
-               setWriteFlag: NO]
-              setParent: nil]
-             setName: path]
-            createEnd]];
+
+  appFile = [[[[[HDF5 createBegin: getZone (self)]
+                 setWriteFlag: NO]
+                setParent: nil]
+               setName: path]
+              createEnd];
+  [self ensureApp: appFile];
   return self;
 }
 
@@ -92,8 +95,11 @@ PHASE(Setting)
         {
           int modeIterateFunc (id modeHDF5Obj)
             {
-              [applicationMap at: [self createAppKey: [appHDF5Obj getName]
-                                         mode: [modeHDF5Obj getName]]
+              const char *appName = [appHDF5Obj getHDF5Name];
+              const char *modeName = [modeHDF5Obj getHDF5Name];
+              id <String> appKey = [self createAppKey: appName mode: modeName];
+
+              [applicationMap at: appKey
                               insert: modeHDF5Obj];
               return 0;
             }
@@ -169,12 +175,12 @@ PHASE(Using)
   
   if (parent)
     {
-      id hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
-                        setParent: parent]
-                       setDatasetFlag: [parent checkDatasetName: key]]
-                      setName: key]
-                     createEnd];
-  
+      id <HDF5> hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
+                               setParent: parent]
+                              setDatasetFlag: [parent checkDatasetName: key]]
+                             setName: key]
+                            createEnd];
+      
       if (hdf5Obj)
         {
           result = hdf5In (aZone, hdf5Obj);

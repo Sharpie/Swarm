@@ -1,3 +1,11 @@
+2001-10-24  Marcus G. Daniels  <mgd@condor>
+
+	* HDF5Object.m ([HDF5_c -createEnd]): Use RDONLY for non-writing
+	open.  See 2001-03-26 if this causes problems.
+
+	* HDF5Archiver.m (modeIterateFunc): Use getHDF5Name instead of 
+	getName.
+
 2001-10-10  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* defobj.h, HDF5Object.[hm]: Add getHDF5Name.

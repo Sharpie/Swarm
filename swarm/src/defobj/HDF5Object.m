@@ -1196,7 +1196,7 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid,
     {
       if (parent == nil)
         {
-          if ((loc_id = hdf5_open_file (name, H5F_ACC_RDWR)) < 0)
+          if ((loc_id = hdf5_open_file (name, H5F_ACC_RDONLY)) < 0)
             return nil;
         }
       else
