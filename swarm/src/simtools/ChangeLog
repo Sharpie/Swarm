@@ -1,3 +1,11 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* initSwarm.h: Don't declare _initSwarm_.
+
+	* Makefile.am (SRC): Remove simtools.m.
+
+	* simtools.m: Removed.
+
 2000-07-11    <mgd@HELEN>
 
 	* simtools.h: Remove inclusion of externvar.h and declaration

@@ -15,7 +15,7 @@ EXTRA_LTLIBRARIES = libsimtools.la
 SRC = InFile.m OutFile.m AppendFile.m \
 	ObjectLoader.m ObjectSaver.m \
 	NSelect.m QSort.m \
-	UName.m simtools.m
+	UName.m
 
 libsimtools_la_SOURCES = $(SRC)
 libsimtools_la_LDFLAGS = @inst_LDFLAGS@
