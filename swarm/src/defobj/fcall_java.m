@@ -5,7 +5,7 @@
 #define MSVC
 #endif
 #include <avcall.h>
-#include <jni.h>
+#include <defobj/directory.h> // jni things
 
 void
 java_setup_call (FArguments_c *fa,
