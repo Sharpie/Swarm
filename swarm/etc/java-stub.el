@@ -175,7 +175,7 @@
 			nil nil nil interface-list))
 	  (new-interface (make-java-interface
 			  :name interface-name
-			  :package (protocol-module protocol)
+			  :package (symbol-name (module-sym (protocol-module protocol)))
 			  :extended-interface-list interface-list
 			  :method-list method-list)))
       (java-add-interface new-interface)
@@ -188,7 +188,7 @@
 			nil nil nil interface-list))
 	  (new-interface (make-java-interface
 			  :name interface-name
-			  :package (protocol-module protocol)
+			  :package (symbol-name (module-sym (protocol-module protocol)))
 			  :extended-interface-list interface-list
 			  :method-list method-list)))
       (java-add-interface new-interface)
@@ -270,7 +270,7 @@
 
     (let ((new-class (make-java-class
 		      :name class-name
-		      :package (module-sym (protocol-module protocol))
+		      :package (symbol-name (module-sym (protocol-module protocol)))
 		      :super-class super
 		      :other-phase-class nil
 		      :implemented-interface-list interface-list

@@ -1,6 +1,9 @@
 1999-02-24  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* java-stub.el: New java stub generator. 
+	(java-make-interface): Convert module symbol to string.
+	(java-make-interface-setting): Likewise.
+	(java-make-class): Likewise.
 
 1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
