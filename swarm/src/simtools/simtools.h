@@ -125,6 +125,7 @@ USING
 - addProbeDisplay: probeDisplay;
 - removeProbeDisplayFor: anObject;
 - removeProbeDisplay: probeDisplay;
+- dropProbeDisplaysFor: anObject;
 - setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
 - update;
 @end
