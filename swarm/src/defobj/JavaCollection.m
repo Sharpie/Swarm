@@ -12,6 +12,7 @@
 #import <collections.h> // Member
 #import <defobj/JavaCollectionIndex.h>
 #import <collections/Permutation.h>
+#import "java.h"
 #endif
 
 @implementation JavaCollection

@@ -6,11 +6,6 @@
 #import <collections.h> // OutputStream
 #include <misc.h> // size_t
 #include <objc/objc-api.h>
-#include <swarmconfig.h>
-
-#ifdef HAVE_JDK
-#import <defobj/directory.h>
-#endif
 
 #define FCALL_TYPE_COUNT 21
 
@@ -99,14 +94,3 @@ extern unsigned object_getVariableElementCount (id obj,
                                                 fcall_type_t itype,
                                                 unsigned irank,
                                                 unsigned *idims);
-
-extern const char *java_signature_for_fcall_type (fcall_type_t type);
-#ifdef HAVE_JDK
-extern fcall_type_t fcall_type_for_java_class (JNIEnv *env, jclass class);
-extern const char *java_ensure_selector_type_signature (JNIEnv *env, jobject jsel);
-extern const char *java_get_class_name (JNIEnv *env, jclass class);
-extern jclass java_find_class (JNIEnv *env, const char *javaClassName, BOOL failFlag);
-
-
-#endif
-

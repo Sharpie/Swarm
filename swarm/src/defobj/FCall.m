@@ -31,6 +31,7 @@ Library:      defobj
 
 #ifdef HAVE_JDK
 #include <defobj/directory.h>
+#include "java.h" // swarm_directory_java_ensure_objc
 JNIEnv *jniEnv;
 #include <javavars.h>
 #endif
@@ -581,7 +582,7 @@ PHASE(Using)
   const char *return_jstring (void)
     {
       const char *newString =
-        swarm_directory_copy_java_string (jniEnv, (jstring) buf->object);
+        swarm_directory_java_copy_string (jniEnv, (jstring) buf->object);
       
       (void) SD_JAVA_SWITCHOBJC (jniEnv,
                                  (jstring) buf->object,

@@ -28,6 +28,7 @@ Library:      defobj
 #ifdef HAVE_JDK
 #include <objc/mframe.h>
 #include "javavars.h"
+#include "java.h"
 
 #import <defobj.h> // FCall, FArguments
 #endif

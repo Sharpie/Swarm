@@ -27,15 +27,8 @@ Class swarm_directory_ensure_class_named (const char *className);
 
 extern JNIEnv *jniEnv;
 
-const char *swarm_directory_java_class_name (JNIEnv *env, jobject obj);
-
 void swarm_directory_init (JNIEnv *jniEnv,
                           jobject swarmEnvironment);
-
-
-jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
-jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
-unsigned swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject);
 
 @interface DirectoryEntry: CreateDrop
 {
@@ -54,54 +47,73 @@ void swarm_directory_entry_describe (JNIEnv *env,
 
 @interface Directory: CreateDrop
 {
+@public
   id *table;
   avl_tree *objc_tree;
   DirectoryEntry *findEntry;
 }
 + createBegin: aZone;
-id swarm_directory_java_find_objc (JNIEnv *env, jobject javaObject);
-jobject swarm_directory_objc_find_java (JNIEnv *env, id object);
-DirectoryEntry *swarm_directory_add (JNIEnv *env, id object, jobject lref);
-DirectoryEntry *swarm_directory_switch_phase (JNIEnv *env, id nextPhase, jobject currentJavaPhase);
-DirectoryEntry *swarm_directory_switch_objc (JNIEnv *env, id object, jobject javaObject);
-id swarm_directory_java_ensure_objc (JNIEnv *env, jobject javaObject);
-jobject swarm_directory_objc_ensure_java (JNIEnv *env, id object);
+DirectoryEntry *swarm_directory_objc_find (JNIEnv *env, id object);
 BOOL swarm_directory_objc_remove (JNIEnv *env, id obj);
-jclass swarm_directory_find_java_class (JNIEnv *env, const char *javaClassName, BOOL failFlag);
-jclass swarm_directory_objc_find_java_class (JNIEnv *env, Class class);
-
 - (void)describe: outputCharStream;
 @end
 
-extern id swarmDirectory;
+extern Directory *swarmDirectory;
 
 extern void swarm_directory_dump ();
+
+#import "java.h"
 
 #define SD_JAVA_FINDOBJC(env, jobj)  swarm_directory_java_find_objc (env, jobj)
 #define SD_JAVA_ENSUREOBJC(env, jobj) swarm_directory_java_ensure_objc (env, jobj)
 #define SD_JAVA_FINDJAVA(env, objc) swarm_directory_objc_find_java (env, objc)
 #define SD_JAVA_ENSUREJAVA(env, objc) swarm_directory_objc_ensure_java (env, objc)
 #define SD_JAVA_FINDJAVACLASS(env, objcClass) swarm_directory_objc_find_java_class (env, objcClass)
-#define SD_JAVA_ADD(env, jobj, objc) swarm_directory_add (env, objc, jobj)
-#define SD_JAVA_ADDJAVA(env, jobj, objc) swarm_directory_add (env, objc, jobj)->javaObject
-#define SD_JAVA_NEXTPHASE(env, jobj, objc) swarm_directory_switch_phase (env, objc, jobj)->javaObject
-#define SD_JAVA_SWITCHOBJC(env, jobj, newobjc) swarm_directory_switch_objc (env, newobjc, jobj)
+#define SD_JAVA_ADD(env, jobj, objc) swarm_directory_java_add (env, objc, jobj)
+#define SD_JAVA_ADDJAVA(env, jobj, objc) swarm_directory_java_add (env, objc, jobj)->javaObject
+#define SD_JAVA_NEXTPHASE(env, jobj, objc) swarm_directory_java_switch_phase (env, objc, jobj)->javaObject
+#define SD_JAVA_SWITCHOBJC(env, jobj, newobjc) swarm_directory_java_switch_objc (env, newobjc, jobj)
 #define SD_JAVA_INSTANTIATE(env, clazz) swarm_directory_java_instantiate (env, clazz)
-#define SD_JAVA_NEXTJAVAPHASE(env, jobj) swarm_directory_next_phase (env, jobj)
+#define SD_JAVA_NEXTJAVAPHASE(env, jobj) swarm_directory_java_next_phase (env, jobj)
+#define SD_JAVA_ENSUREOBJCMETHOD(env, jobj) swarm_directory_java_ensure_selector (env, jobj)
+#define SD_JAVA_ENSUREOBJCCLASS(env, jclass) swarm_directory_java_ensure_class (env, jclass)
 
-SEL swarm_directory_ensure_selector (JNIEnv *env, jobject jsel);
-#define SD_JAVA_ENSUREOBJCMETHOD(env, jobj) (swarm_directory_ensure_selector (env, jobj))
-
-Class swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass);
-
-#define SD_JAVA_ENSUREOBJCCLASS(env, jclass) (swarm_directory_java_ensure_class (env, jclass))
-
-const char *swarm_directory_copy_java_string (JNIEnv *env, jstring javaString);
 void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
 
-
-#define SD_JAVA_COPYSTRING(env, javaString) swarm_directory_copy_java_string (env, javaString)
+#define SD_JAVA_COPYSTRING(env, javaString) swarm_directory_java_copy_string (env, javaString)
 #define SD_JAVA_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
 #endif
 
 #define SD_GETCLASS(obj) swarm_directory_swarm_class (obj)
+
+#if 1
+#define DIRECTORY_SIZE 21599
+#else
+#define DIRECTORY_SIZE 263009
+#endif
+
+extern void *alloca (size_t);
+
+#define JAVA_ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
+#define JAVA_OBJCENTRY(theObject) JAVA_ENTRY(theObject,0)
+#define JAVA_JAVAENTRY(theJavaObject) JAVA_ENTRY(0,theJavaObject)
+#define JAVA_FINDENTRY(theJavaObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->javaObject = theJavaObject; _findEntry; })
+
+#define OBJC_FINDENTRY(theObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->object = theObject; _findEntry; })
+
+Class objc_class_for_class_name (const char *classname);
+
+#ifndef DISABLE_ZONES
+#define DUPCLASSNAME(str) SSTRDUP(str)
+#define FREECLASSNAME(str) SFREEBLOCK(str)
+#else
+#define DUPCLASSNAME(str) xstrdup (str)
+#define FREECLASSNAME(str) XFREE (str)
+#undef SFREEBLOCK
+#define SFREEBLOCK(mem)
+#undef STRDUP
+#define STRDUP(str) xstrdup (str)
+#undef SSTRDUP
+#define SSTRDUP (str) xstrdup (str)
+#endif
+

@@ -28,7 +28,8 @@ Library:      defobj
 
 #ifdef HAVE_JDK
 #import <defobj/directory.h> // jniEnv
-#import <defobj/javavars.h> // f_retTypeFid, c_boolean
+#import "javavars.h" // f_retTypeFid, c_boolean
+#import "java.h" // java_ensure_selector_type_signature, java_signature_for_fcall_type
 #endif
 
 #define ZALLOCBLOCK(aZone, size) [aZone allocBlock: size]
