@@ -73,6 +73,8 @@ PHASE(Creating)
           || probedType[0] == _C_UCHR
           || probedType[0] == _C_INT
           || probedType[0] == _C_UINT
+          || probedType[0] == _C_LNG
+          || probedType[0] == _C_ULNG
           || probedType[0] == _C_FLT
           || probedType[0] == _C_DBL)
         interactiveFlag = YES;
@@ -186,9 +188,11 @@ PHASE(Using)
     case _C_CLASS:   q = (void *) *(Class *)p; break;
     case _C_CHARPTR:
     case _C_PTR:     q = (void *) *(void **)p; break;
-
-    case _C_INT:     q = (void *) *(long *)p; break;
-      
+    case _C_INT: 
+    case _C_UINT:
+    case _C_LNG:
+    case _C_ULNG:
+      q = (void *) *(long *)p; break;
     default:
       if (SAFEPROBES)
         [Warning raiseEvent: "Invalid type %s to retrieve as a pointer...\n",
@@ -220,7 +224,10 @@ PHASE(Using)
     case _C_CHR:  i = (int)*(char *)p; break;
       
     case _C_INT:  i = (int)*(int *)p; break;
-    case _C_UINT: i = (int)*(unsigned int *)p; break;
+    case _C_UINT: i = (unsigned)*(unsigned int *)p; break;
+
+    case _C_LNG:  i = (long)*(long *)p; break;
+    case _C_ULNG: i = (unsigned long)*(unsigned long *)p; break;
       
     default:
       if (SAFEPROBES)
@@ -251,10 +258,13 @@ PHASE(Using)
       
     case _C_INT:  d = (double)*(int *)p; break;
     case _C_UINT: d = (double)*(unsigned int *)p; break;
+
+    case _C_LNG:  d = (double)*(long *)p; break;
+    case _C_ULNG: d = (double)*(unsigned long *)p; break;
       
     case _C_FLT:  d = (double)*(float *)p; break;
     case _C_DBL:  d = (double)*(double *)p; break;
-      
+
     default:
       if (SAFEPROBES)
         [Warning raiseEvent: "Invalid type %s to retrieve as a double...\n",
@@ -338,6 +348,12 @@ PHASE(Using)
     case _C_UINT:
       sprintf (buf, "%u", *(unsigned *)p);
       break;
+    case _C_LNG:
+      sprintf (buf, "%ld", *(long *)p);
+      break;
+    case _C_ULNG:
+      sprintf (buf, "%lu", *(unsigned long *)p);
+      break;
     case _C_FLT:
       if (precision)
         sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
@@ -386,6 +402,8 @@ PHASE(Using)
       
     case _C_INT:  *(int *)p = *(int *)newValue; break;
     case _C_UINT: *(unsigned int *)p = *(unsigned int *)newValue; break;
+    case _C_LNG:  *(long *)p = *(long *)newValue; break;
+    case _C_ULNG: *(unsigned long *)p = *(unsigned long *)newValue; break;
     case _C_FLT:  *(float *)p = *(float *)newValue; break;
     case _C_DBL:  *(double *)p = *(double *)newValue; break;
       
@@ -432,8 +450,11 @@ PHASE(Using)
   union {
     char c;
     int i;
+    unsigned int ui;
     float f;
     double d;
+    long l;
+    unsigned long ul;
   } value;
   int rc = 0;
   void *p;
@@ -484,8 +505,18 @@ PHASE(Using)
       break;
       
     case _C_UINT:
-      if ((rc = sscanf (s, "%u", &value.i)) == 1) 
-        *(unsigned *)p = value.i; 
+      if ((rc = sscanf (s, "%u", &value.ui)) == 1) 
+        *(unsigned int *)p = value.ui; 
+      break;
+
+    case _C_LNG:
+      if ((rc = sscanf (s, "%ld", &value.l)) == 1) 
+        *(long *)p = value.i; 
+      break;
+      
+    case _C_ULNG:
+      if ((rc = sscanf (s, "%lu", &value.ul)) == 1) 
+        *(unsigned long *)p = value.ul; 
       break;
       
     case _C_FLT:

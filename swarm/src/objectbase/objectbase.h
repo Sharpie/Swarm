@@ -265,6 +265,9 @@ typedef struct val {
     char _char;
     unsigned char _uchar;
     int _int;
+    unsigned int _uint;
+    long _long;
+    unsigned long _ulong;
     float _float;
     double _double;
   } val;

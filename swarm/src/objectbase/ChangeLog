@@ -1,5 +1,21 @@
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* objectbase.h (val_t): Add _uint, _ulong, and _long.
+
+	* VarProbe.m ([VarProbe -createEnd]): Add support for long
+	and unsigned long.
+	([VarProbe -probeAsPointer:]): Likewise.
+	([VarProbe -probeAsInt:]): Likewise.
+	([VarProbe -probeAsDouble:]): Likewise.
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): Likewise.
+	([VarProbe -setData:To:]): Likewise.
+	([VarProbe -setData:ToString:]): Likewise.
+
+	* MessageProbe.m ([MessageProbe -setArg:ToString:]): Add
+	support for unsigned int, long, and unsigned long.
+	(dynamicCallOn): Likewise.
+	([MessageProbe -doubleDynamicCallOn:]): Likewise.
+
 	* Arguments.m ([Arguments -parseKey:arg:]): --mode option
 	incorrectly tagged `a' (now `m').
 

@@ -130,6 +130,18 @@ nth_type (const char *type, int which)
       arguments[which].type = _C_INT;
       arguments[which].val._int = atoi (what);
       break;
+    case _C_UINT:
+      arguments[which].type = _C_INT;
+      arguments[which].val._uint = (unsigned int)strtoul (what, NULL, 10);
+      break;
+    case _C_LNG:
+      arguments[which].type = _C_LNG;
+      arguments[which].val._long = strtol (what, NULL, 10);
+      break;
+    case _C_ULNG:
+      arguments[which].type = _C_ULNG;
+      arguments[which].val._ulong = strtoul (what, NULL, 10);
+      break;
     case _C_FLT:
       arguments[which].type = _C_FLT;
       arguments[which].val._float = strtod (what, NULL);
@@ -227,6 +239,18 @@ dynamicCallOn (const char *probedType,
         case _C_INT:
           av_int (alist, arg->val._int);
           break;
+
+        case _C_UINT:
+          av_uint (alist, arg->val._uint);
+          break;
+
+        case _C_LNG:
+          av_long (alist, arg->val._long);
+          break;
+
+        case _C_ULNG:
+          av_ulong (alist, arg->val._ulong);
+          break;
           
         case _C_FLT:
           av_float (alist, arg->val._float);
@@ -262,6 +286,15 @@ dynamicCallOn (const char *probedType,
       break;
     case _C_INT:
       av_start_int (alist, imp, &retVal->val._int);
+      break;
+    case _C_INT:
+      av_start_uint (alist, imp, &retVal->val._uint);
+      break;
+    case _C_LNG:
+      av_start_long (alist, imp, &retVal->val._long);
+      break;
+    case _C_ULNG:
+      av_start_ulong (alist, imp, &retVal->val._ulong);
       break;
     case _C_FLT:
       av_start_float (alist, imp, &retVal->val._float);
@@ -353,6 +386,21 @@ dynamicCallOn (const char *probedType,
           *alist->type_pos = &ffi_type_sint;
           *alist->value_pos = &arg->val._int;
           break;
+
+        case _C_UINT:
+          *alist->type_pos = &ffi_type_uint;
+          *alist->value_pos = &arg->val._uint;
+          break;
+      
+        case _C_LNG:
+          *alist->type_pos = &ffi_type_slong;
+          *alist->value_pos = &arg->val._long;
+          break;
+
+        case _C_ULNG:
+          *alist->type_pos = &ffi_type_ulong;
+          *alist->value_pos = &arg->val._ulong;
+          break;
       
         case _C_FLT:
           *alist->type_pos = &ffi_type_float;
@@ -415,7 +463,16 @@ dynamicCallOn (const char *probedType,
     case _C_INT:
       fret = &ffi_type_sint;
       break;
-    case _C_FLT:
+    case _C_UINT:
+      fret = &ffi_type_uint;
+      break; 
+    case _C_LNG:
+      fret = &ffi_type_slong;
+      break;
+    case _C_ULNG:
+      fret = &ffi_type_ulong;
+      break; 
+   case _C_FLT:
       fret = &ffi_type_float;
       break;
     case _C_DBL:
@@ -462,6 +519,15 @@ dynamicCallOn (const char *probedType,
       case _C_INT:
         retVal->val._int = VAL(int, ret);
         break;
+      case _C_UINT:
+        retVal->val._uint = VAL(unsigned int, ret);
+        break;
+      case _C_LNG:
+        retVal->val._long = VAL(long, ret);
+        break;
+      case _C_ULNG:
+        retVal->val._ulong = VAL(unsigned long, ret);
+        break;
       case _C_FLT:
         retVal->val._float = VAL(float, ret);
         break;
@@ -495,6 +561,12 @@ dynamicCallOn (const char *probedType,
   
   if (val.type == _C_INT)
     return (double)val.val._int;
+  else if (val.type == _C_UINT)
+    return (double)val.val._uint;
+  else if (val.type == _C_LNG)
+    return (double)val.val._long;
+  else if (val.type == _C_ULNG)
+    return (double)val.val._ulong;
   else if (val.type == _C_UCHR)
     return (double)val.val._int; // character return is broken in libffi-1.18
   else if (val.type == _C_FLT)
