@@ -834,13 +834,6 @@ USING
 ///M: in the same operation avoids repeating a search for the position at
 ///M: which the member key belongs.
 // - (BOOL)add: anObject setIndex: anIndex;
-
-//M: The replace: message replaces a member stored at a given key with
-//M: another member value that matches the same key.  The new value to
-//M: replace the existing one is passed as the argument.  replace: returns
-//M: the member value that was replaced, or nil if the collection contained
-//M: no member with a matching key.
-- replace: anObject;
 @end
 
 @protocol Set <_Set, KeyedCollection, CREATABLE>
@@ -858,6 +851,13 @@ USING
 //D: these functions.  These functions determine what part of the member
 //D: value is part of the key value, by determining which key values will
 //D: compare equal to any member.
+
+//M: The replace: message replaces a member stored at a given key with
+//M: another member value that matches the same key.  The new value to
+//M: replace the existing one is passed as the argument.  replace: returns
+//M: the member value that was replaced, or nil if the collection contained
+//M: no member with a matching key.
+- replace: anObject;
 @end
 
 @protocol OrderedSet <_Set, List, CREATABLE>
