@@ -7,8 +7,7 @@
 #import <math.h>
 #import <simtools.h> // OutFile
 #import <gui.h>
-
-#include <misc.h> // xmalloc, XFREE
+#import <defobj/defalloc.h> // getZone macro
 
 @implementation EZDistribution
 
@@ -18,7 +17,9 @@ PHASE(Creating)
 {
   [super createEnd];
 
-  probabilities = (double *)xmalloc (binCount * sizeof (double));
+  probabilities =
+    (double *) [getZone (self) alloc: binCount * sizeof (double)];
+
   maximumEntropy = log (1.0 / ((double) binCount));
    
   return self;
@@ -95,7 +96,7 @@ PHASE(Using)
 
 - (void)drop
 {
-  XFREE (probabilities);
+  [getZone (self) free: probabilities];
   [super drop];
 }
 

@@ -1,3 +1,15 @@
+1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* EZGraph.m (sequence_graph_filename): Use alloc: instead of xmalloc.
+
+	* EZDistribution.m: Include defalloc.h.
+	([EZDistribution -createEnd]): Use alloc: instead of xmalloc.
+	([EZDistribution -drop]): Use free: instead of free:.
+
+	* EZBin.m: Include defalloc.h.
+	([EZBin -createEnd]): Use alloc: instead of xmalloc.
+	([EZBin -drop]): Use free: instead of XFREE.
+
 1999-09-07    <mgd@HELEN>
 
 	* analysis.h: Add @class EZAverageSequence;

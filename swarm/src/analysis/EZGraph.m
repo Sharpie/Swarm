@@ -204,19 +204,21 @@ PHASE(Using)
 }
 
 static const char *
-sequence_graph_filename(const char *fileName, const char *aName)
+sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 { 
   if (fileName == NULL)
     {
-      char *buf = xmalloc(strlen (aName) + 1), *p;
+      char *buf = [aZone alloc: strlen (aName) + 1], *p;
       p = stpcpy (buf, aName);            
       return (buf);
     }
   else
     {      
       const char *delim = ".";
-      char *buf = 
-        xmalloc(strlen (fileName) + strlen (delim) + strlen (aName) + 1), *p;
+      char *buf =
+        [aZone alloc: strlen (fileName) + strlen (delim) + strlen (aName) + 1];
+      char *p = buf;
+      
       p = stpcpy (buf, fileName);
       p = stpcpy (p, delim);
       p = stpcpy (p, aName);  
@@ -231,6 +233,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
           andSelector: (SEL)aSel
 {
   id aGrapher;
+  id aZone = [self getZone];
   
   if (graphics)
     {
@@ -241,7 +244,7 @@ sequence_graph_filename(const char *fileName, const char *aName)
       [anElement setColor: graphColors[colorIdx % colorCount]];
       colorIdx++;
 
-      aGrapher = [ActiveGraph createBegin: [self getZone]];
+      aGrapher = [ActiveGraph createBegin: aZone];
       [aGrapher setElement: anElement];
       [aGrapher setDataFeed: anObj]; 
       [aGrapher setProbedSelector: aSel];
@@ -255,19 +258,18 @@ sequence_graph_filename(const char *fileName, const char *aName)
       id aFileObj;
       const char *fName;
 
-      fName = sequence_graph_filename(fileName, aName);
-      aFileObj = [OutFile create: [self getZone] setName: fName];
+      fName = sequence_graph_filename (aZone, fileName, aName);
+      aFileObj = [OutFile create: aZone setName: fName];
       
-      aGrapher = [ActiveOutFile createBegin: [self getZone]];
+      aGrapher = [ActiveOutFile createBegin: aZone];
       [aGrapher setFileObject: aFileObj];
       [aGrapher setDataFeed: anObj]; 
       [aGrapher setProbedSelector: aSel];
       aGrapher = [aGrapher createEnd];
       
       [aSeq setActiveOutFile: aGrapher];    
-      
     }
-  
+
   [sequenceList addLast: aSeq];
   
   return self;
@@ -281,8 +283,10 @@ sequence_graph_filename(const char *fileName, const char *aName)
   
   aSeq = [EZSequence create: [self getZone]];
 
-  [self createGraphSequence: aName forSequence: aSeq
-	withFeedFrom: anObj andSelector: aSel];
+  [self createGraphSequence: aName
+        forSequence: aSeq
+	withFeedFrom: anObj
+        andSelector: aSel];
   
   return aSeq;
 }
@@ -303,7 +307,8 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
   [aSeq setAverager: anAverager];
 
-  [self createGraphSequence: aName forSequence: aSeq
+  [self createGraphSequence: aName
+        forSequence: aSeq
 	withFeedFrom: anAverager 
 	andSelector: M(getAverage)];
 
@@ -326,7 +331,8 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
   [aSeq setAverager: anAverager];
 
-  [self createGraphSequence: aName forSequence: aSeq
+  [self createGraphSequence: aName
+        forSequence: aSeq
 	withFeedFrom: anAverager 
 	andSelector: M(getTotal)];
 
@@ -349,7 +355,8 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
   [aSeq setAverager: anAverager];
 
-  [self createGraphSequence: aName forSequence:aSeq
+  [self createGraphSequence: aName
+        forSequence:aSeq
 	withFeedFrom: anAverager 
 	andSelector: M(getMin)];
 
@@ -373,7 +380,8 @@ sequence_graph_filename(const char *fileName, const char *aName)
 
   [aSeq setAverager: anAverager];
 
-  [self createGraphSequence: aName forSequence: aSeq
+  [self createGraphSequence: aName
+        forSequence: aSeq
 	withFeedFrom: anAverager 
 	andSelector: M(getMax)];
 

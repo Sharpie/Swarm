@@ -6,8 +6,9 @@
 #import <analysis/EZBin.h>
 #import <simtoolsgui.h>
 #import <simtools.h> // OutFile
+#import <defobj/defalloc.h> // getZone macro
 
-#include <misc.h> // xmalloc, XFREE, sqrt
+#include <misc.h> // sqrt
 
 #include <objc/objc-api.h>
 
@@ -133,9 +134,10 @@ PHASE(Creating)
 
   [super createEnd];
 
-  distribution = (unsigned *) xmalloc (binCount * sizeof (unsigned));
-  cachedLimits = (double *) xmalloc (binCount * sizeof (double));
-  locations = (double *) xmalloc (binCount * sizeof (double));
+  distribution =
+    (unsigned *) [getZone (self) alloc: binCount * sizeof (unsigned)];
+  cachedLimits = (double *) [getZone (self) alloc: binCount * sizeof (double)];
+  locations = (double *) [getZone (self) alloc: binCount * sizeof (double)];
   step = (max - min) / ((double) binCount);
 
   for (i = 0; i < binCount; i++)
@@ -419,8 +421,8 @@ PHASE(Using)
 
 - (void)drop 
 {
-  XFREE (distribution);
-  XFREE (cachedLimits);
+  [getZone (self) free: distribution];
+  [getZone (self) free: cachedLimits];
   if (graphics)
     [aHisto drop];
   if (fileOutput)
