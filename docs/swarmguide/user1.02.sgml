@@ -9,7 +9,7 @@
     emerge from these detailed behaviors at the individual
     level. </para>
 
-  <figure>
+  <figure id="modeling.figure">
     <title>Agent-based modeling</title> 
     <graphic entityref="modeling" align="center"></graphic>
   </figure>
@@ -141,6 +141,11 @@
       an object "groceryStore" can respond to an message "takeMoney,"
       and it gets the job done, we might not care how it does
       it.</para>
+
+      <figure id="interface-vs-implementation.figure">
+        <title>Interface vs. Implementation</title>
+        <graphic entityref="interface-vs-implementation"></graphic>
+      </figure>
  
     <para>This is commonly referred to as the separation of
       "interface" from "implementation." While the interface declares
@@ -198,10 +203,56 @@
       Fortran or Pascal.  These so-called "procedural languages" do
       not allow the modeler to take advantage of reusable classes
       through inheritance or the preservation of data allowed by
-      encapsulation.  (See Benedikt's figure "Simulation in a
-      Procedural Language").</para>
- 
-</sect2></sect1>
+      encapsulation.  Here's an example of a simulation in a
+      procedural language:</para>
+
+    <procedure>
+      <title>Procedural language pseudo-code</title>
+      <calloutlist>
+        <callout arearefs="init.proc">
+          <para>Generally sets up data structures and support for
+            output.</para>
+        </callout>
+        <callout arearefs="impl.proc">
+          <para>Here must provide data structure to save agent's state
+            and implement behavior </para> 
+        </callout>
+        <callout arearefs="out.proc">
+          <para>Implementation of output often left to the programmer
+          </para>
+        </callout>
+      </calloutlist>
+      <step>
+        <para><command>get parameters</command></para>
+      </step>
+      <step id="init.proc">
+        <para><command>initialize</command></para>
+      </step>
+
+      <step>
+        <para><command>for 1 to timesteps do:</command></para>
+        <substeps>
+          <step>
+            <para><command>for 1 to num_agents do:</command></para>
+            <substeps>
+              <step id="impl.proc">
+                <para><command>agent-i-do-something</command></para>
+              </step>
+            </substeps>
+          </step>
+          <step id="out.proc">
+            <para><command>show state</command></para>
+          </step>
+        </substeps>
+      </step>
+      <step>
+        <para><command>quit</command></para>
+      </step>
+    </procedure>
+   
+  </sect2>
+
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

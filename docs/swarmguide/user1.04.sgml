@@ -1,4 +1,4 @@
-<sect1>
+<sect1 id="swarm.user.user1.04.sect1">
   <title>The notion of a Swarm</title>
 
   <para>As explained in an earlier section, Swarm is designed for
@@ -203,12 +203,10 @@
     <para>At an abstract level, the Swarm libraries cam be thought of
       as a layer on top of the operating system's kernel.
 
-    <itemizedlist>
-        <listitem><para> Operating System</para></listitem>
-        <listitem><para> Swarm kernel</para></listitem>
-        <listitem><para> GUI</para></listitem>
-        <listitem><para> Model</para></listitem>
-      </itemizedlist>
+      <figure id="system-diagram.figure">
+        <title>Swarm virtual computer</title>
+        <graphic entityref="system-diagram"></graphic>
+      </figure>
     </para>
 
     <para>A computer's CPU executes program instructions  </para>
@@ -224,14 +222,17 @@
 <sect2>
 <title>The Activity framework</title> 
 
-
-    <para>Provides abstractions that allow programmer to treat event scheduling in the artificial world as objects, separate from elements of model
+    <para>Provides abstractions that allow programmer to treat event
+      scheduling in the artificial world as objects, separate from
+      elements of model
     </para>
 
-    <para>Provide some useful shorthands to group actions and sort according to the desired order of events</para>
- 
- <para>Since schedules are objects, all agents in simulation can communicate with them, to schedule future events or cause actions to be dropped based on specified contingencies
-</para> 
+    <para>Provide some useful shorthands to group actions and sort
+      according to the desired order of events</para>
+
+    <para>Since schedules are objects, all agents in simulation can
+      communicate with them, to schedule future events or cause
+      actions to be dropped based on specified contingencies </para>
 
 </sect2>
 

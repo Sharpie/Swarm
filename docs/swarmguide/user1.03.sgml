@@ -79,14 +79,88 @@
       The "h" files are the interface files (commonly called "header
       files"), while the "m" files are the implementation files</para>
 
-    <para>As illustrated in figure xxx (Benedikt "A few Objective-C
-      basics), the interface declares the name of the class and the
-      name of its superclass.  Then it gives a list of variable types
-      and names enclosed by braces ({}), and then the names of the
-      methods that the class can implement are listed. The variables
-      defined in this list can be used by any of the methods defined
-      for the class.  (These are often called "ivars", short for
-      instance variables.)(Benedikt "Declaring a Class")</para>
+    <figure id="objc-basics.figure">
+      <title>Objective C Basics</title>
+      <graphic entityref="objc-basics"></graphic>
+    </figure>
+
+    <para>As illustrated in the figure <link
+      linkend="objc-basics.figure">Objective-C basics</link>, the
+      interface declares the name of the class and the name of its
+      superclass.  Then it gives a list of variable types and names
+      enclosed by braces ({}), and then the names of the methods that
+      the class can implement are listed. The variables defined in
+      this list can be used by any of the methods defined for the
+      class.  (These are often called "ivars", short for instance
+      variables.)
+    <example id="swarm.user.user1.03.objc-class.example">
+      <title>Objective C class</title>
+
+      <programlistingco>
+          <areaspec>
+            <area coords="1 1" id="decl">
+            <area coords="1 12" id="subclass">
+            <area coords="1 18" id="superclass">
+            <area coords="3" id="instance">
+            <area coords="6 15" id="method1">          
+            <area coords="7 15" id="method2">
+          </areaspec>
+
+<programlisting>
+@interface <classname>Bug</classname> : <classname>SwarmObject</classname> {
+  int xPos, yPos;
+  int worldXSize, worldYSize;
+  id foodSpace;
+}
+
+<funcsynopsis>
+  <funcprototype>
+    <funcdef><function>-set:Y:</function></funcdef>
+    <paramdef>int<parameter>x</parameter></paramdef>
+    <paramdef>int<parameter>y</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>;
+
+<funcsynopsis>
+  <funcprototype>
+    <funcdef><function>-step</function></funcdef>
+                <paramdef></paramdef>
+  </funcprototype>
+</funcsynopsis>;
+<!-- 
+- setX: (int) x Y: (int) y;
+- step;
+-->
+@end
+
+          </programlisting>
+          
+          <calloutlist>
+            <callout arearefs="decl">
+              <para>Declarations of instance variables and methods</para>
+            </callout>
+            <callout arearefs="subclass">
+              <para>Sub class</para>
+            </callout>
+            <callout arearefs="superclass">
+              <para>Super class</para>
+            </callout>
+            <callout arearefs="instance">
+              <para>Instance Variables</para>
+            </callout>
+            <callout arearefs="method1">
+              <para>declares method called <function>set</function> 
+                that takes two arguments</para>
+            </callout>
+            <callout arearefs="method2">
+            <para>declares a method called <function>step</function>.</para>
+            </callout>
+
+          </calloutlist>
+        </programlistingco>
+      </example>
+
+    </para>
 
   </sect2>
 
@@ -183,7 +257,41 @@
 
     <para>Code in body could look exactly the same in C and
       Objective-C.  The two languages are compared side-by-side in
-      figure (Benedikt "An example of C vs ObjC")</para>
+      figure     
+      <example id="swarm.user.user1.03.c-vs-objc.example">
+        <title>C vs Objective-C</title>
+
+        <programlisting>
+void rand_move(int i) {    
+
+ int tmp_loc;
+
+ do{
+ tmp_loc=get_rand_loc();
+ } while(val[tmp_loc]!=0);
+
+ val[location[i]]=0;
+ val[tmp_loc]=i;
+}
+</programlisting>
+
+    <programlisting>
+- rand_move: p 
+{
+  id loc;
+
+  do{
+   loc=[self getRandLoc];
+
+  } while([world at: loc]!=nil);
+
+ [p moveTo: loc];
+ return self;
+}
+</programlisting>
+
+      </example>
+    </para>
 
 </sect2>
 
