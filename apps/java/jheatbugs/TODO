@@ -1,1 +1,4 @@
-HeatbugBatchSwarm dies after timestep 169 in batch mode.
+* HeatbugBatchSwarm error:
+Get a SIGBUS error and core dump at timestep 250, just before calling:
+Globals.env.getCurrentSwarmActivity ().terminate () in the stopRunning
+method.
