@@ -1,3 +1,8 @@
+1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in ($(libjavaswarmstubs_la_OBJECTS)): Depend on 
+	defobj/{directory.h,defobj.h}.
+
 1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): Add
