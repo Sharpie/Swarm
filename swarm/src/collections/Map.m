@@ -28,6 +28,9 @@ Library:      collections
 
 #define GROUP_KEYS "keys"
 #define GROUP_VALUES "values"
+
+#define PTRINT long
+#define PTRUINT unsigned long
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
@@ -63,9 +66,9 @@ compareIntegers (id val1, id val2)
 int
 compareUnsignedIntegers (id val1, id val2)
 {
-  if ((unsigned) val1 < (unsigned) val2)
+  if ((PTRUINT) val1 < (PTRUINT) val2)
     return -1;
-  return ((unsigned) val1 > (unsigned) val2);
+  return ((PTRUINT) val1 > (PTRUINT) val2);
 }
 
 //
@@ -188,7 +191,7 @@ PHASE(Setting)
             {
               if ([keyExpr getValueType] != _C_INT)
                 raiseEvent (InvalidArgument, "ArchiverValue not integer");
-              key = (id) [keyExpr getInteger];
+              key = (id) (PTRINT) [keyExpr getInteger];
             }
           else if (stringp (keyExpr))
             {
@@ -292,7 +295,7 @@ PHASE(Setting)
           int process_object (id keyComponent)
             {
               const char *keyStr = [keyComponent getName];
-              int key;
+              PTRINT key;
               id value = hdf5In (aZone, keyComponent);
               
               sscanf (keyStr, fmt, &key);
@@ -669,14 +672,14 @@ PHASE(Using)
         {
           char buf[DSIZE (unsigned)];
           
-          sprintf (buf, "%u", (int) key);
+          sprintf (buf, "%u", (PTRINT) key);
           [outputCharStream catC: buf];
         }
       else if (compareFunc == compareIntegers)
         {
           char buf[DSIZE (unsigned)];
           
-          sprintf (buf, "%d", (int) key);
+          sprintf (buf, "%d", (PTRINT) key);
           [outputCharStream catC: buf];
         }
       else if (compareFunc == compareCStrings)
