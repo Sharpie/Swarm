@@ -14,6 +14,9 @@
 	restacking after unmapping all the overlapWindows (and undo when
 	finished with snapshot).  Undo Tk Visibility binding when done.
 	Copy keep_inside_screen and Tk_RestackWindow to win32 version.
+	Add Configure binding to set obscured, since Visibility 
+	doesn't seem to get send if a move occurs while already 
+	underneath a window being kept on top by the window manager.
 
 1998-09-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
