@@ -1036,25 +1036,21 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                         "}\n}\n}\n", widgetName, widgetName];
 
         attr.override_redirect = True;
-        if (!XChangeWindowAttributes (display, topWindow,
-                                      CWOverrideRedirect, &attr))
-          abort ();
+        XChangeWindowAttributes (display, topWindow,
+                                 CWOverrideRedirect, &attr);
         for (i = 0; i < overlapCount; i++)
-          if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                        CWOverrideRedirect,
-                                        &attr))
-            abort ();
+          XChangeWindowAttributes (display, overlapWindows[i],
+                                   CWOverrideRedirect,
+                                   &attr);
 
         if (!XGetWindowAttributes (display, topWindow, &top_attr))
           abort ();
         if (top_attr.map_state == IsUnmapped)
-          if (!XMapWindow (display, topWindow))
-            abort ();
+          XMapWindow (display, topWindow);
       retry:
         if (obscured)
           for (i = 0; i < overlapCount; i++)
-            if (!XUnmapWindow (display, overlapWindows[i]))
-              abort ();
+            XUnmapWindow (display, overlapWindows[i]);
         
         Tk_RestackWindow (tkwin, Above, NULL);
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
@@ -1070,21 +1066,17 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         x_pixmap_create_from_window (pixmap, window);
         
         if (top_attr.map_state == IsUnmapped)
-          if (!XUnmapWindow (display, topWindow))
-            abort ();
+          XUnmapWindow (display, topWindow);
         attr.override_redirect = False;
-        if (!XChangeWindowAttributes (display, topWindow,
-                                      CWOverrideRedirect, &attr))
-          abort ();
+        XChangeWindowAttributes (display, topWindow,
+                                 CWOverrideRedirect, &attr);
         for (i = 0; i < overlapCount; i++)
           {
             if (obscured)
-              if (!XMapWindow (display, overlapWindows[i]))
-                abort ();
-            if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                          CWOverrideRedirect,
-                                          &attr))
-              abort ();
+              XMapWindow (display, overlapWindows[i]);
+            XChangeWindowAttributes (display, overlapWindows[i],
+                                     CWOverrideRedirect,
+                                     &attr);
           }
         xfree (overlapWindows);
         [globalTkInterp eval: "bind %s <Visibility> {}\n", widgetName];
