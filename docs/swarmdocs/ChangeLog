@@ -1,3 +1,27 @@
+1998-05-29  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* protocol.el (named-object): Remove.
+	(macro, typedef, function, global): New structs.
+	(parse-state): New slots: global-type, global-name, function-list,
+	item-doc-list, macro-name,
+	(method-doc-list, typedef-sig): Remove.
+	(parse-function, test-parse-function, handle-function,
+	parse-global-using-parse-state, handle-method, parse-typedef,
+	test-parse-typedef, handle-typedef, parse-macro, handle-macro,
+	handle-global): New functions.
+	(make-global): Remove.
+	(immediate-global-tag-processed): Use parse-global-using-parse-state.
+	(update-global-name): Renamed from update-extern.
+	(check-global-doc, check-global-doc-post): Renamed from handle-*.
+	(check-common-tags): Deal with #define() and #define
+	independently.
+	(check-protocol-tags): Note //F:.
+	(handle-protocol-tag, handle-common-tag): New new handle-*
+	functions.
+	(sgml-refsect1-object-list): Renamed from
+	sgml-refsect1-named-object-list.  Take name and description list
+	accessor parameters.  Change callers.
+
 1998-05-28  Alex Lancaster  <alex@santafe.edu>
 
 	* swarmbook.dsl (html): overwrite (revision
