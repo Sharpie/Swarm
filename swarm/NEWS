@@ -1,6 +1,10 @@
 Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
 Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 
+* Release Notes for Swarm 2.1
+** Other changes
+*** Java arguments and return types consistently use generic interface typing.
+
 * Release Notes for Swarm 2.0
 ** New features
 *** Java layer
