@@ -1,5 +1,17 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* XActivity.h (Activity_c): Add registeredOwnerActivity.
+
+	* SwarmProcess.m ([ActionMerge_c -mapAllocations:]): Disable
+	map of subactivity.
+
+	* XActivity.m (stopFunction, nextFunction, installNext,
+	instalStep): Make argument Activity_c * instead of id, to avoid
+	lots of redundant casting.
+	([Activity_c -dropAllocations:]): Check for registeredOwnerActivity
+	(new ivar) instead ownerActivity.  ownerActivity may change.
+	([Activity_c -mapAllocations:]): Disable map of currentSubactivity.
+
 	* CompoundAction.m (registerSubactivity): Don't use destroy
 	notification to maintain activitySet.
 

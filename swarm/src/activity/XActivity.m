@@ -69,7 +69,9 @@ auditRunRequest (Activity_c *self, const char *request)
 - (id <Symbol>)run
 {
   auditRunRequest (self, "run");
+
   ownerActivity = _activity_current;
+
   _activity_current = self;
   [self _run_];
   _activity_current = ownerActivity;
@@ -79,7 +81,7 @@ auditRunRequest (Activity_c *self, const char *request)
   // _activity_current = self;
   // [self _run_];
   // _activity_current = [ownerActivity getOwnerActivity];
-
+  
   ownerActivity = nil;
   return status;
 }
@@ -239,27 +241,27 @@ terminateFunction (id activity)
 // stopFunction -- break function to stop a running leaf activity
 //
 static BOOL
-stopFunction (id activity)
+stopFunction (Activity_c *activity)
 {
   // cancel stop function in local activity and any owner activity that
   // just created local activity
   
-  ((Activity_c *) activity)->breakFunction = _activity_trace;
-  if (((Activity_c *) activity)->ownerActivity
-      && ((Activity_c *) activity)->ownerActivity->breakFunction == stopFunction)
-    ((Activity_c *) activity)->ownerActivity->breakFunction = _activity_trace;
+  activity->breakFunction = _activity_trace;
+  if (activity->ownerActivity
+      && (activity->ownerActivity->breakFunction == stopFunction))
+    activity->ownerActivity->breakFunction = _activity_trace;
   
   // return up stack of activities with status set to Stopped
   
-  if (!HOLDINGP (((Activity_c *) activity)->status))
+  if (!HOLDINGP (activity->status))
     {
-      ((Activity_c *) activity)->status = Stopped;
+      activity->status = Stopped;
       return YES;
     }
   else
     {
       // if Holding then defer stop to owner activity
-      ((Activity_c *) activity)->ownerActivity->breakFunction = stopFunction;
+      activity->ownerActivity->breakFunction = stopFunction;
       return NO;
     }
 }
@@ -283,28 +285,28 @@ stopFunction (id activity)
 // nextFunction -- break function to stop on return from 
 //
 static BOOL
-nextFunction (id activity)
+nextFunction (Activity_c *activity)
 {
   // cancel local next function
   
-  ((Activity_c *) activity)->breakFunction = _activity_trace;
+  activity->breakFunction = _activity_trace;
 
   // return if just created as new subactivity (leaving next function in owner)
 
-  if (((Activity_c *) activity)->ownerActivity
-      && ((Activity_c *) activity)->ownerActivity->breakFunction == nextFunction )
+  if (activity->ownerActivity
+      && activity->ownerActivity->breakFunction == nextFunction)
     return NO;
   
   // if Holding then defer stop to owner activity
   
-  if (HOLDINGP (((Activity_c *) activity)->status))
+  if (HOLDINGP (activity->status))
     {
-      ((Activity_c *) activity)->ownerActivity->breakFunction = stopFunction;
+      activity->ownerActivity->breakFunction = stopFunction;
       return NO;
     }
   // return up stack of activities with status set to Stopped
   
-  ((Activity_c *) activity)->status = Stopped;
+  activity->status = Stopped;
   return YES;
 }
 
@@ -312,12 +314,12 @@ nextFunction (id activity)
 // installNext() -- break function to stop activity after next action
 //
 static BOOL
-installNext (id activity)
+installNext (Activity_c *activity)
 {
-  if (!COMPLETEDP (((Activity_c *) activity)->status))
-    ((Activity_c *) activity)->breakFunction = nextFunction;
-  else if (((Activity_c *) activity)->ownerActivity)
-    ((Activity_c *) activity)->ownerActivity->breakFunction = nextFunction;
+  if (!COMPLETEDP (activity->status))
+    activity->breakFunction = nextFunction;
+  else if (activity->ownerActivity)
+    activity->ownerActivity->breakFunction = nextFunction;
   
   if (_activity_trace)
     _activity_trace (activity);
@@ -352,17 +354,17 @@ installNext (id activity)
 // installStep() -- break function to stop activity after next subaction
 //
 static BOOL
-installStep (id activity)
+installStep (Activity_c *activity)
 {
   // stop in local activity, or new subactivity, if not completed
   
-  if (!COMPLETEDP (((Activity_c *) activity)->status))
-    ((Activity_c *) activity)->breakFunction = stopFunction;
+  if (!COMPLETEDP (activity->status))
+    activity->breakFunction = stopFunction;
   
   // else stop at next event of owner activity
 
-  else if (((Activity_c *) activity)->ownerActivity)
-    ((Activity_c *) activity)->ownerActivity->breakFunction = stopFunction;
+  else if (activity->ownerActivity)
+    activity->ownerActivity->breakFunction = stopFunction;
   
   if (_activity_trace)
     _activity_trace (activity);
@@ -374,7 +376,7 @@ installStep (id activity)
 //
 - (id <Symbol>)step
 {
-  Activity_c  *subactivity;
+  Activity_c *subactivity;
 
   auditRunRequest (self, "step");
 
@@ -526,7 +528,7 @@ installStep (id activity)
   for (activity = self;
        getClass (activity) != id_ScheduleActivity_c
          && getClass (activity) != id_SwarmActivity_c;
-       activity = activity->ownerActivity )
+       activity = activity->ownerActivity)
     if (activity->topLevelAction)
       return nil;
   
@@ -593,8 +595,8 @@ installStep (id activity)
 
 - (void)dropAllocations: (BOOL)components
 {
-  if (ownerActivity)
-    [ownerActivity->activitySet remove: self];
+  if (registeredOwnerActivity)
+    [registeredOwnerActivity->activitySet remove: self];
   if (activitySet)
     {
       Activity_c *activity;
@@ -609,7 +611,7 @@ installStep (id activity)
             {
               [index remove];
               [index prev];
-              [activity dropAllocations: YES];
+              [activity dropAllocations: components];
             }
           [index drop];
         }
@@ -625,8 +627,10 @@ installStep (id activity)
 {
   if (topLevelAction)
     mapObject (mapalloc, topLevelAction);
+#if 0
   if (currentSubactivity)
     mapObject (mapalloc, currentSubactivity);
+#endif
   mapObject (mapalloc, currentIndex);
 }
 

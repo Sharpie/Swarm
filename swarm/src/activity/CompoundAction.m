@@ -172,6 +172,7 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
       [_activity_activitySetRefsType create: getCZone (zone)];
   [owner->activitySet add: newActivity];
   newActivity->ownerActivity  = owner;
+  newActivity->registeredOwnerActivity = owner;
 }
 
 //

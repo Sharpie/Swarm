@@ -384,12 +384,14 @@ PHASE(Using)
 //
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
+#if 0
   //
   // mergeAction = nil -- special hack to break circular mapping for the
   // specific case of drop until a more general approach is resolved
   //
   subactivity->mergeAction = nil;
   mapObject (mapalloc, subactivity);
+#endif
 }
 
 - (void)describe: outputCharStream
