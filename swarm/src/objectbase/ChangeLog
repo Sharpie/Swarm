@@ -1,3 +1,9 @@
+2001-03-12  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ActivityControl.[hm], objectbase.h: Switch from next/step to
+	nextAction/stepAction.  Allows other uses of these names with
+	void return type.
+
 2001-02-23  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Probe.h (CONVERT): Add case for fcall_type_jselector.

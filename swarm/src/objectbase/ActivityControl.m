@@ -5,7 +5,7 @@
 
 // Activity Controller class, for use on any activity in any
 // Swarm. Controls the state of running activities, provides the
-// "stop," "next," "step," "stepUntil," and "run," functions for any
+// "stop," "nextAction," "stepAction," "stepUntil," and "run," functions for any
 // swarm.
 
 #import <objectbase/ActivityControl.h>
@@ -47,9 +47,9 @@ PHASE(Using)
 }
 
 //
-// next -- Causes the activity to execute an entire cycle of the activity's
-//         schedule
-- (id <Symbol>)next
+// nextAction -- Causes the activity to execute an entire cycle of the 
+//               activity's schedule
+- (id <Symbol>)nextAction
 {
   [self updateStateVar];
   // next returns what "run" returns, i.e. status
@@ -57,14 +57,14 @@ PHASE(Using)
       (status != Completed) &&
       (status != Holding) &&
       (status != Running))
-    status = [activity next];
+    status = [activity nextAction];
   return status;
 }
 
 //
-//  step -- Causes the activity to execute the next action on the 
-//          schedule
-- (id <Symbol>)step
+//  stepAction -- Causes the activity to execute the next action on the 
+//                schedule
+- (id <Symbol>)stepAction
 {
   [self updateStateVar];
   // step returns what run returns, i.e. status
@@ -72,7 +72,7 @@ PHASE(Using)
       (status != Completed) &&
       (status != Holding) &&
       (status != Running))
-    status = [activity step];
+    status = [activity stepAction];
   return status;
 }
 

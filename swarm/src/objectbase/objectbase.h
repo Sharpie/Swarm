@@ -616,11 +616,11 @@ USING
 //M: the tree of activities and returns Stopped. In most cases, this means
 //M: that an entire action or action group on the activity under control 
 //M: will be executed, including completion of all subactivities. 
-- (id <Symbol>)next;
+- (id <Symbol>)nextAction;
 
 //M: The step method sends a step message to the activity if the conditions
 //M: are appropriate. It causes the execution of a single action. 
-- (id <Symbol>)step;
+- (id <Symbol>)stepAction;
 
 //M: The stepUntil: method sends a stepUntil: message to the activity if 
 //M: conditions are appropriate. This causes all actions on the activity's 

@@ -27,8 +27,8 @@
 // functional methods
 - (id <Symbol>)run;
 - (id <Symbol>)stop;
-- (id <Symbol>)next;
-- (id <Symbol>)step;
+- (id <Symbol>)nextAction;
+- (id <Symbol>)stepAction;
 - (id <Symbol>)stepUntil: (timeval_t) stopTime;
 - (void)terminate;
 
