@@ -1,5 +1,7 @@
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* XDrawer.h: Reformatting throughout.
+
 	* ClassDisplayHideButton.[hm], CompleteProbeDisplayLabel.[hm],
 	MessageProbeEntry.[hm], ProbeCanvas.[hm],
 	SimpleProbeDisplayHideButton.[hm],

@@ -35,7 +35,7 @@
 - setColormap: (id <Colormap>)colormap;
 - drawPointX: (int)x Y: (int)y Color: (GUI_Color)c;
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (GUI_Color)c;
-- draw: (XDrawer *)xd X: (int)x Y: (int)y;
+- draw: (id <XDrawer>)xd X: (int)x Y: (int)y;
 - drawSelf;
 - erase;
 - handleButton: (int)n X: (int)x Y: (int)y;
