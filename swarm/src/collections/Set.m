@@ -86,10 +86,9 @@ PHASE(Using)
   index = [(id) list begin: scratchZone];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (member == aKey)
-      return member;
+      break;
   [index drop];
-
-  return nil;
+  return member;
 }
 
 - (BOOL)at: aKey memberSlot: (id **)memptr
@@ -106,10 +105,12 @@ PHASE(Using)
   index = [(id) list begin: scratchZone];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (member == aKey)
-      return [index remove];
+      {
+        member = [index remove];
+        break;
+      }
   [index drop];
-
-  return nil;
+  return member;
 }
 
 - removeKey: aKey

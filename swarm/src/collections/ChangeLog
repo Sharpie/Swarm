@@ -1,3 +1,10 @@
+1999-09-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Set.m ([Set_c -at:], [Set_c -remove:]): Likewise.
+
+	* OrderedSet.m ([OrderedSet_c -contains:]): Rewrite to avoid
+	index leak.
+
 1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Map.m: Don't include misc.h.

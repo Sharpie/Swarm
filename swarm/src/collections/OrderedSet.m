@@ -33,15 +33,20 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (BOOL) contains: anObject
+- (BOOL)contains: anObject
 {
   id index, member;
+  BOOL ret = NO;
 
   index = [self begin: scratchZone];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (member == anObject)
-      return YES;
-  return NO;
+      {
+        ret = YES;
+        break;
+      }
+  [index drop];
+  return ret;
 }
 
 - (BOOL)add: anObject
