@@ -59,7 +59,7 @@ AC_DEFUN(md_FIND_TCL_HEADERS,dnl
 
 INCPLACES=" \
         $defaultdir/include $defaultdir/include/tcl $defaultdir/include/tk \
-        \${CYGFS}include /Cygnus/B19/include \
+        \${CYGFS}include /Cygnus/cygwin-b20/include /Cygnus/B19/include \
         /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
         /usr/include /usr/include/tcl /usr/include/tk \
         $x_includes $x_includes/tcl $x_includes/tk \

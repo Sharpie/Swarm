@@ -1,3 +1,7 @@
+1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* actcltk.m4 (INCPLACES): Add /Cygnus/cygwin-b20/include.
+
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* acobjclibs.m4 (CC): Set to "$OBJC -x objective-c" for duration
