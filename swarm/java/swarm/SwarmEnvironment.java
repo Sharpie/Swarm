@@ -15,9 +15,9 @@ public class SwarmEnvironment {
     System.out.println ("Lib loaded!\n");
   }
   public native void initSwarm (String args[]);
-  public ZoneUImpl globalZone;
-  public UniformIntegerDistUImpl uniformIntRand;
-  public UniformDoubleDistUImpl uniformDblRand;
+  public ZoneImpl globalZone;
+  public UniformIntegerDistImpl uniformIntRand;
+  public UniformDoubleDistImpl uniformDblRand;
   public SwarmEnvironment (String args[]) {
     initSwarm (args);
 

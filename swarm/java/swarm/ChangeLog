@@ -1,6 +1,16 @@
+1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.java: Accomodate U -> C suffix change.
+
+	* Makefile.in (CLASSPHASES, module-class-files,
+	module-interface-files): Make using phase the unqualified one.
+	(PRECLASSES): Add PhaseCImpl.
+
+	* Makefile.rules (CLASSPHASES, INTERFACES, _CLASSES): Likewise.
+
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* SwarmEnvironment.java (globalZone): Pass null to as zone.
+	* SwarmEnvironment.java (globalZone): Pass null as zone.
 	(uniformIntRand, uniformDblRand): Pass globalZone as zone.
 
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

@@ -14,12 +14,12 @@ JAVADEPS = $(top_dossrcdir)@PATHDELIM@java
 # (WebObjects sh.exe has been known to interfere with running its java.exe)
 SHELL = /bin/sh
 
-CLASSPHASES := __c U
+CLASSPHASES := C __u
 PHASES := $(CLASSPHASES) S
 
-INTERFACES := $(subst __c,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))
+INTERFACES := $(subst __u,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))
 
-_CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx)Impl,$($(module)PROTOCOLS))))
+_CLASSES := $(subst __u,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx)Impl,$($(module)PROTOCOLS))))
 
 JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 

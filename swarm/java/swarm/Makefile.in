@@ -13,18 +13,18 @@ JAVACOMPILE = $(JAVAC) -classpath '..@PATHSEP@$(JAVACLASSES)'
 
 include ../Makefile.common
 
-CLASSPHASES := __c U
+CLASSPHASES := C __u
 INTERFACEPHASES := $(CLASSPHASES) S
 
-PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector
+PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector PhaseCImpl
 POSTCLASSES = SwarmEnvironment
 
 define module-class-files
-$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx)Impl,$($(module)PROTOCOLS)))))
+$(addprefix $(module)/,$(subst __u,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx)Impl,$($(module)PROTOCOLS)))))
 endef
 
 define module-interface-files
-$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))
+$(addprefix $(module)/,$(subst __u,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))
 endef
 
 GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-class-files)))
