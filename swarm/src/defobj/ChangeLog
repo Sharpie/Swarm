@@ -1,3 +1,8 @@
+1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Symbol.m: Remove common globals _obj_globalZone, _obj_scratchZone,
+	_obj_initZone, _obj_sessionZone.
+
 1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (alignment_for_objc_type): Handle long long.
