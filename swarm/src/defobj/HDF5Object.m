@@ -251,7 +251,7 @@ objc_type_for_tid (hid_t tid)
         else if (tid_size == sizeof (long))
           {
             if (tid_sign == H5T_SGN_2)
-            type = @encode (long);
+              type = @encode (long);
             else
               type = @encode (unsigned long);
           }
@@ -723,14 +723,15 @@ PHASE(Using)
       else
         {
           if (!compare_objc_types (ivar->ivar_type, type))
-            raiseEvent (LoadError, "differing source and target types");
+            raiseEvent (LoadError, "ivar `%s' in `%s': `%s' != mtid: `%s'", 
+                        ivar->ivar_name, [obj name],
+                        ivar->ivar_type, type);
           memcpy ((void *) obj + ivar->ivar_offset,
                   buf + hoffset,
                   size_for_objc_type (type));
         }
       inum++;
     }
-  
   map_ivars (getClass (obj), process_ivar);
   return self;
 }
