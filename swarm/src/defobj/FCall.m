@@ -9,7 +9,7 @@ Description:  foreign function call
 Library:      defobj
 */
 
-#import "FCall.h"
+#import <defobj/FCall.h>
 #import <defobj.h>
 #import <defobj/FArguments.h>
 #import <objc/objc-api.h>
