@@ -54,6 +54,7 @@ void COMcollect (COMclass cClass,
                  COM_collect_method_func_t methodFunc);
 
 JSContext *currentJSContext ();
+BOOL isJavaScript (COMobject cObj);
 void *JScreateParams (unsigned size);
 void JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void JSsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);

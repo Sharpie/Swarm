@@ -594,7 +594,7 @@ methodParamFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 paramIndex)
 {
   const nsXPTParamInfo& param = methodInfo->GetParam (paramIndex);
   const nsXPTType& type = param.GetType ();
-  fcall_type_t ret;
+  fcall_type_t ret = fcall_type_void;
 
   switch (type.TagPart ())
     {
@@ -782,7 +782,7 @@ void
 COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
   nsXPTCVariant *param = &((nsXPTCVariant *) params)[pos];
-
+  
   switch (type)
     {
     case fcall_type_void:
@@ -853,6 +853,7 @@ COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
       param->type = nsXPTType::T_IID;
       param->val.p = value->iid;
       break;
+    case fcall_type_class:
     case fcall_type_selector:
     case fcall_type_jobject:
     case fcall_type_jstring:
@@ -918,6 +919,14 @@ currentJSObject ()
   return jsObj;
 }
 
+BOOL
+isJavaScript (COMobject cObj)
+{
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
+  
+  return jsObj != NULL;
+}
 
 void *
 JScreateParams (unsigned size)
