@@ -1,5 +1,8 @@
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* SimpleProbeDisplayHideButton.m, ClassDisplayHideButton.m, tkobjc.m:
+	Include tkobjc/common.h instead of tkobjc/control.h.
+
 	* XDrawer.h: Reformatting throughout.
 
 	* ClassDisplayHideButton.[hm], CompleteProbeDisplayLabel.[hm],

@@ -10,7 +10,7 @@
 
 #include <tclObjc.h>
 #include <tkobjc/global.h>
-#include <tkobjc/control.h>
+#include <tkobjc/common.h>
 
 @implementation ClassDisplayHideButton
 

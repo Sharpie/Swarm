@@ -5,7 +5,6 @@
 
 #import <defobj.h>
 #import <tkobjc/TkExtra.h>
-#import <tkobjc/control.h>
 
 #import "simtools_tcl.x"
 #import "analysis_tcl.x"

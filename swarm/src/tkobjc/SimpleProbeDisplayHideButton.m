@@ -5,7 +5,7 @@
 
 #import <tkobjc/SimpleProbeDisplayHideButton.h>
 
-#import <tkobjc/control.h>
+#import <tkobjc/common.h>
 #import <tkobjc/global.h>
 
 @implementation SimpleProbeDisplayHideButton
