@@ -1,3 +1,15 @@
+2000-05-05  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (*extra-removed-methods*,
+	*extra-unwanted-create-method-signatures*): New variables.
+	(*create-method-p, match-signature, unwanted-create-method-p,
+	match-create-signature, convenience-create-method-p,
+	expanded-method-list, collect-convenience-create-methods,
+	collect-convenience-constructor-name.arguments): Moved to
+	interface.el.
+	(java-print-class-constructor-method): Removed unused
+	internal capitalization routine.
+
 2000-05-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java-stub.el (java-print-native-method): Accomodate rename of

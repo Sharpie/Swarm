@@ -77,6 +77,10 @@
       ("ProbeMap \\*" . freaky) 
       ))
 
+(defvar *extra-removed-methods* nil)
+
+(defvar *extra-unwanted-create-method-signatures* nil)
+
 (defun method-in-protocol-p (protocol method)
   (loop for sig in (protocol-method-list protocol)
         if (eq method sig) return 't
@@ -190,57 +194,6 @@
           (insert ", ")
           (java-print-argument module argument))
     (insert ");\n")))
-  
-(defun create-method-p (method)
-  (let* ((signature (get-method-signature method))
-         (len (length signature))
-         (min-len (min len 7)))
-    (string= (substring signature 0 min-len) "+create")))
-
-(defun match-signature (signature match-signature)
-  (let* ((len (length signature))
-         (sig-len (length match-signature)))
-    (when (>= len sig-len)
-      (string= (substring signature 0 sig-len) match-signature))))
-
-(defun unwanted-create-method-p (protocol method)
-  (let ((signature (get-method-signature method)))
-    (or
-     (and (string= signature "+create:")
-          (find (protocol-name protocol)
-                '("UniformUnsignedDist"
-                  "PMMLCG1gen"
-                  "C2TAUS3gen"
-                  "RandomBitDist"
-                  "ExponentialDist"
-                  "MT19937gen"
-                  "UniformDoubleDist"
-                  "NormalDist"
-                  "C2TAUS1gen"
-                  "GammaDist"
-                  "UniformIntegerDist"
-                  "PSWBgen"
-                  "LogNormalDist"
-                  "BernoulliDist"
-                  "C2TAUS2gen")
-                :test #'string=))
-     (string= signature "+create:setGenerator:setMean:setVariance:")
-     (string= signature "+create:setGenerator:setVirtualGenerator:setMean:setVariance:")
-     (string= signature "+createParent:"))))
-  
-(defun match-create-signature (signature)
-  (or (match-signature signature "+createParent:") ; gui
-      (match-signature signature "+createWithDefaults:"); random
-      (match-signature signature "+create:")))
-
-(defun convenience-create-method-p (protocol method)
-  (unless (unwanted-create-method-p protocol method)
-    (match-create-signature (get-method-signature method))))
-  
-(defun expanded-method-list (protocol phase)
-  (remove-if-not #'(lambda (method) (included-method-p protocol method phase))
-                 (mapcar #'methodinfo-method
-                         (protocol-expanded-methodinfo-list protocol))))
 
 (defun java-print-class-methods-in-phase (protocol phase)
   (loop for method in (expanded-method-list protocol phase) 
@@ -308,27 +261,6 @@
         (insert " ")
         (java-print-implemented-interfaces-list protocol phase))))
 
-
-(defun collect-convenience-create-methods (protocol)
-  (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
-        for method = (methodinfo-method methodinfo)
-        when (and (not (removed-method-p method))
-                  (convenience-create-method-p protocol method))
-        collect method))
-
-(defun collect-convenience-constructor-name.arguments (method)
-    (flet ((strip (key) 
-             (if (> (length key) 3)
-                 (if (string-match (substring key 0 3) "set")
-                     (substring key 3)
-                     key)
-                 key))
-           (fix (key) (concat (downcase (substring key 0 1))
-                              (substring key 1))))
-      (loop for argument in (cdr (method-arguments method))
-            collect (cons (fix (strip (car argument)))
-                          argument))))
-
 (defun java-print-class-constructor-method (protocol method)
   (let* ((name.arguments
           (collect-convenience-constructor-name.arguments method))
@@ -358,12 +290,10 @@
     (insert "new ")
     (insert creating-class-name)
     (insert " (this).create")
-    (flet ((fix (key) (concat (upcase (substring key 0 1))
-                              (substring key 1))))
-      (loop for name.argument in name.arguments
-            do
-            (insert "$")
-            (insert (car (cdr name.argument)))))
+    (loop for name.argument in name.arguments
+          do
+          (insert "$")
+          (insert (car (cdr name.argument))))
     (insert " (")
     (insert "aZone")
     (loop for name.argument in name.arguments
