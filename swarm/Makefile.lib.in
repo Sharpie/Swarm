@@ -1,0 +1,54 @@
+prefix = @prefix@
+includedir = @includedir@
+exec_prefix = @exec_prefix@
+libdir = @libdir@
+
+LIBRARY = $(libdir)/lib$(LIBNAME).a
+INCFILE = $(includedir)/$(LIBNAME).h
+INCLIB = $(includedir)/$(LIBNAME)
+
+RANLIB = @RANLIB@
+CC = @CC@
+CFLAGS = @CFLAGS@
+INCLUDES = -I$(includedir)
+
+.PHONY: install-headers install-lib
+
+all: install-headers install-lib
+install: install-headers install-lib
+install-headers: $(INCINSTALLED) $(INCFILE)
+install-lib: $(LIBRARY)
+
+realclean: clean
+	-rm -f $(LIBRARY) $(INCDIR)/$(LIBNAME).h
+	-rm -rf $(INCLIB)
+
+clean:
+	-rm -f core $(OBJECTS) $(OTHERCLEAN)
+
+$(INCFILE): $(LIBNAME).h
+	rm -f $(INCFILE)
+	cp -p $(LIBNAME).h $(INCFILE)
+
+# INCINSTALLED is a rule that touches a magic file to make sure that
+# installed headers are up to date. Unsubtle (if one .h file is changed,
+# it installs them all) but it seems to work.
+$(INCINSTALLED): $(HEADERS)
+	if [ ! -d $(INCLIB) ]; then mkdir $(INCLIB); fi
+	cd $(INCLIB); rm -f $(HEADERS)
+	if test -n "$(HEADERS)" ; then cp -p $(HEADERS) $(INCLIB) ; fi
+	touch $(INCINSTALLED)
+
+$(LIBRARY): $(OBJECTS)
+	-rm -f $@
+	ar q $@ $(OBJECTS)
+	$(RANLIB) $(LIBRARY)  
+
+.SUFFIXES: .m .xm
+
+.m.o:
+	$(CC) -c -Wno-import $(CFLAGS) $(INCLUDES) $<   
+
+# Local variables:
+# mode: makefile
+# end:

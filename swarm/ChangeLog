@@ -1,5 +1,7 @@
 1998-06-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.appl.in, Makefile.lib.in: New files.
+
 	* configure.in: Check for Makefile.appl.in instead of Makefile.rules.
 	Test value of ac_R_space and ac_R_nospace to determine what to
 	use for rpath option.  Add defaultdir, tclobjclibname, and bltlibname
