@@ -284,9 +284,10 @@ dynamicCallOn (const char *probedType,
   if (javaFlag)
     {
       if (retVal->type == _C_CHARPTR)
-        retVal->val.string = java_copy_string (jniEnv, retVal->val.object);
+        retVal->val.string = java_copy_string (jniEnv, 
+                                               (jstring) retVal->val.object);
       else if (retVal->type == _C_ID)
-        retVal->val.object = JFINDOBJC (jniEnv, retVal->val.object);
+        retVal->val.object = JFINDOBJC (jniEnv, (jobject) retVal->val.object);
     }
 #endif
   [fc drop];

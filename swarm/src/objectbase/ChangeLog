@@ -2,6 +2,8 @@
 
 	* MessageProbe.m: Remove support for avcall; use FArguments/FCall
 	support.
+	(dynamicCallOn): Cast retVal.val.object to jstring, jobject for
+	use with java_copy_string, JFINDOBJC, respectively.
 
 1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
