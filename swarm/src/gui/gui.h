@@ -555,7 +555,7 @@ CREATING
 //M: Indicates whether the entry is editable or not.
 - setInteractiveFlag: (BOOL)interactiveFlag;
 
-//M: Indicate the widget that is using this widget.
+//M: Indicate the object that is using this widget.
 - setOwner: owner;
 
 //M: Set the type of object edited by this entry.
