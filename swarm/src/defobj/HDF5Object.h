@@ -16,9 +16,9 @@
 
 @interface HDF5CompoundType_c: CreateDrop_s
 {
-#ifdef HAVE_HDF5
   Class class;
 @public
+#ifdef HAVE_HDF5
   hid_t tid;
 #endif
 }

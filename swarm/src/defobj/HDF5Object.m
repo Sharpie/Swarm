@@ -144,15 +144,23 @@ PHASE(Creating)
 
 - setRecordType: theCompoundType count: (unsigned)theRecordCount
 {
+#ifdef HAVE_HDF5
   c_type = theCompoundType;
   c_count = theRecordCount;
   c_rnlen = 1 + (unsigned) log10 ((double) c_count);
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 - setRowNameLength: (size_t)rnlen
 {
+#ifdef HAVE_HDF5
   c_rnlen = rnlen;
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
