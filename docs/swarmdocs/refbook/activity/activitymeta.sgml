@@ -1,4 +1,4 @@
-<DOCINFO>
+<referenceinfo>
 
   <TITLE>Activity Library</TITLE>
 
@@ -55,10 +55,10 @@
 
   &activityrevhistory.sgml;
   
-</DOCINFO>
+</referenceinfo>
 
 <!--
 Local Variables:
-sgml-parent-document:("activitycont.sgml" "DOCINFO")
+sgml-parent-document:("activitycont.sgml" "REFERENCEINFO")
 End:
 -->
