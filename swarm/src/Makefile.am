@@ -45,7 +45,7 @@ OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
 swarm.dll: swarm.dll.c $(OBJS)
 	$(CC) -g -c $(srcdir)/swarm.dll.c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) $(SUPPORTLDFLAGS) -L../libobjc -lobjcdll $(SYSLIBS)
+	$(DLLWRAP) --export-all-symbols --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) $(SUPPORTLDFLAGS) -L../libobjc -lobjcdll $(SYSLIBS)
 	#$(CC) -nostdlib -Wl,-shared -Wl,--export-all-symbols -Wl,--out-implib,libswarmdll.a -Wl,--output-def,swarm.def -o swarm.dll swarm.dll.o $(OBJS) $(SUPPORTLDFLAGS) -L../libobjc -lobjcdll $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
 
 install-data-local: 
