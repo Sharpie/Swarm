@@ -8,7 +8,7 @@ else
   PATHSEP=:
   PATHDELIM=/
   PATHEXPR='$<'
-  top_dossrcdir=$srcdir
+  top_dossrcdir='$(top_srcdir)'
 fi
 AC_SUBST(top_dossrcdir)
 AC_SUBST(PATHSEP)
