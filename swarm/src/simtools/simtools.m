@@ -24,13 +24,16 @@ BOOL swarmGUIMode;
 static void
 init (int argc, const char **argv, 
       const char *version, const char *bugAddress,
-      Class argumentsClass)
+      Class argumentsClass,
+      struct argp_option *options,
+      int (*optionFunc) (int key, const char *arg))
 {
   initModule (activity);
 
-  initDefobj (argc, argv, version, bugAddress,
-              options, optionFunc,
-              argumentsClass);
+  initDefobj (argc, argv,
+              version, bugAddress,
+              argumentsClass,
+              options, optionFunc);
 
   initProbing ();
 
@@ -51,14 +54,14 @@ init (int argc, const char **argv,
 void
 initSwarm (int argc, const char **argv)
 {
-  init (argc, argv, NULL, NULL, NULL, NULL, [Arguments class]);
+  init (argc, argv, NULL, NULL, [Arguments class], NULL, NULL);
 }
 
 void
 initSwarmApp (int argc, const char **argv,
               const char *version, const char *bugAddress)
 {
-  init (argc, argv, version, bugAddress, NULL, NULL, [Arguments class]);
+  init (argc, argv, version, bugAddress, [Arguments class], NULL, NULL);
 }
 
 void
@@ -69,15 +72,15 @@ initSwarmAppOptions (int argc, const char **argv,
 {
   init (argc, argv,
         version, bugAddress,
-        options, optionFunc,
-        [Arguments class]);
+        [Arguments class],
+        options, optionFunc);
 }
 
 
 void
 initSwarmArguments (int argc, const char **argv, Class argumentsClass)
 {
-  init (argc, argv, NULL, NULL, NULL, NULL, argumentsClass);
+  init (argc, argv, NULL, NULL, argumentsClass, NULL, NULL);
 }
 
 void
@@ -85,6 +88,5 @@ initSwarmAppArguments (int argc, const char **argv,
                        const char *version, const char *bugAddress,
                        Class argumentsClass)
 {
-  init (argc, argv, version, bugAddress, NULL, NULL, argumentsClass);
+  init (argc, argv, version, bugAddress, argumentsClass, NULL, NULL);
 }
-
