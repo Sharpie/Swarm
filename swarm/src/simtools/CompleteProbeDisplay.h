@@ -15,6 +15,7 @@
   id the_canvas ;
   Frame *topFrame ;
   id widgets, topLevel;
+  ref_t objectRef;
 }
 
 -setProbedObject: anObject;

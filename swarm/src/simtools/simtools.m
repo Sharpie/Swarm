@@ -15,7 +15,6 @@
 #import <activity.h>
 #import <tkobjc.h>
 
-
 id <PMMLCG1> randomGenerator;
 id <UniformInteger> uniformIntRand;
 id <UniformUnsigned> uniformUnsRand;
@@ -120,3 +119,5 @@ initSwarm(int argc, char ** argv) {
   defsymbol(ControlStateQuit);
   defsymbol(ControlStateNextTime);
 }
+
+

@@ -13,6 +13,7 @@
 
 -createEnd;
 -createProbeDisplayFor: (id) anObject;
+-createDefaultProbeDisplayFor: (id) anObject;
 -createCompleteProbeDisplayFor: (id) anObject;
 -addProbeDisplay: pd;
 -dropProbeDisplaysFor: anObject ;

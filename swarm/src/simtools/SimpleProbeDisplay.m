@@ -224,6 +224,7 @@
       [the_canvas getWidgetName]] ;
 
   [probeDisplayManager addProbeDisplay: self];
+
   return self;
 }
 

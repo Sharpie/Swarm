@@ -17,17 +17,20 @@
 	return self ;
 }
 
+-(BOOL) isProbeMapDefinedFor: (Class) aClass {
+  return [classMap at: aClass] ;
+}
+
 -getProbeMapFor: (Class) aClass {
 
   id ret_val ;
 
   if( (ret_val = [classMap at: aClass]) == nil){
     [ classMap at: aClass insert: [[[ProbeMap createBegin: [self getZone]]
-      setProbedClass: aClass] createEnd] ] ;
+				     setProbedClass: aClass] createEnd] ] ;
   } else {
     return ret_val ;
   }
-
   return [classMap at: aClass] ;
 }
 

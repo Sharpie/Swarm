@@ -5,12 +5,12 @@
 
 // place holder for a map of probes. This will be replaced with the
 // generic Map class. Given a class, build an array of probe objects that
-// work on that class (one per variable).
+// work on that class (one per variable).  This one only contains IVars.
 
-#import <swarmobject/CustomProbeMap.h>
+#import <swarmobject/ProbeMap.h>
 
-@interface EmptyProbeMap : CustomProbeMap {
+@interface DefaultProbeMap : ProbeMap {
 }
+
 -createEnd;
 @end
-

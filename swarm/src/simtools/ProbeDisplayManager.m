@@ -55,6 +55,7 @@
   return self ;
 }
 
+// just for removing the probe display from the probelist
 -removeProbeDisplay: pd {
   [probeList remove: pd];
   return self;
@@ -66,13 +67,38 @@
 }
 
 -createProbeDisplayFor: (id) anObject {
-  if ([anObject respondsTo: @selector(getProbeMap)])
+  //  if ([anObject respondsTo: @selector(getProbeMap)]) {
+  if ( ([anObject respondsTo: @selector(getProbeMap)]) &&
+       ([probeLibrary isProbeMapDefinedFor: [anObject class]]) ) {
     return [[[[ProbeDisplay createBegin: [self getZone]]
 	       setProbedObject: anObject]
 	      setProbeMap: [anObject getProbeMap]]
 	     createEnd];
+  }
   else
-    return [self createCompleteProbeDisplayFor: (id) anObject];
+    return [self createDefaultProbeDisplayFor: (id) anObject];
+}
+
+#import <swarmobject/DefaultProbeMap.h>
+-createDefaultProbeDisplayFor: (id) anObject {
+  id tempPD;
+  id tempPM;
+  
+  tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
+  [tempPM setProbedClass: [anObject class]];
+  tempPM = [tempPM createEnd];
+
+  [probeLibrary setProbeMap: tempPM For: [anObject class]];
+
+  tempPD = [ProbeDisplay createBegin: [self getZone]];
+  [tempPD setProbedObject: anObject];
+  [tempPD setProbeMap: tempPM];
+  tempPD = [tempPD createEnd];
+  
+  return tempPD;
+  //  return [[[ProbeDisplay createBegin: [self getZone]]
+  //	    setProbedObject: anObject]
+  //	   createEnd];
 }
 
 -createCompleteProbeDisplayFor: (id) anObject {

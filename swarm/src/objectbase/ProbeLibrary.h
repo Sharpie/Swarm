@@ -12,6 +12,7 @@
 
 -createEnd ;
 
+-(BOOL) isProbeMapDefinedFor: (Class) aClass;
 -getProbeMapFor: (Class) aClass ;
 -getCompleteProbeMapFor: (Class) aClass ;
 -getCompleteVarMapFor: (Class) aClass ;

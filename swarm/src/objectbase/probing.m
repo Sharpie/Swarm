@@ -5,7 +5,8 @@
 
 #import <collections.h>
 #import <swarmobject/probing.h>
-#import "probing.sym"
+
+#import "local.h"
 
 id probeLibrary;
 
@@ -20,4 +21,11 @@ void initProbing() {
   defsymbol( IntString );  
 
   probeLibrary = [ProbeLibrary create: globalZone];
+}
+
+int p_compare(id a, id b){
+  if(!([a compare: b]))
+    return 0 ;
+  else
+    return -1 ;
 }

@@ -3,25 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
 
 #import <swarmobject/CompleteVarMap.h>
 #import <collections.h>
 #import <objc/objc-api.h>
 
-// SAFEPROBES enables lots of error checking here.
-#define SAFEPROBES 1
-
-//Used in order to ensure that probemaps do not reorder their contents 
-//alphabetically...
-
-static int p_compare(id a, id b){
-  if(!([a compare: b]))
-    return 0 ;
-  else
-    return -1 ;
-}
+#import "local.h"
 
 @implementation CompleteVarMap
 

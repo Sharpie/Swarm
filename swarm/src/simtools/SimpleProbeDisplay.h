@@ -17,6 +17,7 @@
   Label *myTitle ;
   int numberOfProbes;
   id *widgets;
+  ref_t objectRef;
 }
 
 -setProbedObject: anObject;

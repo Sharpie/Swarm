@@ -7,10 +7,11 @@
 // generic Map class. Given a class, build an array of probe objects that
 // work on that class (one per variable).
 
-#import <swarmobject/CustomProbeMap.h>
+#import <swarmobject/ProbeMap.h>
 
-@interface EmptyProbeMap : CustomProbeMap {
+@interface CustomProbeMap : ProbeMap {
 }
++create: aZone forClass: (Class) aClass withIdentifiers: (char *) vars, ...;
 -createEnd;
 @end
 

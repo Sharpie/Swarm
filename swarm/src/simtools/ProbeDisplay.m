@@ -6,6 +6,7 @@
 #import <simtools/ProbeDisplay.h>
 #import <simtools/SimpleProbeDisplay.h>
 #import <simtools/CompleteProbeDisplay.h>
+#import <simtools/global.h>
 
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
@@ -44,6 +45,17 @@
   return probeMap;
 }
 
+//
+//  notifyObjectDropped() -- function to notify the probe display
+//                           when the object it's probing is dropped
+//
+static void notifyObjectDropped ( id anObject, id realloc, id pd)
+{
+  [pd drop];
+  // There might be an issue of recursivity if a user decided
+  // to probe a probe display.  I ignored that. --gepr
+}
+
 -createEnd {
   id probeDisplay ;
 	
@@ -69,10 +81,18 @@
     probeDisplay = [probeDisplay createEnd] ;
   }
 
+
+  // Probe notification mechanism added to handle automatic removal
+  // of probe displays when an probed object is dropped.  --gepr
+  objectRef = [probedObject addRef: (notify_t) notifyObjectDropped 
+			    withArgument: (void *)probeDisplay ];
+
+
   [globalTkInterp eval: 
     "foreach w [busy isbusy] {busy release $w} ; update"] ;
   
   [self drop] ;
+
   return probeDisplay;
 }
 
