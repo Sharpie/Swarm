@@ -123,16 +123,12 @@ USING
 
 
 @protocol _WindowGeometryRecord
-CREATING
-//M: Create window geometry object using expression object.
-+ in: aZone expr: expr;
-
 USING
 //M: Load window geometry object using expression object.
-- in: expr;
+- lispin: expr;
 
 //M: Print window geometry to stream.
-- out: outputCharStream; 
+- lispout: outputCharStream; 
 
 //M: Set the window position.
 - setX: (int)x Y: (int)y;
