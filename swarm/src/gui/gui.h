@@ -122,14 +122,8 @@ USING
 @end
 
 
-@protocol _WindowGeometryRecord
+@protocol _WindowGeometryRecord <Serialization>
 USING
-//M: Load window geometry object using expression object.
-- lispin: expr;
-
-//M: Print window geometry to stream.
-- lispout: outputCharStream; 
-
 //M: Set the window position.
 - setX: (int)x Y: (int)y;
 
