@@ -1,3 +1,14 @@
+1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note support for compound HDF5 serialization of
+	Discrete2d, tclobjc dynamic callout rewrite, shared library
+	constructor workarounds, DefClass and MessageProbe memory
+	corruption bug fixes, Arguments ${prefix} expansions,
+	+create:withName: -> +create:setName: rename,
+	+create:setA:setv:setw: -> +create:setA:setV:setW: rename,
+	improved abort handling, new -setCompare* Map methods, and
+	initSwarm macros.
+
 1999-06-29  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note ListShuffler bug fix.  Note split of Archiver into

@@ -5,13 +5,6 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ** New features
 *** defobj
 **** Archiver
-***** Now an `abstract' protocol only, LispArchiver and HDF5Archiver are
-      the `instantiatable' classes.
-***** Instances of Archiver can be created to not to write
-      and expect application and application mode metadata, and this is now in
-      fact the default behavior.  (Internally, the system archivers,
-      hdf5Archiver and lispArchiver, use the new method setSystemArchiverFlag: 
-      to continue to read and write this metadata.)
 ***** Objects can be created in specified Zones, using the new method:
       -getWithZone: aZone object: keyStr, rather than in the Archiver's Zone.
 ***** Each Swarm application now has two application-specific 
@@ -21,27 +14,22 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       in a directory $SWARMHOME/swarm/appName/, thence in the current 
       directory.  This feature is intended to replace Object{Loader,Saver}.
 **** LispArchiver
-***** New protocol.
-***** In the Lisp backend, `lazy' creation (instantiation) and saving of 
+***** In the Lisp backend, lazy creation (instantiation) and saving of 
       objects is now the default behavior.  Objects are now only 
       instantiated upon request, and unchanged objects are written out
       from the parsed Lisp expression, not from the object itself.  
-**** HDF5Archiver
-***** New protocol.
+**** Object_s / internal
+***** Support `long long' Lisp serialization.
       
 *** collections
-**** InputStream
-***** InputStream now parses Lisp comments, Archiver instances will 
-      correctly ignore hand or machine-generated comments starting
-      with a semi-colon `;' in input text files.
-
 **** Archiver{Keyword,Value,Array,Pair,List}
 ***** These classes respond to serialization. ArchiverList serializes parsed 
       Lisp-like expressions directly.
 
-**** OutputStream
-***** OutputStream serializes Double, Float, Int, Unsigned Short, 
-      UnsignedShort, Long, Unsigned Long, in Lisp format.
+**** InputStream
+***** InputStream now parses Lisp comments, Archiver instances will 
+      correctly ignore hand or machine-generated comments starting
+      with a semi-colon in input text files.
 
 **** KeyedCollection, Map, Set
 ***** Implemented the [KeyedCollection -containsKey:] method for 
@@ -50,9 +38,20 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       collection, and false otherwise.  Re-enable protocol conformance to 
       KeyedCollection by Set. 
 
+**** Map
+***** New methods -setCompareCStrings, -setCompareIntegers,
+      -setCompareUnsignedIntegers, and -setCompareIDs.
+
+**** OutputStream
+***** OutputStream serializes Double, Float, Int, [Unsigned] Short, 
+      [Unsigned] Long, and [Unsigned] Long Long in Lisp format.
+
 *** gui
 **** Colormap
 ***** New method :unsetColor:.  Thanks to Ken Cline.
+
+*** tclobjc
+**** Tcl dynamic callouts now use a single FCall-based implementation.
 
 *** analysis
 **** EZGraph, EZBin
@@ -61,13 +60,18 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 
 *** space
 **** Discrete2d
-***** Support for shallow and deep Lisp and HDF5 serialization.
+***** Support for shallow, compound, and deep Lisp and HDF5 serialization.
+
+*** misc
+**** Improved abort handling
 
 ** Autoconfiguration / Build Environment
 *** Swarm can now be compiled with Checker.
     http://www.gnu.org/software/checker
 *** Swarm supports parallel builds, e.g. make -j N.
 *** Swarm builds DLLs for Windows.
+*** Support for systems (HPUX9) where shared-library constructor
+    initialization cannot be counted on at all.
 
 ** Bug fixes
 *** collections
@@ -76,9 +80,20 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** ListShuffler
 ***** Fixed broken -create:setUniformRandom: factory method.
 
+*** defobj
+**** DefClass
+***** Simulated classes were too small, resulting in potential
+      memory corruption. 
+**** Arguments
+***** ${prefix} was not handled in datadir pathname expansions.
+
 *** activity
 **** CompoundAction
 ***** Fixed casting bug which lead to segfaults on some platforms.
+
+*** objectbase
+**** MessageProbe
+***** Avoid potential overrun segfaults
 
 *** gui (tkobjc)
 **** Pixmap
@@ -91,11 +106,38 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ***** Failed color lookups still resulted in a color index being marked as 
       in-use.
 
+*** simtoolsgui
+**** MessageProbe
+
 *** space
 **** Discrete2d, DblBuffer2d
 ***** Free memory used by the 2d lattice internally when dropping Discrete2d 
       and DblBuffer2d instances.  Thanks to Jay Pringle for testcase 
       reporting this.
+
+** Other changes
+*** defobj
+**** Archiver
+***** Now an `abstract' protocol only, LispArchiver and HDF5Archiver are
+      the `instantiatable' classes.
+***** Instances of Archiver can be created to not to write
+      and expect application and application mode metadata, and this is now in
+      fact the default behavior.  (Internally, the system archivers,
+      hdf5Archiver and lispArchiver, use the new method setSystemArchiverFlag: 
+      to continue to read and write this metadata.)
+**** LispArchiver, HDF5Archiver
+***** Interface is now protocol-level instead of setHDF5Flag: create-time
+      parameter.
+
+*** random
+**** C[24]LCGXgen
+***** +create:setA:setv:setw: renamed to +create:setA:setV:setW:.
+
+*** simtools
+**** AppendFile, InFile, OutFile
+***** +create:withName: renamed to +create:setName:.
+**** initSwarm
+***** initSwarm and variants are now macros.
 
 * Release Notes for Swarm 1.4.1
 ** New features
