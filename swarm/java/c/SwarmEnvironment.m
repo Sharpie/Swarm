@@ -198,13 +198,17 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
 #ifdef HAVE_KAFFE
     extern void libkaffeswarmstubs_constructor (void);
     extern void libkaffeswarm_constructor (void);
+
+    libkaffeswarmstubs_constructor ();
+    libkaffeswarm_constructor ();
 #else
     extern void libjavaswarmstubs_constructor (void);
     extern void libjavaswarm_constructor (void);
-#endif
 
     libjavaswarmstubs_constructor ();
     libjavaswarm_constructor ();
+#endif
+
   }
 #endif
   swarm_directory_init (env, obj);
