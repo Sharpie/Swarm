@@ -1,3 +1,8 @@
+1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* configure.in: (builddir): New variable points to directory where 
+	configure is run, assuming that to be build directory.
+
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* configure.in (xpmlibdir): Add option for setting DIR/lib.
