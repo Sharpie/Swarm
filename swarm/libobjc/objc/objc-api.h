@@ -27,6 +27,10 @@ Boston, MA 02111-1307, USA.  */
 #ifndef __objc_api_INCLUDE_GNU
 #define __objc_api_INCLUDE_GNU
 
+#ifdef __cplusplus
+#define class _class
+#endif
+
 #include "objc/objc.h"
 #include "objc/hash.h"
 #include "objc/thr.h"
@@ -135,6 +139,7 @@ objc_error_handler objc_set_error_handler (objc_error_handler func);
 #define OBJC_ERR_BAD_STATE 40          /* Bad thread state */
 
 
+#ifndef __cplusplus
 /* For every class which happens to have statically allocated instances in
    this module, one OBJC_STATIC_INSTANCES is allocated by the compiler.
    INSTANCES is NULL terminated and points to all statically allocated
@@ -144,6 +149,7 @@ struct objc_static_instances
   char *class_name;
   id instances[0];
 };
+#endif
 
 /*
 ** Whereas a Module (defined further down) is the root (typically) of a file,
@@ -231,27 +237,30 @@ typedef struct objc_ivar_list {
 ** and categories can break them across modules. To handle this problem is a
 ** singly linked list of methods. 
 */
+struct objc_method {
+  SEL         method_name;                  /* This variable is the method's 
+                                               name.  It is a char*. 
+                                               The unique integer passed to 
+                                               objc_msg_send is a char* too.  
+                                               It is compared against 
+                                               method_name using strcmp. */
+  const char* method_types;                 /* Description of the method's
+                                               parameter list.  Useful for
+                                               debuggers. */
+  IMP         method_imp;                   /* Address of the method in the 
+                                               executable. */
+};
+
 typedef struct objc_method Method;
+
 typedef Method* Method_t;
 typedef struct objc_method_list {
-  struct objc_method_list*  method_next;      /* This variable is used to link 
+  struct objc_method_list*  method_next;     /* This variable is used to link 
                                                 a method list to another.  It 
                                                 is a singly linked list. */
   int            method_count;               /* Number of methods defined in 
                                                 this structure. */
-  struct objc_method {
-    SEL         method_name;                  /* This variable is the method's 
-                                                name.  It is a char*. 
-                                                  The unique integer passed to 
-                                                objc_msg_send is a char* too.  
-                                                It is compared against 
-                                                method_name using strcmp. */
-    const char* method_types;                 /* Description of the method's
-                                                parameter list.  Useful for
-                                                debuggers. */
-    IMP         method_imp;                   /* Address of the method in the 
-                                                executable. */
-  } method_list[1];                           /* Variable length 
+  struct objc_method method_list[1];         /* Variable length 
                                                 structure. */
 } MethodList, *MethodList_t;
 
@@ -500,7 +509,7 @@ extern void class_ivar_set_gcinvisible (Class class,
 					BOOL gcInvisible);
 
 static inline IMP
-method_get_imp(Method_t method)
+method_get_imp (Method_t method)
 {
   return (method != METHOD_NULL) ? method->method_imp : (IMP) 0;
 }

@@ -78,7 +78,7 @@ typedef int (*compare_func_type)(const void *, const void *);
  * It must be passed to all of the hashing routines
  *   (except for new).
  */
-typedef struct cache
+typedef struct
 {
   /* Variables used to implement the hash itself.  */
   node_ptr *node_table; /* Pointer to an array of hash nodes.  */
@@ -99,7 +99,9 @@ typedef struct cache
   hash_func_type    hash_func;
   /* Function used to compare two hash keys to see if they are equal.  */
   compare_func_type compare_func;
-} *cache_ptr;
+} cache_t;
+
+typedef cache_t *cache_ptr;
 
 
 /* Two important hash tables.  */
@@ -164,6 +166,7 @@ hash_ptr (cache_ptr cache, const void *key)
   return ((size_t)key / sizeof (void *)) & cache->mask;
 }
 
+#ifndef __cplusplus
 
 /* Calculate a hash code by iterating over a NULL 
    terminate string.  */
@@ -202,6 +205,6 @@ compare_strings (const void *k1, const void *k2)
   else
     return !strcmp (k1, k2);
 }
-
+#endif
 
 #endif /* not __hash_INCLUDE_GNU */

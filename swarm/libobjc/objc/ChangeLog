@@ -1,3 +1,14 @@
+2000-08-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* objc-api.h (class): Define to _class for C++.
+	(struct objc_static_instances): Exclude for C++.
+	(struct objc_method): Give it toplevel scope.  Reorganize
+	to make Method type palatable to C++.
+
+	* hash.h (cache_t): Make struct unnamed, but introduce non-pointer
+	cache_t.
+	(hash_string, compare_ptrs): Exclude for C++.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* encoding.h: Don't include ctype.h.
