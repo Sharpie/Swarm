@@ -10,7 +10,7 @@
 
 #import <objectbase.h>
 
-@protocol UName <SwarmObject>
+@protocol UName <SwarmObject, CREATABLE>
 //S: A class used to generate unique names (e.g. "critter1", "critter2" etc.)
 
 //D: This class is used to generate unique names (agent0, agent1,
@@ -56,7 +56,7 @@ USING
 - resetCounter;
 @end
 
-@protocol InFile <SwarmObject>
+@protocol InFile <SwarmObject, CREATABLE>
 //S: Class to perform file input.
 
 //D: This class is (was) intended to simplify the input file-I/O in Swarm. It
@@ -127,7 +127,7 @@ USING
 - (void)drop;
 @end
 
-@protocol OutFile <SwarmObject>
+@protocol OutFile <SwarmObject, CREATABLE>
 //S: A class to perform file output.
 
 //D: This class is intended to simplify output file-I/O in Swarm. It 
@@ -184,7 +184,7 @@ USING
 @end
 
 
-@protocol AppendFile <OutFile>
+@protocol AppendFile <OutFile, CREATABLE>
 //S: A class for appended file output.
 
 //D: This class subclasses from OutFile, the only functional difference being
@@ -196,7 +196,7 @@ CREATING
 + create: aZone withName: (const char *)theName;
 @end
 
-@protocol ObjectLoader <SwarmObject>
+@protocol ObjectLoader <SwarmObject, CREATABLE>
 //S: A class to load an object's instance variables from a file.
 
 //D: This class is used to initialize the variables of a target object from
@@ -243,7 +243,7 @@ USING
 - setTemplateProbeMap: probeMap;
 @end
 
-@protocol ObjectSaver <SwarmObject>
+@protocol ObjectSaver <SwarmObject, CREATABLE>
 //S: A class to save an object's instance variables to a file.
 
 //D: This class is used to write an object's variables to a specified file. 
@@ -285,7 +285,7 @@ USING
 - saveObject: anObject;
 @end
 
-@protocol QSort <SwarmObject>
+@protocol QSort <SwarmObject, CREATABLE>
 //S: A class to sort a collection.
 
 //D: QSort is simply a "wrapper" for the C native "qsort" function, as applied
@@ -321,7 +321,7 @@ USING
 + (void)reverseOrderOf: aCollection;
 @end
 
-@protocol NSelect <SwarmObject>
+@protocol NSelect <SwarmObject, CREATABLE>
 //S: A class to select exactly N elements at random from a collection.
 
 //D: NSelect selects exactly N elements from a collection without repetition.
