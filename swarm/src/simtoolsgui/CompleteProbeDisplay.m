@@ -6,37 +6,48 @@
 #import <simtoolsgui/CompleteProbeDisplay.h>
 #import <simtoolsgui/ClassDisplayWidget.h>
 #import <simtoolsgui.h> // probeDisplayManager
-#import <objc/objc-api.h> // IvarList_t
 #import <collections.h> // List
+#import "../defobj/internal.h" // map_objc_class_ivars
+
+#include <swarmconfig.h>
+#ifdef HAVE_JDK
+#import "../defobj/java.h" // map_java_class_ivars
+#endif
 
 #include <misc.h> // strlen
 
-static int
-max (int a, int b)
+static size_t
+max_class_varname_length (Class class)
 {
-  if(a > b)
-    return a;
+  size_t maxlen = 0;
+  void notelen (const char *name)
+    {
+      size_t len = strlen (name);
+      
+      if (len > maxlen)
+        maxlen = len;
+    }
+#ifdef HAVE_JDK
+  if ([class respondsTo: M(isJavaProxy)])
+    {
+      void process_java_ivar (const char *name, fcall_type_t type)
+        {
+          notelen (name);
+        }
+      map_java_class_ivars (SD_JAVA_FIND_OBJECT_JAVA (class),
+                            process_java_ivar);
+    }
   else
-    return b;
-}
-
-static int
-max_class_var_length (Class class)
-{
-  IvarList_t ivarList;	
-  int i, local_max, num;
-  
-  local_max = 0 ;
-
-  if (!(ivarList = class->ivars))
-    return 0 ;
-  
-  num = ivarList->ivar_count;
-
-  for (i = 0; i < num ; i++)
-    local_max = max (strlen (ivarList->ivar_list[i].ivar_name), local_max);
-  
-  return local_max ;
+#endif
+    {
+      void process_objc_ivar (const char *name, fcall_type_t type,
+                              unsigned offset, unsigned rank, unsigned *dims)
+        {
+          notelen (name);
+        }
+      map_objc_class_ivars (class, process_objc_ivar);
+    }
+  return maxlen;
 }
 
 @implementation CompleteProbeDisplay
@@ -48,23 +59,27 @@ PHASE(Creating)
 {
   Class class;
   id classWidget;
-  int maxwidth;
   id classList;
   id index;
   id previous;
+  size_t maxWidth;
 
   horizontalScrollbarFlag = YES;
   [super createEnd];
 
-  maxwidth = 0;
+  maxWidth = 0;
 
   classList = [List create: [self getZone]];
   for (class = SD_GETCLASS (probedObject);
        class != nil; 
        class = SD_SUPERCLASS (class))
     {
-      [classList addFirst: (id) class];	
-      maxwidth = max (max_class_var_length (class), maxwidth);
+      size_t classWidth = max_class_varname_length (class);
+
+      if (classWidth > maxWidth)
+        maxWidth = classWidth;
+
+      [classList addFirst: (id) class];
     }
   
   widgets = [List create: [self getZone]];
@@ -75,7 +90,7 @@ PHASE(Creating)
       classWidget = 
         [[[[[[[ClassDisplayWidget createBegin: [self getZone]] 
                setParent: topFrame]
-              setMaxLabelWidth: maxwidth]
+              setMaxLabelWidth: maxWidth]
              setProbedObject: probedObject]
             setClassToDisplay: class]
            setOwner: self]
