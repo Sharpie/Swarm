@@ -1,5 +1,7 @@
 1999-02-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* java-stub.el: Makefile generation. 
+
 	* Makefile.am (EXTRA_DIST): Add java-stub.el.
 
 	* java-stub.el: New file.

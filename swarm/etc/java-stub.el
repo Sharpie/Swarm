@@ -1,5 +1,5 @@
 (require 'cl)
-(load (concat (getenv "SWARMSRCDIR") "etc/protocol.el"))
+(load (concat (getenv "SWARMDOCS") "protocol.el"))
 
 (defun java-is-creatable (protocol)
   (loop for iprotocol in (protocol-included-protocol-list protocol)
@@ -104,11 +104,11 @@
 		(eq phase :using ))
 	    (princ "implements " buffer)
 	  (princ "extends " buffer))
-	(java-print-implemented-protocols-list protocol phase separator 
+	(java-print-implemented-protocols-list protocol phase separator ""
 					       buffer))))
 	
 
-(defun java-print-implemented-protocols-list (protocol phase separator buffer)
+(defun java-print-implemented-protocols-list (protocol phase separator suffix buffer)
   (if (protocol-included-protocol-list protocol)
       (let ((first t))
 	(if phase
@@ -122,7 +122,8 @@
 			    (princ separator buffer))
 			  (princ (protocol-name iprotocol) buffer)
 			  (if (java-is-creatable iprotocol)
-			      (princ "-s" buffer)))))
+			      (princ "-s" buffer))
+			  (princ suffix buffer))))
 	      (:creating
 	       (loop for iprotocol in 
 		     (protocol-included-protocol-list protocol)
@@ -134,8 +135,10 @@
 			  (if (java-is-creatable iprotocol)
 			      (progn 
 				(princ "-s" buffer)
+				(princ suffix buffer)
 				(princ separator buffer)
-				(princ (protocol-name iprotocol) buffer))))))
+				(princ (protocol-name iprotocol) buffer)))
+			  (princ suffix buffer))))
 	      (:using
 	       (loop for iprotocol in 
 		     (protocol-included-protocol-list protocol)
@@ -146,17 +149,19 @@
 			  (princ (protocol-name iprotocol) buffer)
 			  (if (java-is-creatable iprotocol)
 			      (progn 
-			  (princ "-s" buffer)
-			  (princ separator buffer)
-			  (princ (protocol-name iprotocol) buffer)
-			  (princ "-u" buffer)))))))
+				(princ "-s" buffer)
+				(princ suffix buffer)
+				(princ separator buffer)
+				(princ (protocol-name iprotocol) buffer)
+				(princ "-u" buffer)))
+			  (princ suffix buffer)))))
 	  (loop for iprotocol in (protocol-included-protocol-list protocol)
 		do  (progn
 		      (if first
 			  (setq first nil)
 			(princ separator buffer))
-		  (java-print-protocol-name protocol buffer)
-		  (princ separator buffer)))))))
+		  (java-print-protocol-name iprotocol buffer)
+		  (princ suffix buffer)))))))
   
    
 (defun java-print-interface (protocol stub-directory)
@@ -227,56 +232,73 @@
     (set-buffer buffer)
     (write-file file-name)))
 
-(defun java-print-makefile (protocol phase makefile-buffer)
+(defun java-print-makefile (protocol makefile-buffer)
   (progn
     (princ "\n" makefile-buffer)
-    (java-print-protocol-name protocol makefile-buffer)
-    (case phase
-	(:creating (princ ".class" makefile-buffer))
-	(:setting (princ "-s.class" makefile-buffer))
-	(:using (princ "-u.class" makefile-buffer)))
-    (princ ": " makefile-buffer)
-    (java-print-protocol-name protocol makefile-buffer)
-    (princ "-s.java " makefile-buffer)
-    (case phase
-      (:creating 
-	 (java-print-protocol-list-with-suffix 
-	  (protocol-included-protocol-list protocol)
-	  " " ".class" makefile-buffer))
-       (:using
-	(java-print-protocol-list-with-suffix 
-	  (protocol-included-protocol-list protocol)
-	  " " "-u.class" makefile-buffer)))
-    (java-print-protocol-list-with-suffix 
-     (protocol-included-protocol-list protocol)
-     " " "-s.class" makefile-buffer))
-    (princ "\n\t" makefile-buffer)
-    (princ "javac " makefile-buffer)
-    (princ (protocol-name protocol) makefile-buffer)
-    (case phase
-	(:creating (princ ".java" makefile-buffer))
-	(:setting (princ "-s.java" makefile-buffer))
-	(:using (princ "-u.java" makefile-buffer))))
+    (if (java-is-creatable protocol)
+	(progn
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ ".class: " makefile-buffer)
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ ".java " makefile-buffer)
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ "-s.class " makefile-buffer)
+	  (java-print-implemented-protocols-list
+	   protocol :creating " " ".class" makefile-buffer)
+	  (princ "\n\t javac " makefile-buffer)
+	  (princ (protocol-name protocol) makefile-buffer)
+	  (princ ".java\n" makefile-buffer)
+	  
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ "-u.class: " makefile-buffer)
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ "-u.java " makefile-buffer)
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ "-s.class " makefile-buffer)
+	  (java-print-implemented-protocols-list
+	   protocol :using " " ".class" makefile-buffer)
+	  (princ "\n\t javac " makefile-buffer)
+	  (princ (protocol-name protocol) makefile-buffer)
+	  (princ ".java\n" makefile-buffer)
+
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ "-s.class: " makefile-buffer)
+	  (java-print-protocol-name protocol makefile-buffer)
+	  (princ "-s.java " makefile-buffer)
+	  (java-print-implemented-protocols-list
+	   protocol :setting " " ".class" makefile-buffer)
+	  (princ "\n\t javac " makefile-buffer)
+	  (princ (protocol-name protocol) makefile-buffer)
+	  (princ ".java\n" makefile-buffer))
+      (progn 
+	(java-print-protocol-name protocol makefile-buffer)
+	(princ ".class: " makefile-buffer)
+	(java-print-implemented-protocols-list
+	 protocol nil " " ".class" makefile-buffer)
+	(princ "\n\t javac " makefile-buffer)
+	(princ (protocol-name protocol) makefile-buffer)
+	(princ ".java\n" makefile-buffer)))))
+
+   
 
 
 
 (defun java-print-class (protocol stub-directory makefile-buffer)
+  (progn  
     (if (java-is-creatable protocol)
       (progn
 	(java-print-interface-setting protocol stub-directory)
 	(java-print-class-using protocol stub-directory)
-	(java-print-class-creating protocol stub-directory)
-	(java-print-makefile protocol t makefile-buffer)
-	(java-print-makefile protocol nil makefile-buffer))
-      (java-print-interface protocol stub-directory)))
-
+	(java-print-class-creating protocol stub-directory))
+      (java-print-interface protocol stub-directory))
+    (java-print-makefile protocol makefile-buffer)))
 
 (defun java-print-classes (stub-directory)
   (let* ((makefile-name (concat stub-directory "Makefile"))
 	(makefile-buffer (generate-new-buffer makefile-name)))
     (loop for protocol being each hash-value of *protocol-hash-table* 
 	  do 
-	      (java-print-class protocol stub-directory makefile-buffer))
+	  (java-print-class protocol stub-directory makefile-buffer))
     (set-buffer makefile-buffer)
     (write-file makefile-name)))
 
