@@ -16,7 +16,7 @@ else
   gnuwin32=no
 AC_TRY_COMPILE([#ifdef __CYGWIN32__
 #error
-#endif],[],gnuwin32=yes)
+#endif],[],,gnuwin32=yes)
   if test $gnuwin32 = yes; then
     XPMLDFLAGS=''
     XPMLIB=''
