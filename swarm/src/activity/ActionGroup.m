@@ -401,13 +401,11 @@ PHASE(Using)
 //
 
 @implementation GroupPermutedIndex_c
-
+PHASE(Creating)
 + createBegin: aZone
 {
-  GroupPermutedIndex_c *newIndex;
+  GroupPermutedIndex_c *newIndex = [aZone allocIVars: self];
 
-  newIndex = [aZone allocIVars: [self getClass]];
-  setClass (newIndex, self);
   newIndex->collection = [Permutation createBegin: getCZone (aZone)];
   return newIndex;
 }
@@ -425,7 +423,7 @@ PHASE(Using)
   setMappedAlloc (self);
   return self;
 }
-
+PHASE(Using)
 //
 // mix in action plan index methods by source inclusion
 //
@@ -539,6 +537,7 @@ PHASE(Using)
 
 
 @implementation ForEachIndex_c
+PHASE(Using)
 - nextAction: (id *)status
 {
   // reload and return the action being used to execute each member
@@ -574,3 +573,4 @@ PHASE(Using)
 }
 
 @end
+

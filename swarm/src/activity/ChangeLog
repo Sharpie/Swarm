@@ -1,3 +1,8 @@
+1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionGroup.m (GroupPermutedIndex_c, ForEachIndex_c): Add phase tags.
+	([GroupPermutedIndex_c +createBegin:]): Revert last change.
+
 1999-03-04  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* ActionGroup.m ([GroupPermutedIndex_c +createBegin:]):
