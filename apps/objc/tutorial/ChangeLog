@@ -1,3 +1,9 @@
+2005-03-01  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
+
+	* README: Added "About the Authorship of these Exercises" to the
+	end of this file. Note that new exercises simpleObserverBug3 and
+	simpleBatchBug[1-3] have been added.
+
 1998-02-20  Alex Lancaster  <alex@santafe.edu>
 
 	* README: Added simpleExperBug to list of apps.

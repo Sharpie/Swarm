@@ -26,7 +26,7 @@ Second, you might want to collect lots and lots of data.  Sometimes a
 screenshot is enough, sometimes it isn't. You may need more detailed
 records.  There are several ways in which this can be done. 
 
-In simpleBatchSwarm1, the emphasis is on the creation of a batch model
+In simpleBatchBug1, the emphasis is on the creation of a batch model
 framework. It does not do much. When you run the batch model with the
 command
 
@@ -35,7 +35,7 @@ command
 the model runs without a graphical interface and quits after a
 designated number of iterations.  It does not do anything except print
 some messages to the screen.  It does not save data.  The data output
-and analysis issues are explored in simpleBatchSwarm2.
+and analysis issues are explored in simpleBatchBug2.
 
 main.m
 
@@ -44,7 +44,7 @@ Swarm variable called "swarmGUIMode" and it is equal to YES if you run
 the model in the ordinary way, but it is equal to NO if you start the
 model with the batch flag, which is -b. If swarmGUIMode is YES, then
 the ObserverSwarm acts as the top level swarm and if swarmGUIMode is
-NO, then the BatchSwarmis the top level Swarm.
+NO, then the BatchSwarm is the top level Swarm.
 
 BatchSwarm
 

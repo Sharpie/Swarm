@@ -7,8 +7,7 @@ the circle, allowing you to run a model, save the agents and
 environment, and then start the model again from that point.  That
 means "serialization" is possible.
 
-I am hoping to write a more detailed explanation in the near future,
-but here is the essence of it.  Run the model like this:
+Here is the essence of it.  Run the model like this:
 
 ./bug
 

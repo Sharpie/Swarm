@@ -1,3 +1,7 @@
+2005-03-01  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
+
+	* README (http): corrected some typographical errors
+
 2003-05-16  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* Parameters.m ([Parameters -parseKey:key:arg]): removed processing

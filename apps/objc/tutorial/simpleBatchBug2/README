@@ -28,7 +28,7 @@ the ObserverSwarm to orchestrate the simulation as well as present
 graphs to the user.  That does not work well when we make the
 transition to batch mode, because a parallel BatchSwarm class must be
 maintained.  The proposed solution is to create a new class called
-Output, and design that class so that it can do the work of GUI work
+Output, and design that class so that it can do the GUI work
 of drawing graphs on the screen as well as saving graphed data into
 files.
 
