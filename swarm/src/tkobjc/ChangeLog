@@ -22,7 +22,7 @@
 	(tkobjc_raster_erase): Only define private if _WIN32.
 	(offset_for_object): Remove.
 	(tkobjc_pixmap_save): Move ncolors to a scope closer to where
-	it is used and make it unsigned.
+	it is used.  Cast ncolors to unsigned for ci loop comparision.
 	
 	* ScheduleItem.m ([ScheduleItem -_createItem_]): Make key a timeval_t.
 

@@ -1342,7 +1342,7 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
       {
 	png_color palette[ncolors];
 
-	for (ci = 0; ci < ncolors; ci++)
+	for (ci = 0; ci < (unsigned)ncolors; ci++)
 	  {
 #ifndef _WIN32
 	    unsigned red, green, blue;
