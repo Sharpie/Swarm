@@ -1,9 +1,9 @@
-<PREFACE ID="SWARM.SRC.SWARM.SRC.REFERENCE.PREFACE">
+<PREFACE ID="SWARM.SRC.REFERENCE.PREFACE">
   <TITLE>Preface</TITLE>
 
   <SECT1><TITLE>Obtaining Swarm</TITLE>
 
-    <SIMPLESECT>
+    <SECT2>
       <TITLE>The Swarm Hive</TITLE>
 
       <PARA>
@@ -26,9 +26,9 @@
         </LITERAL> mailing list. See the Swarm support archive for
         instructions on how to join this list.
       </PARA>
-    </SIMPLESECT>
+    </SECT2>
 
-    <SIMPLESECT>
+    <SECT2>
       <TITLE>Acknowledgments</TITLE>
 
       <PARA>
@@ -54,7 +54,7 @@
         See the &program-name archive for more information about Swarm.
       </PARA>
 
-    </SIMPLESECT>
+    </SECT2>
 
   </SECT1>
 

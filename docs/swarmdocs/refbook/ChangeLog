@@ -1,3 +1,11 @@
+1998-06-10  Alex Lancaster  <alex@santafe.edu>
+
+	* lgpl-app.sgml, gpl-app.sgml, ref00a.sgml: Fixed the IDs to have
+	the appropriate "SWARM.SRC." prefix in the content ID.
+
+	* ref00.sgml: Made SIMPLESECTs into SECT2s.  Fixed redundant
+	"SWARM.SRC." in PREFACE id.
+
 1998-06-09  Alex Lancaster  <alex@santafe.edu>
 
 	* refmeta.sgml: Change CORPAUTHOR to 'corpauthor' - an SFI Hive
