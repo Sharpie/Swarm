@@ -7,8 +7,9 @@
 #import <stdio.h>
 #import <stdlib.h>
 #import <string.h>
-#import <tkobjc.h>
-#import <tkobjc/control.h>
+
+#import <tclObjc.h>
+#import <tkobjc/control.h> // tkobjc_dynamicEval
 
 #import "MessageProbe.h"
 #import "swarm_rts_routines.h"
@@ -24,8 +25,8 @@ copy_to_nth_colon (const char *str, int n)
   char *new_str;
 
   for (i = 0; i < n; i++)
-    while(str[++count] != ':');
-
+    while (str[++count] != ':');
+  
   count++;
   
   beginning = count;
@@ -345,7 +346,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   
   cmd[0] = '\0';
   
-  strcat (cmd,tclObjc_objectToName(target));
+  strcat (cmd, tclObjc_objectToName (target));
   strcat (cmd," ");
 
   if (!argNum)
@@ -359,7 +360,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
         strcat (cmd," ");
       }
   
-  *result = (char *)dynamicEval (cmd);
+  *result = (char *)tkobjc_dynamicEval (cmd);
   
   // since other routines call this so-called internal 
   // method _trueDynamicCallOn_, I have to put this here.  If and when
