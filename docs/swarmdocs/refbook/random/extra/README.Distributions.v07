@@ -1,3 +1,4 @@
+<![ CDATA [
 // --------------------------------------------
 //
 // Random v. 0.7 (Swarm 1.0.3)
@@ -320,5 +321,5 @@ id <UniformDoubleDist>    uniformDblRand;
 
 The 3 distribution objects all draw their random numbers from the MT19937
 generator, which has a period of 2^19937 (10^6001) and is quite fast.
-
+]]>
 
