@@ -14,18 +14,29 @@
   double total, totalSquared; 
   double max, min;
   unsigned count;
-  id collection;      // collection to average over
+  id target;
+  BOOL isList;
+
+  unsigned maWidth;
+  double maTotal;
+  double maTotalSquared;
+  double *maData;
 }
 
 - setCollection: aCollection;
+- setWidth: (unsigned)width;
 - createEnd;		
 
 - update;					  // update the average.
 - (double)getAverage;
+- (double)getMovingAverage;
 - (double)getVariance;
+- (double)getMovingVariance;
 - (double)getStdDev;
+- (double)getMovingStdDev;
 - (double)getTotal;
 - (double)getMax;
 - (double)getMin;
 - (unsigned)getCount;
 @end
+

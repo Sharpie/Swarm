@@ -12,17 +12,48 @@
 
 PHASE(Creating)
 
-- setCollection: l
+- setCollection: obj
 {
-  collection = l;
+  target = obj;
+  return self;
+}
+
+- setWidth: (unsigned)width
+{
+  maWidth = width;
   return self;
 }
 
 - createEnd
 {
-  if (collection == nil)
-    [InvalidCombination raiseEvent: "Averager created without a collection\n"];
+  isList = [target respondsTo: M(getFirst)];
 
+  total = 0.0;
+  totalSquared = 0.0;
+
+  if (target == nil)
+    raiseEvent (InvalidCombination, "Averager created without a target\n");
+  
+  if (maWidth == 0 && !isList)
+    raiseEvent (InvalidCombination,
+                "Averages of non-collections must having a interval width\n");
+  
+  if (maWidth > 0)
+    {
+      unsigned i;
+
+      if (isList)
+        maWidth *= [target getCount];
+
+      maData = [getZone (self) allocBlock: maWidth * sizeof (double)];
+
+      for (i = 0; i < maWidth; i++)
+        maData[i] = 0.0;
+
+      maTotal = 0.0;
+      maTotalSquared = 0.0;
+    }
+  setMappedAlloc (self);
   return [super createEnd];
 }
 
@@ -30,45 +61,74 @@ PHASE(Setting)
 
 PHASE(Using)
 
+- (void)addValueToAverage: (double)v
+{
+  total += v;
+  totalSquared += v * v;
+
+  if (count == 0)
+    max = min = v;
+  else
+    {
+      if (v > max)
+        max = v;
+      else if (v < min)
+        min = v;
+    }
+  if (maWidth > 0)
+    {
+      if (count < maWidth)
+        {
+          maTotal += v;
+          maTotalSquared += v * v;
+          maData[count] = v;
+        }
+      else
+        {
+          unsigned maPos = count % maWidth;
+          double obsolete = maData[maPos];
+      
+          maTotal = maTotal - obsolete + v; 
+          maTotalSquared = (maTotalSquared - 
+                            obsolete * obsolete +
+                            v * v);
+          maData[maPos] = v;
+        }
+    }
+  count++;
+}
+
 - update
 {
-  id obj;
-
-  total = 0.0;
-  totalSquared = 0.0;
-  count = 0;
-
-  // special case empty collection.
-  if ([collection getCount] == 0)
+  if (isList)
     {
-      min = 0;
-      max = 0;
-      return self;
-    }
-  
-  obj = [collection getFirst];
-  
-  max = [self doubleDynamicCallOn: obj];
-  min = max;
-  
-  {
-    id <Index> iter;
-    
-    iter = [collection begin: getZone (self)];
-    for (obj = [iter next]; [iter getLoc] == Member; obj = [iter next])
+      if (maWidth == 0)
+        {
+          count = 0;
+          total = 0.0;
+          totalSquared = 0.0;
+        }
+      
+      // special case empty collection.
+      if ([target getCount] == 0)
+        {
+          min = 0;
+          max = 0;
+          return self;
+        }
+      
       {
-	double v = [self doubleDynamicCallOn: obj];
-	
-	total += v;
-        totalSquared += v * v;
-	if (v > max)
-	  max = v;
-	if (v < min)
-	  min = v;
-	count++;
+        id <Index> iter;
+        id obj;
+        
+        iter = [target begin: scratchZone];
+        for (obj = [iter next]; [iter getLoc] == Member; obj = [iter next])
+          [self addValueToAverage: [self doubleDynamicCallOn: obj]];
+        [iter drop];
       }
-    [iter drop];
-  }
+    }
+  else
+    [self addValueToAverage: [self doubleDynamicCallOn: target]];
   
   return self;
 }
@@ -81,6 +141,15 @@ PHASE(Using)
     return 0.0;
 } 
 
+- (double)getMovingAverage
+{
+  if (count  == 0)
+    return 0.0;
+
+  return maTotal / ((count < maWidth) ? count : maWidth);
+}
+
+
 - (double)getVariance
 {
   double mean = total / (double) count;
@@ -89,9 +158,23 @@ PHASE(Using)
           (totalSquared / (double) count - mean * mean));
 }
 
+- (double)getMovingVariance
+{
+  double movingMean = [self getMovingAverage];
+  double actualCount = (count < maWidth) ? count : maWidth;
+
+  return (((double) actualCount / ((double) (actualCount - 1))) * 
+          (maTotalSquared / (double) count - movingMean * movingMean));
+}
+
 - (double)getStdDev
 {
   return sqrt ([self getVariance]);
+}
+
+- (double)getMovingStdDev
+{
+  return sqrt ([self getMovingVariance]);
 }
 
 - (double)getTotal
@@ -112,6 +195,12 @@ PHASE(Using)
 - (unsigned)getCount 
 {
   return count;
+}
+
+- (void)mapAllocations: (mapalloc_t)mapalloc
+{
+  mapalloc->size = maWidth * sizeof (double);
+  mapAlloc (mapalloc, maData);
 }
 
 @end

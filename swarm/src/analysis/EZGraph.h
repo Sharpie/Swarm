@@ -67,6 +67,29 @@
            withFeedFrom: aCollection 
             andSelector: (SEL) aSel;
 
+- (id <EZAverageSequence>)createMovingAverageSequence: (const char *)aName 
+            withFeedFrom: aCollection
+            andSelector: (SEL)aSel
+               andWidth: (unsigned)width;
+
+- (id <EZAverageSequence>)createVarianceSequence: (const char *)aName 
+           withFeedFrom: aCollection 
+            andSelector: (SEL) aSel;
+
+- (id <EZAverageSequence>)createMovingVarianceSequence: (const char *)aName 
+           withFeedFrom: aCollection 
+            andSelector: (SEL) aSel 
+               andWidth: (unsigned)width;
+
+- (id <EZAverageSequence>)createStdDevSequence: (const char *)aName 
+           withFeedFrom: aCollection 
+            andSelector: (SEL) aSel;
+
+- (id <EZAverageSequence>)createMovingStdDevSequence: (const char *)aName 
+           withFeedFrom: aCollection 
+            andSelector: (SEL) aSel 
+               andWidth: (unsigned)width;
+
 - (id <EZAverageSequence>)createTotalSequence: (const char *)aName 
          withFeedFrom: aCollection 
           andSelector: (SEL) aSel;

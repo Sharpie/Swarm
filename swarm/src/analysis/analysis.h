@@ -22,7 +22,10 @@
 
 CREATING
 //M: Sets the collection of objects that will be probed.
-- setCollection: aCollection;
+- setCollection: aTarget;
+
+//M: Set sampling width for target.
+- setWidth: (unsigned)width;
 
 USING
 //M: The update method runs through the collection calling the selector on 
@@ -33,12 +36,23 @@ USING
 //M: and count are read out of the object to compute the average.
 - (double)getAverage;
 
+//M: The getMovingAverage method averages the values the averager collects
+//M: using the specified sampling width.
+- (double)getMovingAverage;
+
 //M: The returns the unbiased estimate of sample variance per the
 //M: `corrected' formula (Hays, Statistics 3rd ed, p. 188).
 - (double)getVariance;
 
+//M: The returns the unbiased estimate of sample variance using
+//M: the specified sampling width.
+- (double)getMovingVariance;
+
 //M: The returns the square root of -getVariance.
 - (double)getStdDev;
+
+//M: The returns the square root of -getMovingVariance.
+- (double)getMovingStdDev;
 
 //M: The getTotal method sums the values the averager collects. The value is 
 //M: read out of the object, not computed everytime it is asked for.
@@ -362,6 +376,16 @@ USING
                                    withFeedFrom: aCollection 
                                     andSelector: (SEL)aSel;
 
+//M: The createMovingAverageSequence method takes a single object,
+//M: or collection of objects and generates a sequence based on the
+//M: average over the responses of the entire object set for a given
+//M: width chunk of samples.
+//M: The method returns an id which can be used later with -dropSequence.
+- (id <EZAverageSequence>)createMovingAverageSequence: (const char *)aName 
+                                         withFeedFrom: aTarget
+                                          andSelector: (SEL)aSel
+                                             andWidth: (unsigned)width;
+
 //M: The createVarianceSequence method takes a collection of objects and 
 //M: generates a sequence based on the sample variance over the
 //M: responses of the entire object set.
@@ -370,6 +394,16 @@ USING
                                     withFeedFrom: aCollection 
                                      andSelector: (SEL)aSel;
 
+//M: The createMovingVarianceSequence method takes a single object,
+//M: or collection of objects and generates a sequence based on the
+//M: variance over the responses of the entire object set for a given
+//M: width chunk of samples.
+//M: The method returns an id which can be used later with -dropSequence.
+- (id <EZAverageSequence>)createMovingVarianceSequence: (const char *)aName 
+                                          withFeedFrom: aTarget
+                                           andSelector: (SEL)aSel
+                                              andWidth: (unsigned)width;
+
 //M: The createStdDevSequence method takes a collection of objects and 
 //M: generates a sequence based on the sample variance over the
 //M: responses of the entire object set.
@@ -377,6 +411,16 @@ USING
 - (id <EZAverageSequence>)createStdDevSequence: (const char *)aName 
                                   withFeedFrom: aCollection 
                                    andSelector: (SEL)aSel;
+
+//M: The createMovingStdDevSequence method takes a single object,
+//M: or collection of objects and generates a sequence based on the
+//M: variance over the responses of the entire object set for a given
+//M: width chunk of samples.
+//M: The method returns an id which can be used later with -dropSequence.
+- (id <EZAverageSequence>)createMovingStdDevSequence: (const char *)aName 
+                                        withFeedFrom: aTarget
+                                         andSelector: (SEL)aSel
+                                            andWidth: (unsigned)width;
 
 //M: The createTotalSequence method takes a collection of objects and 
 //M: generates a sequence based on the sum over the responses of the

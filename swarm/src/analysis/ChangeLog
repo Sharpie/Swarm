@@ -1,3 +1,24 @@
+2000-05-17  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* EZGraph.[mh], analysis.h ([EZGraph
+	-createMovingAverageSequence:withFeedFrom:andSelector:andWidth:]):
+	([EZGraph
+	-createMovingVarianceSequence:withFeedFrom:andSelector:andWidth:]):
+	([EZGraph
+	-createMovingStdDevSequence:withFeedFrom:andSelector:andWidth:]):
+	New methods.
+
+	* Averager.m ([Averager -createEnd], [Averager -update]):
+	Additions to support moving averages.
+
+	* Averager.[mh], analysis.h ([Averager -setWidth:],
+	[Averager -getMovingAverage], [Averager -getMovingVariance],
+	[Averager -getMovingStdDev], [Averager addValueToAverage:],
+	[Averager mapAllocat): New methods.
+
+	* Averager.h (Averager): Rename collection to target.
+	New ivars isList, maWidth, maTotal, maTotalSquared, maData.
+
 2000-05-09  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* EZBin.m: Include defobj.h.

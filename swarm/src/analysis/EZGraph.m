@@ -296,6 +296,7 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
                                       withFeedFrom: aCollection 
                                      probeSelector: (SEL)probeSel
                                      graphSelector: (SEL)graphSel
+                                             width: (unsigned)width
 {
   id aSeq;
   id anAverager;
@@ -304,6 +305,7 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   
   anAverager = [Averager createBegin: [self getZone]];
   [anAverager setCollection: aCollection];
+  [anAverager setWidth: width];
   [anAverager setProbedSelector: probeSel];
   anAverager = [anAverager createEnd];
 
@@ -324,7 +326,20 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return [self _createAveragerSequence_: aName
                withFeedFrom: aCollection
                probeSelector: aSel
-               graphSelector: M(getAverage)];
+               graphSelector: M(getAverage)
+               width: 0];
+}
+
+- (id <EZAverageSequence>)createMovingAverageSequence: (const char *)aName 
+           withFeedFrom: aTarget
+            andSelector: (SEL)aSel
+               andWidth: (unsigned)width
+{
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aTarget
+               probeSelector: aSel
+               graphSelector: M(getMovingAverage)
+               width: width];
 }
 
 - (id <EZAverageSequence>)createVarianceSequence: (const char *)aName 
@@ -334,7 +349,20 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return [self _createAveragerSequence_: aName
                withFeedFrom: aCollection
                probeSelector: aSel
-               graphSelector: M(getVariance)];
+               graphSelector: M(getVariance)
+               width: 0];
+}
+
+- (id <EZAverageSequence>)createMovingVarianceSequence: (const char *)aName 
+                                          withFeedFrom: aTarget
+                                           andSelector: (SEL)aSel
+                                              andWidth: (unsigned)width
+{
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aTarget
+               probeSelector: aSel
+               graphSelector: M(getMovingVariance)
+               width: width];
 }
 
 - (id <EZAverageSequence>)createStdDevSequence: (const char *)aName 
@@ -344,7 +372,20 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return [self _createAveragerSequence_: aName
                withFeedFrom: aCollection
                probeSelector: aSel
-               graphSelector: M(getStdDev)];
+               graphSelector: M(getStdDev)
+               width: 0];
+}
+
+- (id <EZAverageSequence>)createMovingStdDevSequence: (const char *)aName 
+                                        withFeedFrom: aCollection 
+                                         andSelector: (SEL)aSel
+                                            andWidth: (unsigned)width
+{
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getMovingStdDev)
+               width: width];
 }
 
 - (id <EZAverageSequence>)createTotalSequence: (const char *)aName
@@ -354,7 +395,8 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return [self _createAveragerSequence_: aName
                withFeedFrom: aCollection
                probeSelector: aSel
-               graphSelector: M(getTotal)];
+               graphSelector: M(getTotal)
+               width: 0];
 }
 
 - (id <EZAverageSequence>)createMinSequence: (const char *)aName 
@@ -364,7 +406,8 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return [self _createAveragerSequence_: aName
                withFeedFrom: aCollection
                probeSelector: aSel
-               graphSelector: M(getMin)];
+               graphSelector: M(getMin)
+               width: 0];
 }
 
 - (id <EZAverageSequence>)createMaxSequence: (const char *)aName
@@ -374,7 +417,8 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return [self _createAveragerSequence_: aName
                withFeedFrom: aCollection
                probeSelector: aSel
-               graphSelector: M(getMax)];
+               graphSelector: M(getMax)
+               width: 0];
 }
 
 - (id <EZAverageSequence>)createCountSequence: (const char *)aName
@@ -384,7 +428,8 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return [self _createAveragerSequence_: aName
                withFeedFrom: aCollection
                probeSelector: aSel
-               graphSelector: M(getCount)];
+               graphSelector: M(getCount)
+               width: 0];
 }
 
 - step
