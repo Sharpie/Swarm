@@ -142,7 +142,7 @@ USING
 //M: user schedules an update on the probeDisplayManager which in
 //M: turn communicates to all the active ProbeDisplays in the
 //M: system.
-- update;
+- (void)update;
 
 - (BOOL)getMarkedForDropFlag;
 - getTopLevel;
@@ -249,7 +249,7 @@ USING
 
 //M: This method will recursively send an update message to all the
 //M: Probe Displays managed by the ProbeDisplayManager. 
-- update;
+- (void)update;
 
 - setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
 
@@ -332,7 +332,7 @@ CREATING
 - setProbe: (id <Probe>)probe;
 
 USING
-- pack;
+- (void)pack;
 @end
 
 @protocol MultiVarProbeWidget <SwarmObject, CREATABLE>
@@ -352,8 +352,8 @@ CREATING
 - setProbeMap: (id <ProbeMap>)probeMap;
 
 USING
-- update;
-- pack;
+- (void)update;
+- (void)pack;
 @end
 
 //G: Manager that keeps track of active probes to be updated

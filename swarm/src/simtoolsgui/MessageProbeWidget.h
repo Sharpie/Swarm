@@ -37,7 +37,7 @@
 - setProbe: (id <Probe>)theProbe;
 - setMaxReturnWidth: (int)width;
 - createEnd;
-- update;
+- (void)update;
 - (void)dynamic;
 - Spawn: (const char *)widgetName;
 - argSpawn: (const char *)widgetName arg:(int)which;
@@ -49,7 +49,7 @@
 
 #ifndef USE_FRAME
 - setParent: (id <Frame>)parent;
-- pack;
+- (void)pack;
 - (const char *)getWidgetName;
 #endif
 @end

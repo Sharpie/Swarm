@@ -89,7 +89,7 @@ PHASE(Using)
         return Completed;  // this returns to go,which returns to main
       else if (controlState == ControlStateStepping) 
         {
-          [activityID step];
+          [activityID stepAction];
           [self setStateStopped];
         }
       else if (controlState == ControlStateNextTime)

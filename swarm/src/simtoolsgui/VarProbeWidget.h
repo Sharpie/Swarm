@@ -34,9 +34,9 @@
 - setMyRight: aFrame;
 - setMaxLabelWidth: (int)width;
 - createEnd;
-- pack;
+- (void)pack;
 - setVariableValue: (const char *)windowName;
-- update;
+- (void)update;
 - Spawn: (const char *)windowName;
 - idReceive: (const char *)windowName;
 - (const char *)package: (const char *)widgetName;

@@ -126,7 +126,7 @@
   return self;
 }
 
-- update
+- (void)update
 {
   unsigned i;
   
@@ -135,8 +135,6 @@
       [widgets[i] update];
     else
       break;
-
-  return self;
 }
 
 - (void)drop

@@ -197,14 +197,13 @@ PHASE(Using)
   return self;
 }
 
-- update
+- (void)update
 {
-  return self;
 }
 
 - (void)drop
 {
-  int i;
+  unsigned i;
 
   for (i = 0; i < argCount; i++)
     [myWidgets[i] drop];
@@ -277,10 +276,9 @@ PHASE(Using)
   return widgetName;
 }
 
-- pack
+- (void)pack
 {
   GUI_PACK (self);
-  return self;
 }
 #endif
 

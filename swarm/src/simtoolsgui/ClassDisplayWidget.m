@@ -215,30 +215,27 @@ PHASE(Using)
   return probedObject;
 }
 
-- getProbeMap
+- (id <ProbeMap>)getProbeMap
 {
   return probeMap;
 }
 
-- armSuperButton
+- (void)armSuperButton
 {
   [superB setActiveFlag: YES];
-  return self;
 }
 
-- update
+- (void)update
 {
   unsigned i;
   
   for (i = 0; i < count; i++)
     [widgets[i] update];
-  
-  return self;
 }
 
 - (void)drop
 {
-  int i;
+  unsigned i;
   
   [topRow drop];
   [myTitle drop];
@@ -280,11 +277,9 @@ PHASE(Using)
   return widgetName;
 }
 
-- pack
+- (void)pack
 {
   GUI_PACK (self);
-
-  return self;
 }
 
 - getTopLevel

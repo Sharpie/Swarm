@@ -90,12 +90,10 @@
   return self;
 }
 
-- pack
+- (void)pack
 {
   [myLabel pack];  
   [myEntry pack];
-  
-  return self;
 }
 
 - setVariableValue: (const char *)windowName
@@ -105,7 +103,7 @@
   return self;
 }
 
-- update
+- (void)update
 {
   char buffer[5120];
   
@@ -119,8 +117,6 @@
     }
     
   GUI_UPDATE ();
-  
-  return self;
 }
 
 #ifndef USE_WIDGET

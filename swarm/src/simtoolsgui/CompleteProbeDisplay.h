@@ -11,7 +11,7 @@
 }
 
 - createEnd;
-- update;
+- (void)update;
 - (void)drop;
 
 @end

@@ -27,6 +27,6 @@
 - (BOOL)getMarkedForDropFlag;
 - getTopLevel;
 - (void)drop;
-- update;
+- (void)update;
 
 @end

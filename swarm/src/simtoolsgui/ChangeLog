@@ -1,3 +1,13 @@
+2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* ClassDisplayWidget.[hm], CommonProbeDisplay.[hm],
+	CompleteProbeDisplay.[hm], MessageProbeWidget.[hm],
+	SimpleProbeDisplay.[hm], VarProbeWidget.[hm], simtoolsgui.h:
+	Track changes in gui.h w.r.t. Object->void returns. 
+
+	* ControlPanel.m: Track changes in activity and objectbase
+	w.r.t. stepAction/nextAciton.
+
 2001-02-08  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeDisplay.m: Include defalloc.h.

@@ -46,14 +46,14 @@
 - createEnd;
 
 - getProbedObject;
-- getProbeMap;
-- armSuperButton;
-- update;
+- (id <ProbeMap>)getProbeMap;
+- (void)armSuperButton;
+- (void)update;
 
 #ifndef USE_FRAME
 - setParent: (id <Frame>)parent;
 - (const char *)getWidgetName;
-- pack;
+- (void)pack;
 #endif
 
 - (const char *)getId: (const char *)windowName;

@@ -93,10 +93,9 @@ PHASE(Using)
   [super drop];
 }
 
-- update
+- (void)update
 {
   raiseEvent (SubclassMustImplement, "");
-  return self;
 }
 
 @end

@@ -21,6 +21,6 @@
 - setProbeMap: (id <ProbeMap>)probeMap;
 - createEnd;
 - (id <ProbeMap>)getProbeMap;
-- update;
+- (void)update;
 - (void)drop;
 @end

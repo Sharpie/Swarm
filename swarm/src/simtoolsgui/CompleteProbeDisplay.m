@@ -147,7 +147,7 @@ PHASE(Using)
   return 20; // If all else fails, here is a default value...    
 }
 
-- update 
+- (void)update 
 {
   id index;
   id a_widget;
@@ -155,11 +155,10 @@ PHASE(Using)
   index = [widgets begin: getZone (self)];
   while ((a_widget = [index next]) != nil)
    if (!markedForDropFlag)
-      [a_widget update];
-    else
-      break;
+     [a_widget update];
+   else
+     break;
   [index drop];
-  return self;
 }
 
 - (void)drop
