@@ -1,3 +1,7 @@
+2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* acjdk.m4 (vj_FIND_JDK): Add KAWAJAR substitution.
+
 2000-06-06  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* acjdk.m4: Check for hotspot before classic VM.

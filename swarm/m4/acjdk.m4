@@ -14,6 +14,7 @@ if test $jdkdir = no; then
   jdkdir=
   JAVASTUBS=
   JAVASWARMSCRIPTS=
+  KAWAJAR=
 else
   expand_jdkdir=`eval echo $jdkdir`
   USEDOSCLASSPATH=no
@@ -211,6 +212,7 @@ else
   AC_SUBST(JAVASWARM_DLL_ENTRY)
   AC_SUBST(JAVASWARM_LIB_NAME)
   JAVAC=${JAVAC-$javac_default}
+  KAWAJAR=kawa-1.6.70.jar
 fi 
 
 AC_SUBST(JAVASTUBS)
@@ -241,6 +243,7 @@ if test -n "$JAR_CLASSPATH" ; then
 fi
 AC_SUBST(JAR)
 AC_SUBST(jdkdir)
+AC_SUBST(KAWAJAR)
 ])
 
 AC_DEFUN(md_CHECK_JNI_H,
