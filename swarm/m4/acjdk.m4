@@ -31,12 +31,16 @@ else
     JAVAINCLUDES="-I$jdkincludedir"
     if test -f $jdkincludedir/solaris/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
+      JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
     elif test -f $jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
+      JAVALIBS='${jkddir}/shlib'
     elif test -f $jdkincludedir/hp-ux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/hp-ux"
+      JAVALIBS='${jdkdir}/lib/PA_RISC'
     elif test -f $jdkincludedir/winnt/jni_md.h; then  # WebObjects
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
+      JAVALIBS=''
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/genunix"
     fi
@@ -52,7 +56,6 @@ else
     fi
     JAVA='${JAVAENV} ${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
-    JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
     JAVALIBPREFIX=''
     JAVALIBPATH_VAR=
   elif test -f $jdkincludedir/japhar/jni.h; then
