@@ -3,7 +3,7 @@
 
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
 
-  <CORPAUTHOR>Swarm Development Group</CORPAUTHOR>
+  <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
 
   <BOOKBIBLIO>
 
