@@ -639,7 +639,7 @@
                         (buffer-substring beg (point))))
                      (method (find signature ml :key #'get-method-signature :test #'string=)))
                 (if method
-                    (setf (gethash method ht) funcsym)
+                    (setf (gethash method ht) (concat "swarm" funcsym))
                   (message (progn
                              (beginning-of-line)
                              (let ((beg (point)))
@@ -653,6 +653,51 @@
   (let ((ht (make-hash-table)))
     (load-dispatch-hash-table protocol phase ht)
     ht))
+
+(defun funcsyms-suffix (protocol phase)
+  (concat 
+   (protocol-name protocol)
+   (suffix-for-phase phase)
+   "-funcsyms"))
+
+(defun dump-dispatch-hash-table (ht protocol phase)
+  (with-temp-file (concat (c-path)
+			  (funcsyms-suffix protocol phase) 
+			  "-head.c")
+    (loop for method being each hash-key of ht
+	  using (hash-value funcsym)
+	  do
+	  (insert "IMP ")
+	  (insert funcsym)
+	  (insert ";\n")))
+  (with-temp-file (concat (c-path)
+			  (funcsyms-suffix protocol phase) 
+			  "-body.c")
+    (loop for method being each hash-key of ht
+	  using (hash-value funcsym)
+	  do
+	  (insert funcsym)
+	  (insert " = ")
+	  (let* ((end
+		  (car (if (method-factory-flag method)
+			   (split-string funcsym "swarm_c_")
+			 (split-string funcsym "swarm_i_"))))
+		 (class (first (split-string end "__")))
+		 (selName (substring (get-method-signature method) 1)))
+	    (if (method-factory-flag method)
+		(progn
+		  (insert "class_get_class_method (class_get_meta_class (objc_lookup_class (\"")
+		  (insert class)
+		  (insert "\")), sel_get_uid (\"")
+		  (insert selName)
+		  (insert "\"))->method_imp"))
+	      (progn
+		(insert "get_imp (objc_lookup_class (\"")
+		(insert class)
+		(insert "\"), sel_get_uid (\"")
+		(insert selName)
+		(insert "\"))")))
+	    (insert ";\n")))))
   
 (defun c-objc-type (type)
   (if type type "id"))
@@ -660,8 +705,9 @@
 (defun impl-print-method-declaration (method funcsym convert-func)
   (insert "  extern ")
   (insert (funcall convert-func (method-return-type method)))
-  (insert " ")
+  (insert " (*")
   (insert funcsym)
+  (insert ") ")
   (if (method-factory-flag method)
       (insert " (Class objcTarget, SEL objcSel")
     (insert " (id objcTarget, SEL objcSel"))

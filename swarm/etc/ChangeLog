@@ -1,3 +1,11 @@
+2003-04-30    <mgd@arrow.santafe.edu>
+
+	* interface.el (load-dispatch-hash-table): Prefix the results
+	of findImp symbols with "swarm".
+	(funcsyms-suffix, dump-dispatch-hash-table): New functions.
+	(impl-print-method-declaration): Call as a function
+	pointer, not fixed address.
+
 2003-04-20  northcob  <northcob@allele2>
 
 	* Makefile.common.in, swarm.config.in: Add SED configuration variable for libtool >1.4.2
