@@ -1,0 +1,5 @@
+<!entity defobjcont.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Content//EN">
+<!entity defobjrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Revision History//EN">
+<!entity defobjmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Metadata//EN">
+<!entity defobj00.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Introduction//EN">
+<!entity defobjpages.sgml PUBLIC "-//SFI Hive//ENTITIES Defobj Generated Content//EN">
