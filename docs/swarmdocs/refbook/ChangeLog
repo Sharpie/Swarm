@@ -1,3 +1,10 @@
+1998-06-10  Marcus G. Daniels  <mgd@lucero.santafe.edu>
+
+	* Makefile.am: Move CLEANFILES to Makefile.rules.
+	(GENERATED_SGML): Move versions.ent to Makefile.rules.
+	(ENT): New variable, the list of .ent files for this module.
+	(SGML): Add ENT.
+
 1998-06-10  Alex Lancaster  <alex@santafe.edu>
 
 	* lgpl-app.sgml, gpl-app.sgml, ref00a.sgml: Fixed the IDs to have

@@ -8,8 +8,6 @@ swarm_ChangeLog =
 
 include $(top_srcdir)/Makefile.rules
 
-CLEANFILES = *.htm $(NAME).tex _$(NAME).tex $(NAME).rtf
-
 PAGES = activity/activitypages.sgml \
 	analysis/analysispages.sgml \
 	collections/collectionspages.sgml \
@@ -21,11 +19,13 @@ PAGES = activity/activitypages.sgml \
 	simtoolsgui/simtoolsguipages.sgml \
 	space/spacepages.sgml
 
-GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml srcrevhistory.sgml $(top_builddir)/versions.ent
+GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml srcrevhistory.sgml
 
 noinst_DATA = $(GENERATED_SGML)
 
-SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml 
+ENT = src.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
+
+SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml $(ENT)
 
 SGML_FILES = $(SGML) $(GENERATED_SGML)
 
