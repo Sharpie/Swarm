@@ -153,4 +153,6 @@ maintainer-clean : distclean
 force :
 
 distdir:
-
+	cp $(filter-out %/tests.output,$(filter-out %/CVS,$(wildcard $(srcdir)/*))) $(distdir)
+	mkdir $(distdir)/tests.output
+	cp $(filter-out %/CVS,$(wildcard $(srcdir)/tests.output/*)) $(distdir)/tests.output

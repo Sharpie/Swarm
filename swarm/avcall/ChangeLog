@@ -1,3 +1,8 @@
+1999-06-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (distdir): Copy the toplevel files and the files
+	in tests.output to $(distdir).  Remove the CVS directories.
+
 1999-06-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (CC): Add @PICFLAGS@.
