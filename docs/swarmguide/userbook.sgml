@@ -32,6 +32,8 @@
 <!entity usermeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
 <!entity userbiblio.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Bibliography//EN">
 
+<!entity genindex.sgml SYSTEM "/opt/src/alex/build/swarmguide/genindex.sgml">
+
 <!entity % local.notation.class "| JPEG">
 <!notation JPEG system>
 
@@ -90,8 +92,15 @@
   </CHAPTER>
 
   &userbiblio.sgml;
+  &genindex.sgml; 
 
 </BOOK>
 
+<!--
+Local Variables:
+sgml-default-dtd-file:"userbook.ced"
+End:
+-->
+  
 
 
