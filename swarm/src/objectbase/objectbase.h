@@ -70,6 +70,38 @@ USING
 - getObjectToNotify;
 @end
 
+@protocol Swarm
+//S: A temporal container.
+
+//D: A Swarm is a community of agents sharing a common timescale as well as
+//D: common memory pool.
+
+USING
+//M: Override this to let your Swarm create the objects that it contains. 
+- buildObjects;
+
+//M: Override this to let your Swarm build its actions.
+- buildActions;
+
+//M: Override this to activate any actions you built in buildActions.
+//M: Note, you must activate yourself first before you can activate actions
+//M: inside you. 
+
+//E: [super activateIn: swarmContext];
+//E: [myFancySchedule activateIn: self];
+//E: return [self getSwarmActivity];    
+- activateIn: swarmContext;
+
+//M: Needed to support probing of Swarms.
+- getProbeMap;
+
+//M: Needed to support probing of Swarms.
+- getCompleteProbeMap;
+
+//M: Needed to support probing of Swarms.
+- getProbeForVariable: (const char *)aVariable;    
+@end
+
 @protocol Probe <SwarmObject, ProbeConfig>
 //S: An abstract superclass of both VarProbe and MessageProbe.
 
@@ -576,6 +608,7 @@ USING
 @class CompleteVarMap;
 @class ProbeLibrary;
 @class ActivityControl;
+@class Swarm;
 
 //G: The version of Swarm being used.
 extern const char *swarm_version;
