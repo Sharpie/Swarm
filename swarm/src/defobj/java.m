@@ -45,6 +45,8 @@ fcall_type_for_java_signature (const char *signature, fcall_type_t *typeptr)
   for (i = 0; i < FCALL_TYPE_COUNT; i++)
     if (strcmp (signature, java_type_signature[i]) == 0)
       {
+        if (i == fcall_type_uint || i == fcall_type_ushort)
+          continue;
         *typeptr = i;
         return YES;
       }
@@ -251,14 +253,12 @@ java_expandArray (jobject fullary, void *inbuf)
               (*jniEnv)->ReleaseCharArrayElements (jniEnv, obj, ptr,
                                                    JNI_ABORT);
               break;
-            case fcall_type_ushort:
             case fcall_type_sshort:
               ptr = (*jniEnv)->GetShortArrayElements (jniEnv, obj, &isCopy);
               memcpy (&buf[offset], ptr, size);
               (*jniEnv)->ReleaseShortArrayElements (jniEnv, obj, ptr,
                                                     JNI_ABORT);
               break;
-            case fcall_type_uint:
             case fcall_type_sint:
               ptr = (*jniEnv)->GetIntArrayElements (jniEnv, obj, &isCopy);
               memcpy (&buf[offset], ptr, size);

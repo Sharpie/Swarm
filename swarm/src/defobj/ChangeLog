@@ -1,7 +1,7 @@
 2000-06-07  Marcus G. Daniels  <mgd@nest.swarm.org>
 
-	* java.m (java_expandArray): Treat ushort and uint like
-	signed because Java lookup conflates them.
+	* java.m (fcall_type_for_java_signature): Skip over uint and
+	ushort since lookup from Java signature type will conflate them.
 
 2000-06-06  Marcus G. Daniels  <mgd@nest.swarm.org>
 
