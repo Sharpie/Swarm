@@ -840,6 +840,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         XWindowAttributes top_attr;
         BOOL obscured = NO, configured = NO;
         
+	keep_inside_screen (tkwin, window);
         check_for_overlaps (display, topWindow,
                             &overlapWindows, &overlapCount);
 
@@ -873,7 +874,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         if (top_attr.map_state == IsUnmapped)
           if (!XMapWindow (display, topWindow))
             abort ();
-	keep_inside_screen (tkwin, window);
       retry:
         if (obscured)
           for (i = 0; i < overlapCount; i++)
@@ -882,7 +882,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         
         Tk_RestackWindow (tkwin, Above, NULL);
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
-        XFlush (display);
         if (!obscured
             && strcmp ([globalTkInterp
                          globalVariableValue: "obscured"],
@@ -891,6 +890,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
             obscured = YES;
             goto retry;
           }
+        XFlush (display);
         x_pixmap_create_from_window (pixmap, window);
         
         if (top_attr.map_state == IsUnmapped)

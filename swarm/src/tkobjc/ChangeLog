@@ -1,6 +1,9 @@
 1998-09-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (keep_on_screen):  Account for border width.
+	(tkobjc_pixmap_create_from_widget): Do keep_on_screen before
+	check_for_overlaps so that coordinate comparisons will be
+	what they ultimately must.
 
 1998-09-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
