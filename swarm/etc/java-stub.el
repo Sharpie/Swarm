@@ -5,7 +5,7 @@
 (defconst *stub-directory* "/tmp/stubs/")
 
 (defun freakyp (java-type)
-  (eq java-type freaky))
+  (eq java-type 'freaky))
 
 (defconst *objc-to-java-type-alist*
     '(("id .*" . "Object")
