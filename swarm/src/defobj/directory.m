@@ -372,7 +372,7 @@ java_instantiate_using (JNIEnv *env, jobject jobj)
       if (*p == '.')
         *p = '/';
     if (!(clazz = (*env)->FindClass (env, className)))
-      abort ();
+      raiseEvent (InvalidArgument, "Cannot find class `%s'", className);
   }
       
   if (copyFlag)
@@ -403,6 +403,34 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 	  ((jobject_id *) B)->objc_object);
 }
 
+static void
+fill_signature (char *buf, const char *className)
+{
+  char *bp = buf;
+  const char *cp = className;
+
+  *bp++ = 'L';
+  while (*cp)
+    {
+      *bp = (*cp == '.') ? '/' : *cp;
+      bp++;
+      cp++;
+    }
+  *bp++ = ';';
+  *bp = '\0';
+}
+
+static const char *
+create_signature (JNIEnv *env, jobject jobj)
+{
+  const char *className = java_copy_string (env, get_class_name (env, jobj));
+  char buf[1 + strlen (className) + 1 + 1];
+
+  fill_signature (buf, className);
+  XFREE (className);
+  return strdup (buf);
+}
+
 void
 java_directory_init (JNIEnv *env,
                      jobject swarmEnvironment)
@@ -411,7 +439,25 @@ java_directory_init (JNIEnv *env,
   jobject o_globalZone, o_uniformIntRand, o_uniformDblRand;
   jfieldID globalZoneFid, uniformIntRandFid, uniformDblRandFid;
   jclass class;
-    
+
+  jclass zoneClass =
+    java_class_for_typename (env, "Zone", YES);
+  jclass uniformIntegerDistClass =
+    java_class_for_typename (env, "UniformIntegerDist", YES);
+  jclass uniformDoubleDistClass =
+    java_class_for_typename (env, "UniformDoubleDist", YES);
+
+  const char *zoneClassSig,
+    *uniformIntegerDistClassSig, *uniformDoubleDistClassSig;
+
+  o_globalZone = (*env)->AllocObject (env, zoneClass);
+  o_uniformIntRand = (*env)->AllocObject (env, uniformIntegerDistClass);
+  o_uniformDblRand = (*env)->AllocObject (env, uniformDoubleDistClass);
+
+  zoneClassSig = create_signature (env, o_globalZone);
+  uniformIntegerDistClassSig = create_signature (env, o_uniformIntRand);
+  uniformDoubleDistClassSig = create_signature (env, o_uniformDblRand);
+
   jniEnv = env;
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
@@ -422,24 +468,36 @@ java_directory_init (JNIEnv *env,
     abort ();
   
   globalZoneFid = (*env)->GetFieldID (env, class, "globalZone", 
-				      "Lswarm/defobj/ZoneUImpl;");
+                                      zoneClassSig);
+                                      
+  XFREE (zoneClassSig);
+
   uniformIntRandFid = 
       (*env)->GetFieldID (env, class, "uniformIntRand",
-			  "Lswarm/random/UniformIntegerDistUImpl;");  
+                          uniformIntegerDistClassSig);
+
+  XFREE (uniformIntegerDistClassSig);
+
   uniformDblRandFid =
       (*env)->GetFieldID (env, class, "uniformDblRand",
-			  "Lswarm/random/UniformDoubleDistUImpl;");
-  
-  o_globalZone = (*env)->GetObjectField (env, swarmEnvironment, globalZoneFid);
+                          uniformDoubleDistClassSig);
 
-  o_uniformIntRand = (*env)->GetObjectField (env, swarmEnvironment, 
-					     uniformIntRandFid);
-  o_uniformDblRand = (*env)->GetObjectField (env, swarmEnvironment, 
-					     uniformDblRandFid);    
- 
-  o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
-  o_uniformIntRand = (*env)->NewGlobalRef (env, o_uniformIntRand);
-  o_uniformDblRand = (*env)->NewGlobalRef (env, o_uniformDblRand);
+  XFREE (uniformDoubleDistClassSig);
+
+  (*env)->SetObjectField (env,
+                          swarmEnvironment,
+                          globalZoneFid,
+                          o_globalZone);
+
+  (*env)->SetObjectField (env,
+                          swarmEnvironment, 
+                          uniformIntRandFid,
+                          o_uniformIntRand);
+
+  (*env)->SetObjectField (env,
+                          swarmEnvironment, 
+                          uniformDblRandFid,
+                          o_uniformDblRand);    
  
   java_directory_update (env, o_globalZone, globalZone);
   {
@@ -669,7 +727,8 @@ java_ensure_class (JNIEnv *env, jclass javaClass)
       (*env)->GetStringUTFChars (env, name, &isCopy);
     
     objcClass = objc_lookup_class (className);
-    (*env)->ReleaseStringUTFChars (env, name, className);
+    if (isCopy)
+      (*env)->ReleaseStringUTFChars (env, name, className);
   }
   java_directory_update (env, (jobject) javaClass, (id) objcClass);
   return objcClass;

@@ -1,3 +1,10 @@
+1999-06-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (fill_signature, create_signature): New functions.
+	(java_directory_init): Use them to get class type signatures
+	instead of hardcoding syntax.  Create and set the globalZone,
+	uniformIntRand, and uniformDblRand slots here.
+
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Archiver.[hm], defobj.h ([Archiver_c
