@@ -186,7 +186,8 @@ process_array (unsigned rank,
             }
           if (start_element)
             start_element ();
-          output_type (baseType, offset, NULL);
+          if (output_type)
+            output_type (baseType, offset, NULL);
           if (end_element)
             end_element ();
         }
