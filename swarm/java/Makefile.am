@@ -11,6 +11,12 @@ mv $(dir $@)_$(notdir $@) $@
 $(RM) $(dir $@)_$(notdir $<)
 endef
 
+MODULES = defobj collections activity objectbase random simtools gui simtoolsgui space analysis
+
+MAKEFILES = $(foreach module,$(MODULES),swarm/$(module)/Makefile)
+
+.PHONY: all stubs
+
 %.elc: $(top_srcdir)/etc/%.el
 	$(elcrule)
 
@@ -25,7 +31,11 @@ protocol.elc: $(top_srcdir)/etc/protocol.el
 
 java-stub.elc: protocol.elc
 
-stubs: java-stub.elc
+all: stubs
+	$(MAKE) -C c all
+	$(MAKE) -C swarm all
+
+stubs: Makefile.common $(MAKEFILES)
+
+Makefile.common $(MAKEFILES): java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
 	$(EMACS) -batch -l ./java-stub.elc -f java-run-all
-	$(MAKE) -C c stubs
-	$(MAKE) -C swarm stubs

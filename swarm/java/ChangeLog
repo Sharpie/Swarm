@@ -1,5 +1,11 @@
 1999-02-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (all, stubs): Mark as phony.
+	(stubs): Depend on Makefile.conf and $(MAKEFILES).
+	(all): Depend on stubs.
+	(Makefile.common $(MAKEFILES)): Depend on java-stub.elc
+	and module headers.
+
 	* java-stub.el (*java-path*, *c-path*): New constants.
 	(with-protocol-c-file): Use *c-path*.
 	(*stub-directory*): Remove.

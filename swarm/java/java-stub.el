@@ -449,5 +449,3 @@
 (defun java-run-all ()
   (load-and-process-modules :uniquify-method-lists t)
   (java-print-classes))
-
-
