@@ -5,10 +5,6 @@ Implement heatbugs
 
 Formalize Kaffe patches (Windows, HPUX)  [mgd]
 
-Deprecated methods (and replacements for create:withPath:)
-
-Should we encourage using interface-conformance typing or class typing?
-
 Installshield [mgd]
   - add new BLT
   - add Swarm DLL  
@@ -30,13 +26,10 @@ Handle long PATHs in InstallShield (PathSet error)
 For windows distribution, check that X11 headers dependent on tk.h are
 available.
 
-Identify performance bottlenecks
-
-Alternatively, if Kaffe can be built as static and use preloading, that's
-a solution for profiling.  Try gcov instead.
-
 Too much casting!
   How about having stubbing logic to convert id <Zone> into ZoneImpl?
   Or, as a short-term solution, perhaps a table of common-cases like getZone?
+  Should we encourage using interface-conformance typing or class typing?
 
-Review Java probe support; there is code that can be compressed.
+
+Raw probing for Java -- further testing.
