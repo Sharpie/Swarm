@@ -28,7 +28,7 @@ defaultFileName (id aZone)
 {
   id string = [String create: aZone setC: getenv ("HOME")];
 
-  [string appendC: "/.swarm"];
+  [string appendC: "/.swarmArchiver"];
   return string;
 }
 

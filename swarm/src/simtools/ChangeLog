@@ -1,3 +1,8 @@
+1997-12-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Archiver.m (defaultFileName): Change from ~/.swarm to
+	~/.swarmArchiver for default archiver path.
+
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* InFile.m ([InFile -getChar:]): fgetc to an int (for comparison
