@@ -12,9 +12,14 @@ Library:      defobj
 #import "FCall.h"
 #import <defobj.h>
 #import <objc/objc-api.h>
+
+#include <swarmconfig.h>
+#ifndef USE_AVCALL
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION
+#endif
+
 #include <misc.h>
 
 #ifdef HAVE_JDK
@@ -131,12 +136,17 @@ defobj_init_java_call_tables (void *jEnv)
 - setMethod: (SEL)mtd inObject: obj
 {
   Class cl;
+
   callType = objccall;
   (id) fobject = obj;
   (SEL) fmethod = mtd;
   cl = getClass (obj);
   (Class) fclass = cl;
+#ifndef HAVE_AVCALL
   ffunction = FFI_FN (get_imp ((Class) fclass, (SEL) fmethod));
+#else
+  abort ();
+#endif
   return self;
 }
 
@@ -227,6 +237,7 @@ fillHiddenArguments (FCall_c * self)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
       }
 #endif
+#ifndef HAVE_AVCALL
   fillHiddenArguments (self);
   switch_to_ffi_types ((FArguments *) args);
   res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
@@ -237,13 +248,20 @@ fillHiddenArguments (FCall_c * self)
   if (_obj_debug && res != FFI_OK)
     raiseEvent (SourceMessage,
                 "Failed while preparing foreign function call closure!\n"); 
+#else
+  abort ();
+#endif
   return self;
 }
 
 - (void)performCall
 {
+#ifndef HAVE_AVCALL
   ffi_call(&cif, ffunction, args->result, args->argValues + 
 	   MAX_HIDDEN - args->hiddenArguments);  
+#else
+  abort ();
+#endif
 }
 
 - (void *)getResult

@@ -11,10 +11,12 @@ Library:      defobj
 
 
 #import "FArguments.h"
+#include <swarmconfig.h>
+#ifndef USE_AVCALL
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION
-#include <swarmconfig.h>
+#endif
 
 #ifdef HAVE_JDK
 void defobj_init_java_call_tables (void *jEnv);
@@ -28,7 +30,9 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
    unsigned int callType;
    FArguments * args; 
    void *result;
+#ifndef USE_AVCALL
    ffi_cif cif;
+#endif
    func_t ffunction;
    void *fobject;
    void *fclass;

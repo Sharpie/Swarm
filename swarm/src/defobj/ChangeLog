@@ -1,3 +1,7 @@
+1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.[hm]: Abort if not using libffi.
+
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Archiver.m (defaultPath): Append slash only if $HOME is empty
