@@ -1,5 +1,8 @@
 1999-02-10  Alex Lancaster  <alex@santafe.edu>
 
+	* Usage-Guide.Default-Generators.sgml: Prefaced title of table
+	with `Random Library'.
+
 	* Usage-Guide.Choosing-A-Generator.sgml: Replace all `^' plaintext
 	with SUPERSCRIPT.
 
