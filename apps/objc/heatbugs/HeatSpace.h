@@ -24,15 +24,9 @@ typedef enum { cold, hot } HeatExtremeType;
 {
 }
 
-- addHeat: (HeatValue)moreHeat X: (int)x Y: (int)y;
-- (HeatValue)findExtremeType: (HeatExtremeType)heat X: (int *)x Y: (int *)y;
-@end
-
-@protocol HeatSpace <Diffuse2d>
-// New method: add heat to a specific square
+// New method: add heat to a specific square  
 - addHeat: (HeatValue)moreHeat X: (int)x Y: (int)y;
 
-// New method: search a neighbourhood for the requested extreme.
+// New method: search a neighbourhood for the requested extreme. 
 - (HeatValue)findExtremeType: (HeatExtremeType)heat X: (int *)x Y: (int *)y;
 @end
-

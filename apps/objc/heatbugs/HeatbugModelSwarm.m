@@ -24,7 +24,7 @@
   return world;
 }
 
-- (id <Diffuse2d>)getHeat
+- (HeatSpace *)getHeat
 {
   return heat;
 }
