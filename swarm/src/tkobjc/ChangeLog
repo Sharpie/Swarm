@@ -1,3 +1,7 @@
+1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* tkobjc.h: Remove.
+
 1999-05-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* win32dib.c (dib_snapshot): Select depth from device context
