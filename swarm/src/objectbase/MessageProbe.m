@@ -17,6 +17,8 @@
 #import "../defobj/java.h" // JAVA_COPY_STRING, SD_JAVA_FIND_OBJECT_OBJC
 #endif
 
+#import "../defobj/internal.h"
+
 @implementation MessageProbe
 PHASE(Creating)
 
@@ -138,7 +140,7 @@ nth_type (const char *type, unsigned which)
 
 - setArg: (unsigned)which ToUnsigned: (unsigned)x
 {
-  arguments[which].type = _C_UINT;
+  arguments[which].type = fcall_type_uint;
   arguments[which].val.uint =  x;
 
   return self;
@@ -149,63 +151,63 @@ nth_type (const char *type, unsigned which)
   switch (nth_type (probedType, which))
     {
     case _C_ID:
-      arguments[which].type = _C_ID;
+      arguments[which].type = fcall_type_object;
       arguments[which].val.object = nameToObject (what);
       break;
     case _C_CHR:
-      arguments[which].type = _C_CHR;
+      arguments[which].type = fcall_type_schar;
       arguments[which].val.schar = (char) atoi (what);
       break;
     case _C_UCHR:
-      arguments[which].type = _C_UCHR;
+      arguments[which].type = fcall_type_uchar;
       arguments[which].val.uchar = (unsigned char) strtoul (what, NULL, 10);
       break;
     case _C_SHT:
-      arguments[which].type = _C_SHT;
+      arguments[which].type = fcall_type_sshort;
       arguments[which].val.sshort = atoi (what);
       break;
     case _C_USHT:
-      arguments[which].type = _C_USHT;
+      arguments[which].type = fcall_type_ushort;
       arguments[which].val.ushort = (unsigned short) strtoul (what, NULL, 10);
       break;
     case _C_INT:
-      arguments[which].type = _C_INT;
+      arguments[which].type = fcall_type_sint;
       arguments[which].val.sint = atoi (what);
       break;
     case _C_UINT:
-      arguments[which].type = _C_UINT;
+      arguments[which].type = fcall_type_uint;
       arguments[which].val.uint = (unsigned int) strtoul (what, NULL, 10);
       break;
     case _C_LNG:
-      arguments[which].type = _C_LNG;
+      arguments[which].type = fcall_type_slong;
       arguments[which].val.slong = strtol (what, NULL, 10);
       break;
     case _C_ULNG:
-      arguments[which].type = _C_ULNG;
+      arguments[which].type = fcall_type_ulong;
       arguments[which].val.ulong = strtoul (what, NULL, 10);
       break;
     case _C_LNG_LNG:
-      arguments[which].type = _C_LNG_LNG;
+      arguments[which].type = fcall_type_slonglong;
       arguments[which].val.slonglong = (long long) strtol (what, NULL, 10);
       break;
     case _C_ULNG_LNG:
-      arguments[which].type = _C_ULNG_LNG;
+      arguments[which].type = fcall_type_ulonglong;
       arguments[which].val.ulonglong = (unsigned long long) strtoul (what, NULL, 10);
       break;
     case _C_FLT:
-      arguments[which].type = _C_FLT;
+      arguments[which].type = fcall_type_float;
       arguments[which].val._float = strtod (what, NULL);
       break;
     case _C_DBL:
-      arguments[which].type = _C_DBL;
+      arguments[which].type = fcall_type_double;
       arguments[which].val._double = strtod (what, NULL);
       break;
     case _C_LNG_DBL:
-      arguments[which].type = _C_LNG_DBL;
+      arguments[which].type = fcall_type_long_double;
       arguments[which].val._long_double = (long double) strtod (what, NULL);
       break;
     case _C_CHARPTR:
-      arguments[which].type = _C_CHARPTR;
+      arguments[which].type = fcall_type_string;
       arguments[which].val.string = STRDUP (what);
       break;
     default:
@@ -287,7 +289,7 @@ dynamicCallOn (const char *probedType,
   id fa = [FArguments createBegin: getCZone (aZone)];
   id <FCall> fc;
 
-  retVal->type = *type;
+  retVal->type = fcall_type_for_objc_type (*type);
 
   if ([target respondsTo: M(isJavaProxy)])
     [fa setLanguage: LanguageJava];
@@ -305,15 +307,15 @@ dynamicCallOn (const char *probedType,
 	      selector: probedSelector
 	      arguments: fa];
   [fc performCall];
-  if (retVal->type != _C_VOID)
+  if (retVal->type != fcall_type_void)
     retVal->val = *(types_t *) [fc getResult];
 #ifdef HAVE_JDK
   if ([fa getLanguage] == LanguageJava)
     {
-      if (retVal->type == _C_CHARPTR)
+      if (retVal->type == fcall_type_string)
         retVal->val.string =
           JAVA_COPY_STRING ((jstring) retVal->val.object);
-      else if (retVal->type == _C_ID)
+      else if (retVal->type == fcall_type_object)
         retVal->val.object = SD_JAVA_FIND_OBJECT_OBJC ((jobject) retVal->val.object);
     }
 #endif
@@ -334,31 +336,31 @@ dynamicCallOn (const char *probedType,
 {
   val_t val = [self dynamicCallOn: target];
 
-  if (val.type == _C_SHT)
+  if (val.type == fcall_type_sshort)
     return (double) val.val.sshort;
-  else if (val.type == _C_USHT)
+  else if (val.type == fcall_type_ushort)
     return (double) val.val.ushort;
-  else if (val.type == _C_INT)
+  else if (val.type == fcall_type_sint)
     return (double) val.val.sint;
-  else if (val.type == _C_UINT)
+  else if (val.type == fcall_type_uint)
     return (double) val.val.uint;
-  else if (val.type == _C_LNG)
+  else if (val.type == fcall_type_slong)
     return (double) val.val.slong;
-  else if (val.type == _C_ULNG)
+  else if (val.type == fcall_type_ulong)
     return (double) val.val.ulong;
-  else if (val.type == _C_LNG_LNG)
+  else if (val.type == fcall_type_slonglong)
     return (double) val.val.slonglong;
-  else if (val.type == _C_ULNG_LNG)
+  else if (val.type == fcall_type_ulonglong)
     return (double) val.val.ulonglong;
-  else if (val.type == _C_CHR)
+  else if (val.type == fcall_type_schar)
     return (double) val.val.schar;
-  else if (val.type == _C_UCHR)
+  else if (val.type == fcall_type_uchar)
     return (double) val.val.uchar; 
-  else if (val.type == _C_FLT)
+  else if (val.type == fcall_type_float)
     return (double) val.val._float;
-  else if (val.type == _C_DBL)
+  else if (val.type == fcall_type_double)
     return val.val._double;
-  else if (val.type == _C_LNG_DBL)
+  else if (val.type == fcall_type_long_double)
     return (double) val.val._long_double;
   abort ();
 }
@@ -367,31 +369,31 @@ dynamicCallOn (const char *probedType,
 {
   val_t val = [self dynamicCallOn: target];
 
-  if (val.type == _C_CHR)
+  if (val.type == fcall_type_schar)
     return (long) val.val.schar;
-  else if (val.type == _C_UCHR)
+  else if (val.type == fcall_type_uchar)
     return (long) val.val.uchar;
-  else if (val.type == _C_SHT)
+  else if (val.type == fcall_type_sshort)
     return (long) val.val.sshort;
-  else if (val.type == _C_USHT)
+  else if (val.type == fcall_type_ushort)
     return (long) val.val.ushort; 
-  else if (val.type == _C_INT)
+  else if (val.type == fcall_type_sint)
     return (long) val.val.sint;
-  else if (val.type == _C_UINT)
+  else if (val.type == fcall_type_uint)
     return (long) val.val.uint;
-  else if (val.type == _C_LNG)
+  else if (val.type == fcall_type_slong)
     return val.val.slong;
-  else if (val.type == _C_ULNG)
+  else if (val.type == fcall_type_ulong)
     return (long) val.val.ulong;
-  else if (val.type == _C_LNG_LNG)
+  else if (val.type == fcall_type_slonglong)
     return val.val.slonglong;
-  else if (val.type == _C_ULNG_LNG)
+  else if (val.type == fcall_type_ulonglong)
     return (long) val.val.ulonglong;
-  else if (val.type == _C_FLT)
+  else if (val.type == fcall_type_float)
     return (long) val.val._float;
-  else if (val.type == _C_DBL)
+  else if (val.type == fcall_type_double)
     return (long) val.val._double;
-  else if (val.type == _C_LNG_DBL)
+  else if (val.type == fcall_type_long_double)
     return (long) val.val._long_double;
   abort ();
 }
@@ -400,7 +402,7 @@ dynamicCallOn (const char *probedType,
 {
   val_t val = [self dynamicCallOn: target];
 
-  if (val.type != _C_CHARPTR)
+  if (val.type != fcall_type_string)
     abort ();
   return val.val.string;
 }
@@ -409,9 +411,9 @@ dynamicCallOn (const char *probedType,
 {
   val_t val = [self dynamicCallOn: target];
 
-  if (val.type == _C_ID)
+  if (val.type == fcall_type_object)
     return val.val.object;
-  else if (val.type == _C_SEL)
+  else if (val.type == fcall_type_selector)
     return (id) val.val.selector;
   else
     abort ();

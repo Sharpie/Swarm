@@ -224,7 +224,7 @@ externvar id <Symbol> DefaultString, CharString, IntString;
 @end
 
 typedef struct val {
-  char type;
+  fcall_type_t type;
   types_t val;
 } val_t;
 

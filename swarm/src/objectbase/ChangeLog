@@ -1,3 +1,16 @@
+2001-01-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* MessageProbe.m: Include defobj/internal.h
+	([MessageProbe -setArg:ToUnsigned:],
+	[MessageProbe -setArg:ToString:], dynamicCallOn
+	[MessageProbe -doubleDynamicCallOn:],
+	[MessageProbe -longDynamicCallOn:],
+	[MessageProbe -stringDynamicCallOn:],
+	[MessageProbe -objectDynamicCallOn:]): Use fcall_types instead 
+	of Objective C type.
+
+	* objectbase.h (val_t): Change type to fcall_type_t.
+	
 2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.h (VarProbe): Use const void * for {getter,setter}Method
