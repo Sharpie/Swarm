@@ -6,8 +6,8 @@
   3. "getHeight" and "getWidth" methods were added to ZoomRaster.
   4. Default ProbeMap creation was fixed by returning the correct
      BOOL type within "isProbeMapDefinedFor:".
-  5. Float and double format outputs in OutFile were changed to "%8.6e"
-     "%17.15e", respectively.
+  5. Float and double format outputs in OutFile were changed to "%15.7e"
+     "%24.16e", respectively.
 
 
 	      =========================================
