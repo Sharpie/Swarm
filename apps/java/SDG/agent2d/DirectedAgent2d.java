@@ -1,6 +1,5 @@
 package agent2d;
 import swarm.defobj.Zone;
-import swarm.space.Grid2d;
 import swarm.gui.Raster;
 
 import Organization;

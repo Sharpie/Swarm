@@ -6,7 +6,6 @@ import swarm.activity.Activity;
 import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
 import swarm.defobj.Zone;
-import swarm.space.Grid2d;
 import swarm.gui.Raster;
 
 import ObserverSwarm;

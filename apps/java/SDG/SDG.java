@@ -2,8 +2,6 @@ import swarm.activity.Activity;
 import swarm.objectbase.Swarm;
 import swarm.Globals;
 import swarm.defobj.Zone;
-import swarm.space.Grid2d;
-import swarm.space.Grid2dImpl;
 
 import agent2d.Agent2d;
 import agent2d.Marcus2d;
