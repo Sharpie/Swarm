@@ -601,14 +601,14 @@ USING
 //M: until the execution of actions is stopped by a subactivity or stopped by
 //M: a stop message to the activity.  If the activity completes executing all 
 //M: the actions on its schedule, the run method returns Completed.
-- (id <Symbol>)run;
+- (id <Symbol>)runActivity;
 
 //M: The stop method sends a stop message to the activity if the conditions 
 //M: are appropriate. This message causes the control to move back up the 
 //M: run-stack and resume at the place in the code where the run was first 
 //M: executed. The next action on the super-activity will begin without  
 //M: finishing the rest of the current activity's actions. 
-- (id <Symbol>)stop;
+- (id <Symbol>)stopActivity;
 
 //M: The next method sends a next message to the activity if the conditions 
 //M: are appropriate. It runs an activity forward through as many actions as 

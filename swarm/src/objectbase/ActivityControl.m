@@ -5,11 +5,12 @@
 
 // Activity Controller class, for use on any activity in any
 // Swarm. Controls the state of running activities, provides the
-// "stop," "nextAction," "stepAction," "stepUntil," and "run," functions for any
-// swarm.
+// "stopActivity," "nextAction," "stepAction," "stepUntil," and
+// "runActivity," functions for any swarm.
 
 #import <objectbase/ActivityControl.h>
 #import <activity.h>
+#import <defobj/defalloc.h> // getZone
 
 @implementation ActivityControl
 PHASE(Creating)
@@ -17,9 +18,9 @@ PHASE(Using)
 // functional methods
 
 //
-//  run -- Executes run on the activity
+//  runActivity -- Executes run on the activity
 //
-- (id <Symbol>)run 
+- (id <Symbol>)runActivity
 {
   [self updateStateVar];
   if ((isTopLevelActivity) &&
@@ -32,9 +33,9 @@ PHASE(Using)
 }
 
 //
-//  stop -- Stops the execution of the activity
+//  stopActivity -- Stops the execution of the activity
 //
-- (id <Symbol>)stop
+- (id <Symbol>)stopActivity
 {
   [self updateStateVar];
   // stop returns the activity, not the status
@@ -112,7 +113,7 @@ PHASE(Using)
   // A schedule must be merged with (activated in) the Swarm rather
   //    than simply adding a single action to the Swarm activity schedule
   //    because the Swarm is not designed to handle singleton actions.
-  updateSchedule = [Schedule createBegin: [self getZone]];
+  updateSchedule = [Schedule createBegin: getZone (self)];
   // The repeat interval could be made a function of the display freq.
   [updateSchedule setRepeatInterval: 1];
   updateSchedule = [updateSchedule createEnd];
@@ -180,37 +181,37 @@ PHASE(Using)
 {
   id <ProbeMap> probeMap;
   
-  probeMap = [EmptyProbeMap createBegin: [self getZone]];
-  [probeMap setProbedClass: [self class]];
+  probeMap = [EmptyProbeMap createBegin: getZone (self)];
+  [probeMap setProbedClass: getClass (self)];
   probeMap = [probeMap createEnd];
 
   [probeMap addProbe: [[probeLibrary getProbeForVariable: "currentTime"
-				     inClass: [self class]]
+				     inClass: getClass (self)]
 			setNonInteractive]];
   [probeMap addProbe: [[probeLibrary getProbeForVariable: "status"
-				     inClass: [self class]]
+				     inClass: getClass (self)]
 			setNonInteractive]];
   [probeMap addProbe: [[probeLibrary getProbeForVariable: "isTopLevelActivity"
-				     inClass: [self class]]
+				     inClass: getClass (self)]
 			setNonInteractive]];
 
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "run"
-                             inClass: [self class]]
+  [probeMap addProbe: [[probeLibrary getProbeForMessage: "runActivity"
+                             inClass: getClass (self)]
                         setHideResult: 0]];
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "stop"
-                             inClass: [self class]]
+  [probeMap addProbe: [[probeLibrary getProbeForMessage: "stopActivity"
+                             inClass: getClass (self)]
                         setHideResult: 0]];
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "nextAction"
-                             inClass: [self class]]
+                             inClass: getClass (self)]
                         setHideResult: 0]];
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "stepAction"
-                             inClass: [self class]]
+                             inClass: getClass (self)]
                         setHideResult: 0]];
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "stepUntil:"
-                             inClass: [self class]]
+                             inClass: getClass (self)]
                         setHideResult: 0]];
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "terminate"
-                             inClass: [self class]]
+                             inClass: getClass (self)]
                         setHideResult: 0]];
 
   [probeLibrary setProbeMap: probeMap ForObject: self];

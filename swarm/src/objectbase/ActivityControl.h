@@ -25,8 +25,8 @@
 }
 
 // functional methods
-- (id <Symbol>)run;
-- (id <Symbol>)stop;
+- (id <Symbol>)runActivity;
+- (id <Symbol>)stopActivity;
 - (id <Symbol>)nextAction;
 - (id <Symbol>)stepAction;
 - (id <Symbol>)stepUntil: (timeval_t) stopTime;
