@@ -331,13 +331,22 @@ PHASE(Creating)
 {
 #ifdef HAVE_JDK
   jclass lref;
+  char buf[strlen (theMethodName) + 1], *p;
+
   callType = javacall;
+
+  
+  strcpy (buf, theMethodName);
+  p = strchr (buf, ':');
+  if (p)
+    *p = '\0';
+  
   if (fclass)
     (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
   lref = (*jniEnv)->GetObjectClass (jniEnv, (jobject) jObj);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  methodName = STRDUP (theMethodName);
+  methodName = STRDUP (buf);
   fobject = jObj;
 #else
   java_not_available ();
@@ -349,18 +358,31 @@ PHASE(Creating)
 {
   COMobject cObj = SD_COM_FIND_OBJECT_COM (obj);
 
-  if (!COM_is_javascript (cObj))
+  if (cObj)
     {
-      SEL sel = sel_get_any_typed_uid (theMethodName);
+      if (COM_is_javascript (cObj))
+        {
+          (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
+          callType = JScall;
+          methodName = STRDUP (theMethodName);
+          return self;
+        }
+    }
+  else 
+    {
+      jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (obj);
       
-      [self setMethodFromSelector: sel inObject: obj];
+      if (jObj)
+        {
+          [self setJavaMethodFromName: theMethodName inObject: jObj];
+          return self;
+        }
     }
-  else
-    {
-      (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
-      callType = JScall;
-      methodName = STRDUP (theMethodName);
-    }
+  {
+    SEL sel = sel_get_any_typed_uid (theMethodName);
+    
+    [self setMethodFromSelector: sel inObject: obj];
+  }
   return self;
 }
 

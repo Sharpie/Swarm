@@ -1,3 +1,11 @@
+2001-03-15  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* FCall.m ([FCall_c -setMethodFromName:inObject:]): Use setJavaMethod
+	([FCall_c -setMethodFromName:inObject:]): Call setJavaMethodFromName
+	if there is a Java counterpart.
+	([FCall_c -_setJavaMethod_:inObject:]): Copy method name and strip
+	off ':', if any.
+
 2001-03-11  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* HDF5Object.m (string_ref, ref_string): Change `count' type from
