@@ -86,7 +86,7 @@ modules: deps $(addsuffix .class,$(PRECLASSES))
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 
 jar: all
-	cd .. ; unset CLASSPATH ; $(JAR) cf swarm/swarm.jar $(ALLCLASSFILES)
+	cd .. ; unset CLASSPATH ; $(JAR) cf swarm/swarm.jar swarm
 
 install-java-classes-as-jar: jar
 	test -d $(datadir) || mkdir $(datadir)

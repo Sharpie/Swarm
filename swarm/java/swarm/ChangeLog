@@ -1,3 +1,9 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (jar): Don't name all the files, just the top
+	directory.  A .jar file is preferable, and requiring GNU tar
+	on command-line-length-crippled systems to install is a pain.
+
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Globals.java: Remove loading messages.
