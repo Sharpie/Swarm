@@ -274,8 +274,8 @@ get_base_class_name (JNIEnv *env, jobject jobj)
   if (!(baseClassNameObj = (*env)->CallObjectMethod (env,
                                                      classNameObj,
                                                      methodID,
-                                                     len - 4,
-                                                     len)))
+                                                     0,
+                                                     len - 4)))
     abort ();
 
   return baseClassNameObj;
