@@ -17,8 +17,6 @@ Library:      defobj
 void 
 init_java (void)
 {
-  javaEnv = [JavaEnv create: globalZone];
-  jniEnv = [javaEnv getJNIEnv]; 
   java_static_call_functions[swarm_type_void] = 
       FFI_FN ((*jniEnv)->CallStaticVoidMethod);
   java_static_call_functions[swarm_type_uchar] = 
@@ -96,18 +94,16 @@ init_java (void)
 - setCallType: (unsigned int) cType
 {
   callType = cType;
-  if (callType == ccall)
+  switch (callType)
     {
+    case ccall:
       hiddenArguments = 0;
       return self;
-    }
-  if (callType == objccall)
-    {
+    case objccall:    
       hiddenArguments = 2;
       return self;
-    }
-  if (callType == javacall || callType == javastaticcall)
-    {
+    case javacall:
+    case javastaticcall:
       hiddenArguments = 3;
       return self;
     }
@@ -165,16 +161,15 @@ init_java (void)
       argValues = [[self getZone] allocBlock: (sizeof (void *) * 
 					       (argNo + hiddenArguments))];
     }
-  if (callType == objccall)
+  switch (callType)
     {
+    case objccall: 
       argTypes[0] = &ffi_type_pointer;
       argValues[0] = &object;
       argTypes[1] = &ffi_type_pointer;
       argValues[1] = &method;
       return self;
-    }
-  if (callType == javacall)
-    {
+    case javacall:
       argTypes[0] = &ffi_type_pointer;
       argValues[0] = &jniEnv;
       argTypes[1] = &ffi_type_pointer;
@@ -182,9 +177,7 @@ init_java (void)
       argTypes[2] = &ffi_type_pointer;
       argValues[2] = &method;
       return self;
-    }
-  if (callType == javastaticcall)
-     {
+    case javastaticcall:
       argTypes[0] = &ffi_type_pointer;
       argValues[0] = &jniEnv;
       argTypes[1] = &ffi_type_pointer;
@@ -192,7 +185,7 @@ init_java (void)
       argTypes[2] = &ffi_type_pointer;
       argValues[2] = &method;
       return self;
-    } 
+    }
   return self;
 }
 
@@ -215,16 +208,21 @@ init_java (void)
 	}
       else
 	{
-	  if (type == swarm_type_float)
+	  switch  (type)
+	    { 
+	    case swarm_type_float:
 	      [self addFloat: *(float *) value];
-	  else
-	      if (type == swarm_type_string)
-		[self addString: *(char **) value];
-	      else
-		if (type == swarm_type_jobject)
-		  [self addJObject: *(jobject *) value];
-		else
-		  raiseEvent (SourceMessage, "Passing pointers or structures to Java is not possible!\n");
+	      break;
+	    case swarm_type_string:
+	      [self addString: *(char **) value];
+	      break;
+	    case swarm_type_jobject:
+	      [self addJObject: *(jobject *) value];
+	      break;
+	    default:
+	      raiseEvent (SourceMessage, "Passing pointers or structures to Java is not possible!\n");
+	      break;
+	    }
 	}
     }
   return self;
@@ -421,25 +419,26 @@ void switch_to_ffi_types(FCall * self)
 	  function = (callType == javacall ? 
 		      java_call_functions[(int) returnType] :
 		      java_static_call_functions[(int) returnType]);
+
 	  signature = createSignature ((FCall *) self);
-	  printf("|%s|\n", signature);
 	  
 	  (jmethodID) method = (callType == javacall ?
-				(*jniEnv)->GetMethodID (jniEnv, class, mtdName,
- 							signature) :
-				(*jniEnv)->GetStaticMethodID(jniEnv, class, 
-							     mtdName,
-							     signature)); 
+				(*jniEnv)->GetMethodID (jniEnv, class, 
+							mtdName, 
+							signature) :
+				  (*jniEnv)->GetStaticMethodID(jniEnv, class, 
+							       mtdName, 
+							       signature)); 
 	  if (!method)
-	      raiseEvent (SourceMessage, "Could not find Java method!\n");
+	    raiseEvent (SourceMessage, "Could not find Java method!\n");
 	  
       }
   else 
-      switch_to_ffi_types ((FCall *) self);
+    switch_to_ffi_types ((FCall *) self);
   res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, hiddenArguments + argNo, 
 		      (ffi_type *) returnType, (ffi_type **) argTypes);
   if (_obj_debug && res != FFI_OK)
-      raiseEvent (SourceMessage, "Failed while preparing foreign function call closure!\n"); 
+    raiseEvent (SourceMessage, "Failed while preparing foreign function call closure!\n"); 
   return self;
 }
 
@@ -469,6 +468,7 @@ void switch_to_ffi_types(FCall * self)
 }
 
 @end
+
 
 
 

@@ -13,7 +13,23 @@ Library:      defobj
 #include <ffi.h>
 #include <jni.h>
 #include "JavaEnv.h"
-#include "swarm_types.h"
+
+#define number_of_types 14
+
+#define swarm_type_void    0
+#define swarm_type_uchar   1
+#define swarm_type_schar   2
+#define swarm_type_ushort  3
+#define swarm_type_sshort  4
+#define swarm_type_uint    5
+#define swarm_type_sint    6 
+#define swarm_type_ulong   7
+#define swarm_type_slong   8
+#define swarm_type_float   9 
+#define swarm_type_double  10
+#define swarm_type_pointer 11
+#define swarm_type_string  12
+#define swarm_type_jobject 13
 
 extern ffi_type * swarm_types[number_of_types];
 extern char * java_type_signatures[number_of_types];
@@ -23,22 +39,6 @@ extern void * java_call_functions[number_of_types];
 void init_java (void);
 
 enum callTypes { ccall, objccall, javacall, javastaticcall};
-
-@interface StructureTypeFactory: Object_s
-{
-@public
-   unsigned int fieldsNo;
-   unsigned int assignedFields;
-   ffi_type ** fieldTypes;
-   ffi_type * structureType;
-}
-+ create: aZone;
-- createNewStructureType: aZone numberOfFields: (unsigned int) fieldsNo;
-- createCopyOfStructureType: aZone;
-- addNewField: (ffi_type *) type;
-- atOffset: (unsigned int) offset changeType: (ffi_type *) type;
-- (ffi_type *) returnStructureType;
-@end
 
 @interface FCall: CreateDrop_s
 {
@@ -84,3 +84,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - (jobject) getJObjectResult;
 - (void *) getResult;
 @end
+
+
+
+

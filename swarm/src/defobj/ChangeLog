@@ -1,3 +1,14 @@
+1999-03-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* FCall.m (init_java): Remove JNI initialization from init_java.
+	([FCall -setCallType:cType]): Use switch instead of if else.
+	([FCall -setNumberOfArguments:number]): Likewise.
+	([FCall -addArgument:value:type]): Likewise.
+
+	* FCall.h: Insert contents of swarm_types.h in FCall.h 
+
+	* swarm_types.h: Remove file. 
+
 1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* swarm_types.h: New file. 
