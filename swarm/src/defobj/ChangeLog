@@ -1,3 +1,24 @@
+2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (swarm_directory_java_find): Use a stack allocated
+	findEntry.
+	(swarm_directory_objc_ensure_java,
+	swarm_directory_objc_find_java): Abort if result not a
+	foreign_java entry.
+	(swarm_directory_java_find, java_compareDirectoryEntries,
+	swarm_directory_switch_java_entry): Update for foreignObject.
+
+	* directory.m (getObjcName, swarm_directory_entry_drop, 
+	[-describe:], swarm_directory_objc_remove
+	): Behavior is conditional on entry type.
+	([+createBegin:]): Don't initialize findEntry.
+
+	* directory.[hm] ([-setCOMObject:]): New method.
+
+	* directory.h (DirectoryEntry): Replace javaObject with
+	foreignObject union.  Update macros to match.
+	(Directory): Remove findEntry.
+
 2000-05-01  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* internal.[hm], directory.[hm], java.[hm]:

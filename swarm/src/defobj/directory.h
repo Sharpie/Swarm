@@ -30,18 +30,23 @@ extern JNIEnv *jniEnv;
 void swarm_directory_init (JNIEnv *jniEnv,
                           jobject swarmEnvironment);
 
+typedef enum { foreign_java, foreign_COM } foreign_t;
+
 @interface DirectoryEntry: CreateDrop
 {
 @public
-  jobject javaObject;
+  foreign_t type;
   id object;
+  union {
+    jobject java;
+    void *COM;
+  } foreignObject;
 }
-- setJavaObject: (jobject)javaObject;
 - setObject: object;
+- setJavaObject: (jobject)javaObject;
+- setCOMObject: (void *)COMObject;
+
 void swarm_directory_entry_drop (JNIEnv *env, DirectoryEntry *entry);
-void swarm_directory_entry_describe (JNIEnv *env,
-                                     DirectoryEntry *entry,
-                                     id outputCharStream);
 - (void)describe: outputCharStream;
 @end
 
@@ -50,7 +55,6 @@ void swarm_directory_entry_describe (JNIEnv *env,
 @public
   id *table;
   avl_tree *objc_tree;
-  DirectoryEntry *findEntry;
 }
 + createBegin: aZone;
 DirectoryEntry *swarm_directory_objc_find (JNIEnv *env, id object);
@@ -70,8 +74,8 @@ extern void swarm_directory_dump ();
 #define SD_JAVA_ENSUREJAVA(env, objc) swarm_directory_objc_ensure_java (env, objc)
 #define SD_JAVA_FINDJAVACLASS(env, objcClass) swarm_directory_objc_find_java_class (env, objcClass)
 #define SD_JAVA_ADD(env, jobj, objc) swarm_directory_java_add (env, objc, jobj)
-#define SD_JAVA_ADDJAVA(env, jobj, objc) swarm_directory_java_add (env, objc, jobj)->javaObject
-#define SD_JAVA_NEXTPHASE(env, jobj, objc) swarm_directory_java_switch_phase (env, objc, jobj)->javaObject
+#define SD_JAVA_ADDJAVA(env, jobj, objc) swarm_directory_java_add (env, objc, jobj)->foreignObject.java
+#define SD_JAVA_NEXTPHASE(env, jobj, objc) swarm_directory_java_switch_phase (env, objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHOBJC(env, jobj, newobjc) swarm_directory_java_switch_objc (env, newobjc, jobj)
 #define SD_JAVA_INSTANTIATE(env, clazz) swarm_directory_java_instantiate (env, clazz)
 #define SD_JAVA_NEXTJAVAPHASE(env, jobj) swarm_directory_java_next_phase (env, jobj)
@@ -97,7 +101,7 @@ extern void *alloca (size_t);
 #define JAVA_ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
 #define JAVA_OBJCENTRY(theObject) JAVA_ENTRY(theObject,0)
 #define JAVA_JAVAENTRY(theJavaObject) JAVA_ENTRY(0,theJavaObject)
-#define JAVA_FINDENTRY(theJavaObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->javaObject = theJavaObject; _findEntry; })
+#define JAVA_FINDENTRY(theJavaObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->foreignObject.java = theJavaObject; _findEntry; })
 
 #define OBJC_FINDENTRY(theObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->object = theObject; _findEntry; })
 

@@ -1387,9 +1387,9 @@ swarm_directory_java_find (JNIEnv *env, jobject javaObject)
       id ret;
       unsigned index = swarm_directory_java_hash_code (env, javaObject);
       id <Map> m = swarmDirectory->table[index];
-      DirectoryEntry *findEntry = swarmDirectory->findEntry;
+      DirectoryEntry *findEntry = JAVA_FINDENTRY (javaObject);
       
-      findEntry->javaObject = javaObject;
+      findEntry->foreignObject.java = javaObject;
       ret = m ? [m at: findEntry] : nil;
       return ret;
     }
@@ -1461,7 +1461,9 @@ swarm_directory_objc_ensure_java (JNIEnv *env, id object)
       (*env)->DeleteLocalRef (env, lref);
       (*env)->DeleteLocalRef (env, javaClass);
     }
-  return result->javaObject;
+  else if (result->type != foreign_java)
+    abort ();
+  return result->foreignObject.java;
 }
 
 id
@@ -1490,9 +1492,9 @@ java_compareDirectoryEntries (DirectoryEntry *obj1, DirectoryEntry* obj2)
           ((DirectoryEntry *) obj2)->javaObject);
 #endif
   return (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
-                                              obj1->javaObject,
+                                              obj1->foreignObject.java,
                                               m_Equals,
-                                              obj2->javaObject);
+                                              obj2->foreignObject.java);
 }
 
 static id <Map>
@@ -1505,20 +1507,21 @@ createDirectoryEntryMap (JNIEnv *env)
 
 static void
 swarm_directory_switch_java_entry (JNIEnv *env, 
-                                   DirectoryEntry *entry, jobject javaObject)
+                                   DirectoryEntry *entry,
+                                   jobject javaObject)
 {
   unsigned index;
   id <Map> m;
   id <Map> *table = swarmDirectory->table;
   
   javaObject = (*env)->NewGlobalRef (env, javaObject);
-  index = swarm_directory_java_hash_code (env, entry->javaObject);
+  index = swarm_directory_java_hash_code (env, entry->foreignObject.java);
   m = table[index];
   [m remove: entry];
-  (*env)->DeleteGlobalRef (env, entry->javaObject);
+  (*env)->DeleteGlobalRef (env, entry->foreignObject.java);
   
   index = swarm_directory_java_hash_code (env, javaObject);
-  entry->javaObject = javaObject;
+  entry->foreignObject.java = javaObject;
   if (!table[index])
     table[index] = createDirectoryEntryMap (env);
 
@@ -1728,7 +1731,14 @@ swarm_directory_objc_find_java (JNIEnv *env, id object)
 {
   DirectoryEntry *entry = swarm_directory_objc_find (env, object);
 
-  return entry ? entry->javaObject : NULL;
+  if (entry)
+    {
+      if (entry->type != foreign_java)
+        abort ();
+      return entry->foreignObject.java;
+    }
+  else
+    return NULL;
 }
 
 

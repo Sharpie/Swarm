@@ -32,18 +32,33 @@ extern JNIEnv *jniEnv;
 Directory *swarmDirectory;
 
 static const char *
-getObjcName (JNIEnv *env, jobject javaObject, id object)
+getObjcName (JNIEnv *env, DirectoryEntry *entry)
 {
-  if (java_selector_p (env, javaObject))
-    return object ? sel_get_name ((SEL) object) : "M(<nil>)";
+  if ((entry->type == foreign_java
+       && java_selector_p (env, entry->foreignObject.java))
+#if 0
+      ||
+      (entry->type == foreign_COM
+       && COM_selector_p (env, entry->foreignObject.COM))
+#endif
+      )
+    return entry->object ? sel_get_name ((SEL) entry->object) : "M(<nil>)";
   else
-    return object ? [object name] : "nil";
+    return entry->object ? [entry->object name] : "nil";
 }
 
 @internalimplementation DirectoryEntry
+- setCOMObject: (void *)theCOMObject
+{
+  type = foreign_COM;
+  foreignObject.COM = theCOMObject;
+  return self;
+}
+
 - setJavaObject: (jobject)theJavaObject
 {
-  javaObject = theJavaObject;
+  type = foreign_java;
+  foreignObject.java = theJavaObject;
   return self;
 }
 
@@ -56,34 +71,31 @@ getObjcName (JNIEnv *env, jobject javaObject, id object)
 void
 swarm_directory_entry_drop (JNIEnv *env, DirectoryEntry *entry)
 {
-  (*env)->DeleteGlobalRef (env, entry->javaObject);
+  if (entry->type == foreign_java)
+    (*env)->DeleteGlobalRef (env, entry->foreignObject.java);
   [getZone (entry) freeIVars: entry];
-}
-
-void
-swarm_directory_entry_describe (JNIEnv *env,
-                                DirectoryEntry *entry,
-                                id outputCharStream)
-{
-  const char *className =
-    swarm_directory_java_class_name (env, entry->javaObject);
-  
-  [outputCharStream catPointer: entry];
-  [outputCharStream catC: " objc: "];
-  [outputCharStream catC: getObjcName (env, entry->javaObject, entry->object)];
-  [outputCharStream catC: " "];
-  [outputCharStream catPointer: entry->object];
-  [outputCharStream catC: "  java: "];
-  [outputCharStream catC: className];
-  [outputCharStream catC: " "];
-  [outputCharStream catPointer: entry->javaObject];
-  [outputCharStream catC: "\n"];
-  FREECLASSNAME (className);
 }
 
 - (void)describe: outputCharStream
 {
-  swarm_directory_entry_describe (jniEnv, self, outputCharStream);  
+  [outputCharStream catPointer: self];
+  [outputCharStream catC: " objc: "];
+  [outputCharStream catC: getObjcName (jniEnv, self)];
+  [outputCharStream catC: " "];
+  [outputCharStream catPointer: object];
+
+  if (type == foreign_java)
+    {
+      const char *className =
+        swarm_directory_java_class_name (jniEnv, foreignObject.java);
+      
+      [outputCharStream catC: "  java: "];
+      [outputCharStream catC: className];
+      [outputCharStream catC: " "];
+      [outputCharStream catPointer: foreignObject.java];
+      [outputCharStream catC: "\n"];
+      FREECLASSNAME (className);
+    }
 }
 
 @end
@@ -108,7 +120,6 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   obj->table = [aZone alloc: size];
   memset (obj->table, 0, size);
   obj->objc_tree = avl_create (compare_objc_objects, NULL);
-  obj->findEntry = JAVA_ENTRY (0, 0);
   return obj;
 }
 
@@ -132,28 +143,31 @@ swarm_directory_objc_remove (JNIEnv *env, id object)
 
   if (entry)
     {
-      unsigned index;
-      id <Map> m;
-
-      index = swarm_directory_java_hash_code (env, entry->javaObject);
-      m = swarmDirectory->table[index];
-      if (!m)
-        abort ();
-      {
-        DirectoryEntry *ret;
-
-        ret = [m remove: entry];
-
-        if (ret != entry)
-          raiseEvent (WarningMessage, "remove (%p) != %p\n", entry, ret);
-
-        ret = avl_delete (swarmDirectory->objc_tree, entry);
-        
-        if (ret != entry)
-          abort ();
-      }
-      swarm_directory_entry_drop (env, entry);
-      return YES;
+      if (entry->type == foreign_java)
+        {
+          unsigned index;
+          id <Map> m;
+          
+          index = swarm_directory_java_hash_code (env, entry->foreignObject.java);
+          m = swarmDirectory->table[index];
+          if (!m)
+            abort ();
+          {
+            DirectoryEntry *ret;
+            
+            ret = [m remove: entry];
+            
+            if (ret != entry)
+              raiseEvent (WarningMessage, "remove (%p) != %p\n", entry, ret);
+            
+            ret = avl_delete (swarmDirectory->objc_tree, entry);
+            
+            if (ret != entry)
+              abort ();
+          }
+          swarm_directory_entry_drop (env, entry);
+          return YES;
+        }
     }
   
   return NO;
