@@ -1,3 +1,7 @@
+2000-08-31 Alex Lancaster  <alex@santafe.edu>
+
+	* simtoolsgui.h: Add doc string to "doTkEvents" method.
+
 2000-08-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ControlPanel.m ([ControlPanel -setStateStopped]): Remove check

@@ -110,6 +110,12 @@ USING
 - verifyActions;
 
 - getPanel;
+
+//M: A message that processes any input or output events of the Tk
+//M: toolkit. Scheduling -doTkEvents ensures Tk keeps the user interface
+//M: up-to-date.  Without scheduling it as part of the GUI code, the Tk
+//M: events would just queue up and never get processed, resulting in a
+//M: static, unresponsive user interface.
 - doTkEvents;  // should change to pollGUI or something
 - waitForControlEvent;
 @end
