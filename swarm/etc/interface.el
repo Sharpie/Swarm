@@ -154,8 +154,11 @@
       "-getCallType"; call_t return
 
       ;; FArguments
+      "-addArgument:ofType:" ; void*, fcall_type_t parameters
       "-addArgument:ofObjCType:" ; void* parameter
       "-addLongDouble:" ; long double parameter
+      "-setReturnType:" ; fcall_type_t parameter
+      "-getRetVal" ; val_t
 
       ;; FCall, FArguments
       "-getResult"; void* return
