@@ -1,8 +1,8 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.in (jar): Don't name all the files, just the top
-	directory.  A .jar file is preferable, and requiring GNU tar
-	on command-line-length-crippled systems to install is a pain.
+	* Makefile.in (jar): Do wildcard with Cygwin to avoid command line
+	length problems, otherwise name all the files, since Unix jar doesn't
+	handle wildcards.
 
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
