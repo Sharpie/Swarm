@@ -1,17 +1,17 @@
 Summary: Swarm demonstration applications.
 Name: swarmdemos
-Version: 2.0.1
-Release: 3.rh6
+Version: @version@
+Release: @demo_release@
 Copyright: GPL
 Group: Applications/Engineering
-Source0: ftp://ftp.santafe.edu/pub/swarm/swarmapps-%{version}.tar.gz
+Source0: @ftproot@/swarmapps-%{version}.tar.gz
 BuildRoot: /tmp/swarmdemos-root
 Prefix: /usr
 Icon: swarm.xpm
-Packager: Red Hat Contrib|Net <rhcn-bugs@redhat.com>
-Distribution: Red Hat Contrib|Net
-Vendor: Swarm Development Group
-URL: http://www.santafe.edu/projects/swarm
+Packager: @packager@
+Distribution: @distribution@
+Vendor: @vendor@
+URL: @url@
 BuildPrereq: swarm-static blt tcl tk zlib libpng xpm
 Requires: blt tcl tk zlib libpng xpm
 
