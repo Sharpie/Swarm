@@ -1,3 +1,7 @@
+1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* acffi.m4: Correct FFIINCLUDES for non-/usr/include case.
+
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* acffi.m4: Check for libffi in /usr. 

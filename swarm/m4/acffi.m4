@@ -70,7 +70,7 @@ AC_SUBST(ffidir)
 if test $ffidir = /usr; then
   FFIINCLUDES=''
 else
-  FFIINCLUDES=-I/usr
+  FFIINCLUDES=-I$ffidir/include
 fi
 AC_SUBST(FFIINCLUDES)
 AC_SUBST(FFILDFLAGS)
