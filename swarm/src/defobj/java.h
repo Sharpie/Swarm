@@ -1,11 +1,22 @@
-#import <defobj/directory.h> // JNIEnv, jclass, jobject, DIRECTORY_SIZE, DirectoryEntry
-#import "internal.h"
+#import <defobj/directory.h> // DIRECTORY_SIZE, DirectoryEntry
+
+#include <swarmconfig.h>
+#ifdef JNI_H_NEEDS_INT64
+#define __int64 INT64
+#endif
+#ifdef __osf__
+#define _REENTRANT
+#endif
+
+#undef SIZEOF_LONG /* Kaffe can define this (it's from swarmconfig.h) */
+#include <jni.h>
+
+extern JNIEnv *jniEnv;
 
 extern const char *java_signature_for_fcall_type (fcall_type_t type);
-extern fcall_type_t fcall_type_for_java_class (JNIEnv *env, jclass class);
-extern const char *java_ensure_selector_type_signature (JNIEnv *env, jobject jsel);
-extern const char *java_get_class_name (JNIEnv *env, jclass class);
-extern jclass java_find_class (JNIEnv *env, const char *javaClassName, BOOL failFlag);
+extern fcall_type_t fcall_type_for_java_class (jclass class);
+extern const char *java_ensure_selector_type_signature (jobject jsel);
+extern const char *java_get_class_name (jclass class);
 extern void java_object_setVariable (jobject obj, const char *ivarName, void *inbuf);
 extern void map_java_ivars (jobject javaObject,
                             void (*process_object) (const char *name,
@@ -19,25 +30,49 @@ extern unsigned java_object_getVariableElementCount (jobject javaObject,
                                                      fcall_type_t itype,
                                                      unsigned irank,
                                                      unsigned *idims);
-extern void java_associate_objects (JNIEnv *env, jobject swarmEnvironment);
-extern unsigned swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject);
-extern BOOL java_selector_p (JNIEnv *env, jobject javaObject);
-extern id swarm_directory_java_ensure_objc (JNIEnv *env, jobject javaObject);
-extern jobject swarm_directory_objc_ensure_java (JNIEnv *env, id object);
-extern id swarm_directory_java_find_objc (JNIEnv *env, jobject javaObject);
-extern jobject swarm_directory_java_next_phase (JNIEnv *env, jobject jobj);
-extern DirectoryEntry *swarm_directory_java_switch_phase (JNIEnv *env, id nextPhase, jobject currentJavaPhase);
-extern SEL swarm_directory_java_ensure_selector (JNIEnv *env, jobject jsel);
-extern Class swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass);
-extern const char *swarm_directory_java_copy_string (JNIEnv *env, jstring javaString);
-extern jobject swarm_directory_objc_find_java (JNIEnv *env, id object);
-extern DirectoryEntry *swarm_directory_java_switch_objc (JNIEnv *env,
-                                                         id object,
-                                                         jobject javaObject);
-extern DirectoryEntry *swarm_directory_java_add (JNIEnv *env, id object, jobject lref);
-extern const char *swarm_directory_java_class_name (JNIEnv *env, jobject obj);
-extern jclass swarm_directory_find_java_class (JNIEnv *env, const char *javaClassName, BOOL failFlag);
-extern jclass swarm_directory_objc_find_java_class (JNIEnv *env, Class class);
-extern jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
-extern const char *swarm_directory_java_class_name (JNIEnv *env, jobject obj);
+
+extern void swarm_directory_java_associate_objects (jobject swarmEnvironment);
+extern unsigned swarm_directory_java_hash_code (jobject javaObject);
+extern id swarm_directory_java_ensure_objc (jobject javaObject);
+extern id swarm_directory_java_find_objc (jobject javaObject);
+extern jobject swarm_directory_objc_ensure_java (id object);
+extern jobject swarm_directory_java_next_phase (jobject jobj);
+extern jobject swarm_directory_objc_find_java (id object);
+extern Class swarm_directory_java_ensure_class (jclass javaClass);
+extern Class swarm_directory_java_find_class_named (const char *className);
+extern Class swarm_directory_java_class_for_object (id object);
+extern DirectoryEntry *swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase);
+extern DirectoryEntry *swarm_directory_java_switch_objc (id object, jobject javaObject);
+extern DirectoryEntry *swarm_directory_java_add (id object, jobject lref);
+extern jclass swarm_directory_find_java_class (const char *javaClassName, BOOL failFlag);
+extern jclass swarm_directory_objc_find_java_class (Class class);
+extern SEL swarm_directory_java_ensure_selector (jobject jsel);
+
+extern const char *java_copy_string (jstring javaString);
+extern void java_cleanup_strings (const char **stringArray, size_t count);
+extern BOOL java_selector_p (jobject javaObject);
+extern const char *java_class_name (jobject obj);
+extern void java_drop (jobject jobj);
+
+
+#define SD_JAVA_FINDOBJC(jobj)  swarm_directory_java_find_objc (jobj)
+#define SD_JAVA_ENSUREOBJC(jobj) swarm_directory_java_ensure_objc (jobj)
+#define SD_JAVA_FINDJAVA(objc) swarm_directory_objc_find_java (objc)
+#define SD_JAVA_ENSUREJAVA(objc) swarm_directory_objc_ensure_java (objc)
+#define SD_JAVA_FINDJAVACLASS(objcClass) swarm_directory_objc_find_java_class (objcClass)
+#define SD_JAVA_ADD(jobj, objc) swarm_directory_java_add (objc, jobj)
+#define SD_JAVA_ADDJAVA(jobj, objc) swarm_directory_java_add (objc, jobj)->foreignObject.java
+#define SD_JAVA_NEXTPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
+#define SD_JAVA_SWITCHOBJC(jobj, newobjc) swarm_directory_java_switch_objc (newobjc, jobj)
+#define SD_JAVA_NEXTJAVAPHASE(jobj) swarm_directory_java_next_phase (jobj)
+#define SD_JAVA_ENSUREOBJCMETHOD(jobj) swarm_directory_java_ensure_selector (jobj)
+#define SD_JAVA_ENSUREOBJCCLASS(jclazz) swarm_directory_java_ensure_class (jclazz)
+
+#define JAVA_COPY_STRING(javaString) java_copy_string (javaString)
+#define JAVA_CLEANUP_STRINGS(stringArray) java_cleanup_strings (stringArray, sizeof (stringArray) / sizeof (const char *))
+
+#define JAVA_ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
+#define JAVA_OBJCENTRY(theObject) JAVA_ENTRY(theObject,0)
+#define JAVA_JAVAENTRY(theJavaObject) JAVA_ENTRY(0,theJavaObject)
+#define JAVA_FINDENTRY(theJavaObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->foreignObject.java = theJavaObject; _findEntry; })
 

@@ -33,8 +33,7 @@
       
       if (method)
         jobj = (*jniEnv)->NewObject (jniEnv, class, method,
-                                     SD_JAVA_ENSUREJAVA (jniEnv,
-                                                         [self getZone]));
+                                     SD_JAVA_ENSUREJAVA ([self getZone]));
       else
         {
           (*jniEnv)->ExceptionClear (jniEnv);
@@ -51,7 +50,7 @@
               abort ();
           }
         }
-      SD_JAVA_ADD (jniEnv, jobj, self);
+      SD_JAVA_ADD (jobj, self);
       
       (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
       (*jniEnv)->DeleteLocalRef (jniEnv, class);

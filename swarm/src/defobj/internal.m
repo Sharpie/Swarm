@@ -300,7 +300,7 @@ map_object_ivars (id object,
 {
 #ifdef HAVE_JDK
   if ([object respondsTo: M(isJavaProxy)])
-    map_java_ivars (SD_JAVA_FINDJAVA (jniEnv, object), process_object);
+    map_java_ivars (SD_JAVA_FINDJAVA (object), process_object);
   else
 #endif
     map_objc_ivars (object, process_object);
@@ -800,7 +800,7 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    return java_object_ivar_type (SD_JAVA_FINDJAVA (jniEnv, obj), ivarName, isArrayPtr);
+    return java_object_ivar_type (SD_JAVA_FINDJAVA (obj), ivarName, isArrayPtr);
   else
 #endif
     {
@@ -831,7 +831,7 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    java_object_setVariable (SD_JAVA_FINDJAVA (jniEnv, obj), ivarName, inbuf);
+    java_object_setVariable (SD_JAVA_FINDJAVA (obj), ivarName, inbuf);
   else
 #endif
     {
@@ -872,7 +872,7 @@ object_getVariableElementCount (id obj,
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    return java_object_getVariableElementCount (SD_JAVA_FINDJAVA (jniEnv, obj),
+    return java_object_getVariableElementCount (SD_JAVA_FINDJAVA (obj),
                                                 ivarName,
                                                 itype,
                                                 irank,

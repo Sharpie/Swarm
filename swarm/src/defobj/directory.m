@@ -17,9 +17,10 @@
 
 #import <collections.h> // Map
 
+#include <swarmconfig.h>  // HAVE_JDK
 #define extern
 #ifdef HAVE_JDK
-#import "java.h" // java_find_class
+#import "java.h" // swarm_directory_{java_hash_code,find_class_named,class_for_object}, SD_JAVA_FINDJAVA
 #endif
 #undef extern
 
@@ -27,19 +28,17 @@
 
 #ifdef HAVE_JDK
 
-extern JNIEnv *jniEnv;
-
 Directory *swarmDirectory;
 
 static const char *
-getObjcName (JNIEnv *env, DirectoryEntry *entry)
+getObjcName (DirectoryEntry *entry)
 {
   if ((entry->type == foreign_java
-       && java_selector_p (env, entry->foreignObject.java))
+       && java_selector_p (entry->foreignObject.java))
 #if 0
       ||
       (entry->type == foreign_COM
-       && COM_selector_p (env, entry->foreignObject.COM))
+       && COM_selector_p (entry->foreignObject.COM))
 #endif
       )
     return entry->object ? sel_get_name ((SEL) entry->object) : "M(<nil>)";
@@ -55,7 +54,7 @@ getObjcName (JNIEnv *env, DirectoryEntry *entry)
   return self;
 }
 
-- setJavaObject: (jobject)theJavaObject
+- setJavaObject: (JOBJECT)theJavaObject
 {
   type = foreign_java;
   foreignObject.java = theJavaObject;
@@ -69,10 +68,10 @@ getObjcName (JNIEnv *env, DirectoryEntry *entry)
 }
 
 void
-swarm_directory_entry_drop (JNIEnv *env, DirectoryEntry *entry)
+swarm_directory_entry_drop (DirectoryEntry *entry)
 {
   if (entry->type == foreign_java)
-    (*env)->DeleteGlobalRef (env, entry->foreignObject.java);
+    java_drop (entry->foreignObject.java);
   [getZone (entry) freeIVars: entry];
 }
 
@@ -80,14 +79,14 @@ swarm_directory_entry_drop (JNIEnv *env, DirectoryEntry *entry)
 {
   [outputCharStream catPointer: self];
   [outputCharStream catC: " objc: "];
-  [outputCharStream catC: getObjcName (jniEnv, self)];
+  [outputCharStream catC: getObjcName (self)];
   [outputCharStream catC: " "];
   [outputCharStream catPointer: object];
 
   if (type == foreign_java)
     {
       const char *className =
-        swarm_directory_java_class_name (jniEnv, foreignObject.java);
+        java_class_name (foreignObject.java);
       
       [outputCharStream catC: "  java: "];
       [outputCharStream catC: className];
@@ -124,7 +123,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 }
 
 DirectoryEntry *
-swarm_directory_objc_find (JNIEnv *env, id object)
+swarm_directory_objc_find (id object)
 {
   if (object)
     {
@@ -137,9 +136,9 @@ swarm_directory_objc_find (JNIEnv *env, id object)
 }
 
 BOOL
-swarm_directory_objc_remove (JNIEnv *env, id object)
+swarm_directory_objc_remove (id object)
 {
-  DirectoryEntry *entry = swarm_directory_objc_find (env, object);
+  DirectoryEntry *entry = swarm_directory_objc_find (object);
 
   if (entry)
     {
@@ -148,7 +147,7 @@ swarm_directory_objc_remove (JNIEnv *env, id object)
           unsigned index;
           id <Map> m;
           
-          index = swarm_directory_java_hash_code (env, entry->foreignObject.java);
+          index = swarm_directory_java_hash_code (entry->foreignObject.java);
           m = swarmDirectory->table[index];
           if (!m)
             abort ();
@@ -165,7 +164,7 @@ swarm_directory_objc_remove (JNIEnv *env, id object)
             if (ret != entry)
               abort ();
           }
-          swarm_directory_entry_drop (env, entry);
+          swarm_directory_entry_drop (entry);
           return YES;
         }
     }
@@ -190,59 +189,6 @@ swarm_directory_objc_remove (JNIEnv *env, id object)
 }
 
 @end
-
-#if 0
-static jclass
-get_type_field_for_class (JNIEnv *env, jclass clazz)
-{
-  jfieldID field;
-  jclass ret;
-  jobject lref;
-  
-  if (!(field = (*env)->GetStaticFieldID (env,
-                                          clazz,
-                                          "TYPE",
-                                          "Ljava/lang/Class;")))
-    abort ();
-  if (!(lref = (*env)->GetStaticObjectField (env, clazz, field)))
-    abort ();
-  ret = (*env)->NewGlobalRef (env, lref);
-  (*env)->DeleteLocalRef (env, lref);
-  return ret;
-}
-#endif
-
-#if 0
-static jstring
-get_base_class_name (JNIEnv *env, jobject jobj)
-{
-  jstring classNameObj =
-    swarm_directory_java_class_name (env, jobj);
-  jsize len = (*env)->GetStringLength (env, classNameObj);
-  jclass clazz;
-  jmethodID methodID;
-  jobject baseClassNameObj;
-
-  if (!(clazz = (*env)->GetObjectClass (env, classNameObj)))
-    abort ();
-
-  if (!(methodID = (*env)->GetMethodID (env,
-                                        clazz,
-                                        "substring",
-                                        "(II)Ljava/lang/String;")))
-    abort ();
-
-  if (!(baseClassNameObj = (*env)->CallObjectMethod (env,
-                                                     classNameObj,
-                                                     methodID,
-                                                     0,
-                                                     len - 5)))
-    abort ();
-
-  return baseClassNameObj;
-}
-#endif
-
 
 Class
 objc_class_for_class_name (const char *classname)
@@ -272,27 +218,6 @@ objc_class_for_class_name (const char *classname)
 }
 
 void
-swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
-{
-  jniEnv = env;
-
-  swarmDirectory = [Directory create: globalZone];
-  
-  java_associate_objects (env, swarmEnvironment);
-}
-
-void
-swarm_directory_cleanup_strings (JNIEnv *env,
-                                 const char **stringArray,
-                                 size_t count)
-{
-  size_t i;
-
-  for (i = 0; i < count; i++)
-    SFREEBLOCK (stringArray[i]);
-}
-
-void
 swarm_directory_dump (void)
 {
   xprint (swarmDirectory);
@@ -303,18 +228,12 @@ Class
 swarm_directory_ensure_class_named (const char *className)
 {
   Class objcClass = nil;
-#ifdef HAVE_JDK
   if (swarmDirectory)
     {
-      jclass javaClass = java_find_class (jniEnv, className, NO);
-      
-      if (javaClass)
-        {
-          objcClass = swarm_directory_java_ensure_class (jniEnv, javaClass);
-          (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
-        }
-    }
+#ifdef HAVE_JDK
+      objcClass = swarm_directory_java_find_class_named (className);
 #endif
+    }
   if (!objcClass)
     objcClass = objc_lookup_class (className);
   return objcClass;
@@ -325,27 +244,7 @@ swarm_directory_swarm_class (id object)
 {
 #ifdef HAVE_JDK
   if (swarmDirectory)
-    {
-      jobject jobj;
-      JNIEnv *env = jniEnv;
-      
-      if ((jobj = SD_JAVA_FINDJAVA (env, object)))
-        {
-          jclass jcls;
-          const char *className;
-          Class result;
-          
-          jcls = (*env)->GetObjectClass (env, jobj);
-          className = swarm_directory_java_class_name (env, jobj);
-          result = objc_class_for_class_name (className);
-          FREECLASSNAME (className);
-          if (!result)
-            if (!(result = SD_JAVA_FINDOBJC (env, jcls)))
-              result = swarm_directory_java_ensure_class (env, jcls);
-          (*env)->DeleteLocalRef (env, jcls);
-          return result;
-        }
-    }
+    return swarm_directory_java_class_for_object (object);
 #endif
   return [object getClass];
 }
@@ -354,19 +253,15 @@ const char *
 swarm_directory_language_independent_class_name  (id object)
 {
 #ifdef HAVE_JDK
-
   if (swarmDirectory)
     {
-      JNIEnv *env = jniEnv;
       jobject jobj;
       
-      if ((jobj = SD_JAVA_FINDJAVA (env, object)))
-        return swarm_directory_java_class_name (env, jobj);
+      if ((jobj = SD_JAVA_FINDJAVA (object)))
+        return java_class_name (jobj);
     }
-  return (const char *) (getClass (object))->name;      
-#else
-  return (const char *) (getClass (object))->name;
 #endif
+  return (const char *) (getClass (object))->name;      
 }
 
 

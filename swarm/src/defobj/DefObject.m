@@ -27,7 +27,6 @@ Library:      defobj
 
 #ifdef HAVE_JDK
 #include <objc/mframe.h>
-#include "javavars.h"
 #include "java.h"
 
 #import <defobj.h> // FCall, FArguments
@@ -603,7 +602,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   id <FCall> fc;
   types_t val;
   const char *type = sel_get_type (aSel);
-  jobject jobj = SD_JAVA_FINDJAVA (jniEnv, self);
+  jobject jobj = SD_JAVA_FINDJAVA (self);
   jobject jsel;
 
   if (jobj == NULL)
@@ -616,7 +615,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       if (!type)
         abort ();
     }
-  jsel = SD_JAVA_FINDJAVA (jniEnv, (id) aSel);
+  jsel = SD_JAVA_FINDJAVA ((id) aSel);
   if (!jsel)
     raiseEvent (InvalidArgument,
                 "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",
@@ -624,11 +623,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
                 [self name],
                 self,
                 jobj,
-                swarm_directory_java_hash_code (jniEnv, jobj));
+                swarm_directory_java_hash_code (jobj));
   
   fa = [FArguments createBegin: getZone (self)];
   {
-    const char *sig = java_ensure_selector_type_signature (jniEnv, jsel);
+    const char *sig = java_ensure_selector_type_signature (jsel);
 
     [fa setJavaSignature: sig];
     [scratchZone free: (void *) sig];

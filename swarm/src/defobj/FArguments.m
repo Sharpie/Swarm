@@ -27,9 +27,8 @@ Library:      defobj
 #endif
 
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // jniEnv
+#import "java.h" // jniEnv, java_ensure_selector_type_signature, java_signature_for_fcall_type
 #import "javavars.h" // f_retTypeFid, c_boolean
-#import "java.h" // java_ensure_selector_type_signature, java_signature_for_fcall_type
 #endif
 
 #define ZALLOCBLOCK(aZone, size) [aZone allocBlock: size]
@@ -72,12 +71,12 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (swarmDirectory && javaFlag)
     {
-      jobject jsel = SD_JAVA_FINDJAVA (jniEnv, (id) selector);
+      jobject jsel = SD_JAVA_FINDJAVA ((id) selector);
       
       if (jsel)
         {
           const char *sig =
-            java_ensure_selector_type_signature (jniEnv, jsel);
+            java_ensure_selector_type_signature (jsel);
           
           [self setJavaSignature: sig];
           [scratchZone free: (void *) sig];
@@ -302,7 +301,7 @@ PHASE(Creating)
 {
 #ifdef HAVE_JDK
   if (javaFlag)
-    [self addJavaObject: SD_JAVA_FINDJAVA (jniEnv, value)];
+    [self addJavaObject: SD_JAVA_FINDJAVA (value)];
   else
 #endif
     ADD_PRIMITIVE (fcall_type_object, id, value);

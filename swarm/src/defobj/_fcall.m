@@ -18,8 +18,10 @@
 #endif
 
 #import <defobj/FArguments.h>
-#import <defobj/directory.h> // JNI things
 #include <swarmconfig.h> // HAVE_JDK
+#ifdef HAVE_JDK
+#import "java.h"
+#endif
 
 void
 ADD_PRIMITIVE (FArguments_c *fa, fcall_type_t type, void *val)

@@ -1,5 +1,73 @@
 2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* java.m (exactclassp, classp, java_signature_for_class,
+	(java_expandArray, map_java_ivars, class_java_find_field,
+	(java_ensure_selector_type_signature, java_object_setVariable,
+	get_swarmEnvironment_field, create_bootstrap_refs,
+	get_java_lang_class, get_class_refs, create_class_refs,
+	create_method_refs, create_field_refs,
+	swarm_directory_java_{add,associate_objects,hash_code,find,
+	ensure_{objc,selector,class},find_objc,next_phase,switch_
+	{java_entry,phase,objc}},
+	swarm_directory_objc_{find_java,ensure_java,find_java_class},
+	createDirectoryEntryMap, java_classname_for_typename,
+	objcFindJavaClassName): Drop jniEnv arguments.
+	(swarm_directory_switch_java): Remove.
+
+	* java.[hm]: Remove swarm_directory prefixes from
+	java_copy_string, java_cleanup_strings, and java_class_name.
+	(java_drop): New function.
+
+	* fcall_java.[hm]: Include java.h instead of directory.h.
+	java_setup_call, java_setup_static_call): Remove jniEnv arguments.
+
+	* directory.[hm]: Remove all jniEnv arguments.
+
+	* directory.m (get_type_field_for_class, get_base_class_name,
+	swarm_directory_init): Remove.
+	(swarm_directory_cleanup_strings): Move to java.m.
+	(swarm_directory_ensure_class_named): Use
+	swarm_directory_java_find_class_named.
+	(swarm_directory_swarm_class): Use
+	swarm_directory_java_class_for_object.
+	(swarm_directory_language_independent_class_name): Use
+	java_class_name.
+	(swarm_directory_entry_drop): Use java_drop.
+
+	* directory.h, java.h: Move JNI related includes to java.h.  Don't
+	declare jniEnv here.  Don't declare swarm_directory_init.  Move
+	all SD_JAVA_* and JAVA_* macros to java.h.
+
+	* directory.h: Don't include objc/objc.h.
+
+	* Zone.m ([Zone_c -freeIVars:]): Remove HAVE_JDK
+	around swarm_directory_objc_remove.
+
+	* _fcall.m, FArguments.m: Include java.h instead of directory.h.
+
+	* DefObject.m: Don't include javavars.h.
+	([Object_s -forward::]): Remove jniEnv arguments to internal
+	functions.
+
+	* FArguments.m ([FArguments_c -setSelector:], [FArguments_c
+	-addObject:], [FCall_c -getRetVal:buf:]): Likewise.
+
+	* FCall.m (fillHiddenArguments, updateTarget,
+	[FCall_c +create:target:selector:arguments:]): Likewise.
+
+	* JavaCollection.m ([JavaCollection -getCount],
+	[JavaCollection -begin:], [JavaCollection -getFirst],
+	[JavaCollection -forEach:], [JavaCollection -allSameClass],
+	[JavaCollectionIndex -next]): Likewise.
+
+	* JavaProxy.m ([JavaProxy -createJavaCounterpart:]): Likewise.
+
+	* Zone.m ([Zone_c -freeIVars:], [Zone_c -freeIvarsComponent:):
+	Likewise.
+
+	* internal.m (map_object_ivars, object_ivar_type,
+	object_setVariable, object_getVariableElementCount): Likewise.
+	
 	* java.m (swarm_directory_java_find): Use a stack allocated
 	findEntry.
 	(swarm_directory_objc_ensure_java,
@@ -8,10 +76,10 @@
 	(swarm_directory_java_find, java_compareDirectoryEntries,
 	swarm_directory_switch_java_entry): Update for foreignObject.
 
-	* directory.m (getObjcName, swarm_directory_entry_drop, 
-	[-describe:], swarm_directory_objc_remove
-	): Behavior is conditional on entry type.
-	([+createBegin:]): Don't initialize findEntry.
+	* directory.m (getObjcName, swarm_directory_entry_drop,
+	[-describe:], swarm_directory_objc_remove): Behavior is
+	conditional on entry type.
+	([+createBegin:]): Don't initialize findEntry. 
 
 	* directory.[hm] ([-setCOMObject:]): New method.
 

@@ -194,10 +194,8 @@ PHASE(Using)
   id index;
   size_t size;
 
-#ifdef HAVE_JDK
   if (swarmDirectory)
-    swarm_directory_objc_remove (jniEnv, anObject);
-#endif
+    swarm_directory_objc_remove (anObject);
 
   size = getClass (anObject)->instance_size;
   index = [population createIndex: getCZone (scratchZone)
@@ -281,10 +279,8 @@ PHASE(Using)
 //
 - (void)freeIVarsComponent: anObject
 { 
-#ifdef HAVE_JDK
   if (swarmDirectory)
-    swarm_directory_objc_remove (jniEnv, anObject);
-#endif
+    swarm_directory_objc_remove (anObject);
 
   if (_obj_debug)
     {

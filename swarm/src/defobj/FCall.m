@@ -161,7 +161,7 @@ fillHiddenArguments (FCall_c *self)
     case javacall:
       fargs->hiddenArgumentCount = 3;
 #ifdef USE_AVCALL
-      java_setup_call (fargs, jniEnv, self->fobject, self->fmethod);
+      java_setup_call (fargs, self->fobject, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
@@ -174,7 +174,7 @@ fillHiddenArguments (FCall_c *self)
     case javastaticcall:
       fargs->hiddenArgumentCount = 3;
 #ifdef USE_AVCALL
-      java_setup_static_call (fargs, jniEnv, self->fclass, self->fmethod);
+      java_setup_static_call (fargs, self->fclass, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
@@ -391,8 +391,8 @@ PHASE(Creating)
       jstring string;
       const char *javaMethodName;
       jboolean copy;
-      jobject jsel = SD_JAVA_FINDJAVA (jniEnv, (id) aSel);
-      jobject jobj = SD_JAVA_FINDJAVA (jniEnv, target);
+      jobject jsel = SD_JAVA_FINDJAVA ((id) aSel);
+      jobject jobj = SD_JAVA_FINDJAVA (target);
       
       string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
       javaMethodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
@@ -414,7 +414,7 @@ updateTarget (FCall_c *self, id target)
 {
 #ifdef HAVE_JDK
   if ([target respondsTo: M(isJavaProxy)])
-    updateJavaTarget (self, SD_JAVA_FINDJAVA (jniEnv, target));
+    updateJavaTarget (self, SD_JAVA_FINDJAVA (target));
   else
 #endif
     self->fobject = target;
@@ -577,15 +577,13 @@ PHASE(Using)
 #ifdef HAVE_JDK
   id return_jobject (void)
     {
-      return SD_JAVA_ENSUREOBJC (jniEnv, (jobject) buf->object);
+      return SD_JAVA_ENSUREOBJC ((jobject) buf->object);
     }
   const char *return_jstring (void)
     {
-      const char *newString =
-        swarm_directory_java_copy_string (jniEnv, (jstring) buf->object);
+      const char *newString = JAVA_COPY_STRING ((jstring) buf->object);
       
-      (void) SD_JAVA_SWITCHOBJC (jniEnv,
-                                 (jstring) buf->object,
+      (void) SD_JAVA_SWITCHOBJC ((jstring) buf->object,
                                  (id) newString);
       return newString;
     }

@@ -25,7 +25,7 @@
 
 - (unsigned)getCount
 {
-  jobject coll = SD_JAVA_FINDJAVA (jniEnv, self);
+  jobject coll = SD_JAVA_FINDJAVA (self);
   jclass class;
   jmethodID method;
 
@@ -44,7 +44,7 @@
 
 - begin: aZone
 {
-  jobject coll = SD_JAVA_FINDJAVA (jniEnv, self);
+  jobject coll = SD_JAVA_FINDJAVA (self);
   jclass class;
   jmethodID method;
   jobject iterator;
@@ -61,7 +61,7 @@
     abort ();
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   iterator = (*jniEnv)->CallObjectMethod (jniEnv, coll, method);
-  entry = SD_JAVA_ADD (jniEnv, iterator,
+  entry = SD_JAVA_ADD (iterator,
                        [JavaCollectionIndex create: getCZone (getZone (self))
                                             setCount: [self getCount]]);
   (*jniEnv)->DeleteLocalRef (jniEnv, iterator);
@@ -76,7 +76,7 @@
 
 - getFirst
 {
-  jobject coll = SD_JAVA_FINDJAVA (jniEnv, self);
+  jobject coll = SD_JAVA_FINDJAVA (self);
   jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
   jobject first;
   jmethodID method;
@@ -90,7 +90,7 @@
     abort ();
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   first = (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
-  ret = SD_JAVA_ENSUREOBJC (jniEnv, first);
+  ret = SD_JAVA_ENSUREOBJC (first);
   (*jniEnv)->DeleteLocalRef (jniEnv, first);
   return ret;
 }
@@ -100,10 +100,9 @@
   id <FCall> call;
   id <FArguments> arguments =
     [FArguments createBegin: getZone (self)];
-  jobject jsel = SD_JAVA_FINDJAVA (jniEnv, (id) sel);
-  jobject coll = SD_JAVA_FINDJAVA (jniEnv, self);
-  const char *sig =
-    java_ensure_selector_type_signature (jniEnv, jsel);
+  jobject jsel = SD_JAVA_FINDJAVA ((id) sel);
+  jobject coll = SD_JAVA_FINDJAVA (self);
+  const char *sig = java_ensure_selector_type_signature (jsel);
   jobject javaTarget;
   jsize i, size;
   jclass class;
@@ -167,7 +166,7 @@
   
   if (member)
     {
-      jobject firstJavaObject = SD_JAVA_FINDJAVA (jniEnv, member);
+      jobject firstJavaObject = SD_JAVA_FINDJAVA (member);
       
       firstJavaClass = (*jniEnv)->GetObjectClass (jniEnv, firstJavaObject);
     }
@@ -187,7 +186,7 @@
       }
     else
       {
-        jobject javaObject = SD_JAVA_FINDJAVA (jniEnv, member);
+        jobject javaObject = SD_JAVA_FINDJAVA (member);
         jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
 
         ret = (((*jniEnv)->IsSameObject (jniEnv, javaClass, firstJavaClass)
