@@ -1,0 +1,15 @@
+Source: hdf5
+Section: devel
+Priority: optional
+Maintainer: Marcus G. Daniels <mgd@swarm.org>
+Standards-Version: 3.0.0
+
+Package: hdf5
+Architecture: i386
+Depends: ${shlibs:Depends}
+Description: Shared libraries for HDF5
+
+Package: hdf5-dev
+Architecture: i386
+Depends: ${shlibs:Depends}
+Description: Developer support for HDF5
