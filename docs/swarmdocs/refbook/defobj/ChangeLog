@@ -1,3 +1,8 @@
+1998-05-26  Alex Lancaster  <alex@santafe.edu>
+
+	* defobj.ent.in: Added entity (defobjrevhistory) for the
+	automatically generated revision history.
+
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: New file.
