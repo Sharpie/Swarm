@@ -4,6 +4,8 @@
 
 	* docbook.dcl (TAGLEN, ATTSPLEN): Increase to 1849.
 
+	* Makefile.am: Use first line of VERSION, so as to avoid subminor.
+
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in (VERSION): Bump to 1.3.
