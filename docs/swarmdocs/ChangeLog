@@ -1,14 +1,26 @@
 1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* sgml.el (sgml-generate-indices): Use get-build-area instead of
+	* Makefile.am (EXTRA_DIST): Remove sgml.el.
+
+	* Makefile.common (EMACS): Pass TOP_BUILDDIR (formerly
+	SWARMDOCS_BUILD_AREA) and BUILDDIR (current absolute path).
+	($(abs_top_builddir)/history.elc): Remove rule; just common.elc
+	dependency.
+	(elcrule): New macro.
+	($(abs_top_builddir)/%.elc, $(abs_top_builddir)/%.elc, %.elc): 
+	New variant rules that use elcrule.
+
+	* sgml.el (sgml-generate-indices): Use get-top-builddir instead of
 	get-swarmdocs-build-area.
 
-	* history.el, sgml.el: Get load-path from BUILD_AREA instead of
+	* history.el: Get load-path from TOP_BUILDDIR instead of
 	SWARMDOCS_BUILD_AREA.
+
+	* sgml.el: Get load-path from BUILDDIR instead of SWARMDOCS_BUILD_AREA.
 
 	* graph.el (vcg-output-protocols-graph,
 	dot-output-protocols-graph, dot-output-module-graph): Use
-	get-build-area instead of get-swarmdocs-build-area.
+	get-top-builddir instead of get-swarmdocs-build-area.
 
 	* history.el, sgml.el: Add SWARMDOCS_BUILD_AREA to load-path for
 	both compilation and loading. 
