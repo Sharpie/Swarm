@@ -2,6 +2,8 @@
 
 	* Makefile.rules: New file.
 
+	* Makefile: Remove.
+
 1998-06-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am: New file.

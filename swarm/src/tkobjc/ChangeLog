@@ -1,5 +1,7 @@
 1998-06-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile: Remove.
+
 	* internal.m: Declare raster_private_t.
 	(tkobjc_raster_create): New function.
 	(tkobjc_raster_erase, tkobjc_raster_fillRectangle,
