@@ -28,8 +28,8 @@
 #endif
 
 #import <tkobjc/TkExtra.h>
-#import <objectbase/Arguments.h>
 #import <tkobjc/Pixmap.h> // PixmapError
+#import <defobj.h> // Arguments
 
 #include <misc.h>
 

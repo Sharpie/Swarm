@@ -4,8 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/TkExtra.h>
-#import <objectbase.h>
-#import <objectbase/Arguments.h>
+#import <defobj.h>
 
 #include <tcl.h>
 #include <misc.h> // strdup, acess

@@ -33,9 +33,9 @@ PHASE(Creating)
   return self;
 }
 
-+ in: aZone expr: expr
++ lispin: aZone expr: expr
 {
-  return [[WindowGeometryRecord create: aZone] in: expr];
+  return [[WindowGeometryRecord create: aZone] lispin: expr];
 }
 
 PHASE(Using)
@@ -60,7 +60,7 @@ getValueList (id index)
   return [l getLast];
 }
 
-- in: expr
+- lispin: expr
 {
   id index = [expr begin: scratchZone];
   id obj;
@@ -104,7 +104,7 @@ getValueList (id index)
   return self;
 }
 
-- out: outputCharStream
+- lispout: outputCharStream
 {
   char buf[20];
 
