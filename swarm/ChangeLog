@@ -1,5 +1,7 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* configure.in: Don't substitute Globals.java.
+
 	* NEWS: Note 2.0.1 bug fixes.
 
 1999-09-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
