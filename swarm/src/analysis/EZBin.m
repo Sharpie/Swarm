@@ -218,20 +218,16 @@ PHASE(Using)
 - update
 {
   id iter, obj;
-  char type0 = sel_get_type (sel_get_any_typed_uid (sel_get_name (probedSelector)))[0];
-
+  id <MessageProbe> mp = [[[[MessageProbe createBegin: scratchZone]
+                             setProbedClass: [[collection getFirst] getClass]]
+                            setProbedSelector: probedSelector]
+                           createEnd];
+  
   iter = [collection begin: [self getZone]];
   while ((obj = [iter next]))
     {
       int i;
-      double v;
-      
-      if (type0 == _C_DBL)
-        v = (* ((double (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
-      else if (type0 == _C_FLT)
-        v = (double) (* ((float (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
-      else
-        v = (double) (* ((int (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
+      double v = [mp doubleDynamicCallOn: obj];
       
       if (v > max || v < min)
         {
@@ -279,6 +275,7 @@ PHASE(Using)
     }
   
   [iter drop];
+  [mp drop];
   return self;
 }
 
