@@ -1,3 +1,8 @@
+1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-methods*): Update to use getRetVal:buf:
+	instead of getRetVal:.
+
 1999-05-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-argument-print-conversion): Use %d, not 

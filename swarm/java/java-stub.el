@@ -118,7 +118,7 @@
 
       ;; FCall
       "-setJavaMethod:inObject:" ; void* parameter
-      "-getRetVal:"; retval_t return
+      "-getRetVal:buf:"; retval_t return
 
       ;; FArguments
       "-addArgument:ofObjCType:" ; void* parameter
