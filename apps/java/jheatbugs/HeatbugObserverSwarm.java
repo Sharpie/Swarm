@@ -103,8 +103,8 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
             private void addMessage (String name) {
                 addProbe (probeMessage (name));
             }
-            public HeatbugObserverProbeMap (Zone aZone, Class aClass) {
-                super (aZone, aClass);
+            public HeatbugObserverProbeMap (Zone _aZone, Class aClass) {
+                super (_aZone, aClass);
                 addVar ("displayFrequency");
                 addMessage ("graphBug:");
             }

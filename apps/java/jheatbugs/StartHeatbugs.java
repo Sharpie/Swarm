@@ -5,7 +5,7 @@
 
 import swarm.Globals;
 
-public class StartHeatbug {
+public class StartHeatbugs {
     /** The main() function is the top-level place where everything
         starts.  For a typical Swarm simulation, in main() you create
         a toplevel Swarm, let it build and activate, and set it to

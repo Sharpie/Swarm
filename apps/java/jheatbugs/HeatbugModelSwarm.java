@@ -135,8 +135,8 @@ public class HeatbugModelSwarm extends SwarmImpl
             private void addMessage (String name) {
                 addProbe (probeMessage (name));
             }
-            public HeatbugModelProbeMap (Zone aZone, Class aClass) {
-                super (aZone, aClass);
+            public HeatbugModelProbeMap (Zone _aZone, Class aClass) {
+                super (_aZone, aClass);
                 addVar ("numBugs");
                 addVar ("diffuseConstant");
                 addVar ("worldXSize");
