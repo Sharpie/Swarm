@@ -10,9 +10,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 LIBS=@LIBS@
 
-javaprefix=/opt/SUNWjava/usr/java1.2
+javaprefix=@javaprefix@
 javaincludedir=$(javaprefix)/include
-JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris 
+JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
 CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES)
 CFLAGS=@CFLAGS@
