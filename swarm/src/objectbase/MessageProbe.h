@@ -24,7 +24,7 @@ typedef double (*DoubleImp)(id, SEL, ...);
   int argNum;
   int hr;
   const char **argLabels;
-  char **arguments;
+  const char **arguments;
 }
 
 - setProbedSelector: (SEL) aSel;
@@ -33,9 +33,9 @@ typedef double (*DoubleImp)(id, SEL, ...);
 
 - (const char *) getProbedMessage;
 - (int) getArgNum;
-- setArg: (int) which To: (char *) what;
-- (char *) getArg: (int) which;
-- (const char *) getArgName: (int) which;
+- setArg: (int) which To: (const char *)what;
+- (const char *)getArg: (int) which;
+- (const char *)getArgName: (int) which;
 
 - setHideResult: (int)val;
 - (int) getHideResult;
@@ -43,8 +43,8 @@ typedef double (*DoubleImp)(id, SEL, ...);
 - _setImp_: anObject;
 - updateMethodCache: anObject;
 
-- _trueDynamicCallOn_: target resultStorage: (char **)result;
-- dynamicCallOn: target resultStorage: (char **)result;
+- _trueDynamicCallOn_: target resultStorage: (const char **)result;
+- dynamicCallOn: target resultStorage: (const char **)result;
 - dynamicCallOn: target;
 - (int)intDynamicCallOn: target;
 - (float)floatDynamicCallOn: target;

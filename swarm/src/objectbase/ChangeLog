@@ -1,3 +1,35 @@
+1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VarProbe.m ([VarProbe -createEnd]): Remove cast for assignment
+	to probedType.
+	([VarProbe -probeAsInt:]): Constify p.  Reformatting.
+	([VarProbe -probeAsDouble:]): Likewise.
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): Constify p.
+	([VarProbe -setData:To:]): Constify p.
+
+	* MessageProbe.m ([MessageProbe -createEnd]): Modify for const
+	arguments (several casts).
+	([MessageProbe -getArg:which]): Constify return.
+	([MessageProbe -setArg:To:]): Constify To argument.
+	([MessageProbe -_trueDynamicCallOn_:resultStorage:]): Constify
+	resultStorage argument.
+	([MessageProbe -_trueDynamicCallOn_:resultStorage:]): Remove cast
+	to *result for tkobjc_dynamicEval.
+	([MessageProbe -dynamicCallOn:]): Constify tmp. Cast argument to
+	free to void * to avoid warning.  Reformatting.
+	([MessageProbe -dynamicCallOn:resultStorage:]): Constify
+	resultStorage argument.  Write to non-const buf, and then assign
+	to *result.  Reformatting.
+	([MessageProbe -intDynamicCallOn:]): Constify tmp.
+	([MessageProbe -intDynamicCallOn:]): Cast argument to free to
+	void* to avoid warning.
+	([MessageProbe -floatDynamicCallOn:]): Constify tmp.  Cast
+	argument to free to void * to avoid warning.
+	
+	* MessageProbe.h (MessageProbe): Constify arguments.  Constify To
+	argument of setArg.  Constify return of getArg.  Constify
+	resultStorage argument of _trueDynamicCallOn_ and dynamicCallOn.
+
 1997-12-16  Alex Lancaster  <alex@wijiji.santafe.edu>
 
 	* tests: Added subdirectory to repository.

@@ -71,7 +71,7 @@
     }
   else
     {
-      probedType = (char *) ivarList->ivar_list[i].ivar_type;
+      probedType = ivarList->ivar_list[i].ivar_type;
       dataOffset = ivarList->ivar_list[i].ivar_offset;
       
       if (probedType[0] == _C_CHARPTR
@@ -180,7 +180,7 @@
 
 - (int)probeAsInt: anObject
 {
-  void *p;
+  const void *p;
   int i = 0;
   
   if (safety)
@@ -188,19 +188,19 @@
       fprintf (stderr, "VarProbe for class %s tried on class %s\n",
                [probedClass name], [anObject name]);
   
-  p = ((char *)anObject) + dataOffset;
+  p = ((const char *)anObject) + dataOffset;
   
   switch (probedType[0])
     {
-    case _C_ID:   i = (long) *(id *)p; break;
+    case _C_ID:   i = (long)*(id *)p; break;
     case _C_CHARPTR:
-    case _C_PTR:  i = (long) *(void **)p; break;
+    case _C_PTR:  i = (long)*(void **)p; break;
 
-    case _C_UCHR: i = (int) *(unsigned char *)p; break;
-    case _C_CHR:  i = (int) *(char *)p; break;
+    case _C_UCHR: i = (int)*(unsigned char *)p; break;
+    case _C_CHR:  i = (int)*(char *)p; break;
       
-    case _C_INT:  i = (int) *(int *)p; break;
-    case _C_UINT: i = (int) *(unsigned int *)p; break;
+    case _C_INT:  i = (int)*(int *)p; break;
+    case _C_UINT: i = (int)*(unsigned int *)p; break;
       
     default:
       if (SAFEPROBES)
@@ -213,7 +213,7 @@
 
 - (double)probeAsDouble: anObject
 {
-  void *p;
+  const void *p;
   double d = 0.0;
   
   if (safety)
@@ -222,18 +222,18 @@
                [probedClass name],
                [anObject name]);
   
-  p = ((char *)anObject) + dataOffset;
+  p = ((const char *)anObject) + dataOffset;
 
   switch (probedType[0])
     {
-    case _C_UCHR: d = (double) *(unsigned char *)p; break;
-    case _C_CHR:  d = (double) *(char *)p; break;
+    case _C_UCHR: d = (double)*(unsigned char *)p; break;
+    case _C_CHR:  d = (double)*(char *)p; break;
       
-    case _C_INT:  d = (double) *(int *)p; break;
-    case _C_UINT: d = (double) *(unsigned int *)p; break;
+    case _C_INT:  d = (double)*(int *)p; break;
+    case _C_UINT: d = (double)*(unsigned int *)p; break;
       
-    case _C_FLT:  d = (double) *(float *)p; break;
-    case _C_DBL:  d = (double) *(double *)p; break;
+    case _C_FLT:  d = (double)*(float *)p; break;
+    case _C_DBL:  d = (double)*(double *)p; break;
       
     default:
       if (SAFEPROBES)
@@ -269,14 +269,14 @@
 - (const char *) probeAsString: anObject Buffer: (char *)buf 
              withFullPrecision: (int)precision
 {
-  void * p;
+  const void *p;
   
   if (safety)
     if (![anObject isKindOf: probedClass])
       sprintf (buf, "VarProbe for class %s tried on class %s\n",
                [probedClass name], [anObject name]);
   
-  p = (char *)anObject + dataOffset;		  // probeData
+  p = (const char *)anObject + dataOffset; // probeData
   
   switch (probedType[0])
     {
@@ -359,14 +359,14 @@
 // type information to try to do this intelligently.
 - setData: anObject To: (void *)newValue
 {
-  void *p;
+  const void *p;
 
   if (safety)
     if (![anObject isKindOf: probedClass])
       fprintf (stderr, "VarProbe for class %s tried on class %s\n",
                [probedClass name], [anObject name]);
   
-  p = (char *)anObject + dataOffset;		  // probeData
+  p = (const char *)anObject + dataOffset;		  // probeData
   
   switch (probedType[0])
     {

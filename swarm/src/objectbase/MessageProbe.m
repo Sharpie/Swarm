@@ -96,7 +96,7 @@ copy_to_nth_colon (const char *str, int n)
   return self;
 }
 
--(const char *) getProbedMessage
+- (const char *)getProbedMessage
 {
   return probedMessage;
 }
@@ -173,14 +173,14 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
         case _C_CHARPTR:
         default: returnCategory = 0; break; 
         }
-      argLabels = (const char **) malloc (sizeof (const char *));
+      argLabels = (const char **)malloc (sizeof (const char *));
       argLabels[0] = probedMessage;
     }
   else
     {
       probedSelector = 0;
-      argLabels = (const char **) malloc (argNum * sizeof (const char *));
-      arguments = (char **) malloc (argNum * sizeof (char *));
+      argLabels = (const char **)malloc (argNum * sizeof (const char *));
+      arguments = (const char **)malloc (argNum * sizeof (const char *));
       
       // Since I depend on arguments[i] being NULL in the situations where
       // it was never set, I must ensure that this is the case be initialising
@@ -222,14 +222,14 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   return argNum;
 }
 
-- (char *) getArg: (int) which
+- (const char *)getArg: (int) which
 {
   if (SAFEPROBES)
     if (which >= argNum)
       {
         fprintf (stderr,
-                 "Attempted to get argument #%d, but %s has only %d arguments!!!\n",
-                which, probedMessage, argNum);
+                 "Attempted to get argument #%d, but %s has only %d arguments!\n",
+                 which, probedMessage, argNum);
         return NULL;
       }
   
@@ -237,7 +237,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 }
 
 
-- setArg: (int) which To: (char *) what
+- setArg: (int)which To: (const char *)what
 {
   if (SAFEPROBES)
     if (which >= argNum)
@@ -252,7 +252,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   return self;
 }
 
-- (const char *)getArgName: (int) which
+- (const char *)getArgName: (int)which
 {
   
   if (SAFEPROBES)
@@ -338,7 +338,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   return self;
 }
 
-- _trueDynamicCallOn_: target resultStorage: (char **) result
+- _trueDynamicCallOn_: target resultStorage: (const char **)result
 {
   int i;
   
@@ -360,7 +360,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
         strcat (cmd," ");
       }
   
-  *result = (char *)tkobjc_dynamicEval (cmd);
+  *result = tkobjc_dynamicEval (cmd);
   
   // since other routines call this so-called internal 
   // method _trueDynamicCallOn_, I have to put this here.  If and when
@@ -397,7 +397,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 
 - dynamicCallOn: target
 {
-  char *tmp;
+  const char *tmp;
   
   if (probedSelector)
     {
@@ -407,13 +407,13 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       switch (returnCategory)
         {
         case 0: 
-          (*intImp)(target, probedSelector);
+          (*intImp) (target, probedSelector);
           break;
         case 1:
-          (*floatImp)(target, probedSelector);
+          (*floatImp) (target, probedSelector);
           break;
         case 2:
-          (*doubleImp)(target, probedSelector);
+          (*doubleImp) (target, probedSelector);
           break;
         default:
           fprintf (stderr,"Major problem with returnCategory in MessageProbe!\n");
@@ -424,37 +424,38 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   else
     {
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
-      free(tmp); 
+      free ((void *)tmp); 
     }
   return self;
 }
 
-- dynamicCallOn: target resultStorage: (char **) result
+- dynamicCallOn: target resultStorage: (const char **)result
 {
   if (probedSelector)
     {
-      // how else do I decide the amount of space necessary???
-      *result = malloc (100);
+       // how else do I decide the amount of space necessary???
+      char *buf = malloc (100);
       
       if (!caching)
         [self _setImp_: target];
 
-      switch(returnCategory)
+      switch (returnCategory)
         {
         case 0: 
-          sprintf (*result,"%d",(*intImp)(target, probedSelector));
+          sprintf (buf, "%d", (*intImp) (target, probedSelector));
           break;
         case 1:
-          sprintf (*result,"%f",(*floatImp)(target, probedSelector));
+          sprintf (buf, "%f", (*floatImp) (target, probedSelector));
           break;
         case 2:
-          sprintf (*result,"%f",(*doubleImp)(target, probedSelector));
+          sprintf (buf, "%f", (*doubleImp) (target, probedSelector));
           break;
         default:
-          fprintf(stderr, "Major problem with returnCategory in MessageProbe!\n");
+          fprintf (stderr, "Major problem with returnCategory in MessageProbe!\n");
           exit (-1);
           break;
         }
+      *result = buf;
     }
   else
     [self _trueDynamicCallOn_: target resultStorage: result];
@@ -464,7 +465,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 
 - (int)intDynamicCallOn: target
 {
-  char *tmp;
+  const char *tmp;
   int val;
 
   if (probedSelector)
@@ -492,15 +493,15 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   else 
     {
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
-      sscanf (tmp,"%d",&val);
-      free (tmp);
+      sscanf (tmp, "%d", &val);
+      free ((void *)tmp);
       return val;
     }
 }
 
 - (float)floatDynamicCallOn: target
 {
-  char *tmp;
+  const char *tmp;
   float val;
 
   if (probedSelector)
@@ -529,14 +530,14 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
     {
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
       sscanf (tmp, "%f", &val);
-      free (tmp);
+      free ((void *)tmp);
       return val;
     }
 }
 
 - (double) doubleDynamicCallOn: target
 {
-  char *tmp;
+  const char *tmp;
   double val;
   
   if (probedSelector)
@@ -565,7 +566,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
     {
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
       sscanf (tmp, "%lf", &val);
-      free (tmp);
+      free ((void *)tmp);
       return val;
     }
 }
