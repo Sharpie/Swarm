@@ -42,11 +42,14 @@ alignment_for_objc_type (const char *varType)
     case _C_SHT: case _C_USHT:
       alignment = __alignof__ (short);
       break;
+    case _C_INT: case _C_UINT:
+      alignment = __alignof__ (int);
+      break;
     case _C_LNG: case _C_ULNG:
       alignment = __alignof__ (long);
       break;
-    case _C_INT: case _C_UINT:
-      alignment = __alignof__ (int);
+    case _C_LNG_LNG: case _C_ULNG_LNG:
+      alignment = __alignof__ (long long);
       break;
     case _C_FLT:
       alignment = __alignof__ (float);
