@@ -313,9 +313,9 @@
                       (:macro-doc
                        (push buf macro-doc-list))
                       (:global-doc
-                       (push (concat "(" buf ")") global-doc-list))
+                       (push buf global-doc-list))
                       (:global
-                       (push (concat "[" buf "]") global-doc-list))
+                       (push buf global-doc-list))
                       (:summary-doc (if summary-doc
                                         (error "summary already set")
                                         (setq summary-doc buf)))
