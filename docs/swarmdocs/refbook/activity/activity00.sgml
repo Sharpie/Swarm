@@ -1,4 +1,5 @@
 <PARTINTRO>
+  <title>Activity Introduction</title>
 
   <SIDEBAR>
     <TITLE>Overview</TITLE>
@@ -20,7 +21,7 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.DEPEND">
+  <sect1 id="swarm.activity.sgml.sect1.depend" xreflabel="Activity">
     <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
@@ -46,7 +47,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.COMPAT">
+  <sect1 id="swarm.activity.sgml.sect1.compat" xreflabel="Activity">
     <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions of
@@ -54,7 +55,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.USAGE">
+  <SECT1 xreflabel="Activity" ID="SWARM.ACTIVITY.SGML.SECT1.USAGE">
 
     <TITLE>Usage Guide</TITLE>
 
@@ -371,15 +372,15 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.ADVUSAGE">
-    <TITLE>Advanced Usage Guide</TITLE>
+  <SECT1 xreflabel="Activity Advanced Usage Guide" ID="SWARM.ACTIVITY.SGML.SECT1.ADVUSAGE">
+        <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.SUBCLASS">
-    <TITLE>Subclassing Reference</TITLE>
+  <SECT1 xreflabel="Activity Subclassing Reference" ID="SWARM.ACTIVITY.SGML.SECT1.SUBCLASS">
+        <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Subclassing is supported by the activity library as an
       integral technique for extending the framework it implements.
@@ -396,15 +397,15 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.DESIGN">
-    <TITLE>Interface Design Notes</TITLE>
+  <SECT1 xreflabel="Activity Interface Design Notes" ID="SWARM.ACTIVITY.SGML.SECT1.DESIGN">
+        <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.IMPL">
-    <TITLE>Implementation Notes</TITLE>
+  <SECT1 xreflabel="Activity Implementation Notes" ID="SWARM.ACTIVITY.SGML.SECT1.IMPL">
+        <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
   </SECT1>
