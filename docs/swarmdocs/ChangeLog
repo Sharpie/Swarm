@@ -1,5 +1,25 @@
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* configure.in: Add option to specify DocBook DTD location.
+	Substitute docbookdtd_srcdir and docbookstyle_srcdir (was
+	stylesheets_srcdir).  Don't extract swarmbook.dsl.
+
+	* protocol.el (sgml-refsect1-object-list,
+	sgml-refsect1-global-list): Add /REFSECT1.
+	(sgml-generate-index-of-type): Add /INDEX.
+
+	* swarmbook.dsl: Use public identifiers for common and docbook;
+	don't autoconf-substitute anything.
+	(reference-titlepage-verso-mode): Add replacement (revhistory
+	revision) expansion in HTML backend.
+
+	* common.dsl: Move reference-titlepage-verso-elements 
+	and revision history things here.
+
+	* Makefile.rules: New variable CATOPTS, the list of catalog
+	directives for local DSSSL, DocBook DTD, and DocBook DSSSL.
+	Add $(CATOPTS) to all Jade runs. 
+
 	* configure.in: Update help strings to be conventional.  Get
 	default for stylesheet from DOCBOOK, defaulting to
 	/DocBookStyleSheets.

@@ -9,12 +9,19 @@ changequote([,])dnl
   swarm_srcdir=$withval,dnl
   swarm_srcdir='$(SWARMHOME)')
 
-AC_ARG_WITH(stylesheet,dnl
+AC_ARG_WITH(dtd,dnl
 changequote(<,>)dnl
-  --with-stylesheet=DIR   DSSSL style sheets in DIR [${DOCBOOK:-/DocBookStyleSheets}],dnl
+  --with-dtd=DIR          DocBook DTD in DIR [${DOCBOOKDTDDIR:-/DocBookDTD}],dnl
 changequote([,])dnl
-  stylesheets_srcdir=$withval,dnl
-  stylesheets_srcdir=${DOCBOOK:-/DocBookStyleSheets})
+  docbookdtd_srcdir=$withval,dnl
+  docbookdtd_srcdir=${DOCBOOKDTDDIR:-/DocBookDTD})
+
+AC_ARG_WITH(docbookstyle,dnl
+changequote(<,>)dnl
+  --with-stylesheet=DIR   DocBook DSSSL in DIR [${DOCBOOKSTYLEDIR:-/DocBookStyleSheets}],dnl
+changequote([,])dnl
+  docbookstyle_srcdir=$withval,dnl
+  docbookstyle_srcdir=${DOCBOOKSTYLEDIR:-/DocBookStyleSheets})
 
 AC_ARG_WITH(gridturtle,dnl
 changequote(<,>)dnl
@@ -26,7 +33,9 @@ changequote([,])dnl
 AM_CONFIG_HEADER(config.h)
 
 AC_SUBST(swarm_srcdir)
-AC_SUBST(stylesheets_srcdir)
+AC_SUBST(docbookdtd_srcdir)
+AC_SUBST(docbookstyle_srcdir)
 AC_SUBST(gridturtle_srcdir)
 
-AC_OUTPUT([Makefile swarmbook.dsl src/Makefile installing/Makefile overview/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/refbook.tex overview/overbook.tex installing/installbook.tex set/set.tex src/activity/activity.ent src/analysis/analysis.ent src/collections/collections.ent src/defobj/defobj.ent src/gui/gui.ent src/objectbase/objectbase.ent src/random/random.ent src/simtools/simtools.ent src/simtoolsgui/simtoolsgui.ent src/space/space.ent src/src.ent src/refbook.sgml set/set.sgml])
+AC_OUTPUT([Makefile catalog src/Makefile installing/Makefile overview/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/refbook.tex overview/overbook.tex installing/installbook.tex set/set.tex src/activity/activity.ent src/analysis/analysis.ent src/collections/collections.ent src/defobj/defobj.ent src/gui/gui.ent src/objectbase/objectbase.ent src/random/random.ent src/simtools/simtools.ent src/simtoolsgui/simtoolsgui.ent src/space/space.ent src/src.ent src/refbook.sgml set/set.sgml])
+

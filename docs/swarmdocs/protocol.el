@@ -1425,7 +1425,8 @@
           (insert "<LISTITEM>\n")
           (funcall print-object-func object)
           (insert "</LISTITEM>\n"))
-    (insert "</ITEMIZEDLIST>\n")))
+    (insert "</ITEMIZEDLIST>\n")
+    (insert "</REFSECT1>\n")))
 
 (defun sgml-refsect1-macro-list (object)
   (sgml-refsect1-object-list "Macros"
@@ -1473,7 +1474,8 @@
                     (insert "</LISTITEM>\n"))
                   (insert "<LISTITEM><PARA>No description available.</PARA></LISTITEM>\n")))
             (insert "</VARLISTENTRY>\n"))
-      (insert "</VARIABLELIST>\n"))))
+      (insert "</VARIABLELIST>\n")
+      (insert "</REFSECT1>\n"))))
 
 (defun sgml-examples (object)
   (let ((example-list (protocol-example-list object)))
@@ -1731,7 +1733,8 @@
   (insert " Index")
   (insert "</TITLE>\n")
   (loop for object in (sort (collect-objects-of-type type) #'name<)
-        do (sgml-indexentry object)))
+        do (sgml-indexentry object))
+  (insert "</INDEX>\n"))
 
 (defun sgml-generate-indices ()
   (with-temp-file (concat (get-swarmdocs-build-area) "src/refindex.sgml")

@@ -68,6 +68,7 @@
         member of a collection.</PARA>
 
     </FORMALPARA>
+    </SECT2>
 
     <SECT2 renderas=SECT3>
       <TITLE>Preventing Bugs</TITLE> <PARA>Defensive programming can

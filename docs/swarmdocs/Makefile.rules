@@ -3,7 +3,8 @@ JADETEX = jadetex
 DVIPS = dvips
 EMACS = emacs
 
-SWARMBOOK = $(top_builddir)/swarmbook.dsl
+SWARMBOOK = $(top_srcdir)/swarmbook.dsl
+CATOPTS = -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/CATALOG
 
 .PHONY: fot tex dvi ps rtf html
 
@@ -22,13 +23,13 @@ rtf: all $(NAME).rtf
 html: all $(NAME).htm
 
 %.fot: %.sgml
-	 $(JADE) -t fot -d $(SWARMBOOK)\#print -o $@ $< 
+	 $(JADE) $(CATOPTS) -t fot -d $(SWARMBOOK)\#print -o $@ $< 
 
 _%.tex: %.sgml
-	- $(JADE) -t tex -d $(SWARMBOOK)\#print -o $@ $<
+	- $(JADE) $(CATOPTS) -t tex -d $(SWARMBOOK)\#print -o $@ $<
 
 %.rtf: %.sgml
-	 $(JADE) -t rtf -d $(SWARMBOOK)\#print -o $@ $<
+	- $(JADE) $(CATOPTS) -t rtf -d $(SWARMBOOK)\#print -o $@ $<
 
 %.dvi: %.tex _%.tex
 	$(JADETEX) $< ; $(JADETEX) $< 
@@ -37,7 +38,7 @@ _%.tex: %.sgml
 	$(DVIPS) -o $@ $<
 
 %.htm: %.sgml
-	- $(JADE) -t sgml -ihtml -d $(SWARMBOOK)\#html $<
+	- $(JADE) $(CATOPTS) -t sgml -ihtml -d $(SWARMBOOK)\#html $<
 
 %revhistory.sgml: ChangeLog $(SWARMHOME)/src/%/ChangeLog $(top_srcdir)/history.el $(top_srcdir)/common.el
 	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/history.el -f process-changelog $*
