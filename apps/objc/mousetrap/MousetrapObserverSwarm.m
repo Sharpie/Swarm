@@ -233,7 +233,7 @@
   // This is crucial: without this, no graphics update and the control
   // panel will be dead. It's best to put it at the end of the display schedule
 
-  [displayActions createActionTo: controlPanel        message: M(doTkEvents)];
+  [displayActions createActionTo: actionCache        message: M(doTkEvents)];
 
   // And the display schedule. Note the repeat interval is set from our
   // own Swarm data structure. Display is frequently the slowest part of a
