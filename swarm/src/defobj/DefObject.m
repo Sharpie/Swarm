@@ -106,7 +106,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   // drop object as an internal component of its zone
 
   if (objectAllocation)
-    [(id)mapalloc->alloc dropAllocations: 1];
+    [(id) mapalloc->alloc dropAllocations: YES];
   
   // drop block using zone and size provided along with its descriptor
   
@@ -115,14 +115,14 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
   // if member of zone population then avoid drop as a component allocation
   else if (mapalloc->descriptor == t_PopulationObject)
-    [(id)mapalloc->alloc dropAllocations: 0];
+    [(id) mapalloc->alloc dropAllocations: NO];
 
   // if leaf object then unset the MappedAlloc bit to suppress further mapping
 
   else if (mapalloc->descriptor == t_LeafObject)
     {
       unsetMappedAlloc ((Object_s *) mapalloc->alloc);
-      [(id)mapalloc->alloc dropAllocations: 1];
+      [(id) mapalloc->alloc dropAllocations: YES];
       
     }
   else
@@ -199,7 +199,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       mapalloc.mappingFunction = _obj_dropAlloc;
       mapalloc.zone            = zone;
       mapalloc.descriptor      = t_ByteArray;
-      [(id)self mapAllocations: &mapalloc];
+      [(id) self mapAllocations: &mapalloc];
     }
   
   // free any internal allocations remaining in the suballocations list
@@ -624,7 +624,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   
   displayName = (const char *) [_obj_displayNameMap removeKey: object];
   if (reallocAddress)
-    [_obj_displayNameMap at: object insert: (id)displayName];
+    [_obj_displayNameMap at: object insert: (id) displayName];
   else
     [_obj_sessionZone
       freeBlock: (void *) displayName blockSize: strlen (displayName) + 1];
@@ -808,7 +808,7 @@ initDescribeStream (void)
       [self describeID: describeStream];
       return;
     }
-  [(id)self describeForEach: describeStream];
+  [(id) self describeForEach: describeStream];
 }
 
 //
@@ -827,7 +827,7 @@ initDescribeStream (void)
       [self describeID: describeStream];
       return;
     }
-  [(id)self describeForEachID: describeStream];
+  [(id) self describeForEachID: describeStream];
 }
 
 @end
