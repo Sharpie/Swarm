@@ -1,3 +1,13 @@
+1999-07-05    <mgd@HELEN>
+
+	* Arguments.m ([Arguments_c -getExecutablePath]): Use it.
+	(findDirectory): Handle empty executablePath.
+	([Arguments_c -_runningFromInstall_]): Likewise.
+
+	* Arguments.h (Arguments_c): New ivar executablePath.
+
+	* Arguments.m ([Arguments_c -createEnd]): Set it.
+
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* modulemap.el (generate-module-map): Include string.h for strlen.

@@ -17,6 +17,7 @@
   int argc;
   const char **argv;
   const char *applicationName;
+  const char *executablePath;
   const char *appModeString;
   const char *version;
   const char *bugAddress;

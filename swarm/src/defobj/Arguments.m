@@ -147,33 +147,22 @@ strip_quotes (const char *argv0)
       return ptr;
     }
   else
-    return argv0;
+    return strdup (argv0);
 }
 
 - createEnd
 {
   const char *argv0 = strip_quotes (argv[0]);
-#ifndef __GLIBC__
+
   if (applicationName == NULL)  
-    {
-      program_invocation_short_name = getApplicationValue (argv0);
-      program_invocation_name = (char *) find_executable (argv0);
-      [self setAppName: program_invocation_short_name];
-    }
-  else
-    {
-      program_invocation_short_name = applicationName;
-      program_invocation_name = (char *) find_executable (argv0);
-    }
-#else
-  if (applicationName == NULL)
     [self setAppName: getApplicationValue (argv0)];
-  else
-    {
-      program_invocation_short_name = (char *) applicationName;
-      program_invocation_name = (char *) find_executable (argv0);
-    }
+  
+#ifndef __GLIBC__
+  program_invocation_short_name = applicationName;
+  program_invocation_name = argv0;
 #endif
+
+  executablePath = find_executable (program_invocation_short_name);
 
   if (version == NULL)
     version = "[no application version]";
@@ -416,7 +405,7 @@ PHASE(Using)
 
 - (const char *)getExecutablePath
 {
-  return program_invocation_name;
+  return executablePath;
 }
 
 - (const char *)getAppModeString
@@ -437,18 +426,29 @@ PHASE(Using)
 static char *
 findDirectory (id arguments, const char *directoryName)
 {
-  char *pathBuf = strdup ([arguments getExecutablePath]);
+  const char *exePath = [arguments getExecutablePath];
 
-  while (dropdir (pathBuf))
+  if (exePath)
     {
-      char *swarmPathBuf = xmalloc (strlen (pathBuf) + strlen (directoryName) + 1);
-      
-      stpcpy (stpcpy (swarmPathBuf, pathBuf), directoryName);
-      if (access (swarmPathBuf, F_OK) != -1)
-        return swarmPathBuf;
-      XFREE (swarmPathBuf);
+      char *pathBuf = strdup (pathBuf);
+
+      while (dropdir (pathBuf))
+	{
+	  char *swarmPathBuf = xmalloc (strlen (pathBuf) + strlen (directoryName) + 1);
+	  
+	  stpcpy (stpcpy (swarmPathBuf, pathBuf), directoryName);
+	  if (access (swarmPathBuf, F_OK) != -1)
+	    {
+	      XFREE (pathBuf);
+	      return swarmPathBuf;
+	    }
+	  XFREE (swarmPathBuf);
+	}
+      XFREE (pathBuf);
+      return NULL;
     }
-  return NULL;
+  else
+    return NULL;
 }
 
 static unsigned
@@ -692,49 +692,55 @@ expandvars (const char *path)
 
 - (BOOL)_runningFromInstall_
 {
-  char *executablePath =  strdup ([self getExecutablePath]);
-  const char *possibleHomeSrc = dropdir (dropdir (executablePath));
-  const char *homeSrc;
-  BOOL ret = NO;
-    
-  ignoringEnvFlag = NO;
- retry:
-  homeSrc = [self _getSwarmHome_: ignoringEnvFlag];
-
-  if (homeSrc && possibleHomeSrc)
+  if (!executablePath)
+    return YES;
+  else
     {
-      struct stat possibleHomeStatBuf, homeStatBuf;
-      size_t possibleHomeLen = strlen (possibleHomeSrc);
-      size_t homeLen = strlen (homeSrc);
-      {
-        char possibleHome[possibleHomeLen + 1];
-        char home[homeLen + 1];
-        
+      const char *possibleHomeSrc;
+      const char *homeSrc;
+      BOOL ret = NO;
+      char *executableBuf = strdup (executablePath);
+      possibleHomeSrc = dropdir (dropdir (executableBuf));
+
+      ignoringEnvFlag = NO;
+    retry:
+      homeSrc = [self _getSwarmHome_: ignoringEnvFlag];
+      
+      if (homeSrc && possibleHomeSrc)
+	{
+	  struct stat possibleHomeStatBuf, homeStatBuf;
+	  size_t possibleHomeLen = strlen (possibleHomeSrc);
+	  size_t homeLen = strlen (homeSrc);
+	  {
+	    char possibleHome[possibleHomeLen + 1];
+	    char home[homeLen + 1];
+	    
 #ifdef __CYGWIN__
-        unsigned i;
-        // Inodes are computed from a pathname hash, so normalize to lowercase.
-        for (i = 0; i < possibleHomeLen; i++)
-          possibleHome[i] = tolower (possibleHomeSrc[i]);
-        possibleHome[i] = '\0';
-        for (i = 0; i < homeLen; i++)
-          home[i] = tolower (homeSrc[i]);
-        home[i] = '\0';
+	    unsigned i;
+	    // Inodes are computed from a pathname hash, so normalize to lowercase.
+	    for (i = 0; i < possibleHomeLen; i++)
+	      possibleHome[i] = tolower (possibleHomeSrc[i]);
+	    possibleHome[i] = '\0';
+	    for (i = 0; i < homeLen; i++)
+	      home[i] = tolower (homeSrc[i]);
+	    home[i] = '\0';
 #else
-        strcpy (possibleHome, possibleHomeSrc);
-        strcpy (home, homeSrc);
+	    strcpy (possibleHome, possibleHomeSrc);
+	    strcpy (home, homeSrc);
 #endif
-        if (stat (possibleHome, &possibleHomeStatBuf) != -1
-            && stat (home, &homeStatBuf) != -1)
-          ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
-        if (ret == NO && !ignoringEnvFlag)
-          {
-            ignoringEnvFlag = YES;
-            goto retry;
-          }
-      }
+	    if (stat (possibleHome, &possibleHomeStatBuf) != -1
+		&& stat (home, &homeStatBuf) != -1)
+	      ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
+	    if (ret == NO && !ignoringEnvFlag)
+	      {
+		ignoringEnvFlag = YES;
+		goto retry;
+	      }
+	  }
+	}
+      XFREE (executableBuf);
+      return ret;
     }
-  XFREE (executablePath);
-  return ret;
 }
 
 - (const char *)_appendAppName_: (const char *)basePath
