@@ -608,7 +608,7 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
   while ((app = [appMapIndex next: &appKey]))
     {
       id appGroup;
-      id modeGroup = hdf5_create_app_group ([appKey getC], hdf5Obj, appGroup);
+      id modeGroup = hdf5_create_app_group ([appKey getC], hdf5Obj, &appGroup);
       
       hdf5_output_objects ([app getHDF5ShallowMap], modeGroup, NO);
       hdf5_output_objects ([app getHDF5DeepMap], modeGroup, YES);
