@@ -1,5 +1,8 @@
 1998-09-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* actcltk.m4: Don't check for tclsh if --with-tcldir specified.
+	Don't do version search if --with-{tcl,tk}libname was specified.
+
 	* acobjclibs.m4: Try -lobjc -lposix4, also.
 
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>

@@ -7,12 +7,14 @@ dnl
 dnl First, if tclsh is around execute it to make a guess as to where Tcl
 dnl is installed, and also to find out if we're using tcl > 7.3.
 AC_DEFUN(md_FIND_TCL_HEADERS,dnl
-[AC_CHECK_PROG(tclsh_found, tclsh, 1, 0)
+[if test -z "$tcllibdir" ; then
+AC_CHECK_PROG(tclsh_found, tclsh, 1, 0)
 changequote(<,>)dnl
 if test "$tclsh_found" = "1"; then
   tclLibrary=`echo "puts [info library]" | tclsh`
   tclInstalledDir=`dirname "$tclLibrary"`
   tclInstalledDir=`dirname "$tclInstalledDir"`
+fi
 fi
 
 # Second, if TCL_LIBRARY or TK_LIBRARY are set, work from there.
@@ -96,9 +98,11 @@ for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
   tcllibdir=''
   expand_dir=`eval echo $dir`
   for suffix in .so .a; do
-    if test -n "$tcllibname" && test -r $expand_dir/lib${tcllibname}${suffix} ; then
-      tcllibdir=$dir
-      break
+    if test -n "$tcllibname"; then
+      if test -r $expand_dir/lib${tcllibname}${suffix} ; then
+        tcllibdir=$dir
+        break
+      fi
     else
       for version in 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
         if test -r $expand_dir/libtcl${version}${suffix}; then
@@ -184,9 +188,11 @@ for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
   tklibdir=''
   expand_dir=`eval echo $dir`
   for suffix in .so .a; do
-    if test -n "$tklibname" && test -r $expand_dir/lib${tklibname}${suffix} ; then
-      tklibdir=$dir
-      break
+    if test -n "$tklibname" ; then
+      if test -r $expand_dir/lib${tklibname}${suffix} ; then
+        tklibdir=$dir
+        break
+      fi
     else
       for version in 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
         if test -r $expand_dir/libtk${version}${suffix}; then
