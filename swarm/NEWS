@@ -34,7 +34,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** TextItem
 ***** setCenterFlag: selects between centered and left-justified text.
 **** New class ScheduleItem, a widget for inspecting schedules wth support for
-     animated messaging.
+     animated messaging. See mousetrap for an example.
 
 *** objectbase
 **** Arguments
