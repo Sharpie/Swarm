@@ -2,6 +2,9 @@
 
 	* configure.in (AC_OUTPUT): Extract objc/externvar.h.
 
+	* Makefile.am (CPPFLAGS): Quote $(EXPORT_EXTERN).  It can't
+	be quoted in acdll.m4 because it is extracted into externvar.h.
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.c (_objc_malloc, _objc_atomic_malloc, _objc_valloc,

@@ -5,6 +5,9 @@
 	($(TYPEINFO)): Use single quotes on OBJCFLAGS, so that CPPFLAGS
 	may contain double quotes.
 
+        * Makefile.am (CPPFLAGS): Quote $(EXPORT_EXTERN).  It can't
+        be quoted in acdll.m4 because it is extracted into externvar.h.  
+
 1999-05-27  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (swarm_dll_SOURCES): Set to dllinit.c, so automake
