@@ -1,3 +1,19 @@
+1999-06-18  Alex Lancaster  <alex@santafe.edu>
+
+	* protocol.el (protocol): Add deprecated-list to defstruct.
+	(parse-state): Add deprecated-doc-list as new `parse state'.
+	(*doc-types*): Add deprecated-doc.
+	(parse-method): Set method-deprecated-list to the parsed version,
+	and use it later to set the struct element.
+	(check-common-tags): Add `//x:' as deprecated-doc string.
+	(common-tag-change): Push the new line tag contents of
+	deprecated-doc string onto the parse-state-deprecated-doc-list
+	buffer.
+	(handle-method): Reset `parse-state-deprecated-doc-list' to nil,
+	after installing in method struct.
+	(process-header-file): Add logic to test if a common tag *inside*
+	a protocol.  If so, do processing on the deprecated-doc tag.
+
 1999-06-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in (OBJCFLAGS): Append EXTRAOBJCFLAGS.

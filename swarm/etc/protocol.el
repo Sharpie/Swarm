@@ -46,7 +46,8 @@
   typedef-list
   example-list
   method-list
-  expanded-methodinfo-list)
+  expanded-methodinfo-list
+  deprecated-list)
 
 (defstruct method
   phase
@@ -54,7 +55,8 @@
   return-type
   arguments
   description-list
-  example-list)
+  example-list
+  deprecated-list)
 
 (defstruct global
   name
@@ -110,6 +112,7 @@
   macro-list
 
   item-doc-list
+  deprecated-doc-list
   method-list
 
   typedef-list
@@ -120,7 +123,7 @@
 (defconst *doc-types* '(:method-doc :summary-doc :description-doc
                         :function-doc :macro-doc :typedef-doc
                         :global-doc :global-begin :global-end :global-break
-                        :example-doc))
+                        :example-doc :deprecated-doc))
 
 (defconst *protocol-regexp* "^@\\(protocol\\|deftype\\)")
 (defconst *funcptr-regexp* "\\([^;()]*(\\s-*[*]*\\s-*\\([^*);]+\\))[^;]*\\);")
@@ -196,7 +199,9 @@
         (method-description-list 
          (reverse (parse-state-item-doc-list parse-state)))
         (method-example-list
-         (reverse (parse-state-scratch-example-list parse-state))))
+         (reverse (parse-state-scratch-example-list parse-state)))
+        (method-deprecated-list 
+         (reverse (parse-state-deprecated-doc-list parse-state))))
     (forward-char)
     (skip-whitespace)
     (let* ((return-type (next-paren-expr))
@@ -227,7 +232,8 @@
        :arguments (reverse arguments)
        :return-type return-type
        :description-list method-description-list
-       :example-list method-example-list))))
+       :example-list method-example-list
+       :deprecated-list method-deprecated-list))))
   
 (defun parse-function (module
                        protocol
@@ -496,6 +502,7 @@
         ((looking-at "//#:") :macro-doc)
         ((looking-at "//F:") :function-doc)
         ((looking-at "//T:") :typedef-doc)
+        ((looking-at "//x:") :deprecated-doc)
 
         ((looking-at "externvar.*")
          (check-global parse-state))
@@ -556,7 +563,7 @@
                ((looking-at "-")  :method)
                ((looking-at "+") :factory-method)
                ((looking-at "//M:") :method-doc)
-               ((looking-at "@end") :protocol-end)
+                ((looking-at "@end") :protocol-end)
                ((looking-at "//E:") :example-doc)
                ((looking-at "///M:") :bogus-method)
                (t nil))))
@@ -587,7 +594,9 @@
            (error "summary already set")
            (setf (parse-state-summary-doc parse-state) buf)))
       (:description-doc
-       (push buf (parse-state-description-doc-list parse-state))))))
+       (push buf (parse-state-description-doc-list parse-state)))
+      (:deprecated-doc
+       (push buf (parse-state-deprecated-doc-list parse-state))))))
 
 (defun handle-method (protocol factory-flag parse-state)
   (push (parse-method protocol
@@ -596,6 +605,7 @@
         (parse-state-method-list parse-state))
   (setf (parse-state-scratch-example-list parse-state) nil)
   (setf (parse-state-item-doc-list parse-state) nil)
+  (setf (parse-state-deprecated-doc-list parse-state) nil)
   t)
        
 (defun parse-typedef (module protocol parse-state)
@@ -735,7 +745,7 @@
               (parse-state-global-list parse-state)))
     (setf (parse-state-item-doc-list parse-state) nil))
   t)
-  
+ 
 (defun handle-protocol-tag (protocol parse-state)
   (let ((tag (parse-state-tag parse-state))
         (module (protocol-module protocol)))
@@ -752,7 +762,7 @@
        (handle-define module protocol parse-state))
       (:typedef
        (handle-typedef module protocol parse-state))
-       (:function
+      (:function
        (handle-function module protocol parse-state))
       (:protocol-end t)
       (otherwise nil))))
@@ -786,19 +796,28 @@
                 (not (and protocol (end-tag-p parse-state))))
       (beginning-of-line)
       (let ((tag (check-common-tags parse-state)))
-        (unless tag
+        (if tag  
+            (if protocol ;; if a common tag *inside* a protocol do
+                ;; special processing if this tag can also be a
+                ;; protocol tag (such as deprecated-doc)
+                (if (parse-state-deprecated-doc-list parse-state)
+                    (progn
+                      (setf (protocol-deprecated-list protocol)
+                            (parse-state-deprecated-doc-list parse-state))
+                      ;; immediately re-set again
+                      (setf (parse-state-deprecated-doc-list parse-state) nil))))
           (if protocol
               (progn
                 (setq tag (check-protocol-tags parse-state))
                 (unless tag
                   (error "Unrecognized text (protocol): [%s]"
                          (line-text))))
-              (if (looking-at *protocol-regexp*)
-                  (progn
-                    (re-search-forward "^@end")
-                    (setq tag :skipped-protocol))
-                  (error "Unrecognized text (non-protocol): [%s]"
-                         (line-text)))))
+            (if (looking-at *protocol-regexp*)
+                (progn
+                  (re-search-forward "^@end")
+                  (setq tag :skipped-protocol))
+              (error "Unrecognized text (non-protocol): [%s]"
+                     (line-text)))))
         (setf (parse-state-tag parse-state) tag))
       (setf (parse-state-line parse-state) (line-text))
       (let ((immediate-object
@@ -807,20 +826,20 @@
                                              parse-state)))
         (if immediate-object
             (push immediate-object (parse-state-global-list parse-state))
-            (progn
-              (if (same-tag-p parse-state)
-                  (append-buf parse-state)
-                  (progn
-                    (if protocol
-                        (unless (protocol-tag-change parse-state)
-                          (common-tag-change parse-state))
-                        (common-tag-change parse-state))
-                    (when (is-doc-type parse-state)
-                      (set-buf parse-state)))))))
+          (progn
+            (if (same-tag-p parse-state)
+                (append-buf parse-state)
+              (progn
+                (if protocol
+                    (unless (protocol-tag-change parse-state)
+                      (common-tag-change parse-state))
+                  (common-tag-change parse-state))
+                (when (is-doc-type parse-state)
+                  (set-buf parse-state)))))))
       (if protocol
           (unless (handle-protocol-tag protocol parse-state)
             (handle-common-tag module protocol parse-state))
-          (handle-common-tag module protocol parse-state))
+        (handle-common-tag module protocol parse-state))
       (setf (parse-state-last-tag parse-state)
             (parse-state-tag parse-state)))
     parse-state))
@@ -841,7 +860,7 @@
     (let ((parse-state (process-header-file module protocol)))
       (setf (protocol-summary protocol)
             (parse-state-summary-doc parse-state)
-            
+      
             (protocol-description-list protocol)
             (reverse (parse-state-description-doc-list parse-state))
             
