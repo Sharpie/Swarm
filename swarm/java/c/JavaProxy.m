@@ -5,20 +5,11 @@
 #import <defobj/FArguments.h>
 #import <defobj.h> // FCall
 
+#import "directory.h"
+
 #include <jni.h>
 
 @implementation JavaProxy
-
-- (int)try: (const char *)str
-{
-  printf ("try:\n");
-  return 3;
-}
-
-- (double)tryDouble: (const char *)str
-{
-  return 2.5;
-}
 
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
 {
@@ -28,6 +19,8 @@
   types_t val;
   id aZone = [self getZone];
   const char *type = sel_get_type (aSel);
+  jobject jobj = JFINDJAVA (self);
+  jobject jsel;
   
   if (!type)
     {
@@ -36,6 +29,7 @@
       if (!type)
         abort ();
     }
+  jsel = JFINDJAVA ((id) aSel);
   fa = [FArguments createBegin: aZone];
   type = mframe_next_arg (type, &info);
   mframe_get_arg (argFrame, &info, &val);
@@ -49,9 +43,26 @@
       [fa addArgument: &val ofObjCType: *info.type];
     }
   fa = [fa createEnd];
-  
-  fc = [[[[FCall createBegin: aZone] setArguments: fa]
-          setMethod: @selector (tryDouble:) inObject: self] createEnd];
+
+  {
+    jclass clazz = (*jniEnv)->GetObjectClass (jniEnv, jsel);
+    jfieldID nameFid;
+    jstring string;
+    const char *methodName;
+    jboolean copyFlag;
+    
+    if (!(nameFid = (*jniEnv)->GetFieldID (jniEnv, clazz,
+                                         "signature",
+                                         "Ljava/lang/String;")))
+      abort ();
+    string = (*jniEnv)->GetObjectField (jniEnv, jsel, nameFid);
+    methodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copyFlag);
+   
+    fc = [[[[FCall createBegin: aZone] setArguments: fa]
+            setJavaMethod: methodName inObject: jobj] createEnd];
+    if (copyFlag)
+      (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, methodName);
+  }
   printf ("before call\n");
   [fc performCall];
   printf ("after call\n");
@@ -59,7 +70,6 @@
     types_t typebuf;
     retval_t retval = [fc getRetVal: argFrame buf: &typebuf];
 
-    printf ("val:[%f %f]\n", typebuf._double, *(double *) [fc getResult]);
     [fc drop];
     [fa drop];
     return retval;

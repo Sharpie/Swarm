@@ -1,3 +1,15 @@
+1999-04-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* JavaProxy.m: Include directory.h.
+	([JavaProxy -forward::]): Lookup Java method for call
+	to setJavaMethod:.
+
+	* directory.m: Use jniEnv, not jenv throughout.
+	(java_ensure_selector): Call java_directory_update to relate
+	Java and Objective selectors.
+
+	* directory.h: Declare jniEnv.
+
 1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* JavaProxy.m ([JavaProxy -forward::]): Use types_t instead of

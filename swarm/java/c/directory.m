@@ -22,7 +22,7 @@ static jclass c_boolean,
   c_object, c_string, 
   c_void;
 
-JNIEnv *jenv;
+JNIEnv *jniEnv;
 
 static void
 create_class_refs (JNIEnv *env)
@@ -296,7 +296,7 @@ java_directory_init (JNIEnv *env,
   jclass class;
 
   
-  jenv = env;
+  jniEnv = env;
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
   
@@ -523,7 +523,8 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
       printf ("[%s][%s]\n", name, signatureBuf);
       sel = sel_register_typed_name (name, signatureBuf);
     }
-  
+  java_directory_update (jniEnv, jsel, (id) sel);
+
   if (copyFlag)
     (*env)->ReleaseStringUTFChars (env, string, utf);
   else

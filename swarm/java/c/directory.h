@@ -4,6 +4,8 @@
 #include <misc/avl.h>
 #include <objc/objc.h>
 
+extern JNIEnv *jniEnv;
+
 typedef struct jobject_id
 {
   jobject java_object;
