@@ -706,7 +706,8 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
       {
         HWND w = Tk_GetHWND (window);
 
-        SetForegroundWindow (w);
+        SetWindowPos (w, HWND_TOPMOST, 0, 0, 0, 0,
+                      SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
         win32_pixmap_create_from_window (pixmap, w);
       }
 #endif
