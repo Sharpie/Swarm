@@ -16,12 +16,12 @@ int ok = 0;
 - buildActions
 {
   firstSchedule = [Schedule createBegin: getZone (self)];
-  [firstSchedule setAutoDrop: 1];
-  [firstSchedule setKeepEmpty: YES];
+  [firstSchedule setAutoDrop: YES];
+  [firstSchedule setKeepEmptyFlag: YES];
   firstSchedule = [firstSchedule createEnd];
   
   secondSchedule = [Schedule createBegin: getZone (self)];
-  [secondSchedule setAutoDrop: 1];
+  [secondSchedule setAutoDrop: YES];
   secondSchedule = [secondSchedule createEnd];
   
   [firstSchedule at: 2 createActionTo: self message: M(empty)];

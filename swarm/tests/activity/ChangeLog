@@ -1,3 +1,8 @@
+1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ESSwarm.m ([ESSwarm -buildActions]): Use setKeepEmptyFlag: 
+	instead of setKeepEmpty:.  Use YES instead of 1.
+
 1999-02-02  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* ESSwarm.m: New file. 
