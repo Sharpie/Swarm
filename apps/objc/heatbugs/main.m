@@ -34,7 +34,7 @@ main (int argc, const char **argv)
     // No graphics - make a batchmode swarm (using the key
     // `batchSwarm' from the default lispAppArchiver) and run it.
     if ((theTopLevelSwarm = [lispAppArchiver getWithZone: globalZone 
-                                             object: "batchSwarm"]) == nil) 
+                                             key: "batchSwarm"]) == nil) 
       raiseEvent(InvalidOperation, 
                  "Can't find the parameters to create batchSwarm");
 

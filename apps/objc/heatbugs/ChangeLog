@@ -1,3 +1,10 @@
+2000-01-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* main.m (main): Use getWithZone:key:, not getWithZone:object:.
+
+	* HeatbugBatchSwarm.m ([HeatbugBatchSwarm -buildObjects]): 
+	Likewise.
+
 1999-12-22    <mgd@nest.swarm.org>
 
 	* heatbugs.scm (experimentDuration): Increment from 200 to 250.

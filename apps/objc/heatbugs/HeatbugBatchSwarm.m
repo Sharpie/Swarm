@@ -47,7 +47,7 @@
   // numBugs etc.
 
   if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self 
-                                            object: "modelSwarm"]) == nil)
+                                            key: "modelSwarm"]) == nil)
     raiseEvent(InvalidOperation, 
                "Can't find the parameters to create modelSwarm");
 
