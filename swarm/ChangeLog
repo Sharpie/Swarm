@@ -4,14 +4,21 @@
 
 	* VERSION: Bump.
 
+	* configure.in (swarm_libdir): Define DATADIR to $(datadir)/swarm/ in
+	swarmconfig.h.
+
+	* acconfig.h: Add DATADIR.
+
+	* Makefile.am (install-data-local): Create $(datadir)/swarm.
+
 1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* acconfig.h: Add CONFPATH.
+	* acconfig.h: Add SYSCONFDIR.
 
 	* configure.in: Assign $withval instead of $withval/include to
 	$tkincludedir.  Thanks to Kim Shrier.
-	(swarm_libdir): Append "/swarm" to sysconfdir if it's the default.
-	Define CONFPATH to sysconf in swarmconfig.h.
+	(swarm_libdir): Define SYSCONFDIR to $(sysconf)/swarm/ in
+	swarmconfig.h.
 
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
