@@ -2,21 +2,19 @@
 
  1. Variant method names for passthru to setWindowGeometryRecordName have been
     eliminated.  In these cases, the resulting key is computed from the
-    components involved.  Thanks to Ken Cline for the idea.  
-    For these `GUIComposite' objects, the macro 
-    SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME is used for naming the
-    subcomponents; it uses the subcomponent widget instance variable 
-    argument as the name.
+    components involved.  Thanks to Ken Cline for the idea.  For these
+    `GUIComposite' objects, the macro SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME
+    is used for naming the subcomponents; it uses the subcomponent widget
+    instance variable argument as the name.
 
  2. The macro SET_WINDOW_GEOMETRY_RECORD_NAME provides a convenience
     interface to setWindowGeometryRecordName:.  This macro takes a widget
     instance variable as an argument and derives the archiving key from that.
 
  3. The methods create[Complete]ProbeDisplayFor:setWindowGeometryRecordName:
-    have been removed in favor of the macros
-    CREATE_ARCHIVED_PROBE_DISPLAY and CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY, 
-    that derive the archiving key from the instance variable provided
-    as an argument.
+    have been removed in favor of the macros CREATE_ARCHIVED_PROBE_DISPLAY 
+    and CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY.  These macros derive the
+    archiving key from the argument variable.
  
  4. Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
     for reporting this.
@@ -26,7 +24,7 @@
     for your application to disable top level user interface features after
     user kills from the window manager.  See heatbugs for an example of this.
 
- 6. ProbeDisplays weren't equipped with #4, so window kills from the window
+ 6. ProbeDisplays were not equipped with #4, so kills from the window
     manager could result Tk becoming confused (a fairly common operation 
     with popular window managers like fvwm95).  Thanks to Pietro Terna
     for his assistance in debugging this.
@@ -38,6 +36,8 @@
     with BLT 2.3.  Thanks to Pietro Terna for reporting this.
 
  9. Fixed problem with ClassDisplayWidget misdirecting armSuperButton.
+
+10. The path for BLT support files is checked before Swarm is started.
 
 		Release Notes for Swarm Version 1.0.4
 
