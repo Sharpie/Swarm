@@ -133,8 +133,8 @@ static id <Pixmap> bugPixmap = nil;
 // Heatbug behaviour is actually implemented here. The notion of a "step"
 // method is a nice simplification for basic simulations.
 
--step{
-
+- step
+{
   HeatValue heatHere;
   int newX, newY;
   int tries;
@@ -264,7 +264,6 @@ static id <Pixmap> bugPixmap = nil;
     }
 
   // all done moving! Return self.
-
   return self;
 }
 
