@@ -1,3 +1,17 @@
+1999-06-14  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-print-javadoc-method): New function.  Print
+	out method-description-list in javadoc syntax.
+	(java-print-class-methods-in-phase): Use it.
+	(java-print-javadoc-protocol): New function.  Print out
+	protocol-{summary, description-list} in javadoc syntax.
+	(java-print-class-phase): Use it.
+	(java-print-javadoc-module-summary): New function.  For each
+	module, print out the module-{summary, description-list} into
+	`package.html' in the appropriate subdirectory for collection by
+	javadoc.
+	(java-print-classes): Use it.
+
 1999-06-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-methods*): Add -addLongLong: and

@@ -233,6 +233,25 @@
       "-getMessageSelector"
       ))
 
+(defun java-print-javadoc-method (method)
+  (insert "/** ")
+  (loop for text in (method-description-list method)
+        do
+        (insert text))
+  (insert " */\n")
+  )  
+
+(defun java-print-javadoc-protocol (protocol)
+  (insert "/** \n")
+  (insert " *<strong>")
+  (insert (protocol-summary protocol))
+  (insert "</strong>.\n\n")
+  (loop for text in (protocol-description-list protocol)
+        do
+        (insert text))
+  (insert "\n*/\n")
+  )  
+
 (defun freaky-message (objc-type)
   (error "Objective C type `%s' in protocol `%s' is freaky!"
          objc-type
@@ -349,6 +368,7 @@
 (defun java-print-class-methods-in-phase (protocol phase)
   (loop for method in (expanded-method-list protocol phase) 
 	do
+        (java-print-javadoc-method method)
         (insert "public native ")
         (java-print-method protocol method)))
 
@@ -431,6 +451,7 @@
         (java-print-implemented-interfaces-list protocol phase separator))))
 
 (defun java-print-class-phase (protocol phase)
+  (java-print-javadoc-protocol protocol)
   (insert "public ")
   (unless (creatable-p protocol)
     (insert "abstract "))
@@ -776,10 +797,28 @@
           (insert "\n")
           (insert "include ../Makefile.rules\n"))))
 
+(defun java-print-javadoc-module-summary ()
+  (loop for module-sym being each hash-key of *module-hash-table*
+        using (hash-value protocol-list)
+        for dir = (module-path module-sym)
+        do
+        (ensure-directory dir)
+        (with-temp-file (concat dir "package.html")
+          (insert "<body><strong>")
+          (insert (module-summary (lookup-module module-sym)))
+          (insert "</strong>.\n\n")
+          (loop for text in (module-description-list 
+                             (lookup-module module-sym))
+                do
+                (insert text))
+          (insert "</body>")
+          )))
+
 (defun java-print-classes ()
   (interactive)
   (ensure-directory (java-path))
   (java-print-makefiles)
+  (java-print-javadoc-module-summary)  
   (loop for protocol being each hash-value of *protocol-hash-table* 
         unless (removed-protocol-p protocol)
         do
