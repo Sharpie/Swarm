@@ -409,20 +409,20 @@ selectorArgFcallType (COMselector cSel, unsigned argIndex)
 }
 
 void
-selectorCOMInvoke (COMselector cSel, void *args)
+selectorCOMInvoke (COMselector cSel, void *params)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   
-  if (!NS_SUCCEEDED (sel->COMinvoke ((nsXPTCVariant *) args)))
+  if (!NS_SUCCEEDED (sel->COMinvoke ((nsXPTCVariant *) params)))
     abort ();
 }
 
 void
-selectorJSInvoke (COMselector cSel, void *args)
+selectorJSInvoke (COMselector cSel, void *params)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
  
-  if (!NS_SUCCEEDED (sel->JSinvoke ((jsval *) args)))
+  if (!NS_SUCCEEDED (sel->JSinvoke ((jsval *) params)))
     abort ();
 }
 
@@ -454,7 +454,7 @@ enumCollectFunc (nsHashKey *key, void *data, void *param)
 static PRBool
 destroyMethod (nsHashKey *key, void *data, void *param)
 {
-  struct method_value *value = data;
+  struct method_value *value = (struct method_value *) data;
 
   delete value;
   return PR_TRUE;
@@ -555,8 +555,143 @@ COMmethodName (COMmethod method)
   return value->methodInfo->GetName ();
 }
 
+unsigned
+COMmethodArgCount (COMmethod method)
+{
+  struct method_value *value = (struct method_value *) method;
+  const nsXPTMethodInfo *methodInfo = value->methodInfo;
+
+  PRUint16 count = methodInfo->GetParamCount ();
+  
+  if (count > 0)
+    {
+      PRUint16 i = count - 1;
+      const nsXPTParamInfo param = methodInfo->GetParam (i);
+      return count - param.IsRetval ();
+    }
+  else
+    return 0;
+}
+
+fcall_type_t
+methodArgFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 argIndex)
+{
+  const nsXPTParamInfo& param = methodInfo->GetParam (argIndex);
+  const nsXPTType& type = param.GetType ();
+  fcall_type_t ret;
+
+  switch (type.TagPart ())
+    {
+    case nsXPTType::T_BOOL:
+      ret = fcall_type_boolean;
+      break;
+    case nsXPTType::T_I8:
+      ret = fcall_type_schar;
+      break;
+    case nsXPTType::T_I16:
+      ret = fcall_type_sshort;
+      break;
+    case nsXPTType::T_I32:
+      ret = fcall_type_sint;
+      break;
+    case nsXPTType::T_I64:
+      ret = fcall_type_slonglong;
+      break;
+    case nsXPTType::T_U8:
+      ret = fcall_type_uchar;
+      break;
+    case nsXPTType::T_U16:
+      ret = fcall_type_ushort;
+      break;
+    case nsXPTType::T_U32:
+      ret = fcall_type_uint;
+      break;
+    case nsXPTType::T_U64:
+      ret = fcall_type_ulonglong;
+      break;
+    case nsXPTType::T_FLOAT:
+      ret = fcall_type_float;
+      break;
+    case nsXPTType::T_DOUBLE:
+      ret = fcall_type_double;
+      break;
+    case nsXPTType::T_CHAR:
+      ret = fcall_type_schar;
+      break;
+    case nsXPTType::T_VOID:
+      ret = fcall_type_void;
+      break;
+    case nsXPTType::T_CHAR_STR:
+      ret = fcall_type_string;
+      break;
+    case nsXPTType::T_INTERFACE:
+    case nsXPTType::T_INTERFACE_IS:
+      ret = fcall_type_object;
+      break;
+      
+    case nsXPTType::T_WCHAR:
+    case nsXPTType::T_IID:
+    case nsXPTType::T_BSTR:
+    case nsXPTType::T_WCHAR_STR:
+    case nsXPTType::T_ARRAY:
+    case nsXPTType::T_PSTRING_SIZE_IS:
+    case nsXPTType::T_PWSTRING_SIZE_IS:
+    default:
+      abort ();
+    }
+  return ret;
+}
+
+fcall_type_t
+JSToFcallType (unsigned type)
+{
+  fcall_type_t ret;
+
+  switch (type)
+    {
+    case JSVAL_OBJECT:
+      ret = fcall_type_object;
+      break;
+    case JSVAL_INT:
+      ret = fcall_type_sint;
+      break;
+    case JSVAL_DOUBLE:
+      ret = fcall_type_double;
+      break;
+    case JSVAL_STRING:
+      ret = fcall_type_string;
+      break;
+    case JSVAL_BOOLEAN:
+      ret = fcall_type_boolean;
+      break;
+    default:
+      abort ();
+    }
+  return ret;
+}
+  
+fcall_type_t
+COMmethodArgFcallType (COMmethod cMethod, unsigned argIndex)
+{
+  struct method_value *method = (struct method_value *) cMethod;
+
+  return methodArgFcallType (method->methodInfo, argIndex);
+}
+
+void
+COMmethodInvoke (COMmethod cMethod, void *params)
+{
+  struct method_value *method = (struct method_value *) cMethod;
+
+  if (!NS_SUCCEEDED (XPTC_InvokeByIndex (method->interface,
+                                         method->methodIndex,
+                                         method->methodInfo->GetParamCount (),
+                                         (nsXPTCVariant *) params)))
+    abort ();
+}
+
 void *
-COMcreateArgVector (unsigned size)
+COMcreateParams (unsigned size)
 {
   nsXPTCVariant *argVec = new nsXPTCVariant[size];
 
@@ -589,75 +724,75 @@ static nsXPTType types[FCALL_TYPE_COUNT] = {
 };
 
 void
-COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
+COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  nsXPTCVariant *arg = &((nsXPTCVariant *) args)[pos];
+  nsXPTCVariant *param = &((nsXPTCVariant *) params)[pos];
 
   switch (type)
     {
     case fcall_type_void:
       abort ();
     case fcall_type_boolean:
-      arg->type = nsXPTType::T_BOOL;
-      arg->val.b = value->boolean;
+      param->type = nsXPTType::T_BOOL;
+      param->val.b = value->boolean;
       break;
     case fcall_type_uchar:
-      arg->type = nsXPTType::T_U8;
-      arg->val.u8 = value->uchar;
+      param->type = nsXPTType::T_U8;
+      param->val.u8 = value->uchar;
       break;
     case fcall_type_schar:
-      arg->type = nsXPTType::T_I8;
-      arg->val.i8 = value->schar;
+      param->type = nsXPTType::T_I8;
+      param->val.i8 = value->schar;
       break;
     case fcall_type_ushort:
-      arg->type = nsXPTType::T_U16;
-      arg->val.u16 = value->ushort;
+      param->type = nsXPTType::T_U16;
+      param->val.u16 = value->ushort;
       break;
     case fcall_type_sshort:
-      arg->type = nsXPTType::T_I16;
-      arg->val.i16 = value->sshort;
+      param->type = nsXPTType::T_I16;
+      param->val.i16 = value->sshort;
       break;
     case fcall_type_uint:
-      arg->type = nsXPTType::T_U32;
-      arg->val.u32 = value->uint;
+      param->type = nsXPTType::T_U32;
+      param->val.u32 = value->uint;
       break;
     case fcall_type_sint:
-      arg->type = nsXPTType::T_I32;
-      arg->val.i32 = value->sint;
+      param->type = nsXPTType::T_I32;
+      param->val.i32 = value->sint;
       break;
     case fcall_type_ulong:
-      arg->type = nsXPTType::T_U32;
-      arg->val.u32 = value->ulong;
+      param->type = nsXPTType::T_U32;
+      param->val.u32 = value->ulong;
       break;
     case fcall_type_slong:
-      arg->type = nsXPTType::T_I32;
-      arg->val.i32 = value->slong;
+      param->type = nsXPTType::T_I32;
+      param->val.i32 = value->slong;
       break;
     case fcall_type_ulonglong:
-      arg->type = nsXPTType::T_U64;
-      arg->val.u64 = value->ulonglong;
+      param->type = nsXPTType::T_U64;
+      param->val.u64 = value->ulonglong;
       break;
     case fcall_type_slonglong:
-      arg->type = nsXPTType::T_I64;
-      arg->val.i64 = value->slonglong;
+      param->type = nsXPTType::T_I64;
+      param->val.i64 = value->slonglong;
       break;
     case fcall_type_float:
-      arg->type = nsXPTType::T_FLOAT;
-      arg->val.f = value->_float;
+      param->type = nsXPTType::T_FLOAT;
+      param->val.f = value->_float;
       break;
     case fcall_type_double:
-      arg->type = nsXPTType::T_DOUBLE;
-      arg->val.d = value->_double;
+      param->type = nsXPTType::T_DOUBLE;
+      param->val.d = value->_double;
       break;
     case fcall_type_long_double:
       abort ();
     case fcall_type_object:
-      arg->type = nsXPTType::T_INTERFACE;
-      arg->val.p = SD_COM_ENSURE_OBJECT_COM (value->object);
+      param->type = nsXPTType::T_INTERFACE;
+      param->val.p = SD_COM_ENSURE_OBJECT_COM (value->object);
       break;
     case fcall_type_string:
-      arg->type = nsXPTType::T_CHAR_STR;
-      arg->val.p = (void *) value->string;
+      param->type = nsXPTType::T_CHAR_STR;
+      param->val.p = (void *) value->string;
       break;
     case fcall_type_selector:
     case fcall_type_jobject:
@@ -668,21 +803,21 @@ COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 }
 
 void
-COMsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value)
+COMsetReturn (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  nsXPTCVariant *retArg = &((nsXPTCVariant *) args)[pos];
+  nsXPTCVariant *retParam = &((nsXPTCVariant *) params)[pos];
 
-  retArg->ptr = value;
-  retArg->type = types[type];
-  retArg->flags = nsXPTCVariant::PTR_IS_DATA;
+  retParam->ptr = value;
+  retParam->type = types[type];
+  retParam->flags = nsXPTCVariant::PTR_IS_DATA;
 }
 
 void
-COMfreeArgVector (void *args)
+COMfreeParams (void *params)
 {
-  nsXPTCVariant *argVec = (nsXPTCVariant *) args;
+  nsXPTCVariant *_params = (nsXPTCVariant *) params;
 
-  delete argVec;
+  delete _params;
 }
 
 JSContext *
@@ -734,18 +869,18 @@ currentJSObject ()
 
 
 void *
-JScreateArgVector (unsigned size)
+JScreateParams (unsigned size)
 {
-  jsval *argVec =
+  jsval *params =
     (jsval *) JS_malloc (currentJSContext (), sizeof (jsval) * size);
   
-  return (void *) argVec;
+  return (void *) params;
 }
 
 void
-JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
+JSsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  jsval *jsargs = (jsval *) args;
+  jsval *jsparams = (jsval *) params;
   JSContext *cx = currentJSContext ();
 
   switch (type)
@@ -753,48 +888,48 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
     case fcall_type_void:
       abort ();
     case fcall_type_boolean:
-      jsargs[pos] = BOOLEAN_TO_JSVAL (value->boolean);
+      jsparams[pos] = BOOLEAN_TO_JSVAL (value->boolean);
       break;
     case fcall_type_uchar:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->uchar);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->uchar);
       break;
     case fcall_type_schar:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->schar);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->schar);
       break;
     case fcall_type_ushort:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->ushort);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->ushort);
       break;
     case fcall_type_sshort:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->sshort);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->sshort);
       break;
     case fcall_type_uint:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->uint);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->uint);
       break;
     case fcall_type_sint:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->sint);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->sint);
       break;
     case fcall_type_ulong:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->ulong);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->ulong);
       break;
     case fcall_type_slong:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->slong);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->slong);
       break;
     case fcall_type_ulonglong:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->ulonglong);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->ulonglong);
       break;
     case fcall_type_slonglong:
-      jsargs[pos] = INT_TO_JSVAL ((int) value->slonglong);
+      jsparams[pos] = INT_TO_JSVAL ((int) value->slonglong);
       break;
     case fcall_type_float:
-      if (!JS_NewDoubleValue (cx, (jsdouble) value->_float, &jsargs[pos]))
+      if (!JS_NewDoubleValue (cx, (jsdouble) value->_float, &jsparams[pos]))
         abort ();
       break;
     case fcall_type_double:
-      if (!JS_NewDoubleValue (cx, (jsdouble) value->_double, &jsargs[pos]))
+      if (!JS_NewDoubleValue (cx, (jsdouble) value->_double, &jsparams[pos]))
         abort ();
       break;
     case fcall_type_long_double:
-      if (!JS_NewDoubleValue (cx, (jsdouble) value->_long_double, &jsargs[pos]))
+      if (!JS_NewDoubleValue (cx, (jsdouble) value->_long_double, &jsparams[pos]))
         abort ();
       break;
     case fcall_type_object:
@@ -809,7 +944,7 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
         JSObject *jsObj;
         if (!NS_SUCCEEDED (calleeWrapper->GetJSObject (&jsObj)))
           abort ();
-        jsargs[pos] = OBJECT_TO_JSVAL (jsObj);
+        jsparams[pos] = OBJECT_TO_JSVAL (jsObj);
       }
       break;
     case fcall_type_selector:
@@ -819,14 +954,14 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
         JSObject *jsObj;
         if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
           abort ();
-        jsargs[pos] = OBJECT_TO_JSVAL (jsObj);
+        jsparams[pos] = OBJECT_TO_JSVAL (jsObj);
       }
       break;
     case fcall_type_class:
       abort ();
       break;
     case fcall_type_string:
-      jsargs[pos] = STRING_TO_JSVAL (JS_NewStringCopyZ (currentJSContext (),
+      jsparams[pos] = STRING_TO_JSVAL (JS_NewStringCopyZ (currentJSContext (),
                                                         value->string));
       break;
     case fcall_type_jobject:
@@ -836,16 +971,16 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 }
 
 void
-JSsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value)
+JSsetReturn (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
   if (type != fcall_type_void)
-    JSsetArg (args, pos, type, value);
+    JSsetArg (params, pos, type, value);
 }
 
 void
-JSfreeArgVector (void *args)
+JSfreeParams (void *params)
 {
-  JS_free (currentJSContext (), args);
+  JS_free (currentJSContext (), params);
 }
 
 swarmITyping *

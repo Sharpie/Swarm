@@ -110,92 +110,10 @@ swarmSelectorImpl::GetArgFcallType (unsigned argIndex, unsigned short *retPtr)
       unsigned type = (argIndex == argCount
                        ? jsReturnType
                        : jsArgTypes[argIndex]);
-      switch (type)
-        {
-        case JSVAL_OBJECT:
-          ret = fcall_type_object;
-          break;
-        case JSVAL_INT:
-          ret = fcall_type_sint;
-          break;
-        case JSVAL_DOUBLE:
-          ret = fcall_type_double;
-          break;
-        case JSVAL_STRING:
-          ret = fcall_type_string;
-          break;
-        case JSVAL_BOOLEAN:
-          ret = fcall_type_boolean;
-          break;
-        default:
-          abort ();
-        }
+      ret = JSToFcallType (type);
     }
   else if (methodInfo)
-    {
-      const nsXPTParamInfo& param = methodInfo->GetParam (argIndex);
-      const nsXPTType& type = param.GetType ();
-      
-      switch (type.TagPart ())
-        {
-        case nsXPTType::T_BOOL:
-          ret = fcall_type_boolean;
-          break;
-        case nsXPTType::T_I8:
-          ret = fcall_type_schar;
-          break;
-        case nsXPTType::T_I16:
-          ret = fcall_type_sshort;
-          break;
-        case nsXPTType::T_I32:
-          ret = fcall_type_sint;
-          break;
-        case nsXPTType::T_I64:
-          ret = fcall_type_slonglong;
-          break;
-        case nsXPTType::T_U8:
-          ret = fcall_type_uchar;
-          break;
-        case nsXPTType::T_U16:
-          ret = fcall_type_ushort;
-          break;
-        case nsXPTType::T_U32:
-          ret = fcall_type_uint;
-          break;
-        case nsXPTType::T_U64:
-          ret = fcall_type_ulonglong;
-          break;
-        case nsXPTType::T_FLOAT:
-          ret = fcall_type_float;
-          break;
-        case nsXPTType::T_DOUBLE:
-          ret = fcall_type_double;
-          break;
-        case nsXPTType::T_CHAR:
-          ret = fcall_type_schar;
-          break;
-        case nsXPTType::T_VOID:
-          ret = fcall_type_void;
-          break;
-        case nsXPTType::T_CHAR_STR:
-          ret = fcall_type_string;
-          break;
-        case nsXPTType::T_INTERFACE:
-        case nsXPTType::T_INTERFACE_IS:
-          ret = fcall_type_object;
-          break;
-          
-        case nsXPTType::T_WCHAR:
-        case nsXPTType::T_IID:
-        case nsXPTType::T_BSTR:
-        case nsXPTType::T_WCHAR_STR:
-        case nsXPTType::T_ARRAY:
-        case nsXPTType::T_PSTRING_SIZE_IS:
-        case nsXPTType::T_PWSTRING_SIZE_IS:
-        default:
-          abort ();
-        }
-    }
+    ret = methodArgFcallType (methodInfo, argIndex);
   *retPtr = (unsigned) ret;
   return NS_OK;
 }

@@ -9,10 +9,14 @@ PRBool findMethod (nsISupports *target, const char *methodName,
                    nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
 
 void printGetters (nsISupports *obj);
+fcall_type_t JSToFcallType (unsigned type);
+
 
 extern "C" {
 #include "../../src/defobj/COM.h"
 }
+
+fcall_type_t methodArgFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 argIndex);
 
 void *createComponent (COMclass cClass);
 void *findComponent (const char *className);
@@ -30,24 +34,28 @@ BOOL selectorIsBooleanReturn (COMselector cSel);
 const char *selectorName (COMselector cSel);
 unsigned selectorArgCount (COMselector cSel);
 fcall_type_t selectorArgFcallType (COMselector cSel, unsigned argIndex);
-void selectorCOMInvoke (COMselector cSel, void *args);
-void selectorJSInvoke (COMselector cSel, void *args);
+void selectorCOMInvoke (COMselector cSel, void *params);
+void selectorJSInvoke (COMselector cSel, void *params);
 
-void *COMcreateArgVector (unsigned size);
+void *COMcreateParams (unsigned size);
 void COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void COMsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);
-void COMfreeArgVector (void *args);
+void COMfreeParams (void *args);
 
 void COMcollect (COMclass cClass,
                  COM_collect_variable_func_t variableFunc, 
                  COM_collect_method_func_t methodFunc);
-const char *COMmethodName (COMmethod method);
 
 JSContext *currentJSContext ();
-void *JScreateArgVector (unsigned size);
+void *JScreateParams (unsigned size);
 void JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void JSsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);
-void JSfreeArgVector (void *args);
+void JSfreeParams (void *args);
+
+const char *COMmethodName (COMmethod cMethod);
+unsigned COMmethodArgCount (COMmethod cMethod);
+fcall_type_t COMmethodArgFcallType (COMmethod cMethod, unsigned argIndex);
+void COMmethodInvoke (COMmethod cMethod, void *params);
 
 swarmITyping *COM_objc_ensure_object_COM (id oObject);
 nsresult COM_objc_ensure_object_COM_return (id oObject, const nsIID *iid, void **ret);
