@@ -1,3 +1,8 @@
+2004-02-03  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* TclInterp.m, TkInterp.m: Added define for SUBDIR on
+	Tcl/Tk 8.4.
+
 2003-09-05  mgd  <mgd@santafe.edu>
 
 	* tclObjc.m (tclObjc_eventHook): Don't dereference to check for NULL.
