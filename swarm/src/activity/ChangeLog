@@ -2,8 +2,12 @@
 
 	* CompoundAction.m (getDefaultOrder): New function.
 
-	* Action.m ([ActionForEach_c getDefaultOrder]): Use it.
-	([ActionForEach_c setDefaultOrder:]): Use setDefaultOrder.
+	* Action.m ([ActionForEach_c -getDefaultOrder]): Use it.
+	([ActionForEach_c -setDefaultOrder:]): Use setDefaultOrder.
+
+	* Action.m ([Action{Call,To}_c {-createEnd, -_performAction_:}]):
+	All calls are done with FArguments/FCall with the exception of
+	heterogeneous ForEach collections.
 
 	* ActionGroup.m, Schedule.m: Use +createBegin:/-createEnd 
 	initialization of Action{Call,To,ForEach}_c instead of 
