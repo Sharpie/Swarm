@@ -1,3 +1,8 @@
+1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-native-class): Use method-list instead
+	of protocol-method-list.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (C_EXTRA_DIST): Add JavaProxy and SwarmEnvironment.

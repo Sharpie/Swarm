@@ -617,7 +617,7 @@
     (insert "\n")
     (loop for phase in '(:creating :using)
           do
-          (loop for method in (protocol-method-list protocol)
+          (loop for method in (method-list protocol phase)
                 when (included-method-p method phase)
                 do
                 (java-print-native-method method protocol phase)
