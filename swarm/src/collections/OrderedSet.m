@@ -38,7 +38,7 @@ PHASE(Using)
   id index, member;
 
   index = [self begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (member == anObject)
       return YES;
   return NO;
@@ -52,7 +52,7 @@ PHASE(Using)
 
 - remove: aMember
 {
-  id  index;
+  id index;
 
   index = [self createIndex: scratchZone fromMember: aMember];
   [index remove];

@@ -859,7 +859,7 @@ PHASE(Using)
   else
     raiseEvent(InvalidArgument, "first argument must be a string!\n");
     
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     {
       [stream catC: " "];
       if (member == (id) ArchiverEOL)

@@ -1,3 +1,42 @@
+1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Collection.m ([Collection_any -contains:], [Collection_any
+	-remove:], [Collection_any -removeAll], [Collection_any
+	-deleteAll], [Collection_any -forEach:{,arg1,arg2,arg3}],
+	[Collection_any -allSameClass]): Rewrite to handle nil entries.
+
+	* Set.m ([Set_c -at:], [Set_c -remove:]): Likewise.
+
+	* List.m ([List_any -createEnd], [List_any -lispInCreate:],
+	[List_any -lispIn:], [List_any -_lispOut_:deep:]): Likewise.
+
+	* Map.m ([Map_c -at:insert:], [Map_c -at:replace:],
+	[Map_c -at:memberSlot:],
+	[Map_c -at:keySlot:memberSlot:],
+	[Map_c -containsKey:],
+	[Map_c -lispInCreate:],
+	[Map_c -lispIn:],
+	[Map_c -copy:],
+	[Map_c -at:insert:],
+	[Map_c -at:replace:],
+	[Map_c -at:memberSlot:],
+	[Map_c -at:keySlot:memberSlot:],
+	[Map_c -at:keySlot:memberSlot:],
+	[Map_c -containsKey:],
+	[Map_c -removeKey:],
+	[Map_c -removeKey:],
+	[Map_c -forEachKey:{,arg1,arg2,arg3],
+	[Map_c -createIndex:fromMember:],
+	[Map_c -mapAllocations:],
+	[Map_c -_lispOut_:deep:],
+	[MapIndex_c -setKey:]): Likewise.
+
+	* OrderedSet.m ([OrderedSet_c -contains:]): Likewise.
+
+	* List_GEN.m ([TARGET -copy:]): Likewise.
+
+	* InputStream.m ([ArchiverList_c -lispOutDeep:]): Likewise.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* OutputStream.m ([OutputStream_c -catChar:]): Use isPrint instead

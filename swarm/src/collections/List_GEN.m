@@ -61,7 +61,7 @@ PHASE(UsingOnly)
   newList = [aZone allocIVars: getClass (self)];
   setMappedAlloc (newList);
   index = [self begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     [newList addLast: member];
   [index drop];
   return newList;

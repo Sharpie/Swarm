@@ -84,7 +84,7 @@ PHASE(Using)
   id  index, member;
 
   index = [(id) list begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (member == aKey)
       return member;
   [index drop];
@@ -104,7 +104,7 @@ PHASE(Using)
   id  index, member;
 
   index = [(id) list begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (member == aKey)
       return [index remove];
   [index drop];

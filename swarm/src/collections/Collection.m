@@ -155,22 +155,30 @@ indexAtOffset (Collection_any *self, unsigned offset)
 
 - (BOOL)contains: aMember
 {
-  id  index, member;
+  id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]) && member != aMember);
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (member == aMember)
+      {
+        [index drop];
+        return YES;
+      }
   [index drop];
-  return member != nil; 
+  return NO;
 }
 
 - remove: aMember
 {
-  id  index, member;
+  id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]) && member != aMember);
-  if (member)
-    [index remove];
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (member == aMember)
+      {
+        [index remove];
+        break;
+      }
   [index drop];
   return member; 
 }
@@ -180,7 +188,7 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index;
 
   index = [(id) self begin: scratchZone];
-  while ([index next])
+  for ([index next]; [index getLoc] == Member; [index next])
     [index remove];
   [index drop];
 }
@@ -190,10 +198,11 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     {
       [index remove];
-      [member drop];
+      if (member)
+        [member drop];
     }
   [index drop];
 }
@@ -203,8 +212,9 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
-    [member perform: aSelector];
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (member)
+      [member perform: aSelector];
   [index drop];
 }
 
@@ -213,8 +223,9 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
-    [member perform: aSelector with: arg1];
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (member)
+      [member perform: aSelector with: arg1];
   [index drop];
 }
 
@@ -223,8 +234,9 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
-    [member perform: aSelector with: arg1 with: arg2];
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (member)
+      [member perform: aSelector with: arg1 with: arg2];
   [index drop];
 }
 
@@ -233,8 +245,9 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
-    [member perform: aSelector with: arg1 with: arg2 with: arg3];
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (member)
+      [member perform: aSelector with: arg1 with: arg2 with: arg3];
   [index drop];
 }
  
@@ -248,9 +261,19 @@ indexAtOffset (Collection_any *self, unsigned offset)
   member = [index next];
   if (member)
     {
-      firstClass = [member class];
-      while ((member = [index next]))
-        if ([member class] != firstClass)
+      firstClass = member ? [member class] : nil;
+      for (member = [index next];
+           [index getLoc] == Member;
+           member = [index next])
+        if (!member)
+          {
+            if (firstClass)
+              {
+                ret = NO;
+                break;
+              }
+          }
+        else if ([member class] != firstClass)
           {
             ret = NO;
             break;
@@ -281,7 +304,9 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next];
+       [index getLoc] == Member;
+       member = [index next])    
     [member describe: outputCharStream];
   [index drop];
 }
@@ -295,7 +320,9 @@ indexAtOffset (Collection_any *self, unsigned offset)
   id index, member;
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next];
+       [index getLoc] == Member;
+       member = [index next])    
     [member describeID: outputCharStream];
   [index drop];
 }

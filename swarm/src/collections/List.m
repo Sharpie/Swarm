@@ -69,7 +69,9 @@ setListClass (id obj, id aClass)
       setMappedAlloc (self);
       index = [(id) firstLink begin: scratchZone];
       firstLink = NULL;
-      while ((member = [index next]))
+      for (member = [index next];
+           [index getLoc] == Member;
+           member = [index next])
         [(id) self addLast: member];
       [index drop];
     }
@@ -90,7 +92,9 @@ setListClass (id obj, id aClass)
   id index, member;
 
   index = [(id) expr begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next];
+       [index getLoc] == Member;
+       member = [index next])
     {
       if (keywordp (member))
         {
@@ -126,7 +130,7 @@ PHASE(Setting)
   id index, member;
 
   index = [(id) expr begin: scratchZone];
-  while ((member = [index next]))
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (keywordp (member))
       [index next];
     else
@@ -188,13 +192,19 @@ PHASE(Using)
   index = [(id) self begin: scratchZone];
   if (deepFlag)
     {
-      while ((member = [index next]))
-        [member lispOutDeep: outputCharStream];
+      for (member = [index next];
+           [index getLoc] == Member; 
+           member = [index next])
+        if (member)
+          [member lispOutDeep: outputCharStream];
     }
   else
     {
-      while ((member = [index next]))
-        [member lispOutShallow: outputCharStream];
+      for (member = [index next];
+           [index getLoc] == Member; 
+           member = [index next])
+        if (member)
+          [member lispOutShallow: outputCharStream];
     }
   [index drop];
 
