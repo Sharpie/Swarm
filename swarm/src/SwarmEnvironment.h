@@ -10,7 +10,7 @@
 @interface SwarmEnvironment: Object <SwarmEnvironment>
 {
 }
-+ (void)initSwarmArgc: (const char *)appName
++ (void)initSwarmArgc: (int)argc
                  argv: (const char **)argv
                  name: (const char *)appName
               version: (const char *)version
