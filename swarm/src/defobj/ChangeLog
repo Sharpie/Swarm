@@ -1,3 +1,8 @@
+2001-03-25  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* FArguments.m ([FArguments_c -dropAllocations:]): Only drop
+	globalrefs for non-null objects.
+
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Arguments.m ([Arguments_c -addOption:key:arg:flags:doc:group:]): 

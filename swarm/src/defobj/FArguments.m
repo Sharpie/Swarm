@@ -500,7 +500,12 @@ PHASE(Using)
         if (type == fcall_type_jstring
             || type == fcall_type_jobject
             || type == fcall_type_jselector)
-          (*jniEnv)->DeleteGlobalRef (jniEnv, *(jobject *) argValues[offset]);
+          {
+            jobject obj = *(jobject *) argValues[offset];
+
+            if (obj)
+              (*jniEnv)->DeleteGlobalRef (jniEnv, obj);
+          }
       }
   }
 #endif
