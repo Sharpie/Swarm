@@ -663,6 +663,12 @@ java_ensure_class (JNIEnv *env, jclass javaClass)
     if (isCopy)
       (*env)->ReleaseStringUTFChars (env, name, className);
   }
+
+  // if the corresponding class does not exist create new Java Proxy
+
+  if (objcClass == nil)
+    objcClass = [JavaProxy create: globalZone];
+   
   java_directory_update (env, (jobject) javaClass, (id) objcClass);
   return objcClass;
 }

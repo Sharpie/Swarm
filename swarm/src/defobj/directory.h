@@ -14,6 +14,14 @@
 #include <misc/avl.h>
 #include <objc/objc.h>
 
+extern jclass c_boolean,
+  c_char, c_byte,
+  c_int, 
+  c_short, c_long,
+  c_float, c_double,
+  c_object, c_string, 
+  c_void;
+
 extern JNIEnv *jniEnv;
 
 typedef struct jobject_id

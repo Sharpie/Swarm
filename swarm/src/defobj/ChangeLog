@@ -1,3 +1,17 @@
+1999-06-29  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.m (java_ensure_class): If corresponding objc class
+	is not found create a JavaProxy object and insert it into the
+	directory. 
+	
+	* directory.h: Declare jclass variables that store primitive
+	Java types classes as extern.
+
+	* JavaProxy.h ([-isJavaProxy]): New method used as indicator that
+	object is a Java Proxy.
+	
+	* JavaProxy.m ([JavaProxy -isJavaProxy]): Likewise.
+
 1999-06-29  Alex Lancaster  <alex@santafe.edu>
 
 	* Archiver.[hm] ([Archiver_c +createBegin:]): Initialize
