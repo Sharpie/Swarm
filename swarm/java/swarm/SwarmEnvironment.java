@@ -11,10 +11,10 @@ public class SwarmEnvironment {
     } 
     System.out.println ("Lib loaded!\n");
   }
-  public native static void initSwarm(String args[]);
+  public native static void initSwarm (GlobalZone globalZone, String args[]);
   public GlobalZone globalZone;
   public SwarmEnvironment (String args[]) {
     globalZone = new GlobalZone ();
-    initSwarm (args);
+    initSwarm (globalZone, args);
   }
 }
