@@ -59,8 +59,8 @@
           with the random library and with Averager.</para>
       </listitem>
     </itemizedlist>
-    
-    <title>Porting from 2.0 or 2.0.1 to 2.1</title>
+
+    <bridgehead>Porting from 2.0 or 2.0.1 to 2.1</bridgehead>
     <itemizedlist>
       <listitem>
         <para>Backward-compatibility Random module protocol names have

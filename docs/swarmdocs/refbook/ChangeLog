@@ -1,3 +1,15 @@
+2000-05-30  Alex Lancaster  <alex@santafe.edu>
+
+	* refbook.sgml: Update DOCTYPE to DocBook DTD V4.0.
+
+	* refmeta.sgml: GRAPHIC tag has no content, remove obsoleted
+	BOOKBIBLIO tag.
+
+	* ref00a.sgml: Make illegal TITLE element a BRIDGEHEAD.
+
+	* conventions-app.sgml, license-app.sgml, grid-app.sgml: DOCINFO
+	tag -> APPENDIXINFO.
+
 2000-04-23    <mgd@nest.swarm.org>
 
 	* ref00a.sgml: Note rename of EZBin's -getStd to -getStdDev.
