@@ -20,16 +20,6 @@
 
 PHASE(Creating)
 
-+ createBegin: aZone
-{
-  Discrete2d *obj = [super createBegin: aZone];
-
-  obj->useObjects = NO;
-  obj->useValues = NO;
-
-  return obj;
-}
-
 - setSizeX: (unsigned)x Y: (unsigned)y
 {
   if (lattice)
@@ -79,20 +69,6 @@ PHASE(Setting)
 - setLattice: (id *)theLattice
 {
   lattice = theLattice;
-  return self;
-}
-
-- setUseObjects
-{
-  useValues = NO;
-  useObjects = YES;
-  return self;
-}
-
-- setUseValues
-{
-  useObjects = NO;
-  useValues = YES;
   return self;
 }
 
@@ -191,32 +167,26 @@ PHASE(Using)
   return self;
 }
 
-- _lispInAttr_: obj
-{
-  // frob the created object here...
-  return obj;
-}
-
-- _lispInAttrAsValues_: site
+- _lispInLatticeValues_: array
 {
   unsigned x, y;
   long tempArray[xsize][ysize];
-  memcpy ((void *)tempArray, [site getData], 
-          [site getElementCount] * [site getElementSize]);
+
+  memcpy ((void *)tempArray, [array getData], 
+          [array getElementCount] * [array getElementSize]);
 
   for (x = 0; x < xsize; x++) 
     for (y = 0; y < ysize; y++)
       *discrete2dSiteAt (lattice, offsets, x, y) = (id) tempArray[x][y];
 
-  // finally, set Discrete2d to store values
-  useValues = YES;
   return self;
 }
 
-- _lispInAttrAsObjects_: li
+- _lispInLatticeObjects_: l
 {
   id aZone = [self getZone];  
-  id site = [li get]; // index points to first stored lattice coord
+  id site = [l get]; // index points to first stored lattice coord
+
   do {
     // expect a `pair' - the co-ordinate & object 
     if (pairp (site))
@@ -232,19 +202,13 @@ PHASE(Using)
           }
         else
           raiseEvent (InvalidArgument, "Expecting a pair of integers");
-        {
-          id obj = lispIn (aZone, objExpr);
-          *discrete2dSiteAt (lattice, offsets, tempX, tempY) =
-            [self _lispInAttr_: obj];
-        }
+        *discrete2dSiteAt (lattice, offsets, tempX, tempY) = 
+          lispIn (aZone, objExpr);
       }
     else
       raiseEvent(InvalidArgument, "Expecting a either cons pair or an array");
   }
-  while ((site = [li next]));
-  
-  // finally, set Discrete2d to store objects
-  useObjects = YES;
+  while ((site = [l next]));
   return self;
 }
 
@@ -268,25 +232,25 @@ PHASE(Using)
               if (listp (val)) 
                 {
                   id site;
-                  id li = [(id) val begin: scratchZone];
+                  id l = [(id) val begin: scratchZone];
 
                   // get first `parse' string
-                  site = [li next];
+                  site = [l next];
                   if (stringp (site) &&
                       strcmp ([site getC], PARSE_FUNCTION_NAME) == 0)
                     {
                       // skip to next element after `parse' string
-                      site = [li next];
+                      site = [l next];
                       
                       if (arrayp (site)) // dealing with a lattice of values
-                        [self _lispInAttrAsValues_: site];
+                        [self _lispInLatticeValues_: site];
                       else    // dealing with a lattice of objects
-                        [self _lispInAttrAsObjects_: li];
+                        [self _lispInLatticeObjects_: l];
                     }
                   else
-                    raiseEvent (InvalidArgument, "Expecting a %s",
+                    raiseEvent (InvalidArgument, "Expecting `%s'",
                                 PARSE_FUNCTION_NAME);
-                  [li drop];
+                  [l drop];
                 }
               else
                 raiseEvent (InvalidArgument, "Argument not a list");
@@ -297,23 +261,65 @@ PHASE(Using)
   return self;
 }
 
-- lispOutShallow: outputCharStream
+- _lispOutLatticeObjects_: stream
 {
-  raiseEvent (InvalidOperation, "can't shallow serialize a Discrete2d");
+  unsigned x, y;
+  
+  [stream catC: " #:lattice \n(parse "];
+  for (x = 0; x < xsize; x++) {
+    for (y = 0; y < ysize; y++)
+      {
+        id obj = *discrete2dSiteAt (lattice, offsets, x, y);
+
+        if (obj != nil)
+          {
+            char buffer[2 * DSIZE (int) + 20];
+
+            sprintf(buffer, "  (cons '(%d %d)\n   ", x, y);
+            [stream catC: buffer];    
+            [obj lispOutDeep: stream];
+            [stream catC: ")\n"];    
+          }
+      }
+  }
+  [stream catC: ")"];
   return self;
 }
 
-- _lispOutAttr_: outputCharStream anObject: obj atX: (unsigned)x Y: (unsigned)y
+- _lispOutLatticeValues_: stream
 {
-  char buffer[2 * DSIZE (int) + 20];
-  if (obj != nil)
-    {
-      sprintf(buffer, "  (cons '(%d %d)\n   ", x, y);
-      [outputCharStream catC: buffer];    
-      // do a deep serialization of the object at that point
-      [obj lispOutDeep: outputCharStream];
-      [outputCharStream catC: ")\n"];    
-    }
+  long tempArray[xsize][ysize];
+  unsigned x, y;        
+  char buf[2 * DSIZE(unsigned) + 5];
+  
+  // generate compiler encoding for 2D array
+  sprintf (buf, "%c%u%c%u%c%c%c", 
+           _C_ARY_B, xsize, _C_ARY_B, ysize, _C_LNG, _C_ARY_E, _C_ARY_E);
+  
+  [stream catC: " #:lattice \n (parse "];
+  
+  // unpack the array into the lattice data structure
+  for (x = 0; x < xsize; x++) 
+    for (y = 0; y < ysize; y++)
+      tempArray[x][y] = (long) *discrete2dSiteAt (lattice, offsets, x, y);
+  
+  lisp_output_type (buf,
+                    (void *) tempArray,
+                    0,
+                    NULL,
+                    stream,
+                    NO);
+  [stream catC: ")"];
+  return self;
+}
+
+- lispOutShallow: stream
+{
+  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
+  [stream catC: [self getTypeName]];
+  [self lispOutVars: stream deep: NO]; // The others ivars are scalar
+  [self _lispOutLatticeValues_: stream];
+  [stream catC: ")"];
   return self;
 }
 
@@ -321,74 +327,12 @@ PHASE(Using)
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
-  {
-    void store_object (struct objc_ivar *ivar)
-      {
-        if ((*ivar->ivar_type != _C_PTR))
-          {
-            [stream catC: " #:"];
-            [stream catC: ivar->ivar_name];
-            [stream catC: " "];
-            lisp_output_type (ivar->ivar_type,
-                              (void *) self + ivar->ivar_offset,
-                              0,
-                              NULL,
-                              stream,
-                              YES);
-          }
-        
-      }
-    // do the general instance serialization
-    map_ivars (getClass (self), store_object);
-
-    // do the lattice-specific serialization
-    if (useObjects)
-      {
-        int x, y;
-        id obj;
-        [stream catC: " #:lattice \n(parse "];
-        for (x = 0; x < xsize; x++) {
-          for (y = 0; y < ysize; y++)
-            {
-              obj = *discrete2dSiteAt (lattice, offsets, x, y);
-              [self _lispOutAttr_: stream anObject: obj atX: x Y: y];
-            }
-        }
-        [stream catC: ")"];
-      }
-    else if (useValues)
-      {
-        long tempArray[xsize][ysize];
-        unsigned x, y;        
-        char buf[2 * DSIZE(unsigned) + 5];
-        
-        // generate compiler encoding for 2D array
-        sprintf (buf, "%c%u%c%u%c%c%c", 
-                 _C_ARY_B, xsize, _C_ARY_B, ysize, _C_LNG, _C_ARY_E, _C_ARY_E);
-        
-        [stream catC: " #:lattice \n (parse "];
-
-        // unpack the array into the lattice data structure
-        for (x = 0; x < xsize; x++) 
-          for (y = 0; y < ysize; y++)
-            tempArray[x][y] = (long) *discrete2dSiteAt (lattice, offsets, x, y);
-
-        lisp_output_type (buf,
-                          (void *) tempArray,
-                          0,
-                          NULL,
-                          stream,
-                          NO);
-        [stream catC: ")"];
-      }
-    else
-      raiseEvent (InvalidCombination, 
-                  "need to specify one of useObjects or useValues");      
-  }
+  [self lispOutVars: stream deep: NO]; // The others ivars are scalar
+  [self _lispOutLatticeObjects_: stream];
   [stream catC: ")"];
   return self;
 }
-
+  
 // Read in a file in PGM format and load it into a discrete 2d.
 // PGM is a simple image format. It stores grey values for a 2d array.
 - (int)setDiscrete2d: a toFile: (const char *)filename 

@@ -1,3 +1,27 @@
+1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* space.h (Discrete2d): Remove setUseObjects and setUseValues.
+
+	* Discrete2d.m ([Discrete +createBegin:]): Remove.
+	([Discrete -setUse{Objects,Values}]): Remove.
+	([Discrete -_lispInAttr_:]): Remove.
+	([Discrete -_lispInLatticeValues_:]): Renamed from
+	_lispInAttrAsValues_.  Don't set (removed) useValues.
+	([Discrete -_lispInLatticeObjects_:]): Renamed from
+	_lispInAttrAsObjects_.  Don't set (removed) useObjects.
+	([Discrete -_lispInLatticeObjects_:]): Don't call -_lispInAttr_:.
+	([Discrete -_lispOutLatticeObjects_:]):
+	([Discrete -_lispOutAttr_:anObject:atX:Y]): Removed.
+	([Discrete -_lispOutLatticeObjects_:], [Discrete
+	-_lispOutLatticeValues_:]): New methods.
+	([Discrete -lispOutShallow:]): Use -lispOutVars:deep: and
+	_lispOutLatticeValues_: (previous implementation threw an
+	exception).
+	([Discrete -lispOutDeep:]): Use -lispOutVars:deep: and
+	_lispOutLatticeObjects:.
+
+	* Discrete2d.h (Discrete2d): Remove useObjects and useValues.
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* DblBuffer2d.m ([DblBuffer -createEnd]): Include misc.h.
