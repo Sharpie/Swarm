@@ -1,11 +1,5 @@
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* MessageProbeWidget.m ([MessageProbeWidget -Spawn]):
-	Use renamed CREATE_PROBE_DISPLAY macro.
-	([MessageProbeWidget -argSpawn:which]): Likewise.
-
-	* VarProbeWidget.m ([VarProbeWidget -Spawn]): Likewise.
-
 	* GUISwarm.m ([GUISwarm -buildObjects]): Use
 	SET_WINDOW_GEOMETRY_RECORD_NAME.
 
@@ -62,7 +56,7 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbeWidget.m:  Include simtools.h instead of ProbeDisplay.h.
-	([MessageProbeWidget -Spawn]): Use createProbeDisplay instead of
+	([MessageProbeWidget -Spawn]): Use CREATE_PROBE_DISPLAY instead of
 	calling createProbeDisplayFor method.
 	([MessageProbeWidget -argSpawn:which]): Likewise.
 
@@ -78,14 +72,14 @@
 	* simtools.h (_createProbeDisplay, _createCompleteProbeDisplay,
 	createArchivedProbeDisplayNamed,
 	createArchivedCompleteProbeDisplayNamed): Declare new functions.
-	(createArchivedProbeDisplay): New macro to pass variable variable
+	(CREATE_ARCHIVED_PROBE_DISPLAY): New macro to pass variable variable
 	name through to archiving functions above.
-	(createArchivedCompleteProbeDisplay): Likewise.
+	(CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY): Likewise.
 	(ProbeDisplayManager): Replace setWindowGeometryRecordName
 	versions of createProbeDisplayFor with
 	createArchivedProbeDisplayFor:variableName: and
 	createArchivedCompleteProbeDisplayFor:variableName.
-	(createProbeDisplay, createCompleteProbeDisplays): Define macros.
+	(CREATE_PROBE_DISPLAY, CREATE_COMPLETE_PROBE_DISPLAY): Define macros.
 
 	* ProbeDisplayManager.m ([ProbeDisplayManager
 	-_computeProbeDisplayKeyFor_:]): New method.  Returns
