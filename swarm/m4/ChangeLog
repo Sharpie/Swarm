@@ -1,3 +1,9 @@
+1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acobjclibs.m4 (md_CHECK_OBJC_LIBS): Add "-x none" after
+	filename.  With Checker, there is an object file added, which
+	must not be compiled.
+
 1999-02-15  Alex Lancaster  <alex@santafe.edu>
 
 	* acffi.m4 (md_FIND_FFI): Reverse order of test - look in $ffidir
