@@ -14,12 +14,12 @@ $JAVALIBS
 EOF`$LD_LIBRARY_PATH
 classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH"
 
-if test -z "$1" ; then
+if test -z "$1"  && test -z "$JAVASWARMGDB"; then
   echo "LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH\""
   echo "CLASSPATH=\"$classpath\""
   echo "export LD_LIBRARY_PATH CLASSPATH"
 else
   export LD_LIBRARY_PATH
-  eval "$JAVAENV $JAVASWARMGDB $JAVACMD -classpath $classpath $*"
+  eval "$JAVAENV CLASSPATH=$classpath $JAVASWARMGDB $JAVACMD $*"
 fi
 

@@ -2,6 +2,9 @@
 
 	* javaswarm (JAVASWARMGDB): Use JAVAENV + JAVACMD with 
 	JAVASWARMGDB as a hook for gdb (instead of just JAVA).
+	Don't insist on arguments if JAVASWARMGDB is set.  
+	Use CLASSPATH= instead of -classpath since GDB won't be
+	able to cope with the arguments.
 
 1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
