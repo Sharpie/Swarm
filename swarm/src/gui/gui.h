@@ -1018,7 +1018,7 @@ CREATING
 - setX: (int)x Y: (int)y;
 
 //M: Set the radius of the circle.
-- setRadius: (int)r;
+- setRadius: (unsigned)r;
 
 //M: Create the Circle.
 - createItem;
@@ -1133,6 +1133,7 @@ extern void initTkObjc (id arguments);
 @class RectangleNodeItem;
 @class Raster;
 @class ZoomRaster;
+@class Circle;
 
 #define ButtonLeft 1
 #define ButtonMiddle 2
