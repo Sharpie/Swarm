@@ -1,6 +1,6 @@
 <!ENTITY guicont.xml PUBLIC "-//SFI Hive//ENTITIES GUI Content//EN"
 "ignore.sysid">
-<!ENTITY guirevhistory.xml PUBLIC "-//SFI Hive//ENTITIES GUI Revision History//EN">
+<!ENTITY guirevhistory.xml PUBLIC "-//SFI Hive//ENTITIES GUI Revision History//EN" "ignore.sysid">
 <!ENTITY guimeta.xml PUBLIC "-//SFI Hive//ENTITIES GUI Metadata//EN"
 "ignore.sysid">
 <!ENTITY gui00.xml PUBLIC "-//SFI Hive//ENTITIES GUI Introduction//EN"
