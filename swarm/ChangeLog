@@ -1,3 +1,16 @@
+2000-06-29  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* NEWS: Note that java.util.Lists can be saved and loaded 
+	to and from HDF5 and Lisp.
+
+	* VERSION: Bump.
+
+2000-06-28  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* NEWS: Note that -sync flushes an HDF5Archiver to disk.
+
+	* VERSION: Bump.
+
 2000-06-26  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* NEWS: Note support for using a ConcurrentGroup as a 
