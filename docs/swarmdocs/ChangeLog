@@ -2,6 +2,9 @@
 
 	* Swarmdocs 2.1 frozen.
 
+	* catalog.in: Remove LGPL, GPL entities, create new PUBLIC entity
+	"-//SFI Hive//ENTITIES License//EN".
+
 	* Makefile.am (noinst_DATA): Remove entirely, versions.ent, not
 	distributed or installed.
 

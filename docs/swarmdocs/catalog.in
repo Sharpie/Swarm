@@ -12,8 +12,7 @@ PUBLIC "-//SFI Hive//ENTITIES Grid Turtle//EN" @top_dossrcdir@/refbook/grid-app.
 PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN" refbook/gridexamples.sgml
 PUBLIC "-//SFI Hive//ENTITIES Probes//EN" @top_dossrcdir@/refbook/probes-app.sgml
 PUBLIC "-//SFI Hive//ENTITIES Conventions//EN" @top_dossrcdir@/refbook/conventions-app.sgml
-PUBLIC "-//SFI Hive//ENTITIES GPL//EN" @top_dossrcdir@/refbook/gpl-app.sgml
-PUBLIC "-//SFI Hive//ENTITIES LGPL//EN" @top_dossrcdir@/refbook/lgpl-app.sgml
+PUBLIC "-//SFI Hive//ENTITIES License//EN" @top_dossrcdir@/refbook/license-app.sgml
 
 PUBLIC "-//SFI Hive//ENTITIES Activity Content//EN" @top_dossrcdir@/refbook/activity/activitycont.sgml
 PUBLIC "-//SFI Hive//ENTITIES Activity Introduction//EN" @top_dossrcdir@/refbook/activity/activity00.sgml
