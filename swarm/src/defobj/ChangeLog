@@ -1,3 +1,10 @@
+2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* defobj.[hm] (initDefobj): Simplify usage to single Arguments
+	instance.
+	
+	* defobj.h (GSTRDUP): Add.
+
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* modulemap.el (print-keywords): Skip entry if there is no

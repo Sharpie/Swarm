@@ -826,9 +826,6 @@ CREATING
 - setBugAddress: (const char *)bugAddress;
 - setVersion: (const char *)version;
 - addOptions: (struct argp_option *)options;
-- (void)addOption: (const char *)name key: (int)key arg: (const char *)arg flags: (int)flags doc: (const char *)doc group: (int)group;
-
-+ createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc inhibitExecutableSearchFlag: (BOOL)inhibitExecutableSearchFlag;
 
 //M: Takes an option specification that includes the following information:
 
@@ -848,10 +845,12 @@ CREATING
 
 //M: - A sorting integer; relative placement of the option in the help
 //M:   screen.
+- (void)addOption: (const char *)name key: (int)key arg: (const char *)arg flags: (int)flags doc: (const char *)doc group: (int)group;
+
++ createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc inhibitExecutableSearchFlag: (BOOL)inhibitExecutableSearchFlag;
 
 //M: This method is called for each option that occurs.
 - (int)parseKey: (int)key arg: (const char *)arg;
-
 SETTING
 - setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
 - setInhibitExecutableSearch: (BOOL)theInhibitExecutableSearchFlag;
@@ -1207,18 +1206,7 @@ extern id defobj_lookup_type (const char *name);
 //
 #import <defobj/types.h>
 
-
-//F: initialize defobj with application info, custom Arguments class, and
-//F: optional (or NULL) extra options w/ processing function.
-extern void initDefobj (int argc,
-                        const char **argv, 
-                        const char *appName,
-                        const char *version,
-                        const char *bugAddress,
-                        Class argumentsClass,
-                        struct argp_option *options,
-                        int (*optionFunc) (int key, const char *arg),
-                        BOOL inhibitExecutableSearchFlag);
+extern void initDefobj (id <Arguments> arguments);
 
 //F: internal module initialization function
 extern void _obj_initModule (void *module);
@@ -1291,6 +1279,8 @@ extern char *zstrdup (id <Zone> aZone, const char *str);
 #define ZSTRDUP(aZone, str) zstrdup (aZone, str)
 
 #define SSTRDUP(str) ZSTRDUP(scratchZone, str)
+
+#define GSTRDUP(str) ZSTRDUP(globalZone, str)
 
 #define OSTRDUP(obj, str) ZSTRDUP([obj getZone], str)
 

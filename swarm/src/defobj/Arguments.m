@@ -165,6 +165,91 @@ strip_quotes (const char *argv0)
     return SSTRDUP (argv0);
 }
 
+- (int)parseKey: (int)key arg: (const char *)arg
+{
+  if (optionFunc)
+    {
+      if (optionFunc (key, arg) != ARGP_ERR_UNKNOWN)
+        return 0;
+    }
+  switch (key)
+    {
+    case 's':
+      [self setVarySeedFlag: YES];
+      break;
+    case 'b':
+      [self setBatchModeFlag: YES];
+      break;
+    case 'm':
+      [self setAppModeString: getApplicationValue (arg)];
+      break;
+    case 't':
+      [self setShowCurrentTimeFlag: YES];
+      break;
+    case OPT_INHIBIT_ARCHIVER_LOAD:
+      [self setInhibitArchiverLoadFlag: YES];
+      break;
+    default:
+      return ARGP_ERR_UNKNOWN;
+    }
+  return 0;
+}
+
+- (void)addOption: (const char *)name key: (int)key arg: (const char *)arg flags: (int)flags doc: (const char *)doc group: (int)group
+{
+  struct argp_option options[2];
+
+  options[0].name = name;
+  options[0].key = key;
+  options[0].arg = arg;
+  options[0].flags = flags;
+  options[0].doc = doc;
+  options[0].group = group;
+  options[1].name = NULL;
+  [self addOptions: options];
+}
+
+- (void)addOptions: (struct argp_option *)newoptions
+{
+  unsigned exist_count = 0, total_count = 0, new_count = 0;
+  struct argp_option *options = (struct argp_option *)argp->options;
+  
+  if (argp->options)
+    {
+      while (options->name)
+        {
+          exist_count++;
+          total_count++;
+          options++;
+        }
+    }
+  options = newoptions;
+  while (options->name)
+    {
+      total_count++;
+      new_count++;
+      options++;
+    }
+  if (argp->options)
+    options = xrealloc ((void *)argp->options,
+                              (total_count + 1) * sizeof (struct argp_option));
+  else
+    options = xmalloc ((total_count + 1) * sizeof (struct argp_option));
+  
+  memcpy (&options[exist_count],
+          newoptions,
+          sizeof (struct argp_option) * new_count);
+  {
+    struct argp_option *end = &options[total_count];
+    
+    end->name = NULL;
+    end->key = 0;
+    end->doc = NULL;
+    end->group = 0;
+  }
+  argp->options = options;
+}
+
 #define STRINGIFY(sym) #sym
 #define STRINGIFYSYM(sym) STRINGIFY(sym)
 - createEnd
@@ -241,91 +326,6 @@ inhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
   [argobj setAppName: theAppName];
   [argobj setInhibitExecutableSearchFlag: theInhibitExecutableSearchFlag];
   return [argobj createEnd];
-}
-
-
-- (void)addOption: (const char *)name key: (int)key arg: (const char *)arg flags: (int)flags doc: (const char *)doc group: (int)group
-{
-  struct argp_option options[2];
-
-  options[0].name = name;
-  options[0].key = key;
-  options[0].arg = arg;
-  options[0].flags = flags;
-  options[0].doc = doc;
-  options[0].group = group;
-  options[1].name = NULL;
-}
-
-- (void)addOptions: (struct argp_option *)newoptions
-{
-  unsigned exist_count = 0, total_count = 0, new_count = 0;
-  struct argp_option *options = (struct argp_option *)argp->options;
-  
-  if (argp->options)
-    {
-      while (options->name)
-        {
-          exist_count++;
-          total_count++;
-          options++;
-        }
-    }
-  options = newoptions;
-  while (options->name)
-    {
-      total_count++;
-      new_count++;
-      options++;
-    }
-  if (argp->options)
-    options = xrealloc ((void *)argp->options,
-                              (total_count + 1) * sizeof (struct argp_option));
-  else
-    options = xmalloc ((total_count + 1) * sizeof (struct argp_option));
-  
-  memcpy (&options[exist_count],
-          newoptions,
-          sizeof (struct argp_option) * new_count);
-  {
-    struct argp_option *end = &options[total_count];
-    
-    end->name = NULL;
-    end->key = 0;
-    end->doc = NULL;
-    end->group = 0;
-  }
-  argp->options = options;
-}
-
-- (int)parseKey: (int)key arg: (const char *)arg
-{
-  if (optionFunc)
-    {
-      if (optionFunc (key, arg) != ARGP_ERR_UNKNOWN)
-        return 0;
-    }
-  switch (key)
-    {
-    case 's':
-      [self setVarySeedFlag: YES];
-      break;
-    case 'b':
-      [self setBatchModeFlag: YES];
-      break;
-    case 'm':
-      [self setAppModeString: getApplicationValue (arg)];
-      break;
-    case 't':
-      [self setShowCurrentTimeFlag: YES];
-      break;
-    case OPT_INHIBIT_ARCHIVER_LOAD:
-      [self setInhibitArchiverLoadFlag: YES];
-      break;
-    default:
-      return ARGP_ERR_UNKNOWN;
-    }
-  return 0;
 }
 
 PHASE(Setting)

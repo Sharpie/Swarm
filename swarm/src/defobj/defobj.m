@@ -138,25 +138,9 @@ findTypeOrLocalClass (const char *name)
 }
 
 void
-initDefobj (int argc, const char **argv,
-            const char *appName,
-            const char *version,
-            const char *bugAddress,
-            Class argumentsClass,
-            struct argp_option *options,
-            int (*optionFunc) (int key, const char *arg),
-            BOOL inhibitExecutableSearchFlag)
+initDefobj (id <Arguments> _arguments)
 {
-  arguments = [argumentsClass ?: [Arguments_c class]
-                              createArgc: argc
-                              Argv: argv
-                              appName: appName
-                              version: version
-                              bugAddress: bugAddress
-                              options: options
-                              optionFunc: optionFunc
-                              inhibitExecutableSearchFlag:
-                                inhibitExecutableSearchFlag];
+  arguments = _arguments;
   _objc_lookup_class = findTypeOrLocalClass;
   {
     BOOL inhibitLoadFlag =
