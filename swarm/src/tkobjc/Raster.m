@@ -104,7 +104,7 @@ PHASE(Using)
   tkobjc_raster_copy (self, oldWidth, oldHeight);
   tkobjc_raster_dropOldPixmap (self);
 
-   [self drawSelf];
+  [self drawSelf];
 
   return self;
 }
