@@ -88,13 +88,13 @@ initDefobj (int argc, const char **argv,
             struct argp_option *options,
             int (*optionFunc) (int key, const char *arg))
 {
-  arguments = [(argumentsClass == Nil ? [Arguments class] : argumentsClass)
-                createArgc: argc
-                Argv: argv
-                version: version
-                bugAddress: bugAddress
-                options: options
-                optionFunc: optionFunc];
+  arguments = [argumentsClass ?: [Arguments_c class]
+                              createArgc: argc
+                              Argv: argv
+                              version: version
+                              bugAddress: bugAddress
+                              options: options
+                              optionFunc: optionFunc];
   archiver = [Archiver create: globalZone];
 }
 
