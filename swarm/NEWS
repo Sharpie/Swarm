@@ -7,6 +7,10 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** Schedule
 ***** Support for insertion of actions leading earliest pending action.
 
+*** analysis
+**** EZBin, EZGraph
+***** New method setFilename:.
+
 *** collections
 **** New classes Archiver{Array,Keyword,Pair,Value} to simplify
      InputStream expressions.
