@@ -4,7 +4,7 @@
 	string.
 	([NodeItem -drop]): And drop them.
 
-c2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbeEntry.m ([VarProbeEntry -createEnd]): Don't crash if
 	no probedType set.
