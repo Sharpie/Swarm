@@ -119,17 +119,13 @@
       Objective-C does not allow operator overloading. Do you think
       that is a good idea?)</para>
 
-    <itemizedlist>
-
-      <listitem>
-
-        <formalpara><title>Encapsulation</title>
-
-          <para> The values of the variables inside an object are
+    <sect3>
+      <title>Encapsulation</title>
+      <sidebar>
+        <para> The values of the variables inside an object are
             private, unless methods are written to pass that
-            information outside of the
-            object.</para>
-        </formalpara></listitem></itemizedlist>
+            information outside of the object.</para>
+      </sidebar>
 
     <para>This has both substantive and practical implications. The
       substantive importance is that the representation of an
@@ -153,12 +149,14 @@
       only has to be familiar with the interface of an object, not
       it's implementation</para>
 
-    <itemizedlist>
-      <listitem> <formalpara><title>Inheritance</title> <para>Each
-          subclass inherits all variables and methods of its
+    </sect3>
+
+    <sect3>
+      <title>Inheritance</title>
+      <sidebar>
+        <para>Each subclass inherits all variables and methods of its
           superclass.</para>
-        </formalpara></listitem>
-    </itemizedlist>
+      </sidebar>
 
     <para>Inheritance works because code for each class designates
       that class as a subclass of a superclass.  For example, in the
@@ -182,6 +180,7 @@
       of the groceryStore class will respond to "takeMoney" in that
       specialized way.  The method inside the groceryStore subclass
       will override the super-class's definition of the method.</para>
+    </sect3>
 
 </sect2>
 
