@@ -1,6 +1,6 @@
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
-	* Protocol.h: Remove symbols trailing #endif.
+	* objc-list.h, Protocol.h: Remove symbols trailing #endif.
 
 2000-09-22  Marcus G. Daniels  <mgd@forager.swarm.org>
 
