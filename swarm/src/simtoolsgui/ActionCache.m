@@ -252,11 +252,14 @@ PHASE(Using)
   // when control finally gets back to controlpanel, it will
   // fall out of the busy wait loop and continue at the point
   // from which waitForControlEvnt was called.
-  if (([ctrlPanel getState] == ControlStateStopped)
-      && !(strcmp (cmd, "Stop") == 0
-           || strcmp (cmd, "Save") == 0))
-    [ctrlPanel setState: ControlStateRunning];
-  
+  if ([ctrlPanel getState] == ControlStateStopped)
+    {
+      if (strcmp (cmd, "Quit") == 0) 
+        [ctrlPanel setState: ControlStateQuit];
+      else if (!(strcmp (cmd, "Stop") == 0
+                 || strcmp (cmd, "Save") == 0))
+        [ctrlPanel setState: ControlStateRunning];
+    }
   // create a 'cmd' action
   anAction = [ActionHolder createBegin: [self getZone]];
   [anAction setActionName: cmd];

@@ -1,3 +1,10 @@
+1999-07-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionCache.m ([ActionCache -sendActionOfType:type:]): Directly
+	handle quit if stopped.  This is for the case that a model
+	wants to hold back further -build{Objects,Action} work by
+	waiting for user input within a call to setStateStopped.
+
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Avoid handling
