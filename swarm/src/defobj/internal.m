@@ -1865,7 +1865,10 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
     }
   else if (stringp (expr))
     {
+      fcall_type_t type = object_ivar_type (obj, ivarName, NULL);
       buf.string = OSTRDUP (obj, [expr getC]);
+      if (!(type == fcall_type_string || type == fcall_type_jstring))
+        raiseEvent(InvalidArgument, "`%s' is not a string", ivarName);
       object_setVariable (obj, ivarName, &buf);
     }
   else if (archiver_list_p (expr))

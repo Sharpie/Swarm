@@ -1,3 +1,9 @@
+2000-04-28  Alex Lancaster  <alex@santafe.edu>
+
+	* internal.m (object_setVariableFromExpr): If stringp predicate is
+	true, check to see that the type is either fcall_type_string or
+	fcall_type_jstring.
+
 2000-04-28    <mgd@nest.swarm.org>
 
 	* DefObject.m, FArguments.m, FCall.m, JavaCollection.m,
