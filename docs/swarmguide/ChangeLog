@@ -75,7 +75,6 @@
 	new Archiver convenience methods.
 
 1999-05-28  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
->>>>>>> 1.39
 
 	* user2.07.sgml: Added CustomProbeMap treatment, as well as a
  	pathetic cry for help from Alex to revise/delete some stuff on
