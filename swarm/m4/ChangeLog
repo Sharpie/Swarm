@@ -1,3 +1,8 @@
+2000-06-06  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* acjdk.m4: Check for hotspot before classic VM.
+	Pass APPHOME to vm -- 1.3 needs it.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

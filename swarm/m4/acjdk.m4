@@ -103,7 +103,9 @@ else
           if test -d "${expand_jdkdir}/jre/lib/${proc}/${threads}_threads"; then
             JAVALIBS="\${jdkdir}/jre/lib/${proc}/${threads}_threads"
           fi
-          if test -d "${expand_jdkdir}/jre/lib/${proc}/classic"; then
+          if test -d "${expand_jdkdir}/jre/lib/${proc}/hotspot"; then
+            JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}/hotspot"
+          elif test -d "${expand_jdkdir}/jre/lib/${proc}/classic"; then
             JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}/classic"
           fi
           JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}"
@@ -129,7 +131,7 @@ else
       USEDOSCLASSPATH=yes
       JAVASWARM_DLL_ENTRY='__cygwin_noncygwin_dll_entry@12'
     else
-      JAVAENV="$SHLIBPATH_VAR=$JAVALIBS:\${$SHLIBPATH_VAR}"
+      JAVAENV="APPHOME=${jdkdir} $SHLIBPATH_VAR=$JAVALIBS:\${$SHLIBPATH_VAR}"
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
     JAVAENV="$extra_JAVAENV $JAVAENV"
