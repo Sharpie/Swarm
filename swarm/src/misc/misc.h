@@ -22,6 +22,8 @@
 
 #include <limits.h>
 
+#define MAX_ALIGNMENT __alignof__(double)
+
 #ifdef __jmalloc_h
 #error
 #endif
