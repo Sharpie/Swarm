@@ -4,6 +4,8 @@
 
 	* SwarmEnvironment.m: Remove (it is now generated).
 
+	* SwarmEnvironmentExtra.m: New file.
+
 2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_getCurrentSwarm,
