@@ -8,9 +8,10 @@
 
 @implementation ObserverSwarm
 
-+createBegin: (id) aZone {
++createBegin: aZone
+{
   ObserverSwarm * obj;
-  ProbeMap * probeMap;
+  id <ProbeMap> probeMap;
 
   // createBegin: here we set up the default simulation parameters.
 
@@ -128,7 +129,8 @@
   return self;
 }
 
--buildActions {
+-buildActions
+{
 
 // Create the actions necessary for the simulation. 
 
@@ -148,7 +150,7 @@
   [displayActions createActionTo: bugDisplay          message: M(display)];
   [displayActions createActionTo: worldRaster         message: M(drawSelf)];
 
-  [displayActions createActionTo: controlPanel        message: M(doTkEvents)];
+  [displayActions createActionTo: actionCache         message: M(doTkEvents)];
 
   // And the display schedule. Note the repeat interval is set from our
   // own Swarm data structure. Display is frequently the slowest part of a

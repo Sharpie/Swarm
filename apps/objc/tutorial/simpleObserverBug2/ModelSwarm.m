@@ -22,9 +22,10 @@
   return food;
 }
 
-+createBegin: (id) aZone {
++createBegin: (id) aZone 
+{
   ModelSwarm * obj;
-  ProbeMap * probeMap;
+  id <ProbeMap> probeMap;
 
   // in createBegin, we set up the simulation parameters
 
