@@ -5,6 +5,8 @@
 	(probeLibrary): New field.	
 	New create...ProbeDisplay methods that correspond to 
 	CREATE_..._PROBE_DISPLAY macros from simtoolsgui.h
+	Add new ControlState... fields that correspond to
+	ControlState... Symbols from simtoolsgui.
 
 1999-07-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -31,6 +31,8 @@ public class SwarmEnvironment {
   public native void createArchivedProbeDisplay (Object anObject);
   public native void createArchivedCompleteProbeDisplay (Object anObject);
 
+  public SymbolImpl ControlStateRunning, ControlStateStopped,
+    ControlStateStepping, ControlStateQuit, ControlStateNextTime;
   public ProbeLibraryImpl probeLibrary;
   public ZoneImpl globalZone;
   public UniformIntegerDistImpl uniformIntRand;
