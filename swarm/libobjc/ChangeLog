@@ -1,3 +1,7 @@
+1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (libobjc.dll): New rule.
+
 1999-05-22  Marcus Daniels  <mgd@pajarito.libarts.wsu.edu>
 
 	* ltconfig: Add support for hpux9; generate and compile function

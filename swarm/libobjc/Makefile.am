@@ -32,6 +32,16 @@ COMPILERINFOHEADER = @COMPILERINFOHEADER@
 compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
+CTOR = libobjc_constructors
+DLLOBJS = $(addsuffix .o,$(basename $(libobjc_la_SOURCES)))
+
+libobjc.dll: 
+	$(CC) -c $(srcdir)/dllinit.c
+	$(srcdir)/../etc/genctors $(DLLOBJS) > $(CTOR).c
+	$(CC) -c $(CTOR).c
+	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o libobjc.dll dllinit.o $(CTOR).o $(DLLOBJS)
+
+
 #CC1OBJ = @gccdir@/cc1obj
 
 #compiler-info.h:
