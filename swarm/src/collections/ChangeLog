@@ -1,6 +1,8 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Collection.m, List.m: Include misc.h.
+	([PermutedIndex_c -put:], [PermutedIndex_c -remove]): Return unused
+	nil to avoid warning.
 
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
 
