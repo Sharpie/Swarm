@@ -1,5 +1,8 @@
 1998-06-24  Alex Lancaster  <alex@santafe.edu>
 
+	* README: Removed outdated mention of Makefile.conf, tidied,
+	reformatting.
+
 	* INSTALL: Add extra `configure' options.
 
 	* NEWS: Elaborate on command-line and graphics features.

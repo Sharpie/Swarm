@@ -4,6 +4,8 @@ Documentation is also available on the Web at
 
   http://www.santafe.edu/projects/swarm/
 
+Contents of this README ================================================
+
    I. Installation Process
       A. Full source compilation and installation
       B. Binary installation with accompanying source
@@ -20,9 +22,8 @@ Interesting files in this release:
 - NEWS, which describes user-visible changes since the last release of Swarm.
 - COPYING, which describes the terms under which you may redistribute
   Swarm, and explains that there is no warranty.   
-------------------------------------------------------------------------
 
-   I. Installation Process
+I. Installation Process =================================================
 
       Full installation instructions are contained in `INSTALL' and
 additional material is also contained in the Swarm documentation.
@@ -31,8 +32,9 @@ Basically, there are two options for the installation of Swarm: the
 full source compilation and installation, and the binary installation
 accompanied by a copy of the full source.
 
-      A. Full source compilation and installation (a.k.a. the
-"archive" installation):
+A. Full source compilation and installation 
+-------------------------------------------
+(a.k.a. the "archive" installation)
 
          The full source (a.k.a. "archive") compilation and
 installation consists of 1) ensuring that you have available to you,
@@ -89,24 +91,26 @@ if the system admin has installed Swarm it may be:
 
 SWARMHOME=/usr/local/swarm-1.2
 
-This points the "make" program to the Makefile.conf file in the 
-Swarm directory and allows each application's own Makefile to 
-access all the parameters set there.  Then all you need do is
-run "make".
+This points `make' to the Makefile.appl (in the case of applications)
+or Makefile.lib (in the case of libraries) file in the directory in
+which Swarm is installed and allows each application's own Makefile to
+access all the parameters set there.  Then all you need do is run
+"make".
 
 Now, all you need do is type the name of the executable you just
 compiled, prefixed by a `./'.  So if you are compiling heatbugs, you
 would type `./heatbugs' so that your shell knows that you want to run
 an executable found in the current directory.
 
-      B. Binary installation with accompanying source
+B. Binary installation with accompanying source 
+-----------------------------------------------
 
 As we are moving to a new improved installation procedure, binary
 installations are not available for the Swarm 1.2 release, we are
 currently working on the new binary distribution installation
 procedure and it will be out in the next release.
 
-  II. Installation Options and Settings
+II. Installation Options and Settings =================================
 
 The options that were formerly described here are now obsolete.
 Details of how to configure your Swarm installation just so, are now
