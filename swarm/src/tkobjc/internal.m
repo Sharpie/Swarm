@@ -54,6 +54,27 @@ tkobjc_nameToWindow (const char *widgetName)
 }
 
 void
+tkobjc_setName (id widget, const char *name)
+{
+  const char *prefix = "Swarm";
+  const char *appName = [arguments getAppName];
+  const char *appModeString = [arguments getAppModeString];
+  char buf[(strlen (prefix) + 1 + strlen (appName) + 1 +
+            strlen (appModeString) + 1)];
+  
+  Tk_Window tkwin = tkobjc_nameToWindow ([[widget getTopLevel] getWidgetName]);
+  
+  if (name)
+    Tk_Name (tkwin) = (char *)name;
+  stpcpy (stpcpy (stpcpy
+                  (stpcpy (stpcpy (buf, prefix), "-"),
+                   appName), "-"),
+          appModeString);
+
+  Tk_SetClass (tkwin, buf);
+}
+
+void
 tkobjc_unlinkVar (const char *variableName)
 {
   Tcl_UnlinkVar ([globalTkInterp interp], (char *)variableName); 

@@ -1,3 +1,13 @@
+1998-07-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-registerAndLoad]): Use it to override class and resource names
+	provided by Tk.
+
+	* internal.[hm] (tkobjc_setName): New function to set 
+	class name from application name and mode, as well as the resource
+	name, if supplied.
+
 1998-07-01  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord -in:]): Recognize

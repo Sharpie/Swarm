@@ -56,6 +56,8 @@ PHASE(Creating)
   windowGeometryRecord = [self loadWindowGeometryRecord];
   if (windowGeometryRecord)
     {
+      tkobjc_setName (self, windowGeometryRecordName);
+
       if ([windowGeometryRecord getSizeFlag])
         [self setWidth: [windowGeometryRecord getWidth]
               Height: [windowGeometryRecord getHeight]];
@@ -63,6 +65,9 @@ PHASE(Creating)
         [self setX: [windowGeometryRecord getX]
               Y: [windowGeometryRecord getY]];
     }
+  else
+    tkobjc_setName (self, NULL);
+
   return self;
 }
 

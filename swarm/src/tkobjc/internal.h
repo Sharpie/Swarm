@@ -10,7 +10,7 @@
 #include <tk.h>
 #include <X11/Xlib.h>    // XColormap
 #include <X11/Xutil.h>  // ZoomRaster
-#ifndef __WIN32__
+#ifndef _WIN32
 #include <X11/xpm.h>
 #endif
 #undef Pixmap
@@ -28,6 +28,8 @@
 @class Pixmap;
 
 Tk_Window tkobjc_nameToWindow (const char *widgetName);
+
+void tkobjc_setName (id widget, const char *name);
 
 void tkobjc_unlinkVar (const char *variableName);
 void tkobjc_linkVar (const char *variableName, void *p, int type);
