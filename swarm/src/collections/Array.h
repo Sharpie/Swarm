@@ -11,24 +11,24 @@ Library:      collections
 
 #import <collections/Collection.h>
 
-@interface Array_c : Collection_any
+@interface Array_c: Collection_any
 {
 @public
-  id *block;    // block of id values
+  id *block; // block of id values
 }
 /*** methods in Array_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void) setInitialValue: initialValue;
+- (void)setInitialValue: initialValue;
 - createEnd;
-+ create: aZone setCount: (int)memberCount;;
-+ create: aZone setMemberBlock: (id *)members setCount: (int)memberCount;;
++ create: aZone setCount: (int)memberCount;
++ create: aZone setMemberBlock: (id *)members setCount: (int)memberCount;
 - (void)setMemberBlock: (id *)members setCount: (int)memberCount;
 - (void)setDefaultMember: memberValue;
 - (void)setCount: (int)memberCount;
 - (void *)getMemberBlock;
 - getDefaultMember;
-- (int) getCount;
-- (int) count;
+- (int)getCount;
+- (int)count;
 - atOffset: (int)offset;
 - atOffset: (int)offset put: anObject;
 - getFirst;
@@ -39,7 +39,7 @@ Library:      collections
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface ArrayIndex_c : Index_any
+@interface ArrayIndex_c: Index_any
 {
 @public
   id *memPtr; // pointer to current member, or Start or End

@@ -77,7 +77,7 @@ Library:      collections
   id permutationIndex;
   id index;
 }
-+ createBegin: (id) aZone;
++ createBegin: aZone;
 - createEnd;
 - generatePermutation;
 - next;
@@ -88,7 +88,7 @@ Library:      collections
 - put: anObject;
 - remove;
 - getLoc;
-- (void) setLoc: locSymbol;
-- (int) getOffset;
+- (void)setLoc: locSymbol;
+- (int)getOffset;
 - setOffset: (int)offset;
 @end

@@ -11,12 +11,12 @@ Library:      collections
 
 #import <collections/List_mlinks.h>
 
-@interface OrderedSet_c : List_mlinks
+@interface OrderedSet_c: List_mlinks
 /*** methods in OrderedSet_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - createEnd;
-- (BOOL) contains: anObject;
-- (id *) add: anObject;
+- (BOOL)contains: anObject;
+- (id *)add: anObject;
 - remove: aMember;
 @end
 

@@ -12,11 +12,11 @@ Library:      collections
 #import <defobj/Create.h>
 #import <collections.h>
 
-@interface String_c : CreateDrop_s
+@interface String_c: CreateDrop_s
 {
 @public
-  char  *string;
-  int   count;
+  char *string;
+  int count;
   BOOL literalFlag;
 }
 /*** methods in String_c (inserted from .m file by m2h) ***/
@@ -24,7 +24,7 @@ Library:      collections
 - createEnd;
 + create: aZone;
 + create: aZone setC: (const char *)cstring;
-- setLiteralFlag : (BOOL)literalFlag;
+- setLiteralFlag: (BOOL)literalFlag;
 - (void)setC: (const char *)cstring;
 - copy: aZone;
 - (const char *)getC;

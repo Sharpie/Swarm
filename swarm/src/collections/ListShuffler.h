@@ -11,17 +11,14 @@
 
 #import <defobj/Create.h>
 
-@interface ListShuffler_c : CreateDrop_s
+@interface ListShuffler_c: CreateDrop_s
 {
-  id uniformRandom;		// uniform unsigned distribution object
+  id uniformRandom; // uniform unsigned distribution object
 }
 
-+ createBegin: aZone;
 + create: aZone setUniformRandom: dist;
-
-- (void) setUniformRandom: rnd;
+- (void)setUniformRandom: rnd;
 - createEnd;
-
 
 - shufflePartialList: list Num: (int)num;
 - shuffleWholeList: list;

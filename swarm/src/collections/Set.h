@@ -11,10 +11,10 @@ Library:      collections
 
 #import <collections/Collection.h>
 
-@interface Set_c : Collection_any
+@interface Set_c: Collection_any
 {
 @public
-  Collection_any  *list;         // list of member entries
+  Collection_any *list; // list of member entries
 }
 /*** methods in Set_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;

@@ -9,8 +9,7 @@ Description:  permutation object - array of integers
 Library:      collections
 */
 
-#include <collections/Array.h>
-#import <collections/ListShuffler.h>
+#import <collections/Array.h>
 
 @interface Permutation_c: Array_c
 {
@@ -19,7 +18,7 @@ Library:      collections
   id uniformRandom;
   id shuffler;
 }
-+ createBegin: (id) aZone;
++ createBegin: aZone;
 - (void)setMaxElement: (int)max;
 - (void)setMinElement: (int)min;
 - (void)setUniformRandom: rnd;

@@ -469,7 +469,6 @@ PHASE(Using)
 @end
 
 @implementation ArchiverValue_c
-
 PHASE(Creating)
 
 - setDouble: (double)val

@@ -12,21 +12,21 @@ Library:     collections
 #import <defobj/Create.h>
 #import <collections.h>
 
-@interface InputStream_c : CreateDrop_s
+@interface InputStream_c: CreateDrop_s
 {
 @public
   FILE  *fileStream;
 }
 /*** methods in OutputStream_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void) setFileStream: (FILE *)file;
+- (void)setFileStream: (FILE *)file;
 - createEnd;
 + create: aZone setFileStream: (FILE *)file;
-- (FILE *) getFileStream;
+- (FILE *)getFileStream;
 - getExpr;
 @end
 
-@interface ArchiverKeyword_c : CreateDrop_s
+@interface ArchiverKeyword_c: CreateDrop_s
 {
   const char *keywordName;
 }
@@ -34,7 +34,7 @@ Library:     collections
 - (const char *)getKeywordName;
 @end
 
-@interface ArchiverArray_c : CreateDrop_s
+@interface ArchiverArray_c: CreateDrop_s
 {
   unsigned rank;
   unsigned *dims;
