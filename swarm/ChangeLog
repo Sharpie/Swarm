@@ -1,3 +1,7 @@
+1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Remove tests.
+
 1999-01-14  Alex Lancaster  <alex@santafe.edu>
 
 	* README (section B): Updated section on binary packages and noted
@@ -8,7 +12,7 @@
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* configure.in (AC_OUTPUT): Add tests/Makefile and 
-	tests/acitivity/Makefile.
+	tests/activity/Makefile.
 
 	* Makefile.am (EXTRA_DIST): Add tests.
 
