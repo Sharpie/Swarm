@@ -53,9 +53,7 @@
 
 - createBindings
 {
-  char * temp;
-
-  temp = tclObjc_objectToName (self);
+  const char *temp = tclObjc_objectToName (self);
 
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
     [canvas getWidgetName], item, temp];

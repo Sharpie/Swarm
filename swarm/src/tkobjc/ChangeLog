@@ -1,3 +1,7 @@
+1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* CanvasItem.m ([CanvasItem -createBindings]): Constify temp.
+
 1998-01-11  Alex Lancaster  <alex@santafe.edu>
 
 	* Canvas.m: ([Canvas -drop]): Added "destroy" Tk command to
