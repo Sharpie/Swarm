@@ -159,6 +159,9 @@ swarm_directory_java_hash_code (jobject javaObject)
 
 - (int)compare: obj
 {
+  int ret;
+  jobject objJavaObject = ((DirectoryEntry *) obj)->javaObject;
+
 #if 0
   printf ("`%s'%p/%p vs `%s'%p/%p\n",
           [self getObjcName], object, javaObject,
@@ -166,11 +169,12 @@ swarm_directory_java_hash_code (jobject javaObject)
           ((DirectoryEntry *) obj)->object,
           ((DirectoryEntry *) obj)->javaObject);
 #endif
-
-  return (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
-                                              javaObject,
-                                              m_Equals,
-                                              ((DirectoryEntry *) obj)->javaObject);
+  ret = (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
+                                             javaObject,
+                                             m_Equals,
+                                             objJavaObject);
+                                             
+  return ret;
 }
 
 - (void)findDrop
@@ -269,11 +273,13 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - add: theObject javaObject: (jobject)theJavaObject
 {
-  unsigned index = swarm_directory_java_hash_code (theJavaObject);
-  id <Map> m = table[index];
+  unsigned index;
+  id <Map> m;
   id entry;
   
   entry = ENTRY (theObject, (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject));
+  index = swarm_directory_java_hash_code (theJavaObject);
+  m = table[index];
 
   if (m == nil)
     {
@@ -290,14 +296,14 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   unsigned index;
   id <Map> m;
   
+  theJavaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
   index = swarm_directory_java_hash_code (entry->javaObject);
   m = table[index];
-
   [m remove: entry];
   (*jniEnv)->DeleteGlobalRef (jniEnv, entry->javaObject);
   
   index = swarm_directory_java_hash_code (theJavaObject);
-  entry->javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
+  entry->javaObject = theJavaObject;
   if (!table[index])
     table[index] = [Map create: getZone (self)];
   [table[index] at: entry insert: entry];
@@ -488,23 +494,30 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
   
   if (entry)
     {
-      unsigned index =
-        swarm_directory_java_hash_code (entry->javaObject);
-      id <Map> m = table[index];
+      unsigned index;
+      id <Map> m;
       
+      entry->javaObject = (*jniEnv)->NewGlobalRef (jniEnv, entry->javaObject);
+
+      index = swarm_directory_java_hash_code (entry->javaObject);
+      m = table[index];
       if (!m)
         abort ();
-
-      [m removeKey: entry];
       {
         DirectoryEntry *ret;
-        
+
+        ret = [m remove: entry];
+
+        if (ret != entry)
+          raiseEvent (WarningMessage, "remove (%p) != %p\n", entry, ret);
+
         ret = avl_delete (objc_tree, entry);
         
         if (ret != entry)
           abort ();
       }
       [entry drop];
+      (*jniEnv)->DeleteGlobalRef (jniEnv, entry->javaObject);
       return YES;
     }
   return NO;

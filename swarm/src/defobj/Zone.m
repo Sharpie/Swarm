@@ -13,6 +13,7 @@ Library:      defobj
 #import <defobj/defalloc.h>
 
 #import <collections/List_linked.h>
+#import "directory.h"
 
 #include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
 #include "internal.h"
@@ -188,13 +189,17 @@ PHASE(Using)
 - (void) freeIVars: anObject
 {
   id index;
-  size_t size = getClass (anObject)->instance_size;
+  size_t size;
 
+  [swarmDirectory objcRemove: anObject];
+
+  size = getClass (anObject)->instance_size;
   index = [population createIndex: getCZone (scratchZone)
                       fromMember: anObject];
   [index remove];
   [index drop];
   populationTotal -= size;
+
 
   if (_obj_debug)
     {
@@ -269,7 +274,9 @@ PHASE(Using)
 //   free object allocated by allocIVarsComponent: or copyIVarsComponent:
 //
 - (void)freeIVarsComponent: anObject
-{
+{ 
+  [swarmDirectory objcRemove: anObject];
+
   if (_obj_debug)
     {
       if (!getBit (((Object_s *) anObject)->zbits, BitComponentAlloc))
@@ -285,6 +292,7 @@ PHASE(Using)
       memset ((id *) anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
     }
+
   XFREE (anObject);
 }
 
