@@ -20,7 +20,7 @@ Library:      collections
 //D: defobj also requires the collections library, both must always be
 //D: linked into an application together.
 
-@deftype Offsets 
+@protocol Offsets 
 //S: Methods for accessing collection members by position.
 
 //D: An offset is an integer value that gives relative position of a member
@@ -54,7 +54,7 @@ USING
 - getLast;
 @end
 
-@deftype ForEach
+@protocol ForEach
 //S: Messages for performing the same message on objects in a collection.
 
 //D: The forEach messages supply a convenient shorthand for repeatedly
@@ -87,7 +87,7 @@ USING
 @end
 
 
-@deftype Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
+@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
 //S: A generic collection interface.
 
 //D: A collection is a grouping of object references or other data values which
@@ -203,7 +203,7 @@ USING
 - begin: aZone;
 @end
 
-@deftype Index <DefinedObject, Copy, Drop>
+@protocol Index <DefinedObject, Copy, Drop>
 //S: Reference into the enumeration sequence for a collection.
 
 //D: An index is a reference into an enumeration sequence of a collection.
@@ -424,7 +424,7 @@ extern id <Error> OffsetOutOfRange, NoMembers,
 @end
 
 
-@deftype DefaultMember
+@protocol DefaultMember
 //S: Methods for setting and getting the default member in a collection.
 
 //D: When this option is set, the initial value of all new members will be
@@ -448,7 +448,7 @@ USING
 - getDefaultMember;
 @end
 
-@deftype MemberBlock
+@protocol MemberBlock
 //S: A way to wrap an existing C array for access as an object collection.
 
 //D: This option provides a means to wrap an existing C array for access as
@@ -502,7 +502,7 @@ USING
 - (void *)getMemberAlloc;
 @end
 
-@deftype Array <Collection, CREATABLE, DefaultMember, MemberBlock>
+@protocol Array <Collection, CREATABLE, DefaultMember, MemberBlock>
 //S: Collection supporting access only by relative position.
 
 //D: An array is a collection of members that are all created as members of
@@ -580,7 +580,7 @@ SETTING
 @end
 
 
-@deftype List <Collection, CREATABLE>
+@protocol List <Collection, CREATABLE>
 //S:  Collection of members in an externally assigned linear sequence.
 
 //D: A list is a collection of members that are all maintained at some
@@ -623,7 +623,7 @@ CREATING
 - removeLast;
 @end
 
-@deftype ListIndex <Index>
+@protocol ListIndex <Index>
 //S: Index with insertion capability at any point in list.
 
 //D: The addAfter: and addBefore: messages add members at a particular
@@ -672,7 +672,7 @@ extern int compareIDs (id, id);
 //F: A routine for comparing integers.
 extern int compareIntegers (id, id);
 
-@deftype Sorted
+@protocol Sorted
 //S: An option that determines if a keyed collection is kept in order.
 
 //D: If this option is true, the immediate members of a keyed collection
@@ -693,7 +693,7 @@ USING
 - (BOOL)getSorted;
 @end
 
-@deftype CompareFunction
+@protocol CompareFunction
 //S: Interface for defining the compare function to use when comparing
 //S: to members in a collection.
 
@@ -728,7 +728,7 @@ USING
 - (compare_t)getCompareFunction;
 @end
 
-@deftype KeyedCollection <Collection, Sorted, CompareFunction>
+@protocol KeyedCollection <Collection, Sorted, CompareFunction>
 //S: Member identity definition shared by Set and Map types.
 
 //D: A keyed collection is a collection in which each member can be
@@ -778,7 +778,7 @@ USING
 
 @end
 
-@deftype KeyedCollectionIndex <Index>
+@protocol KeyedCollectionIndex <Index>
 //S: Index behavior shared by Set and Map types.
 
 //D: An index to a keyed collection traverses all members of the
@@ -790,7 +790,7 @@ USING
 @end
 
 
-@deftype MemberSlot
+@protocol MemberSlot
 //S: Allocation in member/key for fast setMember:/setKey:
 
 //D: The MemberSlot option indicates that space has been reserved within
@@ -829,7 +829,7 @@ typedef struct memberData { void *memberData[2]; } member_t;
 typedef struct { void *memberData[2]; id owner; } dupmember_t;
 @end
 
-@deftype Set <KeyedCollection, CREATABLE>
+@protocol Set <KeyedCollection, CREATABLE>
 //S: Collection of members each having a defined identity.
 
 //D: Set is a subtype of KeyedCollection in which the key value associated
@@ -868,7 +868,7 @@ USING
 - replace: anObject;
 @end
 
-@deftype OrderedSet <KeyedCollection, List, CREATABLE>
+@protocol OrderedSet <KeyedCollection, List, CREATABLE>
 //S: A set of members in an externally assigned linear sequence.
 
 //D: An OrderedSet is a totally ordered collection of members in which every
@@ -890,7 +890,7 @@ USING
 //D: unique position within the member sequence
 @end
 
-@deftype Map <KeyedCollection, CREATABLE>
+@protocol Map <KeyedCollection, CREATABLE>
 //S: Collection of associations from key objects to member objects.
 
 //D: Map is a subtype of KeyedCollection in which the key value associated
@@ -922,7 +922,7 @@ USING
 - removeKey: aKey;
 @end
 
-@deftype MapIndex <KeyedCollectionIndex>
+@protocol MapIndex <KeyedCollectionIndex>
 //S: The index behavior for a Map.
 
 //D: The index behavior for a Map.
@@ -950,7 +950,7 @@ USING
 @end
 
 
-@deftype OutputStream <Create, Drop, CREATABLE>
+@protocol OutputStream <Create, Drop, CREATABLE>
 //S: Stream of output bytes.
 
 //D: The OutputStream type currently supports only the writing of a
@@ -967,7 +967,7 @@ USING
 - (void)catC: (const char *)cstring;
 @end
 
-@deftype InputStream <Create, Drop, CREATABLE>
+@protocol InputStream <Create, Drop, CREATABLE>
 //S: Stream of input data.
 
 //D: This type reads Lisp-like expressions into lists.
@@ -983,7 +983,7 @@ USING
 //G: Tokens used by the archiving parser.
 extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 
-@deftype String <Create, Drop, Copy, CREATABLE>
+@protocol String <Create, Drop, Copy, CREATABLE>
 //S: Character string object (later to support collection behavior).
 
 //D: The String object type packages a null-terminated, C-format character
