@@ -1,5 +1,8 @@
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (libjavaswarm_la_LDFLAGS): Don't use .libs directory.
+	libtool does that now.
+
 	* directory.m (java_ensure_selector): Handle objcFlag.
 
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
