@@ -17,6 +17,7 @@ INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
 lib_LTLIBRARIES = @LIBOBJC_LA@
 bin_PROGS = @OBJC_DLL@
+EXTRA_PROGS = objc.dll
 
 libobjc_la_SOURCES = $(CSRC) $(MSRC)
 
