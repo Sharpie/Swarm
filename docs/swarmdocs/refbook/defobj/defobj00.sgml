@@ -1,4 +1,5 @@
-<PARTINTRO>
+<partintro>
+  <title>Defobj Introduction</title>
 
   <SIDEBAR>
     <TITLE>Overview</TITLE>
@@ -9,7 +10,7 @@
       handling, and debugging support.</PARA>
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.DEPEND">
+  <sect1 xreflabel="Defobj" id="swarm.defobj.sgml.sect1.depend">
     <TITLE>Dependencies</TITLE> 
 
     <PARA>The defobj library is defined and documented using the <LINK
@@ -26,16 +27,16 @@
       automatically initializes the defobj library as well.</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.COMPAT">
-    <TITLE>Compatibility</TITLE>
+  <SECT1 xreflabel="Defobj Compatibility" ID="SWARM.DEFOBJ.SGML.SECT1.COMPAT">
+        <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions
       of Swarm</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.USAGE">
-    <TITLE>Usage Guide</TITLE>
+  <SECT1 xreflabel="Defobj Usage Guide" ID="SWARM.DEFOBJ.SGML.SECT1.USAGE">
+        <TITLE>Usage Guide</TITLE>
 
     <SECT2>
       <TITLE>Why Swarm uses Objective C</TITLE>
@@ -198,13 +199,13 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.ADVUSAGE">
+  <sect1 id="swarm.defobj.sgml.sect1.advusage" xreflabel="Defobj Advanced Usage Guide">
     <TITLE>Advanced Usage Guide</TITLE>
     <PARA>Empty</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.SUBCLASS">
-    <TITLE>Subclassing Reference</TITLE>
+  <SECT1 xreflabel="Defobj Subclassing Reference" ID="SWARM.DEFOBJ.SGML.SECT1.SUBCLASS">
+        <TITLE>Subclassing Reference</TITLE>
 
     <PARA>The defobj library currently includes the CreateDrop and
       Object_s superclasses used by other libraries. For user objects in
@@ -227,13 +228,13 @@
       to subclass from, along all the rules that a user subclass must follow
       when implementing new behavior.</PARA></SECT1>
 
-  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.DESIGN">
-    <TITLE>Interface Design Notes</TITLE>
+  <SECT1 xreflabel="Defobj Interface Design Notes" ID="SWARM.DEFOBJ.SGML.SECT1.DESIGN">
+        <TITLE>Interface Design Notes</TITLE>
     <PARA>Nothing</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.IMPL">
-    <TITLE>Implementation Notes</TITLE>
+  <SECT1 xreflabel="Defobj Implementation Notes" ID="SWARM.DEFOBJ.SGML.SECT1.IMPL">
+        <TITLE>Implementation Notes</TITLE>
     <PARA>Nothing</PARA>
   </SECT1>
 
