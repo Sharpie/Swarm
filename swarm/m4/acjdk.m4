@@ -12,17 +12,11 @@ test -z "$jdkdir" && jdkdir=no
 if test $jdkdir = no; then
   AC_MSG_RESULT(no)
   jdkdir=
-  jdkdosdir=
   JAVASTUBS=
   JAVASWARMLIBS=
   JAVASWARMSCRIPTS=
 else
   USEDOSCLASSPATH=no
-  if test "$host_os" = cygwin; then
-    jdkdosdir="`echo $jdkdir | sed -e 's,//\(.\)/,\1:/,g' -e 's,/,\\\\,g'`"
-  else
-    jdkdosdir=$jdkdir
-  fi
   if test $jdkdir = /usr; then
     jdkincludedir=$jdkdir/include/java
   else
@@ -41,13 +35,13 @@ else
       JAVALIBS='${jdkdir}/lib/PA_RISC'
     elif test -f $jdkincludedir/winnt/jni_md.h; then  # WebObjects
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
-      JAVALIBS=''
+      JAVALIBS=
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/genunix"
     fi
     JAVACMD='${jdkdir}/bin/java'
     if test "$host_os" = cygwin; then
-      JAVACLASSES="${jdkdosdir}\lib\classes.zip"
+      JAVACLASSES="`cygpath -w ${jdkdir}/lib/classes.zip`"
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
       USEDOSCLASSPATH=yes
@@ -75,9 +69,9 @@ else
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
     jdkdatadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
     if test "$host_os" = cygwin; then
-      JAVALIBS='${jdkdosdir}\lib\kaffe'
       jdkdatadir=`cygpath -w $jdkdatadir`
       USEDOSCLASSPATH=yes
+      JAVALIBS=
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
     fi
@@ -126,7 +120,6 @@ if test -n "$JAR_CLASSPATH" ; then
 fi
 AC_SUBST(JAR)
 AC_SUBST(jdkdir)
-AC_SUBST(jdkdosdir)
 ])
 
 AC_DEFUN(md_CHECK_JNI_H,
