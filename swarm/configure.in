@@ -252,15 +252,7 @@ fi
 vj_FIND_JDK
 md_CHECK_JNI_H
 
-if test "$host_os" = cygwin; then
-  PATHSEP=";"
-  PATHEXPR='$(subst /,\,$(subst //%/,%:\,$<))'
-else
-  PATHEXPR='$<'
-  PATHSEP=":"
-fi
-AC_SUBST(PATHSEP)
-AC_SUBST(PATHEXPR)
+md_CHECK_PATH_SYNTAX
 
 AC_PATH_PROG(EMACS, emacs, missing)
 

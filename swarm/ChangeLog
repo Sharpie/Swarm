@@ -1,9 +1,7 @@
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Make an (explicit) call to AC_CANONICAL_SYSTEM.
-	(PATHSEP): Set to ; or : per host_os.
-	(PATHEXPR): Set to an expression for transforming a UNC Cygwin
-	path into a DOS path.
+	Call md_CHECK_PATH_SYNTAX.
 
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
