@@ -870,6 +870,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         if (top_attr.map_state == IsUnmapped)
           if (!XMapWindow (display, topWindow))
             abort ();
+	obscured = keep_inside_screen (tkwin, window);
         
       retry:
         if (obscured)
@@ -878,12 +879,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
               abort ();
         
         Tk_RestackWindow (tkwin, Above, NULL);
-	if (keep_inside_screen (tkwin, window)) 
-          if (!obscured) 
-            {
-              // obscured = YES;
-              //goto retry;
-            }
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         XFlush (display);
         if (!obscured
