@@ -1,3 +1,8 @@
+1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* List.m, Map.m ([... hdf5OutShallow:]): Call writeLevels
+	in addition to writeRowNames.
+	
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputStream.m ([InputStream_c -getExpr]): Raise an event

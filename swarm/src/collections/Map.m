@@ -733,54 +733,54 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
 }
   
 - hdf5OutShallow: hdf5Obj
-  {
-    if (![self allSameClass])
-      raiseEvent (SaveError,
-                  "shallow HDF5 serialization on Map must be same type");
-    else
-      {
-        id aZone = [self getZone];
-        Class memberProto = [self getFirst];
-        id compoundType = [[[HDF5CompoundType createBegin: aZone]
-                             setClass: [memberProto class]]
-                            createEnd];
-        id dataset =
-          [[[[[[[HDF5 createBegin: aZone]
-                 setName: [hdf5Obj getName]]
-                setCreateFlag: YES]
-               setParent: hdf5Obj]
-              setCompoundType: compoundType]
-             setCount: [self getCount]]
-            createEnd];
-        id member, key;
-        id <MapIndex> mi = [self begin: aZone];
-        BOOL keyIsString = NO;
-        
-        [dataset storeTypeName: [self getTypeName]];
-        [dataset storeComponentTypeName: [memberProto getTypeName]];
-        hdf5_store_compare_function_attribute (dataset, compareFunc);
-        
-        if ([mi next: &key] == nil)
-          key = nil;
-        
-        if (compareFunc == compareIDs || compareFunc == NULL)
-          keyIsString = stringp (key);
-        
-        [mi setLoc: Start];
-        while ((member = [mi next: &key]))
-          {
-            unsigned rn = [mi getOffset];
-            
-            if (keyIsString)
-              [dataset nameRecord: rn name: [key getC]];
-            else if (compareFunc == compareCStrings)
-              [dataset nameRecord: rn name: (const char *) key];
-            else if (compareFunc == compareUnsignedIntegers)
-              [dataset numberRecord: (unsigned) key];
-            else if (compareFunc == compareIntegers)
-              {
-                char buf[DSIZE (int) + 1];
-                
+{
+  if (![self allSameClass])
+    raiseEvent (SaveError,
+                "shallow HDF5 serialization on Map must be same type");
+  else
+    {
+      id aZone = [self getZone];
+      Class memberProto = [self getFirst];
+      id compoundType = [[[HDF5CompoundType createBegin: aZone]
+                           setClass: [memberProto class]]
+                          createEnd];
+      id dataset =
+        [[[[[[[HDF5 createBegin: aZone]
+               setName: [hdf5Obj getName]]
+              setCreateFlag: YES]
+             setParent: hdf5Obj]
+            setCompoundType: compoundType]
+           setCount: [self getCount]]
+          createEnd];
+      id member, key;
+      id <MapIndex> mi = [self begin: aZone];
+      BOOL keyIsString = NO;
+      
+      [dataset storeTypeName: [self getTypeName]];
+      [dataset storeComponentTypeName: [memberProto getTypeName]];
+      hdf5_store_compare_function_attribute (dataset, compareFunc);
+      
+      if ([mi next: &key] == nil)
+        key = nil;
+      
+      if (compareFunc == compareIDs || compareFunc == NULL)
+        keyIsString = stringp (key);
+      
+      [mi setLoc: Start];
+      while ((member = [mi next: &key]))
+        {
+          unsigned rn = [mi getOffset];
+          
+          if (keyIsString)
+            [dataset nameRecord: rn name: [key getC]];
+          else if (compareFunc == compareCStrings)
+            [dataset nameRecord: rn name: (const char *) key];
+          else if (compareFunc == compareUnsignedIntegers)
+            [dataset numberRecord: (unsigned) key];
+          else if (compareFunc == compareIntegers)
+            {
+              char buf[DSIZE (int) + 1];
+              
               sprintf (buf, "%d", (int) key);
               [dataset nameRecord: rn name: buf];
             }
@@ -791,6 +791,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           [dataset selectRecord: rn];
           [member hdf5OutShallow: dataset];
         }
+      [dataset writeLevels];
       [dataset writeRowNames];
       [dataset drop];
       [mi drop];

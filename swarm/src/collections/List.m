@@ -285,6 +285,7 @@ PHASE(Using)
         [li drop];
       }
       [hdf5ObjDataset writeRowNames];
+      [hdf5ObjDataset writeLevels];
       [hdf5ObjDataset drop];
       [hdf5CompoundType drop];
     }
