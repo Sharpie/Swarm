@@ -1,3 +1,8 @@
+2000-09-13  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* MessageProbe.m (dynamicCallOn): Use getLanguage, setLanguage:
+	instead of getJavaFlag, setJavaFlag:.
+
 2000-08-11  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m (GETSTR): New macro.

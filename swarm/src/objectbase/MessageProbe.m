@@ -282,7 +282,7 @@ dynamicCallOn (const char *probedType,
   retVal->type = *type;
 
   if ([target respondsTo: M(isJavaProxy)])
-    [fa setJavaFlag: YES];
+    [fa setLanguage: LanguageJava];
   [fa setSelector: probedSelector];
   type = skip_argspec (type);
   type = skip_argspec (type);
@@ -300,7 +300,7 @@ dynamicCallOn (const char *probedType,
   if (retVal->type != _C_VOID)
     retVal->val = *(types_t *) [fc getResult];
 #ifdef HAVE_JDK
-  if ([fa getJavaFlag])
+  if ([fa getLanguage] == LanguageJava)
     {
       if (retVal->type == _C_CHARPTR)
         retVal->val.string =
