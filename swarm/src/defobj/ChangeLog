@@ -1,3 +1,9 @@
+1999-01-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.m ([Object_s -doesNotRecognize:]): New method.
+	Objective C runtime fails to format arguments, so we'll do
+	it with raiseEvent.
+
 1999-01-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Arguments.m (prefix): Make sure new string is terminated.

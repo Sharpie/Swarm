@@ -628,8 +628,14 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
  { raiseEvent (BlockedObjectUsage, nil); return nil; }
  - awake
  { raiseEvent (BlockedObjectUsage, nil); return nil; }
+#else
+- doesNotRecognize: (SEL)sel
+{
+  raiseEvent (InvalidArgument, "%s does not recognize %s",
+              [self name], sel_get_name (sel));
+  return self;
+}
 #endif
-
 //
 // notifyDisplayName() --
 //  function to maintain display name on change of object allocation
