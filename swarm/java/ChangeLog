@@ -5,8 +5,6 @@
 	* jdkswarm: Add JAVASWARMGDB handling (even though GDB doesn't
 	currently recognize java.exe).
 
-	* javaswarm.in: Don't bother asserting the cwd.
-
 2000-02-21    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.

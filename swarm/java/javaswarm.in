@@ -69,7 +69,8 @@ if test -z "$argsexpr"; then
   echo "CLASSPATH=\"$classpath\""
   echo "export @JAVALIBPATH_VAR@ @SHLIBPATH_VAR@ CLASSPATH"   
 elif test -n "$JAVASWARMGDB"; then
-  echo "set args $argsexpr" > /tmp/.swarmgdbinit.$$
+  (echo "shell rm -f /tmp/.gdbinit.$$";
+   echo "cd `pwd`"; echo "set args $argsexpr" ) > /tmp/.swarmgdbinit.$$
   eval "$JAVAENV CLASSPATH='$classpath' $JAVASWARMGDB -command /tmp/.swarmgdbinit.$$ $JAVACMD"
   rm -f /tmp/.swarmgdbinit.$$
 else
