@@ -1,6 +1,6 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* DefObject.m ([Object_s -getDisplayName]): Return [self name]
+	* DefObject.m ([Object_s -getDisplayName]): Return [self getName]
 	if none set.
 
 	* DefObject.[hm] ([Object_s -getIdName]): Remove.
