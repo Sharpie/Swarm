@@ -3,6 +3,8 @@
 	* acjdk.m4 (vj_DISABLE_JAVA): Remove.
 	(vj_FIND_JDK): Clear jdkdir if "no" (use empty
 	jdkdir as enable/disable flag).  Add messages.
+	Set JAVASTUBS to "stubs" when jdkdir is set, otherwise empty.
+	Substitute JAVASTUBS.
 
 1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
 

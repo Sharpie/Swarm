@@ -14,10 +14,13 @@ else
   if test "$jdkdir" = no; then
     AC_MSG_RESULT(no)
     jdkdir=
+    JAVASTUBS=
   else
     AC_MSG_RESULT($jdkdir)
+    JAVASTUBS=stubs
   fi
 fi
+AC_SUBST(JAVASTUBS)
 AC_SUBST(jdkdir)
 ])
 
