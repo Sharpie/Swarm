@@ -21,7 +21,6 @@ Installshield [mgd]
   - add Swarm DLL  
  
 make check [mgd]
-  - Find out why Discrete2d and QSortTest fail on Alpha
   - hppa avcall
 
 make --with-package flags should reject bad arguments [mgd]
