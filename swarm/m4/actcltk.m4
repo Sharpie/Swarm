@@ -94,11 +94,10 @@ fi
 LIBPLACES="$USER_TCL_LIB $USER_TK_LIB $LIBPLACES"
 LIBPLACES="`dirname $tclincludedir`/lib $LIBPLACES"
 
-tcllibdir=""
 TCLLIBNAME=""
 AC_MSG_CHECKING(directory and version of libtcl)
 for suffix in .so .a; do
-  for dir in "$TCL_LIB_DIR" $LIBPLACES; do
+  for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
     for version in 80 8.0 76 7.6 7.5 7.4 ''; do
       if test -r $dir/libtcl${version}${suffix}; then
         tcllibdir=$dir  
@@ -175,11 +174,10 @@ LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
 	$POTENTIALLIBDIR/tk4.1/lib \
 	$POTENTIALLIBDIR/tk4.0/lib \
 	$LIBPLACES"
-TKLLIBDIR=""
 TKLIBNAME=""
 AC_MSG_CHECKING(directory and version of libtk)
 for suffix in .so .a; do
-  for dir in "$TK_LIB_DIR" $LIBPLACES; do
+  for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
     for version in 80 8.0 42 4.2 4.1 4.0 ''; do
       if test -r $dir/libtk${version}${suffix}; then
         tklibdir=$dir

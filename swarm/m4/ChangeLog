@@ -7,6 +7,8 @@
 	(md_FIND_TCLOBJC_HEADERS): Use defaultdir instead of prefix.
 	(md_FIND_TCLOBJC_LIBRARIES): Set and substitute TCLOBJCLIB and
 	TCLOBJCLDFLAGS.
+	(md_FIND_TCL_LIBRARIES): Check first in tcllibdir.
+	(md_FIND_TK_LIBRARIES): Check first in tklibdir.
 
 	* acpng.m4: Set and substitute ZLIBLDFLAGS.  Update PNG for
 	shared libraries.  Set and substitute PNGLDFLAGS.
