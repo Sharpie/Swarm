@@ -1,5 +1,8 @@
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* config.swarm.in (swarm_JAVASWARMLIBS): Substitute JAVASWARMLIBS.
+	(SWARM_LDADD): Use it.
+
 	* Makefile.tests.in (JAVASWARMLIBS): Substitute.
 	(LIBS): Use it.
 	(javaswarmdir): New variable.

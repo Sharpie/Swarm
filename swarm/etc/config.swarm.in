@@ -56,6 +56,8 @@ swarm_OBJCLIBS="-lobjc"
 
 swarm_SYSLIBS="${swarm_BLTLIB} ${swarm_TKLIB} ${swarm_TCLLIB} ${swarm_XPMLIB} ${swarm_PNGLIB} ${swarm_HDF5LIB} ${swarm_ZLIBLIB} ${swarm_FFILIB}  ${swarm_GUILIBS} -lm ${swarm_OBJCLIBS} ${swarm_DLLIB}"
 
+swarm_JAVASWARMLIBS=@JAVASWARMLIBS@
+
 swarm_SWARMLIBS="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc"
 
 swarm_LIBS="@LIBS@"
@@ -65,6 +67,6 @@ swarm_LIBS="@LIBS@"
 
 SWARM_LDFLAGS="${swarm_SWARMLDFLAGS} ${swarm_BLTLDFLAGS} ${swarm_TCLLDFLAGS} ${swarm_TKLDFLAGS} ${swarm_FFILDFLAGS} ${swarm_XPMLDFLAGS} ${swarm_PNGLDFLAGS} ${swarm_ZLIBLDFLAGS} ${swarm_X_LIBS}"
 
-SWARM_LDADD="${swarm_SWARMLIBS} ${swarm_SYSLIBS} ${swarm_LIBS}"
+SWARM_LDADD="${swarm_JAVASWARMLIBS} ${swarm_SWARMLIBS} ${swarm_SYSLIBS} ${swarm_LIBS}"
 
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
