@@ -107,7 +107,7 @@ public class MousetrapBatchSwarm extends SwarmImpl {
         ("It is logging data every " + loggingFrequency +
          " timesteps to: trigger.output");
     
-    ((SwarmActivityImpl) (Object) getActivity ()).run (); 
+    getActivity ().getSwarmActivity ().run (); 
     
     if (loggingFrequency > 0)
       triggerGraph.drop ();

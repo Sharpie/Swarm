@@ -1,5 +1,7 @@
 1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* MousetrapBatchSwarm.java: Use getSwarmActivity instead of cast.
+
 	* MousetrapObserverSwarm.java (buildObjects): Remove casting passing
 	displayWindow and world Grid2d to Object2dDisplay.
 
