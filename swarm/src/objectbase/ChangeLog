@@ -1,3 +1,13 @@
+1998-04-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Arguments.h: Include misc/argp.h.
+
+	* Arguments.[hm]: New methods addOptions: and parseKey:arg:.
+
+	* Arguments.m (parse_opt): Call parseKey:arg:. 
+	Dynamically allocate arg (in +createBegin:)
+	(+createBegin:) New method.
+	
 1998-04-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Arguments.m (findSwarm): return NULL if the SWARMHOME

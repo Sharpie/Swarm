@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
+#include <misc/argp.h>
 
 extern id arguments;
 
@@ -30,8 +31,10 @@ extern id arguments;
 - (int)getArgc;
 - (const char **)getArgv;
 - (const char *)getExecutablePath;
-+ createArgc: (int)argc Argv: (const char **)argv;
 - (const char *)getSwarmHome;
++ createArgc: (int)argc Argv: (const char **)argv;
+- (struct argp_option *)addOptions: (struct argp_option *)options;
+- (int)parseKey: (int)key arg: (const char *)arg;
 
 @end
 

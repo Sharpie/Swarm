@@ -25,11 +25,11 @@ id arguments;
 const char *argp_program_version = "Swarm " VERSION;
 const char *argp_program_bug_address = "bug-swarm@santafe.edu";
 
-static struct argp_option options[] = {
+static struct argp_option base_options[] = {
   {"varyseed", 's', 0, 0, "Run with a random seed", 0},
   {"batch", 'b', 0, 0, "Run in batch mode", 1},
   {"mode", 'm', "MODE", 0, "Specify mode of use (for archiving)", 2},
-  { 0 },
+  { 0 }
 };
 
 static const char *
@@ -66,11 +66,8 @@ getApplicationValue (const char *val)
   }
 }
 
-static error_t
-parse_opt (int key, const char *arg, struct argp_state *state)
+- (int)parseKey: (int)key arg: (const char *)arg
 {
-  id arguments = state->input;
-
   switch (key)
     {
     case 's':
@@ -88,7 +85,13 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   return 0;
 }
 
-static struct argp argp = { options, parse_opt, NULL, NULL };
+static error_t
+parse_opt (int key, const char *arg, struct argp_state *state)
+{
+  id arguments = state->input;
+
+  return [arguments parseKey: key arg: arg];
+}
 
 - setArgc: (int)theArgc Argv: (const char **)theArgv
 {
@@ -156,9 +159,69 @@ static struct argp argp = { options, parse_opt, NULL, NULL };
   return argv;
 }
 
-+ createArgc: (int)theArgc Argv: (const char **)theArgv
+static struct argp *argp;
+
+- (struct argp_option *)addOptions: (struct argp_option *)newoptions
 {
-  id arguments = [Arguments createBegin: globalZone];
+  unsigned exist_count = 0, total_count = 0, new_count = 0;
+  struct argp_option *options = (struct argp_option *)argp->options;
+  
+  if (argp->options)
+    {
+      while (options->name)
+        {
+          exist_count++;
+          total_count++;
+          options++;
+        }
+    }
+  options = newoptions;
+  while (options->name)
+    {
+      total_count++;
+      new_count++;
+      options++;
+    }
+  if (argp->options)
+    options = xrealloc ((void *)argp->options,
+                              (total_count + 1) * sizeof (struct argp_option));
+  else
+    options = xmalloc ((total_count + 1) * sizeof (struct argp_option));
+  
+  memcpy (&options[exist_count],
+          newoptions,
+          sizeof (struct argp_option) * new_count);
+  {
+    struct argp_option *end = &options[total_count];
+    
+    end->name = NULL;
+    end->key = 0;
+    end->doc = NULL;
+    end->group = 0;
+  }
+  return options;
+}
+
++ createBegin: aZone
+{
+  Arguments *obj = [super createBegin: aZone];
+  
+  argp = xmalloc (sizeof (struct argp));
+  argp->options = NULL;
+  argp->options = [obj addOptions: base_options];
+  argp->parser = parse_opt;
+  argp->args_doc = NULL;
+  argp->doc = NULL;
+  argp->children = NULL;
+  argp->help_filter = NULL;
+
+  return obj;
+}
+
++ createArgc: (int)theArgc
+        Argv: (const char **)theArgv
+{
+  id arguments = [self createBegin: globalZone];
   
   [arguments setArgc: theArgc Argv: theArgv];
   program_invocation_name = find_executable (theArgv[0]);
@@ -167,7 +230,7 @@ static struct argp argp = { options, parse_opt, NULL, NULL };
 #endif  
   [arguments setAppName: program_invocation_short_name];
   [arguments setAppModeString: "default"];
-  argp_parse (&argp, theArgc, theArgv, 0, 0, arguments);
+  argp_parse (argp, theArgc, theArgv, 0, 0, arguments);
 
   return [arguments createEnd];
 }
