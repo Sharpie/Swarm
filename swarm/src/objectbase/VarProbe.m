@@ -24,17 +24,15 @@ extern jclass c_boolean,
   c_int, 
   c_short, c_long,
   c_float, c_double,
-  c_object, c_string, 
   c_void;
 
 extern jclass c_Boolean, 
+  c_Object, c_String, 
   c_Char, c_Byte, 
   c_Integer, c_Short,
   c_Long, c_Float,
   c_Double;
   
-extern jclass c_field, c_class;
-
 extern jmethodID m_BooleanValueOf,
   m_ByteValueOf, 
   m_IntegerValueOf, 
@@ -112,9 +110,9 @@ PHASE(Creating)
               return (*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass);
             }
           (char *) probedType = [aZone alloc: 1];
-          if (classp (c_object))
+          if (classp (c_Object))
             ((char *) probedType)[0] = _C_ID;
-          else if (classp (c_string))
+          else if (classp (c_String))
             ((char *) probedType)[0] = _C_CHARPTR;
           else if (classp (c_int))
             ((char *) probedType)[0] = _C_INT;
@@ -511,7 +509,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   jboolean isCopy;
   const char *result;
   value = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGet, object);
-  str = (*jniEnv)->CallStaticObjectMethod (jniEnv, c_string, m_StringValueOf, 
+  str = (*jniEnv)->CallStaticObjectMethod (jniEnv, c_String, m_StringValueOf, 
 					   value);
   
   result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
@@ -839,7 +837,7 @@ setFieldFromString (id anObject, jobject field,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 byteObject);      
     }
-  else  if (classcmp (fieldType, c_int))
+  else if (classcmp (fieldType, c_int))
     {
       jobject intObject;
       jobject javaString;
@@ -853,7 +851,7 @@ setFieldFromString (id anObject, jobject field,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 intObject);      
     }
-  else   if (classcmp (fieldType, c_short))
+  else if (classcmp (fieldType, c_short))
     {
       jobject shortObject;
       jobject javaString;
@@ -867,7 +865,7 @@ setFieldFromString (id anObject, jobject field,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 shortObject);      
     }
-  else    if (classcmp (fieldType, c_long))
+  else if (classcmp (fieldType, c_long))
     {
       jobject longObject;
       jobject javaString;
@@ -881,7 +879,7 @@ setFieldFromString (id anObject, jobject field,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 longObject);      
     }
-  else   if (classcmp (fieldType, c_float))
+  else if (classcmp (fieldType, c_float))
     {
       jobject floatObject;
       jobject javaString;
@@ -895,7 +893,7 @@ setFieldFromString (id anObject, jobject field,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 floatObject);      
     }
-  else   if (classcmp (fieldType, c_double))
+  else if (classcmp (fieldType, c_double))
     {
       jobject doubleObject;
       jobject javaString;
@@ -910,7 +908,7 @@ setFieldFromString (id anObject, jobject field,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 doubleObject);
     }
-  else   if (classcmp (fieldType, c_string))
+  else if (classcmp (fieldType, c_String))
     {
       jobject javaString;
       
