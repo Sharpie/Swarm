@@ -47,3 +47,7 @@ TextItem.o: TextItem.m TextItem.h CanvasItem.h
 WindowGeometryRecord.o: WindowGeometryRecord.m WindowGeometryRecord.h
 ArchivedGeometryWidget.o: ArchivedGeometryWidget.m ArchivedGeometryWidget.h WindowGeometryRecord.h
 control.o: control.m control.h
+tkobjc.o: analysis_tcl.x simtools_tcl.x
+
+%_tcl.x: %.tcl
+	(echo 'const char *$(basename $<)_tcl = "' ; cat $< | sed 's/"/\\"/g' ; echo '";' ) > $@

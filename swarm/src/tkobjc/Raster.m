@@ -21,7 +21,8 @@
 
 @implementation Raster
 
--createEnd {
+- createEnd
+{
   XGCValues gcv;
 
   // initialize the superclass.
@@ -36,8 +37,9 @@
   [globalTkInterp eval: "frame %s -background \"\" -width %u -height %u",
   	  widgetName, width, height];
 
-  tkwin = Tk_NameToWindow([globalTkInterp interp], widgetName,
-			  [globalTkInterp mainWindow]);
+  tkwin = Tk_NameToWindow ([globalTkInterp interp],
+                           (char *)widgetName,
+                           [globalTkInterp mainWindow]);
   if (tkwin == NULL) {
     [WindowCreation raiseEvent: "Error creating tkin!\n%s",
 		    [globalTkInterp result]];
@@ -71,16 +73,19 @@
   return self;
 }
 
--(Display *) getDisplay {
+- (Display *) getDisplay
+{
   return display;
 }
 
--(XColormap *) getColormap {
+- (XColormap *) getColormap
+{
   return colormap;
 }
 
 // this widget won't work without this initialized.
--setColormap: (XColormap *) c {
+- setColormap: (XColormap *)c
+{
   XGCValues gcv;
 
   colormap = c;
@@ -94,7 +99,8 @@
 // avoid problems with Tk's caching.
 // For pixmap handling, we create a new pixmap, erase it, copy the old
 // one to it and redraw ourselves.
--setWidth: (unsigned) newWidth Height: (unsigned) newHeight {
+- setWidth: (unsigned) newWidth Height: (unsigned) newHeight
+{
   unsigned minWidth, minHeight;
   Pixmap oldpm;
 
@@ -117,7 +123,8 @@
 // new methods
 
 // erase the pixmap - can't use XClearArea, sadly.
--erase {
+- erase
+{
   XGCValues oldgcv;
   XGetGCValues(display, gc, GCForeground, &oldgcv);   // save old colour
 
@@ -129,7 +136,8 @@
 }
 
 // draw a point on the window.
--drawPointX: (int) x Y: (int) y Color: (Color) c {
+- drawPointX: (int) x Y: (int) y Color: (Color) c
+{
   XSetForeground(display, gc, map[c]);		  // no checking on map.
 
   XDrawPoint(display, pm, gc, x, y);
@@ -138,20 +146,23 @@
 
 // draw an arbitrary object: we just call the "drawOn" method in
 // the object we're given.
--draw: (id <XDrawer>) xd X: (int) x Y: (int) y {
+- draw: (id <XDrawer>) xd X: (int) x Y: (int) y
+{
   [xd drawOn: pm X: x Y: y GC: gc Caller: self];
   return self;
 }
 
 // draw a rectangle.
--fillRectangleX0: (int) x0 Y0: (int) y0 X1: (int) x1 Y1: (int) y1 Color: (Color) c {
+- fillRectangleX0: (int) x0 Y0: (int) y0 X1: (int) x1 Y1: (int) y1 Color: (Color) c
+{
   XSetForeground(display, gc, map[c]);		  // no checking on map.
   XFillRectangle(display, pm, gc, x0, y0, x1-x0, y1-y0);
   return self;
 }
 
 // copy the pixmap onto the X window.
--drawSelf {
+- drawSelf
+{
 #ifdef DEBUG
   printf("Redrawing %s\nPixmap: %x Window: %x Width: %d Height: %d\n",
 	 [self getObjcName], pm, xwin, width, height);
@@ -163,7 +174,8 @@
 
 // if a client is registered, then the specified selector is called with
 // the x and y coordinates of a button press.
--setButton: (int) n Client: c Message: (SEL) sel {
+- setButton: (int) n Client: c Message: (SEL) sel
+{
   switch(n) {
     case 1: button1Client = c; button1Sel = sel; break;
     case 2: button2Client = c; button2Sel = sel; break;
@@ -174,7 +186,8 @@
   return self;
 }
 
--handleButton: (int) n X: (int) x Y: (int) y {
+- handleButton: (int) n X: (int) x Y: (int) y
+{
   id c = 0;
   SEL sel = 0;
   switch(n) {
@@ -189,10 +202,10 @@
   return self;
 }
 
--(void) drop {
+- (void) drop
+{
   [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
   [super drop];
 }
-
 
 @end

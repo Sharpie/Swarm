@@ -6,7 +6,8 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 
-static const char *BltDragAndDropConfigTag (void)
+static const char *
+BltDragAndDropConfigTag (void)
 {
   const char *version_string = [globalTkInterp getBltVersion];
   int major, minor;
@@ -15,7 +16,8 @@ static const char *BltDragAndDropConfigTag (void)
   return (major >= 2 && minor >= 3) ? "" : "config";
 }
 
-void dragAndDropTarget (id target, id object)
+void
+dragAndDropTarget (id target, id object)
 {
   [globalTkInterp
     eval:
@@ -24,7 +26,8 @@ void dragAndDropTarget (id target, id object)
     tclObjc_objectToName (object)];
 }
 
-void dragAndDrop (id source, id object)
+void
+dragAndDrop (id source, id object)
 {
   const char *sourceWidgetName = [source getWidgetName],
     *objectName = tclObjc_objectToName (object);
@@ -41,7 +44,8 @@ void dragAndDrop (id source, id object)
     objectName];
 }
 
-void dragAndDropArg (id source, id object, int arg)
+void
+dragAndDropArg (id source, id object, int arg)
 {
   const char *sourceWidgetName = [source getWidgetName],
     *objectName = tclObjc_objectToName (object);

@@ -1,3 +1,26 @@
+1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* analysis.tcl: New file.
+
+	* simtools.tcl: New file.
+
+	* tkobjc.m: Include tkobjc/control.h.  include simtools_tcl.x and
+	analysis_tcl.x.
+	(initTkObjc): Add check for batchmode.  In this case, set
+	globalTkInterp to Tcl and return.  Remove text of analysis EZBin Tcl
+	support routine active_item_info.  Remove disabled BLT-related
+	code.  Evaluate simtools_tcl and analysis_tcl.
+
+	* Makefile (tkobjc.o): Add dependencies on generated analysis_tcl.x
+	and simtools_tcl.x.  Add rule for conversion of tcl to tcl.x (C strings
+	of the files).
+
+	* DragDrop.m: Minor reformatting.
+
+	* Raster.m ([Raster -createEnd]): Cast second argument to
+	Tk_NameToWindow to char * to avoid GCC warning.
+	Reformatting throughout.
+
 Mon Dec  8 22:47:34 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* tkobjc: replaced all instances of swarmobject.h with
