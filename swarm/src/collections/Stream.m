@@ -139,7 +139,7 @@ PHASE(Creating)
               case fcall_type_long_double:
                 ((long double *) data)[offset] = [val getLongDouble];
                 break;
-              case fcall_type_uchar:
+              case fcall_type_schar:
                 ((unsigned char *) data)[offset] = [val getChar];
                 break;
               default:
@@ -308,7 +308,7 @@ PHASE(Creating)
   return self;
 }  
 
-- setChar: (unsigned char)val
+- setChar: (char)val
 {
   type = fcall_type_schar;
   value.ch = val;

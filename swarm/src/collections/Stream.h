@@ -44,7 +44,7 @@
     float f;
     long long ll;
     BOOL bool;
-    unsigned char ch;
+    char ch;
     id obj;
     Class class;
   } value;
@@ -53,7 +53,7 @@
 - setDouble: (double)val;
 - setLongDouble: (long double)val;
 - setLongLong: (long long)val;
-- setChar: (unsigned char)val;
+- setChar: (char)val;
 - setBoolean: (BOOL)val;
 - setNil;
 - setClass: (Class)class;

@@ -1113,7 +1113,7 @@ CREATING
 - setLongDouble: (long double)val;
 - setFloat: (float)val;
 - setLongLong: (long long)val;
-- setChar: (unsigned char)val;
+- setChar: (char)val;
 - setBoolean: (BOOL)val;
 - setClass: (Class)class;
 - setNil;
