@@ -14,8 +14,13 @@ Library:      defobj
 #import <defalloc.h>
 
 #include <swarmconfig.h>
+
 #ifndef USE_AVCALL
+#undef PACKAGE
+#undef VERSION
 #include <ffi.h>
+#undef PACKAGE
+#undef VERSION
 
 ffi_type *swarm_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
                                            &ffi_type_schar, &ffi_type_ushort, 

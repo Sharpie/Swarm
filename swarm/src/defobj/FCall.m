@@ -15,6 +15,8 @@ Library:      defobj
 
 #include <swarmconfig.h>
 #ifndef USE_AVCALL
+#undef PACKAGE
+#undef VERSION
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION

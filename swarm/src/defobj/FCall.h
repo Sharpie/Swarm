@@ -13,6 +13,8 @@ Library:      defobj
 #import "FArguments.h"
 #include <swarmconfig.h>
 #ifndef USE_AVCALL
+#undef PACKAGE
+#undef VERSION
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION
