@@ -16,7 +16,7 @@ TKINCLUDES = @TKINCLUDES@
 ZLIBINCLUDES = @ZLIBINCLUDES@
 PNGINCLUDES = @PNGINCLUDES@
 
-INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity -I$(tclobjcincludedir) $(TKINCLUDES) $(TCLINCLUDES) $(PNGINCLUDES) $(ZLIBINCLUDES)
+INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity -I$(srcdir)/../tclobjc $(TKINCLUDES) $(TCLINCLUDES) $(PNGINCLUDES) $(ZLIBINCLUDES)
 
 override CFLAGS += $(X_CFLAGS)
 
