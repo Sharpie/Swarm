@@ -112,7 +112,9 @@ PHASE(Creating)
     
   if (([probedObject getClass] == theClass))
     [myTitle setText: [probedObject getName]];
-  else 
+  else if ([theClass respondsTo: M(isJavaProxy)])
+    [myTitle setText: java_get_class_name (SD_JAVA_FINDJAVACLASS (theClass))];
+  else
     [myTitle setText: theClass->name];
 
   GUI_DRAG_AND_DROP (myTitle, self);
@@ -222,7 +224,7 @@ PHASE(Using)
 
 - update
 {
-  int i;
+  unsigned i;
   
   for (i = 0; i < numberOfProbes; i++)
     [widgets[i] update];

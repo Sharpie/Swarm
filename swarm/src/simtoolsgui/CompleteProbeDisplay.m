@@ -71,7 +71,7 @@ PHASE(Creating)
 
   classList = [List create: [self getZone]];
   for (class = SD_GETCLASS (probedObject);
-       class != nil; 
+       class != Nil; 
        class = SD_SUPERCLASS (class))
     {
       size_t classWidth = max_class_varname_length (class);
