@@ -8,7 +8,7 @@
 #import "internal.h"
 #import <gui.h>
 #import <tkobjc/global.h>
-#import <objectbase/Arguments.h>
+#import <defobj.h> // Arguments
 
 id <TkExtra> globalTkInterp;
 
