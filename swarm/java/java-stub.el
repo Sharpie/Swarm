@@ -527,6 +527,22 @@
               (t (error "unkown type %s/%s" type jni-type)))
         (error "unknown type for argument `%s'" argument))))
 
+(defun java-print-method-invocation (arguments)
+  (insert "[JFINDOBJC (jobj) ")
+  (insert (first (car arguments)))
+  (unless (java-argument-empty-p (car arguments))
+    (insert ": ")
+    (java-argument-print-conversion (car arguments))
+    (loop for argument in (cdr arguments)
+          for key = (first argument)
+          when key do 
+          (insert " ")
+          (insert key)
+          end
+          do (insert ": ")
+          (java-argument-print-conversion argument)))
+  (insert "]"))
+
 (defun java-print-native-method (method protocol phase)
   (flet ((insert-arg (arg)
            (insert-char ?\  30)
@@ -569,28 +585,22 @@
       (insert ")\n")
       (insert "{\n")
       (insert "  return ")
-      (let ((java-return (java-objc-to-java-type (method-return-type method))))
-        (cond ((string= java-return "Object")
-               (insert "JFINDJAVA ("))
-              ((string= java-return "String")
-               (insert "(*env)->NewStringUTF (env, ")))
 
-        (insert "[JFINDOBJC (jobj) ")
+      (let ((java-return (java-objc-to-java-type (method-return-type method)))
+            (create-flag (let ((signature (get-method-signature method)))
+                           (or (string= "+createBegin:" signature)
+                               (string= "-createEnd" signature)))))
+        (if create-flag
+            (insert "JUPDATE (jobj, ")
+            (cond ((string= java-return "Object")
+                   (insert "JFINDJAVA ("))
+                  ((string= java-return "String")
+                   (insert "(*env)->NewStringUTF (env, "))))
         
-        (insert (first (car arguments)))
-        (unless (java-argument-empty-p (car arguments))
-          (insert ": ")
-          (java-argument-print-conversion (car arguments))
-          (loop for argument in (cdr arguments)
-                for key = (first argument)
-                when key do 
-                (insert " ")
-                (insert key)
-                end
-                do (insert ": ")
-                (java-argument-print-conversion argument)))
-        (insert "]")
-        (when (or (string= java-return "String")
+        (java-print-method-invocation arguments)
+        
+        (when (or create-flag
+                  (string= java-return "String")
                   (string= java-return "Object"))
           (insert ")")))
       (insert ";\n")
