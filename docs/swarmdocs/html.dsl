@@ -380,10 +380,29 @@
           title
           contents))
 
+;; docinfo is only used in a titlepage mode - so make it empty here,
+;; so it is not duplicated.
+(element docinfo (empty-sosofo))
+
+; override the `default' block processing of abstract in reference
+; titlepages by switching context to book mode
+(mode reference-titlepage-verso-mode
+  (element abstract 
+    (with-mode book-titlepage-verso-mode ($semiformal-object$)))
+  )
+
+; similarily for set titlepages
+(mode set-titlepage-verso-mode
+  (element abstract 
+    (with-mode book-titlepage-verso-mode ($semiformal-object$)))
+  (element legalnotice
+    (with-mode book-titlepage-verso-mode ($semiformal-object$)))
+  )
+
 </style-specification-body>
 </style-specification>
 
 <external-specification id="common" document="common">
 <external-specification id="docbook" document="docbook">
-
 </style-sheet>
+  

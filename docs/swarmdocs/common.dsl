@@ -175,8 +175,9 @@
                first-line-start-indent: 0pt
                (expand-paragraphs (skip-nonchars
                                    (children (current-node))))))
+  
+;;(element CLASSNAME (empty-sosofo))
 
-(element CLASSNAME (empty-sosofo))
 
 (define (previous-nl last-nl end-node)
   (let loop ((nl last-nl))
@@ -514,7 +515,7 @@
           (normalize "subtitle")
           (normalize "graphic")
           (normalize "corpauthor")))
-          
+        
 (define (common-titlepage-verso-elements)
  (list (normalize "copyright")
        (normalize "legalnotice")
@@ -522,16 +523,17 @@
        (normalize "releaseinfo")
        (normalize "biblioset")
        (normalize "bookbiblio")
-       (normalize "abstract")
-       (normalize "revhistory")))
+       (normalize "revhistory") 
+       (normalize "abstract")))
 
+; Every module {article,book,set,reference} has the same recto and
+; verso mode elements and hence its own revision history.
 (define article-titlepage-recto-elements common-titlepage-recto-elements)
 (define article-titlepage-verso-elements common-titlepage-verso-elements)
 (define book-titlepage-recto-elements common-titlepage-recto-elements)
 (define book-titlepage-verso-elements common-titlepage-verso-elements)
 (define set-titlepage-recto-elements common-titlepage-recto-elements)
 (define set-titlepage-verso-elements common-titlepage-verso-elements)
-;; This is so that each modules gets its revision history included.
 (define reference-titlepage-recto-elements common-titlepage-recto-elements)
 (define reference-titlepage-verso-elements common-titlepage-verso-elements)
 
@@ -543,9 +545,7 @@
 
 (mode article-titlepage-recto-mode (element revhistory (empty-sosofo)))
 (mode book-titlepage-recto-mode (element revhistory (empty-sosofo)))
-(mode reference-titlepage-recto-mode
-      (element revhistory (empty-sosofo))
-      (element abstract (empty-sosofo)))
+(mode reference-titlepage-recto-mode (element revhistory (empty-sosofo)))
 (mode set-titlepage-recto-mode (element revhistory (empty-sosofo)))
 
 (mode article-titlepage-verso-mode
@@ -555,7 +555,6 @@
       (element (revision date) ($revdate$))
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
-      (element abstract (process-children))
       (element releaseinfo (releaseinfo)))
 (mode book-titlepage-verso-mode
       (element revhistory (revhistory))
@@ -564,7 +563,6 @@
       (element (revision date) ($revdate$))
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
-      (element abstract (process-children))
       (element releaseinfo (releaseinfo)))
 (mode reference-titlepage-verso-mode
       (element revhistory (revhistory))
@@ -573,7 +571,6 @@
       (element (revision date) ($revdate$))
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
-      (element abstract (process-children))
       (element releaseinfo (releaseinfo)))
 (mode set-titlepage-verso-mode
       (element revhistory (revhistory))
@@ -583,11 +580,9 @@
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
       (element copyright (copyright))
-      (element abstract (process-children))
       (element releaseinfo (releaseinfo)))
 
 (element revhistory (empty-sosofo))
-(element abstract (empty-sosofo))
 
 </style-specification-body>
 </style-specification>

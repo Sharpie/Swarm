@@ -1,3 +1,33 @@
+1999-01-11  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in: Bump version to 1.4Beta.
+
+	* common.dsl (common-titlepage-verso-elements): Reverse order of
+	abstract and revhistory.
+	(reference-titlepage-recto-mode): Remove empty-sosofo on abstract
+	element needs only to be done in html backend.
+	(abstract): Removed global emptying of abstract element.
+	({book,set,article,reference}-titlepage-verso-mode): Removed
+	unnecessary processing of abstracts - now works correctly.
+	
+	* html.dsl (reference-titlepage-verso-mode): Process abstract with
+	book mode to override `default' processing of subelements.  Bug in
+	stylesheets.
+	(set-titlepage-verso-mode): Likewise for abstract and legalnotice.
+	(docinfo): Make docinfo empty so it only processed in a titlepage
+	mode so it is not duplicated.
+
+	* global.ent (address): Use <ADDRESS> DocBook element for address.
+	Use EMAIL tag in place of ULINK throughout.
+	(bibliodata): Add 1999 to list of Copyright YEARs.
+	(swarm-webpage): Make a ulinks use text as their PCDATA.
+
+1999-01-06  Alex Lancaster  <alex@santafe.edu>
+
+	* html.dsl: Add missing closing style-sheet tag.
+
+	* common.dsl: Don't empty the CLASSNAME element.
+
 1999-01-05  Alex Lancaster  <alex@santafe.edu>
 
 	* README (Requirements): Point user at new OASIS website for the
