@@ -7,9 +7,9 @@
 #import <misc.h>  // xmalloc, strdup
 
 #ifdef USE_AVCALL
-#import <avcall.h>
+#include <avcall.h>
 #else
-#import <ffi.h>
+#include <ffi.h>
 #endif
 
 #import "MessageProbe.h"
