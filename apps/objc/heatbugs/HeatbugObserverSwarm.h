@@ -26,16 +26,19 @@
   HeatbugModelSwarm * heatbugModelSwarm;	  // the Swarm we're observing
 
   // Lots of display objects. First, widgets
+
   XColormap * colormap;				  // allocate colours
   ZoomRaster * worldRaster;			  // 2d display widget
   EZGraph * unhappyGraph;			  // graphing widget
 
   // Now, higher order display and data objects
+
   Value2dDisplay * heatDisplay;			  // display the heat
   Object2dDisplay * heatbugDisplay;		  // display the heatbugs
 }
 
 // Methods overriden to make the Swarm.
+
 +createBegin: (id) aZone;
 -createEnd;
 -buildObjects;

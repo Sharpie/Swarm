@@ -27,6 +27,7 @@
   int worldXSize, worldYSize;			  // how big that world is
   HeatSpace * heat;				  // the heat for the world
   Color bugColor;				  // my colour (display)
+  id bugPixmap;					  // my pixmap (display)
 }
 
 // these methods are used to initialize the object's state. First,
@@ -52,6 +53,7 @@
 -setRandomMoveProbability: (float) p;
 -setX: (int) x Y: (int) y;			  // bug's position
 -setBugColor: (Color) c;			  // bug's colour (display)
+-setPixmap: pm;				  // bug's pixmap (display)
 
 // The major heatbug behaviour: do one "time step" (all bug action).
 

@@ -129,7 +129,7 @@
     [displaySchedule activateIn: self];
 
   // Activate returns the swarm activity - the thing that's ready to run.
-  return [self getSwarmActivity];
+  return [self getActivity];
 }
 
 // the HeatbugObserverSwarm had a go method inherited from GUISwarm,
@@ -147,8 +147,8 @@
     printf("It is logging data every %d timesteps to: unhappiness.output.\n",
             loggingFrequency);
 
-  [swarmActivity run];
-  return [swarmActivity getStatus];
+  [[self getActivity] run];
+  return [[self getActivity] getStatus];
 }
 
 // And the termination method. When this fires we just terminate everything

@@ -136,6 +136,11 @@
   [world setSizeX: worldXSize Y: worldYSize];
   world = [world createEnd];
 
+  bugPixmap = [XPixmap createBegin: [self getZone]];
+  [bugPixmap setFile: "ant.xpm"];
+  bugPixmap = [bugPixmap createEnd];
+
+
   // Create a list to keep track of the heatbugs in the model.
 
   heatbugList = [List create: [self getZone]];
@@ -180,6 +185,7 @@
 
     // Now initialize the rest of the heatbug's state.
 
+    [hbug setPixmap: bugPixmap];
     [hbug setIdealTemperature: idealTemp];
     [hbug setOutputHeat: outputHeat];
 

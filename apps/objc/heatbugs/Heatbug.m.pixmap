@@ -211,8 +211,13 @@
   return self;
 }
 
+-setPixmap: pm {
+  bugPixmap = pm;
+  return self;
+}
+
 -drawSelfOn: (Raster *) r {
-  [r drawPointX: x Y: y Color: bugColor];
+  [r draw: bugPixmap X: x Y: y];
   return self;
 }
 

@@ -12,12 +12,14 @@
 
 // global constant: maximum heat.
 // This could just be used from the Diffuse2d object's max states.
+
 const HeatValue maxHeat = 0x7fff;
 
 @implementation HeatSpace
 
 // Add heat to the current spot. This code checks the bounds on maxHeat,
 // pegs value at the top.
+
 -addHeat: (HeatValue) moreHeat X: (int) x Y: (int) y {
   HeatValue heatHere;
 
@@ -35,12 +37,14 @@ const HeatValue maxHeat = 0x7fff;
 // and as output (pointers are filled with the coordinate of the extreme).
 // Note that wraparound edges (boundary conditions) are implicitly in
 // the code - look at the call to [self getCellX:Y:].
+
 -(HeatValue) findExtremeType: (HeatExtremeType) type X: (int *) px Y: (int *) py {
   HeatValue bestHeat;
   int x, y;
   int bestX, bestY;
 
   // prime loop: assume extreme is right where we're standing
+
   bestX = *px;
   bestY = *py;
   bestHeat = [self getValueAtX: bestX Y: bestY];
@@ -50,6 +54,7 @@ const HeatValue maxHeat = 0x7fff;
   // best heat, then the one more to the top (or left) is preferred.
   // To do this exactly, you have to keep a list of all best ones and
   // then choose a random element.
+
   for (x = *px - 1; x <= *px + 1; x++) {
     for (y = *py - 1; y <= *py + 1; y++) {
       HeatValue heatHere;
@@ -65,10 +70,13 @@ const HeatValue maxHeat = 0x7fff;
       }
     }
   }
+
   // Now we've found the requested extreme. Arrange to return the
   // information (normalize coordinates), and return the heat we found.
+
   *px = (bestX + xsize) % xsize;
   *py = (bestY + ysize) % ysize;
+
   return bestHeat;
 }
 
