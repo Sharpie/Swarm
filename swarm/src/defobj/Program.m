@@ -109,12 +109,13 @@ initModules (void)
   // allocate and initialize global array of defined modules
   
   nextmod = _obj_modules = _obj_initAlloc (_obj_nmodules * sizeof (id));
-  do {
-    *nextmod++ = (id)modules;
-    module     = modules[0];
-    modules[0] = nil;
-    modules    = module;
-  } while (modules);
+  do
+    {
+      *nextmod++ = (id)modules;
+      module     = modules[0];
+      modules[0] = nil;
+      modules    = module;
+    } while (modules);
 
   // initialize _obj_initZone for use by _obj_initModule()
 
@@ -129,11 +130,11 @@ initModules (void)
   CreatingOnly = [_obj_initZone allocIVars: id_Symbol_c];
   UsingOnly    = [_obj_initZone allocIVars: id_Symbol_c];
 
-  ((Symbol_c *)Creating    )->name = "Creating";
-  ((Symbol_c *)Setting     )->name = "Setting";
-  ((Symbol_c *)Using       )->name = "Using";
-  ((Symbol_c *)CreatingOnly)->name = "CreatingOnly";
-  ((Symbol_c *)UsingOnly   )->name = "Using";
+  ((Symbol_c *) Creating)->name = "Creating";
+  ((Symbol_c *) Setting)->name = "Setting";
+  ((Symbol_c *) Using)->name = "Using";
+  ((Symbol_c *) CreatingOnly)->name = "CreatingOnly";
+  ((Symbol_c *) UsingOnly)->name = "Using";
 
   // initialize file variables
 
@@ -142,18 +143,18 @@ initModules (void)
 
   // bootstrap initialization for symbols
 
-  _obj_getClassData (id_CreateDrop_s  )->classID = &id_CreateDrop_s;
-  _obj_getClassData (id_Customize_s   )->classID = &id_Customize_s;
-  _obj_getClassData (id_EventType_c   )->classID = &id_EventType_c;
-  _obj_getClassData (id_Symbol_c      )->classID = &id_Symbol_c;
-  _obj_getClassData (id_Warning_c     )->classID = &id_Warning_c;
-  _obj_getClassData (id_Error_c       )->classID = &id_Error_c;
+  _obj_getClassData (id_CreateDrop_s)->classID = &id_CreateDrop_s;
+  _obj_getClassData (id_Customize_s)->classID = &id_Customize_s;
+  _obj_getClassData (id_EventType_c)->classID = &id_EventType_c;
+  _obj_getClassData (id_Symbol_c)->classID = &id_Symbol_c;
+  _obj_getClassData (id_Warning_)->classID = &id_Warning_c;
+  _obj_getClassData (id_Error_c)->classID = &id_Error_c;
 
-  _obj_splitPhases( id_Error_c );
+  _obj_splitPhases (id_Error_c);
 
-  Symbol  = _obj_getClassData (id_Symbol_c  )->initialPhase;
-  Warning = _obj_getClassData (id_Warning_c )->initialPhase;
-  Error   = _obj_getClassData (id_Error_c   )->initialPhase;
+  Symbol  = _obj_getClassData (id_Symbol_c)->initialPhase;
+  Warning = _obj_getClassData (id_Warning_c)->initialPhase;
+  Error   = _obj_getClassData (id_Error_c)->initialPhase;
 
   // initialize 
 
@@ -260,11 +261,11 @@ _obj_initModule (void *module)
       // supertypes slot
       
       **typeID = [_obj_initZone allocIVars: id_Type_c];
-      type                 = **typeID;
-      type->owner          = moduleObject;
-      type->name           = (*(proto_t *)protocol)->name;
-      type->typeID         = *typeID;
-      type->supertypes     = *protocol;
+      type = **typeID;
+      type->owner = moduleObject;
+      type->name = (*(proto_t *)protocol)->name;
+      type->typeID = *typeID;
+      type->supertypes = *protocol;
       
       // also mark whether type is creatable based on protocol declaration
       

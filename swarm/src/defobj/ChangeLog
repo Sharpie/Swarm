@@ -1,3 +1,20 @@
+1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* defobj.m: Include defobj.h and defobj/Archiver.h.
+	(_defobj_implement): Set up Arguments.
+	(initDefobj): New function.
+
+	* defobj.h (Dataset): New protocol.
+	(Arguments): Add protocol (from objectbase).
+
+	* Makefile.am (SRC, defobj_HEADERS): Add {Archiver,Arguments}.[mh].
+	(version.h, install-data-local): New rules (formerly in objectbase).
+
+	* DefObject.m ([Object_s -lispin:], [Object_s -lispout:]): Incomplete
+	new methods.
+
+	* DefObject.h (Object_s): Declare lispin: and lispout:.
+
 1998-11-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m (_obj_dropAlloc): Use YES and NO instead of 1 and 0.

@@ -9,8 +9,10 @@ Description:  global data and functions for Swarm kernel
 Library:      defobj
 */
 
+#import <defobj.h>
+
 #include "defobj.xm"
-#import <defobj/Zone.h>
+#import <defobj/Archiver.h>
 
 #include <stdio.h>
 
@@ -25,19 +27,20 @@ FILE *_obj_xerror, *_obj_xdebug;
 // _defobj_implement() -- generate implementations for defobj module
 //
 void
-_defobj_implement( void )
+_defobj_implement (void)
 {
-  [id_Zone_c          setTypeImplemented: Zone];
-  [id_Symbol_c        setTypeImplemented: Symbol];
-  [id_Warning_c       setTypeImplemented: Warning];
-  [id_Error_c         setTypeImplemented: Error];
+  [id_Zone_c setTypeImplemented: Zone];
+  [id_Symbol_c setTypeImplemented: Symbol];
+  [id_Warning_c setTypeImplemented: Warning];
+  [id_Error_c setTypeImplemented: Error];
+  [id_Arguments_c setTypeImplemented: Arguments];
 }
 
 //
 // _defobj_initialize() -- initialize global data for defobj module
 //
 void
-_defobj_initialize( void )
+_defobj_initialize (void)
 {
   // initialize error messages
 
@@ -74,7 +77,23 @@ _defobj_initialize( void )
 
   [ProtocolViolation setMessageString:
 "> This object does not comply with an expected protocol\n"];
+
 }
+
+void
+initDefobj (int argc, const char **argv,
+            const char *version,
+            const char *bugAddress,
+            Class argumentsClass)
+{
+  arguments = [argumentsClass ?: [Arguments class]
+                              createArgc: argc
+                              Argv: argv
+                              version: version
+                              bugAddress: bugAddress];
+  archiver = [Archiver ensure: globalZone];
+}
+
 
 #include <stdio.h>
 #include <objc/objc-api.h>

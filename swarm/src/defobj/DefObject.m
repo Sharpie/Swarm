@@ -797,7 +797,7 @@ initDescribeStream (void)
 - (void)xfprint
 {
   if (!describeStream)
-    initDescribeStream();
+    initDescribeStream ();
   if (!respondsTo (self, M(describeForEach:)))
     {
       [describeStream
@@ -808,6 +808,48 @@ initDescribeStream (void)
       return;
     }
   [(id) self describeForEach: describeStream];
+}
+
+- lispout: stream
+{
+  struct objc_ivar_list *ivars = getClass (self)->ivars;
+  unsigned i, ivar_count = ivars->ivar_count;
+  struct objc_ivar *ivar_list = ivars->ivar_list;
+
+  for (i = 0; i < ivar_count; i++)
+    {
+      char type = ivar_list[i].ivar_type[0];
+
+      if (type == '@')
+        {
+          id ivarobj = *(id *) ((void *) self + ivar_list[i].ivar_offset);
+
+          [ivarobj lispout: stream];
+        }
+      else if (type == '[')
+        {
+          printf ("name:[%s] type:[%s] (array)\n",
+                  ivar_list[i].ivar_name,
+                  ivar_list[i].ivar_type);
+        }
+      else if (type == _C_CLASS)
+        raiseEvent (NotImplemented, "Classes not supported");
+      else if (type == _C_SEL)
+        raiseEvent (NotImplemented, "Selectors not supported");
+      else if (type == _C_UNION_B)
+        raiseEvent (NotImplemented, "Unions not supported");
+      else if (type == _C_STRUCT_B)
+        raiseEvent (NotImplemented, "Structures not supported");
+      else
+        abort ();
+    }
+
+  return self;
+}
+
+- lispin: expr
+{
+  return self;
 }
 
 //

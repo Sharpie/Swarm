@@ -67,6 +67,8 @@ Library:      defobj
 - (void)xprintid;
 - (void)xfprint;
 - (void)xfprintid;
+- lispin: expr;
+- lispout: stream;
 @end
 
 //
