@@ -7,16 +7,11 @@ extern "C" {
 typedef void *COMclass;
 typedef void *COMobject;
 
-struct COMEnv_;
 struct COMInterface_;
 
-#ifdef __cplusplus
-typedef COMEnv_ COMEnv;
-#else
-typedef const struct COMInterface_ *COMEnv;
-#endif
+typedef const struct COMInterface_ COMEnv;
 
-struct COMEnv_ {
+struct COMInterface_ {
   void *(*findInterface) (COMEnv *env, const char *interfaceName);
 };
 

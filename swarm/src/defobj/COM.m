@@ -27,7 +27,7 @@ swarm_directory_objc_find_object_COM (id object)
 static COMclass
 COM_find_class (const char *name)
 {
-  (*COMenv)->findInterface (COMenv, name);
+  return 0;
 }
 
 static COMclass
