@@ -3,20 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <analysis/Entropy.h>
 #import <math.h>
 #import <collections.h>
-#import <analysis.h>
-
-//D: Entropy objects read probabilities (via a MessageProbe) from a
-//D: collection of objects and calculate the entropy of the
-//D: underlying distribution.
-
-//L: Note1
 
 @implementation Entropy
 
-//M: The setCollection method sets the collection of objects that will be 
-//M: probed.
 - setCollection: aCollection
 {
   collection = aCollection;
@@ -31,9 +23,6 @@
   return [super createEnd];
 }
 
-//M: The update method polls the collection and updates the entropy.
-//M: This method should be scheduled prior to collecting the data using
-//M: getEntropy.
 - update
 {
   id iter, obj;
@@ -70,8 +59,6 @@
   return self;
 }
 
-//M: The getEntropy method returns the calculated Entropy. The entropy value
-//M: is read out of the object, not computed everytime it is requested.
 - (double)getEntropy
 {
   return entropy;

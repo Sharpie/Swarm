@@ -6,7 +6,7 @@
 // Simple Graph Object -> encapsulates many of the low-level objects 
 //                        required to get graphs/file traces to work.
 
-#import <objectbase.h>
+#import <simtoolsgui/GUIComposite.h>
 
 @class EZGraph;
 @class EZSequence;

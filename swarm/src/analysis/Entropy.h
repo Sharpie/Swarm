@@ -8,15 +8,15 @@
 // Entropy object: calculates the entropy based on the probabilities returned
 // by a collection of objects responding to a specified selector.
 
-
-@interface Entropy : MessageProbe {
+@interface Entropy: MessageProbe
+{
   double entropy;
   id collection;
 }
 
--setCollection: (id) aCollection ;
--createEnd;	
+- setCollection: aCollection;
+- createEnd;	
 
--update;		
--(double) getEntropy;
+- update;		
+- (double)getEntropy;
 @end

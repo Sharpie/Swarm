@@ -3,23 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <analysis/EZDistribution.h>
 #import <math.h>
-#import <stdlib.h>
-#import <collections.h>
-#import <simtools.h>
-#import <analysis.h>
+#import <simtools.h> // OutFile
 #import <gui.h>
 
 #include <misc.h> // xmalloc
-
-//S: An EZBin that treats data as a distribution.
-
-//D: This is a subclass of EZBin which normalizes the data and treats
-//D: it as a distribution.
-//D: This means that in addition to the statistics it can calculate by virtue
-//D: of being a subclass of EZBin, it can also calculate the entropy of the
-//D: distribution as well as return the probabilities associated with the
-//D: individual bins.
 
 @implementation EZDistribution
 
@@ -33,9 +22,6 @@
   return self;
 }
 
-//M: The update method polls the bins and updates the entropy of the 
-//M: distribution as well as the probabilities associated with the individual 
-//M: bins.
 - update
 {
   int i;
@@ -54,12 +40,6 @@
   return self;
 }
 
-//M: The output method causes the graphical display to be updated with the 
-//M: information extracted by the previous call to update.  When file I/O is 
-//M: enabled (the state of setFileOutput is set to 1), the probability
-//M: associated with each bin is sent to the output file. When the graphical 
-//M: display is enabled (the state of setGraphics is set to 1), the histogram 
-//M: will be drawn.
 - output
 {
   int i;
@@ -84,8 +64,6 @@
   return self;
 }
 
-//M: The getProbabilities method returns an array of doubles representing
-//M: the probability of every bin in the distribution.
 - (double *)getProbabilities
 {
   if (clean)
@@ -98,8 +76,6 @@
   return probabilities;
 }
 
-//M: The getEntropy method returns the entropy of the distribution as
-//M: calculated in the previous call to update.
 - (double)getEntropy
 {
   if (clean)

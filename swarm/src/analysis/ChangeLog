@@ -1,3 +1,12 @@
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* analysis.h: Remove includes of analysis things.  Replace
+	with protocols for Averager, EZBin, EZDistribution, EZGraph,
+	and Entropy.  Add a @class for each.
+
+	* Averager.m, EZBin.m, EZDistribution.m, EZGraph.m, Entropy.m:
+	Move documentation tags to analysis.h.
+
 1998-04-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Averager.m, EZBin.m, EZDistribution.m, EZGraph.m, Entropy.m:

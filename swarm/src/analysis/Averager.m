@@ -6,15 +6,8 @@
 #import <collections.h>
 #import <analysis/Averager.h>
 
-//S: Averages together data, gives the data to whomever asks.
-
-//D: Averager objects read a value (via a MessageProbe) from a
-//D: collection (typically a list) of objects and collect statistics over them.
-
 @implementation Averager
 
-//M: The setCollection method sets the collection of objects that will be 
-//M: probed.
 - setCollection: l
 {
   collection = l;
@@ -29,8 +22,6 @@
   return [super createEnd];
 }
 
-//M: The update method runs through the collection calling the selector on 
-//M: each object.
 - update
 {
   id iter, obj;
@@ -72,8 +63,6 @@
   return self;
 }
 
-//M: The getAverage method averages the values the averager collects. The total
-//M: and count are read out of the object to compute the average.
 - (double)getAverage
 {
   if (count)
@@ -82,28 +71,21 @@
     return 0.0;
 } 
 
-//M: The getTotal method sums the values the averager collects. The value is 
-//M: read out of the object, not computed everytime it is asked for.
 - (double)getTotal
 {
   return total;
 }
 
-//M: The getMax method returns the maximum value the averager collects. The 
-//M: value is read out of the object, not computed everytime it is asked for.
 - (double)getMax
 {
   return max;
 }
 
-//M: The getMin method returns the minimum value the averager collects. The 
-//M: value is read out of the object, not computed everytime it is asked for.
 - (double)getMin
 {
   return min;
 }
 
-//M: The getCount method returns the number of values the averager collects. 
 - (int)getCount 
 {
   return count;
