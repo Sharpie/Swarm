@@ -28,6 +28,8 @@ AGE = 0
 DLLWRAP = @DLLWRAP@
 
 lib_LTLIBRARIES = @LIBSWARM_LA@
+EXTRA_LTLIBRARIES = libswarm.la
+
 libswarm_la_SOURCES = empty.m
 LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
 

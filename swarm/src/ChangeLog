@@ -1,6 +1,7 @@
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (lib_LTLIBRARIES): Set to @LIBSWARM_LA@.
+	(EXTRA_LTLIBRARIES): Set to libswarm.la.
 
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
