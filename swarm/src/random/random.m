@@ -37,7 +37,9 @@ unsigned int		_timeNow;
 
 // This function is called from simtools/simtools.m at startup:
 
-void initRandom(int argc, char ** argv) {
+void
+initRandom (int argc, const char **argv)
+{
   int i;
   struct timeval then;
 
