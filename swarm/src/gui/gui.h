@@ -94,6 +94,9 @@ USING
 
 //M: Get the Y position of the widget.
 - (int)getY;
+
+- (const char *)getWindowGeometry;
+- setWindowGeometry: (const char *)s;
 @end
 
 @protocol Widget <_Widget, SwarmObject>
