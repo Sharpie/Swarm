@@ -705,12 +705,13 @@
                 (insert " ")
                 (insert (protocol-name obj)))
           (insert "\n\n"))
-    (insert "MODULES =")
-    (loop for module-sym being each hash-key of *module-hash-table*
-          do
-          (insert " ")
-          (insert (symbol-name module-sym)))
-    (insert "\n"))
+    (insert "MODULES = defobj collections activity objectbase random gui simtoolsgui simtools analysis space\n")
+    ;;(loop for module-sym being each hash-key of *module-hash-table*
+    ;;      do
+    ;;      (insert " ")
+    ;;      (insert (symbol-name module-sym)))
+    ;; (insert "\n")
+    )
   (loop for module-sym being each hash-key of *module-hash-table*
         using (hash-value protocol-list)
         for dir = (module-path module-sym)

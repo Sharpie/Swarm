@@ -1,3 +1,8 @@
+1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-makefiles): Name MODULES by hand, for
+	ordering.
+
 1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (jdkdir): Remove.
