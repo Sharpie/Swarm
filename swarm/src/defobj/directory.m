@@ -364,7 +364,7 @@ swarm_directory_swarm_class (id object)
 #endif
         abort ();
     }
-  return getClass (object);
+  return object ? getClass (object) : Nil;
 }
 
 Class
