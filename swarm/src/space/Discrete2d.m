@@ -8,7 +8,7 @@
 #import <simtools.h> // InFile
 #import <defobj.h> // ProtocolViolation
 
-#include <string.h> // memset
+#include <misc.h> // memset
 
 // Note - this code assumes that ints can be written in where ids have been
 // allocated. It uses casts to do this, and I think is portable to all
