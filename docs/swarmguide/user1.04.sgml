@@ -11,7 +11,7 @@
     give users the ability to create high quality code with a minimum
     of fuss. The Swarm library creates a sequence of classes that
     accumulate and refine the ability to create simulation objects,
-    manage memory for them, and schedule their activities.
+    manage memory for them, and schedule their activities.</para>
 
 <sect2>
 <title>Primary and Auxiliary Agents</title>
@@ -23,7 +23,7 @@
      To a programmer, the term agent is usually broader, something
      like object.  As a result, there is sometimes slippage in a
      discussion of "agent-based modeling" because an understanding of
-     the term agent is not shared.
+     the term agent is not shared.</para>
 
      <para>We intend to finesse this (big surprise!) by creating
      terminology for two kinds of agents.  This separation of agents
@@ -46,6 +46,7 @@
      <para>In most cases, when we talk about multi-agent systems, we
      are referring to the primary agents.</para>
 
+  </sect2>
 
 <sect2>
  <title>The (Swarm) OOP way</title> 
@@ -96,7 +97,7 @@
     memory is one of the most troublesome elements of designing
     software and Swarm is well equipt to deal with that problem.
     Swarm provides libraries for this purpose which make the process
-    transparent to user.
+    transparent to user.</para>
 
     <para>In Swarm, objects are created and dropped using a notion of
     memory zones, and the "dirty work" of allocating memory is handled
@@ -128,10 +129,10 @@
       user the ability to start and stop the simulation.</para>
 
     <para>It is vital to note also that the buildObjects method in the
-    observer swarm file triggers the creation of the next lower level
-    of agents.  It creates a memory zone and creates a model swarm in
-    that memory zone. Using the current style, the code would
-    look like so:</para>
+      observer swarm file triggers the creation of the next lower
+      level of agents.  It creates a memory zone and creates a model
+      swarm in that memory zone. Using the current style, the code
+      would look like so:</para>
 
 <programlisting>
   forestModelSwarm = [ForestModelSwarm create: self ];  
@@ -139,9 +140,9 @@
 </programlisting>
 
    <para>Users may find older versions of this code which accomplish
-   the same purpose, but are slightly more verbose and do not take
-   into account the fact that the observer swarm object is iself a
-   memory zone.</para>
+      the same purpose, but are slightly more verbose and do not take
+      into account the fact that the observer swarm object is iself a
+      memory zone.</para>
 
 <programlisting>
   modelZone = [Zone create: [self getZone]];
@@ -149,7 +150,7 @@
   [forestModelSwarm buildObjects];
 </programlisting>
 
-      Note the importance of the last line in either of these
+    <para>Note the importance of the last line in either of these
       excerpts. The first line of the code creates the model swarm
       object (in this case, it is called forestModelSwarm), but the
       last line tells that object to create its own objects by telling
@@ -237,10 +238,20 @@
 <sect2>
  <title>Merging schedules in Swarms</title> 
 
-<para>As mentioned above, there can be "buildActions" methods in many different classes.  Since each one can create action groups and schedules, it is important that all of these activities are coordinated in a logical way.  One of the sstrengths of the Swarm toolkit is that it maintains a coherent, master schedule. The schedules of each sub Swarm are merged into the schedule of next higher level. Finally all schedules are merged in the top level Swarm</para>
+    <para>As mentioned above, there can be "buildActions" methods in
+      many different classes.  Since each one can create action groups
+      and schedules, it is important that all of these activities are
+      coordinated in a logical way.  One of the sstrengths of the
+      Swarm toolkit is that it maintains a coherent, master
+      schedule. The schedules of each sub Swarm are merged into the
+      schedule of next higher level. Finally all schedules are merged
+      in the top level Swarm</para>
 
-    <para>This multi-level integration of swarm schedules means that the model can indeed be thought of as a nested hierarchy of models.</para>
-</sect2></sect2>
+    <para>This multi-level integration of swarm schedules means that
+      the model can indeed be thought of as a nested hierarchy of
+    models.</para>
+
+</sect2>
 
 
 </sect1>

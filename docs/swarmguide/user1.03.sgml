@@ -252,7 +252,9 @@ listOfPuppies=[List create: self];
 </programlisting>
 </para>
 
-     <para>In code written for older versions of the Swarm toolkit, one will often see a slightly different syntax in ModelSwarm.m:
+     <para>In code written for older versions of the Swarm toolkit,
+      one will often see a slightly different syntax in ModelSwarm.m:
+
 <programlisting>
 id listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
@@ -270,34 +272,35 @@ listOfPuppies=[List create: [self getZone]];
 <sect2><title>A brief clarification: Classes and Protocols</title>
 
     <para>There is one additional complication that readers should be
-    aware of.  Objective-C allows the creation of entities called
-    protocols.  A protocol, as readers will recall from their study of
-    Objective-C, is a set of methods that an object can execute when
-    it adopts the that protocol. </para>
+      aware of.  Objective-C allows the creation of entities called
+      protocols.  A protocol, as readers will recall from their study
+      of Objective-C, is a set of methods that an object can execute
+      when it adopts the that protocol. </para>
 
     <para>To the Swarm user, the distinction between class and
-    protocol is not vital most of the time.  The most important Swarm
-    objects, such as the type Swarm (from objectbase/Swarm.h) or
-    SwarmObject (from objectbase/SwarmObject.h), are classes from
-    which users subclass to make model swarms or individual agents. It
-    should not matter to the user that these classes have adopted
-    protocols (taken on methods from protocol files inside the
-    library).  The class SwarmObject, for example, adopts protocols
-    Create and Drop. These protocols give SwarmObjects the ability to
-    execute methods like createBegin, createEnd, or drop.  Users who
-    create classes using SwarmObject inherit these methods and there
-    is no reason to be concerned whether SwarmObject got those methods
-    by inheriting them from some other class or adoopting them from a
-    protocol. </para>
+      protocol is not vital most of the time.  The most important
+      Swarm objects, such as the type Swarm (from
+      <filename>objectbase/Swarm.h</filename>) or SwarmObject (from
+      <filename>objectbase/SwarmObject.h</filename>), are classes from
+      which users subclass to make model swarms or individual
+      agents. It should not matter to the user that these classes have
+      adopted protocols (taken on methods from protocol files inside
+      the library).  The class SwarmObject, for example, adopts
+      protocols Create and Drop. These protocols give SwarmObjects the
+      ability to execute methods like createBegin, createEnd, or drop.
+      Users who create classes using SwarmObject inherit these methods
+      and there is no reason to be concerned whether SwarmObject got
+      those methods by inheriting them from some other class or
+      adoopting them from a protocol. </para>
 
-    The fact that many of the important components of the Swarm
-    library are written as protocols can, however, be important in
-    some notation. Early versions of Swarm, for example, had a class
-    List from which users could subclass lists.  More recent versions
-    have a List protocol.  This change causes a wrinkle that alters
-    the syntax in user programs.  For example, when the ability to
-    create lists was offered by a class, then the notation to create
-    an instance of such a list would have been:
+    <para>The fact that many of the important components of the Swarm
+      library are written as protocols can, however, be important in
+      some notation. Early versions of Swarm, for example, had a class
+      List from which users could subclass lists.  More recent
+      versions have a List protocol.  This change causes a wrinkle
+      that alters the syntax in user programs.  For example, when the
+      ability to create lists was offered by a class, then the
+      notation to create an instance of such a list would have been:
 
 <programlisting>
 List * listOfPuppies;
@@ -315,9 +318,9 @@ listOfPuppies=[List create: [self getZone]];
     </para>
 
     <para>Since many of the important pieces of functionality in the
-    Swarm library is now written in the protocol format, these details
-    may be important. However, these details do not significantly
-    change the way applications are designed.</para>
+      Swarm library is now written in the protocol format, these
+      details may be important. However, these details do not
+      significantly change the way applications are designed.</para>
 
 </sect2>
 </sect1>
