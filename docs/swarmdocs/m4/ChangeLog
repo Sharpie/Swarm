@@ -1,3 +1,7 @@
+2000-02-29    <mgd@nest.swarm.org>
+
+	* Swarmdocs 2.1 frozen.
+
 1998-10-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acprogs.m4: Use redirection to GhostScript, to avoid problems
