@@ -1,4 +1,4 @@
-1998-03-20  Alex Lancaster  <alex@santafe.edRu>
+1998-03-20  Alex Lancaster  <alex@santafe.edu>
 
 	* ControlPanel.m: ([ControlPanel -startInActivity:]): If
 	controlState is ControlStateStopped and this ControlPanel has been
