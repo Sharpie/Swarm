@@ -2,7 +2,8 @@
 
 	* Makefile.common.in (EXPORT_EXTERN, IMPORT_EXTERN): Substitute.
 
-	* Makefile.rules (.m.o): Use IMPORT_EXTERN.
+	* Makefile.rules (.m.o): Use IMPORT_EXTERN for
+	externvar and exterobjcvar.
 
 1999-05-28  Marcus G. Daniels  <mgd@chimayo.santafe.edu>
 
