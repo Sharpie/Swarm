@@ -335,8 +335,6 @@ externvar id <Symbol> Concurrent, Sequential, Randomized;
 typedef unsigned long timeval_t;
 #endif
 
-//G: Maximum value of a value of type timeval_t.
-externvar const timeval_t TimebaseMax;
 
 
 @protocol RelativeTime

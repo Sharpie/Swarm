@@ -1,6 +1,10 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* XActivity.m (_activity_current, _activity_zone, _activity_trace):
+	Add externvardef.
+
 	* activity.h: Use `externvar' for external variable declarations.
+	(TimebaseMax): Remove; it's unused.
 
 1999-05-26  Alex Lancaster  <alex@santafe.edu>
 

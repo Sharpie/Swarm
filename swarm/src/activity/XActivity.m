@@ -18,8 +18,8 @@ Library:      activity
 
 // define standard activity variables
 
-id    _activity_current, _activity_zone;
-BOOL  (*_activity_trace)( id );
+externvardef id _activity_current, _activity_zone;
+externvardef BOOL  (*_activity_trace) (id);
 
 //
 // Activity_c -- activity to perform any compound action type
