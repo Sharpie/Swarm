@@ -1,4 +1,12 @@
 2001-06-30  Marcus G. Daniels  <mgd@maya.santafe.edu>
+ 
+	* Schedule.m: Define FAST.
+	([Schedule_c -remove:], [Schedule_c -remove:]):
+	Disable some checking when FAST is set.
+	[ScheduleIndex_c -remove]): Check common cases before doing 
+	a conformsTo:.
+
+2001-06-30  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Action.[hm]: Cache performCall method imp in perform_imp.
 	(PERFORM): New macro to call perform_imp.  Replace [call performCall]
