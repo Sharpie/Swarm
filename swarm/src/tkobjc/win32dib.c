@@ -588,13 +588,9 @@ dib_paintBlit (dib_t *dib,
   }
 }
 
-BOOL
-dib_copy (dib_t *source, dib_t *dest,
-          int destx, int desty,
-          unsigned width, unsigned height)
+void
+dib_copy_metadata (dib_t *source, dib_t *dest)
 {
-  BOOL result;
-
   memcpy (dest->dibInfo, source->dibInfo, sizeof (CDIB_BITMAP));
   dest->colormapBlocks = source->colormapBlocks;
   dest->colormapSize = source->colormapSize;
@@ -626,6 +622,14 @@ dib_copy (dib_t *source, dib_t *dest,
     DeleteDC (shdc);
   }
 #endif
+}
+
+BOOL
+dib_copy (dib_t *source, dib_t *dest,
+          int destx, int desty,
+          unsigned width, unsigned height)
+{
+  BOOL result;
 
   if (dib_lock (dest) == NULL)
     return FALSE;

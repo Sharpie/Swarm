@@ -67,6 +67,7 @@ void dib_line (dib_t *dib, int x0, int y0, int x1, int y1, unsigned pixels, void
 void dib_rectangle (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, void *object, unsigned color);
 
 BOOL dib_copy (dib_t *source, dib_t *dest, int destx, int desty, unsigned width, unsigned height);
+void dib_copy_metadata (dib_t *source, dib_t *dest);
 
 LPBYTE dib_lock (dib_t *dib);
 void dib_unlock (dib_t *dib);

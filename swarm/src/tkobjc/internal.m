@@ -445,6 +445,8 @@ tkobjc_raster_create (Raster *raster)
       private->privateColormapFlag = NO;
 #endif
       private->tkwin = tkwin;
+      private->oldpm = NULL;
+      private->pm = NULL;
       raster->private = private;
     }
 }
@@ -460,7 +462,6 @@ tkobjc_raster_erase (Raster *raster)
          0, 0, raster->width, raster->height,
          BlackPixel (display, DefaultScreen (display)));
 #else
-  tkobjc_raster_setColormap (raster);
   [raster fillRectangleX0: 0 Y0: 0
           X1: [raster getWidth] Y1: [raster getHeight]
           Color: raster->eraseColor];
@@ -768,9 +769,10 @@ tkobjc_raster_createPixmap (Raster *raster)
                                Tk_Depth (tkwin));
 #else
   dib_t *dib = dib_create ();
-  
   private->pm = dib;
 
+  if (private->oldpm)
+    dib_copy_metadata (private->oldpm, private->pm);
   dib_createBitmap (dib, TkWinGetHWND (Tk_WindowId (tkwin)),
 		    raster->width, raster->height);
 #endif

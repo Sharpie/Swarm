@@ -1,5 +1,12 @@
 1999-08-01    <mgd@HELEN>
 
+	* internal.m (tkobjc_raster_create): Initialize
+	pm and oldpm to NULL.
+
+	* win32dib.[ch] (dib_copy_metadata): New function.
+
+	* internal.m (tkobjc_raster_createPixmap): Use it.
+
 	* win32dib.c (dib_augmentPalette): Check colormap entries
 	to see if they are the same -- in that case do nothing.
 	(dib_copy): Copy dibInfo and colormap.
@@ -8,8 +15,7 @@
 1999-08-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_raster_erase): Assume colormap
-	is set.  Call tkobjc_raster_setColormap to ensure that erase
-	color is set.
+	is set. 
 
 	* Raster.m ([Raster -setColormap:]): Remove conditional call to
 	erase and call to tkobjc_raster_setBackground.
