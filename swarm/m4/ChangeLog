@@ -1,3 +1,11 @@
+1998-07-13  Alex Lancaster  <alex@santafe.edu>
+
+	* acswarm.m4: Add file.  Add two new m4 macros al_{SWARM_LOAD,
+	SWARM_INIT} to search for current Swarm config for applications and
+	libraries.
+
+	* Makefile.am (EXTRA_DIST): Add acswarm.m4.
+
 1998-07-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* actcltk.m4 (md_FIND_BLT): Don't set default bltlibname to BLT8.0.
