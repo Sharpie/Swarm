@@ -1,5 +1,8 @@
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* configure.in (SWARMLDFLAGS): Use libtool's -rpath instead of
+	testing on enable_shared.  Don't call md_CHECK_RPATH.
+
 	* VERSION: Bump.
 
 	* configure.in: Define INCLUDEDIR and INCLUDESUBDIR.

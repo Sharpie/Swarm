@@ -29,14 +29,6 @@ AC_CHECK_LIB(dl,main,DLLIB=-ldl)
 AC_CHECK_LIB(dld,main,DLLIB=-ldld) # HPUX
 AC_SUBST(DLLIB)
 
-md_CHECK_RPATH
-if test $enable_shared = yes ; then
-  SWARMLDFLAGS="-L\${swarm_libdir} $RPATH\${swarm_libdir}"
-else
-  SWARMLDFLAGS="-L\${swarm_libdir}"
-fi
-AC_SUBST(SWARMLDFLAGS)
-
 AC_ARG_WITH(defaultdir,
 [  --with-defaultdir=DIR            Use DIR instead of prefix as default path],
   defaultdir=$withval)
@@ -202,8 +194,12 @@ fi
 swarm_libdir="`echo $libdir | sed 's/{/{swarm_/'`"
 swarm_includedir="`echo $includedir | sed 's/{/{swarm_/'`"
 
+SWARMLDFLAGS="-L\${swarm_libdir} -rpath \${swarm_libdir}"
+AC_SUBST(SWARMLDFLAGS)
+
 AC_SUBST(swarm_prefix)
 AC_SUBST(swarm_exec_prefix)
+
 AC_SUBST(swarm_libdir)
 AC_SUBST(swarm_includedir)
 
