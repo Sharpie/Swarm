@@ -371,7 +371,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
       [(id)((CAction *)anAction)->owner _getEmptyActionConcurrent_];
     if ( emptyAction ) {
       [(id)((CAction *)emptyAction)->owner remove: emptyAction];
-      [emptyAction dropAllocations: 1];
+      [emptyAction dropAllocations: YES];
     }
   }
   return removedAction;
@@ -825,15 +825,15 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 {
   id  nextStatus = nil;
 
-  while ( [self getCurrentTime] < tVal &&
-          (nextStatus = [self next]) != Completed );
-  return ( nextStatus ? nextStatus : [self getStatus] );
+  while ([self getCurrentTime] < tVal
+         && !COMPLETEDP (nextStatus = [self next]));
+  return nextStatus ? nextStatus : [self getStatus];
 }
 
 //
 // mapAllocations: -- standard method to identify internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   [super mapAllocations: mapalloc];
   if ( mergeAction ) {
@@ -846,7 +846,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 // dropAllocations: --
 //   remove merge action from merge schedule if it is not a current subactivity
 //
-- (void) dropAllocations: (BOOL)componentAlloc
+- (void)dropAllocations: (BOOL)componentAlloc
 {
   // remove the merge action for the activity from the merge schedule
 
@@ -885,69 +885,78 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 
   // finish any processing of previous action
 
-  if ( currentAction && currentAction != Removed ) {
-
-    //
-    // Check if the action at the current index has changed underneath.
-    // Using public interfaces to a schedules and activities, the only way
-    // this can occur is if the action at a timestep has changed from a
-    // a single action to a concurrent group during execution of the initial
-    // action.  To recover from this change, a special action (allocated in
-    // the same zone as the index) is returned.  When performed, this action
-    // starts the concurrent group like ActionPerform, but skips its first
-    // (already executed) action before dropping itself and continuing.  
-    //
-
-    if ( currentAction != (actionAtIndex = [super get]) ) {
-      //!! (later -- when Map implementation has stabilized --
-      //!! get actionAtIndex directly from the underlying implementation)
-      newAction =
-        [id_ActionChanged_c create: getZone( (Activity_c *)activity )];
-      newAction->actionAtIndex = actionAtIndex;
-      currentAction = newAction;
-      setMappedAlloc( self );
-      return newAction;     // return special object to handle _performAction_:
-    }      // (change object need only be dropped to disappear without a trace)
-
-    //
-    // If AutoDrop option, then drop previous action before continuing.
-    //
-    if ( ((Schedule_c *)collection)->bits & BitAutoDrop ) {
-      removedAction = [super remove];
-      [removedAction dropAllocations: 1];
+  if (currentAction && REMOVEDP (currentAction))
+    {
+      //
+      // Check if the action at the current index has changed underneath.
+      // Using public interfaces to a schedules and activities, the only way
+      // this can occur is if the action at a timestep has changed from a
+      // a single action to a concurrent group during execution of the initial
+      // action.  To recover from this change, a special action (allocated in
+      // the same zone as the index) is returned.  When performed, this action
+      // starts the concurrent group like ActionPerform, but skips its first
+      // (already executed) action before dropping itself and continuing.  
+      //
+      
+      if (currentAction != (actionAtIndex = [super get]))
+        {
+          //!! (later -- when Map implementation has stabilized --
+          //!! get actionAtIndex directly from the underlying implementation)
+          newAction =
+            [id_ActionChanged_c create: getZone( (Activity_c *)activity )];
+          newAction->actionAtIndex = actionAtIndex;
+          currentAction = newAction;
+          setMappedAlloc (self);
+          // return special object to handle _performAction_:
+          // (change object need only be dropped to disappear without a trace)
+          return newAction;  
+        } 
+      
+      //
+      // If AutoDrop option, then drop previous action before continuing.
+      //
+      if (((Schedule_c *)collection)->bits & BitAutoDrop)
+        {
+          removedAction = [super remove];
+          [removedAction dropAllocations: YES];
+        }
     }
-  }
-
+  
   //
   // Get next action from index, adjust times, and return.
   //
-
+  
   currentAction = [self next: (id *)&currentTime];
-
-  if ( currentAction ) {  // action ready to be executed
-
-    // if relative time then readjust current time by start time
-
-    if ( ((Schedule_c *)collection)->bits & BitRelativeTime )
-      currentTime += startTime;
-
-  } else {  // no more actions to be executed
-
-    // if repeat interval, then start over again
-
-    if ( ((Schedule_c *)collection)->repeatInterval ) {
-
-      startTime += ((Schedule_c *)collection)->repeatInterval;
-      if ( startTime < currentTime )
-	raiseEvent( SourceMessage,
-        "> schedule did not complete soon enough for its scheduled repeat\n" );
-
-      [self setLoc: Start];
-      currentAction = [self next: (id *)&currentTime];
-      currentTime += startTime;
+  
+  if (currentAction)
+    { 
+      // action ready to be executed
+      
+      // if relative time then readjust current time by start time
+      
+      if (((Schedule_c *)collection)->bits & BitRelativeTime)
+        currentTime += startTime;
+      
     }
-  }
-
+  else 
+    {
+      // no more actions to be executed
+      
+      // if repeat interval, then start over again
+      
+      if (((Schedule_c *)collection)->repeatInterval)
+        {
+          startTime += ((Schedule_c *)collection)->repeatInterval;
+          if (startTime < currentTime)
+            raiseEvent (SourceMessage,
+                        "> schedule did not complete soon enough for its scheduled repeat\n");
+          
+          [self setLoc: Start];
+          currentAction = [self next: (id *)&currentTime];
+          currentTime += startTime;
+        }
+    }
+  
   //
   // If running under swarm activity, and there are any other schedule
   // activities being merged, then reschedule merge action at the next
@@ -956,33 +965,34 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   // to Holding, so that the run loop will not attempt further processing
   // at this time.
   //
-  if ( ((ScheduleActivity_c *)activity)->swarmActivity &&
-       ( currentAction ||
-         ((ScheduleActivity_c *)activity)->swarmActivity->status ==
-         Initialized )  ) {
-
-    swarmIndex =
-      ((ScheduleActivity_c *)activity)->swarmActivity->currentIndex;
-    _activity_insertAction( (id)swarmIndex->collection, currentTime,
-			    ((ScheduleActivity_c *)activity)->mergeAction );
-    if ( currentAction ) 
-      *status = Holding;
-    else
-      [self setLoc: Start];
-
-    // if empty schedule just added to new swarm activity, then set to
-    // reprocess schedule (should generalize to any empty schedule)
-
-    return nil;  // indicate that activity is not ready to run 
-  }
-
+  if (((ScheduleActivity_c *)activity)->swarmActivity
+      && (currentAction
+          || INITIALIZEDP (((ScheduleActivity_c *)activity)->swarmActivity->status)))
+    {
+      swarmIndex =
+        ((ScheduleActivity_c *)activity)->swarmActivity->currentIndex;
+      _activity_insertAction ((id)swarmIndex->collection, currentTime,
+                              ((ScheduleActivity_c *)activity)->mergeAction);
+      if (currentAction) 
+        *status = Holding;
+      else
+        [self setLoc: Start];
+      
+      // if empty schedule just added to new swarm activity, then set to
+      // reprocess schedule (should generalize to any empty schedule)
+      
+      return nil;  // indicate that activity is not ready to run 
+    }
+  
   // return next action to be processed
-
-  if ( ! currentAction ) *status = Completed;
+  
+  if (!currentAction)
+    *status = Completed;
+  
   return currentAction;
 }
 
-- setCurrentTime : (timeval_t) tVal
+- setCurrentTime : (timeval_t)tVal
 {
   id member = [self setKey : (id)tVal];
   
@@ -1010,15 +1020,14 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   // concurrent group just added.
   //
 
-  if ( currentAction && currentAction != (actionAtIndex = [super get]) ) {
-
-    removedAction = [(id)actionAtIndex->concurrentGroup removeFirst];
-    [self prev];
-
-  } else {  // just remove the action at the index
-
+  if (currentAction && currentAction != (actionAtIndex = [super get]))
+    {
+      removedAction = [(id)actionAtIndex->concurrentGroup removeFirst];
+      [self prev];
+    }
+  else
+    // just remove the action at the index
     removedAction = [super remove];
-  }
   currentAction = Removed;
   return removedAction;
 }
@@ -1028,23 +1037,25 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 //
 - get
 {
-  if ( currentAction == Removed || currentAction == Completed ) return nil;
+  if (REMOVEDP (currentAction) || COMPLETEDP (currentAction))
+    return nil;
   return currentAction;
 }
 
 //
 // getCurrentTime -- obtain current time from index, which holds it
 //
-- (timeval_t) getCurrentTime
+- (timeval_t)getCurrentTime
 {
-  if ( [self getLoc] == Start ) return startTime;
-  return ( startTime + (timeval_t)((mapentry_t)[listIndex get])->key );
+  if (INDEXSTARTP ([self getLoc]))
+    return startTime;
+  return startTime + (timeval_t)((mapentry_t)[listIndex get])->key;
 }
 
 //
 // mapAllocations: -- standard method to identify internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   if ( currentAction && getClass( currentAction ) == id_ActionChanged_c )
     mapObject( mapalloc, currentAction );
@@ -1054,10 +1065,10 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 //
 // dropAllocations: -- drop index as component of activity
 //
-- (void) dropAllocations: (BOOL)componentAlloc
+- (void)dropAllocations: (BOOL)componentAlloc
 {
   [((Schedule_c *)collection)->activityRefs remove: activity];
-  [super dropAllocations: 1];
+  [super dropAllocations: YES];
 }
 
 @end

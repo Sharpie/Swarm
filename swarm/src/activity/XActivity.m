@@ -13,8 +13,8 @@ Library:      activity
 #import <activity/Action.h>
 #import <activity/ActionGroup.h>
 #import <activity/Schedule.h>
+#import <activity.h>
 #import <defobj/defalloc.h>
-
 
 // define standard activity variables
 
@@ -40,14 +40,14 @@ auditRunRequest (Activity_c *self, const char *request)
                 "> %s the lowest level pending activity)\n",
                 request, request);
   
-  if ( self->status == Running )
+  if (RUNNINGP (self->status))
     raiseEvent (SourceMessage, 
                 "> cannot request to %s an activity while it "
                 "is already running\n"
                 "> (must stop first)\n",
                 request);
-  if (self->status == Completed)
-    raiseEvent( SourceMessage,
+  if (COMPLETEDP (self->status))
+    raiseEvent (SourceMessage,
                 "> cannot %s an activity that is already completed\n", 
                 request);
   /*
@@ -107,84 +107,105 @@ auditRunRequest (Activity_c *self, const char *request)
 
   // if continuing from previous break then enter code below at proper point
 
-  if ( initStatus != Initialized ) {
-    if ( initStatus == Released ) {
-      if ( (nextAction = [currentIndex get]) ) goto performBreak;
-      status = Completed;
-      goto actionsDone;
-    } else if ( initStatus == Stopped && ! currentSubactivity ) {
-      if ( (nextAction = [currentIndex get]) ) goto performBreak;
-      status = Completed;
-      goto actionsDone;
-    } else if ( initStatus == Terminated ) {
-      if ( ! currentSubactivity ) goto activityTerminated;
-      goto actionsDone;
-    }
-  }
-
-  // perform each successive action while also completing any subactivities
-
-  while ( 1 ) {
-
-    // else complete any current subactivity before continuing
-
-    if ( currentSubactivity ) {
-      _activity_current = currentSubactivity;
-      subStatus = [(id)currentSubactivity _run_];  // try to run to completion
-      _activity_current = self;
-
-      if ( subStatus != Holding ) {         // if sub is holding just continue
-        if ( subStatus == Completed ) {
-          [currentSubactivity dropAllocations: 1];
-                                    // drop completed subactivity and continue
-          if ( status == Terminated ) goto activityTerminated;
-        } else { // subStatus == Stopped ) {
-          status = Stopped;
-          return Stopped;                         // stop entire running stack
+  if (!INITIALIZEDP (initStatus))
+    {
+      if (RELEASEDP (initStatus))
+        {
+          if ((nextAction = [currentIndex get]))
+            goto performBreak;
+          status = Completed;
+          goto actionsDone;
         }
-      }
-      currentSubactivity = nil;       // clear previous sub before next action
+      else if (STOPPEDP (initStatus) && !currentSubactivity)
+        {
+          if ((nextAction = [currentIndex get]))
+            goto performBreak;
+          status = Completed;
+          goto actionsDone;
+        }
+      else if (TERMINATEDP (initStatus))
+        {
+          if (!currentSubactivity)
+            goto activityTerminated;
+          goto actionsDone;
+        }
     }
-
-    // obtain next action, call break function, and test if stop requested
-
-    nextAction = [currentIndex nextAction: &status];
-    if ( ! nextAction ) goto actionsDone;
-
-  performBreak:
-    if ( breakFunction && breakFunction( self ) ) {
-      if ( status == Terminated ) goto activityTerminated;
-      return status;  // status == Stopped
-    }
-
+  
+  // perform each successive action while also completing any subactivities
+  
+  while (1) 
+    {
+      // else complete any current subactivity before continuing
+      
+      if (currentSubactivity)
+        {
+          _activity_current = currentSubactivity;
+          subStatus = [(id)currentSubactivity _run_];  // try to run to completion
+          _activity_current = self;
+          
+          if (!HOLDINGP (subStatus))
+            {
+              // if sub is holding just continue
+              if (COMPLETEDP (subStatus))
+                {
+                  [currentSubactivity dropAllocations: YES];
+                  // drop completed subactivity and continue
+                  if (TERMINATEDP (status))
+                    goto activityTerminated;
+                }
+              else
+                {
+                  // subStatus == Stopped 
+                  status = Stopped;
+                  // stop entire running stack
+                  return Stopped;
+                }
+            }
+          currentSubactivity = nil;  // clear previous sub before next action
+        }
+      
+      // obtain next action, call break function, and test if stop requested
+      
+      nextAction = [currentIndex nextAction: &status];
+      if (! nextAction)
+        goto actionsDone;
+      
+    performBreak:
+      if (breakFunction && breakFunction (self))
+        {
+          if (TERMINATEDP (status))
+            goto activityTerminated;
+          return status;  // status == Stopped
+        }
+      
     // perform action, which could create a new subactivity to be performed
-
-    [nextAction _performAction_: self];
-
-    if (((Activity_c*)_activity_current)->immediateReturnFlag)
-      {
-        ((Activity_c *)_activity_current)->immediateReturnFlag = 0;
-        return Holding;
-      }  
-    //
-    // The performed action, if it contains a ForEach or "perform" request,
-    // may set currentSubactivity to a new subactivity.  The next iteration
-    // of the loop will run the new subactivity to completion before
-    // continuing this activity. 
-    //
-  }
-
-actionsDone:  // status is Holding, Completed, or Terminated
-
+      
+      [nextAction _performAction_: self];
+      
+      if (((Activity_c*)_activity_current)->immediateReturnFlag)
+        {
+          ((Activity_c *)_activity_current)->immediateReturnFlag = NO;
+          return Holding;
+        }  
+      //
+      // The performed action, if it contains a ForEach or "perform" request,
+      // may set currentSubactivity to a new subactivity.  The next iteration
+      // of the loop will run the new subactivity to completion before
+      // continuing this activity. 
+      //
+    }
+  
+ actionsDone:  // status is Holding, Completed, or Terminated
+  
   // give break function its chance to stop activity before final return
-
-  if ( ! ( breakFunction && breakFunction( self ) && status == Terminated ) )
+  
+  if (!(breakFunction && breakFunction (self) && TERMINATEDP (status)))
     return status;
-
-activityTerminated:  // activity terminated since last _run_
-
+  
+ activityTerminated:  // activity terminated since last _run_
+  
   // set index to end to release any holds before final completion
-
+  
   [currentIndex setLoc: End];    // release any holds before final completion
   currentSubactivity = nil;    // cancel any just-dropped subactivity, if any
   status = Completed;
@@ -194,51 +215,54 @@ activityTerminated:  // activity terminated since last _run_
 //
 // terminateFunction -- break function to terminate a running leaf activity
 //
-static BOOL terminateFunction( id activity )
+static BOOL
+terminateFunction (id activity)
 {
   ((Activity_c *)activity)->status = Terminated;
-  if ( _activity_trace ) _activity_trace( activity );
-  return 1;
+  if (_activity_trace)
+    _activity_trace (activity);
+  return YES;
 }
 
 //
 // terminate -- terminate activity and all its subactivities
 //
-- (void) terminate
+- (void)terminate
 {
-  if ( currentSubactivity ) {
+  if (currentSubactivity)
     [currentSubactivity terminate];
-  } else if ( status == Running ) {
+  else if (RUNNINGP (status))
     breakFunction = terminateFunction;
-  }
   status = Terminated;
 }
 
 //
 // stopFunction -- break function to stop a running leaf activity
 //
-static BOOL stopFunction( id activity )
+static BOOL
+stopFunction (id activity)
 {
   // cancel stop function in local activity and any owner activity that
   // just created local activity
-
+  
   ((Activity_c *)activity)->breakFunction = _activity_trace;
-  if ( ((Activity_c *)activity)->ownerActivity &&
-       ((Activity_c *)activity)->ownerActivity->breakFunction == stopFunction )
+  if (((Activity_c *)activity)->ownerActivity
+      && ((Activity_c *)activity)->ownerActivity->breakFunction == stopFunction)
     ((Activity_c *)activity)->ownerActivity->breakFunction = _activity_trace;
-
+  
   // return up stack of activities with status set to Stopped
-
-  if ( ((Activity_c *)activity)->status != Holding ) {
-    ((Activity_c *)activity)->status = Stopped;
-    return 1;
-
-  // if Holding then defer stop to owner activity
-
-  } else {
-    ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
-    return 0;
-  }
+  
+  if (!HOLDINGP (((Activity_c *)activity)->status))
+    {
+      ((Activity_c *)activity)->status = Stopped;
+      return YES;
+    }
+  else
+    {
+      // if Holding then defer stop to owner activity
+      ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
+      return NO;
+    }
 }
 
 //
@@ -246,55 +270,58 @@ static BOOL stopFunction( id activity )
 //
 - stop
 {
-  if ( status == Terminated ) return self;
-  if ( currentSubactivity ) {
+  if (TERMINATEDP (status))
+    return self;
+
+  if (currentSubactivity)
     [currentSubactivity stop];
-  } else {
+  else
     breakFunction = stopFunction;
-  }
   return self;
 }
 
 //
 // nextFunction -- break function to stop on return from 
 //
-static BOOL nextFunction( id activity )
+static BOOL
+nextFunction (id activity)
 {
   // cancel local next function
-
+  
   ((Activity_c *)activity)->breakFunction = _activity_trace;
 
   // return if just created as new subactivity (leaving next function in owner)
 
-  if ( ((Activity_c *)activity)->ownerActivity &&
-       ((Activity_c *)activity)->ownerActivity->breakFunction == nextFunction )
-    return 0;
-
+  if (((Activity_c *)activity)->ownerActivity
+      && ((Activity_c *)activity)->ownerActivity->breakFunction == nextFunction )
+    return NO;
+  
   // if Holding then defer stop to owner activity
-
-  if ( ((Activity_c *)activity)->status == Holding ) {
+  
+  if (HOLDINGP (((Activity_c *)activity)->status))
     ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
-    return 0;
-  }
-
+  return NO;
+  
   // return up stack of activities with status set to Stopped
-
+  
   ((Activity_c *)activity)->status = Stopped;
-  return 1;
+  return YES;
 }
 
 //
 // installNext() -- break function to stop activity after next action
 //
-static BOOL installNext( id activity )
+static BOOL
+installNext (id activity)
 {
-  if ( ((Activity_c *)activity)->status != Completed )
+  if (!COMPLETEDP (((Activity_c *)activity)->status))
     ((Activity_c *)activity)->breakFunction = nextFunction;
-  else if ( ((Activity_c *)activity)->ownerActivity )
+  else if (((Activity_c *)activity)->ownerActivity)
     ((Activity_c *)activity)->ownerActivity->breakFunction = nextFunction;
-
-  if ( _activity_trace ) _activity_trace( activity );
-  return 0;
+  
+  if (_activity_trace)
+    _activity_trace (activity);
+  return NO;
 }
 
 //
@@ -302,19 +329,21 @@ static BOOL installNext( id activity )
 //
 - next
 {
-  Activity_c  *subactivity;
+  Activity_c *subactivity;
 
-  auditRunRequest( self, "next" );
-
-  for ( subactivity = self;
-        subactivity->currentSubactivity;
-        subactivity = subactivity->currentSubactivity );
-
-  if ( subactivity->breakFunction == terminateFunction ) {
-    subactivity = subactivity->ownerActivity;
-    if ( subactivity ) subactivity->breakFunction = stopFunction;
-    return [self run];
-  }
+  auditRunRequest (self, "next");
+  
+  for (subactivity = self;
+       subactivity->currentSubactivity;
+       subactivity = subactivity->currentSubactivity);
+  
+  if (subactivity->breakFunction == terminateFunction)
+    {
+      subactivity = subactivity->ownerActivity;
+      if (subactivity)
+        subactivity->breakFunction = stopFunction;
+      return [self run];
+    }
   subactivity->breakFunction = installNext;
   return [self run];
 }
@@ -322,20 +351,22 @@ static BOOL installNext( id activity )
 //
 // installStep() -- break function to stop activity after next subaction
 //
-static BOOL installStep( id activity )
+static BOOL
+installStep (id activity)
 {
   // stop in local activity, or new subactivity, if not completed
-
-  if ( ((Activity_c *)activity)->status != Completed )
+  
+  if (!COMPLETEDP (((Activity_c *)activity)->status))
     ((Activity_c *)activity)->breakFunction = stopFunction;
-
+  
   // else stop at next event of owner activity
 
-  else if ( ((Activity_c *)activity)->ownerActivity )
+  else if (((Activity_c *)activity)->ownerActivity)
     ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
-
-  if ( _activity_trace ) _activity_trace( activity );
-  return 0;
+  
+  if (_activity_trace)
+    _activity_trace (activity);
+  return NO;
 }
 
 //
@@ -345,17 +376,19 @@ static BOOL installStep( id activity )
 {
   Activity_c  *subactivity;
 
-  auditRunRequest( self, "step" );
+  auditRunRequest (self, "step");
 
-  for ( subactivity = self;
-        subactivity->currentSubactivity;
-        subactivity = subactivity->currentSubactivity );
-
-  if ( subactivity->breakFunction == terminateFunction ) {
-    subactivity = subactivity->ownerActivity;
-    if ( subactivity ) subactivity->breakFunction = stopFunction;
-    return [self run];
-  }
+  for (subactivity = self;
+       subactivity->currentSubactivity;
+       subactivity = subactivity->currentSubactivity);
+  
+  if (subactivity->breakFunction == terminateFunction)
+    {
+      subactivity = subactivity->ownerActivity;
+      if (subactivity)
+        subactivity->breakFunction = stopFunction;
+      return [self run];
+    }
   subactivity->breakFunction = installStep;
   return [self run];
 }
@@ -390,7 +423,8 @@ static BOOL installStep( id activity )
 //
 - getAction
 {
-  if ( ! topLevelAction ) return [ownerActivity->currentIndex get];
+  if (!topLevelAction)
+    return [ownerActivity->currentIndex get];
   return topLevelAction;
 }
 
@@ -406,23 +440,25 @@ static BOOL installStep( id activity )
 //
 // setOwnerActivity: -- change owner from one swarm activity to another
 //
-- (void) setOwnerActivity: aSwarmActivity
+- (void)setOwnerActivity: aSwarmActivity
 {
-  if ( getClass( aSwarmActivity ) != id_SwarmActivity_c )
-    raiseEvent( SourceMessage,
-     "> new owner activity is not a swarm activity\n" );
-  if ( getClass( ownerActivity ) != id_SwarmActivity_c )
-    raiseEvent( SourceMessage,
-"> cannot reassign owner activity unless running under a swarm activity\n" );
-  if ( status == Running )
-    raiseEvent( SourceMessage,
-      "> cannot change owner swarm while activity is running\n" );
+  if (getClass (aSwarmActivity) != id_SwarmActivity_c)
+    raiseEvent (SourceMessage,
+                "> new owner activity is not a swarm activity\n");
+
+  if (getClass (ownerActivity) != id_SwarmActivity_c)
+    raiseEvent (SourceMessage,
+                "> cannot reassign owner activity unless running under a swarm activity\n");
+
+  if (RUNNINGP (status))
+    raiseEvent (SourceMessage,
+                "> cannot change owner swarm while activity is running\n");
   //
   // Still need to figure out error-checking logic if running underneath
   // concurrent group in merge schedule.
   //
-
-  raiseEvent( NotImplemented, nil );
+  
+  raiseEvent (NotImplemented, nil);
   //
   // Need to remove merge action from one swarm's merge schedule and then
   // insert into merge schedule for the other, or if not merging, then
@@ -436,7 +472,7 @@ static BOOL installStep( id activity )
 //
 - getOwnerActivity
 {
-  return ( topLevelAction ? nil : ownerActivity );
+  return topLevelAction ? nil : ownerActivity;
 }
 
 //
@@ -445,7 +481,7 @@ static BOOL installStep( id activity )
 //
 - getControllingActivity
 {
-  return ( topLevelAction ? ownerActivity : nil );
+  return topLevelAction ? ownerActivity : nil;
 
 }
 
@@ -455,10 +491,12 @@ static BOOL installStep( id activity )
 //
 - getTopLevelActivity
 {
-  Activity_c  *activity;
+  Activity_c *activity;
 
-  for ( activity = self; activity && ! activity->topLevelAction;
-        activity = activity->ownerActivity );
+  for (activity = self;
+       activity && ! activity->topLevelAction;
+       activity = activity->ownerActivity);
+
   return activity;
 }
 
@@ -467,13 +505,14 @@ static BOOL installStep( id activity )
 //
 - getSwarmActivity
 {
-  Activity_c  *activity;
+  Activity_c *activity;
 
-  for ( activity = self;
-        getClass( activity ) != id_SwarmActivity_c;
-        activity = activity->ownerActivity )
-    if ( activity->topLevelAction ) return nil;
-
+  for (activity = self;
+       getClass (activity) != id_SwarmActivity_c;
+       activity = activity->ownerActivity)
+    if (activity->topLevelAction)
+      return nil;
+  
   return activity;
 }
 
@@ -484,12 +523,13 @@ static BOOL installStep( id activity )
 {
   Activity_c  *activity;
 
-  for ( activity = self;
-        getClass( activity ) != id_ScheduleActivity_c &&
-        getClass( activity ) != id_SwarmActivity_c;
-        activity = activity->ownerActivity )
-    if ( activity->topLevelAction ) return nil;
-
+  for (activity = self;
+       getClass (activity) != id_ScheduleActivity_c
+         && getClass (activity) != id_SwarmActivity_c;
+       activity = activity->ownerActivity )
+    if (activity->topLevelAction)
+      return nil;
+  
   return activity;
 }
 
@@ -504,7 +544,7 @@ static BOOL installStep( id activity )
 //
 - getSubactivities
 {
-  raiseEvent( NotImplemented, nil );
+  raiseEvent (NotImplemented, nil);
   return nil;
 }
 
@@ -513,19 +553,20 @@ static BOOL installStep( id activity )
 //
 - (void) setSerialMode: (BOOL)serialMode
 {
-  if ( ! serialMode ) raiseEvent( NotImplemented,
-"> A concurrent processing mode that would allow multiple simultaneous\n"
-"> subactivities to be present has not been implemented for any type of\n"
-"> activity except a Swarm.\n"
-    );
+  if (!serialMode)
+    raiseEvent (NotImplemented,
+                "> A concurrent processing mode that would allow multiple simultaneous\n"
+                "> subactivities to be present has not been implemented for any type of\n"
+                "> activity except a Swarm.\n"
+                );
 }
 
 //
 // getSerialMode -- return indicator for serial execution mode 
 //
-- (BOOL) getSerialMode
+- (BOOL)getSerialMode
 {
-  return 1;
+  return YES;
 }
 
 //
@@ -533,12 +574,14 @@ static BOOL installStep( id activity )
 //
 - getCurrentSubactivity
 {
-  if ( ! currentSubactivity ) {
-    if ( ! currentIndex ) return nil;
-    raiseEvent( NotImplemented,
-"> creation of a subactivity to obtain reference to leaf-level action has\n"
-"> not yet been implemented\n" );
-  }
+  if (!currentSubactivity)
+    {
+      if (!currentIndex)
+        return nil;
+      raiseEvent (NotImplemented,
+                  "> creation of a subactivity to obtain reference to leaf-level action has\n"
+                  "> not yet been implemented\n");
+    }
   return currentSubactivity;
 }
 
@@ -547,58 +590,64 @@ static BOOL installStep( id activity )
 //
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  if ( topLevelAction ) mapObject( mapalloc, topLevelAction );
-  if ( currentSubactivity ) mapObject( mapalloc, currentSubactivity );
-  mapObject( mapalloc, currentIndex );
+  if (topLevelAction)
+    mapObject (mapalloc, topLevelAction);
+  if (currentSubactivity)
+    mapObject (mapalloc, currentSubactivity);
+  mapObject (mapalloc, currentIndex);
 }
 
 //
 // drop -- method for external caller to drop a completed activity
 //
-- (void) drop
+- (void)drop
 {
   Activity_c  *activity;
-
-  if ( ownerActivity ) {
-    if ( status == Terminated ) {
-      for ( activity = self; activity->currentSubactivity;
-            activity = activity->currentSubactivity );
-      if ( activity->breakFunction != terminateFunction ) {
-        [self dropAllocations: 1];
-        return;
-      }
+  
+  if (ownerActivity)
+    {
+      if (TERMINATEDP (status))
+        {
+          for (activity = self; activity->currentSubactivity;
+               activity = activity->currentSubactivity );
+          if (activity->breakFunction != terminateFunction)
+            {
+              [self dropAllocations: YES];
+              return;
+            }
+        }
+      raiseEvent (SourceMessage,
+                  "> can only drop a top-level activity or a terminated activity that is not\n"
+                  "> currently running\n" );
     }
-    raiseEvent( SourceMessage,
-"> can only drop a top-level activity or a terminated activity that is not\n"
-"> currently running\n" );
-  }
-
-  if ( status == Running )
-    raiseEvent( SourceMessage,
-"> cannot drop an activity while it is running\n" );
-
-  [self dropAllocations: 0];
+  
+  if (RUNNINGP (status))
+    raiseEvent (SourceMessage,
+                "> cannot drop an activity while it is running\n" );
+  
+  [self dropAllocations: NO];
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  char  buffer[100];
-
+  char buffer[100];
+  
   [super describe: outputCharStream];
   [outputCharStream catC: "> current activity status: "];
   [outputCharStream catC: [status getName]];
   [outputCharStream catC: "\n> compound action being processed: "];
-
-  _obj_formatIDString( buffer, ((Index_any *)currentIndex)->collection );
+  
+  _obj_formatIDString (buffer, ((Index_any *)currentIndex)->collection);
   [outputCharStream catC: buffer];
-
-  if ( currentSubactivity ) {
-    [outputCharStream
-      catC: "\n> describe of current subactivity follows:\n"];
-    [currentSubactivity describe: outputCharStream];
-  } else {
+  
+  if (currentSubactivity)
+    {
+      [outputCharStream
+        catC: "\n> describe of current subactivity follows:\n"];
+      [currentSubactivity describe: outputCharStream];
+    }
+  else
     [outputCharStream catC: "\n> activity has no current subactivity\n"];
-  }
 }
 
 @end

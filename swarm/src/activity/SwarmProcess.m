@@ -345,7 +345,8 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
   subactivity->breakFunction = subactivity->ownerActivity->breakFunction;
   subactivity->immediateReturnFlag = immediateReturnRequestFlag;
   immediateReturnRequestFlag = 0; 
-  if ( subactivity->status == Holding ) subactivity->status = Released;
+  if (HOLDINGP (subactivity->status))
+    subactivity->status = Released;
   return;
 }
 

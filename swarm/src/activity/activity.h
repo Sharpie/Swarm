@@ -869,6 +869,14 @@ extern id _activity_zone;
 //G: has been implemented as an integral part of the Activity type.
 extern BOOL (*_activity_trace)(id);  
 
+#define COMPLETEDP(status) ((id)(status) == (id)Completed)
+#define HOLDINGP(status) ((id)(status) == (id)Holding)
+#define INITIALIZEDP(status) ((id)(status) == (id)Initialized)
+#define RELEASEDP(status) ((id)(status) == (id)Released)
+#define RUNNINGP(status) ((id)(status) == (id)Running)
+#define STOPPEDP(status) ((id)(status) == (id)Stopped)
+#define TERMINATEDP(status) ((id)(status) == (id)Terminated)
+
 //
 // include automatically generated definitions for activity package
 //

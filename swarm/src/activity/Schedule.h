@@ -124,13 +124,13 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 - (void) dropAllocations: (BOOL)componentAlloc;
 @end
 
-@interface ScheduleIndex_c : MapIndex_c
+@interface ScheduleIndex_c: MapIndex_c
 {
 @public
-  id         activity;        // activity for which index created
-  id         currentAction;   // action at current index position
-  timeval_t  currentTime;     // clock value for activity
-  timeval_t  startTime;       // time when current execution started
+  id activity;            // activity for which index created
+  id currentAction;       // action at current index position
+  timeval_t currentTime;  // clock value for activity
+  timeval_t startTime;    // time when current execution started
 }
 /*** methods implemented in CompoundAction.m file ***/
 - getHoldType;
