@@ -1,3 +1,8 @@
+1999-08-24    <mgd@HELEN>
+
+	* TkExtra.m (ensureBltSupportFiles): Use share/blt2.4 instead of
+	lib/blt2.4.
+
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* WindowGeometryRecord.m (getVal): Don't check type here, -getInteger
