@@ -985,11 +985,14 @@ CREATING
 - setCreateFlag: (BOOL)createFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
 - setParent: parent;
-- setName: (const char *)name;
 - setCompoundType: compoundType;
 - setCount: (unsigned)count;
 - createEnd;
 SETTING
+//M: Create-time use is to name the file or group.
+//M: Setting-time use is to rename component datasets that don't
+//M: parent's name.
+- setName: (const char *)name; 
 - setBaseTypeObject: baseTypeObject;
 USING
 - iterate: (int (*) (id hdf5Obj))iterateFunc;
@@ -1000,6 +1003,7 @@ USING
 - (unsigned)getCount;
 - getCompoundType;
 - getClass;
+- assignIvar: obj;
 
 - (BOOL)checkName: (const char *)groupName;
 - loadDataset: (void *)ptr;

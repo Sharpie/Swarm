@@ -176,17 +176,7 @@ PHASE(Setting)
     {
       int process_object (id component)
         {
-          const char *ivarName = [component getName];
-          void *ptr = ivar_ptr (self, ivarName);
-
-          if (ptr == NULL)
-            raiseEvent (InvalidArgument,
-                        "could not find ivar `%s'", ivarName);
-
-          if ([component getDatasetFlag])
-            [component loadDataset: ptr];
-          else
-            *(id *) ptr = hdf5In ([self getZone], component);
+          [component assignIvar: self];
           return 0;
         }
       [hdf5Obj iterate: process_object];
@@ -1045,18 +1035,15 @@ initDescribeStream (void)
 {
   void store_object (struct objc_ivar *ivar)
     {
-      if (*ivar->ivar_type != _C_PTR)
-        {
-          [stream catC: " #:"];
-          [stream catC: ivar->ivar_name];
-          [stream catC: " "];
-          lisp_output_type (ivar->ivar_type,
-                            (void *) self + ivar->ivar_offset,
-                            0,
-                            NULL,
+      [stream catC: " #:"];
+      [stream catC: ivar->ivar_name];
+      [stream catC: " "];
+      lisp_output_type (ivar->ivar_type,
+                        (void *) self + ivar->ivar_offset,
+                        0,
+                        NULL,
                             stream,
-                            deepFlag);
-        }
+                        deepFlag);
     }
   map_ivars (getClass (self), store_object);
   return self;

@@ -1,3 +1,21 @@
+1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (map_ivars): Ignore pointers.
+
+	* HDF5Object.m (create_class_from_compound_type): Remove
+	checks for ivar vs. HDF5 type size and count consistency -- we're
+	automatically ignoring pointers.  Use find_ivar instead of
+	positional access to ivar_list.
+	([HDF5_c -createEnd]): Move initialization of point space to the end.
+	Handle Dataset as well as Group opens.  Don't raise events
+	when opens fail, return nil.
+
+	* HDF5Object.[hm], defobj.h ([HDF5_c -assignIvar:]): New method.
+	([HDF5_c -setName:]): Move to setting phase.
+
+	* DefObject.m ([Object_s -lispOutVars:deep:]): Remove check
+	for _C_PTR, this is now avoided by map_ivars.
+
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.[mh], defobj.h ([HDF5_c -getDatasetRank], [HDF5_c

@@ -91,6 +91,8 @@
 - (const char *)getName;
 - getClass;
 
+- assignIvar: obj;
+
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;

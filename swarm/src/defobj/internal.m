@@ -235,6 +235,8 @@ map_ivars (Class class,
           // Special case to allow member_t for setIndexFromMemberLoc: lists.
           if (strcmp (ivar_list[i].ivar_type, "{?=\"memberData\"[2^v]}") == 0)
             continue;
+          else if (*ivar_list[i].ivar_type == _C_PTR)
+            continue;
           process_object (&ivar_list[i]);
         }
     }

@@ -7,12 +7,12 @@
 
 #import <defobj/HDF5Object.h>
 
-#import <defobj/internal.h> // map_ivars
+#import <defobj/internal.h> // map_ivars, ivar_ptr
 
 #ifdef HAVE_HDF5
 
 #include <hdf5.h>
-#include <misc.h> // strncpy, XFREE, log10 ,INT_MIN
+#include <misc.h> // strncpy, XFREE, log10, INT_MIN
 
 #define REF2STRING_CONV "ref->string"
 #define STRING2REF_CONV "string->ref"
@@ -445,32 +445,21 @@ create_class_from_compound_type (id aZone,
       ivar_list = class->ivars->ivar_list;
       min_offset = ivar_list[0].ivar_offset;
       size = class->instance_size - min_offset;
-      
-      if (class->ivars->ivar_count != count)
-        raiseEvent (LoadError,
-                    "differing ivar count in compound type and class `%s'",
-                    [class name]);
-
-      // tolerate padding at the end of an instance
-      if (tid_size > size)
-        raiseEvent (LoadError,
-                    "differing compound type and instance size `%s' (%u > %u)",
-                    [class name],
-                    tid_size,
-                    size);
+     
+      // Note: ivar count and size can differ with HDF5 type when pointers
+      // are skipped.
 
       for (i = 0; i < count; i++)
         {
           const char *name;
+          struct objc_ivar *ivar;
 
           if ((name = H5Tget_member_name (tid, i)) < 0)
             raiseEvent (LoadError,
                         "unable to get compound type member name #%u",
                         i);
-          if (strcmp (name, ivar_list[i].ivar_name) != 0)
-            raiseEvent (LoadError,
-                        "compound type member name != ivar name `%s' != `%s'",
-                        name, ivar_list[i].ivar_name);
+
+          ivar = find_ivar (class, name);
           {
             hid_t mtid;
             const char *type;
@@ -482,17 +471,17 @@ create_class_from_compound_type (id aZone,
             
             type = objc_type_for_tid (mtid);
 
-            if (*type == _C_INT && *ivar_list[i].ivar_type == _C_CHARPTR)
+            if (*type == _C_INT && *ivar->ivar_type == _C_CHARPTR)
               {
                 if (get_attribute_levels_string_list (did,
-                                                      ivar_list[i].ivar_name,
+                                                      name,
                                                       NULL) == 0)
                   raiseEvent (LoadError, "int / char * mismatch");
               }
-            else if (!compare_objc_types (ivar_list[i].ivar_type, type))
+            else if (!compare_objc_types (ivar->ivar_type, type))
               raiseEvent (LoadError,
                           "compound type member type != ivar type `%s' != `%s'",
-                          type, ivar_list[i].ivar_type);
+                          type, ivar->ivar_type);
           }
           {
             int offset;
@@ -501,7 +490,7 @@ create_class_from_compound_type (id aZone,
              raiseEvent (LoadError,
                           "unable to get compound type offset #%u",
                           i);
-            if (offset != ivar_list[i].ivar_offset - min_offset)
+            if (offset != ivar->ivar_offset - min_offset)
               alignedFlag = NO;
           }
         }
@@ -947,12 +936,6 @@ PHASE(Creating)
   return self;
 }
 
-- setName: (const char *)theName
-{
-  name = theName;
-  return self;
-}
-
 #ifdef HAVE_HDF5
 - setId: (hid_t)theLocId
 {
@@ -1045,13 +1028,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 - createEnd
 {
 #ifdef HAVE_HDF5
-  hsize_t pdims[1];
-
   [super createEnd];
-  
-  pdims[0] = 1;
-  if ((psid = H5Screate_simple (1, pdims, NULL)) < 0)
-    raiseEvent (SaveError, "unable to create point space");
 
   if (createFlag)
     {
@@ -1099,14 +1076,24 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
       if (parent == nil)
         {
           if ((loc_id = H5Fopen (name, H5F_ACC_RDONLY, H5P_DEFAULT)) < 0)
-            raiseEvent (LoadError, "failed to open HDF5 file `%s'", name);
+            return nil;
         }
       else
         {
           if (loc_id == 0)
             {
-              if ((loc_id = H5Gopen (((HDF5_c *) parent)->loc_id, name)) < 0)
-                raiseEvent (LoadError, "failed to open HDF5 group `%s'", name);
+              hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
+
+              if (!datasetFlag)
+                {
+                  if ((loc_id = H5Gopen (parent_loc_id, name)) < 0)
+                    return nil;
+                }
+              else
+                {
+                  if ((loc_id = H5Dopen (parent_loc_id, name)) < 0)
+                    return nil;
+                }
             }
           if (datasetFlag)
             {
@@ -1183,12 +1170,25 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
         raiseEvent (LoadError, "unable to register string->ref converter");
     }
   hdf5InstanceCount++;
+  {
+    hsize_t pdims[1];
+    
+    pdims[0] = 1;
+    if ((psid = H5Screate_simple (1, pdims, NULL)) < 0)
+      raiseEvent (SaveError, "unable to create point space");
+  }
 #else
   hdf5_not_available ();
 #endif
   return self;
 }
 PHASE(Setting)
+
+- setName: (const char *)theName
+{
+  name = theName;
+  return self;
+}
 
 - setBaseTypeObject: theBaseTypeObject
 {
@@ -1442,6 +1442,22 @@ PHASE(Using)
   hdf5_not_available ();
   return Nil;
 #endif
+}
+
+- assignIvar: obj
+{
+  const char *ivarName = [self getName];
+  void *ptr = ivar_ptr (obj, ivarName);
+  
+  if (ptr == NULL)
+    raiseEvent (InvalidArgument,
+                "could not find ivar `%s'", ivarName);
+  
+  if ([self getDatasetFlag])
+    [self loadDataset: ptr];
+  else
+    *(id *) ptr = hdf5In ([obj getZone], self);
+  return self;
 }
 
 - storeTypeName: (const char *)typeName
