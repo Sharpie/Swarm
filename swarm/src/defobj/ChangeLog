@@ -1,3 +1,10 @@
+1999-10-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (nil_method): Update for > gcc 2.8.
+
+	* Zone.m ([Zone_c -freeIVars:], [Zone_c -freeIVarsComponent:]): 
+	Don't remove from directory unless directory exists.
+
 1999-10-07    <mgd@HELEN>
 
 	* directory.m (JAVAFINDENTRY): New macro.

@@ -195,7 +195,8 @@ PHASE(Using)
   size_t size;
 
 #ifdef HAVE_JDK
-  [swarmDirectory objcRemove: anObject];
+  if (swarmDirectory)
+    [swarmDirectory objcRemove: anObject];
 #endif
 
   size = getClass (anObject)->instance_size;
@@ -281,7 +282,8 @@ PHASE(Using)
 - (void)freeIVarsComponent: anObject
 { 
 #ifdef HAVE_JDK
-  [swarmDirectory objcRemove: anObject];
+  if (swarmDirectory)
+    [swarmDirectory objcRemove: anObject];
 #endif
 
   if (_obj_debug)

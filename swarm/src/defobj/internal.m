@@ -484,7 +484,7 @@ lisp_output_type (const char *type,
     }
 }
 
-#if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)
+#if ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 2)
 id
 nil_method (id receiver, SEL op, ...)
 {
