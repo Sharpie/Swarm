@@ -681,34 +681,9 @@ extern int compareIDs (id, id);
 //F: A routine for comparing integers.
 extern int compareIntegers (id, id);
 
-@protocol Sorted
-//S: An option that determines if a keyed collection is kept in order.
-
-//D: If this option is true, the immediate members of a keyed collection
-//D: (included collections of duplicate members, if any) are totally
-//D: ordered according to an ordering relation defined on key values.  The
-//D: default order for sorting is determined by a standard compare: message
-//D: on a key value to be added vs. existing keys of the collection.  This
-//D: default method to establish order can be overridden using the
-//D: CompareFunction option.
-
-//D: The default for the Sorted function is true, unless a value is also given
-//D: for the option BucketFunction.
-
-CREATING
-- (void)setSorted: (BOOL)sorted;
-
-USING
-- (BOOL)getSorted;
-@end
-
 @protocol CompareFunction
 //S: Interface for defining the compare function to use when comparing
 //S: to members in a collection.
-
-//D: Use the function pointed to by the argument as the method for
-//D: determining whether two members have the same key value, and also for
-//D: ordering the keys of the collection if the Sorted option is true. 
 
 //D: The function given will be called whenever one key value needs to be
 //D: compared with another.  Multiple calls to the function typically occur
@@ -737,7 +712,7 @@ USING
 - (compare_t)getCompareFunction;
 @end
 
-@protocol KeyedCollection <Collection, Sorted, CompareFunction>
+@protocol KeyedCollection <Collection, CompareFunction>
 //S: Member identity definition shared by Set and Map types.
 
 //D: A keyed collection is a collection in which each member can be
