@@ -17,12 +17,8 @@ public abstract class SocialAgent2d extends Agent2d {
   
   public SocialAgent2d (Zone aZone, Organization org,
                         int x, int y,
-                        int scatter, int size,
-                        double resistProbabilityMean, double resistProbabilityDeviation,
-                        int energyMean, int energyDeviation) {
-    super (aZone, org, x, y, scatter, size,
-           resistProbabilityMean, resistProbabilityDeviation,
-           energyMean, energyDeviation);
+                        int scatter, int size) {
+    super (aZone, org, x, y, scatter, size);
 
     schedule = new ScheduleImpl (aZone, 1);
 

@@ -2,10 +2,25 @@ package agent2d;
 import swarm.defobj.Zone;
 import swarm.gui.Raster;
 
+import swarm.random.NormalDist;
+import swarm.random.NormalDistImpl;
+import swarm.random.BernoulliDist;
+import swarm.random.BernoulliDistImpl;
+
+import swarm.Globals;
+
 import Organization;
 
 abstract class DirectedAgent2d extends Agent2d {
   int xoffset, yoffset;
+  double resistProbabilityMean, resistProbabilityDeviation;
+  NormalDist resistProbabilityDistribution;
+  NormalDist energyDistribution;
+  double resistProbability = 0.0;
+  BernoulliDist bernoulliDist =
+    new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
+  boolean frobbed, resisting;
+  int direction, energy;
 
   DirectedAgent2d (Zone aZone,
                    Organization org,
@@ -13,9 +28,17 @@ abstract class DirectedAgent2d extends Agent2d {
                    int scatter, int size,
                    double resistProbabilityMean, double resistProbabilityDeviation,
                    int energyMean, int energyDeviation) {
-    super (aZone, org, x, y, scatter, size,
-           resistProbabilityMean, resistProbabilityDeviation,
-           energyMean, energyDeviation);
+    super (aZone, org, x, y, scatter, size);
+    this.resistProbabilityDistribution =
+      new NormalDistImpl (aZone,
+                          Globals.env.randomGenerator,
+                          resistProbabilityMean,
+                          resistProbabilityDeviation);
+    this.energyDistribution =
+      new NormalDistImpl (aZone,
+                          Globals.env.randomGenerator,
+                          energyMean,
+                          energyDeviation);
   }
 
   public void setOffsets () {
@@ -64,5 +87,37 @@ abstract class DirectedAgent2d extends Agent2d {
     r.lineX0$Y0$X1$Y1$Width$Color (x, y, x + xo, y + yo, 1, color);
 
     return this;
+  }
+
+  public double sampleResistProbability () {
+    double prob;
+
+    do {
+      prob = resistProbabilityDistribution.getDoubleSample ();
+    } while (prob < 0.0 || prob > 1.0);
+    return prob;
+  }
+
+  public int sampleEnergy () {
+    return Math.abs ((int) energyDistribution.getDoubleSample ());
+  }
+
+  public boolean frob (int direction) {
+    frobbed = true;
+    if (!bernoulliDist.getSampleWithProbability (resistProbability)
+        || energy == 0) {
+      resisting = false;
+      this.direction = direction;
+    } else {
+      resisting = true;
+      System.out.println (this + " expending energy (" + energy + ")");
+      energy--;
+    }
+    return resisting;
+  }
+
+  public void clearStatus () {
+    resisting = false;
+    frobbed = false;
   }
 }

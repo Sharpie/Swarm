@@ -34,7 +34,7 @@ public class Alex2d extends SocialAgent2d {
   }
 
   public Alex2d (Zone aZone, Organization org, int x, int y) {
-    super (aZone, org, x, y, 2, 4, .2, .1, 40, 20);
+    super (aZone, org, x, y, 2, 4);
 
     people = new Hashtable (10);
   }
@@ -90,9 +90,8 @@ public class Alex2d extends SocialAgent2d {
     }
         
 ;
-    int direction = (int) Math.toDegrees (Math.atan2 ((double) (ymean - y),
-                                                      (double) (xmean - x)));
-    return direction;
+    return (int) Math.toDegrees (Math.atan2 ((double) (ymean - y),
+                                             (double) (xmean - x)));
   }
   
   public void stepSocialAgent (Agent2d neighbor) {

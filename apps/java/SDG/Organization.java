@@ -3,7 +3,7 @@ import swarm.defobj.Zone;
 import swarm.space.Grid2d;
 import swarm.space.Grid2dImpl;
 
-public class Organization extends SwarmImpl {
+public abstract class Organization extends SwarmImpl {
   Grid2d world;
   int xsize, ysize;
   
@@ -11,10 +11,7 @@ public class Organization extends SwarmImpl {
     super (aZone);
     this.xsize = xsize;
     this.ysize = ysize;
-  }
-  public Object buildObjects () {
     world = new Grid2dImpl (getZone (), xsize, ysize);
-    return this;
   }
 
   public Grid2d getWorld () {
