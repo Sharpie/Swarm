@@ -1,4 +1,8 @@
-2001-09-25  Marcus G. Daniels  <mgd@condor>
+2001-10-31  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* EZGraph.[hm], EZGraph.m: Add setSaveSizeFlag constructor variant.
+
+2001-09-25  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
 	* Averager.m ([Averager -getVariance]): Handle count less than two.
 	([Averager -getMovingVariance]): Likewise. Use actualCount in

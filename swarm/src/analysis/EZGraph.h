@@ -36,6 +36,7 @@
   unsigned colorIdx;
 }
 + create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
++ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName setSaveSizeFlag: (BOOL)saveSizeFlag;
 + create: aZone setFileOutput: (BOOL)fileOutputFlag;
 + create: aZone setHDF5Container: (id <HDF5>)hdf5Container setPrefix: (const char *)prefix;
 + create: aZone setFileName: (const char *)aFileName;

@@ -42,6 +42,25 @@ PHASE(Creating)
   return [obj createEnd];
 }
 
++ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName setSaveSizeFlag: (BOOL)saveSizeFlag
+{
+  EZGraph *obj = [super createBegin: aZone];
+
+  obj->graphics = YES;
+  obj->fileOutput = NO;
+  obj->title = aTitle;
+  obj->baseName = NULL;
+  obj->xLabel = xl;
+  obj->yLabel = yl;
+  obj->graphColors = defaultGraphColors;
+  obj->colorCount = NUMCOLORS;
+  obj->colorIdx = 0;
+  [obj setWindowGeometryRecordName: windowGeometryRecordName];
+  obj->setSaveSizeFlag = saveSizeFlag;
+
+  return [obj createEnd];
+}
+
 + create: aZone setFileOutput: (BOOL)fileOutputFlag
 {
     EZGraph *obj = [super createBegin: aZone];    

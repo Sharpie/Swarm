@@ -325,6 +325,8 @@ CREATING
 //M: Convenience method for creating `graphical' EZGraph instances
 + create: (id <Zone>)aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
++ create: (id <Zone>)aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName setSaveSizeFlag: (BOOL)saveSizeFlag;
+
 //M: Convenience method for creating a non-graphical EZGraph, the
 //M: filename is generated from the sequence name
 + create: (id <Zone>)aZone setFileOutput: (BOOL)fileOutputFlag;
