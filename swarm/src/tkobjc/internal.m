@@ -1275,12 +1275,10 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
             abort ();
 
 mapretry:
+          x_set_override_redirect (display, topWindow, YES);
           if (top_attr.map_state == IsUnmapped)
-            {
-              XMapWindow (display, topWindow);
-              x_set_override_redirect (display, topWindow, YES);
-            }
-          
+            XMapWindow (display, topWindow);
+                      
           if (!XGetWindowAttributes (display, topWindow, &test_top_attr))
             abort ();
 
