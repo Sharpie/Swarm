@@ -1,3 +1,7 @@
+2004-08-03  Marcus G. Daniels  <mgd@santafe.edu>
+
+	* actcltk.m4 (md_FIND_TCL_LIBRARIES): Look in lib64.
+
 2004-07-20  Marcus G. Daniels  <mgd@santafe.edu>
 
 	* aclibtool.m4: Use func_win32_libid instead of win32_libid.  (Bug

@@ -115,6 +115,7 @@ AC_SUBST(TCLINCLUDES)
 
 AC_DEFUN(md_FIND_TCL_LIBRARIES,dnl
 [LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
+        /usr/lib64 \
         \${CYGFS}H-i586-cygwin32/lib \
         /Cygnus/cygwin-b20/H-i586-cygwin32/lib \
 	/usr/local/lib /usr/local/lib/tcl /usr/local/lib/tk \
