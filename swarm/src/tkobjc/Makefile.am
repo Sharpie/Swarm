@@ -20,7 +20,7 @@ PNGINCLUDES = @PNGINCLUDES@
 
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity -I$(srcdir)/../tclobjc $(TKINCLUDES) $(TCLINCLUDES) $(XPMINCLUDES) $(PNGINCLUDES) $(ZLIBINCLUDES)
 
-override OBJCFLAGS += $(X_CFLAGS) -Wno-implicit-int
+override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@
 
 lib_LTLIBRARIES = libtkobjc.la
 
