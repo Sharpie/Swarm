@@ -4,7 +4,7 @@ AC_TRY_COMPILE([#ifdef __CYGWIN__
 #error
 #endif],[],
 GUILIBS="-lX11 ${X_EXTRA_LIBS}",
-GUILIBS='-luser32 -lgdi32')
+GUILIBS='-lwinspool -lcomdlg32 -luser32 -lgdi32')
 AC_MSG_RESULT($GUILIBS)
 AC_SUBST(GUILIBS)
 ])

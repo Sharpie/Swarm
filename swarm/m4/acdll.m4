@@ -11,7 +11,7 @@ USEDLL=no
 SWARMLIBS=-lswarm
 AC_MSG_RESULT(using plain extern)],
 [USEDLL=yes
-SWARMLIBS='-lswarmdll -lobjcdll'
+SWARMLIBS='-lswarm'
 EXPORT_EXTERN="extern __attribute__ ((dllexport))"
 EXPORT_EXTERNDEF="__attribute__ ((dllexport))"
 IMPORT_EXTERN="extern __attribute__ ((dllimport))"

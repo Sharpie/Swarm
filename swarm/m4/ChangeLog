@@ -1,3 +1,12 @@
+2004-07-20  Marcus G. Daniels  <mgd@santafe.edu>
+
+	* aclibtool.m4: Use func_win32_libid instead of win32_libid.  (Bug
+	in current libtool.)
+
+	* acguilibs.m4 (GUILIBS): Add -lwinspool and -lcomdlg32 (for BLT 3.0)..
+
+	* acdll.m4 (SWARMLIBS): Always use -lswarm for SWARMLIBS.
+
 2004-07-16  Scott Christley  <schristley@mac.com>
 
 	* acgnustep.m4: New file.
