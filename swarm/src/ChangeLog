@@ -1,3 +1,8 @@
+1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (libswarm_la_DEPENDENCIES): Use
+	$(module)/lib$(module).la.
+
 1999-05-31    <mgd@HELEN>
 
 	* Makefile.am (swarm.dll): Depend on dllinit.c.  Define
