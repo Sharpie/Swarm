@@ -565,7 +565,7 @@ PHASE(Using)
     raiseEvent (InvalidLocSymbol, nil);
 }
 
-- (int) getOffset
+- (int)getOffset
 {
 #if MLINKS
   if (position == UNKNOWN_POS)
