@@ -37,7 +37,7 @@ echo \
 # note that we identify Symbol, Warning, Error and Event
 # *only* in the context of `extern', and we use a second
 # sed script to remove the `extern' after identification
-sh -c "$OBJC $OBJCFLAGS -Uexternvar -Uexternvardef -E $srcdir/$m.h" | \
+sh -c "$OBJC $OBJCFLAGS -Ddisable_externvar -E $srcdir/$m.h" | \
 sed -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \
