@@ -22,7 +22,7 @@ Date:		 1998-10-08 (v. 0.8)
 #import <collections.h>
 #import <random/GammaDist.h>
 
-#include <math.h>
+#include <misc.h> // log, pow, sqrt, exp
 
 @implementation GammaDist
 
@@ -297,17 +297,17 @@ PHASE(Using)
 #ifdef USETHINDOUBLES
           if (useSplitGenerator)
             {
-              x = pow([randomGenerator getThinDoubleSample: virtualGenerator],
-                      1.0 / alpha);
-              y = pow([randomGenerator getThinDoubleSample: virtualGenerator],
-                      1.0 / (1.0 - alpha));
+              x = pow ([randomGenerator getThinDoubleSample: virtualGenerator],
+                       1.0 / alpha);
+              y = pow ([randomGenerator getThinDoubleSample: virtualGenerator],
+                       1.0 / (1.0 - alpha));
             }
           else 
             {
-              x = pow([randomGenerator getThinDoubleSample],
-                      1.0 / alpha);
-              y = pow([randomGenerator getThinDoubleSample],
-                      1.0 / (1.0 - alpha));
+              x = pow ([randomGenerator getThinDoubleSample],
+                       1.0 / alpha);
+              y = pow ([randomGenerator getThinDoubleSample],
+                       1.0 / (1.0 - alpha));
             }
 #else
           if (useSplitGenerator)
@@ -416,24 +416,24 @@ PHASE(Using)
 #ifdef USETHINDOUBLES
           if (useSplitGenerator)
             {
-              x = pow([randomGenerator getThinDoubleSample: virtualGenerator], 1.0 / theAlpha);
-              y = pow([randomGenerator getThinDoubleSample: virtualGenerator], 1.0 / (1.0-theAlpha));
+              x = pow ([randomGenerator getThinDoubleSample: virtualGenerator], 1.0 / theAlpha);
+              y = pow ([randomGenerator getThinDoubleSample: virtualGenerator], 1.0 / (1.0-theAlpha));
             }
           else 
             {
-              x = pow([randomGenerator getThinDoubleSample], 1.0 / theAlpha);
-              y = pow([randomGenerator getThinDoubleSample], 1.0 / (1.0-theAlpha));
+              x = pow ([randomGenerator getThinDoubleSample], 1.0 / theAlpha);
+              y = pow ([randomGenerator getThinDoubleSample], 1.0 / (1.0-theAlpha));
             }
 #else
           if (useSplitGenerator) 
             {
-              x = pow([randomGenerator getDoubleSample: virtualGenerator], 1.0 / theAlpha);
-              y = pow([randomGenerator getDoubleSample: virtualGenerator], 1.0 / (1.0-theAlpha));
+              x = pow ([randomGenerator getDoubleSample: virtualGenerator], 1.0 / theAlpha);
+              y = pow ([randomGenerator getDoubleSample: virtualGenerator], 1.0 / (1.0-theAlpha));
             } 
           else 
             {
-              x = pow([randomGenerator getDoubleSample], 1.0 / theAlpha);
-              y = pow([randomGenerator getDoubleSample], 1.0 / (1.0-theAlpha));
+              x = pow ([randomGenerator getDoubleSample], 1.0 / theAlpha);
+              y = pow ([randomGenerator getDoubleSample], 1.0 / (1.0-theAlpha));
             }
 #endif
         } while (x+y > 1.0);
@@ -441,7 +441,7 @@ PHASE(Using)
       x = x / (x+y);
       y = [self getExponentialWithMean: 1.0];
       
-      return (x*y / theBeta);
+      return (x * y / theBeta);
     }
   
   // For alpha > 1.0, use rejection method:
@@ -478,10 +478,10 @@ PHASE(Using)
             } while (v1 * v1 + v2 * v2 > 1.0);
           y = v2 / v1;
           am = theAlpha - 1.0;
-          s = sqrt(2.0 * am + 1.0);
+          s = sqrt (2.0 * am + 1.0);
           avg = s * y + am;
         } while (avg <= 0.0);
-      e = (1.0 + y * y) * exp(am * log(avg / am) - s * y);
+      e = (1.0 + y * y) * exp (am * log (avg / am) - s * y);
 #ifdef USETHINDOUBLES
       if (useSplitGenerator)
         z = [randomGenerator getThinDoubleSample: virtualGenerator];
@@ -545,11 +545,11 @@ PHASE(Using)
   
   // Fixed parameters:
   optionsInitialized = internalState->optionsInitialized;
-  theAlpha           = internalState->theAlpha;
-  theBeta            = internalState->theBeta;
+  theAlpha = internalState->theAlpha;
+  theBeta = internalState->theBeta;
 
   // State variables:
-  currentCount       = internalState->currentCount;
+  currentCount = internalState->currentCount;
   
   // Test generator data:
 
