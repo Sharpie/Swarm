@@ -47,7 +47,6 @@ public class Glen2d extends Agent2d {
     newy += Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3);
     newx = Math.abs (newx) % world.getSizeX ();
     newy = Math.abs (newy) % world.getSizeY ();
-    System.out.println ("Glen moving from " + x + "," + y + " to " + newx + "," + newy);
     x = newx;
     y = newy;
     world.putObject$atX$Y (this, x, y);

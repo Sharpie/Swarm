@@ -44,6 +44,7 @@ public class StartSDG extends GUISwarmImpl {
                             model.getWorld ().getSizeY ());
     raster.setWindowTitle ("SDG World");
     raster.pack ();
+    raster.erase ();
 
     try {
       display = new Object2dDisplayImpl

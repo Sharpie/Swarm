@@ -47,14 +47,12 @@ public class Marcus2d extends Agent2d {
     newy += Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2);
     newx = Math.abs (newx) % world.getSizeX ();
     newy = Math.abs (newy) % world.getSizeY ();
-    System.out.println ("moving from " + x + "," + y + " to " + newx + "," + newy);
     x = newx;
     y = newy;
     world.putObject$atX$Y (this, x, y);
   }
 
   public Object drawSelfOn (Raster r) {
-    System.out.println ("drawing " + x + "," + y);
     r.drawPointX$Y$Color (x, y, (byte) 0);
     return this;
   }
