@@ -192,45 +192,77 @@ java_instantiate (JNIEnv *env, jclass clazz)
 }
 
 jobject
-java_instantiate_using_from_object (JNIEnv *env, jobject jobj)
+java_instantiate_using_from_class (JNIEnv *env, jclass newClass)
 {
-  return java_instantiate_using_from_class (env, (*env)->GetObjectClass (env, jobj));
+  return java_instantiate_using_from_object (env, (*env)->AllocObject (env, newClass));
 }  
 
 jobject
-java_instantiate_using_from_class (JNIEnv *env, jclass clazz)
+java_instantiate_using_from_object (JNIEnv *env, jobject jobj)
 {
-  jmethodID methodID;
+  jclass clazz, newClass;
   jstring classNameObj;
+  jobject classObj;
+  jmethodID methodID;
   jboolean copyFlag;
   const char *utf;
 
-  if (!clazz)
+  if (!jobj)
     abort ();
-  methodID = (*env)->GetStaticMethodID (env,
-                                        clazz,
-                                        "getName",
-                                        "()Ljava/lang/String;");
-  if (!methodID)
+
+  if (!(newClass = (*env)->GetObjectClass (env, jobj)))
     abort ();
   
-  classNameObj = (*env)->CallStaticObjectMethod (env, clazz, methodID);
-  methodID = (*env)->GetMethodID (env,
-                                  classNameObj,
-                                  "concat",
-                                  "(Ljava/lang/String;)Ljava/lang/String;");
-  classNameObj = (*env)->CallObjectMethod (env,
-                                           classNameObj,
-                                           methodID,
-                                           (*env)->NewStringUTF (env, "U"));
-
-  utf = (*env)->GetStringUTFChars (env, classNameObj, &copyFlag);
-  printf ("[%s]\n", utf);
-
-  clazz = (*env)->FindClass (env, utf);
-  if (!clazz)
+  if (!(methodID = (*env)->GetMethodID (env,
+                                        newClass,
+                                        "getClass",
+                                        "()Ljava/lang/Class;")))
     abort ();
+  
+  if (!(classObj = (*env)->CallObjectMethod (env, jobj, methodID)))
+    abort ();
+  
+  if (!(clazz = (*env)->GetObjectClass (env, classObj)))
+    abort ();
+  
+  if (!(methodID = (*env)->GetMethodID (env,
+                                        clazz,
+                                        "getName",
+                                        "()Ljava/lang/String;")))
+    abort ();
+  
+  if (!(classNameObj = (*env)->CallObjectMethod (env, classObj, methodID)))
+    abort ();
+  
+  if (!(clazz = (*env)->GetObjectClass (env, classNameObj)))
+    abort ();
+  
+  if (!(methodID = (*env)->GetMethodID (env,
+                                        clazz,
+                                        "concat",
+                                        "(Ljava/lang/String;)Ljava/lang/String;")))
+    abort ();
+  if (!(classNameObj = (*env)->CallObjectMethod (env,
+                                                 classNameObj,
+                                                 methodID,
+                                                 (*env)->NewStringUTF (env, "U"))))
+    abort ();
+  
+  utf = (*env)->GetStringUTFChars (env, classNameObj, &copyFlag);
 
+  {
+    char *className = copyFlag ? (char *) utf : strdup (utf), *p;
+
+    for (p = className; *p; p++)
+      if (*p == '.')
+        *p = '/';
+    if (!(clazz = (*env)->FindClass (env, className)))
+      abort ();
+  }
+      
+  if (copyFlag)
+    (*env)->ReleaseStringUTFChars (env, classNameObj, utf);
+  
   return java_instantiate (env, clazz);
 }
 
