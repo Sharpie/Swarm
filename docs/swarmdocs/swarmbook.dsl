@@ -120,7 +120,8 @@
       (element graphic (empty-sosofo)))
 
 (define (skip-content)
-    (process-node-list (children (current-node))))
+    (make sequence
+          (process-node-list (children (current-node)))))
 (element (listitem programlisting) (skip-content))
 (element (listitem screen) (skip-content))
 (element (listitem synopsis) (skip-content))
