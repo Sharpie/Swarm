@@ -5,7 +5,6 @@ EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST)
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
 abs_builddir := $(shell pwd)
 EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
-jdkdir=@jdkdir@
 
 define elcrule
 cp -f $< $(dir $@)_$(notdir $<)
