@@ -1028,6 +1028,7 @@ USING
 CREATING
 - setDouble: (double)val;
 - setFloat: (float)val;
+- setLong: (long)val;
 - setInteger: (int)val;
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
@@ -1037,6 +1038,7 @@ USING
 - (double)getDouble;
 - (float)getFloat;
 - (int)getInteger;
+- (long)getLong;
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;
