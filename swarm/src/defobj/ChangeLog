@@ -1,3 +1,8 @@
+1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.m (ATDELIMCHAR): New macro, used to delimit name
+	and address in -getObjectName (now is `_' instead of `@').
+
 1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* DefClass.m, DefObject.m, Symbol.m: Include misc.h instead of

@@ -11,6 +11,7 @@ Library:      defobj
 
 #import <defobj/Create.h>
 
+#define ATDELIMCHAR '_'
 //
 // CreateDrop_s -- superclass for create protocol with phase switching
 //
@@ -62,9 +63,9 @@ PHASE(Using)
   if (self)
     {
 #ifdef __CYGWIN32__
-      sprintf (name, "%s@%p", [self name], self);
+      sprintf (name, "%s%c%p", [self name], ATDELIMCHAR, self);
 #else
-      sprintf (name, "%s@0x%p", [self name], self);
+      sprintf (name, "%s%c0x%p", [self name], ATDELIMCHAR, self);
 #endif
       return name;
     }
