@@ -1,0 +1,9 @@
+This is the contrib area for Swarm.
+
+Suggested organization:
+
+apps/
+lib/
+docs/
+
+Alex Lancaster 2003-08-26
