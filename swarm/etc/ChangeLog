@@ -1,3 +1,7 @@
+1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config.swarm.in (JAVACMD, JAVAENV): New substitutions.
+
 1999-04-20  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.tests.in (SWARMBUILDLDFLAGS): Remove extra .libs
