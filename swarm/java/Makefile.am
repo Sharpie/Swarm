@@ -10,7 +10,7 @@ EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
 
 define elcrule
 cp -f $< $(dir $@)_$(notdir $<)
-$(EMACS) -batch -f batch-byte-compile $(dir $@)_$(notdir $<)
+$(EMACS) -batch -f batch-byte-compile $(abs_builddir)/$(notdir $<)
 mv $(dir $@)_$(notdir $@) $@
 $(RM) $(dir $@)_$(notdir $<)
 endef
@@ -58,5 +58,5 @@ install-stubs: all
 stubs: Makefile.common $(SUBMAKEFILES)
 
 Makefile.common $(SUBMAKEFILES): java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
-	$(EMACS) -batch -l ./java-stub.elc -f $(JAVASTUBS_FUNCTION)
+	SWARMSRCDIR=$(top_srcdir) $(EMACS) -batch -l $(abs_builddir)/java-stub.elc -f $(JAVASTUBS_FUNCTION)
 
