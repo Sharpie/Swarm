@@ -19,6 +19,9 @@
 #define ROWNAMES "row.names"
 #define LEVELSPREFIX "levels."
 
+#define PTRINT long
+#define PTRUINT unsigned long
+
 static unsigned hdf5InstanceCount = 0;
 
 static hid_t
@@ -636,7 +639,7 @@ create_class_from_compound_type (id aZone,
                       [[[Map createBegin: aZone]
                          setCompareFunction: compareCStrings]
                         createEnd];
-                    unsigned i;
+                    PTRUINT i;
 
                     for (i = 0; i < count; i++)
                       [stringMap at: (id) strings[i] insert: (id) (i + 1)];
@@ -713,7 +716,7 @@ PHASE(Using)
           {
             void *ptr = obj;
             void *ivarptr = ptr + ivar->ivar_offset;
-            int offset = *(int *) (buf + hoffset);
+            PTRINT offset = *(int *) (buf + hoffset);
             id <MapIndex> mi = [stringMap begin: scratchZone];
             const char *key;
 
@@ -784,7 +787,7 @@ PHASE(Using)
             void *ivarptr = (void *)obj + ivar->ivar_offset;
             const char *key = * (const char **)ivarptr;
             int *ptr = (int *) (buf + hoffset);
-            unsigned offset = INT_MIN;
+            PTRUINT offset = INT_MIN;
 
             if (key)
               {
@@ -871,7 +874,7 @@ PHASE(Using)
     unsigned i;
     id mi = [stringMap begin: scratchZone];
     const char *key;
-    int offset;
+    PTRINT offset;
 
     for (i = 0, offset = (int) [mi next: (id *) &key];
          [mi getLoc] == (id) Member;
