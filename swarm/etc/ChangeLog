@@ -1,9 +1,15 @@
 1998-08-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.lib.in (INCLUDES): Add -I.
+	* config.swarm.in: Remove X_EXTRA_LIBS.  Surround variables
+	with {} throughout.
 
-	* Makefile.appl.in (LINK): Use libtool. 
-	(LDFLAGS): Remove RPATH substitution.
+	* Makefile.lib.in (bindir): Add (for libraries with demo apps
+	that want to use libtool).
+
+	* Makefile.appl.in (LINK): Remove.  Use libtool 
+	directly in $(APPEXE) rule.
+
+	* Makefile.lib.in (INCLUDES): Add -I.
 
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

@@ -2,6 +2,7 @@ prefix = @prefix@
 includedir = @includedir@
 exec_prefix = @exec_prefix@
 libdir = @libdir@
+bindir = @bindir@
 INSTALL = @INSTALL@
 INSTALL_DATA = @SWARM_INSTALL_DATA_@
 
