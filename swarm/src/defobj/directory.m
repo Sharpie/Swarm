@@ -252,17 +252,20 @@ objc_class_for_class_name (const char *classname)
         end = len - 5;
       else
         end = len - 4;
-      for (beg = 0; (beg < end && j < 2); beg++)
+      for (beg = 0; beg < end && j < 2; beg++)
         if (classname[beg] == '.') j++;
-      if (j == 2)
+      if (j == 2) 
+        len = end - beg;
+      else
         {
-          len = end - beg;
-          strncpy (typename, &(classname[beg]), len);
-          typename[len] = 0;
-          return objc_lookup_class (typename);
+          beg = 0;
+          len = end;
         }
+      strncpy (typename, &(classname[beg]), len);
+      typename[len] = 0;
+      return objc_lookup_class (typename);
     }
-    return objc_lookup_class (classname);
+  return objc_lookup_class (classname);
 }
 
 void

@@ -30,6 +30,12 @@ COM_class_name (COMobject cObj)
   return comEnv->getName (cObj);
 }
 
+const char *
+COM_get_class_name (COMclass cClass)
+{
+  return comEnv->getComponentName (cClass);
+}
+
 BOOL
 COM_selector_is_javascript (COMselector cSel)
 {
@@ -102,6 +108,11 @@ JS_free_arg_vector (void *args)
   comEnv->JSfreeArgVector (args);
 }
 
+void
+COM_collect_methods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag)
+{
+  comEnv->collectMethods (cClass, func, gettersFlag);
+}
 
 COMobject 
 swarm_directory_objc_find_object_COM (id oObject)
@@ -130,7 +141,7 @@ swarm_directory_objc_find_selector_COM (SEL sel)
 }
 
 static COMclass
-find_COM_wrapper_class (Class oClass)
+find_wrapper_class_COM (Class oClass)
 {
   const char *name = language_independent_class_name_for_objc_class (oClass);
   COMclass cClass = comEnv->findComponent (name);
@@ -140,13 +151,13 @@ find_COM_wrapper_class (Class oClass)
 }
 
 COMclass
-swarm_directory_objc_find_COM_class (Class oClass)
+swarm_directory_objc_find_class_COM (Class oClass)
 {
-  COMclass cClass = SD_COM_FIND_OBJECT_COM (oClass);
+  COMclass cClass = (COMclass) SD_COM_FIND_OBJECT_COM ((id) oClass);
 
   if (!cClass)
     {
-      cClass = find_COM_wrapper_class (oClass);
+      cClass = find_wrapper_class_COM (oClass);
       if (cClass)
         SD_COM_ADD_CLASS_COM (cClass, oClass);
     }
@@ -210,6 +221,30 @@ swarm_directory_COM_find_object_objc (COMobject cObject)
   else
     {
       ObjectEntry *result = swarm_directory_COM_find (cObject);
+
+      return (result
+              ? result->object
+              : nil);
+    }
+}
+
+static ObjectEntry *
+swarm_directory_COM_find_class (COMclass cClass)
+{
+  return (cClass
+          ? avl_find (swarmDirectory->COM_tree,
+                      COM_FIND_OBJECT_ENTRY (cClass))
+          : nil);
+}
+
+id
+swarm_directory_COM_find_class_objc (COMclass cClass)
+{
+  if (!cClass)
+    return nil;
+  else
+    {
+      ObjectEntry *result = swarm_directory_COM_find_class (cClass);
 
       return (result
               ? result->object
@@ -310,9 +345,24 @@ swarm_directory_COM_ensure_selector (COMselector cSel)
 
 
 Class
-swarm_directory_COM_ensure_class (COMclass cClass)
+swarm_directory_COM_ensure_class_objc (COMclass cClass)
 {
-  abort ();
+  Class objcClass;
+
+  if (!(objcClass = SD_COM_FIND_CLASS_OBJC (cClass)))
+    {
+      const char *className = COM_get_class_name (cClass);
+
+      if (strncmp (className, "swarm", 5) == 0)
+        className += 5;
+      
+      objcClass = objc_class_for_class_name (className);
+      
+      if (objcClass == nil)
+        objcClass = [COMProxy create: globalZone];
+      (void) SD_COM_ADD_CLASS_COM (cClass, objcClass);
+    }
+  return objcClass;
 }
 
 static ObjectEntry *

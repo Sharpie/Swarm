@@ -1,3 +1,25 @@
+2001-01-12  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* directory.m (objc_class_for_class_name): Handle class names
+	without packages; handle COM class names.
+
+	* COM.h (COM_collect_method_func_t): New type.
+	(COMInterface): Add getComponentName and collectMethods.
+
+	* COM.[hm] (COM_get_class_name, COM_collect_methods,
+	swarm_directory_COM_find_class_objc): New functions.
+	(SD_COM_FIND_CLASS_OBJC): New macro.
+
+	* COM.[hm] (swarm_directory_objc_find_class_COM,
+	swarm_directory_objc_find_object_COM): Renamed so COM is the
+	suffix.
+
+	* COM.m (find_wrapper_class_COM): Likewise.
+
+	* COM.m (find_directory_COM_find_class): New static function.
+
+	* COM.m (swarm_directory_COM_ensure_class_objc): Implement.
+
 2001-01-09  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* FCall.m ([FCall_c -performCall]): Describe any exceptions that

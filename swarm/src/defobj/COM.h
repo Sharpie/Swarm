@@ -15,12 +15,14 @@ typedef const void *COMselector;
 struct COMInterface;
 
 typedef const struct COMInterface COMEnv;
+typedef void (*COM_collect_method_func_t) (COMobject obj, const char *name);
 
 struct COMInterface {
   void *(*createComponent) (COMclass cClass);
   void *(*findComponent) (const char *componentName);
   const char *(*copyString) (const char *str);
   const char *(*getName) (COMobject cObj);
+  const char *(*getComponentName) (COMclass cClass);
   
   COMobject (*normalize) (COMobject);
 
@@ -44,6 +46,7 @@ struct COMInterface {
   void (*JSsetArg) (void *args, unsigned pos, fcall_type_t type, types_t *value);
   void (*JSsetReturn) (void *args, unsigned pos, fcall_type_t type, types_t *value);
   void (*JSfreeArgVector) (void *args);
+  void (*collectMethods) (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag);
 };
 
 extern void initCOM (COMEnv *env);
@@ -51,17 +54,19 @@ extern BOOL COM_init_p ();
 extern COMobject swarm_directory_objc_find_object_COM (id oObject);
 extern id swarm_directory_COM_find_object_objc (COMobject cobj);
 
-extern COMclass swarm_directory_objc_find_COM_class (Class oClass);
+extern COMclass swarm_directory_objc_find_class_COM (Class oClass);
+extern Class swarm_directory_COM_find_class_objc (COMclass cClass);
 
 extern COMobject swarm_directory_objc_ensure_object_COM (id object);
 
 extern id swarm_directory_COM_ensure_object_objc (COMobject cObject);
 extern SEL swarm_directory_COM_ensure_selector (COMselector cSelector);
-extern Class swarm_directory_COM_ensure_class (COMclass cClass);
+extern Class swarm_directory_COM_ensure_class_objc (COMclass cClass);
 extern COMobject swarm_directory_COM_add_object_COM (COMobject cObject, id oObject);
 extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *COM_copy_string (const char *str);
 extern const char *COM_class_name (COMobject cObj);
+extern const char *COM_get_class_name (COMclass cClass);
 
 extern BOOL COM_selector_is_javascript (COMselector cSel);
 extern BOOL COM_selector_is_boolean_return (COMselector cSel);
@@ -83,12 +88,15 @@ extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
 extern void swarm_directory_COM_add_selector (COMselector cSel, SEL oSel);
 extern COMobject swarm_directory_update_phase_COM (id oObj);
 
+extern void COM_collect_methods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag);
+
 #ifdef __cplusplus
 }
 #endif
 
-#define SD_COM_FIND_CLASS_COM(oClass) swarm_directory_objc_find_COM_class (oClass)
+#define SD_COM_FIND_CLASS_COM(oClass) swarm_directory_objc_find_class_COM (oClass)
 #define SD_COM_FIND_CLASS_COM_RETURN(type,oClass) *ret = NS_STATIC_CAST(type, SD_COM_FIND_CLASS_COM (oClass))
+#define SD_COM_FIND_CLASS_OBJC(cClass) swarm_directory_COM_find_class_objc (cClass)
 
 #define SD_COM_FIND_OBJECT_COM(oObject) swarm_directory_objc_find_object_COM (oObject)
 #define SD_COM_FIND_OBJECT_OBJC(cObject) swarm_directory_COM_find_object_objc (cObject)
@@ -100,7 +108,7 @@ extern COMobject swarm_directory_update_phase_COM (id oObj);
 
 #define SD_COM_ENSURE_SELECTOR_OBJC(cSelector) swarm_directory_COM_ensure_selector (cSelector)
 
-#define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class (cClass)
+#define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class_objc (cClass)
 
 #define SD_COM_ADD_OBJECT_OBJC(cObject, oObject) swarm_directory_COM_add_object_objc (cObject, oObject)
 
@@ -140,7 +148,6 @@ extern unsigned COM_object_getVariableElementCount (COMobject cobj,
 
 extern BOOL COM_selector_p (COMselector csel);
 extern const char *COM_ensure_selector_type_signature (COMselector csel);
-extern const char *COM_get_class_name (COMclass clazz);
 extern void COM_object_setVariable (COMobject obj, const char *ivarName, void *inbuf);
 
 extern void swarm_directory_COM_associate_objects (COMobject swarmEnvironment);
