@@ -133,6 +133,10 @@ nth_type (const char *type, int which)
       arguments[which].type = _C_DBL;
       arguments[which].val._double = strtod (what, NULL);
       break;
+    case _C_CHARPTR:
+      arguments[which].type = _C_CHARPTR;
+      arguments[which].val.string = what;
+      break;
     default:
       abort ();
     }
@@ -223,7 +227,11 @@ copy_to_nth_colon (const char *str, int n)
         case _C_DBL:
           av_double (alist, arg->val._double);
           break;
-          
+
+        case _C_CHARPTR:
+          av_ptr (alist, const char *, arg->val.string);
+          break;
+
         default:
           abort ();
         }
@@ -252,6 +260,9 @@ copy_to_nth_colon (const char *str, int n)
       break;
     case _C_DBL:
       av_start_double (alist, imp, &retVal.val._double);
+      break;
+    case _C_CHARPTR:
+      av_start_ptr (alist, imp, const char *, &retVal.val.string);
       break;
     default:
       abort ();
@@ -344,6 +355,11 @@ copy_to_nth_colon (const char *str, int n)
           *alist->value_pos = &arg->val._double;
           break;
           
+        case _C_CHARPTR:
+          *alist->type_pos = &ffi_type_pointer;
+          *alist->value_pos = &arg->val.string;
+          break;
+
         default:
           abort ();
         }
@@ -401,6 +417,11 @@ copy_to_nth_colon (const char *str, int n)
       fret = &ffi_type_double;
       ret_addr = &retVal.val._double;
       break;
+    case _C_CHARPTR:
+      fret = &ffi_type_pointer;
+      ret_addr = &retVal.val.string;
+      break;
+
     default:
       abort ();
     }

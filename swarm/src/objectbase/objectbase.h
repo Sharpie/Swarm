@@ -110,6 +110,7 @@ typedef struct val {
   union {
     id object;
     SEL selector;
+    const char *string;
     char _char;
     unsigned char _uchar;
     int _int;
