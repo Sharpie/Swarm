@@ -41,6 +41,8 @@ public class SwarmEnvironment {
     lispAppArchiver = new LispArchiverImpl ();
   }
   public native void initSwarm (String appName, String version, String bugAddress, String args[]);
+  public native void xprint (Object obj);
+  public native void xfprint (Object obj);
   public native int getCurrentTime ();
   public native Swarm getCurrentSwarm ();
   public native Schedule getCurrentSchedule ();

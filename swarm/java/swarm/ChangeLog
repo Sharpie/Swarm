@@ -1,3 +1,7 @@
+1999-12-24    <mgd@DRONE>
+
+	* SwarmEnvironment.java (xprint, xfprint): New native methods.
+
 1999-12-21    <mgd@nest.swarm.org>
 
 	* SwarmEnvironment.java: Add symbol Sequential.

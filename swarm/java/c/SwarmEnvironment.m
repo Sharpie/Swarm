@@ -223,3 +223,15 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
   }
 }
 
+
+JNIEXPORT void JNICALL
+Java_swarm_SwarmEnvironment_xprint (JNIEnv *env, jobject swarmEnv, jobject obj)
+{
+  xprint (SD_FINDOBJC (env, obj));
+}
+
+JNIEXPORT void JNICALL
+Java_swarm_SwarmEnvironment_xfprint (JNIEnv *env, jobject swarmEnv, jobject obj)
+{
+  xfprint (SD_FINDOBJC (env, obj));
+}
