@@ -1422,6 +1422,11 @@ PHASE(Using)
   return c_count;
 }
 
+- (const char *)getHDF5Name
+{
+  return name;
+}
+
 - (BOOL)checkName: (const char *)objName
 {
 #ifdef HAVE_HDF5

@@ -283,6 +283,7 @@
       "-loadDataset:"
       "-storeAsDataset:typeName:type:rank:dims:ptr:"
       "-readRowNames"
+      "-getDatasetType" ; fcall_type_t return
       "-setExtensibleVectorType:" ; fcall_type_t argument
       ))
 

@@ -1043,7 +1043,9 @@ USING
 - (BOOL)getWriteFlag;
 - (size_t)getDatasetRank;
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
+- (fcall_type_t)getDatasetType;
 - (unsigned)getCount;
+- (const char *)getHDF5Name;
 - getCompoundType;
 - getClass;
 - (void)assignIvar: obj;

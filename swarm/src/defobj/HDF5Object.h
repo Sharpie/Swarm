@@ -97,6 +97,7 @@
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
 - getCompoundType;
 - (unsigned)getCount;
+- (const char *)getHDF5Name;
 - getClass;
 
 - (void)assignIvar: obj;

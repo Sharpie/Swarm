@@ -1,3 +1,9 @@
+2001-10-10  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* defobj.h, HDF5Object.[hm]: Add getHDF5Name.
+
+	* defobj.h: Declare getDatasetType.
+
 2001-10-07  Alex Lancaster  <alex@swarm.org>
 
 	* HDF5Object.m ([HDF_c -flushVector]): Use HAVE_HDF5 conditional
