@@ -43,7 +43,7 @@
     the objects being experimented upon, it also includes the
     experimental apparatus used for observation and measurements. In
     Swarm computer simulations, those observation objects are placed
-    in an <EMPHASIS>observer swarm</EMPHASIS>.
+    in an <EMPHASIS>observer swarm</EMPHASIS>.</PARA>
 
    <PARA>The most important object in an observer swarm is the model
     swarm that is being studied. The model swarm is one component of

@@ -1,3 +1,8 @@
+1998-06-04  Alex Lancaster  <alex@santafe.edu>
+
+	* over02.sgml, over03.sgml, over04.sgmL: Fixed inappropriately
+	positioned PARA tags.
+
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: New file.

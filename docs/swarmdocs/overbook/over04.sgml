@@ -279,15 +279,14 @@ modelSchedule = [modelSchedule createEnd];
 [heat updateLattice];
       </PROGRAMLISTING>
 
-      <PARA>The ActionGroup alone specifies three messages to send -
-      in order to put it in the simulation, that ActionGroup is then
-      dropped into a Schedule.  The Schedule itself only has one
-      action - to execute <LITERAL>modelActions</LITERAL> itself. That
-      action takes place at time 0. But because we've set a repeat
-      interval on the schedule of 1, the schedule itself loops,
-      executing every 1 time step. The final result is that
-      <LITERAL>modelActions</LITERAL> is executed at time 0, time 1,
-      etc.</PARA>
+     The ActionGroup alone specifies three messages to send - in order
+     to put it in the simulation, that ActionGroup is then dropped
+     into a Schedule.  The Schedule itself only has one action - to
+     execute <LITERAL>modelActions</LITERAL> itself. That action takes
+     place at time 0. But because we've set a repeat interval on the
+     schedule of 1, the schedule itself loops, executing every 1 time
+     step. The final result is that <LITERAL>modelActions</LITERAL> is
+     executed at time 0, time 1, etc.</PARA>
 
     </SECT1>
 
