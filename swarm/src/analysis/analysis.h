@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-//S: Analysis tools.
+//S: Analysis tools
 
 //D: This is the library where tools primarily related to analysis tasks,
 //D: reside. This includes tools which simplify the task of graphing
