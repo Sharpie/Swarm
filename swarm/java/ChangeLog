@@ -3,6 +3,10 @@
 	* java-stub.el (java-argument-print-conversion): Use
 	JENSUREOBJC{METHOD,CLASS} instead of JFINDOBJC{METHOD,CLASS},
 	(java-print-native-method): Use JENSUREJAVA instead of JFINDJAVA.
+	(load-path): Add TOP_BUILDDIR instead of BUILDDIR.
+
+	* Makefile.am (java-stub.elc): Depend on
+	$(abs_top_builddir)/protocol.elc (not in current directory).
 
 1999-06-21  Alex Lancaster  <alex@santafe.edu>
 
