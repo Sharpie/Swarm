@@ -1,3 +1,13 @@
+1999-08-01  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapModelSwarm.m ([MousetrapModelSwarm -buildObjects]): Use
+	convenience factory method to create Grid2d instance.
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-buildObjects]): Remove explicit Zone creation, no longer
+	required.  Use convenience factory method to create
+	Object2dDisplay instance.
+
 1999-07-28  Alex Lancaster  <alex@santafe.edu>
 
 	* MousetrapModelSwarm.m ([MousetrapModelSwarm +createBegin:]): Use

@@ -183,9 +183,7 @@
   
   // Now set up the grid used to represent agent position
   
-  grid = [Grid2d createBegin: [self getZone]];
-  [grid setSizeX: gridSize Y: gridSize];
-  grid = [grid createEnd];
+  grid = [Grid2d create: self setSizeX: gridSize Y: gridSize];
   
   // Then create the mousetraps themselves. We create a mousetrap for
   // each point in the Grid2d, initialize it, and anchor it down

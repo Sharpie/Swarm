@@ -110,18 +110,14 @@
 
 - buildObjects
 {
-  id modelZone;					// zone for model
-  
   // Let our superClass build any objects it needs to first
   
   [super buildObjects];
   
   // Then, we create the model that we're actually observing. The
-  // model is a subswarm of the observer. We create the model in
-  // its own zone, so storage is segregated.
+  // model is a subswarm of the observer. 
   
-  modelZone = [Zone create: [self getZone]];
-  mousetrapModelSwarm = [MousetrapModelSwarm create: modelZone];
+  mousetrapModelSwarm = [MousetrapModelSwarm create: self];
 
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
@@ -191,7 +187,7 @@
   // Next, create a 2d window to display the mousetrap world
   // and  set its size, zoom factor, title.
 
-  displayWindow = [ZoomRaster createBegin: globalZone];
+  displayWindow = [ZoomRaster createBegin: self];
   SET_WINDOW_GEOMETRY_RECORD_NAME (displayWindow);
   displayWindow = [displayWindow createEnd];
   [displayWindow enableDestroyNotification: self
@@ -218,11 +214,11 @@
   // app is to illustrate dynamic scheduling, so we'll let it slide
   // for now...
 
-  mousetrapDisplay = [Object2dDisplay createBegin: [self getZone]];
-  [mousetrapDisplay setDisplayWidget: displayWindow];
-  [mousetrapDisplay setDiscrete2dToDisplay: [mousetrapModelSwarm getWorld]];
-  [mousetrapDisplay setDisplayMessage: M(noMethod:)];
-  mousetrapDisplay = [mousetrapDisplay createEnd];
+  mousetrapDisplay = 
+    [Object2dDisplay create: self 
+                     setDisplayWidget: displayWindow
+                     setDiscrete2dToDisplay: [mousetrapModelSwarm getWorld]
+                     setDisplayMessage: M(noMethod:)];
 
   // And tell the displayWindow to send mouse clicks to the mousetrapDisplay
   // this allows the user to right-click on the display to probe the traps.
