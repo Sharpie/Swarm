@@ -1,3 +1,13 @@
+1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* Makefile.in (all): Depend on modules and $(POSTCLASSFILES).
+	(ALLCLASSFILES): New variable.
+	(jar): Use it.
+	(install-java-classes-as-jar, install-java-classes-as-files): New
+	targets.
+	(install): Depend on
+	install-java-classes-as-@JAVA_CLASSES_INSTALLED_AS@.
+
 1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (JAVAENV, JAVACMD): Substitute.
