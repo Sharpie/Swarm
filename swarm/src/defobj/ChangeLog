@@ -1,3 +1,11 @@
+2001-07-29  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
+
+	* java.h, internal.h (_obj_GCFixedRootZone): Moved to internal.h.
+
+	* JavaProxy.m: Protect contents of compare: with HAVE_JDK.
+
+	* FCall.m: Make gc_* macros available in all configurations.
+
 2001-07-28  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Makefile.am: Install macros.h.
