@@ -284,7 +284,7 @@ USING
 @protocol ActionSelector
 //S: Messages for actions involving a selector.
 //D: Messages for actions involving a selector.
-CREATING
+SETTING
 - (void)setMessageSelector: (SEL)aSel;
 USING
 - (SEL)getMessageSelector;

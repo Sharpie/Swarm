@@ -1,3 +1,16 @@
+2001-06-11    <mgd@DRONE>
+
+	* Schedule.m (createGroup): Set Bit{Randomized,Concurrent} to
+	union of Schedule's setting and concurrent group template.
+
+	* activity.h (ActionSelector): Move setMessageSelector: to 
+	setting phase.
+
+	* Action.m ([ActionTo_c -setMessageSelector:]): Move to setting phase.
+	Recreate call if necessary.
+
+	* ActionHomogeneous.m: Likewise, resetting imp as necessary.
+
 2001-05-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* ActionHomogeneous.m ([-createEnd]): Use SD_JAVA_FIND_OBJECT_JAVA

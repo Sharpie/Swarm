@@ -63,14 +63,17 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
 #ifdef SETUPCALL
 - (void)setMessageSelector: (SEL)aSel
 {
   selector = aSel;
+
+  if (imp)
+    SETUPCALL;
 }
 #endif
 
-PHASE(Setting)
 - setDefaultOrder: (id <Symbol>)aSymbol
 {
   setDefaultOrder (&bits, aSymbol);

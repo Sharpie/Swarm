@@ -208,15 +208,17 @@ createGroup (Schedule_c *self)
   // create new concurrent group to receive new action
 
   newGroup = [self->concurrentGroupType create: getCZone (zone)];
+
+  // forced on
   setBit (((Collection_any *) newGroup)->bits, BitConcurrentGroup, 1);
+
+  // forced to policy of Schedule
   setBit (((Collection_any *) newGroup)->bits, BitAutoDrop,
           getBit (self->bits, BitAutoDrop));
 
-  setBit (((Collection_any *) newGroup)->bits, BitRandomized,
-          getBit (self->bits, BitRandomized));
-  setBit (((Collection_any *) newGroup)->bits, BitConcurrent,
-          getBit (self->bits, BitConcurrent));
-
+  // if either sets these flags, use it
+  ((Collection_any *) newGroup)->bits |= getBit (self->bits, BitRandomized);
+  ((Collection_any *) newGroup)->bits |= getBit (self->bits, BitConcurrent);
 
   newAction = [zone allocIVarsComponent: id_ActionConcurrent_c];
   setMappedAlloc (newAction);

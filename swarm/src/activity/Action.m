@@ -245,11 +245,6 @@ PHASE(Creating)
   protoTarget = target = aTarget;
 }
 
-- (void)setMessageSelector: (SEL)aSel
-{
-  selector = aSel;
-}
-
 - createEnd
 {
   [super createEnd];
@@ -261,7 +256,20 @@ PHASE(Creating)
   return self;
 }
 
-PHASE(Using)
+PHASE(Setting)
+
+- (void)setMessageSelector: (SEL)sel
+{
+  selector = sel;
+
+  if (call)
+    {
+      [[call getArguments] dropAllocations: YES];
+      [(id) call dropAllocations: YES];
+      call = [self _createCall_: target];
+    }
+}
+
 - _createCall_: theTarget
 {
   id <FArguments> arguments =
@@ -280,6 +288,7 @@ PHASE(Using)
                 selector: selector
                 arguments: arguments];
 }
+PHASE(Using)
 
 - (void)_performAction_: (id <Activity>)anActivity
 {
