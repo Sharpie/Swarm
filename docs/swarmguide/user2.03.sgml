@@ -2,6 +2,8 @@
   <title>Doing the Chores: <function>set</function> and
   <function>get</function></title>
 
+  <indexterm><primary>instance variables</primary><secondary>intitialization</secondary></indexterm>
+
   <para> Object-oriented programming organizes the way programmers
     think about information in a new way.  The objects maintain their
     variables (the "instance variables", or IVARs for short) and the
@@ -37,6 +39,12 @@
 
   <sect1 id="swarm.user.user2.03-getset.sect1">
     <title>Get and Set Methods</title> 
+
+    <indexterm><primary>get methods</primary>
+    </indexterm>
+    <indexterm><primary>set methods</primary>
+    </indexterm>
+    
 
     <para>Get and set methods are needed to pass information among
       objects.  For example, consider
@@ -176,6 +184,9 @@ aBug = [aBug createEnd];
   <sect1 id="swarm.user.user2.03-import.sect1">
     <title>Passing Information Around</title>
     <subtitle>Getting the Import Statements Right</subtitle>
+
+    <indexterm><primary>objects</primary><secondary>getting
+    information from</secondary></indexterm>
 
     <para>In order to send messages to objects from another class, it
       is necessary not only to use the correct message, but also to
@@ -358,13 +369,17 @@ dog->numberOfBones = 3;
       brutish because it does not use the methods written for the dog
       class with which it can set that value and update it.  A mistake
       made with the <literal>-></literal> operator can corrupt the
-      values inside an object.  Nevertheless, one does find examples
-      of this syntax in Swarm code.  Almost all Swarm examples use
-      this kind of shortcut in the <function>createBegin</function>
-      phase of the model swarm file, for example.  
+      values inside an object.  </para>
 
-<!-- Here create a world for the bug to roam around in. -->
-
+    <para>Even though the usage of <literal>-></literal> is
+      discouraged, one does find examples of this syntax in Swarm
+      code.  Almost all Swarm examples use this kind of shortcut in
+      the <function>createBegin</function> phase of the model swarm
+      file, for example. This is done, however, because there is no
+      alternative.  We want the GUI probe display to allow the user to
+      adjust parameter values before the simulation commences.  It is
+      thus necessary to set values inside some objects even before
+      those objects have finished their createBegin/createEnd routine.
     </para>
   </sect1>
 </chapter>

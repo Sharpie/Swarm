@@ -13,6 +13,9 @@
 
   <sect1 id="swarm.user.user2.05-list-class.sect1">
     <title>The <classname>List</classname> Class</title> 
+
+    <indexterm><primary>List</primary></indexterm>
+    
     
     <para> This section is not intended as a comprehensive review of
       Swarm's Collections library.  That job is left to a later
@@ -75,6 +78,8 @@ nameOfSomeList = [List create: self];
       instance, while other classes would use <literal>[self
       getZone]</literal> in place of <varname>self</varname>.</para>
 
+    <indexterm><primary>List</primary><secondary>adding and removing objects</secondary></indexterm>
+    
     <para>Once a list object exists, it can carry out many
       instructions. In the <classname>List</classname> protocol,
       methods that can add and remove either the first or last object
@@ -277,6 +282,8 @@ nameOfSomeList = [List create: self];
       features of the other libraries that can handle Swarm
       <classname>List</classname> objects.  </para>
 
+    <indexterm><primary>getCount</primary></indexterm>
+
     <para> The ability to pass a list to the observer swarm in order
       to create a graph is just one benefit of Swarm
       <classname>List</classname> protocol.  Note in the
@@ -293,7 +300,8 @@ nameOfSomeList = [List create: self];
       can do this:</para>
 
 <programlisting>
-[pplPresent getCount]-1</programlisting>
+[pplPresent getCount]-1
+</programlisting>
 
     <para>which returns an integer equal to the number of objects in
       the <varname>pplList</varname> minus 1. The
@@ -312,6 +320,10 @@ nameOfSomeList = [List create: self];
 
   <sect1 id="swarm.user.user2.05-lists-chores.sect1">
     <title>Lists: Organizing Repetitive Chores inside Objects</title> 
+
+     <indexterm><primary>List</primary><secondary>looping through members</secondary></indexterm>
+
+      <indexterm><primary>Index</primary><secondary>usage with Lists</secondary></indexterm>
 
     <para> In the <application>Hello World</application> example, each
       instance of the <classname>Person</classname> class is aware of
@@ -342,6 +354,8 @@ nameOfSomeList = [List create: self];
       breathing" object that can be moved around in a list, and the
       <classname>Index</classname> can also respond to requests for
       information.</para>
+
+ 
 
     <para>For new Swarm users, the most puzzling thing about the usage
       of <classname>Index</classname> is the creation process.
@@ -490,6 +504,8 @@ while (([pplIndex next]))
      will point to the next valid member of the list.
     </para>
 
+    <indexterm><primary>List</primary><secondary>nil objects in</secondary></indexterm>
+
     <caution>
       <para>Watch out for nil objects when using "while" loops</para>
       <para>If you loop through a list, checking only that the index
@@ -567,3 +583,10 @@ Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->
+
+
+
+
+
+
+

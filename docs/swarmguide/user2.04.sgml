@@ -1,12 +1,15 @@
 <chapter id="swarm.user.user2.04.chapter">
   <title>Building Schedules</title> 
 
+
+
   <para>The core of the Swarm system is the set of features that
     enhance the design process of simulation projects. The scheduling
     apparatus is one of the truly important elements of the Swarm
     system because it offers a way to integrate the actions (and
     responses) many different agents in many different levels of a
     simulation.</para>
+
 
   <para>The actions that go on in a simulation are orchestrated by a
     objects that respond to the <classname>Schedule</classname>
@@ -24,11 +27,17 @@
   <sect1 id="swarm.user.user2.04-schedule.sect1">
     <title>Building <classname>Schedule</classname>s </title> 
 
+  <indexterm><primary>Schedule</primary><secondary>creating</secondary>
+  </indexterm>
+
     <para> Here is an example of some code that makes a simple
       <classname>Schedule</classname>.  This sort of
       <classname>Schedule</classname> might appear in the
       <varname>ModelSwarm</varname> level of the bug tutorial, for
       example.</para>
+
+    <indexterm><primary>createActionTo:</primary><secondary>usage in schedules</secondary>
+    </indexterm>
 
 <programlisting>
 - buildActions 
@@ -53,6 +62,8 @@
       assigned to the <varname>modelSchedule</varname> will be
       executed at each time step.
     </para>
+
+    
 
     <para>
       Once the code has created a <classname>Schedule</classname>
@@ -80,6 +91,9 @@
       <function>step</function> action.  In such a case, the command
       would be:</para>
 
+    <indexterm><primary>createActionForEach:</primary><secondary>usage
+    in schedules</secondary></indexterm>
+
       <programlisting>
 [modelSchedule at: 0 createActionForEach: bugList message: M(step)];
       </programlisting>
@@ -93,6 +107,10 @@
 
   <sect1 id="swarm.user.user2.04-macro.sect1">
     <title>What's that <function>M()</function> Thing?</title> 
+
+    <indexterm><primary>M()</primary><see>selector</see></indexterm>
+
+    <indexterm><primary>selector</primary><secondary>defined</secondary></indexterm>
 
     <para>
       The commands that tell a <classname>Schedule</classname> to add
@@ -112,6 +130,7 @@
       notation is one shorthand way of giving it what it wants.
     </para>
 
+    <indexterm><primary>selector</primary><secondary>in schedules</secondary></indexterm>
     <para>Some of the methods in the Swarm library will also want a
       list of parameters that go with the selector.  Suppose, for
       example, you have a psychologist agent that has this method:</para>
@@ -143,6 +162,8 @@
       <function>createActionForEach</function>, which has a prototype
       like this:</para>
 
+    <indexterm><primary>selector</primary><secondary>adding arguments to</secondary></indexterm>
+
 <programlisting>
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1 : arg2</programlisting>
 
@@ -158,6 +179,8 @@
 [modelSchedule at: 0 createActionForEach: listOfShrinks message: M(dealWithProblemBetween:And:):bill:susan];</programlisting>
       
     <para>Admittedly, this notation seems ungainly, but it works.</para>
+
+    <indexterm><primary>selector</primary><secondary>justification for usage</secondary></indexterm>
 
     <para>It is a difficult understand the reason why the selector is
       needed in the first place.  If one is not well versed in
@@ -204,6 +227,10 @@
       <classname>Object2dDisplay</classname> is passed a selector by
       the "setDisplayMessage" method.. This bit of code is from
       SwarmSugarScape's <filename>ObserverSwarm.m</filename> file.</para>
+
+    <indexterm><primary>selector</primary><secondary>usage in display objects</secondary></indexterm>
+
+    <indexterm><primary>Object2dDisplay</primary><secondary>usage example</secondary></indexterm>
 
 <programlisting>
 agentDisplay = [Object2dDisplay createBegin: [self getZone]];
@@ -331,10 +358,16 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       at the end, but this command instead gives it
       <function>SELECTOR:float:float</function>.</para>
 
+    <indexterm><primary>selector</primary><secondary>nonobject
+    arguments to</secondary></indexterm>
+
+    <indexterm><primary>wrapper</primary></indexterm>
+
     <para>When you need to pass float values in this way, you may have
       to redesign your methods so that they can take objects.  For
       example, you might make a new kind of object to hold the values
-      of those floating point numbers.  If that new class, call it the
+      of those floating point numbers.  This new class is often called
+      a "wrapper" class.  If that new class, call it the
       <classname>ParameterHolder</classname> for discussion, is able
       to respond to methods like <function>getTemp</function> and
       <function>getFeelr</function>, then this problem could be
@@ -369,6 +402,8 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
 
   <sect1 id="swarm.user.user2.04-actiongroup.sect1">
     <title><classname>ActionGroup</classname>s</title>
+
+    <indexterm><primary>ActionGroup</primary></indexterm>
 
     <para>An <classname>ActionGroup</classname> is a set of actions
       that are supposed to happen in sequence.  The
@@ -426,6 +461,8 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
 
   <sect1 id="swarm.user.user2.04-activating.sect1">
     <title>Activating Swarms</title> 
+
+    <indexterm><primary>activateIn</primary></indexterm>
 
     <para>The <function>buildActions</function> method is intended to
       be the place in which one creates Swarm schedules, but that does
@@ -505,6 +542,8 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
   <sect1 id="swarm.user.user2.04-activity.sect1">
     <title>What is an <classname>Activity</classname>?</title>
 
+    <indexterm><primary>Activity</primary></indexterm>
+
     <para>
       The <classname>Activity</classname> class is a vital element of
       the Swarm approach.  It's fundamental purpose is to merge all
@@ -531,6 +570,12 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       <classname>Activity</classname> class objects are behind the
       scenes, doing the actual work.</para>
 
+    <indexterm><primary>getActivity</primary><see>Activity</see></indexterm>
+
+    <indexterm><primary>stopping a simulation</primary><see>Activity</see></indexterm> 
+
+    <indexterm><primary>Activity</primary><secondary>starting and stopping</secondary></indexterm>
+
     <para>It is easy to "grab" the activity object of a given Swarm. The
       method which returns the activity of a Swarm is
       <function>getActivity</function>.  If one needs to tell the object
@@ -554,6 +599,9 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
 
   <sect1 id="swarm.user.user2.04-dynamic.sect1">
     <title>Dynamic Scheduling</title>
+
+    <indexterm><primary>Schedule</primary><secondary>dynamic</secondary></indexterm>
+    <indexterm><primary>dynamic scheduling</primary><see>Schedule</see></indexterm>
 
     <para>
       The schedules described so far are of a particular static sort.
@@ -630,7 +678,9 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       foodspace at a time in the future.  And the ungainly
       <function>M()</function> notation appears, which we described in
       greater detail in <xref
-      linkend="swarm.user.user2.04-macro.sect1">.</para>
+      linkend="swarm.user.user2.04-macro.sect1">.  Note that the
+      putValue:atX:Y: method requires 3 integer parameters, which
+      represent the value being put in the space and the two coordinates. </para>
 
     <para>The preceeding steps are the essence of creating the dynamic
       schedule. The empty schedule is created, and a method is created

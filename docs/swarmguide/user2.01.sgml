@@ -113,6 +113,10 @@
   <sect1 id="swarm.user.user2.01-learn.sect1">
     <title>What Are You Supposed to Learn from the Tutorial?</title>
 
+    <indexterm><primary>Swarmtest</primary>
+      <secondary>tutorial</secondary>
+    </indexterm>
+
     <para>So, after you worked on the tutorial for 20 hours or so,
       what then?  You should know all kinds of details about how Swarm
       can be used, of course, but there are some bigger themes.</para>
@@ -293,3 +297,4 @@ Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->
+

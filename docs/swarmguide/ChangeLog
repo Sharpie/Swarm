@@ -1,3 +1,18 @@
+2000-02-26  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.05.sgml: Added some index terms. Need more time later on it.
+
+	* user2.04.sgml: Added index items.
+
+	* user2.03.sgml: Added index items. Explained why the usage of ->
+	is necessary in createBegin but it should not be used  elsewhere. 
+
+	* user2.02.sgml: Added index items. Tried to clear up a big
+	misconception I created about creating swarm objects and when
+	header files from the Swarm library are needed. 
+
+	* user2.01.sgml: Added index items
+
 2000-02-22  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user2.05.sgml (pplIndex): Problem of nil objects in Swarm

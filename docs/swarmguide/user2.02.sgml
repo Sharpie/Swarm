@@ -23,11 +23,22 @@
       to see if the GUI mode or batch mode is to be run, and depending
       on that choice, either the <classname>ObserverSwarm</classname>
       or the <classname>BatchSwarm</classname> is designated as
-      <varname>theTopLevelSwarm</varname>.</para> <para> Suppose we
-      have do not do anything special when compiling and running the
-      <application>heatbugs</application> executable, so the GUI mode
-      is used.  In that case, the relevant code in
+      <varname>theTopLevelSwarm</varname>.</para> 
+
+    <para> Suppose we have do not do anything special when compiling
+      and running the <application>heatbugs</application> executable,
+      so the GUI mode is used.  In that case, the relevant code in
       <filename>main.m</filename> is this:</para>
+
+    <indexterm>
+      <primary>object creation</primary>
+      <secondary>createBegin/createEnd</secondary>
+    </indexterm>
+
+    <indexterm>
+      <primary>createBegin</primary>
+      <see>object creation</see>
+      </indexterm>
 
 <programlisting>
 if (swarmGUIMode == 1)
@@ -116,9 +127,14 @@ if (swarmGUIMode == 1)
       variables that it inherits.
     </para>
 
+    <indexterm>
+      <primary>object creation</primary>
+      <secondary>createBegin</secondary>
+      </indexterm>
+
     <para>
       The <function>createBegin</function> method of its superclass is
-      told to put the created objects in <classname>aZone</classname>,
+      called to put the created objects in <classname>aZone</classname>,
       which is the name of the space passed in from
       <filename>main.m</filename>.  The memory zone that is created is
       returned and set equal to <varname>obj</varname>. Then the
@@ -127,6 +143,10 @@ if (swarmGUIMode == 1)
       <filename>main.m</filename>, which then treats it as
       <varname>theTopLevelSwarm</varname>.
     </para>
+
+    <indexterm>
+      <primary>GUISwarm</primary>
+      </indexterm>
 
     <para>The reader can investigate in the Swarm source code to see
       that <classname>GUISwarm</classname> inherits through a
@@ -154,13 +174,21 @@ if (swarmGUIMode == 1)
 }
 </programlisting>
 
+    <indexterm>
+      <primary>object creation</primary>
+      <secondary>createEnd</secondary>
+    </indexterm>
+
     <para>In a case like this, when the super class is inside the
       Swarm library, it may be hard to figure out exactly why this
       command is needed. As a matter of fact, it is not necessary in
       this case at all, but it does not do any harm.  If it were
       omitted from this class, then this class would just inherit
       <function>createEnd</function> method from the somewhere above
-      in the family tree.
+      in the family tree.  By using it in this way, we make sure that
+      the commands of the super class's createEnd method are executed,
+      and this may be important because those steps might initialize
+      some variables that this class inherits.
     </para>
 
     <para>
@@ -198,19 +226,23 @@ if (swarmGUIMode == 1)
 }      
 </programlisting>
 
-    <para>The super class is told to run its
-      <function>createEnd</function> method, which will assure that
-      any variables initialized there are set properly. Then the
-      instance variable age is set equal to 0.  (Sometimes you will
-      find examples in which <function>createEnd</function> is a
-      "garbage can" that collects a large number of commands that set
-      initial values for variables inside the object.  These commands
-      might as well be regrouped and put into a new method inside the
-      object that might be called
+    <para>The super class's <function>createEnd</function> method is
+      executed, which will assure that any variables initialized there
+      are set properly. Then the instance variable age is set equal to
+      0.  (Sometimes you will find examples in which
+      <function>createEnd</function> is a "garbage can" that collects
+      a large number of commands that set initial values for variables
+      inside the object.  These commands might as well be regrouped
+      and put into a new method inside the object that might be called
       <classname>setInitialValues</classname> that would be executed
       after the <function>createEnd</function>.  The readability of
       the code is enhanced that way.)
     </para>
+
+    <indexterm>
+      <primary>object creation</primary>
+      <secondary>create</secondary>
+      </indexterm>
 
     <para>
       The <function>create</function> message causes the receiver to
@@ -237,6 +269,15 @@ if (swarmGUIMode == 1)
       and then forgotten, a "memory leak" is said to exist because the
       program does not tell the operating system to reclaim unused
       memory addresses.  </para>
+
+    <indexterm>
+      <primary>memory allocation</primary>
+      <secondary>Swarm Zones</secondary>
+      </indexterm>
+
+    <indexterm>
+      <primary>drop</primary>
+      </indexterm>
 
     <para>
       The Swarm libraries are designed to handle memory allocation
@@ -273,22 +314,24 @@ someUserCreatedObject = [SomeSwarmLibraryObject  create: someMemoryZoneHere];
       <classname>Zone</classname> called
       <varname>globalZone</varname>.</para>
 
-<programlisting>
+    <programlisting>
 theTopLevelSwarm = [HeatbugObserverSwarm createBegin: globalZone];
 </programlisting>
 
-    <para>This <varname>globalZone</varname> is created inside the
-      Swarm library, and the top level Swarm is told to create itself
+    <para>This <varname>globalZone</varname> is created when the
+      initSwarm function is called at the beginning of a swarm
+      program. 
+      The top level Swarm is told to create itself
       in that space. Any Swarm objects of type
       <classname>Swarm</classname> or <classname>GUISwarm</classname>
       are able to serve as memory zones. Inside the
       <classname>ModelSwarm</classname> one sees a command such
       as:</para>
 
-<programlisting>
+    <programlisting>
 probeMap = [EmptyProbeMap createBegin: self];
 </programlisting>
-      
+    
     <para>This tells the <classname>EmptyProbeMap</classname> class in
       the Swarm library to create an instance of itself in the memory
       zone allocated by the <classname>ModelSwarm</classname>, and
@@ -296,65 +339,13 @@ probeMap = [EmptyProbeMap createBegin: self];
       <varname>probeMap.</varname>
     </para>
 
-    <para>It often seems as if objects appear by "magic." It is more
-      reasonable to say they are provided by the Swarm library in a
-      way that is not entirely obvious.  For example, suppose you want
-      to create a list of objects. One can declare an object
-      <varname>listOfFriends</varname> and then create it, like so:</para>
-
-<programlisting>
-id listOfFriends;
-listOfFriends = [List create: self]; 
-</programlisting>
-
-    <para>You see little bits like this all over example code from
-      Swarm projects.  Where does this <classname>List</classname>
-      class object come from and why are you able to make calls to it
-      even though there is no import statement at the top of the
-      program?  It seems as though, if you want to make a call on the
-      List class, you ought to include <filename>List.h</filename> at
-      the top of your file, right?  To use many of the Swarm classes,
-      it is not necessary to use such an explicit import statement
-      since you are not subclassing.  Explicit importing of a class
-      header file is only required when you need to subclass from that
-      file. The rules of thumb you should use are:
-
-      <itemizedlist>
-
-        <listitem><para>if you use a class that conforms to a protocol
-            (such as <classname>List</classname>), where are actually
-            instantiating an object directly, you need to include the
-            header for that only for that library (in the above case
-            it will be <filename>collections.h</filename>) wherever
-            you reference that class that conforms to the protocol.
-            This might required be in the header file
-            <filename>.h</filename> or only in the implementation file
-            <filename>.m</filename> (if you don't actually use the
-            name of the protocol in the header
-            file).</para></listitem>
-
-        <listitem><para>if, however, you are
-            <emphasis>subclasssing</emphasis> from a class that
-            adheres to a protocol (say
-            <classname>SwarmObject</classname>) you
-            <emphasis>also</emphasis> need to include the actual
-            header for that class.  In this example, it will be
-            <filename>objectbase/SwarmObject.h</filename>.</para></listitem>
-
-      </itemizedlist>
-
-      As good coding practice, you should only ever have imports for header
-      files for protocol definitions that you reference in that particular
-      interface/implementation file pair.
-    </para>
-
-    <para>The objects at the top level of the swarm hierarchy have the
-      power to "create space" for objects that live inside them.  As
-      the code in <filename>main.m</filename> proceeds through the
-      creation of <varname>theTopLevelSwarm</varname>, it is
-      allocating memory and setting other important creation-state
-      variables.  Then, that newly created object is told to go
-      through its paces:</para>
+    <para>The objects at the top level of the swarm hierarchy (whether
+      Swarm or GUISwarm) have the power to "create space" for objects
+      that live inside them.  As the code in
+      <filename>main.m</filename> proceeds through the creation of
+      <varname>theTopLevelSwarm</varname>, it is allocating memory and
+      setting other important creation-state variables.  Then, that
+      newly created object is told to go through its paces:</para>
 
 <programlisting>
 [theTopLevelSwarm buildObjects];
@@ -400,9 +391,161 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
 </programlisting>
  
     <para>The <varname>bugPixmap</varname> object is created inside
-      <filename>Heatbug.m</filename>, but the memory zone has to be
-      retrieved with the <literal>[self getZone]</literal> command.
+      <filename>Heatbug.m</filename>, but the name of the memory zone
+      where that object "lives" has to be
+      retrieved with the <literal>[self getZone]</literal>
+      command. The [self getZone] method returns the name of the zone
+      in which the bug exists, which in this case is heatbugModelSwarm.
     </para>
+
+ </sect1>
+
+ <indexterm><primary>SwarmTopics</primary>
+ <secondary>using Swarm library objects </secondary>
+</indexterm>
+
+ <sect1 id="swarm.user.user2.02-objects.sect1">
+    <title>Using Swarm Library Objects and Header Files</title>
+
+    <para>It often seems as if objects appear by "magic." It is more
+      reasonable to say they are provided by the Swarm library in a
+      way that is not entirely obvious.  For example, suppose you want
+      to create a list of objects. One can declare an object
+      <varname>listOfFriends</varname> and then create it, like so:</para>
+
+    <programlisting>
+id listOfFriends;
+listOfFriends = [List create: self]; 
+</programlisting>
+
+    <para>You see little bits like this all over example code from
+      Swarm projects.  Where does this <classname>List</classname>
+      class object come from and why are you able to make calls to it
+      even though there is no import statement at the top of the
+      program?  It seems as though, if you want to make a call on the
+      List class, you ought to include <filename>List.h</filename> at
+      the top of your file, right?  To use many of the Swarm classes,
+      it is not necessary to use such an explicit import statement
+      since you are not subclassing.  To create List instances, one
+      need import the "general purpose" collections.h, which declares
+      not only List, but other collections classes as well.</para>
+
+    <para>The general purpose header files can be found in the include
+    directory of your swarm installation.  They are:
+</para>
+
+     <itemizedlist>
+	<listitem>
+	  <para>activity.h</para>
+	</listitem>
+	<listitem>
+	  <para>analysis.h</para>
+	</listitem>
+	<listitem>
+	  <para>collections.h</para>
+	</listitem>
+	<listitem>
+	  <para>collections.h</para>
+	</listitem>
+
+	<listitem>
+	  <para>gui.h</para>
+	</listitem>
+     
+	<listitem>
+	  <para>objectbase.h</para>
+	</listitem>
+	<listitem>
+	  <para>random.h</para>
+	</listitem>
+	<listitem>
+	  <para>simtools.h</para>
+	</listitem>
+	<listitem>
+	  <para>simtoolsgui.h</para>
+	</listitem>
+	<listitem>
+	  <para>space</para>
+	</listitem>
+      </itemizedlist>
+
+    
+    <para> As you browse the Swarm Reference Guide, you will find many
+     protocols that adopt the CREATABLE protcol, which means that you
+     can use them to create objects in your code.  When you use them,
+     import one of these library headers.</para>
+
+    <para>Depending on your specific usage, it may be necessary to
+     import these library headers in either your header file or your
+     implementation file.  For example, to create List objects, import
+     <filename>collections.h</filename>.  That header file should be
+     included in any file that refers to a List, Map, Set, or any of
+     the other creatable collections objects.  This is required be in
+     the header file <filename>.h</filename> if your class declares
+     any variables that make explicit references to List, for example
+     by declaring a variable with a protocol, as in</para>
+
+    <programlisting>
+id &lt;List&gt; aList;
+</programlisting>
+
+    <para>If you forget to import collections.h, the compiler will
+    fail and say there was a parse error. This happens because it does
+    not have a class or protocol List in its purview, and so it
+    assumes you have made a typographical error.</para>
+
+    <para>On the other hand, if your header file uses a general
+            declaration, as in
+
+<programlisting>
+id aList;
+</programlisting>
+
+	   then there is no need to include collections.h.  Since the
+List is used in the implementation file, then the collections.h header
+should be included there.</para>
+
+
+  <para>Explicit importing of a class-specific header file is only
+      required when you need to subclass from that file.  Since your
+      header file declares that you are creating a class, and it
+      defines the superclass, then the import statement must be
+      included in your header file.  SwarmObject is the most
+      frequently used superclass, so consider it for example.  Your
+      class's header file should import <emphasis>both</emphasis> the
+      general purpose library header objectbase.h as well as
+      <filename>objectbase/SwarmObject.h</filename></para>
+
+    <para>We will summarize this by offering two rules of thumb:
+
+      <itemizedlist>
+
+        <listitem><para>if you use a class that conforms to a protocol
+            (such as <classname>List</classname>) to create objects in
+            your own program, you need to include one of the general
+            Swarm library headers. </para></listitem>
+
+        <listitem><para>if, however, you are
+            <emphasis>subclassing</emphasis> from a class that
+            adheres to a protocol, you need to import the header file
+            for that class.</para></listitem>
+      </itemizedlist>
+
+      We hasten to point out that not all of the Swarm protocols will
+      allow you to subclass from them.  To avoid some serious
+      complications, the List type cannot be used to create
+      user-specific classes.  One can create Lists and use them as
+      intended, but one cannot create variants of the Swarm List class
+      to customize their behavior for a specific project.</para>
+
+    <para>As good coding practice, you should try to keep your files
+      clean.  Each file should only include imports for header
+      files that you actually reference in that particular
+      interface/implementation file pair.  Don't adopt a "include
+      everything" mentality when importing files.
+    </para>
+
+
 
   </sect1>
 
@@ -525,6 +668,11 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
       program to reuse.
     </para>
 
+    <indexterm><primary>drop</primary></indexterm>
+
+    <indexterm><primary>object creation</primary><secondary>object recycling</secondary>
+    </indexterm>
+
     <para>What if the objects inside your simulation are supposed to
       be born and killed through time? The Swarm bug tutorial mainly
       focuses on models in which a population of actors is created at
@@ -593,3 +741,9 @@ Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->
+
+
+
+
+
+
