@@ -12,7 +12,19 @@
 
 @implementation DiGraphNode
 
-- setCanvas: aCanvas
+- setRandPosFunc: rp
+{
+  uRandPosition = rp;
+  return self;
+}
+
+- setCanvas: aCanvas 
+{
+  [self setCanvas: aCanvas withRandPosFunc: uRandPosition];
+  return self;
+}
+
+- setCanvas: aCanvas withRandPosFunc: posFunc
 {
   canvas = aCanvas;
   
@@ -31,10 +43,10 @@
     }
   
   nodeItem = [[[[nodeItem setX: 
-                            [uniformIntRand getIntegerWithMin: 0
+                            [posFunc getIntegerWithMin: 0L
                                             withMax: [canvas getWidth]]
                           Y: 
-                            [uniformIntRand getIntegerWithMin: 0
+                            [posFunc getIntegerWithMin: 0L
                                             withMax: [canvas getHeight]]] 
                  setString: label]
                 setCanvas: canvas] createEnd];
@@ -53,16 +65,22 @@
   return self;
 }
 
-+createBegin: aZone {
++ createBegin: aZone {
   DiGraphNode * obj;
+
+  // uses the default distribution for the 
+  // random node positions from simtools
+  // not recommended - use only for backwards 
+  // compatitibility
 
   obj = [super createBegin: aZone];
   obj->nodeType = OvalNode;
+  obj->uRandPosition = uniformIntRand;
 
   return obj;
 }
 
--createEnd {  
+- createEnd {  
 
   fromList = [List create: [self getZone]];
   toList = [List create: [self getZone]];
@@ -70,19 +88,19 @@
   return self;
 }
 
--getNodeItem {
+- getNodeItem {
   return nodeItem;
 }
 
--getToLinks {
+- getToLinks {
    return fromList;
 }
 
--getFromLinks {
+- getFromLinks {
    return toList;
 }
 
--makeLinkTo: aNode {
+- makeLinkTo: aNode {
   id aLink;
 
   if (canvas)
@@ -97,7 +115,7 @@
   return aLink;
 }
 
--makeLinkFrom: aNode {
+- makeLinkFrom: aNode {
   id aLink;
 
   if (canvas)    
@@ -112,17 +130,17 @@
   return aLink;
 }
 
--addFrom: aLink {
+- addFrom: aLink {
   [fromList addFirst: aLink];
   return self;
 }
 
--addTo: aLink {
+- addTo: aLink {
   [toList addFirst: aLink];
   return self;
 }
 
--(int)linkedTo: anObj {
+- (int)linkedTo: anObj {
   id index, link;
 
   index = [toList begin: globalZone];
@@ -135,7 +153,7 @@
   return 0;
 }
 
--(int)linkedFrom: anObj {
+- (int) linkedFrom: anObj {
   id index, link;
 
   index = [fromList begin: globalZone];
@@ -148,24 +166,24 @@
   return 0;
 }
 
--removeFrom: which {
+- removeFrom: which {
   [fromList remove: which];
   return self;
 }
 
--removeTo: which {
+- removeTo: which {
   [toList remove: which];
   return self;
 }
 
--hideNode {
+- hideNode {
    
    canvas = nil;
    [nodeItem drop];      
    return self;
 }
 
--(void) drop {
+- (void)drop {
 
   while([fromList getCount]){
     [[fromList getFirst] drop];
@@ -185,11 +203,11 @@
 
 // Callbacks...
 
--(int) agreeX: (int) x Y: (int) y {
+- (int)agreeX: (int)x Y: (int)y {
   return 1;
 }
 
--updateLinks {
+- updateLinks {
   [fromList forEach: M(update)];
   [toList forEach: M(update)];
   return self;

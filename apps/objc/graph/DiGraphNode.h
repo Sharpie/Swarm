@@ -12,9 +12,12 @@
   id <NodeItem> nodeItem;
   id nodeType;
   const char *label;
+  id uRandPosition;
 }
 
+- setRandPosFunc: rp;
 - setCanvas: aCanvas;
+- setCanvas: aCanvas withRandPosFunc: posFunc;
 - createEnd;
 - getNodeItem;
 - getToLinks;
