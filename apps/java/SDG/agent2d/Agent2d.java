@@ -5,6 +5,8 @@ import swarm.objectbase.Swarm;
 import swarm.defobj.Zone;
 import swarm.space.Grid2d;
 import swarm.gui.Raster;
+import swarm.activity.Schedule;
+import swarm.Selector;
 
 import Organization;
 
@@ -17,6 +19,8 @@ public class Agent2d extends SwarmImpl {
   int x, y; 
   private Grid2d world;
   byte color;
+  Schedule reaper;
+  Selector dropSelector;
 
   public Agent2d (Zone aZone, Organization org,
                   int x, int y,
@@ -25,9 +29,17 @@ public class Agent2d extends SwarmImpl {
     this.x = x;
     this.y = y;
     this.world = org.getWorld ();
+    this.reaper = org.getReaper ();
     this.scatter = scatter;
     this.size = size;
     world.putObject$atX$Y (this, x, y);
+
+    try {
+      dropSelector = new Selector (getClass (), "dropMe", false);
+    } catch (Exception e) {
+      e.printStackTrace (System.err);
+      System.exit (1);
+    }
   }
   
   private Agent2d getAgent (int xpos, int ypos) {
@@ -122,4 +134,20 @@ public class Agent2d extends SwarmImpl {
   public boolean frob (int direction) {
     return false;
   }
+
+  public void dropMe () {
+    Globals.env.xprint (this);
+    
+    // Need Swarm snapshot 2000-07-20 or greater to actually drop it
+    // drop (); 
+  }
+
+  public void remove () {
+    world.putObject$atX$Y (null, x, y);
+    getActivity ().terminate ();
+    reaper.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
+                                      this,
+                                      dropSelector);
+  }
 }
+

@@ -1,0 +1,8 @@
+2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Agent2d.java (reaper, dropSelector): New ivars.
+	(Agent2d): Initialize them.
+	(dropMe, remove): New methods.
+
+	* Marcus2d.java (checkWork): Call remove when time reaches 100.
+
