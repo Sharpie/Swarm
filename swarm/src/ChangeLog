@@ -1,3 +1,8 @@
+2000-07-21  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* getters.el (generate-getters-implementation): Handle guiFlag->
+	swarmGUIMode conversion here.
+
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.am ($(abs_top_builddir)/interface.elc): Depends on

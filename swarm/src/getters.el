@@ -41,7 +41,11 @@
           (print-method-declaration method)
           (insert "\n{\n")
           (insert "  return ")
-          (insert (get-variable-name-for-getter-method method))
+          (insert
+           (let ((name (get-variable-name-for-getter-method method)))
+             (if (string= name "guiFlag")
+                 "swarmGUIMode"
+               name)))
           (insert ";\n")
           (insert "}\n"))))
 
