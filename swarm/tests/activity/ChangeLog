@@ -1,3 +1,14 @@
+1999-02-02  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* ESSwarm.m: New file. 
+
+	* ESSwarm.h: Likewise.
+
+	* EmptySchedule.m: Likewise.
+	
+	* Makefile.am (EXTRA_DIST): Add Holder.h and Holder.m to EXTRA_DIST.
+	
+
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (etc_dir): Use include $(top_builddir)/etc instead.
