@@ -1,9 +1,9 @@
 // include first to avoid Kaffe jmalloc/stdlib conflict
 #include <misc.h> // xmalloc, strdup
-#import <simtools.h> // initSwarm
+#import <simtools.h> // initSwarm, swarmGUIMode
 #import <defobj.h> // defobj_java_call_init_tables
 #import "directory.h" // java_directory_init
-#import <simtoolsgui.h>
+#import <simtoolsgui.h> // probe display macros
 #include <jni.h>
 
 
@@ -152,5 +152,14 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
   }
 #endif
   swarm_directory_init (env, obj);
+  {
+    jclass class = (*env)->GetObjectClass (env, obj);
+    jfieldID fid;
+
+    if (!(fid = (*env)->GetFieldID (env, class, "guiFlag", "Z")))
+      abort ();
+    
+    (*env)->SetBooleanField (env, obj, fid, (jboolean) swarmGUIMode);
+  }
 }
 
