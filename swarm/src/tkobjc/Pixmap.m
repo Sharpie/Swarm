@@ -108,8 +108,10 @@ PHASE(Creating)
     width = pngwidth;
     height = pngheight;
 
-    if (color_type == PNG_COLOR_TYPE_RGB)
+    if (color_type & PNG_COLOR_TYPE_RGB)
       {
+	if (color_type & PNG_COLOR_MASK_ALPHA)
+	  png_set_strip_alpha (read_ptr);
         if (bit_depth == 16)
           png_set_strip_16 (read_ptr);
         else if (bit_depth < 8)
@@ -132,8 +134,7 @@ PHASE(Creating)
       png_bytep row_pointers_buffer[height];
       png_bytep new_row_pointers_buffer[height];
       png_bytep *row_pointers = row_pointers_buffer;
-      unsigned row_columns = row_bytes / 3;
-      
+
       for (ri = 0; ri < height; ri++)
         row_pointers[ri] = xmalloc (row_bytes);
       
@@ -141,15 +142,16 @@ PHASE(Creating)
       
       fclose (fp);
 
-      if (color_type == PNG_COLOR_TYPE_RGB)
+      if (color_type & PNG_COLOR_TYPE_RGB)
         {
           unsigned ri;
           id cMap = [Map createBegin: [self getZone]];
           unsigned colorCount = 0;
+	  unsigned row_columns = row_bytes / 3;
           
           [cMap setCompareFunction: compareRGB];
           cMap = [cMap createEnd];
-          
+
           for (ri = 0; ri < height; ri++)
             {
               unsigned ci;

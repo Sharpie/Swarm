@@ -1,3 +1,15 @@
+1998-10-01  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Pixmap.m ([Pixmap -_loadPNG_]): Handle PNG files with alpha channel.
+	Move row_columns initialization to the scope where it is used.
+
+1998-09-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Histogram.[mh] ([Histogram -setNumBins:], [Histogram
+	-setLabels:], [Histogram -setColors:], [Histogram +createBegin:],
+	[Histogram -createEnd]):  Split out setNumPoints:Labels:Colors:
+	into different methods.
+
 1998-09-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ButtonPanel.m ([ButtonPanel -addButtonName:target:method:]): 
