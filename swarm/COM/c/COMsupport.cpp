@@ -1179,7 +1179,6 @@ JSsetVariable (COMobject cObj, const char *variableName, val_t *inval)
 unsigned
 JSmethodArgCount (COMobject cObj, const char *methodName)
 {
-#if 0
   JSObject *jsobj;
   nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
   nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
@@ -1200,9 +1199,6 @@ JSmethodArgCount (COMobject cObj, const char *methodName)
     abort ();
   
   return JSVAL_TO_INT (arityVal);
-#else
-  return 2;
-#endif
 }
 
 void 
