@@ -6,6 +6,8 @@
 
 	* configure.in: Call md_SWARM_INSTALLER after AM_INIT_AUTOMAKE.
 
+	* VERSION: Bump.
+
 1998-08-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* NEWS: Note move of Makefile.appl and Makefile.lib.
