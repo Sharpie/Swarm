@@ -13,11 +13,11 @@ Prefix: %prefix
 BuildRoot: /tmp/swarm-root
 %ifarch ppc
 BuildPrereq: libffi >= 1.20
-#BuildPrereq: kaffe = 1.0b4
+BuildPrereq: kaffe = 1.0b4
 %else
 BuildPrereq: kaffe = @kaffe_version@
-BuildPrereq: jikes = @jikes_version@
 %endif
+BuildPrereq: jikes = @jikes_version@
 #Icon: swarm.xpm
 Packager: @packager@
 Distribution: @distribution@
