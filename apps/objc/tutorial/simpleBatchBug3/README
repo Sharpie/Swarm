@@ -1,0 +1,71 @@
+// simpleBatchSwarm3
+
+
+If you made it this far, I'm guessing you are pretty determined to
+learn Swarm.  This tutorial introduces some abilities which close
+the circle, allowing you to run a model, save the agents and
+environment, and then start the model again from that point.  That
+means "serialization" is possible.
+
+I am hoping to write a more detailed explanation in the near future,
+but here is the essence of it.  Run the model like this:
+
+./bug
+
+And the settings will be loaded from "bug.scm".
+
+When that model closes down, it will save an output file that
+summarizes the state of the bugs, the food space, and the model swarm
+parameters.  That file will have a run number and a the timestep of
+the "snapshot" in it. Hit the QUIT button after 147 steps, for
+example, and a file like this will be created.
+
+run-1-147-end.scm
+
+1 is the run number because I neglected to type in a run number. 
+Suppose you want to start the model over again from that point. Type this:
+
+./bug -I run-1-147-end.scm 
+
+The space after the capital I can be omitted.  (The command line flag
+-I is the one for filename.)  At timestep 0 in this new model, you will
+see that the bugs, the foodspace, and everything else as it was at
+timestep 147 in the previous run.
+
+In the graphical interface, there is a new button.  The display for
+the Observer swarm has "saveSerialData:" and if you type in a word,
+and hit the button, it will create an output file.  For example, at
+time step 43 I stopped the model, typed "kuNo1" and it the model
+created an output file with this name:
+
+run-1-43-kuNo1.scm
+
+In this way, one can run a simulation until something interesting
+happens, and then save a serialized snapshot.  When the
+model finishes, it will always also save a copy of the end state.  You
+can turn that feature off if you want.
+
+I've been meaning to write an essay that helps explain how all this
+gets put together, but I did not do it yet.  I did, however,
+make a slide show presentation about it, and until there is an essay,
+please consult:
+
+http://lark.cc.ku.edu/~pauljohn/ResearchPapers/Presentations/SwarmFest03/Sfest03_serialization.pdf
+ 
+
+Paul Johnson pauljohn@ukans.edu May 16, 2003.
+
+NEXT ->  simpleExperBug
+
+
+
+
+
+
+
+
+
+
+
+
+
