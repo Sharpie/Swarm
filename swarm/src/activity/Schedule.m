@@ -12,6 +12,7 @@ Library:      activity
 #import <activity/Schedule.h>
 #import <activity/ActionGroup.h>
 #import <defobj/defalloc.h>
+#include <misc.h> // abort
 
 @implementation Schedule_c
 

@@ -1,3 +1,7 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Schedule.m: Include misc.h.
+
 1999-06-03  Alex Lancaster  <alex@santafe.edu>
 
 	* activity.h (ActionCreatingTo): Fix missing message receiver in
