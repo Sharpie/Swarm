@@ -1,3 +1,7 @@
+1999-01-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acfind.m4 (_libdir): Handle --without-* case; skip the search.
+
 1999-01-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* actcltk.m4 (INCPLACES, LIBPLACES): Remove B19 guess.
