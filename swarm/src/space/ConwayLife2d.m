@@ -20,7 +20,7 @@
 
   for (y = 0; y < ysize; y++)
     for (x = 0; x < xsize; x++) {
-      int newState = [uniformRandom getIntegerWithMin: 0L withMax: 2L] == 2;
+      int newState = [uniformIntRand getIntegerWithMin: 0L withMax: 2L] == 2;
       [self putValue: newState atX: x Y: y];
     }
   [self updateLattice];
