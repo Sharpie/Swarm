@@ -1,0 +1,6 @@
+1998-06-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* acpng.m4: Correct error messages to report --with-{zlib,png}dir 
+	not just --with{zlib,png}.
+	
+
