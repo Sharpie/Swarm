@@ -114,7 +114,9 @@ PHASE(Creating)
 {
   HDF5_c *obj = [super createBegin: aZone];
 
-  obj->createGroupFlag = YES;
+  obj->createFlag = NO;
+  obj->datasetFlag = NO;
+  obj->loc_id = 0;
   return obj;
 }
 
@@ -130,9 +132,21 @@ PHASE(Creating)
   return self;
 }
 
-- setCreateGroupFlag: (BOOL)theCreateGroupFlag
+- setId: (hid_t)theLocId
 {
-  createGroupFlag = theCreateGroupFlag;
+  loc_id = theLocId;
+  return self;
+}
+
+- setCreateFlag: (BOOL)theCreateFlag
+{
+  createFlag = theCreateFlag;
+  return self;
+}
+
+- setDatasetFlag: (BOOL)theDatasetFlag
+{
+  datasetFlag = theDatasetFlag;
   return self;
 }
 
@@ -189,61 +203,83 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 {
 #ifdef HAVE_HDF5
   [super createEnd];
-  if (parent == nil)
+  if (createFlag)
     {
-      if ((loc_id = H5Fcreate (name, H5F_ACC_TRUNC,
-                               H5P_DEFAULT, H5P_DEFAULT))  < 0)
-        raiseEvent (SaveError, "Failed to create HDF5 file `%s'", name);
-    }
-  else if (c_type)
-    {
-      hsize_t dims[1];
-      hsize_t mdims[1];
-
-      dims[0] = c_count;
-      if ((c_sid = H5Screate_simple (1, dims, NULL)) < 0)
-        raiseEvent (SaveError, "unable to create (compound) space");
-
-      mdims[0] = 1;
-      if ((c_msid = H5Screate_simple (1, mdims, NULL)) < 0)
-        raiseEvent (SaveError, "unable to create (compound) point space");
-      
-      loc_id = ((HDF5_c *) parent)->loc_id;
-      if ((c_did = H5Dcreate (loc_id,
-                              name,
-                              ((HDF5CompoundType_c *) c_type)->tid,
-                              c_sid,
-                              H5P_DEFAULT)) < 0)
-        raiseEvent (SaveError, "unable to create (compound) dataset");
-
-      {
-        hsize_t dims[1];
-        
-        if ((c_rntid = H5Tcopy (H5T_C_S1)) < 0)
-          raiseEvent (SaveError, "unable to copy string type");
-        if ((H5Tset_size (c_rntid, c_rnlen + 1)) < 0)
-          raiseEvent (SaveError, "unable to set string size");
-        dims[0] = c_count;
-        if ((c_rnsid = H5Screate_simple (1, dims, NULL)) < 0)
-          raiseEvent (SaveError, "unable to create row names data space");
-        
-        if ((c_rnaid = H5Acreate (c_did, ROWNAMES,
-                                  c_rntid, c_rnsid, H5P_DEFAULT)) < 0)
-          raiseEvent (SaveError, 
-                      "unable to create row names attribute dataset");
-        c_rnbuf = xcalloc (c_count, sizeof (const char *));
-      }
+      if (parent == nil)
+        {
+          if ((loc_id = H5Fcreate (name, H5F_ACC_TRUNC,
+                                   H5P_DEFAULT, H5P_DEFAULT))  < 0)
+            raiseEvent (SaveError, "Failed to create HDF5 file `%s'", name);
+        }
+      else if (c_type)
+        {
+          hsize_t dims[1];
+          hsize_t mdims[1];
+          
+          dims[0] = c_count;
+          if ((c_sid = H5Screate_simple (1, dims, NULL)) < 0)
+            raiseEvent (SaveError, "unable to create (compound) space");
+          
+          mdims[0] = 1;
+          if ((c_msid = H5Screate_simple (1, mdims, NULL)) < 0)
+            raiseEvent (SaveError, "unable to create (compound) point space");
+          
+          loc_id = ((HDF5_c *) parent)->loc_id;
+          if ((c_did = H5Dcreate (loc_id,
+                                  name,
+                                  ((HDF5CompoundType_c *) c_type)->tid,
+                                  c_sid,
+                                  H5P_DEFAULT)) < 0)
+            raiseEvent (SaveError, "unable to create (compound) dataset");
+          
+          {
+            hsize_t dims[1];
+            
+            if ((c_rntid = H5Tcopy (H5T_C_S1)) < 0)
+              raiseEvent (SaveError, "unable to copy string type");
+            if ((H5Tset_size (c_rntid, c_rnlen + 1)) < 0)
+              raiseEvent (SaveError, "unable to set string size");
+            dims[0] = c_count;
+            if ((c_rnsid = H5Screate_simple (1, dims, NULL)) < 0)
+              raiseEvent (SaveError, "unable to create row names data space");
+            
+            if ((c_rnaid = H5Acreate (c_did, ROWNAMES,
+                                      c_rntid, c_rnsid, H5P_DEFAULT)) < 0)
+              raiseEvent (SaveError, 
+                          "unable to create row names attribute dataset");
+            c_rnbuf = xcalloc (c_count, sizeof (const char *));
+          }
+        }
+      else
+        {
+          if (!datasetFlag)
+            {
+              if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0))
+                  < 0)
+                raiseEvent (SaveError, "Failed to create HDF5 group `%s'",
+                            name);
+            }
+          else
+            loc_id = ((HDF5_c *) parent)->loc_id;
+        }
     }
   else
     {
-      if (createGroupFlag)
+      if (parent == nil)
         {
-          if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0)) < 0)
-            raiseEvent (SaveError, "Failed to create HDF5 group `%s'", name);
+          if ((loc_id = H5Fopen (name, H5F_ACC_RDONLY, H5P_DEFAULT)) < 0)
+            raiseEvent (LoadError, "Failed to open HDF5 file `%s'", name);
         }
       else
-        loc_id = ((HDF5_c *) parent)->loc_id;
+        {
+          if (loc_id == 0)
+            {
+              if ((loc_id = H5Gopen (((HDF5_c *) parent)->loc_id, name)) < 0)
+                raiseEvent (LoadError, "Failed to open HDF5 group `%s'", name);
+            }
+        }
     }
+  
   if (hdf5InstanceCount == 0)
     {
       if (H5Tregister_soft (REF2STRING_CONV,
@@ -263,6 +299,59 @@ PHASE(Using)
 - (const char *)getName
 {
   return name;
+}
+
+- (BOOL)getDatasetFlag
+{
+  return datasetFlag;
+}
+
+- iterate: (void (*) (id hdf5obj))iterateFunc
+{
+  herr_t process_object (hid_t oid, const char *memberName, void *client)
+    {
+      H5G_stat_t statbuf;
+      
+      if (H5Gget_objinfo (oid, memberName, 1, &statbuf) == -1)
+        raiseEvent (LoadError, "Cannot query object `%s'", memberName);  
+      
+      if (statbuf.type == H5G_GROUP)
+        {
+          hid_t gid;
+          id group;
+          
+          if ((gid = H5Gopen (oid, memberName)) < 0)
+            raiseEvent (LoadError, "cannot open group `%s'", memberName);
+          group = [[[[[[HDF5 createBegin: [self getZone]]
+                        setParent: self]
+                       setCreateFlag: NO]
+                      setName: memberName]
+                     setId: gid]
+                    createEnd];
+          iterateFunc (group);
+          [group drop];
+        }
+      else if (statbuf.type == H5G_DATASET)
+        {
+          id dataset = [[[[[[[HDF5 createBegin: [self getZone]]
+                              setParent: self]
+                             setCreateFlag: NO]
+                            setDatasetFlag: YES]
+                           setName: memberName]
+                          setId: oid]
+                         createEnd];
+          iterateFunc (dataset);
+          [dataset drop];
+        }
+      else
+        raiseEvent (LoadError, "Cannot process HDF5 type %u",
+                    (unsigned) statbuf.type);
+      return 0;
+    }
+  if (H5Giterate (loc_id, ".", NULL, process_object, self) < 0)
+    raiseEvent (LoadError, "cannot iterate over HDF5 objects");
+  
+  return self;
 }
 
 - storeTypeName: (const char *)typeName
@@ -528,7 +617,7 @@ hdf5_store_attribute (hid_t did,
     }
   else
     {
-      if (createGroupFlag)
+      if (!datasetFlag)
         if (H5Gclose (loc_id) < 0)
           raiseEvent (SaveError, "Failed to close HDF5 group");
     }

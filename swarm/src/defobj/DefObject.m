@@ -1054,7 +1054,8 @@ lisp_output_type (const char *type,
               
               if (obj != nil && deepFlag)
                 {
-                  id hdf5ObjGroup = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+                  id hdf5ObjGroup = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                         setCreateFlag: YES]
                                         setParent: hdf5Obj]
                                        setName: name]
                                       createEnd];
@@ -1186,7 +1187,9 @@ find_ivar (id obj, const char *name)
 
 - hdf5In: expr
 {
-#ifndef HAVE_HDF5
+#ifdef HAVE_HDF5
+  
+#else
   hdf5_not_available ();
 #endif
   return self;

@@ -1,3 +1,23 @@
+1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Archiver.m ([Archiver_c -save]): Set createFlag to YES.
+	([Archiver_c -createEnd]): Add applicationMap processing support
+	for HDF5.
+	(hdf5_output_objects): setCreateGroupFlag -> setDatasetFlag.  Set
+	createFlag to NO.
+
+	* DefObject.m ([Object_s -hdf5Out:deep:]): Set createFlag to YES.
+	
+	* HDF5Object.m ([HDF5_c +createBegin:]): Initialize datasetFlag and
+	new variable createFlag to NO.
+
+	* HDF5Object.[hm], defobj.h ([HDF5_C -setCreateFlag:], [HDF
+	-setId:], [HDF5_c iterate:], [HDF5_c getDatasetFlag]): New methods.
+	([HDF5_C -setDatasetFlag:]): Was setCreateGroupFlag:.
+
+	* HDF5Object.h (HDF5_c): Add createFlag.  Rename createGroupFlag to
+	datasetFlag.
+
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* HDF5Object.m (hdf5_store_attribute): New internal function.

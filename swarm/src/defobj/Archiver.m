@@ -221,7 +221,7 @@ lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
   void mapUpdate (id key, id value)
     {
       Application *app = [applicationMap at: key];
-      
+
       if (app == nil)
         {
           app = [[[Application createBegin: aZone]
@@ -401,10 +401,10 @@ PHASE(Creating)
 {
   const char *appName = [arguments getAppName];
   const char *appModeString = [arguments getAppModeString];
+  id aZone = [self getZone];
 
   [super createEnd];
-  currentApplicationKey = 
-    [String create: [self getZone] setC: appName];
+  currentApplicationKey = [String create: aZone setC: appName];
   
   [currentApplicationKey catC: "/"];
   [currentApplicationKey catC: appModeString];
@@ -431,7 +431,43 @@ PHASE(Creating)
 #ifdef HAVE_HDF5
       if (hdf5Path)
         {
-          // printf ("post:[%s]\n", [self name]);
+          id file = [[[[[HDF5 createBegin: aZone]
+                         setCreateFlag: NO]
+                        setParent: nil]
+                       setName: hdf5Path]
+                      createEnd];
+          {
+            void appIterateFunc (id appHDF5Obj)
+              {
+                void modeIterateFunc (id modeHDF5Obj)
+                  {
+                    id appKey, app;
+                    
+                    void objIterateFunc (id hdf5Obj)
+                      {
+                        printf ("    <%s> (%s)\n",
+                                [hdf5Obj getName],
+                                ([hdf5Obj getDatasetFlag]
+                                 ? "Dataset"
+                                 : "Group"));
+                      }
+                    appKey = [String create: aZone setC: [appHDF5Obj getName]];
+                    [appKey catC: "/"];
+                    [appKey catC: [modeHDF5Obj getName]];
+
+                    app = [[[Application createBegin: aZone]
+                             setName: [appKey getC]]
+                            createEnd];
+                    
+                    [applicationMap at: appKey insert: app];
+                    
+                    [modeHDF5Obj iterate: objIterateFunc];
+                  }
+                [appHDF5Obj iterate: modeIterateFunc];
+              }
+            [file iterate: appIterateFunc];
+          }
+          [file drop];
         }
 #endif
     }
@@ -558,7 +594,8 @@ hdf5_create_app_group (const char *appKey, id hdf5Obj, id *hdf5AppObjPtr)
     {
       *modeKey = '\0';
       modeKey++;
-      hdf5AppObj = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+      hdf5AppObj = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                        setCreateFlag: YES]
                        setParent: hdf5Obj]
                       setName: newAppKey]
                      createEnd];
@@ -566,9 +603,10 @@ hdf5_create_app_group (const char *appKey, id hdf5Obj, id *hdf5AppObjPtr)
     }
   else
     raiseEvent (InvalidArgument, "expecting composite app/mode key");
-  return [[[[HDF5 createBegin: [hdf5AppObj getZone]]
-             setParent: hdf5AppObj]
-            setName: modeKey]
+  return [[[[[HDF5 createBegin: [hdf5AppObj getZone]]
+              setParent: hdf5AppObj]
+             setName: modeKey]
+            setCreateFlag: YES]
            createEnd];
 }
 
@@ -584,9 +622,10 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
       
       if (stringp (member))
         deepFlag = NO;
-      memberGroup = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+      memberGroup = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                          setCreateFlag: YES]
                          setParent: hdf5Obj]
-                        setCreateGroupFlag: deepFlag]
+                        setDatasetFlag: !deepFlag]
                        setName: [key getC]]
                       createEnd];
       
@@ -684,7 +723,8 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
       if ([self countHDF5Objects: YES] +
           [self countHDF5Objects: NO] > 0)
         {
-          id hdf5Obj = [[[[HDF5 createBegin: [self getZone]]
+          id hdf5Obj = [[[[[HDF5 createBegin: [self getZone]]
+                            setCreateFlag: YES]
                            setParent: nil]
                           setName: hdf5Path]
                          createEnd];

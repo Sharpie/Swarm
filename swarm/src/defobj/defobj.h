@@ -964,14 +964,18 @@ extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
 //D: HDF5 interface
 CREATING
 + createBegin: aZone;
+- setCreateFlag: (BOOL)createFlag;
+- setDatasetFlag: (BOOL)datasetFlag;
 - setParent: parent;
 - setName: (const char *)name;
 - setRecordType: compoundType count: (unsigned)count;
 - setRowNameLength: (size_t)len;
-- setCreateGroupFlag: (BOOL)createGroupFlag;
 - createEnd;
 USING
+- iterate: (void (*) (id hdf5Obj))iterateFunc;
+- (BOOL)getDatasetFlag;
 - (const char *)getName;
+
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;
 - storeAttribute: (const char *)attributeName value: (const char *)valueString;
