@@ -19,6 +19,7 @@
 
 	* Makefile.am (C_EXTRA_DIST): Change SwarmEnvironment.m to
 	SwarmEnvironmentExtra.m.
+	(SWARM_EXTRA_DIST): Remove SwarmEnvironment.java.
 
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
