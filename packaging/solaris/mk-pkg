@@ -1,0 +1,64 @@
+if test -z "$1" ; then
+  echo Usage: mk-pkg package-name 1>&2
+  exit 1
+fi
+name=`echo $1 | sed 's/-.*//'`
+version=`echo $1 | sed 's/[^-][^-]*-//'`
+pd=$name-$version
+P=$STAGING
+vendor=SDG
+hostprefix=$P/$pd
+pkg=${vendor}${name}
+targetprefix="/opt/$pkg/$version"
+cat > /tmp/pkginfo << EOF
+PKG="$pkg"
+NAME="${name} ${version}"
+ARCH="sparc"
+CLASSES="none"
+CATEGORY="application"
+VENDOR="$vendor"
+VERSION="$version"
+PSTAMP="`date +%Y-%m-%d`"
+EMAIL=bug-swarm@santafe.edu
+ISTATES="S s 1 2 3"
+RSTATES="S s 1 2 3"
+PREFIX="$targetprefix"
+BASEDIR=/
+MAXINST=3
+EOF
+(cat << EOF 
+!search /tmp
+i pkginfo
+EOF
+cd $P
+cd $pd
+/bin/pwd | pkgproto | awk "{ print \$1, \$2, \"\\\$PREFIX\", \$4, \$5, \$6 }"
+for d in bin etc include lib man share info libexec sparc-sun-solaris2.7; do
+  if test -d "$d" ; then
+    if test $d = sparc-sun-solaris2.7; then
+      name=TARGET
+    else
+      name=`echo $d | sed -e 's,\.,,g' -e 's,/,,g' | tr '[a-z]' '[A-Z]'`
+    fi
+    dirname=${name}DIR
+    echo "$dirname=\"$targetprefix/$d\"" >> /tmp/pkginfo
+    ls -1d $d | pkgproto | awk "{ print \$1, \$2, \"\\\$${dirname}\", \$4, \$5, \$6 }"
+    (cd $d
+     for sd in `find . -type d` ; do
+       if test ${sd} = . ; then
+         sdirname=${dirname}
+         echo "!search ${hostprefix}/${d}"
+       else
+         sd=`echo ${sd} | sed 's,^\./,,g'`
+         sdirname=${dirname}/${sd}
+         echo "!search ${hostprefix}/${d}/${sd}"
+       fi
+       ls -1d $sd | pkgproto | awk "{ print \$1, \$2, \"\\\$${sdirname}\", \$4, \$5, \$6 }"
+       (cd $sd
+        find . -maxdepth 1 -type f -or -type l | pkgproto | awk "{ print \$1, \$2, \"\\\$${sdirname}/\"\$3, \$4, \$5, \$6 }")
+     done)
+  fi
+done
+) > /tmp/Prototype
+
+pkgmk -o -d /tmp -f /tmp/Prototype
