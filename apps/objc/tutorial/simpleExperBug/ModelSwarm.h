@@ -16,7 +16,7 @@
   int time;
 
   FoodSpace *foodSpace;
-  Grid2d *world;
+  id <Grid2d> world;
 
   id bugList;
   id modelActions;

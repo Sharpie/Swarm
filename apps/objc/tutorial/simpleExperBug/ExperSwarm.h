@@ -57,7 +57,7 @@
 
  // Display objects, widgets, etc.
 
-  EZGraph *resultGraph;				// graphing widget
+  id <EZGraph> resultGraph;				// graphing widget
   id <ProbeMap> modelProbeMap;			// the ProbeMap for the modelSwarm
 }
 
