@@ -1,3 +1,8 @@
+1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* acpng.m4: Use zliblibdir and pnglibdir instead of zlibdir and
+	pngdir.
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* actcltk.m4 (INCPLACES, LIBPLACES): Add cygwin paths.

@@ -5,24 +5,24 @@ AC_MSG_CHECKING(directory of lib${libname})
 for dir in $$1dir/lib $defaultdir/lib /usr/lib /usr/local/lib; do
   for suffix in .so .a; do
     if test -r $dir/lib${libname}${suffix} ; then
-      $1dir=$dir
+      $1libdir=$dir
       break
     else
-      $1dir=''
+      $1libdir=''
     fi
   done
-  test -z "$$1dir" || break
+  test -z "$$1libdir" || break
 done
-if test -z "$$1dir"; then
+if test -z "$$1libdir"; then
   AC_MSG_RESULT(no)    
   AC_MSG_ERROR(Please use --with-$1dir to specify location of $1.)
 else
-  AC_MSG_RESULT($$1dir)
+  AC_MSG_RESULT($$1libdir)
 fi
 if test "$suffix" = .so; then
-  _ldflags="-L\$($1dir) $RPATH\$($1dir)"
+  _ldflags="-L\$($1libdir) $RPATH\$($1libdir)"
 else
-  _ldflags='-L$($1dir)'
+  _ldflags='-L$($1libdir)'
 fi
 ])
 
@@ -58,7 +58,7 @@ md_FIND_INCLUDE(zlib)
 md_FIND_LIB(zlib,z)
 ZLIBINCLUDES=$_includes
 ZLIBLDFLAGS=$_ldflags
-AC_SUBST(zlibdir)
+AC_SUBST(zliblibdir)
 AC_SUBST(zlibincludedir)
 AC_SUBST(ZLIBINCLUDES)
 AC_SUBST(ZLIBLDFLAGS)
@@ -71,7 +71,7 @@ md_FIND_LIB(png,png)
 PNGINCLUDES=$_includes
 PNGLDFLAGS=$_ldflags
 AC_SUBST(pngincludedir)
-AC_SUBST(pngdir)
+AC_SUBST(pnglibdir)
 AC_SUBST(PNGINCLUDES)
 AC_SUBST(PNGLDFLAGS)
 ])
