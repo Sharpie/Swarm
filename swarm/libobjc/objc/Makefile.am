@@ -17,7 +17,7 @@ mframe.h: mframe.head mframe.foot
 	echo "*  GENERATED AUTOMATICALLY BY THE CONFIG  *" >> mframe.h
 	echo "*  PROCESS IN THE 'mframe' SUBDIRECTORY.  *" >> mframe.h
 	echo "****************** WARNING ***************/" >> mframe.h
-	cat $(top_srcdir)/config/mframe.head $(MFRAMEHEADER) $(top_srcdir)/config/mframe.foot >> mframe.h
+	cat $(srcdir)/mframe.head $(MFRAMEHEADER) $(srcdir)/mframe.foot >> mframe.h
 
 all-local: mframe.h
 
