@@ -469,16 +469,16 @@ PHASE(Using)
         [key lispOut: outputCharStream deep: deepFlag];
       else if (compareFunc == compareUnsignedIntegers)
         {
-          char buf[sizeof (unsigned) * 8 + 1];
+          char buf[DSIZE (unsigned)];
           
           sprintf (buf, "%u", (int) key);
           [outputCharStream catC: buf];
         }
       else if (compareFunc == compareIntegers)
         {
-          char buf[sizeof (unsigned) * 8 + 1];
+          char buf[DSIZE (unsigned)];
           
-          sprintf (buf, "%u", (int) key);
+          sprintf (buf, "%d", (int) key);
           [outputCharStream catC: buf];
         }
       [outputCharStream catC: " "];
@@ -525,7 +525,7 @@ PHASE(Using)
       while ((member = [mi next: &key]))
         {
           id valueInstanceGroup, keyInstanceGroup;
-          char buf[sizeof (unsigned) * 8 + 1];
+          char buf[DSIZE (unsigned) + 1];
           unsigned offset = [mi getOffset];
           
           sprintf (buf, "%u", offset);
@@ -580,14 +580,7 @@ PHASE(Using)
                 }
             }
           else
-            {
-              if (sizeof (unsigned) == 4)
-                maxlen = 10;
-              else if (sizeof (unsigned) == 8)
-                maxlen = 20;
-              else 
-                abort ();
-            }
+            maxlen = DSIZE (unsigned);
           {
             id hdf5ObjDataset =
               [[[[[[HDF5 createBegin: aZone]
@@ -603,7 +596,7 @@ PHASE(Using)
             while ((member = [mi next: &key]))
               {
                 unsigned rn = [mi getOffset];
-                char buf[sizeof (unsigned) + 1];
+                char buf[DSIZE (unsigned)];
 
                 if (isString)
                   [hdf5ObjDataset nameRecord: rn name: [key getC]];

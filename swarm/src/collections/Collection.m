@@ -271,11 +271,11 @@ indexAtOffset (Collection_any *self, int offset)
       while ((member = [li next]))
         {
           id itemGroup;
-          char buf[sizeof (unsigned) * 8 + 1];
+          char buf[DSIZE (unsigned) + 1];
 
           sprintf (buf, "%u", [li getOffset]);
           
-          itemGroup = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+          itemGroup = [[[[HDF5 createBegin: aZone]
                           setParent: hdf5Obj]
                          setName: buf]
                         createEnd];
