@@ -1,3 +1,9 @@
+2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* internal.m (fcall_type_alignment, fcall_type_size): List
+	all fcall_type enums but also protect as needed HAVE_JDK.  Thanks
+	to Ralf Stephan for reporting this.
+
 2001-01-30  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.[hm] ({COM,JS}set{Arg,Return}): Use val_t instead of

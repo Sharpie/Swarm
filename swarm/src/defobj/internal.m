@@ -102,7 +102,12 @@ fcall_type_alignment (fcall_type_t varType)
     case fcall_type_iid:
       alignment = __alignof__ (void *);
       break;
-    default:
+    case fcall_type_selector:
+      alignment = __alignof__ (SEL);
+      break;
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+    case fcall_type_void:
       abort ();
     }
   return alignment;
@@ -713,6 +718,10 @@ fcall_type_size (fcall_type_t type)
       return sizeof (jobject);
     case fcall_type_jstring:
       return sizeof (jstring);
+#else
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+      abort ();
 #endif
     case fcall_type_iid:
       return sizeof (void *);
