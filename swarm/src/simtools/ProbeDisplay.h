@@ -6,11 +6,15 @@
 #import <swarmobject/SwarmObject.h>
 #import <swarmobject/ProbeMap.h>
 
-@interface ProbeDisplay : SwarmObject {
+@interface ProbeDisplay : SwarmObject
+{
   id probedObject;
   ProbeMap * probeMap;
+
+  const char *windowGeometryRecordName;
 }
 
+-setWindowGeometryRecordName : (const char *)theName;
 -setProbedObject: anObject;
 -getProbedObject ;
 -setProbeMap: (ProbeMap *) probeMap;

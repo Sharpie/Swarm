@@ -1,3 +1,89 @@
+1997-11-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -drop]): Disable
+	explicit calls to destroy.
+
+	* SimpleProbeDisplay.m [SimpleProbeDisplay -drop]): Disable
+	explicit call to destroy.
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -createEnd]):
+	Eliminated bizarre nested indentation.
+
+	* Makefile (OBJECTS, HEADERS): Add Archiver.
+	(Archiver.o): Add.
+
+	* simtools.m: Import Archiver.h.  Define applicationName and
+	applicationMode variables.
+	(setApplicationValue): Add.  Routine strips slashes from a program
+	name.
+	(initSwarm): Create and assign applicationName and applicationMode
+	from argv[0] and `-a' option respectively.
+	(initSwarm): Create archiver.
+	(printHelp): Add info about `-appMode' option.
+
+	* simtools.h: Make Object{Loader,Saver} fromFileNamed: arguments const.
+
+	* global.h: Add applicationName and applicationMode extern objects.
+
+	* ProbeDisplayManager.h: Add
+	create{Default,Complete}*ProbeDisplayFor:setWindowGeometryRecordName: 
+	prototypes.
+
+	* simtools.h: Add methods below to ProbeDisplayManager protocol.
+
+	* ProbeDisplayManager.m ([ProbeDisplayManager
+	-createProbeDisplayFor:setWindowGeometryRecordName:]): Add.
+	([ProbeDisplayManager
+	-createDefaultProbeDisplayFor:setWindowGeometryRecordName:]): Add.
+	([ProbeDisplayManager
+	-createCompleteProbeDisplayFor:setWindowGeometryRecordName:]): Add.
+
+	* ProbeDisplay.m ([ProbeDisplay -setWindowGeometryRecordName:]): Add.
+	([ProbeDisplay -createEnd]): Add calls to setWindowGeometryRecordName.
+
+	* ProbeDisplay.h (SwarmObject): Add instance variable
+	windowGeometryRecordName and setter.
+
+	* GUISwarm.m ([GUISwarm -setControlPanelGeometryRecordName:]): Add.
+	([GUISwarm -buildObjects]): Add create-time call
+	to setControlPanelGeometryRecordName.
+	
+	* GUISwarm.h (GUISwarm): Add controlPanelGeometryRecordName
+	instance variable and setter.
+
+	* ControlPanel.m: Import Archiver.h.
+	([ControlPanel -setStateStoppedAndSave]): Add (stop and call
+	archiverSave).
+
+	* ControlPanel.h: Add declaration of -setStateStoppedAndSave.
+
+	* {Simple,Complete}ProbeDisplay.m: Import Archiver.h.
+	([{Simple,Complete}ProbeDisplay -setWindowGeometryRecordName:]): Add.
+	([{Simple,Complete}ProbeDisplay -createEnd]): For topLevel, add
+	create-time call to setWindowGeometryRecordName.
+
+	* {Simple,Complete}ProbeDisplay.h: Add windowGeometryRecordName
+	instance variable and setter.
+
+	* ActionCache.m: Import Archiver.h.
+	([ActionCache -setControlPanelGeometryRecordName:]): Add.
+	([ActionCache -insertAction:actionHolder]): Recognize "Save" by
+	settting actionHolder to setStateStoppedAndSave. Change syntax of
+	`unrecognized action name' message to better discriminate the
+	action name.
+	([ActionCache -deliverActions]): Recognize "Save" in the same vein
+	of "Stop".  Change syntax of `unrecognized action name' message to
+	better discriminate the action name.
+	([ActionCache -sendSaveAction]): Add.
+	([ActionCache -createProcCtrl]): Add call to
+	setWindowGeometryRecordName for the control panel. Add "Save" button.
+	Don't pack the widget (Frame).
+
+	* ActionCache.h (ActionCache): Add controlPanelGeometryRecordName
+	instance variable and setter method.
+
+	* Archiver.[hm]:  New files. 
+
 Fri Nov 28 16:49:14 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* GUISwarm.h (@interface GUISwarm): Changed typing of 
@@ -39,5 +125,4 @@ Fri Nov 28 16:49:14 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* ActionCache.m: Include <simtools/ActionCache.h> instead of
 	"ActionCache.h" to prevent possibility of multiple inclusion.
-
 

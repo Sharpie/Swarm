@@ -7,8 +7,15 @@
 #import <tkobjc.h>
 #import <simtools/SimpleProbeDisplay.h>
 #import <simtools/global.h>
+#import <simtools/Archiver.h>
 
 @implementation SimpleProbeDisplay
+
+-setWindowGeometryRecordName : (const char *)theName
+{
+  windowGeometryRecordName = theName;
+  return self;
+}
 
 -setProbedObject: (id) anObject {
 
@@ -41,8 +48,9 @@
 
   numberOfProbes = [probeMap getNumEntries] ;
 	
-  topLevel = [Frame create: [self getZone]];
-  
+  topLevel = [Frame createBegin: [self getZone]];
+  [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
+  topLevel= [topLevel createEnd]; 
   [topLevel setWindowTitle: (char *) [probedObject name]] ;
   [globalTkInterp eval: "wm withdraw %s",
      [topLevel getWidgetName]] ;
@@ -238,8 +246,8 @@
   objectRef = or;
 }
 
--(void)drop{
-
+-(void)drop
+{
   int i ;
 
   [leftFrame drop] ;
@@ -253,8 +261,10 @@
   if(numberOfProbes)
     [[self getZone] free: widgets] ;
 
-
+#if 0
+  // I'm disabling this in favor of a drop method to Frame -mgd
   [globalTkInterp eval: "destroy %s",[topLevel getWidgetName]] ;
+#endif
   [topLevel drop] ;
 
 

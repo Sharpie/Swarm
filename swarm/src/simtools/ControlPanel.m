@@ -6,6 +6,7 @@
 #import <activity.h>
 #import <simtools.h>
 #import <simtools/ControlPanel.h>
+#import <simtools/Archiver.h>
 
 // Rudimentary control panel. A lot of the work for making this useful
 // falls on the shoulders of the controller that's using us, typically
@@ -114,6 +115,13 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
     else
       return self ;
   }
+}
+
+-setStateStoppedAndSave
+{
+  [self setStateStopped];
+  archiverSave ();
+  return self;
 }
 
 -setStateRunning {

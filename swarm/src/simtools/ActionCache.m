@@ -7,6 +7,8 @@
 #import <tkobjc/global.h>
 #import <simtools/ActionCache.h>
 #import <simtools/ActionHolder.h>
+#import <simtools/Archiver.h>
+
 // Type Symbols
 id <Symbol> Control, Probing, Spatial;
 // Error symbols
@@ -17,6 +19,12 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 // Create Phase methods
 -setControlPanel: (id) cp {
   ctrlPanel = cp;
+  return self;
+}
+
+-setControlPanelGeometryRecordName : (const char *)theName
+{
+  controlPanelGeometryRecordName = theName;
   return self;
 }
 
@@ -63,7 +71,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 }
 
 // Use phase methods
--insertAction: (id) actionHolder {
+-insertAction: (id) actionHolder
+{
   id <Symbol> actionType;
   char * actionName;
 
@@ -79,12 +88,14 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
       [actionHolder setSelector: M(setStateStepping)];
     else if (strcmp(actionName, "Stop") == 0)
       [actionHolder setSelector: M(setStateStopped)];
+    else if (strcmp(actionName, "Save") == 0)
+      [actionHolder setSelector: M(setStateStoppedAndSave)];
     else if (strcmp(actionName, "Quit") == 0) {
       [actionHolder setSelector: M(setStateQuit)];
     }
     else
       [InvalidActionType
-	raiseEvent: "Control Action Name: %s not recognized",
+	raiseEvent: "Control Action Name: [%s] not recognized in insertAction",
 	actionName];
     [actionCache addLast: actionHolder];
   }
@@ -104,7 +115,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return self;
 }
 
--deliverActions {
+-deliverActions
+{
   id <Symbol> actionType;
   char * actionName;
   id <Index> cacheIndex;
@@ -119,7 +131,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
       // if "Quit" then schedule a quit to control panel
       // if "Stop" then schedule a "stop" to the activitycontrol
       if ((strcmp(actionName, "Quit") == 0) ||
-	  (strcmp(actionName, "Stop") == 0) ) {
+	  (strcmp(actionName, "Stop") == 0) ||
+          (strcmp(actionName, "Save") == 0)) {
 	[destinationSchedule at: 
 			       getCurrentTime()+1
 			     createActionTo: [actionHolder getActionTarget] 
@@ -134,7 +147,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
       }
       else
 	[InvalidActionType
-	  raiseEvent: "Control Action Name: %s not recognized",
+	  raiseEvent: "Control Action Name: [%s] not recognized in deliverActions",
 	  actionName];
     }
     [cacheIndex remove];
@@ -193,6 +206,11 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return [self sendActionOfType: Control toExecute: "Step"];
 }
 
+-sendSaveAction
+{
+  return [self sendActionOfType: Control toExecute: "Save"];
+}
+
 -sendQuitAction {
   return [self sendActionOfType: Control toExecute: "Quit"];
 }
@@ -204,7 +222,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 
 // Widget methods
--(ButtonPanel * ) createProcCtrl {
+-(ButtonPanel * ) createProcCtrl
+{
   ButtonPanel * panelWidget;
 
   // Make a command for ourselves
@@ -215,14 +234,16 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   // to control simulation execution.
 
   // make a widget for us, too. Bind buttons to messages to ourself.
-  panelWidget = [ButtonPanel create: [self getZone]];
+  panelWidget = [ButtonPanel createBegin: [self getZone]];
+  [panelWidget setWindowGeometryRecordName : controlPanelGeometryRecordName];
+  panelWidget = [panelWidget createEnd];
   [panelWidget addButtonName: "Start" Command: "simctl sendStartAction"];
   [panelWidget addButtonName: "Stop" Command: "simctl sendStopAction"];
   [panelWidget addButtonName: "Step" Command: "simctl sendStepAction"];
   [panelWidget addButtonName: "Next" Command: "simctl sendNextAction"];
+  [panelWidget addButtonName: "Save" Command: "simctl sendSaveAction"];
   [panelWidget addButtonName: "Quit" Command: "simctl sendQuitAction"];
   [panelWidget setWindowTitle: "ProcCtrl"];
-  [panelWidget pack];
 
   return panelWidget;
 }

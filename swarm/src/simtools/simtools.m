@@ -11,12 +11,30 @@
 #import <activity.h>
 #import <tkobjc.h>
 
+#import <simtools/Archiver.h>
+
 ProbeDisplayManager * probeDisplayManager;
 int swarmGUIMode;
+id applicationName, applicationMode;
 void printHelp();
 
+static void
+setApplicationValue (id value, const char *ptr)
+{
+  const char *appStr = ptr;
+  
+  while (*ptr)
+    {
+      if (*ptr == '/')
+        appStr = ptr + 1;
+      ptr++;
+    }
+  [value setC: appStr];
+}
+
 void
-initSwarm(int argc, char ** argv) {
+initSwarm(int argc, char ** argv)
+{
   int i ;
 
   initModule(activity);
@@ -24,13 +42,21 @@ initSwarm(int argc, char ** argv) {
   initProbing() ;
 
   swarmGUIMode = 1;
+  applicationName = [String create: globalZone setC: ""];
+  applicationMode = [String create: globalZone setC: ""];
+  setApplicationValue (applicationName, argv[0]);
+  setApplicationValue (applicationMode, "default");
 
   for(i = 1 ; i < argc ; i++) {
     if ( !strcmp(argv[i],"-help") )
       printHelp();
-    if ( !strcmp(argv[i],"-batchmode") )
+    else if ( !strcmp(argv[i],"-batchmode") )
       swarmGUIMode = 0 ;
+    else if ( !strncmp(argv[i],"-a",2) && (i + 1 < argc))
+      setApplicationValue (applicationMode, argv[i+1]);
   }
+  
+  archiver = [Archiver ensure : globalZone];
 
   initRandom(argc, argv);
   
@@ -102,11 +128,13 @@ initSwarm(int argc, char ** argv) {
   defsymbol(ControlStateNextTime);
 }
 
-void printHelp() {
+void printHelp()
+{
   (void) fprintf(stdout, "Swarm.  Copyright (C) 1997 Santa Fe Institute\n");
   (void) fprintf(stdout, "For more info, see:\n"
 		 "http://www.santafe.edu/projects/swarm\n\n");
   (void) fprintf(stdout, "Supported command line flags are:\n\n");
+  (void) fprintf(stdout, "\t  -appMode: Change the mode of the application\n");
   (void) fprintf(stdout, "\t-batchmode:  Run without a GUI\n");
   (void) fprintf(stdout, "\t -varySeed:  Change RandomSeed for each run\n");
   exit(-1);

@@ -10,13 +10,17 @@
 #import <tkobjc.h>
 #import <simtools/ClassDisplayWidget.h>
 
-@interface CompleteProbeDisplay : SwarmObject {
+@interface CompleteProbeDisplay : SwarmObject
+{
   id probedObject;
   id the_canvas ;
   Frame *topFrame ;
-  id widgets, topLevel;
+  id widgets;
   ref_t objectRef;
   BOOL removeRef;
+
+  Frame *topLevel;
+  const char *windowGeometryRecordName;
 }
 
 -setProbedObject: anObject;
@@ -25,6 +29,7 @@
 -getProbedObject;
 -update;
 
+-setWindowGeometryRecordName : (const char *)theName;
 -(void) setRemoveRef: (BOOL) torf;
 -(void) setObjectRef: (ref_t) or;
 -(void) drop;

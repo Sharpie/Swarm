@@ -13,6 +13,12 @@
 
 @implementation ProbeDisplay
 
+-setWindowGeometryRecordName : (const char *)theName
+{
+  windowGeometryRecordName = theName;
+  return self;
+}
+
 -setProbedObject: (id) anObject {
   if (SAFEPROBES) {
     if (probedObject != 0) {
@@ -59,7 +65,8 @@ static void notifyObjectDropped ( id anObject, id realloc, id pd)
   // to probe a probe display.  I ignored that. --gepr
 }
 
--createEnd {
+-createEnd
+{
   id probeDisplay ;
 	
   if (SAFEPROBES) {
@@ -75,10 +82,12 @@ static void notifyObjectDropped ( id anObject, id realloc, id pd)
 
   if(probeMap == nil){
     probeDisplay = [CompleteProbeDisplay createBegin: [self getZone]] ;
+    [probeDisplay setWindowGeometryRecordName : windowGeometryRecordName];
     [probeDisplay setProbedObject: probedObject] ;
     probeDisplay = [probeDisplay createEnd] ;
   } else {
     probeDisplay = [SimpleProbeDisplay createBegin: [self getZone]] ;
+    [probeDisplay setWindowGeometryRecordName : windowGeometryRecordName];
     [probeDisplay setProbedObject: probedObject] ;
     [probeDisplay setProbeMap: probeMap] ;
     probeDisplay = [probeDisplay createEnd] ;

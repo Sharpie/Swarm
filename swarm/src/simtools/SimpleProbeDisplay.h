@@ -9,18 +9,23 @@
 #import <simtools/VarProbeWidget.h>
 #import <simtools/MessageProbeWidget.h>
 
-@interface SimpleProbeDisplay : SwarmObject {
+@interface SimpleProbeDisplay : SwarmObject
+{
   id probedObject;  
   ProbeMap * probeMap;
   Frame *topFrame, *leftFrame, *rightFrame,
-        *middleFrame, *bottomFrame, *topLevel;
+        *middleFrame, *bottomFrame;
   Label *myTitle ;
   int numberOfProbes;
   id *widgets;
   ref_t objectRef;
   BOOL removeRef;
+
+  Frame *topLevel;
+  const char *windowGeometryRecordName;
 }
 
+-setWindowGeometryRecordName : (const char *)theName;
 -setProbedObject: anObject;
 -setProbeMap: (ProbeMap *) probeMap;
 -createEnd;
@@ -37,6 +42,3 @@
 -(void) drop;
 
 @end
-
-
-

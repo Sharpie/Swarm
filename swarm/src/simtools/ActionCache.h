@@ -8,10 +8,13 @@
 #import <tkobjc.h>
 #import <swarmobject/SwarmObject.h>
 
-@interface ActionCache : SwarmObject {
+@interface ActionCache : SwarmObject
+{
   id <List> actionCache;
   id <Schedule> destinationSchedule;
   id ctrlPanel;
+
+  const char *controlPanelGeometryRecordName;
 
   // widget IVar
   ButtonPanel * panel;
@@ -19,6 +22,7 @@
 
 // Create Phase methods
 -setControlPanel: (id) cp;
+-setControlPanelGeometryRecordName : (const char *)theName;
 -setScheduleContext: (id) context;
 -createEnd;
 

@@ -42,7 +42,6 @@ USING
 extern id ControlStateRunning, ControlStateStopped;
 extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
-
 //
 // ActionCache --
 //   a class that provides a smart bag into which actions can be
@@ -115,7 +114,13 @@ USING
 @protocol ProbeDisplayManager <SwarmObject>
 USING
 -		createProbeDisplayFor: anObject;
+-               createProbeDisplayFor             : anObject
+                       setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+
 -		createCompleteProbeDisplayFor: anObject;
+-               createCompleteProbeDisplayFor     : anObject
+                       setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+
 -		addProbeDisplay: pd;
 -		removeProbeDisplayFor: anObject ;
 -		removeProbeDisplay: pd;
@@ -195,7 +200,7 @@ USING
 @protocol ObjectLoader <SwarmObject>
 USING
 +		load: anObject from: aFileObject ;
-+		load: anObject fromFileNamed: (char *) aFileName ;
++		load: anObject fromFileNamed: (const char *) aFileName ;
 
 -		setFileObject: aFileObject ;
 -		loadObject: anObject ;
@@ -213,8 +218,8 @@ USING
 USING
 +		save: anObject to: aFileObject ;
 +		save: anObject to: aFileObject withTemplate: aProbeMap ;
-+		save: anObject toFileNamed: (char *) aFileName ;
-+		save: anObject toFileNamed: (char *) aFileName 
++		save: anObject toFileNamed: (const char *) aFileName ;
++		save: anObject toFileNamed: (const char *) aFileName 
 			      withTemplate: (ProbeMap *) aProbeMap ;
 
 -		setFileObject: aFileObject ;

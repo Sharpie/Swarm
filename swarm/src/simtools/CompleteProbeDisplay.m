@@ -8,9 +8,16 @@
 #import <objc/objc.h>
 #import <objc/objc-api.h>
 #import <simtools/CompleteProbeDisplay.h>
+#import <simtools/Archiver.h>
 #import <simtools/global.h>
 
 @implementation CompleteProbeDisplay
+
+-setWindowGeometryRecordName : (const char *)theName
+{
+  windowGeometryRecordName = theName;
+  return self;
+}
 
 -setProbedObject: (id) anObject {
   probedObject = anObject;
@@ -46,7 +53,8 @@ int max_class_var_length(Class class){
 }
 
 // finalize creation: create widgets, set them up.
--createEnd {
+-createEnd
+{
   Class class ;
   id classWidget ;
   int maxwidth ;
@@ -55,7 +63,9 @@ int max_class_var_length(Class class){
   id previous ;
   id c_Frame ;
 
-  topLevel = [Frame create: [self getZone]] ;
+  topLevel = [Frame createBegin: [self getZone]] ;
+  [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
+  topLevel = [topLevel createEnd];
   [globalTkInterp eval: "wm withdraw %s",
      [topLevel getWidgetName]] ;
 
@@ -106,19 +116,13 @@ int max_class_var_length(Class class){
   index = [classList begin: [self getZone]] ;
   while( (class = (Class) [index next]) ){
     classWidget = 
-     [
-      [
-      [
-       [
-        [
-         [
-          [ClassDisplayWidget createBegin: [self getZone]] 
-         setParent: topFrame]
-        setMaxLabelWidth: maxwidth]
-       setProbedObject: probedObject]
-      setClassToDisplay: class]
-     setOwner: self]
-    setMySuperClass: previous] ;
+      [[[[[[[ClassDisplayWidget createBegin: [self getZone]] 
+             setParent: topFrame]
+            setMaxLabelWidth: maxwidth]
+           setProbedObject: probedObject]
+          setClassToDisplay: class]
+         setOwner: self]
+        setMySuperClass: previous];
 
     if(previous != nil){
       [previous setMySubClass: classWidget] ;
@@ -212,7 +216,8 @@ int max_class_var_length(Class class){
   objectRef = or;
 }
 
--(void)drop {
+-(void)drop
+{
  
   id index ;
   id a_widget ;
@@ -223,12 +228,17 @@ int max_class_var_length(Class class){
   [index drop];
   [widgets drop] ;
 
+#if 0
+  // Disabled in favor of the same thing in Frame's drop. -mgd
   [globalTkInterp eval: "destroy %s",[topFrame getWidgetName]] ;
+#endif
   [topFrame drop] ;
 
- 
+#if 0 
   //drop for toplevels should automatically do a self-destroy!!!
+  // Indeed! -mgd
   [globalTkInterp eval: "destroy %s",[topLevel getWidgetName]] ;
+#endif
   [topLevel drop] ;
 
   [probeDisplayManager removeProbeDisplay: self];

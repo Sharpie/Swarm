@@ -7,14 +7,29 @@
 // them in the schedule.
 
 #import <swarmobject/SwarmObject.h>
-@interface ProbeDisplayManager : SwarmObject {
+@interface ProbeDisplayManager : SwarmObject
+{
   id probeList;
 }
 
 -createEnd;
--createProbeDisplayFor: (id) anObject;
--createDefaultProbeDisplayFor: (id) anObject;
--createCompleteProbeDisplayFor: (id) anObject;
+
+-createProbeDisplayFor             : anObject;
+
+-createProbeDisplayFor             : anObject
+        setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+
+
+-createDefaultProbeDisplayFor      : anObject;
+
+-createDefaultProbeDisplayFor      : anObject
+        setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+
+-createCompleteProbeDisplayFor     : anObject;
+
+-createCompleteProbeDisplayFor     : anObject
+        setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+
 -addProbeDisplay: pd;
 -dropProbeDisplaysFor: anObject ;
 -removeProbeDisplay: pd;

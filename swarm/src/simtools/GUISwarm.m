@@ -7,13 +7,23 @@
 
 @implementation GUISwarm
 
--buildObjects {
+-setControlPanelGeometryRecordName : (const char *)theName
+{
+  controlPanelGeometryRecordName = theName;
+  return self;
+}
+
+-buildObjects
+{
   [super buildObjects];
   controlPanel = [ControlPanel create: [self getZone]];
   // create the actionCache, we will initialize it in activateIn
-  actionCache = [[ActionCache createBegin: [self getZone]] createEnd];
+  actionCache = [ActionCache createBegin: [self getZone]];
   [actionCache setControlPanel: controlPanel];
-
+  [actionCache setControlPanelGeometryRecordName
+               : controlPanelGeometryRecordName];
+  actionCache = [actionCache createEnd];
+  
   return self;
 }
 
@@ -29,4 +39,5 @@
   [actionCache setScheduleContext: self];
   return [self getActivity];
 }
+
 @end

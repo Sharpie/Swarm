@@ -9,7 +9,8 @@
 
 #import <swarmobject/SwarmObject.h>
 
-@interface ControlPanel : SwarmObject {
+@interface ControlPanel : SwarmObject
+{
   id state;					  // uses activity.h symbols
 }
 
@@ -21,6 +22,7 @@
 -startInActivity: (id) activityID;
 -setStateRunning;
 -setStateStopped;
+-setStateStoppedAndSave;
 -setStateStepping;
 -setStateQuit;
 -setStateNextTime;

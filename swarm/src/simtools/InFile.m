@@ -6,6 +6,7 @@
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #import <stdio.h>
 #import <simtools/InFile.h>
+#import <collections/String.h>
 
 @implementation InFile
 

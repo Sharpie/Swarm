@@ -14,3 +14,6 @@ void initSwarm(int argc, char ** argv);
 
 // Flag for whether we're in graphics mode or not. Default is 1.
 extern int swarmGUIMode;
+
+extern id applicationName;
+extern id applicationMode;

@@ -12,12 +12,15 @@
 // "step". When using this, you still need to be sure to schedule
 // calls to the controlPanels' doTkEvents method.
 
-@interface GUISwarm : Swarm {
-  id <ControlPanel> controlPanel;
+@interface GUISwarm : Swarm
+{
+  ControlPanel * controlPanel;
   id actionCache;
+
+  const char *controlPanelGeometryRecordName;
 }
 
+-setControlPanelGeometryRecordName : (const char *)theName;
 -buildObjects;
 -go;				   // returns Completed or ControlStateQuit
-
 @end
