@@ -1,5 +1,9 @@
 2000-04-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* Makefile (SWARMHOME, APPVERSION): Update.
+	(DATAFILES): Change to bug.scm.
+	(OTHERCLEAN): Add output.{scm,hdf}
+
 	* README: Updates for archivers.
 
 	* ModelSwarm.[hm]: Make world{X,Y}Size and time unsigned

@@ -1,11 +1,12 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../../swarm-2.1
+SWARMHOME=../../swarm-2.1.1
 endif
 APPLICATION=bug
-APPVERSION=2.1
+APPVERSION=2000-04-28
 BUGADDRESS=bug-swarm@swarm.org
-OBJECTS=Bug.o  main.o ExperSwarm.o ModelSwarm.o FoodSpace.o
-DATAFILES = experiment.setup
+OBJECTS=Bug.o main.o ExperSwarm.o ModelSwarm.o FoodSpace.o
+OTHERCLEAN = output.hdf output.scm
+DATAFILES = bug.scm
 
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 

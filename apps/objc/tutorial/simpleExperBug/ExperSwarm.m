@@ -2,6 +2,7 @@
 
 #import "ExperSwarm.h"
 #import <simtoolsgui.h>
+#import <defobj.h> // Archivers
 #include <misc.h> // unlink
 
 @implementation ParameterManager
