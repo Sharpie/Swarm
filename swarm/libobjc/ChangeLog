@@ -1,3 +1,7 @@
+1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (objc.dll): Switch to using new DLL-capable linker.
+
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in (AC_PROG_LIBTOOL): Use instead of AM_PROG_LIBTOOL.
