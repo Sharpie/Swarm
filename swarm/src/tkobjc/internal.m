@@ -580,9 +580,9 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 	((LPBYTE) dib->bits)[x + y * frameWidth] = c;
       else if (depth == 24)
 	{
-	  LPBYTE rgb = (LPBYTE) dib->bits + (x + y * frameWidth * 3);
+	  LPBYTE bgr = (LPBYTE) dib->bits + (x + y * frameWidth) * 3;
 
-	  dib_get_color (dib, raster, c, &rgb[0], &rgb[1], &rgb[2]);
+	  dib_get_color (dib, raster, c, &bgr[2], &bgr[1], &bgr[0]);
 	}
     }
 #endif
