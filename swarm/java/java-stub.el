@@ -775,7 +775,9 @@
            (ret-type 
             (java-type-to-native-type (java-objc-to-java-type 
                                        (method-return-type method)))))
+      (insert "JNIEXPORT ")
       (insert ret-type)
+      (insert " JNICALL")
       (insert "\n")
       (insert "Java_swarm_")
       (insert (module-name (protocol-module protocol)))
