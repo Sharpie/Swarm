@@ -54,7 +54,6 @@ public class Mousetrap
         iuunsd = new UniformUnsignedDistCImpl (uniformTrigTime);
 
         uniformTrigTime = (UniformUnsignedDistImpl) iuunsd.create$setGenerator$setUnsignedMin$setMax (modelSwarm.getZone(), randGenerator, 1, modelSwarm.getMaxTriggerTime());
-        System.out.println ("another mousetrap \n");
     }
     public Object setDisplayWidget (ZoomRasterImpl w)
     {
@@ -70,8 +69,6 @@ public class Mousetrap
         int n, xTrigger, yTrigger;
         int triggerTick;
 
-	System.out.println ((new Integer (this.hashCode())).toString() 
-                            + "code \n");
         ((MousetrapStatistics)modelSwarm.getStats()).removeOneBall();
 
         if (!triggered
