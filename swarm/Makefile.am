@@ -1,4 +1,4 @@
-SUBDIRS = src m4 etc 
+SUBDIRS = src m4 etc tests
 
 EXTRA_DIST = VERSION tests
 

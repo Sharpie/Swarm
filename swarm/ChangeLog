@@ -1,3 +1,7 @@
+1999-01-14  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (SUBDIRS): Add tests.
+	
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* configure.in (AC_OUTPUT): Add tests/Makefile and 
