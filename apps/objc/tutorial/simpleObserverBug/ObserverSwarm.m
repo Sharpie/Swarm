@@ -91,7 +91,8 @@
   return self;
 }
 
--buildActions {
+-buildActions
+{
 
   [super buildActions];
 
@@ -112,7 +113,7 @@
   [displayActions createActionTo: bugDisplay          message: M(display)];
   [displayActions createActionTo: worldRaster         message: M(drawSelf)];
 
-  [displayActions createActionTo: controlPanel        message: M(doTkEvents)];
+  [displayActions createActionTo: actionCache        message: M(doTkEvents)];
 
   // And the display schedule. Note the repeat interval is set from our
   // own Swarm data structure. Display is frequently the slowest part of a
