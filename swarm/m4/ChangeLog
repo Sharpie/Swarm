@@ -1,3 +1,7 @@
+2003-08-12  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acjdk.m4: added variable MACOSJAVA for apple JDK.
+
 2003-08-11  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* aclibtool.m4: added libtool macros to configure sed.

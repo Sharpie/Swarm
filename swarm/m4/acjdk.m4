@@ -16,9 +16,11 @@ if test $jdkdir = no; then
   JAVASWARMSCRIPTS=
   KAWAJAR=
 else
+  MACOSJAVA=no
   expand_jdkdir=`eval echo $jdkdir`
   USEDOSCLASSPATH=no
   if test $expand_jdkdir = /System/Library/Frameworks/JavaVM.framework; then
+    MACOSJAVA=yes
     jdkincludedir=$jdkdir/Headers
     expand_jdkincludedir=$expand_jdkdir/Headers
   elif test $expand_jdkdir = /usr && test -d /usr/include/java; then
