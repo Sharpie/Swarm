@@ -1,3 +1,7 @@
+2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.in (%_stubs.m): Handle empty source list.
+
 2004-07-29  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.in (LIBOBJCINCLUDES): Add extraction.

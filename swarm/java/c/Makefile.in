@@ -71,7 +71,7 @@ install-dll: all
 	$(INSTALL) $(JAVASWARM_DLL) $(DESTDIR)$(bindir)
 
 %_stubs.m:
-	cat $(addsuffix .m,$($*_creatable_PROTOCOLS)) > $*_stubs.m
+	files="$(addsuffix .m,$($*_creatable_PROTOCOLS))"; if test -n "$$files"; then cat $$files  > $*_stubs.m; else echo > $*_stubs.m; fi
 
 $(_LIBJAVASWARMSTUBS_LA): $(libjavaswarmstubs_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) $^
