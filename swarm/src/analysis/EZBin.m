@@ -3,13 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-#import <math.h>
-#import <stdlib.h>
-#import <collections.h>
-#import <simtools.h>
 #import <analysis.h>
-#import <gui.h>
+#import <simtoolsgui.h>
+#import <simtools.h> // OutFile
+
+#include <stdlib.h> // free
+#include <misc.h> // xmalloc
+#include <math.h> // sqrt
 
 #include <objc/objc-api.h>
 
@@ -102,9 +102,9 @@
 
   [super createEnd];
 
-  distribution = (int *) malloc (binNum * sizeof(int));
-  cachedLimits = (double *) malloc (binNum * sizeof(double));
-  locations = (double *) malloc (binNum * sizeof(double));
+  distribution = (int *)xmalloc (binNum * sizeof(int));
+  cachedLimits = (double *)xmalloc (binNum * sizeof(double));
+  locations = (double *)xmalloc (binNum * sizeof(double));
   step = (max - min) / ((double) binNum);
 
   for (i = 0; i < binNum; i++)

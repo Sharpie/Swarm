@@ -3,9 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <collections.h>
-#import <simtools.h>
 #import <analysis.h>
+#import <simtools.h> // OutFile, ActiveOutFile
+#import <simtoolsgui.h> // ActiveGraph
 
 #define NUMCOLORS 10
 const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow", 
@@ -17,7 +17,7 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
 
 + createBegin: aZone
 {
-  EZGraph * obj;
+  EZGraph *obj;
 
   obj = [super createBegin: aZone];
   obj->graphics = 1;
@@ -89,7 +89,8 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
       
       anElement = [theGraph createElement];
       [anElement setLabel: aName];
-      [anElement setColor: graphColors[ colorIdx++ % NUMCOLORS ] ];
+      [anElement setColor: graphColors[colorIdx++ % NUMCOLORS]];
+
       aGrapher = [ActiveGraph createBegin: [self getZone]];
       [aGrapher setElement: anElement];
       [aGrapher setDataFeed: anObj]; 
@@ -121,7 +122,7 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
 
 - createSequence: (const char *)aName
     withFeedFrom: anObj 
-     andSelector: (SEL) aSel
+     andSelector: (SEL)aSel
 {
   id aSeq;
   
@@ -160,7 +161,6 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
          withFeedFrom: aCollection 
           andSelector: (SEL)aSel
 {
-  
   id aSeq;
   id anAverager;
   
@@ -266,10 +266,11 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
   [theGraph drop];
 
   index = [sequenceList begin: [self getZone]];
-  while( (aSequence = [index next]) ){
-    [index remove];
-    [aSequence drop];
-  }
+  while ((aSequence = [index next]))
+    {
+      [index remove];
+      [aSequence drop];
+    }
   [index drop];
   [super drop];
 }

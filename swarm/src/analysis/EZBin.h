@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtools/GUIComposite.h>
+#import <simtoolsgui/GUIComposite.h>
 #import <gui.h>
 
 // EZBin object: used to generate histograms.

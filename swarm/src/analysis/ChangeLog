@@ -1,3 +1,20 @@
+1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZGraph.m: Don't include collections.h.  Include simtoolsgui.h.
+	Reformatting throughout.
+
+	* EZDistribution.m ([EZDistribution -createEnd]): Include misc.h.
+	Use xmalloc instead of malloc.
+
+	* EZBin.m: Don't include collections.h or gui.h.  Include misc.h.
+	([EZBin -createEnd]): Use xmalloc for distribution, cachedLimits,
+	and locations.
+
+	* EZBin.h: Include simtoolsgui/GUIComposite.h, not
+	simtools/GUIComposite.h.
+
+	* Averager.h: Reformatting throughout.
+
 1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Averager.m: Reformatting throughout.

@@ -72,10 +72,10 @@
 
 - (double)getAverage
 {
-  if(count)
-    return total/count;
+  if (count)
+    return total / (double)count;
   else 
-    return 0;
+    return 0.0;
 } 
 
 - (double)getTotal

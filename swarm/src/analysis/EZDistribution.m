@@ -3,7 +3,6 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #import <math.h>
 #import <stdlib.h>
 #import <collections.h>
@@ -11,14 +10,16 @@
 #import <analysis.h>
 #import <gui.h>
 
+#include <misc.h> // xmalloc
+
 @implementation EZDistribution
 
 - createEnd
 {
   [super createEnd];
 
-  probabilities = (double *) malloc (binNum * sizeof (double));
-  maximumEntropy = log ( 1.0 / ((double) binNum));
+  probabilities = (double *)xmalloc (binNum * sizeof (double));
+  maximumEntropy = log (1.0 / ((double) binNum));
    
   return self;
 }
