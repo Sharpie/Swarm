@@ -126,7 +126,7 @@ get_rank (const char *type)
     
     if (errno != 0)
       raiseEvent (InvalidArgument,
-                  "Value out of range [%s]", type + 1);
+                  "Value out of range [%s]\n", type + 1);
     
     rank++;
     type = tail;
@@ -147,7 +147,7 @@ objc_array_subtype (const char *type, unsigned *dims)
     if (dims)
       dims[dimnum] = val;
     if (errno != 0)
-      raiseEvent (InvalidArgument, "Value out of range [%s]", type + 1);
+      raiseEvent (InvalidArgument, "Value out of range [%s]\n", type + 1);
     dimnum++;
     type = tail;
   } while (*tail == _C_ARY_B);
@@ -860,7 +860,7 @@ object_ivar_type (id obj, const char *ivar_name, BOOL *isArrayPtr)
       struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
       
       if (!ivar)
-        raiseEvent (InvalidArgument, "Cannot find ivar `%s'", ivar_name);
+        raiseEvent (InvalidArgument, "Cannot find ivar `%s' (non-existent ivar name in archiver file?)\n", ivar_name);
       
       if (*ivar->ivar_type == _C_ARY_B)
         {
@@ -897,7 +897,7 @@ object_setVariable (id obj, const char *ivar_name, void *inbuf)
       fcall_type_t type;
       
       if (ivar == NULL)
-        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivar_name);
+        raiseEvent (InvalidArgument, "Could not find ivar `%s'\n", ivar_name);
       
       if (*ivar->ivar_type == _C_ARY_B)
         {
@@ -1063,7 +1063,7 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           ENSUREVALUETYPE (expr, getChar, fcall_type_schar, ivar_type, ivar_name, buf.schar);
           break;
         default:
-          raiseEvent (InvalidArgument, "Unknown value type %d", value_type);
+          raiseEvent (InvalidArgument, "Unknown value type %d\n", value_type);
           break;
         }
       object_setVariable (obj, ivar_name, &buf);
@@ -1089,16 +1089,16 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           else if (strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0)
             buf._class = lispIn ([obj getZone], expr);
           else if (strcmp (funcName, PARSE_FUNCTION_NAME) != 0)
-            raiseEvent (InvalidArgument, "function not %s",
+            raiseEvent (InvalidArgument, "function not %s\n",
                         MAKE_INSTANCE_FUNCTION_NAME
                         " or "
                         MAKE_CLASS_FUNCTION_NAME);
           object_setVariable (obj, ivar_name, &buf);
         }
       else
-        raiseEvent (InvalidArgument, "argument not a string");
+        raiseEvent (InvalidArgument, "argument not a string\n");
     }
   else
-    raiseEvent (InvalidArgument, "Unknown type `%s'", [expr name]);
+    raiseEvent (InvalidArgument, "Unknown type `%s'\n", [expr name]);
 }
 

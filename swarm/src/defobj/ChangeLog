@@ -1,3 +1,7 @@
+2001-02-08  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* internal.m (object_ivar_type): Improve error message.
+
 2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* modulemap.el (print-module-lookup-function): Handle missing
