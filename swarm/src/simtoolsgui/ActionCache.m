@@ -144,10 +144,9 @@ PHASE(Using)
       else if (strcmp (actionName, "Quit") == 0)
         [actionHolder setSelector: M(setStateQuit)];
       else
-        [InvalidActionType
-          raiseEvent: 
-            "Control Action Name: [%s] not recognized in insertAction",
-          actionName];
+        raiseEvent (InvalidActionType, 
+                    "Control Action Name: [%s] not recognized in insertAction",
+                    actionName);
       [actionCache addLast: actionHolder];
     }
   else if (actionType == Probing)
@@ -158,9 +157,9 @@ PHASE(Using)
     // [actionCache addLast: actionHolder];
     [ActionTypeNotImplemented raiseEvent];
   else
-    [InvalidActionType raiseEvent: "The ActionType Symbol "
-		       "embedded in action 0x%0p was not found.\n", 
-		       actionHolder];
+    raiseEvent (InvalidActionType, "The ActionType Symbol "
+                "embedded in action 0x%0p was not found.\n", 
+                actionHolder);
   return self;
 }
 
@@ -220,10 +219,9 @@ PHASE(Using)
             [[actionHolder getActionTarget]
               perform: [actionHolder getSelector]];
           else
-            [InvalidActionType
-              raiseEvent:
-                "Control Action Name: [%s] not recognized in deliverActions",
-              actionName];
+            raiseEvent (InvalidActionType,
+                        "Control Action Name: [%s] not recognized in deliverActions",
+                        actionName);
       }
       [cacheIndex remove];
       [actionHolder drop];

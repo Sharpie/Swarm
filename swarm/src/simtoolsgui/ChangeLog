@@ -1,5 +1,8 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* ActionCache.m, ClassDisplayWidget.m, ProbeDisplay.m: Use
+	raiseEvent() instead of raiseEvent:.
+
 	* ControlPanel.m ([ControlPanel -setStateSave]): Save
 	lispArchiver and hdf5Archiver instead of archiver.
 

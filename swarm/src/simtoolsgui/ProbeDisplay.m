@@ -14,9 +14,8 @@
 static void
 resetObjectError (void)
 {
-  [InvalidCombination 
-    raiseEvent:
-      "It is an error to reset the object when building a ProbeDisplay\n"];
+  raiseEvent (InvalidCombination,
+              "It is an error to reset the object when building a ProbeDisplay\n");
 }
 
 //
@@ -83,9 +82,8 @@ PHASE(Creating)
     {
       if (probedObject == 0)
         {
-          [InvalidCombination
-            raiseEvent:
-              "ProbeDisplay object was not properly initialized\n"];
+          raiseEvent (InvalidCombination,
+                      "ProbeDisplay object was not properly initialized\n");
           return nil;
         }
     }

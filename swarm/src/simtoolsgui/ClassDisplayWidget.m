@@ -49,9 +49,8 @@ PHASE(Creating)
     {
       if (probedObject != 0)
         {
-          [InvalidCombination
-            raiseEvent:
-              "It is an error to reset the object when building a ClassDisplayWidget\n"];
+          raiseEvent (InvalidCombination, 
+                      "It is an error to reset the object when building a ClassDisplayWidget\n");
           return nil;
         }
     }
@@ -91,9 +90,8 @@ PHASE(Creating)
     {
       if (probedObject == 0 || theClass == 0)
         {
-          [InvalidCombination
-            raiseEvent: 
-              "ClassDisplayWidget object was not properly initialized\n"];
+          raiseEvent (InvalidCombination,
+                      "ClassDisplayWidget object was not properly initialized\n");
           return nil;
         }
     }
