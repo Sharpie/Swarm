@@ -139,7 +139,7 @@ find_executable (const char *program_name)
           errno = ENOMEM;
           goto notfound;
         }
-      if (myrealpath (program_name, executable_name) == NULL)
+      if (realpath (program_name, executable_name) == NULL)
         {
           free (executable_name);
           goto notfound;

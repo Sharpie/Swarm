@@ -1,3 +1,20 @@
+1998-07-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* realpath.c (realpath): Renamed from myrealpath.
+
+	* misc.h: Include string.h stdlib.h, and config.h.
+
+	* find_executable.c (find_executable): Use realpath instead of 
+	myrealpath.
+
+	* Makefile.am (libmisc_la_LIBADD): Set to substituted value
+	of MISCOBJS.  Remove memchr, memcpy, memset, realpath,
+	stpcpy, strchr, strcmp, strdup, strlen, strncmp, strndup, strnlen,
+	strpbrk, and strsep from SRC.
+
+	* misc.h: Declare removed functions above if corresponding HAVE_*
+	macro is not defined.  
+
 1998-07-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* find_executable.c, realpath.c: Include misc.h last.

@@ -38,7 +38,7 @@ int readlink (const char *, char *, int);
 */
 
 const char *
-myrealpath (const char *path, char *resolved_path)
+realpath (const char *path, char *resolved_path)
 /* Methode: benutze getwd und readlink. */
 {
   char mypath[MAXPATHLEN];
