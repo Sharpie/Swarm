@@ -14,7 +14,8 @@
 
 	* Makefile.am (tklibdir): Substitute.
 	(TK_VERSION): Extract from tkConfig.sh.
-	(TK_LIBRARY): Set to $(tklibdir)/tk$(TK_VERSION).
+	(TK_PREFIX): Extract from tkConfig.sh.
+	(TK_LIBRARY): Set to $(TKPREFIX)/lib/tk$(TK_VERSION).
 	(CPPFLAGS): Define TK_LIBRARY.
 
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>

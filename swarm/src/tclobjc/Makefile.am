@@ -8,7 +8,8 @@ TKINCLUDES = @TKINCLUDES@
 FFIINCLUDES = @FFIINCLUDES@
 tklibdir = @tklibdir@
 TK_VERSION = $(shell sed -n "s/^TK_VERSION='\(.*\)'/\1/p" $(tklibdir)/tkConfig.sh)
-TK_LIBRARY = $(tklibdir)/tk$(TK_VERSION)
+TK_PREFIX = $(shell sed -n "s/^TK_PREFIX='\(.*\)'/\1/p" $(tklibdir)/tkConfig.sh)
+TK_LIBRARY = $(TK_PREFIX)/lib/tk$(TK_VERSION)
 
 SUFFIXES = .m
 
