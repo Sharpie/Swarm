@@ -13,7 +13,7 @@
 #include <swarmconfig.h> // HAVE_JDK
 #import <defobj/directory.h> // SD_SUPERCLASS
 #ifdef HAVE_JDK
-#import "../defobj/java.h" // SD_JAVA_ENSUREOBJCMETHOD, SD_JAVA_FIND_OBJECT_JAVA, java_field_usable_p
+#import "../defobj/java.h" // SD_JAVA_ENSURE_SELECTOR_OBJC, SD_JAVA_FIND_OBJECT_JAVA, java_field_usable_p
 #import "../defobj/javavars.h" // m_*, c_*
 #endif
 
@@ -267,7 +267,7 @@ PHASE(Creating)
               // selector construction can fail on polymorphic methods
               if (selector)
                 {
-                  sel = SD_JAVA_ENSUREOBJCMETHOD (selector);
+                  sel = SD_JAVA_ENSURE_SELECTOR_OBJC (selector);
                   (*jniEnv)->DeleteLocalRef (jniEnv, selector);
                   
                   aProbe = [MessageProbe createBegin: getZone (self)];
@@ -329,7 +329,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
-      classObject = SD_JAVA_FINDJAVACLASS (probedClass);
+      classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      

@@ -1,3 +1,15 @@
+2000-07-26    <mgd@DRONE>
+
+	* ProbeMap.m: Change SD_JAVA_FINDJAVACLASS to
+	SD_JAVA_FIND_CLASS_JAVA and SD_JAVA_ENSUREOBJCMETHOD
+	to SD_JAVA_ENSURE_SELECTOR_OBJC.
+
+	* MessageProbe.m, VarProbe.m: Change SD_JAVA_FINDOBJC to
+	SD_JAVA_FIND_OBJECT_OBJC.
+
+	* CompleteProbeMap.m: Change SD_JAVA_FINDJAVACLASS to
+	SD_JAVA_FIND_CLASS_JAVA.
+
 2000-07-03  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -getProbeForMessage:],

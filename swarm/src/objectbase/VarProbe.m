@@ -15,7 +15,7 @@
 #include <swarmconfig.h> // HAVE_JDK, PTRUINT
 
 #ifdef HAVE_JDK
-#import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA, SD_JAVA_FINDOBJC, JNI
+#import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA, SD_JAVA_FIND_OBJECT_OBJC, JNI
 #import "../defobj/javavars.h" // c_*, m_*
 #endif
 
@@ -711,7 +711,7 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
                 type);
 
   jobj = GETVALUE (Object);
-  ret = SD_JAVA_FINDOBJC (jobj);
+  ret = SD_JAVA_FIND_OBJECT_OBJC (jobj);
   (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
   return ret;
 }
