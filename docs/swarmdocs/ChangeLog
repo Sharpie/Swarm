@@ -4,6 +4,7 @@
 	(DATA): Remove dependency on FIGS.
 	(html dvi rtf fot ps): Depend on all-recursive.
 	(all-recursive): Default as nothing.
+	(%.dvi): Run jadetex three times.
 
 1998-10-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

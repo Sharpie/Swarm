@@ -85,7 +85,7 @@ _%.tex: %.sgml
 	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) $<
 
 %.dvi: %.tex _%.tex
-	- $(JADETEX) $< ; $(JADETEX) $< 
+	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
 
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
