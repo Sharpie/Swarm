@@ -64,14 +64,15 @@ PHASE(Creating)
     }
 
 
-  {
-    id protoIndex = [target begin: getCZone (getZone (self))];
+  if (isList)
+    {
+      id protoIndex = [target begin: getCZone (getZone (self))];
 
-    nextImp = [protoIndex methodFor: M(next)];
-    getLocImp = [protoIndex methodFor: M(getLoc)];
+      nextImp = [protoIndex methodFor: M(next)];
+      getLocImp = [protoIndex methodFor: M(getLoc)];
     
-    [protoIndex drop];
-  }
+      [protoIndex drop];
+    }
   callImp = [self methodFor: M(doubleDynamicCallOn:)];
   addImp = [self methodFor: M(addValueToAverage:)];
   
