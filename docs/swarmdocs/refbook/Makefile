@@ -7,6 +7,7 @@ EXAMPLES=GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
 LIBS=defobj collections activity objectbase random simtools simtoolsgui \
 	gui analysis
 LIBPAGES=$(addsuffix pages.sgml,$(join $(addsuffix /,$(LIBS)),$(LIBS)))
+MAKEPAGES=$(EMACS) -batch -l ../protocol.el -f run-all $(SWARMHOME)
 
 include ../Makefile.conf
 
@@ -19,17 +20,20 @@ rtf: refbook.rtf
 
 refbook.html refbook.tex refbook.dvi refbook.ps refbook.rtf: $(GRIDDIR)/gridexamples.sgml $(LIBPAGES)
 
-$(LIBPAGES): pages
+$(LIBPAGES): 
+	$(MAKEPAGES)
 
 $(GRIDDIR)/gridexamples.sgml: $(addprefix $(GRIDDIR)/,$(EXAMPLES))
 	- (cd $(GRIDDIR) ; (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"GRID.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > gridexamples.sgml; cd ..)
+
+# targets to force remake of examples and reference entries
 
 .PHONY: pages examples
 
 examples:  $(GRIDDIR)/gridexamples.sgml
 
 pages:  
-	$(EMACS) -batch -l ../protocol.el -f run-all $(SWARMHOME)
+	$(MAKEPAGES)
 
 realclean: clean
 	rm -f $(GRIDDIR)/gridexamples.sgml
