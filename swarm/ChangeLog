@@ -1,7 +1,8 @@
 1997-12-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (CC): Use explicit path for SFI configuration.
-
+	Add gcc28 subconfig for mgd-PSU-Irix5.
+	
 	* Makefile (dist): Don't match SETUP to the $(SWARMSETUP) case.
 
 	* Makefile.conf (TCLVERS): Upgrade mgd-SFI-Solaris to Tcl 7.6.
