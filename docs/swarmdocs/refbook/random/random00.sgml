@@ -1,4 +1,5 @@
 <PARTINTRO>
+  <title>Random Introduction</title>
 
   <SIDEBAR>
     <TITLE>Overview</TITLE>
@@ -25,8 +26,8 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.DEPEND">
-    <TITLE>Dependencies</TITLE> 
+  <SECT1 xreflabel="Random Dependencies" ID="SWARM.RANDOM.SGML.SECT1.DEPEND">
+        <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
     &lt;random.h&gt;:</PARA>
@@ -69,8 +70,8 @@
       
   </SECT1>
 
-  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.COMPAT">
-    <TITLE>Compatibility</TITLE>
+  <SECT1 xreflabel="Random Compatibility" ID="SWARM.RANDOM.SGML.SECT1.COMPAT">
+        <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
       <LISTITEM>
@@ -105,8 +106,8 @@
     
   </SECT1>
 
-  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.USAGE">
-    <TITLE>Usage Guide</TITLE>
+  <SECT1 xreflabel="Random Usage Guide" ID="SWARM.RANDOM.SGML.SECT1.USAGE">
+        <TITLE>Usage Guide</TITLE>
     
     <SECT2>
       <TITLE>Overview</TITLE>
@@ -134,8 +135,8 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.SUBCLASS">
-    <TITLE>Subclassing Reference</TITLE>
+  <SECT1 xreflabel="Random Subclassing Reference" ID="SWARM.RANDOM.SGML.SECT1.SUBCLASS">
+        <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Random library objects do not do anything exotic during the
       create phase. The competent programmer may subclass these objects
@@ -144,8 +145,8 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.IMPL">
-    <TITLE>Implementation Notes</TITLE>
+  <SECT1 xreflabel="Random Implementation Notes" ID="SWARM.RANDOM.SGML.SECT1.IMPL">
+        <TITLE>Implementation Notes</TITLE>
 
     <para>This section provides implementation details for the current
       version of the random library.
