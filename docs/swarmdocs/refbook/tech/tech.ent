@@ -1,8 +1,0 @@
-<!entity techcont.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Content//EN">
-<!entity techmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Metadata//EN">
-<!entity objc.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Objective C//EN">
-<!entity swarmobjc.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Swarm Objective C//EN">
-<!entity emacs.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Emacs//EN">
-<!entity debug.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Debug//EN">
-
-<!entity techrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Revision History//EN">
