@@ -16,11 +16,10 @@
       documenting how things work and what shortcomings there are.
 
       If you want to learn more about random number generation, the
-      bibliography has useful notes (see the <link
-      linkend="swarm.random.sgml.bibliography">Bibliography</link>.)
-      Knuth is the main reference in this realm, but too old to
-      describe most of the particular generators used here, many of
-      which are drawn from recent literature.
+      bibliography in the &userbook; has useful notes.  Knuth is the
+      main reference in this realm, but too old to describe most of
+      the particular generators used here, many of which are drawn
+      from recent literature.
     </PARA>
 
   </SIDEBAR>
@@ -124,41 +123,13 @@
     </SECT2>
 
     <SECT2>
-      <TITLE>User Guide for Beginners</TITLE>
+      <TITLE>Usage Guide for Beginners, Advanced Usage Guide and
+        Guide to Generators and Distributions</TITLE>
        
-      <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.sect1.usage-beginners">Random
-     Appendix</link>.  This section may go away in the future to be
-     relocated in the Swarm User Guide.</para>
+      <para>All these sections have been relocated to the
+        &userbook;</para>
 
     </SECT2>
-
-    <SECT2>
-
-      <TITLE>Usage Guide to the Generators</TITLE>
-      
-     <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.sect2.generator-usage">Random
-     Appendix</link>.</para>
-
-    </SECT2>
-    <SECT2>
-      <TITLE>Usage Guide to the Distributions</TITLE>     
-
-     <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.sect2.distrib-usage">Random
-     Appendix</link>.</para>
-
-    </SECT2>
-
-  </SECT1>
-
-  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.ADVUSAGE">
-    <TITLE>Advanced Usage Guide</TITLE>
-
-     <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.sect1.adv-usage">Random
-     Appendix</link>.</para>
 
   </SECT1>
 
@@ -175,9 +146,25 @@
   <SECT1 ID="SWARM.RANDOM.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
-     <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.sect1.implementation">Random
-     Appendix</link>.</para>
+    <para>This section provides implementation details for the current
+      version of the random library.
+    </para>
+
+     &README.Random-0.8.sgml;
+     &README.Generators-0.8.sgml;
+     &README.Distributions-0.8.sgml;
+
+    <sect2>
+      <title>Programming yet to do</title>
+
+      <para>Like many Open Source projects, this random-number library
+        is a work in process. Further developments still on the to-do
+        list are detailed below.
+      </para>
+      
+      &Whats-Left-ToDo-0.8.sgml;
+
+    </sect2>
 
   </SECT1>
 

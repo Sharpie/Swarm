@@ -1,3 +1,10 @@
+2000-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* random00.sgml: Removed all LINKs to `Random Appendix', refer
+	reader to Swarm User Guide.  Add `Implementation Notes' back into
+	this PARTINTRO from old Appendix, as the Implementation details
+	should always be in-place with the Reference Guide.
+
 1999-02-10 Sven Thommesen <sthomme@humsci.auburn.edu>
 
 	* random00.sgml: minor textual editing.
