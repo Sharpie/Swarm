@@ -1,3 +1,18 @@
+1998-12-27  Alex Lancaster  <alex@santafe.edu>
+
+	* common.dsl (article-titlepage-verso-mode): Call locally-defined
+	expansions for revision, revnumber, date, authorinitials and
+	revremark, to override DocBook stylesheets default which are
+	active as of Modular Stylesheets 1.30.
+	(book-titlepage-verso-mode): Likewise.
+	(reference-titlepage-verso-mode): Likewise.
+	(set-titlepage-verso-mode): Likewise.
+	(element (revhistory revision)): Remove from common context.  
+	Only define inside the
+	{article,book,reference,set}-titlepage-verso-mode.
+	
+	* configure.in (AM_INIT_AUTOMAKE): Bump version to 1998-12-27.
+
 1998-12-22  Alex Lancaster  <alex@santafe.edu>
 
 	* protocol.el (check-common-tags): Flag `#include's.
