@@ -1,3 +1,12 @@
+1999-05-21  Alex Lancaster  <alex@santafe.edu>
+
+	* warning.png, tip.png, note.png, caution.png, important.png: Add
+	files.  Converted from .gif in the DocBook stylesheets `images'
+	subdir.
+
+	* Makefile.am (PNG): Add corresponding png files.
+	(EXTRA_DIST): Add $(PNG).
+
 1999-05-18  Alex Lancaster  <alex@santafe.edu>
 
 	* gui-probemap-{complete, customized, example}.eps, gui-{graph,
