@@ -35,9 +35,11 @@ Library:      collections
 - (int)compare: aString;
 - (BOOL)getLiteralFlag;
 - lispIn: expr;
-- lispOut: stream deep: (BOOL)deepFlag;
+- lispOutShallow: stream;
+- lispOutDeep: stream;
 - hdf5In: hdf5Obj;
-- hdf5Out: hdf5Obj deep: (BOOL)deepFlag;
+- hdf5OutShallow: hdf5Obj;
+- hdf5OutDeep: hdf5Obj;
 - (void)describe: outputCharStream;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

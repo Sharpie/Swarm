@@ -183,7 +183,7 @@ PHASE(Using)
   return self;
 }
 
-- lispOut: stream deep: (BOOL)deepFlag
+- lispOutShallow: stream
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
@@ -193,18 +193,29 @@ PHASE(Using)
   return self;
 }
 
+- lispOutDeep: stream
+{
+  return [self lispOutShallow: stream];
+}
+
+
 - hdf5In: hdf5Obj
 {
   return self;
 }
 
-- hdf5Out: hdf5Obj deep: (BOOL)deepFlag
+- hdf5OutShallow: hdf5Obj
 {
   [hdf5Obj storeAsDataset: [hdf5Obj getName]
            typeName: [self getTypeName]
            type: @encode (const char *)
            ptr: &string];
   return self;
+}
+
+- hdf5OutDeep: hdf5Obj
+{
+  return [self hdf5OutShallow: hdf5Obj];
 }
 
 //

@@ -6,7 +6,8 @@
 
 	* List.[hm]: Move HDF5 stuff from Collections.
 
-	* List.[hm], Map.[hm]: Switch from {lisp,hdf5}Out:deep: to
+	* List.[hm], Map.[hm], StringObject.[hm]: Switch from
+	{lisp,hdf5}Out:deep: to
 	{lisp,hdf5}Out{Shallow,Deep}:.
 
 	* Map.m ([Map_c hdf5Out:deep]): Don't compute anything for call
