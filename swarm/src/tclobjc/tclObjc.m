@@ -593,35 +593,33 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
               abort ();
             }
         }
-      {
-        IMP imp = method->method_imp;
-        
-        switch (*(method->method_types))
-          {
-          case _C_ID:
-            av_start_ptr (alist, imp, id, retframe);
+#define imp method->method_imp        
+      switch (*(method->method_types))
+        {
+        case _C_ID:
+          av_start_ptr (alist, imp, id, retframe);
           break;
-          case _C_SEL:
-            av_start_ptr (alist, imp, SEL, retframe);
+        case _C_SEL:
+          av_start_ptr (alist, imp, SEL, retframe);
+          break;
+        case _C_UCHR:
+          av_start_uchar (alist, imp, retframe);
+          break;
+        case _C_INT:
+          av_start_int (alist, imp, retframe);
+          break;
+        case _C_FLT:
+          av_start_float (alist, imp, retframe);
             break;
-          case _C_UCHR:
-            av_start_uchar (alist, imp, retframe);
-            break;
-          case _C_INT:
-            av_start_int (alist, imp, retframe);
-            break;
-          case _C_FLT:
-            av_start_float (alist, imp, retframe);
-            break;
-          case _C_DBL:
-            av_start_double (alist, imp, retframe);
-            break;
-          case _C_CHARPTR:
-            av_start_ptr (alist, imp, const char *, retframe);
-            break;
-          default:
-            abort ();
-          }
+        case _C_DBL:
+          av_start_double (alist, imp, retframe);
+          break;
+        case _C_CHARPTR:
+          av_start_ptr (alist, imp, const char *, retframe);
+          break;
+        default:
+          abort ();
+#undef imp
       }
 #endif
       for (argnum = 0,
