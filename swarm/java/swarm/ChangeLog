@@ -1,6 +1,7 @@
 1999-03-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.in (JAVAC): Substitute
+	* Makefile.in (JAVAC, srcdir): Substitute
+	(VPATH): Set to srcdir.
 	(all): Depend on Selector.class and add to jar file.
 	(%.class): New rule.
 

@@ -3,6 +3,8 @@ datadir=@datadir@
 INSTALL=@INSTALL@
 JAR=@JAR@
 JAVAC=@JAVAC@
+srcdir=@srcdir@
+VPATH=$(srcdir)
 
 include ../Makefile.common
 
