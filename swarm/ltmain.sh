@@ -419,9 +419,9 @@ compiler."
       echo $srcfile > "$lockfile"
     fi
 
-    if test -n "$fix_srcfile_path"; then
-      # eval srcfile=\"$fix_srcfile_path\"
-    fi
+    # if test -n "$fix_srcfile_path"; then
+    #   eval srcfile=\"$fix_srcfile_path\"
+    # fi
 
     # Only build a PIC object if we are building libtool libraries.
     if test "$build_libtool_libs" = yes; then
