@@ -1,3 +1,8 @@
+1999-06-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatSpace.m ([HeatSpace -findExtremeType:type:px:py]): Remove
+	unused variables bestX, bestY, and buf.
+
 1999-06-09  Alex Lancaster  <alex@santafe.edu>
 
 	* main.m (main): Make initSwarmApp -> initSwarm, the additional

@@ -65,11 +65,9 @@ const HeatValue maxHeat = 0x7fff;
 {
   HeatValue bestHeat;
   int x, y;
-  int bestX, bestY;
   id <List>heatList;
   id  cell, bestCell;
   int offset;
-  char buf[100];
 
   // prime loop: assume extreme is right where we're standing
   bestHeat = [self getValueAtX: *px Y: *py];
