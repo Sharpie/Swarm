@@ -89,8 +89,8 @@ else
   FFIINCLUDES='-I$(top_builddir)/avcall'
   FFILDFLAGS=
   if test "$host_os" = cygwin; then
-    FFILIB="\$(top_builddir)/avcall/avcall.lo"
-    FFILIB="\$(top_builddir)/avcall/avcall-i386-msvc.lo ${FFILIB}"
+    FFILIB="\$(top_builddir)/avcall/avcall.o"
+    FFILIB="\$(top_builddir)/avcall/avcall-i386-msvc.o ${FFILIB}"
   else
     FFILIB="\$(top_builddir)/avcall/libavcall.la"
   fi
