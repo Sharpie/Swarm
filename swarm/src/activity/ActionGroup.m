@@ -78,7 +78,7 @@ PHASE(Using)
 // createAction... -- create actions comprising the action plan
 //
 
-- createFAction: call
+- (id <FAction>)createFAction: call
 {
   id <FAction> faction;
   faction = [FAction createBegin: getCZone (getZone (self))];
@@ -96,7 +96,7 @@ PHASE(Using)
   return [self createActionTo: anActionType message: M(_performPlan_)];
 }
 
-- createActionCall: (func_t)fptr
+- (id <ActionCall>)createActionCall: (func_t)fptr
 {
   id <ActionCall> newAction;
 
@@ -107,7 +107,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionCall: (func_t)fptr : arg1
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1
 {
   id <ActionCall> newAction =
     [ActionCall createBegin: getCZone (getZone (self))];
@@ -118,7 +118,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionCall: (func_t)fptr : arg1 : arg2
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2
 {
   id <ActionCall> newAction =
     [ActionCall createBegin: getCZone (getZone (self))];
@@ -130,7 +130,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionCall: (func_t)fptr : arg1 : arg2 : arg3
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2 : arg3
 {
   id <ActionCall> newAction =
     [ActionCall createBegin: getCZone (getZone (self))];
@@ -143,7 +143,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionTo: target message: (SEL)aSel
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -153,7 +153,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionTo: target message: (SEL)aSel : arg1
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -164,7 +164,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionTo: target message: (SEL)aSel : arg1 : arg2
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -176,7 +176,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -189,7 +189,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionForEach: target message: (SEL)aSel
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel
 {
   id <ActionForEach> newAction =
     [ActionForEach createBegin: getCZone (getZone (self))];
@@ -200,7 +200,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionForEach: target message: (SEL)aSel : arg1
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1
 {
   id <ActionForEach> newAction =
     [ActionForEach createBegin: getCZone (getZone (self))];
@@ -212,7 +212,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2
 {
   id <ActionForEach> newAction =
     [ActionForEach createBegin: getCZone (getZone (self))];
@@ -225,7 +225,7 @@ PHASE(Using)
   return newAction;
 }
 
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
   id <ActionForEach> newAction =
     [ActionForEach createBegin: getCZone (getZone (self))];
@@ -239,6 +239,18 @@ PHASE(Using)
   return newAction;
 }
 
+- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag
+{
+  id <FActionForEach> newAction =
+    [FActionForEach createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setCall: call];
+  [newAction setFinalizationFlag: finalizationFlag];
+  newAction = [newAction createEnd];
+  [self addLast: newAction];
+  return newAction;
+}
+  
 - _createPermutedIndex_: aZone activity: activity
 {
   return [[[[GroupPermutedIndex_c createBegin: aZone]
@@ -494,7 +506,7 @@ PHASE(Creating)
   newActivity->currentIndex = newIndex;
   newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((ActionForEach_c *) forEachAction)->target
+  newIndex->memberIndex = [((CAction *) forEachAction)->target
                              begin: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
 
@@ -532,10 +544,10 @@ PHASE(Creating)
   newActivity->currentIndex = newIndex;
   newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((ActionForEach_c *) forEachAction)->target
+  newIndex->memberIndex = [((CAction *) forEachAction)->target
                              beginPermuted: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
-  ((ActionForEach_c *) newIndex->memberAction)->target = nil;
+  ((CAction *) newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
 

@@ -117,7 +117,7 @@ PHASE(Using)
 }
 @end
 
-@implementation FAction_s
+@implementation FAction_c
 PHASE(Creating)
 - setCall: fcall
 {
@@ -128,6 +128,9 @@ PHASE(Creating)
 PHASE(Using)
 - (void)_performAction_: anActivity
 {
+  if (target) // in the case of FActionForEach
+    updateTarget (call, target);
+  
   [call performCall];
 }
 
@@ -321,78 +324,9 @@ describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
 
 @implementation ActionForEach_c
 PHASE(Creating)
-+ createBegin: aZone
-{
-  ActionForEach_c *obj = [super createBegin: aZone];
-
-  obj->finalizationFlag = YES;
-#ifdef HAVE_JDK
-  obj->aryLen = 0;
-#endif
-  return obj;
-}
-
-- (void)setFinalizationFlag: (BOOL)theFinalizationFlag
-{
-  finalizationFlag = theFinalizationFlag;
-}
-
 - createEnd
 {
-#if 0
-  if ([target allSameClass] && finalizationFlag)
-#ifdef HAVE_JDK
-    if ([target respondsTo: M(isJavaProxy)]
-        && getDefaultOrder (bits) == (id) Sequential)
-      {
-        jobject coll = SD_FINDJAVA (jniEnv, (id) target);
-        jarray lref;
-        jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
-        jmethodID method;
-        jsize i;
-        
-        if (!(method =
-              (*jniEnv)->GetMethodID (jniEnv,
-                                      class,
-                                      "size",
-                                      "()I")))
-          abort ();
-        aryLen = (*jniEnv)->CallIntMethod (jniEnv, coll, method);
-        printf ("handling sequential\n");
-        if (!(method =
-              (*jniEnv)->GetMethodID (jniEnv,
-                                      class,
-                                      "get",
-                                      "(I)Ljava/lang/Object;")))
-          abort ();
-        (*jniEnv)->DeleteLocalRef (jniEnv, class);
-        if (!(lref =
-              (*jniEnv)->NewObjectArray (jniEnv, aryLen, c_Object, NULL)))
-          abort ();
-        ary = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-        (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-        {
-          jobject javaProtoTarget =
-            (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
-          
-          protoTarget = SD_ENSUREOBJC (jniEnv, javaProtoTarget);
-          (*jniEnv)->SetObjectArrayElement (jniEnv, ary, 0, javaProtoTarget);
-          (*jniEnv)->DeleteLocalRef (jniEnv, javaProtoTarget);
-        }
-        for (i = 1; i < aryLen; i++)
-          {
-            jobject obj =
-              (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
-            (*jniEnv)->SetObjectArrayElement (jniEnv, ary, i, obj);
-            (*jniEnv)->DeleteLocalRef (jniEnv, obj);
-          }
-      }
-    else
-#endif
-      protoTarget = [target getFirst];
-  else
-#endif
-    protoTarget = nil;
+  protoTarget = nil;
   return [super createEnd];
 }
 
@@ -405,33 +339,15 @@ PHASE(Setting)
 PHASE(Using)
 - (void)_performAction_: anActivity
 {
-#ifdef HAVE_JDK
-  if (aryLen)
-    {
-      jsize i;
-
-      for (i = 0; i < aryLen; i++)
-	{
-	  jobject obj = (*jniEnv)->GetObjectArrayElement (jniEnv, ary, i);
-	  
-	  updateJavaTarget (call, obj);
-	  [call performCall];
-	  (*jniEnv)->DeleteLocalRef (jniEnv, obj);
-	}
-    }
-#endif
+  id memberAction;
+  
+  if (getBit (bits, BitRandomized))
+    memberAction = 
+      [id_ForEachActivity_c _createRandom_: self : anActivity ];
   else
-    {
-      id memberAction;
-      
-      if (getBit (bits, BitRandomized))
-	memberAction = 
-	  [id_ForEachActivity_c _createRandom_: self : anActivity ];
-      else
-	memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
-      
-      setClass (memberAction, id_ActionTo_c);
-    }
+    memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+  
+  setClass (memberAction, id_ActionTo_c);
 }
 
 - getDefaultOrder
@@ -451,12 +367,162 @@ PHASE(Using)
 
 }
 
+@end
+
+@implementation FActionForEach_c
+PHASE(Creating)
++ createBegin: aZone
+{
+  FActionForEach_c *obj = [super createBegin: aZone];
+
+  obj->finalizationFlag = YES;
+#ifdef HAVE_JDK
+  obj->javaAryLen = 0;
+#endif
+  return obj;
+}
+
+- setTarget: theTarget
+{
+  target = theTarget;
+  return self;
+}
+
+- setFinalizationFlag: (BOOL)theFinalizationFlag
+{
+  finalizationFlag = theFinalizationFlag;
+  return self;
+}
+
+- createEnd
+{
+  BOOL allSameFlag = [target allSameClass];
+
+  [super createEnd];
+  if (finalizationFlag)
+    if (allSameFlag)
+      {
+#ifdef HAVE_JDK
+        if ([target respondsTo: M(isJavaCollection)]
+            && getDefaultOrder (bits) == (id) Sequential)
+          {
+            jobject coll = SD_FINDJAVA (jniEnv, (id) target);
+            jarray lref;
+            jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
+            jmethodID method;
+            jsize i;
+            
+            if (!(method =
+                  (*jniEnv)->GetMethodID (jniEnv,
+                                          class,
+                                          "size",
+                                          "()I")))
+              abort ();
+            javaAryLen = (*jniEnv)->CallIntMethod (jniEnv, coll, method);
+            if (!(method =
+                  (*jniEnv)->GetMethodID (jniEnv,
+                                          class,
+                                          "get",
+                                          "(I)Ljava/lang/Object;")))
+              abort ();
+            (*jniEnv)->DeleteLocalRef (jniEnv, class);
+            if (!(lref =
+                  (*jniEnv)->NewObjectArray (jniEnv, javaAryLen, c_Object,
+                                             NULL)))
+              abort ();
+            javaAry = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+            (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+            {
+              jobject javaProtoTarget =
+                (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
+              
+              (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, 0,
+                                                javaProtoTarget);
+              (*jniEnv)->DeleteLocalRef (jniEnv, javaProtoTarget);
+            }
+            for (i = 1; i < javaAryLen; i++)
+              {
+                jobject obj =
+                  (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
+                (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, i, obj);
+                (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+              }
+          }
+      }
+#endif
+    else
+      raiseEvent (InvalidArgument,
+                  "Collection not homogeneous, finalization cannot be used");
+  else
+    {
+      if (!allSameFlag && [call getCallType] != objccall)
+        raiseEvent (InvalidArgument,
+                    "Heterogeneous collections must be Objective C calls");
+    }
+  return self;
+}
+
+PHASE(Setting)
+
+- (void)setDefaultOrder: aSymbol
+{
+  setDefaultOrder (&bits, aSymbol);
+}
+
+PHASE(Using)
+
+- (void)_performAction_: anActivity
+{
+#ifdef HAVE_JDK
+  if (javaAryLen)
+    {
+      jsize i;
+
+      for (i = 0; i < javaAryLen; i++)
+	{
+	  jobject obj = (*jniEnv)->GetObjectArrayElement (jniEnv, javaAry, i);
+	  
+	  updateJavaTarget (call, obj);
+	  [call performCall];
+	  (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+	}
+    }
+  else
+    {
+      id memberAction;
+      
+      if (getBit (bits, BitRandomized))
+        memberAction = 
+          [id_ForEachActivity_c _createRandom_: self : anActivity];
+      else
+        memberAction = [id_ForEachActivity_c _create_: self : anActivity];
+      
+      setClass (memberAction, id_FAction_c);
+    }
+#endif
+}
+
+- getDefaultOrder
+{
+  return getDefaultOrder (bits);
+}
+
+- (void)describe: stream
+{
+  char buffer[100];
+
+  [stream catC: "[[faction foreach: "];
+  _obj_formatIDString (buffer, target);
+  [stream catC: buffer];
+  [stream catC: "]"];
+}
+
 - (void)drop
 {
 #ifdef HAVE_JDK
-  if ([target respondsTo: M(isJavaProxy)])
-    (*jniEnv)->DeleteGlobalRef (jniEnv, ary);
+  if (javaAryLen)
+    (*jniEnv)->DeleteGlobalRef (jniEnv, javaAry);
 #endif
+  [super drop];
 }
 @end
-

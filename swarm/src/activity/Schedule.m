@@ -537,7 +537,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 // createAction... -- create actions comprising the action plan
 //
 
-- at: (timeval_t)tVal createFAction: call
+- (id <FAction>)at: (timeval_t)tVal createFAction: call
 {
   id <FAction> faction =  [FAction createBegin: getCZone (getZone (self))];
   [faction setCall: call];
@@ -555,7 +555,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
                createActionTo: anActionType message: M(_performPlan_)];
 }
 
-- at: (timeval_t)tVal createActionCall: (func_t)fptr
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr
 {
   id <ActionCall> newAction = 
     [ActionCall createBegin: getCZone (getZone (self))];
@@ -565,7 +565,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1
 {
   id <ActionCall> newAction = [ActionCall createBegin: 
                                             getCZone (getZone (self))];
@@ -576,7 +576,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2
 {
   id <ActionCall> newAction = [ActionCall createBegin: 
                                             getCZone (getZone (self))];
@@ -588,7 +588,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2 : arg3
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2 : arg3
 {
   id <ActionCall> newAction = 
     [ActionCall createBegin: getCZone (getZone (self))];
@@ -601,7 +601,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -611,7 +611,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -622,7 +622,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1 : arg2
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1 : arg2
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -634,7 +634,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
 {
   id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
@@ -647,7 +647,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel
 {
   id <ActionForEach> newAction = [ActionForEach createBegin:
                                                   getCZone (getZone (self))];
@@ -658,7 +658,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1
 {
   id <ActionForEach> newAction = [ActionForEach createBegin:
                                                   getCZone (getZone (self))];
@@ -670,7 +670,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2
 {
   id <ActionForEach> newAction = [ActionForEach createBegin:
                                                   getCZone (getZone (self))];
@@ -683,7 +683,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionForEach: target
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target
                                   message: (SEL)aSel:arg1:arg2:arg3;
 {
   id <ActionForEach> newAction = [ActionForEach createBegin:
@@ -698,11 +698,23 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
+- (id <FActionForEach>)at: (timeval_t)tVal createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag
+{
+  id <FActionForEach> newAction =
+    [FActionForEach createBegin: getCZone (getZone (self))];
+  [newAction setCall: call];
+  [newAction setTarget: target];
+  [newAction setFinalizationFlag: finalizationFlag];
+  newAction = [newAction createEnd];
+  _activity_insertAction (self, tVal, newAction);
+  return newAction;
+}
+
 //
 // createAction... -- convenience messages to create actions at time value zero
 //
 
-- createFAction: call
+- (id <FAction>)createFAction: call
 {
   return [self at: 0 createFAction: call];
 }
@@ -712,64 +724,69 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return [self at: 0 createAction: anActionType];
 }
 
-- createActionCall: (func_t)fptr
+- (id <ActionCall>)createActionCall: (func_t)fptr
 {
   return [self at: 0 createActionCall: fptr];
 }
 
-- createActionCall: (func_t)fptr : arg1
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1
 {
   return [self at: 0 createActionCall: fptr : arg1];
 }
 
-- createActionCall: (func_t)fptr : arg1 : arg2
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2
 {
   return [self at: 0 createActionCall: fptr : arg1 : arg2];
 }
 
-- createActionCall: (func_t)fptr : arg1 : arg2 : arg3
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2 : arg3
 {
   return [self at: 0 createActionCall: fptr : arg1 : arg2 : arg3];
 }
 
-- createActionTo: target message: (SEL)aSel
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel
 {
   return [self at: 0 createActionTo: target message: aSel];
 }
 
-- createActionTo: target message: (SEL)aSel : arg1
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1
 {
   return [self at: 0 createActionTo: target message: aSel : arg1];
 }
 
-- createActionTo: target message: (SEL)aSel : arg1 : arg2
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2
 {
   return [self at: 0 createActionTo: target message: aSel : arg1 : arg2];
 }
 
-- createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
   return [self at: 0 createActionTo: target message: aSel : arg1:arg2:arg3];
 }
 
-- createActionForEach: target message: (SEL)aSel
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel
 {
   return [self at: 0 createActionForEach: target message: aSel];
 }
 
-- createActionForEach: target message: (SEL)aSel : arg1
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1
 {
   return [self at: 0 createActionForEach: target message: aSel : arg1];
 }
 
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2
 {
   return [self at: 0 createActionForEach: target message: aSel : arg1 : arg2];
 }
 
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
   return [self at: 0 createActionForEach: target message: aSel:arg1:arg2:arg3];
+}
+
+- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)theFinalizationFlag
+{
+  return [self at: 0 createFActionForEach: target call: call setFinalizationFlag: theFinalizationFlag];
 }
 
 //

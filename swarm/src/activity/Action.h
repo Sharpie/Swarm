@@ -25,6 +25,10 @@ Library:      activity
   ActionType_c *owner;       // action type that binds action in its context
   member_t ownerActions;     // internal links in actions owned by ActionType
   unsigned bits;             // bit allocations
+  id <FCall> call;
+  // so that ActionGroup can dereferences into FActionForEach and ActionForEach
+  id target; 
+  
 }
 - getOwner;
 - (void)drop;
@@ -34,7 +38,6 @@ Library:      activity
 {
   unsigned argCount;
   id arg1, arg2, arg3;
-  id <FCall> call;
 }
 + createBegin: aZone;
 - (void)_addArguments_: (id <FArguments>)arguments;
@@ -48,9 +51,8 @@ Library:      activity
 - (void)_performAction_: activity;
 @end
 
-@interface FAction_s: CAction <Action>
+@interface FAction_c: CAction <Action>
 {
-  id <FCall> call;
 }
 - setCall: fcall;
 - (void)_performAction_: anActivity;
@@ -70,7 +72,6 @@ Library:      activity
 @interface ActionTo_c: CFAction <ActionArgs>
 {
 @public
-  id target;
   SEL selector;
   id protoTarget;
 }
@@ -86,14 +87,20 @@ Library:      activity
 
 @interface ActionForEach_c: ActionTo_c <ActionForEach>
 {
+}
+- (void)setDefaultOrder: aSymbol;
+- (void)describe: outputCharStream;
+- (void)_performAction_: activity;
+@end
+
+@interface FActionForEach_c: FAction_c <FActionForEach>
+{
 #ifdef HAVE_JDK
-  jarray ary;
-  jsize aryLen;
+  jarray javaAry;
+  jsize javaAryLen;
 #endif
   BOOL finalizationFlag;
 }
-- (void)setDefaultOrder: aSymbol;
-- (void)setFinalizationFlag: (BOOL)finalizationFlag;
-- (void)describe: outputCharStream;
-- (void)_performAction_: activity;
+- setTarget: target;
+- setFinalizationFlag: (BOOL)finalizationFlag;
 @end

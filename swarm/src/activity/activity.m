@@ -21,11 +21,12 @@ _activity_implement (void)
   initModule (collections);
 
   // implement types from their defining classes
-  [id_FAction_s setTypeImplemented: FAction];
+  [id_FAction_c setTypeImplemented: FAction];
 
   [id_ActionCall_c setTypeImplemented: ActionCall];
   [id_ActionTo_c setTypeImplemented: ActionTo];
   [id_ActionForEach_c setTypeImplemented: ActionForEach];
+  [id_FActionForEach_c setTypeImplemented: FActionForEach];
   
   [id_Activity_c setTypeImplemented: Activity];
   [id_ScheduleActivity_c setTypeImplemented: ScheduleActivity];

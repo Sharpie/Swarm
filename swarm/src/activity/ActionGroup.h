@@ -38,20 +38,24 @@ Library:      activity
 /*** methods in ActionGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
 - _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext: (Zone_c *)swarmZone;
-- createFAction: call;
+- (id <FAction>)createFAction: call;
 - createAction: anActionType;
-- createActionCall: (func_t)fptr;
-- createActionCall: (func_t)fptr : arg1;
-- createActionCall: (func_t)fptr : arg1 : arg2;
-- createActionCall: (func_t)fptr : arg1 : arg2 : arg3;
-- createActionTo: target message: (SEL)aSel;
-- createActionTo: target message: (SEL)aSel : arg1;
-- createActionTo: target message: (SEL)aSel : arg1 : arg2;
-- createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
-- createActionForEach: target message: (SEL)aSel;
-- createActionForEach: target message: (SEL)aSel : arg1;
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2;
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (id <ActionCall>)createActionCall: (func_t)fptr;
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1;
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2;
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2 : arg3;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
+
+- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag;
+
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;
 - (void)describeForEach: outputCharStream;

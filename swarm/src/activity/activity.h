@@ -176,7 +176,13 @@ USING
 @protocol ActionForEach <ActionTo, DefaultOrder, RETURNABLE>
 //S: An action defined by sending a message to every member of a collection.
 //D: An action defined by sending a message to every member of a collection.
+@end
+
+@protocol FActionForEach <FAction, DefaultOrder, RETURNABLE>
+//S: An action defined by applying a FAction to every member of a collection.
+//D: An action defined by applying a FAction to every member of a collection.
 CREATING
+- (void)setTarget: target;
 - setFinalizationFlag: (BOOL)finalizationFlag;
 @end
 
@@ -189,9 +195,8 @@ USING
 - (func_t)getFunctionPointer;
 @end
 
-@protocol ActionCreatingFAction
+@protocol FActionCreating
 //S: An action that calls a FCall.
-
 //D: The createFAction: message creates an action that runs a FCall closure.
 USING
 - (id <FAction>)createFAction: (id <FCall>)call;
@@ -259,7 +264,15 @@ USING
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 @end
 
-@protocol ActionCreating <ActionCreatingFAction, ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach>
+@protocol FActionCreatingForEach
+//S: Invoke a FCall for every item in the target.
+//D: Invoke a FCall for every item in the target.
+USING
+- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag;
+@end
+
+
+@protocol ActionCreating <FActionCreating, ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach, FActionCreatingForEach>
 //S: Protocol shared by ActionGroup and Schedule.
 
 //D: ActionCreating defines the createAction messages for ActionGroup just
@@ -797,10 +810,12 @@ USING
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2;
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
 
-- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
-- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1;
-- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
-- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2:arg3;
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1;
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
+- (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2:arg3;
+
+- (id <FActionForEach>)at: (timeval_t)tVal createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag;
 
 //M: Remove action from either schedule or concurrent group.
 - remove: anAction;
