@@ -21,6 +21,8 @@
 #import <objc/objc.h>
 #import <objc/objc-api.h>
 
+#define EXIT abort ()
+
 static const char *
 strip (const char *className)
 {
@@ -44,7 +46,7 @@ main (int argc, const char **argv)
 
   impClass = objc_lookup_class (argv[1]);
   if (!impClass)
-    exit (1);
+    EXIT;
 
   for (argn = 2; argn <  argc; argn++)
     {
@@ -55,11 +57,14 @@ main (int argc, const char **argv)
       
       sel = sel_get_any_uid (&argv[argn][1]);
       if (!sel)
-        exit (1);
-      
-      imp = get_imp (impClass, sel);
+        EXIT;
+    
+      if (impClass->name) 
+        imp = get_imp (impClass, sel);
+      else
+        imp = NULL;
       if (!imp)
-        exit (1);
+        EXIT;
       
       factoryFlag = argv[argn][0] == '+';
       
