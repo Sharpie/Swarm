@@ -13,9 +13,11 @@
       ("SEL" . "nsISupports")
       ("void" . "void")
       ("const char \\*" . "string")
-      
       ("char \\*" . "string")
+      ("const char \\*\\*" . "nsISupports")
+
       ("char" . "char")
+      
       ("unsigned char" . "octet")
       ("int" . "long")
       ("short" . "short")
@@ -181,9 +183,22 @@
     (concat (upcase (substring idl-name 0 1))
             (substring idl-name 1))))
 
+(defun com-idl-type (objc-type)
+  (let ((idl-type (com-objc-to-idl-type objc-type)))
+    (unless idl-type
+      (error "No IDL type for `%s'" objc-type))
+    (if (eq idl-type 'freaky)
+        (progn
+          (freaky-message objc-type)
+          "nsISupports")
+      idl-type)))
+
+(defun com-arg-idl-type (objc-type)
+  (concat "in " (com-idl-type objc-type)))
+
 (defun com-idl-print-argument (argument)
   (print-argument argument
-                  #'com-idl-type
+                  #'com-arg-idl-type
                   #'(lambda (name)
                       (cond ((string= name "context") "context_")
                             ((string= name "class") "class_")
@@ -198,23 +213,11 @@
   (when (stringp type)
     (string-match (concat "^" *com-interface-prefix*) type)))
 
-(defun com-idl-type (objc-type &optional ret-flag)
-  (concat 
-   (if ret-flag "" "in ")
-   (let ((idl-type (com-objc-to-idl-type objc-type)))
-     (unless idl-type
-              (error "No IDL type for `%s'" objc-type))
-     (if (eq idl-type 'freaky)
-         (progn
-           (freaky-message objc-type)
-           "nsISupports")
-       idl-type))))
-
-(defun com-idl-print-method-declaration (protocol method)
+(defun com-idl-print-method-declaration (method)
   (let* ((arguments (method-arguments method))
          (first-argument (car arguments)))
     (insert "  ")
-    (insert (com-idl-type (method-return-type method) t))
+    (insert (com-idl-type (method-return-type method)))
     (insert " ")
     (insert (com-idl-method-name arguments))
     (insert " (")
@@ -224,6 +227,13 @@
           (insert ", ")
           (com-idl-print-argument argument))
     (insert ");\n")))
+
+(defun com-idl-print-getter-as-attribute (method)
+  (insert "  readonly attribute ")
+  (insert (com-idl-type (method-return-type method)))
+  (insert " ")
+  (insert (get-variable-name-for-getter-method method))
+  (insert ";\n"))
 
 (defun com-idl-print-include (idl-type)
   (insert "#include \"")
@@ -242,11 +252,16 @@
     (loop for objc-type being each hash-key of ht
           do (com-idl-print-include (com-objc-to-idl-type objc-type)))))
 
+(defun com-idl-print-attributes (protocol)
+  (loop for method in (method-list-for-phase protocol :getters)
+        do
+        (com-idl-print-getter-as-attribute method)))
+
 (defun com-idl-print-methods-in-phase (protocol phase)
-  (loop for method in (protocol-method-list protocol)
-        when (included-method-p protocol method phase)
+  (loop for method in (method-list-for-phase protocol phase)
+        unless (eq (method-phase method) :getters)
 	do
-        (com-idl-print-method-declaration protocol method)))
+        (com-idl-print-method-declaration method)))
 
 (defun com-start-idl (protocol phase)
   (let* ((interface-name (com-interface-name protocol phase))
@@ -283,6 +298,8 @@
               (with-temp-file (com-idl-pathname protocol phase)
                 (setq *last-protocol* protocol)
                 (com-start-idl protocol phase)
+                (when (inclusive-phase-p phase :using)
+                  (com-idl-print-attributes protocol))
                 (com-idl-print-methods-in-phase protocol phase)
                 (com-end-idl interface-name)
                 ))))
@@ -331,16 +348,19 @@
         (loop for phase in '(:creating :using)
               do (funcall protocol-func protocol phase))))
 
-
 (defun com-impl-print-initialization-parameters (protocol)
-  (let ((ht (create-hash-table-for-initialization-parameters protocol)))
-    (loop for argument-name being each hash-key of ht
-          using (hash-value argument-type)
+  (let* ((ht (create-hash-table-for-initialization-parameters protocol))
+         (vars (sort
+                (loop for argument-name being each hash-key of ht
+                      using (hash-value pair)
+                      collect (list (car pair) argument-name (cdr pair)))
+                #'(lambda (a b) (< (first a) (first b))))))
+    (loop for pos.name.type in vars
           do
           (insert "  ")
-          (insert (com-impl-type argument-type))
+          (insert (com-impl-type (third pos.name.type)))
           (insert " ")
-          (insert argument-name)
+          (insert (second pos.name.type))
           (insert ";\n"))))
 
 (defun com-impl-generate-headers (protocol phase)
@@ -360,7 +380,7 @@
             (com-impl-print-interface-include iprotocol phase)
             (com-impl-print-interface-include iprotocol :setting))
       (insert "\n")
-      (when (eq phase :using)
+      (when (inclusive-phase-p phase :using)
         (loop for argument-protocol being each hash-value of
               (create-type-hash-table-for-convenience-create-methods protocol)
               do
@@ -381,7 +401,7 @@
       (insert "  ")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
-      (when (eq phase :using)
+      (when (inclusive-phase-p phase :using)
         (let ((create-methods (collect-convenience-create-methods protocol)))
           (when (>= (length create-methods) 2)
             (insert "  unsigned constructorNumber;\n"))
@@ -405,7 +425,7 @@
             (insert (com-impl-ns-decl iprotocol :setting))
             (insert "\n"))
       (insert "\n")
-      (when (eq phase :using)
+      (when (inclusive-phase-p phase :using)
         (insert "  NS_IMETHOD Init();\n")
         (insert "protected:\n")
         (com-impl-print-initialization-parameters protocol))
@@ -483,7 +503,6 @@
           (insert ", ")
           (insert (caddr (cdr name.argument))))
     (insert ", &ret);\n")))
-
 
 (defun com-impl-print-class-init-method (protocol)
   (let ((name (com-impl-name protocol :using))
@@ -624,12 +643,11 @@
   (insert "\"")
   (insert (com-impl-name protocol phase))
   (insert "\""))
-
         
 (defun com-impl-generate-c++ (protocol phase)
   (with-temp-file 
       (com-impl-pathname protocol phase ".cpp")
-    (when (eq phase :using)
+    (when (inclusive-phase-p phase :using)
       (com-impl-print-impl-include protocol :using))
     (com-impl-print-impl-include protocol :creating)
     (loop for argument-protocol being each hash-value of
@@ -637,7 +655,7 @@
           do
           (com-impl-print-interface-include argument-protocol :using))
     (insert "\n")
-    (when (eq phase :using)
+    (when (inclusive-phase-p phase :using)
       (insert "\n")
       (loop for argument-protocol being each hash-value of
             (create-type-hash-table-for-convenience-create-methods protocol)
@@ -655,11 +673,11 @@
       (insert ");\n")
       (insert "\n"))
     (com-impl-generate-supports protocol phase)
-    (if (eq phase :using)
+    (if (inclusive-phase-p phase :using)
         (com-impl-print-convenience-constructors protocol)
       (com-impl-print-basic-constructor protocol phase))
     (com-impl-print-destructor protocol phase)
-    (when (eq phase :using)
+    (when (inclusive-phase-p phase :using)
       (com-impl-print-class-init-method protocol ))
     (com-impl-print-method-definitions protocol phase :setting)
     (com-impl-print-method-definitions protocol phase phase)))
@@ -667,8 +685,12 @@
 (defun com-protocol-sym (protocol phase suffix)
   (concat
    "SWARM_"
-   (upcase (symbol-name (module-sym (protocol-module protocol))))
-   "_"
+   (let ((sym (module-sym (protocol-module protocol))))
+     (if (eq sym 'swarm)
+         ""
+       (concat
+        (upcase (symbol-name sym))
+        "_")))
    (upcase (com-phase-name protocol phase))
    "_"
    suffix))
@@ -706,7 +728,7 @@
   (insert (com-protocol-sym protocol phase "PROGID"))
   (insert " ")
   (insert "\"component://swarm/")
-  (insert (symbol-name (module-sym (protocol-module protocol))))
+  (insert (module-path (protocol-module protocol)))
   (insert "/")
   (insert (com-phase-name protocol phase))
   (insert "Impl\"\n"))
@@ -726,7 +748,7 @@
     (insert "\n")
     (com-impl-map-protocols
      #'(lambda (protocol phase)
-         (if (eq phase :using)
+         (if (inclusive-phase-p phase :using)
              (progn
                (insert "NS_GENERIC_FACTORY_CONSTRUCTOR_INIT (")
                (insert (com-impl-name protocol phase))
