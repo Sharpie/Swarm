@@ -11,7 +11,7 @@
 #import <defobj.h> // Warning
 #import "local.h"
 
-#include <misc.h> // strdup, strcmp, xmalloc, xfree
+#include <misc.h> // strdup, strcmp, xmalloc, XFREE
 
 @implementation VarProbe
 
@@ -27,7 +27,7 @@ PHASE(Creating)
           return nil;
         }
       else 
-        xfree ((void *)probedVariable);     // memory allocation?
+        XFREE (probedVariable);     // memory allocation?
     }
   probedVariable = strdup (aVariable);	   // make a local copy
   return self;
@@ -136,7 +136,7 @@ PHASE(Using)
 - free
 {
   if (probedVariable)
-    xfree ((void *)probedVariable);
+    XFREE (probedVariable);
   return [super free];
 }
 

@@ -1,5 +1,8 @@
 1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* VarProbe.m ([VarProbe -setProbedVariable:], 
+	([VarProbe -free]): use XFREE instead of xfree.
+
 	* Arguments.m ([Arguments -getAppConfigPath], [Arguments
 	-getAppDataPath]): Copy default value to heap.
 	(findDirectory, countSlashes, [Arguments -_getPath_:subpath:],
