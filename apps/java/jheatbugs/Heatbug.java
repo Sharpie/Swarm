@@ -285,19 +285,12 @@ public class Heatbug
 
     public Object drawSelfOn (Raster r)
     {
-        System.out.println("(" + x + "," + y + ") bugColor = " + bugColor);
-        
-        if (r != null) {
-            System.err.println ("can at least check r's null status");
-            if (r.getClass () == null)
-                System.err.println ("can't get r's class");
-            else {
-                System.err.println ("attempting to call method");
-                ((Raster)r).drawPointX$Y$Color (x, y, bugColor);
-            }
-        }
-        else {
-            System.err.println ("r is null");
+      if (r == null)
+        System.out.println("null! (" + x + "," + y + ") c = " + bugColor);
+      else
+        {
+          System.out.println("(" + x + "," + y + ") c = " + bugColor);
+          r.drawPointX$Y$Color (x, y, bugColor);
         }
       return this;
     }
