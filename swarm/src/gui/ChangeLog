@@ -1,6 +1,10 @@
-2000-02-12    <mgd@nest.swarm.org>
+2000-02-18    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
+
+	* gui.h: Remove extra +createBegin and -createEnd throughout.
+	Move +create:setWindowGeometryRecordName: to ArchivedGeometryWidget.
+	Remove from Raster and ZoomRaster.
 
 1999-10-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -50,13 +50,10 @@ CREATING
 - (const char *)makeWidgetNameFor: widget;
 
 //M: Set the widget name using the parent as context.
-- setWidgetNameFromParent: parent;
+- setWidgetNameFromParent: (id <Widget>)parent;
 
 //M: Set the widget name using a hypothetical parent name.
 - setWidgetNameFromParentName: (const char *)parentWidgetName;
-
-- createEnd;
-
 USING
 //M: Roughly, packing a widget makes it draw on the screen. The Tk packer
 //M: allows complicated options to control widget layout. See documentation
@@ -162,7 +159,7 @@ USING
 //D: their window geometry.  This class also provides an interface
 //D: to destroy notification.
 CREATING
-+ createBegin: aZone;
++ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)name;
 
 //M: Called to set a name for archiving.
 - setWindowGeometryRecordName: (const char *)recordName;
@@ -191,9 +188,6 @@ CREATING
 
 //M: Determines whether or not a frame has a border.
 - setReliefFlag: (BOOL)reliefFlag;
-
-- createEnd;
-
 USING
 //M: Take the frame off screen.
 - withdraw;
@@ -207,9 +201,6 @@ USING
 
 //D: The Canvas widget allows display of a diverse range of graphical objects.
 CREATING
-//M: Create the canvas.
-- createEnd;
-
 USING
 //M: Position a widget inside the canvas
 - addWidget: widget X: (int)x Y: (int)y centerFlag: (BOOL)centerFlag;
@@ -229,8 +220,6 @@ USING
 CREATING
 //M: Indicates the presence or absence of a horizontal scroll bar.
 - setHorizontalScrollbarFlag: (BOOL)horizontalScrolbarFlag;
-
-- createEnd;
 @end
 
 @protocol GraphElement <Create, Drop>
@@ -240,9 +229,8 @@ CREATING
 //D: including attributes for the set.
 CREATING
 - setOwnerGraph: ownerGraph;
-- createEnd;
-+ createOwnerGraph: ownerGraph;
 
++ createOwnerGraph: ownerGraph;
 USING
 //M: Set the label for the element.
 - setLabel: (const char *)label;
@@ -276,8 +264,6 @@ USING
 //D: plot. GraphElements can be configured for appearance, and data can be
 //D: added to the element to draw.
 CREATING
-- createEnd;
-
 USING
 //M: Set the title for the graph.
 - setTitle: (const char *)title;
@@ -305,14 +291,8 @@ USING
 //D: (or optionally an array of datapoints and locations where the bars
 //D: should be drawn (specified as doubles).
 CREATING
-+ createBegin: aZone;
-
 //M: Set the number of bins to use (bars to draw).
 - setBinCount: (unsigned)n;
-
-//M: Initialize the histogram.
-- createEnd;
-
 USING
 //M: Set colors for the histogram bars. If not set, all are blue.
 //M: Colors are arrays of strings (one per bin/bar) of color names.
@@ -366,8 +346,6 @@ USING
 
 //D: A widget with text.
 CREATING
-- createEnd;
-
 USING
 //M: Set the text to write in the label.
 - setText: (const char *)text;
@@ -378,8 +356,6 @@ USING
 
 //D: This widget is used internally by ClassDisplayWidget.
 CREATING
-//M: Create a blue, left-justified label.
-- createEnd;
 USING
 @end
 
@@ -388,8 +364,6 @@ USING
 
 //D: This widget is used internally by VarProbeWidget.
 CREATING
-//M: Create a right-justified label.
-- createEnd;
 @end
 
 @protocol CompleteProbeDisplayLabel <Label, CREATABLE>
@@ -404,10 +378,6 @@ CREATING
 
 //M: Sets the object that the probe display represents.
 - setProbedObject: probedObject;
-
-//M: Performs drag and drop configruation, Button3 to get a
-//M: CompleteProbeDisplay, and highlighting.
-- createEnd;
 USING
 @end
 
@@ -416,8 +386,6 @@ USING
 
 //D: A button widget that, when pressed, sends a method to a target object.
 CREATING
-- createEnd;
-
 USING
 //M: Set the text for button.
 - setText: (const char *)text;
@@ -445,8 +413,6 @@ USING
 CREATING
 //M: The probe display in use.
 - setProbeDisplay: probeDisplay;
-
-- createEnd;
 @end
 
 @protocol SuperButton <Button, CREATABLE>
@@ -454,9 +420,8 @@ CREATING
 
 //D: A button used by ClassDisplayWidget to ask for superclass.
 CREATING
-- createEnd;
-- setSuperWidget: superWidget;
-- setOwner: owner;
+- setSuperWidget: (id <Widget>)superWidget;
+- setOwner: (id <Widget>)owner;
 - setUser: user;
 USING
 @end
@@ -505,8 +470,6 @@ CREATING
 
 //M: Indicates the argument number.
 - setArg: (int)arg;
-+ createBegin: aZone;
-- createEnd;
 USING
 @end
 
@@ -523,8 +486,6 @@ CREATING
 
 //M: Set the variable probe associated with this widget.
 - setVarProbe: varProbe;
-
-- createEnd;
 USING
 - getVarProbe;
 @end
@@ -550,8 +511,6 @@ USING
 
 //D: A set of Entry widgets bound together in one frame.
 CREATING
-- createEnd;
-
 USING
 //M: The width of all the Entry widgets.
 - setEntryWidth: (int)ew;
@@ -589,8 +548,6 @@ typedef unsigned long PixelValue;
 //D: names. Create an XColormap, allocate colours in it, and pass it to a
 //D: Raster widget for drawing.
 CREATING
-- createEnd;
-
 USING
 //M: The current palette, per color-index.
 - (PixelValue *)map;
@@ -635,12 +592,6 @@ USING
 //D: double buffered - the pixels you draw are not actually put on the screen
 //D: until drawSelf is called. In addition, Rasters handle mouse clicks.
 CREATING
-
-+ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-
-+ createBegin: aZone;
-- createEnd;
-
 USING
 //M: Set the palette for this raster.
 - setColormap: (id <Colormap>)c;
@@ -685,11 +636,6 @@ USING
 //D: ZoomRaster is a subclass of Raster that implements a zoomable image. It
 //D: handles translation between logical coordinates and screen coordinates.
 CREATING
-
-+ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-
-- createEnd;
-
 USING
 //M: Make the raster bigger.
 - increaseZoom;
@@ -713,8 +659,6 @@ USING
 //D: A class for drawing color bitmaps on a Raster.  The bitmaps are
 //D: stored in the Portable Network Graphics format.
 CREATING
-+ createBegin: aZone;
-
 //M: Create a pixmap from a PNG file.
 - setFile: (const char *)filename;
 
@@ -727,9 +671,6 @@ CREATING
 //M: Specify whether or not window manager decorations for a widget
 //M: should be included.
 - setDecorationsFlag: (BOOL)decorationsFlag;
-
-- createEnd;
-
 USING
 //M: Set the raster that the pixmap will be shown on.
 //M: It's used to augment raster the color palette as necessary.
@@ -761,12 +702,8 @@ CREATING
 //M: Method to be implemented by subclass.
 - createBindings;
 
-//M: Calls createItem and createBindings.
-- createEnd;
-
 //M: Designates the id of the Canvas in which this item resides.
 - setCanvas: canvas;
-
 USING
 //M: Designates the object to which this item refers.
 - setTargetId: target;
@@ -891,8 +828,6 @@ USING
 
 //D: A CompositeCanvasItem for displaying the time structure of a schedule.
 CREATING
-+ createBegin: aZone;
-
 //M: Set the schedule to be inspected.
 - setSchedule: schedule;
 
@@ -940,8 +875,6 @@ CREATING
 
 //D: A CanvasItem that displays text.
 CREATING
-+ createBegin: aZone;
-
 //M: Set the coordinate for the center of the text.
 - setX: (int)x Y: (int)y;
 
