@@ -1,3 +1,8 @@
+1998-10-27  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* MessageProbe.m (dynamicCallOn): Add case for void return
+	(both libffi and ffcall versions).
+
 1998-10-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Arguments.m: Change SIGNATURE_FILE to swarmconfig.h,

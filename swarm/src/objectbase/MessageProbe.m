@@ -329,6 +329,9 @@ dynamicCallOn (const char *probedType,
     case _C_CHARPTR:
       av_start_ptr (alist, imp, const char *, &retVal->val.string);
       break;
+    case _C_VOID:
+      av_start_void (alist, imp);
+      break;
     default:
       abort ();
     }
@@ -518,7 +521,9 @@ dynamicCallOn (const char *probedType,
     case _C_CHARPTR:
       fret = &ffi_type_pointer;
       break;
-
+    case _C_VOID:
+      fret = &ffi_type_void;
+      break;
     default:
       abort ();
     }
@@ -586,7 +591,8 @@ dynamicCallOn (const char *probedType,
       case _C_CHARPTR:
         retVal->val.string = VAL(const char *, ret);
         break;
-        
+      case _C_VOID:
+        break;
       default:
         abort ();
       }
