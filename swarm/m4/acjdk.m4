@@ -118,8 +118,13 @@ else
     AC_DEFINE(HAVE_KAFFE)
     JAVACLASSES="$jdkdatadir${PATHDELIM}Klasses.jar${PATHSEP}$jdkdatadir${PATHDELIM}pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
-
-    JAVACMD='${jdkdir}/libexec/Kaffe'
+    if test -x "${jdkdir}/libexec/Kaffe"; then
+      JAVACMD='${jdkdir}/libexec/Kaffe'
+    elif test -x ${jdkdir}/lib/kaffe/Kaffe; then
+      JAVACMD='${jdkdir}/lib/kaffe/Kaffe'
+    else
+      AC_MSG_ERROR([Cannot find Kaffe executable])
+    fi
     JAVAENV=''
     JAVA='KAFFELIBRARYPATH="${JAVALIBS}" ${JAVACMD}'
     javac_default='${jdkdir}/bin/javac'
