@@ -7,6 +7,7 @@
 #import <collections.h>
 #import <objc/objc-api.h>
 #import <defobj.h> // Warning
+#import <defobj/defalloc.h> // getZone
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA
@@ -30,7 +31,7 @@ PHASE(Creating)
         return nil;
       }
   
-  probes = [Map createBegin: [self getZone]];
+  probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
 	
@@ -39,7 +40,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
-      numEntries = 0;
+      count = 0;
       classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
@@ -51,25 +52,25 @@ PHASE(Creating)
 #endif
 
   if (!(ivarList = probedClass->ivars))
-    numEntries = 0;
+    count = 0;
   else 
     {
-      numEntries = ivarList->ivar_count;
+      count = ivarList->ivar_count;
       
-      for (i = 0; i < numEntries; i++)
+      for (i = 0; i < count; i++)
         {
           const char *name;
           
           name = ivarList->ivar_list[i].ivar_name;
           
-          a_probe = [VarProbe createBegin: [self getZone]];
+          a_probe = [VarProbe createBegin: getZone (self)];
           [a_probe setProbedClass: probedClass];
           [a_probe setProbedVariable: name];
           if (objectToNotify != nil) 
             [a_probe setObjectToNotify: objectToNotify];
           a_probe = [a_probe createEnd];
           
-          [probes at: [String create: [self getZone] setC: name]
+          [probes at: [String create: getZone (self) setC: name]
                   insert: a_probe];
         }
     }

@@ -1,3 +1,17 @@
+2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ProbeMap.m ([ProbeMap -createEnd]): Remove inversionList code.
+
+	* CompleteVarMap.m, CompleteProbeMap.m, CustomProbeMap.m,
+	DefaultProbeMap.m, ProbeMap.m: Include defalloc.h and use getZone
+	throughout.  Use `count' instead of `numEntries' throughout.
+
+	* ProbeMap.[hm], objectbase.h: Rename numEntries to count
+	throughout and getter.
+
+	* ProbeMap.m ([ProbeMap -addJavaFields]): Rename count to fieldCount.
+	([ProbeMap -addJavaFields]): Rename count to methodCount.
+
 2000-09-13  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* MessageProbe.m (dynamicCallOn): Use getLanguage, setLanguage:

@@ -165,7 +165,7 @@ PHASE(Creating)
                     "ProbeMap object was not properly initialized\n");
         return nil;
       }
-  numEntries = 0;
+  count = 0;
   
   probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
@@ -182,21 +182,21 @@ PHASE(Creating)
 - (void)addJavaFields: (jclass)javaClass
 {
   jarray fields;
-  jsize count;
+  jsize fieldCount;
 
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               javaClass,
                                               m_ClassGetDeclaredFields)))
     abort();
 
-  count = (*jniEnv)->GetArrayLength (jniEnv, fields);
+  fieldCount = (*jniEnv)->GetArrayLength (jniEnv, fields);
 
-  while (count > 0)
+  while (fieldCount > 0)
     {
       jobject field;
       
-      count--;
-      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
+      fieldCount--;
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, fieldCount);
       if (java_field_usable_p (field))
 	{
 	  jstring name;
@@ -220,7 +220,7 @@ PHASE(Creating)
 	  if (isCopy)
 	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
 	  (*jniEnv)->DeleteLocalRef (jniEnv, name);
-          numEntries++;
+          count++;
 	}
       (*jniEnv)->DeleteLocalRef (jniEnv, field);
     }
@@ -230,24 +230,26 @@ PHASE(Creating)
 - (void)addJavaMethods: (jclass)javaClass
 {
   jarray methods;
-  jsize count;
+  jsize methodCount;
 
   if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv,
                                                javaClass,
                                                m_ClassGetDeclaredMethods)))
     abort();
   
-  count = (*jniEnv)->GetArrayLength (jniEnv, methods);
+  methodCount = (*jniEnv)->GetArrayLength (jniEnv, methods);
   
-  if (count)
+  if (methodCount)
     {
-      while (count > 0)
+      while (methodCount > 0)
         {
 	  jobject method;
           
-          count--;
+          methodCount--;
             
-	  method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
+	  method = (*jniEnv)->GetObjectArrayElement (jniEnv,
+                                                     methods,
+                                                     methodCount);
 	  if (java_method_usable_p (method))
 	    {
               SEL sel;
@@ -284,7 +286,7 @@ PHASE(Creating)
                   [probes at: [String create: getZone (self)
                                       setC: [aProbe getProbedMessage]]
                           insert: aProbe];
-                  numEntries++;
+                  count++;
                 }
             }
 	  (*jniEnv)->DeleteLocalRef (jniEnv, method);
@@ -298,13 +300,12 @@ PHASE(Creating)
 {
   IvarList_t ivarList;
   MethodList_t methodList;
-  id inversionList, index;
 
   //The compiler seems to put the methods in the 
   //opposite order than the one in which they were
   //declared, so we need to manually invert them.
   
-  int i;
+  unsigned i;
   id aProbe;
  
   if (SAFEPROBES)
@@ -333,7 +334,7 @@ PHASE(Creating)
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
-      numEntries = 0;
+      count = 0;
 
       [self addJavaFields: classObject];
       [self addJavaMethods: classObject];
@@ -342,11 +343,11 @@ PHASE(Creating)
 #endif
 
   if (!(ivarList = probedClass->ivars))
-    numEntries = 0;
+    count = 0;
   else
     {
-      numEntries = ivarList->ivar_count;
-      for (i = 0; i < numEntries; i++)
+      count = ivarList->ivar_count;
+      for (i = 0; i < count; i++)
         {
           const char *name;
           
@@ -366,38 +367,23 @@ PHASE(Creating)
   
   if ((methodList = probedClass->methods))
     {
-      numEntries += methodList->method_count;
+      count += methodList->method_count;
       
-      inversionList = [List create: getZone (self)];
-      
-      for (i = 0; i < methodList->method_count; i++)
+      for (i = methodList->method_count; i > 0; i--)
         {
           aProbe = [MessageProbe createBegin: getZone (self)];
           [aProbe setProbedClass: probedClass];
-          [aProbe setProbedSelector: methodList->method_list[i].method_name];
+          [aProbe setProbedSelector: methodList->method_list[i - 1].method_name];
           if (objectToNotify != nil) 
             [aProbe setObjectToNotify: objectToNotify];
           aProbe = [aProbe createEnd];
           
-          if(aProbe)
-            [inversionList addFirst: aProbe];
-          else
-            numEntries--;
-        }
-      
-      index = [inversionList begin: getZone (self)];
-      while ((aProbe = [index next]))
-        {
-          [probes at: 
-                    [String 
-                      create: getZone (self)
-                      setC: [aProbe getProbedMessage]] 
+          [probes at: [String 
+                        create: getZone (self)
+                        setC: [aProbe getProbedMessage]]
                   insert: 
                     aProbe];
-          [index remove];
-        }	
-      [index drop];
-      [inversionList drop];
+        }
     }
 
   return self;
@@ -425,9 +411,9 @@ PHASE(Using)
   return npm;
 }
 
-- (int)getNumEntries
+- (unsigned)getCount
 {
-  return numEntries;
+  return count;
 }
 
 - addProbeMap: (ProbeMap *)aProbeMap
@@ -482,7 +468,7 @@ PHASE(Using)
     if (class == aClass)
       {
         [probes at: string insert: aProbe];
-        numEntries++;
+        count++;
         if (objectToNotify != nil) 
           [aProbe setObjectToNotify: objectToNotify];
         return self;
@@ -521,7 +507,7 @@ PHASE(Using)
                 [string getC]);
 
   [probes at: string insert: aProbe];
-  numEntries++;
+  count++;
 
   if (objectToNotify != nil) 
     [aProbe setObjectToNotify: objectToNotify];
@@ -561,7 +547,7 @@ PHASE(Using)
   
   string = [String create: getZone (self) setC: aVariable];
   if([probes removeKey: string] != nil)
-    numEntries--;
+    count--;
   [string drop];
   
   return self;
@@ -586,7 +572,7 @@ PHASE(Using)
   
   string = [String create: getZone (self) setC: aMessage];
   if([probes removeKey: string] != nil)
-    numEntries--;
+    count--;
   [string drop];
   
   return self;

@@ -7,6 +7,7 @@
 #import <collections.h>
 #import <objc/objc-api.h>
 #import <defobj.h> // Warning
+#import <defobj/defalloc.h> // getZone
 
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
@@ -35,7 +36,7 @@ PHASE(Creating)
         return nil;
       }
 
-  probes = [Map createBegin: [self getZone]];
+  probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
 	
@@ -54,7 +55,7 @@ PHASE(Creating)
 		    "Java class to be probed can not be found!\n");      
       [self addJavaFields: classObject];
 
-      numEntries = 0;
+      count = 0;
       for (currentClass = (*jniEnv)->GetSuperclass (jniEnv, classObject);
            currentClass;
            nextClass = (*jniEnv)->GetSuperclass (jniEnv, currentClass),
@@ -65,25 +66,26 @@ PHASE(Creating)
     }
 #endif
 
-  classList = [List create: [self getZone]];
+  classList = [List create: getZone (self)];
   if(!classList) 
     return nil;
 
-  numEntries = 0;
+  count = 0;
 
   aClass = probedClass;
   do {
     [classList addFirst: (id) aClass];
     aClass = aClass->super_class;
-  } while(aClass);
+  } while (aClass);
   
-  anIndex = [classList begin: [self getZone]];
+  anIndex = [classList begin: getZone (self)];
   while ((aClass = (id) [anIndex next]))
     {
       if ((ivarList = aClass->ivars))
         {
           unsigned i;
-          numEntries += ivarList->ivar_count;
+
+          count += ivarList->ivar_count;
           
           for (i = 0; i < ivarList->ivar_count; i++)
             {
@@ -91,14 +93,14 @@ PHASE(Creating)
               
               name = ivarList->ivar_list[i].ivar_name;
               
-              aProbe = [VarProbe createBegin: [self getZone]];
+              aProbe = [VarProbe createBegin: getZone (self)];
               [aProbe setProbedClass: aClass];
               [aProbe setProbedVariable: name];
               if (objectToNotify != nil) 
                 [aProbe setObjectToNotify: objectToNotify];
               aProbe = [aProbe createEnd];
               
-              [probes at: [String create: [self getZone] setC: name]
+              [probes at: [String create: getZone (self) setC: name]
                       insert: aProbe];
             }
         }

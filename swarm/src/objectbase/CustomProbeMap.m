@@ -5,6 +5,7 @@
 
 #import <objectbase/CustomProbeMap.h>
 #import <defobj.h> // Warning
+#import <defobj/defalloc.h> // getZone
 #import "local.h"
 
 #include <misc.h> // va_list, va_start, va_end
@@ -78,28 +79,28 @@ PHASE(Creating)
         return nil;
       }
   
-  probes = [Map createBegin: [self getZone]];
+  probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
   
   if (probes == nil)
     return nil;
 
-  numEntries = 0;
+  count = 0;
   
   return self;
 }
 
 PHASE(Setting)
 
-- addProbesForClass: (Class) aClass 
+- addProbesForClass: (Class)aClass 
    withIdentifiers:  (const char *)vars, ...
 {
   va_list args;
 
-  va_start(args, vars);
-  addProbesWithIdentifers(probeLibrary, self, aClass, vars, args);
-  va_end(args);
+  va_start (args, vars);
+  addProbesWithIdentifers (probeLibrary, self, aClass, vars, args);
+  va_end (args);
 
   return self;
 }

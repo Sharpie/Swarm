@@ -21,7 +21,7 @@
 @interface ProbeMap: SwarmObject <ProbeMap>
 {
   Class probedClass;
-  int numEntries;
+  unsigned count;
   id probes;
   id objectToNotify;  //could be an object or a list
 
@@ -61,7 +61,7 @@
 - _copyCreateEnd_;
 - createEnd;
 - clone: aZone;
-- (int)getNumEntries;
+- (unsigned)getCount;
 - (Class)getProbedClass;
 - addProbeMap: (ProbeMap *)aProbeMap;
 - dropProbeMap: (ProbeMap *)aProbeMap;

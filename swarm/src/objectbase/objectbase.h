@@ -322,8 +322,8 @@ CREATING
 - setProbedClass: (Class)class;
 
 USING
-//M: The getNumEntries method returns the number of probes in the ProbeMap.
-- (int)getNumEntries;
+//M: The getCount method returns the number of probes in the ProbeMap.
+- (unsigned)getCount;
 
 //M: The getProbedClass method returns the class of the object that the set of 
 //M: probes that constitute the probe map points at.

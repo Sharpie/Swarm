@@ -7,6 +7,7 @@
 #import <collections.h>
 #import <objc/objc-api.h>
 #import <defobj.h> // WarningMessage, raiseEvent
+#import <defobj/defalloc.h> // getZone
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // SD_JAVA_FIND_CLASS_JAVA, JNI
@@ -35,7 +36,7 @@ PHASE(Creating)
         return nil;
       }
   
-  probes = [Map createBegin: [self getZone]];
+  probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
   
@@ -55,7 +56,7 @@ PHASE(Creating)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
       
-      numEntries = 0;
+      count = 0;
       
       [self addJavaFields: classObject];
       [self addJavaMethods: classObject];
@@ -74,11 +75,11 @@ PHASE(Creating)
     }
 #endif
 
-  classList = [List create: [self getZone]];
+  classList = [List create: getZone (self)];
   if (!classList) 
     return nil;
 
-  numEntries = 0;
+  count = 0;
 
   aClass = probedClass;
   do
@@ -88,36 +89,36 @@ PHASE(Creating)
     } 
   while(aClass);
   
-  anIndex = [classList begin: [self getZone]];
+  anIndex = [classList begin: getZone (self)];
   while ((aClass = (id) [anIndex next]))
     {
       if ((ivarList = aClass->ivars))
         {
-          numEntries += ivarList->ivar_count;
+          count += ivarList->ivar_count;
           
           for (i = 0; i < ivarList->ivar_count; i++)
             {
               const char *name = ivarList->ivar_list[i].ivar_name;
               
-              aProbe = [VarProbe createBegin: [self getZone]];
+              aProbe = [VarProbe createBegin: getZone (self)];
               [aProbe setProbedClass: aClass];
               [aProbe setProbedVariable: name];
               if (objectToNotify != nil) 
                 [aProbe setObjectToNotify: objectToNotify];
               aProbe = [aProbe createEnd];
               
-              [probes at: [String create: [self getZone] setC: name]
+              [probes at: [String create: getZone (self) setC: name]
                       insert: aProbe];
             }
         }
       
       if ((methodList = aClass->methods))
         {
-          numEntries += methodList->method_count;
+          count += methodList->method_count;
           
           for (i = 0; i < methodList->method_count; i++)
             {
-              aProbe = [MessageProbe createBegin: [self getZone]];
+              aProbe = [MessageProbe createBegin: getZone (self)];
               [aProbe setProbedClass: probedClass];
               [aProbe setProbedSelector: methodList->method_list[i].method_name];
               if (objectToNotify != nil) 
@@ -128,7 +129,7 @@ PHASE(Creating)
                 [probes 
                   at: 
                     [String 
-                      create: [self getZone] 
+                      create: getZone (self)
                       setC: 
                         sel_get_name (methodList->method_list[i].method_name)]
                   insert: aProbe];
