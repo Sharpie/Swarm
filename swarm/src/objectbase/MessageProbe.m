@@ -278,13 +278,11 @@ dynamicCallOn (const char *probedType,
   id aZone = [target getZone];
   id fa = [FArguments createBegin: aZone];
   id <FCall> fc;
-#ifdef HAVE_JDK  
-  jobject javaObj = 0;
-#endif
 
   retVal->type = *type;
 
-  [fa setJavaFlag: [target respondsTo: M(isJavaProxy)]];
+  if ([target respondsTo: M(isJavaProxy)])
+    [fa setJavaFlag: YES];
   [fa setSelector: probedSelector];
   type = skip_argspec (type);
   type = skip_argspec (type);
@@ -294,29 +292,15 @@ dynamicCallOn (const char *probedType,
     [fa addArgument: &arguments[i].val ofObjCType: *type];
   fa = [fa createEnd];
   
-  fc = [[FCall createBegin: aZone] setArguments: fa];
-  
-#ifdef HAVE_JDK
-  if (javaObj)
-    {
-      char *selname = ZSTRDUP (aZone, sel_get_name (probedSelector));
-      char *p;
-
-      p = strchr (selname, ':');
-      if (p)
-        *p = '\0';
-
-      [fc setJavaMethod: selname inObject: javaObj];
-    }
-  else
-#endif
-    [fc setMethod: probedSelector inObject: target];
-  fc = [fc createEnd];
+  fc = [FCall create: aZone
+	      target: target
+	      selector: probedSelector
+	      arguments: fa];
   [fc performCall];
   if (retVal->type != _C_VOID)
     retVal->val = *(types_t *) [fc getResult];
 #ifdef HAVE_JDK
-  if (javaObj)
+  if ([fa getJavaFlag])
     {
       if (retVal->type == _C_CHARPTR)
         retVal->val.string =
