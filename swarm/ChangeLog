@@ -1,3 +1,7 @@
+1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* VERSION: Bump.
+
 1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* configure.in: Add check for --with-hdf5dir and call md_FIND_HDF5.
