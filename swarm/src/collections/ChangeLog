@@ -1,3 +1,10 @@
+1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Collection.[hm], collections.h ([Collection_any -allSameClass]):
+	New method.
+
+	* List.[hm] ([List_any hdf5Out:deep:]): New method.
+
 1999-01-12  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* collections.h (PermutedIndex):  Declare -reshuffle.

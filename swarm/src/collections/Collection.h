@@ -52,6 +52,7 @@ Library:      collections
 - (void)forEach: (SEL)aSelector : arg1;
 - (void)forEach: (SEL)aSelector : arg1 : arg2;
 - (void)forEach: (SEL)aSelector : arg1 : arg2 : arg3;
+- (BOOL)allSameClass;
 - (void)describe: outputCharStream;
 - (void)describeForEach: outputCharStream;
 - (void)describeForEachID: outputCharStream;

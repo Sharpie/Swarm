@@ -233,6 +233,28 @@ indexAtOffset (Collection_any *self, int offset)
     [member perform: aSelector with: arg1 with: arg2 with: arg3];
   [index drop];
 }
+ 
+- (BOOL)allSameClass
+{
+  id index, member;
+  Class firstClass;
+  BOOL ret = YES;
+
+  index = [(id) self begin: scratchZone];
+  member = [index next];
+  if (member)
+    {
+      firstClass = [member class];
+      while ((member = [index next]))
+        if ([member class] != firstClass)
+          {
+            ret = NO;
+            break;
+          }
+    }
+  [index drop];
+  return ret;
+}  
 
 //
 // describe: -- standard method to generate debug description object

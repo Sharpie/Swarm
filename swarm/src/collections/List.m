@@ -11,6 +11,7 @@ Library:      collections
 
 #import <collections/List.h>
 #import <defobj/defalloc.h>
+#import <defobj.h> // SaveError
 
 #include <collections/predicates.h> // keywordp
 
@@ -161,6 +162,50 @@ PHASE(Using)
   
   return self;
 }
+
+#ifdef HAVE_HDF5
+- hdf5Out: hdf5Obj deep: (BOOL)deepFlag
+{
+  if (deepFlag)
+    [super hdf5Out: hdf5Obj deep: YES];
+  else
+    {
+      if (![self allSameClass])
+        raiseEvent (SaveError,
+                    "shallow HDF5 serialization on Collections must be of same type");
+      else
+        {
+          id aZone = [self getZone];
+          id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
+                                   setSourceClass: [[self getFirst] class]]
+                                  createEnd];
+          
+          id hdf5ObjDataset =
+            [[[[[HDF5 createBegin: aZone]
+                 setName: "list"]
+                setParent: hdf5Obj]
+               setType: hdf5CompoundType count: [self getCount]]
+              createEnd];
+
+          {
+            id <Index> li = [self begin: scratchZone];
+            id member;
+
+            while ((member = [li next]))
+              {
+                [hdf5ObjDataset selectRecord: [li getOffset]];
+                [hdf5ObjDataset storeObject: member];
+              }
+            [li drop];
+          }
+
+          [hdf5ObjDataset drop];
+          [hdf5CompoundType drop];
+        }
+    }
+  return self;
+}
+#endif
 
 @end
 

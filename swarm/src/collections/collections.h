@@ -199,6 +199,9 @@ USING
 //M: Like removeAll:, but drops the member(s) as well.
 - (void)deleteAll;
 
+//M: Returns YES if all members are of the same class.
+- (BOOL)allSameClass;
+
 //M: The begin: message is the standard method for creating a new index for
 //M: traversing the elements of a collection.  All further information
 //M: about indexes is documented under the Index type.
