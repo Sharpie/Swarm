@@ -97,7 +97,7 @@ PHASE(Creating)
         {
           const char *sig =
             java_ensure_selector_type_signature (jSel);
-          
+
           [self setJavaSignature: sig];
           [scratchZone free: (void *) sig];
           {
@@ -505,8 +505,11 @@ PHASE(Using)
       mapAlloc (mapalloc, argValues[offset]);
     }
 #ifdef HAVE_JDK
-  mapalloc->size = javaSignatureLength + 1;
-  mapAlloc (mapalloc, (char *) javaSignature);
+  if (javaSignature)
+    {
+      mapalloc->size = javaSignatureLength + 1;
+      mapAlloc (mapalloc, (char *) javaSignature);
+    }
 #endif
 }
 

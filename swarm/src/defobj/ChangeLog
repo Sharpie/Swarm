@@ -1,10 +1,27 @@
 2000-09-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* FArguments.m ([FArguments_c -mapAllocations:]): Don't map
+	javaSignature if NULL.
+
+	* COM.m: Include mframe.h.
+	(swarm_directory_COM_ensure_selector): Implement.
+
+	* COM.h (COMInterface): Remove addRef.  Add selectorIsVoidReturn,
+	selectorArgCount, and selectorArgObjcType.
+	(SD_COM_ENSURE_OBJECT_COM_ADDREF_RETURN): Replaces
+	SD_COM_ENSURE_OBJECT_COM_CAST (adding a return value assignment
+	and addref).
+	(SD_COM_FIND_CLASS_COM_RETURN): Replaces
+	SD_COM_FIND_CLASS_COM_CAST.
+	(SD_COM_ADD_SELECTOR): New macro.
+
 	* COM.[hm]: New function COM_selector_is_boolean_return with
 	COMInterface selectorIsBooleanReturn slot.
+	(swarm_directory_COM_add_selector): New function.
+	(swarm_directory_COM_find_object_objc): New function.
 
-	* FArguments.[hm], defobj.h ([FArguments_c create:setSelector:]): Remove
-	setLanguage:. 
+	* FArguments.[hm], defobj.h ([FArguments_c create:setSelector:]):
+	Remove setLanguage:.
 
 	* FArguments.m: Include COM.h.
 	([FArguments_c setSelector:]): Add COM support.  Use language tag

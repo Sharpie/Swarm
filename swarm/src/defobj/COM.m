@@ -1,6 +1,7 @@
 #import <defobj/COM.h>
 #import <defobj/directory.h>
 #import <defobj/COMProxy.h>
+#import <objc/mframe.h> // mframe_build_signature
 
 static COMEnv *comEnv = 0;
 
@@ -113,6 +114,21 @@ swarm_directory_COM_find (COMobject cObject)
 }
 
 id
+swarm_directory_COM_find_object_objc (COMobject cObject)
+{
+  if (!cObject)
+    return nil;
+  else
+    {
+      ObjectEntry *result = swarm_directory_COM_find (cObject);
+
+      return (result
+              ? result->object
+              : nil);
+    }
+}
+
+id
 swarm_directory_COM_ensure_objc (COMobject cObject)
 {
   if (!cObject)
@@ -129,10 +145,73 @@ swarm_directory_COM_ensure_objc (COMobject cObject)
 }
 
 SEL
-swarm_directory_COM_ensure_selector (COMobject cSelector)
+swarm_directory_COM_ensure_selector (COMobject cSel)
 {
-  abort ();
+  SEL sel = NULL;
+
+  if (!cSel)
+    sel = NULL;
+  else if (!(sel = (SEL) SD_COM_FIND_OBJECT_OBJC (cSel)))
+    {
+      unsigned argCount = comEnv->selectorArgCount (cSel);
+      const char *name = comEnv->selectorName (cSel);
+      {
+        unsigned ti;
+        char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
+        
+        void add_type (char type)
+          {
+            *p++ = type;
+            *p++ = '0';
+            *p = '\0';
+          }
+        if (comEnv->selectorIsVoidReturn (cSel))
+          add_type (_C_VOID);
+        else
+          add_type (comEnv->selectorArgObjcType (cSel, argCount - 1));
+        add_type (_C_ID);
+        add_type (_C_SEL);
+
+        for (ti = 0; ti < argCount - 1; ti++)
+          add_type (comEnv->selectorArgObjcType (cSel, ti));
+      
+        sel = sel_get_any_typed_uid (name);
+        {
+          BOOL needSelector = NO;
+          
+          if (sel)
+            {
+              if (!sel_get_typed_uid (name, signatureBuf))
+                {
+#if 1
+                  raiseEvent (WarningMessage,
+                              "Method `%s' type (%s) differs from Swarm "
+                              "method's type (%s)\n",
+                            name, signatureBuf, sel->sel_types);
+#endif
+                  needSelector = YES;
+                }
+              
+            }
+          else
+            needSelector = YES;
+          
+          if (needSelector)
+            {
+              const char *type =
+                mframe_build_signature (signatureBuf, NULL, NULL, NULL);
+              
+              sel = sel_register_typed_name (name, type);
+            }
+        }
+      }
+      SD_COM_ADD_SELECTOR (cSel, sel);
+
+      SFREEBLOCK (name);
+    }
+  return sel;
 }
+
 
 Class
 swarm_directory_COM_ensure_class (COMclass cClass)
@@ -145,7 +224,6 @@ add (COMobject cObject, id oObject)
 {
   ObjectEntry *entry = COM_OBJECT_ENTRY (cObject, oObject);
 
-  // comEnv->addRef (cObject);
   avl_probe (swarmDirectory->object_tree, entry);
   avl_probe (swarmDirectory->COM_tree, entry);
   return entry;
@@ -163,12 +241,12 @@ swarm_directory_COM_add_object_objc (COMobject cObject, id oObject)
   return add (cObject, oObject)->object;
 }
 
-SelectorEntry *
-swarm_directory_COM_add_selector (COMobject cSel, SEL sel)
+void
+swarm_directory_COM_add_selector (COMobject cSel, SEL oSel)
 {
-  SelectorEntry *entry = COM_SELECTOR_ENTRY (cSel, sel);
+  SelectorEntry *entry = COM_SELECTOR_ENTRY (cSel, oSel);
 
   avl_probe (swarmDirectory->selector_tree, entry);
-  return entry;
+  avl_probe (swarmDirectory->COM_tree, entry);
 }
 
