@@ -13,7 +13,8 @@
 #import <defobj/defalloc.h> // getZone
 
 #ifdef HAVE_JDK
-#include <directory.h>
+#import <defobj/directory.h>
+#import <defobj/javavars.h>
 #endif
 
 @implementation MessageProbe
@@ -279,29 +280,12 @@ dynamicCallOn (const char *probedType,
   id <FCall> fc;
 #ifdef HAVE_JDK  
   jobject javaObj = 0;
-
-  if (swarmDirectory)
-    {
-      javaObj = SD_FINDJAVA (jniEnv, target);
-      
-      if (javaObj)
-        {
-          jobject jsel = SD_FINDJAVA (jniEnv, (id) probedSelector);
-          
-          if (!jsel)
-            abort ();
-          {
-            const char *sig =
-              swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
-            
-            [fa setJavaSignature: sig];
-            [scratchZone free: (void *) sig];
-          }
-        }
-    }
 #endif
+
   retVal->type = *type;
-  [fa setObjCReturnType: retVal->type];
+
+  [fa setSelector: probedSelector
+      setJavaFlag: [target respondsTo: M(isJavaProxy)]];
   type = skip_argspec (type);
   type = skip_argspec (type);
   for (i = 0, type = skip_argspec (type);

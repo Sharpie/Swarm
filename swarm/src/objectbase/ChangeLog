@@ -1,3 +1,8 @@
+1999-12-21    <mgd@nest.swarm.org>
+
+	* MessageProbe.m (dynamicCallOn): Use setSelector:setJavaFlag:
+	instead of inline code.  Remove call to setObjCReturnType:.
+
 1999-10-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Don't attempt Java lookup
