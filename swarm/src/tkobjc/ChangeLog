@@ -1,3 +1,8 @@
+1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_raster_drawPoint): Use color index,
+	not pixel value.  (Thanks to Pietro Terna.)
+
 1998-04-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (tkobjc_raster_drawPoint): Don't assign to bit map

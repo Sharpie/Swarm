@@ -238,8 +238,8 @@ tkobjc_raster_rectangle (Raster *raster,
 void
 tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 {
-  PixelValue *map = ((Colormap *)raster->colormap)->map;
 #ifndef _WIN32
+  PixelValue *map = ((Colormap *)raster->colormap)->map;
   X11Pixmap pm = raster->pm;
   Display *display = Tk_Display (raster->tkwin);
   GC gc = raster->gc;
@@ -256,7 +256,7 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 
   if (x >= 0 && x < frameWidth
       && y >= 0 && y < frameHeight)
-    ((BYTE *)dib->bits)[x + y * frameWidth] = map[c];
+    ((BYTE *)dib->bits)[x + y * frameWidth] = c;
 #endif
 }
 
