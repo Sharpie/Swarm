@@ -35,6 +35,7 @@ fi
 
 if test -z "$*"; then
   echo "@JAVALIBPATH_VAR@=\"$@JAVALIBPATH_VAR@\""
+  echo "@SHLIBPATH_VAR@=\"$@SHLIBPATH_VAR@\""
   echo "CLASSPATH=\"$classpath\""
   echo "export @JAVALIBPATH_VAR@ CLASSPATH"   
 elif test -n "$JAVASWARMGDB"; then
