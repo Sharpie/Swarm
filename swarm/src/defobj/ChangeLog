@@ -1,3 +1,18 @@
+2001-06-11    <mgd@DRONE>
+
+	* defobj.h, FArguments.[hm] ([FArguments_c -addArgument:ofType:]):
+	Make value be a type_t * instead of void *.  Dereference using
+	types_t fields, fixing Selector type which lacked any dereference.
+
+	* FCall.m (UPDATEMETHODNAME): New macro which drops any existing string
+	before setting.
+	([FCall_c -_setJavaMethod_:inObject:],
+	[FCall_c -setMethodFromName:inObject:],
+	[FCall_c -setMethodFromSelector:inObject:],
+	[FCall_c -setJavaMethodFromName:inClass:]): Use it. 
+
+	* JavaProxy.[hm] ([JavaProxy compare:]): New method.
+
 2001-06-06  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* make-h2x: Patch from Jakub Jelinek for GCC 2.96 and later.

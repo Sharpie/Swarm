@@ -1090,7 +1090,7 @@ CREATING
 - setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
 + create: (id <Zone>)aZone setSelector: (SEL)aSel;
-- addArgument: (void *)value ofType: (fcall_type_t)type;
+- addArgument: (types_t *)value ofType: (fcall_type_t)type;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addBoolean: (BOOL)value;

@@ -303,6 +303,7 @@ add_ffi_types (FCall_c *fc)
     }
 }
 
+#define UPDATEMETHODNAME(value) { if (methodName) FREEBLOCK (methodName); methodName = STRDUP (value); }
 
 @implementation FCall_c
 
@@ -346,7 +347,7 @@ PHASE(Creating)
   lref = (*jniEnv)->GetObjectClass (jniEnv, (jobject) jObj);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  methodName = STRDUP (buf);
+  UPDATEMETHODNAME (buf);
   fobject = jObj;
 #else
   java_not_available ();
@@ -364,7 +365,7 @@ PHASE(Creating)
         {
           (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
           callType = JScall;
-          methodName = STRDUP (theMethodName);
+	  UPDATEMETHODNAME (theMethodName);
           return self;
         }
     }
@@ -400,7 +401,7 @@ PHASE(Creating)
       (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
       
       if (callType == JScall)
-        methodName = STRDUP (sel_get_name (sel));
+        UPDATEMETHODNAME (sel_get_name (sel));
       return self;
     }
 #ifdef HAVE_JDK
@@ -464,7 +465,7 @@ PHASE(Creating)
   lref = (*jniEnv)->FindClass (jniEnv, className);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  methodName = STRDUP (theMethodName);
+  UPDATEMETHODNAME (theMethodName);
 #else
   java_not_available ();
 #endif

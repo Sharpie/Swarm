@@ -51,7 +51,7 @@ Library:      defobj
 - setSelector: (SEL)aSel;
 + create: aZone setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
-- addArgument: (void *)value ofType: (fcall_type_t)type;
+- addArgument: (types_t *)value ofType: (fcall_type_t)type;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addBoolean: (BOOL)value;
 - addChar: (char)value;

@@ -143,7 +143,7 @@ PHASE(Creating)
 #define ADD_PRIMITIVE_SIZE(fcall_type)
 #endif
 
-- addArgument: (void *)value ofType: (fcall_type_t)type
+- addArgument: (types_t *)value ofType: (fcall_type_t)type
 {
   size_t size = 0;
   unsigned offset = MAX_HIDDEN + assignedArgumentCount;
@@ -153,11 +153,11 @@ PHASE(Creating)
                 "Types already assigned to maximum number arguments in the call!\n");
 
   if (type == fcall_type_object)
-    [self addObject: *(id *) value];
+    [self addObject: value->object];
   else if (type == fcall_type_string)
-    [self addString: *(const char **) value];
+    [self addString: value->string];
   else if (type == fcall_type_selector)
-    [self addSelector: (SEL) value];
+    [self addSelector: value->selector];
   else
     {
       size = fcall_type_size (type);
@@ -337,7 +337,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (language == LanguageJava)
     [self addJavaObject: SD_JAVA_FIND_SELECTOR_JAVA (aSel)
-          type: fcall_type_jselector];
+	  type: fcall_type_jselector];
   else
 #endif
     ADD_PRIMITIVE (fcall_type_selector, SEL, aSel);

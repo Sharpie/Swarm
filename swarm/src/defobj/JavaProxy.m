@@ -110,5 +110,29 @@ PHASE(Using)
   return self;
 }
 
+- (int)compare: obj2
+{
+  jobject jobj1 = SD_JAVA_FIND_OBJECT_JAVA (self);
+  jobject jobj2 = SD_JAVA_ENSURE_OBJECT_JAVA (obj2);
+  jmethodID method;
+  jclass class;
+  jint ret;
+
+  if (!(class = (*jniEnv)->GetObjectClass (jniEnv, jobj1)))
+    abort ();
+
+  if (!(method = (*jniEnv)->GetMethodID (jniEnv,
+					 class,
+					 "compareTo", 
+					 "(Ljava/lang/Object;)I")))
+    {
+      (*jniEnv)->ExceptionClear (jniEnv);
+      ret = [super compare: obj2];
+    }
+  else
+    ret = (*jniEnv)->CallIntMethod (jniEnv, jobj1, method, jobj2);
+  (*jniEnv)->DeleteLocalRef (jniEnv, class);
+  return ret;
+}
 
 @end
