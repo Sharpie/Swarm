@@ -18,7 +18,7 @@
 }
 - setParent: parent;
 - setLabelingFlag: (BOOL)flag;
-- (void)setCompareFunction: (compare_t)aFunction;
+- setCompareFunction: (compare_t)aFunction;
 - setVarProbe: (id <VarProbe>)probe;
 - createEnd;
 - addEntries: (id <List>)objectList;
@@ -43,9 +43,10 @@
   return self;
 }
 
-- (void)setCompareFunction: (compare_t)aFunction
+- setCompareFunction: (compare_t)aFunction
 {
   compareFunction = aFunction;
+  return self;
 }
 
 - setLabelingFlag: (BOOL)flag

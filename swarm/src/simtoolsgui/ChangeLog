@@ -1,3 +1,8 @@
+1998-12-18  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* MultiVarProbeWidget.m ([MultiProbe -setCompareFunction:]): 
+	Return self.
+
 1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* simtoolsgui.m: Include defobj.h instead of objectbase/Arguments.h.
