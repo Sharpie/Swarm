@@ -1,3 +1,8 @@
+2000-01-24    <mgd@nest.swarm.org>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]): Cast
+	color 64 to id, not void *.
+
 2000-01-20    <mgd@HELEN>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -_update_]): 

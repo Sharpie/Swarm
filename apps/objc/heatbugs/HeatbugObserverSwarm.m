@@ -126,7 +126,7 @@
 
   // Now go in to the heatbugs in the model and set their colours to green (64)
 
-  [[heatbugModelSwarm getHeatbugList] forEach: M(setBugColor:) : (void *) 64];
+  [[heatbugModelSwarm getHeatbugList] forEach: M(setBugColor:) : (id) 64];
   
   // Next, create a 2d window for display, set its size, zoom factor, title.
   
