@@ -301,6 +301,7 @@ swarm_directory_swarm_class (id object)
 Class
 swarm_directory_superclass (Class class)
 {
+#ifdef HAVE_JDK
   if (swarmDirectory)
     {
       jclass clazz = 0;
@@ -323,6 +324,7 @@ swarm_directory_superclass (Class class)
             return Nil;
         }
     }
+#endif
   return class_get_super_class (class);
 }
 

@@ -6,7 +6,10 @@
 #import <defobj.h>
 #import <defobj/Create.h>
 #import <swarmconfig.h>
+
+#ifdef HAVE_JDK
 #import "java.h"
+#endif
 
 @interface JavaCollectionIndex: CreateDrop
 {

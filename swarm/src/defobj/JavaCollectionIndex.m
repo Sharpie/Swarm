@@ -5,6 +5,8 @@
 
 #import <defobj/JavaCollectionIndex.h>
 
+#include <swarmconfig.h>
+
 #ifdef HAVE_JDK
 #import <defobj/directory.h>
 #import <collections.h> // Member, End
