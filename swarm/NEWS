@@ -28,6 +28,14 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ***** Inode comparision in SWARMHOME directory search fixed for Cygwin, which
       generates inodes from a hash of the pathname.
 
+** QA
+*** defobj
+**** Tests for deep and shallow serialization for Lisp and HDF5 backends.
+
+*** collections
+**** Tests for deep and shallow serialization for List and Map for Lisp and
+     HDF5 backends.
+
 * Release Notes for Swarm 1.4
 ** New features
 *** activity

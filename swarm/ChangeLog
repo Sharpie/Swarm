@@ -1,5 +1,9 @@
 1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* VERSION: Bump.
+
+	* NEWS: Note defobj and collections test suites for serialization.
+
 	* configure.in (AC_OUTPUT): Extract tests/collections/Makefile.in.
 
 1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
