@@ -160,7 +160,7 @@
 
   // Create the OutFile object to log the runs
 
-  logFile = [OutFile create: self withName: "log.file"];
+  logFile = [OutFile create: self setName: "log.file"];
 
   return self;
 }

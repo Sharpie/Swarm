@@ -1,3 +1,8 @@
+1999-06-28  Alex Lancaster  <alex@santafe.edu>
+
+	* ExperSwarm.m ([ExperSwarm -buildObjects]): withName -> setName
+	for creation of OutFile instance.
+
 1999-06-23  Alex Lancaster  <alex@santafe.edu>
 
 	* README (-buildObjects): Update explanations, since
