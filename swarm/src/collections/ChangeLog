@@ -1,3 +1,9 @@
+1999-04-26  Alex Lancaster  <alex@santafe.edu>
+
+	* InputStream.m ([InputStream_c -getExpr]): Handle Lisp comments,
+	ignore any remaining part of any line commencing with a semi-colon
+	`;'.
+
 1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* List.m ([List_any -{hdf5,lispIn}:]): Move to setting phase.

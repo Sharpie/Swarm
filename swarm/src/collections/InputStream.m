@@ -257,6 +257,17 @@ readString (id inStream, BOOL literalFlag)
       else
         [self _badType_ : string];
     }
+  else if (c == ';')  // Lisp comment
+    {
+      while (1)  // suck up the rest of line
+        {
+          c = fgetc (fileStream);
+          if (c == '\n')            // end of comment (marked by end of line)
+            return [self getExpr];  // re-commence search 
+          else if (c == EOF)
+            return nil;
+        } 
+    }
   else
     {
       id string;
