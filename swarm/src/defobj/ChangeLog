@@ -19,7 +19,7 @@
 	(which are proxies).
 	(object_setVariableFromPtr): Add support for arrays.
 	(object_setVariableFromExpr): Simplify using
-	object_setVariableFromPtr and ivar_elementCount.
+	object_setVariableFromPtr and object_getElementCount.
 
 	* JavaProxy.[hm] ([JavaProxy -createJavaCounterpart:]): New method.
 
@@ -33,7 +33,7 @@
 	entry.
 	([HDF5CompoundType_c -packObj:to:]): Use object_setVariableFromPtr
 	for Java assignments. 
-	([HDF5_c -assignIvar:]): For Java, use ivar_elementCount to get
+	([HDF5_c -assignIvar:]): For Java, use object_getElementCount to get
 	buffer size and object_setVariableFromPtr to assign.
 
 	* HDF5Archiver.m ([HDFArchiver_c -createEnd]): Always set write flag.
@@ -54,8 +54,6 @@
 	* directory.m, javavars.h (create_method_refs): Add
 	m_ClassGetFields and m_ClassIsArray.
 	(swarm_directory_signature_for_class): Handle arrays.
-	(swarm_directory_java_ensure_class): Return a JavaProxy class,
-	but still record a JavaProxy instance (for independence).
 
 	* defobj.m (lispIn): Add special handling for Java.
 

@@ -476,7 +476,7 @@ swarm_directory_objc_find_java_class (JNIEnv *env, Class class)
   jclass ret;
   const char *javaClassName = objcFindJavaClassName (env, class);
 
-  ret = swarm_directory_find_java_class (env, javaClassName, YES);
+  ret = java_find_class (env, javaClassName, YES);
   FREECLASSNAME (javaClassName);
   return ret;
 }
@@ -1216,8 +1216,6 @@ swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass)
         objcClass = [JavaProxy create: globalZone];
       SD_ADD (env, (jobject) javaClass, (id) objcClass);
     }
-  if ([objcClass isInstance])
-    objcClass = [JavaProxy self];
   return objcClass;
 }
 
@@ -1250,7 +1248,7 @@ Class
 swarm_directory_ensure_class_named (JNIEnv *env, const char *className)
 {
 #ifdef HAVE_JDK
-  jclass javaClass = swarm_directory_find_java_class (env, className, NO);
+  jclass javaClass = java_find_class (env, className, NO);
   Class objcClass;
 
   if (javaClass)

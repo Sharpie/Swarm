@@ -305,14 +305,16 @@ lispIn (id aZone, id expr)
               raiseEvent (InvalidArgument, "> type `%s' not found",
                           typeName);
 
-            obj = [typeObject createBegin: aZone];
-            if ([obj respondsTo: M(isJavaProxy)])
-              obj = [obj createJavaCounterpart: typeName];
-            else
+            if ([typeObject respondsTo: M(isJavaProxy)])
               {
-                obj = [obj lispInCreate: argexpr];
-                obj = [obj createEnd];
+                obj = [JavaProxy createBegin: aZone];
+                obj = [obj createJavaCounterpart: typeName];
               }
+            else
+              obj = [typeObject createBegin: aZone];
+            
+            obj = [obj lispInCreate: argexpr];
+            obj = [obj createEnd];
             [obj lispIn: argexpr];
           }
         [argexpr drop];
@@ -366,14 +368,15 @@ hdf5In (id aZone, id hdf5Obj)
                 "Failed to find or create class for HDF5 object `%s'",
                 [hdf5Obj getName]);
   
-  obj = [typeObject createBegin: aZone];
-  if ([obj respondsTo: M(isJavaProxy)])
-    obj = [obj createJavaCounterpart: typeName];
-  else
+  if ([typeObject respondsTo: M(isJavaProxy)])
     {
-      obj = [obj hdf5InCreate: hdf5Obj];
-      obj = [obj createEnd];
+      obj = [JavaProxy createBegin: aZone];
+      obj = [obj createJavaCounterpart: typeName];
     }
+  else
+    obj = [typeObject createBegin: aZone];
+  obj = [obj hdf5InCreate: hdf5Obj];
+  obj = [obj createEnd];
   [obj hdf5In: hdf5Obj];
 
   return obj;

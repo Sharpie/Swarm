@@ -1539,11 +1539,11 @@ object_setVariableFromPtr (id obj, const char *ivarName, void *inbuf)
 #undef _SETVALUE
 
 unsigned
-ivar_elementCount (id obj,
-                   const char *ivarName,
-                   fcall_type_t itype,
-                   unsigned irank,
-                   unsigned *idims)
+object_getVariableElementCount (id obj,
+                                const char *ivarName,
+                                fcall_type_t itype,
+                                unsigned irank,
+                                unsigned *idims)
 {
   if ([obj respondsTo: M(isJavaProxy)])
     {
@@ -1609,11 +1609,11 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
       if ([obj respondsTo: M(isJavaProxy)])
         {
           fcall_type_t type = [expr getArrayType];
-          unsigned count = ivar_elementCount (obj,
-                                              ivarName,
-                                              type,
-                                              [expr getRank],
-                                              [expr getDims]);
+          unsigned count = object_getElementCount (obj,
+                                                   ivarName,
+                                                   type,
+                                                   [expr getRank],
+                                                   [expr getDims]);
           {
             unsigned char buf[fcall_type_size (type) * count];
 
