@@ -1,3 +1,8 @@
+1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbeWidget.m (printVal): Accomodate renames in
+	types_t (e.g. _char to schar).
+
 1999-04-01  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* simtoolsgui.h: Protocol GUISwarm inherits protocol Swarm. 
