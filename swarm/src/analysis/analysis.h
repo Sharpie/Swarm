@@ -116,10 +116,12 @@ USING
 //M: The setBinNum method sets the number of bins the histogram will have.
 - setBinNum: (int)theBinNum;
 
-//M: The setLowerBound method sets the lower bound on the histogram range.
+//M: The setLowerBound method sets the inclusive lower bound on the
+//M: histogram range. 
 - setLowerBound: (double)theMin;
 
-//M: The setUpperBound method sets the upper bound on the histogram range.
+//M: The setUpperBound method sets the non-inclusive upper bound on the
+//M: histogram range.
 - setUpperBound: (double)theMax;
 
 //M: Sets the number of significant figures shown for major-tick labels.
