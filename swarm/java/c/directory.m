@@ -69,13 +69,13 @@ create_class_refs (JNIEnv *env)
 
         if (!(clazz = (*env)->FindClass (env, "swarm/SwarmEnvironment")))
           abort ();
-        if (!(field = (*env)->GetStaticFieldID (env,
-                                                clazz,
-                                                "globalZone",
-                                                "Ljava/lang/Class;")))
+        if (!(field = (*env)->GetFieldID (env,
+                                          clazz,
+                                          "globalZone",
+                                          "Ljava/lang/Class;")))
           abort ();
 
-        if (!(c_globalZone = (*env)->GetStaticObjectField (env, clazz, field)))
+        if (!(c_globalZone = (*env)->GetObjectField (env, clazz, field)))
           abort ();
       }
       initFlag = YES;
