@@ -1,0 +1,13 @@
+diff -c -r hdf5-1.2.1-orig/src/H5detect.c hdf5-1.2.1/src/H5detect.c
+*** hdf5-1.2.1-orig/src/H5detect.c	Sun Feb 20 15:32:20 2000
+--- hdf5-1.2.1/src/H5detect.c	Sun Feb 20 15:30:37 2000
+***************
+*** 31,36 ****
+--- 31,37 ----
+   */
+  #undef NDEBUG
+  #include <H5private.h>
++ #undef HAVE_LONGJMP
+  
+  #define MAXDETECT 64
+  /*

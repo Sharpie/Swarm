@@ -8,11 +8,12 @@ ifneq ($(DEB_BUILD_GNU_TYPE),sparc-linux)
 ENV = JAVAC=javac JAR=/usr/java1.2.2/bin/jar
 else
 ENV = JAVAC=javac CONSERVATIVE_OPTIMIZATION=yes
+CONFIGUREOPTS = --disable-jar
 endif
 
 build:
 	$(checkdir)
-	$(ENV) ./configure --prefix=/usr --with-jdkdir=/usr --enable-subdirs
+	$(ENV) ./configure --prefix=/usr --with-jdkdir=/usr --enable-subdirs $(CONFIGUREOPTS)
 	$(MAKE) 
 	touch build
 

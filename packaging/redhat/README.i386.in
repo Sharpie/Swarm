@@ -1,4 +1,4 @@
-Binary RPM packages of Swarm for Red Hat 6.0 Intel/ix86 users are
+Binary RPM packages of Swarm for Red Hat 6 Intel/ix86 users are
 available here.
 
 [NOTE: Although there is no reason why these RPMs should not work
@@ -7,12 +7,12 @@ available here.
 
 Source packages are available at:
 
- ftp://ftp.santafe.edu/pub/swarm/redhat/SRPMS
+ ftp://ftp.swarm.org/pub/swarm/redhat/SRPMS
 
 Minimum requirements
 ====================
 
-The following packages that come with the standard Red Hat 6.0
+The following packages that come with the standard Red Hat 6.1
 distribution are all required before commencing installing *any* of
 various Swarm packages:
 

@@ -5,20 +5,16 @@ Release: @release@
 Copyright: @copyright@
 Group: Development/Libraries
 Source: @ftproot@/swarm-@version@.tar.gz 
-%ifarch ppc
-Patch: 2.0.1-ppc.patch
-%endif 
 %define prefix      /usr
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
-BuildPrereq: hdf5 > @hdf5_version@
+#BuildPrereq: hdf5 >= @hdf5_version@
+BuildPrereq: hdf5
 %ifarch ppc
 BuildPrereq: libffi >= 1.20
-#BuildPrereq: kaffe = @kaffe_version@
-%else
-BuildPrereq: kaffe = @kaffe_version@
-BuildPrereq: jikes = @jikes_version@
 %endif
+BuildPrereq: kaffe
+BuildPrereq: jikes
 Icon: swarm.xpm
 Packager: @packager@
 Distribution: @distribution@
@@ -29,7 +25,7 @@ Requires: @base_requires@
 Requires: libffi >= 1.20
 %endif
 Provides: swarm-base
-Requires: hdf5 > @hdf5_version@
+Requires: hdf5 >= @hdf5_version@
 Conflicts: swarm
  
 %description
@@ -78,15 +74,10 @@ or better, and the blt library package.  This version enables hdf5.
 
 %makebuilddir =with-hdf
 
-%{gcc_path} %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-hdf5dir=/usr %ffiflag %jdkflag
-%{gcc_path} make JAVAC=/usr/bin/jikes 
-                            
-%install
-rm -rf $RPM_BUILD_ROOT
-mkdir $RPM_BUILD_ROOT
+%define configure %baseconfigure
 
-#install with-hdf5 version of build
-cd %{SWARM_SRC_DIR}
+@rules@
+
 %gen_shared_filelist %{prefix} %{SWARM_SRC_DIR}/with-hdf
 
 cd =with-hdf

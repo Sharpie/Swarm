@@ -5,19 +5,14 @@ Release: @release@
 Copyright: @copyright@
 Group: Development/Libraries
 Source: @ftproot@/swarm-@version@.tar.gz
-%ifarch ppc
-Patch: 2.0.1-ppc.patch
-%endif 
 %define prefix      /usr
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
 %ifarch ppc
 BuildPrereq: libffi >= 1.20
-#BuildPrereq: kaffe = @kaffe_version@
-%else
-BuildPrereq: kaffe = @kaffe_version@
-BuildPrereq: jikes = @jikes_version@
 %endif
+BuildPrereq: kaffe
+BuildPrereq: jikes
 Icon: swarm.xpm
 Packager: @packager@
 Distribution: @distribution@
@@ -29,7 +24,7 @@ Requires: libffi >= 1.20
 %endif
 Provides: swarm-base
 Conflicts: swarm-hdf5
- 
+
 %description
 Swarm is a simulation toolkit for complex adaptive systems. The Swarm
 project is sponsored by the Santa Fe Institute.  To use this version,
@@ -38,8 +33,21 @@ or better, and the blt library package.
 
 @macros@
 
-
 %changelog
+* Mon Feb 28 2000 Marcus G. Daniels <mgd@swarm.org>
+
+- Remove ppc patch.
+
+- Remove versioning on kaffe and jikes BuildPrereq.
+
+- Break out system-specific build rules in to separate file, swarm.rules.
+
+- Add support for Sparc and SUSE/i386.
+
+- Hardwire /packages/bin/gcc as compiler.
+
+- Minimize use of %defines (using substitutions instead).
+
 * Fri Oct 22 1999 Alex Lancaster <alex@santafe.edu>
 
 - Replace $RPM_PACKAGE_VERSION with %{version} throughout.
@@ -162,11 +170,7 @@ the normal binary distribuion
 %package kaffe
 Summary: Adds Java support to swarm-base package.
 Group: Development/Libraries
-%ifnarch ppc
 Requires: kaffe = @kaffe_version@
-%else
-Requires: kaffe = 1.0b4
-%endif
 Requires: swarm-base
 
 %description kaffe
@@ -177,22 +181,13 @@ the Sun JDK.
 %prep 
 %setup -q
 
-%ifarch ppc
-%patch -p1
-%endif
-
 %build
 
 %makebuilddir =without-hdf
 
-%{gcc_path} %objcflags %cflags %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --without-hdf5dir %ffiflag %jdkflag 
-%{gcc_path} make JAVAC=/usr/bin/jikes
+%define configure %baseconfigure --without-hdf5dir
 
-%install
-rm -rf $RPM_BUILD_ROOT
-mkdir $RPM_BUILD_ROOT
-
-cd %SWARM_SRC_DIR
+@rules@
 
 %gen_shared_filelist %prefix %{SWARM_SRC_DIR}/without-hdf
 
@@ -207,14 +202,11 @@ cd =without-hdf
 
 /sbin/ldconfig
 
-%ifnarch ppc
 %post kaffe
 %define kaffepathfiles bin/java*swarm lib/swarm/libkaffeswarm*.la
 %fix_path %kaffepathfiles
 
 /sbin/ldconfig
-
-%endif
 
 %files -f without-hdf
 %defattr(-,root,root)
@@ -222,7 +214,6 @@ cd =without-hdf
 %files static -f static
 %defattr(-,root,root)
 
-%ifnarch ppc
 %files kaffe
 %defattr(-,root,root)
 %verify(not size md5 mtime) %{prefix}/bin/javaswarm
@@ -230,7 +221,6 @@ cd =without-hdf
 %verify(not size md5 mtime) %{prefix}/lib/swarm/libkaffeswarm*.la
 %{prefix}/lib/swarm/libkaffeswarm*.so*
 %{prefix}/share/swarm
-%endif
 
 %clean 
 rm -rf $RPM_BUILD_ROOT

@@ -1,25 +1,37 @@
 AC_INIT(swarm.macros)
+AC_CANONICAL_SYSTEM
+AM_INIT_AUTOMAKE(swarmspecs, 2.1)
 
-AM_INIT_AUTOMAKE(swarmspecs, 2.0.1)
-
-version=2.0.1
-release=3.rh6
-demo_release=3.rh6
-hdf5_version=1.2
-kaffe_version=1.0.5
+version=2.1
+if test -f /etc/SuSE-release; then
+  release=1.suse
+  demo_release=1.suse
+  base_requires='egcs, xdevel, libpng, libz, xpm, blt, tcl >= 8.0.4, tk >= 8.0.4'
+  kaffe_version=2000.02.26
+else
+  release=1.rh6
+  demo_release=1.rh6
+  base_requires='egcs, egcs-objc, XFree86-devel, libpng, libpng-devel, zlib, xpm, xpm-devel, blt, tcl >= 8.0.4, tk >= 8.0.4'
+  if test $host_cpu = powerpc; then
+    kaffe_version=2000.02.26
+  else
+    kaffe_version=1.0.5
+  fi
+fi
+hdf5_version=1.2.1
 jikes_version=0.47
-
-base_requires='egcs, egcs-objc, XFree86-devel, libpng, libpng-devel, zlib, xpm, xpm-devel, blt, tcl >= 8.0.4, tk >= 8.0.4'
 
 copyright='LGPL'
 packager='Red Hat Contrib|Net <rhcn-bugs@redhat.com>'
 distribution='Red Hat Contrib|Net'
 vendor='Swarm Development Group'
-url='http://www.santafe.edu/projects/swarm'
-ftproot='ftp://ftp.santafe.edu/pub/swarm'
+url='http://www.swarm.org'
+ftproot='ftp://ftp.swarm.org/pub/swarm'
 
-AC_SUBST_FILE(macros)dnl
 macros=$srcdir/swarm.macros
+rules=$srcdir/swarm.rules
+AC_SUBST_FILE(macros)
+AC_SUBST_FILE(rules)
 
 AC_SUBST(version)
 AC_SUBST(release)

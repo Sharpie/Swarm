@@ -31,30 +31,6 @@ xpm" and does not require a Swarm installation.  It's ideal for
 
 * swarmdemos-@version@-@demo_release@.ppc.rpm
 
-Basic Swarm packages:
-====================
-
-At this stage for PPC users there is only `swarm-base' packages for
-Swarm development in Objective C (we are still in the process of
-porting HDF5 to PPC):
-
-* swarm-@version@-@release@.ppc.rpm: 
-
-  the `vanilla' Objective C Swarm package, which requires only the 
-  minimum requirements outlined above.
-
-Java support enabling `add-on' package :
-=======================================
-
-* Kaffe 1.0.4b with respect to Swarm is broken on the PPC platform,
-since we have limited resources (and one *very slow* PPC) we would
-appreciate hearing from any PPC users who would like to assist us in
-testing and debugging Kaffe and Swarm under the PowerPC platform.
-
-* We have had reports of successful installation on PPC against the
-Blackdown JDK 1.2 (http://www.blackdown.org) with an install of Swarm
-from source, but no RPMs as yet.
-
 Advanced Swarm packages (NOT REQUIRED FOR NEW USERS):
 ====================================================
 
