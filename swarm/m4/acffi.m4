@@ -86,9 +86,9 @@ else
   AC_DEFINE(USE_AVCALL)
   ffidir=
   ffilibdir=
-  FFIINCLUDES='-I$(top_builddir)/avcall'
+  FFIINCLUDES='-I${top_builddir}/avcall'
   FFILDFLAGS=
-  FFILIB="\$(top_builddir)/avcall/libavcall.la"
+  FFILIB="\${top_builddir}/avcall/libavcall.la"
   AM_CONDITIONAL(USEBUILTINAVCALL, true)
 fi
 AC_SUBST(ffidir)

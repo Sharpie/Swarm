@@ -1,3 +1,8 @@
+2001-10-07  Alex Lancaster  <alex@swarm.org>
+
+	* acffi.m4: Use curly-braces instead of round braces for
+	expansions of ${top_builddir} in FFILIB and FFIINCLUDES.
+
 2001-08-24    <mgd@HELEN>
 
 	* acjdk.m4: Change from INT64 to SWARM_INT64.
