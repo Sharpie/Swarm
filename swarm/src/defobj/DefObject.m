@@ -1165,8 +1165,19 @@ lisp_output_type (const char *type,
               *((float *) ptr) = [val getFloat];
               break;
             case _C_INT:
-              *((int *) ptr) = [val getInteger];
-              break;
+              {
+                char itype = *ivar->ivar_type;
+                int ival = [val getInteger];
+
+                if (itype == _C_INT || itype == _C_UINT)
+                  *((int *) ptr) = ival;
+                else if (itype == _C_SHT || itype == _C_USHT)
+                  *((short *) ptr) = ival;
+                else if (itype == _C_LNG || itype == _C_ULNG)
+                  *((long *) ptr) = ival;
+                else
+                  abort ();
+              }
             case _C_UCHR:
               *((unsigned char *) ptr) = [val getChar];
               break;

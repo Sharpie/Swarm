@@ -61,8 +61,8 @@ Archiver_c *lispArchiver;
 
 - (void)drop
 {
-  [shallowMap deleteAll];
-  [deepMap deleteAll];
+  [shallowMap drop];
+  [deepMap drop];
   [super drop];
 }
 

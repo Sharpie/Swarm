@@ -1,3 +1,11 @@
+1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.m ([Object_s -lispIn:]): Handle assignments to 
+	types of integers other than int.
+
+	* Archiver.m ([Application -drop]): Don't delete items in shallowMap
+	and deepMap.
+
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.m (generatedClassNameCount): New variable.
