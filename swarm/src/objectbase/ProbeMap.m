@@ -185,10 +185,11 @@ PHASE(Creating)
   if (objectToNotify != nil) 
     [varProbe setObjectToNotify: objectToNotify];
   varProbe = [varProbe createEnd];
-  
-  if (![probes at: key insert: varProbe])
+
+  if (!varProbe || ![probes at: key insert: varProbe])
     {
-      [varProbe drop];
+      if (varProbe)
+        [varProbe drop];
       [key drop];
     }
   else
@@ -208,9 +209,10 @@ PHASE(Creating)
 
   key = [String create: getZone (self) setC: [messageProbe getProbedMessage]];
   
-  if (![probes at: key insert: messageProbe])
+  if (!messageProbe || ![probes at: key insert: messageProbe])
     {
-      [messageProbe drop];
+      if (messageProbe)
+        [messageProbe drop];
       [key drop];
     }
   else
@@ -345,7 +347,8 @@ PHASE(Creating)
   
   void collect_method (COMobject obj, const char *name)
     {
-      [self _addVarProbe_: aClass variableName: name];
+      printf ("[%s]\n", name);
+      // [self _addVarProbe_: aClass variableName: name];
     }
 
   if (!cClass)

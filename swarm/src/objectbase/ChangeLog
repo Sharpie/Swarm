@@ -1,3 +1,17 @@
+2001-01-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m: Use "language == LanguageJava" instead if
+	isJavaProxy throughout.
+	([VarProbe -_setupJavaVarProbe_],
+	[VarProbe -_setupObjcVarProbe_], [VarProbe -createEnd]): Split out
+	language-specific probe setup into separate internal methods.
+
+	* Probe.h (Probe): Replace `isJavaProxy' with `language'.
+
+	* Probe.m ([Probe +createBegin:]): Initialize language to 
+	LanguageObjc.  ([Probe -setProbedClass:]): Set language instead of 
+	isJavaProxy.
+	
 2001-01-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* CompleteVarMap.m ([CompleteVarMap -createEnd]): Remove paranoid 

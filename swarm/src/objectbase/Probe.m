@@ -13,10 +13,11 @@ PHASE(Creating)
 
 +  createBegin: aZone 
 {
-  Probe * tempObj;
-  tempObj = [super createBegin: aZone];
-  tempObj->objectToNotify = nil;
-  return tempObj;
+  Probe *obj = [super createBegin: aZone];
+
+  obj->objectToNotify = nil;
+  obj->language = LanguageObjc;
+  return obj;
 }
 
 - createEnd
@@ -107,7 +108,8 @@ PHASE(Using)
       }
 #ifdef HAVE_JDK
   // if class passed to setProbedClass is 
-  isJavaProxy = [aClass respondsTo: M(isJavaProxy)];     
+  if ([aClass respondsTo: M(isJavaProxy)])
+    language = LanguageJava;
 #endif
 
   probedClass = aClass;

@@ -14,8 +14,8 @@
   Class probedClass;
   const char *probedType;
   BOOL safety;
-  unsigned isJavaProxy;
-  id <Symbol> stringReturnType ;
+  id <Symbol> language;
+  id <Symbol> stringReturnType;
   id objectToNotify;  // could be an object or a list
 }
 

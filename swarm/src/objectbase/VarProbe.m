@@ -42,58 +42,51 @@ PHASE(Creating)
   return self;
 }
 
-- createEnd
+#ifdef HAVE_JDK
+- _setupJavaVarProbe_
+{
+  jobject lref;
+
+  fieldObject = 0;
+  classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+  if (!classObject)
+    raiseEvent (SourceMessage,
+                "Java class to be probed cannot be found.\n");      
+  {
+    jobject probedVariableStr = (*jniEnv)->NewStringUTF (jniEnv, 
+                                                         probedVariable);
+    lref = 
+      (*jniEnv)->CallObjectMethod (jniEnv,
+                                   classObject, 
+                                   m_ClassGetField,
+                                   probedVariableStr);
+    (*jniEnv)->DeleteLocalRef (jniEnv, probedVariableStr);
+  }
+  if (lref)
+    fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+  
+  lref = (*jniEnv)->CallObjectMethod (jniEnv,
+                                      fieldObject, 
+                                      m_FieldGetType);      
+  if (!lref)
+    raiseEvent (SourceMessage, "Unknown type of probed field `%s'\n",
+                probedVariable);
+  
+  fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+  probedType = objc_type_for_fcall_type (fcall_type_for_java_class (fieldType));
+  interactiveFlag = YES;
+  return fieldObject ? self : nil;
+}
+#endif
+
+- _setupObjcVarProbe_
 {
   IvarList_t ivarList;
   unsigned i;
   
-  [super createEnd];
-
-  if (SAFEPROBES)
-    if (probedVariable == 0 || probedClass == 0)
-      raiseEvent (WarningMessage,
-                  "VarProbe object was not properly initialized.\n");
-#ifdef HAVE_JDK
-  if (isJavaProxy)
-    {
-      jobject lref;
-
-      classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
-      if (!classObject)
-	raiseEvent (SourceMessage,
-		    "Java class to be probed cannot be found.\n");      
-      {
-        jobject probedVariableStr = (*jniEnv)->NewStringUTF (jniEnv, 
-                                                             probedVariable);
-        lref = 
-          (*jniEnv)->CallObjectMethod (jniEnv,
-                                       classObject, 
-                                       m_ClassGetField,
-                                       probedVariableStr);
-        (*jniEnv)->DeleteLocalRef (jniEnv, probedVariableStr);
-      }
-      if (!lref)
-	raiseEvent (SourceMessage,
-		    "Cannot find field to be probed in the Java class.\n"); 
-      fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-
-      lref = (*jniEnv)->CallObjectMethod (jniEnv,
-                                          fieldObject, 
-                                          m_FieldGetType);      
-      if (!lref)
-	raiseEvent (SourceMessage, "Unknown type of probed field `%s'\n",
-                    probedVariable);
-
-      fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-      probedType = objc_type_for_fcall_type (fcall_type_for_java_class (fieldType));
-      interactiveFlag = YES;
-      return self;
-    }
-#endif   
-
   ivarList = probedClass->ivars;
   
   // search the ivar list for the requested variable.
@@ -114,7 +107,7 @@ PHASE(Creating)
   else
     {
       char type;
-
+      
       probedType = ivarList->ivar_list[i].ivar_type;
       type = probedType[0];
       dataOffset = ivarList->ivar_list[i].ivar_offset;
@@ -183,6 +176,24 @@ PHASE(Creating)
         }
       return self;
     }
+}
+
+- createEnd
+{
+  [super createEnd];
+
+  if (SAFEPROBES)
+    if (!probedVariable || !probedClass)
+      raiseEvent (WarningMessage, 
+                  "VarProbe object was not properly initialized.\n");
+#ifdef HAVE_JDK
+  if (language == LanguageJava)
+    return [self _setupJavaVarProbe_];
+#endif   
+  else if (language == LanguageObjc)
+    return [self _setupObjcVarProbe_];
+  else
+    abort ();
 }
 
 PHASE(Setting)
@@ -267,8 +278,8 @@ PHASE(Using)
 - (void *)probeRaw: anObject
 {
 #ifdef HAVE_JDK
-  if (isJavaProxy)
-    raiseEvent (SourceMessage, "Java objects do not permit raw probing!\n");
+  if (language == LanguageJava)
+    raiseEvent (SourceMessage, "Java objects do not permit raw probing.\n");
 #endif
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -284,7 +295,7 @@ PHASE(Using)
   void *q = NULL;
   
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if (language == LanguageJava)
     raiseEvent (SourceMessage, 
 		"Java objects do not permit probing with pointers.\n");
 #endif
@@ -406,7 +417,7 @@ probe_as_int (const char *probedType, const void *p)
   const void *p;
 
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if (language == LanguageJava)
     return java_probe_as_int (fieldType,
                               fieldObject,
                               SD_JAVA_FIND_OBJECT_JAVA (anObject));
@@ -492,7 +503,7 @@ probe_as_double (const char *probedType, const void *p)
   const void *p;
 
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if (language == LanguageJava)
     return java_probe_as_double (fieldType,
                                  fieldObject,
                                  SD_JAVA_FIND_OBJECT_JAVA (anObject));
@@ -624,7 +635,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
                [probedClass name], [anObject name]);
   
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if (language == LanguageJava)
     return java_probe_as_string (fieldType,
                                  fieldObject, 
                                  SD_JAVA_FIND_OBJECT_JAVA (anObject), 
@@ -772,7 +783,7 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
                 probedType);
 
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if (language == LanguageJava)
     {
       return java_probe_as_object (fieldType,
                                    fieldObject,
@@ -858,8 +869,9 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
   const void *p;
 
 #ifdef HAVE_JDK
-  if (isJavaProxy)
-    raiseEvent (SourceMessage, "Setting probed fields in Java object from a void pointer to new value is not implemented!\n");
+  if (language == LanguageJava)
+    raiseEvent (SourceMessage,
+                "Setting probed fields in Java object from a void pointer to new value is not implemented.\n");
 #endif
 
   if (safety)
@@ -1096,7 +1108,7 @@ setFieldFromString (id anObject, jobject field,
   void *p;
 #ifdef HAVE_JDK
 
-  if (isJavaProxy)
+  if (language == LanguageJava)
     {
       setFieldFromString (anObject, fieldObject, fieldType, s);
       rc = 1;
@@ -1222,7 +1234,6 @@ setFieldFromString (id anObject, jobject field,
   }
 
 #ifdef HAVE_JDK
-  // closes else branch  of if (isJavaProxy)
     }
 #endif
 
@@ -1266,7 +1277,7 @@ setFieldFromString (id anObject, jobject field,
 - (void)drop
 {
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if (language == LanguageJava)
     {
       (*jniEnv)->DeleteGlobalRef (jniEnv, fieldObject);
       (*jniEnv)->DeleteGlobalRef (jniEnv, fieldType);
