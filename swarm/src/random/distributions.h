@@ -4,6 +4,7 @@
 //     1997-09-01 (v. 0.7)
 //     1998-10-08 (v. 0.8)
 //     2000-02-19 (v. 0.81)
+//     2001-07-17 
 //
 
 // 
@@ -418,6 +419,79 @@ USING
                     withBeta: (double)beta;
 @end
 
+@protocol PoissonDist <UnsignedDistribution, CREATABLE>
+//S: Poisson distribution
+//D: A distribution used to model the integer number of occurrences 
+//D: of some event over an interval of time or space. 
+
+CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
++ create     : (id <Zone>)aZone
+ setGenerator: (id <SimpleRandomGenerator>)generator;
+
+//M: Use this create message if the generator to be attached is a Simple one
+//M: and both the occurrence rate and the interval are set at create time:
++ create     : (id <Zone>)aZone
+ setGenerator: (id <SimpleRandomGenerator>)generator
+ setOccurRate: (double) anOccurRate
+  setInterval: (double) anInterval;
+
+
+//M: Use this create message if the generator to be attached is a Split one:
++ create             : (id <Zone>)aZone
+         setGenerator: (id <SplitRandomGenerator>)generator
+  setVirtualGenerator: (unsigned)vGen;
+
+//M: Use this create message if the generator to be attached is a Split one and
+//M: both the occurrence rate and the interval are to be set at create time:
++ create             : (id <Zone>)aZone
+         setGenerator: (id <SplitRandomGenerator>)generator
+  setVirtualGenerator: (unsigned)vGen
+         setOccurRate: (double) anOccurRate
+          setInterval: (double) anInterval;
+
+SETTING
+
+//M: The setInterval method only sets the interval parameter; the occurRate 
+//M: parameter is left unchanged from its previous or initialized value 
+- setInterval: (double) anInterval;
+
+//M: The setOccurRate method only sets the occurRate parameter; the interval 
+//M: parameter is left unchanged from its previous or initialized value 
+- setOccurRate: (double) anOccurRate;
+
+//M: The setOccurRate:setInterval method sets both the occurrence rate 
+//M: and the interval parameters.
+- setOccurRate: (double) anOccurRate
+   setInterval: (double) anInterval;
+
+USING
+
+//M: The getOccurRate method returns the occurrence rate parameter.
+- (double) getOccurRate;
+
+//M: The getInterval method returns the interval parameter.
+- (double) getInterval;
+
+//M: The getUnsignedSample method returns a sample value using the 
+//M: distribution's current occurrence rate and interval parameters; 
+//M: causes an error if these parameters have not been previously set.
+- (unsigned) getUnsignedSample;
+
+//M: The getUnsignedSampleWithInterval method returns a sample value using 
+//M: the distribution's current occurrence rate and new interval value. 
+//M: Causes an error if the occurrence rate has not been previously set.
+- (unsigned) getUnsignedSampleWithInterval: (double) anInterval;
+
+//M: The getUnsignedSampleWithOccurRate:andInterval method returns 
+//M: a sample value for the specified occurrence rate and interval. 
+//M: Does not change the the distribution's parameter values set by 
+//M: the setter methods.
+- (unsigned) getUnsignedSampleWithOccurRate: (double) anOccurRate
+                         withInterval: (double) anInterval;
+
+@end
+
 // Include declarations of type factories for each protocol marked CREATABLE
 // (type factories can be defined either as class names or external id's)
 
@@ -437,4 +511,5 @@ USING
 @class LogNormalDist;
 @class ExponentialDist;
 @class GammaDist;
+@class PoissonDist;
 

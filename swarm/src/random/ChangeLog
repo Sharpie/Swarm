@@ -1,3 +1,9 @@
+2001-07-17  Sven Thommesen <sthomme@swarm.org>
+
+	* Makefile.in, Makefile.am, randomdefs.h, distributions.h,
+	  PoissonDist.h, PoissonDist.m: added the Poisson distribution
+	  object provided by Steve Railsback & Steve Jackson
+
 2001-06-21    <mgd@maya.santafe.edu>
 
 	* C2LCGXgen.m: Eliminate a multi-line string literal.

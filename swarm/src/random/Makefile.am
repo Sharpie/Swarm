@@ -23,7 +23,7 @@ SRC = ACGgen.m BernoulliDist.m C2LCGXgen.m C2MRG3gen.m \
 	LCGgen.m LogNormalDist.m MRGgen.m MT19937gen.m MWCAgen.m MWCBgen.m \
 	NormalDist.m PMMLCGgen.m PSWBgen.m RWC2gen.m RWC8gen.m \
 	RandomBitDist.m SCGgen.m SWBgen.m TGFSRgen.m UniformDoubleDist.m \
-	UniformIntegerDist.m UniformUnsignedDist.m random.m
+	UniformIntegerDist.m UniformUnsignedDist.m PoissonDist.m random.m
 
 librandom_la_SOURCES = $(SRC)
 librandom_la_LDFLAGS = @inst_LDFLAGS@
@@ -33,5 +33,5 @@ random_HEADERS = ACGgen.h BernoulliDist.h C2LCGXgen.h C2MRG3gen.h C2TAUSgen.h \
 	LogNormalDist.h MRGgen.h MT19937gen.h MWCAgen.h MWCBgen.h \
 	NormalDist.h PMMLCGgen.h PSWBgen.h RWC2gen.h RWC8gen.h \
 	RandomBitDist.h randomdefs.h randomvars.h SCGgen.h SWBgen.h \
-	TGFSRgen.h UniformDoubleDist.h UniformIntegerDist.h \
+	TGFSRgen.h UniformDoubleDist.h UniformIntegerDist.h PoissonDist.h \
 	UniformUnsignedDist.h distributions.h generators.h

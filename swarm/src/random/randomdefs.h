@@ -17,6 +17,8 @@ Modified by:	 Sven Thommesen
 Date:		 1998-10-08 (v. 0.8)
 Modified by:	 Sven Thommesen
 Date:		 2000-02-21 (v. 0.81)
+Modified by:	 Sven Thommesen
+Date:		 2001-07-17
 */
 
 /*
@@ -199,6 +201,7 @@ Date:		 2000-02-21 (v. 0.81)
 #define NORMALDISTMAGIC      2420100U
 #define LOGNORMALDISTMAGIC   2420200U
 #define GAMMADISTMAGIC       2420300U
+#define POISSONDISTMAGIC     2420400U
 
 // REVISION NUMBERS for objects in this release:
 
@@ -229,4 +232,5 @@ Date:		 2000-02-21 (v. 0.81)
 #define LOGNORMALDISTREVISION      2U
 #define EXPONENTIALDISTREVISION    2U
 #define GAMMADISTREVISION          2U
+#define POISSONDISTREVISION        2U
 
