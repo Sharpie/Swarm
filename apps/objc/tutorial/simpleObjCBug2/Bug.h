@@ -1,10 +1,10 @@
 // Bug.h					SimpleBug
 
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 #import <space.h>
 
-@interface Bug: SwarmObject {
-
+@interface Bug: SwarmObject
+{
   int xPos, yPos;
   int worldXSize, worldYSize;
   
@@ -12,13 +12,13 @@
 
 }
 
--setWorldSizeX: (int) x Y: (int) y;
--setFoodSpace: (id) f;
--createEnd;
+- setWorldSizeX: (int) x Y: (int) y;
+- setFoodSpace: (id) f;
+- createEnd;
 
--setX: (int) x Y: (int) y;
+- setX: (int)x Y: (int)y;
 
--step;
+- step;
 
 @end
 
