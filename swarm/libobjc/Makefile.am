@@ -16,19 +16,23 @@ EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
 lib_LTLIBRARIES = @LIBOBJC_LA@
+noinst_LTLIBRARIES = libobjc_.la
 EXTRA_LTLIBRARIES = libobjc.la
 bin_PROGS = @OBJC_DLL@
 EXTRA_PROGS = objc.dll
 
-libobjc_la_SOURCES = $(CSRC) $(MSRC)
+libobjc_la_SOURCES = empty.c
+libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libobjc_la_LIBADD = libobjc_.la
 
-libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libobjc__la_SOURCES = $(CSRC) $(MSRC)
+libobjc__la_LDFLAGS = -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libobjc__la_LIBADD = $(objc_thread_lo) -lgcc
+libobjc__la_DEPENDENCIES = $(objc_thread_lo)
 
 override CPPFLAGS += -Dexternobjcvar="$(EXPORT_EXTERN)"
 
 objc_thread_lo = @OBJC_THREAD_FILE@.lo
-libobjc_la_LIBADD = $(objc_thread_lo) -lgcc
-libobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
 encoding.lo gc.lo sendmsg.lo: compiler-info.h
 
@@ -38,7 +42,10 @@ compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
 CTOR = libobjc_constructors
-DLLOBJS = $(addsuffix .o,$(basename $(libobjc_la_SOURCES)))
+DLLOBJS = $(addsuffix .o,$(basename $(objc_SOURCES)))
+
+empty.c:
+	echo > empty.c
 
 libobjc.a objc.dll: 
 	$(CC) -c $(srcdir)/dllinit.c

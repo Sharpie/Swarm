@@ -6,6 +6,7 @@
 	(bin_PROGS): Set to @OBJC_DLL@.
 	(EXTRA_PROGS): Set to objc.dll.
 	(install-data-local): New rule for libobjc.a (if USEDLL is set).
+	(noinst_LTLIBRARIES): Add libobjc_.la and related variables.
 
 	* configure.in: Set LIBOBJC_LA or OBJC_DLL depending on if USEDLL
 	is set (from md_CHECK_DLL). Substitute LIBOBJC_LA and OBJC_DLL.
