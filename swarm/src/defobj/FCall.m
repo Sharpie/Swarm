@@ -288,9 +288,7 @@ add_ffi_types (FCall_c *fc)
             {
               unsigned pos = i + MAX_HIDDEN;
               
-              printf ("adding %u type: %u\n", pos, fa->argTypes[pos]);
               java_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
-              printf ("done\n");
             }
         }
       else
