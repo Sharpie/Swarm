@@ -62,7 +62,7 @@ PHASE(Using)
   
   if (self)
     {
-#ifdef __CYGWIN32__
+#ifdef POINTER_FMT_HEX_PREFIX
       sprintf (name, "%s%c%p", [self name], ATDELIMCHAR, self);
 #else
       sprintf (name, "%s%c0x%p", [self name], ATDELIMCHAR, self);
