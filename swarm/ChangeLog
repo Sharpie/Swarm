@@ -1,3 +1,7 @@
+1998-07-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* acconfig.h: Rename USE_FFCALL to USE_AVCALL.
+
 1998-07-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in: Add md_CHECK_POINER_FMT.
