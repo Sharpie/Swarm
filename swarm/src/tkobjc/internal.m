@@ -33,7 +33,10 @@
 
 #include <misc.h>
 
-#include "message.xpm"
+#ifndef _WIN32
+#include "schedule.xpm"
+#include "trigger.xpm"
+#endif
 
 typedef struct raster_private {
   GC gc;
@@ -149,15 +152,20 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
   Tk_DeleteEventHandler (tkwin, StructureNotifyMask, proc, widget);
 }
 
-XImage *image = NULL;
+#ifndef _WIN32
+XImage *triggerImage = NULL;
+XImage *scheduleImage = NULL;
 GC gc;
+#endif
 
 void
 tkobjc_animate_message (id srcWidget,
                         id destWidget,
                         int sx, int sy,
-                        int dx, int dy)
+                        int dx, int dy,
+                        BOOL triggerFlag)
 {
+#ifndef _WIN32
   Tk_Window src_tkwin = tkobjc_nameToWindow ([srcWidget getWidgetName]);
   Tk_Window dest_tkwin = tkobjc_nameToWindow ([destWidget getWidgetName]);
   Display *display = Tk_Display (src_tkwin);
@@ -165,6 +173,7 @@ tkobjc_animate_message (id srcWidget,
   Window window;
   int nsx, nsy, ndx, ndy;
   unsigned width, height;
+  XImage *image;
 
   XFlush (display);
 
@@ -178,15 +187,19 @@ tkobjc_animate_message (id srcWidget,
                            dx, dy, &ndx, &ndy, &child);
   }
   
-  if (image == NULL)
+  if (scheduleImage == NULL)
     {
       XImage *shapemask;
       Screen *screen = Tk_Screen (src_tkwin);
-      XpmCreateImageFromData (display, message_xpm, &image, &shapemask, NULL);
+      XpmCreateImageFromData (display, trigger_xpm,
+                              &triggerImage, &shapemask, NULL);
+      XpmCreateImageFromData (display, schedule_xpm, 
+                              &scheduleImage, &shapemask, NULL);
       gc = XCreateGC (display, RootWindowOfScreen (screen), 0, NULL);
     }
-  width = image->width;
-  height = image->height;
+  image = triggerFlag ? triggerImage : scheduleImage;
+  width = triggerImage->width;
+  height = triggerImage->height;
   {
     XSetWindowAttributes attr;
 
@@ -225,6 +238,7 @@ tkobjc_animate_message (id srcWidget,
       }
   }
   XDestroyWindow (display, window);
+#endif
 }
 
 void

@@ -27,5 +27,6 @@
 - update;
 - (int)getXForBar;
 - (int)getYForTime: (timeval_t)tval;
+- trigger: widget X: (int)x Y: (int)y;
 - (void)drop;
 @end

@@ -1,3 +1,10 @@
+1998-09-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_animate_message): Add a flag to select
+	between trigger and schedule images.
+
+	* ScheduleItem.[hm] ([ScheduleItem -trigger:X:Y:]): New method.
+
 1998-09-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.[hm]: New function tkobjc_animate_message (only X support).

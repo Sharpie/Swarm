@@ -84,7 +84,7 @@ destroyNotify (id obj, id reallocAddress, void *arg)
   bx = [scheduleItem getXForBar];
   by = [scheduleItem getYForTime: t];
 
-  tkobjc_animate_message (widget, canvas, wx, wy, bx, by);
+  tkobjc_animate_message (widget, canvas, wx, wy, bx, by, NO);
   return self;
 }
 
@@ -272,6 +272,16 @@ PHASE(Using)
   [pendingEvents addLast: [pendingEvent createEnd]];
   return self;
 }
+
+- trigger: widget X: (int)x Y: (int)y
+{
+  tkobjc_animate_message (canvas, widget,
+                          [self getXForBar],
+                          [self getYForTime: getCurrentTime ()],
+                          x, y, YES);
+  return self;
+}
+
 
 - (void)drop
 {
