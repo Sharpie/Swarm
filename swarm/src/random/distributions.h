@@ -473,11 +473,6 @@ USING
 //M: The getInterval method returns the interval parameter.
 - (double) getInterval;
 
-//M: The getUnsignedSample method returns a sample value using the 
-//M: distribution's current occurrence rate and interval parameters; 
-//M: causes an error if these parameters have not been previously set.
-- (unsigned) getUnsignedSample;
-
 //M: The getUnsignedSampleWithInterval method returns a sample value using 
 //M: the distribution's current occurrence rate and new interval value. 
 //M: Causes an error if the occurrence rate has not been previously set.
