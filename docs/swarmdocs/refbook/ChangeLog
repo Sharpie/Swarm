@@ -1,3 +1,7 @@
+1998-08-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ref00a.sgml: Add 1.2 -> 1.3 porting notes.
+
 1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ref00a.sgml: Put items related to HeatbugObserverSwarm.h in
