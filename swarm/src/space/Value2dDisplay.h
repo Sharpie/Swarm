@@ -14,14 +14,14 @@
   id <Raster> displayWidget;
   IMP drawPointImp;
   id <Colormap> colormap;
-  id <Discrete2d> discrete2d;			  // read only
+  id <GridData> discrete2d;  // read only
   int numCaStates;
   int modFactor;
   int colorConstant;
 }
-+ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d;
++ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: (id <GridData>)d;
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
-- setDiscrete2dToDisplay: c;
+- setDiscrete2dToDisplay: (id <GridData>)c;
 - setDisplayMappingM: (int)m C: (int)c;	  // linear mapping
 - display;
 @end

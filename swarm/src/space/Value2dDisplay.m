@@ -15,7 +15,7 @@
 
 PHASE(Creating)
 
-+ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d
++ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: (id <GridData>)d
 {
   Value2dDisplay *obj = [self createBegin: aZone];
 
@@ -34,15 +34,8 @@ PHASE(Creating)
   return self;
 }
 
-- setDiscrete2dToDisplay: c
+- setDiscrete2dToDisplay: (id <GridData>)c
 {
-  if (![c conformsTo: @protocol (Discrete2d)])
-    [ProtocolViolation
-      raiseEvent:
-        "Argument `%s' to Value2dDisplay setDiscrete2dDisplay: does\n"
-      "not conform to Discrete2d protocol\n",
-      [c name]];
-  
   discrete2d = c;
   return self;
 }

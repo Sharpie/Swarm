@@ -1,3 +1,13 @@
+2001-08-10  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* Discrete2d.[hm], space.h ([{Object,Value}2dDisplay
+	+create:setDisplayWidget:setDiscrete2dToDisplay:setDisplayMessage:,
+	-setDiscrete2dToDisplay:]): Anticipate a GridData conforming
+	object.
+
+	* space.h (GridData): New protocol.
+	(Discrete2d): Adopt it.
+	
 2000-06-29  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Discrete2d.[hm]: Remove return type from

@@ -17,7 +17,7 @@
 
 PHASE(Creating)
 
-+ create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: c setDisplayMessage: (SEL)s
++ create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: (id <GridData>)c setDisplayMessage: (SEL)s
 {
   Object2dDisplay *obj = [self createBegin: aZone];
 
@@ -35,15 +35,8 @@ PHASE(Creating)
   return self;
 }
 
-- setDiscrete2dToDisplay: c
+- setDiscrete2dToDisplay: (id <GridData>)c
 {
-  if (![c conformsTo: @protocol (Discrete2d)])
-    [ProtocolViolation
-      raiseEvent:
-        "Argument `%s' to Object2dDisplay setDiscrete2dDisplay: does not\n"
-      "conform to Discrete2d protocol\n",
-      [c name]];
-  
   discrete2d = c;
 
   return self;

@@ -23,7 +23,33 @@
 #import <objectbase.h>
 #import <gui.h> // Raster, Colormap
 
-@protocol Discrete2d <SwarmObject, CREATABLE>
+@protocol GridData
+//S: Methods used by Value2dDisplay and Object2dDisplay for display
+
+//D: Methods required by widgets that display grids. User defined
+//D: space objects must adopt this or any implementor of it
+//D: in order to be accepted as data providers
+//D: in the setDiscrete2dToDisplay method of  Value2dDisplay and
+//D: Object2dDisplay  objects. User spaces must also define the
+//D: macro discrete2dSiteAt(), versions of which can be
+//D: found in Grid2d.h or Discrete2d.h.
+USING
+//M: Get the size of the lattice in the X dimension.
+- (unsigned)getSizeX;
+
+//M: Get the size of the lattice in the Y dimension.
+- (unsigned)getSizeY;
+
+//M: Returns the lattice pointer - use this for fast access.
+- (id *)getLattice;
+
+- (long *)getOffsets;
+
+//M: Return the pointer stored at (x,y).
+- getObjectAtX: (unsigned)x Y: (unsigned)y;
+@end   
+
+@protocol Discrete2d <SwarmObject, GridData, CREATABLE>
 //S: Root class of all 2d discrete spaces.
 
 //D: A Discrete2d is basically a 2d array of ids.  
@@ -98,15 +124,6 @@ SETTING
 - setLattice: (id *)lattice;
 
 USING
-//M: Get the size of the lattice in the X dimension.
-- (unsigned)getSizeX;
-
-//M: Get the size of the lattice in the Y dimension.
-- (unsigned)getSizeY;
-
-//M: Return the pointer stored at (x,y).
-- getObjectAtX: (unsigned)x Y: (unsigned)y;
-
 //M: Return the integer stored at (x,y). 
 - (long)getValueAtX: (unsigned)x Y: (unsigned)y;
 
@@ -128,9 +145,6 @@ USING
 //M: Fills the space using putObject.
 - fillWithObject: anObj;
 
-//M: Returns the lattice pointer - use this for fast access. 
-- (id *)getLattice;
-
 //M: This method reads a PGM formatted file and pipes the data into
 //M: a Discrete2d object. 
 - (int)setDiscrete2d: (id <Discrete2d>)a toFile: (const char *)filename;
@@ -138,8 +152,6 @@ USING
 //M: This method copies the data in one Discrete2d object to
 //M: another Discrete2d object. It assumes that both objects already exist.
 - copyDiscrete2d: (id <Discrete2d>)a toDiscrete2d: (id <Discrete2d>)b;
-
-- (long *)getOffsets;
 
 @end
 
@@ -203,13 +215,13 @@ USING
 
 CREATING
 //M: Convenience constructor for Value2dDisplay
-+ create: (id <Zone>)aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: (id <Discrete2d>)d;
++ create: (id <Zone>)aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: (id <GridData>)d;
 
 //M: Set the display widget and the colourmap to use to draw the value array. 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
 
 //M: Set which array to draw. 
-- setDiscrete2dToDisplay: (id <Discrete2d>)c;
+- setDiscrete2dToDisplay: (id <GridData>)c;
 
 USING
 //M: Linear transform of states to colours for drawing. 
@@ -315,13 +327,13 @@ USING
 
 CREATING
 //M: Convenience constructor for Object2dDisplay
-+ create: (id <Zone>)aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: (id <Discrete2d>)c setDisplayMessage: (SEL)s;
++ create: (id <Zone>)aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: (id <GridData>)c setDisplayMessage: (SEL)s;
 
 //M: Set the display widget to use for drawing.
 - setDisplayWidget: (id <Raster>)r;
 
 //M: Set the 2d array to draw.
-- setDiscrete2dToDisplay: (id <Discrete2d>)c;
+- setDiscrete2dToDisplay: (id <GridData>)c;
 
 //M: Set the message to be sent to each object in the grid to make it
 //M: draw itself. 
