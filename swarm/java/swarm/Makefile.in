@@ -14,6 +14,7 @@ all: Selector.class
 	cd .. ; $(JAR) cf swarm/swarm.jar swarm/Selector.class $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
 
 install: all
+	test -d $(datadir) || mkdir $(datadir)
 	test -d $(datadir)/swarm || mkdir $(datadir)/swarm
 	$(INSTALL) swarm.jar $(datadir)/swarm
 

@@ -1,3 +1,8 @@
+1999-03-15  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.in (install): Make $datadir, if it doesn't already
+	exist.
+
 1999-03-15  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.java: Use System.loadLibrary instead of 
