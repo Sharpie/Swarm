@@ -221,7 +221,10 @@
       (let ((line (line-text))
             (is-doc-type (and (member tag *doc-types*)
                               (not (looking-at "^#")))))
-        (flet ((extract-doc-string (str) (substring str 5)))
+        (flet ((extract-doc-string (str)
+                 (if (> (length str) 5)
+                     (substring str 5)
+                     "")))
           (if (eq tag last-tag)
               (if is-doc-type
                   (setq buf (concat 
