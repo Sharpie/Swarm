@@ -8,14 +8,15 @@
 
 #import <defobj/Create.h>
 
-@interface SwarmObject : CreateDrop
+@interface SwarmObject: CreateDrop
 {
 }
 
-- (const char*)getInstanceName;
+- (const char *)getInstanceName;
+- (const char *)getIdName;
 
-- getProbeMap ;
-- getCompleteProbeMap ;
+- getProbeMap;
+- getCompleteProbeMap;
 - getProbeForVariable: (const char *)aVariable;
 - getProbeForMessage: (const char *)aMessage;
 - eventOccurredOn: anObject
@@ -25,3 +26,4 @@
            ofType: (char)dataType
          withData: (void *)data;
 @end
+

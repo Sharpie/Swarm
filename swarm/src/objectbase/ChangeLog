@@ -1,3 +1,37 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* objectbase.h: In MesageProbe protocol, declare
+	setArg:ToObjectName:.  Constify To: argument of setArg:To:.
+	Constify second arugment to dynamicCallOn:resultStorage:.
+
+	* SwarmObject.m ([SwarmObject -getIdName]): New method (return
+	value of getInstanceName).
+
+	* SwarmObject.h: Declare getIdName.
+
+	* MessageProbe.m ([MessageProbe -createEnd], [MessageProbe
+	-_setImp_:]): Replace accesses to imps with imp.IMPTYPE.
+	([MessageProbe -createEnd]): New return category 3 for _C_ID, and
+	category 4 for _C_CLASS.
+	([MessageProbe -setArg:ToObjectName:]): New method.
+	([MessageProbe -_setImp_:]): Handle category 3 and 4.  Abort on
+	bad category.
+	([MessageProbe -dynamicCallOn:]): Likewise.
+	([MessageProbe -intDynamicCallOn:]): Abort on category 3 or 4.
+	([MessageProbe -floatDynamicCallOn:]): Likewise.
+	([MessageProbe -doubleDynamicCallOn:]): Likewise.
+	([MessageProbe -dynamicCallOn:resultStorage:]): Likewise.
+	([MessageProbe -_trueDynamicCallOn_:resultStorage:]): Use strcpy
+	instead of strcat for first item; use getObjectName instead of
+	tclObjc_objectName.
+
+	* MessageProbe.h: New types IdImp and ClassImp.
+	(MessageProbe): Put all the imps in a union.
+	Declare new method setArg:ToObjectName:.
+	Remove declaration of _trueDynamicCallOn_:resultStorage:.
+
+	* CompleteProbeMap.m:  Reformatting throughout.
+
 1998-01-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CustomProbeMap.m: Add @end.

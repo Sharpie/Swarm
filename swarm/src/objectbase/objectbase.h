@@ -1,3 +1,7 @@
+// Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular purpose.
+// See file LICENSE for details and terms of copying.
 /*
 Name:            swarmobject.h
 Description:     support for swarmobjects and probing   
@@ -111,13 +115,14 @@ USING
 
 - (const char *)getProbedMessage;
 - (int)		getArgNum;
-- (char *)	getArg: (int)which;
+- (const char *)getArg: (int)which;
 - (const char *)getArgName: (int)which;
 - (int)		getHideResult;
 
--		setArg: (int) which To: (char *) what;
+- setArg: (int)which To: (const char *) what;
+- setArg: (int)which ToObjectName: object;
 
--		dynamicCallOn: target resultStorage: (char **) result;
+-		dynamicCallOn: target resultStorage: (const char **) result;
 -		dynamicCallOn: target;
 
 -		updateMethodCache: anObject;

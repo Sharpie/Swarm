@@ -5,19 +5,24 @@
 
 #import "Probe.h"
 
-// two special types of IMP: take no arguments, pass back either int or double
 typedef int (*IntImp)(id, SEL, ...);
 typedef float (*FloatImp)(id, SEL, ...);
 typedef double (*DoubleImp)(id, SEL, ...);
+typedef id (*IdImp)(id, SEL, ...);
+typedef Class (*ClassImp)(id, SEL, ...);
 
-@interface MessageProbe: Probe 
+@interface MessageProbe: Probe
 {
   SEL probedSelector;
   int returnCategory;
 
-  IntImp intImp; 
-  FloatImp floatImp;
-  DoubleImp doubleImp; 
+  union {
+    IntImp intImp;
+    FloatImp floatImp;
+    DoubleImp doubleImp;
+    IdImp idImp;
+    ClassImp classImp;
+  } imp;
   int caching;
   
   const char *probedMessage;
@@ -28,12 +33,13 @@ typedef double (*DoubleImp)(id, SEL, ...);
 }
 
 - setProbedSelector: (SEL) aSel;
-- setProbedMessage: (const char *) aMessage;
+- setProbedMessage: (const char *)aMessage;
 - createEnd;
 
 - (const char *) getProbedMessage;
 - (int) getArgNum;
-- setArg: (int) which To: (const char *)what;
+- setArg: (int)which To: (const char *)what;
+- setArg: (int)which ToObjectName: object;
 - (const char *)getArg: (int) which;
 - (const char *)getArgName: (int) which;
 
@@ -43,7 +49,6 @@ typedef double (*DoubleImp)(id, SEL, ...);
 - _setImp_: anObject;
 - updateMethodCache: anObject;
 
-- _trueDynamicCallOn_: target resultStorage: (const char **)result;
 - dynamicCallOn: target resultStorage: (const char **)result;
 - dynamicCallOn: target;
 - (int)intDynamicCallOn: target;
@@ -54,4 +59,3 @@ typedef double (*DoubleImp)(id, SEL, ...);
 - (int)isArgumentId: (int) which;
 
 @end
-

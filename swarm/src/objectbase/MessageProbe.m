@@ -107,7 +107,7 @@ copy_to_nth_colon (const char *str, int n)
   return self;
 }
 
-- (int) getHideResult
+- (int)getHideResult
 {
   return hr;
 }
@@ -121,8 +121,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   [super createEnd];
 
   caching = 0;
-  intImp = 0;
-  doubleImp = 0;
+  imp.idImp = 0;
   
   if (probedSelector)
     probedMessage = strdup (sel_get_name (probedSelector));
@@ -145,26 +144,27 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       return nil; // I've just done a Roger Switcheroo!!! Yoo Hoo!
     }
   
-  if (!sel_get_type(probedSelector))
+  if (!sel_get_type (probedSelector))
     {
       raiseEvent (WarningMessage, runtimeBugWarning);
       [self drop]; 
       return nil; // I've just done a Roger Switcheroo!!! Yoo Hoo!
     }
   
-  probedType = strdup (sel_get_type(probedSelector));
+  probedType = strdup (sel_get_type (probedSelector));
   
-  argNum = get_number_of_arguments(probedType) - 2;
+  argNum = get_number_of_arguments (probedType) - 2;
   
-  if(!argNum)
+  if (!argNum)
     {
       switch (probedType[0])
         {
         case _C_FLT: returnCategory = 1; break;
         case _C_DBL: returnCategory = 2; break;                        
           
-        case _C_ID:
-        case _C_CLASS:
+        case _C_ID: returnCategory = 3; break;
+        case _C_CLASS: returnCategory = 4; break;
+
         case _C_PTR:
         case _C_UCHR:
         case _C_CHR:
@@ -189,7 +189,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       for (i = 0; i < argNum; i++)
         {
           arguments[i] = NULL;
-          argLabels[i] = copy_to_nth_colon(probedMessage,i);
+          argLabels[i] = copy_to_nth_colon (probedMessage,i);
         }
     }
   return self;
@@ -202,7 +202,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   return [super free];
 }
 
--clone: aZone
+- clone: aZone
 {
   MessageProbe * new_probe;
   
@@ -217,7 +217,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   return new_probe;
 }
 
--(int) getArgNum
+- (int)getArgNum
 {
   return argNum;
 }
@@ -244,11 +244,18 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       {
         fprintf (stderr,
                  "Attempted to set argument #%d, but %s has only %d arguments!!!\n",
-                 which,probedMessage,argNum);
+                 which, probedMessage, argNum);
         return self;
       }
   
   arguments[which] = what;
+  return self;
+}
+
+- setArg: (int)which ToObjectName: object
+{
+  [self setArg: which To: strdup ([object getObjectName])];
+
   return self;
 }
 
@@ -258,7 +265,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   if (SAFEPROBES)
     if ((which >= argNum) && which)
       {
-        fprintf(stderr,
+        fprintf (stderr,
                 "Attempted to get name of argument #%d, but %s has only %d arguments!!!\n",
                 which, probedMessage, argNum);
         return NULL;
@@ -301,25 +308,24 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 {
   switch (returnCategory)
     {
-    case 0 : 
-      intImp = (IntImp) [anObject methodFor: probedSelector];  
-      floatImp = 0;
-      doubleImp = 0;
+    case 0: 
+      imp.intImp = (IntImp)[anObject methodFor: probedSelector];  
       break;
-    case 1 :
-      floatImp = (FloatImp) [anObject methodFor: probedSelector];  
-      intImp = 0;
-      doubleImp = 0;
+    case 1:
+      imp.floatImp = (FloatImp)[anObject methodFor: probedSelector];  
       break;
-    case 2 :
-      doubleImp = (DoubleImp) [anObject methodFor: probedSelector];
-      intImp = 0;
-      floatImp = 0;
+    case 2:
+      imp.doubleImp = (DoubleImp)[anObject methodFor: probedSelector];
       break;
-    default :
-      fprintf (stderr,"Major problem with returnCategory in MessageProbe!\n");
-      exit (-1);
+    case 3:
+      imp.idImp = (IdImp)[anObject methodFor: probedSelector];
       break;
+    case 4:
+      imp.classImp = (ClassImp)[anObject methodFor: probedSelector];
+      break;
+
+    default:
+      abort ();
     }
   
   return self;
@@ -344,20 +350,18 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   
   char cmd[1024];
   
-  cmd[0] = '\0';
-  
-  strcat (cmd, tclObjc_objectToName (target));
-  strcat (cmd," ");
+  strcpy (cmd, [target getObjectName]);
+  strcat (cmd, " ");
 
   if (!argNum)
-    strcat (cmd,argLabels[0]);
+    strcat (cmd, argLabels[0]);
   else
     for (i = 0; i < argNum; i++)
       {
-        strcat (cmd,argLabels[i]);
-        strcat (cmd," ");
-        strcat (cmd,arguments[i]);
-        strcat (cmd," ");
+        strcat (cmd, argLabels[i]);
+        strcat (cmd, " ");
+        strcat (cmd, arguments[i]);
+        strcat (cmd, " ");
       }
   
   *result = tkobjc_dynamicEval (cmd);
@@ -397,8 +401,6 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 
 - dynamicCallOn: target
 {
-  const char *tmp;
-  
   if (probedSelector)
     {
       if (!caching)
@@ -407,22 +409,28 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       switch (returnCategory)
         {
         case 0: 
-          (*intImp) (target, probedSelector);
+          (*imp.intImp) (target, probedSelector);
           break;
         case 1:
-          (*floatImp) (target, probedSelector);
+          (*imp.floatImp) (target, probedSelector);
           break;
         case 2:
-          (*doubleImp) (target, probedSelector);
+          (*imp.doubleImp) (target, probedSelector);
+          break;
+        case 3:
+          (*imp.idImp) (target, probedSelector);
+          break;
+        case 4:
+          (*imp.classImp) (target, probedSelector);
           break;
         default:
-          fprintf (stderr,"Major problem with returnCategory in MessageProbe!\n");
-          exit(-1);
-          break;
+          abort ();
         }
     }
   else
     {
+      const char *tmp;
+  
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
       free ((void *)tmp); 
     }
@@ -442,18 +450,26 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       switch (returnCategory)
         {
         case 0: 
-          sprintf (buf, "%d", (*intImp) (target, probedSelector));
+          sprintf (buf, "%d", (*imp.intImp) (target, probedSelector));
           break;
         case 1:
-          sprintf (buf, "%f", (*floatImp) (target, probedSelector));
+          sprintf (buf, "%f", (*imp.floatImp) (target, probedSelector));
           break;
         case 2:
-          sprintf (buf, "%f", (*doubleImp) (target, probedSelector));
+          sprintf (buf, "%f", (*imp.doubleImp) (target, probedSelector));
+          break;
+        case 3:
+          {
+            id val = (*imp.idImp) (target, probedSelector);
+
+            sprintf (buf, "%s@0x%p", [val name], val);
+            break;
+          }
+        case 4:
+          sprintf (buf, "%s", [(*imp.classImp) (target, probedSelector) name]);
           break;
         default:
-          fprintf (stderr, "Major problem with returnCategory in MessageProbe!\n");
-          exit (-1);
-          break;
+          abort ();
         }
       *result = buf;
     }
@@ -465,9 +481,6 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 
 - (int)intDynamicCallOn: target
 {
-  const char *tmp;
-  int val;
-
   if (probedSelector)
     {
       if (!caching)
@@ -476,22 +489,32 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       switch(returnCategory)
         {
         case 0: 
-          return (*intImp)(target, probedSelector);
+          return (*imp.intImp) (target, probedSelector);
           break;
         case 1:
-          return ((int) ((*floatImp)(target, probedSelector)));
+          return ((int) ((*imp.floatImp) (target, probedSelector)));
           break;
         case 2:
-          return ((int) ((*doubleImp)(target, probedSelector)));
+          return ((int) ((*imp.doubleImp) (target, probedSelector)));
           break;
+        case 3:
+          // return ((int) ((*imp.idImp) (target, probedSelector)));
+          abort ();
+          break;
+        case 4:
+          // return ((int) ((*imp.classImp) (target, probedSelector)));
+          abort ();
+          break;
+          
         default:
-          fprintf (stderr, "Major problem with returnCategory in MessageProbe!\n");
-          exit(-1);
-          break;
+          abort ();
         }
     }
   else 
     {
+      const char *tmp;
+      int val;
+      
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
       sscanf (tmp, "%d", &val);
       free ((void *)tmp);
@@ -501,9 +524,6 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 
 - (float)floatDynamicCallOn: target
 {
-  const char *tmp;
-  float val;
-
   if (probedSelector)
     {
       if (!caching)
@@ -512,22 +532,29 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       switch (returnCategory)
         {
         case 0: 
-          return ((float) (*intImp)(target, probedSelector));
+          return ((float) (*imp.intImp) (target, probedSelector));
           break;
         case 1:
-          return (*floatImp)(target, probedSelector);
+          return (*imp.floatImp)(target, probedSelector);
           break;
         case 2:
-          return ((float) ((*doubleImp)(target, probedSelector)));
+          return ((float) ((*imp.doubleImp)(target, probedSelector)));
           break;
+        case 3:
+          // return ((float) ((*imp.idImp)(target, probedSelector)));
+          abort ();
+        case 4:
+          // return ((float) ((*imp.classImp)(target, probedSelector)));
+          abort ();
         default:
-          fprintf (stderr,"Major problem with returnCategory in MessageProbe!\n");
-          exit(-1);
-          break;
+          abort ();
         }
     }
   else
     {
+      const char *tmp;
+      float val;
+
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
       sscanf (tmp, "%f", &val);
       free ((void *)tmp);
@@ -537,9 +564,6 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 
 - (double) doubleDynamicCallOn: target
 {
-  const char *tmp;
-  double val;
-  
   if (probedSelector)
     {
       if (!caching)
@@ -548,22 +572,31 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       switch (returnCategory)
         {
         case 0: 
-          return ((double) (*intImp)(target, probedSelector));
+          return ((double) (*imp.intImp) (target, probedSelector));
           break;
         case 1:
-          return ((double)(*floatImp)(target, probedSelector));
+          return ((double)(*imp.floatImp) (target, probedSelector));
           break;
         case 2:
-          return (*doubleImp)(target, probedSelector);
+          return (*imp.doubleImp) (target, probedSelector);
+          break;
+        case 3:
+          // return ((double)(*imp.idImp) (target, probedSelector));
+          abort ();
+          break;
+        case 4:
+          // return ((double)(*imp.classImp) (target, probedSelector));
+          abort ();
           break;
         default:
-          fprintf (stderr,"Major problem with returnCategory in MessageProbe!\n");
-          exit(-1);
-          break;
+          abort ();
         }
     }
   else
     {
+      const char *tmp;
+      double val;
+      
       [self _trueDynamicCallOn_: target resultStorage: &tmp];
       sscanf (tmp, "%lf", &val);
       free ((void *)tmp);
@@ -572,3 +605,4 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
 }
 
 @end
+
