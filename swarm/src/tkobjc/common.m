@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.   
 
-#import <defobj.h> // getObjectNamed
+#import <defobj.h> // nameToObject
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/common.h>
@@ -229,7 +229,7 @@ tkobjc_dynamicEval (const char *cmd)
 id
 tkobjc_drag_and_drop_object (void)
 {
-  return getObjectNamed ([[globalTkInterp eval: "gimme $DDOBJ"] result]);
+  return nameToObject ([[globalTkInterp eval: "gimme $DDOBJ"] result]);
 }
 
 void

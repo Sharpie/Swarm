@@ -16,8 +16,8 @@
 	newSetupDragAndDropArg, tkobjc_bindButton3ToSpawn,
 	tkobjc_bindButton3ToArgSpawn): Use getObjectName method instead of
 	tclObjc_objectToName.
-	(tkobjc_drag_and_drop_object): Use getObjectNamed function instead
-	of tclObjc_nameToObject.
+	(tkobjc_drag_and_drop_object): Use new defobj nameToObject
+	function instead of tclObjc_nameToObject.
 
 	* common.h: Use #include <objc/objc.h>, not #import <objc/objc.h>.
 
