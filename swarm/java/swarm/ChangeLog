@@ -1,3 +1,9 @@
+1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (modules): Append suffix to PRECLASSES, instead of
+	using PRECLASSFILES.
+	(all): Likewise for POSTCLASSES.
+
 1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (install-java-classes-as-files): Add swarm/ prefix

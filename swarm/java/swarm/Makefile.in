@@ -36,12 +36,12 @@ SWARMCLASSFILES = $(addsuffix .class,$(addprefix swarm/,$(SWARMCLASSES)))
 
 ALLCLASSFILES = $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
-all: modules $(POSTCLASSFILES)
+all: modules $(addsuffix .class,$(POSTCLASSES))
 
 deps: 
 	for module in $(MODULES); do $(MAKE) -C $$module .deps; done
 
-modules: deps $(PRECLASSFILES)
+modules: deps $(addsuffix $(PRECLASSES),.class)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 
 jar: all
