@@ -1,3 +1,11 @@
+1999-06-10  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* Makefile.tests.in (JAVASWARMLIBS, javaswarmdir): Remove.
+	(LDFLAGS): Remove SUPPORTLDFLAGS.
+	(LIBS): Remove JAVASWARMLIBS, SYSLIBS, and @LIBS@.
+	[libswarm.la has dependencies encoded, and crucial Java support
+	to defobj lives in defobj.]
+
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.tests.in (CPPFLAGS): Use instead of OBJCFLAGS for
