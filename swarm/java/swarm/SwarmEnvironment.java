@@ -7,7 +7,8 @@ import swarm.objectbase.*;
 
 public class SwarmEnvironment {
   public Symbol ControlStateRunning, ControlStateStopped,
-    ControlStateStepping, ControlStateQuit, ControlStateNextTime, Randomized;
+    ControlStateStepping, ControlStateQuit, ControlStateNextTime;
+  public Symbol Randomized, Sequential;
   public Zone globalZone;
   public UniformIntegerDist uniformIntRand;
   public UniformDoubleDist uniformDblRand;
@@ -33,6 +34,7 @@ public class SwarmEnvironment {
     ControlStateQuit = new SymbolImpl ();
     ControlStateNextTime = new SymbolImpl ();
     Randomized = new SymbolImpl ();
+    Sequential = new SymbolImpl ();
     hdf5Archiver = new HDF5ArchiverImpl ();
     lispArchiver = new LispArchiverImpl ();
     hdf5AppArchiver = new HDF5ArchiverImpl ();

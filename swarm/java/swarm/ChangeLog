@@ -1,3 +1,7 @@
+1999-12-21    <mgd@nest.swarm.org>
+
+	* SwarmEnvironment.java: Add symbol Sequential.
+
 1999-11-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (JAVADEPS): Better handling for relative paths
