@@ -27,6 +27,7 @@ Library:      defobj
 #define TYPE_FLOAT "float"
 #define TYPE_DOUBLE "double"
 #define TYPE_STRING "string"
+#define TYPE_OBJECT "object"
 
 //
 // Class_s -- portion of class object allocated for all classes 
@@ -195,6 +196,9 @@ type_size (const char *varType)
     case _C_CHARPTR:
       size = sizeof (const char *);
       break;
+    case _C_ID:
+      size = sizeof (id);
+      break;
     case _C_ARY_B:
       {
         char *tail;
@@ -233,6 +237,9 @@ type_alignment (const char *varType)
       break;
     case _C_CHARPTR:
       alignment = __alignof__ (const char *);
+      break;
+    case _C_ID:
+      alignment = __alignof__ (id);
       break;
     case _C_ARY_B:
       varType++;
@@ -321,6 +328,8 @@ objc_type_for (const char *lispTypeString)
     return @encode (double);
   else if (strcmp (lispTypeString, TYPE_STRING) == 0)
     return @encode (const char *);
+  else if (strcmp (lispTypeString, TYPE_OBJECT) == 0)
+    return @encode (id);
   else
     abort ();
 }
@@ -448,6 +457,9 @@ process_type (const char *varType,
           break;
         case _C_CHARPTR:
           baseType = TYPE_STRING;
+          break;
+        case _C_ID:
+          baseType = TYPE_OBJECT;
           break;
         case _C_ARY_B:
           type++;

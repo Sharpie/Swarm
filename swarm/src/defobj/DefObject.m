@@ -847,8 +847,15 @@ output_type (const char *type,
   switch (*type)
     {
     case _C_ID:
-      [((id *)ptr)[offset] lispOut: stream];
-      break;
+      {
+        id obj = ((id *) ptr)[offset];
+
+        if (obj == nil)
+          [stream catC: "nil"];
+        else
+          [obj lispOut: stream];
+        break;
+      }
     case _C_CLASS:
       raiseEvent (NotImplemented, "Classes not supported [%s]", type);
       break;
@@ -1131,6 +1138,9 @@ find_ivar (id obj, const char *name)
 
           switch (ntype)
             {
+            case _C_ID:
+              *((id *) ptr) = [val getObject];
+              break;
             case _C_DBL:
               *((double *) ptr) = [val getDouble];
               break;

@@ -1,17 +1,20 @@
 1999-01-09  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* DefObject.m (output_type, [Object_s -lispIn:]):
+	Handle nil type of id.
+
 	* DefClass.m (objc_type_for, process_type): New functions.
-	(TYPE_SHORT, TYPE_UNSIGNED_SHORT, TYPE_INT,
-	TYPE_UNSIGNED, TYPE_LONG, TYPE_UNSIGNED_LONG, TYPE_FLOAT,
-	TYPE_DOUBLE, TYPE_STRING): New string macro constants.
+	(TYPE_SHORT, TYPE_UNSIGNED_SHORT, TYPE_INT, TYPE_UNSIGNED,
+	TYPE_LONG, TYPE_UNSIGNED_LONG, TYPE_FLOAT, TYPE_DOUBLE,
+	TYPE_STRING, TYPE_OBJECT): New string macro constants.
 	(process_type, objc_type_for): Use them.
 	(type_size, type_alignment): New functions.
 	(addVariable): Use them.
 	([CreatedClass_s -lispInCreate:]): Use it for base type
 	conversion.  Add support code to parse (array 'type dim1 dim2)
 	syntax.
-	([CreatedClass_s -lispOut:]): Use process_type for type conversion.
-	Add support code for array output.
+	([CreatedClass_s -lispOut:]): Use process_type for type
+	conversion.  Add support code for array output.
 
 1999-01-08  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
