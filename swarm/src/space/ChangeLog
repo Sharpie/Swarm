@@ -1,7 +1,38 @@
-1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-10-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.am (CURRENT, REVISION, AGE): No changes.
+	* Makefile.am (CURRENT): Increment.
 	Swarm 1.3.1 released.
+
+	* space.h (_Discrete2d): Make x and y arguments to setSizeX:Y:,
+	getObjectAtX:Y: getValueAtX:Y:, putObject:atX:Y:, putValue:atX:Y:
+	unsigned.  Make return values of getSize{X,Y} unsigned.
+	(DblBuffer2d): Make x and y arguments to putObject:atX:Y: and
+	putValue:atX:Y: unsigned.
+	(Grid2d): Likewise.
+	(Ca2d): Make argument to setNumStates: unsigned.
+	
+	* Object2dDisplay.[hm] ([Object -makeProbeAtX:Y:]): Make x and
+	y unsigned.
+
+	* Grid2d.m ([Grid -putObject:atX:Y:]): Make x and y unsigned.
+
+	* Discrete2d.m ([Discrete2d -makeOffsets]): Make i unsigned.
+	([Discrete2d -setDiscrete2d:toFile]): Make x, y, fileXSize, and
+	fileYSize unsigned.
+	([Discrete2d -copyDiscrete2d:toDiscrete2d:]): Make x and y
+	unsigned.
+
+	* Discrete2d.[hm] ([Discrete2d -setSizeX:Y:], [Discrete2d
+	-getSizeX],
+	[Discrete2d -getSizeY], [Discrete2d -getObjectAtX:Y:], [Discrete2d
+	-getValueAtX:Y:], [Discrete2d -putObject:atX:Y:], [Discrete2d
+	-putValue:atX:Y:], [Discrete2d -makeOffsets]): Make x and y
+	unsigned.
+
+	* DblBuffer2d.m ([DblBuffer -putObject:atX:Y:], 
+	[DblBuffer -putValue:atX:Y:]): Make x and y arguments unsigned.
+
+	* Ca2d.[hm]: Make numStates and setter unsigned.
 
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

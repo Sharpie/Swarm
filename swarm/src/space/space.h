@@ -26,7 +26,7 @@
 @protocol _Discrete2d
 CREATING
 //M: Set the world size.
-- setSizeX: (int)x Y: (int)y;
+- setSizeX: (unsigned)x Y: (unsigned)y;
 
 //M: Allocate memory for the lattice. 
 - (id *)allocLattice;
@@ -40,22 +40,22 @@ CREATING
 
 USING
 //M: Get the size of the lattice in the X dimension.
-- (int)getSizeX;
+- (unsigned)getSizeX;
 
 //M: Get the size of the lattice in the Y dimension.
-- (int)getSizeY;
+- (unsigned)getSizeY;
 
 //M: Return the pointer stored at (x,y).
-- getObjectAtX: (int)x Y: (int)y;
+- getObjectAtX: (unsigned)x Y: (unsigned)y;
 
 //M: Return the integer stored at (x,y). 
-- (long)getValueAtX: (int)x Y: (int)y;
+- (long)getValueAtX: (unsigned)x Y: (unsigned)y;
 
 //M: Put the given pointer to (x,y) overwriting whatever was there.
-- putObject: anObject atX: (int)x Y: (int)y;
+- putObject: anObject atX: (unsigned)x Y: (unsigned)y;
 
 //M: Put the given integer to (x,y) overwriting whatever was there.
-- putValue: (long)v atX: (int)x Y: (int)y;
+- putValue: (long)v atX: (unsigned)x Y: (unsigned)y;
 
 //M: Directly fills the lattice with a value.
 - fastFillWithValue: (long)aValue;
@@ -117,10 +117,10 @@ USING
 - updateLattice;
 
 //M: Overridden so writes happen to newLattice.
-- putObject: anObject atX: (int)x Y: (int)y;
+- putObject: anObject atX: (unsigned)x Y: (unsigned)y;
 
 //M: Overridden so writes happen to newLattice.
-- putValue: (long)v atX: (int)x Y: (int)y;
+- putValue: (long)v atX: (unsigned)x Y: (unsigned)y;
 @end
 
 @protocol Ca2d <DblBuffer2d>
@@ -131,7 +131,7 @@ USING
 
 CREATING
 //M: Record the number of states the CA understands.
-- setNumStates: (int)n;
+- setNumStates: (unsigned)n;
 
 //M: Use this to set up your CA to a default initial state.
 //M: Unimplemented in Ca2d; subclass this to set up initial state of lattice.
@@ -239,7 +239,7 @@ USING
 //M: if you're going to overwrite: if both conditions are true,
 //M: print out a warning message.
 //M: Regardless of the check, it writes the new object in. 
-- putObject: anObject atX: (int)x Y: (int)y;
+- putObject: anObject atX: (unsigned)x Y: (unsigned)y;
 
 //M: If set to true, then if you try to store something at a site that
 //M: doesn't have 0x0 there, a warning will be generated. 

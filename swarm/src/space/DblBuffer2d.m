@@ -72,14 +72,14 @@ PHASE(Using)
 }
 
 // override puts to use new lattice, not old.
-- putObject: anObject atX: (int)x Y: (int)y
+- putObject: anObject atX: (unsigned)x Y: (unsigned)y
 {
   *discrete2dSiteAt (newLattice, offsets, x, y) = anObject;
   return self;
 }
 
 // override puts to use new lattice, not old.
-- putValue: (long)v atX: (int)x Y: (int)y
+- putValue: (long)v atX: (unsigned)x Y: (unsigned)y
 {
   *discrete2dSiteAt (newLattice, offsets, x, y) = (id)v;
   return self;

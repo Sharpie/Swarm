@@ -25,5 +25,5 @@
 - setObjectCollection: objects;			  // optional collection
 - createEnd;
 - display;
-- makeProbeAtX: (int)x Y: (int)y;
+- makeProbeAtX: (unsigned)x Y: (unsigned)y;
 @end

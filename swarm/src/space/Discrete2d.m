@@ -18,7 +18,7 @@
 
 PHASE(Creating)
 
-- setSizeX: (int)x Y: (int)y
+- setSizeX: (unsigned)x Y: (unsigned)y
 {
   if (lattice)
     [InvalidArgument
@@ -41,7 +41,7 @@ PHASE(Creating)
 // Part of createEnd, really, but separated out for ease of inheritance.
 - makeOffsets
 {
-  int i;
+  unsigned i;
   
   // precalculate offsets based on the y coordinate. This lets
   // us avoid arbitrary multiplication in array lookup.
@@ -65,33 +65,33 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (int)getSizeX
+- (unsigned)getSizeX
 {
   return xsize;
 }
 
-- (int)getSizeY
+- (unsigned)getSizeY
 {
   return ysize;
 }
 
-- getObjectAtX: (int)x Y: (int)y
+- getObjectAtX: (unsigned)x Y: (unsigned)y
 {
   return *discrete2dSiteAt(lattice, offsets, x, y);
 }
 
-- (long)getValueAtX: (int)x Y: (int)y
+- (long)getValueAtX: (unsigned)x Y: (unsigned)y
 {
   return (long)*discrete2dSiteAt(lattice, offsets, x, y);
 }
 
-- putObject: anObject atX: (int)x Y: (int)y
+- putObject: anObject atX: (unsigned)x Y: (unsigned)y
 {
   *discrete2dSiteAt(lattice, offsets, x, y) = anObject;
   return self;
 }
 
-- putValue: (long)v atX: (int)x Y: (int)y
+- putValue: (long)v atX: (unsigned)x Y: (unsigned)y
 {
   *discrete2dSiteAt(lattice, offsets, x, y) = (id) v;
   return self;
@@ -99,14 +99,14 @@ PHASE(Using)
 
 - fastFillWithValue: (long)aValue
 {
-  int i, lcount ;
+  unsigned i, lcount;
   
   lcount = xsize * ysize ;
   
-  for(i = 0 ; i < lcount ; i++)
-    lattice[i] = (id) aValue ;
+  for (i = 0; i < lcount; i++)
+    lattice[i] = (id) aValue;
 
-  return self ;
+  return self;
 }
 
 - fastFillWithObject: anObj
@@ -160,7 +160,9 @@ PHASE(Using)
 {
   id <InFile> f;
   char c1, c2;
-  int x, y, fileXSize, fileYSize, maxValue;
+  int maxValue;
+  unsigned x, y;
+  unsigned fileXSize, fileYSize;
   
   if (![a conformsTo: @protocol (_Discrete2d)])
     [ProtocolViolation
@@ -216,7 +218,7 @@ PHASE(Using)
 // This could probably use the fast accessor macros.
 - copyDiscrete2d: a toDiscrete2d: b
 {
-  int x, y;
+  unsigned x, y;
 
   if (![a conformsTo: @protocol (_Discrete2d)])
     [ProtocolViolation

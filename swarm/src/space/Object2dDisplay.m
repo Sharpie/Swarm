@@ -99,7 +99,7 @@ PHASE(Using)
 
 // code to make a probe for an object at a specific point. This is
 // good to make as a button client for Raster widgets
-- makeProbeAtX: (int)x Y: (int)y
+- makeProbeAtX: (unsigned)x Y: (unsigned)y
 {
   id obj;
   

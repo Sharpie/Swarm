@@ -24,7 +24,7 @@ PHASE(Creating)
 PHASE(Using)
 
 // Note - we don't use the superclass method, we write our own.
-- putObject: anObject atX: (int)x Y: (int)y
+- putObject: anObject atX: (unsigned)x Y: (unsigned)y
 {
   // This warning isn't such a great idea, maybe. We need a better
   // 2d space object, undoubtedly.

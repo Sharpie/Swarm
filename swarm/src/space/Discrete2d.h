@@ -16,29 +16,29 @@
 @interface Discrete2d: SwarmObject <_Discrete2d>
 {
 @public
-  int xsize, ysize;
+  unsigned xsize, ysize;
   id *lattice;
   long *offsets;
 }
 
-- setSizeX: (int) x Y: (int) y;
+- setSizeX: (unsigned)x Y: (unsigned)y;
 - createEnd;
 - makeOffsets;
 - (id *)allocLattice;
 
-- (int)getSizeX;
-- (int)getSizeY;
+- (unsigned)getSizeX;
+- (unsigned)getSizeY;
 
-- getObjectAtX: (int)x Y: (int)y;
-- (long)getValueAtX: (int)x Y: (int)y;
+- getObjectAtX: (unsigned)x Y: (unsigned)y;
+- (long)getValueAtX: (unsigned)x Y: (unsigned)y;
 
-- putObject: anObject atX: (int)x Y: (int)y;
-- putValue: (long)v atX: (int)x Y: (int)y;
+- putObject: anObject atX: (unsigned)x Y: (unsigned)y;
+- putValue: (long)v atX: (unsigned)x Y: (unsigned)y;
 
 - fastFillWithValue: (long)aValue;
 - fastFillWithObject: anObj;
 
-- fillWithValue: (long) aValue;
+- fillWithValue: (long)aValue;
 - fillWithObject: anObj;
 
 - (id *)getLattice;

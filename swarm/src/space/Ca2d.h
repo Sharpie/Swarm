@@ -9,11 +9,11 @@
 
 @interface Ca2d: DblBuffer2d
 {
-  int numStates;
+  unsigned numStates;
 }
 
 // initializing the object
-- setNumStates: (int)n;
+- setNumStates: (unsigned)n;
 - initializeLattice;				  // must subclass
 - createEnd;
 

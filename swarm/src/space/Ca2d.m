@@ -9,7 +9,7 @@
 
 PHASE(Creating)
 
-- setNumStates: (int)n
+- setNumStates: (unsigned)n
 {
   numStates = n;
   return self;
