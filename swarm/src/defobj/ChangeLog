@@ -1,5 +1,8 @@
 1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.m: Include misc.h instead of stdio.h.  Use YES instead
+	of 1 for initialization of _warning_dropFrom and _obj_debug.
+
 	* Makefile.am (module_headers): Add defobj.xm.
 
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>

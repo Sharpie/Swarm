@@ -14,13 +14,12 @@ Library:      defobj
 #include "defobj.xm"
 #import <defobj/Archiver.h>
 
-#include <stdio.h>
+#include <objc/objc-api.h> // objc_lookup_class
+#include <misc.h> // strcmp, sscanf
 
 id  t_Object, t_ByteArray;
-
-BOOL  _warning_dropFrom = 1;
-
-BOOL _obj_debug = 1;
+BOOL _warning_dropFrom = YES;
+BOOL _obj_debug = YES;
 FILE *_obj_xerror, *_obj_xdebug;
 
 //
@@ -94,10 +93,6 @@ initDefobj (int argc, const char **argv,
   archiver = [Archiver ensure: globalZone];
 }
 
-
-#include <stdio.h>
-#include <objc/objc-api.h>
-
 id
 nameToObject (const char *name)
 {
@@ -105,14 +100,15 @@ nameToObject (const char *name)
   void *val;
   const char *p = name;
   
-  while (*p != '@' && *p != '\0') p++;
+  while (*p != '@' && *p != '\0')
+    p++;
   if ((*p) && (sscanf (p + 3, "%p", &val) == 1))
-    return (id)val;
+    return (id) val;
   else if ((!strcmp (name, "nil"))
            || (!strcmp (name, "Nil"))
            || (!strcmp (name, "0x0")))
     return nil;
-  else if ((object = (id)objc_lookup_class (name)))
+  else if ((object = (id) objc_lookup_class (name)))
     return object;
   abort ();
 }
