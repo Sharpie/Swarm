@@ -32,6 +32,10 @@ to be written instead?).
 
 * Autoconfiscation
 
+** autogen.sh
+Update with versions of latest tools.  Don't mention changes to
+autogen.sh in ChangeLog.
+
 ** Automake/autoconf versions currently known to work:
 
 *** Red Hat Linux 8.0
