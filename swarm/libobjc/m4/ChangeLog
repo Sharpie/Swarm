@@ -1,3 +1,7 @@
+1999-09-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* headers.m4: Add solaris2.6 -> solaris2 conversion.
+
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acdll.m4: Use AC_DEFINE, not AC_SUBST, since AC_CONFIG_HEADERS
