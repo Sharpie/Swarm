@@ -33,7 +33,7 @@
 }
 + createBegin: aZone;
 - createEnd;
-+ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
++ createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
 - addOptions: (struct argp_option *)options;
 - (int)parseKey: (int)key arg: (const char *)arg;
 

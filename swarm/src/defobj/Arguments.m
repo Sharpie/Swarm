@@ -156,10 +156,13 @@ strip_quotes (const char *argv0)
   program_invocation_name = (char *) find_executable (argv0);
 #ifndef __GLIBC__
   program_invocation_short_name = getApplicationValue (argv0);
-  [self setAppName: program_invocation_short_name];
+  if (applicationName == NULL)  
+    [self setAppName: program_invocation_short_name];
 #else
-  [self setAppName: getApplicationValue (argv0)];
+  if (applicationName == NULL)
+    [self setAppName: getApplicationValue (argv0)];
 #endif
+
   if (version == NULL)
     version = "[no application version]";
   {
@@ -199,6 +202,7 @@ strip_quotes (const char *argv0)
 
 + createArgc: (int)theArgc
         Argv: (const char **)theArgv
+     appName: (const char *)theAppName
      version: (const char *)theVersion
   bugAddress: (const char *)theBugAddress
      options: (struct argp_option *)options
@@ -213,6 +217,7 @@ strip_quotes (const char *argv0)
   [argobj setAppModeString: "default"];
   [argobj setBugAddress: theBugAddress];
   [argobj setVersion: theVersion];
+  [argobj setAppName: theAppName];
   return [argobj createEnd];
 }
 

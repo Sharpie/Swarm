@@ -129,6 +129,7 @@ findTypeOrLocalClass (const char *name)
 
 void
 initDefobj (int argc, const char **argv,
+            const char *appName,
             const char *version,
             const char *bugAddress,
             Class argumentsClass,
@@ -138,6 +139,7 @@ initDefobj (int argc, const char **argv,
   arguments = [argumentsClass ?: [Arguments_c class]
                               createArgc: argc
                               Argv: argv
+                              appName: appName
                               version: version
                               bugAddress: bugAddress
                               options: options
