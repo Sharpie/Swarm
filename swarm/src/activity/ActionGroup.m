@@ -451,8 +451,9 @@ PHASE(Using)
 //
 - (void)dropAllocations: (BOOL)componentAlloc
 {
-  [((ActionGroup_c *)((Permutation_c *)collection)->collection)->activityRefs 
-				       remove: activity];
+  [((ActionGroup_c *)
+    ((Permutation_c *) collection)->collection)->activityRefs 
+                                               remove: activity];
   [super dropAllocations: YES];
 }
 
