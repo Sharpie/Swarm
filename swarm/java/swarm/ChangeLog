@@ -1,3 +1,8 @@
+2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Selector.java: Properly convert Objective C style method
+	signature to Java style.
+
 2000-04-20    <mgd@nest.swarm.org>
 
 	* SwarmEnvironment.java: Add Initialized, Running, Stopped, Holding,
