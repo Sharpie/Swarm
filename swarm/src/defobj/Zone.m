@@ -86,7 +86,7 @@ PHASE(Creating)
   // the very first zone is created externally by explicit initialization
 
   newZone = [aZone allocIVars: self];
-  newZone->GCFlag = NO;
+  newZone->GCRootFlag = NO;
   return newZone;
 }
 
@@ -155,7 +155,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *) dalloc (size + 2 * sizeof (id));
+  newObject = (Object_s *) dalloc (size + 2 * sizeof (id), GCRootFlag);
 
   // clears mlinks of population entry
   memset (newObject, 0, size + 2 * sizeof (id));
@@ -188,7 +188,7 @@ PHASE(Using)
   // allocate object of required size, including links in object header
 
   instanceSize = getClass (anObject)->instance_size;
-  newObject = (Object_s *) dalloc (instanceSize + 2 * sizeof (id));
+  newObject = (Object_s *) dalloc (instanceSize + 2 * sizeof (id), GCRootFlag);
 
   // clears mlinks of population entry
   memset (newObject, 0, instanceSize + 2 * sizeof (id));
@@ -250,7 +250,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
   
-  newObject = (Object_s *) dalloc (aClass->instance_size);
+  newObject = (Object_s *) dalloc (aClass->instance_size, GCRootFlag);
 
   if (_obj_debug)
     {
@@ -276,7 +276,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *) dalloc (getClass (anObject)->instance_size);
+  newObject = (Object_s *) dalloc (getClass (anObject)->instance_size, GCRootFlag);
 
   if (_obj_debug)
     {
@@ -399,7 +399,7 @@ PHASE(Using)
   
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = dalloc (size);
+  newBlock = dalloc (size, GCRootFlag);
   if (_obj_debug)
     {
       blockCount++;

@@ -86,6 +86,17 @@ xfree (void *buf)
 #else
 
 void *
+xmalloc (size_t size)
+{
+  void *ptr;
+
+  ptr = malloc (size);
+  if (ptr == NULL) 
+    abort ();
+  return ptr;
+}
+
+void *
 xmalloc_atomic (size_t size)
 {
   void *ptr;
