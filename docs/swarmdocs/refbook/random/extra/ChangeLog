@@ -1,3 +1,23 @@
+2001-11-25  Alex Lancaster  <alex@swarm.org>
+
+	* Makefile.am: Change references from {SGML, sgml} to {XML, xml}
+	throughout.
+
+	* README.Distributions-0.8.sgml, README.Generators-0.8.sgml,
+	README.Random-0.8.sgml: Renamed with .xml extension.
+
+	* README.Generators-0.8.xml, README.Random-0.8.xml,
+	README.Distributions-0.8.xml: Renamed from .sgml
+
+	* Table.Generators.Data.sgml, Table.Generators.Quality.sgml,
+	Usage-Guide.Bibliography.sgml,
+	Usage-Guide.Choosing-A-Generator.sgml,
+	Usage-Guide.Default-Generators.sgml,
+	Usage-Guide.Distributions.sgml, Usage-Guide.For-Beginners.sgml,
+	Usage-Guide.Generators.sgml, Usage-Guide.Resources.sgml,
+	Usage-Guide.Test-Programs.sgml: Remove files, now in User Guide.
+
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1.1 frozen.

@@ -1,24 +1,9 @@
-<!--
-// Random v. 0.81 (Swarm 1.4)
-// 
-// Notes about the random number generators
-// 
-// Sven Thommesen <sthomme@humsci.auburn.edu>
-//
-// 1999-02-05
--->
-
-<!-- USING THE GENERATORS: See the file "Usage-Guide.Generators". -->
-
 <sect2>
-
 <title>Implementation notes for Generators</title>
 
 <formalpara><title>Version 0.8: Changes since version 0.75</title>
 
-<para>
-<orderedlist>
-
+<para><orderedlist>
 <listitem><para>The code was rearranged to conform to create-phase
 protocol (CREATING-SETTING-USING) ordering.</para></listitem>
 
@@ -33,33 +18,25 @@ properly.</para></listitem>
 method resets the state of the generator to what it was at creation,
 or at the point when -setStateFromSeed(s) was last used. Counters are
 also reset.</para></listitem>
-
 </orderedlist> </para> </formalpara>
 
 
 <formalpara><title>Version 0.75: Changes since version 0.7</title>
 
-<para>
-<orderedlist>
-
+<para><orderedlist>
 <listitem><para>The method '-getDoubleSample' was redefined to use
-only double variables in its implementation (instead of long doubles).
-</para></listitem>
+only double variables in its implementation (instead of long doubles).</para></listitem>
 
 <listitem><para>The macros used for starting seed generation were
 changed to avoid a situation where many new generators would be created
 the same starting seed (if '--varyseed' was not specified.) See the
-Generator Usage Guide and the Reference Guide for details.
-</para></listitem>
-
+Generator Usage Guide and the Reference Guide for details.</para></listitem>
 </orderedlist> </para> </formalpara>
 
 
 <formalpara><title>Version 0.7: Improvements over version 0.6</title>
 <para>
-
-<itemizedlist>
-<listitem><para>A host of new generators, located on the web or in the
+<itemizedlist><listitem><para>A host of new generators, located on the web or in the
 literature, have been added since the last version of Random. There is
 now a total of 36 different generators defined! Some of these have
 immense periods, some are very fast, and some have much better
@@ -83,12 +60,10 @@ streams of random numbers.</para></listitem>
 generators now also supply floating point output in the range
 [0.0,1.0), in the form of these methods:
 
-<programlisting>
-   -(float)       getFloatSample;		// using 1 unsigned value
+<programlisting>   -(float)       getFloatSample;		// using 1 unsigned value
    -(double)      getThinDoubleSample;		// using 1 unsigned value
    -(double)      getDoubleSample;		// using 2 unsigned values
-   -(long double) getLongDoubleSample;		// using 2 unsigned values
-</programlisting>
+   -(long double) getLongDoubleSample;		// using 2 unsigned values</programlisting>
 
 Note that the last method is not portable across architectures, since
 the length of a long double varies between machines.</para></listitem>
@@ -120,15 +95,10 @@ parameter.</para></listitem>
 <listitem><para>The generators have gained a new creation method,
 '+createWithDefaults: aZone', which creates the generator and
 initializes it with STARTSEED. Split generators get default values for
-A,v,w.</para></listitem>
-</itemizedlist>
-</para>
-</formalpara>
+A,v,w.</para></listitem></itemizedlist></para></formalpara>
 
 <formalpara><title>Version 0.7: Changes since version 0.6</title>
-<para>
-<itemizedlist>
-
+<para><itemizedlist>
 <listitem><para>The generator classes have changed names to where they
 all end in '-gen'.  A simple search-and-replace in your code will get
 you up and running again.(Or perhaps you'll want to try one of the new
@@ -154,10 +124,7 @@ objects.</para></listitem>
 
 <listitem><para>There should be fewer changes like this in the next
 release.</para></listitem>
-
-</itemizedlist>
-</para>
-</formalpara>
+</itemizedlist></para></formalpara>
 
 <formalpara><title>Testing Generators</title> 
 
@@ -169,8 +136,7 @@ well as period length, state size and execution times are listed. You
 can use these data to select a generator that suits your
 simulation. Some brief comments:
 
-<orderedlist numeration="Loweralpha">
-
+<orderedlist numeration="loweralpha">
 <listitem><para> the tests show that old generators SCG and LCG are of
 poor quality and should be avoided.</para></listitem>
 
@@ -202,12 +168,5 @@ own C4LCGX and C2MRG3 generators as well as Matsumoto's TT800 (the
 monster MT19937 hadn't been released yet), and Prof. Marsaglia
 recommends his own Multiply-With-Carry generators (MWCA, MWCB, C3MWC,
 RWC2, RWC8="Mother").</para></listitem>
-
-</orderedlist>
-</para>
-</formalpara>
-
-</sect2>
-
-<!-- Test Objects:  Already in Usage-Guide.Test-Programs -->
-
+</orderedlist></para></formalpara>
+</sect2><!-- Test Objects:  Already in Usage-Guide.Test-Programs -->

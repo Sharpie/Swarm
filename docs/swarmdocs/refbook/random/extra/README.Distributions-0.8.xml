@@ -1,35 +1,17 @@
-<!--
-// Random v. 0.81 (Swarm 1.4)
-//
-// Notes about the distribution objects
-//
-// Sven Thommesen <sthomme@humsci.auburn.edu>
-//
-// 1999-02-05
--->
-
-<!-- USING THE DISTRIBUTIONS: see the file "Usage-Guide.Distributions". -->
-
 <sect2>
-
 <title>Implementation notes for Distributions</title>
 
 <formalpara><title>Version 0.8: Changes over version 0.75</title>
 
 <para>No functional changes were made. Code was rearranged to conform
-to create-phase protocol (CREATING-SETTING-USING) ordering.</para>
-</formalpara>
+to create-phase protocol (CREATING-SETTING-USING) ordering.</para></formalpara>
 
 <formalpara><title>Version 0.75: Changes over version 0.7</title>
 
-<para>No functional changes were made.
-</para>
-</formalpara>
+<para>No functional changes were made.</para></formalpara>
 
 <formalpara><title>Version 0.7: Improvements over version 0.6</title><para>
-
 <itemizedlist>
-
 <listitem><para>One new distribution class, BernoulliDist, has been
 added. It returns binary values (yes/true/1) with a given probability
 (while the old RandomBitDist has a fixed 50% probability, a fair coin
@@ -58,14 +40,11 @@ value is returned every time.</para></listitem>
 <listitem><para>NormalDist and LogNormalDist now allow you to specify
 zero Variance, in which case the values returned are the Mean and
 exp(Mean) respectively.</para></listitem> </itemizedlist> 
-
-</para>
-</formalpara>
+</para></formalpara>
 
 <formalpara><title>Version 0.7: Changes since version 0.6</title>
 
-<para>
-<itemizedlist> 
+<para><itemizedlist> 
 
 <listitem><para>The distribution classes have changed names to where
 they all end in `Dist'. A simple search-and-replace in your code will
@@ -101,11 +80,8 @@ code.</para></listitem>
 has the size of the data being saved. As a result, v. 0.7
 distributions will refuse to `setStateFrom' data saved by v. 0.6
 objects.</para></listitem>
-
 </itemizedlist>
-
-</para>
-</formalpara>
+</para></formalpara>
 
 <formalpara><title>Utility Objects Provided</title>
 
@@ -113,21 +89,14 @@ objects.</para></listitem>
 <filename>random/random.m</filename>.  They may be accessed and used
 from anywhere in your program.
 
-<programlisting>
-<![ CDATA[
-
+<programlisting><![CDATA[
 id <SimpleRandomGenerator>   randomGenerator;
 id <UniformIntegerDist>      uniformIntRand;
 id <UniformUnsignedDist>     uniformUnsRand;
-id <UniformDoubleDist>       uniformDblRand;
-]]>
-</programlisting>
+id <UniformDoubleDist>       uniformDblRand;]]></programlisting>
 
 The 3 distribution objects all draw their random numbers from the
 MT19937 generator, which has a period of 2^19937 (10^6001) and is
 quite fast.</para> </formalpara>
-
-</sect2>
-
-<!-- TESTING THE DISTRIBUTION OBJECTS: see the
+</sect2><!-- TESTING THE DISTRIBUTION OBJECTS: see the
 Usage-Guide.Test-Programs -->

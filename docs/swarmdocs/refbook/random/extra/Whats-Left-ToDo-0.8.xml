@@ -1,19 +1,8 @@
-<!--
-// Random rel. 0.81 (Swarm rel. 1.4)
-// 
-// Features and changes planned for future versions
-// 
-// Sven Thommesen <sthomme@humsci.auburn.edu>
-//
-// 1999-02-05
--->
-
 <para>The following changes and additions are contemplated for the
 next release of Random for Swarm (though I don't promise they'll all
 make it in -- nor when that next release will be):
 
-<orderedlist numeration="Loweralpha">
-
+<orderedlist numeration="loweralpha">
 <listitem><para>ADD a few more generators. It's good to have many
 different types of generators, so you can test your model's results
 with different generators and ensure that the results aren't artifacts
@@ -60,8 +49,7 @@ methods run faster</para></listitem>
 <listitem><para>ADD code to make all objects meter their own usage
 and send the author monthly e-mails in a stealthy manner, so he can
 monitor usage and perhaps start collecting a usage fee for his efforts
-... ;-) (Suggested by Rick Riolo. Thanks, Rick!)</para></listitem>
-</orderedlist>
+... ;-) (Suggested by Rick Riolo. Thanks, Rick!)</para></listitem></orderedlist>
 
 Can you think of anything else? Drop me a note! -- Sven Thommesen
 <email>sthomme@humsci.auburn.edu</email></para>
