@@ -105,9 +105,9 @@ PHASE(Setting)
 {
   if (systemArchiverFlag)
     {
-      int appIterateFunc (id appHDF5Obj)
+      int appIterateFunc (id <HDF5> appHDF5Obj)
         {
-          int modeIterateFunc (id modeHDF5Obj)
+          int modeIterateFunc (id <HDF5> modeHDF5Obj)
             {
               const char *appName = [appHDF5Obj getHDF5Name];
               const char *modeName = [modeHDF5Obj getHDF5Name];
@@ -121,7 +121,7 @@ PHASE(Setting)
           return 0;
         }
       if (hdf5File)
-        [hdf5File iterate: appIterateFunc drop: NO];
+        [(id <HDF5>) hdf5File iterate: appIterateFunc drop: NO];
       if (![self getApplication])
         hdf5File = nil;
     }

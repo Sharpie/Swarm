@@ -1565,7 +1565,7 @@ PHASE(Using)
 #endif
 }
 
-- (void)iterate: (int (*) (id hdf5obj))iterateFunc drop: (BOOL)dropFlag
+- (void)iterate: (int (*) (id <HDF5> hdf5obj))iterateFunc drop: (BOOL)dropFlag
 {
 #ifdef HAVE_HDF5
   herr_t process_object (hid_t oid, const char *memberName, void *client)
@@ -1623,11 +1623,10 @@ PHASE(Using)
 #endif  
 }
 
-- (void)iterate: (int (*) (id hdf5obj))iterateFunc
+- (void)iterate: (int (*) (id <HDF5> hdf5obj))iterateFunc
 {
   [self iterate: iterateFunc drop: YES];
 }
-
 
 - (void)iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
 {
@@ -1665,7 +1664,7 @@ PHASE(Using)
 #endif
 }
 
-- getClass
+- (Class)getClass
 {
 #ifdef HAVE_HDF5
   if (datasetFlag)
