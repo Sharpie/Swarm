@@ -84,8 +84,7 @@ PHASE(Using)
 - (id)beginPermuted: (id) aZone
 {
   PermutedIndex_c *newIndex;
-  newIndex = [PermutedIndex_c createBegin: aZone];
-  newIndex->collection=self;
+  newIndex = [PermutedIndex_c createBegin: aZone forCollection: self];
   newIndex = [newIndex createEnd];
   return newIndex;
 }
@@ -382,23 +381,24 @@ PHASE(Using)
 
 @implementation PermutedIndex_c
 PHASE(Creating)
-+ createBegin: (id) aZone
++ createBegin: (id) aZone forCollection: aCollection
 {
   PermutedIndex_c *newIndex;
   newIndex = [aZone allocIVars: id_PermutedIndex_c];
-  newIndex->index = nil;
+  newIndex->collection = [Permutation createBegin: [aZone getComponentZone] 
+				      forCollection: aCollection];
   return newIndex;
+}
+
+- setUniformRandom: rnd
+{
+  [(Permutation_c *)collection setUniformRandom: rnd];
+  return self;
 }
 
 - createEnd
 {
-  int count;
-  id permutation;
-  count = [collection getCount];
-  permutation = [Permutation createBegin: [getZone(self) getComponentZone]];
-  [permutation  setMaxElement: count];
-  permutation = [permutation createEnd];
-  permutationIndex = [permutation begin: [getZone(self) getComponentZone]];
+  collection = [collection createEnd];
   index = [collection begin: [getZone(self) getComponentZone]];
   setMappedAlloc(self);  
   return self;
@@ -408,78 +408,28 @@ PHASE(Using)
 
 - generatePermutation
 {
-  Permutation_c *perm;
-  perm = ((Permutation_c *)((Index_any *)permutationIndex)->collection);
-  [perm generatePermutation];
+  [(Permutation_c *)collection generatePermutation];
   return self;
 }
 
 - next
 {
-  int position;
- 
-  position = (int) [permutationIndex next];
-  if (position)
-    {
-      [index setOffset: position - 1];
-      return [index get];
-    }
-  else
-    {
-      return nil;
-    }
+  return [index next];
 }
 
 - prev
 {
-  int position;
-
-  position = (int) [permutationIndex prev];
-  if (position)
-    {
-      [index setOffset: position - 1];
-      return [index get];
-    }
-  else
-    {
-      return nil;
-    }
+  return [index prev];
 }
 
 - findNext: anObject;
 {
-
-  int position;
-  id member;
-
-  while (!INDEXENDP ([permutationIndex getLoc]))
-    {
-      position = (int) [permutationIndex next];
-      member = [index setOffset: position - 1];
-      if (member == anObject)
-	{
-	  return member;
-	}
-    }
-  return nil;
+  return [index findNext: anObject];
 }
 
 - findPrev: anObject;
 {
-
-  int position;
-  id member;
-
-  while (!INDEXENDP ([permutationIndex getLoc]))
-    {
-      position = (int) [permutationIndex prev];
-      member = [index setOffset: position - 1];
-      if (member == anObject)
-	{
-	  return member;
-	}
-    }
-  return nil;
+  return [index findPrev: anObject];
 }
 
 - get
@@ -489,55 +439,42 @@ PHASE(Using)
 
 - put: anObject;
 {
-  return [index put: anObject];
+  raiseEvent(SourceMessage,
+	     "> Elements can not be added via the PermutedIndex");
+  return nil;
+
 }
 
 - remove;
 {
-  raiseEvent(SourceMessage,"> Elements can not be removed via the PermutedIndex");
+  raiseEvent(SourceMessage,
+	     "> Elements can not be removed via the PermutedIndex");
   return nil;
 }
 
 - getLoc
 {
-  id loc;
-  loc = [permutationIndex getLoc];
-  if (INDEXSTARTP (loc) || INDEXENDP (loc))
-    {
-      return loc;
-    }
-  return [index get];
+  return [index getLoc];
 }
 
 - (void)setLoc: locSymbol
 {
-  [permutationIndex setLoc: locSymbol];
+  return [index setLoc: locSymbol];
 }
 
 - (int)getOffset
 {
-  return (int) [permutationIndex get];
+  return [index getOffset];
 }
 
 - setOffset: (int)offset;
 {
-  int position;
-  position = (int) [permutationIndex setOffset: offset];
-  if (position)
-    {
-      return [index setOffset: position - 1];
-    }
-  else
-    {
-      raiseEvent(OffsetOutOfRange, nil);
-      return nil;
-    }
+  return [index setOffset: offset];
 }
 
 - (void) mapAllocations: (mapalloc_t) mapalloc
 {
-  mapObject(mapalloc, ((Index_any *) permutationIndex)->collection);
-  mapObject(mapalloc, permutationIndex);
+  mapObject(mapalloc, collection);
   mapObject(mapalloc, index);
 }
 

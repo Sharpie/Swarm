@@ -211,11 +211,7 @@ PHASE(UsingOnly)
 {
   PermutedIndex_c *newIndex;
 
-  newIndex = [PermutedIndex_c createBegin: aZone];
-  newIndex->collection = self;
-  newIndex->index = [(TARGET *)newIndex->collection 
-			       _createIndex_: getZone(self)  
-			       forIndexSubclass: anIndexSubclass];
+  newIndex = [PermutedIndex_c createBegin: aZone forCollection: self];
   newIndex = [newIndex createEnd];
   return newIndex;
 }

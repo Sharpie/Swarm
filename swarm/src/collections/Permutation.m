@@ -16,33 +16,17 @@ Library:      collections
 
 PHASE(Creating)
 
-+ createBegin: aZone
++ createBegin: aZone forCollection: (id) aCollection
 {
   Permutation_c  *newPermutation;
 
   newPermutation = [aZone allocIVars: self];
-  newPermutation->minElement = 1;
-  newPermutation->maxElement = 0;
+  newPermutation->collection = aCollection;
+  newPermutation->count = [aCollection getCount];
   newPermutation->shuffler = 
     [ListShuffler createBegin: [aZone getComponentZone]];
   
   return newPermutation;
-}
-
-
-- setMaxElement: (unsigned)max
-{
-  maxElement = max;
-  return self;
-}
-
-- setMinElement: (unsigned)min
-{
-  if (min < 1)
-    raiseEvent (InvalidArgument, "> Minimal element of a permutation"
-               " must be greater than zero");
-  minElement = min;
-  return self;
 }
 
 - setUniformRandom: rnd
@@ -53,21 +37,23 @@ PHASE(Creating)
 
 - createEnd
 {
-  unsigned i;
+  id elem;
+  id index; 
+  int i;
 
-  if (maxElement <= minElement)
-    raiseEvent (InvalidArgument,
-                " > maximumElement of permutation is less or/n "
-                " > equal to the minimumElement /n");
-  
-  [self setCount: maxElement - minElement + 1];
   [super createEnd];
-
   shuffler = [shuffler createEnd];
-     
-  for (i = minElement; i <= maxElement; i++)
-    [self atOffset: i - minElement put: (id) i];
-  
+
+  index = [collection begin: scratchZone];
+  elem = [index next];   
+  for (i=0; i<[collection getCount]; i++)
+    {
+      [self atOffset: i put: elem];
+      elem = [index next];
+    }
+
+  [index drop];
+
   return self;
 }
 
@@ -88,16 +74,16 @@ PHASE(Using)
 {
   char buffer[20];
   id index;
-  unsigned elem;
+  id elem;
 
   [outputCharStream catC: "Permutation:\n"];
   index = [self begin: scratchZone];
   [index setLoc:Start];
-  elem = (unsigned) [index next];
+  elem = [index next];
   while (elem) 
     {
-       sprintf (buffer, " %u ", elem);
-       elem = (unsigned) [index next];
+       [elem describe: outputCharStream];
+       elem = [index next];
        [outputCharStream catC: buffer];
 
     }

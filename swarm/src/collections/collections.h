@@ -1060,18 +1060,14 @@ USING
 
 
 @protocol Permutation <Collection, CREATABLE, Create, Array>
-//S: A class that reprents a permutation of an array of integers
+//S: A class that reprents a permutation of elements of a collection
 
-//D: Permutation is used for generation of arbitarily ordered arrays
-//D: of integers.  Array consists of all integers between upper and
-//D: lower limits specified by setMaxElement: and setMinElement:
-//D: methods. ListShuffler is used to generate a permutation of 
-//D: an array of integers.  Successive calls to generatePermutation
-//D: generate new permutations.
+//D: Permutation is used to generate a permutation of elements of a
+//D: a collection and store them in an array for fast access. 
+//D: Permutation only mirrors the original collection. Updates
+//D: of contents of Permutation will not reflect on the original collection.
 
 CREATING
-- setMaxElement: (unsigned)max;
-- setMinElement: (unsigned)min;
 - setUniformRandom: rnd;
 
 USING
@@ -1082,16 +1078,17 @@ USING
 //S: General PermutedIndex class. 
 
 //D: PermutedIndex class may be used for randomized traversals of a 
-//D: collection. Methods implemented offer the same functionality sa 
-//D: Index class does, except that traversal is randomized.
+//D: collection. Methods implemented offer the same functionality as 
+//D: Index class does, except that traversal is randomized. 
+//D: PermutedIndex does not allow any update of the collection. It may 
+//D: be used only for traversal of the collection.
+
 USING
 - next;
 - prev;
 - findNext: anObject;
 - findPrev: anObject;
 - get;
-- put: anObject;
-- remove;
 - getLoc;
 - (void)setLoc: locSymbol;
 - (int)getOffset;

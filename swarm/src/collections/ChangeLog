@@ -1,3 +1,53 @@
+1998-12-22  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Collection.h (PermutedIndex_c): Remove +createBegin:.
+	(PermutedIndex_c): Add +createBegin:forCollection:.
+
+	* Collection.m ([Collection_any -beginPermuted:aZone]): 
+	Modify to support new PermutedIndex class.
+	([PermutedIndex_c +createBegin:]): Remove.
+	([PermutedIndex_c +createBegin:forCollection:]): Add.
+	([PermutedIndex_c -createEnd]): Modify to support new Permutation 
+	class.
+	([PermutedIndex_c -setUniformRandom:]): Allow setting of 
+	distribution of the shuffler used to generate Permutation.
+	([PermutedIndex_c -generatePermutation]): Modify to support new 
+	Permutation class.
+	([PermutedIndex_c -next]): Delegate the message to the index 
+	operating on Permutation.
+	([PermutedIndex_c -prev]): Likewise.
+	([PermutedIndex_c -findNext:]): Likewise.
+	([PermutedIndex_c -findPrev:]): Likewise.
+	([PermutedIndex_c -get]): Likewise.
+	([PermutedIndex_c -getLoc]): Likewise.
+	([PermutedIndex_c -setLoc:]): Likewise.
+	([PermutedIndex_c -getOffset]): Likewise.
+	([PermutedIndex_c -setOffset:]): Likewise.
+	([PermutedIndex_c -put:]): Disable. Raise an SourceMessage error.
+	([PermutedIndex_c -remove]): Likewise.
+	([PermutedIndex_c -mapAllocations:mapalloc]): Drop permutation along
+	with the PermutedIndex.
+
+	* Permutation.m ([Permutation_c +createBegin:forCollection:]):
+	Rename +createBegin: to +createBegin: forCollection:. 
+	([Permutation_c -createEnd:]): Initialize Permutation with the
+	ids instead of integers.
+	([Permutation_c -setMaxElement:): Remove.
+	([Permutation_c -setMinElement:): Remove.
+
+	* Permutation.h (Permutation_c): Change Permutation_c to hold
+	ids of the objects instead of the integers representing offsets.
+	(Permutation_c): Remove methods setMaxElement: and setMinElement: 
+	and instance variables maxElement and minElement. 
+	(Permutation_c): Remove +createBegin:. 
+	(Permutation_c): Add +createBegin: forCollection:.
+
+	* collections.h: Update descriptions of Permutation and 
+	PermutedIndex.
+
+	* List_GEN.m ([TARGET -_createPermutedIndex_:forIndexSubclass:]): 
+	Modify to support new PermutedIndex_c class.
+
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* StringObject.m: Don't include assert.h.

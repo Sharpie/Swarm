@@ -84,10 +84,9 @@ Library:      collections
 @interface PermutedIndex_c: Index_any <PermutedIndex>
 {
 @public
-  id permutationIndex;
   id index;
 }
-+ createBegin: aZone;
++ createBegin: aZone forCollection: aCollection; 
 - createEnd;
 - generatePermutation;
 - next;

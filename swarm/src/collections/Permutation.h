@@ -13,14 +13,12 @@ Library:      collections
 
 @interface Permutation_c: Array_c
 {
-  unsigned maxElement;                
-  unsigned minElement; 
-  id uniformRandom;
-  id shuffler;
+  @public
+   id collection;
+   id uniformRandom;
+   id shuffler;
 }
-+ createBegin: aZone;
-- setMaxElement: (unsigned)max;
-- setMinElement: (unsigned)min;
++ createBegin: aZone forCollection: aCollection;
 - setUniformRandom: rnd;
 - createEnd;
 - generatePermutation;
