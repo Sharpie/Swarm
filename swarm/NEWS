@@ -9,7 +9,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** New method -setPrecision: to specify number of significant digits
       shown for labels on major ticks.
 ***** New accessor method -getHistogram.
-
+***** By default, use different colored bars in the histogram.
+      Use setMonoColorsBars: YES to get previous behavior. 
+      Thanks to Sven Thommesen.
 *** defobj
 **** Zone
 ***** Statistics for population total size and alloc:'ed total size 
@@ -64,6 +66,11 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** [Internal] / Pixmap
 ***** Handle iconified, obscured, and partially off-screen widget snapshots.
 
+** Other changes
+*** gui (tkobjc)
+**** Histogram
+***** Replace setNumPoints:Labels:Colors: with setNumBins:, setLabels:,
+      and setColors:. 
 
 * Release Notes for Swarm 1.3
 

@@ -1,4 +1,9 @@
-1998-09-30  Alex Lancaster  <alex@santafe.edu>
+1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* NEWS: Note addition of multicolored bars to EZBin, and
+	related changes to Histogram.
+
+1998-09-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in (SWARMLDFLAGS): Define to be ${swarm_libdir} rather
 	than just ${libdir} - since these variables are extracted also.

@@ -1,7 +1,7 @@
 1998-09-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* analysis.h: Add setMonoColorBars:, change getGraph return type,
-	and include createEnd.
+	* analysis.h (EZBin): Add setMonoColorBars:.
+	(EZGraph): Change getGraph return type, and include createEnd.
 
 	* EZGraph.m ([EZGraph +createBegin:]): Add more colors, change
 	scheme. 
