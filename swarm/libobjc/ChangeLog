@@ -1,3 +1,10 @@
+2004-07-20  Marcus G. Daniels  <mgd@santafe.edu>
+
+	* configure.in (OBJC_DLL): Remove
+	(inst_LDFLAGS): Fix typo in assignment.
+
+	* Makefile.am (bin_PROGRAMS, EXTRA_PROGRAMS): Remove
+
 2004-02-15  Marcus G. Daniels <mgd@santafe.edu>
 
         * configure.in: Move wn_PROG_OBJC below AC_PROG_CC.

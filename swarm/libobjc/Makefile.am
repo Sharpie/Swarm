@@ -15,8 +15,6 @@ INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 lib_LTLIBRARIES = @inst_LIBS@
 noinst_LTLIBRARIES = @noinst_LIBS@
 EXTRA_LTLIBRARIES = libswarmobjc.la
-#bin_PROGRAMS = @OBJC_DLL@
-#EXTRA_PROGRAMS = objc.dll
 
 libswarmobjc_la_SOURCES = $(CSRC) $(MSRC)
 libswarmobjc_la_LDFLAGS = @inst_LDFLAGS@
