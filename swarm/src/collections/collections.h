@@ -1048,18 +1048,20 @@ USING
 //D: Value encapsulation for serialization.
 CREATING
 - setDouble: (double)val;
+- setLongDouble: (long double)val;
 - setFloat: (float)val;
-- setLong: (long)val;
-- setInteger: (int)val;
+- setLongLong: (long long)val;
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
 - setNil;
 USING
 - (char)getValueType;
 - (double)getDouble;
+- (long double)getLongDouble;
 - (float)getFloat;
+- (long long)getLongLong;
 - (int)getInteger;
-- (long)getLong;
+- (unsigned)getUnsigned;
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;

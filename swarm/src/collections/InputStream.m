@@ -13,6 +13,7 @@ Library:      collections
 #import <collections/StringObject.h> // setLiteralFlag:
 #import <collections/OutputStream.h>
 #import <collections/InputStream.h>
+#import <defobj/defalloc.h> // getZone
 #include <objc/objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isspace, isdigit
 #include <collections/predicates.h>
@@ -101,7 +102,7 @@ readString (id inStream, BOOL literalFlag)
 - getExpr
 {
   int c;
-  id aZone = [self getZone];
+  id aZone = getZone (self);
   
   while (((c = fgetc (fileStream)) != EOF) && isspace (c));
   if (c == EOF)
@@ -259,7 +260,7 @@ readString (id inStream, BOOL literalFlag)
     {
       id string;
       BOOL isNumeric = YES;
-      char type = _C_LNG;
+      char type = _C_LNG_LNG;
 
       ungetc (c, fileStream);
       string = readString (self, 0);
@@ -283,6 +284,8 @@ readString (id inStream, BOOL literalFlag)
                       type = _C_FLT;
                     else if (ch == 'D')
                       type = _C_DBL;
+                    else if (ch == 'L')
+                      type = _C_LNG_DBL;
                     else
                       {
                         isNumeric = NO;
@@ -301,7 +304,7 @@ readString (id inStream, BOOL literalFlag)
           {
             id number = [ArchiverValue createBegin: aZone];
             
-            if (type == _C_DBL || type == _C_FLT)
+            if (type == _C_LNG_DBL || type == _C_DBL || type == _C_FLT)
               {
                 double val;
                 
@@ -314,15 +317,15 @@ readString (id inStream, BOOL literalFlag)
                 else
                   [number setDouble: val];
               }
-            else if (type == _C_LNG)
+            else if (type == _C_LNG_LNG)
               {
-                long val;
+                long long val;
 
                 errno = 0;
-                val = strtol (str, NULL, 10);
+                val = strtoll (str, NULL, 10);
                 if (errno != 0)
                   raiseEvent (WarningMessage, "Could not convert to long");
-                [number setLong: val];
+                [number setLongLong: val];
               }
             else
               abort ();
@@ -388,7 +391,7 @@ PHASE(Creating)
   if (!valuep (proto))
     raiseEvent (InvalidArgument, "Array element not numeric");
   
-  dims = xcalloc (rank, sizeof (unsigned));
+  dims = [getZone (self) alloc: rank * sizeof (unsigned)];
   
   {
     unsigned dimnum;
@@ -406,11 +409,14 @@ PHASE(Creating)
     case _C_ID:
       elementSize = sizeof (id);
       break;
-    case _C_LNG:
-      elementSize = sizeof (long);
+    case _C_LNG_LNG:
+      elementSize = sizeof (long long);
       break;
     case _C_DBL:
       elementSize = sizeof (double);
+      break;
+    case _C_LNG_DBL:
+      elementSize = sizeof (long double);
       break;
     case _C_FLT:
       elementSize = sizeof (float);
@@ -424,7 +430,12 @@ PHASE(Creating)
 
   type = [proto getValueType];
   
-  data = xcalloc (elementCount, elementSize);
+  {
+    size_t size = elementCount * elementSize;
+
+    data = [getZone (self) alloc: size];
+    memset (data, 0, size);
+  }
   
   {
     unsigned coord[rank];
@@ -433,7 +444,7 @@ PHASE(Creating)
       {
         if (listp (val))
           {
-            id <Index> li = [val begin: [val getZone]];
+            id <Index> li = [val begin: scratchZone];
             id item;
             unsigned pos = 0;
             
@@ -443,6 +454,7 @@ PHASE(Creating)
                 expand (item, dimnum + 1);
                 pos++;
               }
+            [li drop];
           }
         else
           {
@@ -465,14 +477,17 @@ PHASE(Creating)
               case _C_ID:
                 ((id *) data) [offset] = [val getObject];
                 break;
-              case _C_LNG:
-                ((long *) data) [offset] = [val getLong];
+              case _C_LNG_LNG:
+                ((long long *) data) [offset] = [val getLongLong];
                 break;
               case _C_FLT:
                 ((float *) data) [offset] = [val getFloat];
                 break;
               case _C_DBL:
                 ((double *) data) [offset] = [val getDouble];
+                break;
+              case _C_LNG_DBL:
+                ((long double *) data) [offset] = [val getLongDouble];
                 break;
               case _C_UCHR:
                 ((unsigned char *) data)[offset] = [val getChar];
@@ -532,19 +547,26 @@ PHASE(Using)
 
 - (void)drop
 {
-  XFREE (dims);
-  XFREE (data);
+  [getZone (self) free: dims];
+  [getZone (self) free: data];
+  [super drop];
 }
 
 @end
 
 @implementation ArchiverValue_c
 PHASE(Creating)
-
 - setDouble: (double)val
 {
   type = _C_DBL;
   value.d = val;
+  return self;
+}
+
+- setLongDouble: (long double)val
+{
+  type = _C_LNG_DBL;
+  value.ld = val;
   return self;
 }
 
@@ -555,19 +577,12 @@ PHASE(Creating)
   return self;
 }
 
-- setInteger: (int)val
+- setLongLong: (long long)val
 {
-  type = _C_INT;
-  value.i = val;
+  type = _C_LNG_LNG;
+  value.ll = val;
   return self;
-}
-
-- setLong: (long)val
-{
-  type = _C_LNG;
-  value.l = val;
-  return self;
-}
+}  
 
 - setChar: (unsigned char)val
 {
@@ -579,7 +594,7 @@ PHASE(Creating)
 - setBoolean: (BOOL)val
 {
   type = _C_UCHR;
-  value.ch = (unsigned char)val;
+  value.ch = (unsigned char) val;
   return self;
 }
 
@@ -597,6 +612,11 @@ PHASE(Using)
   return type;
 }
 
+- (long double)getLongDouble
+{
+  return value.ld;
+}
+
 - (double)getDouble
 {
   return value.d;
@@ -607,14 +627,23 @@ PHASE(Using)
   return value.f;
 }
 
-- (int)getInteger
+- (long long)getLongLong
 {
-  return value.i;
+  return value.ll;
 }
 
-- (long)getLong
+- (int)getInteger
 {
-  return value.l;
+  if (type != _C_LNG_LNG)
+    raiseEvent (InvalidArgument, "expecting an integer");
+  return (int) value.ll;
+}
+
+- (unsigned)getUnsigned
+{
+  if (type != _C_LNG_LNG)
+    raiseEvent (InvalidArgument, "expecting an integer");
+  return (unsigned) value.ll;
 }
 
 - (unsigned char)getChar
@@ -648,14 +677,14 @@ PHASE(Using)
     case _C_DBL:
       [stream catDouble: value.d];
       break;
+    case _C_LNG_DBL:
+      [stream catLongDouble: value.ld];
+      break;
     case _C_FLT:
       [stream catFloat: value.f];
       break;
-    case _C_INT:
-      [stream catInt: value.i];
-      break;
-    case _C_LNG:
-      [stream catLong: value.l];
+    case _C_LNG_LNG:
+      [stream catLongLong: value.ll];
       break;
     default:
       [stream catC: "serialization for this type not implemented yet"];
@@ -730,7 +759,7 @@ PHASE(Using)
 
 - lispOutDeep: (id <OutputStream>)stream
 {
-  id index = [self begin: [self getZone]];
+  id index = [self begin: getZone (self)];
   id member;
 
   [stream catC: "("];

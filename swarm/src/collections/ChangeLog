@@ -1,3 +1,27 @@
+1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputStream.[hm], collections.h ([ArchiverValue_c -setLong:],
+	[ArchiverValue_c -setInteger:], [-getLong]): Remove.
+	([ArchiverValue_c -setLongDouble:], [ArchiverValue_c
+	-getLongDouble],
+	[ArchiverValue_c -setLongDouble:], [ArchiverValue_c -getLongLong],
+	[ArchiverValue_c -getUnsigned]): Add.
+	([InputStream_c -getExpr], [ArchiverList_c -lispOutDeep:]): Use
+	getZone macro.
+	([InputStream_c -getExpr]): Use long long as default numeric type
+	(not long).  Recognize L0 as long double.  Use strtoll instead of
+	strtol.
+	([ArchiverArray_c -setArray:], [ArchiverValue_c -lispOutDeep:]):
+	([ArchiverArray_c -setArray:], [ArchiverValue_c -lispOutDeep:]):
+	Handle long long and long double.
+	([ArchiverArray_c -setArray:]): Use alloc: instead of xcalloc.
+	Use scratchZone for index and drop it.
+	([ArchiverArray_c -drop]): Drop using free: instead of XFREE.
+	Call superclass drop.
+
+	* InputStream.h (ArchiverValue_c): Add long double and long long.
+	Remove long and int.
+
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* OutputStream.[hm], collections.h ([OutputStream_c

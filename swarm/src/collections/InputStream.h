@@ -61,25 +61,27 @@ Library:     collections
 {
   char type;
   union {
+    long double ld;
     double d;
     float f;
-    long l;
-    int i;
+    long long ll;
     unsigned char ch;
     id obj;
   } value;
 }
-- setDouble: (double)val;
 - setFloat: (float)val;
-- setLong: (long)val;
-- setInteger: (int)val;
+- setDouble: (double)val;
+- setLongDouble: (long double)val;
+- setLongLong: (long long)val;
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
 - setNil;
+- (long double)getLongDouble;
 - (double)getDouble;
 - (float)getFloat;
+- (long long)getLongLong;
 - (int)getInteger;
-- (long)getLong;
+- (unsigned)getUnsigned;
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;
