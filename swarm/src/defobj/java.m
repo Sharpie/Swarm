@@ -167,7 +167,7 @@ static fcall_type_t
 java_getTypeInfo (jobject javaObj, unsigned *rankptr, unsigned *dims)
 {
   unsigned rank = 0;
-  fcall_type_t elementType;
+  fcall_type_t elementType = fcall_type_void;
   void checkArray (jobject obj)
     {
       jclass class = (*jniEnv)->GetObjectClass (jniEnv, obj);
@@ -177,26 +177,26 @@ java_getTypeInfo (jobject javaObj, unsigned *rankptr, unsigned *dims)
       
       if (isArray)
         {
-          if ((len = (*jniEnv)->GetArrayLength (jniEnv, obj)) > 0)
-            {
-              const char *sig = java_signature_for_class (class);
+          const char *sig = java_signature_for_class (class);
 
-              if (dims)
-                dims[rank] = len;
-              rank++;
+          len = (*jniEnv)->GetArrayLength (jniEnv, obj);
+          
+          if (dims)
+            dims[rank] = len;
+          rank++;
+          
+          if (len > 0 && sig[1] == '[')
+            {
+              jobject subobj =
+                (*jniEnv)->GetObjectArrayElement (jniEnv, obj, 0);
               
-              if (sig[1] == '[')
-                {
-                  jobject subobj =
-                    (*jniEnv)->GetObjectArrayElement (jniEnv, obj, 0);
-                  
-                  checkArray (subobj);
-                  (*jniEnv)->DeleteLocalRef (jniEnv, subobj);
-                }
-              else if (!fcall_type_for_java_signature (&sig[1], &elementType))
-                abort ();
-              SFREEBLOCK (sig);
+              checkArray (subobj);
+              (*jniEnv)->DeleteLocalRef (jniEnv, subobj);
             }
+          else if (!fcall_type_for_java_signature (&sig[1], &elementType))
+            abort ();
+          
+          SFREEBLOCK (sig);
         }
       else
         elementType = fcall_type_for_java_class (class);
@@ -205,7 +205,7 @@ java_getTypeInfo (jobject javaObj, unsigned *rankptr, unsigned *dims)
     }
   checkArray (javaObj);
   *rankptr = rank;
-  
+
   return elementType;
 }
 
