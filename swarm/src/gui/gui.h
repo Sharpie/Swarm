@@ -324,15 +324,22 @@ USING
 
 @protocol _Histogram
 CREATING
++ createBegin: aZone;
+
+//M: Set the number of bins to use (bars to draw).
+- setNumBins: (int)n;
+
+//M: Initialize the histogram.
 - createEnd;
 
 USING
-//M: Initialize the histogram, tell it how big its dataset is. Labels and
-//M: Colors are arrays of strings (one string per point) for text labels
-//M: and the colours of the bars (the last two arguments are optional).
-- setNumPoints: (int)n
-        Labels: (const char * const *)l
-        Colors: (const char * const *)c;
+//M: Set colors for the histogram bars. If not set, all are blue.
+//M: Colors are arrays of strings (one per bin/bar) of color names.
+- setColors: (const char * const *)c;
+
+//M: Set labels for the histogram bars. If not set, they remain blank.
+//M: Labels are arrays of strings, one per bin/bar.
+- setLabels: (const char * const *)l;
 
 //M: Set the title of the histogram.
 - setTitle: (const char *)title;
