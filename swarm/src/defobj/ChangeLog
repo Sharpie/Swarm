@@ -1,3 +1,24 @@
+1999-03-23  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* FArguments.m ([FArguments -mapAllocations:]): Map argSwarmTypes.
+
+	* defobj.h (FCall): Mark phases in FCall protocol.
+	
+	* FArguments.h: Put swarm types into a enum.
+	(FArguments): Two new instance variables argSwarmTypes and
+	returnSwarmType.
+
+	* FArguments.m (FArguments): Use new instance variables 
+	argSwarmTypes and returnSwarmTypes to store swarm types.
+	Modify swarm_types array in such way that 
+	swarm_types[swarm_float_type] == &ffi_type_double to
+	avoid the ffi related bug.
+	([FArguments -addFloat:]): Call ADD_COMMON with float type.
+
+	* FCall.m (FCall_c): Insert Phase markers.
+	Move createEnd into the creating phase.
+	Move fillHiddenArguments in front of createEnd.
+	
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.h (FCall): Add getReturnVal.

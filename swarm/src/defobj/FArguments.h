@@ -14,22 +14,13 @@ Library:      defobj
 #include <objc/objc.h> // retval_t
 
 
-#define number_of_types 14
+#define number_of_types 14 
 
-#define swarm_type_void    0
-#define swarm_type_uchar   1
-#define swarm_type_schar   2
-#define swarm_type_ushort  3
-#define swarm_type_sshort  4
-#define swarm_type_uint    5
-#define swarm_type_sint    6 
-#define swarm_type_ulong   7
-#define swarm_type_slong   8
-#define swarm_type_float   9 
-#define swarm_type_double  10
-#define swarm_type_object  11
-#define swarm_type_string  12
-#define swarm_type_jobject 13
+enum {swarm_type_void = 0, swarm_type_uchar, swarm_type_schar,
+      swarm_type_ushort, swarm_type_sshort, swarm_type_uint,
+      swarm_type_sint, swarm_type_ulong, swarm_type_slong,
+      swarm_type_float, swarm_type_double, swarm_type_object,
+      swarm_type_string, swarm_type_jobject} swarm_type_enum;
 
 #define MAX_ARGS        5
 #define MAX_HIDDEN      3
@@ -40,8 +31,10 @@ Library:      defobj
    unsigned assignedArguments;
    unsigned hiddenArguments;
    void **argTypes;
+   int *argSwarmTypes;
    void **argValues;
    void *returnType;
+   int returnSwarmType;
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;

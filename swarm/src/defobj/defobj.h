@@ -1032,14 +1032,16 @@ USING
 //D: A language independent interface to dynamic calls.
 CREATING
 + createBegin: aZone;
+- createEnd;
+SETTING
 - setArguments: args;
 - getArguments;
 - setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;
 - setJavaMethod: (const char *)methodName inObject: (void *)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
-- createEnd;
-- performCall;
+USING
+- (void) performCall;
 - (void *)getResult;
 - (retval_t)getReturnVal;
 
