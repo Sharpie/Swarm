@@ -1,8 +1,7 @@
 1998-03-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* internal.m: Include tk headers explictly from tk/.
-
-	* Makefile: Remove defines for Tk headers.
+	* Makefile: Remove defines for Tk headers.  Make a rule
+	for internal.o.
 	(XPIXMAP_{H,O}): Define conditionally on MACHTYPE vs i386-pc-cygwin32.
 
 	* internal.m: Include win32dib.h and Tk internal header files only

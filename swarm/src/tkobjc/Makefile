@@ -63,9 +63,11 @@ SuperButton.o: SuperButton.m SuperButton.h
 MessageProbeEntry.o: MessageProbeEntry.m MessageProbeEntry.h
 VarProbeEntry.o: VarProbeEntry.m VarProbeEntry.h
 ProbeCanvas.o: ProbeCanvas.m ProbeCanvas.h
-
 common.o: common.m common.h
+
 internal.o: internal.m internal.h
+	$(CC) -c $(CFLAGS) -Itk $<
+
 tkobjc.o: analysis_tcl.x simtools_tcl.x comm_tcl.x tkbusy_tcl.x
 
 %_tcl.x: %.tcl

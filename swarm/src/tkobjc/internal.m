@@ -10,11 +10,11 @@
 #ifdef _WIN32
 #include "win32dib.h"
 #define BOOL BOOL_
-#include "tk/tkInt.h"
+#include "tkInt.h"
 #undef BOOL
 
 #define Arguments WindowsArguments
-#include "tk/tkWinInt.h"
+#include "tkWinInt.h"
 #undef Arguments
 #endif
 
