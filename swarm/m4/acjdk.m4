@@ -22,14 +22,18 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/genunix"
     fi
     JAVACLASSES='${jdkdir}/lib/classes.zip'
-    JAVA='JAVA_HOME=${jdkdir} ${jdkdir}/bin/java'
+    JAVACMD='${jdkdir}/bin/java'
+    JAVAENV='JAVA_HOME=${jdkdir}'
+    JAVA='${JAVAENV} ${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
     JAVAC='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
   elif test -f $jdkdir/include/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include/japhar"
     JAVACLASSES="`$jdkdir/bin/japhar-config info datadir`"
-    JAVA='${jdkdir}/bin/japhar'
+    JAVACMD='${jdkdir}/bin/japhar'
+    JAVAENV=''
+    JAVA='${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib'
     JAVAC='${jdkdir}/bin/javac'
@@ -38,7 +42,9 @@ else
     JAVACLASSES="$datadir/kaffe/Klasses.jar:$datadir/kaffe/pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
     JAVALIBS='${jdkdir}/lib:${jdkdir}/lib/kaffe'
-    JAVA='LD_LIBRARY_PATH=${JAVALIBS}:${LD_LIBRARY_PATH} ${jdkdir}/libexec/Kaffe'
+    JAVACMD='${jdkdir}/libexec/Kaffe'
+    JAVAENV=''
+    JAVA='LD_LIBRARY_PATH=${JAVALIBS}:${LD_LIBRARY_PATH} ${JAVACMD}'
     JAVAC='${jdkdir}/bin/javac'
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
@@ -53,6 +59,8 @@ AC_SUBST(JAVASTUBS_FUNCTION)
 AC_SUBST(JAVAINCLUDES)
 AC_SUBST(JAVALIBS)
 AC_SUBST(JAVACLASSES)
+AC_SUBST(JAVACMD)
+AC_SUBST(JAVAENV)
 AC_SUBST(JAVA)
 if test -n "$JAR"; then
   jar_home=`echo $JAR | sed 's/\/bin\/jar$//'`

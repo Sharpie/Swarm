@@ -1,3 +1,8 @@
+1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: New substitution JAVACMD, and JAVAENV (used in JAVA, 
+	when present).
+
 1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Use libexec/Kaffe instead of bin/Kaffe.
