@@ -1,3 +1,9 @@
+2000-01-11    <mgd@nest.swarm.org>
+
+	* VarProbe.m ([VarProbe -createEnd], [VarProbe
+	-iterateAsDouble:using:], [VarProbe iterateAsInteger:using:]): Use
+	objc_process_array instead of process_array.
+
 2000-01-04    <mgd@DRONE>
 
 	* MessageProbe.m (dynamicCallOn): Use FCall

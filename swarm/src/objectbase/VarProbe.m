@@ -11,7 +11,7 @@
 #include <objc/objc-api.h>
 #include <misc.h> // strcmp, strcpy, sprintf, sscanf
 
-#include "../defobj/internal.h" // process_array
+#include "../defobj/internal.h" // objc_process_array
 
 #ifdef HAVE_JDK
 #import <defobj/directory.h> // SD_FINDJAVA, JNI
@@ -152,22 +152,22 @@ PHASE(Creating)
         {
           void setup_array (unsigned theRank,
                             unsigned *theDims,
-                            const char *theBaseType)
+                            fcall_type_t theBaseType)
             {
               size_t size = sizeof (unsigned) * theRank;
               
               rank = theRank;
               dims = [getZone (self) alloc: size];
               memcpy (dims, theDims, size);
-              baseType = theBaseType;
+              baseType = objc_type_for_fcall_type (theBaseType);
             }
-          process_array (probedType,
-                         setup_array,
-                         NULL, NULL,
-                         NULL, NULL,
-                         NULL,
-                         NULL,
-                         NULL);
+          objc_process_array (probedType,
+                              setup_array,
+                              NULL, NULL,
+                              NULL, NULL,
+                              NULL,
+                              NULL,
+                              NULL);
         }
       return self;
     }
@@ -738,17 +738,17 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
     {
       vec[di]++;
     }
-  void output_type (const char *type, unsigned offset, void *data)
+  void output_type (fcall_type_t type, unsigned offset, void *data)
     {
       func (rank, vec, ((double *) ary)[offset]);
     }
-  process_array (probedType,
-                 NULL,
-                 start_dim, end_dim,
-                 NULL, end_element,
-                 output_type,
-                 ary,
-                 NULL);
+  objc_process_array (probedType,
+                      NULL,
+                      start_dim, end_dim,
+                      NULL, end_element,
+                      output_type,
+                      ary,
+                      NULL);
   return self;
 }
 
@@ -772,18 +772,18 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
     {
       vec[di]++;
     }
-  void output_type (const char *type, unsigned offset, void *data)
+  void output_type (fcall_type_t type, unsigned offset, void *data)
     {
       func (rank, vec, ((int *) ary)[offset]);
     }
 
-  process_array (probedType,
-                 NULL,
-                 start_dim, end_dim,
-                 NULL, end_element,
-                 output_type,
-                 ary,
-                 NULL);
+  objc_process_array (probedType,
+                      NULL,
+                      start_dim, end_dim,
+                      NULL, end_element,
+                      output_type,
+                      ary,
+                      NULL);
   return self;
 }
 
