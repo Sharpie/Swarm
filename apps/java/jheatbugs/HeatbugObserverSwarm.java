@@ -138,12 +138,12 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
     {
         //int i;
         
-        super.buildObjects();
+        super.buildObjects ();
         
         // First, we create the model that we're actually observing. The
         // model is a subswarm of the observer. 
         
-        heatbugModelSwarm = new HeatbugModelSwarm (getZone());
+        heatbugModelSwarm = new HeatbugModelSwarm (getZone ());
         
         // Now create probe objects on the model and ourselves. This gives a
         // simple user interface to let the user change parameters.
@@ -155,51 +155,51 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         // halt here until someone hits a control panel button so the
         // user can get a chance to fill in parameters before the
         // simulation runs
-        getControlPanel().setStateStopped();
+        getControlPanel ().setStateStopped ();
         
         // OK - the user has specified all the parameters for the
         // simulation.  Now we're ready to start.
         
         // First, let the model swarm build its objects.
-        heatbugModelSwarm.buildObjects();
+        heatbugModelSwarm.buildObjects ();
         
         // Now get down to building our own display objects.
         
         // First, create a colormap: this is a global resource, the information
         // here is used by lots of different objects.
-        colormap = new ColormapImpl (getZone());
+        colormap = new ColormapImpl (getZone ());
         
         // Colours [0,64) are assigned to the range Red [0, 1), for
         // heat display.
         for (int i = 0; i < 64; i++)
             colormap.setColor$ToRed$Green$Blue 
-                ((byte)i, (double)i / 63.0, 0, 0);
+                ((byte) i, (double) i / 63.0, 0, 0);
         
         // Colour 64 is set to green, to display heatbugs
-        colormap.setColor$ToName ((byte)64, "green");
+        colormap.setColor$ToName ((byte) 64, "green");
         
         // Colour 65 is set to white, used in this case below on
         // probed heatbug.
-        colormap.setColor$ToName ((byte)65, "white");
+        colormap.setColor$ToName ((byte) 65, "white");
         
         // Now go in to the heatbugs in the model and set their
         // colours to green (64)
-        List heatbugList = (List)heatbugModelSwarm.getHeatbugList();
+        List heatbugList = (List) heatbugModelSwarm.getHeatbugList ();
         
-        for (int i = 0; i < heatbugList.getCount(); i++) {
-          Heatbug bug = (Heatbug)heatbugList.atOffset (i);
-          bug.setBugColor ((byte)64);
+        for (int i = 0; i < heatbugList.getCount (); i++) {
+          Heatbug bug = (Heatbug) heatbugList.atOffset (i);
+          bug.setBugColor ((byte) 64);
         } 
         
         // Next, create a 2d window for display, set its size, zoom
         // factor, title.
-        worldRaster = new ZoomRasterImpl (getZone());
+        worldRaster = new ZoomRasterImpl (getZone ());
         Globals.env.setWindowGeometryRecordName (worldRaster);
         
         try {
             worldRaster.enableDestroyNotification$notificationMethod 
-                (this, new Selector (getClass (), "_worldRasterDeath_", 
-                                     false));
+                (this,
+                 new Selector (getClass (), "_worldRasterDeath_", false));
         } catch (Exception e) {
             System.err.println ("Exception _worldRasterDeath_: " 
                                 + e.getMessage ());
@@ -217,7 +217,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         // will display arbitrary 2d value arrays on a given Raster
         // widget.
         heatDisplay = new Value2dDisplayImpl 
-            (getZone(), worldRaster, colormap, heatbugModelSwarm.getHeat());
+            (getZone (), worldRaster, colormap, heatbugModelSwarm.getHeat ());
         
         heatDisplay.setDisplayMappingM$C (512, 0); // turn [0,32768) -> [0,64)
         
@@ -226,21 +226,21 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         // receives probes.
         try {
           heatbugDisplay = new Object2dDisplayImpl
-            (getZone(), worldRaster, heatbugModelSwarm.getWorld(),
+            (getZone (), worldRaster, heatbugModelSwarm.getWorld (),
              new Selector (Class.forName ("Heatbug"), "drawSelfOn", false));
         } catch (Exception e) {
             System.err.println ("Exception drawSelfOn: " + e.getMessage ());
         }
         
         heatbugDisplay.setObjectCollection 
-          (heatbugModelSwarm.getHeatbugList()); 
+          (heatbugModelSwarm.getHeatbugList ()); 
         
         // Also, tell the world raster to send mouse clicks to the
         // heatbugDisplay this allows the user to right-click on the
         // display to probe the bugs.
         try {
           worldRaster.setButton$Client$Message 
-            (3, heatbugDisplay, new Selector (heatbugDisplay.getClass(), 
+            (3, heatbugDisplay, new Selector (heatbugDisplay.getClass (), 
                                               "makeProbeAtX$Y", true));
         } catch (Exception e) {
           System.err.println ("Exception makeProbeAtX$Y: " 
@@ -249,8 +249,10 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         
         // Create the graph widget to display unhappiness.
         unhappyGraph = new EZGraphImpl 
-          (getZone(), "Unhappiness of bugs vs. time",
-           "time", "unhappiness");
+          (getZone (),
+           "Unhappiness of bugs vs. time",
+           "time", "unhappiness",
+           "unhappyGraph");
         
         Globals.env.setWindowGeometryRecordName (unhappyGraph); 
         
@@ -258,8 +260,9 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         // the widget is destroyed
         try {
             unhappyGraph.enableDestroyNotification$notificationMethod 
-                (this, new Selector 
-                    (getClass (), "_unhappyGraphDeath_", false));
+                (this, new Selector (getClass (),
+                                     "_unhappyGraphDeath_",
+                                     false));
         } catch (Exception e) {
             System.err.println ("Exception _unhappyGraphDeath_: " 
                                 + e.getMessage ());
