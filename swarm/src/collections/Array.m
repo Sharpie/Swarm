@@ -56,21 +56,21 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setCount: (int)memberCount;
++ create: aZone setCount: (unsigned)memberCount;
 {
   Array_c *newArray;
 
   if (memberCount < 0)
     raiseEvent (InvalidArgument, nil);
   
-  newArray = [aZone allocIVars: getNextPhase( self )];
+  newArray = [aZone allocIVars: getNextPhase (self)];
   setMappedAlloc (newArray);
   newArray->count = memberCount;
   initArray (newArray);
   return newArray;
 }
 
-+ create: aZone setMemberBlock: (id *)members setCount: (int)memberCount;
++ create: aZone setMemberBlock: (id *)members setCount: (unsigned)memberCount;
 {
   Array_c  *newArray;
 
@@ -155,7 +155,7 @@ initArray (Array_c  *self)
 
 PHASE(Setting)
 
-- (void) setMemberBlock: (id *)members setCount: (int)memberCount
+- (void) setMemberBlock: (id *)members setCount: (unsigned)memberCount
 {
   if (getNextPhase (getClass (self)))
     { 
@@ -214,7 +214,7 @@ PHASE(Setting)
     }
 }
 
-- (void)setCount: (int)memberCount
+- (void)setCount: (unsigned)memberCount
 {
   id *newBlock, defaultMember, *memptr;
   id zone = getZone (self);
@@ -290,12 +290,12 @@ PHASE(Using)
   return nil;
 }
 
-- (int)getCount
+- (unsigned)getCount
 {
   return count;
 }
 
-- (int)count
+- (unsigned)count
 {
   return count;
 }

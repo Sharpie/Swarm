@@ -16,17 +16,18 @@ Library:      collections
 
 PHASE(Creating)
 
-+ createBegin: aZone forCollection: (id) aCollection
++ createBegin: aZone
 {
-  Permutation_c  *newPermutation;
+  Permutation_c *obj = [super createBegin: aZone];
 
-  newPermutation = [aZone allocIVars: self];
-  newPermutation->collection = aCollection;
-  newPermutation->count = [aCollection getCount];
-  newPermutation->shuffler = 
-    [ListShuffler createBegin: [aZone getComponentZone]];
-  
-  return newPermutation;
+  obj->shuffler = [ListShuffler createBegin: aZone];
+  return obj;
+}
+
+- setCollection: aCollection
+{
+  collection = aCollection;
+  return self;
 }
 
 - setUniformRandom: rnd
@@ -37,23 +38,26 @@ PHASE(Creating)
 
 - createEnd
 {
-  id elem;
-  id index; 
-  int i;
+  id elem, index;
+  unsigned i;
+
+  count = [collection getCount];
 
   [super createEnd];
-  shuffler = [shuffler createEnd];
 
+  if (collection == nil)
+    raiseEvent (InvalidArgument, "Source collection required for Permutation");
+
+  shuffler = [shuffler createEnd];
   index = [collection begin: scratchZone];
   elem = [index next];   
-  for (i=0; i<[collection getCount]; i++)
+  for (i = 0; i < count; i++)
     {
       [self atOffset: i put: elem];
       elem = [index next];
     }
-
   [index drop];
-
+  [self generatePermutation];
   return self;
 }
 
@@ -65,9 +69,9 @@ PHASE(Using)
   return self;
 }
 
--(void)mapAllocations: (mapalloc_t)mapalloc
+-(void)mapAllocations: (mapalloc_t) mapalloc
 {
-  mapObject(mapalloc, shuffler);
+  mapObject (mapalloc, shuffler);
 }
 
 - (void)describe: outputCharStream

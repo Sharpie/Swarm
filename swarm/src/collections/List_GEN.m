@@ -209,11 +209,8 @@ PHASE(UsingOnly)
 
 - _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass
 {
-  PermutedIndex_c *newIndex;
-
-  newIndex = [PermutedIndex_c createBegin: aZone forCollection: self];
-  newIndex = [newIndex createEnd];
-  return newIndex;
+  return
+    [[[PermutedIndex_c createBegin: aZone] setCollection: self] createEnd];
 }
 
 //

@@ -83,15 +83,16 @@ PHASE(Using)
 
 - beginPermuted: aZone
 {
-  return [[PermutedIndex_c createBegin: aZone forCollection: self] createEnd];
+  return [[[PermutedIndex_c createBegin: aZone]
+	    setCollection: self] createEnd];
 }
 
-- (int)getCount
+- (unsigned)getCount
 {
   return count;
 }
 
-- (int)count
+- (unsigned)count
 {
   return count;
 }
@@ -378,13 +379,17 @@ PHASE(Using)
 
 @implementation PermutedIndex_c
 PHASE(Creating)
-+ createBegin: aZone forCollection: aCollection
++ createBegin: aZone
 {
-  PermutedIndex_c *newIndex;
-  newIndex = [aZone allocIVars: id_PermutedIndex_c];
-  newIndex->collection = [Permutation createBegin: [aZone getComponentZone] 
-				      forCollection: aCollection];
-  return newIndex;
+  PermutedIndex_c *obj = [aZone allocIVars: self];
+  obj->collection = [Permutation createBegin: [aZone getComponentZone]];
+  return obj;
+}
+
+- setCollection: aCollection
+{
+  [(Permutation_c *) collection setCollection: aCollection];
+  return self;
 }
 
 - setUniformRandom: rnd
@@ -402,12 +407,6 @@ PHASE(Creating)
 }
 
 PHASE(Using)
-
-- generatePermutation
-{
-  [(Permutation_c *) collection generatePermutation];
-  return self;
-}
 
 - next
 {

@@ -169,7 +169,7 @@ USING
 //M: the collection.  All collections maintain their count internally so
 //M: that no traversal of collection members is required simply to return
 //M: this value.
-- (int)getCount;
+- (unsigned)getCount;
 
 //M: The contains: message returns true if the collection contains any
 //M: member value which matches the value passed as its argument.
@@ -204,7 +204,6 @@ USING
 //M: about indexes is documented under the Index type.
 - begin: aZone;
 
-//M: Like begin:, but the order is randomized.
 - beginPermuted: aZone;
 @end
 
@@ -507,10 +506,10 @@ USING
 //D: subrange views of a single, contiguous initial allocation by means of
 //D: separately created external collections.
 CREATING
-+ create: aZone setMemberBlock: (id *)members setCount:(int)count;
++ create: aZone setMemberBlock: (id *)members setCount:(unsigned)count;
 
 SETTING
-- (void)setMemberBlock: (id *)members setCount: (int)count;
+- (void)setMemberBlock: (id *)members setCount: (unsigned)count;
 
 USING
 - (void *)getMemberBlock;
@@ -580,7 +579,7 @@ USING
 //D: already created, subject to restrictions noted below.
 
 CREATING
-+ create: aZone setCount: (int)count;
++ create: aZone setCount: (unsigned)count;
 
 SETTING
 //M: The Count option sets the number of members which belong to the
@@ -590,7 +589,7 @@ SETTING
 //M: the existing count, or a new array is being created, all members will
 //M: be assigned an initial default value of either nil, or a value
 //M: previously specified for DefaultMember.
-- (void)setCount: (int)count;
+- (void)setCount: (unsigned)count;
 @end
 
 
@@ -1027,7 +1026,7 @@ SETTING
 USING
 - (const char *)getC;
 - (void)catC: (const char *)cstring;
-- (int)getCount;
+- (unsigned)getCount;
 - (int)compare: aString;
 - (BOOL)getLiteralFlag;
 @end
@@ -1071,6 +1070,8 @@ USING
 //D: of contents of Permutation will not reflect on the original collection.
 
 CREATING
++ createBegin: aZone;
+- setCollection: collection;
 - setUniformRandom: rnd;
 
 USING
@@ -1085,11 +1086,14 @@ USING
 //D: Index class does, except that traversal is randomized. 
 //D: PermutedIndex does not allow any update of the collection. It may 
 //D: be used only for traversal of the collection.
-
+CREATING
++ createBegin: aZone;
+- setCollection: aCollection;
+- setUniformRandom: rnd;
+- createEnd;
 USING
 - next;
 - prev;
-- generatePermutation;
 - findNext: anObject;
 - findPrev: anObject;
 - get;
@@ -1100,4 +1104,3 @@ USING
 @end;
 
 #import <collections/types.h>
-

@@ -16,7 +16,7 @@ Library:      collections
 @interface Collection_any: CreateDrop_s <Collection>
 {
 @public
-  int count;       // number of members in collection
+  unsigned count;  // number of members in collection
   unsigned bits;   // bit allocations
 #define  Bit_ReadOnly              (1 << 0)  // Not yet implemented
 #define  Bit_ReplaceOnly           (1 << 1)
@@ -36,8 +36,8 @@ Library:      collections
 - (BOOL)getReplaceOnly;
 - (int)getIndexFromMemberLoc;
 - beginPermuted: aZone;
-- (int)getCount;
-- (int)count;
+- (unsigned)getCount;
+- (unsigned)count;
 - atOffset: (int)offset;
 - atOffset: (int)offset put: anObject;
 - getFirst;
@@ -86,9 +86,10 @@ Library:      collections
 @public
   id index;
 }
-+ createBegin: aZone forCollection: aCollection; 
++ createBegin: aZone;
+- setCollection: collection;
+- setUniformRandom: rnd;
 - createEnd;
-- generatePermutation;
 - next;
 - prev;
 - findNext: anObject;

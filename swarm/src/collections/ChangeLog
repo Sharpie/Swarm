@@ -1,3 +1,28 @@
+1998-12-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* List_GEN.m ([TARGET -_createPermutedIndex_:forIndexSubclass:]): 
+	Use -setCollection: instead of +createBegin:forCollection:.
+
+	* collections.h: Change all count arguments to unsigned.
+	(PermutedIndex): Remove generatePermutation.
+
+	* Permutation.m ([Permutation_c -createEnd]): Check for a 
+	collection and generatePermutation when finished.
+
+	* Permutation.[hm], collections.h: Remove
+	+createBegin:forCollection:. Add setCollection:.
+
+	* Collection.m ([Collection_any -beginPermuted:aZone]): Use 
+	setCollection: instead of removed +createBegin:forCollection:.
+	([PermutedIndex_c +createBegin:]): Likewise.
+	([PermutedIndex_c generatePermutation]): Remove.
+
+	* Collection.h: Change count arguments from int to unsigned.
+	Declare setCollection: and setUniformRandom:.  Don't
+	declare generatePermutation.
+
+	* Array.[hm]: Change count arguments from int to unsigned.
+
 1998-12-26  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* collections.h (Collection): Declare -beginPermuted:.

@@ -18,7 +18,8 @@ Library:      collections
    id uniformRandom;
    id shuffler;
 }
-+ createBegin: aZone forCollection: aCollection;
++ createBegin: aZone;
+- setCollection: collection;
 - setUniformRandom: rnd;
 - createEnd;
 - generatePermutation;
