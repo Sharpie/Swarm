@@ -74,8 +74,8 @@
 
 <sect2><title>Swarm is a moving target</title>
 
-    <para>Swarm is an "open source" project. {need some licensing frob
-      here} </para>
+    <para>Swarm is an "open source" project. <comment>need some licensing frob
+      here</comment> </para>
 
     <para>Most of the development work has been done by the Swarm
       Development Group at the SFI.  Their results are periodically
@@ -140,10 +140,10 @@
       programming will thus need to do some background preparation
       before they try to make a serious effort at building a Swarm
       model.  We suggest that the first step is to find one of the
-      many elementary guides to computing with C, such as XXX or
-      XXX. A manual with examples and exercises is vital.  These will
-      teach the basics about writing code and compiling it into
-      programs.  
+      many elementary guides to computing with C, such as <comment>XXX
+      or XXX</comment>. A manual with examples and exercises is vital.
+      These will teach the basics about writing code and compiling it
+      into programs.
 
       The book <citetitle pubwork="book">The C Programming
       Language</citetitle>, <citation>Kernighan & Ritchie, 1988</citation> 
