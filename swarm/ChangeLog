@@ -1,5 +1,9 @@
 2003-08-01  Bill Northcott  <w.northcott@unsw.edu.au>
 
+	* INSTALL: added '--enable-onelib' option to docs
+
+2003-08-01  Bill Northcott  <w.northcott@unsw.edu.au>
+
 	* configure.in, Makefile.am : added '--enable-onelib' option to 
 	  build as a single library.
 	* ltmain.sh : update libtool to 1.5a (28Jul03)

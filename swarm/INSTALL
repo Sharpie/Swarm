@@ -36,6 +36,8 @@ This version of Swarm can build `shared' libraries (sometimes called
 dynamic libraries), which significantly reduce the size of resulting
 executable files.  
 
+`--enable-onelib' --- build a single shared library instead of a hierarchy.
+
 *** Important note for SunOS/Solaris users!! ***
 
 As `configure' builds shared libraries by default, you should be sure
