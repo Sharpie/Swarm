@@ -99,7 +99,7 @@ PHASE(Using)
       [stream catUnsigned: width];
       [stream catSeparator];
       [stream catUnsigned: height];
-      [stream catEndExpr];
+      [stream catEndQuotedList];
     }
   if (positionFlag)
     {
@@ -110,9 +110,9 @@ PHASE(Using)
       [stream catUnsigned: x];
       [stream catSeparator];
       [stream catUnsigned: y];
-      [stream catEndExpr];
+      [stream catEndQuotedList];
     }
-  [stream catEndExpr];
+  [stream catEndMakeInstance];
   return self;
 }
 

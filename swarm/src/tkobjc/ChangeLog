@@ -1,3 +1,8 @@
+2000-01-03  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* WindowGeometryRecord.m ([WindowGeometryRecord -lispOutShallow:]): 
+	Use catEndQuotedList and catEndMakeInstance instead of catEndExpr.
+
 1999-12-31  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord -lispOutShallow:]): Use
