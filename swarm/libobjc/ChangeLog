@@ -7,6 +7,8 @@
 	(EXTRA_PROGRAMS): Set to objc.dll.
 	(install-data-local): New rule for libobjc.a (if USEDLL is set).
 	(noinst_LTLIBRARIES): Add libobjc_.la and related variables.
+	(libobjc_la_LDFLAGS): Add -rpath $(libdir) so that libtool
+	will treat libobjc.la as an installed library.
 
 	* configure.in: Set LIBOBJC_LA or OBJC_DLL depending on if USEDLL
 	is set (from md_CHECK_DLL). Substitute LIBOBJC_LA and OBJC_DLL.

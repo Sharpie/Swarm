@@ -22,7 +22,7 @@ bin_PROGRAMS = @OBJC_DLL@
 EXTRA_PROGRAMS = objc.dll
 
 libobjc_la_SOURCES = empty.c
-libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir)
 libobjc_la_LIBADD = libobjc_.la
 
 libobjc__la_SOURCES = $(CSRC) $(MSRC)
