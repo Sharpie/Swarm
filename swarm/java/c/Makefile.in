@@ -71,7 +71,7 @@ libjavaswarm.la: libjavaswarmstubs.la $(libjavaswarm_la_OBJECTS)
 
 ENTRY=@JAVASWARM_DLL_ENTRY@
 ifneq ($(ENTRY),)
-ENTRYCMD='-e $(ENTRY)'
+ENTRYCMD=-e $(ENTRY)
 endif
 
 $(JAVASWARM_DLL): libjavaswarm.la libjavaswarmstubs.la javaswarm.dll.c
