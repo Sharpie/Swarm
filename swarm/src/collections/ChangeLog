@@ -1,5 +1,14 @@
 1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Map.m (hdf5_store_compare_function_attribute): New function.
+	([Map_c hdf5OutDeep:], [Map_c hdf5OutShallow:]): Use it.
+	([Map_c hdf5In:]): Implement shallow loading.
+
+	* List.[hm]: Move HDF5 stuff from Collections.
+
+	* List.[hm], Map.[hm]: Switch from {lisp,hdf5}Out:deep: to
+	{lisp,hdf5}Out{Shallow,Deep}:.
+
 	* Map.m ([Map_c hdf5Out:deep]): Don't compute anything for call
 	to -setRowNameLength: and don't call it.
 	([Map_c -hdf5InCreate:]): New method.

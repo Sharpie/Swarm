@@ -16,6 +16,7 @@ Library:      collections
 #include <collections/predicates.h> // keywordp, stringp
 
 #import <defobj.h> // hdf5in, HDF5
+#include <misc.h> // XFREE
 
 #include <swarmconfig.h> // HAVE_HDF5
 
@@ -489,7 +490,7 @@ PHASE(Using)
   return self;
 }
 
-- lispOut: outputCharStream deep: (BOOL)deepFlag
+- _lispOut_: outputCharStream deep: (BOOL)deepFlag
 {
   id index, member, key;
 
@@ -501,7 +502,12 @@ PHASE(Using)
     {
       [outputCharStream catC: " (cons "];
       if (compareFunc == compareIDs)
-        [key lispOut: outputCharStream deep: deepFlag];
+        {
+          if (deepFlag)
+            [key lispOutDeep: outputCharStream];
+          else
+            [key lispOutShallow: outputCharStream];
+        }
       else if (compareFunc == compareUnsignedIntegers)
         {
           char buf[DSIZE (unsigned)];
@@ -525,7 +531,10 @@ PHASE(Using)
       else
         abort ();
       [outputCharStream catC: " "];
-      [member lispOut: outputCharStream deep: deepFlag];
+      if (deepFlag)
+        [member lispOutDeep: outputCharStream];
+      else
+        [member lispOutShallow: outputCharStream];
       [outputCharStream catC: ")"];
     }
   [index drop];
@@ -551,185 +560,199 @@ PHASE(Using)
   return self;
 }
 
-- hdf5Out: hdf5Obj deep: (BOOL)deepFlag
+- lispOutDeep: stream
 {
-#ifdef HAVE_HDF5
-  if (deepFlag)
+  return [self _lispOut_: stream deep: YES];
+}
+
+- lispOutShallow: stream
+{
+  return [self _lispOut_: stream deep: NO];
+}
+
+static void
+hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
+{
+  if (compareFunc == compareIDs)
+    [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_ID];
+  else if (compareFunc == compareIntegers)
+    [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_INT];
+  else if (compareFunc == compareUnsignedIntegers)
+    [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_UNSIGNED];
+  else if (compareFunc == compareCStrings)
+    [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_CSTRING];
+}
+
+- hdf5OutDeep: hdf5Obj 
+{
+  id aZone = [hdf5Obj getZone];
+  id key, value;
+  
+  [hdf5Obj storeTypeName: [self getTypeName]];
+
+  if (compareFunc == NULL || compareFunc == compareIDs)
     {
-      id aZone = [hdf5Obj getZone];
-      id key, value;
-
-      [hdf5Obj storeTypeName: [self getTypeName]];
-      if (compareFunc == NULL || compareFunc == compareIDs)
+      id keyGroup = [[[[[HDF5 createBegin: aZone]
+                         setCreateFlag: YES]
+                        setParent: hdf5Obj]
+                       setName: "keys"]
+                      createEnd];
+      id valueGroup = [[[[[HDF5 createBegin: aZone]
+                           setParent: hdf5Obj]
+                          setCreateFlag: YES]
+                         setName: "values"]
+                        createEnd];
+      
+      id <MapIndex> mi = [self begin: scratchZone];
+      
+      while ((value = [mi next: &key]))
         {
-          id keyGroup = [[[[[HDF5 createBegin: aZone]
-                             setCreateFlag: YES]
-                            setParent: hdf5Obj]
-                           setName: "keys"]
-                          createEnd];
-          id valueGroup = [[[[[HDF5 createBegin: aZone]
-                               setParent: hdf5Obj]
-                              setCreateFlag: YES]
-                             setName: "values"]
-                            createEnd];
+          id valueInstanceGroup, keyInstanceGroup;
+          char buf[DSIZE (unsigned) + 1];
+          unsigned offset = [mi getOffset];
           
-          id <MapIndex> mi = [self begin: scratchZone];
-
-          while ((value = [mi next: &key]))
-            {
-              id valueInstanceGroup, keyInstanceGroup;
-              char buf[DSIZE (unsigned) + 1];
-              unsigned offset = [mi getOffset];
-              
-              sprintf (buf, "%u", offset);
-              keyInstanceGroup = [[[[[HDF5 createBegin: aZone]
-                                      setCreateFlag: YES]
-                                     setParent: keyGroup]
-                                    setName: buf]
-                                   createEnd];
-              [key hdf5Out: keyInstanceGroup deep: YES];
-              [keyInstanceGroup drop];
-              
-              valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
-                                        setCreateFlag: YES]
-                                       setParent: valueGroup]
-                                      setName: buf]
-                                     createEnd];
-              [value hdf5Out: valueInstanceGroup deep: YES];
-              [valueInstanceGroup drop];
-            }
-          [keyGroup drop];
-          [valueGroup drop];
-          [mi drop];
-          if (compareFunc)
-            [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_ID];
+          sprintf (buf, "%u", offset);
+          keyInstanceGroup = [[[[[HDF5 createBegin: aZone]
+                                  setCreateFlag: YES]
+                                 setParent: keyGroup]
+                                setName: buf]
+                               createEnd];
+          [key hdf5OutDeep: keyInstanceGroup];
+          [keyInstanceGroup drop];
+          
+          valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
+                                    setCreateFlag: YES]
+                                   setParent: valueGroup]
+                                  setName: buf]
+                                 createEnd];
+          [value hdf5OutDeep: valueInstanceGroup];
+          [valueInstanceGroup drop];
         }
-      else
-        {
-          void store_map_deep (const char * (*getKeyStr) (id key))
-            {
-              id key, value;
-              id <MapIndex> mi = [self begin: scratchZone];
-              
-              while ((value = [mi next: &key]))
-                {
-                  id valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
-                                               setCreateFlag: YES]
-                                              setParent: hdf5Obj]
-                                             setName: getKeyStr (key)]
-                                            createEnd];
-                  [value hdf5Out: valueInstanceGroup deep: YES];
-                  [valueInstanceGroup drop];
-                }
-              [mi drop];
-            }
-          
-          if (compareFunc == compareCStrings)
-            {
-              const char *getKeyStr (id key)
-                {
-                  return (const char *) key;
-                }
-              [hdf5Obj storeAttribute: COMPARE_FUNCTION
-                       value: COMPARE_CSTRING];
-              store_map_deep (getKeyStr);
-            }
-          else if (compareFunc == compareUnsignedIntegers)
-            {
-              char buf[DSIZE (unsigned) + 1];
-          
-              const char *getKeyStr (id key)
-                {
-                  sprintf (buf, "%u", (unsigned) key);
-                  return buf;
-                }
-              [hdf5Obj storeAttribute: COMPARE_FUNCTION
-                       value: COMPARE_UNSIGNED];
-              store_map_deep (getKeyStr);
-            }
-          else if (compareFunc == compareIntegers)
-            {
-              char buf[DSIZE (int) + 1];
-              
-              const char *getKeyStr (id key)
-                {
-                  sprintf (buf, "%d", (int) key);
-                  return buf;
-                }
-              [hdf5Obj storeAttribute: COMPARE_FUNCTION
-                       value: COMPARE_INT];
-              store_map_deep (getKeyStr);
-            }
-          else 
-            abort ();
-        }
+      if (compareFunc)
+        [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_ID];
+      [keyGroup drop];
+      [valueGroup drop];
+      [mi drop];
     }
   else
     {
-      if (![self allSameClass])
-        raiseEvent (SaveError,
-                    "shallow HDF5 serialization on Collections must be of same type");
-      else
+      void store_map_deep (const char * (*getKeyStr) (id key))
         {
-          id aZone = [self getZone];
-          Class memberProto = [self getFirst];
-          id compoundType = [[[HDF5CompoundType createBegin: aZone]
-                               setClass: [memberProto class]]
-                              createEnd];
-          id dataset =
-            [[[[[[[HDF5 createBegin: aZone]
-                   setName: [hdf5Obj getName]]
-                  setCreateFlag: YES]
-                 setParent: hdf5Obj]
-                setCompoundType: compoundType]
-               setCount: [self getCount]]
-              createEnd];
-          id member, key;
-          id <MapIndex> mi = [self begin: aZone];
-          BOOL keyIsString = NO;
+          id key, value;
+          id <MapIndex> mi = [self begin: scratchZone];
           
-          [dataset storeTypeName: [self getTypeName]];
-          [dataset storeComponentTypeName: [memberProto getTypeName]];
-          
-          member = [mi next: &key];
-          
-          if (compareFunc == compareIDs || compareFunc == NULL)
-            keyIsString = stringp (key);
-          
-          [mi setLoc: Start];
-          while ((member = [mi next: &key]))
+          while ((value = [mi next: &key]))
             {
-              unsigned rn = [mi getOffset];
-              
-              if (keyIsString)
-                [dataset nameRecord: rn name: [key getC]];
-              else if (compareFunc == compareCStrings)
-                [dataset nameRecord: rn name: (const char *) key];
-              else if (compareFunc == compareUnsignedIntegers)
-                [dataset numberRecord: (unsigned) key];
-              else if (compareFunc == compareIntegers)
-                {
-                  char buf[DSIZE (int) + 1];
-                  sprintf (buf, "%d", (int) key);
-                  
-                  [dataset nameRecord: rn name: buf];
-                }
-              else
-                raiseEvent (SaveError, "cannot shallow-serialize Map %s",
-                            [hdf5Obj getName]);
-              
-              [dataset selectRecord: rn];
-              [member hdf5Out: dataset deep: NO];
+              id valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
+                                           setCreateFlag: YES]
+                                          setParent: hdf5Obj]
+                                         setName: getKeyStr (key)]
+                                            createEnd];
+              [value hdf5OutDeep: valueInstanceGroup];
+              [valueInstanceGroup drop];
             }
-          [dataset writeRowNames];
-          [dataset drop];
           [mi drop];
-          [compoundType drop];
         }
+      
+      hdf5_store_compare_function_attribute (hdf5Obj, compareFunc);
+      if (compareFunc == compareCStrings)
+        {
+          const char *getKeyStr (id key)
+            {
+              return (const char *) key;
+            }
+          store_map_deep (getKeyStr);
+        }
+      else if (compareFunc == compareUnsignedIntegers)
+        {
+          char buf[DSIZE (unsigned) + 1];
+          
+          const char *getKeyStr (id key)
+            {
+              sprintf (buf, "%u", (unsigned) key);
+              return buf;
+            }
+          store_map_deep (getKeyStr);
+        }
+      else if (compareFunc == compareIntegers)
+        {
+          char buf[DSIZE (int) + 1];
+          
+          const char *getKeyStr (id key)
+            {
+              sprintf (buf, "%d", (int) key);
+              return buf;
+            }
+          store_map_deep (getKeyStr);
+        }
+      else 
+        abort ();
     }
-#else
-  hdf5_not_available ();
-#endif
+  return self;
+}
+
+- hdf5OutShallow: hdf5Obj
+{
+  if (![self allSameClass])
+    raiseEvent (SaveError,
+                "shallow HDF5 serialization on Collections must be same type");
+  else
+    {
+      id aZone = [self getZone];
+      Class memberProto = [self getFirst];
+      id compoundType = [[[HDF5CompoundType createBegin: aZone]
+                           setClass: [memberProto class]]
+                          createEnd];
+      id dataset =
+        [[[[[[[HDF5 createBegin: aZone]
+               setName: [hdf5Obj getName]]
+              setCreateFlag: YES]
+             setParent: hdf5Obj]
+            setCompoundType: compoundType]
+           setCount: [self getCount]]
+          createEnd];
+      id member, key;
+      id <MapIndex> mi = [self begin: aZone];
+      BOOL keyIsString = NO;
+      
+      [dataset storeTypeName: [self getTypeName]];
+      [dataset storeComponentTypeName: [memberProto getTypeName]];
+      hdf5_store_compare_function_attribute (dataset, compareFunc);
+      
+      [mi next: &key];
+      if (compareFunc == compareIDs || compareFunc == NULL)
+        keyIsString = stringp (key);
+      
+      [mi setLoc: Start];
+      while ((member = [mi next: &key]))
+        {
+          unsigned rn = [mi getOffset];
+          
+          if (keyIsString)
+            [dataset nameRecord: rn name: [key getC]];
+          else if (compareFunc == compareCStrings)
+            [dataset nameRecord: rn name: (const char *) key];
+          else if (compareFunc == compareUnsignedIntegers)
+            [dataset numberRecord: (unsigned) key];
+          else if (compareFunc == compareIntegers)
+            {
+              char buf[DSIZE (int) + 1];
+
+              sprintf (buf, "%d", (int) key);
+              [dataset nameRecord: rn name: buf];
+            }
+          else
+            raiseEvent (SaveError, "cannot shallow-serialize Map %s",
+                        [hdf5Obj getName]);
+          
+          [dataset selectRecord: rn];
+          [member hdf5OutShallow: dataset];
+        }
+      [dataset writeRowNames];
+      [dataset drop];
+      [mi drop];
+      [compoundType drop];
+    }
   return self;
 }
 
@@ -737,7 +760,40 @@ PHASE(Using)
 {
   id aZone = [self getZone];
 
-  if (![hdf5Obj getDatasetFlag])
+  if ([hdf5Obj getDatasetFlag])
+    {
+      id aZone = [self getZone];
+      Class class = [hdf5Obj getClass];
+      unsigned i, c_count = [hdf5Obj getCount];
+      const char **rowNames = [hdf5Obj readRowNames];
+      const char *fmt = NULL;
+      
+      if (compareFunc == compareIntegers)
+        fmt = "%d";
+      else if (compareFunc == compareUnsignedIntegers)
+        fmt = "%u";
+      else if (compareFunc == compareCStrings)
+        fmt = NULL;
+      else
+        abort (); // handle Strings
+      
+      for (i = 0; i < c_count; i++)
+        {
+          id obj = [class create: aZone];
+          id key;
+          
+          [hdf5Obj selectRecord: i];
+          [hdf5Obj shallowLoadObject: obj];
+          if (fmt)
+            sscanf (rowNames[i], fmt, (int *) &key);
+          else
+            key = (id) rowNames[i];
+          
+          [(id) self at: key insert: obj];
+        }
+      XFREE (rowNames); // but not the contents
+    }
+  else
     {
       if (compareFunc == compareIDs || compareFunc == NULL)
         {
@@ -788,13 +844,13 @@ PHASE(Using)
                || compareFunc == compareUnsignedIntegers)
         {
           const char *fmt;
-
+          
           int process_object (id keyComponent)
             {
               const char *keyStr = [keyComponent getName];
               int key;
               id value = hdf5In (aZone, keyComponent);
-
+              
               sscanf (keyStr, fmt, &key);
               [self at: (id) key insert: value];
               return 0;
@@ -805,10 +861,6 @@ PHASE(Using)
         }
       else
         abort ();
-    }
-  else
-    {
-      printf ("shallow map\n");
     }
   return self;
 }

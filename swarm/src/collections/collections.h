@@ -87,7 +87,7 @@ USING
 @end
 
 
-@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach, Serialization>
+@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
 //S: A generic collection interface.
 
 //D: A collection is a grouping of object references or other data values which

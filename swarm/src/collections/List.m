@@ -93,6 +93,12 @@ PHASE(Creating)
   return self;
 }
 
+- hdf5InCreate: hdf5Obj
+{
+  return self;
+}
+
+
 PHASE(Setting)
 
 - (void)setCountPerBlock: (int)countPerBlock
@@ -128,7 +134,7 @@ PHASE(Using)
   return self;
 }
 
-- lispOut: outputCharStream deep: (BOOL)deepFlag
+- _lispOut_: outputCharStream deep: (BOOL)deepFlag
 {
   id index, member;
 
@@ -136,8 +142,16 @@ PHASE(Using)
   [outputCharStream catC: [self getTypeName]];
 
   index = [(id) self begin: scratchZone];
-  while ((member = [index next]))
-    [member lispOut: outputCharStream deep: (BOOL)deepFlag];
+  if (deepFlag)
+    {
+      while ((member = [index next]))
+        [member lispOutDeep: outputCharStream];
+    }
+  else
+    {
+      while ((member = [index next]))
+        [member lispOutShallow: outputCharStream];
+    }
   [index drop];
 
   [self _lispOutAttr_: outputCharStream];
@@ -162,6 +176,16 @@ PHASE(Using)
   [outputCharStream catC: ")"];
   
   return self;
+}
+
+- lispOutDeep: stream
+{
+  return [self _lispOut_: stream deep: YES];
+}
+
+- lispOutShallow: stream
+{
+  return [self _lispOut_: stream deep: NO];
 }
 
 - hdf5In: hdf5Obj
@@ -189,6 +213,80 @@ PHASE(Using)
           return 0;
         }
       [hdf5Obj iterate: process_object];
+    }
+  return self;
+}
+
+- hdf5OutDeep: hdf5Obj
+{
+  id aZone = [self getZone];
+
+  id <Index> li = [self begin: scratchZone];
+  id member;
+  
+  [hdf5Obj storeTypeName: [self getTypeName]];
+  while ((member = [li next]))
+    {
+      id itemGroup;
+      char buf[DSIZE (unsigned) + 1];
+      
+      sprintf (buf, "%u", [li getOffset]);
+      
+      itemGroup = [[[[[HDF5 createBegin: aZone]
+                       setParent: hdf5Obj]
+                      setCreateFlag: YES]
+                     setName: buf]
+                    createEnd];
+      
+      [member hdf5OutDeep: itemGroup];
+      [itemGroup drop];
+    }
+  [li drop];
+
+  return self;
+}
+
+- hdf5OutShallow: hdf5Obj
+{
+  if (![self allSameClass])
+    raiseEvent (SaveError,
+                "shallow HDF5 serialization on Collections must be same type");
+  else
+    {
+      id aZone = [self getZone];
+      id memberProto = [self getFirst];
+      id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
+                               setClass: [memberProto class]]
+                              createEnd];
+      
+      id hdf5ObjDataset =
+        [[[[[[[HDF5 createBegin: aZone]
+               setName: [hdf5Obj getName]]
+              setParent: hdf5Obj]
+             setCreateFlag: YES]
+            setCompoundType: hdf5CompoundType]
+           setCount: [self getCount]]
+          createEnd];
+      
+      [hdf5ObjDataset storeTypeName: [self getTypeName]];
+      [hdf5ObjDataset storeComponentTypeName: [memberProto getTypeName]];
+      {
+        id <Index> li = [self begin: scratchZone];
+        id member;
+        
+        while ((member = [li next]))
+          {
+            unsigned rn = [li getOffset];
+            
+            [hdf5ObjDataset numberRecord: rn];
+            [hdf5ObjDataset selectRecord: rn];
+            [member hdf5OutShallow: hdf5ObjDataset];
+          }
+        [li drop];
+      }
+      [hdf5ObjDataset writeRowNames];
+      [hdf5ObjDataset drop];
+      [hdf5CompoundType drop];
     }
   return self;
 }

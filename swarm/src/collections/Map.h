@@ -42,9 +42,14 @@ typedef struct mapentry {
 - createIndex: aZone fromMember: anObject;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (BOOL)allSameClass;
+- lispInCreate: expr;
 - lispIn: expr;
-- lispOut: stream deep: (BOOL)deepFlag;
-- hdf5Out: hdf5Obj deep: (BOOL)deepFlag;
+- lispOutShallow: stream;
+- lispOutDeep: stream;
+- hdf5InCreate: hdf5Obj;
+- hdf5In: hdf5Obj;
+- hdf5OutShallow: hdf5Obj;
+- hdf5OutDeep: hdf5Obj;
 @end
 
 @interface MapIndex_c: Index_any <MapIndex>
