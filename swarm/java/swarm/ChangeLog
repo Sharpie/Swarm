@@ -1,3 +1,10 @@
+1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (jar): New target, depend on modules and
+	$(POSTCLASSFIELS).
+	(all): Depend on it.
+	(JAR, JAR_HOME): Substitute.
+
 1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (modules): New target.

@@ -4,7 +4,8 @@ jdkdir=@jdkdir@
 INSTALL=@INSTALL@
 jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
-JAR=$(jdkbindir)/jar
+JAR=@JAR@
+JAR_HOME=@JAR_HOME@
 JAVAC=$(jdkbindir)/javac
 JAVACLASSES=@JAVACLASSES@
 srcdir=@srcdir@
@@ -25,14 +26,16 @@ GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swar
 
 GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS))))))))
 
-all: modules $(POSTCLASSFILES)
+all: jar
 
 deps: 
 	for module in $(MODULES); do $(MAKE) -C $$module .deps; done
 
 modules: deps $(PRECLASSFILES)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
-	cd .. ; JAVA_HOME=$(jdkdir) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
+
+jar: modules $(POSTCLASSFILES)
+	cd .. ; JAVA_HOME=$(JAR_HOME) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
 install: all
 	test -d $(datadir) || mkdir $(datadir)
