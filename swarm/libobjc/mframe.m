@@ -30,7 +30,6 @@
 
 #include <objc/objc-api.h>
 BOOL sel_types_match (const char* t1, const char* t2);
-#include "mframe-preface.h"
 #include <objc/mframe.h>
 #include <stdlib.h>
 #include <string.h>

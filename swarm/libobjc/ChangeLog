@@ -1,3 +1,7 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* mframe.m: Don't include mframe-preface.h.
+
 1999-04-19  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* mframe.m: Include string.h for strncpy.
