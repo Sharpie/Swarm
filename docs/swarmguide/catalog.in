@@ -8,6 +8,6 @@ PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN" @top_dossrcdir@/usermeta
 PUBLIC "-//SFI Hive//ENTITIES Guide Figure List//EN" @top_dossrcdir@/figs/figs.ent
 
 PUBLIC "-//SFI Hive//ENTITIES Modeling JPEG//EN" figs/modeling.jpeg
-PUBLIC "-//SFI Hive//ENTITIES Modeling EPS//EN" figs/modeling.eps
+PUBLIC "-//SFI Hive//ENTITIES Modeling EPS//EN" @top_dossrcdir@/figs/modeling.eps
 
 SGMLDECL "@top_dossrcdir@/docbook.dcl"
