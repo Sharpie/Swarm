@@ -663,7 +663,6 @@ PHASE(Using)
 	  newIndex->listIndex = listIndex;
           return newIndex;
 	}
-      anEntry = [listIndex next];
     }
 
   [listIndex drop];
