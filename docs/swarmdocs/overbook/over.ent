@@ -1,4 +1,5 @@
 <!entity overmeta.sgml system "overmeta.sgml">
+<!entity overrevhistory.sgml system "overrevhistory.sgml">
 <!entity overcont.sgml system "overcont.sgml">
 <!entity over01.sgml system "over01.sgml">
 <!entity over02.sgml system "over02.sgml">

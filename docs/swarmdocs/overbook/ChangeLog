@@ -1,3 +1,14 @@
+1998-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (GENERATED_SGML): Added for revhistory.
+	(noinst_DATA): Added.
+	(SGML, SGML_FILES): Separated out generated/non-gen files.
+
+	* over.ent: Created overrevhistory.sgml entity.
+
+	* overmeta.sgml: Replaced hardcoded revhistory with the new
+	entity overrevhistory.sgml.
+
 1998-06-09  Alex Lancaster  <alex@santafe.edu>
 
 	* overmeta.sgml: Changed corpauthor to be inserted from Global
