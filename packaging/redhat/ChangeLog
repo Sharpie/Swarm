@@ -1,3 +1,11 @@
+2003-08-13  Alex Lancaster  <alex@swarm.org>
+
+	* swarm.spec (Summary): Remove 'Distribution' tag no longer any
+	Red Hat|ContribNet [although there is a new Red Hat Linux
+	Project (RHLP)].  Make Paul Johnson the packager, remove rhcn
+	e-mail address.  Project is no longer 'sponsored' by Santa Fe
+	Institute.
+
 2003-08-12  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* swarm.spec (Summary): (swarm-jdk-2.1.147-2RH9.spec on my system)

@@ -16,8 +16,7 @@ BuildPrereq: libffi >= 1.20
 %endif
 BuildPrereq: jikes
 Icon: swarm.xpm
-Packager: Red Hat Contrib|Net <rhcn-bugs@redhat.com>
-Distribution: Red Hat Contrib|Net
+Packager: Paul Johnson <pauljohn@ku.edu>
 Vendor: Swarm Development Group
 URL: http://www.swarm.org
 Requires: gcc >= 3.2.2, gcc-objc, hdf5 = 1.4.5post2, XFree86-devel, glibc-devel, libpng, libpng-devel, zlib, zlib-devel, blt, tcl >= 8.3.0, tk >= 8.3.0
@@ -28,9 +27,9 @@ Provides: swarm-base
 
 %description
 Swarm is a simulation toolkit for complex adaptive systems. The Swarm
-project is sponsored by the Santa Fe Institute.  To use this version,
-you need a number of libraries and utilities, including tcl/tk 8.3.0
-or better, and the blt library package.
+is developed by the Swarm Development Group and volunteers.  To use
+this version, you need a number of libraries and utilities, including
+tcl/tk 8.3.0 or better, and the blt library package.
 
 
 #%define gcc_path PATH=/usr/local/bin:$PATH
@@ -60,10 +59,13 @@ or better, and the blt library package.
 %define fix_path() cd $RPM_INSTALL_PREFIX0; for i in %1; do eval "sed 's%/REPLACE-AT-INSTALLATION%$RPM_INSTALL_PREFIX0%g' $i > /tmp/swarmfile"; chmod --reference=$i /tmp/swarmfile; mv /tmp/swarmfile $i; done
 
 %changelog
+* Wed Aug 13 2003 Alex Lancaster
+
+- clean up spec file some more.
+
 * Thu Nov 8 2001 Paul Johnson <pauljohn@ukans.edu>
 
 - trying to use Redhat 7.2's gcc3 compiler
-
 
 * Fri Sep 7 2001 Paul Johnson <pauljohn@ukans.edu>
 
