@@ -195,8 +195,8 @@
 
 - showContent
 {
-  createProbeDisplay (self);
-  return self ;
+  CREATE_PROBE_DISPLAY (self);
+  return self;
 }
 
 @end
