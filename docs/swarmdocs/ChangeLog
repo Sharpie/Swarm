@@ -1,3 +1,9 @@
+1998-06-02  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in: Add AC_ARG_WITH "stylesheet" variable for
+	generating a --with-stylesheet configure flag - defaults to SFI
+	location.
+
 1998-06-01  Marcus G. Daniels  <mgd@mogollon.santafe.edu>
 
 	* configure.in: Check for --with-swarm and --with-gridturtle.

@@ -7,6 +7,11 @@ AC_ARG_WITH(swarm,dnl
   swarm_srcdir=$withval,dnl
   swarm_srcdir='$(SWARMHOME)')
 
+AC_ARG_WITH(stylesheet,dnl
+  --with-stylesheet=directory-of-stylesheets,dnl
+  stylesheets_srcdir=$withval,dnl
+  stylesheets_srcdir=/net/wijiji/disk2/src/docbook)
+
 AC_ARG_WITH(gridturtle,dnl
   --with-gridturtle=directory-of-gridturtle,dnl
   gridturtle_srcdir=$withval,dnl
@@ -15,6 +20,7 @@ AC_ARG_WITH(gridturtle,dnl
 AM_CONFIG_HEADER(config.h)
 
 AC_SUBST(swarm_srcdir)
+AC_SUBST(stylesheets_srcdir)
 AC_SUBST(gridturtle_srcdir)
 
-AC_OUTPUT([Makefile src/Makefile installing/Makefile overview/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/refbook.tex overview/overbook.tex installing/installbook.tex set/set.tex src/activity/activity.ent src/analysis/analysis.ent src/collections/collections.ent src/defobj/defobj.ent src/gui/gui.ent src/objectbase/objectbase.ent src/random/random.ent src/simtools/simtools.ent src/simtoolsgui/simtoolsgui.ent src/space/space.ent src/src.ent src/refbook.sgml set/set.sgml])
+AC_OUTPUT([Makefile swarmbook.dsl src/Makefile installing/Makefile overview/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/refbook.tex overview/overbook.tex installing/installbook.tex set/set.tex src/activity/activity.ent src/analysis/analysis.ent src/collections/collections.ent src/defobj/defobj.ent src/gui/gui.ent src/objectbase/objectbase.ent src/random/random.ent src/simtools/simtools.ent src/simtoolsgui/simtoolsgui.ent src/space/space.ent src/src.ent src/refbook.sgml set/set.sgml])
