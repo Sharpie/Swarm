@@ -299,15 +299,13 @@ USING
 //   and likewise for the non-split (simple) generators.
 //
 
-@protocol SimpleRandomGenerator 
-<SwarmObject, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
+@protocol SimpleRandomGenerator <SwarmObject, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
 //S: A Simple (non-split) generator.
 
 //D: This protocol covers all implemented non-split generators.
 @end
 
-@protocol SplitRandomGenerator 
-<SwarmObject, InternalState, SplitOut, Split, SplitSingleSeed, SplitMultiSeed>
+@protocol SplitRandomGenerator <SwarmObject, InternalState, SplitOut, Split, SplitSingleSeed, SplitMultiSeed>
 //S: A Split generator.
 
 //D: This protocol covers the implemented split generators

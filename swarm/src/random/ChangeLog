@@ -1,3 +1,9 @@
+1998-10-29  Alex Lancaster  <alex@santafe.edu>
+
+	* generators.h (SimpleRandomGenerator, SplitRandomGenerator: Put
+	protocol conformance on same line as protocol line for correct
+	parsing by DSSSL.
+
 1998-10-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* BernoulliDist.m, ExponentialDist.m, GammaDist.m,
