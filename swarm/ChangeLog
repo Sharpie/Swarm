@@ -1,6 +1,10 @@
-1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VERSION: Version 2.0 released.
+
+	* acconfig.h: Add HAVE_KAFFE.
+
+1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note that lookup methods don't terminate on null member.
 
