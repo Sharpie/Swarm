@@ -23,7 +23,7 @@
 
 /* Duplicate S, returning an identical malloc'd string.  */
 char *
-strdup (const char *s)
+xstrdup (const char *s)
 {
   size_t len = strlen (s) + 1;
   void *new = xmalloc_atomic (len);

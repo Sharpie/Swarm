@@ -3,11 +3,10 @@ CURRENT = 2
 REVISION = 2
 AGE = 1
 miscdir = $(includedir)/misc
-JAVAINCLUDES = @JAVAINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules 
 
-INCLUDES = -I$(srcdir)/.. $(JAVAINCLUDES)
+INCLUDES = -I$(srcdir)/..
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
@@ -19,12 +18,12 @@ ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
 
 EXTRA_DIST = memchr.c memcpy.c memset.c \
 	realpath.c \
-	stpcpy.c strchr.c strcmp.c strdup.c strlen.c strncmp.c \
+	stpcpy.c strchr.c strcmp.c strlen.c strncmp.c \
 	strndup.c strnlen.c strpbrk.c strsep.c $(ARGP_SRC)
 
 EXTRA_HEADERS = argp.h
 
-SRC = xmalloc.c find_executable.c dropdir.c avl.c debugabort.c
+SRC = xmalloc.c find_executable.c dropdir.c avl.c debugabort.c strdup.c
 
 noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h
 

@@ -1,7 +1,6 @@
-1999-08-06  Alex Lancaster  <alex@santafe.edu>
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am (JAVAINCLUDES): Extract variable.
-	(INCLUDES): Add JAVAINCLUDES.
+	* Makefile.am (SRC): Move strdup from EXTRA_DIST to SRC.
 
 1999-08-06  Marcus G. Daniels  <mgd@helen.santafe.edu>
 

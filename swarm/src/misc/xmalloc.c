@@ -4,7 +4,7 @@
 #include <gc.h>
 #endif
 
-#if 1
+#if 0
 #include <jni.h>
 #define USE_GC
 #define GC_MALLOC(size) jmalloc(size)
