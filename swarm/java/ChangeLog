@@ -1,3 +1,22 @@
+1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (included-method-p): Don't put +create methods
+	methods in using phase.
+	(java-suffix-for-phase): Make using phase the common (non-suffix)
+	case.
+	(java-print-class-constructor-method): Use create phase
+	constructor in using phase constructor.  Pass `this' as argument
+	to create phase constructor, so that phase switch can chain them
+	together.
+	(java-print-nextphase-class-constructor): New method.
+	(java-print-class-phase): Have create-phase classes extend
+	PhaseCImpl.  Print the next-phase-as-argument create-time
+	constructors.
+	(java-print-native-method): For +create:* and -createEnd methods,
+	use JNEXTPHASE instead of JINSTANTIATEUSING (instead of string
+	manipulation to determine string, it's waiting for use in the
+	PhaseCImpl nextPhase instance variable).
+
 1999-06-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-basic-class-constructor): New function.
@@ -9,7 +28,6 @@
 	 +create:setA:setV:setW:setStateFromSeeds: instead of 
 	 +create:setA:setv:setw:setStateFromSeeds:.
 	 (java-print-javadoc-method): Don't print javadoc hide message.
-	 (java-print-method): Insert "static" for factory methods.
 	 (included-method-p): Include convenience factory methods in using 
 	phase.
 	(convenience-create-method-p, collect-convenience-create-methods, 
