@@ -25,8 +25,9 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env, jobject obj, jobjectArray ar
       utf = (const char *) (*env)->GetStringUTFChars (env, jstr, &isCopy);
       argv[i + 1] = isCopy ? (const char *) utf : strdup (utf);
     }
+  initSwarmApp (argc, argv, VERSION, "bug-swarm@santafe.edu");
   java_directory_init (env);
   defobj_init_java_call_tables ((void *) env);
-  initSwarmApp (argc, argv, VERSION, "bug-swarm@santafe.edu");
+ 
 }
 

@@ -45,7 +45,7 @@ create_class_refs (JNIEnv *env)
           abort ();
       if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
           abort ();  
-
+      ret = (*env)->NewGlobalRef (env, ret);
       return ret;
     }
   if (!initFlag)
@@ -58,7 +58,8 @@ create_class_refs (JNIEnv *env)
       c_float = find ("Float");
       c_double = find ("Double");
       c_void = find ("Void");
-      c_object = (*env)->FindClass (env, "java/lang/Object");
+      c_object = 
+	(*env)->NewGlobalRef(env, (*env)->FindClass (env, "java/lang/Object"));
 
       if (c_object == NULL)
         abort ();
@@ -77,6 +78,7 @@ create_class_refs (JNIEnv *env)
 
         if (!(c_globalZone = (*env)->GetObjectField (env, clazz, field)))
           abort ();
+	c_globalZone = (*env)->NewGlobalRef (env, c_globalZone);
       }
       initFlag = YES;
     }
@@ -87,12 +89,16 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
 {
   jobject_id pattern;
   jobject_id *result; 
-  
-  pattern.java_object = java_object;
+  jobject newRef;
+
+  newRef = (*env)->NewGlobalRef (env, java_object);
+
+  pattern.java_object = newRef;
   result = avl_find (java_tree, &pattern);
   if (!result) 
+    {
     result = java_directory_update (env,
-                                    java_object,
+                                    newRef,
                                     [JavaProxy create: globalZone]);
   return result;
 }
@@ -127,10 +133,8 @@ java_directory_update (JNIEnv *env, jobject java_object, id objc_object)
   (*foundptr)->java_object = java_object;
 
   if (*foundptr != data)
-    XFREE (data);
-  else
-    (*env)->NewGlobalRef (env, java_object);
-    
+      XFREE (data);
+
   return *foundptr;
 }
 
@@ -182,17 +186,15 @@ java_directory_switchupdate_java (JNIEnv *env,
 jobject
 java_instantiate (JNIEnv *env, jclass clazz)
 {
-  return (*env)->AllocObject (env, clazz);
+  return (*env)->NewGlobalRef(env, (*env)->AllocObject (env, clazz));
 }
 
 jobject
 java_instantiate_name (JNIEnv *env, const char *className)
 {
   jclass clazz = (*env)->FindClass (env, className);
-  
   if (!clazz)
     abort ();
-  
   return java_instantiate (env, clazz);
 }
 
@@ -209,7 +211,7 @@ int compare_objc_objects (const void *A, const void *B, void *PARAM)
   if (((jobject_id *) A)->objc_object <
       ((jobject_id *) B)->objc_object)
     return -1;
-  
+
   return (((jobject_id *) A)->objc_object >
 	  ((jobject_id *) B)->objc_object);
 }
@@ -240,29 +242,38 @@ java_directory_drop (JNIEnv *env)
 SEL
 java_ensure_selector (JNIEnv *env, jobject jsel)
 {
-  jclass clazz = (*env)->GetObjectClass (env, jsel);
-  jfieldID nameFid =
-    (*env)->GetFieldID (env, clazz, "name", "Ljava/lang/String;");
+  jclass clazz;
+  jfieldID nameFid; 
   jstring string;
   const char *utf;
   char *name, *p;
   SEL sel;
   unsigned i;
   jboolean copyFlag;
-  jfieldID retTypeFid = 
+  jfieldID retTypeFid;
+  jfieldID argTypesFid;
+  jfieldID objcFlagFid;
+  jclass retType;
+  jboolean objcFlag;
+  jarray argTypes;
+  jsize argCount;
+
+
+  clazz = (*env)->GetObjectClass (env, jsel);
+  nameFid =(*env)->GetFieldID (env, clazz, "signature", "Ljava/lang/String;"); 
+  retTypeFid = 
     (*env)->GetFieldID (env, clazz, "retType", "Ljava/lang/Class;");
-  jfieldID argTypesFid =
+  argTypesFid =
     (*env)->GetFieldID (env, clazz, "argTypes", "[Ljava/lang/Class;");
-  jfieldID objcFlagFid =
+  objcFlagFid =
       (*env)->GetFieldID (env, clazz, "objcFlag", "Z");
-  jclass retType = (*env)->GetObjectField (env, jsel, retTypeFid);
-  jboolean objcFlag = (*env)->GetBooleanField (env, jsel, objcFlagFid);
-  jarray argTypes = (*env)->GetObjectField (env, jsel, argTypesFid);
-  jsize argCount = (*env)->GetArrayLength (env, argTypes);
-  
+  retType = (*env)->GetObjectField (env, jsel, retTypeFid);
+  objcFlag = (*env)->GetBooleanField (env, jsel, objcFlagFid);
+  argTypes = (*env)->GetObjectField (env, jsel, argTypesFid);
+  argCount = (*env)->GetArrayLength (env, argTypes);
   string = (*env)->GetObjectField (env, jsel, nameFid);
   utf = (*env)->GetStringUTFChars (env, string, &copyFlag);
-  
+
   if (objcFlag)
     {
       p = name = (copyFlag ? (char *) utf : strdup (utf));
@@ -281,7 +292,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
         *p++ = ':';
       *p = '\0';
     }
-  
+
   sel = sel_get_any_typed_uid (name);
 
   if (!sel)
