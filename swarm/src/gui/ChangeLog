@@ -1,3 +1,9 @@
+1998-02-24  Alex Lancaster  <alex@santafe.edu>
+
+	* gui.h (GUI_UPDATE_IDLE_TASKS): Added to call the new
+	parametrized (tkobjc_updateIdleTasks) for the Tk #ifndef and a
+	stub added for the Java version.
+
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h: Change javaobjc to awtobjc throughout.  Use initAWTObjc
