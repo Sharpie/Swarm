@@ -15,7 +15,7 @@ main (int argc, char **argv)
   // Make the experiment swarm
 
   experSwarm =  [ExperSwarm createBegin: globalZone];
-  [experSwarm setWindowGeometryRecordName: "experSwarm"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (experSwarm);
   experSwarm = [experSwarm createEnd];
 
   // Now send messages to the newly created swarm telling it

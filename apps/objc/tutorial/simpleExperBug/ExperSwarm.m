@@ -138,7 +138,7 @@
   // build the EZGraph for model results
 
   resultGraph = [EZGraph createBegin: [self getZone]];
-  [resultGraph setWindowGeometryRecordName: "resultGraph"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (resultGraph);
   [resultGraph setTitle: "Model Run Times"];
   [resultGraph setAxisLabelsX: "Model #" Y: "Run Time"];
   resultGraph = [resultGraph createEnd] ;
