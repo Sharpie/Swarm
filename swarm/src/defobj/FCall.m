@@ -631,6 +631,17 @@ PHASE(Using)
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
     {
+      jobject exception;
+
+      if ((exception = (*jniEnv)->ExceptionOccurred (jniEnv)))
+        {
+          (*jniEnv)->ExceptionDescribe (jniEnv);
+          (*jniEnv)->ExceptionClear (jniEnv);
+          (*jniEnv)->DeleteLocalRef (jniEnv, exception);
+
+          raiseEvent (InvalidOperation,
+                      "Exception occurred in Java method `%s'\n", methodName);
+        }
       if (fargs->returnType == fcall_type_jobject
 	  || fargs->returnType == fcall_type_jstring)
 	{
