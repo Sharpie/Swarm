@@ -1,3 +1,13 @@
+1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* Makefile.am (SUBDIRS): Instead of java list JAVA_MODULE_DIR variable
+	which is set to java if package is configured with --enable-java and 
+	empty  otherwise.
+
+	* configure.in: Call vj_DISABLE_JAVA to disable Java by default. 
+	(JAVA_ENABLED): Export JAVA_ENABLED.
+	(jdkdir): Parse --with-jdkdir option. 
+	
 1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VERSION: Bump.
