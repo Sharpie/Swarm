@@ -12,6 +12,10 @@
   int dataOffset;
   BOOL interactiveFlag;
   const char *floatFormat; // actual sprintf-type format
+
+  unsigned rank;
+  unsigned *dims;
+  const char *baseType;
 }
 
 - setProbedVariable: (const char *)aVariable;
@@ -25,8 +29,16 @@
 - (int)getDataOffset;
 - (BOOL)getInteractiveFlag;
 
+- (unsigned)getRank;
+- (unsigned *)getDims;
+- (const char *)getBaseType;
+
+- iterateAsDouble: anObject using: (void (*) (unsigned rank, unsigned *vec, double val))func;
+- iterateAsInteger: anObject using: (void (*) (unsigned rank, unsigned *vec, int val))func;
+
 - setData: anObject To: (void *)newValue;	      // pass by reference.
 - (BOOL)setData: anObject ToString: (const char *)s;  // gives us the string.
+- (void)drop;
 
 @end
 

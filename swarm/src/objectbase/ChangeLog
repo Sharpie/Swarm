@@ -1,3 +1,19 @@
+1999-02-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbe.m: Include ../defobj/internal.h.
+
+	* VarProbe.[hm], objectbase.h ([VarProbe -getRank], [VarProbe
+	-getDims], [VarProbe -getBaseType], [VarProbe iterateAsDouble:using:],
+	[VarProbe iterateAsInteger:using:], [VarProbe -drop]): New methods.
+	(probe_as_int): New function.
+	([VarProbe -probeAsInt:]): Use it.
+	(probe_as_double): New function.
+	([VarProbe -probeAsDouble:]): Use it.
+
+	* VarProbe.m ([VarProbe -free]): Remove.
+
+	* VarProbe.h (VarProbe): Add rank, dims, and baseType.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (CURRENT, REVISION, AGE): No changes.  Version 1.4.1.

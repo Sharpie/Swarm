@@ -232,6 +232,24 @@ USING
                        Buffer: (char *)buf
             withFullPrecision: (int)precision;
 
+//M: Returns rank of array, or 0 for scalar objects.
+- (unsigned)getRank;
+
+//M: In the case of arrays, returns the base type.
+- (const char *)getBaseType;
+
+//M: Returns a vector equal to length returned by getRank:
+//M: with the dimensions of the array (major to minor).
+- (unsigned *)getDims;
+
+//M: Iterates through the elements in an array, calling the argument function
+//M: with the rank, position vector, and array element cast as a double.
+- iterateAsDouble: anObject using: (void (*) (unsigned rank, unsigned *vec, double val))func;
+
+//M: Iterates through the elements in an array, calling the argument function
+//M: with the rank, position vector, and array element cast as an integer.
+- iterateAsInteger: anObject using: (void (*) (unsigned rank, unsigned *vec, int val))func;
+
 //M: The setData:To: method sets the probedVariable using the pointer
 //M: to the new value.
 - setData: anObject To: (void *)newValue;  // pass by reference.

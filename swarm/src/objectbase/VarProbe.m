@@ -10,6 +10,8 @@
 #include <objc/objc-api.h>
 #include <misc.h> // strdup, strcmp, xmalloc, XFREE, sprintf, sscanf
 
+#include "../defobj/internal.h" // process_array
+
 @implementation VarProbe
 
 PHASE(Creating)
@@ -80,7 +82,7 @@ PHASE(Creating)
         interactiveFlag = YES;
       else
         interactiveFlag = NO;
-      
+
       // set up default formatting string for floating point and 
       // double types - defaults are set in the probeLibrary instance
       if  (type == _C_FLT || type == _C_DBL)
@@ -88,6 +90,27 @@ PHASE(Creating)
           char *buf = xmalloc (7);
           sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
           floatFormat = buf; // allocate memory for string
+        }
+      else if (type == _C_ARY_B)
+        {
+          void setup_array (unsigned theRank,
+                            unsigned *theDims,
+                            const char *theBaseType)
+            {
+              size_t size = sizeof (unsigned) * theRank;
+              
+              rank = theRank;
+              dims = xmalloc (size);
+              memcpy (dims, theDims, size);
+              baseType = theBaseType;
+            }
+          process_array (probedType,
+                         setup_array,
+                         NULL, NULL,
+                         NULL, NULL,
+                         NULL,
+                         NULL,
+                         NULL);
         }
       return self;
     }
@@ -137,11 +160,19 @@ PHASE(Using)
   return dataOffset;
 }
 
-- free
+- (unsigned)getRank
 {
-  if (probedVariable)
-    XFREE (probedVariable);
-  return [super free];
+  return rank;
+}
+
+- (unsigned *)getDims
+{
+  return dims;
+}
+
+- (const char *)getBaseType
+{
+  return baseType;
 }
 
 - clone: aZone
@@ -169,7 +200,7 @@ PHASE(Using)
       raiseEvent (WarningMessage,
                   "VarProbe for class %s tried on class %s\n",
                   [probedClass name], [anObject name]);
-  return (char *)anObject + dataOffset;
+  return (void *) anObject + dataOffset;
 }
 
 - (void *)probeAsPointer: anObject
@@ -211,25 +242,17 @@ PHASE(Using)
   return q;
 }
 
-- (int)probeAsInt: anObject
+static int
+probe_as_int (const char *probedType, const void *p)
 {
-  const void *p;
   int i = 0;
-  
-  if (safety)
-    if (![anObject isKindOf: probedClass])
-      raiseEvent (WarningMessage,
-                  "VarProbe for class %s tried on class %s\n",
-                  [probedClass name], [anObject name]);
-  
-  p = ((const char *)anObject) + dataOffset;
   
   switch (probedType[0])
     {
     case _C_ID:   i = (long)*(id *)p; break;
     case _C_CHARPTR:
     case _C_PTR:  i = (long)*(void **)p; break;
-
+      
     case _C_UCHR: i = (int)*(unsigned char *)p; break;
     case _C_CHR:  i = (int)*(char *)p; break;
 
@@ -245,27 +268,33 @@ PHASE(Using)
     default:
       if (SAFEPROBES)
         raiseEvent (WarningMessage,
-                    "Invalid type %s to retrieve as an int...\n",
+                    "Invalid type `%s' to retrieve as an int...\n",
                     probedType);
       break;
     }
   return i;
 }
 
-- (double)probeAsDouble: anObject
+- (int)probeAsInt: anObject
 {
   const void *p;
-  double d = 0.0;
   
   if (safety)
     if (![anObject isKindOf: probedClass])
       raiseEvent (WarningMessage,
                   "VarProbe for class %s tried on class %s\n",
-                  [probedClass name],
-                  [anObject name]);
+                  [probedClass name], [anObject name]);
   
-  p = ((const char *)anObject) + dataOffset;
-  
+  p = ((const void *)anObject) + dataOffset;
+
+  return probe_as_int (probedType, p);
+}
+
+static double
+probe_as_double (const char *probedType, const void *p)
+{
+  double d = 0.0;
+
   switch (probedType[0])
     {
     case _C_UCHR: d = (double)*(unsigned char *)p; break;
@@ -276,21 +305,37 @@ PHASE(Using)
 
     case _C_INT:  d = (double)*(int *)p; break;
     case _C_UINT: d = (double)*(unsigned int *)p; break;
-
+      
     case _C_LNG:  d = (double)*(long *)p; break;
     case _C_ULNG: d = (double)*(unsigned long *)p; break;
       
     case _C_FLT:  d = (double)*(float *)p; break;
     case _C_DBL:  d = (double)*(double *)p; break;
-
+      
     default:
       if (SAFEPROBES)
         raiseEvent (WarningMessage,
-                    "Invalid type %s to retrieve as a double...\n",
+                    "Invalid type `%s' to retrieve as a double...\n",
                     probedType);
       break;
     }
   return d;
+}
+
+- (double)probeAsDouble: anObject
+{
+  const void *p;
+  
+  if (safety)
+    if (![anObject isKindOf: probedClass])
+      raiseEvent (WarningMessage,
+                  "VarProbe for class %s tried on class %s\n",
+                  [probedClass name],
+                  [anObject name]);
+  
+  p = ((const void *)anObject) + dataOffset;
+
+  return probe_as_double (probedType, p);
 }
 
 - (const char *)probeAsString: anObject Buffer: (char *)buf
@@ -301,9 +346,9 @@ PHASE(Using)
   return buf;
 }
 
-- (const char *) probeAsString: anObject
-                        Buffer: (char *)buf 
-             withFullPrecision: (int)precision
+- (const char *)probeAsString: anObject
+                       Buffer: (char *)buf 
+            withFullPrecision: (int)precision
 {
   const void *p;
   
@@ -403,6 +448,67 @@ PHASE(Using)
   return buf;
 }
 
+- iterateAsDouble: anObject using: (void (*) (unsigned rank, unsigned *vec, double val))func
+{
+  unsigned vec[rank];
+  unsigned di, ii;
+  const void *ary = (const void *) anObject + dataOffset;
+  
+  void start_dim (unsigned dimnum)
+    {
+      di = dimnum;
+      ii = 0;
+    }
+  void start_element (void)
+    {
+      vec[di] = ii++;
+    }
+  void output_type (const char *type, unsigned offset, void *data)
+    {
+      func (rank, vec, ((double *)ary)[offset]);
+    }
+  process_array (probedType,
+                 NULL,
+                 start_dim, NULL,
+                 start_element, NULL,
+                 output_type,
+                 ary,
+                 NULL);
+  return self;
+}
+
+- iterateAsInteger: anObject using: (void (*) (unsigned rank, unsigned *vec, int val))func
+{
+  unsigned vec[rank];
+  unsigned di;
+  const void *ary = (const void *) anObject + dataOffset;
+
+  void start_dim (unsigned dimnum)
+    {
+      if (dimnum > 0)
+        vec[dimnum - 1]++;
+      vec[dimnum] = 0;
+      di = dimnum;
+    }
+  void start_element (void)
+    {
+      vec[di]++;
+    }
+  void output_type (const char *type, unsigned offset, void *data)
+    {
+      func (rank, vec, ((int *) ary)[offset]);
+    }
+
+  process_array (probedType,
+                 NULL,
+                 start_dim, NULL,
+                 start_element, NULL,
+                 output_type,
+                 ary,
+                 NULL);
+  return self;
+}
+
 // sets the probed to whatever is pointed to by newValue. Use the
 // type information to try to do this intelligently.
 - setData: anObject To: (void *)newValue
@@ -436,7 +542,7 @@ PHASE(Using)
       
     default:
       if (SAFEPROBES)
-        raiseEvent (WarningMessage, "Invalid type %s to set\n", probedType);
+        raiseEvent (WarningMessage, "Invalid type `%s' to set\n", probedType);
       break;
     }
   
@@ -610,6 +716,15 @@ PHASE(Using)
                         withData: (void *)s];
     }
   return YES;
+}
+
+- (void)drop
+{
+  if (probedVariable)
+    XFREE (probedVariable);
+  if (dims)
+    XFREE (dims);
+  [super drop];
 }
 
 @end
