@@ -102,6 +102,7 @@ else
       JAVACLASSES=${jdkdir}/lib/classes.zip
     fi
     if test "$host_os" = cygwin; then
+      JAVACLASSESARG="`cygpath -w ${JAVACLASSES}`"
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
       USEDOSCLASSPATH=yes
