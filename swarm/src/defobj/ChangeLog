@@ -1,3 +1,10 @@
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* defobj.h (GetName): Move before DefinedObject.
+	(DefineObject): Adopt it.
+	(DefinedClass): Don't adopt it (it's inherited).
+	(HDF5): Remove -getName.
+
 2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* internal.m (fcall_type_for_objc_type): Coerce C_PTR to

@@ -20,7 +20,23 @@ Library:      defobj
 //D: creating objects and for storage allocation, error handling, and debugging
 //D: support.
 
-@protocol DefinedObject
+@protocol GetName
+//S: Get name which identifies object in its context of use.
+
+//D: Get name which identifies object in its context of use.
+
+//M: The getName message returns a null-terminated character string that
+//M: identifies an object in some context of use.  This message is commonly
+//M: used for objects that are created once in some fixed context where
+//M: they are also assigned a unique name.  Constant objects defined as
+//M: part of a program or library are examples.  This message is intended
+//M: only for returning a name associated with an object throughout its
+//M: lifetime.  It does not return any data that ever changes.
+USING
+- (const char *)getName;
+@end
+
+@protocol DefinedObject <GetName>
 //S: Object with defined type and implementation.
 
 //D: DefinedObject is the top-level supertype for all objects that follow
@@ -482,23 +498,7 @@ USING
 - (void)describeForEachID: outputCharStream;
 @end
 
-@protocol GetName
-//S: Get name which identifies object in its context of use.
-
-//D: Get name which identifies object in its context of use.
-
-//M: The getName message returns a null-terminated character string that
-//M: identifies an object in some context of use.  This message is commonly
-//M: used for objects that are created once in some fixed context where
-//M: they are also assigned a unique name.  Constant objects defined as
-//M: part of a program or library are examples.  This message is intended
-//M: only for returning a name associated with an object throughout its
-//M: lifetime.  It does not return any data that ever changes.
-USING
-- (const char *)getName;
-@end
-
-@protocol DefinedClass <DefinedObject, GetName>
+@protocol DefinedClass <DefinedObject>
 //S: Class which implements an interface of a type.
 
 //D: Class which implements an interface of a type.
@@ -991,7 +991,6 @@ USING
 - (BOOL)getWriteFlag;
 - (size_t)getDatasetRank;
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
-- (const char *)getName;
 - (unsigned)getCount;
 - getCompoundType;
 - getClass;
