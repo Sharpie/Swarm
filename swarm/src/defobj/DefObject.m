@@ -109,6 +109,28 @@ lispInInteger (id index)
   return [val getInteger];
 }
 
+const char *
+lispInString (id index)
+{
+  id val = [index next];
+
+  if (!stringp (val))
+    raiseEvent (InvalidArgument, "expected String");
+
+  return [val getC];
+}
+
+id
+lispInKeyword (id index)
+{
+  id val = [index next];
+
+  if (!keywordp (val))
+    raiseEvent (InvalidArgument, "expected ArchiverKeyword");
+  
+  return val;
+}
+
 id
 lispIn (id aZone, id expr)
 {

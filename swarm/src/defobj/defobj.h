@@ -45,6 +45,12 @@ extern BOOL lispInBoolean (id index);
 //F: Expect and convert an integer from next index item.
 extern int lispInInteger (id index);
 
+//F: Expect and convert a string from next index item.
+extern const char *lispInString (id index);
+
+//F: Expect and convert a keyword from next index item.
+extern id lispInKeyword (id index);
+
 //F: Save objects registered with archiver.
 extern void archiverSave (void);
 @end

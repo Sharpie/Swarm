@@ -77,6 +77,8 @@ extern id lispIn (id aZone, id expr);
 extern id lispInQuotedExpr (id expr);
 extern BOOL lispInBoolean (id index);
 extern int lispInInteger (id index);
+extern const char *lispInString (id index);
+extern id lispInKeyword (id index);
 
 //
 // macros for accessing bits at defined locations inside instance variables
