@@ -42,11 +42,14 @@ ZLIBLIB = -lz
 X_LIBS = @X_LIBS@
 GUILIBS = @GUILIBS@
 
+DLLIB = @DLLIB@
+OBJCLIBS = @OBJCLIBS@
+
 APPEXE = $(APPLICATION)@EXESUFFIX@
 
 LDFLAGS = -L$(libdir) @RPATH@$(libdir) $(BLTLDFLAGS) $(TCLLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) # @EXTRALDFLAGS@ 
 
-SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm
+SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
 
 SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
 

@@ -2,12 +2,14 @@
 
 	* config.swarm.in: Remove X_EXTRA_LIBS.  Surround variables
 	with {} throughout.
+	(swarm_SYSLIBS):  Likewise.
 
 	* Makefile.lib.in (bindir): Add (for libraries with demo apps
 	that want to use libtool).
 
 	* Makefile.appl.in (LINK): Remove.  Use libtool 
 	directly in $(APPEXE) rule.
+	(SYSLIBS): Include substituted OBJCLIBS and DLLIB.
 
 	* Makefile.lib.in (INCLUDES): Add -I.
 
