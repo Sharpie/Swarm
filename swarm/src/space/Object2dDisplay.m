@@ -19,7 +19,7 @@ PHASE(Creating)
 
 + create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: c setDisplayMessage: (SEL)s
 {
-  Object2dDisplay *obj = [super createBegin: aZone];
+  Object2dDisplay *obj = [self createBegin: aZone];
 
   [obj setDisplayWidget: r];
   [obj setDiscrete2dToDisplay: c];

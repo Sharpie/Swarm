@@ -1,7 +1,11 @@
 1999-10-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Discrete2d.m ([Discrete +create:setSizeX:Y:]): Send
+	* Discrete2d.m ([Discrete2d +create:setSizeX:Y:]): Send
 	+createBegin: to self, not super.
+
+	* Object2dDisplay.m ([Object2dDisplay
+	+create:setDisplayWidget:setDiscrete2dDisplay:setDisplayMessage:]):
+	Likewise.
 
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
