@@ -31,8 +31,10 @@ Library:      activity
 {
 @public
   id <FCall> call;
+  IMP perform_imp; 
   id target; 
 }
+- createEnd;
 @end
 
 @interface PFAction: PAction <Action, ActionArgs>

@@ -21,6 +21,8 @@ Library:      activity
 #import <defobj/defalloc.h> // getZone
 #include <misc.h> // abort in ActionForEachHomogeneous
 
+#define PERFORM(call) perform_imp (call, M(performCall))
+
 extern id uniformUnsRand;
 @protocol _MinimalRandom
 - (unsigned)getUnsignedWithMin: (unsigned)minVal withMax: (unsigned)maxVal;
@@ -49,6 +51,14 @@ PHASE(Using)
 
 @implementation PAction
 PHASE(Creating)
+- createEnd
+{
+  [super createEnd];
+
+  perform_imp = [FCall_c instanceMethodFor: M(performCall)];
+  return self;
+}
+
 PHASE(Using)
 @end
 
@@ -96,7 +106,7 @@ PHASE(Using)
 
 - (void)_performAction_: (id <Activity>)anActivity
 {
-  [call performCall];
+  PERFORM (call);
 }
 
 - (void)describe: outputCharStream
@@ -164,7 +174,7 @@ PHASE(Using)
   if (target) // in the case of FActionForEach
     updateTarget (call, target);
   
-  [call performCall];
+  PERFORM (call);
 }
 
 - (void)describe: outputCharStream
@@ -196,6 +206,7 @@ PHASE(Creating)
   [call setFunctionPointer: funcPtr];
   [call setArguments: arguments];
   call = [call createEnd];
+  
   return self;
 }
 
@@ -295,13 +306,13 @@ PHASE(Using)
   if (call)
     {
       updateTarget (call, target);
-      [call performCall];
+      PERFORM (call);
     }
   else
     {
       id fc = [self _createCall_: target];
 
-      [fc performCall];
+      PERFORM (fc);
       [[fc getArguments] dropAllocations: YES];
       [fc dropAllocations: YES];
     }
@@ -473,10 +484,10 @@ PHASE(Using)
 #define ACTION_HOMOGENEOUS_TYPE FActionForEachHomogeneous_c
 #undef SETUPCALL
 #define UPDATEOBJCTARGET(target) updateTarget (call, target)
-#define PERFORMOBJCCALL(target) [call performCall]
+#define PERFORMOBJCCALL(target) PERFORM (call)
 #ifdef HAVE_JDK
 #define UPDATEJAVATARGET(jtarget) updateJavaTarget (call, jtarget)
-#define PERFORMJAVACALL(target) [call performCall]
+#define PERFORMJAVACALL(target) PERFORM (call)
 #endif
 #include "ActionHomogeneous.m"
 #undef UPDATEJAVACALL

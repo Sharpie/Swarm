@@ -1,3 +1,10 @@
+2001-06-30  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Action.[hm]: Cache performCall method imp in perform_imp.
+	(PERFORM): New macro to call perform_imp.  Replace [call performCall]
+	with PERFORM throughout.
+	Add -createEnd to PAction to set up perform_imp.
+
 2001-06-11    <mgd@DRONE>
 
 	* Schedule.m (createGroup): Set Bit{Randomized,Concurrent} to
