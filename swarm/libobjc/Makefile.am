@@ -16,6 +16,7 @@ EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
 lib_LTLIBRARIES = @LIBOBJC_LA@
+EXTRA_LTLIBRARIES = libobjc.la
 bin_PROGS = @OBJC_DLL@
 EXTRA_PROGS = objc.dll
 

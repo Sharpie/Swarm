@@ -2,6 +2,7 @@
 
 	* Makefile.am (libobjc.dll): Use $(DLLWRAP), not dllwrap.
 	(lib_LTLIBRARIES): Set to @LIBOBJC_LA@.
+	(EXTRA_LTLIBRARIES): Set to libobjc.la.
 	(bin_PROGS): Set to @OBJC_DLL@.
 	(EXTRA_PROGS): Set to objc.dll.
 	(install-data-local): New rule for libobjc.a (if USEDLL is set).
