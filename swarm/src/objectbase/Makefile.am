@@ -10,7 +10,7 @@ noinst_LTLIBRARIES = libobjectbase.la
 
 JAVAINCLUDES = -I$(top_srcdir)/java/c @JAVAINCLUDES@
 
-INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc
+INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc $(JAVAINCLUDES)
 
 SRC = ActivityControl.m \
 	CompleteVarMap.m CompleteProbeMap.m \

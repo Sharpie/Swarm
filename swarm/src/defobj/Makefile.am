@@ -4,6 +4,7 @@ REVISION = 0
 AGE = 0
 defobjdir = $(includedir)/$(MODULE)
 JAVAINCLUDES = @JAVAINCLUDES@
+FFIINCLUDES = @FFIINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
