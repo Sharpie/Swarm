@@ -35,11 +35,11 @@ else
     if test "$host_os" = cygwin; then
       JAVACLASSES='${jdkdosdir}\lib\classes.zip'
       JAVAENV=
-      JAVAC=${jdkdir}/bin/javac
+      javac_default=${jdkdir}/bin/javac
     else
       JAVACLASSES='${jdkdir}/lib/classes.zip'
       JAVAENV='JAVA_HOME=${jdkdir}'
-      JAVAC='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
+      javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
     JAVA='${JAVAENV} ${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
@@ -52,7 +52,7 @@ else
     JAVA='${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib'
-    JAVAC='${jdkdir}/bin/javac'
+    javac_default='${jdkdir}/bin/javac'
   elif test -f $jdkdir/include/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkdir/include/kaffe"
     JAVACLASSES="$datadir/kaffe/Klasses.jar:$datadir/kaffe/pizza.jar"
@@ -61,7 +61,7 @@ else
     JAVACMD='${jdkdir}/libexec/Kaffe'
     JAVAENV=''
     JAVA='KAFFELIBRARYPATH=${JAVALIBS} ${JAVACMD}'
-    JAVAC='${jdkdir}/bin/javac'
+    javac_default='${jdkdir}/bin/javac'
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
@@ -70,6 +70,7 @@ else
   JAVASTUBS=stubs
   JAVASWARMLIBS=-ljavaswarm
   JAVASWARMSCRIPTS="javaswarm javacswarm"
+  JAVAC=${JAVAC-$javac_default}
 fi 
 
 AC_SUBST(JAVASTUBS)
