@@ -6,6 +6,8 @@
 	in order to get the dependency for generated SGML.
 	(gridexamples.sgml): Remove.
 	(GENERATED_SGML): Remove gridexamples.sgml.
+	(EXAMPLES): Remove.
+	(refindex.sgml $(PAGES), graph): Quote SWARMSRCDIR and SWARMDOCS.
 
 	* grid-app.sgml: Add LINK to IMPORTANT for all files.
 

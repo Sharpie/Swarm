@@ -25,17 +25,11 @@ nodist_noinst_DATA = $(GENERATED_SGML)
 
 ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
-SGML = conventions-app.sgml license-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml
+SGML = conventions-app.sgml license-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml grid-app.sgml
 
 EXTRA_DIST = Makefile.rules refbook.ent sgml.el graph.el $(SGML)
 
 SGML_FILES = $(SGML) $(ENT) $(GENERATED_SGML)
-
-EXAMPLES = GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
-        Mousetrap2.m grid.h grid.m grid0.m grid1a.m grid1b.m grid1c.m\
-        grid2.m grid2b.m grid3.m grid3b.m grid4.m  grid4b.m grid5.m \
-        grid6.m grid7.m grid8.m grid9.m mousetraps.m mousetraps2.m \
-        strtest.m 
 
 sgml.elc: $(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc
 
@@ -50,10 +44,10 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
 	$(swarm_srcdir)/src/space/space.h \
 	$(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc sgml.elc
-	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l sgml.elc -f run-all $(swarm_dossrcdir)
+	SWARMSRCDIR='$(swarm_dossrcdir)' SWARMDOCS='$(top_dossrcdir)/' $(EMACS) -batch -l sgml.elc -f run-all $(swarm_dossrcdir)
 
 graph: $(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc graph.elc
-	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l graph.elc -f create-graphs
+	SWARMSRCDIR='$(swarm_dossrcdir)' SWARMDOCS='$(top_dossrcdir)/' $(EMACS) -batch -l graph.elc -f create-graphs
 	for m in $(MODULES); do dot -Tps $$m.dot > $$m.ps ; dot -Tps $${m}-singlepage.dot > $${m}-singlepage.ps ; done
 	dot -Tps protocols.dot > protocols.ps
 
