@@ -8,7 +8,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface UName : SwarmObject
+@interface UName: SwarmObject
 {
   int counter;
   id baseString;
@@ -16,6 +16,8 @@
 
 + create: aZone setBaseName: (const char *)aString;
 + create: aZone setBaseNameObject: aStringObject;
++ create: aZone setConfigBaseName: (const char *)aString;
++ create: aZone setAppConfigBaseName: (const char *)aString;
 
 - setBaseName: (const char *)aString;
 - setBaseNameObject: aStringObject;
@@ -27,4 +29,4 @@
 
 @end
 
-extern id <Error> NoBaseNameForUName;
+extern id <Error> UNameError;

@@ -7,7 +7,7 @@
 
 #import <collections.h>
 #import <collections/predicates.h>
-#import <objectbase/Arguments.h>
+#import <objectbase.h> // arguments
 
 #import <objc/objc-api.h>
 

@@ -29,7 +29,7 @@
 
 CREATING
 //M: The create:setBaseNameObject: method is used to create an instance of the
-//M: UName class and set the base name given a const char *. This method will 
+//M: UName class and set the base name given a const char *.  This method will 
 //M: automatically reset the counter.
 + create: aZone setBaseName: (const char *)aString;
 
@@ -37,6 +37,16 @@ CREATING
 //M: UName class and set the base name given an object of class String. This 
 //M: method will automatically reset the counter.
 + create: aZone setBaseNameObject: aStringObject;
+
+//M: This method is used to create an instance of the UName class by
+//M: appending a filename to the current path where configuration files
+//M: are stored.  This method will reset counter.
++ create: aZone setConfigBaseName: (const char *)aFilename;
+
+//M: This method is used to create an instance of the UName class by
+//M: appending a filename to the current path where configuration files
+//M: are stored for the current application.  This method will reset counter.
++ create: aZone setAppConfigBaseName: (const char *)aFilename;
 
 //M: The setBaseName: method is used to set the base name given a const char *.
 - setBaseName: (const char *)aString;

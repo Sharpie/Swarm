@@ -56,7 +56,7 @@ initSwarmArguments (int argc, const char **argv, Class argumentsClass)
   
   defwarning (CannotOpenOutFile, NULL);
   defwarning (CannotOpenInFile, NULL);
-  deferror (NoBaseNameForUName, NULL);
+  deferror (UNameError, NULL);
   deferror (CouldNotInitializeObjectLoader, NULL);
   deferror (CouldNotSave, NULL);
 }

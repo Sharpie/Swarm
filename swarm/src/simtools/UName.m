@@ -5,9 +5,12 @@
 
 #import "UName.h"
 #import <collections.h>
+#import <objectbase.h> // arguments
+
+#include <swarmconfig.h>
 #include <misc.h>
 
-id <Error> NoBaseNameForUName;
+id <Error> UNameError;
 
 @implementation UName
 
@@ -16,20 +19,46 @@ id <Error> NoBaseNameForUName;
   id obj = [self createBegin: aZone];
 
   [obj setBaseName: aString];
-  [obj createEnd];
-
-  return obj;
+  return [obj createEnd];
 }
 
 + create: aZone setBaseNameObject: aStringObject
 {
-  id obj;
-  
-  obj = [self create: aZone];
+  id obj = [self createBegin: aZone];
+
   [obj setBaseNameObject: aStringObject];
-  [obj createEnd];
+  return [obj createEnd];
+}
+
++ create: aZone setConfigBaseName: (const char *)aString
+{
+  const char *configPath = [arguments getSwarmConfigPath];
+  id basePath;
+
+  if (!configPath)
+    [UNameError raiseEvent: "Unable to determine configuration path"];
+
+  basePath = [String create: aZone setC: configPath];
   
-  return obj;
+  [basePath catC: aString];
+  
+  return [self create: aZone setBaseNameObject: basePath];
+}
+
++ create: aZone setAppConfigBaseName: (const char *)aString
+{
+  const char *configPath = [arguments getSwarmAppConfigPath];
+  id basePath;
+
+  if (!configPath)
+    [UNameError raiseEvent:
+                  "Unable to determine application's configuration path"];
+
+  basePath = [String create: aZone setC: configPath];
+  
+  [basePath catC: aString];
+  
+  return [self create: aZone setBaseNameObject: basePath];
 }
 
 - resetCounter
@@ -66,7 +95,7 @@ id <Error> NoBaseNameForUName;
 - createEnd
 {
   if (!baseString)
-    [NoBaseNameForUName
+    [UNameError
       raiseEvent:
         "No Base Name was given when creating a UName object...\n"];
   
