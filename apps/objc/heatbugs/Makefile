@@ -1,9 +1,9 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-2.1
+SWARMHOME=../swarm-2.1.1
 endif
 APPLICATION=heatbugs
 BUGADDRESS=bug-swarm@swarm.org
-APPVERSION=2.1
+APPVERSION=2.1.1
 OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
 	HeatbugObserverSwarm.o HeatbugBatchSwarm.o
 DATAFILES = ant.png heatbugs.scm

@@ -1,5 +1,7 @@
 2000-03-29    <mgd@nest.swarm.org>
 
+	* Makefile (SWARMHOME, APPVERSION): Bump.
+
 	* HeatbugModelSwarm.h (HeatbugModelSwarm): Make actionForEach
 	a generic id.
 
