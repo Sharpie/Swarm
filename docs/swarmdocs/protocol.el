@@ -207,6 +207,7 @@
        do
        (forward-char)
        (push (cons name (next-expr)) arguments)
+       (setq name nil)
        (while (looking-at ",")
          (forward-char)
          (push (cons nil (next-expr)) arguments))
@@ -1218,11 +1219,8 @@
       (princ "-" stream))
   (loop for arguments in (method-arguments method)
         for key = (first arguments)
-        when key 
-        do
-        (princ key stream)
-        (when (third arguments)
-          (princ ":" stream))))
+        when key do (princ key stream)
+        when (third arguments) do (princ ":" stream)))
 
 (defun sgml-method-funcsynopsis (owner-protocol method)
   (insert "<FUNCSYNOPSIS ID=\"")
