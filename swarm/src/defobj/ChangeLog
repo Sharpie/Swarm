@@ -1,3 +1,21 @@
+1998-12-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* defobj.m (_defobj_implement): Call setTypeImplemented: Archiver
+	on id_Archiver_c.
+
+	* defobj.h (Archiver): New protocol.  Move archiver functions
+	inside this protocol declaration.
+
+	* Archiver.m: Include hdf5.h if HAVE_HDF5 is defined.
+	Make archiver of type Archiver_c.  Only include HDF things if 
+	HAVE_HDF5 is defined.
+	([Archiver_c +createBegin:]): Make newArchiver of type Archiver_c.
+	([Archiver_c -createEnd]): Make call to super createEnd.
+	([Archiver_c -setHDF5Path): New method.
+
+	* Archiver.[hm] (Archiver_c): Renamed from Archiver.
+	Add HDF5Path ivar and setter.  Declare/define HDF5Archiver{Get,Put}.
+
 1998-12-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Archiver.m: Don't include objc/objc-api.h.
@@ -61,9 +79,6 @@
 
 1998-12-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Arguments.h (Arguments_c): Inherit from CreateDrop instead of
-	CreateDrop_s.
-
 	* Arguments.m ([Arguments_c +createBegin:]): Initialize optionFunc
 	to NULL.
 	([Arguments_c -parseKey:arg:]): Call parseFunc if set.
@@ -78,9 +93,8 @@
 
 	* defobj.m: Include misc.h instead of stdio.h.  Use YES instead
 	of 1 for initialization of _warning_dropFrom and _obj_debug.
-	(initDefobj): Default to Arguments_c if argumentsClass
+	(initDefobj): Default to Arguments if argumentsClass
 	is Nil.
-
 
 	* Makefile.am (module_headers): Add defobj.xm.
 

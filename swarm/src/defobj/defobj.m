@@ -33,6 +33,7 @@ _defobj_implement (void)
   [id_Warning_c setTypeImplemented: Warning];
   [id_Error_c setTypeImplemented: Error];
   [id_Arguments_c setTypeImplemented: Arguments];
+  [id_Archiver_c setTypeImplemented: Archiver];
 }
 
 //
@@ -87,7 +88,7 @@ initDefobj (int argc, const char **argv,
             struct argp_option *options,
             int (*optionFunc) (int key, const char *arg))
 {
-  arguments = [(argumentsClass == Nil ? [Arguments_c class] : argumentsClass)
+  arguments = [(argumentsClass == Nil ? [Arguments class] : argumentsClass)
                 createArgc: argc
                 Argv: argv
                 version: version

@@ -9,11 +9,14 @@
 
 extern id archiver;
 
-@interface Archiver: CreateDrop_s
+@interface Archiver_c: CreateDrop_s
 {
   id currentApplicationKey;
   id <Map> applicationMap;
   const char *lispPath;
+#ifdef HAVE_HDF5
+  const char *HDF5Path;
+#endif
 @public
   id clients;
 }
@@ -21,6 +24,9 @@ extern id archiver;
 + createBegin: aZone;
 - getApplication;
 - setLispPath: (const char *)lispPath;
+#ifdef HAVE_HDF5
+- setHDF5Path: (const char *)HDF5Path;
+#endif
 - save;
 
 - lispOut: outputCharStream;
@@ -31,8 +37,10 @@ void archiverSave (void);
 
 void lispArchiverPut (const char *key, id object);
 id lispArchiverGet (const char *key);
+#ifdef HAVE_HDF5
 void HDF5ArchiverPut (const char *key, id object);
 id HDF5ArchiverGet (const char *key);
+#endif
 
 @end
 

@@ -18,7 +18,7 @@ extern unsigned _obj_nclasses;
 extern void *_obj_initAlloc (size_t size);
 extern void _obj_setTypeImplemented (id, id);
 
-@interface Type_c : Object_s
+@interface Type_c: Object_s
 {
 @public
   id owner;            // module that contains type
@@ -28,12 +28,12 @@ extern void _obj_setTypeImplemented (id, id);
   id supertypes;       // other types from which type inherits
 }
 /*** methods in Type_c (inserted from .m file by m2h) ***/
-- (BOOL) getCreatable;
+- (BOOL)getCreatable;
 - getImplementation;
-- (const char *) getName;
+- (const char *)getName;
 @end
 
-@interface ProgramModule_c : Object
+@interface ProgramModule_c: Object
 {
 @public
   const char *name; // name of module

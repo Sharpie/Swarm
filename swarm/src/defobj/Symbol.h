@@ -11,7 +11,7 @@ Library:      defobj
 
 #import <defobj/Create.h>
 
-@interface Symbol_c : CreateDrop_s
+@interface Symbol_c: CreateDrop_s
 {
 @public
    const char *name;
@@ -23,13 +23,13 @@ Library:      defobj
 - (void)describe: outputCharStream;
 @end
 
-@interface EventType_c : Symbol_c
+@interface EventType_c: Symbol_c
 /*** methods in EventType_c (inserted from .m file by m2h) ***/
 - (void)raiseEvent;
 - (void)raiseEvent: (const void *)msgString, ...;
 @end
 
-@interface Warning_c : EventType_c
+@interface Warning_c: EventType_c
 {
 @public
    const char *messageString;
@@ -42,7 +42,7 @@ Library:      defobj
 - (void) describe: outputCharStream;
 @end
 
-@interface Error_c : Warning_c
+@interface Error_c: Warning_c
 /*** methods in Error_c (inserted from .m file by m2h) ***/
 - (void) raiseEvent;
 - (void) raiseEvent: (const void *)eventData, ...;

@@ -11,11 +11,17 @@
 
 #include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
 
+#ifdef HAVE_HDF5
+#define id hdf5id
+#include <hdf5.h>
+#undef id
+#endif
+
 #define ARCHIVER_FUNCTION_NAME "archiver"
 
 #define SWARMARCHIVER ".swarmArchiver"
 
-Archiver *archiver;
+Archiver_c *archiver;
 
 static int
 compareStrings (id val1, id val2)
@@ -27,12 +33,16 @@ compareStrings (id val1, id val2)
 {
   const char *name;
   id <Map> lispMap;
+#ifdef HAVE_HDF5
   id <Map> HDF5Map;
+#endif
 }
 + createBegin: aZone;
 - setName: (const char *)name;
 - getLispMap;
+#ifdef HAVE_HDF5
 - getHDF5Map;
+#endif
 @end
 
 @implementation Application
@@ -42,8 +52,10 @@ compareStrings (id val1, id val2)
 
   obj->lispMap =
     [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+#ifdef HAVE_HDF5
   obj->HDF5Map =
     [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+#endif
   obj->name = "EMPTY";
 
   return obj;
@@ -60,20 +72,25 @@ compareStrings (id val1, id val2)
   return lispMap;
 }
 
+#ifdef HAVE_HDF5
 - getHDF5Map
 {
   return HDF5Map;
 }
+#endif
 
 - (void)drop
 {
   [lispMap deleteAll];
+#ifdef HAVE_HDF5
   [HDF5Map deleteAll];
+#endif
   [super drop];
 }
 
 @end
 
+#ifdef HAVE_HDF5
 @interface HDF5: CreateDrop
 {
   id parent;
@@ -96,6 +113,7 @@ PHASE(Creating)
 }
 PHASE(Using)
 @end
+#endif
 
 static const char *
 lispDefaultPath (void)
@@ -274,13 +292,12 @@ archiverSave (void)
   [archiver save];
 }
 
-@implementation Archiver
-
+@implementation Archiver_c
 PHASE(Creating)
 
 + createBegin: aZone
 {
-  Archiver *newArchiver = [super createBegin: aZone];
+  Archiver_c *newArchiver = [super createBegin: aZone];
 
   newArchiver->applicationMap = 
     [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
@@ -294,6 +311,7 @@ PHASE(Creating)
   const char *appName = [arguments getAppName];
   const char *appModeString = [arguments getAppModeString];
 
+  [super createEnd];
   currentApplicationKey = 
     [String create: [self getZone] setC: appName];
   
@@ -315,6 +333,10 @@ PHASE(Creating)
           fclose (fp);
         }
     }
+  if (HDF5Path)
+    {
+      printf ("[%s]\n", [self name]);
+    }
   return self;
 }
 
@@ -326,6 +348,15 @@ PHASE(Setting)
 
   return self;
 }
+
+#ifdef HAVE_HDF5
+- setHDF5Path: (const char *)thePath
+{
+  HDF5Path = strdup (thePath);
+  
+  return self;
+}
+#endif
 
 PHASE(Using)
      
