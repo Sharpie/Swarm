@@ -80,6 +80,30 @@ run_constructors (void)
 }
 #endif 
 
+struct Zone_c;
+struct ComponentZone_c;
+struct Object_s;
+
+id (*_swarm_i_Zone_c__allocIVarsComponent_) (struct Zone_c *, struct objc_selector *, Class);
+void (*_swarm_i_Zone_c__freeIVarsComponent_) (struct Zone_c *, struct objc_selector *, id);
+void * (*_swarm_i_Zone_c__allocBlock_) (struct Zone_c *, struct objc_selector *, size_t);
+void (*_swarm_i_Zone_c__freeBlock_blockSize_) (struct Zone_c *, struct objc_selector *, void *, size_t);
+id (*_swarm_i_ComponentZone_c__allocIVars_) (struct ComponentZone_c *, struct objc_selector *, Class);
+id (*_swarm_i_Object_s__drop) (struct Object_s *, struct objc_selector *);   
+
+static void predispatch () __attribute__ ((constructor));
+
+static void predispatch ()
+{
+  (IMP) _swarm_i_Zone_c__allocIVarsComponent_ = get_imp (objc_lookup_class ("Zone_c"), M(allocIVarsComponent:));
+  (IMP) _swarm_i_Zone_c__freeIVarsComponent_ = get_imp (objc_lookup_class ("Zone_c"), M(freeIVarsComponent:));
+  (IMP) _swarm_i_Zone_c__allocBlock_ = get_imp (objc_lookup_class ("Zone_c"), M(allocBlock:));
+  (IMP) _swarm_i_Zone_c__freeBlock_blockSize_ = get_imp (objc_lookup_class ("Zone_c"), M(freeBlock:blockSize:));
+  (IMP) _swarm_i_ComponentZone_c__allocIVars_ = get_imp (objc_lookup_class ("ComponentZone_c"), M(allocIVars:));
+  (IMP) _swarm_i_Object_s__drop = get_imp (objc_lookup_class ("Object_s"), M(drop));
+}
+
+
 @implementation SwarmEnvironment
 PHASE(Creating)
 + createBegin
