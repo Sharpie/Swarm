@@ -87,7 +87,7 @@ USING
 @end
 
 
-@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
+@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach, Serialization>
 //S: A generic collection interface.
 
 //D: A collection is a grouping of object references or other data values which
@@ -596,7 +596,7 @@ SETTING
 @end
 
 
-@protocol List <Collection, Serialization, CREATABLE>
+@protocol List <Collection, CREATABLE>
 //S:  Collection of members in an externally assigned linear sequence.
 
 //D: A list is a collection of members that are all maintained at some
@@ -869,7 +869,7 @@ USING
 //D: unique position within the member sequence
 @end
 
-@protocol Map <KeyedCollection, Serialization, CREATABLE>
+@protocol Map <KeyedCollection, CREATABLE>
 //S: Collection of associations from key objects to member objects.
 
 //D: Map is a subtype of KeyedCollection in which the key value associated

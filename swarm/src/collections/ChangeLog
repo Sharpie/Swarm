@@ -1,13 +1,14 @@
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* List.m ([List_any hdf5Out:deep:]): Call numberRecord: on dataset.
+	* Collection.[hm] ([Collection_any hdf5Out:deep:]): New method.
+
+	* Collection.m ([Colleciton_any hdf5Out:deep:]): Call
+	numberRecord: on dataset.
 
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Collection.[hm], collections.h ([Collection_any -allSameClass]):
 	New method.
-
-	* List.[hm] ([List_any hdf5Out:deep:]): New method.
 
 1999-01-12  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
