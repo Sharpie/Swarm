@@ -66,7 +66,6 @@
 
 - (void)markForDrop
 {
-  // [topLevel disableDestroyNotification];
   if ([probeDisplayManager getDropImmediatelyFlag])
     [self drop];
   else
