@@ -1,3 +1,10 @@
+2000-03-05  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (PNG): Append callout bugs [1-10].png, generate .png
+	suffix for all files.
+
+	* {1,2,3,4,5,6,7,8,9.10}.png:  New files.
+
 2000-03-03  Alex Lancaster  <alex@santafe.edu>
 
 	* figs.ent (booktitlelogo): Add entity to PUBLIC id translations
