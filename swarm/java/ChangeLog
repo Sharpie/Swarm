@@ -1,8 +1,8 @@
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
-	* java-stub.el, javacswarm.in, javaswarm.in, jdkcswarm: Add
-	canonical license statement as suggested by GNU GPL, and copyright
-	statements where missing.
+	* java-stub.el, javacswarm.in, javaswarm.in, jdkcswarm, jdkswarm:
+	Add canonical license statement as suggested by GNU GPL, and
+	copyright statements where missing.
 
 2001-11-04  Marcus G. Daniels  <mgd@HELEN>
 

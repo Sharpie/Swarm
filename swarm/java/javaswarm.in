@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Copyright © 1999-2000 Swarm Development Group
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,8 +18,6 @@
 # 
 # The Swarm Development Group can be reached via our website at:
 # http://www.swarm.org/
-
-#!/bin/sh
 
 swarm_prefix="@swarm_prefix@"
 swarm_exec_prefix="@swarm_exec_prefix@"

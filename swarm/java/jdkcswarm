@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Copyright © 2000 Swarm Development Group
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +19,6 @@
 # The Swarm Development Group can be reached via our website at:
 # http://www.swarm.org/
 
-#!/bin/sh
 JDKPATH=`regtool get 'HKLM\SOFTWARE\JavaSoft\Java Development Kit\1.3\JavaHome' 2>/dev/null`
 if test -n "$JDKPATH"; then
   PATH=`cygpath -u $JDKPATH`/bin:$PATH
