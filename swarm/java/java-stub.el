@@ -109,6 +109,9 @@
       ;; objectbase non-creatable
       "ProbeConfig"
 
+      ;; activity
+      "ActivityIndex"
+
       ;; gui creatable
       "Frame"
       "Canvas"
