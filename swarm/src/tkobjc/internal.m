@@ -859,7 +859,8 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         if (!XGetWindowAttributes (display, topWindow, &top_attr))
           abort ();
         if (top_attr.map_state == IsUnmapped)
-          XMapWindow (display, topWindow);
+          if (!XMapWindow (display, topWindow))
+            abort ();
         
       retry:
         if (obscured)
@@ -877,7 +878,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         keep_inside_screen (tkwin, window);
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         XFlush (display);
-
+        XSync (display, 0);
         if (strcmp ([globalTkInterp
                       globalVariableValue: "obscured"],
                     "yes") == 0 && !obscured)
