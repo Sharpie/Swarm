@@ -137,6 +137,13 @@ PHASE(Using)
 
 @implementation FAction_c
 PHASE(Creating)
+- createEnd
+{
+  [super createEnd];
+  
+  autoDropFlag = NO;
+  return self;
+}
 
 - setCall: fcall
 {

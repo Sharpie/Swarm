@@ -59,6 +59,7 @@ Library:      activity
 @interface FAction_c: PAction <Action>
 {
 }
+- createEnd;
 - setCall: fcall;
 - setAutoDrop: (BOOL)autoDrop;
 - (void)_performAction_: (id <Activity>)anActivity;
