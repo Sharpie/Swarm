@@ -16,7 +16,17 @@ Library:      defobj
 #import <collections.h> // catC:
 #import <collections/predicates.h> // keywordp
 
-#include <misc.h> // strncmp
+#include <misc.h> // strncmp, isdigit
+
+#define TYPE_SHORT "short"
+#define TYPE_UNSIGNED_SHORT "unsigned short"
+#define TYPE_INT "int"
+#define TYPE_UNSIGNED "unsigned"
+#define TYPE_LONG "long"
+#define TYPE_UNSIGNED_LONG "unsigned long"
+#define TYPE_FLOAT "float"
+#define TYPE_DOUBLE "double"
+#define TYPE_STRING "string"
 
 //
 // Class_s -- portion of class object allocated for all classes 
@@ -160,36 +170,95 @@ align (size_t pos, size_t alignment)
     return (pos + alignment) & ~mask;
 }
 
-void
-addVariable (Class class, const char *varName, const char *varType)
+static size_t
+type_size (const char *varType)
 {
-  struct objc_ivar *il;
-  size_t alignment, size;
-  
-  class->ivars = extend_ivar_list (class->ivars, 1);
-  il = &class->ivars->ivar_list[class->ivars->ivar_count];
-  
+  size_t size;
+
   switch (*varType)
     {
+    case _C_SHT: case _C_USHT:
+      size = sizeof (short);
+      break;
+    case _C_LNG: case _C_ULNG:
+      size = sizeof (long);
+      break;
     case _C_INT: case _C_UINT:
-      alignment = __alignof__ (int);
       size = sizeof (int);
       break;
     case _C_FLT:
-      alignment = __alignof__ (float);
       size = sizeof (float);
       break;
     case _C_DBL:
-      alignment = __alignof__ (double);
       size = sizeof (double);
+      break;
+    case _C_CHARPTR:
+      size = sizeof (const char *);
+      break;
+    case _C_ARY_B:
+      {
+        char *tail;
+        unsigned count = strtoul (varType + 1, &tail, 10);
+       
+        size = count * type_size (tail);
+      }
       break;
     default:
       abort ();
     }
-  il->ivar_offset = align (class->instance_size, alignment);
+  return size;
+}
+
+static size_t
+type_alignment (const char *varType)
+{
+  size_t alignment = 0;
+
+  switch (*varType)
+    {
+    case _C_SHT: case _C_USHT:
+      alignment = __alignof__ (short);
+      break;
+    case _C_LNG: case _C_ULNG:
+      alignment = __alignof__ (long);
+      break;
+    case _C_INT: case _C_UINT:
+      alignment = __alignof__ (int);
+      break;
+    case _C_FLT:
+      alignment = __alignof__ (float);
+      break;
+    case _C_DBL:
+      alignment = __alignof__ (double);
+      break;
+    case _C_CHARPTR:
+      alignment = __alignof__ (const char *);
+      break;
+    case _C_ARY_B:
+      varType++;
+      while (isdigit ((int) *varType))
+        varType++;
+      
+      alignment = type_alignment (varType);
+      break;
+    default:
+      abort ();
+    }
+  return alignment;
+}
+
+void
+addVariable (Class class, const char *varName, const char *varType)
+{
+  struct objc_ivar *il;
+  
+  class->ivars = extend_ivar_list (class->ivars, 1);
+  il = &class->ivars->ivar_list[class->ivars->ivar_count];
+  
+  il->ivar_offset = align (class->instance_size, type_alignment (varType));
   il->ivar_type = varType;
   il->ivar_name = varName;
-  class->instance_size = il->ivar_offset + size;
+  class->instance_size = il->ivar_offset + type_size (varType);
   class->ivars->ivar_count++; 
 }
 
@@ -231,37 +300,100 @@ copyClass (Class class)
   return newClass;
 }
 
+static const char *
+objc_type_for (const char *lispTypeString)
+{
+  if (strcmp (lispTypeString, TYPE_SHORT) == 0)
+    return @encode (short);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED_SHORT) == 0)
+    return @encode (unsigned short);
+  else if (strcmp (lispTypeString, TYPE_INT) == 0)
+    return @encode (int);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED) == 0)
+    return @encode (unsigned);
+  else if (strcmp (lispTypeString, TYPE_LONG) == 0)
+    return @encode (long);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED_LONG) == 0)
+    return @encode (unsigned long);
+  else if (strcmp (lispTypeString, TYPE_FLOAT) == 0)
+    return @encode (float);
+  else if (strcmp (lispTypeString, TYPE_DOUBLE) == 0)
+    return @encode (double);
+  else if (strcmp (lispTypeString, TYPE_STRING) == 0)
+    return @encode (const char *);
+  else
+    abort ();
+}
+
 - lispInCreate: expr
 {
-  id <Index> li = [expr begin: [expr getZone]];
+  id aZone = [expr getZone];
+  id <Index> li = [expr begin: aZone];
   id key, val;
 
   Class newClass = copyClass ((Class) self);
-
+  
   while ((key = [li next]) != nil)
     {
+      const char *varName;
+
       if (!keywordp (key))
         raiseEvent (InvalidArgument, "expecting keyword [%s]", [key name]);
 
       if ((val = [li next]) == nil)
         raiseEvent (InvalidArgument, "missing value");
       
-      if (!stringp (val))
-        raiseEvent (InvalidArgument, "argument should be string");
+      varName = strdup ([key getKeywordName]);
       
-      {
-        const char *typeString = [val getC];
-        const char *ivarname = strdup ([key getKeywordName]);
-        
-        if (strcmp (typeString, "int") == 0)
-          addVariable (newClass, ivarname, @encode (int));
-        else if (strcmp (typeString, "double") == 0)
-          addVariable (newClass, ivarname, @encode (double));
-        else if (strcmp (typeString, "float") == 0)
-          addVariable (newClass, ivarname, @encode (float));
-        else
-          abort ();
-      }
+      if (stringp (val))
+        addVariable (newClass, varName, objc_type_for ([val getC]));
+      else if (listp (val))
+        {
+          id index = [val begin: aZone];
+          id first = [index next];
+          unsigned rank = [val getCount] - 2;
+          char typebuf[rank * (sizeof (unsigned) * 8 + 2) + 1 + 1];
+          char *p = typebuf;
+          const char *baseType;
+          
+          if (!stringp (first))
+            raiseEvent (InvalidArgument, "argument should be a string");
+          
+          if (strcmp ([first getC], "array") != 0)
+            raiseEvent (InvalidArgument, "argument should be \"array\"");
+
+          {
+            id second = [index next];
+
+            if (!stringp (second))
+              raiseEvent (InvalidArgument, "array type should be a string");
+            
+            baseType = objc_type_for ([second getC]);
+          }
+          
+          {
+            id dimCountValue;
+            unsigned i;
+            
+            while ((dimCountValue = [index next]))
+              {
+                char numbuf[sizeof (unsigned) * 8 + 1];
+                if (!valuep (dimCountValue))
+                  raiseEvent (InvalidArgument,
+                              "array dimension count should be a value");
+                sprintf (numbuf, "%u", [dimCountValue getInteger]);
+                p = stpcpy (p, "[");
+                p = stpcpy (p, numbuf);
+              }
+            p = stpcpy (p, baseType);
+            for (i = 0; i < rank; i++)
+              p = stpcpy (p, "]");
+            addVariable (newClass, varName, strdup (typebuf));
+          }
+          [index drop];
+        }
+      else
+        raiseEvent (InvalidArgument, "argument should be string or list");
     }
   [li drop];
   return newClass;
@@ -279,6 +411,65 @@ copyClass (Class class)
   return self;
 }
 
+static const char *
+process_type (const char *varType,
+             void (*func) (unsigned dim, unsigned count))
+{
+  const char *baseType;
+  unsigned dimnum;
+
+  void expand_type (const char *type)
+    {
+      switch (*type)
+        {
+        case _C_SHT:
+          baseType = TYPE_SHORT;
+          break;
+        case _C_USHT:
+          baseType = TYPE_UNSIGNED_SHORT;
+          break;
+        case _C_INT:
+          baseType = TYPE_INT;
+          break;
+        case _C_UINT:
+          baseType = TYPE_UNSIGNED;
+          break;
+        case _C_LNG:
+          baseType = TYPE_LONG;
+          break;
+        case _C_ULNG:
+          baseType = TYPE_UNSIGNED_LONG;
+          break;
+        case _C_FLT:
+          baseType = TYPE_FLOAT;
+          break;
+        case _C_DBL:
+          baseType = TYPE_DOUBLE;
+          break;
+        case _C_CHARPTR:
+          baseType = TYPE_STRING;
+          break;
+        case _C_ARY_B:
+          type++;
+          {
+            char *tail;
+            unsigned count = strtoul (type, &tail, 10);
+            
+            if (func)
+              func (dimnum, count);
+            dimnum++;
+            expand_type (tail);
+          }
+          break;
+        default:
+          abort ();
+        }
+    }
+  dimnum = 0;
+  expand_type (varType);
+  return baseType;
+}
+
 - lispOut: stream
 {
   struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
@@ -292,22 +483,32 @@ copyClass (Class class)
     {
       [stream catC: " #:"];
       [stream catC: ivars->ivar_list[i].ivar_name];
-      [stream catC: " '"];
-      switch (*ivars->ivar_list[i].ivar_type)
-	{
-	case _C_INT:
-	  [stream catC: "int"];
-	  break;
-	case _C_UINT:
-	  [stream catC: "unsigned"];
-	  break;
-	case _C_FLT:
-	  [stream catC: "float"];
-	  break;
-	case _C_DBL:
-	  [stream catC: "double"];
-	  break;
-	}
+      [stream catC: " "];
+      {
+        const char *type = ivars->ivar_list[i].ivar_type;
+        
+        if (*type == _C_ARY_B)
+          {
+            [stream catC: "(array '"];
+            [stream catC: process_type (type, NULL)];
+            {
+              void outputCount (unsigned dim, unsigned count)
+                {
+                  char buf[sizeof (count) * 8 + 2];
+                  
+                  sprintf (buf, " %u", count);
+                  [stream catC: buf];
+                }
+              process_type (type, outputCount);
+            }
+            [stream catC: ")"];
+          }
+        else
+          {
+            [stream catC: "'"];
+            [stream catC: process_type (type, NULL)];
+          }
+      }
     }
   [stream catC: ")"];
   return self;
