@@ -1,0 +1,944 @@
+       NOTE: Most of the tests in DIEHARD return a p-value, which            
+       should be uniform on [0,1) if the input file contains truly           
+       independent random bits.   Those p-values are obtained by             
+       p=F(X), where F is the assumed distribution of the sample             
+       random variable X---often normal. But that assumed F is just          
+       an asymptotic approximation, for which the fit will be worst          
+       in the tails. Thus you should not be surprised with                   
+       occasional p-values near 0 or 1, such as .0012 or .9983.              
+       When a bit stream really FAILS BIG, you will get p's of 0 or          
+       1 to six or more places.  By all means, do not, as a                  
+       Statistician might, think that a p < .025 or p> .975 means            
+       that the RNG has "failed the test at the .05 level".  Such            
+       p's happen among the hundreds that DIEHARD produces, even             
+       with good RNG's.  So keep in mind that " p happens".                  
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
+     :: Choose m birthdays in a year of n days.  List the spacings    ::     
+     :: between the birthdays.  If j is the number of values that     ::     
+     :: occur more than once in that list, then j is asymptotically   ::     
+     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
+     :: must be quite large, say n>=2^18, for comparing the results   ::     
+     :: to the Poisson distribution with that mean.  This test uses   ::     
+     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
+     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
+     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
+     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
+     :: from the left) from integers in the specified file.           ::     
+     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
+     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
+     :: Each set of bits provides a p-value, and the nine p-values    ::     
+     :: provide a sample for a KSTEST.                                ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
+           Results for TT775gen.bin   
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  1 to 24   1.968
+  duplicate       number       number 
+  spacings       observed     expected
+        0          70.       67.668
+        1         131.      135.335
+        2         136.      135.335
+        3         101.       90.224
+        4          38.       45.112
+        5          20.       18.045
+  6 to INF          4.        8.282
+ Chisquare with  6 d.o.f. =     5.06 p-value=  .463409
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  2 to 25   1.924
+  duplicate       number       number 
+  spacings       observed     expected
+        0          73.       67.668
+        1         143.      135.335
+        2         134.      135.335
+        3          84.       90.224
+        4          40.       45.112
+        5          18.       18.045
+  6 to INF          8.        8.282
+ Chisquare with  6 d.o.f. =     1.89 p-value=  .070094
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  3 to 26   1.998
+  duplicate       number       number 
+  spacings       observed     expected
+        0          71.       67.668
+        1         127.      135.335
+        2         138.      135.335
+        3          94.       90.224
+        4          44.       45.112
+        5          20.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     1.76 p-value=  .059281
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  4 to 27   2.018
+  duplicate       number       number 
+  spacings       observed     expected
+        0          72.       67.668
+        1         130.      135.335
+        2         128.      135.335
+        3          92.       90.224
+        4          52.       45.112
+        5          19.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     2.22 p-value=  .101709
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  5 to 28   1.996
+  duplicate       number       number 
+  spacings       observed     expected
+        0          64.       67.668
+        1         140.      135.335
+        2         130.      135.335
+        3         100.       90.224
+        4          39.       45.112
+        5          21.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     3.57 p-value=  .265363
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  6 to 29   2.014
+  duplicate       number       number 
+  spacings       observed     expected
+        0          61.       67.668
+        1         142.      135.335
+        2         130.      135.335
+        3          97.       90.224
+        4          48.       45.112
+        5          15.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     2.60 p-value=  .143066
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  7 to 30   1.998
+  duplicate       number       number 
+  spacings       observed     expected
+        0          66.       67.668
+        1         122.      135.335
+        2         153.      135.335
+        3          93.       90.224
+        4          45.       45.112
+        5          15.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     4.89 p-value=  .441864
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  8 to 31   1.922
+  duplicate       number       number 
+  spacings       observed     expected
+        0          77.       67.668
+        1         146.      135.335
+        2         122.      135.335
+        3          83.       90.224
+        4          46.       45.112
+        5          19.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     4.29 p-value=  .362000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          TT775gen.bin     using bits  9 to 32   3.864
+  duplicate       number       number 
+  spacings       observed     expected
+        0           8.       67.668
+        1          44.      135.335
+        2          71.      135.335
+        3         102.       90.224
+        4          95.       45.112
+        5          86.       18.045
+  6 to INF         94.        8.282
+ Chisquare with  6 d.o.f. =  1344.66 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+   The 9 p-values were
+        .463409   .070094   .059281   .101709   .265363
+        .143066   .441864   .362000  1.000000
+  A KSTEST for the 9 p-values yields  .999485
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
+     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
+     :: ion 32-bit random integers.  Each set of five consecutive     ::     
+     :: integers can be in one of 120 states, for the 5! possible or- ::     
+     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
+     :: each provide a state. As many thousands of state transitions  ::     
+     :: are observed,  cumulative counts are made of the number of    ::     
+     :: occurences of each state.  Then the quadratic form in the     ::     
+     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
+     :: equivalent to the likelihood ratio test that the 120 cell     ::     
+     :: counts came from the specified (asymptotically) normal dis-   ::     
+     :: tribution with the specified 120x120 covariance matrix (with  ::     
+     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           OPERM5 test for file TT775gen.bin   
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom=103.462; p-value= .640500
+           OPERM5 test for file TT775gen.bin   
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom=102.917; p-value= .626323
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
+     :: 31 bits of 31 random integers from the test sequence are used ::     
+     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
+     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
+     :: are rare, and their counts are pooled with those for rank 28. ::     
+     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
+     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for TT775gen.bin   
+         Rank test for 31x31 binary matrices:
+        rows from leftmost 31 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        28       246     211.4  5.656631    5.657
+        29      5052    5134.0  1.310025    6.967
+        30     23155   23103.0   .116830    7.083
+        31     11547   11551.5   .001772    7.085
+  chisquare= 7.085 for 3 d. of f.; p-value= .934657
+--------------------------------------------------------------
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
+     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
+     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
+     :: less than 29 are rare, and their counts are pooled with those ::     
+     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
+     :: and a chisquare test is performed on counts for ranks  32,31, ::     
+     :: 30 and <=29.                                                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for TT775gen.bin   
+         Rank test for 32x32 binary matrices:
+        rows from leftmost 32 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        29      1528     211.4********** 8198.867
+        30     15390    5134.0**********28686.814
+        31     23082   23103.0   .01917428686.834
+        32         0   11551.5**********40238.359
+  chisquare=****** for 3 d. of f.; p-value=1.000000
+--------------------------------------------------------------
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
+     :: six random 32-bit integers from the generator under test, a   ::     
+     :: specified byte is chosen, and the resulting six bytes form a  ::     
+     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
+     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
+     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
+     :: random matrices, and a chi-square test is performed on        ::     
+     :: counts for ranks 6,5 and <=4.                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+         Binary Rank Test for TT775gen.bin   
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  1 to  8
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          970       944.3        .699        .699
+          r =5        21735     21743.9        .004        .703
+          r =6        77295     77311.8        .004        .707
+                        p=1-exp(-SUM/2)= .29766
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  2 to  9
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          998       944.3       3.054       3.054
+          r =5        21976     21743.9       2.477       5.531
+          r =6        77026     77311.8       1.057       6.588
+                        p=1-exp(-SUM/2)= .96289
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  3 to 10
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          939       944.3        .030        .030
+          r =5        21664     21743.9        .294        .323
+          r =6        77397     77311.8        .094        .417
+                        p=1-exp(-SUM/2)= .18830
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  4 to 11
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          963       944.3        .370        .370
+          r =5        21750     21743.9        .002        .372
+          r =6        77287     77311.8        .008        .380
+                        p=1-exp(-SUM/2)= .17301
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  5 to 12
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          932       944.3        .160        .160
+          r =5        21496     21743.9       2.826       2.987
+          r =6        77572     77311.8        .876       3.862
+                        p=1-exp(-SUM/2)= .85501
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  6 to 13
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          902       944.3       1.895       1.895
+          r =5        21539     21743.9       1.931       3.826
+          r =6        77559     77311.8        .790       4.616
+                        p=1-exp(-SUM/2)= .90055
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  7 to 14
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          937       944.3        .056        .056
+          r =5        21889     21743.9        .968       1.025
+          r =6        77174     77311.8        .246       1.270
+                        p=1-exp(-SUM/2)= .47016
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  8 to 15
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          922       944.3        .527        .527
+          r =5        21946     21743.9       1.878       2.405
+          r =6        77132     77311.8        .418       2.823
+                        p=1-exp(-SUM/2)= .75626
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits  9 to 16
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          931       944.3        .187        .187
+          r =5        21643     21743.9        .468        .656
+          r =6        77426     77311.8        .169        .824
+                        p=1-exp(-SUM/2)= .33776
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 10 to 17
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          944       944.3        .000        .000
+          r =5        21810     21743.9        .201        .201
+          r =6        77246     77311.8        .056        .257
+                        p=1-exp(-SUM/2)= .12061
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 11 to 18
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          944       944.3        .000        .000
+          r =5        21830     21743.9        .341        .341
+          r =6        77226     77311.8        .095        .436
+                        p=1-exp(-SUM/2)= .19598
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 12 to 19
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          931       944.3        .187        .187
+          r =5        21754     21743.9        .005        .192
+          r =6        77315     77311.8        .000        .192
+                        p=1-exp(-SUM/2)= .09162
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 13 to 20
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          989       944.3       2.116       2.116
+          r =5        21767     21743.9        .025       2.140
+          r =6        77244     77311.8        .059       2.200
+                        p=1-exp(-SUM/2)= .66710
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 14 to 21
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         1021       944.3       6.230       6.230
+          r =5        21719     21743.9        .029       6.258
+          r =6        77260     77311.8        .035       6.293
+                        p=1-exp(-SUM/2)= .95700
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 15 to 22
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          955       944.3        .121        .121
+          r =5        21757     21743.9        .008        .129
+          r =6        77288     77311.8        .007        .136
+                        p=1-exp(-SUM/2)= .06594
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 16 to 23
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          943       944.3        .002        .002
+          r =5        21845     21743.9        .470        .472
+          r =6        77212     77311.8        .129        .601
+                        p=1-exp(-SUM/2)= .25944
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 17 to 24
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          949       944.3        .023        .023
+          r =5        21698     21743.9        .097        .120
+          r =6        77353     77311.8        .022        .142
+                        p=1-exp(-SUM/2)= .06864
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 18 to 25
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          912       944.3       1.105       1.105
+          r =5        21515     21743.9       2.410       3.515
+          r =6        77573     77311.8        .882       4.397
+                        p=1-exp(-SUM/2)= .88903
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 19 to 26
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          876       944.3       4.940       4.940
+          r =5        21723     21743.9        .020       4.960
+          r =6        77401     77311.8        .103       5.063
+                        p=1-exp(-SUM/2)= .92047
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 20 to 27
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          923       944.3        .481        .481
+          r =5        21395     21743.9       5.598       6.079
+          r =6        77682     77311.8       1.773       7.852
+                        p=1-exp(-SUM/2)= .98027
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 21 to 28
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          923       944.3        .481        .481
+          r =5        21780     21743.9        .060        .540
+          r =6        77297     77311.8        .003        .543
+                        p=1-exp(-SUM/2)= .23787
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 22 to 29
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          925       944.3        .395        .395
+          r =5        21586     21743.9       1.147       1.541
+          r =6        77489     77311.8        .406       1.947
+                        p=1-exp(-SUM/2)= .62229
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 23 to 30
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          962       944.3        .332        .332
+          r =5        21561     21743.9       1.538       1.870
+          r =6        77477     77311.8        .353       2.223
+                        p=1-exp(-SUM/2)= .67096
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 24 to 31
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          948       944.3        .014        .014
+          r =5        21612     21743.9        .800        .815
+          r =6        77440     77311.8        .213       1.027
+                        p=1-exp(-SUM/2)= .40165
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG TT775gen.bin   
+     b-rank test for bits 25 to 32
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         3587       944.3    7395.793    7395.793
+          r =5        38345     21743.9   12674.658   20070.451
+          r =6        58068     77311.8    4790.006   24860.457
+                        p=1-exp(-SUM/2)=1.00000
+   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
+ These should be 25 uniform [0,1] random variables:
+     .297660     .962889     .188299     .173014     .855014
+     .900548     .470157     .756257     .337759     .120606
+     .195978     .091619     .667101     .956996     .065943
+     .259442     .068643     .889031     .920469     .980273
+     .237870     .622295     .670965     .401655    1.000000
+   brank test summary for TT775gen.bin   
+       The KS test for those 25 supposed UNI's yields
+                    KS p-value= .962861
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::                   THE BITSTREAM TEST                          ::     
+     :: The file under test is viewed as a stream of bits. Call them  ::     
+     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
+     :: and think of the stream of bits as a succession of 20-letter  ::     
+     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
+     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
+     :: the number of missing 20-letter (20-bit) words in a string of ::     
+     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
+     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
+     :: number of missing words j should be (very close to) normally  ::     
+     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
+     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
+     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
+     :: twenty times.                                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+       THE OVERLAPPING 20-tuples BITSTREAM TEST,
+            20 BITS PER WORD, 2^21 words.
+    This test samples the bitstream 20 times.
+  No. missing words should average  141909. with sigma=428.
+-----------------------------------        ---------------
+ tst no  1:  147678 missing words,   13.48 sigmas from mean, p-value=1.00000
+ tst no  2:  148164 missing words,   14.61 sigmas from mean, p-value=1.00000
+ tst no  3:  146855 missing words,   11.56 sigmas from mean, p-value=1.00000
+ tst no  4:  147193 missing words,   12.35 sigmas from mean, p-value=1.00000
+ tst no  5:  147427 missing words,   12.89 sigmas from mean, p-value=1.00000
+ tst no  6:  148051 missing words,   14.35 sigmas from mean, p-value=1.00000
+ tst no  7:  146853 missing words,   11.55 sigmas from mean, p-value=1.00000
+ tst no  8:  146005 missing words,    9.57 sigmas from mean, p-value=1.00000
+ tst no  9:  147789 missing words,   13.74 sigmas from mean, p-value=1.00000
+ tst no 10:  147019 missing words,   11.94 sigmas from mean, p-value=1.00000
+ tst no 11:  147502 missing words,   13.07 sigmas from mean, p-value=1.00000
+ tst no 12:  147300 missing words,   12.60 sigmas from mean, p-value=1.00000
+ tst no 13:  147680 missing words,   13.48 sigmas from mean, p-value=1.00000
+ tst no 14:  147490 missing words,   13.04 sigmas from mean, p-value=1.00000
+ tst no 15:  146869 missing words,   11.59 sigmas from mean, p-value=1.00000
+ tst no 16:  147949 missing words,   14.11 sigmas from mean, p-value=1.00000
+ tst no 17:  147013 missing words,   11.92 sigmas from mean, p-value=1.00000
+ tst no 18:  147429 missing words,   12.90 sigmas from mean, p-value=1.00000
+ tst no 19:  148094 missing words,   14.45 sigmas from mean, p-value=1.00000
+ tst no 20:  147061 missing words,   12.04 sigmas from mean, p-value=1.00000
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The tests OPSO, OQSO and DNA                      ::     
+     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
+     :: The OPSO test considers 2-letter words from an alphabet of    ::     
+     :: 1024 letters.  Each letter is determined by a specified ten   ::     
+     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
+     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
+     :: "keystrokes")  and counts the number of missing words---that  ::     
+     :: is 2-letter words which do not appear in the entire sequence. ::     
+     :: That count should be very close to normally distributed with  ::     
+     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
+     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
+     :: a time from the test file and uses a designated set of ten    ::     
+     :: consecutive bits. It then restarts the file for the next de-  ::     
+     :: signated 10 bits, and so on.                                  ::     
+     ::                                                               ::     
+     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
+     ::   The test OQSO is similar, except that it considers 4-letter ::     
+     :: words from an alphabet of 32 letters, each letter determined  ::     
+     :: by a designated string of 5 consecutive bits from the test    ::     
+     :: file, elements of which are assumed 32-bit random integers.   ::     
+     :: The mean number of missing words in a sequence of 2^21 four-  ::     
+     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
+     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
+     :: extensive simulation.                                         ::     
+     ::                                                               ::     
+     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
+     :: determined by two designated bits in the sequence of random   ::     
+     :: integers being tested.  It considers 10-letter words, so that ::     
+     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
+     :: mean number of missing words from a string of 2^21  (over-    ::     
+     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
+     :: The standard deviation sigma=339 was determined as for OQSO   ::     
+     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
+     :: three places), not determined by simulation.                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ OPSO test for generator TT775gen.bin             
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OPSO for TT775gen.bin    using bits 23 to 32        786520******* 1.0000
+    OPSO for TT775gen.bin    using bits 22 to 31        142090   .623  .7334
+    OPSO for TT775gen.bin    using bits 21 to 30        141436 -1.632  .0513
+    OPSO for TT775gen.bin    using bits 20 to 29        141952   .147  .5585
+    OPSO for TT775gen.bin    using bits 19 to 28        141861  -.167  .4338
+    OPSO for TT775gen.bin    using bits 18 to 27        141658  -.867  .1931
+    OPSO for TT775gen.bin    using bits 17 to 26        141407 -1.732  .0416
+    OPSO for TT775gen.bin    using bits 16 to 25        142086   .609  .7288
+    OPSO for TT775gen.bin    using bits 15 to 24        141817  -.318  .3751
+    OPSO for TT775gen.bin    using bits 14 to 23        142079   .585  .7208
+    OPSO for TT775gen.bin    using bits 13 to 22        141925   .054  .5215
+    OPSO for TT775gen.bin    using bits 12 to 21        141953   .151  .5599
+    OPSO for TT775gen.bin    using bits 11 to 20        142090   .623  .7334
+    OPSO for TT775gen.bin    using bits 10 to 19        142128   .754  .7746
+    OPSO for TT775gen.bin    using bits  9 to 18        142744  2.878  .9980
+    OPSO for TT775gen.bin    using bits  8 to 17        142092   .630  .7356
+    OPSO for TT775gen.bin    using bits  7 to 16        141804  -.363  .3582
+    OPSO for TT775gen.bin    using bits  6 to 15        141660  -.860  .1950
+    OPSO for TT775gen.bin    using bits  5 to 14        141735  -.601  .2739
+    OPSO for TT775gen.bin    using bits  4 to 13        142117   .716  .7630
+    OPSO for TT775gen.bin    using bits  3 to 12        141647  -.905  .1828
+    OPSO for TT775gen.bin    using bits  2 to 11        141405 -1.739  .0410
+    OPSO for TT775gen.bin    using bits  1 to 10        141781  -.443  .3291
+ OQSO test for generator TT775gen.bin             
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OQSO for TT775gen.bin    using bits 28 to 32        983040******* 1.0000
+    OQSO for TT775gen.bin    using bits 27 to 31        141811  -.333  .3694
+    OQSO for TT775gen.bin    using bits 26 to 30        141670  -.811  .2086
+    OQSO for TT775gen.bin    using bits 25 to 29        141964   .185  .5735
+    OQSO for TT775gen.bin    using bits 24 to 28        142142   .789  .7849
+    OQSO for TT775gen.bin    using bits 23 to 27        142081   .582  .7197
+    OQSO for TT775gen.bin    using bits 22 to 26        141691  -.740  .2296
+    OQSO for TT775gen.bin    using bits 21 to 25        141999   .304  .6194
+    OQSO for TT775gen.bin    using bits 20 to 24        142327  1.416  .9216
+    OQSO for TT775gen.bin    using bits 19 to 23        141444 -1.577  .0574
+    OQSO for TT775gen.bin    using bits 18 to 22        141854  -.188  .4256
+    OQSO for TT775gen.bin    using bits 17 to 21        142016   .362  .6412
+    OQSO for TT775gen.bin    using bits 16 to 20        142011   .345  .6348
+    OQSO for TT775gen.bin    using bits 15 to 19        142167   .873  .8088
+    OQSO for TT775gen.bin    using bits 14 to 18        141788  -.411  .3404
+    OQSO for TT775gen.bin    using bits 13 to 17        141625  -.964  .1676
+    OQSO for TT775gen.bin    using bits 12 to 16        141555 -1.201  .1149
+    OQSO for TT775gen.bin    using bits 11 to 15        142202   .992  .8394
+    OQSO for TT775gen.bin    using bits 10 to 14        142072   .551  .7093
+    OQSO for TT775gen.bin    using bits  9 to 13        141558 -1.191  .1168
+    OQSO for TT775gen.bin    using bits  8 to 12        141705  -.693  .2443
+    OQSO for TT775gen.bin    using bits  7 to 11        142189   .948  .8284
+    OQSO for TT775gen.bin    using bits  6 to 10        141808  -.343  .3656
+    OQSO for TT775gen.bin    using bits  5 to  9        142202   .992  .8394
+    OQSO for TT775gen.bin    using bits  4 to  8        141879  -.103  .4591
+    OQSO for TT775gen.bin    using bits  3 to  7        141815  -.320  .3746
+    OQSO for TT775gen.bin    using bits  2 to  6        141984   .253  .5999
+    OQSO for TT775gen.bin    using bits  1 to  5        142148   .809  .7908
+  DNA test for generator TT775gen.bin             
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+     DNA for TT775gen.bin    using bits 31 to 32       1047552******* 1.0000
+     DNA for TT775gen.bin    using bits 30 to 31        142562  1.925  .9729
+     DNA for TT775gen.bin    using bits 29 to 30        141901  -.025  .4902
+     DNA for TT775gen.bin    using bits 28 to 29        142266  1.052  .8536
+     DNA for TT775gen.bin    using bits 27 to 28        141175 -2.166  .0151
+     DNA for TT775gen.bin    using bits 26 to 27        141892  -.051  .4796
+     DNA for TT775gen.bin    using bits 25 to 26        141737  -.508  .3056
+     DNA for TT775gen.bin    using bits 24 to 25        141772  -.405  .3427
+     DNA for TT775gen.bin    using bits 23 to 24        142087   .524  .6999
+     DNA for TT775gen.bin    using bits 22 to 23        141496 -1.219  .1114
+     DNA for TT775gen.bin    using bits 21 to 22        142238   .970  .8339
+     DNA for TT775gen.bin    using bits 20 to 21        142584  1.990  .9767
+     DNA for TT775gen.bin    using bits 19 to 20        141893  -.048  .4808
+     DNA for TT775gen.bin    using bits 18 to 19        141775  -.396  .3460
+     DNA for TT775gen.bin    using bits 17 to 18        142091   .536  .7040
+     DNA for TT775gen.bin    using bits 16 to 17        142001   .270  .6066
+     DNA for TT775gen.bin    using bits 15 to 16        141753  -.461  .3223
+     DNA for TT775gen.bin    using bits 14 to 15        142310  1.182  .8814
+     DNA for TT775gen.bin    using bits 13 to 14        142235   .961  .8316
+     DNA for TT775gen.bin    using bits 12 to 13        142045   .400  .6555
+     DNA for TT775gen.bin    using bits 11 to 12        141827  -.243  .4041
+     DNA for TT775gen.bin    using bits 10 to 11        142212   .893  .8140
+     DNA for TT775gen.bin    using bits  9 to 10        141985   .223  .5883
+     DNA for TT775gen.bin    using bits  8 to  9        141935   .076  .5302
+     DNA for TT775gen.bin    using bits  7 to  8        142067   .465  .6791
+     DNA for TT775gen.bin    using bits  6 to  7        141923   .040  .5161
+     DNA for TT775gen.bin    using bits  5 to  6        141713  -.579  .2812
+     DNA for TT775gen.bin    using bits  4 to  5        141617  -.862  .1943
+     DNA for TT775gen.bin    using bits  3 to  4        141708  -.594  .2763
+     DNA for TT775gen.bin    using bits  2 to  3        141274 -1.874  .0305
+     DNA for TT775gen.bin    using bits  1 to  2        141781  -.379  .3525
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
+     :: Consider the file under test as a stream of bytes (four per   ::     
+     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
+     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
+     :: the stream of bytes provide a string of overlapping  5-letter ::     
+     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
+     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
+     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
+     :: we have a monkey at a typewriter hitting five keys with vari- ::     
+     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
+     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
+     :: lapping) 5-letter words, counts are made on the frequencies   ::     
+     :: for each word.   The quadratic form in the weak inverse of    ::     
+     :: the covariance matrix of the cell counts provides a chisquare ::     
+     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
+     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+   Test results for TT775gen.bin   
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
+                               chisquare  equiv normal  p-value
+  Results fo COUNT-THE-1's in successive bytes:
+ byte stream for TT775gen.bin    23736.12    300.324     1.000000
+ byte stream for TT775gen.bin    23753.95    300.576     1.000000
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
+     :: Consider the file under test as a stream of 32-bit integers.  ::     
+     :: From each integer, a specific byte is chosen , say the left-  ::     
+     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
+     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
+     :: the specified bytes from successive integers provide a string ::     
+     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
+     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
+     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
+     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
+     :: hitting five keys with with various probabilities::  37,56,70,::     
+     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
+     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
+     :: are made on the frequencies for each word. The quadratic form ::     
+     :: in the weak inverse of the covariance matrix of the cell      ::     
+     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
+     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
+     :: and 4-letter cell counts.                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
+                      chisquare  equiv normal  p value
+  Results for COUNT-THE-1's in specified bytes:
+           bits  1 to  8  2563.04       .892      .813679
+           bits  2 to  9  2616.56      1.648      .950361
+           bits  3 to 10  2592.47      1.308      .904526
+           bits  4 to 11  2533.51       .474      .682191
+           bits  5 to 12  2482.53      -.247      .402407
+           bits  6 to 13  2543.86       .620      .732479
+           bits  7 to 14  2407.96     -1.302      .096516
+           bits  8 to 15  2596.87      1.370      .914643
+           bits  9 to 16  2574.06      1.047      .852529
+           bits 10 to 17  2483.99      -.226      .410422
+           bits 11 to 18  2576.40      1.080      .860031
+           bits 12 to 19  2517.90       .253      .599908
+           bits 13 to 20  2579.96      1.131      .870920
+           bits 14 to 21  2564.81       .917      .820307
+           bits 15 to 22  2432.88      -.949      .171238
+           bits 16 to 23  2435.53      -.912      .180957
+           bits 17 to 24  2635.15      1.911      .972017
+           bits 18 to 25  2428.82     -1.007      .157047
+           bits 19 to 26  2460.49      -.559      .288161
+           bits 20 to 27  2386.38     -1.607      .054040
+           bits 21 to 28  2396.99     -1.457      .072579
+           bits 22 to 29  2463.56      -.515      .303146
+           bits 23 to 30  2449.14      -.719      .235973
+           bits 24 to 31  2292.56     -2.934      .001675
+           bits 25 to 32 51586.88    694.193     1.000000
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THIS IS A PARKING LOT TEST                      ::     
+     :: In a square of side 100, randomly "park" a car---a circle of  ::     
+     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
+     :: time parking "by ear".  That is, if an attempt to park a car  ::     
+     :: causes a crash with one already parked, try again at a new    ::     
+     :: random location. (To avoid path problems, consider parking    ::     
+     :: helicopters rather than cars.)   Each attempt leads to either ::     
+     :: a crash or a success, the latter followed by an increment to  ::     
+     :: the list of cars already parked. If we plot n:  the number of ::     
+     :: attempts, versus k::  the number successfully parked, we get a::     
+     :: curve that should be similar to those provided by a perfect   ::     
+     :: random number generator.  Theory for the behavior of such a   ::     
+     :: random curve seems beyond reach, and as graphics displays are ::     
+     :: not available for this battery of tests, a simple characteriz ::     
+     :: ation of the random experiment is used: k, the number of cars ::     
+     :: successfully parked after n=12,000 attempts. Simulation shows ::     
+     :: that k should average 3523 with sigma 21.9 and is very close  ::     
+     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
+     :: andard normal variable, which, converted to a uniform varia-  ::     
+     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           CDPARK: result of ten tests on file TT775gen.bin   
+            Of 12,000 tries, the average no. of successes
+                 should be 3523 with sigma=21.9
+            Successes: 3500    z-score: -1.050 p-value: .146807
+            Successes: 3483    z-score: -1.826 p-value: .033889
+            Successes: 3541    z-score:   .822 p-value: .794438
+            Successes: 3508    z-score:  -.685 p-value: .246694
+            Successes: 3520    z-score:  -.137 p-value: .445521
+            Successes: 3496    z-score: -1.233 p-value: .108811
+            Successes: 3523    z-score:   .000 p-value: .500000
+            Successes: 3506    z-score:  -.776 p-value: .218799
+            Successes: 3493    z-score: -1.370 p-value: .085365
+            Successes: 3525    z-score:   .091 p-value: .536382
+
+           square size   avg. no.  parked   sample sigma
+             100.            3509.500       16.690
+            KSTEST for the above 10: p=  .936332
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THE MINIMUM DISTANCE TEST                       ::     
+     :: It does this 100 times::   choose n=8000 random points in a   ::     
+     :: square of side 10000.  Find d, the minimum distance between   ::     
+     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
+     :: pendent uniform, then d^2, the square of the minimum distance ::     
+     :: should be (very close to) exponentially distributed with mean ::     
+     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
+     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
+     :: formity for random points in the square. Test numbers=0 mod 5 ::     
+     :: are printed but the KSTEST is based on the full set of 100    ::     
+     :: random choices of 8000 points in the 10000x10000 square.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               This is the MINIMUM DISTANCE test
+              for random integers in the file TT775gen.bin   
+     Sample no.    d^2     avg     equiv uni            
+           5     .1464    .5463     .136839
+          10    3.2403    .8159     .961480
+          15     .9948    .7187     .632050
+          20     .5258    .7412     .410489
+          25    1.4448    .7756     .765918
+          30     .9231    .8363     .604567
+          35     .0464    .8727     .045570
+          40    2.4556   1.0493     .915240
+          45     .0560   1.0150     .054716
+          50     .3936   1.0442     .326678
+          55    1.6519   1.0666     .809892
+          60     .7544   1.0869     .531485
+          65     .5474   1.0664     .423119
+          70     .9488   1.0255     .614649
+          75     .1310    .9749     .123323
+          80     .1976    .9532     .180115
+          85    4.8829   1.0213     .992609
+          90     .1606   1.0187     .149012
+          95    1.7461   1.0049     .827076
+         100     .2440   1.0198     .217466
+     MINIMUM DISTANCE TEST for TT775gen.bin   
+          Result of KS test on 20 transformed mindist^2's:
+                                  p-value= .129487
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::              THE 3DSPHERES TEST                               ::     
+     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
+     :: point, center a sphere large enough to reach the next closest ::     
+     :: point. Then the volume of the smallest such sphere is (very   ::     
+     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
+     :: the radius cubed is exponential with mean 30. (The mean is    ::     
+     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
+     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
+     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
+     ::  KSTEST is done on the 20 p-values.                           ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               The 3DSPHERES test for file TT775gen.bin   
+ sample no:  1     r^3=    .804     p-value= .02643
+ sample no:  2     r^3=  54.783     p-value= .83896
+ sample no:  3     r^3=  31.745     p-value= .65290
+ sample no:  4     r^3=  84.697     p-value= .94059
+ sample no:  5     r^3=   8.565     p-value= .24837
+ sample no:  6     r^3=  77.212     p-value= .92375
+ sample no:  7     r^3=  49.381     p-value= .80719
+ sample no:  8     r^3=   3.943     p-value= .12315
+ sample no:  9     r^3=  30.056     p-value= .63280
+ sample no: 10     r^3=  27.556     p-value= .60089
+ sample no: 11     r^3=  14.170     p-value= .37645
+ sample no: 12     r^3=   4.808     p-value= .14807
+ sample no: 13     r^3=  38.672     p-value= .72448
+ sample no: 14     r^3=  17.256     p-value= .43740
+ sample no: 15     r^3=   8.463     p-value= .24580
+ sample no: 16     r^3=   2.253     p-value= .07235
+ sample no: 17     r^3=  13.444     p-value= .36119
+ sample no: 18     r^3=  23.587     p-value= .54444
+ sample no: 19     r^3=  82.212     p-value= .93545
+ sample no: 20     r^3=  12.451     p-value= .33969
+  A KS test is applied to those 20 p-values.
+---------------------------------------------------------
+       3DSPHERES test for file TT775gen.bin         p-value= .001079
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::      This is the SQEEZE test                                  ::     
+     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
+     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
+     ::  iterations necessary to reduce k to 1, using the reduction   ::     
+     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
+     ::  the file being tested.  Such j's are found 100,000 times,    ::     
+     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
+     ::  are used to provide a chi-square test for cell frequencies.  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+            RESULTS OF SQUEEZE TEST FOR TT775gen.bin   
+         Table of standardized frequency counts
+     ( (obs-exp)/sqrt(exp) )^2
+        for j taking values <=6,7,8,...,47,>=48:
+    -1.5      .1     -.8     1.1     -.6      .5
+     1.6     2.0      .4     -.4      .0     -.7
+     -.5     -.4     1.6     -.2      .0     -.3
+      .8     -.9    -1.6     -.1      .0      .9
+    -1.2     -.1    -1.5     2.1     1.1     2.7
+      .5     -.7     -.9     -.8      .2     -.3
+      .3     -.4     1.3      .4      .9     1.0
+     -.1
+           Chi-square with 42 degrees of freedom: 43.176
+              z-score=   .128  p-value= .579203
+______________________________________________________________
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The  OVERLAPPING SUMS test                        ::     
+     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
+     :: form [0,1) variables.  Then overlapping sums,                 ::     
+     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
+     :: The S's are virtually normal with a certain covariance mat-   ::     
+     :: rix.  A linear transformation of the S's converts them to a   ::     
+     :: sequence of independent standard normals, which are converted ::     
+     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
+     :: KSTESTs are given still another KSTEST.                       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Test no.  1      p-value  .091952
+                Test no.  2      p-value  .878790
+                Test no.  3      p-value  .964572
+                Test no.  4      p-value  .356480
+                Test no.  5      p-value  .210254
+                Test no.  6      p-value  .551655
+                Test no.  7      p-value  .228724
+                Test no.  8      p-value  .646601
+                Test no.  9      p-value  .617054
+                Test no. 10      p-value  .761125
+   Results of the OSUM test for TT775gen.bin   
+        KSTEST on the above 10 p-values:  .010023
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
+     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
+     :: ing the 32-bit integers in the specified file. This example   ::     
+     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
+     :: contains an up-run of length 3, a down-run of length 2 and an ::     
+     :: up-run of (at least) 2, depending on the next values.  The    ::     
+     :: covariance matrices for the runs-up and runs-down are well    ::     
+     :: known, leading to chisquare tests for quadratic forms in the  ::     
+     :: weak inverses of the covariance matrices.  Runs are counted   ::     
+     :: for sequences of length 10,000.  This is done ten times. Then ::     
+     :: repeated.                                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           The RUNS test for file TT775gen.bin   
+     Up and down runs in a sample of 10000
+_________________________________________________ 
+                 Run test for TT775gen.bin   :
+       runs up; ks test for 10 p's: .634865
+     runs down; ks test for 10 p's: .777562
+                 Run test for TT775gen.bin   :
+       runs up; ks test for 10 p's: .901532
+     runs down; ks test for 10 p's: .844112
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
+     :: the number of wins and the number of throws necessary to end  ::     
+     :: each game.  The number of wins should be (very close to) a    ::     
+     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
+     :: p=244/495.  Throws necessary to complete the game can vary    ::     
+     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
+     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
+     :: Each 32-bit integer from the test file provides the value for ::     
+     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
+     :: and taking 1 plus the integer part of the result.             ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Results of craps test for TT775gen.bin   
+  No. of wins:  Observed Expected
+                                98530    98585.86
+                  98530= No. of wins, z-score= -.250 pvalue= .40136
+   Analysis of Throws-per-Game:
+ Chisq=  25.12 for 20 degrees of freedom, p=  .80329
+               Throws Observed Expected  Chisq     Sum
+                  1    66493    66666.7    .452     .452
+                  2    37897    37654.3   1.564    2.016
+                  3    26876    26954.7    .230    2.246
+                  4    19541    19313.5   2.681    4.927
+                  5    13888    13851.4    .097    5.024
+                  6     9929     9943.5    .021    5.045
+                  7     6991     7145.0   3.320    8.365
+                  8     5201     5139.1    .746    9.112
+                  9     3637     3699.9   1.068   10.180
+                 10     2562     2666.3   4.080   14.259
+                 11     1941     1923.3    .162   14.422
+                 12     1373     1388.7    .178   14.600
+                 13      999     1003.7    .022   14.622
+                 14      758      726.1   1.398   16.020
+                 15      496      525.8   1.693   17.713
+                 16      410      381.2   2.184   19.897
+                 17      275      276.5    .009   19.905
+                 18      212      200.8    .621   20.527
+                 19      161      146.0   1.544   22.071
+                 20       93      106.2   1.644   23.715
+                 21      267      287.1   1.409   25.125
+            SUMMARY  FOR TT775gen.bin   
+                p-value for no. of wins: .401357
+                p-value for throws/game: .803294
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+ Results of DIEHARD battery of tests sent to file TT775gen.all   

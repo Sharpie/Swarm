@@ -1,0 +1,25 @@
+// Swarm Random version 0.7
+//
+// testR8
+//
+
+testR8
+
+This program asks each generator or distribution
+object to 'describe' itself, providing a complete 
+snapshot of object data and parameters.
+
+(Also, at the start it prints some diagnostic output
+for code in random.m.)
+
+Compile the program simply by saying 'make'.
+You run it by saying  './humbug -batchmode > runlog'.
+
+Or, if you want starting seeds to be randomized, 
+say './humbug -batchmode -varySeed > runlog'.
+
+Sven Thommesen <sthomme@humsci.auburn.edu>
+
+//
+// 1997-09-01
+

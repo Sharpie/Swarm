@@ -1,0 +1,160 @@
+// ------------------------------------------------
+// 
+// Random rel. 0.7 (Swarm rel. 1.0.3)
+// 
+// SOURCES for objects in this release
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1997-09-01
+// 
+// ------------------------------------------------
+
+The following is a list of source articles or books from which
+the generator and distribution objects were implemented:
+
+A. GENERATORS
+
+LCG: 
+
+a golden oldie; see Knuth or Numerical Recipes.
+
+PMMLCG: 
+
+Stephen K. Park and Keith W. Miller, "Random Number Generators: Good Ones
+Are Hard to Find." CACM 31:10, October 1988, pp. 1192-1201.
+
+ACG: 
+
+a golden oldie; see Knuth or Numerical Recipes.
+
+SCG: 
+
+a golden oldie; see Knuth or Numerical Recipes.
+
+SWB: 
+
+George Marsaglia and Arif Zaman, "A New Class of Random Number Generators."
+Annals of Applied Probability vol. 1 no. 3 (1991), pp. 462-480.
+
+PSWB: 
+
+George Marsaglia and Arif Zaman, "A New Class of Random Number Generators."
+Annals of Applied Probability vol. 1 no. 3 (1991), pp. 462-480.
+
+MRG: 
+
+Pierre L'Ecuyer, Francois Blouin and Raymond Couture: "A Search for Good
+Multiple Recursive Random Generators." Unpublished. 
+See <http://www.iro.umontreal.ca/~lecuyer>.
+
+C2MRG3: 
+
+Pierre L'Ecuyer: "Combined Multiple Recursive Random Number Generators."
+(Unpublished.) See his web site: <http://www.iro.umontreal.ca/~lecuyer>.
+
+C2TAUS: 
+
+Shu Tezuka and Pierre L'Ecuyer: "Efficient and Portable Combined Tausworthe
+Random Number Generators." ACM TOMACS vol. 1 no. 2, April 1991, pp. 99-112.
+
+TT403/TT775/TT800 (TGFSR): 
+
+Makoto Matsumoto and Yoshiharu Kurita: "Twisted GFSR Generators II."
+ACM TOMACS vol. 4 no. 3, July 1994, pp. 254-266. 
+Amended by K. Matsumoto, July 8, 1996.
+
+MT19937: 
+
+By Matsumoto and Nishimura. Code posted in 1997 to the pLab web site at
+<http://random.mat.sbg.ac.at/pub/data/mt19937b-int.c>
+
+MWCA, MWCB, C3MWC, RWC2, RWC8 ("Mother"): 
+
+Report posted to sci.stat.consult and sci.math.num-analysis by Bob Wheeler
+on behalf of George Marsaglia on October 28, 1994. 
+Code found at <ftp://ftp.taygeta.com/pub/c/mother.c>.
+
+C2LCGX: 
+
+Pierre L'Ecuyer and Serge Cote, "Implementing a Random Number
+Package with Splitting Facilities." ACM TOMACS vol 17 no 1, March 1991,
+pp. 98-111.
+
+C4LCGX: 
+
+Pierre L'Ecuyer and Terry H. Andres: "A Random Number Generator Based on the
+Combination of Four LCGs." December 17, 1996. To appear in Mathematics and
+Computers in Simulation. See <http://www.iro.umontreal.ca/~lecuyer>.
+
+
+B. DISTRIBUTIONS
+
+RandomBitDist: 
+
+Code contributed by Nelson Minar < nelson@media.mit.edu >.
+
+BernoulliDist: 
+
+Code contributed by Barry McMullin < mcmullin@santafe.edu >.
+
+UniformIntegerDist: 
+
+Code contributed by Nelson Minar < nelson@media.mit.edu >.
+
+UniformUnsignedDist: 
+
+Code contributed by Nelson Minar < nelson@media.mit.edu >.
+
+UniformDoubleDist: 
+
+Code contributed by Nelson Minar < nelson@media.mit.edu >.
+
+NormalDist: 
+
+Numerical Recipes.
+
+LogNormalDist: 
+
+Numerical Recipes.
+
+ExponentialDist: 
+
+Russell 1992.
+
+GammaDist: 
+
+Watkins 1994.
+
+
+REFERENCES:
+
+Numerical Recipes: W. H. Press, S. A. Teukolsky, W. T. Vetterling and 
+B. P. Flannery, "Numerical Recipes in C" (2nd ed.). Cambridge University 
+Press, 1992.
+
+Knuth: Donald E. Knuth, "The Art of Computer Programming" (2nd ed.), 
+Volume II, "Seminumerical Algorithms". Reading, Mass: Addison-Wesley, 1981.
+
+Russell: <temporarily misplaced>
+
+Watkins: Kevin Watkins, "Discrete Event Simulation in C", McGraw-Hill, 1994.
+
+
+C. USEFUL WEB SITES
+
+Pierre L'Ecuyer maintains a personal web site at 
+<http://www.iro.umontreal.ca/~lecuyer>. He has many of his own papers there, 
+as well as further links. He has papers both on generating random numbers and
+on testing random number generators.
+
+George Marsaglia has a personal web site at <http://stat.fsu.edu/~geo>. His 
+battery of tests for random generators, called Diehard, is not available there,
+but rather from Hong Kong: <http://www.hku.hk/internet/randomCD.html>. A GUI 
+version of Diehard has been under development for some time, but is not yet 
+ready.
+
+The pLab project in Salzburg, Austria: <http://random.mat.sbg.ac.at> also
+has much useful information.
+
+

@@ -1,0 +1,145 @@
+       NOTE: Most of the tests in DIEHARD return a p-value, which            
+       should be uniform on [0,1) if the input file contains truly           
+       independent random bits.   Those p-values are obtained by             
+       p=F(X), where F is the assumed distribution of the sample             
+       random variable X---often normal. But that assumed F is just          
+       an asymptotic approximation, for which the fit will be worst          
+       in the tails. Thus you should not be surprised with                   
+       occasional p-values near 0 or 1, such as .0012 or .9983.              
+       When a bit stream really FAILS BIG, you will get p's of 0 or          
+       1 to six or more places.  By all means, do not, as a                  
+       Statistician might, think that a p < .025 or p> .975 means            
+       that the RNG has "failed the test at the .05 level".  Such            
+       p's happen among the hundreds that DIEHARD produces, even             
+       with good RNG's.  So keep in mind that " p happens".                  
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The tests OPSO, OQSO and DNA                      ::     
+     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
+     :: The OPSO test considers 2-letter words from an alphabet of    ::     
+     :: 1024 letters.  Each letter is determined by a specified ten   ::     
+     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
+     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
+     :: "keystrokes")  and counts the number of missing words---that  ::     
+     :: is 2-letter words which do not appear in the entire sequence. ::     
+     :: That count should be very close to normally distributed with  ::     
+     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
+     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
+     :: a time from the test file and uses a designated set of ten    ::     
+     :: consecutive bits. It then restarts the file for the next de-  ::     
+     :: signated 10 bits, and so on.                                  ::     
+     ::                                                               ::     
+     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
+     ::   The test OQSO is similar, except that it considers 4-letter ::     
+     :: words from an alphabet of 32 letters, each letter determined  ::     
+     :: by a designated string of 5 consecutive bits from the test    ::     
+     :: file, elements of which are assumed 32-bit random integers.   ::     
+     :: The mean number of missing words in a sequence of 2^21 four-  ::     
+     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
+     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
+     :: extensive simulation.                                         ::     
+     ::                                                               ::     
+     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
+     :: determined by two designated bits in the sequence of random   ::     
+     :: integers being tested.  It considers 10-letter words, so that ::     
+     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
+     :: mean number of missing words from a string of 2^21  (over-    ::     
+     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
+     :: The standard deviation sigma=339 was determined as for OQSO   ::     
+     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
+     :: three places), not determined by simulation.                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ OPSO test for generator ACGgen.bin               
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OPSO for ACGgen.bin      using bits 23 to 32        142149   .826  .7957
+    OPSO for ACGgen.bin      using bits 22 to 31        142343  1.495  .9326
+    OPSO for ACGgen.bin      using bits 21 to 30        142212  1.044  .8517
+    OPSO for ACGgen.bin      using bits 20 to 29        142728  2.823  .9976
+    OPSO for ACGgen.bin      using bits 19 to 28        142247  1.164  .8779
+    OPSO for ACGgen.bin      using bits 18 to 27        142128   .754  .7746
+    OPSO for ACGgen.bin      using bits 17 to 26        142298  1.340  .9099
+    OPSO for ACGgen.bin      using bits 16 to 25        141813  -.332  .3699
+    OPSO for ACGgen.bin      using bits 15 to 24        141250 -2.274  .0115
+    OPSO for ACGgen.bin      using bits 14 to 23        142507  2.061  .9803
+    OPSO for ACGgen.bin      using bits 13 to 22        142004   .326  .6280
+    OPSO for ACGgen.bin      using bits 12 to 21        141610 -1.032  .1510
+    OPSO for ACGgen.bin      using bits 11 to 20        141888  -.074  .4707
+    OPSO for ACGgen.bin      using bits 10 to 19        141946   .126  .5503
+    OPSO for ACGgen.bin      using bits  9 to 18        141796  -.391  .3480
+    OPSO for ACGgen.bin      using bits  8 to 17        141045 -2.980  .0014
+    OPSO for ACGgen.bin      using bits  7 to 16        141506 -1.391  .0821
+    OPSO for ACGgen.bin      using bits  6 to 15        141565 -1.187  .1175
+    OPSO for ACGgen.bin      using bits  5 to 14        141868  -.143  .4433
+    OPSO for ACGgen.bin      using bits  4 to 13        141777  -.456  .3241
+    OPSO for ACGgen.bin      using bits  3 to 12        141907  -.008  .4968
+    OPSO for ACGgen.bin      using bits  2 to 11        142327  1.440  .9251
+    OPSO for ACGgen.bin      using bits  1 to 10        141751  -.546  .2925
+ OQSO test for generator ACGgen.bin               
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OQSO for ACGgen.bin      using bits 28 to 32        142039   .440  .6699
+    OQSO for ACGgen.bin      using bits 27 to 31        143023  3.775  .9999
+    OQSO for ACGgen.bin      using bits 26 to 30        141779  -.442  .3293
+    OQSO for ACGgen.bin      using bits 25 to 29        141716  -.655  .2561
+    OQSO for ACGgen.bin      using bits 24 to 28        141513 -1.343  .0896
+    OQSO for ACGgen.bin      using bits 23 to 27        141825  -.286  .3875
+    OQSO for ACGgen.bin      using bits 22 to 26        141783  -.428  .3342
+    OQSO for ACGgen.bin      using bits 21 to 25        142122   .721  .7645
+    OQSO for ACGgen.bin      using bits 20 to 24        141640  -.913  .1806
+    OQSO for ACGgen.bin      using bits 19 to 23        141583 -1.106  .1343
+    OQSO for ACGgen.bin      using bits 18 to 22        141428 -1.632  .0514
+    OQSO for ACGgen.bin      using bits 17 to 21        141777  -.449  .3269
+    OQSO for ACGgen.bin      using bits 16 to 20        142010   .341  .6335
+    OQSO for ACGgen.bin      using bits 15 to 19        141744  -.560  .2876
+    OQSO for ACGgen.bin      using bits 14 to 18        141596 -1.062  .1441
+    OQSO for ACGgen.bin      using bits 13 to 17        141562 -1.177  .1195
+    OQSO for ACGgen.bin      using bits 12 to 16        141845  -.218  .4137
+    OQSO for ACGgen.bin      using bits 11 to 15        142189   .948  .8284
+    OQSO for ACGgen.bin      using bits 10 to 14        142211  1.023  .8468
+    OQSO for ACGgen.bin      using bits  9 to 13        141761  -.503  .3075
+    OQSO for ACGgen.bin      using bits  8 to 12        142226  1.073  .8585
+    OQSO for ACGgen.bin      using bits  7 to 11        141653  -.869  .1924
+    OQSO for ACGgen.bin      using bits  6 to 10        142040   .443  .6711
+    OQSO for ACGgen.bin      using bits  5 to  9        141854  -.188  .4256
+    OQSO for ACGgen.bin      using bits  4 to  8        142036   .429  .6662
+    OQSO for ACGgen.bin      using bits  3 to  7        142470  1.901  .9713
+    OQSO for ACGgen.bin      using bits  2 to  6        142434  1.779  .9623
+    OQSO for ACGgen.bin      using bits  1 to  5        142041   .446  .6723
+  DNA test for generator ACGgen.bin               
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+     DNA for ACGgen.bin      using bits 31 to 32        142744  2.462  .9931
+     DNA for ACGgen.bin      using bits 30 to 31        142348  1.294  .9022
+     DNA for ACGgen.bin      using bits 29 to 30        141595  -.927  .1769
+     DNA for ACGgen.bin      using bits 28 to 29        142111   .595  .7240
+     DNA for ACGgen.bin      using bits 27 to 28        142227   .937  .8256
+     DNA for ACGgen.bin      using bits 26 to 27        141855  -.160  .4363
+     DNA for ACGgen.bin      using bits 25 to 26        141450 -1.355  .0877
+     DNA for ACGgen.bin      using bits 24 to 25        141603  -.904  .1831
+     DNA for ACGgen.bin      using bits 23 to 24        142194   .840  .7995
+     DNA for ACGgen.bin      using bits 22 to 23        142373  1.368  .9143
+     DNA for ACGgen.bin      using bits 21 to 22        142342  1.276  .8991
+     DNA for ACGgen.bin      using bits 20 to 21        142403  1.456  .9273
+     DNA for ACGgen.bin      using bits 19 to 20        141513 -1.169  .1212
+     DNA for ACGgen.bin      using bits 18 to 19        142026   .344  .6346
+     DNA for ACGgen.bin      using bits 17 to 18        141960   .149  .5594
+     DNA for ACGgen.bin      using bits 16 to 17        141871  -.113  .4550
+     DNA for ACGgen.bin      using bits 15 to 16        141723  -.550  .2913
+     DNA for ACGgen.bin      using bits 14 to 15        142005   .282  .6111
+     DNA for ACGgen.bin      using bits 13 to 14        141253 -1.936  .0264
+     DNA for ACGgen.bin      using bits 12 to 13        141997   .259  .6020
+     DNA for ACGgen.bin      using bits 11 to 12        142108   .586  .7211
+     DNA for ACGgen.bin      using bits 10 to 11        141758  -.446  .3277
+     DNA for ACGgen.bin      using bits  9 to 10        141693  -.638  .2617
+     DNA for ACGgen.bin      using bits  8 to  9        141537 -1.098  .1360
+     DNA for ACGgen.bin      using bits  7 to  8        141294 -1.815  .0348
+     DNA for ACGgen.bin      using bits  6 to  7        141454 -1.343  .0896
+     DNA for ACGgen.bin      using bits  5 to  6        141389 -1.535  .0624
+     DNA for ACGgen.bin      using bits  4 to  5        141635  -.809  .2092
+     DNA for ACGgen.bin      using bits  3 to  4        142080   .503  .6927
+     DNA for ACGgen.bin      using bits  2 to  3        142182   .804  .7894
+     DNA for ACGgen.bin      using bits  1 to  2        142343  1.279  .8996
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+ Results of DIEHARD battery of tests sent to file ACGgen.die     

@@ -1,0 +1,44 @@
+// ------------------------------------------------
+// 
+// Random rel. 0.75 (Swarm rel. 1.0.4)
+// 
+// README file
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1997-12-08
+// 
+// ------------------------------------------------
+
+This directory contains the code for version 0.75 of
+the random number library for Swarm, supplied with
+Swarm version 1.0.4.
+
+NOTE: see the file docs/WHATS.CHANGED.in.075 for 
+changes made since version 0.7.
+
+If Swarm has been installed properly, you need only
+say 'make' to recompile all the objects and renew
+the library .a file. You can then do 'make clean'
+to get rid of all the .o files, which are not
+needed to run Swarm.
+
+Look in the /docs subdirectory for documentation of
+the objects defined in this library.
+
+The following subdirectories contain test programs:
+
+/testR0: program to verify that getState/setState works
+         and that the objects are operating correctly
+/testR4: program to conduct timing tests
+/testR6: program to generate binary files for statistical tests
+         (see /ENT and /Diehard under /testR6)
+/testR7: program to print certain data for every object
+/testR8: program to get every object to 'describe' itself
+
+/tests.v06: programs from the previous release, which
+            have not been updated to work with this one.
+
+// 
+// -------------------------------------------------
+

@@ -1,0 +1,31 @@
+// Swarm Random version 0.7
+//
+// testR4: TIMING TESTS
+//
+
+This program was used to do the timing tests. 
+It creates all generator and distribution objects, 
+then calls on each one 10^7 times.
+The results are written to standard output.
+
+There are two versions of the program, giving
+different looking output. Just copy either
+HumbugModelSwarm.m.4a or HumbugModelSwarm.m.4b
+to HumbugModelSwarm.m, then
+compile the program simply by saying 'make'.
+You run it by saying './humbug -batchmode > runlog'.
+
+(You select object(s) to test by commenting
+and uncommenting lines in HumbugModelSwarm.m.
+Sorry -- this is utilitarian stuff!)
+
+On a 486/66, testing all objects takes about 
+2 hours 30 minutes. On a PPro-200, < 30 min.
+
+If you have any problems, kindly e-mail me at:
+
+Sven Thommesen <sthomme@humsci.auburn.edu>
+
+//
+// 1997-09-01
+

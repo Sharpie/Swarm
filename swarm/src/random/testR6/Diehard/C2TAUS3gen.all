@@ -1,0 +1,944 @@
+       NOTE: Most of the tests in DIEHARD return a p-value, which            
+       should be uniform on [0,1) if the input file contains truly           
+       independent random bits.   Those p-values are obtained by             
+       p=F(X), where F is the assumed distribution of the sample             
+       random variable X---often normal. But that assumed F is just          
+       an asymptotic approximation, for which the fit will be worst          
+       in the tails. Thus you should not be surprised with                   
+       occasional p-values near 0 or 1, such as .0012 or .9983.              
+       When a bit stream really FAILS BIG, you will get p's of 0 or          
+       1 to six or more places.  By all means, do not, as a                  
+       Statistician might, think that a p < .025 or p> .975 means            
+       that the RNG has "failed the test at the .05 level".  Such            
+       p's happen among the hundreds that DIEHARD produces, even             
+       with good RNG's.  So keep in mind that " p happens".                  
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
+     :: Choose m birthdays in a year of n days.  List the spacings    ::     
+     :: between the birthdays.  If j is the number of values that     ::     
+     :: occur more than once in that list, then j is asymptotically   ::     
+     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
+     :: must be quite large, say n>=2^18, for comparing the results   ::     
+     :: to the Poisson distribution with that mean.  This test uses   ::     
+     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
+     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
+     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
+     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
+     :: from the left) from integers in the specified file.           ::     
+     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
+     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
+     :: Each set of bits provides a p-value, and the nine p-values    ::     
+     :: provide a sample for a KSTEST.                                ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
+           Results for C2TAUS3gen.bin 
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  1 to 24   1.986
+  duplicate       number       number 
+  spacings       observed     expected
+        0          57.       67.668
+        1         144.      135.335
+        2         150.      135.335
+        3          84.       90.224
+        4          38.       45.112
+        5          20.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     5.79 p-value=  .552442
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  2 to 25   1.906
+  duplicate       number       number 
+  spacings       observed     expected
+        0          71.       67.668
+        1         154.      135.335
+        2         131.      135.335
+        3          76.       90.224
+        4          42.       45.112
+        5          19.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     5.58 p-value=  .528521
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  3 to 26   1.908
+  duplicate       number       number 
+  spacings       observed     expected
+        0          69.       67.668
+        1         148.      135.335
+        2         135.      135.335
+        3          79.       90.224
+        4          52.       45.112
+        5          11.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     7.04 p-value=  .682758
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  4 to 27   2.014
+  duplicate       number       number 
+  spacings       observed     expected
+        0          52.       67.668
+        1         147.      135.335
+        2         143.      135.335
+        3          92.       90.224
+        4          41.       45.112
+        5          18.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     5.68 p-value=  .539484
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  5 to 28   2.016
+  duplicate       number       number 
+  spacings       observed     expected
+        0          62.       67.668
+        1         131.      135.335
+        2         150.      135.335
+        3          85.       90.224
+        4          48.       45.112
+        5          17.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     2.95 p-value=  .184759
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  6 to 29   2.066
+  duplicate       number       number 
+  spacings       observed     expected
+        0          57.       67.668
+        1         143.      135.335
+        2         128.      135.335
+        3         100.       90.224
+        4          40.       45.112
+        5          23.       18.045
+  6 to INF          9.        8.282
+ Chisquare with  6 d.o.f. =     5.58 p-value=  .527568
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  7 to 30   2.138
+  duplicate       number       number 
+  spacings       observed     expected
+        0          71.       67.668
+        1         111.      135.335
+        2         148.      135.335
+        3          82.       90.224
+        4          45.       45.112
+        5          26.       18.045
+  6 to INF         17.        8.282
+ Chisquare with  6 d.o.f. =    19.16 p-value=  .996098
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  8 to 31   1.994
+  duplicate       number       number 
+  spacings       observed     expected
+        0          76.       67.668
+        1         123.      135.335
+        2         140.      135.335
+        3          93.       90.224
+        4          41.       45.112
+        5          15.       18.045
+  6 to INF         12.        8.282
+ Chisquare with  6 d.o.f. =     4.95 p-value=  .450322
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C2TAUS3gen.bin   using bits  9 to 32   3.784
+  duplicate       number       number 
+  spacings       observed     expected
+        0           9.       67.668
+        1          51.      135.335
+        2          83.      135.335
+        3          89.       90.224
+        4          94.       45.112
+        5          78.       18.045
+  6 to INF         96.        8.282
+ Chisquare with  6 d.o.f. =  1304.94 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+   The 9 p-values were
+        .552442   .528521   .682758   .539484   .184759
+        .527568   .996098   .450322  1.000000
+  A KSTEST for the 9 p-values yields  .999376
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
+     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
+     :: ion 32-bit random integers.  Each set of five consecutive     ::     
+     :: integers can be in one of 120 states, for the 5! possible or- ::     
+     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
+     :: each provide a state. As many thousands of state transitions  ::     
+     :: are observed,  cumulative counts are made of the number of    ::     
+     :: occurences of each state.  Then the quadratic form in the     ::     
+     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
+     :: equivalent to the likelihood ratio test that the 120 cell     ::     
+     :: counts came from the specified (asymptotically) normal dis-   ::     
+     :: tribution with the specified 120x120 covariance matrix (with  ::     
+     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           OPERM5 test for file C2TAUS3gen.bin 
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 71.991; p-value= .018805
+           OPERM5 test for file C2TAUS3gen.bin 
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 71.679; p-value= .017577
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
+     :: 31 bits of 31 random integers from the test sequence are used ::     
+     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
+     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
+     :: are rare, and their counts are pooled with those for rank 28. ::     
+     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
+     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for C2TAUS3gen.bin 
+         Rank test for 31x31 binary matrices:
+        rows from leftmost 31 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        28       213     211.4   .011838     .012
+        29      5255    5134.0  2.851284    2.863
+        30     23047   23103.0   .135967    2.999
+        31     11485   11551.5   .383109    3.382
+  chisquare= 3.382 for 3 d. of f.; p-value= .696587
+--------------------------------------------------------------
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
+     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
+     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
+     :: less than 29 are rare, and their counts are pooled with those ::     
+     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
+     :: and a chisquare test is performed on counts for ranks  32,31, ::     
+     :: 30 and <=29.                                                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for C2TAUS3gen.bin 
+         Rank test for 32x32 binary matrices:
+        rows from leftmost 32 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        29      1468     211.4********** 7468.608
+        30     15415    5134.0**********28056.562
+        31     23117   23103.0   .00842728056.570
+        32         0   11551.5**********39608.094
+  chisquare=****** for 3 d. of f.; p-value=1.000000
+--------------------------------------------------------------
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
+     :: six random 32-bit integers from the generator under test, a   ::     
+     :: specified byte is chosen, and the resulting six bytes form a  ::     
+     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
+     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
+     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
+     :: random matrices, and a chi-square test is performed on        ::     
+     :: counts for ranks 6,5 and <=4.                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+         Binary Rank Test for C2TAUS3gen.bin 
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  1 to  8
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          956       944.3        .145        .145
+          r =5        21633     21743.9        .566        .711
+          r =6        77411     77311.8        .127        .838
+                        p=1-exp(-SUM/2)= .34224
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  2 to  9
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          898       944.3       2.270       2.270
+          r =5        21852     21743.9        .537       2.808
+          r =6        77250     77311.8        .049       2.857
+                        p=1-exp(-SUM/2)= .76034
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  3 to 10
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          899       944.3       2.173       2.173
+          r =5        21318     21743.9       8.342      10.515
+          r =6        77783     77311.8       2.872      13.387
+                        p=1-exp(-SUM/2)= .99876
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  4 to 11
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          924       944.3        .436        .436
+          r =5        21549     21743.9       1.747       2.183
+          r =6        77527     77311.8        .599       2.782
+                        p=1-exp(-SUM/2)= .75123
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  5 to 12
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          959       944.3        .229        .229
+          r =5        21584     21743.9       1.176       1.405
+          r =6        77457     77311.8        .273       1.677
+                        p=1-exp(-SUM/2)= .56772
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  6 to 13
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          969       944.3        .646        .646
+          r =5        21725     21743.9        .016        .662
+          r =6        77306     77311.8        .000        .663
+                        p=1-exp(-SUM/2)= .28211
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  7 to 14
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          981       944.3       1.426       1.426
+          r =5        21909     21743.9       1.254       2.680
+          r =6        77110     77311.8        .527       3.207
+                        p=1-exp(-SUM/2)= .79877
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  8 to 15
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          976       944.3       1.064       1.064
+          r =5        21899     21743.9       1.106       2.170
+          r =6        77125     77311.8        .451       2.622
+                        p=1-exp(-SUM/2)= .73042
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits  9 to 16
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          978       944.3       1.203       1.203
+          r =5        21649     21743.9        .414       1.617
+          r =6        77373     77311.8        .048       1.665
+                        p=1-exp(-SUM/2)= .56509
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 10 to 17
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          940       944.3        .020        .020
+          r =5        21816     21743.9        .239        .259
+          r =6        77244     77311.8        .059        .318
+                        p=1-exp(-SUM/2)= .14706
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 11 to 18
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          931       944.3        .187        .187
+          r =5        21825     21743.9        .302        .490
+          r =6        77244     77311.8        .059        .549
+                        p=1-exp(-SUM/2)= .24017
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 12 to 19
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          938       944.3        .042        .042
+          r =5        21808     21743.9        .189        .231
+          r =6        77254     77311.8        .043        .274
+                        p=1-exp(-SUM/2)= .12813
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 13 to 20
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         1000       944.3       3.285       3.285
+          r =5        21726     21743.9        .015       3.300
+          r =6        77274     77311.8        .018       3.319
+                        p=1-exp(-SUM/2)= .80972
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 14 to 21
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         1007       944.3       4.163       4.163
+          r =5        21743     21743.9        .000       4.163
+          r =6        77250     77311.8        .049       4.212
+                        p=1-exp(-SUM/2)= .87830
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 15 to 22
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          903       944.3       1.806       1.806
+          r =5        21800     21743.9        .145       1.951
+          r =6        77297     77311.8        .003       1.954
+                        p=1-exp(-SUM/2)= .62356
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 16 to 23
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          950       944.3        .034        .034
+          r =5        21835     21743.9        .382        .416
+          r =6        77215     77311.8        .121        .537
+                        p=1-exp(-SUM/2)= .23558
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 17 to 24
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          967       944.3        .546        .546
+          r =5        21545     21743.9       1.819       2.365
+          r =6        77488     77311.8        .402       2.767
+                        p=1-exp(-SUM/2)= .74925
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 18 to 25
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          923       944.3        .481        .481
+          r =5        21443     21743.9       4.164       4.644
+          r =6        77634     77311.8       1.343       5.987
+                        p=1-exp(-SUM/2)= .94989
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 19 to 26
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          977       944.3       1.132       1.132
+          r =5        21878     21743.9        .827       1.959
+          r =6        77145     77311.8        .360       2.319
+                        p=1-exp(-SUM/2)= .68639
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 20 to 27
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          913       944.3       1.038       1.038
+          r =5        21904     21743.9       1.179       2.216
+          r =6        77183     77311.8        .215       2.431
+                        p=1-exp(-SUM/2)= .70343
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 21 to 28
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          979       944.3       1.275       1.275
+          r =5        21752     21743.9        .003       1.278
+          r =6        77269     77311.8        .024       1.302
+                        p=1-exp(-SUM/2)= .47841
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 22 to 29
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          974       944.3        .934        .934
+          r =5        21826     21743.9        .310       1.244
+          r =6        77200     77311.8        .162       1.406
+                        p=1-exp(-SUM/2)= .50483
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 23 to 30
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         1019       944.3       5.909       5.909
+          r =5        21826     21743.9        .310       6.219
+          r =6        77155     77311.8        .318       6.537
+                        p=1-exp(-SUM/2)= .96194
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 24 to 31
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          977       944.3       1.132       1.132
+          r =5        21815     21743.9        .232       1.365
+          r =6        77208     77311.8        .139       1.504
+                        p=1-exp(-SUM/2)= .52861
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C2TAUS3gen.bin 
+     b-rank test for bits 25 to 32
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         3540       944.3    7135.066    7135.066
+          r =5        38228     21743.9   12496.633   19631.699
+          r =6        58232     77311.8    4708.711   24340.410
+                        p=1-exp(-SUM/2)=1.00000
+   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
+ These should be 25 uniform [0,1] random variables:
+     .342240     .760342     .998761     .751226     .567718
+     .282109     .798768     .730419     .565086     .147059
+     .240165     .128130     .809724     .878303     .623558
+     .235582     .749250     .949894     .686386     .703433
+     .478407     .504831     .961937     .528609    1.000000
+   brank test summary for C2TAUS3gen.bin 
+       The KS test for those 25 supposed UNI's yields
+                    KS p-value= .992256
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::                   THE BITSTREAM TEST                          ::     
+     :: The file under test is viewed as a stream of bits. Call them  ::     
+     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
+     :: and think of the stream of bits as a succession of 20-letter  ::     
+     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
+     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
+     :: the number of missing 20-letter (20-bit) words in a string of ::     
+     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
+     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
+     :: number of missing words j should be (very close to) normally  ::     
+     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
+     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
+     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
+     :: twenty times.                                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+       THE OVERLAPPING 20-tuples BITSTREAM TEST,
+            20 BITS PER WORD, 2^21 words.
+    This test samples the bitstream 20 times.
+  No. missing words should average  141909. with sigma=428.
+-----------------------------------        ---------------
+ tst no  1:  147565 missing words,   13.21 sigmas from mean, p-value=1.00000
+ tst no  2:  147501 missing words,   13.06 sigmas from mean, p-value=1.00000
+ tst no  3:  147632 missing words,   13.37 sigmas from mean, p-value=1.00000
+ tst no  4:  147208 missing words,   12.38 sigmas from mean, p-value=1.00000
+ tst no  5:  146373 missing words,   10.43 sigmas from mean, p-value=1.00000
+ tst no  6:  147499 missing words,   13.06 sigmas from mean, p-value=1.00000
+ tst no  7:  147320 missing words,   12.64 sigmas from mean, p-value=1.00000
+ tst no  8:  148746 missing words,   15.97 sigmas from mean, p-value=1.00000
+ tst no  9:  146856 missing words,   11.56 sigmas from mean, p-value=1.00000
+ tst no 10:  147862 missing words,   13.91 sigmas from mean, p-value=1.00000
+ tst no 11:  147525 missing words,   13.12 sigmas from mean, p-value=1.00000
+ tst no 12:  147993 missing words,   14.21 sigmas from mean, p-value=1.00000
+ tst no 13:  147059 missing words,   12.03 sigmas from mean, p-value=1.00000
+ tst no 14:  147264 missing words,   12.51 sigmas from mean, p-value=1.00000
+ tst no 15:  147151 missing words,   12.25 sigmas from mean, p-value=1.00000
+ tst no 16:  148008 missing words,   14.25 sigmas from mean, p-value=1.00000
+ tst no 17:  148516 missing words,   15.44 sigmas from mean, p-value=1.00000
+ tst no 18:  146309 missing words,   10.28 sigmas from mean, p-value=1.00000
+ tst no 19:  148620 missing words,   15.68 sigmas from mean, p-value=1.00000
+ tst no 20:  147315 missing words,   12.63 sigmas from mean, p-value=1.00000
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The tests OPSO, OQSO and DNA                      ::     
+     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
+     :: The OPSO test considers 2-letter words from an alphabet of    ::     
+     :: 1024 letters.  Each letter is determined by a specified ten   ::     
+     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
+     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
+     :: "keystrokes")  and counts the number of missing words---that  ::     
+     :: is 2-letter words which do not appear in the entire sequence. ::     
+     :: That count should be very close to normally distributed with  ::     
+     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
+     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
+     :: a time from the test file and uses a designated set of ten    ::     
+     :: consecutive bits. It then restarts the file for the next de-  ::     
+     :: signated 10 bits, and so on.                                  ::     
+     ::                                                               ::     
+     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
+     ::   The test OQSO is similar, except that it considers 4-letter ::     
+     :: words from an alphabet of 32 letters, each letter determined  ::     
+     :: by a designated string of 5 consecutive bits from the test    ::     
+     :: file, elements of which are assumed 32-bit random integers.   ::     
+     :: The mean number of missing words in a sequence of 2^21 four-  ::     
+     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
+     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
+     :: extensive simulation.                                         ::     
+     ::                                                               ::     
+     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
+     :: determined by two designated bits in the sequence of random   ::     
+     :: integers being tested.  It considers 10-letter words, so that ::     
+     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
+     :: mean number of missing words from a string of 2^21  (over-    ::     
+     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
+     :: The standard deviation sigma=339 was determined as for OQSO   ::     
+     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
+     :: three places), not determined by simulation.                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ OPSO test for generator C2TAUS3gen.bin           
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OPSO for C2TAUS3gen.bin  using bits 23 to 32        786514******* 1.0000
+    OPSO for C2TAUS3gen.bin  using bits 22 to 31        142008   .340  .6332
+    OPSO for C2TAUS3gen.bin  using bits 21 to 30        141858  -.177  .4298
+    OPSO for C2TAUS3gen.bin  using bits 20 to 29        142578  2.306  .9894
+    OPSO for C2TAUS3gen.bin  using bits 19 to 28        142128   .754  .7746
+    OPSO for C2TAUS3gen.bin  using bits 18 to 27        142159   .861  .8054
+    OPSO for C2TAUS3gen.bin  using bits 17 to 26        141910   .002  .5009
+    OPSO for C2TAUS3gen.bin  using bits 16 to 25        141658  -.867  .1931
+    OPSO for C2TAUS3gen.bin  using bits 15 to 24        142197   .992  .8394
+    OPSO for C2TAUS3gen.bin  using bits 14 to 23        141666  -.839  .2007
+    OPSO for C2TAUS3gen.bin  using bits 13 to 22        142016   .368  .6435
+    OPSO for C2TAUS3gen.bin  using bits 12 to 21        141736  -.598  .2750
+    OPSO for C2TAUS3gen.bin  using bits 11 to 20        141737  -.594  .2762
+    OPSO for C2TAUS3gen.bin  using bits 10 to 19        141544 -1.260  .1039
+    OPSO for C2TAUS3gen.bin  using bits  9 to 18        141906  -.011  .4954
+    OPSO for C2TAUS3gen.bin  using bits  8 to 17        141825  -.291  .3856
+    OPSO for C2TAUS3gen.bin  using bits  7 to 16        142224  1.085  .8611
+    OPSO for C2TAUS3gen.bin  using bits  6 to 15        142476  1.954  .9747
+    OPSO for C2TAUS3gen.bin  using bits  5 to 14        141886  -.080  .4679
+    OPSO for C2TAUS3gen.bin  using bits  4 to 13        141798  -.384  .3505
+    OPSO for C2TAUS3gen.bin  using bits  3 to 12        141656  -.874  .1912
+    OPSO for C2TAUS3gen.bin  using bits  2 to 11        141894  -.053  .4789
+    OPSO for C2TAUS3gen.bin  using bits  1 to 10        142047   .475  .6825
+ OQSO test for generator C2TAUS3gen.bin           
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OQSO for C2TAUS3gen.bin  using bits 28 to 32        983040******* 1.0000
+    OQSO for C2TAUS3gen.bin  using bits 27 to 31        142199   .982  .8369
+    OQSO for C2TAUS3gen.bin  using bits 26 to 30        142173   .894  .8143
+    OQSO for C2TAUS3gen.bin  using bits 25 to 29        141806  -.350  .3631
+    OQSO for C2TAUS3gen.bin  using bits 24 to 28        141697  -.720  .2358
+    OQSO for C2TAUS3gen.bin  using bits 23 to 27        142276  1.243  .8931
+    OQSO for C2TAUS3gen.bin  using bits 22 to 26        142198   .979  .8361
+    OQSO for C2TAUS3gen.bin  using bits 21 to 25        141787  -.415  .3392
+    OQSO for C2TAUS3gen.bin  using bits 20 to 24        142173   .894  .8143
+    OQSO for C2TAUS3gen.bin  using bits 19 to 23        141878  -.106  .4577
+    OQSO for C2TAUS3gen.bin  using bits 18 to 22        141955   .155  .5615
+    OQSO for C2TAUS3gen.bin  using bits 17 to 21        141859  -.171  .4323
+    OQSO for C2TAUS3gen.bin  using bits 16 to 20        142249  1.151  .8752
+    OQSO for C2TAUS3gen.bin  using bits 15 to 19        141877  -.110  .4564
+    OQSO for C2TAUS3gen.bin  using bits 14 to 18        141997   .297  .6168
+    OQSO for C2TAUS3gen.bin  using bits 13 to 17        142380  1.595  .9447
+    OQSO for C2TAUS3gen.bin  using bits 12 to 16        142119   .711  .7614
+    OQSO for C2TAUS3gen.bin  using bits 11 to 15        141956   .158  .5629
+    OQSO for C2TAUS3gen.bin  using bits 10 to 14        142077   .568  .7151
+    OQSO for C2TAUS3gen.bin  using bits  9 to 13        141990   .273  .6078
+    OQSO for C2TAUS3gen.bin  using bits  8 to 12        141565 -1.167  .1216
+    OQSO for C2TAUS3gen.bin  using bits  7 to 11        142066   .531  .7023
+    OQSO for C2TAUS3gen.bin  using bits  6 to 10        142236  1.107  .8659
+    OQSO for C2TAUS3gen.bin  using bits  5 to  9        141863  -.157  .4376
+    OQSO for C2TAUS3gen.bin  using bits  4 to  8        141969   .202  .5802
+    OQSO for C2TAUS3gen.bin  using bits  3 to  7        142089   .609  .7288
+    OQSO for C2TAUS3gen.bin  using bits  2 to  6        141765  -.489  .3123
+    OQSO for C2TAUS3gen.bin  using bits  1 to  5        142612  2.382  .9914
+  DNA test for generator C2TAUS3gen.bin           
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+     DNA for C2TAUS3gen.bin  using bits 31 to 32       1047552******* 1.0000
+     DNA for C2TAUS3gen.bin  using bits 30 to 31        141176 -2.163  .0153
+     DNA for C2TAUS3gen.bin  using bits 29 to 30        141657  -.744  .2283
+     DNA for C2TAUS3gen.bin  using bits 28 to 29        141461 -1.323  .0930
+     DNA for C2TAUS3gen.bin  using bits 27 to 28        141859  -.148  .4410
+     DNA for C2TAUS3gen.bin  using bits 26 to 27        141503 -1.199  .1153
+     DNA for C2TAUS3gen.bin  using bits 25 to 26        142596  2.026  .9786
+     DNA for C2TAUS3gen.bin  using bits 24 to 25        141740  -.499  .3087
+     DNA for C2TAUS3gen.bin  using bits 23 to 24        141075 -2.461  .0069
+     DNA for C2TAUS3gen.bin  using bits 22 to 23        141586  -.954  .1701
+     DNA for C2TAUS3gen.bin  using bits 21 to 22        142035   .371  .6446
+     DNA for C2TAUS3gen.bin  using bits 20 to 21        141632  -.818  .2067
+     DNA for C2TAUS3gen.bin  using bits 19 to 20        142226   .934  .8249
+     DNA for C2TAUS3gen.bin  using bits 18 to 19        141981   .211  .5837
+     DNA for C2TAUS3gen.bin  using bits 17 to 18        141208 -2.069  .0193
+     DNA for C2TAUS3gen.bin  using bits 16 to 17        142003   .276  .6088
+     DNA for C2TAUS3gen.bin  using bits 15 to 16        141298 -1.803  .0357
+     DNA for C2TAUS3gen.bin  using bits 14 to 15        141368 -1.597  .0552
+     DNA for C2TAUS3gen.bin  using bits 13 to 14        142195   .843  .8003
+     DNA for C2TAUS3gen.bin  using bits 12 to 13        142112   .598  .7250
+     DNA for C2TAUS3gen.bin  using bits 11 to 12        141555 -1.045  .1480
+     DNA for C2TAUS3gen.bin  using bits 10 to 11        141483 -1.258  .1043
+     DNA for C2TAUS3gen.bin  using bits  9 to 10        142176   .787  .7843
+     DNA for C2TAUS3gen.bin  using bits  8 to  9        141530 -1.119  .1316
+     DNA for C2TAUS3gen.bin  using bits  7 to  8        142018   .321  .6257
+     DNA for C2TAUS3gen.bin  using bits  6 to  7        141955   .135  .5536
+     DNA for C2TAUS3gen.bin  using bits  5 to  6        141840  -.205  .4190
+     DNA for C2TAUS3gen.bin  using bits  4 to  5        142311  1.185  .8820
+     DNA for C2TAUS3gen.bin  using bits  3 to  4        141734  -.517  .3025
+     DNA for C2TAUS3gen.bin  using bits  2 to  3        141798  -.328  .3713
+     DNA for C2TAUS3gen.bin  using bits  1 to  2        141344 -1.668  .0477
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
+     :: Consider the file under test as a stream of bytes (four per   ::     
+     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
+     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
+     :: the stream of bytes provide a string of overlapping  5-letter ::     
+     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
+     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
+     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
+     :: we have a monkey at a typewriter hitting five keys with vari- ::     
+     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
+     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
+     :: lapping) 5-letter words, counts are made on the frequencies   ::     
+     :: for each word.   The quadratic form in the weak inverse of    ::     
+     :: the covariance matrix of the cell counts provides a chisquare ::     
+     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
+     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+   Test results for C2TAUS3gen.bin 
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
+                               chisquare  equiv normal  p-value
+  Results fo COUNT-THE-1's in successive bytes:
+ byte stream for C2TAUS3gen.bin  23593.98    298.314     1.000000
+ byte stream for C2TAUS3gen.bin  24194.09    306.801     1.000000
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
+     :: Consider the file under test as a stream of 32-bit integers.  ::     
+     :: From each integer, a specific byte is chosen , say the left-  ::     
+     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
+     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
+     :: the specified bytes from successive integers provide a string ::     
+     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
+     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
+     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
+     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
+     :: hitting five keys with with various probabilities::  37,56,70,::     
+     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
+     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
+     :: are made on the frequencies for each word. The quadratic form ::     
+     :: in the weak inverse of the covariance matrix of the cell      ::     
+     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
+     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
+     :: and 4-letter cell counts.                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
+                      chisquare  equiv normal  p value
+  Results for COUNT-THE-1's in specified bytes:
+           bits  1 to  8  2496.64      -.048      .481055
+           bits  2 to  9  2521.70       .307      .620548
+           bits  3 to 10  2498.12      -.027      .489409
+           bits  4 to 11  2499.61      -.005      .497821
+           bits  5 to 12  2441.44      -.828      .203790
+           bits  6 to 13  2469.04      -.438      .330731
+           bits  7 to 14  2563.62       .900      .815878
+           bits  8 to 15  2697.17      2.788      .997352
+           bits  9 to 16  2416.54     -1.180      .118953
+           bits 10 to 17  2553.76       .760      .776474
+           bits 11 to 18  2386.53     -1.605      .054278
+           bits 12 to 19  2462.81      -.526      .299439
+           bits 13 to 20  2433.14      -.946      .172173
+           bits 14 to 21  2532.68       .462      .678019
+           bits 15 to 22  2481.77      -.258      .398251
+           bits 16 to 23  2553.13       .751      .773787
+           bits 17 to 24  2459.13      -.578      .281651
+           bits 18 to 25  2558.56       .828      .796201
+           bits 19 to 26  2495.52      -.063      .474726
+           bits 20 to 27  2614.27      1.616      .946963
+           bits 21 to 28  2469.96      -.425      .335495
+           bits 22 to 29  2531.30       .443      .670978
+           bits 23 to 30  2515.14       .214      .584770
+           bits 24 to 31  2560.13       .850      .802441
+           bits 25 to 32 49847.16    669.590     1.000000
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THIS IS A PARKING LOT TEST                      ::     
+     :: In a square of side 100, randomly "park" a car---a circle of  ::     
+     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
+     :: time parking "by ear".  That is, if an attempt to park a car  ::     
+     :: causes a crash with one already parked, try again at a new    ::     
+     :: random location. (To avoid path problems, consider parking    ::     
+     :: helicopters rather than cars.)   Each attempt leads to either ::     
+     :: a crash or a success, the latter followed by an increment to  ::     
+     :: the list of cars already parked. If we plot n:  the number of ::     
+     :: attempts, versus k::  the number successfully parked, we get a::     
+     :: curve that should be similar to those provided by a perfect   ::     
+     :: random number generator.  Theory for the behavior of such a   ::     
+     :: random curve seems beyond reach, and as graphics displays are ::     
+     :: not available for this battery of tests, a simple characteriz ::     
+     :: ation of the random experiment is used: k, the number of cars ::     
+     :: successfully parked after n=12,000 attempts. Simulation shows ::     
+     :: that k should average 3523 with sigma 21.9 and is very close  ::     
+     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
+     :: andard normal variable, which, converted to a uniform varia-  ::     
+     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           CDPARK: result of ten tests on file C2TAUS3gen.bin 
+            Of 12,000 tries, the average no. of successes
+                 should be 3523 with sigma=21.9
+            Successes: 3506    z-score:  -.776 p-value: .218799
+            Successes: 3497    z-score: -1.187 p-value: .117571
+            Successes: 3525    z-score:   .091 p-value: .536382
+            Successes: 3555    z-score:  1.461 p-value: .928018
+            Successes: 3489    z-score: -1.553 p-value: .060270
+            Successes: 3557    z-score:  1.553 p-value: .939730
+            Successes: 3495    z-score: -1.279 p-value: .100530
+            Successes: 3495    z-score: -1.279 p-value: .100530
+            Successes: 3530    z-score:   .320 p-value: .625377
+            Successes: 3545    z-score:  1.005 p-value: .842447
+
+           square size   avg. no.  parked   sample sigma
+             100.            3519.400       25.050
+            KSTEST for the above 10: p=  .666726
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THE MINIMUM DISTANCE TEST                       ::     
+     :: It does this 100 times::   choose n=8000 random points in a   ::     
+     :: square of side 10000.  Find d, the minimum distance between   ::     
+     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
+     :: pendent uniform, then d^2, the square of the minimum distance ::     
+     :: should be (very close to) exponentially distributed with mean ::     
+     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
+     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
+     :: formity for random points in the square. Test numbers=0 mod 5 ::     
+     :: are printed but the KSTEST is based on the full set of 100    ::     
+     :: random choices of 8000 points in the 10000x10000 square.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               This is the MINIMUM DISTANCE test
+              for random integers in the file C2TAUS3gen.bin 
+     Sample no.    d^2     avg     equiv uni            
+           5     .0201    .8027     .020011
+          10     .5679    .7111     .434912
+          15     .2388    .7363     .213335
+          20     .3214    .8163     .276039
+          25     .1919    .7785     .175423
+          30     .2249    .7349     .202295
+          35     .4010    .6986     .331699
+          40     .1599    .7817     .148437
+          45     .0087    .7396     .008723
+          50     .3107    .7686     .268199
+          55     .5619    .7588     .431477
+          60     .1647    .7480     .152567
+          65    3.2973    .7613     .963626
+          70     .9147    .7733     .601204
+          75     .7855    .7889     .545887
+          80    1.2093    .8169     .703390
+          85    2.1408    .8477     .883699
+          90     .7228    .8419     .516381
+          95    1.0231    .8416     .642376
+         100     .4257    .8145     .348073
+     MINIMUM DISTANCE TEST for C2TAUS3gen.bin 
+          Result of KS test on 20 transformed mindist^2's:
+                                  p-value= .846783
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::              THE 3DSPHERES TEST                               ::     
+     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
+     :: point, center a sphere large enough to reach the next closest ::     
+     :: point. Then the volume of the smallest such sphere is (very   ::     
+     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
+     :: the radius cubed is exponential with mean 30. (The mean is    ::     
+     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
+     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
+     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
+     ::  KSTEST is done on the 20 p-values.                           ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               The 3DSPHERES test for file C2TAUS3gen.bin 
+ sample no:  1     r^3=  22.064     p-value= .52071
+ sample no:  2     r^3=  57.382     p-value= .85232
+ sample no:  3     r^3=  74.973     p-value= .91784
+ sample no:  4     r^3=  31.753     p-value= .65300
+ sample no:  5     r^3=  59.137     p-value= .86072
+ sample no:  6     r^3=   6.443     p-value= .19326
+ sample no:  7     r^3=   1.957     p-value= .06315
+ sample no:  8     r^3=  14.787     p-value= .38914
+ sample no:  9     r^3=   9.617     p-value= .27427
+ sample no: 10     r^3=  74.391     p-value= .91623
+ sample no: 11     r^3=  31.300     p-value= .64773
+ sample no: 12     r^3=   3.798     p-value= .11891
+ sample no: 13     r^3=  71.861     p-value= .90886
+ sample no: 14     r^3=   5.767     p-value= .17489
+ sample no: 15     r^3=  73.575     p-value= .91392
+ sample no: 16     r^3=  27.692     p-value= .60270
+ sample no: 17     r^3=  21.354     p-value= .50924
+ sample no: 18     r^3=  44.411     p-value= .77245
+ sample no: 19     r^3=   3.391     p-value= .10686
+ sample no: 20     r^3=  36.645     p-value= .70521
+  A KS test is applied to those 20 p-values.
+---------------------------------------------------------
+       3DSPHERES test for file C2TAUS3gen.bin       p-value= .490674
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::      This is the SQEEZE test                                  ::     
+     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
+     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
+     ::  iterations necessary to reduce k to 1, using the reduction   ::     
+     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
+     ::  the file being tested.  Such j's are found 100,000 times,    ::     
+     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
+     ::  are used to provide a chi-square test for cell frequencies.  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+            RESULTS OF SQUEEZE TEST FOR C2TAUS3gen.bin 
+         Table of standardized frequency counts
+     ( (obs-exp)/sqrt(exp) )^2
+        for j taking values <=6,7,8,...,47,>=48:
+     2.0      .5      .1     1.1     -.5    -1.5
+     -.3     1.2      .8     1.1      .3    -1.1
+     1.3    -1.7     1.0     1.9      .3     -.5
+     -.5     -.9      .2     -.3    -1.5     -.6
+     1.5      .8     -.7    -1.3     -.9      .0
+      .0      .7     -.5     -.1     -.5      .4
+     1.0      .8      .5      .4      .1    -1.0
+    -1.1
+           Chi-square with 42 degrees of freedom: 37.323
+              z-score=  -.510  p-value= .323554
+______________________________________________________________
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The  OVERLAPPING SUMS test                        ::     
+     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
+     :: form [0,1) variables.  Then overlapping sums,                 ::     
+     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
+     :: The S's are virtually normal with a certain covariance mat-   ::     
+     :: rix.  A linear transformation of the S's converts them to a   ::     
+     :: sequence of independent standard normals, which are converted ::     
+     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
+     :: KSTESTs are given still another KSTEST.                       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Test no.  1      p-value  .228036
+                Test no.  2      p-value  .490584
+                Test no.  3      p-value  .791300
+                Test no.  4      p-value  .709625
+                Test no.  5      p-value  .339101
+                Test no.  6      p-value  .219347
+                Test no.  7      p-value  .812257
+                Test no.  8      p-value  .668567
+                Test no.  9      p-value  .923340
+                Test no. 10      p-value  .467730
+   Results of the OSUM test for C2TAUS3gen.bin 
+        KSTEST on the above 10 p-values:  .302334
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
+     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
+     :: ing the 32-bit integers in the specified file. This example   ::     
+     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
+     :: contains an up-run of length 3, a down-run of length 2 and an ::     
+     :: up-run of (at least) 2, depending on the next values.  The    ::     
+     :: covariance matrices for the runs-up and runs-down are well    ::     
+     :: known, leading to chisquare tests for quadratic forms in the  ::     
+     :: weak inverses of the covariance matrices.  Runs are counted   ::     
+     :: for sequences of length 10,000.  This is done ten times. Then ::     
+     :: repeated.                                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           The RUNS test for file C2TAUS3gen.bin 
+     Up and down runs in a sample of 10000
+_________________________________________________ 
+                 Run test for C2TAUS3gen.bin :
+       runs up; ks test for 10 p's: .641064
+     runs down; ks test for 10 p's: .350678
+                 Run test for C2TAUS3gen.bin :
+       runs up; ks test for 10 p's: .988750
+     runs down; ks test for 10 p's: .743799
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
+     :: the number of wins and the number of throws necessary to end  ::     
+     :: each game.  The number of wins should be (very close to) a    ::     
+     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
+     :: p=244/495.  Throws necessary to complete the game can vary    ::     
+     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
+     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
+     :: Each 32-bit integer from the test file provides the value for ::     
+     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
+     :: and taking 1 plus the integer part of the result.             ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Results of craps test for C2TAUS3gen.bin 
+  No. of wins:  Observed Expected
+                                98270    98585.86
+                  98270= No. of wins, z-score=-1.413 pvalue= .07887
+   Analysis of Throws-per-Game:
+ Chisq=  26.67 for 20 degrees of freedom, p=  .85517
+               Throws Observed Expected  Chisq     Sum
+                  1    66789    66666.7    .224     .224
+                  2    37731    37654.3    .156     .381
+                  3    27076    26954.7    .546     .926
+                  4    19134    19313.5   1.668    2.594
+                  5    14058    13851.4   3.081    5.675
+                  6     9948     9943.5    .002    5.677
+                  7     6923     7145.0   6.899   12.576
+                  8     5064     5139.1   1.097   13.673
+                  9     3648     3699.9    .727   14.400
+                 10     2605     2666.3   1.409   15.809
+                 11     1915     1923.3    .036   15.845
+                 12     1419     1388.7    .659   16.504
+                 13     1033     1003.7    .854   17.359
+                 14      753      726.1    .994   18.352
+                 15      497      525.8   1.581   19.933
+                 16      417      381.2   3.372   23.305
+                 17      273      276.5    .045   23.351
+                 18      182      200.8   1.765   25.116
+                 19      148      146.0    .028   25.144
+                 20       94      106.2   1.405   26.549
+                 21      293      287.1    .121   26.669
+            SUMMARY  FOR C2TAUS3gen.bin 
+                p-value for no. of wins: .078871
+                p-value for throws/game: .855174
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+ Results of DIEHARD battery of tests sent to file C2TAUS3gen.all 

@@ -1,0 +1,944 @@
+       NOTE: Most of the tests in DIEHARD return a p-value, which            
+       should be uniform on [0,1) if the input file contains truly           
+       independent random bits.   Those p-values are obtained by             
+       p=F(X), where F is the assumed distribution of the sample             
+       random variable X---often normal. But that assumed F is just          
+       an asymptotic approximation, for which the fit will be worst          
+       in the tails. Thus you should not be surprised with                   
+       occasional p-values near 0 or 1, such as .0012 or .9983.              
+       When a bit stream really FAILS BIG, you will get p's of 0 or          
+       1 to six or more places.  By all means, do not, as a                  
+       Statistician might, think that a p < .025 or p> .975 means            
+       that the RNG has "failed the test at the .05 level".  Such            
+       p's happen among the hundreds that DIEHARD produces, even             
+       with good RNG's.  So keep in mind that " p happens".                  
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
+     :: Choose m birthdays in a year of n days.  List the spacings    ::     
+     :: between the birthdays.  If j is the number of values that     ::     
+     :: occur more than once in that list, then j is asymptotically   ::     
+     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
+     :: must be quite large, say n>=2^18, for comparing the results   ::     
+     :: to the Poisson distribution with that mean.  This test uses   ::     
+     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
+     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
+     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
+     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
+     :: from the left) from integers in the specified file.           ::     
+     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
+     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
+     :: Each set of bits provides a p-value, and the nine p-values    ::     
+     :: provide a sample for a KSTEST.                                ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
+           Results for C3MWCgenX.bin  
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  1 to 24   1.956
+  duplicate       number       number 
+  spacings       observed     expected
+        0          68.       67.668
+        1         134.      135.335
+        2         140.      135.335
+        3          94.       90.224
+        4          42.       45.112
+        5          18.       18.045
+  6 to INF          4.        8.282
+ Chisquare with  6 d.o.f. =     2.76 p-value=  .161950
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  2 to 25   1.964
+  duplicate       number       number 
+  spacings       observed     expected
+        0          60.       67.668
+        1         148.      135.335
+        2         147.      135.335
+        3          80.       90.224
+        4          41.       45.112
+        5          13.       18.045
+  6 to INF         11.        8.282
+ Chisquare with  6 d.o.f. =     6.90 p-value=  .669344
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  3 to 26   2.038
+  duplicate       number       number 
+  spacings       observed     expected
+        0          71.       67.668
+        1         141.      135.335
+        2         123.      135.335
+        3          77.       90.224
+        4          58.       45.112
+        5          17.       18.045
+  6 to INF         13.        8.282
+ Chisquare with  6 d.o.f. =     9.89 p-value=  .870821
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  4 to 27   1.946
+  duplicate       number       number 
+  spacings       observed     expected
+        0          57.       67.668
+        1         148.      135.335
+        2         150.      135.335
+        3          81.       90.224
+        4          44.       45.112
+        5          17.       18.045
+  6 to INF          3.        8.282
+ Chisquare with  6 d.o.f. =     8.86 p-value=  .818117
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  5 to 28   1.922
+  duplicate       number       number 
+  spacings       observed     expected
+        0          82.       67.668
+        1         137.      135.335
+        2         122.      135.335
+        3          88.       90.224
+        4          44.       45.112
+        5          22.       18.045
+  6 to INF          5.        8.282
+ Chisquare with  6 d.o.f. =     6.62 p-value=  .642557
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  6 to 29   2.006
+  duplicate       number       number 
+  spacings       observed     expected
+        0          64.       67.668
+        1         133.      135.335
+        2         137.      135.335
+        3         101.       90.224
+        4          41.       45.112
+        5          19.       18.045
+  6 to INF          5.        8.282
+ Chisquare with  6 d.o.f. =     3.27 p-value=  .226056
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  7 to 30   2.062
+  duplicate       number       number 
+  spacings       observed     expected
+        0          61.       67.668
+        1         126.      135.335
+        2         146.      135.335
+        3          91.       90.224
+        4          49.       45.112
+        5          20.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     2.89 p-value=  .177900
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  8 to 31   2.068
+  duplicate       number       number 
+  spacings       observed     expected
+        0          66.       67.668
+        1         140.      135.335
+        2         123.      135.335
+        3          87.       90.224
+        4          46.       45.112
+        5          28.       18.045
+  6 to INF         10.        8.282
+ Chisquare with  6 d.o.f. =     7.31 p-value=  .706672
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          C3MWCgenX.bin    using bits  9 to 32   1.992
+  duplicate       number       number 
+  spacings       observed     expected
+        0          70.       67.668
+        1         126.      135.335
+        2         143.      135.335
+        3          92.       90.224
+        4          45.       45.112
+        5          19.       18.045
+  6 to INF          5.        8.282
+ Chisquare with  6 d.o.f. =     2.54 p-value=  .136571
+  :::::::::::::::::::::::::::::::::::::::::
+   The 9 p-values were
+        .161950   .669344   .870821   .818117   .642557
+        .226056   .177900   .706672   .136571
+  A KSTEST for the 9 p-values yields  .261873
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
+     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
+     :: ion 32-bit random integers.  Each set of five consecutive     ::     
+     :: integers can be in one of 120 states, for the 5! possible or- ::     
+     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
+     :: each provide a state. As many thousands of state transitions  ::     
+     :: are observed,  cumulative counts are made of the number of    ::     
+     :: occurences of each state.  Then the quadratic form in the     ::     
+     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
+     :: equivalent to the likelihood ratio test that the 120 cell     ::     
+     :: counts came from the specified (asymptotically) normal dis-   ::     
+     :: tribution with the specified 120x120 covariance matrix (with  ::     
+     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           OPERM5 test for file C3MWCgenX.bin  
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 93.893; p-value= .373734
+           OPERM5 test for file C3MWCgenX.bin  
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 94.757; p-value= .397997
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
+     :: 31 bits of 31 random integers from the test sequence are used ::     
+     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
+     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
+     :: are rare, and their counts are pooled with those for rank 28. ::     
+     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
+     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for C3MWCgenX.bin  
+         Rank test for 31x31 binary matrices:
+        rows from leftmost 31 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        28       209     211.4   .027655     .028
+        29      5118    5134.0   .049927     .078
+        30     23125   23103.0   .020860     .098
+        31     11548   11551.5   .001075     .100
+  chisquare=  .100 for 3 d. of f.; p-value= .384309
+--------------------------------------------------------------
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
+     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
+     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
+     :: less than 29 are rare, and their counts are pooled with those ::     
+     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
+     :: and a chisquare test is performed on counts for ranks  32,31, ::     
+     :: 30 and <=29.                                                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for C3MWCgenX.bin  
+         Rank test for 32x32 binary matrices:
+        rows from leftmost 32 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        29       212     211.4   .001602     .002
+        30      5193    5134.0   .677792     .679
+        31     23034   23103.0   .206357     .886
+        32     11561   11551.5   .007773     .894
+  chisquare=  .894 for 3 d. of f.; p-value= .345272
+--------------------------------------------------------------
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
+     :: six random 32-bit integers from the generator under test, a   ::     
+     :: specified byte is chosen, and the resulting six bytes form a  ::     
+     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
+     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
+     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
+     :: random matrices, and a chi-square test is performed on        ::     
+     :: counts for ranks 6,5 and <=4.                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+         Binary Rank Test for C3MWCgenX.bin  
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  1 to  8
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          928       944.3        .281        .281
+          r =5        21906     21743.9       1.208       1.490
+          r =6        77166     77311.8        .275       1.765
+                        p=1-exp(-SUM/2)= .58622
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  2 to  9
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          920       944.3        .625        .625
+          r =5        21969     21743.9       2.330       2.956
+          r =6        77111     77311.8        .522       3.477
+                        p=1-exp(-SUM/2)= .82424
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  3 to 10
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          980       944.3       1.350       1.350
+          r =5        21423     21743.9       4.736       6.085
+          r =6        77597     77311.8       1.052       7.138
+                        p=1-exp(-SUM/2)= .97181
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  4 to 11
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          964       944.3        .411        .411
+          r =5        21738     21743.9        .002        .413
+          r =6        77298     77311.8        .002        .415
+                        p=1-exp(-SUM/2)= .18738
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  5 to 12
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          941       944.3        .012        .012
+          r =5        21874     21743.9        .778        .790
+          r =6        77185     77311.8        .208        .998
+                        p=1-exp(-SUM/2)= .39285
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  6 to 13
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          981       944.3       1.426       1.426
+          r =5        21824     21743.9        .295       1.721
+          r =6        77195     77311.8        .176       1.898
+                        p=1-exp(-SUM/2)= .61283
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  7 to 14
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          912       944.3       1.105       1.105
+          r =5        21712     21743.9        .047       1.152
+          r =6        77376     77311.8        .053       1.205
+                        p=1-exp(-SUM/2)= .45256
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  8 to 15
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          932       944.3        .160        .160
+          r =5        21622     21743.9        .683        .844
+          r =6        77446     77311.8        .233       1.077
+                        p=1-exp(-SUM/2)= .41625
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits  9 to 16
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          934       944.3        .112        .112
+          r =5        21503     21743.9       2.669       2.781
+          r =6        77563     77311.8        .816       3.597
+                        p=1-exp(-SUM/2)= .83449
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 10 to 17
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          902       944.3       1.895       1.895
+          r =5        21614     21743.9        .776       2.671
+          r =6        77484     77311.8        .384       3.055
+                        p=1-exp(-SUM/2)= .78287
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 11 to 18
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          890       944.3       3.123       3.123
+          r =5        21843     21743.9        .452       3.574
+          r =6        77267     77311.8        .026       3.600
+                        p=1-exp(-SUM/2)= .83472
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 12 to 19
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          991       944.3       2.309       2.309
+          r =5        21711     21743.9        .050       2.359
+          r =6        77298     77311.8        .002       2.362
+                        p=1-exp(-SUM/2)= .69297
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 13 to 20
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          943       944.3        .002        .002
+          r =5        21822     21743.9        .281        .282
+          r =6        77235     77311.8        .076        .359
+                        p=1-exp(-SUM/2)= .16415
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 14 to 21
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          883       944.3       3.979       3.979
+          r =5        21843     21743.9        .452       4.431
+          r =6        77274     77311.8        .018       4.450
+                        p=1-exp(-SUM/2)= .89191
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 15 to 22
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          924       944.3        .436        .436
+          r =5        21795     21743.9        .120        .557
+          r =6        77281     77311.8        .012        .569
+                        p=1-exp(-SUM/2)= .24754
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 16 to 23
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          979       944.3       1.275       1.275
+          r =5        21842     21743.9        .443       1.718
+          r =6        77179     77311.8        .228       1.946
+                        p=1-exp(-SUM/2)= .62200
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 17 to 24
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         1010       944.3       4.571       4.571
+          r =5        21542     21743.9       1.875       6.446
+          r =6        77448     77311.8        .240       6.686
+                        p=1-exp(-SUM/2)= .96466
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 18 to 25
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          954       944.3        .100        .100
+          r =5        21626     21743.9        .639        .739
+          r =6        77420     77311.8        .151        .890
+                        p=1-exp(-SUM/2)= .35928
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 19 to 26
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          918       944.3        .733        .733
+          r =5        21784     21743.9        .074        .807
+          r =6        77298     77311.8        .002        .809
+                        p=1-exp(-SUM/2)= .33268
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 20 to 27
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          955       944.3        .121        .121
+          r =5        21761     21743.9        .013        .135
+          r =6        77284     77311.8        .010        .145
+                        p=1-exp(-SUM/2)= .06978
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 21 to 28
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          929       944.3        .248        .248
+          r =5        21913     21743.9       1.315       1.563
+          r =6        77158     77311.8        .306       1.869
+                        p=1-exp(-SUM/2)= .60721
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 22 to 29
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          935       944.3        .092        .092
+          r =5        22085     21743.9       5.351       5.442
+          r =6        76980     77311.8       1.424       6.867
+                        p=1-exp(-SUM/2)= .96772
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 23 to 30
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          952       944.3        .063        .063
+          r =5        21772     21743.9        .036        .099
+          r =6        77276     77311.8        .017        .116
+                        p=1-exp(-SUM/2)= .05619
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 24 to 31
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          911       944.3       1.174       1.174
+          r =5        21735     21743.9        .004       1.178
+          r =6        77354     77311.8        .023       1.201
+                        p=1-exp(-SUM/2)= .45148
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG C3MWCgenX.bin  
+     b-rank test for bits 25 to 32
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          924       944.3        .436        .436
+          r =5        21857     21743.9        .588       1.025
+          r =6        77219     77311.8        .111       1.136
+                        p=1-exp(-SUM/2)= .43338
+   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
+ These should be 25 uniform [0,1] random variables:
+     .586217     .824237     .971809     .187384     .392845
+     .612829     .452564     .416253     .834492     .782869
+     .834715     .692974     .164150     .891913     .247539
+     .622002     .964662     .359276     .332681     .069777
+     .607215     .967719     .056190     .451479     .433380
+   brank test summary for C3MWCgenX.bin  
+       The KS test for those 25 supposed UNI's yields
+                    KS p-value= .359292
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::                   THE BITSTREAM TEST                          ::     
+     :: The file under test is viewed as a stream of bits. Call them  ::     
+     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
+     :: and think of the stream of bits as a succession of 20-letter  ::     
+     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
+     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
+     :: the number of missing 20-letter (20-bit) words in a string of ::     
+     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
+     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
+     :: number of missing words j should be (very close to) normally  ::     
+     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
+     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
+     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
+     :: twenty times.                                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+       THE OVERLAPPING 20-tuples BITSTREAM TEST,
+            20 BITS PER WORD, 2^21 words.
+    This test samples the bitstream 20 times.
+  No. missing words should average  141909. with sigma=428.
+-----------------------------------        ---------------
+ tst no  1:  142509 missing words,    1.40 sigmas from mean, p-value= .91941
+ tst no  2:  141714 missing words,    -.46 sigmas from mean, p-value= .32406
+ tst no  3:  141708 missing words,    -.47 sigmas from mean, p-value= .31904
+ tst no  4:  141590 missing words,    -.75 sigmas from mean, p-value= .22781
+ tst no  5:  142180 missing words,     .63 sigmas from mean, p-value= .73644
+ tst no  6:  141984 missing words,     .17 sigmas from mean, p-value= .56925
+ tst no  7:  141967 missing words,     .13 sigmas from mean, p-value= .55359
+ tst no  8:  142353 missing words,    1.04 sigmas from mean, p-value= .85004
+ tst no  9:  142311 missing words,     .94 sigmas from mean, p-value= .82600
+ tst no 10:  142431 missing words,    1.22 sigmas from mean, p-value= .88855
+ tst no 11:  141411 missing words,   -1.16 sigmas from mean, p-value= .12215
+ tst no 12:  142258 missing words,     .81 sigmas from mean, p-value= .79236
+ tst no 13:  142333 missing words,     .99 sigmas from mean, p-value= .83889
+ tst no 14:  141820 missing words,    -.21 sigmas from mean, p-value= .41734
+ tst no 15:  141577 missing words,    -.78 sigmas from mean, p-value= .21874
+ tst no 16:  141477 missing words,   -1.01 sigmas from mean, p-value= .15622
+ tst no 17:  142057 missing words,     .35 sigmas from mean, p-value= .63496
+ tst no 18:  142458 missing words,    1.28 sigmas from mean, p-value= .90007
+ tst no 19:  142929 missing words,    2.38 sigmas from mean, p-value= .99140
+ tst no 20:  141687 missing words,    -.52 sigmas from mean, p-value= .30172
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The tests OPSO, OQSO and DNA                      ::     
+     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
+     :: The OPSO test considers 2-letter words from an alphabet of    ::     
+     :: 1024 letters.  Each letter is determined by a specified ten   ::     
+     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
+     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
+     :: "keystrokes")  and counts the number of missing words---that  ::     
+     :: is 2-letter words which do not appear in the entire sequence. ::     
+     :: That count should be very close to normally distributed with  ::     
+     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
+     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
+     :: a time from the test file and uses a designated set of ten    ::     
+     :: consecutive bits. It then restarts the file for the next de-  ::     
+     :: signated 10 bits, and so on.                                  ::     
+     ::                                                               ::     
+     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
+     ::   The test OQSO is similar, except that it considers 4-letter ::     
+     :: words from an alphabet of 32 letters, each letter determined  ::     
+     :: by a designated string of 5 consecutive bits from the test    ::     
+     :: file, elements of which are assumed 32-bit random integers.   ::     
+     :: The mean number of missing words in a sequence of 2^21 four-  ::     
+     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
+     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
+     :: extensive simulation.                                         ::     
+     ::                                                               ::     
+     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
+     :: determined by two designated bits in the sequence of random   ::     
+     :: integers being tested.  It considers 10-letter words, so that ::     
+     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
+     :: mean number of missing words from a string of 2^21  (over-    ::     
+     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
+     :: The standard deviation sigma=339 was determined as for OQSO   ::     
+     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
+     :: three places), not determined by simulation.                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ OPSO test for generator C3MWCgenX.bin            
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OPSO for C3MWCgenX.bin   using bits 23 to 32        142150   .830  .7967
+    OPSO for C3MWCgenX.bin   using bits 22 to 31        141658  -.867  .1931
+    OPSO for C3MWCgenX.bin   using bits 21 to 30        141605 -1.049  .1470
+    OPSO for C3MWCgenX.bin   using bits 20 to 29        141480 -1.480  .0694
+    OPSO for C3MWCgenX.bin   using bits 19 to 28        142133   .771  .7797
+    OPSO for C3MWCgenX.bin   using bits 18 to 27        141831  -.270  .3935
+    OPSO for C3MWCgenX.bin   using bits 17 to 26        141485 -1.463  .0717
+    OPSO for C3MWCgenX.bin   using bits 16 to 25        141746  -.563  .2866
+    OPSO for C3MWCgenX.bin   using bits 15 to 24        141752  -.543  .2937
+    OPSO for C3MWCgenX.bin   using bits 14 to 23        142287  1.302  .9036
+    OPSO for C3MWCgenX.bin   using bits 13 to 22        142200  1.002  .8419
+    OPSO for C3MWCgenX.bin   using bits 12 to 21        141910   .002  .5009
+    OPSO for C3MWCgenX.bin   using bits 11 to 20        141847  -.215  .4149
+    OPSO for C3MWCgenX.bin   using bits 10 to 19        142010   .347  .6358
+    OPSO for C3MWCgenX.bin   using bits  9 to 18        142284  1.292  .9018
+    OPSO for C3MWCgenX.bin   using bits  8 to 17        141374 -1.846  .0324
+    OPSO for C3MWCgenX.bin   using bits  7 to 16        142111   .695  .7566
+    OPSO for C3MWCgenX.bin   using bits  6 to 15        141771  -.477  .3167
+    OPSO for C3MWCgenX.bin   using bits  5 to 14        141516 -1.356  .0875
+    OPSO for C3MWCgenX.bin   using bits  4 to 13        141639  -.932  .1756
+    OPSO for C3MWCgenX.bin   using bits  3 to 12        141375 -1.843  .0327
+    OPSO for C3MWCgenX.bin   using bits  2 to 11        141935   .089  .5353
+    OPSO for C3MWCgenX.bin   using bits  1 to 10        141563 -1.194  .1162
+ OQSO test for generator C3MWCgenX.bin            
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OQSO for C3MWCgenX.bin   using bits 28 to 32        141409 -1.696  .0449
+    OQSO for C3MWCgenX.bin   using bits 27 to 31        142456  1.853  .9681
+    OQSO for C3MWCgenX.bin   using bits 26 to 30        141639  -.916  .1797
+    OQSO for C3MWCgenX.bin   using bits 25 to 29        142538  2.131  .9835
+    OQSO for C3MWCgenX.bin   using bits 24 to 28        142072   .551  .7093
+    OQSO for C3MWCgenX.bin   using bits 23 to 27        141950   .138  .5548
+    OQSO for C3MWCgenX.bin   using bits 22 to 26        142258  1.182  .8814
+    OQSO for C3MWCgenX.bin   using bits 21 to 25        142123   .724  .7656
+    OQSO for C3MWCgenX.bin   using bits 20 to 24        141712  -.669  .2518
+    OQSO for C3MWCgenX.bin   using bits 19 to 23        142042   .450  .6735
+    OQSO for C3MWCgenX.bin   using bits 18 to 22        141814  -.323  .3733
+    OQSO for C3MWCgenX.bin   using bits 17 to 21        141931   .073  .5293
+    OQSO for C3MWCgenX.bin   using bits 16 to 20        141912   .009  .5036
+    OQSO for C3MWCgenX.bin   using bits 15 to 19        142770  2.918  .9982
+    OQSO for C3MWCgenX.bin   using bits 14 to 18        141712  -.669  .2518
+    OQSO for C3MWCgenX.bin   using bits 13 to 17        141946   .124  .5495
+    OQSO for C3MWCgenX.bin   using bits 12 to 16        141671  -.808  .2096
+    OQSO for C3MWCgenX.bin   using bits 11 to 15        141645  -.896  .1851
+    OQSO for C3MWCgenX.bin   using bits 10 to 14        141498 -1.394  .0816
+    OQSO for C3MWCgenX.bin   using bits  9 to 13        142514  2.050  .9798
+    OQSO for C3MWCgenX.bin   using bits  8 to 12        142499  1.999  .9772
+    OQSO for C3MWCgenX.bin   using bits  7 to 11        142232  1.094  .8630
+    OQSO for C3MWCgenX.bin   using bits  6 to 10        141981   .243  .5960
+    OQSO for C3MWCgenX.bin   using bits  5 to  9        141839  -.238  .4058
+    OQSO for C3MWCgenX.bin   using bits  4 to  8        141805  -.354  .3618
+    OQSO for C3MWCgenX.bin   using bits  3 to  7        141308 -2.038  .0208
+    OQSO for C3MWCgenX.bin   using bits  2 to  6        141721  -.638  .2616
+    OQSO for C3MWCgenX.bin   using bits  1 to  5        141826  -.282  .3888
+  DNA test for generator C3MWCgenX.bin            
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+     DNA for C3MWCgenX.bin   using bits 31 to 32        141976   .197  .5780
+     DNA for C3MWCgenX.bin   using bits 30 to 31        142224   .928  .8234
+     DNA for C3MWCgenX.bin   using bits 29 to 30        141639  -.797  .2126
+     DNA for C3MWCgenX.bin   using bits 28 to 29        141765  -.426  .3351
+     DNA for C3MWCgenX.bin   using bits 27 to 28        142481  1.686  .9541
+     DNA for C3MWCgenX.bin   using bits 26 to 27        141809  -.296  .3836
+     DNA for C3MWCgenX.bin   using bits 25 to 26        141803  -.314  .3769
+     DNA for C3MWCgenX.bin   using bits 24 to 25        141765  -.426  .3351
+     DNA for C3MWCgenX.bin   using bits 23 to 24        142170   .769  .7790
+     DNA for C3MWCgenX.bin   using bits 22 to 23        141456 -1.337  .0906
+     DNA for C3MWCgenX.bin   using bits 21 to 22        142652  2.191  .9858
+     DNA for C3MWCgenX.bin   using bits 20 to 21        142079   .501  .6916
+     DNA for C3MWCgenX.bin   using bits 19 to 20        142001   .270  .6066
+     DNA for C3MWCgenX.bin   using bits 18 to 19        141836  -.216  .4144
+     DNA for C3MWCgenX.bin   using bits 17 to 18        141457 -1.334  .0911
+     DNA for C3MWCgenX.bin   using bits 16 to 17        141934   .073  .5290
+     DNA for C3MWCgenX.bin   using bits 15 to 16        141854  -.163  .4352
+     DNA for C3MWCgenX.bin   using bits 14 to 15        142247   .996  .8404
+     DNA for C3MWCgenX.bin   using bits 13 to 14        142075   .489  .6875
+     DNA for C3MWCgenX.bin   using bits 12 to 13        142181   .801  .7885
+     DNA for C3MWCgenX.bin   using bits 11 to 12        141927   .052  .5208
+     DNA for C3MWCgenX.bin   using bits 10 to 11        141343 -1.671  .0474
+     DNA for C3MWCgenX.bin   using bits  9 to 10        142422  1.512  .9348
+     DNA for C3MWCgenX.bin   using bits  8 to  9        142355  1.315  .9057
+     DNA for C3MWCgenX.bin   using bits  7 to  8        142251  1.008  .8432
+     DNA for C3MWCgenX.bin   using bits  6 to  7        141952   .126  .5501
+     DNA for C3MWCgenX.bin   using bits  5 to  6        141560 -1.030  .1514
+     DNA for C3MWCgenX.bin   using bits  4 to  5        141324 -1.727  .0421
+     DNA for C3MWCgenX.bin   using bits  3 to  4        141961   .152  .5606
+     DNA for C3MWCgenX.bin   using bits  2 to  3        140794 -3.290  .0005
+     DNA for C3MWCgenX.bin   using bits  1 to  2        142394  1.430  .9236
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
+     :: Consider the file under test as a stream of bytes (four per   ::     
+     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
+     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
+     :: the stream of bytes provide a string of overlapping  5-letter ::     
+     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
+     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
+     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
+     :: we have a monkey at a typewriter hitting five keys with vari- ::     
+     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
+     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
+     :: lapping) 5-letter words, counts are made on the frequencies   ::     
+     :: for each word.   The quadratic form in the weak inverse of    ::     
+     :: the covariance matrix of the cell counts provides a chisquare ::     
+     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
+     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+   Test results for C3MWCgenX.bin  
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
+                               chisquare  equiv normal  p-value
+  Results fo COUNT-THE-1's in successive bytes:
+ byte stream for C3MWCgenX.bin    2387.81     -1.587      .056304
+ byte stream for C3MWCgenX.bin    2523.55       .333      .630439
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
+     :: Consider the file under test as a stream of 32-bit integers.  ::     
+     :: From each integer, a specific byte is chosen , say the left-  ::     
+     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
+     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
+     :: the specified bytes from successive integers provide a string ::     
+     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
+     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
+     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
+     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
+     :: hitting five keys with with various probabilities::  37,56,70,::     
+     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
+     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
+     :: are made on the frequencies for each word. The quadratic form ::     
+     :: in the weak inverse of the covariance matrix of the cell      ::     
+     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
+     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
+     :: and 4-letter cell counts.                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
+                      chisquare  equiv normal  p value
+  Results for COUNT-THE-1's in specified bytes:
+           bits  1 to  8  2469.73      -.428      .334309
+           bits  2 to  9  2519.27       .273      .607391
+           bits  3 to 10  2436.25      -.902      .183632
+           bits  4 to 11  2557.45       .812      .791742
+           bits  5 to 12  2523.19       .328      .628512
+           bits  6 to 13  2552.94       .749      .772964
+           bits  7 to 14  2563.54       .899      .815576
+           bits  8 to 15  2589.74      1.269      .897795
+           bits  9 to 16  2510.38       .147      .558372
+           bits 10 to 17  2611.95      1.583      .943306
+           bits 11 to 18  2563.31       .895      .814716
+           bits 12 to 19  2618.10      1.670      .952564
+           bits 13 to 20  2401.10     -1.399      .080967
+           bits 14 to 21  2372.05     -1.809      .035187
+           bits 15 to 22  2501.93       .027      .510897
+           bits 16 to 23  2308.97     -2.702      .003451
+           bits 17 to 24  2506.47       .092      .536459
+           bits 18 to 25  2457.36      -.603      .273238
+           bits 19 to 26  2526.65       .377      .646868
+           bits 20 to 27  2435.08      -.918      .179292
+           bits 21 to 28  2595.52      1.351      .911631
+           bits 22 to 29  2522.17       .313      .623039
+           bits 23 to 30  2529.29       .414      .660647
+           bits 24 to 31  2455.19      -.634      .263149
+           bits 25 to 32  2436.70      -.895      .185351
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THIS IS A PARKING LOT TEST                      ::     
+     :: In a square of side 100, randomly "park" a car---a circle of  ::     
+     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
+     :: time parking "by ear".  That is, if an attempt to park a car  ::     
+     :: causes a crash with one already parked, try again at a new    ::     
+     :: random location. (To avoid path problems, consider parking    ::     
+     :: helicopters rather than cars.)   Each attempt leads to either ::     
+     :: a crash or a success, the latter followed by an increment to  ::     
+     :: the list of cars already parked. If we plot n:  the number of ::     
+     :: attempts, versus k::  the number successfully parked, we get a::     
+     :: curve that should be similar to those provided by a perfect   ::     
+     :: random number generator.  Theory for the behavior of such a   ::     
+     :: random curve seems beyond reach, and as graphics displays are ::     
+     :: not available for this battery of tests, a simple characteriz ::     
+     :: ation of the random experiment is used: k, the number of cars ::     
+     :: successfully parked after n=12,000 attempts. Simulation shows ::     
+     :: that k should average 3523 with sigma 21.9 and is very close  ::     
+     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
+     :: andard normal variable, which, converted to a uniform varia-  ::     
+     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           CDPARK: result of ten tests on file C3MWCgenX.bin  
+            Of 12,000 tries, the average no. of successes
+                 should be 3523 with sigma=21.9
+            Successes: 3511    z-score:  -.548 p-value: .291865
+            Successes: 3526    z-score:   .137 p-value: .554479
+            Successes: 3515    z-score:  -.365 p-value: .357445
+            Successes: 3563    z-score:  1.826 p-value: .966111
+            Successes: 3520    z-score:  -.137 p-value: .445521
+            Successes: 3529    z-score:   .274 p-value: .607947
+            Successes: 3520    z-score:  -.137 p-value: .445521
+            Successes: 3534    z-score:   .502 p-value: .692266
+            Successes: 3505    z-score:  -.822 p-value: .205562
+            Successes: 3490    z-score: -1.507 p-value: .065925
+
+           square size   avg. no.  parked   sample sigma
+             100.            3521.300       18.362
+            KSTEST for the above 10: p=  .173748
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THE MINIMUM DISTANCE TEST                       ::     
+     :: It does this 100 times::   choose n=8000 random points in a   ::     
+     :: square of side 10000.  Find d, the minimum distance between   ::     
+     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
+     :: pendent uniform, then d^2, the square of the minimum distance ::     
+     :: should be (very close to) exponentially distributed with mean ::     
+     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
+     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
+     :: formity for random points in the square. Test numbers=0 mod 5 ::     
+     :: are printed but the KSTEST is based on the full set of 100    ::     
+     :: random choices of 8000 points in the 10000x10000 square.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               This is the MINIMUM DISTANCE test
+              for random integers in the file C3MWCgenX.bin  
+     Sample no.    d^2     avg     equiv uni            
+           5     .5817    .9163     .442701
+          10     .6106   1.0860     .458633
+          15     .2106    .9255     .190739
+          20    1.7455   1.1050     .826965
+          25     .2950   1.1310     .256568
+          30     .5265   1.0339     .410882
+          35    2.1683   1.0609     .886873
+          40    1.6485   1.1738     .809248
+          45     .0526   1.0957     .051460
+          50     .0419   1.0430     .041200
+          55     .4722   1.0065     .377846
+          60     .3819    .9839     .318726
+          65     .1535   1.0016     .142964
+          70     .3560   1.0043     .300813
+          75     .5651   1.0064     .433330
+          80     .1286    .9621     .121211
+          85     .0549    .9455     .053698
+          90     .1957    .9085     .178559
+          95     .7730    .8843     .540171
+         100     .1325    .8859     .124714
+     MINIMUM DISTANCE TEST for C3MWCgenX.bin  
+          Result of KS test on 20 transformed mindist^2's:
+                                  p-value= .586159
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::              THE 3DSPHERES TEST                               ::     
+     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
+     :: point, center a sphere large enough to reach the next closest ::     
+     :: point. Then the volume of the smallest such sphere is (very   ::     
+     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
+     :: the radius cubed is exponential with mean 30. (The mean is    ::     
+     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
+     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
+     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
+     ::  KSTEST is done on the 20 p-values.                           ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               The 3DSPHERES test for file C3MWCgenX.bin  
+ sample no:  1     r^3=  10.416     p-value= .29335
+ sample no:  2     r^3=   9.283     p-value= .26613
+ sample no:  3     r^3=   4.332     p-value= .13445
+ sample no:  4     r^3=  14.275     p-value= .37864
+ sample no:  5     r^3=  18.469     p-value= .45970
+ sample no:  6     r^3=  25.571     p-value= .57359
+ sample no:  7     r^3= 101.002     p-value= .96550
+ sample no:  8     r^3=   5.327     p-value= .16270
+ sample no:  9     r^3=  77.816     p-value= .92527
+ sample no: 10     r^3=  34.527     p-value= .68364
+ sample no: 11     r^3=   4.949     p-value= .15208
+ sample no: 12     r^3=  17.511     p-value= .44216
+ sample no: 13     r^3=  15.683     p-value= .40711
+ sample no: 14     r^3=   7.905     p-value= .23165
+ sample no: 15     r^3=  17.127     p-value= .43498
+ sample no: 16     r^3=   1.801     p-value= .05827
+ sample no: 17     r^3=   4.445     p-value= .13771
+ sample no: 18     r^3=  10.409     p-value= .29316
+ sample no: 19     r^3=   3.901     p-value= .12195
+ sample no: 20     r^3=  15.465     p-value= .40279
+  A KS test is applied to those 20 p-values.
+---------------------------------------------------------
+       3DSPHERES test for file C3MWCgenX.bin        p-value= .945105
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::      This is the SQEEZE test                                  ::     
+     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
+     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
+     ::  iterations necessary to reduce k to 1, using the reduction   ::     
+     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
+     ::  the file being tested.  Such j's are found 100,000 times,    ::     
+     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
+     ::  are used to provide a chi-square test for cell frequencies.  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+            RESULTS OF SQUEEZE TEST FOR C3MWCgenX.bin  
+         Table of standardized frequency counts
+     ( (obs-exp)/sqrt(exp) )^2
+        for j taking values <=6,7,8,...,47,>=48:
+     2.0     1.8      .1      .3      .7      .8
+     1.0     -.1      .0     1.0     -.2     -.3
+      .0      .0     1.1    -1.5     1.1      .3
+      .4     -.2    -1.4     2.0     -.1    -2.1
+      .6    -1.2      .9     -.5     -.5      .8
+    -1.8    -1.3     -.2      .7     -.4     -.5
+     -.2    -1.0    -1.2     -.1      .1     1.0
+    -1.1
+           Chi-square with 42 degrees of freedom: 40.414
+              z-score=  -.173  p-value= .459151
+______________________________________________________________
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The  OVERLAPPING SUMS test                        ::     
+     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
+     :: form [0,1) variables.  Then overlapping sums,                 ::     
+     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
+     :: The S's are virtually normal with a certain covariance mat-   ::     
+     :: rix.  A linear transformation of the S's converts them to a   ::     
+     :: sequence of independent standard normals, which are converted ::     
+     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
+     :: KSTESTs are given still another KSTEST.                       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Test no.  1      p-value  .840788
+                Test no.  2      p-value  .942850
+                Test no.  3      p-value  .753413
+                Test no.  4      p-value  .703965
+                Test no.  5      p-value  .155629
+                Test no.  6      p-value  .902240
+                Test no.  7      p-value  .116066
+                Test no.  8      p-value  .708844
+                Test no.  9      p-value  .836601
+                Test no. 10      p-value  .849870
+   Results of the OSUM test for C3MWCgenX.bin  
+        KSTEST on the above 10 p-values:  .962727
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
+     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
+     :: ing the 32-bit integers in the specified file. This example   ::     
+     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
+     :: contains an up-run of length 3, a down-run of length 2 and an ::     
+     :: up-run of (at least) 2, depending on the next values.  The    ::     
+     :: covariance matrices for the runs-up and runs-down are well    ::     
+     :: known, leading to chisquare tests for quadratic forms in the  ::     
+     :: weak inverses of the covariance matrices.  Runs are counted   ::     
+     :: for sequences of length 10,000.  This is done ten times. Then ::     
+     :: repeated.                                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           The RUNS test for file C3MWCgenX.bin  
+     Up and down runs in a sample of 10000
+_________________________________________________ 
+                 Run test for C3MWCgenX.bin  :
+       runs up; ks test for 10 p's: .973143
+     runs down; ks test for 10 p's: .455971
+                 Run test for C3MWCgenX.bin  :
+       runs up; ks test for 10 p's: .792313
+     runs down; ks test for 10 p's: .032947
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
+     :: the number of wins and the number of throws necessary to end  ::     
+     :: each game.  The number of wins should be (very close to) a    ::     
+     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
+     :: p=244/495.  Throws necessary to complete the game can vary    ::     
+     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
+     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
+     :: Each 32-bit integer from the test file provides the value for ::     
+     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
+     :: and taking 1 plus the integer part of the result.             ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Results of craps test for C3MWCgenX.bin  
+  No. of wins:  Observed Expected
+                                98466    98585.86
+                  98466= No. of wins, z-score= -.536 pvalue= .29595
+   Analysis of Throws-per-Game:
+ Chisq=  24.89 for 20 degrees of freedom, p=  .79431
+               Throws Observed Expected  Chisq     Sum
+                  1    66292    66666.7   2.106    2.106
+                  2    37680    37654.3    .018    2.123
+                  3    27216    26954.7   2.532    4.656
+                  4    19486    19313.5   1.541    6.197
+                  5    13901    13851.4    .177    6.375
+                  6     9917     9943.5    .071    6.445
+                  7     7226     7145.0    .918    7.363
+                  8     5050     5139.1   1.544    8.907
+                  9     3571     3699.9   4.488   13.395
+                 10     2777     2666.3   4.596   17.991
+                 11     1906     1923.3    .156   18.148
+                 12     1410     1388.7    .325   18.473
+                 13      951     1003.7   2.769   21.242
+                 14      733      726.1    .065   21.306
+                 15      494      525.8   1.927   23.234
+                 16      366      381.2    .602   23.836
+                 17      287      276.5    .396   24.232
+                 18      209      200.8    .332   24.564
+                 19      140      146.0    .245   24.809
+                 20      104      106.2    .046   24.856
+                 21      284      287.1    .034   24.890
+            SUMMARY  FOR C3MWCgenX.bin  
+                p-value for no. of wins: .295951
+                p-value for throws/game: .794309
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+ Results of DIEHARD battery of tests sent to file C3MWCgenX.all  

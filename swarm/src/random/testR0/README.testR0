@@ -1,0 +1,37 @@
+// Swarm Random version 0.7
+//
+// testR0: Verify Functionality
+//
+
+This program exercises every generator and every distribution object,
+printing out diagnostic output as it goes.
+
+Results are compared to pre-computed results, to verify that the objects
+are functioning correctly (or at least in the same manner as on the 
+author's system, Linux/ELF on Intel.)
+
+This test replaces the individual 'verifySelf' methods removed from the
+objects in Random 0.7.
+
+You compile the program simply by saying 'make'.
+You run it by saying  './humbug -batchmode > runlog'.
+
+You can then read the output by itself,
+or compare it to my results under Linux.
+The results *ought* to be the same! 
+If they are not, kindly e-mail me at:
+
+Sven Thommesen <sthomme@humsci.auburn.edu>
+
+You can limit the testing to a subset of the objects by
+commenting out sections of code in HumbugModelSwarm.m.
+
+If you say 'detail: YES' for the calls to the test methods,
+you get (much) more voluminous output.
+
+NOTE: the results should be the same whether you say '-varySeed'
+or not, since the program sets its own seed values after startup.
+
+//
+// 1997-09-01
+

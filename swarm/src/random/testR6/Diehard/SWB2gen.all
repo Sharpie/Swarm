@@ -1,0 +1,944 @@
+       NOTE: Most of the tests in DIEHARD return a p-value, which            
+       should be uniform on [0,1) if the input file contains truly           
+       independent random bits.   Those p-values are obtained by             
+       p=F(X), where F is the assumed distribution of the sample             
+       random variable X---often normal. But that assumed F is just          
+       an asymptotic approximation, for which the fit will be worst          
+       in the tails. Thus you should not be surprised with                   
+       occasional p-values near 0 or 1, such as .0012 or .9983.              
+       When a bit stream really FAILS BIG, you will get p's of 0 or          
+       1 to six or more places.  By all means, do not, as a                  
+       Statistician might, think that a p < .025 or p> .975 means            
+       that the RNG has "failed the test at the .05 level".  Such            
+       p's happen among the hundreds that DIEHARD produces, even             
+       with good RNG's.  So keep in mind that " p happens".                  
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
+     :: Choose m birthdays in a year of n days.  List the spacings    ::     
+     :: between the birthdays.  If j is the number of values that     ::     
+     :: occur more than once in that list, then j is asymptotically   ::     
+     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
+     :: must be quite large, say n>=2^18, for comparing the results   ::     
+     :: to the Poisson distribution with that mean.  This test uses   ::     
+     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
+     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
+     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
+     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
+     :: from the left) from integers in the specified file.           ::     
+     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
+     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
+     :: Each set of bits provides a p-value, and the nine p-values    ::     
+     :: provide a sample for a KSTEST.                                ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
+           Results for SWB2gen.bin    
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  1 to 24   3.462
+  duplicate       number       number 
+  spacings       observed     expected
+        0          20.       67.668
+        1          52.      135.335
+        2         102.      135.335
+        3         106.       90.224
+        4          78.       45.112
+        5          67.       18.045
+  6 to INF         75.        8.282
+ Chisquare with  6 d.o.f. =   790.14 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  2 to 25   3.492
+  duplicate       number       number 
+  spacings       observed     expected
+        0          13.       67.668
+        1          48.      135.335
+        2          93.      135.335
+        3         123.       90.224
+        4          89.       45.112
+        5          67.       18.045
+  6 to INF         67.        8.282
+ Chisquare with  6 d.o.f. =   717.50 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  3 to 26   3.578
+  duplicate       number       number 
+  spacings       observed     expected
+        0          14.       67.668
+        1          50.      135.335
+        2          82.      135.335
+        3         116.       90.224
+        4         110.       45.112
+        5          53.       18.045
+  6 to INF         75.        8.282
+ Chisquare with  6 d.o.f. =   823.29 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  4 to 27   3.564
+  duplicate       number       number 
+  spacings       observed     expected
+        0          18.       67.668
+        1          57.      135.335
+        2          79.      135.335
+        3         111.       90.224
+        4          94.       45.112
+        5          58.       18.045
+  6 to INF         83.        8.282
+ Chisquare with  6 d.o.f. =   925.59 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  5 to 28   3.586
+  duplicate       number       number 
+  spacings       observed     expected
+        0          20.       67.668
+        1          44.      135.335
+        2          83.      135.335
+        3         107.       90.224
+        4         102.       45.112
+        5          66.       18.045
+  6 to INF         78.        8.282
+ Chisquare with  6 d.o.f. =   904.67 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  6 to 29   3.612
+  duplicate       number       number 
+  spacings       observed     expected
+        0          21.       67.668
+        1          48.      135.335
+        2          74.      135.335
+        3         104.       90.224
+        4         103.       45.112
+        5          77.       18.045
+  6 to INF         73.        8.282
+ Chisquare with  6 d.o.f. =   891.09 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  7 to 30   3.718
+  duplicate       number       number 
+  spacings       observed     expected
+        0           9.       67.668
+        1          37.      135.335
+        2          88.      135.335
+        3         113.       90.224
+        4          88.       45.112
+        5          89.       18.045
+  6 to INF         76.        8.282
+ Chisquare with  6 d.o.f. =  1018.12 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  8 to 31   3.710
+  duplicate       number       number 
+  spacings       observed     expected
+        0           6.       67.668
+        1          45.      135.335
+        2          84.      135.335
+        3         100.       90.224
+        4         110.       45.112
+        5          76.       18.045
+  6 to INF         79.        8.282
+ Chisquare with  6 d.o.f. =  1020.36 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          SWB2gen.bin      using bits  9 to 32   3.570
+  duplicate       number       number 
+  spacings       observed     expected
+        0          10.       67.668
+        1          55.      135.335
+        2          87.      135.335
+        3         104.       90.224
+        4         111.       45.112
+        5          53.       18.045
+  6 to INF         80.        8.282
+ Chisquare with  6 d.o.f. =   901.21 p-value= 1.000000
+  :::::::::::::::::::::::::::::::::::::::::
+   The 9 p-values were
+       1.000000  1.000000  1.000000  1.000000  1.000000
+       1.000000  1.000000  1.000000  1.000000
+  A KSTEST for the 9 p-values yields 1.000000
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
+     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
+     :: ion 32-bit random integers.  Each set of five consecutive     ::     
+     :: integers can be in one of 120 states, for the 5! possible or- ::     
+     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
+     :: each provide a state. As many thousands of state transitions  ::     
+     :: are observed,  cumulative counts are made of the number of    ::     
+     :: occurences of each state.  Then the quadratic form in the     ::     
+     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
+     :: equivalent to the likelihood ratio test that the 120 cell     ::     
+     :: counts came from the specified (asymptotically) normal dis-   ::     
+     :: tribution with the specified 120x120 covariance matrix (with  ::     
+     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           OPERM5 test for file SWB2gen.bin    
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom=105.203; p-value= .684134
+           OPERM5 test for file SWB2gen.bin    
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom=103.158; p-value= .632630
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
+     :: 31 bits of 31 random integers from the test sequence are used ::     
+     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
+     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
+     :: are rare, and their counts are pooled with those for rank 28. ::     
+     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
+     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for SWB2gen.bin    
+         Rank test for 31x31 binary matrices:
+        rows from leftmost 31 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        28       207     211.4   .092324     .092
+        29      5058    5134.0  1.125350    1.218
+        30     23110   23103.0   .002093    1.220
+        31     11625   11551.5   .467355    1.687
+  chisquare= 1.687 for 3 d. of f.; p-value= .457190
+--------------------------------------------------------------
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
+     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
+     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
+     :: less than 29 are rare, and their counts are pooled with those ::     
+     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
+     :: and a chisquare test is performed on counts for ranks  32,31, ::     
+     :: 30 and <=29.                                                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for SWB2gen.bin    
+         Rank test for 32x32 binary matrices:
+        rows from leftmost 32 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        29       230     211.4  1.633211    1.633
+        30      5086    5134.0   .448964    2.082
+        31     23089   23103.0   .008541    2.091
+        32     11595   11551.5   .163626    2.254
+  chisquare= 2.254 for 3 d. of f.; p-value= .545296
+--------------------------------------------------------------
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
+     :: six random 32-bit integers from the generator under test, a   ::     
+     :: specified byte is chosen, and the resulting six bytes form a  ::     
+     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
+     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
+     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
+     :: random matrices, and a chi-square test is performed on        ::     
+     :: counts for ranks 6,5 and <=4.                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+         Binary Rank Test for SWB2gen.bin    
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  1 to  8
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          948       944.3        .014        .014
+          r =5        21621     21743.9        .695        .709
+          r =6        77431     77311.8        .184        .893
+                        p=1-exp(-SUM/2)= .36011
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  2 to  9
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          956       944.3        .145        .145
+          r =5        21687     21743.9        .149        .294
+          r =6        77357     77311.8        .026        .320
+                        p=1-exp(-SUM/2)= .14796
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  3 to 10
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          930       944.3        .217        .217
+          r =5        21655     21743.9        .363        .580
+          r =6        77415     77311.8        .138        .718
+                        p=1-exp(-SUM/2)= .30156
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  4 to 11
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          919       944.3        .678        .678
+          r =5        21664     21743.9        .294        .972
+          r =6        77417     77311.8        .143       1.115
+                        p=1-exp(-SUM/2)= .42726
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  5 to 12
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          961       944.3        .295        .295
+          r =5        21730     21743.9        .009        .304
+          r =6        77309     77311.8        .000        .304
+                        p=1-exp(-SUM/2)= .14113
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  6 to 13
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          988       944.3       2.022       2.022
+          r =5        21858     21743.9        .599       2.621
+          r =6        77154     77311.8        .322       2.943
+                        p=1-exp(-SUM/2)= .77042
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  7 to 14
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          923       944.3        .481        .481
+          r =5        21966     21743.9       2.269       2.749
+          r =6        77111     77311.8        .522       3.271
+                        p=1-exp(-SUM/2)= .80511
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  8 to 15
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          947       944.3        .008        .008
+          r =5        22022     21743.9       3.557       3.565
+          r =6        77031     77311.8       1.020       4.584
+                        p=1-exp(-SUM/2)= .89896
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits  9 to 16
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          976       944.3       1.064       1.064
+          r =5        22077     21743.9       5.103       6.167
+          r =6        76947     77311.8       1.721       7.888
+                        p=1-exp(-SUM/2)= .98063
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 10 to 17
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          975       944.3        .998        .998
+          r =5        21748     21743.9        .001        .999
+          r =6        77277     77311.8        .016       1.014
+                        p=1-exp(-SUM/2)= .39783
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 11 to 18
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          931       944.3        .187        .187
+          r =5        21843     21743.9        .452        .639
+          r =6        77226     77311.8        .095        .734
+                        p=1-exp(-SUM/2)= .30728
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 12 to 19
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          907       944.3       1.473       1.473
+          r =5        21820     21743.9        .266       1.740
+          r =6        77273     77311.8        .019       1.759
+                        p=1-exp(-SUM/2)= .58506
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 13 to 20
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          957       944.3        .171        .171
+          r =5        21896     21743.9       1.064       1.235
+          r =6        77147     77311.8        .351       1.586
+                        p=1-exp(-SUM/2)= .54752
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 14 to 21
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          893       944.3       2.787       2.787
+          r =5        21880     21743.9        .852       3.639
+          r =6        77227     77311.8        .093       3.732
+                        p=1-exp(-SUM/2)= .84526
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 15 to 22
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          969       944.3        .646        .646
+          r =5        21481     21743.9       3.179       3.825
+          r =6        77550     77311.8        .734       4.559
+                        p=1-exp(-SUM/2)= .89764
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 16 to 23
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          937       944.3        .056        .056
+          r =5        21469     21743.9       3.475       3.532
+          r =6        77594     77311.8       1.030       4.562
+                        p=1-exp(-SUM/2)= .89782
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 17 to 24
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          932       944.3        .160        .160
+          r =5        21685     21743.9        .160        .320
+          r =6        77383     77311.8        .066        .385
+                        p=1-exp(-SUM/2)= .17525
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 18 to 25
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          921       944.3        .575        .575
+          r =5        21612     21743.9        .800       1.375
+          r =6        77467     77311.8        .312       1.687
+                        p=1-exp(-SUM/2)= .56972
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 19 to 26
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          904       944.3       1.720       1.720
+          r =5        21511     21743.9       2.495       4.215
+          r =6        77585     77311.8        .965       5.180
+                        p=1-exp(-SUM/2)= .92498
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 20 to 27
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          926       944.3        .355        .355
+          r =5        21674     21743.9        .225        .579
+          r =6        77400     77311.8        .101        .680
+                        p=1-exp(-SUM/2)= .28823
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 21 to 28
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          991       944.3       2.309       2.309
+          r =5        21702     21743.9        .081       2.390
+          r =6        77307     77311.8        .000       2.390
+                        p=1-exp(-SUM/2)= .69736
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 22 to 29
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          947       944.3        .008        .008
+          r =5        22015     21743.9       3.380       3.388
+          r =6        77038     77311.8        .970       4.357
+                        p=1-exp(-SUM/2)= .88681
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 23 to 30
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          938       944.3        .042        .042
+          r =5        21787     21743.9        .085        .127
+          r =6        77275     77311.8        .018        .145
+                        p=1-exp(-SUM/2)= .06993
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 24 to 31
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          966       944.3        .499        .499
+          r =5        21771     21743.9        .034        .532
+          r =6        77263     77311.8        .031        .563
+                        p=1-exp(-SUM/2)= .24542
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG SWB2gen.bin    
+     b-rank test for bits 25 to 32
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          933       944.3        .135        .135
+          r =5        21773     21743.9        .039        .174
+          r =6        77294     77311.8        .004        .178
+                        p=1-exp(-SUM/2)= .08529
+   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
+ These should be 25 uniform [0,1] random variables:
+     .360108     .147964     .301558     .427261     .141133
+     .770424     .805113     .898959     .980632     .397833
+     .307275     .585065     .547521     .845255     .897642
+     .897816     .175254     .569719     .924980     .288234
+     .697363     .886814     .069934     .245421     .085290
+   brank test summary for SWB2gen.bin    
+       The KS test for those 25 supposed UNI's yields
+                    KS p-value= .291912
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::                   THE BITSTREAM TEST                          ::     
+     :: The file under test is viewed as a stream of bits. Call them  ::     
+     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
+     :: and think of the stream of bits as a succession of 20-letter  ::     
+     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
+     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
+     :: the number of missing 20-letter (20-bit) words in a string of ::     
+     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
+     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
+     :: number of missing words j should be (very close to) normally  ::     
+     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
+     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
+     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
+     :: twenty times.                                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+       THE OVERLAPPING 20-tuples BITSTREAM TEST,
+            20 BITS PER WORD, 2^21 words.
+    This test samples the bitstream 20 times.
+  No. missing words should average  141909. with sigma=428.
+-----------------------------------        ---------------
+ tst no  1:  142097 missing words,     .44 sigmas from mean, p-value= .66948
+ tst no  2:  142031 missing words,     .28 sigmas from mean, p-value= .61190
+ tst no  3:  141993 missing words,     .20 sigmas from mean, p-value= .57750
+ tst no  4:  142060 missing words,     .35 sigmas from mean, p-value= .63759
+ tst no  5:  142113 missing words,     .48 sigmas from mean, p-value= .68292
+ tst no  6:  141256 missing words,   -1.53 sigmas from mean, p-value= .06345
+ tst no  7:  142169 missing words,     .61 sigmas from mean, p-value= .72798
+ tst no  8:  141966 missing words,     .13 sigmas from mean, p-value= .55267
+ tst no  9:  142193 missing words,     .66 sigmas from mean, p-value= .74627
+ tst no 10:  142001 missing words,     .21 sigmas from mean, p-value= .58480
+ tst no 11:  142697 missing words,    1.84 sigmas from mean, p-value= .96714
+ tst no 12:  142503 missing words,    1.39 sigmas from mean, p-value= .91729
+ tst no 13:  142153 missing words,     .57 sigmas from mean, p-value= .71543
+ tst no 14:  142466 missing words,    1.30 sigmas from mean, p-value= .90331
+ tst no 15:  141147 missing words,   -1.78 sigmas from mean, p-value= .03744
+ tst no 16:  141660 missing words,    -.58 sigmas from mean, p-value= .28010
+ tst no 17:  142014 missing words,     .24 sigmas from mean, p-value= .59660
+ tst no 18:  141724 missing words,    -.43 sigmas from mean, p-value= .33250
+ tst no 19:  142550 missing words,    1.50 sigmas from mean, p-value= .93279
+ tst no 20:  142039 missing words,     .30 sigmas from mean, p-value= .61904
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The tests OPSO, OQSO and DNA                      ::     
+     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
+     :: The OPSO test considers 2-letter words from an alphabet of    ::     
+     :: 1024 letters.  Each letter is determined by a specified ten   ::     
+     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
+     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
+     :: "keystrokes")  and counts the number of missing words---that  ::     
+     :: is 2-letter words which do not appear in the entire sequence. ::     
+     :: That count should be very close to normally distributed with  ::     
+     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
+     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
+     :: a time from the test file and uses a designated set of ten    ::     
+     :: consecutive bits. It then restarts the file for the next de-  ::     
+     :: signated 10 bits, and so on.                                  ::     
+     ::                                                               ::     
+     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
+     ::   The test OQSO is similar, except that it considers 4-letter ::     
+     :: words from an alphabet of 32 letters, each letter determined  ::     
+     :: by a designated string of 5 consecutive bits from the test    ::     
+     :: file, elements of which are assumed 32-bit random integers.   ::     
+     :: The mean number of missing words in a sequence of 2^21 four-  ::     
+     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
+     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
+     :: extensive simulation.                                         ::     
+     ::                                                               ::     
+     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
+     :: determined by two designated bits in the sequence of random   ::     
+     :: integers being tested.  It considers 10-letter words, so that ::     
+     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
+     :: mean number of missing words from a string of 2^21  (over-    ::     
+     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
+     :: The standard deviation sigma=339 was determined as for OQSO   ::     
+     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
+     :: three places), not determined by simulation.                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ OPSO test for generator SWB2gen.bin              
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OPSO for SWB2gen.bin     using bits 23 to 32        142318  1.409  .9206
+    OPSO for SWB2gen.bin     using bits 22 to 31        142138   .789  .7848
+    OPSO for SWB2gen.bin     using bits 21 to 30        141726  -.632  .2636
+    OPSO for SWB2gen.bin     using bits 20 to 29        142110   .692  .7555
+    OPSO for SWB2gen.bin     using bits 19 to 28        142080   .589  .7219
+    OPSO for SWB2gen.bin     using bits 18 to 27        141857  -.180  .4284
+    OPSO for SWB2gen.bin     using bits 17 to 26        141850  -.205  .4190
+    OPSO for SWB2gen.bin     using bits 16 to 25        141749  -.553  .2902
+    OPSO for SWB2gen.bin     using bits 15 to 24        141831  -.270  .3935
+    OPSO for SWB2gen.bin     using bits 14 to 23        141994   .292  .6148
+    OPSO for SWB2gen.bin     using bits 13 to 22        141943   .116  .5462
+    OPSO for SWB2gen.bin     using bits 12 to 21        142051   .489  .6874
+    OPSO for SWB2gen.bin     using bits 11 to 20        141701  -.718  .2363
+    OPSO for SWB2gen.bin     using bits 10 to 19        142300  1.347  .9110
+    OPSO for SWB2gen.bin     using bits  9 to 18        141864  -.156  .4379
+    OPSO for SWB2gen.bin     using bits  8 to 17        142489  1.999  .9772
+    OPSO for SWB2gen.bin     using bits  7 to 16        141828  -.280  .3896
+    OPSO for SWB2gen.bin     using bits  6 to 15        142030   .416  .6613
+    OPSO for SWB2gen.bin     using bits  5 to 14        141526 -1.322  .0931
+    OPSO for SWB2gen.bin     using bits  4 to 13        142395  1.675  .9530
+    OPSO for SWB2gen.bin     using bits  3 to 12        141766  -.494  .3106
+    OPSO for SWB2gen.bin     using bits  2 to 11        141962   .182  .5721
+    OPSO for SWB2gen.bin     using bits  1 to 10        141695  -.739  .2299
+ OQSO test for generator SWB2gen.bin              
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OQSO for SWB2gen.bin     using bits 28 to 32        142274  1.236  .8918
+    OQSO for SWB2gen.bin     using bits 27 to 31        141126 -2.655  .0040
+    OQSO for SWB2gen.bin     using bits 26 to 30        141803  -.360  .3593
+    OQSO for SWB2gen.bin     using bits 25 to 29        142074   .558  .7116
+    OQSO for SWB2gen.bin     using bits 24 to 28        141794  -.391  .3479
+    OQSO for SWB2gen.bin     using bits 23 to 27        141921   .040  .5158
+    OQSO for SWB2gen.bin     using bits 22 to 26        142485  1.951  .9745
+    OQSO for SWB2gen.bin     using bits 21 to 25        142057   .501  .6917
+    OQSO for SWB2gen.bin     using bits 20 to 24        142245  1.138  .8724
+    OQSO for SWB2gen.bin     using bits 19 to 23        141542 -1.245  .1065
+    OQSO for SWB2gen.bin     using bits 18 to 22        141475 -1.472  .0705
+    OQSO for SWB2gen.bin     using bits 17 to 21        141870  -.133  .4470
+    OQSO for SWB2gen.bin     using bits 16 to 20        141939   .101  .5401
+    OQSO for SWB2gen.bin     using bits 15 to 19        141704  -.696  .2432
+    OQSO for SWB2gen.bin     using bits 14 to 18        141981   .243  .5960
+    OQSO for SWB2gen.bin     using bits 13 to 17        142348  1.487  .9315
+    OQSO for SWB2gen.bin     using bits 12 to 16        141379 -1.798  .0361
+    OQSO for SWB2gen.bin     using bits 11 to 15        141745  -.557  .2887
+    OQSO for SWB2gen.bin     using bits 10 to 14        142168   .877  .8097
+    OQSO for SWB2gen.bin     using bits  9 to 13        141336 -1.943  .0260
+    OQSO for SWB2gen.bin     using bits  8 to 12        141378 -1.801  .0358
+    OQSO for SWB2gen.bin     using bits  7 to 11        142392  1.636  .9491
+    OQSO for SWB2gen.bin     using bits  6 to 10        142419  1.728  .9580
+    OQSO for SWB2gen.bin     using bits  5 to  9        141928   .063  .5252
+    OQSO for SWB2gen.bin     using bits  4 to  8        142349  1.490  .9319
+    OQSO for SWB2gen.bin     using bits  3 to  7        141390 -1.760  .0392
+    OQSO for SWB2gen.bin     using bits  2 to  6        142088   .606  .7276
+    OQSO for SWB2gen.bin     using bits  1 to  5        142588  2.301  .9893
+  DNA test for generator SWB2gen.bin              
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+     DNA for SWB2gen.bin     using bits 31 to 32        141717  -.567  .2852
+     DNA for SWB2gen.bin     using bits 30 to 31        141495 -1.222  .1108
+     DNA for SWB2gen.bin     using bits 29 to 30        142126   .639  .7386
+     DNA for SWB2gen.bin     using bits 28 to 29        142153   .719  .7639
+     DNA for SWB2gen.bin     using bits 27 to 28        141928   .055  .5220
+     DNA for SWB2gen.bin     using bits 26 to 27        142124   .633  .7367
+     DNA for SWB2gen.bin     using bits 25 to 26        141677  -.685  .2466
+     DNA for SWB2gen.bin     using bits 24 to 25        141879  -.089  .4644
+     DNA for SWB2gen.bin     using bits 23 to 24        141585  -.957  .1694
+     DNA for SWB2gen.bin     using bits 22 to 23        142622  2.102  .9822
+     DNA for SWB2gen.bin     using bits 21 to 22        141645  -.780  .2178
+     DNA for SWB2gen.bin     using bits 20 to 21        141788  -.358  .3602
+     DNA for SWB2gen.bin     using bits 19 to 20        142555  1.905  .9716
+     DNA for SWB2gen.bin     using bits 18 to 19        141336 -1.691  .0454
+     DNA for SWB2gen.bin     using bits 17 to 18        142187   .819  .7936
+     DNA for SWB2gen.bin     using bits 16 to 17        141190 -2.122  .0169
+     DNA for SWB2gen.bin     using bits 15 to 16        141697  -.626  .2655
+     DNA for SWB2gen.bin     using bits 14 to 15        142030   .356  .6391
+     DNA for SWB2gen.bin     using bits 13 to 14        142073   .483  .6854
+     DNA for SWB2gen.bin     using bits 12 to 13        141673  -.697  .2429
+     DNA for SWB2gen.bin     using bits 11 to 12        141582  -.966  .1671
+     DNA for SWB2gen.bin     using bits 10 to 11        142245   .990  .8390
+     DNA for SWB2gen.bin     using bits  9 to 10        142029   .353  .6380
+     DNA for SWB2gen.bin     using bits  8 to  9        141768  -.417  .3384
+     DNA for SWB2gen.bin     using bits  7 to  8        142016   .315  .6235
+     DNA for SWB2gen.bin     using bits  6 to  7        141694  -.635  .2627
+     DNA for SWB2gen.bin     using bits  5 to  6        141732  -.523  .3005
+     DNA for SWB2gen.bin     using bits  4 to  5        141776  -.393  .3470
+     DNA for SWB2gen.bin     using bits  3 to  4        141716  -.570  .2842
+     DNA for SWB2gen.bin     using bits  2 to  3        142177   .790  .7851
+     DNA for SWB2gen.bin     using bits  1 to  2        142106   .580  .7191
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
+     :: Consider the file under test as a stream of bytes (four per   ::     
+     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
+     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
+     :: the stream of bytes provide a string of overlapping  5-letter ::     
+     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
+     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
+     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
+     :: we have a monkey at a typewriter hitting five keys with vari- ::     
+     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
+     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
+     :: lapping) 5-letter words, counts are made on the frequencies   ::     
+     :: for each word.   The quadratic form in the weak inverse of    ::     
+     :: the covariance matrix of the cell counts provides a chisquare ::     
+     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
+     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+   Test results for SWB2gen.bin    
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
+                               chisquare  equiv normal  p-value
+  Results fo COUNT-THE-1's in successive bytes:
+ byte stream for SWB2gen.bin      2534.80       .492      .688717
+ byte stream for SWB2gen.bin      2549.66       .702      .758767
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
+     :: Consider the file under test as a stream of 32-bit integers.  ::     
+     :: From each integer, a specific byte is chosen , say the left-  ::     
+     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
+     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
+     :: the specified bytes from successive integers provide a string ::     
+     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
+     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
+     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
+     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
+     :: hitting five keys with with various probabilities::  37,56,70,::     
+     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
+     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
+     :: are made on the frequencies for each word. The quadratic form ::     
+     :: in the weak inverse of the covariance matrix of the cell      ::     
+     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
+     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
+     :: and 4-letter cell counts.                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
+                      chisquare  equiv normal  p value
+  Results for COUNT-THE-1's in specified bytes:
+           bits  1 to  8  2437.92      -.878      .189994
+           bits  2 to  9  2673.94      2.460      .993052
+           bits  3 to 10  2570.52       .997      .840680
+           bits  4 to 11  2442.49      -.813      .208008
+           bits  5 to 12  2392.53     -1.520      .064281
+           bits  6 to 13  2620.96      1.711      .956425
+           bits  7 to 14  2639.73      1.976      .975929
+           bits  8 to 15  2479.15      -.295      .384043
+           bits  9 to 16  2525.05       .354      .638422
+           bits 10 to 17  2524.05       .340      .633102
+           bits 11 to 18  2524.59       .348      .635966
+           bits 12 to 19  2520.27       .287      .612814
+           bits 13 to 20  2463.53      -.516      .303001
+           bits 14 to 21  2304.93     -2.759      .002901
+           bits 15 to 22  2563.40       .897      .815053
+           bits 16 to 23  2568.93       .975      .835189
+           bits 17 to 24  2392.34     -1.522      .063945
+           bits 18 to 25  2478.57      -.303      .380906
+           bits 19 to 26  2590.68      1.282      .900160
+           bits 20 to 27  2454.88      -.638      .261685
+           bits 21 to 28  2569.66       .985      .837723
+           bits 22 to 29  2499.89      -.001      .499402
+           bits 23 to 30  2432.70      -.952      .170596
+           bits 24 to 31  2592.33      1.306      .904181
+           bits 25 to 32  2447.34      -.745      .228228
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THIS IS A PARKING LOT TEST                      ::     
+     :: In a square of side 100, randomly "park" a car---a circle of  ::     
+     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
+     :: time parking "by ear".  That is, if an attempt to park a car  ::     
+     :: causes a crash with one already parked, try again at a new    ::     
+     :: random location. (To avoid path problems, consider parking    ::     
+     :: helicopters rather than cars.)   Each attempt leads to either ::     
+     :: a crash or a success, the latter followed by an increment to  ::     
+     :: the list of cars already parked. If we plot n:  the number of ::     
+     :: attempts, versus k::  the number successfully parked, we get a::     
+     :: curve that should be similar to those provided by a perfect   ::     
+     :: random number generator.  Theory for the behavior of such a   ::     
+     :: random curve seems beyond reach, and as graphics displays are ::     
+     :: not available for this battery of tests, a simple characteriz ::     
+     :: ation of the random experiment is used: k, the number of cars ::     
+     :: successfully parked after n=12,000 attempts. Simulation shows ::     
+     :: that k should average 3523 with sigma 21.9 and is very close  ::     
+     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
+     :: andard normal variable, which, converted to a uniform varia-  ::     
+     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           CDPARK: result of ten tests on file SWB2gen.bin    
+            Of 12,000 tries, the average no. of successes
+                 should be 3523 with sigma=21.9
+            Successes: 3510    z-score:  -.594 p-value: .276387
+            Successes: 3522    z-score:  -.046 p-value: .481790
+            Successes: 3540    z-score:   .776 p-value: .781201
+            Successes: 3545    z-score:  1.005 p-value: .842447
+            Successes: 3536    z-score:   .594 p-value: .723613
+            Successes: 3524    z-score:   .046 p-value: .518210
+            Successes: 3557    z-score:  1.553 p-value: .939730
+            Successes: 3521    z-score:  -.091 p-value: .463618
+            Successes: 3478    z-score: -2.055 p-value: .019949
+            Successes: 3534    z-score:   .502 p-value: .692266
+
+           square size   avg. no.  parked   sample sigma
+             100.            3526.700       20.675
+            KSTEST for the above 10: p=  .357569
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THE MINIMUM DISTANCE TEST                       ::     
+     :: It does this 100 times::   choose n=8000 random points in a   ::     
+     :: square of side 10000.  Find d, the minimum distance between   ::     
+     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
+     :: pendent uniform, then d^2, the square of the minimum distance ::     
+     :: should be (very close to) exponentially distributed with mean ::     
+     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
+     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
+     :: formity for random points in the square. Test numbers=0 mod 5 ::     
+     :: are printed but the KSTEST is based on the full set of 100    ::     
+     :: random choices of 8000 points in the 10000x10000 square.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               This is the MINIMUM DISTANCE test
+              for random integers in the file SWB2gen.bin    
+     Sample no.    d^2     avg     equiv uni            
+           5    2.1879   1.1053     .889079
+          10    1.9936   1.0486     .865154
+          15    1.5064   1.0741     .779971
+          20    2.0267   1.0467     .869563
+          25    1.4375    .9500     .764193
+          30     .9409    .8846     .611552
+          35    2.8652    .9483     .943842
+          40     .1886    .9105     .172644
+          45     .8872    .8826     .590029
+          50     .3465    .9159     .294093
+          55     .1005   1.0678     .096040
+          60     .1817   1.0229     .166918
+          65     .3344   1.0491     .285408
+          70     .3244   1.0210     .278232
+          75     .2360    .9844     .211158
+          80     .1976    .9640     .180155
+          85    1.0292    .9378     .644564
+          90    4.5537    .9548     .989710
+          95    1.7387    .9769     .825782
+         100     .1362    .9853     .127888
+     MINIMUM DISTANCE TEST for SWB2gen.bin    
+          Result of KS test on 20 transformed mindist^2's:
+                                  p-value= .714905
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::              THE 3DSPHERES TEST                               ::     
+     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
+     :: point, center a sphere large enough to reach the next closest ::     
+     :: point. Then the volume of the smallest such sphere is (very   ::     
+     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
+     :: the radius cubed is exponential with mean 30. (The mean is    ::     
+     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
+     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
+     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
+     ::  KSTEST is done on the 20 p-values.                           ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               The 3DSPHERES test for file SWB2gen.bin    
+ sample no:  1     r^3=  10.153     p-value= .28712
+ sample no:  2     r^3=  19.370     p-value= .47569
+ sample no:  3     r^3=   7.564     p-value= .22285
+ sample no:  4     r^3=  31.608     p-value= .65132
+ sample no:  5     r^3=  52.329     p-value= .82523
+ sample no:  6     r^3=    .574     p-value= .01897
+ sample no:  7     r^3=  41.699     p-value= .75091
+ sample no:  8     r^3=  21.182     p-value= .50642
+ sample no:  9     r^3=   9.786     p-value= .27834
+ sample no: 10     r^3=   1.510     p-value= .04908
+ sample no: 11     r^3=    .977     p-value= .03204
+ sample no: 12     r^3=    .469     p-value= .01552
+ sample no: 13     r^3=   6.822     p-value= .20339
+ sample no: 14     r^3=   6.866     p-value= .20456
+ sample no: 15     r^3=  47.418     p-value= .79415
+ sample no: 16     r^3=  81.760     p-value= .93448
+ sample no: 17     r^3=  10.889     p-value= .30439
+ sample no: 18     r^3=   9.069     p-value= .26089
+ sample no: 19     r^3=  47.134     p-value= .79219
+ sample no: 20     r^3=   1.485     p-value= .04829
+  A KS test is applied to those 20 p-values.
+---------------------------------------------------------
+       3DSPHERES test for file SWB2gen.bin          p-value= .943024
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::      This is the SQEEZE test                                  ::     
+     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
+     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
+     ::  iterations necessary to reduce k to 1, using the reduction   ::     
+     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
+     ::  the file being tested.  Such j's are found 100,000 times,    ::     
+     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
+     ::  are used to provide a chi-square test for cell frequencies.  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+            RESULTS OF SQUEEZE TEST FOR SWB2gen.bin    
+         Table of standardized frequency counts
+     ( (obs-exp)/sqrt(exp) )^2
+        for j taking values <=6,7,8,...,47,>=48:
+      .6      .5     -.4      .8      .3     -.4
+      .5     1.4      .9    -1.3      .7      .6
+     -.9      .4      .3      .5     -.2     1.1
+      .4      .3    -1.5      .0    -1.0     -.7
+    -1.6     -.2     -.4     -.5      .9      .5
+     -.6      .8     1.2     1.4     -.4     1.9
+      .3    -1.3     1.3     -.1    -1.3    -1.0
+    -1.1
+           Chi-square with 42 degrees of freedom: 33.427
+              z-score=  -.935  p-value= .174975
+______________________________________________________________
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The  OVERLAPPING SUMS test                        ::     
+     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
+     :: form [0,1) variables.  Then overlapping sums,                 ::     
+     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
+     :: The S's are virtually normal with a certain covariance mat-   ::     
+     :: rix.  A linear transformation of the S's converts them to a   ::     
+     :: sequence of independent standard normals, which are converted ::     
+     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
+     :: KSTESTs are given still another KSTEST.                       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Test no.  1      p-value  .487265
+                Test no.  2      p-value  .322783
+                Test no.  3      p-value  .151189
+                Test no.  4      p-value  .373957
+                Test no.  5      p-value  .966232
+                Test no.  6      p-value  .647981
+                Test no.  7      p-value  .483145
+                Test no.  8      p-value  .785064
+                Test no.  9      p-value  .581445
+                Test no. 10      p-value  .511045
+   Results of the OSUM test for SWB2gen.bin    
+        KSTEST on the above 10 p-values:  .344530
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
+     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
+     :: ing the 32-bit integers in the specified file. This example   ::     
+     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
+     :: contains an up-run of length 3, a down-run of length 2 and an ::     
+     :: up-run of (at least) 2, depending on the next values.  The    ::     
+     :: covariance matrices for the runs-up and runs-down are well    ::     
+     :: known, leading to chisquare tests for quadratic forms in the  ::     
+     :: weak inverses of the covariance matrices.  Runs are counted   ::     
+     :: for sequences of length 10,000.  This is done ten times. Then ::     
+     :: repeated.                                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           The RUNS test for file SWB2gen.bin    
+     Up and down runs in a sample of 10000
+_________________________________________________ 
+                 Run test for SWB2gen.bin    :
+       runs up; ks test for 10 p's: .028569
+     runs down; ks test for 10 p's: .254180
+                 Run test for SWB2gen.bin    :
+       runs up; ks test for 10 p's: .296604
+     runs down; ks test for 10 p's: .731591
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
+     :: the number of wins and the number of throws necessary to end  ::     
+     :: each game.  The number of wins should be (very close to) a    ::     
+     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
+     :: p=244/495.  Throws necessary to complete the game can vary    ::     
+     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
+     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
+     :: Each 32-bit integer from the test file provides the value for ::     
+     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
+     :: and taking 1 plus the integer part of the result.             ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Results of craps test for SWB2gen.bin    
+  No. of wins:  Observed Expected
+                                98349    98585.86
+                  98349= No. of wins, z-score=-1.059 pvalue= .14471
+   Analysis of Throws-per-Game:
+ Chisq=  13.99 for 20 degrees of freedom, p=  .16881
+               Throws Observed Expected  Chisq     Sum
+                  1    66664    66666.7    .000     .000
+                  2    37492    37654.3    .700     .700
+                  3    27091    26954.7    .689    1.389
+                  4    19291    19313.5    .026    1.415
+                  5    13907    13851.4    .223    1.638
+                  6     9850     9943.5    .880    2.518
+                  7     7240     7145.0   1.262    3.780
+                  8     5030     5139.1   2.315    6.095
+                  9     3676     3699.9    .154    6.249
+                 10     2687     2666.3    .161    6.410
+                 11     1978     1923.3   1.554    7.964
+                 12     1430     1388.7   1.226    9.190
+                 13      996     1003.7    .059    9.249
+                 14      693      726.1   1.513   10.762
+                 15      553      525.8   1.403   12.165
+                 16      399      381.2    .836   13.001
+                 17      266      276.5    .402   13.403
+                 18      205      200.8    .087   13.489
+                 19      145      146.0    .007   13.496
+                 20      111      106.2    .216   13.711
+                 21      296      287.1    .275   13.986
+            SUMMARY  FOR SWB2gen.bin    
+                p-value for no. of wins: .144715
+                p-value for throws/game: .168806
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+ Results of DIEHARD battery of tests sent to file SWB2gen.all    

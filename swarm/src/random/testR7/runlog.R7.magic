@@ -1,0 +1,51 @@
+Random Generator data:
+
+                       PMMLCG1 magic =      1220102  bufSize = 32
+                       PMMLCG2 magic =      1220202  bufSize = 32
+                       PMMLCG3 magic =      1220302  bufSize = 32
+                       PMMLCG4 magic =      1220402  bufSize = 32
+                       PMMLCG5 magic =      1220502  bufSize = 32
+                       PMMLCG6 magic =      1220602  bufSize = 32
+                       PMMLCG7 magic =      1220702  bufSize = 32
+                       PMMLCG8 magic =      1220802  bufSize = 32
+                       PMMLCG9 magic =      1220902  bufSize = 32
+                          LCG1 magic =      1210102  bufSize = 32
+                          LCG2 magic =      1210202  bufSize = 32
+                          LCG3 magic =      1210302  bufSize = 32
+                           ACG magic =      1110102  bufSize = 472
+                           SCG magic =      1120102  bufSize = 472
+                          SWB1 magic =      1130102  bufSize = 336
+                          SWB2 magic =      1130202  bufSize = 232
+                          SWB3 magic =      1130302  bufSize = 208
+                          PSWB magic =      1140101  bufSize = 384
+                          MRG5 magic =      1340101  bufSize = 80
+                          MRG6 magic =      1340201  bufSize = 80
+                          MRG7 magic =      1340301  bufSize = 80
+                        C2MRG3 magic =      1350101  bufSize = 72
+                       C2TAUS1 magic =      1330101  bufSize = 44
+                       C2TAUS2 magic =      1330201  bufSize = 44
+                       C2TAUS3 magic =      1330301  bufSize = 44
+                         TT403 magic =      1310101  bufSize = 136
+                         TT775 magic =      1310201  bufSize = 232
+                         TT800 magic =      1310301  bufSize = 232
+                       MT19937 magic =      1320101  bufSize = 5020
+                          MWCA magic =      1360101  bufSize = 40
+                          MWCB magic =      1360201  bufSize = 40
+                         C3MWC magic =      1370101  bufSize = 72
+                          RWC2 magic =      1380101  bufSize = 48
+                          RWC8 magic =      1390101  bufSize = 100
+                        C2LCGX magic =      1230101  bufSize = 1356
+                        C4LCGX magic =      1240101  bufSize = 8300
+
+
+Distribution data:
+
+                 RandomBitDist magic =      2190102  bufSize = 36
+                 BernoulliDist magic =      2110101  bufSize = 40
+            UniformIntegerDist magic =      2280102  bufSize = 52
+           UniformUnsignedDist magic =      2380102  bufSize = 52
+             UniformDoubleDist magic =      2480102  bufSize = 56
+                    NormalDist magic =      2420102  bufSize = 60
+                 LogNormalDist magic =      2420202  bufSize = 60
+               ExponentialDist magic =      2410102  bufSize = 40
+                     GammaDist magic =      2420302  bufSize = 48

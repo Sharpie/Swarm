@@ -1,0 +1,83 @@
+Generator	Seeds	Modulus		Cycles(length)	Bits	Speed  State
+---------	-----	-------		--------------	----	-----  -----
+
+(a) Simple Short Generators:
+
+LCG1		1	2^32		   1 m		32	1.442     32
+LCG2		1	2^32		   1 m		32	1.442     32
+LCG3		1	2^32		   1 m		32	1.442     32
+
+PMMLCG1		1	2^31-1		   1 m-1	31	0.784     31
+PMMLCG2		1	2^31-1		   1 m-1	31	0.784     31
+PMMLCG3		1	2^31-1		   1 m-1	31	0.784     31
+PMMLCG4		1	2^31-1		   1 m-1	31	0.784     31
+PMMLCG5		1	2^31-105	   1 m-1	31	0.784     31
+PMMLCG6		1	2^31-225	   1 m-1	31	0.784     31
+PMMLCG7		1	2^31-325	   1 m-1	31	0.784     31
+PMMLCG8		1	2^31-85		   1 m-1	31	0.784     31
+PMMLCG9		1	2^31-249	   1 m-1	31	0.784     31
+
+
+(b) Simple Long Generators:
+
+ACG		55	2^32		   1 2^55	32	1.369   1760
+SCG		55	10^9		   1 2^55	30	1.111   1650
+SWB1		37+c	2^32		  64 2^1178	32	1.126   1185
+SWB2		24+c	2^32		1536 2^757	32	1.126    769
+SWB3		21+c	2^32		 192 2^664	32	1.126    673
+PSWB		43+c	2^32-5		   1 2^1376	32	1.070   1377
+
+TT403		13	2^31		   1 2^403	31	0.792    403
+TT775		25	2^31		   1 2^775	31	0.795    775
+TT800		25	2^32		   1 2^800	32	0.795    800
+MT19937		624	2^32		   1 ^19937	32	1.000  19937
+
+MRG5		 5	2^31-1		   1 2^155	31	0.382    155
+MRG6		 6	2^31-1		   1 2^186	31	0.354    186
+MRG7		 7	2^31-19		   1 2^217	31	0.339    217
+
+MWCA		 2	2^32		   ? 2^59	32	1.088     64
+MWCB		 2	2^32		   ? 2^59	32	1.088     64
+RWC2		 3	2^32		   ? 2^92	32	0.497     96
+RWC8		18s	2^32		   ? 2^250	32	0.252    288
+
+
+(c) Long Generators with Splitting Facilities: (none)
+
+
+(d) Combined Generators:
+
+C2TAUS1 (M)	 2	2^31-1		   1 2^60	31	0.907     62
+C2TAUS2 (M)	 2	2^31-1		   1 2^60	31	0.907     62
+C2TAUS3 (M)	 2	2^31-1		   1 2^60	31	0.907     62
+C2MRG3  (M)	 6	2^31-1		   1 2^185	31	0.275    186
+C3MWC	(M)	 6	2^32		   ? 2^118	32	0.570    192
+
+
+(e) Combined Generators with Splitting Facilities:
+
+C2LCG   (M,S)	 2	2^31-85		   1 2^60	31	0.526     62
+C4LCG   (M,S)	 4	2^31-1		   1 2^120	31	0.316    124
+
+
+
+(f) Calculating cycle lengths:
+
+LCGi:		cycle = m = 2^32
+PMMLCGi:	cycle = m-1 < 2^31
+ACG:    	cycle = 2^r
+SCG:    	cycle = 2^r
+SWBi:    	cycle = ( 2^(32r) - 2^(32s) ) / #cycles
+PSWB:   	cycle = m^r - m^s
+TGFSRi:  	cycle = 2^(w*N) - 1 
+MRGi:		cycle = m^i - 1
+C2MRG3:		cycle = (m1^3 - 1)*(m2^3 - 1)/2
+C2TAUSi: 	cycle = Mask1 * Mask2
+C2LCG:  	cycle = (m1 * m2) / 2
+C4LCG:  	cycle = (m1 * m2 * m3 * m4) / 8
+MWCA, MWCB:    	cycle = ? (not specified by Marsaglia)
+C3MWC:  	cycle = ?	"		"
+RWC2:   	cycle = ?	"		"
+RWC8:   	cycle = ?	"		"
+
+ 

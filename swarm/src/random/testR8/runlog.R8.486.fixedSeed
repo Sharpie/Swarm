@@ -1,0 +1,113 @@
+DEFAULTSEED  =    321654789
+DEFAULTSEED1 =   1023456789
+DEFAULTSEED2 =    123456789
+DEFAULTSEED3 =   2468013579
+DEFAULTSEED4 =    864297531
+
+useFixedSeed =            1
+firstSeed    =    321654789
+
+Clocks per sec = 100 so clock step = 10000 microseconds
+
+getpid = 2916
+
+time = 881196909   clock = 43   tempusFugit = 101411
+time = 881196909   clock = 43   tempusFugit = 101578
+time = 881196909   clock = 43   tempusFugit = 101707
+time = 881196909   clock = 43   tempusFugit = 101836
+time = 881196909   clock = 43   tempusFugit = 101962
+
+tempusFugit =       102095
+tempusFugit =       102162
+tempusFugit =       102227
+tempusFugit =       102294
+tempusFugit =       102361
+
+sleep+tempusFugit =      1099726
+sleep+tempusFugit =      2099651
+sleep+tempusFugit =      3099680
+sleep+tempusFugit =      4099672
+sleep+tempusFugit =      5099648
+
+time =    881196914
+time =    881196914
+time =    881196914
+time =    881196914
+time =    881196914
+
+clock =           43
+clock =           43
+clock =           43
+clock =           43
+clock =           43
+
+sleep+clock =           43
+sleep+clock =           43
+sleep+clock =           43
+sleep+clock =           43
+sleep+clock =           43
+
+delay+clock =           43
+delay+clock =           43
+delay+clock =           43
+delay+clock =           43
+delay+clock =           43
+
+CHICKENFEED =   3682679772
+CHICKENFEED =   3682930548
+CHICKENFEED =   3683163828
+CHICKENFEED =   3683397108
+CHICKENFEED =   3683630388
+
+BIRDSEED    =   3788067396
+BIRDSEED    =   3799603092
+BIRDSEED    =   3811264176
+BIRDSEED    =   3822799872
+BIRDSEED    =   3834711732
+
+SLEEPYSEED  =   1179772796
+SLEEPYSEED  =   1179775712
+SLEEPYSEED  =   1179778628
+SLEEPYSEED  =   1179781544
+SLEEPYSEED  =   1179784460
+
+PIDTIMESEED =   1179787376
+PIDTIMESEED =   1179787376
+PIDTIMESEED =   1179787376
+PIDTIMESEED =   1179787376
+PIDTIMESEED =   1179787376
+
+PIDRANDSEED =   3198080240
+PIDRANDSEED =   1673338720
+PIDRANDSEED =    904202368
+PIDRANDSEED =    890671184
+PIDRANDSEED =   1301322208
+
+FIRSTSEED   =    321654789
+
+NEXTSEED    =   2891901563
+NEXTSEED    =   3729742597
+NEXTSEED    =   1734942587
+NEXTSEED    =   3084363269
+NEXTSEED    =   1049515131
+
+RANDOMSEED  =   1724524896
+RANDOMSEED  =   1710993712
+RANDOMSEED  =   4057037280
+RANDOMSEED  =   4043506096
+RANDOMSEED  =   4029974912
+
+STARTSEED   =   2328162565
+STARTSEED   =   3335424379
+STARTSEED   =   1108818949
+STARTSEED   =   2502540923
+STARTSEED   =   3368978181
+
+Creating new generators:
+
+time = 881196924   clock = 43   tempusFugit = 15101862
+time = 881196924   clock = 43   tempusFugit = 15102182
+time = 881196924   clock = 43   tempusFugit = 15102470
+time = 881196924   clock = 43   tempusFugit = 15102757
+time = 881196924   clock = 43   tempusFugit = 15103049
+

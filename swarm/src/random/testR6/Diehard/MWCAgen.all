@@ -1,0 +1,944 @@
+       NOTE: Most of the tests in DIEHARD return a p-value, which            
+       should be uniform on [0,1) if the input file contains truly           
+       independent random bits.   Those p-values are obtained by             
+       p=F(X), where F is the assumed distribution of the sample             
+       random variable X---often normal. But that assumed F is just          
+       an asymptotic approximation, for which the fit will be worst          
+       in the tails. Thus you should not be surprised with                   
+       occasional p-values near 0 or 1, such as .0012 or .9983.              
+       When a bit stream really FAILS BIG, you will get p's of 0 or          
+       1 to six or more places.  By all means, do not, as a                  
+       Statistician might, think that a p < .025 or p> .975 means            
+       that the RNG has "failed the test at the .05 level".  Such            
+       p's happen among the hundreds that DIEHARD produces, even             
+       with good RNG's.  So keep in mind that " p happens".                  
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
+     :: Choose m birthdays in a year of n days.  List the spacings    ::     
+     :: between the birthdays.  If j is the number of values that     ::     
+     :: occur more than once in that list, then j is asymptotically   ::     
+     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
+     :: must be quite large, say n>=2^18, for comparing the results   ::     
+     :: to the Poisson distribution with that mean.  This test uses   ::     
+     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
+     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
+     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
+     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
+     :: from the left) from integers in the specified file.           ::     
+     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
+     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
+     :: Each set of bits provides a p-value, and the nine p-values    ::     
+     :: provide a sample for a KSTEST.                                ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
+           Results for MWCgen.bin     
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  1 to 24   2.042
+  duplicate       number       number 
+  spacings       observed     expected
+        0          59.       67.668
+        1         152.      135.335
+        2         119.      135.335
+        3          93.       90.224
+        4          45.       45.112
+        5          23.       18.045
+  6 to INF          9.        8.282
+ Chisquare with  6 d.o.f. =     6.64 p-value=  .644851
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  2 to 25   2.024
+  duplicate       number       number 
+  spacings       observed     expected
+        0          70.       67.668
+        1         131.      135.335
+        2         126.      135.335
+        3          97.       90.224
+        4          50.       45.112
+        5          18.       18.045
+  6 to INF          8.        8.282
+ Chisquare with  6 d.o.f. =     1.91 p-value=  .072349
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  3 to 26   1.928
+  duplicate       number       number 
+  spacings       observed     expected
+        0          63.       67.668
+        1         142.      135.335
+        2         149.      135.335
+        3          88.       90.224
+        4          35.       45.112
+        5          19.       18.045
+  6 to INF          4.        8.282
+ Chisquare with  6 d.o.f. =     6.62 p-value=  .642134
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  4 to 27   1.992
+  duplicate       number       number 
+  spacings       observed     expected
+        0          63.       67.668
+        1         147.      135.335
+        2         126.      135.335
+        3          96.       90.224
+        4          45.       45.112
+        5          14.       18.045
+  6 to INF          9.        8.282
+ Chisquare with  6 d.o.f. =     3.31 p-value=  .230988
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  5 to 28   1.942
+  duplicate       number       number 
+  spacings       observed     expected
+        0          60.       67.668
+        1         137.      135.335
+        2         154.      135.335
+        3          93.       90.224
+        4          40.       45.112
+        5          10.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     8.34 p-value=  .785985
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  6 to 29   1.978
+  duplicate       number       number 
+  spacings       observed     expected
+        0          66.       67.668
+        1         135.      135.335
+        2         144.      135.335
+        3          87.       90.224
+        4          47.       45.112
+        5          14.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     1.90 p-value=  .070980
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  7 to 30   2.012
+  duplicate       number       number 
+  spacings       observed     expected
+        0          68.       67.668
+        1         142.      135.335
+        2         126.      135.335
+        3          81.       90.224
+        4          53.       45.112
+        5          23.       18.045
+  6 to INF          7.        8.282
+ Chisquare with  6 d.o.f. =     4.86 p-value=  .437487
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  8 to 31   1.944
+  duplicate       number       number 
+  spacings       observed     expected
+        0          84.       67.668
+        1         132.      135.335
+        2         130.      135.335
+        3          81.       90.224
+        4          46.       45.112
+        5          15.       18.045
+  6 to INF         12.        8.282
+ Chisquare with  6 d.o.f. =     7.38 p-value=  .712700
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MWCgen.bin       using bits  9 to 32   2.028
+  duplicate       number       number 
+  spacings       observed     expected
+        0          66.       67.668
+        1         148.      135.335
+        2         124.      135.335
+        3          77.       90.224
+        4          50.       45.112
+        5          25.       18.045
+  6 to INF         10.        8.282
+ Chisquare with  6 d.o.f. =     7.68 p-value=  .737568
+  :::::::::::::::::::::::::::::::::::::::::
+   The 9 p-values were
+        .644851   .072349   .642134   .230988   .785985
+        .070980   .437487   .712700   .737568
+  A KSTEST for the 9 p-values yields  .300397
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
+     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
+     :: ion 32-bit random integers.  Each set of five consecutive     ::     
+     :: integers can be in one of 120 states, for the 5! possible or- ::     
+     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
+     :: each provide a state. As many thousands of state transitions  ::     
+     :: are observed,  cumulative counts are made of the number of    ::     
+     :: occurences of each state.  Then the quadratic form in the     ::     
+     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
+     :: equivalent to the likelihood ratio test that the 120 cell     ::     
+     :: counts came from the specified (asymptotically) normal dis-   ::     
+     :: tribution with the specified 120x120 covariance matrix (with  ::     
+     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           OPERM5 test for file MWCgen.bin     
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 80.497; p-value= .087040
+           OPERM5 test for file MWCgen.bin     
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 79.945; p-value= .080103
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
+     :: 31 bits of 31 random integers from the test sequence are used ::     
+     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
+     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
+     :: are rare, and their counts are pooled with those for rank 28. ::     
+     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
+     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for MWCgen.bin     
+         Rank test for 31x31 binary matrices:
+        rows from leftmost 31 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        28       234     211.4  2.412028    2.412
+        29      5173    5134.0   .296104    2.708
+        30     23184   23103.0   .283660    2.992
+        31     11409   11551.5  1.758487    4.750
+  chisquare= 4.750 for 3 d. of f.; p-value= .823624
+--------------------------------------------------------------
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
+     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
+     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
+     :: less than 29 are rare, and their counts are pooled with those ::     
+     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
+     :: and a chisquare test is performed on counts for ranks  32,31, ::     
+     :: 30 and <=29.                                                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for MWCgen.bin     
+         Rank test for 32x32 binary matrices:
+        rows from leftmost 32 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        29       209     211.4   .027655     .028
+        30      5194    5134.0   .700967     .729
+        31     22889   23103.0  1.983118    2.712
+        32     11708   11551.5  2.119600    4.831
+  chisquare= 4.831 for 3 d. of f.; p-value= .829401
+--------------------------------------------------------------
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
+     :: six random 32-bit integers from the generator under test, a   ::     
+     :: specified byte is chosen, and the resulting six bytes form a  ::     
+     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
+     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
+     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
+     :: random matrices, and a chi-square test is performed on        ::     
+     :: counts for ranks 6,5 and <=4.                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+         Binary Rank Test for MWCgen.bin     
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  1 to  8
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          897       944.3       2.369       2.369
+          r =5        22116     21743.9       6.368       8.737
+          r =6        76987     77311.8       1.365      10.102
+                        p=1-exp(-SUM/2)= .99360
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  2 to  9
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          925       944.3        .395        .395
+          r =5        21732     21743.9        .007        .401
+          r =6        77343     77311.8        .013        .414
+                        p=1-exp(-SUM/2)= .18682
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  3 to 10
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          936       944.3        .073        .073
+          r =5        21815     21743.9        .232        .305
+          r =6        77249     77311.8        .051        .356
+                        p=1-exp(-SUM/2)= .16326
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  4 to 11
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          923       944.3        .481        .481
+          r =5        21699     21743.9        .093        .573
+          r =6        77378     77311.8        .057        .630
+                        p=1-exp(-SUM/2)= .27018
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  5 to 12
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          957       944.3        .171        .171
+          r =5        21814     21743.9        .226        .397
+          r =6        77229     77311.8        .089        .485
+                        p=1-exp(-SUM/2)= .21551
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  6 to 13
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          961       944.3        .295        .295
+          r =5        21634     21743.9        .555        .851
+          r =6        77405     77311.8        .112        .963
+                        p=1-exp(-SUM/2)= .38218
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  7 to 14
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          953       944.3        .080        .080
+          r =5        21640     21743.9        .496        .577
+          r =6        77407     77311.8        .117        .694
+                        p=1-exp(-SUM/2)= .29313
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  8 to 15
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          937       944.3        .056        .056
+          r =5        21553     21743.9       1.676       1.732
+          r =6        77510     77311.8        .508       2.241
+                        p=1-exp(-SUM/2)= .67381
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits  9 to 16
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          996       944.3       2.830       2.830
+          r =5        21541     21743.9       1.893       4.724
+          r =6        77463     77311.8        .296       5.019
+                        p=1-exp(-SUM/2)= .91871
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 10 to 17
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          956       944.3        .145        .145
+          r =5        21719     21743.9        .029        .173
+          r =6        77325     77311.8        .002        .176
+                        p=1-exp(-SUM/2)= .08410
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 11 to 18
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          899       944.3       2.173       2.173
+          r =5        21866     21743.9        .686       2.859
+          r =6        77235     77311.8        .076       2.935
+                        p=1-exp(-SUM/2)= .76952
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 12 to 19
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          901       944.3       1.986       1.986
+          r =5        21696     21743.9        .106       2.091
+          r =6        77403     77311.8        .108       2.199
+                        p=1-exp(-SUM/2)= .66691
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 13 to 20
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          963       944.3        .370        .370
+          r =5        21732     21743.9        .007        .377
+          r =6        77305     77311.8        .001        .377
+                        p=1-exp(-SUM/2)= .17196
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 14 to 21
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          976       944.3       1.064       1.064
+          r =5        21731     21743.9        .008       1.072
+          r =6        77293     77311.8        .005       1.076
+                        p=1-exp(-SUM/2)= .41617
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 15 to 22
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          912       944.3       1.105       1.105
+          r =5        21888     21743.9        .955       2.060
+          r =6        77200     77311.8        .162       2.222
+                        p=1-exp(-SUM/2)= .67070
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 16 to 23
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          988       944.3       2.022       2.022
+          r =5        21810     21743.9        .201       2.223
+          r =6        77202     77311.8        .156       2.379
+                        p=1-exp(-SUM/2)= .69564
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 17 to 24
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          946       944.3        .003        .003
+          r =5        21947     21743.9       1.897       1.900
+          r =6        77107     77311.8        .543       2.443
+                        p=1-exp(-SUM/2)= .70516
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 18 to 25
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          984       944.3       1.669       1.669
+          r =5        21898     21743.9       1.092       2.761
+          r =6        77118     77311.8        .486       3.247
+                        p=1-exp(-SUM/2)= .80278
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 19 to 26
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          881       944.3       4.243       4.243
+          r =5        21599     21743.9        .966       5.209
+          r =6        77520     77311.8        .561       5.770
+                        p=1-exp(-SUM/2)= .94414
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 20 to 27
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          950       944.3        .034        .034
+          r =5        21720     21743.9        .026        .061
+          r =6        77330     77311.8        .004        .065
+                        p=1-exp(-SUM/2)= .03195
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 21 to 28
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          957       944.3        .171        .171
+          r =5        21744     21743.9        .000        .171
+          r =6        77299     77311.8        .002        .173
+                        p=1-exp(-SUM/2)= .08281
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 22 to 29
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          976       944.3       1.064       1.064
+          r =5        21796     21743.9        .125       1.189
+          r =6        77228     77311.8        .091       1.280
+                        p=1-exp(-SUM/2)= .47264
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 23 to 30
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          963       944.3        .370        .370
+          r =5        21593     21743.9       1.047       1.417
+          r =6        77444     77311.8        .226       1.644
+                        p=1-exp(-SUM/2)= .56035
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 24 to 31
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          984       944.3       1.669       1.669
+          r =5        21677     21743.9        .206       1.875
+          r =6        77339     77311.8        .010       1.884
+                        p=1-exp(-SUM/2)= .61022
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MWCgen.bin     
+     b-rank test for bits 25 to 32
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          929       944.3        .248        .248
+          r =5        21696     21743.9        .106        .353
+          r =6        77375     77311.8        .052        .405
+                        p=1-exp(-SUM/2)= .18336
+   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
+ These should be 25 uniform [0,1] random variables:
+     .993596     .186823     .163259     .270176     .215513
+     .382177     .293131     .673810     .918709     .084102
+     .769520     .666911     .171956     .416174     .670699
+     .695643     .705162     .802781     .944136     .031950
+     .082814     .472643     .560347     .610221     .183361
+   brank test summary for MWCgen.bin     
+       The KS test for those 25 supposed UNI's yields
+                    KS p-value= .085960
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::                   THE BITSTREAM TEST                          ::     
+     :: The file under test is viewed as a stream of bits. Call them  ::     
+     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
+     :: and think of the stream of bits as a succession of 20-letter  ::     
+     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
+     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
+     :: the number of missing 20-letter (20-bit) words in a string of ::     
+     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
+     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
+     :: number of missing words j should be (very close to) normally  ::     
+     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
+     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
+     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
+     :: twenty times.                                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+       THE OVERLAPPING 20-tuples BITSTREAM TEST,
+            20 BITS PER WORD, 2^21 words.
+    This test samples the bitstream 20 times.
+  No. missing words should average  141909. with sigma=428.
+-----------------------------------        ---------------
+ tst no  1:  141504 missing words,    -.95 sigmas from mean, p-value= .17181
+ tst no  2:  142467 missing words,    1.30 sigmas from mean, p-value= .90371
+ tst no  3:  141408 missing words,   -1.17 sigmas from mean, p-value= .12073
+ tst no  4:  141989 missing words,     .19 sigmas from mean, p-value= .57384
+ tst no  5:  142312 missing words,     .94 sigmas from mean, p-value= .82660
+ tst no  6:  141524 missing words,    -.90 sigmas from mean, p-value= .18398
+ tst no  7:  142396 missing words,    1.14 sigmas from mean, p-value= .87225
+ tst no  8:  142377 missing words,    1.09 sigmas from mean, p-value= .86274
+ tst no  9:  141744 missing words,    -.39 sigmas from mean, p-value= .34964
+ tst no 10:  141622 missing words,    -.67 sigmas from mean, p-value= .25101
+ tst no 11:  141735 missing words,    -.41 sigmas from mean, p-value= .34189
+ tst no 12:  140953 missing words,   -2.23 sigmas from mean, p-value= .01273
+ tst no 13:  141744 missing words,    -.39 sigmas from mean, p-value= .34964
+ tst no 14:  141839 missing words,    -.16 sigmas from mean, p-value= .43474
+ tst no 15:  142601 missing words,    1.62 sigmas from mean, p-value= .94696
+ tst no 16:  141941 missing words,     .07 sigmas from mean, p-value= .52949
+ tst no 17:  142245 missing words,     .78 sigmas from mean, p-value= .78356
+ tst no 18:  141487 missing words,    -.99 sigmas from mean, p-value= .16188
+ tst no 19:  141958 missing words,     .11 sigmas from mean, p-value= .54527
+ tst no 20:  141178 missing words,   -1.71 sigmas from mean, p-value= .04375
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The tests OPSO, OQSO and DNA                      ::     
+     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
+     :: The OPSO test considers 2-letter words from an alphabet of    ::     
+     :: 1024 letters.  Each letter is determined by a specified ten   ::     
+     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
+     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
+     :: "keystrokes")  and counts the number of missing words---that  ::     
+     :: is 2-letter words which do not appear in the entire sequence. ::     
+     :: That count should be very close to normally distributed with  ::     
+     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
+     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
+     :: a time from the test file and uses a designated set of ten    ::     
+     :: consecutive bits. It then restarts the file for the next de-  ::     
+     :: signated 10 bits, and so on.                                  ::     
+     ::                                                               ::     
+     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
+     ::   The test OQSO is similar, except that it considers 4-letter ::     
+     :: words from an alphabet of 32 letters, each letter determined  ::     
+     :: by a designated string of 5 consecutive bits from the test    ::     
+     :: file, elements of which are assumed 32-bit random integers.   ::     
+     :: The mean number of missing words in a sequence of 2^21 four-  ::     
+     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
+     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
+     :: extensive simulation.                                         ::     
+     ::                                                               ::     
+     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
+     :: determined by two designated bits in the sequence of random   ::     
+     :: integers being tested.  It considers 10-letter words, so that ::     
+     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
+     :: mean number of missing words from a string of 2^21  (over-    ::     
+     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
+     :: The standard deviation sigma=339 was determined as for OQSO   ::     
+     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
+     :: three places), not determined by simulation.                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ OPSO test for generator MWCgen.bin               
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OPSO for MWCgen.bin      using bits 23 to 32        142252  1.182  .8813
+    OPSO for MWCgen.bin      using bits 22 to 31        142187   .957  .8308
+    OPSO for MWCgen.bin      using bits 21 to 30        141916   .023  .5092
+    OPSO for MWCgen.bin      using bits 20 to 29        141832  -.267  .3949
+    OPSO for MWCgen.bin      using bits 19 to 28        141820  -.308  .3790
+    OPSO for MWCgen.bin      using bits 18 to 27        142041   .454  .6751
+    OPSO for MWCgen.bin      using bits 17 to 26        141959   .171  .5680
+    OPSO for MWCgen.bin      using bits 16 to 25        141530 -1.308  .0954
+    OPSO for MWCgen.bin      using bits 15 to 24        141937   .095  .5380
+    OPSO for MWCgen.bin      using bits 14 to 23        142248  1.168  .8786
+    OPSO for MWCgen.bin      using bits 13 to 22        142033   .426  .6651
+    OPSO for MWCgen.bin      using bits 12 to 21        141885  -.084  .4666
+    OPSO for MWCgen.bin      using bits 11 to 20        141822  -.301  .3817
+    OPSO for MWCgen.bin      using bits 10 to 19        142159   .861  .8054
+    OPSO for MWCgen.bin      using bits  9 to 18        142196   .989  .8386
+    OPSO for MWCgen.bin      using bits  8 to 17        141802  -.370  .3557
+    OPSO for MWCgen.bin      using bits  7 to 16        142407  1.716  .9569
+    OPSO for MWCgen.bin      using bits  6 to 15        141950   .140  .5558
+    OPSO for MWCgen.bin      using bits  5 to 14        142624  2.464  .9931
+    OPSO for MWCgen.bin      using bits  4 to 13        141505 -1.394  .0816
+    OPSO for MWCgen.bin      using bits  3 to 12        142041   .454  .6751
+    OPSO for MWCgen.bin      using bits  2 to 11        141886  -.080  .4679
+    OPSO for MWCgen.bin      using bits  1 to 10        142427  1.785  .9629
+ OQSO test for generator MWCgen.bin               
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OQSO for MWCgen.bin      using bits 28 to 32        141369 -1.832  .0335
+    OQSO for MWCgen.bin      using bits 27 to 31        141469 -1.493  .0678
+    OQSO for MWCgen.bin      using bits 26 to 30        141625  -.964  .1676
+    OQSO for MWCgen.bin      using bits 25 to 29        141959   .168  .5669
+    OQSO for MWCgen.bin      using bits 24 to 28        141547 -1.228  .1097
+    OQSO for MWCgen.bin      using bits 23 to 27        141441 -1.588  .0562
+    OQSO for MWCgen.bin      using bits 22 to 26        142065   .528  .7011
+    OQSO for MWCgen.bin      using bits 21 to 25        141497 -1.398  .0811
+    OQSO for MWCgen.bin      using bits 20 to 24        141385 -1.777  .0378
+    OQSO for MWCgen.bin      using bits 19 to 23        141830  -.269  .3940
+    OQSO for MWCgen.bin      using bits 18 to 22        142181   .921  .8215
+    OQSO for MWCgen.bin      using bits 17 to 21        141547 -1.228  .1097
+    OQSO for MWCgen.bin      using bits 16 to 20        142153   .826  .7956
+    OQSO for MWCgen.bin      using bits 15 to 19        142485  1.951  .9745
+    OQSO for MWCgen.bin      using bits 14 to 18        142312  1.365  .9139
+    OQSO for MWCgen.bin      using bits 13 to 17        141834  -.255  .3992
+    OQSO for MWCgen.bin      using bits 12 to 16        142139   .779  .7819
+    OQSO for MWCgen.bin      using bits 11 to 15        141770  -.472  .3184
+    OQSO for MWCgen.bin      using bits 10 to 14        141788  -.411  .3404
+    OQSO for MWCgen.bin      using bits  9 to 13        141898  -.038  .4847
+    OQSO for MWCgen.bin      using bits  8 to 12        141859  -.171  .4323
+    OQSO for MWCgen.bin      using bits  7 to 11        142120   .714  .7624
+    OQSO for MWCgen.bin      using bits  6 to 10        141643  -.903  .1833
+    OQSO for MWCgen.bin      using bits  5 to  9        141841  -.232  .4084
+    OQSO for MWCgen.bin      using bits  4 to  8        142025   .392  .6525
+    OQSO for MWCgen.bin      using bits  3 to  7        141466 -1.503  .0664
+    OQSO for MWCgen.bin      using bits  2 to  6        141452 -1.550  .0605
+    OQSO for MWCgen.bin      using bits  1 to  5        142282  1.263  .8968
+  DNA test for generator MWCgen.bin               
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+     DNA for MWCgen.bin      using bits 31 to 32        141936   .079  .5314
+     DNA for MWCgen.bin      using bits 30 to 31        141858  -.151  .4398
+     DNA for MWCgen.bin      using bits 29 to 30        141608  -.889  .1870
+     DNA for MWCgen.bin      using bits 28 to 29        141893  -.048  .4808
+     DNA for MWCgen.bin      using bits 27 to 28        141776  -.393  .3470
+     DNA for MWCgen.bin      using bits 26 to 27        141439 -1.387  .0827
+     DNA for MWCgen.bin      using bits 25 to 26        141873  -.107  .4573
+     DNA for MWCgen.bin      using bits 24 to 25        141997   .259  .6020
+     DNA for MWCgen.bin      using bits 23 to 24        141831  -.231  .4086
+     DNA for MWCgen.bin      using bits 22 to 23        141624  -.842  .2000
+     DNA for MWCgen.bin      using bits 21 to 22        141723  -.550  .2913
+     DNA for MWCgen.bin      using bits 20 to 21        141979   .206  .5814
+     DNA for MWCgen.bin      using bits 19 to 20        142119   .619  .7319
+     DNA for MWCgen.bin      using bits 18 to 19        141434 -1.402  .0804
+     DNA for MWCgen.bin      using bits 17 to 18        142184   .810  .7911
+     DNA for MWCgen.bin      using bits 16 to 17        142228   .940  .8264
+     DNA for MWCgen.bin      using bits 15 to 16        141727  -.538  .2953
+     DNA for MWCgen.bin      using bits 14 to 15        142374  1.371  .9148
+     DNA for MWCgen.bin      using bits 13 to 14        141699  -.620  .2675
+     DNA for MWCgen.bin      using bits 12 to 13        141449 -1.358  .0872
+     DNA for MWCgen.bin      using bits 11 to 12        142023   .335  .6313
+     DNA for MWCgen.bin      using bits 10 to 11        141710  -.588  .2783
+     DNA for MWCgen.bin      using bits  9 to 10        141779  -.384  .3503
+     DNA for MWCgen.bin      using bits  8 to  9        142269  1.061  .8557
+     DNA for MWCgen.bin      using bits  7 to  8        141575  -.986  .1620
+     DNA for MWCgen.bin      using bits  6 to  7        142322  1.217  .8883
+     DNA for MWCgen.bin      using bits  5 to  6        141668  -.712  .2383
+     DNA for MWCgen.bin      using bits  4 to  5        142223   .925  .8226
+     DNA for MWCgen.bin      using bits  3 to  4        141456 -1.337  .0906
+     DNA for MWCgen.bin      using bits  2 to  3        141653  -.756  .2248
+     DNA for MWCgen.bin      using bits  1 to  2        142349  1.297  .9027
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
+     :: Consider the file under test as a stream of bytes (four per   ::     
+     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
+     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
+     :: the stream of bytes provide a string of overlapping  5-letter ::     
+     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
+     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
+     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
+     :: we have a monkey at a typewriter hitting five keys with vari- ::     
+     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
+     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
+     :: lapping) 5-letter words, counts are made on the frequencies   ::     
+     :: for each word.   The quadratic form in the weak inverse of    ::     
+     :: the covariance matrix of the cell counts provides a chisquare ::     
+     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
+     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+   Test results for MWCgen.bin     
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
+                               chisquare  equiv normal  p-value
+  Results fo COUNT-THE-1's in successive bytes:
+ byte stream for MWCgen.bin       2522.47       .318      .624651
+ byte stream for MWCgen.bin       2563.28       .895      .814591
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
+     :: Consider the file under test as a stream of 32-bit integers.  ::     
+     :: From each integer, a specific byte is chosen , say the left-  ::     
+     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
+     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
+     :: the specified bytes from successive integers provide a string ::     
+     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
+     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
+     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
+     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
+     :: hitting five keys with with various probabilities::  37,56,70,::     
+     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
+     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
+     :: are made on the frequencies for each word. The quadratic form ::     
+     :: in the weak inverse of the covariance matrix of the cell      ::     
+     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
+     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
+     :: and 4-letter cell counts.                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
+                      chisquare  equiv normal  p value
+  Results for COUNT-THE-1's in specified bytes:
+           bits  1 to  8  2558.29       .824      .795131
+           bits  2 to  9  2477.06      -.324      .372787
+           bits  3 to 10  2489.42      -.150      .440514
+           bits  4 to 11  2565.54       .927      .822998
+           bits  5 to 12  2592.63      1.310      .904891
+           bits  6 to 13  2480.12      -.281      .389305
+           bits  7 to 14  2404.03     -1.357      .087359
+           bits  8 to 15  2583.69      1.184      .881713
+           bits  9 to 16  2512.26       .173      .568841
+           bits 10 to 17  2498.71      -.018      .492735
+           bits 11 to 18  2433.24      -.944      .172563
+           bits 12 to 19  2614.73      1.623      .947659
+           bits 13 to 20  2566.28       .937      .825706
+           bits 14 to 21  2596.35      1.363      .913486
+           bits 15 to 22  2396.84     -1.459      .072292
+           bits 16 to 23  2492.51      -.106      .457846
+           bits 17 to 24  2411.82     -1.247      .106185
+           bits 18 to 25  2463.49      -.516      .302833
+           bits 19 to 26  2637.40      1.943      .974003
+           bits 20 to 27  2532.10       .454      .675070
+           bits 21 to 28  2485.07      -.211      .416385
+           bits 22 to 29  2512.60       .178      .570688
+           bits 23 to 30  2496.61      -.048      .480879
+           bits 24 to 31  2565.01       .919      .821037
+           bits 25 to 32  2535.04       .496      .689913
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THIS IS A PARKING LOT TEST                      ::     
+     :: In a square of side 100, randomly "park" a car---a circle of  ::     
+     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
+     :: time parking "by ear".  That is, if an attempt to park a car  ::     
+     :: causes a crash with one already parked, try again at a new    ::     
+     :: random location. (To avoid path problems, consider parking    ::     
+     :: helicopters rather than cars.)   Each attempt leads to either ::     
+     :: a crash or a success, the latter followed by an increment to  ::     
+     :: the list of cars already parked. If we plot n:  the number of ::     
+     :: attempts, versus k::  the number successfully parked, we get a::     
+     :: curve that should be similar to those provided by a perfect   ::     
+     :: random number generator.  Theory for the behavior of such a   ::     
+     :: random curve seems beyond reach, and as graphics displays are ::     
+     :: not available for this battery of tests, a simple characteriz ::     
+     :: ation of the random experiment is used: k, the number of cars ::     
+     :: successfully parked after n=12,000 attempts. Simulation shows ::     
+     :: that k should average 3523 with sigma 21.9 and is very close  ::     
+     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
+     :: andard normal variable, which, converted to a uniform varia-  ::     
+     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           CDPARK: result of ten tests on file MWCgen.bin     
+            Of 12,000 tries, the average no. of successes
+                 should be 3523 with sigma=21.9
+            Successes: 3523    z-score:   .000 p-value: .500000
+            Successes: 3535    z-score:   .548 p-value: .708135
+            Successes: 3540    z-score:   .776 p-value: .781201
+            Successes: 3531    z-score:   .365 p-value: .642555
+            Successes: 3504    z-score:  -.868 p-value: .192812
+            Successes: 3495    z-score: -1.279 p-value: .100530
+            Successes: 3484    z-score: -1.781 p-value: .037471
+            Successes: 3529    z-score:   .274 p-value: .607947
+            Successes: 3528    z-score:   .228 p-value: .590298
+            Successes: 3542    z-score:   .868 p-value: .807188
+
+           square size   avg. no.  parked   sample sigma
+             100.            3521.100       18.796
+            KSTEST for the above 10: p=  .276387
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THE MINIMUM DISTANCE TEST                       ::     
+     :: It does this 100 times::   choose n=8000 random points in a   ::     
+     :: square of side 10000.  Find d, the minimum distance between   ::     
+     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
+     :: pendent uniform, then d^2, the square of the minimum distance ::     
+     :: should be (very close to) exponentially distributed with mean ::     
+     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
+     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
+     :: formity for random points in the square. Test numbers=0 mod 5 ::     
+     :: are printed but the KSTEST is based on the full set of 100    ::     
+     :: random choices of 8000 points in the 10000x10000 square.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               This is the MINIMUM DISTANCE test
+              for random integers in the file MWCgen.bin     
+     Sample no.    d^2     avg     equiv uni            
+           5     .9914    .5783     .630790
+          10    2.4634    .9487     .915899
+          15     .1667   1.0066     .154227
+          20     .3045    .8614     .263657
+          25     .7895    .9120     .547722
+          30     .4081   1.1585     .336468
+          35     .1855   1.1423     .170112
+          40     .0946   1.0850     .090655
+          45    1.2022   1.0301     .701276
+          50     .8965   1.0141     .593836
+          55    1.4641    .9854     .770419
+          60    2.1317   1.0410     .882631
+          65    1.3603   1.0812     .745159
+          70    2.4460   1.0601     .914418
+          75    2.5105   1.0523     .919789
+          80     .8342   1.0919     .567588
+          85     .2848   1.0611     .248919
+          90     .0731   1.0460     .070848
+          95    1.3080   1.0737     .731422
+         100    2.2407   1.1284     .894811
+     MINIMUM DISTANCE TEST for MWCgen.bin     
+          Result of KS test on 20 transformed mindist^2's:
+                                  p-value= .449773
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::              THE 3DSPHERES TEST                               ::     
+     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
+     :: point, center a sphere large enough to reach the next closest ::     
+     :: point. Then the volume of the smallest such sphere is (very   ::     
+     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
+     :: the radius cubed is exponential with mean 30. (The mean is    ::     
+     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
+     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
+     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
+     ::  KSTEST is done on the 20 p-values.                           ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               The 3DSPHERES test for file MWCgen.bin     
+ sample no:  1     r^3=  31.641     p-value= .65171
+ sample no:  2     r^3=   1.157     p-value= .03785
+ sample no:  3     r^3=   2.565     p-value= .08194
+ sample no:  4     r^3=  24.456     p-value= .55745
+ sample no:  5     r^3=  68.886     p-value= .89936
+ sample no:  6     r^3=  35.674     p-value= .69552
+ sample no:  7     r^3= 129.698     p-value= .98674
+ sample no:  8     r^3=  17.554     p-value= .44296
+ sample no:  9     r^3=  33.963     p-value= .67765
+ sample no: 10     r^3=   3.696     p-value= .11593
+ sample no: 11     r^3=   1.200     p-value= .03921
+ sample no: 12     r^3=  21.081     p-value= .50475
+ sample no: 13     r^3=  33.472     p-value= .67233
+ sample no: 14     r^3=  17.167     p-value= .43573
+ sample no: 15     r^3= 113.670     p-value= .97738
+ sample no: 16     r^3=  15.639     p-value= .40626
+ sample no: 17     r^3=  55.564     p-value= .84310
+ sample no: 18     r^3=  14.688     p-value= .38714
+ sample no: 19     r^3=  11.355     p-value= .31512
+ sample no: 20     r^3=   5.745     p-value= .17427
+  A KS test is applied to those 20 p-values.
+---------------------------------------------------------
+       3DSPHERES test for file MWCgen.bin           p-value= .077998
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::      This is the SQEEZE test                                  ::     
+     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
+     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
+     ::  iterations necessary to reduce k to 1, using the reduction   ::     
+     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
+     ::  the file being tested.  Such j's are found 100,000 times,    ::     
+     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
+     ::  are used to provide a chi-square test for cell frequencies.  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+            RESULTS OF SQUEEZE TEST FOR MWCgen.bin     
+         Table of standardized frequency counts
+     ( (obs-exp)/sqrt(exp) )^2
+        for j taking values <=6,7,8,...,47,>=48:
+     -.8     -.3    -2.3     1.1      .6     -.8
+      .7      .2      .7    -1.6     -.1     -.8
+      .3     -.6      .5      .9      .4     -.3
+      .7      .7      .2     -.3      .3      .5
+     -.9      .5     -.9    -1.5      .3     1.4
+    -2.7     -.5    -1.8    -1.9    -1.5     -.1
+      .0     -.4      .5     3.2      .9      .0
+     -.1
+           Chi-square with 42 degrees of freedom: 49.322
+              z-score=   .799  p-value= .796507
+______________________________________________________________
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The  OVERLAPPING SUMS test                        ::     
+     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
+     :: form [0,1) variables.  Then overlapping sums,                 ::     
+     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
+     :: The S's are virtually normal with a certain covariance mat-   ::     
+     :: rix.  A linear transformation of the S's converts them to a   ::     
+     :: sequence of independent standard normals, which are converted ::     
+     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
+     :: KSTESTs are given still another KSTEST.                       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Test no.  1      p-value  .867868
+                Test no.  2      p-value  .306086
+                Test no.  3      p-value  .322524
+                Test no.  4      p-value  .116041
+                Test no.  5      p-value  .024749
+                Test no.  6      p-value  .422390
+                Test no.  7      p-value  .682450
+                Test no.  8      p-value  .611544
+                Test no.  9      p-value  .296822
+                Test no. 10      p-value  .207494
+   Results of the OSUM test for MWCgen.bin     
+        KSTEST on the above 10 p-values:  .620821
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
+     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
+     :: ing the 32-bit integers in the specified file. This example   ::     
+     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
+     :: contains an up-run of length 3, a down-run of length 2 and an ::     
+     :: up-run of (at least) 2, depending on the next values.  The    ::     
+     :: covariance matrices for the runs-up and runs-down are well    ::     
+     :: known, leading to chisquare tests for quadratic forms in the  ::     
+     :: weak inverses of the covariance matrices.  Runs are counted   ::     
+     :: for sequences of length 10,000.  This is done ten times. Then ::     
+     :: repeated.                                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           The RUNS test for file MWCgen.bin     
+     Up and down runs in a sample of 10000
+_________________________________________________ 
+                 Run test for MWCgen.bin     :
+       runs up; ks test for 10 p's: .165739
+     runs down; ks test for 10 p's: .812120
+                 Run test for MWCgen.bin     :
+       runs up; ks test for 10 p's: .864603
+     runs down; ks test for 10 p's: .612637
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
+     :: the number of wins and the number of throws necessary to end  ::     
+     :: each game.  The number of wins should be (very close to) a    ::     
+     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
+     :: p=244/495.  Throws necessary to complete the game can vary    ::     
+     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
+     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
+     :: Each 32-bit integer from the test file provides the value for ::     
+     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
+     :: and taking 1 plus the integer part of the result.             ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Results of craps test for MWCgen.bin     
+  No. of wins:  Observed Expected
+                                98701    98585.86
+                  98701= No. of wins, z-score=  .515 pvalue= .69672
+   Analysis of Throws-per-Game:
+ Chisq=  12.59 for 20 degrees of freedom, p=  .10569
+               Throws Observed Expected  Chisq     Sum
+                  1    66935    66666.7   1.080    1.080
+                  2    37471    37654.3    .893    1.973
+                  3    27034    26954.7    .233    2.206
+                  4    19265    19313.5    .122    2.327
+                  5    13793    13851.4    .246    2.574
+                  6     9898     9943.5    .209    2.782
+                  7     7098     7145.0    .309    3.092
+                  8     5143     5139.1    .003    3.095
+                  9     3685     3699.9    .060    3.154
+                 10     2696     2666.3    .331    3.485
+                 11     1928     1923.3    .011    3.497
+                 12     1444     1388.7   2.199    5.696
+                 13      977     1003.7    .711    6.407
+                 14      718      726.1    .091    6.498
+                 15      528      525.8    .009    6.507
+                 16      403      381.2   1.253    7.759
+                 17      277      276.5    .001    7.760
+                 18      172      200.8   4.139   11.899
+                 19      137      146.0    .553   12.452
+                 20      110      106.2    .135   12.586
+                 21      288      287.1    .003   12.589
+            SUMMARY  FOR MWCgen.bin     
+                p-value for no. of wins: .696715
+                p-value for throws/game: .105693
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+ Results of DIEHARD battery of tests sent to file MWCgen.all     

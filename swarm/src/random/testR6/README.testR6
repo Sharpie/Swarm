@@ -1,0 +1,61 @@
+// Swarm Random version 0.7
+//
+// testR6
+//
+
+This program creates a binary output file
+'generatorname.bin' for the chosen generator(s),
+containing the specified number of integers.
+
+(You select the object(s) to test by commenting
+and uncommenting lines in HumbugModelSwarm.m.
+Sorry -- this is utilitarian stuff!)
+
+These binary files can be used as input to the
+Diehard tests or other tests. Diehard requires
+that each file contain at least 2.5M integers.
+
+For the sake of the Diehard tests, we
+left-shift the output from generators that 
+produce less than 32 bits, because some of the
+Diehard tests favor the leading bits.
+
+You compile the program simply by saying 'make'.
+You run it by saying  './humbug -batchmode'.
+
+To run the tests on a given binary file:
+
+a) move the binary file to the ./ENT subdirectory.
+Say './ent binaryFile > outputFile'.
+
+b) move the binary file to the ./Diehard subdirectory.
+Say './diehard'. Give the names of the binary input file
+and the text file for output. Specify the tests you
+want to run.
+
+If you have any problems, kindly e-mail me at:
+
+Sven Thommesen <sthomme@humsci.auburn.edu>
+
+NOTE: the ENT program is public domain, and so
+is included in the ENT directory.
+
+The Diehard program is (C) George Marsaglia,
+however, so until we have his permission to
+include it, we better not. It can be obtained 
+from his Random Generator CD, which is posted
+in toto at <http://www.hku.hk/internet/randomCD.html>.
+There is full source code there, as well as
+binaries for different platforms.
+
+The files I had in directory /Diehard to run my 
+tests under Linux/ELF was: 
+	diehard
+	diequick
+	operm5d.ata
+	tests.txt
+	diehard.doc
+ 
+//
+// 1997-09-01
+

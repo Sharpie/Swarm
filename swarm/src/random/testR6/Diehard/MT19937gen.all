@@ -1,0 +1,944 @@
+       NOTE: Most of the tests in DIEHARD return a p-value, which            
+       should be uniform on [0,1) if the input file contains truly           
+       independent random bits.   Those p-values are obtained by             
+       p=F(X), where F is the assumed distribution of the sample             
+       random variable X---often normal. But that assumed F is just          
+       an asymptotic approximation, for which the fit will be worst          
+       in the tails. Thus you should not be surprised with                   
+       occasional p-values near 0 or 1, such as .0012 or .9983.              
+       When a bit stream really FAILS BIG, you will get p's of 0 or          
+       1 to six or more places.  By all means, do not, as a                  
+       Statistician might, think that a p < .025 or p> .975 means            
+       that the RNG has "failed the test at the .05 level".  Such            
+       p's happen among the hundreds that DIEHARD produces, even             
+       with good RNG's.  So keep in mind that " p happens".                  
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            This is the BIRTHDAY SPACINGS TEST                 ::     
+     :: Choose m birthdays in a year of n days.  List the spacings    ::     
+     :: between the birthdays.  If j is the number of values that     ::     
+     :: occur more than once in that list, then j is asymptotically   ::     
+     :: Poisson distributed with mean m^3/(4n).  Experience shows n   ::     
+     :: must be quite large, say n>=2^18, for comparing the results   ::     
+     :: to the Poisson distribution with that mean.  This test uses   ::     
+     :: n=2^24 and m=2^9,  so that the underlying distribution for j  ::     
+     :: is taken to be Poisson with lambda=2^27/(2^26)=2.  A sample   ::     
+     :: of 500 j's is taken, and a chi-square goodness of fit test    ::     
+     :: provides a p value.  The first test uses bits 1-24 (counting  ::     
+     :: from the left) from integers in the specified file.           ::     
+     ::   Then the file is closed and reopened. Next, bits 2-25 are   ::     
+     :: used to provide birthdays, then 3-26 and so on to bits 9-32.  ::     
+     :: Each set of bits provides a p-value, and the nine p-values    ::     
+     :: provide a sample for a KSTEST.                                ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ BIRTHDAY SPACINGS TEST, M= 512 N=2**24 LAMBDA=  2.0000
+           Results for MT19937genX.bin
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  1 to 24   1.968
+  duplicate       number       number 
+  spacings       observed     expected
+        0          64.       67.668
+        1         134.      135.335
+        2         150.      135.335
+        3          91.       90.224
+        4          37.       45.112
+        5          18.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     3.90 p-value=  .309130
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  2 to 25   1.906
+  duplicate       number       number 
+  spacings       observed     expected
+        0          71.       67.668
+        1         146.      135.335
+        2         128.      135.335
+        3          96.       90.224
+        4          37.       45.112
+        5          17.       18.045
+  6 to INF          5.        8.282
+ Chisquare with  6 d.o.f. =     4.59 p-value=  .402833
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  3 to 26   1.952
+  duplicate       number       number 
+  spacings       observed     expected
+        0          70.       67.668
+        1         138.      135.335
+        2         126.      135.335
+        3         101.       90.224
+        4          47.       45.112
+        5          14.       18.045
+  6 to INF          4.        8.282
+ Chisquare with  6 d.o.f. =     5.26 p-value=  .489495
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  4 to 27   1.946
+  duplicate       number       number 
+  spacings       observed     expected
+        0          71.       67.668
+        1         129.      135.335
+        2         147.      135.335
+        3          88.       90.224
+        4          46.       45.112
+        5          13.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     3.58 p-value=  .266351
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  5 to 28   1.946
+  duplicate       number       number 
+  spacings       observed     expected
+        0          73.       67.668
+        1         123.      135.335
+        2         149.      135.335
+        3          89.       90.224
+        4          50.       45.112
+        5          12.       18.045
+  6 to INF          4.        8.282
+ Chisquare with  6 d.o.f. =     7.71 p-value=  .739804
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  6 to 29   1.888
+  duplicate       number       number 
+  spacings       observed     expected
+        0          70.       67.668
+        1         148.      135.335
+        2         136.      135.335
+        3          87.       90.224
+        4          38.       45.112
+        5          15.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     3.65 p-value=  .275756
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  7 to 30   2.046
+  duplicate       number       number 
+  spacings       observed     expected
+        0          57.       67.668
+        1         142.      135.335
+        2         139.      135.335
+        3          86.       90.224
+        4          52.       45.112
+        5          11.       18.045
+  6 to INF         13.        8.282
+ Chisquare with  6 d.o.f. =     8.80 p-value=  .814675
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  8 to 31   1.982
+  duplicate       number       number 
+  spacings       observed     expected
+        0          62.       67.668
+        1         138.      135.335
+        2         141.      135.335
+        3          94.       90.224
+        4          43.       45.112
+        5          16.       18.045
+  6 to INF          6.        8.282
+ Chisquare with  6 d.o.f. =     1.88 p-value=  .069739
+  :::::::::::::::::::::::::::::::::::::::::
+                   For a sample of size 500:     mean   
+          MT19937genX.bin  using bits  9 to 32   2.010
+  duplicate       number       number 
+  spacings       observed     expected
+        0          70.       67.668
+        1         119.      135.335
+        2         147.      135.335
+        3          91.       90.224
+        4          52.       45.112
+        5          16.       18.045
+  6 to INF          5.        8.282
+ Chisquare with  6 d.o.f. =     5.65 p-value=  .536263
+  :::::::::::::::::::::::::::::::::::::::::
+   The 9 p-values were
+        .309130   .402833   .489495   .266351   .739804
+        .275756   .814675   .069739   .536263
+  A KSTEST for the 9 p-values yields  .361264
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::            THE OVERLAPPING 5-PERMUTATION TEST                 ::     
+     :: This is the OPERM5 test.  It looks at a sequence of one mill- ::     
+     :: ion 32-bit random integers.  Each set of five consecutive     ::     
+     :: integers can be in one of 120 states, for the 5! possible or- ::     
+     :: derings of five numbers.  Thus the 5th, 6th, 7th,...numbers   ::     
+     :: each provide a state. As many thousands of state transitions  ::     
+     :: are observed,  cumulative counts are made of the number of    ::     
+     :: occurences of each state.  Then the quadratic form in the     ::     
+     :: weak inverse of the 120x120 covariance matrix yields a test   ::     
+     :: equivalent to the likelihood ratio test that the 120 cell     ::     
+     :: counts came from the specified (asymptotically) normal dis-   ::     
+     :: tribution with the specified 120x120 covariance matrix (with  ::     
+     :: rank 99).  This version uses 1,000,000 integers, twice.       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           OPERM5 test for file MT19937genX.bin
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 78.088; p-value= .059644
+           OPERM5 test for file MT19937genX.bin
+     For a sample of 1,000,000 consecutive 5-tuples,
+ chisquare for 99 degrees of freedom= 76.225; p-value= .043261
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 31x31 matrices. The leftmost ::     
+     :: 31 bits of 31 random integers from the test sequence are used ::     
+     :: to form a 31x31 binary matrix over the field {0,1}. The rank  ::     
+     :: is determined. That rank can be from 0 to 31, but ranks< 28   ::     
+     :: are rare, and their counts are pooled with those for rank 28. ::     
+     :: Ranks are found for 40,000 such random matrices and a chisqua-::     
+     :: re test is performed on counts for ranks 31,30,29 and <=28.   ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for MT19937genX.bin
+         Rank test for 31x31 binary matrices:
+        rows from leftmost 31 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        28       215     211.4   .060688     .061
+        29      5171    5134.0   .266505     .327
+        30     23076   23103.0   .031664     .359
+        31     11538   11551.5   .015834     .375
+  chisquare=  .375 for 3 d. of f.; p-value= .324810
+--------------------------------------------------------------
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 32x32 matrices. A random 32x ::     
+     :: 32 binary matrix is formed, each row a 32-bit random integer. ::     
+     :: The rank is determined. That rank can be from 0 to 32, ranks  ::     
+     :: less than 29 are rare, and their counts are pooled with those ::     
+     :: for rank 29.  Ranks are found for 40,000 such random matrices ::     
+     :: and a chisquare test is performed on counts for ranks  32,31, ::     
+     :: 30 and <=29.                                                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+    Binary rank test for MT19937genX.bin
+         Rank test for 32x32 binary matrices:
+        rows from leftmost 32 bits of each 32-bit integer
+      rank   observed  expected (o-e)^2/e  sum
+        29       189     211.4  2.377126    2.377
+        30      5182    5134.0   .448580    2.826
+        31     22995   23103.0   .505307    3.331
+        32     11634   11551.5   .588859    3.920
+  chisquare= 3.920 for 3 d. of f.; p-value= .753612
+--------------------------------------------------------------
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the BINARY RANK TEST for 6x8 matrices.  From each of  ::     
+     :: six random 32-bit integers from the generator under test, a   ::     
+     :: specified byte is chosen, and the resulting six bytes form a  ::     
+     :: 6x8 binary matrix whose rank is determined.  That rank can be ::     
+     :: from 0 to 6, but ranks 0,1,2,3 are rare; their counts are     ::     
+     :: pooled with those for rank 4. Ranks are found for 100,000     ::     
+     :: random matrices, and a chi-square test is performed on        ::     
+     :: counts for ranks 6,5 and <=4.                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+         Binary Rank Test for MT19937genX.bin
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  1 to  8
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          945       944.3        .001        .001
+          r =5        21827     21743.9        .318        .318
+          r =6        77228     77311.8        .091        .409
+                        p=1-exp(-SUM/2)= .18492
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  2 to  9
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          906       944.3       1.554       1.554
+          r =5        21809     21743.9        .195       1.748
+          r =6        77285     77311.8        .009       1.758
+                        p=1-exp(-SUM/2)= .58474
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  3 to 10
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          921       944.3        .575        .575
+          r =5        21714     21743.9        .041        .616
+          r =6        77365     77311.8        .037        .653
+                        p=1-exp(-SUM/2)= .27844
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  4 to 11
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          926       944.3        .355        .355
+          r =5        21832     21743.9        .357        .712
+          r =6        77242     77311.8        .063        .775
+                        p=1-exp(-SUM/2)= .32114
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  5 to 12
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          977       944.3       1.132       1.132
+          r =5        21809     21743.9        .195       1.327
+          r =6        77214     77311.8        .124       1.451
+                        p=1-exp(-SUM/2)= .51589
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  6 to 13
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          909       944.3       1.320       1.320
+          r =5        21791     21743.9        .102       1.422
+          r =6        77300     77311.8        .002       1.424
+                        p=1-exp(-SUM/2)= .50922
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  7 to 14
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          911       944.3       1.174       1.174
+          r =5        21623     21743.9        .672       1.847
+          r =6        77466     77311.8        .308       2.154
+                        p=1-exp(-SUM/2)= .65941
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  8 to 15
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          918       944.3        .733        .733
+          r =5        21589     21743.9       1.103       1.836
+          r =6        77493     77311.8        .425       2.261
+                        p=1-exp(-SUM/2)= .67708
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits  9 to 16
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          958       944.3        .199        .199
+          r =5        21769     21743.9        .029        .228
+          r =6        77273     77311.8        .019        .247
+                        p=1-exp(-SUM/2)= .11626
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 10 to 17
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          935       944.3        .092        .092
+          r =5        21669     21743.9        .258        .350
+          r =6        77396     77311.8        .092        .441
+                        p=1-exp(-SUM/2)= .19801
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 11 to 18
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4         1008       944.3       4.297       4.297
+          r =5        21868     21743.9        .708       5.005
+          r =6        77124     77311.8        .456       5.461
+                        p=1-exp(-SUM/2)= .93482
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 12 to 19
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          916       944.3        .848        .848
+          r =5        22039     21743.9       4.005       4.853
+          r =6        77045     77311.8        .921       5.774
+                        p=1-exp(-SUM/2)= .94425
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 13 to 20
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          951       944.3        .048        .048
+          r =5        21651     21743.9        .397        .444
+          r =6        77398     77311.8        .096        .541
+                        p=1-exp(-SUM/2)= .23682
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 14 to 21
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          915       944.3        .909        .909
+          r =5        21613     21743.9        .788       1.697
+          r =6        77472     77311.8        .332       2.029
+                        p=1-exp(-SUM/2)= .63745
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 15 to 22
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          963       944.3        .370        .370
+          r =5        21822     21743.9        .281        .651
+          r =6        77215     77311.8        .121        .772
+                        p=1-exp(-SUM/2)= .32023
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 16 to 23
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          991       944.3       2.309       2.309
+          r =5        21868     21743.9        .708       3.018
+          r =6        77141     77311.8        .377       3.395
+                        p=1-exp(-SUM/2)= .81686
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 17 to 24
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          930       944.3        .217        .217
+          r =5        21789     21743.9        .094        .310
+          r =6        77281     77311.8        .012        .322
+                        p=1-exp(-SUM/2)= .14888
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 18 to 25
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          944       944.3        .000        .000
+          r =5        21471     21743.9       3.425       3.425
+          r =6        77585     77311.8        .965       4.391
+                        p=1-exp(-SUM/2)= .88867
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 19 to 26
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          922       944.3        .527        .527
+          r =5        21539     21743.9       1.931       2.458
+          r =6        77539     77311.8        .668       3.125
+                        p=1-exp(-SUM/2)= .79041
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 20 to 27
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          892       944.3       2.897       2.897
+          r =5        21628     21743.9        .618       3.515
+          r =6        77480     77311.8        .366       3.880
+                        p=1-exp(-SUM/2)= .85633
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 21 to 28
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          989       944.3       2.116       2.116
+          r =5        21550     21743.9       1.729       3.845
+          r =6        77461     77311.8        .288       4.133
+                        p=1-exp(-SUM/2)= .87336
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 22 to 29
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          910       944.3       1.246       1.246
+          r =5        21588     21743.9       1.118       2.364
+          r =6        77502     77311.8        .468       2.832
+                        p=1-exp(-SUM/2)= .75728
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 23 to 30
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          951       944.3        .048        .048
+          r =5        21717     21743.9        .033        .081
+          r =6        77332     77311.8        .005        .086
+                        p=1-exp(-SUM/2)= .04212
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 24 to 31
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          975       944.3        .998        .998
+          r =5        21848     21743.9        .498       1.496
+          r =6        77177     77311.8        .235       1.731
+                        p=1-exp(-SUM/2)= .57925
+        Rank of a 6x8 binary matrix,
+     rows formed from eight bits of the RNG MT19937genX.bin
+     b-rank test for bits 25 to 32
+                     OBSERVED   EXPECTED     (O-E)^2/E      SUM
+          r<=4          972       944.3        .812        .812
+          r =5        21736     21743.9        .003        .815
+          r =6        77292     77311.8        .005        .820
+                        p=1-exp(-SUM/2)= .33649
+   TEST SUMMARY, 25 tests on 100,000 random 6x8 matrices
+ These should be 25 uniform [0,1] random variables:
+     .184923     .584742     .278445     .321137     .515895
+     .509218     .659410     .677082     .116255     .198009
+     .934825     .944255     .236824     .637448     .320228
+     .816863     .148881     .888673     .790408     .856329
+     .873362     .757276     .042124     .579250     .336488
+   brank test summary for MT19937genX.bin
+       The KS test for those 25 supposed UNI's yields
+                    KS p-value= .082999
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::                   THE BITSTREAM TEST                          ::     
+     :: The file under test is viewed as a stream of bits. Call them  ::     
+     :: b1,b2,... .  Consider an alphabet with two "letters", 0 and 1 ::     
+     :: and think of the stream of bits as a succession of 20-letter  ::     
+     :: "words", overlapping.  Thus the first word is b1b2...b20, the ::     
+     :: second is b2b3...b21, and so on.  The bitstream test counts   ::     
+     :: the number of missing 20-letter (20-bit) words in a string of ::     
+     :: 2^21 overlapping 20-letter words.  There are 2^20 possible 20 ::     
+     :: letter words.  For a truly random string of 2^21+19 bits, the ::     
+     :: number of missing words j should be (very close to) normally  ::     
+     :: distributed with mean 141,909 and sigma 428.  Thus            ::     
+     ::  (j-141909)/428 should be a standard normal variate (z score) ::     
+     :: that leads to a uniform [0,1) p value.  The test is repeated  ::     
+     :: twenty times.                                                 ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+       THE OVERLAPPING 20-tuples BITSTREAM TEST,
+            20 BITS PER WORD, 2^21 words.
+    This test samples the bitstream 20 times.
+  No. missing words should average  141909. with sigma=428.
+-----------------------------------        ---------------
+ tst no  1:  142490 missing words,    1.36 sigmas from mean, p-value= .91256
+ tst no  2:  141459 missing words,   -1.05 sigmas from mean, p-value= .14636
+ tst no  3:  141952 missing words,     .10 sigmas from mean, p-value= .53971
+ tst no  4:  141370 missing words,   -1.26 sigmas from mean, p-value= .10381
+ tst no  5:  141920 missing words,     .02 sigmas from mean, p-value= .50995
+ tst no  6:  142336 missing words,    1.00 sigmas from mean, p-value= .84059
+ tst no  7:  141808 missing words,    -.24 sigmas from mean, p-value= .40643
+ tst no  8:  141505 missing words,    -.94 sigmas from mean, p-value= .17241
+ tst no  9:  140737 missing words,   -2.74 sigmas from mean, p-value= .00308
+ tst no 10:  141960 missing words,     .12 sigmas from mean, p-value= .54712
+ tst no 11:  142940 missing words,    2.41 sigmas from mean, p-value= .99198
+ tst no 12:  141924 missing words,     .03 sigmas from mean, p-value= .51367
+ tst no 13:  142047 missing words,     .32 sigmas from mean, p-value= .62615
+ tst no 14:  141369 missing words,   -1.26 sigmas from mean, p-value= .10339
+ tst no 15:  141265 missing words,   -1.51 sigmas from mean, p-value= .06611
+ tst no 16:  141942 missing words,     .08 sigmas from mean, p-value= .53042
+ tst no 17:  142631 missing words,    1.69 sigmas from mean, p-value= .95412
+ tst no 18:  141783 missing words,    -.30 sigmas from mean, p-value= .38394
+ tst no 19:  141771 missing words,    -.32 sigmas from mean, p-value= .37327
+ tst no 20:  141886 missing words,    -.05 sigmas from mean, p-value= .47827
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The tests OPSO, OQSO and DNA                      ::     
+     ::         OPSO means Overlapping-Pairs-Sparse-Occupancy         ::     
+     :: The OPSO test considers 2-letter words from an alphabet of    ::     
+     :: 1024 letters.  Each letter is determined by a specified ten   ::     
+     :: bits from a 32-bit integer in the sequence to be tested. OPSO ::     
+     :: generates  2^21 (overlapping) 2-letter words  (from 2^21+1    ::     
+     :: "keystrokes")  and counts the number of missing words---that  ::     
+     :: is 2-letter words which do not appear in the entire sequence. ::     
+     :: That count should be very close to normally distributed with  ::     
+     :: mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should ::     
+     :: be a standard normal variable. The OPSO test takes 32 bits at ::     
+     :: a time from the test file and uses a designated set of ten    ::     
+     :: consecutive bits. It then restarts the file for the next de-  ::     
+     :: signated 10 bits, and so on.                                  ::     
+     ::                                                               ::     
+     ::     OQSO means Overlapping-Quadruples-Sparse-Occupancy        ::     
+     ::   The test OQSO is similar, except that it considers 4-letter ::     
+     :: words from an alphabet of 32 letters, each letter determined  ::     
+     :: by a designated string of 5 consecutive bits from the test    ::     
+     :: file, elements of which are assumed 32-bit random integers.   ::     
+     :: The mean number of missing words in a sequence of 2^21 four-  ::     
+     :: letter words,  (2^21+3 "keystrokes"), is again 141909, with   ::     
+     :: sigma = 295.  The mean is based on theory; sigma comes from   ::     
+     :: extensive simulation.                                         ::     
+     ::                                                               ::     
+     ::    The DNA test considers an alphabet of 4 letters::  C,G,A,T,::     
+     :: determined by two designated bits in the sequence of random   ::     
+     :: integers being tested.  It considers 10-letter words, so that ::     
+     :: as in OPSO and OQSO, there are 2^20 possible words, and the   ::     
+     :: mean number of missing words from a string of 2^21  (over-    ::     
+     :: lapping)  10-letter  words (2^21+9 "keystrokes") is 141909.   ::     
+     :: The standard deviation sigma=339 was determined as for OQSO   ::     
+     :: by simulation.  (Sigma for OPSO, 290, is the true value (to   ::     
+     :: three places), not determined by simulation.                  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ OPSO test for generator MT19937genX.bin          
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OPSO for MT19937genX.bin using bits 23 to 32        142370  1.589  .9439
+    OPSO for MT19937genX.bin using bits 22 to 31        141909  -.001  .4995
+    OPSO for MT19937genX.bin using bits 21 to 30        142266  1.230  .8906
+    OPSO for MT19937genX.bin using bits 20 to 29        142266  1.230  .8906
+    OPSO for MT19937genX.bin using bits 19 to 28        141738  -.591  .2773
+    OPSO for MT19937genX.bin using bits 18 to 27        141777  -.456  .3241
+    OPSO for MT19937genX.bin using bits 17 to 26        141493 -1.436  .0756
+    OPSO for MT19937genX.bin using bits 16 to 25        142195   .985  .8377
+    OPSO for MT19937genX.bin using bits 15 to 24        142318  1.409  .9206
+    OPSO for MT19937genX.bin using bits 14 to 23        142008   .340  .6332
+    OPSO for MT19937genX.bin using bits 13 to 22        141837  -.249  .4015
+    OPSO for MT19937genX.bin using bits 12 to 21        141906  -.011  .4954
+    OPSO for MT19937genX.bin using bits 11 to 20        142031   .420  .6626
+    OPSO for MT19937genX.bin using bits 10 to 19        141716  -.667  .2525
+    OPSO for MT19937genX.bin using bits  9 to 18        142370  1.589  .9439
+    OPSO for MT19937genX.bin using bits  8 to 17        142241  1.144  .8736
+    OPSO for MT19937genX.bin using bits  7 to 16        141989   .275  .6082
+    OPSO for MT19937genX.bin using bits  6 to 15        141973   .220  .5869
+    OPSO for MT19937genX.bin using bits  5 to 14        141895  -.049  .4803
+    OPSO for MT19937genX.bin using bits  4 to 13        141793  -.401  .3442
+    OPSO for MT19937genX.bin using bits  3 to 12        141824  -.294  .3843
+    OPSO for MT19937genX.bin using bits  2 to 11        141934   .085  .5339
+    OPSO for MT19937genX.bin using bits  1 to 10        141924   .051  .5202
+ OQSO test for generator MT19937genX.bin          
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+    OQSO for MT19937genX.bin using bits 28 to 32        141816  -.316  .3759
+    OQSO for MT19937genX.bin using bits 27 to 31        141478 -1.462  .0719
+    OQSO for MT19937genX.bin using bits 26 to 30        141791  -.401  .3442
+    OQSO for MT19937genX.bin using bits 25 to 29        141939   .101  .5401
+    OQSO for MT19937genX.bin using bits 24 to 28        141685  -.760  .2235
+    OQSO for MT19937genX.bin using bits 23 to 27        141881  -.096  .4617
+    OQSO for MT19937genX.bin using bits 22 to 26        141989   .270  .6064
+    OQSO for MT19937genX.bin using bits 21 to 25        141998   .301  .6181
+    OQSO for MT19937genX.bin using bits 20 to 24        142104   .660  .7453
+    OQSO for MT19937genX.bin using bits 19 to 23        141754  -.527  .2993
+    OQSO for MT19937genX.bin using bits 18 to 22        141799  -.374  .3542
+    OQSO for MT19937genX.bin using bits 17 to 21        141799  -.374  .3542
+    OQSO for MT19937genX.bin using bits 16 to 20        141889  -.069  .4725
+    OQSO for MT19937genX.bin using bits 15 to 19        142163   .860  .8051
+    OQSO for MT19937genX.bin using bits 14 to 18        141762  -.499  .3087
+    OQSO for MT19937genX.bin using bits 13 to 17        141929   .067  .5266
+    OQSO for MT19937genX.bin using bits 12 to 16        142012   .348  .6361
+    OQSO for MT19937genX.bin using bits 11 to 15        142037   .433  .6674
+    OQSO for MT19937genX.bin using bits 10 to 14        141724  -.628  .2649
+    OQSO for MT19937genX.bin using bits  9 to 13        142109   .677  .7508
+    OQSO for MT19937genX.bin using bits  8 to 12        141572 -1.143  .1264
+    OQSO for MT19937genX.bin using bits  7 to 11        141703  -.699  .2421
+    OQSO for MT19937genX.bin using bits  6 to 10        141895  -.049  .4806
+    OQSO for MT19937genX.bin using bits  5 to  9        141455 -1.540  .0618
+    OQSO for MT19937genX.bin using bits  4 to  8        141995   .290  .6142
+    OQSO for MT19937genX.bin using bits  3 to  7        141591 -1.079  .1403
+    OQSO for MT19937genX.bin using bits  2 to  6        142095   .629  .7355
+    OQSO for MT19937genX.bin using bits  1 to  5        141545 -1.235  .1084
+  DNA test for generator MT19937genX.bin          
+  Output: No. missing words (mw), equiv normal variate (z), p-value (p)
+                                                           mw     z     p
+     DNA for MT19937genX.bin using bits 31 to 32        141570 -1.001  .1584
+     DNA for MT19937genX.bin using bits 30 to 31        142123   .630  .7358
+     DNA for MT19937genX.bin using bits 29 to 30        142574  1.961  .9750
+     DNA for MT19937genX.bin using bits 28 to 29        142570  1.949  .9743
+     DNA for MT19937genX.bin using bits 27 to 28        141972   .185  .5733
+     DNA for MT19937genX.bin using bits 26 to 27        142007   .288  .6134
+     DNA for MT19937genX.bin using bits 25 to 26        141911   .005  .5020
+     DNA for MT19937genX.bin using bits 24 to 25        142270  1.064  .8563
+     DNA for MT19937genX.bin using bits 23 to 24        142437  1.557  .9402
+     DNA for MT19937genX.bin using bits 22 to 23        141838  -.210  .4167
+     DNA for MT19937genX.bin using bits 21 to 22        141595  -.927  .1769
+     DNA for MT19937genX.bin using bits 20 to 21        141724  -.547  .2923
+     DNA for MT19937genX.bin using bits 19 to 20        142330  1.241  .8927
+     DNA for MT19937genX.bin using bits 18 to 19        142243   .984  .8375
+     DNA for MT19937genX.bin using bits 17 to 18        141862  -.140  .4445
+     DNA for MT19937genX.bin using bits 16 to 17        141416 -1.455  .0728
+     DNA for MT19937genX.bin using bits 15 to 16        141835  -.219  .4132
+     DNA for MT19937genX.bin using bits 14 to 15        141709  -.591  .2773
+     DNA for MT19937genX.bin using bits 13 to 14        141475 -1.281  .1001
+     DNA for MT19937genX.bin using bits 12 to 13        142116   .610  .7290
+     DNA for MT19937genX.bin using bits 11 to 12        141088 -2.423  .0077
+     DNA for MT19937genX.bin using bits 10 to 11        142029   .353  .6380
+     DNA for MT19937genX.bin using bits  9 to 10        142025   .341  .6335
+     DNA for MT19937genX.bin using bits  8 to  9        141357 -1.629  .0516
+     DNA for MT19937genX.bin using bits  7 to  8        142275  1.079  .8596
+     DNA for MT19937genX.bin using bits  6 to  7        140907 -2.957  .0016
+     DNA for MT19937genX.bin using bits  5 to  6        142557  1.911  .9720
+     DNA for MT19937genX.bin using bits  4 to  5        141571  -.998  .1591
+     DNA for MT19937genX.bin using bits  3 to  4        141981   .211  .5837
+     DNA for MT19937genX.bin using bits  2 to  3        141690  -.647  .2588
+     DNA for MT19937genX.bin using bits  1 to  2        141989   .235  .5929
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST on a stream of bytes.      ::     
+     :: Consider the file under test as a stream of bytes (four per   ::     
+     :: 32 bit integer).  Each byte can contain from 0 to 8 1's,      ::     
+     :: with probabilities 1,8,28,56,70,56,28,8,1 over 256.  Now let  ::     
+     :: the stream of bytes provide a string of overlapping  5-letter ::     
+     :: words, each "letter" taking values A,B,C,D,E. The letters are ::     
+     :: determined by the number of 1's in a byte::  0,1,or 2 yield A,::     
+     :: 3 yields B, 4 yields C, 5 yields D and 6,7 or 8 yield E. Thus ::     
+     :: we have a monkey at a typewriter hitting five keys with vari- ::     
+     :: ous probabilities (37,56,70,56,37 over 256).  There are 5^5   ::     
+     :: possible 5-letter words, and from a string of 256,000 (over-  ::     
+     :: lapping) 5-letter words, counts are made on the frequencies   ::     
+     :: for each word.   The quadratic form in the weak inverse of    ::     
+     :: the covariance matrix of the cell counts provides a chisquare ::     
+     :: test::  Q5-Q4, the difference of the naive Pearson sums of    ::     
+     :: (OBS-EXP)^2/EXP on counts for 5- and 4-letter cell counts.    ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+   Test results for MT19937genX.bin
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size:2560000
+                               chisquare  equiv normal  p-value
+  Results fo COUNT-THE-1's in successive bytes:
+ byte stream for MT19937genX.bin  2407.15     -1.313      .094567
+ byte stream for MT19937genX.bin  2380.26     -1.693      .045190
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the COUNT-THE-1's TEST for specific bytes.        ::     
+     :: Consider the file under test as a stream of 32-bit integers.  ::     
+     :: From each integer, a specific byte is chosen , say the left-  ::     
+     :: most::  bits 1 to 8. Each byte can contain from 0 to 8 1's,   ::     
+     :: with probabilitie 1,8,28,56,70,56,28,8,1 over 256.  Now let   ::     
+     :: the specified bytes from successive integers provide a string ::     
+     :: of (overlapping) 5-letter words, each "letter" taking values  ::     
+     :: A,B,C,D,E. The letters are determined  by the number of 1's,  ::     
+     :: in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---> D,::     
+     :: and  6,7 or 8 ---> E.  Thus we have a monkey at a typewriter  ::     
+     :: hitting five keys with with various probabilities::  37,56,70,::     
+     :: 56,37 over 256. There are 5^5 possible 5-letter words, and    ::     
+     :: from a string of 256,000 (overlapping) 5-letter words, counts ::     
+     :: are made on the frequencies for each word. The quadratic form ::     
+     :: in the weak inverse of the covariance matrix of the cell      ::     
+     :: counts provides a chisquare test::  Q5-Q4, the difference of  ::     
+     :: the naive Pearson  sums of (OBS-EXP)^2/EXP on counts for 5-   ::     
+     :: and 4-letter cell counts.                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+ Chi-square with 5^5-5^4=2500 d.of f. for sample size: 256000
+                      chisquare  equiv normal  p value
+  Results for COUNT-THE-1's in specified bytes:
+           bits  1 to  8  2523.53       .333      .630325
+           bits  2 to  9  2562.51       .884      .811666
+           bits  3 to 10  2523.65       .334      .630996
+           bits  4 to 11  2580.89      1.144      .873675
+           bits  5 to 12  2501.72       .024      .509718
+           bits  6 to 13  2523.35       .330      .629357
+           bits  7 to 14  2487.58      -.176      .430276
+           bits  8 to 15  2407.55     -1.307      .095531
+           bits  9 to 16  2383.64     -1.646      .049926
+           bits 10 to 17  2643.34      2.027      .978677
+           bits 11 to 18  2414.50     -1.209      .113313
+           bits 12 to 19  2482.23      -.251      .400775
+           bits 13 to 20  2516.31       .231      .591198
+           bits 14 to 21  2475.01      -.353      .361882
+           bits 15 to 22  2398.39     -1.437      .075365
+           bits 16 to 23  2523.75       .336      .631499
+           bits 17 to 24  2432.61      -.953      .170273
+           bits 18 to 25  2499.80      -.003      .498882
+           bits 19 to 26  2483.78      -.229      .409285
+           bits 20 to 27  2438.00      -.877      .190277
+           bits 21 to 28  2476.05      -.339      .367406
+           bits 22 to 29  2475.90      -.341      .366614
+           bits 23 to 30  2419.28     -1.142      .126824
+           bits 24 to 31  2437.69      -.881      .189092
+           bits 25 to 32  2621.17      1.714      .956705
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THIS IS A PARKING LOT TEST                      ::     
+     :: In a square of side 100, randomly "park" a car---a circle of  ::     
+     :: radius 1.   Then try to park a 2nd, a 3rd, and so on, each    ::     
+     :: time parking "by ear".  That is, if an attempt to park a car  ::     
+     :: causes a crash with one already parked, try again at a new    ::     
+     :: random location. (To avoid path problems, consider parking    ::     
+     :: helicopters rather than cars.)   Each attempt leads to either ::     
+     :: a crash or a success, the latter followed by an increment to  ::     
+     :: the list of cars already parked. If we plot n:  the number of ::     
+     :: attempts, versus k::  the number successfully parked, we get a::     
+     :: curve that should be similar to those provided by a perfect   ::     
+     :: random number generator.  Theory for the behavior of such a   ::     
+     :: random curve seems beyond reach, and as graphics displays are ::     
+     :: not available for this battery of tests, a simple characteriz ::     
+     :: ation of the random experiment is used: k, the number of cars ::     
+     :: successfully parked after n=12,000 attempts. Simulation shows ::     
+     :: that k should average 3523 with sigma 21.9 and is very close  ::     
+     :: to normally distributed.  Thus (k-3523)/21.9 should be a st-  ::     
+     :: andard normal variable, which, converted to a uniform varia-  ::     
+     :: ble, provides input to a KSTEST based on a sample of 10.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           CDPARK: result of ten tests on file MT19937genX.bin
+            Of 12,000 tries, the average no. of successes
+                 should be 3523 with sigma=21.9
+            Successes: 3530    z-score:   .320 p-value: .625377
+            Successes: 3562    z-score:  1.781 p-value: .962529
+            Successes: 3518    z-score:  -.228 p-value: .409702
+            Successes: 3521    z-score:  -.091 p-value: .463618
+            Successes: 3507    z-score:  -.731 p-value: .232514
+            Successes: 3483    z-score: -1.826 p-value: .033889
+            Successes: 3526    z-score:   .137 p-value: .554479
+            Successes: 3536    z-score:   .594 p-value: .723613
+            Successes: 3536    z-score:   .594 p-value: .723613
+            Successes: 3550    z-score:  1.233 p-value: .891189
+
+           square size   avg. no.  parked   sample sigma
+             100.            3526.900       20.926
+            KSTEST for the above 10: p=  .158791
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::               THE MINIMUM DISTANCE TEST                       ::     
+     :: It does this 100 times::   choose n=8000 random points in a   ::     
+     :: square of side 10000.  Find d, the minimum distance between   ::     
+     :: the (n^2-n)/2 pairs of points.  If the points are truly inde- ::     
+     :: pendent uniform, then d^2, the square of the minimum distance ::     
+     :: should be (very close to) exponentially distributed with mean ::     
+     :: .995 .  Thus 1-exp(-d^2/.995) should be uniform on [0,1) and  ::     
+     :: a KSTEST on the resulting 100 values serves as a test of uni- ::     
+     :: formity for random points in the square. Test numbers=0 mod 5 ::     
+     :: are printed but the KSTEST is based on the full set of 100    ::     
+     :: random choices of 8000 points in the 10000x10000 square.      ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               This is the MINIMUM DISTANCE test
+              for random integers in the file MT19937genX.bin
+     Sample no.    d^2     avg     equiv uni            
+           5    2.7468   1.0005     .936745
+          10     .4466   1.1043     .361634
+          15     .5367   1.4016     .416912
+          20     .0971   1.1585     .092977
+          25     .0472   1.1918     .046359
+          30     .9622   1.0844     .619808
+          35     .1761   1.0060     .162181
+          40     .0638   1.0344     .062095
+          45    1.9340   1.0357     .856831
+          50     .2376   1.0425     .212401
+          55     .6562    .9962     .482888
+          60    1.3489    .9790     .742231
+          65    1.1590    .9922     .688038
+          70     .0595   1.0027     .058052
+          75     .3343    .9847     .285383
+          80     .9775    .9861     .625594
+          85     .7928   1.0063     .549221
+          90    2.0865    .9961     .877175
+          95     .9948   1.0056     .632055
+         100     .6631   1.0072     .486462
+     MINIMUM DISTANCE TEST for MT19937genX.bin
+          Result of KS test on 20 transformed mindist^2's:
+                                  p-value= .116713
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::              THE 3DSPHERES TEST                               ::     
+     :: Choose  4000 random points in a cube of edge 1000.  At each   ::     
+     :: point, center a sphere large enough to reach the next closest ::     
+     :: point. Then the volume of the smallest such sphere is (very   ::     
+     :: close to) exponentially distributed with mean 120pi/3.  Thus  ::     
+     :: the radius cubed is exponential with mean 30. (The mean is    ::     
+     :: obtained by extensive simulation).  The 3DSPHERES test gener- ::     
+     :: ates 4000 such spheres 20 times.  Each min radius cubed leads ::     
+     :: to a uniform variable by means of 1-exp(-r^3/30.), then a     ::     
+     ::  KSTEST is done on the 20 p-values.                           ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+               The 3DSPHERES test for file MT19937genX.bin
+ sample no:  1     r^3=   9.103     p-value= .26173
+ sample no:  2     r^3=   3.694     p-value= .11586
+ sample no:  3     r^3=  58.912     p-value= .85967
+ sample no:  4     r^3=  11.286     p-value= .31353
+ sample no:  5     r^3=  62.187     p-value= .87418
+ sample no:  6     r^3=   8.989     p-value= .25892
+ sample no:  7     r^3=  20.530     p-value= .49558
+ sample no:  8     r^3=  96.097     p-value= .95937
+ sample no:  9     r^3=  67.818     p-value= .89571
+ sample no: 10     r^3=  44.746     p-value= .77497
+ sample no: 11     r^3=    .216     p-value= .00718
+ sample no: 12     r^3=   3.579     p-value= .11245
+ sample no: 13     r^3= 153.221     p-value= .99395
+ sample no: 14     r^3=  27.220     p-value= .59640
+ sample no: 15     r^3=  22.348     p-value= .52523
+ sample no: 16     r^3=  59.924     p-value= .86432
+ sample no: 17     r^3=  62.500     p-value= .87549
+ sample no: 18     r^3=  35.445     p-value= .69318
+ sample no: 19     r^3=  25.074     p-value= .56647
+ sample no: 20     r^3=  84.803     p-value= .94080
+  A KS test is applied to those 20 p-values.
+---------------------------------------------------------
+       3DSPHERES test for file MT19937genX.bin      p-value= .879212
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::      This is the SQEEZE test                                  ::     
+     ::  Random integers are floated to get uniforms on [0,1). Start- ::     
+     ::  ing with k=2^31=2147483647, the test finds j, the number of  ::     
+     ::  iterations necessary to reduce k to 1, using the reduction   ::     
+     ::  k=ceiling(k*U), with U provided by floating integers from    ::     
+     ::  the file being tested.  Such j's are found 100,000 times,    ::     
+     ::  then counts for the number of times j was <=6,7,...,47,>=48  ::     
+     ::  are used to provide a chi-square test for cell frequencies.  ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+            RESULTS OF SQUEEZE TEST FOR MT19937genX.bin
+         Table of standardized frequency counts
+     ( (obs-exp)/sqrt(exp) )^2
+        for j taking values <=6,7,8,...,47,>=48:
+     2.0      .5      .6    -1.4     -.4     1.0
+    -1.4     1.0     -.7     -.3      .2     1.8
+     -.6     1.4      .1     -.3     -.2     -.7
+     -.8    -2.7     1.9      .0    -1.5     1.9
+     -.7      .9     1.4     1.1     1.2     -.6
+    -2.1     -.3      .8    -2.3      .5     -.1
+     -.5      .8     -.8      .4    -1.3      .0
+    -1.1
+           Chi-square with 42 degrees of freedom: 56.959
+              z-score=  1.632  p-value= .938495
+______________________________________________________________
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::             The  OVERLAPPING SUMS test                        ::     
+     :: Integers are floated to get a sequence U(1),U(2),... of uni-  ::     
+     :: form [0,1) variables.  Then overlapping sums,                 ::     
+     ::   S(1)=U(1)+...+U(100), S2=U(2)+...+U(101),... are formed.    ::     
+     :: The S's are virtually normal with a certain covariance mat-   ::     
+     :: rix.  A linear transformation of the S's converts them to a   ::     
+     :: sequence of independent standard normals, which are converted ::     
+     :: to uniform variables for a KSTEST. The  p-values from ten     ::     
+     :: KSTESTs are given still another KSTEST.                       ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Test no.  1      p-value  .015566
+                Test no.  2      p-value  .144815
+                Test no.  3      p-value  .006529
+                Test no.  4      p-value  .798400
+                Test no.  5      p-value  .273910
+                Test no.  6      p-value  .005189
+                Test no.  7      p-value  .061249
+                Test no.  8      p-value  .719895
+                Test no.  9      p-value  .914422
+                Test no. 10      p-value  .522975
+   Results of the OSUM test for MT19937genX.bin
+        KSTEST on the above 10 p-values:  .986160
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     ::     This is the RUNS test.  It counts runs up, and runs down, ::     
+     :: in a sequence of uniform [0,1) variables, obtained by float-  ::     
+     :: ing the 32-bit integers in the specified file. This example   ::     
+     :: shows how runs are counted:  .123,.357,.789,.425,.224,.416,.95::     
+     :: contains an up-run of length 3, a down-run of length 2 and an ::     
+     :: up-run of (at least) 2, depending on the next values.  The    ::     
+     :: covariance matrices for the runs-up and runs-down are well    ::     
+     :: known, leading to chisquare tests for quadratic forms in the  ::     
+     :: weak inverses of the covariance matrices.  Runs are counted   ::     
+     :: for sequences of length 10,000.  This is done ten times. Then ::     
+     :: repeated.                                                     ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+           The RUNS test for file MT19937genX.bin
+     Up and down runs in a sample of 10000
+_________________________________________________ 
+                 Run test for MT19937genX.bin:
+       runs up; ks test for 10 p's: .483429
+     runs down; ks test for 10 p's: .993652
+                 Run test for MT19937genX.bin:
+       runs up; ks test for 10 p's: .412136
+     runs down; ks test for 10 p's: .064249
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+     :: This is the CRAPS TEST. It plays 200,000 games of craps, finds::     
+     :: the number of wins and the number of throws necessary to end  ::     
+     :: each game.  The number of wins should be (very close to) a    ::     
+     :: normal with mean 200000p and variance 200000p(1-p), with      ::     
+     :: p=244/495.  Throws necessary to complete the game can vary    ::     
+     :: from 1 to infinity, but counts for all>21 are lumped with 21. ::     
+     :: A chi-square test is made on the no.-of-throws cell counts.   ::     
+     :: Each 32-bit integer from the test file provides the value for ::     
+     :: the throw of a die, by floating to [0,1), multiplying by 6    ::     
+     :: and taking 1 plus the integer part of the result.             ::     
+     :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::     
+                Results of craps test for MT19937genX.bin
+  No. of wins:  Observed Expected
+                                98270    98585.86
+                  98270= No. of wins, z-score=-1.413 pvalue= .07887
+   Analysis of Throws-per-Game:
+ Chisq=  11.45 for 20 degrees of freedom, p=  .06629
+               Throws Observed Expected  Chisq     Sum
+                  1    66456    66666.7    .666     .666
+                  2    37760    37654.3    .297     .962
+                  3    26938    26954.7    .010     .973
+                  4    19171    19313.5   1.051    2.024
+                  5    13863    13851.4    .010    2.033
+                  6     9936     9943.5    .006    2.039
+                  7     7310     7145.0   3.809    5.848
+                  8     5239     5139.1   1.943    7.791
+                  9     3749     3699.9    .653    8.444
+                 10     2616     2666.3    .949    9.393
+                 11     1943     1923.3    .201    9.594
+                 12     1394     1388.7    .020    9.614
+                 13      970     1003.7   1.132   10.746
+                 14      722      726.1    .024   10.770
+                 15      527      525.8    .003   10.772
+                 16      389      381.2    .162   10.934
+                 17      275      276.5    .009   10.943
+                 18      203      200.8    .023   10.966
+                 19      141      146.0    .170   11.136
+                 20      103      106.2    .097   11.234
+                 21      295      287.1    .217   11.450
+            SUMMARY  FOR MT19937genX.bin
+                p-value for no. of wins: .078871
+                p-value for throws/game: .066293
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+ Results of DIEHARD battery of tests sent to file MT19937genX.all

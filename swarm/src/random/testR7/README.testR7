@@ -1,0 +1,23 @@
+// Swarm Random version 0.7
+//
+// testR7
+//
+
+testR7
+
+This program prints out diagnostic information for 
+each generator. There are two different versions,
+HumbugModelSwarm.m.7a (giving unsignedMax and #output bits)
+and HumbugModelSwarm.m.7b (giving the 'magic number' and the
+buffer size for getState/setState).
+
+Copy the desired version to HumbugModelSwarm.m. 
+Then compile the program simply by saying 'make'.
+You run it by saying  './humbug -batchmode > runlog'.
+
+
+Sven Thommesen <sthomme@humsci.auburn.edu>
+
+//
+// 1997-09-01
+

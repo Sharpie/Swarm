@@ -1,0 +1,2827 @@
+PMMLCG1 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 594779585
+ variate no.  1: 2071608763
+ variate no.  2: 376127736
+ variate no.  3: 1534502637
+ variate no.  4: 1254720042
+ variate no.  5: 1937832807
+ variate no.  6: 419013653
+ variate no.  7: 763604264
+ variate no.  8: 534607382
+ variate no.  9: 74707032
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f61f0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 800023620
+ variate no.  1: 601884279
+ variate no.  2: 1221116589
+ variate no.  3: 1952797397
+ variate no.  4: 673291084
+ variate no.  5: 911929551
+ variate no.  6: 209191824
+ variate no.  7: 456272635
+ variate no.  8: 2057573461
+ variate no.  9: 708008192
+
+ TEST VALUE #1 = 286811723
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 800023620
+ variate no.  1: 601884279
+ variate no.  2: 1221116589
+ variate no.  3: 1952797397
+ variate no.  4: 673291084
+ variate no.  5: 911929551
+ variate no.  6: 209191824
+ variate no.  7: 456272635
+ variate no.  8: 2057573461
+ variate no.  9: 708008192
+
+TEST VALUE #2 = 286811723
+
+PMMLCG1 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG1 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG2 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1012944750
+ variate no.  1: 1948400624
+ variate no.  2: 52765362
+ variate no.  3: 121232030
+ variate no.  4: 98430325
+ variate no.  5: 1096439181
+ variate no.  6: 1481274006
+ variate no.  7: 2109565031
+ variate no.  8: 1434086225
+ variate no.  9: 640854200
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f6360
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1802171745
+ variate no.  1: 217294842
+ variate no.  2: 729234504
+ variate no.  3: 1474332877
+ variate no.  4: 2061776004
+ variate no.  5: 1007400786
+ variate no.  6: 623686608
+ variate no.  7: 403055745
+ variate no.  8: 1849556992
+ variate no.  9: 480468724
+
+ TEST VALUE #1 = 2029920521
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1802171745
+ variate no.  1: 217294842
+ variate no.  2: 729234504
+ variate no.  3: 1474332877
+ variate no.  4: 2061776004
+ variate no.  5: 1007400786
+ variate no.  6: 623686608
+ variate no.  7: 403055745
+ variate no.  8: 1849556992
+ variate no.  9: 480468724
+
+TEST VALUE #2 = 2029920521
+
+PMMLCG2 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG2 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG3 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 673105449
+ variate no.  1: 2033873262
+ variate no.  2: 1661211083
+ variate no.  3: 297586331
+ variate no.  4: 1483277562
+ variate no.  5: 1221080333
+ variate no.  6: 398799624
+ variate no.  7: 12620061
+ variate no.  8: 300524878
+ variate no.  9: 2056911784
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f64d0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 527015960
+ variate no.  1: 1620111785
+ variate no.  2: 1519061724
+ variate no.  3: 1469192415
+ variate no.  4: 1999087725
+ variate no.  5: 71409775
+ variate no.  6: 195372090
+ variate no.  7: 1986411059
+ variate no.  8: 125025106
+ variate no.  9: 621753155
+
+ TEST VALUE #1 = 248601296
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 527015960
+ variate no.  1: 1620111785
+ variate no.  2: 1519061724
+ variate no.  3: 1469192415
+ variate no.  4: 1999087725
+ variate no.  5: 71409775
+ variate no.  6: 195372090
+ variate no.  7: 1986411059
+ variate no.  8: 125025106
+ variate no.  9: 621753155
+
+TEST VALUE #2 = 248601296
+
+PMMLCG3 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG3 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG4 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1428619899
+ variate no.  1: 1395640934
+ variate no.  2: 783516401
+ variate no.  3: 2074731368
+ variate no.  4: 1976988174
+ variate no.  5: 1353026091
+ variate no.  6: 1536841699
+ variate no.  7: 757350988
+ variate no.  8: 1292064405
+ variate no.  9: 314100208
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f6640
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 582864723
+ variate no.  1: 1640639629
+ variate no.  2: 671802337
+ variate no.  3: 1014097568
+ variate no.  4: 311450332
+ variate no.  5: 196339512
+ variate no.  6: 1829290394
+ variate no.  7: 1075201572
+ variate no.  8: 1637088020
+ variate no.  9: 538509990
+
+ TEST VALUE #1 = 1831578876
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 582864723
+ variate no.  1: 1640639629
+ variate no.  2: 671802337
+ variate no.  3: 1014097568
+ variate no.  4: 311450332
+ variate no.  5: 196339512
+ variate no.  6: 1829290394
+ variate no.  7: 1075201572
+ variate no.  8: 1637088020
+ variate no.  9: 538509990
+
+TEST VALUE #2 = 1831578876
+
+PMMLCG4 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG4 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG5 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 437749378
+ variate no.  1: 1304536875
+ variate no.  2: 557381763
+ variate no.  3: 1256252017
+ variate no.  4: 202526967
+ variate no.  5: 1361302091
+ variate no.  6: 1405450405
+ variate no.  7: 1564577793
+ variate no.  8: 1517746796
+ variate no.  9: 344819164
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f67b0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1345240186
+ variate no.  1: 277290849
+ variate no.  2: 1889441232
+ variate no.  3: 1847666566
+ variate no.  4: 790629424
+ variate no.  5: 1199445264
+ variate no.  6: 1464350381
+ variate no.  7: 1288148354
+ variate no.  8: 308266071
+ variate no.  9: 1799182358
+
+ TEST VALUE #1 = 1979055038
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1345240186
+ variate no.  1: 277290849
+ variate no.  2: 1889441232
+ variate no.  3: 1847666566
+ variate no.  4: 790629424
+ variate no.  5: 1199445264
+ variate no.  6: 1464350381
+ variate no.  7: 1288148354
+ variate no.  8: 308266071
+ variate no.  9: 1799182358
+
+TEST VALUE #2 = 1979055038
+
+PMMLCG5 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG5 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG6 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 832864486
+ variate no.  1: 1202642443
+ variate no.  2: 1497746601
+ variate no.  3: 1865088529
+ variate no.  4: 1788655974
+ variate no.  5: 840324207
+ variate no.  6: 1852218856
+ variate no.  7: 1029484876
+ variate no.  8: 1162695105
+ variate no.  9: 619163744
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f6920
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1490012002
+ variate no.  1: 1784217562
+ variate no.  2: 51970113
+ variate no.  3: 259198064
+ variate no.  4: 1081811310
+ variate no.  5: 1400048361
+ variate no.  6: 775762258
+ variate no.  7: 675270007
+ variate no.  8: 1153455183
+ variate no.  9: 272651220
+
+ TEST VALUE #1 = 1081682882
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1490012002
+ variate no.  1: 1784217562
+ variate no.  2: 51970113
+ variate no.  3: 259198064
+ variate no.  4: 1081811310
+ variate no.  5: 1400048361
+ variate no.  6: 775762258
+ variate no.  7: 675270007
+ variate no.  8: 1153455183
+ variate no.  9: 272651220
+
+TEST VALUE #2 = 1081682882
+
+PMMLCG6 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG6 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG7 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 659825640
+ variate no.  1: 448383407
+ variate no.  2: 1731167309
+ variate no.  3: 380480501
+ variate no.  4: 1399971508
+ variate no.  5: 1904512084
+ variate no.  6: 153396923
+ variate no.  7: 721443308
+ variate no.  8: 2004953384
+ variate no.  9: 229909971
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f6a90
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 881108298
+ variate no.  1: 647763009
+ variate no.  2: 216158765
+ variate no.  3: 1148825450
+ variate no.  4: 1733626075
+ variate no.  5: 147554864
+ variate no.  6: 345622262
+ variate no.  7: 200492175
+ variate no.  8: 80597866
+ variate no.  9: 1918499290
+
+ TEST VALUE #1 = 1526562528
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 881108298
+ variate no.  1: 647763009
+ variate no.  2: 216158765
+ variate no.  3: 1148825450
+ variate no.  4: 1733626075
+ variate no.  5: 147554864
+ variate no.  6: 345622262
+ variate no.  7: 200492175
+ variate no.  8: 80597866
+ variate no.  9: 1918499290
+
+TEST VALUE #2 = 1526562528
+
+PMMLCG7 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG7 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG8 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1660362543
+ variate no.  1: 1047847084
+ variate no.  2: 1084175177
+ variate no.  3: 870116328
+ variate no.  4: 1831265249
+ variate no.  5: 1961060376
+ variate no.  6: 820533257
+ variate no.  7: 2089074467
+ variate no.  8: 1428072776
+ variate no.  9: 513971010
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f6c00
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1467694573
+ variate no.  1: 1097686674
+ variate no.  2: 353299410
+ variate no.  3: 38336524
+ variate no.  4: 694447367
+ variate no.  5: 1327161494
+ variate no.  6: 2066515065
+ variate no.  7: 679257608
+ variate no.  8: 1261993197
+ variate no.  9: 1467324389
+
+ TEST VALUE #1 = 1317529039
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1467694573
+ variate no.  1: 1097686674
+ variate no.  2: 353299410
+ variate no.  3: 38336524
+ variate no.  4: 694447367
+ variate no.  5: 1327161494
+ variate no.  6: 2066515065
+ variate no.  7: 679257608
+ variate no.  8: 1261993197
+ variate no.  9: 1467324389
+
+TEST VALUE #2 = 1317529039
+
+PMMLCG8 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG8 Run test: GOOD. Test value = expected final value.
+
+
+PMMLCG9 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 852882543
+ variate no.  1: 17269208
+ variate no.  2: 491581154
+ variate no.  3: 1759980973
+ variate no.  4: 721920756
+ variate no.  5: 974028922
+ variate no.  6: 1231322771
+ variate no.  7: 2051056154
+ variate no.  8: 1782240523
+ variate no.  9: 269534978
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f6d70
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1813126254
+ variate no.  1: 793912415
+ variate no.  2: 1291260714
+ variate no.  3: 1504691446
+ variate no.  4: 2005172434
+ variate no.  5: 844980014
+ variate no.  6: 570068990
+ variate no.  7: 131705773
+ variate no.  8: 1400275102
+ variate no.  9: 817465608
+
+ TEST VALUE #1 = 1940194316
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1813126254
+ variate no.  1: 793912415
+ variate no.  2: 1291260714
+ variate no.  3: 1504691446
+ variate no.  4: 2005172434
+ variate no.  5: 844980014
+ variate no.  6: 570068990
+ variate no.  7: 131705773
+ variate no.  8: 1400275102
+ variate no.  9: 817465608
+
+TEST VALUE #2 = 1940194316
+
+PMMLCG9 getState/setState test: GOOD! Test value #1 = test value #2
+
+PMMLCG9 Run test: GOOD. Test value = expected final value.
+
+
+LCG1 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3551816960
+ variate no.  1: 2231794783
+ variate no.  2: 3096976946
+ variate no.  3: 722626537
+ variate no.  4: 3884322868
+ variate no.  5: 4257644035
+ variate no.  6: 2214824838
+ variate no.  7: 4199181613
+ variate no.  8: 1125870760
+ variate no.  9: 780560359
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f7278
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1126932970
+ variate no.  1: 3624101953
+ variate no.  2: 3195937964
+ variate no.  3: 3225376795
+ variate no.  4: 3613667006
+ variate no.  5: 2813527813
+ variate no.  6: 3301919904
+ variate no.  7: 1327339391
+ variate no.  8: 3602071250
+ variate no.  9: 2970800137
+
+ TEST VALUE #1 = 170400212
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1126932970
+ variate no.  1: 3624101953
+ variate no.  2: 3195937964
+ variate no.  3: 3225376795
+ variate no.  4: 3613667006
+ variate no.  5: 2813527813
+ variate no.  6: 3301919904
+ variate no.  7: 1327339391
+ variate no.  8: 3602071250
+ variate no.  9: 2970800137
+
+TEST VALUE #2 = 170400212
+
+LCG1 getState/setState test: GOOD! Test value #1 = test value #2
+
+LCG1 Run test: GOOD. Test value = expected final value.
+
+
+LCG2 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2470133184
+ variate no.  1: 1656890911
+ variate no.  2: 1408634162
+ variate no.  3: 72683113
+ variate no.  4: 347066996
+ variate no.  5: 2371771971
+ variate no.  6: 2584532486
+ variate no.  7: 362456109
+ variate no.  8: 130528360
+ variate no.  9: 1340846759
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f73e0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1333330410
+ variate no.  1: 123231681
+ variate no.  2: 4172665836
+ variate no.  3: 1975034715
+ variate no.  4: 2230346302
+ variate no.  5: 1210631429
+ variate no.  6: 3692755296
+ variate no.  7: 3591537983
+ variate no.  8: 524736978
+ variate no.  9: 3138194057
+
+ TEST VALUE #1 = 3119667220
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1333330410
+ variate no.  1: 123231681
+ variate no.  2: 4172665836
+ variate no.  3: 1975034715
+ variate no.  4: 2230346302
+ variate no.  5: 1210631429
+ variate no.  6: 3692755296
+ variate no.  7: 3591537983
+ variate no.  8: 524736978
+ variate no.  9: 3138194057
+
+TEST VALUE #2 = 3119667220
+
+LCG2 getState/setState test: GOOD! Test value #1 = test value #2
+
+LCG2 Run test: GOOD. Test value = expected final value.
+
+
+LCG3 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3678052334
+ variate no.  1: 620969027
+ variate no.  2: 382339732
+ variate no.  3: 3120548529
+ variate no.  4: 823859754
+ variate no.  5: 3791214927
+ variate no.  6: 2500348976
+ variate no.  7: 1502168989
+ variate no.  8: 1172863526
+ variate no.  9: 608280859
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x80f7548
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2447760764
+ variate no.  1: 2837049465
+ variate no.  2: 1896133970
+ variate no.  3: 1536174679
+ variate no.  4: 1120016792
+ variate no.  5: 1123558885
+ variate no.  6: 35812302
+ variate no.  7: 773078691
+ variate no.  8: 2398710132
+ variate no.  9: 4162116625
+
+ TEST VALUE #1 = 1870216202
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2447760764
+ variate no.  1: 2837049465
+ variate no.  2: 1896133970
+ variate no.  3: 1536174679
+ variate no.  4: 1120016792
+ variate no.  5: 1123558885
+ variate no.  6: 35812302
+ variate no.  7: 773078691
+ variate no.  8: 2398710132
+ variate no.  9: 4162116625
+
+TEST VALUE #2 = 1870216202
+
+LCG3 getState/setState test: GOOD! Test value #1 = test value #2
+
+LCG3 Run test: GOOD. Test value = expected final value.
+
+
+ACG Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 4240907671
+ variate no.  1: 529880707
+ variate no.  2: 515002371
+ variate no.  3: 63589391
+ variate no.  4: 4142183886
+ variate no.  5: 2412253744
+ variate no.  6: 888872102
+ variate no.  7: 1913068737
+ variate no.  8: 2603932086
+ variate no.  9: 480947579
+
+ Generator state size is 472
+ Allocating state buffer memory
+ State buffer is at 0x80f7be0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3899650516
+ variate no.  1: 4048967898
+ variate no.  2: 1173715697
+ variate no.  3: 2334132088
+ variate no.  4: 1106717928
+ variate no.  5: 1112465554
+ variate no.  6: 1206605002
+ variate no.  7: 4041388692
+ variate no.  8: 2981700383
+ variate no.  9: 3624543742
+
+ TEST VALUE #1 = 3435964474
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3899650516
+ variate no.  1: 4048967898
+ variate no.  2: 1173715697
+ variate no.  3: 2334132088
+ variate no.  4: 1106717928
+ variate no.  5: 1112465554
+ variate no.  6: 1206605002
+ variate no.  7: 4041388692
+ variate no.  8: 2981700383
+ variate no.  9: 3624543742
+
+TEST VALUE #2 = 3435964474
+
+ACG getState/setState test: GOOD! Test value #1 = test value #2
+
+ACG Run test: GOOD. Test value = expected final value.
+
+
+SCG Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 265658029
+ variate no.  1: 118752558
+ variate no.  2: 122633573
+ variate no.  3: 555582163
+ variate no.  4: 683005459
+ variate no.  5: 513562722
+ variate no.  6: 913283114
+ variate no.  7: 701112366
+ variate no.  8: 629210869
+ variate no.  9: 209128792
+
+ Generator state size is 472
+ Allocating state buffer memory
+ State buffer is at 0x80f8280
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 628462046
+ variate no.  1: 46741943
+ variate no.  2: 425282435
+ variate no.  3: 242306175
+ variate no.  4: 866481347
+ variate no.  5: 62732529
+ variate no.  6: 91580254
+ variate no.  7: 697586367
+ variate no.  8: 934715819
+ variate no.  9: 22771643
+
+ TEST VALUE #1 = 20934893
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 628462046
+ variate no.  1: 46741943
+ variate no.  2: 425282435
+ variate no.  3: 242306175
+ variate no.  4: 866481347
+ variate no.  5: 62732529
+ variate no.  6: 91580254
+ variate no.  7: 697586367
+ variate no.  8: 934715819
+ variate no.  9: 22771643
+
+TEST VALUE #2 = 20934893
+
+SCG getState/setState test: GOOD! Test value #1 = test value #2
+
+SCG Run test: GOOD. Test value = expected final value.
+
+
+SWB1 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 417284783
+ variate no.  1: 991139110
+ variate no.  2: 1426736112
+ variate no.  3: 3957212888
+ variate no.  4: 1602401281
+ variate no.  5: 146307580
+ variate no.  6: 3165435494
+ variate no.  7: 1679542365
+ variate no.  8: 1523791663
+ variate no.  9: 1518215478
+
+ Generator state size is 336
+ Allocating state buffer memory
+ State buffer is at 0x80f8968
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1552408948
+ variate no.  1: 24694719
+ variate no.  2: 3411282592
+ variate no.  3: 2881230480
+ variate no.  4: 2326867463
+ variate no.  5: 2499182729
+ variate no.  6: 1756930215
+ variate no.  7: 3778599950
+ variate no.  8: 4249812142
+ variate no.  9: 3942160990
+
+ TEST VALUE #1 = 1975162462
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1552408948
+ variate no.  1: 24694719
+ variate no.  2: 3411282592
+ variate no.  3: 2881230480
+ variate no.  4: 2326867463
+ variate no.  5: 2499182729
+ variate no.  6: 1756930215
+ variate no.  7: 3778599950
+ variate no.  8: 4249812142
+ variate no.  9: 3942160990
+
+TEST VALUE #2 = 1975162462
+
+SWB1 getState/setState test: GOOD! Test value #1 = test value #2
+
+SWB1 Run test: GOOD. Test value = expected final value.
+
+
+SWB2 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 933376742
+ variate no.  1: 711374700
+ variate no.  2: 2668931980
+ variate no.  3: 1036830336
+ variate no.  4: 1343465008
+ variate no.  5: 578333115
+ variate no.  6: 3452664340
+ variate no.  7: 809184969
+ variate no.  8: 1097118646
+ variate no.  9: 3826881405
+
+ Generator state size is 232
+ Allocating state buffer memory
+ State buffer is at 0x80f8c10
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 914298669
+ variate no.  1: 1570664631
+ variate no.  2: 583617688
+ variate no.  3: 559011310
+ variate no.  4: 3364938935
+ variate no.  5: 3164537347
+ variate no.  6: 1422421915
+ variate no.  7: 1285549288
+ variate no.  8: 3231346145
+ variate no.  9: 1807409857
+
+ TEST VALUE #1 = 2765495939
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 914298669
+ variate no.  1: 1570664631
+ variate no.  2: 583617688
+ variate no.  3: 559011310
+ variate no.  4: 3364938935
+ variate no.  5: 3164537347
+ variate no.  6: 1422421915
+ variate no.  7: 1285549288
+ variate no.  8: 3231346145
+ variate no.  9: 1807409857
+
+TEST VALUE #2 = 2765495939
+
+SWB2 getState/setState test: GOOD! Test value #1 = test value #2
+
+SWB2 Run test: GOOD. Test value = expected final value.
+
+
+SWB3 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1905500550
+ variate no.  1: 303905018
+ variate no.  2: 2670401747
+ variate no.  3: 3201990485
+ variate no.  4: 1414390706
+ variate no.  5: 2489278682
+ variate no.  6: 3539868094
+ variate no.  7: 2428911132
+ variate no.  8: 1659442010
+ variate no.  9: 686856262
+
+ Generator state size is 208
+ Allocating state buffer memory
+ State buffer is at 0x80f8e98
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2795544129
+ variate no.  1: 2752920394
+ variate no.  2: 3189534603
+ variate no.  3: 3774276213
+ variate no.  4: 166736355
+ variate no.  5: 892062122
+ variate no.  6: 4233854993
+ variate no.  7: 855920371
+ variate no.  8: 1229296921
+ variate no.  9: 3702731637
+
+ TEST VALUE #1 = 1908002660
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2795544129
+ variate no.  1: 2752920394
+ variate no.  2: 3189534603
+ variate no.  3: 3774276213
+ variate no.  4: 166736355
+ variate no.  5: 892062122
+ variate no.  6: 4233854993
+ variate no.  7: 855920371
+ variate no.  8: 1229296921
+ variate no.  9: 3702731637
+
+TEST VALUE #2 = 1908002660
+
+SWB3 getState/setState test: GOOD! Test value #1 = test value #2
+
+SWB3 Run test: GOOD. Test value = expected final value.
+
+
+PSWB Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3767848830
+ variate no.  1: 2030898708
+ variate no.  2: 2198794157
+ variate no.  3: 1036418656
+ variate no.  4: 2199242256
+ variate no.  5: 2179423529
+ variate no.  6: 1986799988
+ variate no.  7: 567584029
+ variate no.  8: 158725347
+ variate no.  9: 3414287355
+
+ Generator state size is 384
+ Allocating state buffer memory
+ State buffer is at 0x80f94b0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2633549889
+ variate no.  1: 2745513023
+ variate no.  2: 655595764
+ variate no.  3: 1186069394
+ variate no.  4: 2131866053
+ variate no.  5: 3027532529
+ variate no.  6: 2645708023
+ variate no.  7: 2946260310
+ variate no.  8: 2760965234
+ variate no.  9: 698517740
+
+ TEST VALUE #1 = 4092569303
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2633549889
+ variate no.  1: 2745513023
+ variate no.  2: 655595764
+ variate no.  3: 1186069394
+ variate no.  4: 2131866053
+ variate no.  5: 3027532529
+ variate no.  6: 2645708023
+ variate no.  7: 2946260310
+ variate no.  8: 2760965234
+ variate no.  9: 698517740
+
+TEST VALUE #2 = 4092569303
+
+PSWB getState/setState test: GOOD! Test value #1 = test value #2
+
+PSWB Run test: GOOD. Test value = expected final value.
+
+
+MRG5 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 647141464
+ variate no.  1: 540818875
+ variate no.  2: 1385380532
+ variate no.  3: 1277591240
+ variate no.  4: 1905504198
+ variate no.  5: 1083341738
+ variate no.  6: 1719905810
+ variate no.  7: 336983056
+ variate no.  8: 1044267822
+ variate no.  9: 161399238
+
+ Generator state size is 80
+ Allocating state buffer memory
+ State buffer is at 0x80f9a18
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 537410125
+ variate no.  1: 1242125819
+ variate no.  2: 683509822
+ variate no.  3: 855084765
+ variate no.  4: 1490831044
+ variate no.  5: 410131402
+ variate no.  6: 645015990
+ variate no.  7: 1532991449
+ variate no.  8: 71385340
+ variate no.  9: 718608047
+
+ TEST VALUE #1 = 140295182
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 537410125
+ variate no.  1: 1242125819
+ variate no.  2: 683509822
+ variate no.  3: 855084765
+ variate no.  4: 1490831044
+ variate no.  5: 410131402
+ variate no.  6: 645015990
+ variate no.  7: 1532991449
+ variate no.  8: 71385340
+ variate no.  9: 718608047
+
+TEST VALUE #2 = 140295182
+
+MRG5 getState/setState test: GOOD! Test value #1 = test value #2
+
+MRG5 Run test: GOOD. Test value = expected final value.
+
+
+MRG6 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 713441336
+ variate no.  1: 1532713382
+ variate no.  2: 1175188862
+ variate no.  3: 2047362740
+ variate no.  4: 565814953
+ variate no.  5: 34695794
+ variate no.  6: 1888281731
+ variate no.  7: 797852010
+ variate no.  8: 1869367457
+ variate no.  9: 2092091362
+
+ Generator state size is 80
+ Allocating state buffer memory
+ State buffer is at 0x80f9be0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1710788982
+ variate no.  1: 636202062
+ variate no.  2: 331778469
+ variate no.  3: 469131744
+ variate no.  4: 97422286
+ variate no.  5: 2028607619
+ variate no.  6: 2098659612
+ variate no.  7: 5356574
+ variate no.  8: 579594386
+ variate no.  9: 1244421743
+
+ TEST VALUE #1 = 727178510
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1710788982
+ variate no.  1: 636202062
+ variate no.  2: 331778469
+ variate no.  3: 469131744
+ variate no.  4: 97422286
+ variate no.  5: 2028607619
+ variate no.  6: 2098659612
+ variate no.  7: 5356574
+ variate no.  8: 579594386
+ variate no.  9: 1244421743
+
+TEST VALUE #2 = 727178510
+
+MRG6 getState/setState test: GOOD! Test value #1 = test value #2
+
+MRG6 Run test: GOOD. Test value = expected final value.
+
+
+MRG7 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1046621297
+ variate no.  1: 1691938991
+ variate no.  2: 257764176
+ variate no.  3: 1424867721
+ variate no.  4: 1209394944
+ variate no.  5: 841201735
+ variate no.  6: 1333310181
+ variate no.  7: 221294393
+ variate no.  8: 1622612520
+ variate no.  9: 1535082321
+
+ Generator state size is 80
+ Allocating state buffer memory
+ State buffer is at 0x80f9da8
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 853728246
+ variate no.  1: 1853045144
+ variate no.  2: 609605770
+ variate no.  3: 1579890752
+ variate no.  4: 391045414
+ variate no.  5: 1190755922
+ variate no.  6: 994202513
+ variate no.  7: 1813750600
+ variate no.  8: 241766612
+ variate no.  9: 498986225
+
+ TEST VALUE #1 = 1619848208
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 853728246
+ variate no.  1: 1853045144
+ variate no.  2: 609605770
+ variate no.  3: 1579890752
+ variate no.  4: 391045414
+ variate no.  5: 1190755922
+ variate no.  6: 994202513
+ variate no.  7: 1813750600
+ variate no.  8: 241766612
+ variate no.  9: 498986225
+
+TEST VALUE #2 = 1619848208
+
+MRG7 getState/setState test: GOOD! Test value #1 = test value #2
+
+MRG7 Run test: GOOD. Test value = expected final value.
+
+
+C2MRG3 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2054123030
+ variate no.  1: 1739552262
+ variate no.  2: 513787185
+ variate no.  3: 280334987
+ variate no.  4: 1412798225
+ variate no.  5: 220184126
+ variate no.  6: 887535628
+ variate no.  7: 1491265033
+ variate no.  8: 1936431078
+ variate no.  9: 1279711333
+
+ Generator state size is 72
+ Allocating state buffer memory
+ State buffer is at 0x80fa228
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 588490041
+ variate no.  1: 1988974524
+ variate no.  2: 742172239
+ variate no.  3: 1090174472
+ variate no.  4: 1928798641
+ variate no.  5: 1967888007
+ variate no.  6: 1858037526
+ variate no.  7: 408762248
+ variate no.  8: 257281815
+ variate no.  9: 1956051955
+
+ TEST VALUE #1 = 1949646119
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 588490041
+ variate no.  1: 1988974524
+ variate no.  2: 742172239
+ variate no.  3: 1090174472
+ variate no.  4: 1928798641
+ variate no.  5: 1967888007
+ variate no.  6: 1858037526
+ variate no.  7: 408762248
+ variate no.  8: 257281815
+ variate no.  9: 1956051955
+
+TEST VALUE #2 = 1949646119
+
+C2MRG3 getState/setState test: GOOD! Test value #1 = test value #2
+
+C2MRG3 Run test: GOOD. Test value = expected final value.
+
+
+C2TAUS1 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 719489454
+ variate no.  1: 1560510706
+ variate no.  2: 59063121
+ variate no.  3: 741372061
+ variate no.  4: 861004523
+ variate no.  5: 740880515
+ variate no.  6: 671581357
+ variate no.  7: 1000949385
+ variate no.  8: 1917610817
+ variate no.  9: 1260122302
+
+ Generator state size is 44
+ Allocating state buffer memory
+ State buffer is at 0x80fa760
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1168797172
+ variate no.  1: 813882119
+ variate no.  2: 100962854
+ variate no.  3: 744108114
+ variate no.  4: 266476316
+ variate no.  5: 848305700
+ variate no.  6: 1854383863
+ variate no.  7: 246050573
+ variate no.  8: 2024975601
+ variate no.  9: 1358790268
+
+ TEST VALUE #1 = 1050071094
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1168797172
+ variate no.  1: 813882119
+ variate no.  2: 100962854
+ variate no.  3: 744108114
+ variate no.  4: 266476316
+ variate no.  5: 848305700
+ variate no.  6: 1854383863
+ variate no.  7: 246050573
+ variate no.  8: 2024975601
+ variate no.  9: 1358790268
+
+TEST VALUE #2 = 1050071094
+
+C2TAUS1 getState/setState test: GOOD! Test value #1 = test value #2
+
+C2TAUS1 Run test: GOOD. Test value = expected final value.
+
+
+C2TAUS2 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 34459493
+ variate no.  1: 720967066
+ variate no.  2: 1721007830
+ variate no.  3: 61053343
+ variate no.  4: 1106814304
+ variate no.  5: 54214480
+ variate no.  6: 111326228
+ variate no.  7: 1818423941
+ variate no.  8: 174332479
+ variate no.  9: 1153046717
+
+ Generator state size is 44
+ Allocating state buffer memory
+ State buffer is at 0x80fa8f8
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1942160273
+ variate no.  1: 1694585296
+ variate no.  2: 2027944412
+ variate no.  3: 1119412715
+ variate no.  4: 383725397
+ variate no.  5: 1446102919
+ variate no.  6: 1830792210
+ variate no.  7: 1965011783
+ variate no.  8: 941552341
+ variate no.  9: 671268512
+
+ TEST VALUE #1 = 963535163
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1942160273
+ variate no.  1: 1694585296
+ variate no.  2: 2027944412
+ variate no.  3: 1119412715
+ variate no.  4: 383725397
+ variate no.  5: 1446102919
+ variate no.  6: 1830792210
+ variate no.  7: 1965011783
+ variate no.  8: 941552341
+ variate no.  9: 671268512
+
+TEST VALUE #2 = 963535163
+
+C2TAUS2 getState/setState test: GOOD! Test value #1 = test value #2
+
+C2TAUS2 Run test: GOOD. Test value = expected final value.
+
+
+C2TAUS3 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 788561176
+ variate no.  1: 1026161143
+ variate no.  2: 843236812
+ variate no.  3: 1390778166
+ variate no.  4: 1517766764
+ variate no.  5: 65588006
+ variate no.  6: 654602893
+ variate no.  7: 141693079
+ variate no.  8: 1356706627
+ variate no.  9: 1472520733
+
+ Generator state size is 44
+ Allocating state buffer memory
+ State buffer is at 0x80faa90
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 166635590
+ variate no.  1: 201621496
+ variate no.  2: 1327605416
+ variate no.  3: 1333048402
+ variate no.  4: 830522732
+ variate no.  5: 745563750
+ variate no.  6: 171919730
+ variate no.  7: 933277830
+ variate no.  8: 1912771384
+ variate no.  9: 1969044210
+
+ TEST VALUE #1 = 2126750990
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 166635590
+ variate no.  1: 201621496
+ variate no.  2: 1327605416
+ variate no.  3: 1333048402
+ variate no.  4: 830522732
+ variate no.  5: 745563750
+ variate no.  6: 171919730
+ variate no.  7: 933277830
+ variate no.  8: 1912771384
+ variate no.  9: 1969044210
+
+TEST VALUE #2 = 2126750990
+
+C2TAUS3 getState/setState test: GOOD! Test value #1 = test value #2
+
+C2TAUS3 Run test: GOOD. Test value = expected final value.
+
+
+TT403 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 489652085
+ variate no.  1: 14031773
+ variate no.  2: 1430831667
+ variate no.  3: 795205389
+ variate no.  4: 873432223
+ variate no.  5: 344629008
+ variate no.  6: 120372994
+ variate no.  7: 1045271819
+ variate no.  8: 1380600504
+ variate no.  9: 1790659249
+
+ Generator state size is 136
+ Allocating state buffer memory
+ State buffer is at 0x80fb060
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 367295689
+ variate no.  1: 775281391
+ variate no.  2: 1208654812
+ variate no.  3: 846365972
+ variate no.  4: 255549945
+ variate no.  5: 353555893
+ variate no.  6: 211503719
+ variate no.  7: 2028230313
+ variate no.  8: 605097306
+ variate no.  9: 196362475
+
+ TEST VALUE #1 = 76792795
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 367295689
+ variate no.  1: 775281391
+ variate no.  2: 1208654812
+ variate no.  3: 846365972
+ variate no.  4: 255549945
+ variate no.  5: 353555893
+ variate no.  6: 211503719
+ variate no.  7: 2028230313
+ variate no.  8: 605097306
+ variate no.  9: 196362475
+
+TEST VALUE #2 = 76792795
+
+TT403 getState/setState test: GOOD! Test value #1 = test value #2
+
+TT403 Run test: GOOD. Test value = expected final value.
+
+
+TT775 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1218994102
+ variate no.  1: 136588273
+ variate no.  2: 456226988
+ variate no.  3: 783095379
+ variate no.  4: 1112780732
+ variate no.  5: 1439054944
+ variate no.  6: 571843094
+ variate no.  7: 259152221
+ variate no.  8: 1292685519
+ variate no.  9: 1956589144
+
+ Generator state size is 232
+ Allocating state buffer memory
+ State buffer is at 0x80fb320
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 291173932
+ variate no.  1: 1664707958
+ variate no.  2: 1588266763
+ variate no.  3: 1209833411
+ variate no.  4: 2022045644
+ variate no.  5: 1451391666
+ variate no.  6: 1489227819
+ variate no.  7: 246345872
+ variate no.  8: 469654674
+ variate no.  9: 31441662
+
+ TEST VALUE #1 = 1506106342
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 291173932
+ variate no.  1: 1664707958
+ variate no.  2: 1588266763
+ variate no.  3: 1209833411
+ variate no.  4: 2022045644
+ variate no.  5: 1451391666
+ variate no.  6: 1489227819
+ variate no.  7: 246345872
+ variate no.  8: 469654674
+ variate no.  9: 31441662
+
+TEST VALUE #2 = 1506106342
+
+TT775 getState/setState test: GOOD! Test value #1 = test value #2
+
+TT775 Run test: GOOD. Test value = expected final value.
+
+
+TT800 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2649156004
+ variate no.  1: 1501015749
+ variate no.  2: 628758000
+ variate no.  3: 3425873671
+ variate no.  4: 4234811565
+ variate no.  5: 513886658
+ variate no.  6: 1541601297
+ variate no.  7: 910324306
+ variate no.  8: 3923544362
+ variate no.  9: 1239047989
+
+ Generator state size is 232
+ Allocating state buffer memory
+ State buffer is at 0x80fb5e0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2495356142
+ variate no.  1: 712733841
+ variate no.  2: 1004297211
+ variate no.  3: 3723742290
+ variate no.  4: 214819888
+ variate no.  5: 3061520093
+ variate no.  6: 3599615266
+ variate no.  7: 1777964797
+ variate no.  8: 1922319762
+ variate no.  9: 976272245
+
+ TEST VALUE #1 = 4036156023
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2495356142
+ variate no.  1: 712733841
+ variate no.  2: 1004297211
+ variate no.  3: 3723742290
+ variate no.  4: 214819888
+ variate no.  5: 3061520093
+ variate no.  6: 3599615266
+ variate no.  7: 1777964797
+ variate no.  8: 1922319762
+ variate no.  9: 976272245
+
+TEST VALUE #2 = 4036156023
+
+TT800 getState/setState test: GOOD! Test value #1 = test value #2
+
+TT800 Run test: GOOD. Test value = expected final value.
+
+
+MT19937 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1705164584
+ variate no.  1: 2566017165
+ variate no.  2: 2135726860
+ variate no.  3: 2809725094
+ variate no.  4: 1024746319
+ variate no.  5: 3479208495
+ variate no.  6: 450682309
+ variate no.  7: 3936902142
+ variate no.  8: 3525417821
+ variate no.  9: 3529692887
+
+ Generator state size is 5020
+ Allocating state buffer memory
+ State buffer is at 0x80fd3b0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2621243354
+ variate no.  1: 154766909
+ variate no.  2: 2305146607
+ variate no.  3: 782766851
+ variate no.  4: 3793395358
+ variate no.  5: 1814781692
+ variate no.  6: 3096603629
+ variate no.  7: 608330889
+ variate no.  8: 819626016
+ variate no.  9: 305028243
+
+ TEST VALUE #1 = 3282989578
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2621243354
+ variate no.  1: 154766909
+ variate no.  2: 2305146607
+ variate no.  3: 782766851
+ variate no.  4: 3793395358
+ variate no.  5: 1814781692
+ variate no.  6: 3096603629
+ variate no.  7: 608330889
+ variate no.  8: 819626016
+ variate no.  9: 305028243
+
+TEST VALUE #2 = 3282989578
+
+MT19937 getState/setState test: GOOD! Test value #1 = test value #2
+
+MT19937 Run test: GOOD. Test value = expected final value.
+
+
+MWCA Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 732067457
+ variate no.  1: 2386255098
+ variate no.  2: 2538310316
+ variate no.  3: 796686153
+ variate no.  4: 3824837350
+ variate no.  5: 1944644771
+ variate no.  6: 2509545497
+ variate no.  7: 487333582
+ variate no.  8: 1827479641
+ variate no.  9: 329284166
+
+ Generator state size is 40
+ Allocating state buffer memory
+ State buffer is at 0x80fd7d0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2836843068
+ variate no.  1: 2050336299
+ variate no.  2: 3481462523
+ variate no.  3: 2638806547
+ variate no.  4: 3884242784
+ variate no.  5: 617337800
+ variate no.  6: 1789532583
+ variate no.  7: 2818631771
+ variate no.  8: 1037206907
+ variate no.  9: 2068158529
+
+ TEST VALUE #1 = 2870705913
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2836843068
+ variate no.  1: 2050336299
+ variate no.  2: 3481462523
+ variate no.  3: 2638806547
+ variate no.  4: 3884242784
+ variate no.  5: 617337800
+ variate no.  6: 1789532583
+ variate no.  7: 2818631771
+ variate no.  8: 1037206907
+ variate no.  9: 2068158529
+
+TEST VALUE #2 = 2870705913
+
+MWCA getState/setState test: GOOD! Test value #1 = test value #2
+
+MWCA Run test: GOOD. Test value = expected final value.
+
+
+MWCB Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 486045313
+ variate no.  1: 1840209146
+ variate no.  2: 2109901484
+ variate no.  3: 157710153
+ variate no.  4: 3275186918
+ variate no.  5: 1488972963
+ variate no.  6: 1419157529
+ variate no.  7: 4044562126
+ variate no.  8: 1685528665
+ variate no.  9: 180255302
+
+ Generator state size is 40
+ Allocating state buffer memory
+ State buffer is at 0x80fdbf0
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2645281340
+ variate no.  1: 1118479915
+ variate no.  2: 2715805435
+ variate no.  3: 1574501907
+ variate no.  4: 2713507680
+ variate no.  5: 3919893448
+ variate no.  6: 813636007
+ variate no.  7: 2700470363
+ variate no.  8: 4261512571
+ variate no.  9: 1453103169
+
+ TEST VALUE #1 = 2169143033
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2645281340
+ variate no.  1: 1118479915
+ variate no.  2: 2715805435
+ variate no.  3: 1574501907
+ variate no.  4: 2713507680
+ variate no.  5: 3919893448
+ variate no.  6: 813636007
+ variate no.  7: 2700470363
+ variate no.  8: 4261512571
+ variate no.  9: 1453103169
+
+TEST VALUE #2 = 2169143033
+
+MWCB getState/setState test: GOOD! Test value #1 = test value #2
+
+MWCB Run test: GOOD. Test value = expected final value.
+
+
+C3MWC Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3413301197
+ variate no.  1: 2622559938
+ variate no.  2: 4037555779
+ variate no.  3: 867989796
+ variate no.  4: 701485180
+ variate no.  5: 744353288
+ variate no.  6: 987405663
+ variate no.  7: 1502021889
+ variate no.  8: 2087440122
+ variate no.  9: 3955518364
+
+ Generator state size is 72
+ Allocating state buffer memory
+ State buffer is at 0x80fe050
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 4230301756
+ variate no.  1: 3012747679
+ variate no.  2: 701805543
+ variate no.  3: 1203278059
+ variate no.  4: 4026641545
+ variate no.  5: 3240638203
+ variate no.  6: 3885245724
+ variate no.  7: 1081624765
+ variate no.  8: 3573460013
+ variate no.  9: 1881991496
+
+ TEST VALUE #1 = 1332294946
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 4230301756
+ variate no.  1: 3012747679
+ variate no.  2: 701805543
+ variate no.  3: 1203278059
+ variate no.  4: 4026641545
+ variate no.  5: 3240638203
+ variate no.  6: 3885245724
+ variate no.  7: 1081624765
+ variate no.  8: 3573460013
+ variate no.  9: 1881991496
+
+TEST VALUE #2 = 1332294946
+
+C3MWC getState/setState test: GOOD! Test value #1 = test value #2
+
+C3MWC Run test: GOOD. Test value = expected final value.
+
+
+RWC2 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 1339018312
+ variate no.  1: 2219496849
+ variate no.  2: 3288726642
+ variate no.  3: 994873069
+ variate no.  4: 122466057
+ variate no.  5: 202039317
+ variate no.  6: 259290555
+ variate no.  7: 3178631527
+ variate no.  8: 3497951285
+ variate no.  9: 601511039
+
+ Generator state size is 48
+ Allocating state buffer memory
+ State buffer is at 0x80fe480
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3373381607
+ variate no.  1: 2854959590
+ variate no.  2: 513303436
+ variate no.  3: 3577887218
+ variate no.  4: 1887093722
+ variate no.  5: 3613150348
+ variate no.  6: 3313583710
+ variate no.  7: 251869734
+ variate no.  8: 1023898536
+ variate no.  9: 3769165601
+
+ TEST VALUE #1 = 4265961988
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 3373381607
+ variate no.  1: 2854959590
+ variate no.  2: 513303436
+ variate no.  3: 3577887218
+ variate no.  4: 1887093722
+ variate no.  5: 3613150348
+ variate no.  6: 3313583710
+ variate no.  7: 251869734
+ variate no.  8: 1023898536
+ variate no.  9: 3769165601
+
+TEST VALUE #2 = 4265961988
+
+RWC2 getState/setState test: GOOD! Test value #1 = test value #2
+
+RWC2 Run test: GOOD. Test value = expected final value.
+
+
+RWC8 Setting state from seed 43574357
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 2208942848
+ variate no.  1: 372781373
+ variate no.  2: 3729316364
+ variate no.  3: 1869221215
+ variate no.  4: 3411971275
+ variate no.  5: 899157250
+ variate no.  6: 2106411787
+ variate no.  7: 3284911141
+ variate no.  8: 1120757537
+ variate no.  9: 4107914443
+
+ Generator state size is 100
+ Allocating state buffer memory
+ State buffer is at 0x80fe978
+ Saving generator state
+
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 975545722
+ variate no.  1: 3724055702
+ variate no.  2: 3686666140
+ variate no.  3: 4260636431
+ variate no.  4: 136094176
+ variate no.  5: 370060101
+ variate no.  6: 615951219
+ variate no.  7: 1734377310
+ variate no.  8: 3662239241
+ variate no.  9: 3076777402
+
+ TEST VALUE #1 = 498591737
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator for 10000 steps and print 10
+
+ variate no.  0: 975545722
+ variate no.  1: 3724055702
+ variate no.  2: 3686666140
+ variate no.  3: 4260636431
+ variate no.  4: 136094176
+ variate no.  5: 370060101
+ variate no.  6: 615951219
+ variate no.  7: 1734377310
+ variate no.  8: 3662239241
+ variate no.  9: 3076777402
+
+TEST VALUE #2 = 498591737
+
+RWC8 getState/setState test: GOOD! Test value #1 = test value #2
+
+RWC8 Run test: GOOD. Test value = expected final value.
+
+
+C2LCGX Setting state from seed 43574357
+
+Run generator(s) for 10000 steps and print 10
+
+vGen 0 segment 0:
+
+ variate no.  0: 1014340669
+ variate no.  1: 363477923
+ variate no.  2: 964349655
+ variate no.  3: 1794672236
+ variate no.  4: 417016126
+ variate no.  5: 254609286
+ variate no.  6: 1382643208
+ variate no.  7: 1103658585
+ variate no.  8: 1841839452
+ variate no.  9: 155639771
+
+vGen 1 segment 1:
+
+ variate no.  0: 776040007
+ variate no.  1: 269015750
+ variate no.  2: 1665480093
+ variate no.  3: 1768405180
+ variate no.  4: 201722205
+ variate no.  5: 287246990
+ variate no.  6: 1131073205
+ variate no.  7: 478168159
+ variate no.  8: 1597285249
+ variate no.  9: 1818054653
+
+vGen 31 segment 2:
+
+ variate no.  0: 2036492565
+ variate no.  1: 886581993
+ variate no.  2: 255607330
+ variate no.  3: 1278553674
+ variate no.  4: 1100732412
+ variate no.  5: 1361038979
+ variate no.  6: 2093439520
+ variate no.  7: 491391962
+ variate no.  8: 1982130134
+ variate no.  9: 1258818485
+
+ Generator state size is 1356
+ Allocating state buffer memory
+ State buffer is at 0x80ff2c8
+ Saving generator state
+
+ Run generator(s) for 10000 steps and print 10
+
+vGen 0 segment 0:
+
+ variate no.  0: 1097525939
+ variate no.  1: 469864563
+ variate no.  2: 2062427167
+ variate no.  3: 227904179
+ variate no.  4: 443307578
+ variate no.  5: 1687153533
+ variate no.  6: 1004587634
+ variate no.  7: 287421425
+ variate no.  8: 2129598900
+ variate no.  9: 911990895
+
+vGen 1 segment 1:
+
+ variate no.  0: 1377308134
+ variate no.  1: 576517293
+ variate no.  2: 1843696778
+ variate no.  3: 1344973772
+ variate no.  4: 865423321
+ variate no.  5: 419485825
+ variate no.  6: 1300539209
+ variate no.  7: 893971217
+ variate no.  8: 216716317
+ variate no.  9: 1563869943
+
+vGen 31 segment 2:
+
+ variate no.  0: 611540184
+ variate no.  1: 1477660366
+ variate no.  2: 436675396
+ variate no.  3: 1962441980
+ variate no.  4: 1570655545
+ variate no.  5: 824796975
+ variate no.  6: 1682095386
+ variate no.  7: 513205862
+ variate no.  8: 1187787037
+ variate no.  9: 1609513539
+
+TEST VALUE #1 = 386822811
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator(s) for 10000 steps and print 10
+
+vGen 0 segment 0:
+
+ variate no.  0: 1097525939
+ variate no.  1: 469864563
+ variate no.  2: 2062427167
+ variate no.  3: 227904179
+ variate no.  4: 443307578
+ variate no.  5: 1687153533
+ variate no.  6: 1004587634
+ variate no.  7: 287421425
+ variate no.  8: 2129598900
+ variate no.  9: 911990895
+
+vGen 1 segment 1:
+
+ variate no.  0: 1377308134
+ variate no.  1: 576517293
+ variate no.  2: 1843696778
+ variate no.  3: 1344973772
+ variate no.  4: 865423321
+ variate no.  5: 419485825
+ variate no.  6: 1300539209
+ variate no.  7: 893971217
+ variate no.  8: 216716317
+ variate no.  9: 1563869943
+
+vGen 31 segment 2:
+
+ variate no.  0: 611540184
+ variate no.  1: 1477660366
+ variate no.  2: 436675396
+ variate no.  3: 1962441980
+ variate no.  4: 1570655545
+ variate no.  5: 824796975
+ variate no.  6: 1682095386
+ variate no.  7: 513205862
+ variate no.  8: 1187787037
+ variate no.  9: 1609513539
+
+TEST VALUE #2 = 386822811
+
+C2LCGX getState/setState test: GOOD! Test value #1 = Test value #2
+
+C2LCGX Run test: GOOD! Test value = expected final value.
+
+
+C4LCGX Setting state from seed 43574357
+
+Run generator(s) for 10000 steps and print 10
+
+vGen 0 segment 0:
+
+ variate no.  0: 966862276
+ variate no.  1: 501259871
+ variate no.  2: 752840267
+ variate no.  3: 3179956
+ variate no.  4: 1764227187
+ variate no.  5: 491536645
+ variate no.  6: 1407843681
+ variate no.  7: 1474302944
+ variate no.  8: 1011566018
+ variate no.  9: 814796526
+
+vGen 1 segment 1:
+
+ variate no.  0: 1801915949
+ variate no.  1: 929330930
+ variate no.  2: 1479210420
+ variate no.  3: 989582982
+ variate no.  4: 1378871849
+ variate no.  5: 562590052
+ variate no.  6: 1788421457
+ variate no.  7: 1621299427
+ variate no.  8: 95070583
+ variate no.  9: 1960342756
+
+vGen 31 segment 2:
+
+ variate no.  0: 2106508806
+ variate no.  1: 233163374
+ variate no.  2: 1949617118
+ variate no.  3: 10409114
+ variate no.  4: 75037948
+ variate no.  5: 1264245944
+ variate no.  6: 656459961
+ variate no.  7: 1742105681
+ variate no.  8: 1749388412
+ variate no.  9: 1988747460
+
+ Generator state size is 8300
+ Allocating state buffer memory
+ State buffer is at 0x8101758
+ Saving generator state
+
+ Run generator(s) for 10000 steps and print 10
+
+vGen 0 segment 0:
+
+ variate no.  0: 637880316
+ variate no.  1: 820470857
+ variate no.  2: 110243114
+ variate no.  3: 1481571832
+ variate no.  4: 937146061
+ variate no.  5: 794975651
+ variate no.  6: 1288326815
+ variate no.  7: 2045105357
+ variate no.  8: 1302895472
+ variate no.  9: 903530376
+
+vGen 1 segment 1:
+
+ variate no.  0: 292307364
+ variate no.  1: 1244154367
+ variate no.  2: 1676710639
+ variate no.  3: 554239580
+ variate no.  4: 667081906
+ variate no.  5: 1919546025
+ variate no.  6: 240104561
+ variate no.  7: 584743544
+ variate no.  8: 1852853575
+ variate no.  9: 982740454
+
+vGen 31 segment 2:
+
+ variate no.  0: 812977964
+ variate no.  1: 234022248
+ variate no.  2: 1800372882
+ variate no.  3: 1043817703
+ variate no.  4: 481766284
+ variate no.  5: 1776661321
+ variate no.  6: 1493847281
+ variate no.  7: 393214701
+ variate no.  8: 1523705314
+ variate no.  9: 2040115094
+
+TEST VALUE #1 = 147683006
+
+ Resetting generator state
+ Freeing state buffer memory
+ Run generator(s) for 10000 steps and print 10
+
+vGen 0 segment 0:
+
+ variate no.  0: 637880316
+ variate no.  1: 820470857
+ variate no.  2: 110243114
+ variate no.  3: 1481571832
+ variate no.  4: 937146061
+ variate no.  5: 794975651
+ variate no.  6: 1288326815
+ variate no.  7: 2045105357
+ variate no.  8: 1302895472
+ variate no.  9: 903530376
+
+vGen 1 segment 1:
+
+ variate no.  0: 292307364
+ variate no.  1: 1244154367
+ variate no.  2: 1676710639
+ variate no.  3: 554239580
+ variate no.  4: 667081906
+ variate no.  5: 1919546025
+ variate no.  6: 240104561
+ variate no.  7: 584743544
+ variate no.  8: 1852853575
+ variate no.  9: 982740454
+
+vGen 31 segment 2:
+
+ variate no.  0: 812977964
+ variate no.  1: 234022248
+ variate no.  2: 1800372882
+ variate no.  3: 1043817703
+ variate no.  4: 481766284
+ variate no.  5: 1776661321
+ variate no.  6: 1493847281
+ variate no.  7: 393214701
+ variate no.  8: 1523705314
+ variate no.  9: 2040115094
+
+TEST VALUE #2 = 147683006
+
+C4LCGX getState/setState test: GOOD! Test value #1 = Test value #2
+
+C4LCGX Run test: GOOD! Test value = expected final value.
+
+
+RandomBitDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 0
+ variate no.  1: 0
+ variate no.  2: 1
+ variate no.  3: 0
+ variate no.  4: 0
+ variate no.  5: 1
+ variate no.  6: 0
+ variate no.  7: 0
+ variate no.  8: 1
+ variate no.  9: 1
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8103c38
+ Saving generator state
+
+ Distribution state size is 36
+ Allocating state buffer memory
+ State buffer is at 0x8103c60
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 1
+ variate no.  1: 0
+ variate no.  2: 1
+ variate no.  3: 1
+ variate no.  4: 0
+ variate no.  5: 1
+ variate no.  6: 0
+ variate no.  7: 0
+ variate no.  8: 0
+ variate no.  9: 1
+
+ TEST VALUE #1 = 1
+
+ Yes Fraction =       0.5015484515484515 (10041 YES, 9979 NO)
+
+Number of generator calls made =                    20021
+Number of distribution calls made =                 20021
+Ratio =   1.0000000000000000e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 1
+ variate no.  1: 0
+ variate no.  2: 1
+ variate no.  3: 1
+ variate no.  4: 0
+ variate no.  5: 1
+ variate no.  6: 0
+ variate no.  7: 0
+ variate no.  8: 0
+ variate no.  9: 1
+
+TEST VALUE #2 = 1
+
+RandomBitDist getState/setState test: GOOD! Test value #1 = test value #2
+RandomBitDist Run test: GOOD. Test value = expected final value.
+
+BernoulliDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 1
+ variate no.  1: 0
+ variate no.  2: 1
+ variate no.  3: 0
+ variate no.  4: 1
+ variate no.  5: 0
+ variate no.  6: 1
+ variate no.  7: 1
+ variate no.  8: 1
+ variate no.  9: 1
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8103f28
+ Saving generator state
+
+ Distribution state size is 40
+ Allocating state buffer memory
+ State buffer is at 0x8103f50
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 1
+ variate no.  1: 1
+ variate no.  2: 1
+ variate no.  3: 0
+ variate no.  4: 1
+ variate no.  5: 1
+ variate no.  6: 1
+ variate no.  7: 1
+ variate no.  8: 0
+ variate no.  9: 1
+
+ TEST VALUE #1 = 1
+
+ Yes Fraction =       0.6635864135864136 (13285 YES, 6735 NO)
+
+Number of generator calls made =                    20021
+Number of distribution calls made =                 20021
+Ratio =   1.0000000000000000e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 1
+ variate no.  1: 1
+ variate no.  2: 1
+ variate no.  3: 0
+ variate no.  4: 1
+ variate no.  5: 1
+ variate no.  6: 1
+ variate no.  7: 1
+ variate no.  8: 0
+ variate no.  9: 1
+
+TEST VALUE #2 = 1
+
+BernoulliDist getState/setState test: GOOD! Test value #1 = test value #2
+BernoulliDist Run test: GOOD. Test value = expected final value.
+
+UniformIntegerDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: -32
+ variate no.  1: 58
+ variate no.  2: 7
+ variate no.  3: 12
+ variate no.  4: 25
+ variate no.  5: 38
+ variate no.  6: 4
+ variate no.  7: -9
+ variate no.  8: -11
+ variate no.  9: -25
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8103f98
+ Saving generator state
+
+ Distribution state size is 52
+ Allocating state buffer memory
+ State buffer is at 0x8103fc0
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: -29
+ variate no.  1: 54
+ variate no.  2: 44
+ variate no.  3: -28
+ variate no.  4: 27
+ variate no.  5: -18
+ variate no.  6: -17
+ variate no.  7: 58
+ variate no.  8: 36
+ variate no.  9: 47
+
+ TEST VALUE #1 = 74
+
+Number of generator calls made =                    20021
+Number of distribution calls made =                 20021
+Ratio =   1.0000000000000000e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: -29
+ variate no.  1: 54
+ variate no.  2: 44
+ variate no.  3: -28
+ variate no.  4: 27
+ variate no.  5: -18
+ variate no.  6: -17
+ variate no.  7: 58
+ variate no.  8: 36
+ variate no.  9: 47
+
+TEST VALUE #2 = 74
+
+UniformIntegerDist getState/setState test: GOOD! Test value #1 = test value #2
+UniformIntegerDist Run test: GOOD. Test value = expected final value.
+
+UniformUnsignedDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 35
+ variate no.  1: 45
+ variate no.  2: 44
+ variate no.  3: 45
+ variate no.  4: 50
+ variate no.  5: 47
+ variate no.  6: 61
+ variate no.  7: 60
+ variate no.  8: 46
+ variate no.  9: 50
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8104008
+ Saving generator state
+
+ Distribution state size is 52
+ Allocating state buffer memory
+ State buffer is at 0x8104030
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 44
+ variate no.  1: 55
+ variate no.  2: 55
+ variate no.  3: 47
+ variate no.  4: 60
+ variate no.  5: 41
+ variate no.  6: 52
+ variate no.  7: 41
+ variate no.  8: 45
+ variate no.  9: 40
+
+ TEST VALUE #1 = 59
+
+Number of generator calls made =                    20021
+Number of distribution calls made =                 20021
+Ratio =   1.0000000000000000e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 44
+ variate no.  1: 55
+ variate no.  2: 55
+ variate no.  3: 47
+ variate no.  4: 60
+ variate no.  5: 41
+ variate no.  6: 52
+ variate no.  7: 41
+ variate no.  8: 45
+ variate no.  9: 40
+
+TEST VALUE #2 = 59
+
+UniformUnsignedDist getState/setState test: GOOD! Test value #1 = test value #2
+UniformUnsignedDist Run test: GOOD. Test value = expected final value.
+
+UniformDoubleDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 2.907806
+ variate no.  1: 3.023681
+ variate no.  2: 2.824312
+ variate no.  3: 2.913137
+ variate no.  4: 2.961234
+ variate no.  5: 2.934898
+ variate no.  6: 2.999491
+ variate no.  7: 2.915458
+ variate no.  8: 2.844269
+ variate no.  9: 3.127798
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8104080
+ Saving generator state
+
+ Distribution state size is 56
+ Allocating state buffer memory
+ State buffer is at 0x81040a8
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 3.053353
+ variate no.  1: 3.033723
+ variate no.  2: 2.965974
+ variate no.  3: 3.074142
+ variate no.  4: 3.111445
+ variate no.  5: 3.035263
+ variate no.  6: 2.821930
+ variate no.  7: 2.847082
+ variate no.  8: 3.139580
+ variate no.  9: 3.048069
+
+ TEST VALUE #1 =   3.0697950221718782e+00
+
+Number of generator calls made =                    40042
+Number of distribution calls made =                 20021
+Ratio =   2.0000000000000000e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 3.053353
+ variate no.  1: 3.033723
+ variate no.  2: 2.965974
+ variate no.  3: 3.074142
+ variate no.  4: 3.111445
+ variate no.  5: 3.035263
+ variate no.  6: 2.821930
+ variate no.  7: 2.847082
+ variate no.  8: 3.139580
+ variate no.  9: 3.048069
+
+TEST VALUE #2 =   3.0697950221718782e+00
+
+UniformDoubleDist getState/setState test: GOOD! Test value #1 = test value #2
+UniformDoubleDist Run test: GOOD. Test value = expected final value.
+
+NormalDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 2.372439
+ variate no.  1: 3.629705
+ variate no.  2: 3.202958
+ variate no.  3: 5.550775
+ variate no.  4: 3.478227
+ variate no.  5: 1.847995
+ variate no.  6: 4.032552
+ variate no.  7: 4.063962
+ variate no.  8: 2.615924
+ variate no.  9: 3.898797
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8104390
+ Saving generator state
+
+ Distribution state size is 60
+ Allocating state buffer memory
+ State buffer is at 0x81043b8
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 2.061183
+ variate no.  1: 1.813878
+ variate no.  2: 3.116450
+ variate no.  3: 4.572994
+ variate no.  4: 3.979506
+ variate no.  5: 2.394121
+ variate no.  6: 2.061072
+ variate no.  7: 2.941886
+ variate no.  8: 5.853321
+ variate no.  9: 5.131669
+
+ TEST VALUE #1 =   2.7164700054052444e+00
+
+Number of generator calls made =                    50960
+Number of distribution calls made =                 20021
+Ratio =   2.5453274062234654e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 2.061183
+ variate no.  1: 1.813878
+ variate no.  2: 3.116450
+ variate no.  3: 4.572994
+ variate no.  4: 3.979506
+ variate no.  5: 2.394121
+ variate no.  6: 2.061072
+ variate no.  7: 2.941886
+ variate no.  8: 5.853321
+ variate no.  9: 5.131669
+
+TEST VALUE #2 =   2.7164700054052444e+00
+
+NormalDist getState/setState test: GOOD! Test value #1 = test value #2
+NormalDist Run test: GOOD. Test value = expected final value.
+
+LogNormalDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 10.723512
+ variate no.  1: 37.701686
+ variate no.  2: 24.605202
+ variate no.  3: 257.436900
+ variate no.  4: 32.402210
+ variate no.  5: 6.347084
+ variate no.  6: 56.404684
+ variate no.  7: 58.204455
+ variate no.  8: 13.679855
+ variate no.  9: 49.343032
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x81046a0
+ Saving generator state
+
+ Distribution state size is 60
+ Allocating state buffer memory
+ State buffer is at 0x81046c8
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 7.855257
+ variate no.  1: 6.134193
+ variate no.  2: 22.566122
+ variate no.  3: 96.833613
+ variate no.  4: 53.490589
+ variate no.  5: 10.958556
+ variate no.  6: 7.854388
+ variate no.  7: 18.951549
+ variate no.  8: 348.389582
+ variate no.  9: 169.299438
+
+ TEST VALUE #1 =   1.5126830258240883e+01
+
+Number of generator calls made =                    50960
+Number of distribution calls made =                 20021
+Ratio =   2.5453274062234654e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 7.855257
+ variate no.  1: 6.134193
+ variate no.  2: 22.566122
+ variate no.  3: 96.833613
+ variate no.  4: 53.490589
+ variate no.  5: 10.958556
+ variate no.  6: 7.854388
+ variate no.  7: 18.951549
+ variate no.  8: 348.389582
+ variate no.  9: 169.299438
+
+TEST VALUE #2 =   1.5126830258240883e+01
+
+LogNormalDist getState/setState test: GOOD! Test value #1 = test value #2
+LogNormalDist Run test: GOOD. Test value = expected final value.
+
+ExponentialDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 3.710562
+ variate no.  1: 1.329224
+ variate no.  2: 9.904479
+ variate no.  3: 3.547826
+ variate no.  4: 2.378979
+ variate no.  5: 2.962232
+ variate no.  6: 1.693593
+ variate no.  7: 3.479623
+ variate no.  8: 6.986401
+ variate no.  9: 0.128308
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8104990
+ Saving generator state
+
+ Distribution state size is 40
+ Allocating state buffer memory
+ State buffer is at 0x81049b8
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 0.935362
+ variate no.  1: 1.190054
+ variate no.  2: 2.285072
+ variate no.  3: 0.687316
+ variate no.  4: 0.287917
+ variate no.  5: 1.169271
+ variate no.  6: 10.560206
+ variate no.  7: 6.734295
+ variate no.  8: 0.018363
+ variate no.  9: 1.001828
+
+ TEST VALUE #1 =   7.3751060128591206e-01
+
+Number of generator calls made =                    40042
+Number of distribution calls made =                 20021
+Ratio =   2.0000000000000000e+00
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 0.935362
+ variate no.  1: 1.190054
+ variate no.  2: 2.285072
+ variate no.  3: 0.687316
+ variate no.  4: 0.287917
+ variate no.  5: 1.169271
+ variate no.  6: 10.560206
+ variate no.  7: 6.734295
+ variate no.  8: 0.018363
+ variate no.  9: 1.001828
+
+TEST VALUE #2 =   7.3751060128591206e-01
+
+ExponentialDist getState/setState test: GOOD! Test value #1 = test value #2
+ExponentialDist Run test: GOOD. Test value = expected final value.
+
+GammaDist / PMMLCG1: Setting generator state from seed 43574357
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 2.252587
+ variate no.  1: 1.631899
+ variate no.  2: 2.378261
+ variate no.  3: 2.142271
+ variate no.  4: 0.150569
+ variate no.  5: 2.566094
+ variate no.  6: 1.576524
+ variate no.  7: 1.520384
+ variate no.  8: 1.209511
+ variate no.  9: 4.334585
+
+ Generator state size is 32
+ Allocating state buffer memory
+ State buffer is at 0x8104c88
+ Saving generator state
+
+ Distribution state size is 48
+ Allocating state buffer memory
+ State buffer is at 0x8104cb0
+ Saving distribution state
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 5.509309
+ variate no.  1: 1.908627
+ variate no.  2: 2.213843
+ variate no.  3: 2.357384
+ variate no.  4: 0.744122
+ variate no.  5: 1.700750
+ variate no.  6: 1.293629
+ variate no.  7: 2.009396
+ variate no.  8: 2.481491
+ variate no.  9: 2.492658
+
+ TEST VALUE #1 =   1.3252529596279012e+00
+
+Number of generator calls made =                   249212
+Number of distribution calls made =                 20021
+Ratio =   1.2447530093401928e+01
+
+ Resetting generator state
+ Freeing state buffer memory
+ Resetting distribution state
+ Freeing state buffer memory
+
+ Run distribution for 10000 steps and print 10
+
+ variate no.  0: 5.509309
+ variate no.  1: 1.908627
+ variate no.  2: 2.213843
+ variate no.  3: 2.357384
+ variate no.  4: 0.744122
+ variate no.  5: 1.700750
+ variate no.  6: 1.293629
+ variate no.  7: 2.009396
+ variate no.  8: 2.481491
+ variate no.  9: 2.492658
+
+TEST VALUE #2 =   1.3252529596279012e+00
+
+GammaDist getState/setState test: GOOD! Test value #1 = test value #2
+GammaDist Run test: GOOD. Test value = expected final value.
+
