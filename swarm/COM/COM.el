@@ -578,6 +578,7 @@
         (insert "#define ")
         (insert cppsym)
         (insert "\n"))
+      (insert "#include \"swarmBase.h\"\n")
       (insert "#include <swarmITyping.h>\n")
       (loop for iprotocol in iprotocols
             do
@@ -599,7 +600,7 @@
            (insert "public ")
            (com-interface-name iprotocol iphase))
        t)
-      (insert ", public swarmITyping")
+      (insert ", public swarmITyping, public swarmBase")
       (insert "\n")
       (insert "{\n")
       (insert "public:\n")
@@ -675,6 +676,7 @@
     (insert class)
     (insert ")\n")
     (insert "NS_INTERFACE_MAP_ENTRY(swarmITyping)\n")
+    (insert "NS_INTERFACE_MAP_ENTRY(swarmIBase)\n")
     (loop for iprotocol in iprotocols
           do
           (insert "NS_INTERFACE_MAP_ENTRY(")
