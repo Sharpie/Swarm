@@ -20,7 +20,8 @@ bin_PROGRAMS = @SWARM_DLL@
 headers: SwarmEnvironment_getters.m
 	for i in $(SUBDIRS) ; do $(MAKE) -C $$i headers ; done
 
-include $(top_builddir)/etc/Makefile.common
+ include $(top_builddir)/etc/Makefile.common
+ include $(srcdir)/Makefile.rules
 
 CURRENT = 0
 REVISION = 0
