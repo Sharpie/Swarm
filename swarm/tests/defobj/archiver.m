@@ -72,6 +72,7 @@
   obj->ulongVal = ULONGVAL;
   obj->floatVal = FLOATVAL;
   obj->doubleVal = DOUBLEVAL;
+  
   return obj;
 }
 
@@ -137,8 +138,53 @@
     return NO;
   
   return strcmp ([objVal getName], COMPONENT_STRVAL) == 0;
-
 }
+@end
+
+#define DIM1COUNT 3
+#define DIM2COUNT 2
+
+@interface MyClassDeeper: MyClassDeep
+{
+  int intAryVal[DIM1COUNT][DIM2COUNT];
+  double doubleAryVal[DIM1COUNT][DIM2COUNT];
+}
++ createBegin: aZone;
+@end
+
+@implementation MyClassDeeper: MyClassDeep
++ createBegin: aZone
+{
+  unsigned i, j;
+  MyClassDeeper *obj = [super createBegin: aZone];
+  
+  for (i = 0; i < DIM1COUNT; i++)
+    for (j = 0; j < DIM2COUNT; j++)
+      {
+        obj->intAryVal[i][j] = (i + 1) * (j + 1);
+        obj->doubleAryVal[i][j] = (i + 1) * (j + 1);
+      }
+  return obj;
+}
+
+- (BOOL)checkObject
+{
+  unsigned i, j;
+
+  if (![super checkObject])
+    return NO;
+
+  for (i = 0; i < DIM1COUNT; i++)
+    for (j = 0; j < DIM2COUNT; j++)
+      {
+        if (intAryVal[i][j] != (i + 1) * (j + 1))
+          return NO;
+        if (doubleAryVal[i][j] != (i + 1) * (j + 1))
+          return NO;
+      }
+  return YES;
+}
+
 @end
 
 static id
@@ -162,7 +208,7 @@ checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag)
 
   archiver = createArchiver (aZone, hdf5Flag, YES, deepFlag);
   if (deepFlag)
-    obj = [[[MyClassDeep createBegin: aZone]
+    obj = [[[MyClassDeeper createBegin: aZone]
              setDeepFlag: YES]
             createEnd];
   else
