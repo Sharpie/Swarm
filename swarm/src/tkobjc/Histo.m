@@ -17,16 +17,14 @@
 
 @implementation Histo
 
--createEnd
+- createEnd
 {
   [super createEnd];
 
   // create the graph with one element
   [globalTkInterp eval: "barchart %s;", widgetName];
   [self setWidth: 400 Height: 247];		  // golden ratio
-
   numPoints = 0;
-  
   return self;
 }
 

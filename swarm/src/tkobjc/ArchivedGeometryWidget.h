@@ -9,8 +9,12 @@
 @interface ArchivedGeometryWidget : Widget
 {
   const char *windowGeometryRecordName;
+  id owner;
+  SEL destroyNotificationMethod;
 }
 
+- setupDestroyNotification: owner
+        notificationMethod: (SEL)destroyNotificationMethod;
 - setWindowGeometryRecordName : (const char *)recordName;
 - loadWindowGeometryRecord;
 - updateArchiver;

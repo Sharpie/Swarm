@@ -34,5 +34,11 @@
   return self;
 }
 
+- (void)drop
+{
+  if (parent == nil)
+    [globalTkInterp eval: "destroy %s", [self getWidgetName]]; 
+}
+
 @end
 

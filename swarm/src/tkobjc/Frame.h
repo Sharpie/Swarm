@@ -12,5 +12,6 @@
 }
 
 - createEnd;					  // we override this.
+- (void)drop;
 
 @end

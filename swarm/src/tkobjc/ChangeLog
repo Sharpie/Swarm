@@ -1,13 +1,19 @@
 1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ArchivedGeometryWidget.m (structure_proc): New function.  A
+	handler for Structure changes to the widget (e.g. destruction).
+	([ArchivedGeometryWidget -_notifyOwnerAndDrop_]): New internal
+	method called by above handler.
+	([ArchivedGeometryWidget
+	-setupDestroyNotification:notificationMethod:]):  Configures
+	an event handler for structure changes, and sets the target
+	and method for notification.
+
 	* Raster.m ([Raster -drop]):  Remove. 
 
 	* Raster.[hm]: Reformatting throughout.
 
 	* Frame.m ([Frame -createEnd]): Minor reformatting.
-	([Frame -drop]): Remove; leave that to superclass.
-	
-	* Frame.h: Remove drop method.
 
 	* Canvas.m ([Canvas -drop]): Remove; leave that to superclass.
 
@@ -19,7 +25,11 @@
 	* BLTGraph.[hm]: Minor reformatting.
 
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget -drop]): 
-	Destroy the widget on drop, but only if there isn't a parent.
+	Destroy the parent widget on drop.
+
+	* ArchivedGeometryWidget.h (ArchivedGeometryWidget): Add owner and
+	destroyNotificationMethod variables, and declare
+	setupDestroyNotification.
 
 	* CanvasItem.m ([CanvasItem -createBindings]): Constify temp.
 

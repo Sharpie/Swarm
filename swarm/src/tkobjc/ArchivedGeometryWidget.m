@@ -75,9 +75,35 @@ id archiverGet (const char *key);
 { 
   archiverUnregister (self);
 
-  if (parent == nil)
-    [globalTkInterp eval: "destroy %s", [self getWidgetName]]; 
+  [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
   [super drop];
+}
+
+- _notifyOwnerAndDrop_
+{
+  [owner perform: destroyNotificationMethod];
+  [self drop];
+  return self;
+}
+
+static void
+structure_proc (ClientData clientdata, XEvent *eventptr)
+{
+  if (eventptr->type == DestroyNotify)
+    [(id)clientdata _notifyOwnerAndDrop_];
+}
+
+- setupDestroyNotification: theOwner
+        notificationMethod: (SEL)theDestroyNotificationMethod
+{
+  Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
+                                     (char *)widgetName,
+                                     [globalTkInterp mainWindow]);
+  Tk_CreateEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
+
+  owner = theOwner;
+  destroyNotificationMethod = theDestroyNotificationMethod;
+  return self;
 }
 
 @end
