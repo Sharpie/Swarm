@@ -142,6 +142,16 @@
     </SECT2>
 
     <SECT2>
+      <TITLE>User Guide for Beginners</TITLE>
+       
+      <para>Please see the <link
+     linkend="swarm.random.sgml.appendix.usage-beginners.sect1">Random
+     Appendix</link>.  This section may go away in the future to be
+     relocated in the Swarm User Guide.</para>
+
+    </SECT2>
+
+    <SECT2>
 
       <TITLE>Usage Guide for Generators</TITLE>
       
@@ -177,67 +187,6 @@
       create phase. The competent programmer may subclass these objects
       in the normal manner.
     </PARA>
-
-  </SECT1>
-
-  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.DESIGN">
-    <TITLE>Interface Design Notes</TITLE>
-
-    <PARA>Different aspects of the random library interface were hotly
-      debated, as were various aspects of implementation. What you get
-      in the current library reflects this debate, tempered with the 
-      implementor's preferences.
-
-      The list below shows <EMPHASIS>some</EMPHASIS> of the issues that
-      went into designing this library. 
-
-      </PARA>
-
-    <FORMALPARA><TITLE>Issues</TITLE>
-
-      <PARA><ITEMIZEDLIST> 
-
-          <LISTITEM><PARA>What generators to provide?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Include non-recommended
-              generators?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>What distributions to provide?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>What is "state" and how do we handle
-          it?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Setting Seed vs. State for generators
-          </PARA></LISTITEM>
-
-          <LISTITEM><PARA>Separate classes for separate distribution
-            types (e.g.  double, integer, unsigned; continuous vs. discrete) ?
-          </PARA></LISTITEM>
-
-          <LISTITEM><PARA>Problems with the transformation from
-            generator output to distribution output.</PARA></LISTITEM>
-
-          <LISTITEM><PARA>What precision should be
-              supported?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Should the generator underlying a
-              distribution be visible through the
-              distribution?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Efficiency!</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Open vs. Closed intervals?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Should we provide default generators, seeds, and
-              states?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Shorthand create methods?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Potential phase optimizations?</PARA></LISTITEM>
-
-        </ITEMIZEDLIST>
-      </PARA>
-    </FORMALPARA>
 
   </SECT1>
 

@@ -1,3 +1,9 @@
+1999-02-10  Alex Lancaster  <alex@santafe.edu>
+
+	* random00.sgml: Removed `Implementation Design Notes' - no longer
+	relevant.
+	Make link to User-Guide.For-Beginners section.
+
 1999-02-09  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (SGML): Add, set to random-app.sgml.
@@ -14,14 +20,9 @@
 
 1999-02-03  Sven Thommesen <sthomme@humsci.auburn.edu>
 
-	* $(SWARMDOCS)/refbook/random/extra: replaced version 0.75 files
-	with version 0.8 files.
-
-	* renamed many of the files in $(SWARMDOCS)/refbook/random/extra.
-
 	* random.ent: Replaced references to README.Generators.v075 and
 	README.Distributions.v07 with 15 new references to file entities
-	in $(SWARMDOCS)/refbook/random/extra.
+	in extra SUBDIR.
 
 	* $(SWARMDOCS)/catalog.in: replaced the two old references with
 	the 15 new ones.
