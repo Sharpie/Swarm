@@ -8,8 +8,10 @@ AC_TRY_COMPILE([#ifdef __CYGWIN__
 EXPORT_EXTERNDEF=
 IMPORT_EXTERN=extern
 USEDLL=no
+SWARMLIBS=-lswarm
 AC_MSG_RESULT(using plain extern)],
 [USEDLL=yes
+SWARMLIBS='-lswarmdll -lobjcdll'
 EXPORT_EXTERN="extern __attribute__ ((dllexport))"
 EXPORT_EXTERNDEF="__attribute__ ((dllexport))"
 IMPORT_EXTERN="extern __attribute__ ((dllimport))"
@@ -20,5 +22,6 @@ AC_DEFINE_UNQUOTED(EXPORT_EXTERNDEF,$EXPORT_EXTERNDEF)
 AC_DEFINE_UNQUOTED(IMPORT_EXTERN,$IMPORT_EXTERN)
 AC_PATH_PROG(DLLWRAP, dllwrap)
 AC_SUBST(USEDLL)
+AC_SUBST(SWARMLIBS)
 AM_CONDITIONAL(USEDLL, test $USEDLL = yes)
 ])
