@@ -1,5 +1,5 @@
 MODULE = space
 
-include $(top_srcdir)/src/Makefile.rules
+include $(top_srcdir)/refbook/Makefile.rules
 
 

@@ -1,3 +1,7 @@
+1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am: Include from refbook/ instead of src/.
+
 1998-06-17  Alex Lancaster  <alex@santafe.edu>
 
 	* guimeta.sgml: Removed redundant text from ABSTRACT.
