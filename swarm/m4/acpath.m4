@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_PATHSYNTAX,
+AC_DEFUN(md_CHECK_PATH_SYNTAX,
 [if test "$host_os" = cygwin; then
   PATHSEP=";"
   PATHEXPR='$(subst /,\,$(subst //%/,%:\,$<))'
