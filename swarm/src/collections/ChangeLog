@@ -2,7 +2,8 @@
 
 	* OutputStream.m ([OutputStream_c -catLongLong:],
 	[OutputStream_c -catUnsignedLongLong:]): Compose fmt from LLFMT
-	for long long output.
+	for long long output.  When sizeof long and long long are the
+	same, do a cast and use %l[ud].
 
 1999-07-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

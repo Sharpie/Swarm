@@ -136,7 +136,11 @@ PHASE(Using)
 {
   char buf[DSIZE (long long) + 1];
 
+#if !(sizeof (long) == sizeof (long long))
   sprintf (buf, "%" LLFMT "d", lnglng);
+#else
+  sprintf (buf, "%ld", (long) lnglng);
+#endif
   [self catC: buf];
 }
 
@@ -144,7 +148,11 @@ PHASE(Using)
 {
   char buf[DSIZE (unsigned long long) + 1];
 
-  sprintf (buf, "%" LLFMT "u", ulnglng);
+#if !(sizeof (unsigned long) == sizeof (unsigned long long))
+  sprintf (buf, "%" LLFMT "u", lnglng);
+#else
+  sprintf (buf, "%lu", (long) lnglng);
+#endif
   [self catC: buf];
 }
 
