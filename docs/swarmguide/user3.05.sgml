@@ -56,7 +56,8 @@
     <title>Using the <classname>LispArchiver</classname> to manage
       simulation parameters</title>
     <indexterm>
-      <primary>parameter files</primary>
+      <primary>parameter</primary>
+      <secondary>files</secondary>
     </indexterm>
     <caution><para>Earlier versions of Swarm used the protocols
         <classname>ObjectSaver</classname> and
@@ -102,6 +103,10 @@
         <title>Using a standard <varname>lispAppName</varname> 
           instance</title>
 
+        <indexterm>
+          <primary><application>heatbugs</application></primary>
+          <secondary>parameter files</secondary>
+        </indexterm>
         <para>The <application>heatbugs</application> application uses
           this global singleton class.  The datafile
           <filename>heatbug.scm</filename> looks like this:</para>
@@ -289,6 +294,10 @@ if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self
       filenames.</para>
 
     <example>
+        <indexterm>
+          <primary><application>mousetrap</application></primary>
+          <secondary>parameter files</secondary>
+        </indexterm>
       <title>Creating a Lisp parameter file with an alternate name</title>
 
         <para>Here is a sample Lisp input parameter for the

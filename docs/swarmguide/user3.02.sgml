@@ -1,261 +1,336 @@
-<!-- <sect1 id="swarm.user.user3.02.sect1"> -->
 <chapter id="swarm.user.user3.02.sect1">
 
   <title>The Swarm Collections Library</title>
 
   <sect1>
-    <title>Overview: Lists, Maps, and Arrays</title>
+    <title>Overview: the <classname>List</classname>,
+      <classname>Map</classname> and <classname>Array</classname>
+      protocols</title>
 
-    <para>The most frequently used kinds of collections are Lists,
-    Maps, and Arrays.  They have some elements in common. They all
-    comply with the Collections protocol, most importantly, which
-    means they have methods with which items can be added, retrieved,
-    and removed.  Also, each can be used to create an index object,
-    which can make management of lists an easier chore.
-</para>
+    <para>The most frequently used kinds of collections are the
+      <classname>List</classname>, <classname>Map</classname> and
+      <classname>Array</classname> protocols.  They have some elements
+      in common. They all comply with the
+      <classname>Collection</classname> protocol, most importantly,
+      which means they have methods with which items can be added,
+      retrieved, and removed.  Also, each can be used to create an
+      index object, which can make management of lists an easier
+      chore.
+    </para>
 
     <para>It is very important to note that these collections are
-    intended to manage objects, not integers or floating point
-    values. If you need an array of integers (or floats or chars or
-    whatever else), just use an ordinary C array.  As we will
-    show, it is possible to exploit some features on some kinds of
-    operating circumstances in order to circumvent this policy, 
-    but often there is no reason do so.  A better strategy is to
-    design more carefully the objects you want to keep in Swarm
-    collections and use recommended procedures for retrieving them.
-</para>
+      intended to manage objects, not integers or floating point
+      values. If you need an array of integers (or floats or chars or
+      whatever else), just use an ordinary C array.  As we will show,
+      it is possible to exploit some features on some kinds of
+      operating circumstances in order to circumvent this policy, but
+      often there is no reason do so.  A better strategy is to design
+      more carefully the objects you want to keep in Swarm collections
+      and use recommended procedures for retrieving them.
+    </para>
 
     <para>
-    Some commands that work in Swarm collections are: 
-<itemizedlist>
-<listitem>
-    <formalpara><title>getCount</title><para>
-        Returns the number of members in the collection</para>
-    </formalpara></listitem>
-<listitem>
-    <formalpara><title>atOffset: i</title><para>
-        Retrieves the i'th member of the collection
-      </para></formalpara></listitem>
-<listitem>
-    <formalpara><title>atOffset:i put: obj</title><para>
-        Inserts obj at location i
-      </para></formalpara></listitem>
-<listitem>
-    <formalpara><title>contains: obj</title>
-      <para>Returns 1 if obj is member</para></formalpara></listitem>
-<listitem>
-    <formalpara><title>remove: obj</title><para>
-        Removes object obj
-      </para></formalpara></listitem>
-<listitem>
-    <formalpara><title>removeAll</title><para>
-        Removes all objects from collection, but leaves the objects in memory</para></formalpara></listitem>
-<listitem>
-    <formalpara><title>deleteAll</title><para>
-        Removes all objects from collection and deletes them from memory</para></formalpara></listitem>
-<listitem>
-    <formalpara><title>forEach:M(message)</title><para>
-        Sends message to all members</para></formalpara></listitem>
-</itemizedlist>
+      Some commands that work in Swarm collections are: 
+      <itemizedlist>
+        <listitem>
+          <para><function>getCount</function>: 
+              Returns the number of members in the collection</para>
+          </listitem>
+        <listitem>
+          <para><function>atOffset: i</function>: 
+              Retrieves the <varname>i</varname>th member of the collection
+            </para></listitem>
+        <listitem>
+          <para><function>atOffset:i put: obj</function>: 
+              Inserts obj at location i
+            </para></listitem>
+        <listitem>
+          <para><function>contains: obj</function>
+            Returns 1 if obj is member</para></listitem>
+        <listitem>
+          <para><function>remove: obj</function>: 
+              Removes object obj
+            </para></listitem>
+        <listitem>
+          <para><function>removeAll</function>: 
+              Removes all objects from collection, but leaves the objects in memory</para></listitem>
+        <listitem>
+          <para><function>deleteAll</function>: 
+              Removes all objects from collection and deletes them from memory</para></listitem>
+        <listitem>
+          <para><function>forEach:M(message)</function>: 
+              Sends message to all members</para></listitem>
+      </itemizedlist>
 
-</para> 
+    </para> 
 
-    <para>This chapter does not discuss Swarm Set collections because,
-    at the current time, they have no functionality beyond regular
-    Swarm Lists.
-</para>
-
-  
-</sect1>
-
+    <para>This chapter does not discuss the Swarm
+      <classname>Set</classname> protocol because, at the current
+      time, it has no functionality beyond the regular Swarm
+      <classname>List</classname> protocol.
+    </para>
+    
+  </sect1>
 
   <sect1>
-    <title>Choosing between Lists, Maps, and Arrays</title>
+
+    <title>Choosing between <classname>List</classname>s,
+      <classname>Map</classname>s, and
+      <classname>Array</classname>s</title>
 
     <para>The different kinds of collections objects are useful for
-    different purposes.  The List class can be used to create
-    easy-to-use containers that make it relatively simple to manage
-    iterative chores.  Use a Swarm List when you intend to have all
-    objects processed in order, for example. (Lists can also be
-    processed in a randomized order).  The Map and Array classes are
-    intended for more structured maintenance of collections.
-</para>
+      different purposes.  The <classname>List</classname> class can
+      be used to create easy-to-use containers that make it relatively
+      simple to manage iterative chores.  Use a Swarm
+      <classname>List</classname> when you intend to have all objects
+      processed in order, for example. (<classname>List</classname>s
+      can also be processed in a randomized order).  The
+      <classname>Map</classname> and <classname>Array</classname>
+      classes are intended for more structured maintenance of
+      collections.
+    </para>
 
     <para>Because they serve these specialized objectives, there are
-    some commands uniquely available to each of the Swarm container
-    classes.  For example, as we saw in an earlier chapter, the List
-    class can respond to methods like addFirst:, addLast:,
-    removeFirst, and removeLast. A List object can be used in a
-    flexible way, objects can be thrown onto the end or the beginning
-    of the list with these methods.  These are not available in Map or
-    Array, because Map and Array objects have more intricate internal
-    structure.
-</para>
+      some commands uniquely available to each of the Swarm container
+      classes.  For example, as we saw in an earlier chapter, the
+      <classname>List</classname> class can respond to methods like
+      <function>addFirst:</function>, <function>addLast:</function>,
+      removeFirst, and removeLast. A <classname>List</classname>
+      object can be used in a flexible way, objects can be thrown onto
+      the end or the beginning of the list with these methods.  These
+      are not available in <classname>Map</classname> or
+      <classname>Array</classname>, because <classname>Map</classname>
+      and <classname>Array</classname> objects have more intricate
+      internal structure.
+    </para>
 
-    <para>A Swarm Array object is used when it is necessary to store
-    objects in a specific order.  The Swarm Array is somewhat similar
-    to a C array, in the sense that objects can be inserted at a
-    particular position and their values can be retrieved from that
-    position.  A Swarm Array can be processed iteratively, as a List
-    can.</para>
+    <para>A Swarm <classname>Array</classname> object is used when it
+      is necessary to store objects in a specific order.  The Swarm
+      <classname>Array</classname> is somewhat similar to a C array,
+      in the sense that objects can be inserted at a particular
+      position and their values can be retrieved from that position.
+      A Swarm <classname>Array</classname> can be processed
+      iteratively, as a <classname>List</classname> can.</para>
 
-    <para>A Swarm Map is used when objects are not stored according to
-    their numerical position in a list, but rather according to the
-    value of some object.  For example, a Map can store objects that
-    have rankings of favorite foods for each of several people. If
-    each person is an object, then the person's identity works as a
-    "key" that controls the insertion and removal of the object from
-    the Map.
-</para>
+    <para>A Swarm <classname>Map</classname> is used when objects are
+      not stored according to their numerical position in a list, but
+      rather according to the value of some object.  For example, a
+      <classname>Map</classname> can store objects that have rankings
+      of favorite foods for each of several people. If each person is
+      an object, then the person's identity works as a "key" that
+      controls the insertion and removal of the object from the
+      <classname>Map</classname>.
+    </para>
 
     <para>Enhancement and streamlining of the Swarm Collections
-    library is an ongoing chore, but at the current time the user's
-    choice of List, Map, or Array is partly driven by the way these
-    classes are implented in Swarm.  The List and Map classes are
-    comparatively slow.  If one needs to make repeated accesses to a
-    List or Map from randomly selected positions, the program will run
-    comparatively slowly.  Here's why.  Suppose you have a Map and you
-    have entered objects that represent food tastes for each of 500
-    people.  If you then tell your Map object to retrieve the food
-    preference of the person "Bart", for example, then the Map will be
-    processed from the beginning (the first inserted object) and each
-    will be checked to see if its key (its "owner," as it were) is
-    "Bart."  If Bart's object happens to be at the end of the Map,
-    then a lot of objects will be checked.  Then, when you ask for the
-    object of person "Fred," it begins at the start of the Map and
-    checks, one-by-one, until it finds the object whose key is Fred.
-    The Map object has no way to go straight to the one you want, so
-    it goes through this repetitive checking process.  The same is
-    true of the List class.  As a result, if there are many objects,
-    programs will run slowly when they try to insert and retrieve data
-    for specific objects when using Swarm Lists or Maps.
-</para>
+      library is an ongoing chore, but at the current time the user's
+      choice of <classname>List</classname>,
+      <classname>Map</classname>, or <classname>Array</classname> is
+      partly driven by the way these classes are implented in Swarm.
+      The <classname>List</classname> and <classname>Map</classname>
+      classes are comparatively slow.  If one needs to make repeated
+      accesses to a <classname>List</classname> or
+      <classname>Map</classname> from randomly selected positions, the
+      program will run comparatively slowly.  Here's why:
 
-    <para>In contrast, the processing of a Swarm Array can be quite
-    fast because the elements are entered with integer keys.  A Swarm
-    Array can quickly retrieve item number ten. Unlike a Map, it does
-    not start at the beginning and go through a sequence of checks
-    until it comes to the tenth item.  Because of the internal
-    structuring of the Swarm Array, the tenth item is retrieved
-    without checking the first nine.
-</para>
+      <orderedlist>
+        <listitem><para>
+          Suppose you have a <classname>Map</classname> and you have
+          entered objects that represent food tastes for each of 500
+          people.</para></listitem>
+
+        <listitem><para>
+          If you then
+          tell your <classname>Map</classname> object to retrieve the food
+          preference of the person "Bart", for example, then the
+          <classname>Map</classname> will be processed from the beginning
+          (the first inserted object) and each will be checked to see if
+          its key (its "owner," as it were) is "Bart."</para></listitem>  
+        
+        <listitem><para>
+          If Bart's object happens to be at the end of the
+          <classname>Map</classname>, then a lot of objects will be
+          checked.</para></listitem>
+
+        <listitem><para>
+          Then, when you ask for the object of person "Fred", it
+          begins at the start of the <classname>Map</classname> and
+          checks, one-by-one, until it finds the object whose key is
+          Fred.</para></listitem>
+
+      </orderedlist>
+
+      At the time of writing, the <classname>Map</classname> object,
+      has no way to go straight to the one you want<footnote><para>a
+      potential enhancement to the collections library is an option
+      that would allow the user to select a hash-table implementation
+      of the <classname>Map</classname> protocol, which would
+      effectively allow this kind of random-access</para></footnote>,
+      so it goes through this repetitive checking process.  The same
+      is true of the <classname>List</classname> class.  As a result,
+      if there are many objects, programs will run slowly when they
+      try to insert and retrieve data for specific objects when using
+      Swarm <classname>List</classname>s or
+      <classname>Map</classname>s.
+    </para>
+
+    <para>In contrast, the processing of a Swarm
+      <classname>Array</classname> can be quite fast because the
+      elements are entered with integer keys.  A Swarm
+      <classname>Array</classname> can quickly retrieve item number
+      ten. Unlike a <classname>Map</classname>, it does not start at
+      the beginning and go through a sequence of checks until it comes
+      to the tenth item.  Because of the internal structuring of the
+      Swarm <classname>Array</classname>, the tenth item is retrieved
+      without checking the first nine.
+    </para>
 
     <para>As a result of the aforementioned issue about the speed of
-    the program, there is going to be a judgment call.  A Map will
-    work fine and quickly if there are just a few items stored, but
-    the time wasted looking for a specific item increases with the
-    length of the list.  An Array might be a good choice, except
-    allocating space for an array may waste memory.  For example,
-    suppose we are preparing to survey 20 people out of a population
-    of 100,000.  If each person is assigned a number, and then numbers
-    are chosen at random, we might end up with people in our sample
-    that are numbered {44, 63, 555, 4432, 6689, 21001, 44934, 78343,
-    99921}.  If we use a Map, we could just add the 10 objects. On the
-    other hand, if we wanted to use an Array with the person's number
-    serving as the Array index, we would have to allocate an Array
-    with 100,000 elements in order to store these ten items.  This
-    wastes memory, but objects can indeed be retrieved quickly.  Most
-    people would prefer a Map for this purpose.  If there were 10,000
-    people being sampled, however, the Array might work best.
-</para>
+      the program, there is going to be a judgment call.  A
+      <classname>Map</classname> will work fine and quickly if there
+      are just a few items stored, but the time wasted looking for a
+      specific item increases with the length of the list.  An
+      <classname>Array</classname> might be a good choice, except
+      allocating space for an array may waste memory.  For example,
+      suppose we are preparing to survey 20 people out of a population
+      of 100,000.  If each person is assigned a number, and then
+      numbers are chosen at random, we might end up with people in our
+      sample that are numbered {44, 63, 555, 4432, 6689, 21001, 44934,
+      78343, 99921}.  If we use a <classname>Map</classname>, we could
+      just add the 10 objects. On the other hand, if we wanted to use
+      an <classname>Array</classname> with the person's number serving
+      as the <classname>Array</classname> index, we would have to
+      allocate an <classname>Array</classname> with 100,000 elements
+      in order to store these ten items.  This wastes memory, but
+      objects can indeed be retrieved quickly.  Most people would
+      prefer a <classname>Map</classname> for this purpose.  If there
+      were 10,000 people being sampled, however, the
+      <classname>Array</classname> might work best.
+    </para>
 
-</sect1>
-
-<sect1>
-    <title>Using Swarm Arrays</title> 
-
-    <para>The Swarm array is the easiest to use of the Swarm
-    collections. At create-time, the size of the array is set.  For
-    example, to create an Array called "foods" that has 15 elements,
-    this code will get the job done:
-
-<programlisting> 
-id &lt;Array&gt; foods; 
-food=[Array create: [self getZone] setCount: 15];
-</programlisting>
-
-     If it is necessary to add elements to the Array, then the
-     <function>setCount:</function>method of the Array class can be
-     used to increase the size ofthe Array.  
-     </para>
-
-    <para>Entries are inserted, accessed, and removed from the Array
-    in a rather obvious way.  As in C, the numbering of the Array
-    elements begins with 0, so the last element in the Array has the
-    index value 14. To insert an object called "steak" into the foods
-    array at index value 6, the appropriate command is:
-
-<programlisting> 
-[foods atOffset: 6 put: steak];
-</programlisting>
-
-     When it is necessary to retrieve the steak object, this will do:
-
-<programlisting>
-retrievedObject=[foods atOffset: 6];
-</programlisting>
-
-     A Swarm Array object will allow quick access of any particular
-     object because the objects are indexed by an integer.
-</para>
-
-    <para>
-     An Array will work like a Swarm list for the purposes of
-     repetitive processing. Since an Array includes a fixed
-     number of objects, they can easily be accessed with for loops,
-     but while loops will work just as well.  An Array object can be
-     told to create an index object for itself, and that
-     index can be used in the way that we described in the chapter on Lists.
-</para>
-
-    <para> 
-    There is only one surprise awaiting users of the Array
-    protocol: objects cannot be removed from Arrays.  Since the Array
-    protocol's major strength is its speed, and the speed depends on
-    maintaining a fixed list of items, the remove method of the
-    Collections protocol is disabled in Array.  Rather than remove an
-    item from an Array, one must put "nil" at a position in the Array.
-    This achieves the same effect as remove, but it preserves the
-    Array "placeholder" so that future objects can be inserted at that
-    spot.
-</para>
-
-
-</sect1>
+  </sect1>
 
   <sect1>
-    <title>Swarm Maps</title> 
+    <title>Using Swarm <classname>Array</classname>s</title> 
+
+    <para>The Swarm <classname>Array</classname> is the easiest to use
+      of the Swarm collections. At create-time, the size of the
+      <classname>Array</classname> is set.  For example, to create an
+      <classname>Array</classname> called <varname>foods</varname>
+      that has 15 elements, this code will get the job done:
+
+      <programlisting> 
+id &lt;Array&gt; foods; 
+food=[Array create: [self getZone] setCount: 15];</programlisting>
+
+      If it is necessary to add elements to the
+      <classname>Array</classname>, then the
+      <function>setCount:</function>method of the
+      <classname>Array</classname> class can be used to increase the
+      size ofthe <classname>Array</classname>.
+    </para>
+
+    <para>Entries are inserted, accessed, and removed from the
+      <classname>Array</classname> in a rather obvious way.  As in C,
+      the numbering of the <classname>Array</classname> elements
+      begins with 0, so the last element in the
+      <classname>Array</classname> has the index value 14. To insert
+      an object called <varname>steak</varname> into the foods
+      <classname>Array</classname> at index value 6, the appropriate
+      command is:
+    </para>
+    
+    <programlisting> 
+[foods atOffset: 6 put: steak];</programlisting>
+
+    <para>
+      When it is necessary to retrieve the <varname>steak</varname>
+      object, this will do:
+    </para>
+    
+    <programlisting>
+retrievedObject=[foods atOffset: 6];</programlisting>
+
+    <para>
+      A Swarm <classname>Array</classname> object will allow quick
+      access of any particular object because the objects are indexed
+      by an integer.
+    </para>
+    
+    <para>
+      An <classname>Array</classname> will work like a Swarm
+      <classname>List</classname> for the purposes of repetitive
+      processing. Since an <classname>Array</classname> includes a
+      fixed number of objects, they can easily be accessed with for
+      loops, but while loops will work just as well.  An
+      <classname>Array</classname> object can be told to create an
+      index object for itself, and that index can be used in the way
+      that we described in the chapter on
+      <classname>List</classname>s.
+    </para>
+
+    <para> There is only one surprise awaiting users of the
+      <classname>Array</classname> protocol: objects cannot be removed
+      from <classname>Array</classname>s.  Since the
+      <classname>Array</classname> protocol's major strength is its
+      speed, and the speed depends on maintaining a fixed list of
+      items, the remove method of the Collections protocol is disabled
+      in <classname>Array</classname>.  Rather than remove an item
+      from an <classname>Array</classname>, one must put
+      <varname>nil</varname> at a position in the
+      <classname>Array</classname>.  This achieves the same effect as
+      remove, but it preserves the <classname>Array</classname>
+      "placeholder" so that future objects can be inserted at that
+      spot.
+    </para>
+
+  </sect1>
+  
+  <sect1>
+    <title>Swarm <classname>Map</classname>s</title> 
 
     <para> Experienced programmers are familiar with the term "key" as
-    it refers to management of collections.  People who are new to
-    programming and Swarm often find this idea quite confusing.
-    Hence, we will explain.
-</para>
+      it refers to management of collections.  People who are new to
+      programming and Swarm often find this idea quite confusing.
+      Hence, we will explain.
+    </para>
 
-    <para> Think of a Map as two rows of objects.  The bottom row
-    contains the objects you want to store and retrieve.  The top row
-    contains the names of the objects.  If you put an object into a
-    Map, you tell the Map its name and the Map handles the problem of
-    inserting the object into the bottom row and putting the name in
-    the top row.  When an object is removed from a map, its name is
-    also removed from the top row.  If you need to get an object, you
-    tell the Map its name and the Map then goes to the right position
-    in the top row and then it gives back the corresponding object in
-    the bottom row.
-</para>
+    <para>Think of a <classname>Map</classname> as two rows of
+      objects.  The bottom row contains the objects you want to store
+      and retrieve.  The top row contains the names of the objects.
+      If you put an object into a <classname>Map</classname>, you tell
+      the <classname>Map</classname> its name and the
+      <classname>Map</classname> handles the problem of inserting the
+      object into the bottom row and putting the name in the top row.
+      When an object is removed from a <classname>Map</classname>, its
+      name is also removed from the top row.  If you need to get an
+      object, you tell the <classname>Map</classname> its name and the
+      <classname>Map</classname> then goes to the right position in
+      the top row and then it gives back the corresponding object in
+      the bottom row.
+    </para>
 
     <para> The names of the objects are called "keys" in Swarm (and
-    other programming languages). The usage of keys is somewhat
-    confusing and difficult for newcomers because the keys should be
-    Swarm objects. Here is a simple example.  Suppose we are creating
-    a series of objects in a for loop.  In each step, we tell the
-    class Person to create an instance "aFriend" and we add that
-    Person to a listOfPeople.  Then we tell the class Preferences to
-    create an instance and we insert the instance into a Map, using
-    the Person object as the key. Note that the Map and List are
-    declared before the loop.
+      other programming languages). The usage of keys is somewhat
+      confusing and difficult for newcomers because the keys should be
+      Swarm objects.  
+    </para>      
 
-<programlisting>
+    <example>
+      <title>Maps and keys</title>
+
+      <para>Here is a simple example.  Suppose we are creating a
+        series of objects in a for loop.  In each step, we tell the
+        class Person to create an instance <varname>aFriend</varname>
+        and we add that Person to a <varname>listOfPeople</varname>.
+        Then we tell the class Preferences to create an instance and
+        we insert the instance into a <classname>Map</classname>,
+        using the Person object as the key. Note that the
+        <classname>Map</classname> and <classname>List</classname> are
+        declared before the loop.
+        </para>
+
+      <programlisting>
 
 id &lt;List&gt; listOfPeople;
 id &lt;Map&gt; mapOfPreferences;
@@ -264,120 +339,209 @@ mapOfPreferences=[Map create: [self getZone]];
 
 for(i=0; i &lt; 50; i++)
 {
-  id aFriend, aPreference;
-  aFriend = [Person createBegin: [self getZone]];
-  aFriend = [aFriend createEnd];
-  
-  [listOfPeople addLast: aFriend];
+id aFriend, aPreference;
+aFriend = [Person createBegin: [self getZone]];
+aFriend = [aFriend createEnd];
 
-  aPreference = [Preferences createBegin: [self getZone]];
-  aPreference = [aPreference createEnd];
+[listOfPeople addLast: aFriend];
 
-  [mapOfPreferences at: aFriend insert: aPreference];
-}
-</programlisting>
+aPreference = [Preferences createBegin: [self getZone]];
+aPreference = [aPreference createEnd];
 
-     To retrieve a preference object, it is first necessary to figure
-     out which person you want and then tell the Map to return that
-     person's preference.  For example, suppose you decide to grab the
-     6'th person and find out what their preferences are.  Then try
-     this:
+[mapOfPreferences at: aFriend insert: aPreference];
+}</programlisting>
 
-<programlisting>
+      <para>
+        To retrieve a preference object, it is first necessary to
+        figure out which person you want and then tell the
+        <classname>Map</classname> to return that person's preference.
+        For example, suppose you decide to grab the 6th person and
+        find out what their preferences are.  Then try this:
+      </para>
+      
+      <programlisting>
 id aParticularPerson, thePreference;
 aParticularFriend=[listOfPeople atOffset: 6];
 thePreference=[mapOfPreferences at: aParticularFriend];
-// here you can do anything you want to with thePreference you get back.
-</programlisting>
- 
-     Similarly, you could cycle through the listOfPeople by creating a
-     Swarm index for the listOfPeople and then use the returned value
-     from <literal>[index next]</literal> as the key:
+// here you can do anything you want to with thePreference you get back.</programlisting>
+      
+      <para>Similarly, you could cycle through the
+        <varname>listOfPeople</varname> by creating a Swarm index for
+        the <varname>listOfPeople</varname> and then use the returned
+        value from <literal>[index next]</literal> as the key:
+      </para>
 
-<programlisting>
+        <programlisting>
 id index, aPerson;
 index= [listOfPeople begin: [self getZone]];
 while( (aPerson=[index next])!=nil )
 {
-   id thePreference;
-   thePreference = [mapOfPreferences at: aPerson];
+id thePreference;
+thePreference = [mapOfPreferences at: aPerson];
 // here you insert some code that does something with the retrieved preference!
-}
- </programlisting> 
-</para>
+}</programlisting> 
 
-    <para>Many people think that, intuitively, it would be easier if
-    one could just use a character string or something simple as the
-    key. But, alas, it doesn't work that way. If you really, truly
-    want to use strings as the keys, you can get pretty close if you
-    use the Swarm String protocol to create objects that act as
-    "wrappers" for the string names. In the Swarm Documentation, one
-    can find the GridTurtle test programs for the Collections library.
-    The file "grid3.m" contains an example that does exactly this.
-    The code in grid3.m creates a string, equal to the index variable
-    i, and then sets that string into a String object, which is in
-    turn used as the key. Of course, there is no reason that the
-    chosen character string had to be a simple number. If you want to,
-    you can create strings for all your friends and wrap them inside
-    String objects.
-</para>
+      </example>
+      
+    <para>
+      
+      <comment>Many people think that, intuitively, it would be easier
+        if one could just use a character string or something simple
+        as the key. But, alas, it doesn't work that way. [Not quite
+        correct: one can use strings as keys, you just have to be
+        careful how you do it, AKL.  The way it's worded here, sort of
+        implies that this is some kind of inviolable "law of
+        computing", like exceeding the speed of light, or something
+        ;-)]</comment>
+
+      If you really, truly want to use strings as the keys, you can
+      get pretty close if you use the Swarm
+      <classname>String</classname> protocol to create objects that
+      act as "wrappers" for the string names. In the Swarm
+      Documentation, one can find the GridTurtle test programs for the
+      Collections library.  The file <filename>grid3.m</filename>
+      contains an example that does exactly this.  The code in
+      grid3.m<filename></filename> creates a string, equal to the
+      index variable i, and then sets that string into a
+      <classname>String</classname> object, which is in turn used as
+      the key. Of course, there is no reason that the chosen character
+      string had to be a simple number. If you want to, you can create
+      strings for all your friends and wrap them inside
+      <classname>String</classname> objects.
+    </para>
 
     <para>What if you want to use the integers themselves as the keys?
-    There are a variety of opinions about this question. One approach,
-    which seems to have had favor early-on in the design of Swarm, is
-    to use type casting to trick the Swarm library, to make it treat
-    an integer <emphasis>as if</emphasis> it were an object.  Without
-    going too deeply into the computer science of the issue, it may
-    not be possible to explain this, but we will take a stab at it.
-    On many computer systems, a pointer uses the same amount of space
-    as an integer. Hence, it is possible to cast an integer as a
-    pointer to "fool" the compiler, and then to retrieve the value of
-    the integer from the place in memory where the pointer was
-    supposed to be. (Confusing? Many users say, yes!)  Instead of
-    inserting objects into a map with objects as keys, using this
-    casting trick, one can insert objects at integer values that are
-    cast as objects of type id.  For example:
+      There are a variety of opinions about this question. One
+      approach, which seems to have had favor early-on in the design
+      of Swarm , is to use type casting to trick the Swarm library
 
-<programlisting>
-     [mapOfPreferences at: (id) 13 insert: aFriend]
+      <comment>[No. This was never a design "feature".  Actually, Roger's
+        original design did include provision for treating other kinds
+        of types other than ids
+        <footnote>
+          <programlisting>
+@deftype MemberType
+(Would be adopted by Collection.)
+//S: Accessors for member type.
+
+//D: The default member type of any collection is the id type defined by
+//D: Objective C.  All messages which add, remove, or access members
+//D: declare their member value with the id type.  None of the collection
+//D: types, however, requires that the member value actually point to a
+//D: valid object.  The member values of any collection may contain an
+//D: arbritrary bit pattern, provided these bits fit in the space available
+//D: within an id pointer.
+
+//D: In the few cases when default operations assume that a member points
+//D: to a valid object, there are alternate ways to avoid these defaults
+//D: and use an arbritrary bit pattern as a member value instead.  When
+//D: using an arbritrary bit pattern, the member value must be cast to or
+//D: from the id type when adding or retrieving it from the collection.  By
+//D: global portability assumptions, the number of bits in an id value
+//D: may be safely assumed to be at least as large as an int
+//D: (signed or unsigned), but not necessarily as large as a long.
+
+//D: There is also an option to override the default member type so that it
+//D: can be larger than a id pointer.  Use of this option, however, changes
+//D: the way member values must be passed to or from a collection.  More
+//D: information is given with the MemberType option below.
+
+// (.. This option is not currently implemented for any collection types.)
+
+//M: The MemberType option may be used to declare the type of member which
+//M: a collection contains.  Its value must be an objec having one of the
+//M: ValueType types defined in defobj.  (..Currently no ValueType objects
+//M: are implemented, so MemberType is not supported.)
+
+//M: The member type defaults to the Symbol value Unknown.  Specifying a
+//M: member type has no effect on the collection if the storage size of the
+//M: data type is no larger than a pointer of id type.  The member type,
+//M: however, may be helpful as documentation, and members can be checked
+//M: for conformance to the type as part of debug options.
+
+//M: If the data type has a size greater than id, the collection
+//M: automatically allocates and frees space for the member value whenever
+//M: member values are added or removed.  For such a collection, all member
+//M: values must be passed to the collection not as the value itself, but
+//M: as a pointer to the value (cast to id as necessary).  If a new member
+//M: is being added, the value will be copied to a new member location
+//M: contained within the collection.  Member values returned by the
+//M: collection will be returned as pointers to this internal value, not as
+//M: the value itself.  In the case of member values removed from the
+//M: collection, a nil pointer is returned.
+CREATING
+- (void)setMemberType: aDataType;
+USING
+- getMemberType;
+@end
 </programlisting>
+        </footnote>
+        
+        however he never implemented it, and furthermore, the value of
+        implementing such features directly in collections is dubious
+        considering the availability of more widely used third-party
+        collections data structure libraries.  So it was never an
+        intentional "trick".  AKL]</comment>
+      
+      , to make it treat an integer <emphasis>as if</emphasis> it were
+      an object.  Without going too deeply into the computer science
+      of the issue, it may not be possible to explain this, but we
+      will take a stab at it.  On many computer systems, a pointer
+      uses the same amount of space as an integer. Hence, it is
+      possible to cast an integer as a pointer to "fool" the compiler,
+      and then to retrieve the value of the integer from the place in
+      memory where the pointer was supposed to be. (Confusing? Many
+      users say, yes!)  Instead of inserting objects into a
+      <classname>Map</classname> with objects as keys, using this
+      casting trick, one can insert objects at integer values that are
+      cast as objects of type id.  For example:
+    </para>
 
-    In order for this to work, the mapOfPreferences has to be created
-    so that it knows integers are going to be passed through in this
-    way. At create time, the Map must be told to use the built-in
-    compare function that will uncast the pointers and compare them.
-<programlisting>
-    mapOfPreferences  = [Map createBegin: aZone];
-   [mapOfPreferences  setCompareFunction: compareIntegers];
-    mapOfPreferences = [mapOfPreferences createEnd];
-</programlisting>
-
-     The GridTurtle code example grid3b.m uses this appoach.
-</para>
-
-    <para> This "casting" approach to creating an index has some
-    serious shortcomings.  Most importantly, it is severely
-    nonportable.  Code written in this way on a Linux system will not
-    work on a DEC Unix system. Why?  On DEC Unix, an integer and a
-    pointer do not have the same size.  As a result, the program will
-    crash.
-</para> 
-
-    <para>What is the alternative if one wants to enter objects
-    into a Map using integers as keys?  Readers might have guessed the
-    answer from our discussion of Swarm Strings as wrappers around
-    character strings.  The answer is: create an "integer wrapper"
-    class.  This integer wrapper class can store and retrieve the
-    values of integers, and these objects can be used as keys in Swarm
-    Maps. There is an example of a program by Marcus Daniels that uses
-    integer wrappers at
-    http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/WorkingExampleCode/MapIntegerIndex.txt. 
-</para>
+      <programlisting>
+[mapOfPreferences at: (id) 13 insert: aFriend]</programlisting>
 
     <para>
-    Here is the integer wrapper class, which is called Integer:
+      In order for this to work, the <varname>mapOfPreferences</varname> has to be
+      created so that it knows integers are going to be passed through
+      in this way. At create time, the <classname>Map</classname> must
+      be told to use the built-in compare function that will uncast
+      the pointers and compare them.
 
-<programlisting>
+      <programlisting>
+mapOfPreferences  = [Map createBegin: aZone];
+[mapOfPreferences  setCompareFunction: compareIntegers];
+mapOfPreferences = [mapOfPreferences createEnd];</programlisting>
+
+      The GridTurtle code example <filename>grid3b.m</filename> uses
+      this appoach.
+    </para>
+
+    <para> This "casting" approach to creating an index has some
+      serious shortcomings.  Most importantly, it is severely
+      nonportable.  Code written in this way on a Linux system will
+      not work on a DEC Unix system. Why?  On DEC Unix, an integer and
+      a pointer do not have the same size.  As a result, the program
+      will crash. </para>
+
+    <para>What is the alternative if one wants to enter objects into a
+      <classname>Map</classname> using integers as keys?  Readers
+      might have guessed the answer from our discussion of Swarm
+      <classname>String</classname>s as wrappers around character
+      strings.  The answer is: create an "integer wrapper" class.
+      This integer wrapper class can store and retrieve the values of
+      integers, and these objects can be used as keys in Swarm
+      <classname>Map</classname>s. 
+    </para>
+
+    <para>
+      Here is the integer wrapper class <footnote> <para>There is an
+        example of a program by Marcus Daniels that uses integer
+        wrappers at <ulink
+        url="http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/WorkingExampleCode/MapIntegerIndex.txt">MapIntegerIndex.txt</ulink>.</para>
+</footnote>, which is called <classname>Integer</classname>:
+    </para>
+          
+      <programlisting>
 //Integer.h
 #import &lt;defobj/Create.h&gt;
 
@@ -403,23 +567,23 @@ return self;
 return value;
 }
 
-@end
-</programlisting>
+@end</programlisting>
 
-</para>
+    <para>In order to use the <classname>Integer</classname> class
+      keys, the <classname>Map</classname> has to be told how to
+      compare them, so it knows when it has found a key that matches
+      what it is searching for.  In the example, the comparison
+      function is called <function>compareIntegerObjects (
+      )</function> and it takes two objects, and it then retrieves the
+      value from each, and returns the difference of the two. When 0
+      is returned, it is treated as a "match". The following code snip
+      creates 50 <classname>Preference</classname> objects and it
+      creates an <classname>Integer</classname> object for each one.
+      Each time the user wants to insert an object into a
+      <classname>Map</classname>, an <classname>Integer</classname>
+      wrapper is created.</para>
 
-    <para>In order to use the Integer class keys, the Map has to be
-    told how to compare them, so it knows when it has found a key that
-    matches what it is searching for.  In the example, the comparison
-    function is called compareIntegerObjects ( ) and it takes two
-    objects, and it then retrieves the value from each, and returns
-    the difference of the two. When 0 is returned, it is treated as a
-    "match". The following code snip creates 50 "Preference" objects
-    and it creates an Integer object for each one.  Each time the user
-    wants to insert an object into a Map, an Integer wrapper is
-    created.
-
-<programlisting>
+      <programlisting>
 #include Integer.h
 #include Preference.h
 
@@ -427,7 +591,7 @@ return value;
 int
 compareIntegerObjects (id obj1, id obj2)
 {
-  return ((Integer *) obj1)->value - ((Integer *) obj2)->value;
+return ((Integer *) obj1)->value - ((Integer *) obj2)->value;
 }
 
 id &lt;List&gt; listOfPeople;
@@ -435,10 +599,10 @@ id &lt;Array&gt; arrayOfIntegers;
 id &lt;Map&gt; mapOfPreferences;
 
 mapOfPreferences = [[[Map createBegin: [self getZone]]
-                   setCompareFunction: compareIntegerObjects]
-                   createEnd];
+    setCompareFunction: compareIntegerObjects]
+   createEnd];
 
-for(i=0; i &lt; 50; i++)
+for (i = 0; i &lt; 50; i++)
 {
   id aPreference;
 
@@ -446,122 +610,135 @@ for(i=0; i &lt; 50; i++)
   aPreference = [aPreference createEnd];
 
   anInteger = [[Integer createBegin: [self getZone] setValue: i] createEnd];
-  
+
   [mapOfPreferences at: anInteger insert: aPreference];
-}
-</programlisting>
-</para>
+}</programlisting>
 
-    <para>  After the  mapOfPreferences is filled with objects, then
-    they can be retrieved by their key values. One can create a
-    single Integer object, and then insert a value into it, and then
-    use it as the key. The following will work to retrieve the
-    Preference object corresponding to the Integer key with value 23.
-    Supposing the   Preference class has a method "outputVitalInfo",
-    this will retrieve those objects and tell them to execute that method.
-
-<programlisting>
+    <para> After the <varname>mapOfPreferences</varname> is filled
+      with objects, then they can be retrieved by their key
+      values. One can create a single <classname>Integer</classname>
+      object, and then insert a value into it, and then use it as the
+      key. The following will work to retrieve the
+      <classname>Preference</classname> object corresponding to the
+      <classname>Integer</classname> key with value 23.  Supposing the
+      <classname>Preference</classname> class has a method
+      <varname>outputVitalInfo</varname>, this will retrieve those
+      objects and tell them to execute that method.
+    </para>
+    
+    <programlisting>
 id desiredPreferenceObject;
 
 Integer * key = INTEGER(0);
 key-&gt;value =23;   //same as [key setValue: 23];
 desiredPreferenceObject= [mapOfPreferences at: key];
 printf("The preference Object gives this output \n");
-[desiredPreferenceObject outputVitalInfo];
-</programlisting>
+[desiredPreferenceObject outputVitalInfo];</programlisting>
 
-</para>
+    <para>This is written out this way to make the code as clear as
+      possible.  The example program cited above includes a number of
+      macro definitions that can be used to make working with the
+      <classname>Integer</classname> class more elegant (and less
+      tedious).
+    </para>
 
-     <para>This is written out this way to make the code as clear as
-     possible.  The example program by Marcus Daniels cited above
-     includes a number of macro definitions that can be used to make
-     working with the Integer class more elegant (and less tedious). 
-</para>
-
-
-</sect1>  
-
+  </sect1>  
 
   <sect1>
     <title>Accessing Collections with Indices</title> 
 
-    <para>Any collection can generate an index that can be used to
-    access its members.  The command to create an index for a given
-    collection is "begin:".  The type of index created by a collection
-    depends on the type of collection being indexed. If one desires an
-    index of randomly shuffled members of a collection, then
-    beginPermuted: is the necessary command.
-</para>
+    <para>Any collection can generate an <classname>Index</classname>
+      that can be used to access its members.  The command to create
+      an <classname>Index</classname> for a given collection is
+      <function>begin:</function>.  The type of
+      <classname>Index</classname> created by a collection depends on
+      the type of collection being indexed. If one desires an index of
+      randomly shuffled members of a collection, then
+      <function>beginPermuted:</function> is the necessary command.
+    </para>
 
-    <para> An index object will understand messages like "get", which
-    will return the object at which the index is currently positioned,
-    "next", which will move the index object to the next object in the
-    collection and return that object, and findNext: objectName, which
-    will cause the index object to search forward into the collection
-    until it finds an object that is the same as objectName.</para>
+    <para> An <classname>Index</classname> object will understand
+      messages like <function>get</function>, which will return the
+      object at which the <classname>Index</classname> is currently
+      positioned, <function>next</function>, which will move the
+      <classname>Index</classname> object to the next object in the
+      collection and return that object, and
+      <function>findNext:</function> objectName, which will cause the
+      <classname>Index</classname> object to search forward into the
+      collection until it finds an object that is the same as
+      objectName.</para>
 
     <para> The usage of indexes can make some code work more smoothly.
-    For example, as we noted in our discussion of Lists, the index can
-    be used to orchestrate the repetitive processing of a List object
-    in the following way.
-<programlisting>
+      For example, as we noted in our discussion of
+      <classname>List</classname>s, the <classname>Index</classname>
+      can be used to orchestrate the repetitive processing of a
+      <classname>List</classname> object in the following way.
 
-    id aCollection;
-    id &lt;Index&gt; index;
-    aCollection = [List create: [self getZone]];
-    index =  [aCollection begin: [self getZone]];5
+      <programlisting>
+id aCollection;
+id &lt;Index&gt; index;
+aCollection = [List create: [self getZone]];
+index =  [aCollection begin: [self getZone]];5
 
-    while( (anObject=[index next]) != nil )
-      {
-        //write code that does something to anObject
-      }
-    
-</programlisting>
+while( (anObject=[index next]) != nil )
+{
+  //write code that does something to anObject
+}</programlisting>
 
-    This code will cycle through the list. Because the index object
-    remembers its position in the list, the processing is efficient in
-    the sense that the "next" command causes just one step to be
-    taken. This is a sharp contrast with the usage of collections
-    methods like [aCollection atOffset: i], which cause the List to
-    begin at the beginning and count up to the i'th object.
-</para>
+      This code will cycle through the
+      <classname>List</classname>. Because the
+      <classname>Index</classname> object remembers its position in
+      the <classname>List</classname>, the processing is efficient in
+      the sense that the <function>next</function> command causes just
+      one step to be taken. This is a sharp contrast with the usage of
+      collections methods like <literal>[aCollection atOffset:
+      i]</literal>, which cause the <classname>List</classname> to
+      begin at the beginning and count up to the <varname>i</varname>th object.
+    </para>
 
     <para>Perhaps the most significant advantage of indices is that
-    they can be used manage collections.  If items are removed from a
-    collection by its index object, then the index object is
-    automatically kept up to date. On the other hand, if items are
-    removed directly by collections methods, such as
-    <literal>[aCollection remove: thisObject]</literal>, then the
-    indexes that had been previously created for that list will be
-    damaged and they must be dropped and recreated.  On the other
-    hand, if an index is positioned on the desired member, and then
-    the index is told to remove that object, then the change will be
-    made in the collection and the index will automatically be
-    adjusted.</para>
+      they can be used manage collections.  If items are removed from
+      a collection by its <classname>Index</classname> object, then
+      the <classname>Index</classname> object is automatically kept up
+      to date. On the other hand, if items are removed directly by
+      collections methods, such as <literal>[aCollection remove:
+      thisObject]</literal>, then the indexes that had been previously
+      created for that <classname>List</classname> will be damaged and
+      they must be dropped and recreated.  On the other hand, if an
+      <classname>Index</classname> is positioned on the desired
+      member, and then the index is told to remove that object, then
+      the change will be made in the collection and the index will
+      automatically be adjusted.</para>
 
     <para>In order to make an index remove objects correctly, the
-    fundamental problem is to correctly position the index within the
-    collection. To make an index object reposition itself at the
-    beginning of the collection, the command [index setLoc: Start] can
-    be used. Index objects can be manually positioned with methods
-    like [index findNext: targetObject] or [setOffset: i]. These will,
-    respectively, move to the next object which, according to the
-    comparison function, matches the target object, or move the index
-    to the i'th object in the collection. Once the index is
-    positioned, then the object can be removed with [index remove].
-</para>
+      fundamental problem is to correctly position the index within
+      the collection. To make an index object reposition itself at the
+      beginning of the collection, the command <literal>[index setLoc:
+      Start]</literal> can be used. <Classname>Index</Classname>
+      objects can be manually positioned with methods like
+      <literal>[index findNext: targetObject]</literal> or
+      <literal>[setOffset: i]</literal>. These will, respectively,
+      move to the next object which, according to the comparison
+      function, matches the target object, or move the index to the
+      <varname>i</varname>th object in the collection. Once the index
+      is positioned, then the object can be removed with
+      <literal>[index remove]</literal>.
+    </para>
 
-    <para>The Swarm List class creates index objects that have more
-    functionality than the other classes.  The index of a List class
-    collection can be used to insert objects as well as delete them.
-    For example, [index addAfter: newObject] can set a new object into
-    a collection after the object currently under the index.  The
-    addition of objects by the index is not allowed in Swarm Arrays or
-    Maps because of the internal structure of those classes.
-</para>
+    <para>The Swarm <classname>List</classname> class creates
+      <classname>Index</classname> objects that have more
+      functionality than the other classes.  The
+      <classname>Index</classname> of a <classname>List</classname>
+      class collection can be used to insert objects as well as delete
+      them.  For example, <literal>[index addAfter:
+      newObject]</literal> can set a new object into a collection
+      after the object currently under the index.  The addition of
+      objects by the index is not allowed in Swarm
+      <classname>Array</classname>s or <classname>Map</classname>s
+      because of the internal structure of those classes.
+    </para>
 
-
-</sect1>
+  </sect1>
 
 </chapter>
 

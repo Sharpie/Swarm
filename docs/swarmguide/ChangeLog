@@ -1,3 +1,13 @@
+1999-09-16  Alex Lancaster  <alex@santafe.edu>
+
+	* user3.01.sgml, user3.02.sgml, user3.03.sgml: Normalize SGML, add
+	relevant tags for VARNAME, FUNCTION, CLASSNAME variables.  
+	Use ULINKs whever possible, and include parenthetical remarks in
+	FOOTNOTEs.
+	Reformatting of all PROGRAMLISTING, don't include PROGRAMLISTINGs
+	inside paragraphs.
+	Some textual changes/corrections, editorial COMMENTs.
+
 1999-09-15  Alex Lancaster  <alex@santafe.edu>
 
 	* COPYING: Add GPL.
