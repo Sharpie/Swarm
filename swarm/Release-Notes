@@ -1,3 +1,23 @@
+		Release Notes for Swarm Version 1.0.5
+
+ 1. Variant method names for passthru to setWindowGeometryRecordName have been
+    eliminated.  In these cases, the resulting key is computed from the
+    components involved.  Thanks to Ken Cline for the idea.
+ 
+ 2. Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
+    for reporting this.
+
+ 3. Using the method setupDestroyNotification: notificationMethod:
+    with a target object (e.g. the parent) and handler method, it is possible
+    for your application to disable top level user interface features that the
+    user kills with the window manager.  See heatbugs for an example of this.
+ 
+ 4. Histo and Canvas are now subclassed from ArchivedGeometryWidget; their
+    geometry can now be saved.
+
+ 5. Active graph items in a BLTGraph were not being properly hilighted
+    with BLT 2.3.  Thanks to Pietro Terna for reporting this.
+
 		Release Notes for Swarm Version 1.0.4
 
  1. Added ActionCache and ActionHolder and changed control scheme for
