@@ -17,6 +17,13 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       correctly ignore hand or machine-generated comments starting
       with a semi-colon `;' in input text files.
 
+**** KeyedCollection, Map, Set
+***** Implemented the [KeyedCollection -containsKey:] method for 
+      KeyedCollection types (currently Map and Set).  This message returns 
+      true if the key value passed as its argument is contained in the 
+      collection, and false otherwise.  Re-enable protocol conformance to 
+      KeyedCollection by Set. 
+
 *** analysis
 **** EZGraph, EZBin
 ***** New method setColors:count: for customizing the colors used for

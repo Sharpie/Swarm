@@ -1,3 +1,8 @@
+1999-05-28  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note implementation of -containsKey: method for
+	KeyedCollection types (Map and Set).
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Call md_CHECK_DLLEXTERN.
