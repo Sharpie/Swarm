@@ -30,6 +30,56 @@
 //D: Subclasses add particular space semantics onto this.
 //D: Currently Discrete2d grids are accessed by integer pairs
 //D: of X and Y coordinates. 
+
+//E: Discrete2d instances can now serialize themselves (without needing
+//E: additional classes such as Int2dFiler).
+//E:
+//E: The result of value (shallow) Lisp serialization of a 4x3 Discrete2d 
+//E: consisting of long values might be:
+//E: 
+//E: (list
+//E:   (cons 'myDiscrete2d
+//E:     (make-instance 'Discrete2d 
+//E:      #:xsize 4 #:ysize 3 #:lattice 
+//E:       (parse 
+//E:        #2((1000 1000 1000 1000)
+//E:           (1000 1000 1000 1000)
+//E:           (1000 1000 10 1000))))))
+//E:
+//E: For object (deep) Lisp serialization of the same 4x3 lattice with 
+//E: identical instances of MyClass at each point (except at (2,2) which
+//E: has an instance of MyClassOther) would look like:
+//E:
+//E: (list
+//E:   (cons 'myDiscrete2d
+//E:     (make-instance 'Discrete2d 
+//E:       #:xsize 4 #:ysize 3 #:lattice 
+//E:        (parse
+//E:        (cons '(0 . 0)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(0 . 1)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(0 . 2)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(1 . 0)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(1 . 1)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(1 . 2)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(2 . 0)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(2 . 1)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(2 . 2)
+//E:         (make-instance 'MyClassOther #:strVal "Other World"))
+//E:        (cons '(3 . 0)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(3 . 1)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))
+//E:        (cons '(3 . 2)
+//E:         (make-instance 'MyClass #:strVal "Hello World"))))))
+
 CREATING
 //M: Set the world size.
 - setSizeX: (unsigned)x Y: (unsigned)y;
@@ -90,6 +140,7 @@ USING
 - copyDiscrete2d: a toDiscrete2d: b;
 
 - (long *)getOffsets;
+
 @end
 
 @protocol DblBuffer2d <Discrete2d, CREATABLE>
@@ -284,10 +335,14 @@ USING
 @end
 
 @protocol Int2dFiler <SwarmObject, CREATABLE>
-//S: Saves the state of a Discrete2d object.
+//S: Saves the state of a Discrete2d object [DEPRECATED].
 
 //D: The Int2dFiler class is used to save the state of any Discrete2d
-//D: object (or a subclass thereof) to a specified file.
+//D: object (or a subclass thereof) to a specified file.  
+
+//D: Use of this protocol is deprecated, the ability to write the state 
+//D: of a Discrete2d instance to disk (serialize) is now encoded directly 
+//D: to the Discrete2d class, via the lisp and HDF5  archiver features.
 
 CREATING
 + createBegin: aZone;

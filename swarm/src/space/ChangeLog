@@ -2,6 +2,9 @@
 
 	* space.h (Ca2d): Remove CREATABLE tag in protocol definition,
 	since this protocol is intended to be abstract.
+	(Discrete2d): Add example of Lisp output serialization.
+	(Int2dFiler): Note as deprecated protocol, point user to
+	Discrete2d serialization.
 
 1999-05-04  Alex Lancaster  <alex@santafe.edu>
 
