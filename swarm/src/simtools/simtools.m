@@ -34,7 +34,6 @@ run_constructors (void)
   extern void libspace_sl_2_constructor (void);
   extern void libswarm_sl_0_constructor (void);
 
-  printf ("running constructors\n");
   libobjc_sl_0_constructor ();
   libmisc_sl_2_constructor ();
   libdefobj_sl_2_constructor ();
