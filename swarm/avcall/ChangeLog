@@ -3,6 +3,9 @@
 	* Makefile.in (install): Renamed from install-.
 	(LN): Use literal "ln", not @LN@.
 
+	* avcall-i386-msvc.c: Rename __builtin_apply with __msvc_builtin_apply,
+	as is needed for Swarm.
+
 2001-02-05  Ralf Stephan  <ralf@ark.in-berlin.de>
 
 	* avcall-ia64.c, avcall-ia64.s, uniq-u.c: 
