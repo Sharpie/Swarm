@@ -205,7 +205,7 @@ AC_SUBST(DLLIB)
 
 md_CHECK_INLINING
 md_CHECK_WARNFLAGS
-dnl md_CHECK_OBJC_LIBS
+# md_CHECK_OBJC_LIBS
 md_CHECK_NEXTSTEP
 md_CHECK_POINTER_FMT
 md_CHECK_BUILTIN_APPLY
@@ -224,6 +224,12 @@ AC_REPLACE_FUNCS(memcpy memset strcmp strlen)
 CFLAGS=$ac_save_CFLAGS
 
 AC_REPLACE_FUNCS(memchr realpath stpcpy strchr strncmp strndup strnlen strpbrk strsep strtoll)
+
+# then undo the change because AC_TRY_COMPILE will be checking for
+# the file.$ac_objext, but configure tests are only with gcc, not libtool
+if test $ac_objext = lo ; then
+  ac_objext=o
+fi
 
 md_CHECK_ARGP
 

@@ -55,8 +55,8 @@ modename="$progname"
 # Constants.
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION=1.4a
-TIMESTAMP=" (1.940 2001/06/25 00:54:25)"
+VERSION=1.4c
+TIMESTAMP=" (1.979 2001/07/17 20:17:38)"
 
 default_mode=
 help="Try \`$progname --help' for more information."
@@ -164,6 +164,11 @@ do
 
   --version)
     echo "$PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP"
+    echo
+    echo "Copyright 1996, 1997, 1998, 1999, 2000, 2001"
+    echo "Free Software Foundation, Inc."
+    echo "This is free software; see the source for copying conditions.  There is NO"
+    echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
     exit 0
     ;;
 
@@ -1216,12 +1221,24 @@ EOF
 	    # These systems don't actually have a C library (as such)
 	    test "X$arg" = "X-lc" && continue
 	    ;;
+	  *-*-openbsd*)
+	    # OpenBSD uses either libc or libc_r.
+	    continue
+	    ;;
 	  *-*-rhapsody* | *-*-darwin1.[012])
 	    # Rhapsody C and math libraries are in the System framework
 	    deplibs="$deplibs -framework System"
 	    continue
 	  esac
 	fi
+        if test "X$arg" = "X-lc_r"; then
+         case $host in
+         *-*-openbsd*)
+           # Do not include libc_r directly, use -pthread flag.
+           continue
+           ;;
+         esac
+        fi
 	deplibs="$deplibs $arg"
 	continue
 	;;
@@ -2797,7 +2814,10 @@ EOF
 	  *-*-netbsd*)
 	    # Don't link with libc until the a.out ld.so is fixed.
 	    ;;
-	  *)
+          *-*-openbsd*)
+	    # OpenBSD uses either libc or libc_r.
+            ;;
+ 	  *)
 	    # Add libc to deplibs on all other systems if necessary.
 	    if test $build_libtool_need_lc = "yes"; then
 	      deplibs="$deplibs -lc"
@@ -3237,7 +3257,7 @@ EOF
 	fi
 
         if len=`expr "X$cmds" : ".*"` &&
-           test $len -le $max_cmd_len; then
+           test $len -le $max_cmd_len || test $max_cmd_len -le -1; then
           :
         else
 	  # The command line is too long to link in one step, link piecewise.
@@ -3751,27 +3771,25 @@ extern \"C\" {
 #undef lt_preloaded_symbols
 
 #if defined (__STDC__) && __STDC__
-# define lt_ptr_t void *
+# define lt_ptr void *
 #else
-# define lt_ptr_t char *
+# define lt_ptr char *
 # define const
 #endif
 
 /* The mapping between symbol names and symbols. */
 const struct {
   const char *name;
-  lt_ptr_t address;
+  lt_ptr address;
 }
 lt_preloaded_symbols[] =
 {\
 "
 
-	    sed -n -e 's/^: \([^ ]*\) $/  {\"\1\", (lt_ptr_t) 0},/p' \
-		-e 's/^. \([^ ]*\) \([^ ]*\)$/  {"\2", (lt_ptr_t) \&\2},/p' \
-		  < "$nlist" >> "$output_objdir/$dlsyms"
+	    eval "$global_symbol_to_c_name_address" < "$nlist" >> "$output_objdir/$dlsyms"
 
 	    $echo >> "$output_objdir/$dlsyms" "\
-  {0, (lt_ptr_t) 0}
+  {0, (lt_ptr) 0}
 };
 
 /* This works around a problem in FreeBSD linker */
@@ -4238,7 +4256,7 @@ fi\
 	eval cmds=\"$old_archive_cmds\"
 
         if len=`expr "X$cmds" : ".*"` &&
-             test $len -le $max_cmd_len; then
+             test $len -le $max_cmd_len || test $max_cmd_len -le -1; then
           :
         else
           # the command line is too long to link in one step, link in parts

@@ -3,6 +3,8 @@
 	* configure.in: Pass --host, --target, and --build to libobjc and
 	avcall configures.
 
+	* configure.in: Undo change to ac_objext after AC_REPLACE_FUNCS.
+
 	* config.guess, config.sub, ltmain.sh: Updated to current libtool.
 
 	* VERSION: Bump.
