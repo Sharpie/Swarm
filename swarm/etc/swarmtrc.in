@@ -65,23 +65,23 @@ setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${SWARMHOME}/lib
 set colon=':' 
 
 if ( $tcldir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${tcldir}/lib
+setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${tcldir}
 endif
 
 if ( $tkdir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${tkdir}/lib
+setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${tkdir}
 endif
 
 if ( $bltdir != '' ) then
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${bltdir}/lib
+setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${bltdir}
 endif
 
 if ( $hdfdir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${hdfdir}/lib
+setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${hdfdir}
 endif
 
 if ( $pngdir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${pngdir}/lib
+setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${pngdir}
 endif
 
 unset tcldir tkdir bltdir hdfdir pngdir colon
