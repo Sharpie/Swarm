@@ -695,8 +695,13 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     }
   jsel = SD_FINDJAVA (jniEnv, (id) aSel);
   if (!jsel)
-    raiseEvent (InvalidArgument, "unable to find Java selector for `%s'\n",
-                sel_get_name (aSel));
+    raiseEvent (InvalidArgument,
+                "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",
+                sel_get_name (aSel),
+                [self name],
+                self,
+                jobj,
+                swarm_directory_java_hash_code (jobj));
   
   fa = [FArguments createBegin: aZone];
   [fa setJavaFlag: YES];

@@ -1,5 +1,14 @@
 1999-07-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m ([Directory -switchJavaEntry:javaObject:]): 
+	Ensure map exists in new entry.
+
+	* directory.[hm]: Add swarm_directory_java_hash_code and companion
+	method in DirectoryEntry.
+
+	* DefObject.m ([Object_s -forward::]): Print more information
+	about context when a selector is not found.
+
 	* directory.m ([Directory -nextPhase:currentJavaPhase:]): 
 	New method.
 	([Directory -objcFindJavaClass:]): New method.

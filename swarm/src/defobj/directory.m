@@ -62,16 +62,78 @@ id swarmDirectory;
 
 #define DIRECTORY_SIZE 7919
 
-static int
-getIndex (jobject javaObject)
+static const char *
+getObjcName (jobject javaObject, id object)
 {
-  return (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode) % DIRECTORY_SIZE;
+  return ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Selector)
+          ? (object ? sel_get_name ((SEL) object) : "M(<nil>)")
+          : (object ? [object name] : "nil"));
+}
+
+static jstring
+get_class_name_from_class_object (JNIEnv *env, jobject classObj)
+{
+  jmethodID methodID;
+  jobject nameObj;
+  jclass class;
+  
+  if (!(class = (*env)->GetObjectClass (env, classObj)))
+    abort ();
+
+  if (!(methodID = (*env)->GetMethodID (env,
+                                        class,
+                                        "getName",
+                                        "()Ljava/lang/String;")))
+    abort ();
+  
+  if (!(nameObj = (*env)->CallObjectMethod (env, classObj, methodID)))
+    abort ();
+  
+  return nameObj;
+}
+
+static jstring
+get_class_name_from_object (JNIEnv *env, jobject jobj)
+{
+  jclass class;
+  jmethodID methodID;
+  jobject classObj;
+
+  if (!(class = (*env)->GetObjectClass (env, jobj)))
+    abort ();
+
+  if (!(methodID = (*env)->GetMethodID (env,
+                                        class,
+                                        "getClass",
+                                        "()Ljava/lang/Class;")))
+    abort ();
+  
+  if (!(classObj = (*env)->CallObjectMethod (env, jobj, methodID)))
+    abort ();
+
+  return get_class_name_from_class_object (env, classObj);
+}
+
+
+static jstring
+get_class_name (JNIEnv *env, jclass class)
+{
+  return
+    get_class_name_from_object (env,
+                                swarm_directory_java_instantiate (env, class));
+}
+
+int
+swarm_directory_java_hash_code (jobject javaObject)
+{
+  return 
+    (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode) % DIRECTORY_SIZE;
 }
 
 @implementation DirectoryEntry
 - setJavaObject: (jobject)theJavaObject
 {
-  javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
+  javaObject = theJavaObject;
   return self;
 }
 
@@ -83,9 +145,12 @@ getIndex (jobject javaObject)
 
 - (const char *)getObjcName
 {
-  return ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Selector)
-          ? (object ? sel_get_name ((SEL) object) : "M(<nil>)")
-          : (object ? [object name] : "nil"));
+  return getObjcName (javaObject, object);
+}
+
+- (int)getHashCode
+{
+  return swarm_directory_java_hash_code (javaObject);
 }
 
 - (int)compare: obj
@@ -122,7 +187,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 	  ((DirectoryEntry *) B)->object);
 }
 
-#define ENTRY(theObject,theJavaObject) [[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject]
+#define ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
 #define OBJCENTRY(theObject) ENTRY(theObject,0)
 #define JAVAENTRY(theJavaObject) ENTRY(0,theJavaObject)
 
@@ -140,7 +205,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - javaFind: (jobject)theJavaObject
 {
-  unsigned index = getIndex (theJavaObject);
+  unsigned index = swarm_directory_java_hash_code (theJavaObject);
   id m = table[index];
 
   if (m)
@@ -151,6 +216,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
       [findEntry drop];
       return entry;
     }
+
   return nil;
 }
 
@@ -180,11 +246,11 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - add: theObject javaObject: (jobject)theJavaObject
 {
-  unsigned index = getIndex (theJavaObject);
+  unsigned index = swarm_directory_java_hash_code (theJavaObject);
   id <Map> m = table[index];
   id entry;
-
-  entry = ENTRY (theObject, theJavaObject);
+  
+  entry = ENTRY (theObject, (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject));
 
   if (m == nil)
     {
@@ -196,21 +262,22 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return entry;
 }
 
-- switchJavaEntry: (DirectoryEntry *)entry javaObject: (jobject)theJavaObject
+- (void)switchJavaEntry: (DirectoryEntry *)entry javaObject: (jobject)theJavaObject
 {
   unsigned index;
   id <Map> m;
   
-  index = getIndex (entry->javaObject);
+  index = swarm_directory_java_hash_code (entry->javaObject);
   m = table[index];
 
   [m remove: entry];
   (*jniEnv)->DeleteGlobalRef (jniEnv, entry->javaObject);
   
-  index = getIndex (theJavaObject);
-  [entry setJavaObject: theJavaObject];
+  index = swarm_directory_java_hash_code (theJavaObject);
+  entry->javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
+  if (!table[index])
+    table[index] = [Map create: [self getZone]];
   [table[index] at: entry insert: entry];
-  return self;
 }
 
 - switchJava: theObject javaObject: (jobject)theJavaObject
@@ -228,24 +295,43 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 - nextPhase: nextPhase currentJavaPhase: (jobject)currentJavaPhase
 {
   jobject nextJavaPhase = SD_NEXTJAVAPHASE (jniEnv, currentJavaPhase);
-  id findEntry = OBJCENTRY (nextPhase);
-  DirectoryEntry **entryptr;
+  id currentPhase = SD_FINDOBJC (jniEnv, currentJavaPhase);
   
-  entryptr = (DirectoryEntry **) avl_probe (objc_tree, findEntry);
-  [self switchJavaEntry: *entryptr javaObject: nextJavaPhase];
-  if (*entryptr != findEntry)
-    [findEntry drop];
-  {
-    id currentObject = SD_FINDOBJC (jniEnv, currentJavaPhase);
-    id currentEntry = OBJCENTRY (currentObject);
-    id ret;
-    
-    ret = avl_delete (objc_tree, currentEntry);
-    [currentEntry drop];
-    if (ret)
-      [ret drop];
-  }
-  return (id) *entryptr;
+  if (currentPhase != nextPhase)
+    {
+      id entry = ENTRY (nextPhase, currentJavaPhase);
+      DirectoryEntry **entryptr = 
+        (DirectoryEntry **) avl_probe (objc_tree, entry);
+
+      if (*entryptr != entry)
+        abort ();
+
+      [self switchJavaEntry: entry javaObject: nextJavaPhase];
+      {
+        id ret;
+        id currentEntry = OBJCENTRY (currentPhase);
+        
+        ret = avl_delete (objc_tree, currentEntry);
+        if (!ret)
+          abort ();
+        [ret drop];
+        [currentEntry drop];
+      }
+      return *entryptr;
+    }
+  else
+    {
+      id findEntry = OBJCENTRY (nextPhase);
+      DirectoryEntry *entry = avl_find (objc_tree, findEntry);
+      
+      if (!entry)
+        abort ();
+
+      [self switchJavaEntry: entry javaObject: nextJavaPhase];
+
+      [findEntry drop];
+      return entry;
+    }
 }
 
 - switchObjc: theObject javaObject: (jobject)theJavaObject
@@ -255,7 +341,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   unsigned index;
   id <Map> m;
   
-  index = getIndex (theJavaObject);
+  index = swarm_directory_java_hash_code (theJavaObject);
   m = table[index];
   entry = [table[index] at: findEntry];
   if (!entry)
@@ -582,58 +668,6 @@ create_field_refs (JNIEnv * env)
   if (!(f_nextPhase = (*env)->GetFieldID (env, c_PhaseCImpl, "nextPhase", 
                                           "Ljava/lang/Object;")))
     abort();
-}
-
-static jstring
-get_class_name_from_class_object (JNIEnv *env, jobject classObj)
-{
-  jmethodID methodID;
-  jobject nameObj;
-  jclass class;
-  
-  if (!(class = (*env)->GetObjectClass (env, classObj)))
-    abort ();
-
-  if (!(methodID = (*env)->GetMethodID (env,
-                                        class,
-                                        "getName",
-                                        "()Ljava/lang/String;")))
-    abort ();
-  
-  if (!(nameObj = (*env)->CallObjectMethod (env, classObj, methodID)))
-    abort ();
-  
-  return nameObj;
-}
-
-static jstring
-get_class_name_from_object (JNIEnv *env, jobject jobj)
-{
-  jclass class;
-  jmethodID methodID;
-  jobject classObj;
-
-  if (!(class = (*env)->GetObjectClass (env, jobj)))
-    abort ();
-
-  if (!(methodID = (*env)->GetMethodID (env,
-                                        class,
-                                        "getClass",
-                                        "()Ljava/lang/Class;")))
-    abort ();
-  
-  if (!(classObj = (*env)->CallObjectMethod (env, jobj, methodID)))
-    abort ();
-
-  return get_class_name_from_class_object (env, classObj);
-}
-
-static jstring
-get_class_name (JNIEnv *env, jclass class)
-{
-  return
-    get_class_name_from_object (env,
-                                swarm_directory_java_instantiate (env, class));
 }
 
 #if 0
