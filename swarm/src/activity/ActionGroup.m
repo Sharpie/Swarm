@@ -10,6 +10,7 @@ Library:      activity
 */
 
 #import <activity/ActionGroup.h>
+#import <activity/Action.h> // CAction
 #import <defobj/defalloc.h>
 
 @implementation ActionGroup_c
@@ -565,7 +566,7 @@ PHASE(Using)
 
 - get
 {
-  if (memberAction->target == nil)
+  if (((ActionForEach_c *) memberAction)->target == nil)
     return nil;
   return memberAction;
 }

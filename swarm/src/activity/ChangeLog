@@ -1,3 +1,24 @@
+1999-11-14    <mgd@VAIO>
+
+	* CompoundAction.m ([CompoundAction_c -_createActivity_::::]): Add
+	casting so that topLevelAction needn't be statically typed.
+
+	* ActionGroup.h: Include activity.h.
+	(actionConcurrent): Make it an object conforming to Action instead
+	of CAction *.
+	(ForEachIndex_c): Make memberAction an object conforming to
+	ActionForEach instead of ActionForEach_c.
+
+	* ActionGroup.m (ActionGroup_c): Include Action.h 
+	([ForEachIndex_c -get]): Cast memberAction to ActionForEach_c
+	so that target can be dereferenced.
+
+	* XActivity.h (Activity_c): Include activity.h instead of 
+	Action.h.  Make topLevelAction an object conforming to Action
+	instead of CAction *.
+
+	* Schedule.h: Include Action.h.
+
 1999-10-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* activity.h (ActionCreatingFAction): New protocol.

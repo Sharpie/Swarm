@@ -191,8 +191,8 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
     {
       newActivity = [swarmZone allocIVarsComponent: activityClass];
       newActivity->topLevelAction =
-        [swarmZone allocIVarsComponent: id_CAction];
-      newActivity->topLevelAction->owner = (ActionType_c *) self;
+	[swarmZone allocIVarsComponent: id_CAction];
+      ((CAction *) newActivity->topLevelAction)->owner = (ActionType_c *) self;
     }
   setMappedAlloc (newActivity);
   

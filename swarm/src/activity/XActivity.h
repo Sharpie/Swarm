@@ -10,7 +10,7 @@ Library:      activity
 */
 
 #import <defobj/Create.h>
-#import <activity/Action.h>
+#import <activity.h>
 
 //
 // Activity_c -- state of processing within an action type
@@ -19,7 +19,7 @@ Library:      activity
 {
 @public
   Activity_c *ownerActivity;          // activity running this activity
-  CAction *topLevelAction;            // action binding at top of stack
+  id <Action> topLevelAction;         // action binding at top of stack
   id status;                          // symbol for current status
   member_t activityRefs;              // internal links in references to plan
 

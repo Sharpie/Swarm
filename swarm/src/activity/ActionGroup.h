@@ -13,6 +13,7 @@ Library:      activity
 #import <collections/Permutation.h>
 #import <activity/CompoundAction.h>
 #import <activity/XActivity.h>
+#import <activity.h> // Action, ActionGroup protocols
 #import <defobj/Zone.h>
 
 @interface ActionGroup_c: OrderedSet_c <ActionGroup>
@@ -58,7 +59,7 @@ Library:      activity
 
 @interface ConcurrentGroup_c: ActionGroup_c <ConcurrentGroup>
 {
-  CAction *actionConcurrent;  // action that includes group in schedule
+  id <Action> actionConcurrent;  // action that includes group in schedule
 }
 /*** methods in ConcurrentGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
@@ -106,9 +107,9 @@ Library:      activity
 @interface ForEachIndex_c: Object_s
 {
 @public
-  id <Activity> activity;        // activity for which index created
-  id <Index> memberIndex;        // index into target collection
-  ActionForEach_c *memberAction; // local copy of original ForEach action
+  id <Activity> activity;          // activity for which index created
+  id <Index> memberIndex;          // index into target collection
+  id <ActionForEach> memberAction; // local copy of original ForEach action
 }
 /*** methods in ForEachIndex_c (inserted from .m file by m2h) ***/
 - nextAction: (id *)status;
