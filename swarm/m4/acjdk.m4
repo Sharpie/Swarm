@@ -17,6 +17,7 @@ if test $jdkdir = no; then
   JAVASWARMSCRIPTS=
 else
   USEDOSCLASSPATH=no
+  JAVASWARM_DLL_NAME=javaswarm # a default is needed for Globals.java
   if test $jdkdir = /usr && test -d /usr/include/java; then
     jdkincludedir=$jdkdir/include/java
   else
@@ -78,7 +79,6 @@ else
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
       USEDOSCLASSPATH=yes
-      JAVASWARM_DLL_NAME=javaswarm
       JAVASWARM_DLL_ENTRY='__cygwin_noncygwin_dll_entry@12'
     else
       test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
