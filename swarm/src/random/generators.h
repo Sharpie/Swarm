@@ -388,7 +388,7 @@ USING
 //
 // PMMLCG8, PMMLCG9 --
 //   component generators of C2LCGX
-//
+
 @deftype PMMLCGgen <SingleShortGenerator>
 //S: Prime Modulus Multiplicative Linear Congruential Generator
 

@@ -43,7 +43,7 @@ USING
 - setGenerator: generator;
 
 - setGenerator       : generator 
-  setVirtualGenerator: (unsigned) vGen;
+  setVirtualGenerator: (unsigned)vGen;
 
 - createEnd;
 
@@ -60,7 +60,7 @@ USING
 - (BOOL)getOptionsInitialized;
 
 //M: The getCurrentCount method returns the count of variates generated.
-- (unsigned long long int) getCurrentCount;
+- (unsigned long long int)getCurrentCount;
 @end
 
 // 
@@ -99,8 +99,6 @@ USING
 - (unsigned)getUnsignedSample;
 @end
 
-//
-//
 @deftype DoubleDistribution <ProbabilityDistribution>
 //S: Double Distribution 
 
@@ -113,9 +111,7 @@ USING
 - (double)getDoubleSample;
 @end
 
-// 
 // Protocol definitions for specific distributions:
-// 
 
 @deftype RandomBitDist <BooleanDistribution, CREATABLE>
 //S: Random Bit Distribution 
@@ -128,15 +124,14 @@ USING
 - (BOOL)getCoinToss;
 @end
 
-// 
-// 
 @deftype BernoulliDist <BooleanDistribution, CREATABLE>
 //S: Bernoulli Distribution 
 
 //D: A distribution returning YES with a given probability.
 CREATING
-+ create        : aZone setGenerator: generator
-  setProbability: (double) p;
++ create        : aZone
+    setGenerator: generator
+  setProbability: (double)p;
 
 + create             : aZone
          setGenerator: generator
@@ -189,8 +184,6 @@ USING
 - (int)getIntegerWithMin: (int)minValue withMax: (int)maxValue;
 @end
 
-//
-//
 @deftype UniformUnsignedDist <UnsignedDistribution, CREATABLE> 
 //S: Uniform Unsigned Distribution
 
@@ -263,8 +256,6 @@ USING
 - (double)getDoubleWithMin: (double)minValue withMax: (double)maxValue;
 @end
 
-//
-//
 @deftype Normal <DoubleDistribution> 
 //S: Normal Distribution
 
@@ -338,8 +329,6 @@ USING
 - (double)getSampleWithMean: (double)mean;
 @end
 
-//
-//
 @deftype GammaDist <DoubleDistribution, CREATABLE>
 //S: Gamma distribution
 
@@ -372,10 +361,8 @@ USING
                     withBeta: (double)beta;
 @end
 
-//
 // Include declarations of type factories for each deftype marked CREATABLE
 // (type factories can be defined either as class names or external id's)
-//
 
 // Boolean:
 @class RandomBitDist;
