@@ -1,7 +1,7 @@
 MODULE = objectbase
-CURRENT = 2
+CURRENT = 3
 REVISION = 0
-AGE = 1
+AGE = 0
 objectbasedir = $(includedir)/$(MODULE)
 
 FFIINCLUDES = @FFIINCLUDES@

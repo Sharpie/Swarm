@@ -1,3 +1,7 @@
+1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (AGE, REVISION): Bump.
+
 1999-01-07  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (tcllibdir): Substitute.

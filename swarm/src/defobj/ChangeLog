@@ -1,5 +1,7 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Makefile.am (CURRENT): Bump.
+
 	* HDF5Object.m (hdf5_not_available): Moved from defobj.m.
 
 	* Archiver.[hm], defobj.h: Switch registration and get/put to

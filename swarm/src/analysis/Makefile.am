@@ -1,7 +1,7 @@
 MODULE = analysis
-CURRENT = 2
+CURRENT = 3
 REVISION = 0
-AGE = 1
+AGE = 0
 analysisdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules

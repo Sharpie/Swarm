@@ -1,5 +1,7 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Makefile.am (CURRENT): Bump.
+
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
 	-loadWindowGeometryRecord]): Use lispGet: instead of
 	lispArchiverGet().

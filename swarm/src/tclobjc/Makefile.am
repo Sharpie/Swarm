@@ -1,6 +1,6 @@
 CURRENT = 0
-REVISION = 1
-AGE = 0
+REVISION = 2
+AGE = 1
 tclobjcdir = $(includedir)/tclobjc
 
 TCLINCLUDES = @TCLINCLUDES@

@@ -1,5 +1,5 @@
 MODULE = random
-CURRENT = 0
+CURRENT = 1
 REVISION = 0
 AGE = 0
 randomdir = $(includedir)/$(MODULE)

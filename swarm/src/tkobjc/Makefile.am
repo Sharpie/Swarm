@@ -1,6 +1,6 @@
 SUBDIRS = tk
 MODULE = tkobjc
-CURRENT = 2
+CURRENT = 3
 REVISION = 0
 AGE = 0
 tkobjcdir = $(includedir)/$(MODULE)

@@ -1,7 +1,7 @@
 MODULE = activity
-CURRENT = 1
-REVISION = 1
-AGE = 1
+CURRENT = 2
+REVISION = 0
+AGE = 0
 activitydir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules

@@ -1,6 +1,6 @@
 MODULE = collections
-CURRENT = 1
-REVISION = 1
+CURRENT = 2
+REVISION = 0
 AGE = 0
 collectionsdir = $(includedir)/$(MODULE)
 
