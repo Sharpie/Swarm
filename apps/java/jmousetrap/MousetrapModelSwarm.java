@@ -213,7 +213,9 @@ public class MousetrapModelSwarm extends SwarmImpl
     modelActCont = new ActivityControlImpl ((ZoneImpl)this.getZone());
     modelActCont.attachToActivity (this.getActivity());
 
-    //    modelActCont.setDisplayName ("Model Swarm Controller");
+    modelActCont.setDisplayName ("Model Swarm Controller");
+
+    Globals.env.createArchivedProbeDisplay (modelActCont);
         
     return this.getActivity();
   }
