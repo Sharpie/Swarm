@@ -1,3 +1,10 @@
+1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (check_PROGRAMS): Add forwarding test.
+	(forwarding_SOURCES): Add forwarding.m.
+
+	* forwarding.m: New file.
+
 1999-02-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* archiver.m (MyClassDeeper): Add another level of inheritance
