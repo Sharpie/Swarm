@@ -53,7 +53,7 @@ libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdi
 
 DLLWRAP = @DLLWRAP@
 if USEDLL
-OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
+OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo) SwarmEnvironment.lo
 
 swarm.dll: swarm.dll.c $(OBJS)
 	$(CC) -g -c $(srcdir)/swarm.dll.c

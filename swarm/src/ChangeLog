@@ -1,3 +1,7 @@
+2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Makefile.am (OBJS): Add SwarmEnvironment.lo.
+
 2000-07-11    <mgd@HELEN>
 
 	* swarm.h: Include externvar.h and declare swarmGUIMode.
