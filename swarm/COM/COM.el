@@ -796,7 +796,8 @@
 
 (defun com-init ()
   (setq *extra-removed-methods* '("-addJavaObject:"
-                                  "-setJavaMethod:inObject:"))
+                                  "-setJavaMethod:inObject:"
+                                  "-initSwarmUsing:version:bugAddress:args:"))
   
   (setq *extra-unwanted-create-method-signatures*
         '("+create:setAutoDrop:")))
