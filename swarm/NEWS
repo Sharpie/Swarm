@@ -50,6 +50,8 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
     that start on the same timestep that activation occurs.
     Thanks to Michael Krumpus for the report.
 *** Custom ProbeMaps didn't work with pure Java objects.
+*** Handle Java longs as long long, thus stubbing long long Objective C types.
+*** In LispArchiver, getObject after a put{Deep,Shallow}:object: works.
 
 ** Autoconfiguration / Portability
 *** Support for Hurd-based GNU systems
