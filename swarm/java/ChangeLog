@@ -1,3 +1,19 @@
+1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-methods*): Exclude
+	 +create:setA:setV:setW:setStateFromSeeds: instead of 
+	 +create:setA:setv:setw:setStateFromSeeds:.
+	 (java-print-javadoc-method): Don't print javadoc hide message.
+	 (java-print-method): Insert "static" for factory methods.
+	 (included-method-p): Include convenience factory methods in using 
+	phase.
+	(convenience-create-method-p, collect-convenience-create-methods, 
+	collect-name.arguments, java-print-class-constructor-method, 
+	java-print-class-constructors, java-print-imports): New functions.
+	(java-print-class-phase): Call java-print-class-constructors when
+	protocol is creatable and in using phase.
+	(java-print-class-phase-to-file): Call java-print-imports.
+
 1999-06-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (expanded-method-list): Use methodinfo-method

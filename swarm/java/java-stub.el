@@ -175,7 +175,7 @@
       "-putStateInto:" ; void* parameter
       "-setStateFrom:" ; void* parameter
       "+create:setStateFromSeeds:"; unsigned* parameter
-      "+create:setA:setv:setw:setStateFromSeeds:" ; unsigned * parameter
+      "+create:setA:setV:setW:setStateFromSeeds:" ; unsigned * parameter
       "-setStateFromSeeds:" ; unsigned* parameter
       "-getMaxSeedValues" ; unsigned* return
       "-getLongDoubleSample" ; long double return
@@ -249,14 +249,12 @@
   (loop for text in (method-description-list method)
         do
         (insert text))
-  (if (not (method-in-protocol-p protocol method))
-      (insert "\n * @hide")
-    (message "Supress javadoc `@hide' for `%s' in `%s'"
-             (get-method-signature method)
-             (protocol-name protocol)))
-  (if (deprecated-p method)
-      (java-print-deprecated-doc method))
-  (insert "\n */\n"))  
+  (unless (method-in-protocol-p protocol method)
+    ;(message "Supress javadoc `@hide' for `%s' in `%s'" (get-method-signature method) (protocol-name protocol))
+    (insert "\n * @hide"))
+  (when (deprecated-p method)
+    (java-print-deprecated-doc method))
+  (insert "\n */\n"))
 
 (defun java-print-javadoc-protocol (protocol)
   (insert "\n/**\n * ")
@@ -329,6 +327,8 @@
          (first-argument (car arguments))
          (signature (get-method-signature method))
          (module (protocol-module protocol)))
+    (when (create-method-p method)
+      (insert "static "))
     (if nil ; sadly, no
         (cond ((string= signature "+createBegin:")
                (insert (java-qualified-class-name module protocol :creating)))
@@ -366,11 +366,19 @@
          (min-len (min len 7)))
     (string= (substring signature 0 min-len) "+create")))
 
+(defun convenience-create-method-p (method)
+  (let* ((signature (get-method-signature method))
+         (len (length signature))
+         (min-len (min len 8)))
+    (string= (substring signature 0 min-len) "+create:")))
+
 (defun included-method-p (protocol method phase)
   (and (not (removed-method-p method))
-       (eq phase (method-phase method))
-       (if (and (not (creatable-p protocol))
-                (create-method-p method))
+       (or (eq phase (method-phase method))
+           (and (eq phase :using)
+                (convenience-create-method-p method)))
+       (if (and (create-method-p method)
+                (not (creatable-p protocol)))
            (progn
              (message "Skipping method `%s' in non-creatable protocol `%s'"
                       (get-method-signature method)
@@ -392,9 +400,11 @@
 
 (defun java-print-interface-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
-        when (included-method-p protocol method phase)
-	do (progn (java-print-javadoc-method method protocol)
-                  (java-print-method protocol method))))
+        when (and (included-method-p protocol method phase)
+                  (not (create-method-p method)))
+	do
+        (java-print-javadoc-method method protocol)
+        (java-print-method protocol method)))
 
 (defun java-suffix-for-phase (phase)
   (case phase
@@ -476,6 +486,52 @@
         (insert " ")
         (java-print-implemented-interfaces-list protocol phase separator))))
 
+
+(defun collect-convenience-create-methods (protocol)
+  (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
+        for method = (methodinfo-method methodinfo)
+        when (and (not (removed-method-p method))
+                  (convenience-create-method-p method))
+        collect method))
+
+(defun collect-name.arguments (method)
+    (flet ((strip (key) (substring key 3))
+           (fix (key) (concat (downcase (substring key 0 1))
+                              (substring key 1))))
+      (loop for argument in (cdr (method-arguments method))
+            collect (cons (fix (strip (car argument)))
+                          argument))))
+
+(defun java-print-class-constructor-method (protocol method)
+  (let ((name.arguments (collect-name.arguments method)))
+    (insert "public ")
+    (insert (java-class-name protocol :using))
+    (insert " (")
+    (insert (java-class-name (lookup-protocol "Zone") :using))
+    (insert " aZone")
+    (loop for name.argument in name.arguments
+          do
+          (insert ", ")
+          (java-print-argument (cdr name.argument)))
+    (insert ") { this.create")
+    (flet ((fix (key) (concat (upcase (substring key 0 1))
+                              (substring key 1))))
+      (loop for name.argument in name.arguments
+            do
+            (insert "$set")
+            (insert (fix (car name.argument)))))
+    (insert " (")
+    (insert "aZone")
+    (loop for name.argument in name.arguments
+          do
+          (insert ", ")
+          (insert (caddr (cdr name.argument))))
+    (insert "); }\n")))
+
+(defun java-print-class-constructors (protocol)
+  (loop for method in (collect-convenience-create-methods protocol)
+        do (java-print-class-constructor-method protocol method)))
+
 (defun java-print-class-phase (protocol phase)
   (java-print-javadoc-protocol protocol)
   (insert "public ")
@@ -490,6 +546,9 @@
   (insert " {\n")
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
+  (when (and (eq phase :using)
+             (creatable-p protocol))
+    (java-print-class-constructors protocol))
   (insert "}\n"))
 
 (defun java-print-interface-phase (protocol phase)
@@ -534,10 +593,17 @@
   (insert "package swarm.")
   (insert (module-name (protocol-module protocol)))
   (insert ";\n"))
+
+(defun java-print-imports (protocol)
+  (unless (string= (protocol-name protocol) "Zone")
+    (insert "import swarm.defobj.")
+    (insert (java-class-name (lookup-protocol "Zone") :using))
+    (insert ";")))
       
 (defun java-print-class-phase-to-file (protocol phase)
   (with-protocol-java-file protocol phase nil
                            (java-print-package protocol)
+                           (java-print-imports protocol)
                            (java-print-class-phase protocol phase)))
 
 (defun java-print-class (protocol)
