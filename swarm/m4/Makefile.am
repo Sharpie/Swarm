@@ -1,2 +1,3 @@
-EXTRA_DIST = acffi.m4 acinline.m4 acobjclibs.m4 acpng.m4 acpointerfmt.m4 \
+EXTRA_DIST = acbuiltinapply.m4 acffi.m4 acfind.m4 acinline.m4 \
+	acnextstep.m4 acobjclibs.m4 acobjcmalloc.m4 acpng.m4 acpointerfmt.m4 \
 	acreplacefuncs.m4 acswarm.m4 actcltk.m4

@@ -1,5 +1,10 @@
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* acbuiltinapply.m4: New file.
+
+	* Makefile.am (EXTRA_DIST): Add acbuiltinapply.m4, acfind.m4,
+	acnextstep.m4, and acobjcmalloc.m4.
+
 	* acffi.m4: Correct FFIINCLUDES for non-/usr/include case.
 
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
