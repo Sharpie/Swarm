@@ -108,23 +108,6 @@ readString (id inStream, BOOL literalFlag)
     return nil;
   else if (c == '\'')
     return [self getExpr];
-#if 0
-  else if (c == 'n' || c == 'N')
-    {
-      id <String> remain = readString (self, 0);
-
-      if (strcmp ([remain getC], "il") != 0)
-        {
-          id <String> newString = [String create: aZone setC: "n"];
-
-          [newString catC: [remain getC]];
-          return newString;
-        }
-      else
-        return [[[ArchiverValue createBegin: aZone]
-                  setNil] createEnd];
-    }
-#endif
   else if (c == ':')
     {
       id newObj = readString (self, 0);
@@ -276,7 +259,7 @@ readString (id inStream, BOOL literalFlag)
     {
       id string;
       BOOL isNumeric = YES;
-      char type = _C_INT;
+      char type = _C_LNG;
 
       ungetc (c, fileStream);
       string = readString (self, 0);
@@ -292,7 +275,7 @@ readString (id inStream, BOOL literalFlag)
             
             if (ch == '.')
               type = _C_DBL;
-            else if (!isdigit ((int)ch) && !(pos == 0 && ch == '-'))
+            else if (!isdigit ((int) ch) && !(pos == 0 && ch == '-'))
               {
                 if (pos == len - 2)
                   {
@@ -331,7 +314,7 @@ readString (id inStream, BOOL literalFlag)
                 else
                   [number setDouble: val];
               }
-            else if (type == _C_INT)
+            else if (type == _C_LNG)
               {
                 long val;
 
@@ -339,7 +322,7 @@ readString (id inStream, BOOL literalFlag)
                 val = strtol (str, NULL, 10);
                 if (errno != 0)
                   raiseEvent (InvalidArgument, "Could not convert to long");
-                [number setInteger: (int)val];
+                [number setLong: val];
               }
             else
               abort ();
@@ -423,8 +406,8 @@ PHASE(Creating)
     case _C_ID:
       elementSize = sizeof (id);
       break;
-    case _C_INT:
-      elementSize = sizeof (int);
+    case _C_LNG:
+      elementSize = sizeof (long);
       break;
     case _C_DBL:
       elementSize = sizeof (double);
@@ -482,8 +465,8 @@ PHASE(Creating)
               case _C_ID:
                 ((id *) data) [offset] = [val getObject];
                 break;
-              case _C_INT:
-                ((int *) data) [offset] = [val getInteger];
+              case _C_LNG:
+                ((long *) data) [offset] = [val getLong];
                 break;
               case _C_FLT:
                 ((float *) data) [offset] = [val getFloat];
@@ -579,6 +562,13 @@ PHASE(Creating)
   return self;
 }
 
+- setLong: (long)val
+{
+  type = _C_LNG;
+  value.l = val;
+  return self;
+}
+
 - setChar: (unsigned char)val
 {
   type = _C_UCHR;
@@ -622,6 +612,11 @@ PHASE(Using)
   return value.i;
 }
 
+- (long)getLong
+{
+  return value.l;
+}
+
 - (unsigned char)getChar
 {
   return value.ch;
@@ -658,6 +653,9 @@ PHASE(Using)
       break;
     case _C_INT:
       [stream catInt: value.i];
+      break;
+    case _C_LNG:
+      [stream catLong: value.l];
       break;
     default:
       [stream catC: "serialization for this type not implemented yet"];

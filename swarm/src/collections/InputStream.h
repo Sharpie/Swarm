@@ -63,6 +63,7 @@ Library:     collections
   union {
     double d;
     float f;
+    long l;
     int i;
     unsigned char ch;
     id obj;
@@ -70,6 +71,7 @@ Library:     collections
 }
 - setDouble: (double)val;
 - setFloat: (float)val;
+- setLong: (long)val;
 - setInteger: (int)val;
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
@@ -77,6 +79,7 @@ Library:     collections
 - (double)getDouble;
 - (float)getFloat;
 - (int)getInteger;
+- (long)getLong;
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;

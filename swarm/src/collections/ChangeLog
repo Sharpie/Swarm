@@ -1,3 +1,18 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputStream.m ([InputStream_c -getExpr]): Default to _C_LNG 
+	for numbers.
+	([ArchiverArray_c -setArray:]): Check for _C_LNG instead of _C_INT.
+	([ArchiverValue_c -lispOutDeep:]): Handle _C_LNG.
+
+	* InputStream.[hm] ([ArchiverValue_c -setLong:], [ArchiverValue_c
+	-getLong]): New methods.
+
+	* InputStream.h (ArchiverValue_c): Add long type to value union.
+
+	* InputStream.m ([InputStream_c -getExpr]): Remove disabled `nil'
+	parsing code.
+
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* List_GEN.m ([TARGET -describe:]): Cast getField return to int.
