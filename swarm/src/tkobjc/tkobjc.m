@@ -41,4 +41,3 @@ initTkObjc (id arguments)
     }
 }
 
-blah
