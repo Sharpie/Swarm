@@ -15,7 +15,7 @@
   return [windowGeometryString getC];
 }
 
-- setWindowGeometry : (const char *)theWindowGeometryString;
+- setWindowGeometry: (const char *)theWindowGeometryString;
 {
   if (theWindowGeometryString)
     {
@@ -27,7 +27,7 @@
   return self;
 }
 
-- _badType_ : obj
+- _badType_: obj
 {
   abort ();
 }
@@ -40,18 +40,18 @@
 - in: expr
 {
   if (!literal_string_p (expr))
-    [self _badType_ : expr];
-  [self setWindowGeometry : [expr getC]];
+    [self _badType_: expr];
+  [self setWindowGeometry: [expr getC]];
   return self;
 }
 
 - out: outputCharStream
 {
-  [windowGeometryString out : outputCharStream];
+  [windowGeometryString out: outputCharStream];
   return self;
 }
 
-+ in : aZone expr: expr
++ in: aZone expr: expr
 {
   return [[WindowGeometryRecord create: aZone] in: expr];
 }
