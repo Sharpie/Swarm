@@ -1,3 +1,4 @@
+prefix=@prefix@
 jdkdir=@jdkdir@
 jdkdosdir=@jdkdosdir@
 jdkbindir=$(jdkdir)/bin
