@@ -62,7 +62,7 @@ readString (id inStream, BOOL literalFlag)
   FILE *fp = [inStream getFileStream];
   char buf[2];
 
-  string = [String createBegin : [inStream getZone]];
+  string = [String createBegin: [inStream getZone]];
   [string setC: ""];
   [string setLiteralFlag: literalFlag];
   string = [string createEnd];
@@ -99,24 +99,30 @@ readString (id inStream, BOOL literalFlag)
 - getExpr
 {
   int c;
+  id aZone = [self getZone];
   
   while (((c = fgetc (fileStream)) != EOF) && isspace (c));
   if (c == EOF)
     return nil;
   else if (c == '\'')
     return [self getExpr];
+#if 0
   else if (c == 'n' || c == 'N')
     {
-      id string;
+      id <String> remain = readString (self, 0);
 
-      string = readString (self, 0);
+      if (strcmp ([remain getC], "il") != 0)
+        {
+          id <String> newString = [String create: aZone setC: "n"];
 
-      if (strcmp ([string getC], "il") != 0)
-        raiseEvent (InvalidArgument, "expecting nil or Nil");
-
-      return [[[ArchiverValue createBegin: [self getZone]]
-                setNil] createEnd];
+          [newString catC: [remain getC]];
+          return newString;
+        }
+      else
+        return [[[ArchiverValue createBegin: aZone]
+                  setNil] createEnd];
     }
+#endif
   else if (c == ':')
     {
       id newObj = readString (self, 0);
@@ -124,7 +130,7 @@ readString (id inStream, BOOL literalFlag)
       if (newObj == nil)
         [self _unexpectedEOF_];
       
-      return [[[ArchiverKeyword createBegin: [self getZone]]
+      return [[[ArchiverKeyword createBegin: aZone]
                 setKeywordName: [newObj getC]]
                createEnd];
     }
@@ -139,7 +145,7 @@ readString (id inStream, BOOL literalFlag)
           if (newObj == nil)
             [self _unexpectedEOF_];
           
-          return [[[ArchiverKeyword createBegin: [self getZone]]
+          return [[[ArchiverKeyword createBegin: aZone]
                     setKeywordName: [newObj getC]]
                    createEnd];
         }
@@ -162,7 +168,7 @@ readString (id inStream, BOOL literalFlag)
             if (newObj == nil)
               [self _unexpectedEOF_];
             
-            return [[[ArchiverArray createBegin: [self getZone]]
+            return [[[ArchiverArray createBegin: aZone]
                       setArray: newObj]
                      createEnd];
           }
@@ -186,20 +192,20 @@ readString (id inStream, BOOL literalFlag)
                             "Unable to scan octal character value");
               c3 = (unsigned char)val;
             }
-          return [[[ArchiverValue createBegin: [self getZone]]
+          return [[[ArchiverValue createBegin: aZone]
                     setChar: c3] createEnd];
         }
       else if (c2 == 't' || c2 == 'f')
-        return [[[ArchiverValue createBegin: [self getZone]]
+        return [[[ArchiverValue createBegin: aZone]
                   setBoolean: (c2 == 't')] createEnd];
       else
         raiseEvent (InvalidArgument, "Unknown `#' form");
     }
   else if (c == '(')
     {
-      id list = [List create: [self getZone]];
-      
-      while (1)
+      id list = [List create: aZone];
+        
+        while (1)
         {
           id newObj = [self getExpr];
 
@@ -212,7 +218,7 @@ readString (id inStream, BOOL literalFlag)
       
       if (ARCHIVERDOTP ([list atOffset: 1]) && [list getCount] == 3)
         {
-          id pair = [ArchiverPair createBegin: [self getZone]];
+          id pair = [ArchiverPair createBegin: aZone];
 
           [pair setCar: [list getFirst]];
           [pair setCdr: [list getLast]];
@@ -228,7 +234,7 @@ readString (id inStream, BOOL literalFlag)
           if ([list getCount] != 3)
             raiseEvent (InvalidArgument, "cons accepts only two arguments");
           
-          pair = [ArchiverPair createBegin: [self getZone]];
+          pair = [ArchiverPair createBegin: aZone];
           
           [pair setCar: [list atOffset: 1]];
           [pair setCdr: [list atOffset: 2]];
@@ -295,7 +301,7 @@ readString (id inStream, BOOL literalFlag)
       
         if (isNumeric)
           {
-            id number = [ArchiverValue createBegin: [self getZone]];
+            id number = [ArchiverValue createBegin: aZone];
             
             if (type == _C_DBL || type == _C_FLT)
               {
