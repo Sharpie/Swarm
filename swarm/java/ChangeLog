@@ -16,15 +16,16 @@
 	DefaultProbeMap, ProbeLibrary, and ActiveOutFile because of use of
 	Class.
 	(*removed-methods*): Exclude +customizeBegin:, customizeCopy:, and
-	-customizeEnd because they annoy me.  Exclude allocBlock: because
-	of void * return and FCall's -setJavaMethod:inObject: and
-	getResult because of void*.  Exclude setProbedClass:.
+	-customizeEnd.  Exclude allocBlock: because of void * return and
+	FCall's -setJavaMethod:inObject: and getResult because of void*.
+	Exclude setProbedClass:.
 	(freaky-message): Use error, not message.
-	(java-print-method): Make +createBegin: and +create*/-createEnd to
-	return typed objects.  Add protocol argument (for typing info).
+	(java-print-method): Add [disabled, argh] support for
+	+createBegin: and +create*/-createEnd to returning typed interface
+	objects.  Add protocol argument (for typing info).
 	(create-method-p): Don't bother checking for +customizeBegin:.
 	(java-print-class-methods-in-phase,
-	java-print-interface-methods-in-phase):  Accomodate.
+	java-print-interface-methods-in-phase): Accomodate.
 
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
