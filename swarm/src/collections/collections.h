@@ -73,6 +73,8 @@ USING
 @end
 
 @deftype IndexSafety
+//S: Interface for defining the degree of Index safety desired.
+
 // (.. This option is not currently implemented for any collection types.)
 
 //D: The IndexSafety option has one of the following values:
@@ -134,13 +136,15 @@ CREATING
 - (void)setIndexSafety: indexSafety;
 - (void)setIndexHandler: (fixup_t)fixupHandler
            withArgument: (void *)arg;
+
 USING
 - getIndexSafety;
 - (fixup_t)getIndexHandler: (void **)arg;
 @end
 
 @deftype Offsets 
-USING
+//S: Methods for accessing collection members by position.
+
 //D: An offset is an integer value that gives relative position of a member
 //D: in the enumeration sequence of a collection.  Offsets start the count
 //D: of the first member at zero, just like C array indexing.
@@ -156,6 +160,8 @@ USING
 //D: atOffset: and atOffset:put: raise the error OffsetOutOfRange if the
 //D: offset is less than zero or greater than or equal to the count of
 //D: members in the collection.
+
+USING
 //M: Returns the member at a particular member offset.
 - atOffset: (int)offset;
 
@@ -171,7 +177,8 @@ USING
 @end
 
 @deftype ForEach
-USING
+//S: Messages for performing the same message on objects in a collection.
+
 //D: The forEach messages supply a convenient shorthand for repeatedly
 //D: performing the same message on all objects contained as members in a
 //D: collection.  The message to be sent is identified by the argument
@@ -190,6 +197,7 @@ USING
 //D: operation should just be coded directly using a loop that traverses
 //D: its own index.
 
+USING
 - (void)forEach: (SEL)aSelector;
 - (void)forEach: (SEL)aSelector : arg1;
 - (void)forEach: (SEL)aSelector : arg1 : arg2;
@@ -546,6 +554,8 @@ extern id <Error>
 
 
 @deftype DefaultMember
+//S: Methods for setting and getting the default member in a collection.
+
 //D: When this option is set, the initial value of all new members will be
 //D: set to the member value given (otherwise the default is nil).  This
 //D: option gives a convenient way to distinguish members which have never
@@ -559,13 +569,17 @@ extern id <Error>
 //D: members need to be initialized.
 CREATING
 - (void)setDefaultMember: memberValue;
+
 SETTING
 - (void)setDefaultMember: memberValue;
+
 USING
 - getDefaultMember;
 @end
 
 @deftype MemberBlock
+//S: A way to wrap an existing C array for access as an object collection.
+
 //D: This option provides a means to wrap an existing C array for access as
 //D: an object collection.  If this option is given, dynamic resizing is
 //D: not supported.  The current C array being wrapped, however, can be
@@ -611,20 +625,19 @@ USING
 //D: subrange views of a single, contiguous initial allocation by means of
 //D: separately created external collections.
 CREATING
-+ create: aZone setMemberBlock:(id *)members setCount:(int)count;
++ create: aZone setMemberBlock: (id *)members setCount:(int)count;
+
 SETTING
 - (void)setMemberBlock: (id *)members setCount: (int)count;
 - (void)setMemberAlloc: (id *)members setCount: (int)count;
+
 USING
 - (void *)getMemberBlock;
 - (void *)getMemberAlloc;
 @end
 
-//
-// Array -- collection supporting access only by relative position
-//
 @deftype Array <Collection, CREATABLE, DefaultMember, MemberBlock>
-CREATING
+//S: Collection supporting access only by relative position.
 
 //D: An array is a collection of members that are all created as members of
 //D: the collection at the same time.  Existing member values may be
@@ -686,10 +699,10 @@ CREATING
 //D: All the Array create-time options can also be set after the array is
 //D: already created, subject to restrictions noted below.
 
+CREATING
 + create: aZone setCount: (int)count;
 
 SETTING
-
 //M: The Count option sets the number of members which belong to the
 //M: collection.  Any non-negative value including zero is valid.  If the
 //M: array already exists, the any existing members up to the new count
@@ -702,6 +715,9 @@ SETTING
 
 
 @deftype EndsOnly
+//S: Restricts a list so that members can be added or removed only
+//S: at either end.
+
 //D: The EndsOnly option restricts a list so that members can be added or
 //D: removed only at either end.  This restriction permits an alternate
 //D: implementation that both reduces memory usage and enables fast, direct
@@ -710,6 +726,7 @@ SETTING
 //D: list.
 CREATING
 - (void)setEndsOnly: (int)countPerBlock;
+
 USING
 - (int)getEndsOnly;
 @end
@@ -841,16 +858,25 @@ typedef int (*bucket_t)( id );
 extern int compareIDs (id, id);
 extern int compareIntegers (id, id);
 
+// values for DupOption
+id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
+
 @deftype DupOption
+//S: An interface for defining how duplicates should be handled.
+//D: An interface for defining how duplicates should be handled.
+
 CREATING
 - (void)setDupOption: dupOption;
 - (void)setDupMembersType: aCollectionType;
+
 USING
 - getDupOption;
 - getDupMembersType;
 @end
 
 @deftype Sorted
+//S: An option that determines if a keyed collection is kept in order.
+
 //D: If this option is true, the immediate members of a keyed collection
 //D: (included collections of duplicate members, if any) are totally
 //D: ordered according to an ordering relation defined on key values.  The
@@ -864,11 +890,15 @@ USING
 
 CREATING
 - (void)setSorted: (BOOL)sorted;
+
 USING
 - (BOOL)getSorted;
 @end
 
 @deftype CompareFunction
+//S: Interface for defining the compare function to use when comparing
+//S: to members in a collection.
+
 //D: Use the function pointed to by the argument as the method for
 //D: determining whether two members have the same key value, and also for
 //D: ordering the keys of the collection if the Sorted option is true.  The
@@ -894,14 +924,17 @@ USING
 //D: the first greater than the second.  If a keyed collection is not
 //D: sorted, either -1 or +1 may be returned for unequal keys, regardless
 //D: of whether one might be taken as greater or less than the other.
-
 CREATING
 - (void)setCompareFunction: (compare_t)aFunction;
+
 USING
 - (int(*)())getCompareFunction;
 @end
 
 @deftype BucketFunction
+//S: The BucketFunction option specifies a function that is called whenever
+//S: a member of an unsorted collection is added or removed.
+
 //D: The BucketFunction option specifies a function that is called whenever
 //D: a member of an unsorted collection is added or removed.  It may also
 //D: be used for a sorted collection to provide faster insertion and
@@ -949,6 +982,9 @@ USING
 @end
 
 @deftype PartiallyOrdered
+//S: Specifies that messages for maintaining a partial order are
+//S: enabled on the collection.
+
 //D: A partially ordered collection supports the maintenance of individual
 //D: ordering relations among its members.  Each such relation is an
 //D: assertion that one member should always precede another in the
@@ -967,11 +1003,14 @@ USING
 //D: the network of partial orders.
 CREATING
 - (void)setPartiallyOrdered: (BOOL)partiallyOrdered;
+
 USING
 - (BOOL)getPartiallyOrdered;
 @end
 
 @deftype PartialOrderContext
+//S: Set the larger context of a partial order relationship.
+
 //D: Ordering relations may be maintained not only between members
 //D: belonging to the same collection, but between members and other
 //D: collections, as long as all participants in an ordering are contained
@@ -987,8 +1026,8 @@ USING
 //D: not actually contain the local collection.
 CREATING
 - (void)setPartialOrderContext: aKeyedCollection;
+
 USING
-- (void)setPartialOrderContext: aKeyedCollection;
 - getPartialOrderContext;
 @end
 
@@ -1099,9 +1138,6 @@ USING
 // - (int)getCountAtKey;
 @end
 
-
-// values for DupOption
-id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
 
 //S: Allocation in member/key for fast setMember:/setKey:
 
@@ -1271,6 +1307,10 @@ USING
 @end
 
 @deftype MapIndex <KeyedCollectionIndex>
+//S: The index behavior for a Map.
+
+//D: The index behavior for a Map.
+
 USING
 //M: The setKey: messages repositions the index to
 //M: an entry having a key value that matches its argument.  If there is
@@ -1303,19 +1343,23 @@ USING
 //D: stream types.  A stream is a collection that supports only sequential
 //D: addition of members (an output stream) or sequential removal of
 //D: members (an input stream).
-
 CREATING
 + create: aZone setFileStream: (FILE *)fileStream;
 - setFileStream: (FILE *)fileStream;
+
 USING
 - (FILE *)getFileStream;
 - (void)catC: (const char *)cstring;
 @end
 
 @deftype InputStream <Create, Drop, CREATABLE>
+//S: Stream of input data.
+
+//D: This type reads Lisp-like expressions into lists.
 CREATING
 + create: aZone setFileStream: (FILE *)file;
 -               setFileStream: (FILE *)fileStream;
+
 USING
 - (FILE *)getFileStream;
 - getExpr;

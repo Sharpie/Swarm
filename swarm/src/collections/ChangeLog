@@ -1,5 +1,10 @@
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* collections.h (IndexSafety, Offsets, ForEach, DefaultMember,
+	MemberBlock, Array, EndsOnly, DupOption, Sorted, CompareFunction,
+	BucketFunction, PartiallyOrdered, PartialOrderContext, MapIndex,
+	InputStream): Add //S.
+
 	* Set.m ([Set_c -at:memberSlot:]): Return NO, not nil.
 	
 	* collections.h	(Index, ListIndex, Stack, Queue, PartialOrderRelations,
