@@ -20,6 +20,6 @@ if test -z "$1" ; then
   echo "export LD_LIBRARY_PATH CLASSPATH"
 else
   export LD_LIBRARY_PATH
-  eval "$JAVA -classpath $classpath $*"
+  eval "$JAVAENV $JAVASWARMGDB $JAVACMD -classpath $classpath $*"
 fi
 
