@@ -168,6 +168,7 @@ strip_type_sig (const char *sig)
   const char *type = sel_get_type (aSel);  
   NSArgumentInfo info;  
   types_t val;
+  const char *stripped_type;
 
   fa = [FArguments createBegin: globalZone];
 
@@ -179,11 +180,11 @@ strip_type_sig (const char *sig)
         abort ();
     }
 
-  type = strip_type_sig (type);
+  stripped_type = strip_type_sig (type);
   {
-    const char *sig = mframe_build_signature (type, NULL, NULL, NULL);
+    const char *sig = mframe_build_signature (stripped_type, NULL, NULL, NULL);
 
-    printf ("{%s}{%s}\n", type, sig);
+    printf ("{%s} {%s}{%s}\n\n", stripped_type, type, sig);
     sig = mframe_next_arg (sig, &info);
     mframe_get_arg (argFrame, &info, &val);
     [fa setObjCReturnType: *info.type];
