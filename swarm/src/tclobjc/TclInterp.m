@@ -119,10 +119,7 @@ List* tclList;
       size_t path_len = strlen (path);
       size_t subdir_len = subdir ? strlen (subdir) + 1 : 0;
       size_t len = path_len + 1 + subdir_len + strlen (file) + 1;
-      char *buf = malloc (len);
-      
-      if (buf == NULL)
-        abort ();
+      char buf[len];
       
       strcpy (buf, path);
       if (path[path_len - 1] != '/')
@@ -135,7 +132,7 @@ List* tclList;
       strcat (buf, file);
       
       if (access (buf, R_OK) != -1)
-        return dropdir (buf);
+        return dropdir (strdup (buf));
       else 
         return NULL;
     }
