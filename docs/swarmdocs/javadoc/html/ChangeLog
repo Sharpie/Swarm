@@ -1,0 +1,46 @@
+1999-07-10  Alex Lancaster  <alex@santafe.edu>
+
+	* swarm-doclet.jar: Regenerated.
+
+	* Makefile.am (JAVASOURCE): Generate names to all the Java source
+	files.
+	(NAMES): Source files, without the .java extension.
+	(CLASSES): Generate the class names.
+	(EXTRA_DIST): Add $(JAVASOURCE).
+	(MAINTAINTER_MODE): Add conditional rules to regenerate the
+	swarm-doclet.jar file, only in maintainer-mode.
+	($(CLASSES)): Rule for generating class files.
+	($(srcdir)/swarm-doclet.jar): Run jar.
+	(clean-local): Remove generated class and jar files.
+	(all): Force regeneration if swarm-doclet.jar has changed.
+
+	* ConfigurationStandard.java (noclassdetails, hide): Two new
+	fields for command-line arguments to doclet, set both to false, by
+	default.
+	(setSpecificDocletOptions()): Set options.
+	(specificDocletOptionLength()): Likewise for length.
+	
+	* AbstractSubWriter.java (printMembersSummary()): Only respect @hide
+	directive if `-hide' command line has been set.
+	(printMembers()): Likewise.
+	
+	* ClassWriter.java (printAllMembers()): Call
+	MethodSubWriter.printImplementedMembersSummary, rather than the
+	default printMembersSummary, when dealing with a class, to reduce
+	the amount of redundant detailed method documentation.  If
+	noclassdetail flag set, don't print detailed method information
+	for classes.
+
+	* MethodSubWriter.java (composeImplementedMethodMap()): New
+	method. Make the underlying for the given interface.
+	(getMethodMapForInterface()): New method. Use above, recursively
+	search interfaces to generate the whole Map
+	(printImplementedMembersInfo()): New method. Given a key in the
+	member Map - keyed to interface name - generate the summary table,
+	with links to the detailed *interface* documentation for the
+	method, not the supressed detail for method in the class.
+	(printImplementedMembersSummary()): New method.  Use above to
+	generate the entire list of methods in class, with pointers to the
+	which methods in the interfaces, which they implement.
+
+	

@@ -138,6 +138,19 @@ public class ConfigurationStandard extends Configuration {
     public String topFile = "";
 
     /**
+     * True if command line option "-noclassdetail" is used.
+     * Default value is false. 
+     */
+    public boolean noclassdetail = false;
+
+    /**
+     * True if command line option "-hide" is used.
+     * Default value is false. 
+     */
+    public boolean hide = false;
+
+
+    /**
      * Constructor. Initialises resource for the
      * {@link com.sun.tools.doclets.MessageRetriever}.
      */
@@ -191,6 +204,10 @@ public class ConfigurationStandard extends Configuration {
                 nooverview = true;
 	    } else  if (opt.equals("-overview")) {
                 overview = true;
+	    } else  if (opt.equals("-noclassdetail")) {
+                noclassdetail = true;
+	    } else  if (opt.equals("-hide")) {
+                hide = true;
             } 
         }
         setCreateOverview();
@@ -215,7 +232,9 @@ public class ConfigurationStandard extends Configuration {
             option.equals("-splitindex") ||
             option.equals("-use") ||
             option.equals("-nonavbar") ||
-            option.equals("-nooverview")) {
+            option.equals("-nooverview") ||
+            option.equals("-hide") ||
+            option.equals("-noclassdetail")) {
             return 1;
         } else if (option.equals("-help") ) {
             standardmessage.notice("doclet.usage");
@@ -262,6 +281,8 @@ public class ConfigurationStandard extends Configuration {
         boolean nooverview = false;
         boolean splitindex = false;
         boolean noindex = false;
+        boolean noclassdetail = false;
+        boolean hide = false;
         for (int oi = 0; oi < options.length; ++oi) {
             String[] os = options[oi];
             String opt = os[0].toLowerCase();

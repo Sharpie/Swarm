@@ -92,6 +92,106 @@ public class MethodSubWriter extends ExecutableMemberSubWriter {
         writer.boldEnd();
     }
 
+    /**
+     * Print a list methods in this class which implement an
+     * interface, with hyperlinks to their full description in 
+     * the interfaces
+     */
+    public void printImplementedMembersSummary(ClassDoc cd) {
+      List tcms = Group.asList(cd.methods()); // this class' methods
+      Map imsmap = new HashMap();   // inherited methods
+      List hierarchy = new ArrayList();
+
+      if (hierarchy.size() > 0) {
+        for (int i = 0; i < hierarchy.size(); i++) {
+          ClassDoc classkey = (ClassDoc)hierarchy.get(i);
+          List methodlist = (List)imsmap.get(classkey);
+          
+          printImplementedMembersInfo(classkey, methodlist);
+        }
+      }
+    }
+
+    /**
+     * print the table for each of the implemented interfaces 
+     */
+    protected void printImplementedMembersInfo(ClassDoc icd, List members) {
+        if (members.size() > 0) {
+            Collections.sort(members);
+            
+            /* Summary Header */
+
+            writer.anchor("methods_implemented_from_interfaces_" 
+                          + icd.qualifiedName());
+            writer.tableIndexSummary();
+            writer.tableInheritedHeaderStart("#EEEEFF");
+            writer.bold();
+            writer.print("Methods implemented by this class for interface ");
+            writer.print(writer.getPreQualifiedClassLink(icd));
+            writer.boldEnd();
+            writer.tableInheritedHeaderEnd();
+            writer.trBgcolorStyle("white", "TableRowColor");
+            writer.summaryRow(0);
+            writer.code();
+            
+            /* End Summary Header */
+
+            /* Print the hyperlinks to the interface methods */
+            ExecutableMemberDoc emd = (ExecutableMemberDoc)members.get(0);
+            writer.printClassLink(icd, emd.name() + emd.signature(), 
+                                  emd.name(), false);
+
+            for (int i = 1; i < members.size(); ++i) {
+                writer.println(", "); 
+                emd = (ExecutableMemberDoc)members.get(i);
+                writer.printClassLink(icd, emd.name() + emd.signature(), 
+                                      emd.name(), false);
+            }
+            /* Summary Footer */
+            writer.codeEnd();
+            writer.summaryRowEnd();
+            writer.trEnd(); 
+            writer.tableEnd();
+            writer.space();
+            /* End Summary Footer */
+        }
+    }
+
+    /**
+     * Get *interface* method map for the the current *class*
+     */
+    protected Map getMethodMapForInterface(ClassDoc cd, List tims,
+                                           Map imsmap, List hierarchy) {
+        ClassDoc[] iin = cd.interfaces(); // implemented interfaces
+ 
+        for (int i = 0; i < iin.length; i++) {
+            composeImplementedMethodMap(iin[i], tims, imsmap, hierarchy);
+        }
+        for (int i = 0; i < iin.length; i++) {
+            getMethodMapForInterface(iin[i], tims, imsmap, hierarchy);
+        }
+        return imsmap;
+    }
+
+    /**
+     * Make a method map
+     */
+    protected void composeImplementedMethodMap(ClassDoc icd, List tcms,
+                                               Map imsmap, List hierarchy)
+    {
+        MethodDoc[] methods = icd.methods();
+        List methodlist = new ArrayList();
+        for (int i = 0; i < methods.length; i++) {
+            methodlist.add(methods[i]);
+            tcms.add(methods[i]);
+        }
+        if (!imsmap.containsKey(icd)) {
+          System.out.print(icd + ", ");
+          imsmap.put(icd, methodlist);
+          hierarchy.add(icd); 
+        }
+    }
+
     protected void printSummaryType(ProgramElementDoc member) {
         MethodDoc meth = (MethodDoc)member;
         printModifierAndType(meth, meth.returnType());

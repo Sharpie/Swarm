@@ -228,20 +228,34 @@ public class ClassWriter extends SubWriterHolderWriter {
 	constrSubWriter.printMembersSummary(classdoc);
         println(); 
         println("<!-- ========== METHOD SUMMARY =========== -->"); println();
-	methodSubWriter.printMembersSummary(classdoc);
+
+        /* Swarm addition! */
+        if (classdoc.isInterface())
+            methodSubWriter.printMembersSummary(classdoc);
+        else
+            methodSubWriter.printImplementedMembersSummary(classdoc);
+        
         methodSubWriter.printInheritedMembersSummary(classdoc);
 
         p();
+        
+        println(); 
+        println("<!-- ============ FIELD DETAIL =========== -->"); 
+        println();
+        fieldSubWriter.printMembers(classdoc);
+        println(); 
+        println("<!-- ========= CONSTRUCTOR DETAIL ======== -->"); 
+        println();
+        constrSubWriter.printMembers(classdoc);
 
-        println(); 
-        println("<!-- ============ FIELD DETAIL =========== -->"); println();
-	fieldSubWriter.printMembers(classdoc);
-        println(); 
-        println("<!-- ========= CONSTRUCTOR DETAIL ======== -->"); println();
-	constrSubWriter.printMembers(classdoc);
-        println(); 
-        println("<!-- ============ METHOD DETAIL ========== -->"); println();
-	methodSubWriter.printMembers(classdoc);
+        if (!Standard.configuration().noclassdetail || 
+            classdoc.isInterface() ) {
+            
+            println(); 
+            println("<!-- ============ METHOD DETAIL ========== -->"); 
+            println();
+            methodSubWriter.printMembers(classdoc);
+        }
     }
 
 

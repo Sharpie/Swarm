@@ -311,9 +311,10 @@ public abstract class AbstractSubWriter {
             Arrays.sort(members);
             printSummaryHeader(cd);
             for (int i = 0; i < members.length; ++i) {
-                Tag[] hide = members[i].tags("hide");
-                if (hide.length == 0) 
-                    printSummaryMember(cd, members[i]);
+              Tag[] hide = members[i].tags("hide");
+              if (!((hide.length != 0) && 
+                    Standard.configuration().hide))
+                printSummaryMember(cd, members[i]);
             }
             printSummaryFooter(cd);
         }
@@ -356,17 +357,16 @@ public abstract class AbstractSubWriter {
         if (members.length > 0) {
             printHeader(cd);
             for (int i = 0; i < members.length; ++i) {
-                Tag[] hide = members[i].tags("hide");
-                if (hide.length == 0) {
-                    if (i > 0) {
-                        writer.printMemberHeader();
-                    }
-                    writer.println("");
-                    printMember(members[i]);
-                    writer.printMemberFooter();
-                    //System.out.println
-                    // ("found a hide tag in " + members[i].name());        
-                }                
+              Tag[] hide = members[i].tags("hide");
+              if (!((hide.length != 0) &&
+                    Standard.configuration().hide)) {
+                if (i > 0) {
+                  writer.printMemberHeader();
+                }
+                writer.println("");
+                printMember(members[i]);
+                writer.printMemberFooter();
+              }                
             }
             printBodyHtmlEnd(cd);
         }
