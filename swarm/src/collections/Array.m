@@ -202,8 +202,8 @@ PHASE(Setting)
       
       setBit (bits, Bit_DefaultMember, 1);
       if (bits & Bit_MemberAlloc)
-        [self setMemberBlock: (id *)nil setCount: 0];
-      block = (id *)memberValue;
+        [self setMemberBlock: (id *) nil setCount: 0];
+      block = (id *) memberValue;
       
     }
   else
@@ -426,7 +426,7 @@ PHASE(Using)
     raiseEvent (AlreadyAtEnd, nil);
   
   if (INDEXENDP (memPtr))
-    memPtr = ((Array_c *) collection)->block + ((Array_c *)collection)->count;
+    memPtr = ((Array_c *) collection)->block + ((Array_c *) collection)->count;
   
   memPtr--;
   if (memPtr < ((Array_c *) collection)->block)
@@ -485,7 +485,7 @@ PHASE(Using)
 {
   if (INDEXSTARTP (memPtr) || INDEXENDP (memPtr))
     return -1;
-  return memPtr - ((Array_c *)collection)->block;
+  return memPtr - ((Array_c *) collection)->block;
 }
 
 - (void)setOffset: (int)offset
@@ -499,13 +499,13 @@ PHASE(Using)
 {
   if (_obj_debug
       && (!respondsTo (anIndex, M(getCollection))
-          || ((ArrayIndex_c *)anIndex)->collection != collection))
+          || ((ArrayIndex_c *) anIndex)->collection != collection))
     raiseEvent (InvalidArgument, nil);
   
-  if (memPtr > ((ArrayIndex_c *)anIndex)->memPtr)
+  if (memPtr > ((ArrayIndex_c *) anIndex)->memPtr)
     return 1;
 
-  return memPtr < ((ArrayIndex_c *)anIndex)->memPtr;
+  return memPtr < ((ArrayIndex_c *) anIndex)->memPtr;
 }
 
 @end
