@@ -6,7 +6,7 @@
 #import <objectbase/Arguments.h>
 #import <objectbase.h> // arguments
 #import <collections.h> // String
-#include <misc.h> // strdup, getenv, access
+#include <misc.h> // strdup, getenv, access, stpcpy, stat
 #include <misc/argp.h>
 #include <swarmconfig.h> // CONFPATH
 
@@ -94,6 +94,8 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   argp->doc = NULL;
   argp->children = NULL;
   argp->help_filter = NULL;
+
+  obj->defaultSwarmAppConfigPath = "./";
 
   return obj;
 }
@@ -224,6 +226,26 @@ PHASE(Setting)
   return self;
 }
 
+- setDefaultSwarmAppConfigPath: (const char *)path
+{
+  unsigned len = strlen (path);
+
+  if (path[len - 1] != '/')
+    {
+      char *p, *buf;
+
+      buf = xmalloc (len + 2);
+      p = stpcpy (buf, path);
+      stpcpy (p, "/");
+      
+      defaultSwarmAppConfigPath = buf;
+    }
+  else
+    defaultSwarmAppConfigPath = path;
+
+  return self;
+}
+
 PHASE(Using)
 
 - (BOOL)getBatchModeFlag
@@ -349,8 +371,23 @@ findSwarm (id arguments)
 - (const char *)getSwarmHome
 {
   if (swarmHome == NULL)
-    if ((swarmHome = getenv ("SWARMHOME")) == NULL)
-      swarmHome = findSwarm (self);
+    {
+      if ((swarmHome = getenv ("SWARMHOME")) == NULL)
+        swarmHome = findSwarm (self);
+      else
+        {
+          unsigned len = strlen (swarmHome);
+
+          if (swarmHome[len - 1] != '/')
+            {
+              char *home = xmalloc (len + 2), *p;
+
+              p = stpcpy (home, swarmHome);
+              p = stpcpy (p, "/");
+              swarmHome = home;
+            }
+        }
+    }
   return swarmHome;
 }
 
@@ -389,18 +426,35 @@ findSwarm (id arguments)
 
 - (const char *)getSwarmAppConfigPath
 {
-  const char *configPath = [self getSwarmConfigPath];
-  const char *appName = [self getAppName];
-  char *appConfigPath, *p;
+  char *executablePath = strdup ([self getExecutablePath]);
+  const char *possibleHome = dropDirectory (dropDirectory (executablePath));
+  const char *home = [self getSwarmHome];
+  char *appConfigPath = (char *)defaultSwarmAppConfigPath;
+
+  if (home && possibleHome)
+    {
+      struct stat possibleHomeStatBuf, homeStatBuf;
+      
+      if (stat (possibleHome, &possibleHomeStatBuf) != -1
+          && stat (home, &homeStatBuf) != -1)
+        if (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino)
+          {
+            const char *configPath = [self getSwarmConfigPath];
+            const char *appName = [self getAppName];
+            char *p;
+            
+            if (!configPath)
+              return NULL;
+            
+            appConfigPath = xmalloc (strlen (configPath) +
+                                     strlen (appName) + 2);
+            p = stpcpy (appConfigPath, configPath);
+            p = stpcpy (p, appName);
+            p = stpcpy (p, "/");
+          }
+    }
+  xfree (executablePath);
   
-  if (!configPath)
-    return NULL;
-
-  appConfigPath = xmalloc (strlen (configPath) + strlen (appName) + 2);
-  p = stpcpy (appConfigPath, configPath);
-  p = stpcpy (p, appName);
-  p = stpcpy (p, "/");
-
   return appConfigPath;
 }
 

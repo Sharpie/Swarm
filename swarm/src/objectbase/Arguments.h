@@ -16,6 +16,7 @@
   BOOL varySeedFlag;
   BOOL showCurrentTimeFlag;
   const char *swarmHome;
+  const char *defaultSwarmAppConfigPath;
 }
 + createArgc: (int)argc Argv: (const char **)argv;
 - (struct argp_option *)addOptions: (struct argp_option *)options;
@@ -27,6 +28,7 @@
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setShowCurrentTimeFlag: (BOOL)timeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
+- setDefaultSwarmAppConfigPath: (const char *)path;
 
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;

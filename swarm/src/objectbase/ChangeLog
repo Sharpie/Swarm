@@ -1,5 +1,18 @@
 1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* objectbase.h: Declare setDefaultSwarmAppConfigPath:.
+
+	* Arguments.m ([Arguments +createBegin:]): Set
+	defaultSwarmAppConfigPath to "./".
+	([Arguments -setDefaultSwarmAppConfigPath:]): New method.  Appends
+	slash if missing.
+	([Arguments -getSwarmHome]): Append slash if missing.
+	([Arguments -getSwarmAppConfigPath]): Use stat instead of strcmp
+	to see if directories are the same.
+
+	* Arguments.h (Arguments): New ivar defaultSwarmAppConfigPath and
+	setter.
+
 	* Arguments.m: Include objectbase.h, collections.h, and swarmconfig.h.
 	Change SIGNATURE_FILE to etc/swarm/Makefile.appl.
 	(countSlashes): New function.

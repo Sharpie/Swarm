@@ -728,6 +728,7 @@ SETTING
 - setAppModeString: (const char *)appModeString;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
+- setDefaultSwarmAppConfigPath: (const char *)path;
 
 USING
 - (BOOL)getBatchModeFlag;
