@@ -1,11 +1,12 @@
 // ModelSwarm.m					SimpleBug app
 
 #import "ModelSwarm.h"
-#import <simtools.h>
+#import <activity.h>
 
 @implementation ModelSwarm
 
-+createBegin: (id) aZone {
++ createBegin: aZone 
+{
   ModelSwarm * obj;
 
   // First, call our superclass createBegin - the return value is the
@@ -30,7 +31,8 @@
   return obj;
 }
 
--createEnd {
+- createEnd 
+{
   return [super createEnd];
 
 // createEnd is a place to do any last minute tidying up after
@@ -40,7 +42,7 @@
 
 }
 
--buildObjects {
+- buildObjects {
 
   // Here, we create the objects in the model
   // This is what we did in main.m in the previous model
@@ -65,9 +67,8 @@
   return self;
 }
 
--buildActions {
-
-
+- buildActions 
+{
   // Build a simple schedule to send a "step" message to 
   // the bug every time step
 
@@ -77,11 +78,10 @@
   [modelSchedule at: 0 createActionTo: aBug  message: M(step)];
 
   return self;
-
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext 
+{
   // Activate ourselves in swarmContext
 
   [super activateIn: swarmContext];
@@ -93,7 +93,6 @@
   // Return the activity we built 
 
   return [self getActivity];
-
 }
 
 @end
