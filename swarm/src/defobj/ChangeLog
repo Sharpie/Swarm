@@ -7,6 +7,11 @@
 
 	* defobj.h: Remove PTRFMT.
 
+2000-03-24    <mgd@nest.swarm.org>
+
+	* defobj.h (Zone): Note that dropping a zone doesn't drop
+	block allocations, only objects.
+
 2000-03-14    <mgd@nest.swarm.org>
 
 	* FArguments.m, FCall.m ([.. -dropAllocations:]): Replaces -drop.

@@ -359,7 +359,7 @@ USING
 //D: within a zone, and total storage of a zone may grow and shrink
 //D: according to aggregate needs.  In addition to freeing individual
 //D: allocations, an entire zone may also dropped.  Dropping a zone
-//D: automatically frees all allocations made within it, including final
+//D: automatically frees all object allocations made within it, including final
 //D: drop processing on any allocated objects that need it.  Release of an
 //D: entire zone can be much faster than individual release of each object
 //D: within it.
