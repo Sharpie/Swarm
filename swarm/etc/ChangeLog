@@ -1,3 +1,10 @@
+1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add Makefile.test.in.
+
+	* Makefile.tests.in: New file. Use for test suite Makefile. Links 
+	against libraries in the build directory.
+
 1999-01-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.appl.in ($(APPEXE)): Invoke libtool via SHELL (for CD-ROM

@@ -1,0 +1,64 @@
+includedir = @includedir@
+libdir = @libdir@
+bindir = @bindir@
+datadir = @datadir@
+swarmdatadir = $(datadir)/swarm
+sysconfdir = @sysconfdir@
+swarmsysconfdir = $(sysconfdir)/swarm
+
+xpmlibdir = @xpmlibdir@
+tcllibdir = @tcllibdir@
+tklibdir = @tklibdir@
+bltlibdir = @bltlibdir@
+ffidir = @ffidir@
+zliblibdir = @zliblibdir@
+pnglibdir = @pnglibdir@
+hdf5libdir = @hdf5libdir@
+
+CC = @CC@
+CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
+
+INCLUDES = -I$(includedir)  -I$(srcdir)/../../collections -I$(srcdir)/../../defobj -I$(srcdir) -I$(srcdir)/.. -I$(srcdir)/../../simtools -I$(srcdir)/../../objectbase -I$(srcdir)/.. -I$(srcdir)/../../ -I$(top_builddir)/src
+
+SWARMLDFLAGS = @SWARMLDFLAGS@
+XPMLDFLAGS = @XPMLDFLAGS@
+TCLLDFLAGS = @TCLLDFLAGS@
+TKLDFLAGS = @TKLDFLAGS@
+BLTLDFLAGS = @BLTLDFLAGS@
+FFILDFLAGS = @FFILDFLAGS@
+PNGLDFLAGS = @PNGLDFLAGS@
+ZLIBLDFLAGS = @ZLIBLDFLAGS@
+EXTRALDFLAGS = @EXTRALDFLAGS@
+
+
+SWARMBUILDLDFLAGS = -L$(builddir)/src/activity  -L$(builddir)/src/analysis -L$(builddir)/src/collections -L$(builddir)/src/defobj -L$(builddir)/gui -L$(builddir)/misc -L$(builddir)/objectbase -L$(builddir)/random -L$(builddir)/simtools -L$(builddir)/simtoolsgui -L$(builddir)/space -L$(builddir)/tclobjc -L$(builddir)/tkobjc
+
+
+XPMLIB = @XPMLIB@
+TCLLIB = @TCLLIB@
+TKLIB = @TKLIB@
+BLTLIB = @BLTLIB@
+FFILIB = @FFILIB@
+HDF5LIB = @HDF5LIB@
+
+PNGLIB = -lpng
+ZLIBLIB = -lz
+
+X_LIBS = @X_LIBS@
+GUILIBS = @GUILIBS@
+
+DLLIB = @DLLIB@
+OBJCLIBS = @OBJCLIBS@
+
+LDFLAGS = $(SWARMBUILDLDFLAGS) $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(HDF5LDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
+
+SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
+
+SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
+
+LIBS = @LIBS@ $(SWARMLIBS) $(SYSLIBS)
+
+# Local variables:
+# mode: makefile
+# end:
