@@ -1,3 +1,7 @@
+1998-06-07  Alex Lancaster  <alex@santafe.edu>
+
+	* config.ent: Removed.
+
 1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* src.ent.in: Don't use extracted locations, as module entities
