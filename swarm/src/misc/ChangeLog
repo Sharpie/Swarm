@@ -1,3 +1,7 @@
+1998-11-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* misc.h:  Only define gettimeofday if Cygwin is before B20.
+
 1998-10-21  Marcus G. Daniels  <mgd@sangre.santafe.edu>
 
 	* dropdir.c (dropdir): Return NULL if passed as an argument.
