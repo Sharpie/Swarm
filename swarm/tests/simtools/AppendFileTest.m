@@ -21,14 +21,14 @@ main(int argc, const char ** argv)
   initSwarmBatch(argc, argv);
 
   // first, create a file to be "appended" to
-  outFile = [OutFile create: globalZone withName: "File.test"];
+  outFile = [OutFile create: globalZone setName: "File.test"];
 
   [outFile putString: "first thing - should not be overwritten!!\n"];
 
   [outFile drop]; // close the file
 
   // open the same file in "append" mode
-  appFile = [AppendFile create: globalZone withName: "File.test"];
+  appFile = [AppendFile create: globalZone setName: "File.test"];
 
   [appFile putString: "second thing - should be after first thing!!\n"];
 
@@ -38,7 +38,7 @@ main(int argc, const char ** argv)
   // retrieve the file, using InFile object and test to see the lines
   // were written to the file correctly
 
-  inFile = [InFile create: globalZone withName: "File.test"];
+  inFile = [InFile create: globalZone setName: "File.test"];
 
   [inFile getLine: aLine];
   printf("InFile:  %s\n", aLine);
