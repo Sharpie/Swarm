@@ -23,7 +23,7 @@
 /* This is file avl.c in libavl, version 1.1.0. */
 
 #if HAVE_CONFIG_H
-#include <config.h>
+#include <swarmconfig.h>
 #endif
 #if PSPP
 #include "common.h"

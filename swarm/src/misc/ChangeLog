@@ -1,5 +1,7 @@
 1999-03-04  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* avl.c: Include swarmconfig.h instead of config.h
+
 	* avl.h: Add new file.
 
 	* avl.c: Add new file.
