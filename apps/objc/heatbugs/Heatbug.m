@@ -176,34 +176,42 @@
   // Also note we only look for 10 random spots - if we don't find an
   // unoccupied spot by then, assume it's too crowded and just don't move.
 
-  tries = 0;
-  while ([world getObjectAtX: newX Y: newY] != nil && tries < 10)
+  if (unhappiness == 0)
+    { 
+      // only update heat - don't move at all if no unhappiness
+      [heat addHeat: outputHeat X: x Y: y];
+    }
+  else 
     {
-      newX = (x + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
-              worldXSize) % worldXSize;
-      newY = (y + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
-              worldYSize) % worldYSize;
+      tries = 0;
+      while ([world getObjectAtX: newX Y: newY] != nil && tries < 10)
+        {
+          newX = (x + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
+                  worldXSize) % worldXSize;
+          newY = (y + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
+                  worldYSize) % worldYSize;
+          
+          tries++;					  // don't try too hard.
+        }
+      if (tries == 10)
+        {
+          // no nearby clear spot, so just don't move.
+          newX = x;
+          newY = y;
+        }
+  
+      // Phew - we've finally found a spot to move ourselves, in (newX, newY).
+      // Update heat where we were sitting.
+  
+      [heat addHeat: outputHeat X: x Y: y];
       
-      tries++;					  // don't try too hard.
+      // Now move ourselves in the grid and update our coordinates.
+      
+      [world putObject: nil atX: x Y: y];
+      x = newX;
+      y = newY;
+      [world putObject: self atX: newX Y: newY];
     }
-  if (tries == 10)
-    {
-      // no nearby clear spot, so just don't move.
-      newX = x;
-      newY = y;
-    }
-  
-  // Phew - we've finally found a spot to move ourselves, in (newX, newY).
-  // Update heat where we were sitting.
-  
-  [heat addHeat: outputHeat X: x Y: y];
-  
-  // Now move ourselves in the grid and update our coordinates.
-
-  [world putObject: nil atX: x Y: y];
-  x = newX;
-  y = newY;
-  [world putObject: self atX: newX Y: newY];
 
   // all done moving! Return self.
 
