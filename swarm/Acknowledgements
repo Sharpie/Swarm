@@ -6,9 +6,10 @@ Artificial Life at the Santa Fe Institute. Swarm is being designed and
 programmed by Chris Langton (SFI), Roger Burkhart (John Deere), and
 Glen Ropella (SFI).  Much of the development of Swarm was done by
 Nelson Minar, who is now at the MIT Media Lab, and Manor Askenazi.
-Eric Carr and JJ Merelo have been patient Swarm users and
-developers. Howard Gutowitz and David Hiebeler have participated in
-the design process.  (David is also the implementor of the original
+The new random library was written by Sven Thommesen and graciously
+contributed.  Eric Carr and JJ Merelo have been patient Swarm users
+and developers. Howard Gutowitz and David Hiebeler have participated
+in the design process.  (David is also the implementor of the original
 Swarm prototype.)  And, many thanks to Simon Frasier, Swarm graphic
 designer extraordinaire.  Finally, many thanks go out to the Swarm
 user community, particularly those who have stuck with us from the
