@@ -245,12 +245,15 @@ tkobjc_releaseAndUpdate (void)
 }
 
 void
-tkobjc_updateIdleTasksAndHold (void)
+tkobjc_updateIdleTasks (int hold)
 {
   [globalTkInterp eval:
-                    "update idletasks ;"
+                    "update idletasks"];
+
+  if (hold)
+    [globalTkInterp eval:
                   "foreach w [winfo children .] {busy hold $w} ;"
-                  "update"] ;
+                    "update"] ;
 }
 
 void

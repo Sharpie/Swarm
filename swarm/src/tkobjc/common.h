@@ -23,7 +23,7 @@ void tkobjc_configureSpecialBitmap (id widget);
 
 void tkobjc_update (void);
 void tkobjc_releaseAndUpdate (void);
-void tkobjc_updateIdleTasksAndHold (void);
+void tkobjc_updateIdleTasks (int hold);
 
 const char *tkobjc_dynamicEval (const char *cmd);
 
