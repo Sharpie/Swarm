@@ -1,3 +1,8 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZGraph.[hm], analysis.h: Add setRanges[XY]Min:Max: and
+	setScaleModeX:Y:.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZBin.m ([EZBin -drop]): Use xfree instead of free.

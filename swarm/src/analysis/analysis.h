@@ -107,11 +107,11 @@ CREATING
 //M: window. (Only relevant if the state of setGraphics is set to 1.)
 - setTitle: (const char *)aTitle;
 
-USING
 //M: The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
 //M: the histogram in the graphical version of EZBin. (Only relevant if the 
 //M: state of setGraphics is set to 1.)
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+USING
 
 //M: The setBinNum method sets the number of bins the histogram will have.
 - setBinNum: (int)theBinNum;
@@ -242,13 +242,22 @@ CREATING
 //M: window. (Only relevant if the state of setGraphics is set to 1.)
 - setTitle: (const char *)aTitle;
 
-- createEnd;
-
-USING
 //M: The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
 //M: the histogram in the graphical version of EZGraph. (Only relevant if the 
 //M: state of setGraphics is set to 1.)
 - setAxisLabelsX: (const char *)xl Y:(const char *)yl;
+
+- createEnd;
+
+USING
+//M: Fix the range of X values on the graph between some range.
+- setRangesXMin: (double)xmin Max: (double)xmax;
+
+//M: Fix the range of Y values on the graph between some range.
+- setRangesYMin: (double)ymin Max: (double)ymax;
+
+//M: Whether to autoscale every timestep or instead to jump scale.
+- setScaleModeX: (BOOL)xs Y: (BOOL)ys;
 
 //M: The getGraph method lets the user access the graph generated internally
 //M: by the EZGraph. (Only relevant if the state of setGraphics is set to 1.)

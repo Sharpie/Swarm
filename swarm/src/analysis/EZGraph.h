@@ -35,6 +35,10 @@
 
 - createEnd;
 
+- setRangesXMin: (double)xmin Max: (double)xmax;
+- setRangesYMin: (double)ymin Max: (double)ymax;
+- setScaleModeX: (BOOL)xs Y: (BOOL)ys;
+
 - getGraph;
 
 - createGraphSequence: (const char *)aName 

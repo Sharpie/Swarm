@@ -20,32 +20,43 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  EZGraph *obj;
+  EZGraph *obj = [super createBegin: aZone];
 
-  obj = [super createBegin: aZone];
   obj->graphics = 1;
   obj->fileOutput = 0;
   obj->title = NULL;
   obj->xLabel = NULL;
   obj->yLabel = NULL;
+
   return obj;
 }
 
 - setGraphics: (BOOL)state
 {
   graphics = state;
+
   return self;
 }
 
 - setFileOutput: (BOOL)state
 {
   fileOutput = state;
+
   return self;
 }
 
 - setTitle: (const char *)aTitle
 {
   title = aTitle;
+
+  return self;
+}
+
+- setAxisLabelsX: (const char *)xl Y:(const char *)yl
+{ 
+  xLabel = xl;
+  yLabel = yl;
+
   return self;
 }
 
@@ -69,10 +80,24 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setAxisLabelsX: (const char *)xl Y:(const char *)yl
-{ 
-  xLabel = xl;
-  yLabel = yl;
+- setScaleModeX: (BOOL)xs Y: (BOOL)ys
+{
+  [theGraph setScaleModeX: xs Y: ys];
+
+  return self;
+}
+
+- setRangesXMin: (double)xmin Max: (double)xmax
+{
+  [theGraph setRangesXMin: xmin Max: xmax];
+
+  return self;
+}
+
+- setRangesYMin: (double)ymin Max: (double)ymax
+{
+  [theGraph setRangesYMin: ymin Max: ymax];
+
   return self;
 }
 
@@ -262,6 +287,7 @@ PHASE(Using)
 - step
 {
   [sequenceList forEach: M(step)];
+
   return self;
 }
 
@@ -289,12 +315,14 @@ PHASE(Using)
 - setActiveOutFile: anActiveOutFile
 {
   theActiveOutFile = anActiveOutFile;
+
   return self;
 }
 
 - setActiveGrapher: aGrapher
 {
   theActiveGrapher = aGrapher;
+
   return self;
 }
 
@@ -324,6 +352,7 @@ PHASE(Using)
 - setAverager: anAverager
 {
   theAverager = anAverager;
+
   return self;
 }
 
