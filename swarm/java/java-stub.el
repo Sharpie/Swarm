@@ -150,7 +150,6 @@
       ;; simtoolsgui non-creatable
       "WindowGeometryRecordName"
       "CompositeWindowGeometryRecordName"
-      "GUIComposite"
       "MessageProbeWidget"
       "MultiVarProbeWidget"
 
@@ -377,9 +376,6 @@
   (loop for text in (method-description-list method)
         do
         (insert text))
-  (unless (method-in-protocol-p protocol method)
-    ;(message "Supress javadoc `@hide' for `%s' in `%s'" (get-method-signature method) (protocol-name protocol))
-    (insert "\n * @hide"))
   (when (deprecated-p method)
     (java-print-deprecated-doc method))
   (insert "\n */\n"))

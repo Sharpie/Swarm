@@ -1,3 +1,11 @@
+1999-09-07  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (*removed-protocols*): Remove GUIComposite from
+	list of removed protocols, required for -enableDestroyNotification
+	methods on analysis widgets.
+	(java-print-javadoc-method): Remove code to generate `@hide'
+	directives.
+
 1999-09-04    <mgd@HELEN>
 
 	* java-stub.el (inheritance-cases): Split out and disable handling of
