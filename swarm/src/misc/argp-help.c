@@ -148,7 +148,7 @@ fill_in_uparams (const struct argp_state *state)
 	    int unspec = 0, val = 0;
 	    const char *arg = var;
             
-	    while (IsAlnum (*arg) || *arg == '-' || *arg == '_')
+	    while (isAlnum (*arg) || *arg == '-' || *arg == '_')
 	      arg++;
 	    var_len = arg - var;
 
@@ -669,7 +669,7 @@ canon_doc_option (const char **name)
   /* Decide whether this looks like an option (leading `-') or not.  */
   non_opt = (**name != '-');
   /* Skip until part of name used for sorting.  */
-  while (**name && !IsAlnum (**name))
+  while (**name && !isAlnum (**name))
     (*name)++;
   return non_opt;
 }
