@@ -7,6 +7,9 @@
 
   <COPYRIGHT><YEAR>1999</YEAR><HOLDER>&orgname;</HOLDER></COPYRIGHT>
 
+  <RELEASEINFO>&swarm-guide-release-number;</RELEASEINFO>  
+  <PUBDATE>&pubdate;</PUBDATE>
+
   <LEGALNOTICE> 
  
    <TITLE>Licence terms for Swarm documentation</TITLE> 
@@ -19,7 +22,7 @@
     profit, is not permitted.  The SGML source and associated utilites
     needed to generate this documentation can be found in the package:
     <ULINK
-    url="ftp://ftp.santafe.edu/pub/swarm/swarmguide-0.1.tar.gz">swarmguide-0.1.tar.gz</ULINK>.
+    url="ftp://ftp.santafe.edu/pub/swarm/swarmguide-&swarm-guide-release-number;.tar.gz">swarmguide-&swarm-guide-release-number;.tar.gz</ULINK>.
     Permission to use, copy, modify and distribute both the swarmdocs
     package <EMPHASIS>and</EMPHASIS> the documentation it generates
     (that is the HTML, TeX, dvi, PostScript and RTF output), must be

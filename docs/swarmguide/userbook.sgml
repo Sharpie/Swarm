@@ -2,6 +2,8 @@
 
   <!entity % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
   %global.ent;
+  <!entity % versions.ent PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Versions//EN">
+  %versions.ent;       
   <!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Guide Figure List//EN">
   %figs.ent;
 

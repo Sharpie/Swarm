@@ -5,6 +5,12 @@ SGML = userbook.sgml usercont.sgml usermeta.sgml userbiblio.sgml user1.01.sgml u
 
 SGML_FILES = $(SGML) $(GENERATED_SGML)
 
+all-recursive-am: versions.ent
+
+noinst_DATA = versions.ent
+
+.PHONY: FORCE
+
 include $(top_srcdir)/Makefile.rules
 include $(top_srcdir)/Makefile.common
 
@@ -16,6 +22,22 @@ genindex.sgml: $(SGML)
 	perl $(docbookstyle_srcdir)/bin/collateindex.pl -N -o genindex.sgml
 	$(RUNJADE) -V html-index $(CATOPTS) -t sgml -ihtml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`	
 	perl $(docbookstyle_srcdir)/bin/collateindex.pl -g -o genindex.sgml HTML.index
+
+versions.ent: FORCE
+	echo '<!ENTITY swarm-guide-release-number "@VERSION@">' > versions.ent.new
+	((echo '<!ENTITY pubdate "' ; date +'%d %B %Y' ; echo '">') | tr -d '\n' ; echo) >> versions.ent.new
+	@if test -f versions.ent; then \
+	if cmp versions.ent versions.ent.new; then \
+	echo No change, using old version.ent; \
+	$(RM) versions.ent.new; \
+	else \
+	echo Different content, using new version; \
+	mv versions.ent.new versions.ent; \
+	fi \
+	else \
+	echo Using versions.ent.new; \
+	mv versions.ent.new versions.ent; \
+	fi           
 
 # Local variables:
 # mode: makefile
