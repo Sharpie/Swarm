@@ -1,6 +1,15 @@
 #import <defobj/COM.h>
 #import <defobj/directory.h>
 
+static COMEnv *comEnv = 0;
+
+void
+initCOM (COMEnv *env)
+{
+  comEnv = env;
+  swarmDirectory = [Directory create: globalZone];
+}
+
 COMobject 
 swarm_directory_objc_find_object_COM (id object)
 {
@@ -18,7 +27,7 @@ swarm_directory_objc_find_object_COM (id object)
 static COMclass
 COM_find_class (const char *name)
 {
-  return 0;
+  (*COMenv)->findInterface (COMenv, name);
 }
 
 static COMclass

@@ -7,6 +7,20 @@ extern "C" {
 typedef void *COMclass;
 typedef void *COMobject;
 
+struct COMEnv_;
+struct COMInterface_;
+
+#ifdef __cplusplus
+typedef COMEnv_ COMEnv;
+#else
+typedef const struct COMInterface_ *COMEnv;
+#endif
+
+struct COMEnv_ {
+  void *(*findInterface) (COMEnv *env, const char *interfaceName);
+};
+
+extern void initCOM (COMEnv *env);
 extern COMobject swarm_directory_objc_find_object_COM (id object);
 extern COMclass swarm_directory_objc_find_COM_class (Class clazz);
 

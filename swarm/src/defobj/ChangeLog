@@ -1,3 +1,10 @@
+2000-08-14  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.[hm] (comEnv): Add static global for below, and an
+	initialization routine to set it (and other XPCOM setup).
+
+	* COM.h (COMEnv): Add structure for access to XPCOM C++ features.
+
 2000-08-13  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.m (proxyClassLoader): Initialize to 0.
