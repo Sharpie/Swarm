@@ -41,7 +41,7 @@ stubs: Makefile.common
 # although this excludes all the Java and C stubs, it is useful
 # because it makes makefile regeneration automatic.
 Makefile.common: java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
-	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@java-stub.elc' -f $(JAVASTUBS_FUNCTION)
+	$(ENVEMACS) -batch --eval '(setq *disable-gui* $(if $(GUIDIR),nil,t))' -l '$(dos_abs_builddir)@PATHDELIM@java-stub.elc' -f $(JAVASTUBS_FUNCTION)
 
 JAVA_SRC = $(addprefix $(srcdir)/,$(SWARM_JAVA_BASIC)) $(wildcard swarm/*.java) $(foreach module,$(MODULES),$(wildcard swarm/$(module)/*.java))
 
