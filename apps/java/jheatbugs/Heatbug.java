@@ -76,7 +76,7 @@ public class Heatbug
     // The amount of heat I produce (units are undefined):
     public int outputHeat;
     public Object setOutputHeat (int outputHeat)
-    { outputHeat = outputHeat; return this; }
+    { this.outputHeat = outputHeat; return this; }
     // The temperature I prefer:
     public int idealTemperature;
     public int getIdealTemperature () { return idealTemperature; }

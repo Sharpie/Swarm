@@ -37,7 +37,7 @@ Here is one way to download and install jheatbugs:
     make executable
 
 
-  		Section 1. Invoking jheatbugs
+  		Section 2. Invoking jheatbugs
 
 
 To run the current code of the application from Unix, or from a Unix-like
@@ -59,7 +59,7 @@ for help.
 <tt>ksh current.ksh</tt>).
 
 
-  		Section 2. Goals of jheatbugs
+  		Section 3. Goals of jheatbugs
 
 
 This Java Swarm application is copiously documented, with the goal of providing
@@ -100,7 +100,7 @@ structures that illustrate more possibilities than non-educational goals would
 justify.
 
 
-  		Section 3. Suggested learning path
+  		Section 4. Suggested learning path
 
 
 1. Invoke the application, in batch and interactive mode, with various
@@ -121,7 +121,7 @@ combinations of options, to understand its black-box behavior.
 8. Study HeatbugObserverSwarm.java.
 
 
-  		Section 4. Naming and typographic conventions
+  		Section 5. Naming and typographic conventions
 
 
 On all private variable names, I use an underscore as a prefix.
