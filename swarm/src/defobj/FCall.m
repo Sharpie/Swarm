@@ -289,11 +289,13 @@ PHASE(Using)
   ffi_call (&cif, ffunction, fargs->result, fargs->argValues + 
             MAX_HIDDEN - fargs->hiddenArgumentCount);  
 
-#ifdef __sparc__
+#ifdef __i386__
   if (fargs->returnType == fcall_type_float)
-    asm ("st %%f0,%0" : "=m" (fargs->resultVal._float));
-  else if (fargs->returnType == fcall_type_double)
-    asm ("std %%f0,%0" : "=m" (fargs->resultVal._double));
+    {
+      double val = fargs->resultVal._double;
+      
+      fargs->resultVal._float = val;
+    }
 #endif
 
 #else
