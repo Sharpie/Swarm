@@ -134,7 +134,7 @@
   // The heatspace agent represents the spatial property of heat.
   // It is initialized via various model parameters.
 
-  heat = [HeatSpace createBegin: [self getZone]];
+  heat = [HeatSpace createBegin: self];
   [heat setSizeX: worldXSize Y: worldYSize];
   [heat setDiffusionConstant: diffuseConstant];
   [heat setEvaporationRate: evaporationRate];
@@ -142,13 +142,13 @@
 
   // Now set up the grid used to represent agent position
 
-  world = [Grid2d createBegin: [self getZone]];
+  world = [Grid2d createBegin: self];
   [world setSizeX: worldXSize Y: worldYSize];
   world = [world createEnd];
 
   // Create a list to keep track of the heatbugs in the model.
 
-  heatbugList = [List create: [self getZone]];
+  heatbugList = [List create: self];
   
   // Create heatbugs themselves. This is a fairly complex step, as is
   // appropriate: the heatbugs are essential aspects of the simulation.
@@ -170,9 +170,6 @@
       // Choose a random ideal temperature, output heat from the specified
       // range (model parameters).
       
-      //    idealTemp = [uniformRandom rMin: minIdealTemp Max: maxIdealTemp];
-      //    outputHeat = [uniformRandom rMin: minOutputHeat Max: maxOutputHeat];
-      
       idealTemp = [uniformIntRand
                     getIntegerWithMin: minIdealTemp withMax: maxIdealTemp];
       outputHeat = [uniformIntRand
@@ -181,7 +178,7 @@
       
       // Create the heatbug, set the creation time variables
       
-      hbug = [Heatbug createBegin: [self getZone]];
+      hbug = [Heatbug createBegin: self];
       [hbug setWorld: world Heat: heat];
       hbug = [hbug createEnd];
       
@@ -195,9 +192,6 @@
       [hbug setOutputHeat: outputHeat];
       [hbug setRandomMoveProbability: randomMoveProbability];
       
-      //    [hbug setX: [uniformRandom rMax: worldXSize]  // random position
-      //	  Y: [uniformRandom rMax: worldYSize]];
-
       [hbug setX: [uniformIntRand
                     getIntegerWithMin: 0L
                     withMax: (worldXSize-1)]  // random position
@@ -226,7 +220,7 @@
   // then run "updateWorld" to actually enact the changes the heatbugs
   // have made. The ordering here is significant!
 
-  modelActions = [ActionGroup create: [self getZone]];
+  modelActions = [ActionGroup create: self];
   [modelActions createActionTo:      heat        message: M(stepRule)];
   [modelActions createActionForEach: heatbugList message: M(step)];  
   [modelActions createActionTo:      heat        message: M(updateLattice)];
@@ -241,7 +235,7 @@
   // This is a simple schedule, with only one action that is just
   // repeated every time. See mousetraps for more complicated schedules.
   
-  modelSchedule = [Schedule createBegin: [self getZone]];
+  modelSchedule = [Schedule createBegin: self];
   [modelSchedule setRepeatInterval: 1];
   modelSchedule = [modelSchedule createEnd];
   [modelSchedule at: 0 createAction: modelActions];

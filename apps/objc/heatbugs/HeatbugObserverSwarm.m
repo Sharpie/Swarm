@@ -79,17 +79,19 @@
 
 - buildObjects
 {
-  id modelZone;					  // zone for model.
   int i;
 
   [super buildObjects];
   
   // First, we create the model that we're actually observing. The
-  // model is a subswarm of the observer. We also create the model in
-  // its own zone, so storage is segregated.
+  // model is a subswarm of the observer. 
 
-  modelZone = [Zone create: [self getZone]];
-  heatbugModelSwarm = [HeatbugModelSwarm create: modelZone];
+  // IMPORTANT!!
+  // There is no need to explicitly create a Zone any longer - they
+  // are `implicitly' created when you instantiate a subclass of
+  // `Swarm'.
+
+  heatbugModelSwarm = [HeatbugModelSwarm create: self];
   
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
@@ -115,7 +117,7 @@
   // First, create a colormap: this is a global resource, the information
   // here is used by lots of different objects.
 
-  colormap = [Colormap create: [self getZone]];
+  colormap = [Colormap create: self];
 
   // Colours [0,64) are assigned to the range Red [0, 1), for heat display.
 
@@ -136,7 +138,7 @@
   
   // Next, create a 2d window for display, set its size, zoom factor, title.
   
-  worldRaster = [ZoomRaster createBegin: [self getZone]];
+  worldRaster = [ZoomRaster createBegin: self];
   SET_WINDOW_GEOMETRY_RECORD_NAME (worldRaster);
   worldRaster = [worldRaster createEnd];
   [worldRaster enableDestroyNotification: self
@@ -151,7 +153,7 @@
   // Now create a Value2dDisplay: this is a special object that will
   // display arbitrary 2d value arrays on a given Raster widget.
 
-  heatDisplay = [Value2dDisplay createBegin: [self getZone]];
+  heatDisplay = [Value2dDisplay createBegin: self];
   [heatDisplay setDisplayWidget: worldRaster colormap: colormap];
   [heatDisplay setDiscrete2dToDisplay: [heatbugModelSwarm getHeat]];
   [heatDisplay setDisplayMappingM: 512 C: 0];	  // turn [0,32768) -> [0,64)
@@ -160,7 +162,7 @@
   // And also create an Object2dDisplay: this object draws heatbugs on
   // the worldRaster widget for us, and also receives probes.
 
-  heatbugDisplay = [Object2dDisplay createBegin: [self getZone]];
+  heatbugDisplay = [Object2dDisplay createBegin: self];
   [heatbugDisplay setDisplayWidget: worldRaster];
   [heatbugDisplay setDiscrete2dToDisplay: [heatbugModelSwarm getWorld]];
   [heatbugDisplay setObjectCollection: [heatbugModelSwarm getHeatbugList]];
@@ -176,7 +178,7 @@
 
   // Create the graph widget to display unhappiness.
 
-  unhappyGraph = [EZGraph createBegin: [self getZone]];
+  unhappyGraph = [EZGraph createBegin: self];
   SET_WINDOW_GEOMETRY_RECORD_NAME (unhappyGraph);
   [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
   [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
@@ -204,12 +206,12 @@
 
         sprintf (filename, "graph%07d.png", getCurrentTime ());
         [actionCache doTkEvents];
-        [[[[[[Pixmap createBegin: [self getZone]]
+        [[[[[[Pixmap createBegin: self]
               setWidget: [unhappyGraph getGraph]]
              setDecorationsFlag: NO]
             createEnd] save: filename] drop];
         sprintf (filename, "raster%07d.png", getCurrentTime ());
-        [[[[[[Pixmap createBegin: [self getZone]]
+        [[[[[[Pixmap createBegin: self]
               setWidget: worldRaster]
              setDecorationsFlag: YES]
             createEnd] save: filename] drop];
@@ -241,7 +243,7 @@
   // actions could be executed in parallel, but we don't explicitly
   // notate that here.
   
-  displayActions = [ActionGroup create: [self getZone]];
+  displayActions = [ActionGroup create: self];
 
   // Schedule up the methods to draw the display of the world
   // Also schedule the update of the unhappiness graph
@@ -263,7 +265,7 @@
   // own Swarm data structure. Display is frequently the slowest part of a
   // simulation, so redrawing less frequently can be a help.
 
-  displaySchedule = [Schedule createBegin: [self getZone]];
+  displaySchedule = [Schedule createBegin: self];
   [displaySchedule setRepeatInterval: displayFrequency]; // note frequency!
   displaySchedule = [displaySchedule createEnd];
   [displaySchedule at: 0 createAction: displayActions];

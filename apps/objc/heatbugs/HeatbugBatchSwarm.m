@@ -25,14 +25,14 @@
 
 - buildObjects
 {
-  id modelZone;					       // zone for model.
-
   [super buildObjects];
 
-  // create a zone for the model, create the model there.
+  // IMPORTANT!!
+  // Create the model inside us - no longer create `Zone's explicitly.
+  // The Zone is now created implicitly through the call to create the
+  // `Swarm' inside `self'.
 
-  modelZone = [Zone create: [self getZone]];
-  heatbugModelSwarm = [HeatbugModelSwarm create: modelZone];
+  heatbugModelSwarm = [HeatbugModelSwarm create: self];
 
   // In HeatbugObserverSwarm, we'd build some probes and wait for a
   // user control event (this allows the user to fiddle with the 
@@ -62,7 +62,7 @@
   // aspects of the model...
 
   if(loggingFrequency){
-    unhappyGraph = [EZGraph createBegin: [self getZone]];
+    unhappyGraph = [EZGraph createBegin: self];
     [unhappyGraph setGraphics: 0] ;
     [unhappyGraph setFileOutput: 1] ;
     unhappyGraph = [unhappyGraph createEnd] ;
@@ -90,7 +90,7 @@
     // Create an ActionGroup for display. This is pretty minimal in this
     // case. Note, there's no doTkEvents message - no control panel!
 
-    displayActions = [ActionGroup create: [self getZone]];
+    displayActions = [ActionGroup create: self];
 
     // Now schedule the update of the unhappyGraph, which will in turn 
     // cause the fileI/O to occur...
@@ -98,7 +98,7 @@
     [displayActions createActionTo: unhappyGraph message: M(step)];
 
     // the displaySchedule controls how often we write data out.
-    displaySchedule = [Schedule createBegin: [self getZone]];
+    displaySchedule = [Schedule createBegin: self];
     [displaySchedule setRepeatInterval: loggingFrequency];
     displaySchedule = [displaySchedule createEnd];
 
@@ -108,7 +108,7 @@
   // We also add in a "stopSchedule", another schedule with an absolute
   // time event - stop the system at time . 
 
-  stopSchedule = [Schedule create: [self getZone]];
+  stopSchedule = [Schedule create: self];
   [stopSchedule at: experimentDuration 
     createActionTo: self 
          message: M(stopRunning)];
