@@ -17,7 +17,7 @@ Open the Xcode project and build the targets:
 	config and buildlib in that  order.  
 	
 	If you started from a source tarball or have built autogen in the cvs
-	sources then build Swarm, which build config and swarmlibmake. 
+	sources then build Swarm, which build config and buildlib. 
 
 To start over delete everything in $SRCROOT/macosx/build.  You will save time
 by not deleting the swarmx.build folder which contains indexes.
@@ -53,11 +53,24 @@ make install    (sudo may be needed if installing outside your home directory)
 
 That's it.
 
-***You will need to fix up PATH, SWARMHOME and DYLD_LIBRARY_PATH to get the run 
+You will need to fix up PATH, SWARMHOME and DYLD_LIBRARY_PATH to get the run 
 time linking to work.
+If you have admin right make a directory /Library/Swarm and copy the files 
+swarmrc and swarmtrc from $SWARMHOME/etc/swarm into the new directory.
+If you use bash (default on Panther) add the following line to ~/.profile:
+source /Library/Swarm/swarmrc
+If you use tcsh (default on Jaguar and earlier) add the following line to 
+~/.tcshrc:
+source /Library/Swarm/swarmtrc
+Creat a new Terminal window and your environment should be set up correctly.
+
 
 About MacOS X libraries:
-XXXX
+MacOS X 10.3 Panther includes a system version of libtcl8.4.4 in /usr/lib.  If one of your other package libraries is in /usr/lib this directory will be added to the linker search and you may link to the system libtcl.  If this happens, you will see -L/usr/lib on the link line and any apps will crash as tk tries to startup.
+
+If you are using my Apple gcc-4.0 build, libffi should be specified at:
+/usr/lib/gcc/powerpc-apple-darwin/4.0.0
+At runtime it will actually laod /usr/lib/libff1.4.0.1.dylib.  If this confuses you try reading the Apple documentation on ld and dyld.
 
 If you have any fixes please let me know, and regularly update from the cvs so 
 that you get other developers fixes.  There is no kudos reinventing the wheel.

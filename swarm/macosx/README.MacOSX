@@ -9,10 +9,10 @@ Xcode 1.5 Developer Tools.  Do not waste your
 time with any MacOS setup older than this.  Apple are rapidly improving the 
 *NIX compatability and functionality of the bsd subsystem.
 
-This code should also build on Jaguar MacOs X 10.2.  (but get Panther really!)
+This code might also build on Jaguar MacOS X 10.2.  (but get Panther really!)
 
 This work was being done with Apple X11  Libraries Tcl/Tk 8.4.7,
-HDF5 1.6.1, png 1.2.5 and BLT3.0b are all installed in /usr/local.
+HDF5 1.6.1, png 1.2.5 and BLT3.0b are all installed in subdirectories of /usr/local.
 
 Sources or compiled code can be obtained as
 Apple X11 (binary, sdk and source)  http://www.apple.com/macosx/x11/ (included in Panther)
@@ -20,11 +20,11 @@ Tcl/Tk  (source)   http://sourceforge.net/projects/tcl
 HDF5    (source)   http://hdf.ncsa.uiuc.edu/
 BLT     (source)   http://sourceforge.net/projects/blt
 BLT (patches)  http://savannah.nongnu.org/patch/?group=swarm
-MacOS X packages for Tcl/Tk8.4.5, HDF5 1.6.1, BLT2.4z and png 1.2.5 are 
+MacOS X packages for Tcl/Tk8.4.7, HDF5 1.6.1, BLT3.0b and png 1.2.5 are 
 available from
 http://savannah.nongnu.org/projects/swarm
 
-Most recent Apple gcc-3.3 or gcc-4.0 based compilers should work. A recent build of Apple gcc-4 can be obtained through the Swarm site on Savannah.  See above.
+Most recent Apple gcc-3.3 or gcc-4.0 based compilers should work. A recent build of Apple gcc-4.0 can be obtained through the Swarm site on Savannah.  See above.
 
 A GNU version of sed from http://ftp.gnu.org/pub/gnu/sed/ (the MacOS X one is
  from 1997!).  At the moment you should install this as /usr/bin/gsed. 
