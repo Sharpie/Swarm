@@ -224,11 +224,12 @@ PHASE(Using)
   return newAction;
 }
 
-- _createPermutedIndex_: (id)aZone
+- _createPermutedIndex_: aZone activity: activity
 {
-  return [[[GroupPermutedIndex_c createBegin: aZone]
-	    setCollection: self]
-	   createEnd];
+  return [[[[GroupPermutedIndex_c createBegin: aZone]
+             setCollection: self]
+            setActivity: activity]
+           createEnd];
 }
 
 //
@@ -413,6 +414,12 @@ PHASE(Creating)
 - setCollection: aCollection
 {
   [(Permutation_c *) collection setCollection: aCollection];
+  return self;
+}
+
+- setActivity: theActivity
+{
+  activity = theActivity;
   return self;
 }
 

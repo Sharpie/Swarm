@@ -1,3 +1,13 @@
+1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionGroup.[hm] ([GroupPermutedIndex_c -setActivity:]): New setter.
+	([ActionGroup_c -_createPermutedIndex_:activity:]): 
+	Add activity: argument, which sets activity slot in index. Use previous
+	method.
+
+	* CompoundAction.m ([CompoundAction_c -_createActivity_:::]): 
+	Use previous method.
+
 1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ActionGroup.m (GroupPermutedIndex_c, ForEachIndex_c): Add phase tags.

@@ -32,7 +32,7 @@ Library:      activity
 - (void)_performPlan_;
 - _createActivity_: ownerActivity : activityClass : indexClass;
 - (void)drop;
-- _createPermutedIndex_: aZone;
+- _createPermutedIndex_: aZone activity: activity;
 /*** methods in ActionGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
@@ -72,7 +72,7 @@ Library:      activity
 @interface GroupIndex_c: ListIndex_mlinks
 {
 @public
-  id <Activity>  activity;               // activity for which index created
+  id <Activity> activity;               // activity for which index created
 }
 /*** methods implemented in CompoundAction.m file ***/
 - getHoldType;
@@ -88,6 +88,7 @@ Library:      activity
 }
 + createBegin: aZone;
 - setCollection: aGroup;
+- setActivity: activity;
 - createEnd;
 - getHoldType;
 - nextAction: (id *)status;

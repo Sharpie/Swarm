@@ -154,7 +154,6 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 {
   id activityZone;
   Activity_c *newActivity;
-  INDEX_CLASS *newIndex;
 
   // allocate and initialize a new activity
 
@@ -194,14 +193,17 @@ setDefaultOrder (unsigned *bits, id aSymbol)
   // create index on the plan actions for traversal by the activity
   if ([self getDefaultOrder] == (id) Randomized
       && [self conformsTo: @protocol(ActionGroup)])
-    newIndex = [(ActionGroup_c *) self _createPermutedIndex_: 
-				    getCZone (activityZone)];
+    newActivity->currentIndex =
+      [(ActionGroup_c *) self _createPermutedIndex_: 
+                           getCZone (activityZone)
+                         activity: newActivity];
   else
-    newIndex = [self _createIndex_: getCZone (activityZone)
-		     forIndexSubclass: indexClass];
-  newIndex->activity = (id) newActivity;
-  newActivity->currentIndex = newIndex;
-  
+    {
+      INDEX_CLASS *newIndex = [self _createIndex_: getCZone (activityZone)
+                                    forIndexSubclass: indexClass];
+      newIndex->activity = newActivity;
+      newActivity->currentIndex = newIndex;
+    }
   return newActivity;
 }
 
