@@ -379,4 +379,11 @@ public class HeatbugObserverSwarm extends GUISwarmImpl {
       }
     return this;
   }
+  public void drop () {
+    if (unhappyGraph != null)
+      unhappyGraph.disableDestroyNotification ();
+    if (worldRaster != null)
+      worldRaster.disableDestroyNotification ();
+    super.drop ();
+  }
 }

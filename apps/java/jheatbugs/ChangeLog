@@ -1,3 +1,8 @@
+1999-09-16    <mgd@HELEN>
+
+	* HeatbugObserverSwarm.java: Add drop method to disable
+	destroy notification for unhappyGraph and worldRaster.
+
 1999-09-14  Alex Lancaster  <alex@santafe.edu>
 
 	* HeatbugObserverSwarm.java (buildObjects): Pass windowGeometry
