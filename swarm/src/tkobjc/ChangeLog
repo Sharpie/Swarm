@@ -4,6 +4,7 @@
 	(tkobjc_raster_create): Initialize it.
 	(tkobjc_raster_setColormap): If private colormap is created,
 	set privateColormapFlag.  Don't do it twice.
+	(tkobjc_raster_drawPoint): Reverse rgb order.
 
 	* Colormap.m, Graph.m, Histogram.m, Pixmap.m, Widget.m,
 	WindowGeometryRecord.m, ZoomRaster.m: Change from raiseEvent:

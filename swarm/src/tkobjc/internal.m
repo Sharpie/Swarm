@@ -536,9 +536,9 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 	  LPBYTE rgb = (LPBYTE)dib->bits + (x + y * frameWidth * 3);
 	  unsigned long colorValue = dib->colormap[c];
 
-	  rgb[0] = colorValue >> 16;
+	  rgb[2] = colorValue >> 16;
 	  rgb[1] = (colorValue >> 8) && 0xff;
-	  rgb[2] = colorValue & 0xff;
+	  rgb[0] = colorValue & 0xff;
 	}
     }
 #endif
