@@ -65,7 +65,7 @@ char objc_types[FCALL_TYPE_COUNT] = {
   '\002'
 };
 
-#define ZALLOCBLOCK(aZone, size) [aZone, allocBlock: size]
+#define ZALLOCBLOCK(aZone, size) [aZone allocBlock: size]
 #define ALLOCBLOCK(size) ZALLOCBLOCK([self getZone], size)
 #define ALLOCTYPE(type) ALLOCBLOCK (fcall_type_size (type))
 
