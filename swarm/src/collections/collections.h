@@ -350,11 +350,16 @@ USING
 
 //E: Following is a simple loop which illustrates such usage:
 
-//E: index = [aCollection begin: aZone];
-//E:  do {
-//E:    member = [index next];
-//E:    // do something with member ...
-//E:  } while ( [index getLoc] == Member );
+//E: {
+//E:   id <Index> index = [aCollection begin: aZone];
+//E:   id member;
+//E:
+//E:   for (member = [index next]; [index getLoc] == Member; member = [index next])
+//E:     {
+//E:      // do something with member ...
+//E:     }
+//E:   [index drop];
+//E: }
 - getLoc;
 
 //M: The setLoc: message may be used to reset the current location of an

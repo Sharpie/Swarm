@@ -1,3 +1,8 @@
+1998-12-01  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* collections.h (Index): Change example to avoid processing the
+	End location.
+
 1998-11-19  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Map.m ([Map_c -createIndex:fromMember:]): implemented as
