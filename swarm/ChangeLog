@@ -1,3 +1,8 @@
+2003-01-13  Alex Lancaster  <alexl@users.sourceforge.net>
+
+	* AUTHORS: Update information, and add Bill Northcott as lead on
+	MacOS X port).
+
 2003-01-08  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* depcomp: Update depcomp from automake 1.6.1

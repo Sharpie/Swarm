@@ -1,12 +1,13 @@
    			    The Swarm Team
 
-The Swarm project is based at the Swarm Development Group (SDG), in
-Santa Fe, New Mexico.
-
 The Swarm project was initiated by Chris Langton.  Roger Burkhart
-(John Deere), Nelson Minar (now at Google), Glen Ropella (now at
-Icarian), Manor Askenazi (now at Coopers & Lybrand), Irene Lee,
-Vladimir Jojic (UIUC), and Alex Lancaster (UC Berkeley, formerly of
-SFI) have all been active in the design and programming of Swarm.
-Marcus Daniels is the current maintainer and lead developer at the
-SDG.
+(John Deere), Nelson Minar (now at Google), Glen Ropella, Manor
+Askenazi (now at Coopers & Lybrand), Irene Lee, Vladimir Jojic (UIUC),
+Alex Lancaster (UC Berkeley, formerly of SFI), and Marcus Daniels
+(SFI) have all been active in the design and programming of Swarm.
+
+Swarm is currently maintained by the Swarm Development Group (SDG) and
+the community, there is currently no lead developer or maintainer.
+
+The MacOSX port is being led by Bill Northcott at UNSW, in Sydney
+Australia (see macosx/README.MacOSX).
