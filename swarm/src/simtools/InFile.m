@@ -52,6 +52,16 @@
     return 1 ;
 }
 
+-(int) getUnsigned: (unsigned *) anUnsigned {
+  int retVal ;
+
+  retVal = fscanf(theFile,"%u",anUnsigned) ;
+  if(retVal == EOF)
+    return 0 ;
+  else 
+    return 1 ;
+}
+
 -(int) getDouble: (double *) aDouble {
   int retVal ;
 

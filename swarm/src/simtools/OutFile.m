@@ -44,6 +44,12 @@
   return self ;
 }
 
+-putUnsigned: (unsigned) anUnsigned {
+
+  fprintf(theFile,"%u",anUnsigned) ;
+  return self ;
+}
+
 -putDouble: (double) aDouble {
 
   fprintf(theFile,"%f",aDouble) ;

@@ -15,6 +15,7 @@
 
 -(int) getWord: (char *) aWord ;
 -(int) getInt: (int *) anInt ;
+-(int) getUnsigned: (unsigned *) anUnsigned;
 -(int) getDouble: (double *) aDouble ;
 -(int) getFloat: (float *) aFloat ;
 -(int) getChar: (char *) aChar ;
