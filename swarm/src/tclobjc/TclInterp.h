@@ -60,8 +60,10 @@
 - initWithArgc: (int)argc argv: (const char **)argv;
 - setSecondaryLibraryPath: (const char *)path;
 - (const char *)checkTclLibrary;
-- (BOOL)checkPath: (const char *)base file: (const char *)file;
-- (const char *) preInitWithArgc: (int)argc argv: (const char **)argv;
+- (const char *)checkPath: (const char *)base
+             subdirectory: (const char *)subdirectory
+                     file: (const char *)file;
+- (const char *)preInitWithArgc: (int)argc argv: (const char **)argv;
 - init;
 - free;
 

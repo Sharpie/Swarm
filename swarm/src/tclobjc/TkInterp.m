@@ -91,24 +91,12 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
 
 - (const char *)checkTkLibrary
 {
-  const char *originalPath = TK_LIBRARY;
-
-  if (![self checkPath: originalPath file: "tk.tcl"])
-    {
-      if (secondaryPath && [self checkPath: secondaryPath file: "tk.tcl"])
-        return secondaryPath;
-      else
-        return NULL;
-    }
+  if ([self checkPath: TK_LIBRARY subdirectory: NULL file: "tk.tcl"])
+    return TK_LIBRARY;
   else
-    {
-      char *buf = malloc (strlen (originalPath) + 1);
-
-      if (buf == NULL)
-        abort ();
-      strcpy (buf, originalPath);
-      return buf;
-    }
+    return [self checkPath: secondaryPath
+                 subdirectory: "tk8.0"
+                 file: "tk.tcl"];
 }
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv

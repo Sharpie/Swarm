@@ -108,41 +108,44 @@ List* tclList;
   return self;
 }
 
-- (BOOL)checkPath: (const char *)path file: (const char *)file
+- (const char *)checkPath: (const char *)path
+             subdirectory: (const char *)subdir
+                     file: (const char *)file
 {
-  char buf[strlen (path) + strlen (file) + 2];
-  
-  strcpy (buf, path);
-  strcat (buf, "/");
-  strcat (buf, file);
-
-  return access (buf, R_OK) != -1;
+  if (path == NULL)
+    return NULL;
+  else
+    {
+      size_t subdir_len = subdir ? strlen (subdir) + 1 : 0;
+      size_t len = strlen (path) + 1 + subdir_len + strlen (file) + 1;
+      char *buf = malloc (len);
+      
+      if (buf == NULL)
+        abort ();
+      
+      strcpy (buf, path);
+      strcat (buf, "/");
+      if (subdir)
+        {
+          strcat (buf, subdir);
+          strcat (buf, "/");
+        }
+      strcat (buf, file);
+      
+      if (access (buf, R_OK) != -1)
+        return buf;
+      else 
+        return NULL;
+    }
 }
 
 - (const char *)checkTclLibrary
 {
-  const char *originalPath =
-    Tcl_GetVar (interp, "tcl_library", TCL_GLOBAL_ONLY);
-
-  if (originalPath == NULL)
-    originalPath = TCL_LIBRARY;
-
-  if (![self checkPath: originalPath file: "init.tcl"])
-    {
-      if (secondaryPath && [self checkPath: secondaryPath file: "init.tcl"])
-        return secondaryPath;
-      else
-        return NULL;
-    }
+  if ([self checkPath: TCL_LIBRARY subdirectory: NULL file: "init.tcl"])
+    return TCL_LIBRARY;
   else
-    {
-      char *buf = malloc (strlen (originalPath) + 1);
-
-      if (buf == NULL)
-        abort ();
-      strcpy (buf, originalPath);
-      return buf;
-    }
+    return
+      [self checkPath: secondaryPath subdirectory: "tcl8.0" file: "init.tcl"];
 }
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv
