@@ -23,54 +23,54 @@ mailing lists page</ulink>'>
 
 <!ENTITY doc-legalnotice
 
- '<LEGALNOTICE> <TITLE>Licence terms for Swarm documentation</TITLE>
+ '<legalnotice> <title>Licence terms for Swarm documentation</title>
 
-    <PARA>Permission is granted to copy, distribute and/or modify this document
+    <para>Permission is granted to copy, distribute and/or modify this document
       under the terms of the GNU Free Documentation License, Version 1.1
       or any later version published by the Free Software Foundation;
       with the Invariant Sections being LIST THEIR TITLES, with the
       Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
       A copy of the license is included in the section entitled "GNU
-      Free Documentation License".</PARA>
+      Free Documentation License".</para>
 
-     <PARA>The SGML source and associated utilites
+     <para>The SGML source and associated utilites
     needed to generate this documentation can be found in the package:
-    <ULINK
-    url="ftp://ftp.swarm.org/pub/swarm/swarmdocs-&swarm-doc-release-number;.tar.gz">swarmdocs-&swarm-doc-release-number;.tar.gz</ULINK>.
-   The utilites are distributed under the GNU GPL.</PARA></LEGALNOTICE>'>
+    <ulink
+    url="ftp://ftp.swarm.org/pub/swarm/swarmdocs-&swarm-doc-release-number;.tar.gz">swarmdocs-&swarm-doc-release-number;.tar.gz</ulink>.
+   The utilites are distributed under the GNU GPL.</para></legalnotice>'>
 
 <!ENTITY swarm-legalnotice 
 
- '<LEGALNOTICE> <TITLE>Licence terms for Swarm software</TITLE>
-  <PARA>The copyright holders make no representation about the
-  suitability of Swarm for any purpose. It is provided <QUOTE>as
-  is</QUOTE> without expressed or implied warranty. Please refer to
-  the <ULINK url="http://www.gnu.org/copyleft/lgpl.html">GNU Library Public
-  Licence</ULINK> (LGPL). Permission to use, copy, modify and
-  distribute Swarm must be in accordance with the LGPL.</PARA>
-  </LEGALNOTICE>'>
+ '<legalnotice> <title>Licence terms for Swarm software</title>
+  <para>The copyright holders make no representation about the
+  suitability of Swarm for any purpose. It is provided <quote>as
+  is</quote> without expressed or implied warranty. Please refer to
+  the <ulink url="http://www.gnu.org/copyleft/lgpl.html">GNU Library Public
+  Licence</ulink> (LGPL). Permission to use, copy, modify and
+  distribute Swarm must be in accordance with the LGPL.</para>
+  </legalnotice>'>
 
 <!ENTITY address 
-"<ADDRESS>
-<STREET>114 West Lupita Road</STREET>
-<CITY>Santa Fe</CITY> <STATE>NM</STATE> <POSTCODE>87505-4718</POSTCODE> 
-<COUNTRY>USA</COUNTRY>
-<EMAIL>swarm@swarm.org</EMAIL>
-</ADDRESS>">
+"<address>
+<street>114 West Lupita Road</street>
+<city>Santa Fe</city> <state>NM</state> <postcode>87505-4718</postcode> 
+<country>USA</country>
+<email>swarm@swarm.org</email>
+</address>">
 
-<!ENTITY mgd '<literallayout>Marcus G. Daniels <EMAIL>mgd@swarm.org</EMAIL></literallayout>'>
+<!ENTITY mgd '<literallayout>Marcus G. Daniels <email>mgd@swarm.org</email></literallayout>'>
 
-<!ENTITY alex '<literallayout>Alex Lancaster <EMAIL>alex@swarm.org</EMAIL></literallayout>'>
+<!ENTITY alex '<literallayout>Alex Lancaster <email>alex@swarm.org</email></literallayout>'>
 
 <!ENTITY swarm-program 
- '<LITERALLAYOUT>&orgname;</LITERALLAYOUT>&address;'>
+ '<literallayout>&orgname;</literallayout>&address;'>
 
-<!ENTITY bibliodata  "<RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
-    <PUBDATE>&pubdate;</PUBDATE>
-    <COPYRIGHT>
-      <YEAR>1996-2000</YEAR>
-      <HOLDER>&orgname;</HOLDER>
-    </COPYRIGHT>">
+<!ENTITY bibliodata  "<releaseinfo>&swarm-doc-release-number;</releaseinfo>
+    <pubdate>&pubdate;</pubdate>
+    <copyright>
+      <year>1996-2001</year>
+      <holder>&orgname;</holder>
+    </copyright>">
 
 <!--
 Local variables: 

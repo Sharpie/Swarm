@@ -9,24 +9,25 @@ top_dossrcdir = @top_dossrcdir@
 HTML = $(top_dossrcdir)/html.dsl
 PRINT = $(top_dossrcdir)/print.dsl
 JADEFLAGS = -V biblio-citation-check
+XML_DECL = $(top_srcdir)/xml.dcl
 
 RUNJADE = $(JADE) $(JADEFLAGS)
 CATOPTS = -c $(top_builddir)/catalog @catopts@
 
 FIGS = figs/swarm.eps # for the timestamp
 
-GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl $(FIGS)
+GENERAL = $(XML_FILES) $(COMMON_XML_FILES) $(top_srcdir)/common.dsl $(FIGS)
 
 .PHONY: fot tex dvi ps rtf html info htmldist dvidist psdist rtfdist infodist
 
-COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
+COMMON_XML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
 
 DISTNAME=$(NAME)-@VERSION@
 
 htmldir = $(prefix)/html/$(NAME)
 nodist_html_DATA = $(NAME).html
 
-install-data-local:
+nstall-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
 install-data-hook:
 	(cd $(htmldir) && $(LN_S) -f $(prefix)/figs figs)
@@ -61,7 +62,7 @@ nodist_info_DATA = $(wildcard *.info*)
 infodist: info
 	cd ..; tar cf - $(addprefix $(NAME)/, $(wildcard *.info*)) | $(GZIP) > $(DISTNAME)-info.tar.gz
 
-CLEANFILES = $(NAME).tex _$(NAME).tex $(nodist_html_DATA) $(nodist_dvi_DATA) $(nodist_ps_DATA) $(nodist_rtf_DATA) $(NAME).texi $(NAME).xml $(nodist_info_DATA) 
+CLEANFILES = $(NAME).tex _$(NAME).tex $(nodist_html_DATA) $(nodist_dvi_DATA) $(nodist_ps_DATA) $(nodist_rtf_DATA) $(NAME).texi $(nodist_info_DATA) 
 
 $(FIGS):
 	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
@@ -75,8 +76,6 @@ $(NAME).dvi: $(top_srcdir)/tex/macros.tex
 $(NAME).info: $(GENERAL)
 
 $(NAME).texi: $(GENERAL) $(top_srcdir)/docbook2texi
-
-$(NAME).xml: $(GENERAL) 
 
 all-recursive: # when no SUBDIRS
 
@@ -94,17 +93,17 @@ html: all-recursive $(NAME).html
 
 info: all-recursive $(NAME).info
 
-%.fot: %.sgml
-	$(RUNJADE) $(CATOPTS) -t fot -iprint -d '$(PRINT)' -o $@ @DOSIFYEXPR@
+%.fot: %.xml
+	$(RUNJADE) $(CATOPTS) -t fot -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
 
-_%.tex: %.sgml
-	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d '$(PRINT)' -o $@ @DOSIFYEXPR@
+_%.tex: %.xml
+	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
 
-%.rtf: %.sgml
-	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d '$(PRINT)' -o $@ @DOSIFYEXPR@
+%.rtf: %.xml
+	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
 
-%.html: %.sgml
-	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d '$(HTML)' @DOSIFYEXPR@
+%.html: %.xml
+	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d '$(HTML)' $(XML_DECL) @DOSIFYEXPR@
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
@@ -112,8 +111,8 @@ _%.tex: %.sgml
 %.ps: %.dvi
 	- $(DVIPS) -o $@ $<
 
-%.xml: %.sgml
-	- $(SX) $(CATOPTS) -x lower $< > $@
+##%.xml: %.sgml
+##	- $(SX) $(CATOPTS) -x lower $< > $@
 
 %.texi: %.xml
 	- perl $(top_srcdir)/docbook2texi $< > $@

@@ -49,8 +49,8 @@
 (define (make-linebreak)
     (make empty-element gi: "BR"))
 
-(element PRIMARYIE
-         (let* ((linkends-string (attribute-string "LINKENDS"))
+(element primaryie
+         (let* ((linkends-string (attribute-string "linkends"))
                 (linkends (split-string linkends-string #\space)))
            (if (type-id-p (car linkends) "METHOD")
                (sosofo-append

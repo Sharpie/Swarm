@@ -142,13 +142,13 @@
     (case module-sym
       ((refbook set installbook overbook) 
        (concat (get-top-builddir)
-               module-name "/" module-name "revhistory.sgml"))
+               module-name "/" module-name "revhistory.xml"))
       (otherwise (concat (get-top-builddir)
                          "refbook/"
                          module-name
                          "/"
                          module-name
-                         "revhistory.sgml")))))
+                         "revhistory.xml")))))
 
 (defun process-changelog (&optional module-arg)
   (let* ((module-sym (if module-arg
@@ -177,7 +177,7 @@
                         (>= high 0)))))))
     (with-temp-file (sgml-pathname-for-swarmdocs-revision-output module-sym)
       (sgml-mode)
-      (insert "<REVHISTORY ID=\"SWARM.")
+      (insert "<revhistory id=\"SWARM.")
       (insert (upcase (symbol-name module-sym)))
       (insert ".GENERIC.REVHISTORY\">\n")
       (loop for changelog in combined-changelog-list
@@ -194,21 +194,21 @@
             do
             (loop for changelog-item in (changelog-item-list changelog)
                   do
-                  (insert "<REVISION>\n")
-                  (insert "<REVNUMBER>")
+                  (insert "<revision>\n")
+                  (insert "<revnumber>")
                   (let ((filename (changelog-item-filename changelog-item)))
                     (when filename
                       (insert filename)))
-                  (insert "</REVNUMBER>\n")
-                  (insert "<DATE>")
+                  (insert "</revnumber>\n")
+                  (insert "<date>")
                   (insert date-string)
-                  (insert "</DATE>\n")
-                  (insert "<AUTHORINITIALS>")
+                  (insert "</date>\n")
+                  (insert "<authorinitials>")
                   (insert author)
-                  (insert "</AUTHORINITIALS>\n")
-                  (insert "<REVREMARK>\n")
+                  (insert "</authorinitials>\n")
+                  (insert "<revremark>\n")
                   (insert-text (changelog-item-description changelog-item))
                   (fill-paragraph nil)
-                  (insert "</REVREMARK>\n")
-                  (insert "</REVISION>\n")))
-      (insert "</REVHISTORY>\n"))))
+                  (insert "</revremark>\n")
+                  (insert "</revision>\n")))
+      (insert "</revhistory>\n"))))

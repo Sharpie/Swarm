@@ -30,7 +30,7 @@
           (empty-sosofo)))
 
 (define (printed-link)
-    (let* ((id (attribute-string "LINKEND"))
+    (let* ((id (attribute-string "linkend"))
            (nl (element-with-id id)))
       (sosofo-append
        (let ((indexitem (id-to-indexitem id)))
@@ -43,7 +43,7 @@
          (element-page-number-sosofo nl)
          (literal ")"))))))
 
-(element LINK (printed-link))
+(element link (printed-link))
 
 (element ulink 
   ;; make URL appear in parentheses in printed version
@@ -57,12 +57,12 @@
          (literal url-string) 
          (literal ") ")))))))
 
-(element (REFSECT1 PARA LINK)
+(element (refsect1 para link)
          (make paragraph 
                (printed-link)))
 
-(element PRIMARYIE
-         (let* ((linkends-string (attribute-string "LINKENDS"))
+(element primaryie
+         (let* ((linkends-string (attribute-string "linkends"))
                 (linkends (split-string linkends-string #\space)))
            (if (type-id-p (car linkends) "METHOD")
                (sosofo-append

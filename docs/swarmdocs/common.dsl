@@ -113,10 +113,10 @@
   (data (select-elements
          (children
           (select-elements (children funcsynopsis-node)
-                           "FUNCSYNOPSISINFO"))
-         "CLASSNAME")))
+                           "funcsynopsisinfo"))
+         "classname")))
 
-(element FUNCDEF
+(element funcdef
          (let ((classname (get-classname (parent (parent)))))
            (cond ((string=? classname "(MACRO)")
                   (process-children))
@@ -147,12 +147,12 @@
                   (sosofo-append
                    (literal " ")
                    (type-expand (children (current-node)))
-                   (process-matching-children "PARAMETER")
+                   (process-matching-children "parameter")
                    (literal " "))))))
 
 (define (methodprototype)
-    (let* ((funcdef (select-elements (children (current-node)) "FUNCDEF"))
-           (function (select-elements (children funcdef) "FUNCTION"))
+    (let* ((funcdef (select-elements (children (current-node)) "funcdef"))
+           (function (select-elements (children funcdef) "function"))
            (function-data (data function)))
       (sosofo-append
        (literal (substring function-data 0 1))
@@ -160,9 +160,9 @@
        (process-node-list funcdef)
        (expand-method
         (substring function-data 1 (string-length function-data))
-        (select-elements (children (current-node)) "PARAMDEF")))))
+        (select-elements (children (current-node)) "paramdef")))))
 
-(element FUNCPROTOTYPE
+(element funcprototype
          (let ((classname (get-classname (parent))))
            (cond ((string=? classname "(MACRO)")
                   (funcprototype))
@@ -170,7 +170,7 @@
                   (funcprototype))
                  (#t (methodprototype)))))
 
-(element FUNCSYNOPSISINFO
+(element funcsynopsisinfo
          (make paragraph
                first-line-start-indent: 0pt
                (expand-paragraphs (skip-nonchars
@@ -222,8 +222,8 @@
 (define (title-for-refentry refentry)
     (data
      (select-elements
-      (children (select-elements (children refentry) "REFMETA"))
-      "REFENTRYTITLE")))
+      (children (select-elements (children refentry) "refmeta"))
+      "refentrytitle")))
 
 (define (protocol-title-for-id id)
     (let* ((id-elements (split-string id #\.))
@@ -262,18 +262,18 @@
       (children
        (select-elements
         (children 
-         (select-elements (children (element-with-id id)) "FUNCPROTOTYPE"))
-        "FUNCDEF"))
-      "FUNCTION")))
+         (select-elements (children (element-with-id id)) "funcprototype"))
+        "funcdef"))
+      "function")))
 
 (define (macro-title-for-id id)
     (let ((node (element-with-id id)))
-      (if (string=? (gi node) "FUNCSYNOPSIS")
+      (if (string=? (gi node) "funcsynopsis")
           (function-title-for-id id)
           (data node))))
 
 (define (global-title-for-id id)
-    (data (node-list-last (select-elements (children (element-with-id id)) "TERM"))))
+    (data (node-list-last (select-elements (children (element-with-id id)) "term"))))
 
 (define (revhistory-title-for-id id)
     (let ((id-elements (split-string id #\.)))
@@ -297,7 +297,7 @@
              (type-id-p id "TABLE")
              (type-id-p id "BIBLIOGRAPHY"))
          (data (select-elements (children (element-with-id id))
-                                "TITLE")))
+                                "title")))
         (#t #f)))
 
 (define (block-element-list)
@@ -310,7 +310,7 @@
         (normalize "listitem")))
 
 (define (example-label example-node #!optional (show-number #t))
-    (let ((label (attribute-string "LABEL" example-node)))
+    (let ((label (attribute-string "label" example-node)))
       (if label
           (let* ((parts (split-string label #\/))
                  (afterprotocol (cdr (cdr parts))))
@@ -325,7 +325,7 @@
           (element-label example-node))))
 
 (define (example-entry example-node match-protocol)
-    (let ((label (attribute-string "LABEL" example-node)))
+    (let ((label (attribute-string "label" example-node)))
       (if label
           (let* ((parts (split-string label #\/))
                  (afterprotocol (cdr (cdr parts)))
@@ -360,8 +360,8 @@
                     (child-protocols (collect-example-protocols (children node))))
                (append
                 child-protocols
-                (if (and node-gi (string=? (gi node) "EXAMPLE"))
-                    (let ((label (attribute-string "LABEL" node)))
+                (if (and node-gi (string=? (gi node) "example"))
+                    (let ((label (attribute-string "label" node)))
                       (if label
                           (let* ((parts (split-string label #\/))
                                  (module (car parts))
@@ -422,9 +422,9 @@
                               (let ((node (node-list-first nl))
                                     (rest (node-list-rest nl)))
                                 (if (string=? (gi node) lotgi)
-                                    (if (string=? lotgi "EXAMPLE")
+                                    (if (string=? lotgi "example")
                                         (let* ((labeled-node
-                                                (if (attribute-string "LABEL" node)
+                                                (if (attribute-string "label" node)
                                                     node
                                                     last-node)))
                                           (apply loop
@@ -449,7 +449,7 @@
            (module-list (extract-module-list protocol-list)))
       (make sequence
             (lot-title #t lotgi)
-            (if (string=? lotgi "EXAMPLE")
+            (if (string=? lotgi "example")
                 (make-list 
                  (let module-loop ((ml module-list))
                       (if (null? ml)
@@ -510,7 +510,7 @@
 (define (common-titlepage-recto-elements)
     (list (normalize "title") 
           (normalize "subtitle")
-          (normalize "graphic")
+          (normalize "mediaobject")
           (normalize "corpauthor")))
         
 (define (common-titlepage-verso-elements)

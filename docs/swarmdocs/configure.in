@@ -100,10 +100,13 @@ AC_SUBST(swarm_dossrcdir)
 if test -z "$catalog_file" ; then
   test -n "$commondtd_srcdir" && catopts="-c $commondtd_srcdir/catalog"
   catopts="$catopts -c $docbookdtd_srcdir/docbook.cat -c $docbookstyle_srcdir/catalog"
+  CATALOG_DTD_DELEGATE="DELEGATE \"-//OASIS//\" $docbookdtd_srcdir/docbook.cat"
 else
   catopts="-c $catalog_file"
+  CATALOG_DTD_DELEGATE="DELEGATE \"-//OASIS//\" $catalog_file"
 fi
 AC_SUBST(catopts)
+AC_SUBST(CATALOG_DTD_DELEGATE)
 
 AC_SUBST(gridturtle_srcdir)
 

@@ -7,7 +7,7 @@ swarm_dossrcdir = @swarm_dossrcdir@
 
 $(abs_top_builddir)/history.elc: $(abs_top_builddir)/common.elc
 
-%revhistory.sgml: ChangeLog $(swarm_ChangeLog) $(abs_top_builddir)/history.elc
+%revhistory.xml: ChangeLog $(swarm_ChangeLog) $(abs_top_builddir)/history.elc
 	SWARMSRCDIR='$(swarm_dossrcdir)/' SWARMDOCS='$(top_dossrcdir)/' $(EMACS) -batch -l $(abs_top_builddir)/history.elc -f process-changelog $*
 
 # Local variables:

@@ -1,3 +1,37 @@
+2001-11-25  Alex Lancaster  <alex@swarm.org>
+
+
+	* common.dsl: Use lowercase for all XML element and attribute
+	lookups throughout.
+	(common-titlepage-recto-elements): Change <graphic> to
+	<mediaobject>.
+
+	* html.dsl, print.dsl: Use lowercase for all XML element and
+	attribute lookups throughout.
+	
+	* history.el: Emit valid XML tags throughout.  Use '.xml' suffix
+	for all files created.
+
+	* global.ent: Make valid XML.  Update copyright date.
+
+	* configure.in (CATALOG_DTD_DELEGATE): Extract a new variable.
+	Used to the catalog used to DELEGATE lookups for "-//OASIS//"
+	public identifers (e.g. DocBook DTDs).
+
+	* catalog.in: Set CATALOG_DTD_DELEGATE.
+	Set "OVERRIDE YES" to make sure entities from catalogs are used
+	rather than system identifiers in top-level XML documents.
+	Change all entity names with .sgml suffix to .xml.
+
+	* Makefile.rules (XML_DECL): New variable for location of XML
+	declarations (needed for jade).
+	(GENERAL, COMMON_XML_FILES): Use XML in place of SGML.
+	(%.fot, _%.tex, %.rtf, %.html): Rename using .xml as out of date
+	target.  Use XML_DECL as defined above.
+	($(NAME).xml): Remove rule.
+
+	* Makefile.common (%revhistory.xml): Rename from %revhistory.sgml.
+
 2001-08-22  Alex Lancaster  <alex@swarm.org>
 
 	* COPYING.FDL: Add file.
