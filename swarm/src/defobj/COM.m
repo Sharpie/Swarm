@@ -42,6 +42,12 @@ COM_create_arg_vector (unsigned size)
   return comEnv->createArgVector (size);
 }
 
+void
+COM_add_arg (fcall_type_t type, void *value)
+{
+  comEnv->addArg (type, value);
+}
+
 COMobject 
 swarm_directory_objc_find_object_COM (id oObject)
 {

@@ -11,14 +11,14 @@
 	* COM.h: Include defobj.h for fcall_type_t.  (Not import, COM.h
 	need to be includable by C++.)
 	(COMInterface): Replace selectorArgObjcType with
-	selectorArgFcallType.  Add createArgVector.
+	selectorArgFcallType.  Add createArgVector and addArg.
 	(COM_SELECTOR_ENTRY): Create a SelectorEntry, not an ObjectEntry.
 
 	* COM.m: Include internal.h.
 	(swarm_directory_COM_ensure_selector): Updates for
 	selectorArgFcallType from selectorArgObjcType.
 
-	* COM.[hm] (COM_create_arg_vector): New function.
+	* COM.[hm] (COM_create_arg_vector, COM_add_arg): New functions.
 
 2000-09-22  Marcus G. Daniels  <mgd@forager.swarm.org>
 
