@@ -140,7 +140,7 @@
 - adjustToOffset
 {
   {
-    char *newStr = xmalloc (strlen (strVal) + DSIZE (unsigned) + 1);
+    char *newStr = xmalloc (strlen (strVal) + 1 + DSIZE (unsigned) + 1);
 
     sprintf (newStr, "%s %d", strVal, offset);
     strVal = newStr;
@@ -177,8 +177,12 @@
 {
   {
     int strNum;
-    char buf[strlen (strVal) + 1];
-    sscanf (strVal, "%s %d", buf, &strNum);
+    size_t len = strlen (strVal);
+    char buf[len + 1];
+    char fmt[10];
+    
+    sprintf (fmt, "%%%us %%d", len);
+    sscanf (strVal, fmt, buf, &strNum);
 
     if (strcmp (buf, STRVAL) != 0)
       return NO;
