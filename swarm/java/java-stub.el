@@ -4,7 +4,7 @@
 (require 'protocol)
 
 (defvar *last-protocol*)
-(defconst *stub-directory* "stubs/")
+(defconst *stub-directory* "./")
 
 (defun freakyp (java-type)
   (eq java-type 'freaky))
