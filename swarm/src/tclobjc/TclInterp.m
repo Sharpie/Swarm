@@ -43,7 +43,9 @@
 #define DEFAULT_PROMPT "Tcl% "
 #define DEFAULT_PARTIAL_PROMPT "Tcl> "
 
-#if (TCL_MAJOR_VERSION >= 8) && (TCL_MINOR_VERSION >= 1)
+#if (TCL_MAJOR_VERSION == 8) && (TCL_MINOR_VERSION == 2)
+#define SUBDIR "tcl8.2"
+#elif (TCL_MAJOR_VERSION == 8) && (TCL_MINOR_VERSION == 1)
 #define SUBDIR "tcl8.1"
 #else
 #define SUBDIR "tcl8.0"
