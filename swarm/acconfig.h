@@ -10,4 +10,4 @@
 #undef SYSCONFDIR
 #undef PREFIX
 #undef HAVE_HDF5
-
+#undef HAVE_JDK
