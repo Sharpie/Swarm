@@ -1,3 +1,8 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (SWARMLIBS, OBJCLIBS): Select -l{swarm,objc}
+	or -l{swarm,objc}dll on the basis of USEDLL.
+
 1999-06-03  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.tests.in (INCLUDES): Use SWARMMODULES.

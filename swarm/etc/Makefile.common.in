@@ -66,7 +66,6 @@ X_LIBS = @X_LIBS@
 GUILIBS = @GUILIBS@
 
 DLLIB = @DLLIB@
-OBJCLIBS = -lobjc
 
 SUPPORTLDFLAGS = $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(HDF5LDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS)
 
@@ -75,7 +74,19 @@ SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB)
 SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
 	objectbase activity defobj collections misc
 
+
+USEDLL=@USEDLL@
+ifeq ($(USEDLL),yes)
+DLLSUFFIX=dll
+endif
+
+ifeq ($(USESTATIC),yes)
 SWARMLIBS = -lswarm
+OBJCLIBS = -lobjc
+else
+SWARMLIBS = -lswarm$(DLLSUFFIX)
+OBJCLIBS = -lobjc$(DLLSUFFIX)
+endif
 
 # Local variables:
 # mode: makefile
