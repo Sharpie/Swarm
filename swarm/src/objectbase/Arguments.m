@@ -96,10 +96,8 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   argp->children = NULL;
   argp->help_filter = NULL;
 
-  // getApp{Config,Data}Path can return items on the heap, this is
-  // so that's always the case.
-  obj->defaultAppConfigPath = strdup ("./");
-  obj->defaultAppDataPath = strdup ("./");
+  obj->defaultAppConfigPath = "./";
+  obj->defaultAppDataPath = "./";
 
   return obj;
 }
@@ -475,7 +473,7 @@ findSwarm (id arguments)
 
 - (const char *)getAppConfigPath
 {
-  char *appConfigPath = (char *)defaultAppConfigPath;
+  char *appConfigPath = strdup (defaultAppConfigPath);
 
   if ([self _runningFromInstall_])
     {
@@ -489,7 +487,7 @@ findSwarm (id arguments)
 
 - (const char *)getAppDataPath
 {
-  char *appDataPath = (char *)defaultAppDataPath;
+  char *appDataPath = strdup (defaultAppDataPath);
 
   if ([self _runningFromInstall_])
     {

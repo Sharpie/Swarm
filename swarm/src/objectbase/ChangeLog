@@ -1,7 +1,7 @@
 1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Arguments.m ([Arguments +createBegin:]): Copy default config/data
-	paths to the heap.
+	* Arguments.m ([Arguments -getAppConfigPath], [Arguments
+	-getAppDataPath]): Copy default value to heap.
 
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
