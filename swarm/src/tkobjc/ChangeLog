@@ -1,3 +1,8 @@
+1998-08-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_pixmap_save): Add support for writing PNG
+	files (only from a XpmImage so far).
+
 1998-08-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* tkobjc.m: Add PixmapError error variable.

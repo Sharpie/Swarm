@@ -751,7 +751,81 @@ void
 tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 {
 #ifndef _WIN32
-  XpmWriteFileFromXpmImage ((char *)filename, &pixmap->xpmimage, NULL);
+  FILE *fp = fopen (filename, "wb");
+  png_structp png_ptr;
+  png_infop info_ptr;
+
+  if (fp == NULL)
+    [PixmapError raiseEvent: "Cannot open output pixmap file: %s\n", filename];
+  
+  png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  if (png_ptr == NULL)
+    {
+      fclose (fp);
+      [PixmapError raiseEvent: "Could not create PNG write struct\n"];
+    }
+  
+  info_ptr = png_create_info_struct (png_ptr);
+  if (info_ptr == NULL)
+    {
+      png_destroy_write_struct (&png_ptr, (png_infopp)NULL);
+      fclose (fp);
+      [PixmapError raiseEvent: "Could not create PNG info struct\n"];
+    }
+  
+  if (setjmp (png_ptr->jmpbuf))
+    {
+      png_destroy_write_struct (&png_ptr, &info_ptr);
+      fclose (fp);
+      [PixmapError raiseEvent: "Error during PNG write of %s\n", filename];
+    }
+  
+  png_init_io (png_ptr, fp);
+
+  png_set_IHDR (png_ptr, info_ptr,
+                pixmap->xpmimage.width, pixmap->xpmimage.height,
+                8, PNG_COLOR_TYPE_PALETTE,
+                PNG_INTERLACE_NONE,
+                PNG_COMPRESSION_TYPE_DEFAULT,
+                PNG_FILTER_TYPE_DEFAULT);
+
+  {
+    png_color palette[pixmap->xpmimage.ncolors]; 
+    int i;
+    
+    for (i = 0; i < pixmap->xpmimage.ncolors; i++)
+      {
+        unsigned red, green, blue;
+
+        sscanf (pixmap->xpmimage.colorTable[i].c_color, "#%4x%4x%4x", 
+                &red, &green, &blue);
+        palette[i].red = red >> 8;
+        palette[i].green = green >> 8;
+        palette[i].blue = blue >> 8;
+        
+      }
+    png_set_PLTE (png_ptr, info_ptr, palette, pixmap->xpmimage.ncolors);
+    png_write_info (png_ptr, info_ptr);
+  }
+  {
+    unsigned height = pixmap->xpmimage.height;
+    unsigned width = pixmap->xpmimage.width;
+    png_byte buf[height][width];
+    png_bytep row_pointers[height];
+    unsigned *data = pixmap->xpmimage.data;
+    int yi, xi;
+    
+    for (yi = 0; yi < height; yi++)
+      for (xi = 0; xi < width; xi++)
+        buf[yi][xi] = (png_byte)*data++;
+    
+    for (yi = 0; yi < height; yi++)
+      row_pointers[yi] = &buf[yi][0];
+    png_write_image (png_ptr, row_pointers);
+  }
+  png_write_end (png_ptr, info_ptr);
+  png_destroy_write_struct (&png_ptr, &info_ptr);
+  fclose (fp);
 #endif
 }
 
