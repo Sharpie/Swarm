@@ -10,6 +10,10 @@
 #import <simtools/global.h>
 #import <gui.h>
 
+#ifdef USE_JAVA
+#include <awtobjc/JavaControlPanel.h>
+#endif
+
 // Rudimentary control panel. A lot of the work for making this useful
 // falls on the shoulders of the controller that's using us, typically
 // an observer swarm.
@@ -29,6 +33,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   return self;
 }
 
+#ifndef USE_JAVA
 - getState
 {
   return state;
@@ -39,6 +44,18 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   state = theState;
   return self;
 }
+#else
+- getState
+{
+  return [ctlObj getState];
+}
+
+- setState: s
+{
+  return [ctlObj setState: s];
+  state = s;
+}
+#endif
 
 // Run: just set our own state to running, let whatever object who
 // is using us arrange for the run to go again.
@@ -73,6 +90,14 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   return [activityID getStatus];
 }
 
+#ifdef USE_JAVA
+- setCtlObj: ctl
+{
+  ctlObj = ctl;
+  return self;
+}
+#endif
+
 // Stop: set state to stop, also stop activities.
 - setStateStopped
 {
@@ -85,13 +110,18 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
     }
   else
     {
+#ifndef USE_JAVA
 #if 0
       [self waitForControlEvent];
 #else
       [self setState: ControlStateStopped];
       while (state == ControlStateStopped)
         GUI_EVENT_SYNC ();
-#endif      
+#endif
+#else
+      [self setState: ControlStateStopped];
+      [ctlObj waitRun];
+#endif
       // Check now if the user hit the quit button: if so, abort.
       if (state == ControlStateQuit)
         exit(0);

@@ -12,6 +12,9 @@
 @interface ControlPanel: SwarmObject
 {
   id state;					  // uses activity.h symbols
+#ifdef USE_JAVA
+  id ctlObj;
+#endif
 }
 
 - createEnd;
@@ -25,5 +28,9 @@
 - setStateStepping;
 - setStateQuit;
 - setStateNextTime;
+
+#ifdef USE_JAVA
+- setCtlObj: ctl;
+#endif
 
 @end

@@ -1,3 +1,21 @@
+1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ControlPanel.m ([ControlPanel -createEnd]): Include
+	awtobjc/JavaControlPanel in USE_JAVA case.  (temporary)
+	([ControlPanel -getState], [ControlPanel -setState]): 
+	USE_JAVA versions that work with ctlObj. (temporary)
+	([ControlPanel -setStateStopped]): Use ctlObj waitRun 
+	in USE_JAVA case. (temporary)
+
+	* ControlPanel.h (ControlPanel): For USE_JAVA case include ctlObj
+	and setter (temporary).
+
+	* ActionCache.m: Include ControlPanel.h, JavaControlPanel.h, and
+	JavaInput.h for AWT (temporary).
+	([ActionCache -createEnd]): Build actionCache widgets from
+	JavaControlPanel instead of our own createProcCtrl.  Create inputQueue
+	in USE_JAVA case (temporary).
+
 1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Archiver.m: Include Arguments.h.  Minor reformatting.
