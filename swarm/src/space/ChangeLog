@@ -1,6 +1,6 @@
 1998-04-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Discrete2d.m: Include defobj.h.
+	* Discrete2d.m, Object2dDisplay, Value2dDisplay.m: Include defobj.h.
 
 1998-04-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

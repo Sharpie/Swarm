@@ -11,6 +11,7 @@
 #import <space/Discrete2d.h> // discrete2dSiteAt
 #import <gui.h> // GUI_BEEP
 #import <simtoolsgui.h> // CREATE_PROBE_DISPLAY
+#import <defobj.h> // ProtocolViolation
 
 @implementation Object2dDisplay
 

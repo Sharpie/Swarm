@@ -6,6 +6,7 @@
 #import <space/Value2dDisplay.h>
 #import <space.h>
 #import <gui.h>
+#import <defobj.h> // ProtocolViolation
 
 // This should be subclassed to fill in the colormap for your CA.
 // for now, we expect your colormap to be allocated already.
