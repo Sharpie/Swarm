@@ -1,5 +1,8 @@
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* List_GEN.m: Reformatting throughout.  New macros COUNT,
+	FIRST, and FIRSTPREV to simplify code.
+
 	* Collection.m ([Collection_any -lispin:], [Collection_any
 	-lispout:]): Stubs.
 
