@@ -317,7 +317,7 @@ CREATING
 + createBegin: aZone;
 
 //M: Set the number of bins to use (bars to draw).
-- setNumBins: (int)n;
+- setNumBins: (unsigned)n;
 
 //M: Initialize the histogram.
 - createEnd;
@@ -325,11 +325,11 @@ CREATING
 USING
 //M: Set colors for the histogram bars. If not set, all are blue.
 //M: Colors are arrays of strings (one per bin/bar) of color names.
-- setColors: (const char * const *)c;
+- setColors: (const char * const *)c count: (unsigned)colorCount;
 
 //M: Set labels for the histogram bars. If not set, they remain blank.
 //M: Labels are arrays of strings, one per bin/bar.
-- setLabels: (const char * const *)l;
+- setLabels: (const char * const *)l count: (unsigned)labelCount;
 
 //M: Set the title of the histogram.
 - setTitle: (const char *)title;
