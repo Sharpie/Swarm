@@ -1,3 +1,8 @@
+1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-methods*): -getRetVal:buf: instead of
+	getReturnVal.
+
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm: Use eval "$JAVA .." instead of setting JAVA_HOME before
