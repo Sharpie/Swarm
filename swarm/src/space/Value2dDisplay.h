@@ -19,7 +19,7 @@
   int modFactor;
   int colorConstant;
 }
-
++ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d;
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
 - setDiscrete2dToDisplay: c;
 - setDisplayMappingM: (int)m C: (int)c;	  // linear mapping

@@ -15,11 +15,21 @@
 
 PHASE(Creating)
 
++ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d
+{
+  Value2dDisplay *obj = [self createBegin: aZone];
+
+  [obj setDisplayWidget: r colormap: c];
+  [obj setDiscrete2dToDisplay: d];
+
+  return [obj createEnd];
+}
+
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c
 {
   displayWidget = r;
   colormap = c;
-
+  
   drawPointImp = [(Object *)r methodFor: @selector (drawPointX:Y:Color:)];
   return self;
 }
@@ -51,8 +61,8 @@ PHASE(Creating)
 }
 
 PHASE(Using)
-
-// linear transform between values and colours. Good enough?
+     
+     // linear transform between values and colours. Good enough?
 - setDisplayMappingM: (int)m C: (int)c
 {
   modFactor = m;
@@ -98,3 +108,6 @@ PHASE(Using)
 }
 
 @end
+
+
+

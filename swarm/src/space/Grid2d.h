@@ -11,6 +11,7 @@
   BOOL overwriteWarnings;
 }
 
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
 - setOverwriteWarnings: (BOOL)b;
 
 @end

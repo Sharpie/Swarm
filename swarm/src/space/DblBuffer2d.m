@@ -20,6 +20,11 @@
 
 PHASE(Creating)
 
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y
+{
+  return [super create: aZone setSizeX: x Y: y];
+}
+
 // allocate buffers.
 - createEnd
 {

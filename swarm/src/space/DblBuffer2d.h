@@ -16,6 +16,8 @@
   id *newLattice;				  // pointer to lattice
 }
 
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
+
 // getting the entire lattice (use carefully!)
 - (id *)getNewLattice;			  // for writing
 

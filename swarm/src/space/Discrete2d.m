@@ -20,6 +20,14 @@
 
 PHASE(Creating)
 
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y
+{
+  Discrete2d *obj = [super createBegin: aZone];
+  obj->xsize = x;
+  obj->ysize = y;
+  return [obj createEnd];
+}
+
 - setSizeX: (unsigned)x Y: (unsigned)y
 {
   if (lattice)

@@ -18,7 +18,7 @@
   SEL displayMessage;
   id objectCollection;
 }
-
++ create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: c setDisplayMessage: (SEL)s;
 - setDisplayWidget: (id <Raster>)r;
 - setDiscrete2dToDisplay: c;
 - setDisplayMessage: (SEL)s;

@@ -13,7 +13,7 @@
   double diffusionConstant;
   double evaporationRate;
 }
-
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y setDiffusionConstant: (double)d setEvaporationRate: (double)e;
 + createBegin: aZone;
 - initializeLattice;
 - setDiffusionConstant: (double)d;

@@ -1,3 +1,29 @@
+1999-08-01  Alex Lancaster  <alex@santafe.edu>
+
+	* space.h (Object2dDisplay, Value2Display, Discrete2d, Diffuse2d,
+	DblBuffer2d, Grid2d): Add +create: convenience methods to these
+	CREATABLE protocols.
+
+	* Value2dDisplay.[hm] ([Value2dDisplay
+	create:setDisplayWidget:colormap:setDiscrete2dToDisplay:]):
+	Convenience method.
+
+	* Object2dDisplay.[hm] ([Object2dDisplay
+	create:setDisplayWidget:setDiscrete2dToDisplay:setDisplayMessage:]):
+	Convenience method.
+
+	* Discrete2d.[hm] ([Discrete2d +create:setSizeX:Y:]): Convenience
+	method.
+
+	* Diffuse2d.[hm] ([Diffuse2d
+	+create:setSizeX:Y:setDiffusionConstant:setEvaporationRate:]):
+	Convenience method.
+
+	* DblBuffer2d.[hm] ([DblBuffer2d +create:setSizeX:Y:]):
+	Convenience method.
+
+	* Grid2d.[hm] ([Grid2d +create:setSizeX:Y:]): Convenience method.
+
 1999-07-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m ([Discrete2d hdf5In:]): Do createEnd after

@@ -11,7 +11,7 @@
 
 PHASE(Creating)
 
-//M: Make overwrite warnings be on by default.
+// Make overwrite warnings be on by default.
 + createBegin: aZone
 {
   Grid2d *r = [super createBegin: aZone];
@@ -20,6 +20,12 @@ PHASE(Creating)
   
   return r;
 }
+
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y
+{
+  return [super create: aZone setSizeX: x Y: y];
+}
+
 
 PHASE(Setting)
 PHASE(Using)

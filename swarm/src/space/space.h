@@ -81,6 +81,9 @@
 //E:         (make-instance 'MyClass #:strVal "Hello World"))))))
 
 CREATING
+//M: Convenience constructor for Discrete2d lattice
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
+
 //M: Set the world size.
 - setSizeX: (unsigned)x Y: (unsigned)y;
 
@@ -156,6 +159,10 @@ USING
 //D: sure that you preserve the write semantics on the newLattice.
 
 CREATING
+
+//M: Convenience constructor for DblBuffer lattice
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
+
 //M: Rewrites the method from Discrete2d. Allocate two lattices,
 //M: makes the offsets.
 - createEnd;
@@ -205,6 +212,9 @@ USING
 //D: turn states into colours, and draws them into a Raster widget. 
 
 CREATING
+//M: Convenience constructor for Value2dDisplay
++ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d;
+
 //M: Set the display widget and the colourmap to use to draw the value array. 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
 
@@ -252,8 +262,13 @@ USING
 //D: Math is done in integers on the range [0,0x7fff]. 
 
 CREATING
+//M: Convenience constructor for Diffuse2d
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y setDiffusionConstant: (double)d setEvaporationRate: (double)e;
+
 //M: Set diffusion constant and evaporation rate to 1.0, numStates to 0x7fff.
 + createBegin: aZone;
+
+SETTING
 
 //M: Set the diffusion constant. Values over 1.0 might not be valid.
 - setDiffusionConstant: (double)d;
@@ -282,7 +297,10 @@ USING
 //D: implied, etc.
 
 CREATING
+//M: Convenience constructor for Grid2d
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
 + createBegin: aZone;
++ create: aZone;
 
 USING
 //M: Replaces the Discrete2d method.
@@ -308,6 +326,9 @@ USING
 //D: Object2dDisplay can help you make probees. 
 
 CREATING
+//M: Convenience constructor for Object2dDisplay
++ create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: c setDisplayMessage: (SEL)s;
+
 //M: Set the display widget to use for drawing.
 - setDisplayWidget: (id <Raster>)r;
 

@@ -21,6 +21,7 @@
   long *offsets;
 }
 
++ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
 - setSizeX: (unsigned)x Y: (unsigned)y;
 - createEnd;
 - makeOffsets;
