@@ -10,6 +10,11 @@ if you build like this:
 
    make EXTRACPPFLAGS=-DSCREENSHOTS
 
+* If instead you want to make a snapshot of the whole screen, 
+build like this:
+
+   make EXTRACPPFLAGS="-DSCREENSHOTS -DFULL"
+
 * A new feature is that with the additional
 `randomizeHeatbugUpdateOrder' Boolean flag we can randomize the order
 in which the bugs actually run their step rule.  This has the effect

@@ -1,3 +1,7 @@
+2003-04-17    <pauljohn@localhost.localdomain>
+
+	* README: make EXTRACPPFLAGS="-DSCREENSHOTS -DFULL"
+
 2001-05-14  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -_update_]): Don't
