@@ -20,7 +20,7 @@
 Archiver *archiver;
 
 static const char *
-defaultPath (void)
+lispDefaultPath (void)
 {
   const char *home = getenv ("HOME");
 
@@ -44,7 +44,7 @@ compareStrings (id val1, id val2)
 }
 
 static void
-processPairs (id aZone, id obj, id (*func)(id, id), id map)
+lispProcessPairs (id aZone, id obj, id (*func)(id, id), id map)
 {
   if (!listp (obj))
     raiseEvent (InvalidArgument, "argument to processPairs not a list");
@@ -102,25 +102,25 @@ processPairs (id aZone, id obj, id (*func)(id, id), id map)
 }
 
 static id
-processMakeObjcPairs (id aZone, id expr)
+lispProcessMakeObjcPairs (id aZone, id expr)
 {
   id objectMap = [Map createBegin: aZone];
   [objectMap setCompareFunction: &compareStrings];
   objectMap = [objectMap createEnd];
   
-  processPairs (aZone, expr, lispIn, objectMap);
+  lispProcessPairs (aZone, expr, lispIn, objectMap);
           
   return objectMap;
 }
 
 static void
-processApplicationPairs (id aZone, id expr, id applicationMap)
+lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
 {
-  processPairs (aZone, expr, processMakeObjcPairs, applicationMap);
+  lispProcessPairs (aZone, expr, lispProcessMakeObjcPairs, applicationMap);
 }
   
 static void
-loadArchiverExpr (id applicationMap, id expr)
+lispLoadArchiverExpr (id applicationMap, id expr)
 {
   id archiverCallExprIndex, archiverCallName;
   
@@ -138,9 +138,9 @@ loadArchiverExpr (id applicationMap, id expr)
                 "Archiver function name incorrect: [%s]",
                 [archiverCallName getC]);
 
-  processApplicationPairs ([applicationMap getZone],
-                           [archiverCallExprIndex next],
-                           applicationMap);
+  lispProcessApplicationPairs ([applicationMap getZone],
+                               [archiverCallExprIndex next],
+                               applicationMap);
   [archiverCallExprIndex drop];
 }
 
@@ -201,7 +201,7 @@ PHASE(Creating)
   [map setCompareFunction: &compareStrings];
   newArchiver->applicationMap = [map createEnd];
   newArchiver->clients = [List create: aZone];
-  newArchiver->path = defaultPath ();
+  newArchiver->lispPath = lispDefaultPath ();
   return newArchiver;
 }
 
@@ -215,62 +215,30 @@ PHASE(Creating)
   
   [currentApplicationKey catC: "/"];
   [currentApplicationKey catC: appModeString];
-  return self;
-}
-
-+ load: aZone fromPath: (const char *)archivePath
-{
-  if (archivePath && access (archivePath, R_OK) != -1)
+  
+  if (lispPath)
     {
-      FILE *fp = fopen (archivePath, "r");
-
-      // Create a temporary zone to simplify destruction of expression
-      id inStreamZone = [Zone create: scratchZone];
-      id inStream = [InputStream create: inStreamZone setFileStream: fp];
-      Archiver *archiver = [[[Archiver createBegin: aZone]
-                              setPath: archivePath]
-                             createEnd];
+      FILE *fp = fopen (lispPath, "r");
       
-      loadArchiverExpr (archiver->applicationMap, [inStream getExpr]);
-      [inStreamZone drop]; 
-      fclose (fp);
-      return archiver;
+      if (fp != NULL)
+        {
+          // Create a temporary zone to simplify destruction of expression
+          id inStreamZone = [Zone create: scratchZone];
+          id inStream = [InputStream create: inStreamZone setFileStream: fp];
+          
+          lispLoadArchiverExpr (applicationMap, [inStream getExpr]);
+          [inStreamZone drop]; 
+          fclose (fp);
+        }
     }
-  return nil;
-}
-
-+ load: aZone
-{
-  return [Archiver load: aZone fromPath: defaultPath ()];
-}
-
-+ ensure: aZone path: (const char *)archivePath
-{
-  Archiver *newArchiver = [Archiver load: aZone fromPath: archivePath];
-
-  if (newArchiver == nil)
-    {
-      newArchiver = [Archiver create: aZone];
-      [newArchiver setPath: archivePath];
-    }
-  return newArchiver;
-}
-
-+ ensure: aZone
-{
-  Archiver *newArchiver;
-
-  newArchiver = [Archiver load: aZone];
-  if (newArchiver == nil)
-    newArchiver = [Archiver create: aZone];
-  return newArchiver;
+  return self;
 }
 
 PHASE(Setting)
 
-- setPath: (const char *)thePath
+- setLispPath: (const char *)thePath
 {
-  path = strdup (thePath);
+  lispPath = strdup (thePath);
 
   return self;
 }
@@ -346,15 +314,15 @@ PHASE(Using)
 
 - save
 {
-  if (path)
+  if (lispPath)
     {
-      FILE *fp = fopen (path, "w");
+      FILE *fp = fopen (lispPath, "w");
       id outStream;
       
       if (fp == NULL)
-        return nil;
+        raiseEvent (InvalidArgument, "Cannot open lisp archive %s", lispPath);
       outStream = [OutputStream create: scratchZone setFileStream: fp];
-      [clients forEach: @selector(updateArchiver)];
+      [clients forEach: @selector (updateArchiver)];
       [self lispOut: outStream];
       fclose (fp);
       [outStream drop];
@@ -365,8 +333,8 @@ PHASE(Using)
 - (void)drop
 {
   [applicationMap drop];
-  if (path)
-    XFREE (path);
+  if (lispPath)
+    XFREE (lispPath);
   [clients drop];
   [super drop];
 }

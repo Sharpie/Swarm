@@ -12,28 +12,13 @@ extern id archiver;
 {
   id currentApplicationKey;
   id applicationMap;
-  const char *path;
+  const char *lispPath;
 @public
   id clients;
 }
 
 + createBegin: aZone;
-
-// If default archive exists, loads and returns archive, otherwise return nil.
-+ load: aZone;
-
-// If path exists, loads and returns archive, otherwise return nil.
-+ load: aZone fromPath: (const char *)path;
-
-// If path exists, loads and returns archive, otherwise
-// return empty archive (archiveFileName is set to argument).
-+ ensure: aZone path: (const char *)path;
-
-// If default archive exists, loads and returns archive, otherwise
-// return empty archive (archiveFilename is set to default).
-+ ensure: aZone;
-
-- setPath: (const char *)path;
+- setLispPath: (const char *)lispPath;
 - save;
 - getMap;
 

@@ -10,6 +10,7 @@ Library:      defobj
 */
 
 #import <defobj/deftype.h>
+#include <swarmconfig.h> // HAVE_HDF5
 
 //S: Standard objects for GNU Objective C extensions
 
@@ -25,6 +26,10 @@ CREATING
 //M: create-time parameters.
 - lispInCreate: expr;
 
+#ifdef HAVE_HDF5
+- hdf5InCreate: expr;
+#endif
+
 //F: Load an object of the form (make-objc :arg1 x :arg 2)
 extern id lispIn (id aZone, id expr);
 
@@ -35,6 +40,13 @@ USING
 
 //M: Output a Lisp representation of object state to a stream.
 - lispOut: stream;
+
+#ifdef HAVE_HDF5
+- hdf5In: expr;
+
+//M: Output a HDF5 representation of objectstate to a stream.
+- hdf5Out: hdf5obj;
+#endif
 
 //F: Expect and convert a boolean from next index item.
 extern BOOL lispInBoolean (id index);

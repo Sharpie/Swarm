@@ -12,6 +12,8 @@ Library:      defobj
 #define DEFINE_CLASSES
 #import <defobj.h>
 
+#include <swarmconfig.h> // HAVE_HDF5
+
 #ifdef INHERIT_OBJECT
 @interface Object_s: Object <DefinedClass>
 {
@@ -70,6 +72,11 @@ Library:      defobj
 - lispInCreate: expr;
 - lispIn: expr;
 - lispOut: stream;
+#ifdef HAVE_HDF5
+- hdf5InCreate: expr;
+- hdf5In: expr;
+- hdf5Out: hdf5obj;
+#endif
 @end
 
 extern id lispIn (id aZone, id expr);

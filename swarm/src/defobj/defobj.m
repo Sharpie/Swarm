@@ -94,7 +94,7 @@ initDefobj (int argc, const char **argv,
                 bugAddress: bugAddress
                 options: options
                 optionFunc: optionFunc];
-  archiver = [Archiver ensure: globalZone];
+  archiver = [Archiver create: globalZone];
 }
 
 id

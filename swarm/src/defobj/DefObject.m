@@ -20,8 +20,8 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
-#include <stdio.h>
-#include <misc.h> // strcpy, strlen, isprint
+#include <swarmconfig.h> // HAVE_HDF5
+#include <misc.h> // strcpy, strlen, isprint, sprintf
 
 extern id _obj_implModule;  // defined in Program.m
 
@@ -170,6 +170,13 @@ lispIn (id aZone, id expr)
 {
   return self;
 }
+
+#ifdef HAVE_HDF5
+- hdf5InCreate: expr
+{
+  return self;
+}
+#endif
 
 PHASE(Using)
 
@@ -1164,6 +1171,13 @@ output_type (const char *type,
   return self;
 }
 
+#ifdef HAVE_HDF5
+- hdf5Out: hdf5obj
+{
+  return self;
+}
+#endif
+
 static struct objc_ivar *
 find_ivar (id obj, const char *name)
 {
@@ -1254,6 +1268,14 @@ find_ivar (id obj, const char *name)
     }
   return self;
 }
+
+#ifdef HAVE_HDF5
+- hdf5In: expr
+{
+  return self;
+}
+#endif
+
 //
 // xfprintid -- print id for each member of a collection on debug output stream
 //

@@ -8,7 +8,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 EXTRA_DIST = make-h2x m2h
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc
+INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES)
 
 lib_LIBRARIES = libdefobj.a
 lib_LTLIBRARIES = libdefobj.la

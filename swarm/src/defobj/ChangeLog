@@ -1,3 +1,22 @@
+1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* defobj.m (initDefobj): Call Archiver create: instead of ensure:.
+
+	* Makefile.am (INCLUDES): Add $(HDF5INCLUDES).
+
+	* DefObject.[hm], defobj.h: Include swarmconfig.h.
+	Declare/define hdf5InCreate:, hdf5In: and hdf5Out: if HAVE_HDF5 is
+	defined.
+
+	* Archiver.m (lispDefaultPath, lispProcessPairs,
+	lispProcessMakeObjcPairs, lispProcessApplicationPairs,
+	lispLoadArchiverExpr): Prefix with lisp.
+	([Archiver -createEnd]): Setup and call lispLoadArchiverExpr here.
+
+	* Archiver.[hm]: Rename path to lispPath throughout.
+	Remove load:, load:fromPath, +ensure:path: and ensure: as
+	+createBegin:/createEnd work fine.
+
 1998-12-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Arguments.h (Arguments_c): Inherit from CreateDrop instead of
