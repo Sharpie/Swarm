@@ -9,6 +9,10 @@
   ;; Should a Table of Contents be produced for Sets?
   #t)
 
+(define %generate-article-titlepage% 
+  ;; Should an article title page be produced?
+  #f)
+
 (define %funcsynopsis-decoration%
   ;; Decorate elements of a FuncSynopsis?
   #t)

@@ -1,5 +1,9 @@
 1998-06-11  Alex Lancaster  <alex@santafe.edu>
 
+	* common.dsl (%generate-article-titlepage%): Set to false - to
+	prevent extra titles being generated in both print and html
+	backends.
+
 	* common.el (pathname-for-swarmdocs): Created a conditional to
 	create the appropriate pathnames for {set,install,over} modules.
 	(pathname-for-swarmdocs-revision-output): Create the
