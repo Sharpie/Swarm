@@ -1,0 +1,115 @@
+// simpleBatchSwarm1
+
+
+    		RUNNING IN BATCH MODE
+
+
+In simpleObserverSwarm3, we considered some ways you can run models
+and keep records on them.  The approach was decidedly GUI,
+however. The program that resulted when you compiled with this
+command:
+
+make EXTRACPPFLAGS=-DUNATTENDED
+
+would run for a given number of steps, take a picture, and then close
+down.  That allowed you to create a script that would run the program
+over and over.
+
+That approach has some disadvantages. First, it might waste time. The
+program would run faster if you turned off the graphical interface.
+Sometimes the difference is dramatic.  In order to turn off the
+graphical interface, we introduce a new class called BatchSwarm and we
+redesign the main.m so that it chooses between a GUI ObserverSwarm or
+a non-GUI BatchSwarm.  
+
+Second, you might want to collect lots and lots of data.  Sometimes a
+screenshot is enough, sometimes it isn't. You may need more detailed
+records.  There are several ways in which this can be done. 
+
+In simpleBatchSwarm1, the emphasis is on the creation of a batch model
+framework. It does not do much. When you run the batch model with the
+command
+
+./bug -b
+
+the model runs without a graphical interface and quits after a
+designated number of iterations.  It does not do anything except print
+some messages to the screen.  It does not save data.  The data output
+and analysis issues are explored in simpleBatchSwarm2.
+
+main.m
+
+In main.m, you should see one major innovation.  There is a global
+Swarm variable called "swarmGUIMode" and it is equal to YES if you run
+the model in the ordinary way, but it is equal to NO if you start the
+model with the batch flag, which is -b. If swarmGUIMode is YES, then
+the ObserverSwarm acts as the top level swarm and if swarmGUIMode is
+NO, then the BatchSwarmis the top level Swarm.
+
+BatchSwarm
+
+The BatchSwarm is a parallel to the ObserverSwarm, in the sense that
+it creates the Model, tells the model to run, and tells the model to stop.
+However, there are some differences.  First, since we don't want a
+graphical interface, the BatchSwarm is subclassed from Swarm, rather than 
+GUISwarm (as is ObserverSwarm).  
+
+If you only want the BatchSwarm to start and stop the simulation, then
+BatchSwarm can be quite a simple thing. In this section, we elect to
+keep things as simple as possible.  BatchSwarmm.m has a schedule,
+called stopSchedule, and it has only one action placed into it.  At
+the time "experimentDuration", it tells the model to "stopRunning".
+It does not keep any record keeping objects, does not write out any
+time series data.  All it does is start and stop the model.
+
+Sometimes you want a model to run until something happens. Suppose
+all the food is gone, or all the bugs are dead.  If you wanted
+that to happen,  you would approach the schedule design differently.
+You would schedule a method with a name called "checkToStop" to
+run frequently. It could ask the modelSwarm to report back if
+something has happened, and then the "checkToStop" method could 
+trigger "stopRunning".  For an example like that, look ahead
+to simpleBatchBug2.
+
+
+Makefile
+
+Don't forget to introduce the BatchSwarm.o in here!
+
+Parameters
+
+Note that the Parameters class is still used. It can grab command line
+options whether the model is run in batch model or not.  We want to
+facilitate the user who runs a program over and over again. So the
+"run" variable in the Parameters class can be used to keep track of
+which data goes with which run.
+
+Conclusion
+
+A BatchSwarm class can be a complicated beast, or it can be extremely
+simple. The choice is up to you.  When you redesign your model to run
+in batch mode, you gain speed and standardization. 
+
+In batch mode, you give up the graphical interface. If you want to
+keep records on your model, then you have to learn to write out
+results and analyze them.  The data analysis is rather outside the
+purview of Swarm, but we can get you started with the comments
+in simpleBatchBug2.
+
+
+Paul Johnson pauljohn@ukans.edu May 12, 2003.
+
+NEXT ->  simpleBatchBug2
+
+
+
+
+
+
+
+
+
+
+
+
+
