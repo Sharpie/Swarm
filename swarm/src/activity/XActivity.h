@@ -18,19 +18,19 @@ Library:      activity
 @interface Activity_c : Object_s
 {
 @public
-  Activity_c  *ownerActivity;        // activity running this activity
-  CAction     *topLevelAction;       // action binding at top of stack
-  id          status;                // symbol for current status
-  member_t    activityRefs;          // internal links in references to plan
-  id          currentIndex;          // index to current action in plan
-  Activity_c  *currentSubactivity;   // subactivity for current action
-  BOOL        immediateReturnFlag;   // return after first _performAction_
-  BOOL        (*breakFunction)(id);  // function to call on each step
+  Activity_c *ownerActivity;        // activity running this activity
+  CAction *topLevelAction;          // action binding at top of stack
+  id status;                        // symbol for current status
+  member_t activityRefs;            // internal links in references to plan
+  id currentIndex;                  // index to current action in plan
+  Activity_c *currentSubactivity;   // subactivity for current action
+  BOOL immediateReturnFlag;         // return after first _performAction_
+  BOOL (*breakFunction) (id);       // function to call on each step
 }
 /*** methods in Activity_c (inserted from .m file by m2h) ***/
 - run;
 - _run_;
-- (void) terminate;
+- (void)terminate;
 - stop;
 - next;
 - step;
@@ -39,17 +39,18 @@ Library:      activity
 - getActionType;
 - getAction;
 - _getSubactivityAction_;
-- (void) setOwnerActivity: aSwarmActivity;
+- (void)setOwnerActivity: aSwarmActivity;
 - getOwnerActivity;
 - getControllingActivity;
 - getTopLevelActivity;
 - getSwarmActivity;
 - getScheduleActivity;
 - getSubactivities;
-- (void) setSerialMode: (BOOL)serialMode;
-- (BOOL) getSerialMode;
+- (void)setSerialMode: (BOOL)serialMode;
+- (BOOL)getSerialMode;
 - getCurrentSubactivity;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
-- (void) drop;
-- (void) describe: outputCharStream;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
+- (void)drop;
+- (void)describe: outputCharStream;
 @end
+

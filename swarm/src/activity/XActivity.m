@@ -182,9 +182,9 @@ auditRunRequest (Activity_c *self, const char *request)
       
       [nextAction _performAction_: self];
       
-      if (((Activity_c*)_activity_current)->immediateReturnFlag)
+      if (((Activity_c *) _activity_current)->immediateReturnFlag)
         {
-          ((Activity_c *)_activity_current)->immediateReturnFlag = NO;
+          ((Activity_c *) _activity_current)->immediateReturnFlag = NO;
           return Holding;
         }  
       //
@@ -218,7 +218,7 @@ auditRunRequest (Activity_c *self, const char *request)
 static BOOL
 terminateFunction (id activity)
 {
-  ((Activity_c *)activity)->status = Terminated;
+  ((Activity_c *) activity)->status = Terminated;
   if (_activity_trace)
     _activity_trace (activity);
   return YES;
@@ -245,22 +245,22 @@ stopFunction (id activity)
   // cancel stop function in local activity and any owner activity that
   // just created local activity
   
-  ((Activity_c *)activity)->breakFunction = _activity_trace;
-  if (((Activity_c *)activity)->ownerActivity
-      && ((Activity_c *)activity)->ownerActivity->breakFunction == stopFunction)
-    ((Activity_c *)activity)->ownerActivity->breakFunction = _activity_trace;
+  ((Activity_c *) activity)->breakFunction = _activity_trace;
+  if (((Activity_c *) activity)->ownerActivity
+      && ((Activity_c *) activity)->ownerActivity->breakFunction == stopFunction)
+    ((Activity_c *) activity)->ownerActivity->breakFunction = _activity_trace;
   
   // return up stack of activities with status set to Stopped
   
-  if (!HOLDINGP (((Activity_c *)activity)->status))
+  if (!HOLDINGP (((Activity_c *) activity)->status))
     {
-      ((Activity_c *)activity)->status = Stopped;
+      ((Activity_c *) activity)->status = Stopped;
       return YES;
     }
   else
     {
       // if Holding then defer stop to owner activity
-      ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
+      ((Activity_c *) activity)->ownerActivity->breakFunction = stopFunction;
       return NO;
     }
 }
@@ -288,24 +288,24 @@ nextFunction (id activity)
 {
   // cancel local next function
   
-  ((Activity_c *)activity)->breakFunction = _activity_trace;
+  ((Activity_c *) activity)->breakFunction = _activity_trace;
 
   // return if just created as new subactivity (leaving next function in owner)
 
-  if (((Activity_c *)activity)->ownerActivity
-      && ((Activity_c *)activity)->ownerActivity->breakFunction == nextFunction )
+  if (((Activity_c *) activity)->ownerActivity
+      && ((Activity_c *) activity)->ownerActivity->breakFunction == nextFunction )
     return NO;
   
   // if Holding then defer stop to owner activity
   
-  if (HOLDINGP (((Activity_c *)activity)->status))
+  if (HOLDINGP (((Activity_c *) activity)->status))
     {
-      ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
+      ((Activity_c *) activity)->ownerActivity->breakFunction = stopFunction;
       return NO;
     }
   // return up stack of activities with status set to Stopped
   
-  ((Activity_c *)activity)->status = Stopped;
+  ((Activity_c *) activity)->status = Stopped;
   return YES;
 }
 
@@ -315,10 +315,10 @@ nextFunction (id activity)
 static BOOL
 installNext (id activity)
 {
-  if (!COMPLETEDP (((Activity_c *)activity)->status))
-    ((Activity_c *)activity)->breakFunction = nextFunction;
-  else if (((Activity_c *)activity)->ownerActivity)
-    ((Activity_c *)activity)->ownerActivity->breakFunction = nextFunction;
+  if (!COMPLETEDP (((Activity_c *) activity)->status))
+    ((Activity_c *) activity)->breakFunction = nextFunction;
+  else if (((Activity_c *) activity)->ownerActivity)
+    ((Activity_c *) activity)->ownerActivity->breakFunction = nextFunction;
   
   if (_activity_trace)
     _activity_trace (activity);
@@ -357,13 +357,13 @@ installStep (id activity)
 {
   // stop in local activity, or new subactivity, if not completed
   
-  if (!COMPLETEDP (((Activity_c *)activity)->status))
-    ((Activity_c *)activity)->breakFunction = stopFunction;
+  if (!COMPLETEDP (((Activity_c *) activity)->status))
+    ((Activity_c *) activity)->breakFunction = stopFunction;
   
   // else stop at next event of owner activity
 
-  else if (((Activity_c *)activity)->ownerActivity)
-    ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
+  else if (((Activity_c *) activity)->ownerActivity)
+    ((Activity_c *) activity)->ownerActivity->breakFunction = stopFunction;
   
   if (_activity_trace)
     _activity_trace (activity);
@@ -416,7 +416,7 @@ installStep (id activity)
 //
 - getActionType
 {
-  return ((Index_any *)currentIndex)->collection;
+  return ((Index_any *) currentIndex)->collection;
 }
 
 //
@@ -638,7 +638,7 @@ installStep (id activity)
   [outputCharStream catC: [status getName]];
   [outputCharStream catC: "\n> compound action being processed: "];
   
-  _obj_formatIDString (buffer, ((Index_any *)currentIndex)->collection);
+  _obj_formatIDString (buffer, ((Index_any *) currentIndex)->collection);
   [outputCharStream catC: buffer];
   [outputCharStream catC: "\n> Index of activity: \n"];
   [currentIndex describe: outputCharStream];
