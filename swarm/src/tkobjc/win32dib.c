@@ -51,6 +51,9 @@ dib_destroy (dib_t *dib)
           DeleteDC (hdc);
         }
     }
+  else if (dib->bits != NULL)
+    xfree (dib->bits);
+
   dib->bitmap = NULL;
   dib->oldBitmap = NULL;
   dib->bits = NULL;
@@ -152,10 +155,10 @@ dib_snapshot (dib_t *dib)
   unsigned offs;
   HPALETTE holdPal;
   LPBITMAPINFOHEADER pbmp;
-  PBYTE pbits;
   unsigned bufsize;
 
   GetWindowRect (dib->window, &rect);
+  dib->bitmap = NULL;
 
   height = rect.bottom - rect.top;
   width = rect.right - rect.left;
@@ -185,18 +188,18 @@ dib_snapshot (dib_t *dib)
     abort ();
   offs = sizeof(BITMAPINFOHEADER) + sizeof (RGBQUAD) * 256;
   bufsize = width * height;
-  pbmp = (LPBITMAPINFOHEADER) xmalloc (offs + bufsize);
+  pbmp = (LPBITMAPINFOHEADER) xmalloc (offs);
   pbmp->biSize = sizeof (BITMAPINFOHEADER);
   pbmp->biWidth = width;
   pbmp->biHeight = -height;
   pbmp->biPlanes = 1;
   pbmp->biBitCount = 8;
   pbmp->biCompression = BI_RGB;
-  pbits = (PVOID)((PBYTE)pbmp + offs);
+  dib->bits = xmalloc (bufsize);
   hbmmem = SelectObject (hmemdc, hb1);
 
   if (GetDIBits (hmemdc, hbmmem, 0, height,
-		 pbits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != height)
+		 dib->bits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != height)
     abort ();
       
   {
@@ -205,8 +208,8 @@ dib_snapshot (dib_t *dib)
     RGBQUAD *colors = (PVOID)pbmp + sizeof (BITMAPINFOHEADER);
 
     for (i = 0; i < bufsize; i++)
-      if (pbits[i] > max)
-	max = pbits[i];
+      if (dib->bits[i] > max)
+	max = dib->bits[i];
     
     {
       unsigned colorCount = max + 1;
@@ -220,7 +223,7 @@ dib_snapshot (dib_t *dib)
     }
   }
   DeleteObject (hbmmem);
-  dib->bits = pbits;
+  xfree (pbmp);
   SelectObject (hdc, holdPal);
   ReleaseDC (dib->window, hdc);
   DeleteDC (hmemdc);

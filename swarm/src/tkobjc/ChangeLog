@@ -4,7 +4,11 @@
 	entry for palette generated on the fly for snapshot.
 	(dib_augmentPalette): Don't create DIB color table if there
 	isn't actually a bitmap (the case of a snapshot).
-	
+	(dib_destroy): Handle case where bitmap is NULL and bits has
+	a value (e.g. a snapshot).
+	(dib_snapshot): Don't allocate extra for bitmap data, use permanent
+	buffer.  Free pbmp.
+
 	* win32dib.[ch] (dib_snapshot): New function.
 
 	* tkobjc.m: Only include comm_tcl.x and tkbusy_tcl.x when _WIN32.
