@@ -1,4 +1,10 @@
-2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+2001-03-03  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* NodeItem.m ([NodeItem -setString:], [NodeItem -setFont:]): Copy
+	string.
+	([NodeItem -drop]): And drop them.
+
+c2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbeEntry.m ([VarProbeEntry -createEnd]): Don't crash if
 	no probedType set.

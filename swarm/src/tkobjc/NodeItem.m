@@ -104,14 +104,14 @@ PHASE(Using)
 
 - setString: (const char *)the_text
 {
-  string = the_text;
+  string = STRDUP (the_text);
 
   return self;
 }
 
 - setFont: (const char *)the_font
 {
-  font = the_font;
+  font = STRDUP (the_font);
 
   return self;
 }
@@ -168,6 +168,10 @@ PHASE(Using)
                   [canvas getWidgetName], item];  
   FREEBLOCK (text);
   FREEBLOCK (item);
+  if (font)
+    FREEBLOCK (font);
+  if (string)
+    FREEBLOCK (string);
   [super drop];
 }
  
