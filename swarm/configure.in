@@ -210,7 +210,7 @@ AC_DEFINE_UNQUOTED(PREFIX,"$prefix")
 AC_DEFINE_UNQUOTED(DATADIR,"$datadir")
 AC_DEFINE_UNQUOTED(SYSCONFDIR,"$sysconfdir")
 
-AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile ])
+AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/objectbase/Makefile tests/simtools/Makefile ])
 
 
 

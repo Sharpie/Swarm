@@ -1,3 +1,8 @@
+1999-01-18  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (AC_OUTPUT): Add tests/objectbase/Makefile and
+	tests/simtools/Makefile.
+
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* NEWS: Note support for private colormaps in display Pixmaps.
