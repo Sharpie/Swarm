@@ -181,7 +181,7 @@ USING
 //D: activated for execution from ActionType.
 @end
 
-// values for DefaultOrder
+//G: values for DefaultOrder
 extern id <Symbol>  Concurrent, Sequential, Randomized;
 
 @deftype ActionCreatingCall
@@ -891,6 +891,8 @@ _activity_context_error( "getCurrentSwarm" ) ); })
 [scheduleActivity getActionType] : \
 _activity_context_error( "getCurrentSchedule" ) ); })
 
+//#: Macro to get the time of the current activity - only valid
+//#: when an activity is actually running. Returns a (timeval_t).
 #define getCurrentTime() \
 ({ id scheduleActivity; \
 ( _activity_current && \
@@ -898,6 +900,8 @@ _activity_context_error( "getCurrentSchedule" ) ); })
 [scheduleActivity getCurrentTime] : \
 (timeval_t)_activity_context_error( "getCurrentTime" ) ); })
 
+//#: Macro to get id of the current topLevelActivity - only valid when
+//#: an activity is actually running.
 #define getTopLevelActivity() \
 ( _activity_current ? [_activity_current getTopLevelActivity] : \
 _activity_context_error( "getTopLevelActivity" ) )
@@ -957,24 +961,28 @@ extern id  _activity_context_error (const char *macroName);
 //
 extern id <Error>  InvalidSwarmZone;
 
-//
-// _activity_zone -- global variable for zone in which activity objects created
-//
+
+//G: _activity_zone -- global variable for zone in which activity
+//G: objects created
 extern id  _activity_zone;
 
-//
-// _activity_trace --
-//   global variable for function to be called on every change in the
-//   activity tree
-//
-// Note: support for any specific form of this trace facility is not guaranteed
-// in future versions.  Some form of trace facility will remain for debug
-// purposes, however, at least until a full form of event history logging has
-// been implemented as an integral part of the Activity type.
-// 
-extern BOOL (*_activity_trace)(id);  // trace function for activity execution
+//G: trace function for activity execution
+//G: global variable for function to be called on every change in the
+//G: activity tree
+//G:
+//G: Note: support for any specific form of this trace facility is 
+//G: not guaranteed in future versions.  
+//G: Some form of trace facility will remain for debug purposes, 
+//G: however, at least until a full form of event history logging 
+//G: has been implemented as an integral part of the Activity type.
+extern BOOL (*_activity_trace)(id);  
 
 //
 // include automatically generated definitions for activity package
 //
 #import <activity/types.h>
+
+
+
+
+
