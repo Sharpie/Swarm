@@ -1,3 +1,12 @@
+2001-11-26  Alex Lancaster  <alexl@users.sourceforge.net>
+
+	* Makefile.am (GENERATED_XML): .sgml -> .xml suffix.
+
+	* overcont.xml, overbook.xml: Move GFDL into the root of the
+	document, out of overcont.xml, so that we only get one GFDL
+	appendix when we generate the set.  Include gfdl.xml in DOCTYPE
+	header.
+
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
 	* overcont.xml: Add GFDL as <appendix>.

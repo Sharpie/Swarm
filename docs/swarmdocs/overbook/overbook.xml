@@ -20,6 +20,8 @@
 <!ENTITY lt     "&#38;#60;">
 <!ENTITY gt     "&#62;"> 
 
+<!ENTITY gfdl.xml PUBLIC "-//SFI Hive//ENTITIES GNU FDL//EN" "ignore.sysid">
+
 ]>
 
 <book id="overbook">
@@ -27,6 +29,9 @@
 <title>Overview of Swarm</title>
 
 &overcont.xml;
+
+<!-- GNU FDL: must be present in document for license conditions to hold -->
+&gfdl.xml;
 
 </book>
 
