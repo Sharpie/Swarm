@@ -7,6 +7,7 @@
 
 #import "JavaProxy.h"
 #import <defobj.h>
+#import <random.h>
 
 static avl_tree *java_tree;
 static avl_tree *objc_tree;
@@ -21,7 +22,7 @@ static jclass c_boolean,
   c_object, c_string, 
   c_void;
 
-static jobject o_globalZone;
+static jobject o_globalZone, o_uniformIntRand, o_uniformDblRand;
 
 JNIEnv *jenv;
 
@@ -274,7 +275,9 @@ int compare_objc_objects (const void *A, const void *B, void *PARAM)
 void
 java_directory_init (JNIEnv *env,
                      jobject swarmEnvironment,
-                     jobject jglobalZone)
+                     jobject jglobalZone,
+		     jobject juniformIntRand,
+		     jobject juniformDblRand)
 {
   jenv = env;
   java_tree = avl_create (compare_java_objects, NULL);
@@ -283,7 +286,11 @@ java_directory_init (JNIEnv *env,
   create_class_refs (env);
 
   o_globalZone = (*env)->NewGlobalRef (env, jglobalZone);
+  o_uniformIntRand = (*env)->NewGlobalRef (env, juniformIntRand);
+  o_uniformDblRand = (*env)->NewGlobalRef (env, juniformDblRand);
   java_directory_update (env, o_globalZone, globalZone);
+  java_directory_update (env, o_uniformIntRand, uniformIntRand);
+  java_directory_update (env, o_uniformDblRand, uniformDblRand);
 }
 
 void

@@ -10,7 +10,9 @@ typedef struct jobject_id
 
 void java_directory_init (JNIEnv *jniEnv,
                           jobject swarmEnvironment,
-                          jobject jglobalZone);
+                          jobject jglobalZone,
+			  jobject juniformIntRand,
+			  jobject juniformDblRand);
 
 void java_directory_drop (JNIEnv *jniEnv);
 

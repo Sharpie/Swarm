@@ -1,3 +1,12 @@
+1999-03-24  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.h: Facilitate addition of uniformDblRand to directory.
+
+	* directory.m: Likewise.
+
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): 
+	Likewise.
+	
 1999-03-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* JavaProxy.m ([JavaProxy -forward::]): Use *info.type,
