@@ -1,3 +1,9 @@
+1999-07-12  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* java-stub.el (java-print-native-class): Print setting phase
+	methods in Objective-C stubs for both creating and using phase 
+	implementations.
+
 1999-07-09  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (java-print-javadoc-default-contructor): New

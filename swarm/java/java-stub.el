@@ -888,7 +888,12 @@
             (loop for method in (expanded-method-list protocol phase)
                   do
                   (java-print-native-method method protocol phase)
-                  (insert "\n"))))))
+                  (insert "\n")))
+      (loop for method in (expanded-method-list protocol :setting)
+	    do 
+	    (java-print-native-method method protocol :creating)
+	    (insert "\n")
+	    (java-print-native-method method protocol :using)))))
 
 (defun java-print-makefiles ()
   (ensure-directory (c-path))
