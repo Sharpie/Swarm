@@ -1,3 +1,10 @@
+1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acxpm.m4 (md_FIND_XPM): Use AC_TRY_COMPILE instead of simple
+	file tests.  Add messages.
+	(md_STRUCT_XPM_ALLOCPIXELS): Use X11/xpm.h or xpm.h depending on
+	above.
+
 1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acxpm.m4 (md_FIND_XPM): Check for xpm.h in $xpmincludedir

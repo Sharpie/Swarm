@@ -35,22 +35,40 @@ if test "$xpmincludedir" = "$x_includes"; then
 else
   XPMINCLUDES='-I${xpmincludedir}'
 fi
-if test -f $xpmincludedir/X11/xpm.h; then
-  AC_DEFINE(HAVE_X11_XPM_H)
-elif test -f $xpmincludedir/xpm.h; then
-  AC_DEFINE(HAVE_XPM_H)
-else
-  AC_MSG_ERROR(Cannot find xpm.h)
-fi
-
 AC_SUBST(XPMINCLUDES)
+
+last_cppflags=$CPPFLAGS
+test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir $CPPFLAGS"
+AC_MSG_CHECKING(for X11/xpm.h)
+AC_TRY_COMPILE([#include <X11/xpm.h>],[],have_x11_xpm_h=yes,have_x11_xpm_h=no)
+if test $have_x11_xpm_h = yes; then
+  AC_DEFINE(HAVE_X11_XPM_H)
+  AC_MSG_RESULT(yes)
+else 
+  AC_MSG_RESULT(no)
+  AC_MSG_CHECKING(for xpm.h)
+  AC_TRY_COMPILE([#include <xpm.h>],[],have_xpm_h=yes,have_xpm_h=no)
+  if test $have_xpm_h = yes; then
+    AC_DEFINE(HAVE_XPM_H)
+    AC_MSG_RESULT(yes)
+  else
+    AC_MSG_ERROR(Cannot find xpm.h)
+  fi
+fi
+CPPFLAGS=$last_cppflags
 ])
 
 AC_DEFUN(md_STRUCT_XPM_ALLOCPIXELS,
 [last_cppflags=$CPPFLAGS
-CPPFLAGS="-I$xpmincludedir $CPPFLAGS"
+test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir $CPPFLAGS"
 AC_MSG_CHECKING(for nalloc_pixels in XpmAttributes)
-AC_TRY_COMPILE([#include <X11/xpm.h>], 
+AC_TRY_COMPILE([#ifdef HAVE_X11_XPM_H 
+#include <X11/xpm.h>
+#elif defined(HAVE_XPM_H)
+#include <xpm.h>
+#else
+#error
+#endif], 
 [XpmAttributes attr; attr.nalloc_pixels = 0;],
 AC_MSG_RESULT(yes)
 AC_DEFINE(HAVE_XPM_ALLOCPIXELS),
