@@ -235,6 +235,31 @@ dib_paletteIndexForObject (dib_t *dib, void *object)
   return -1;
 }
 
+static void
+get_color (dib_t *dib, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
+{
+  WORD depth = dib->dibInfo->bmiHead.biBitCount;
+  
+  if (depth == 8)
+    {
+      RGBQUAD *rgb = &dib->dibInfo->rgb[color];
+
+      *red = rgb->rgbRed;
+      *green = rgb->rgbGreen;
+      *blue = rgb->rgbBlue;
+    }
+  else if (depth == 24)
+    {
+      unsigned colorValue = dib->colorMap[color];
+
+      *red = colorValue >> 16;
+      *green = (colorValue >> 8) & 0xff;
+      *blue = colorValue & 0xff;
+    }
+  else
+    abort ();
+}
+
 void
 dib_augmentPalette (dib_t *dib,
 		    void *object,
@@ -242,23 +267,19 @@ dib_augmentPalette (dib_t *dib,
 {
   unsigned lastSize = dib->colorMapSize;
   WORD depth = dib->dibInfo->bmiHead.biBitCount;
-  unsigned i;
-  RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
   
   dib->colorMapObjects[dib->colorMapBlocks] = object;
   dib->colorMapOffsets[dib->colorMapBlocks] = lastSize;
   dib->colorMapSize += colorMapSize;
   dib->colorMapBlocks++;
 
-  for (i = 0; i < colorMapSize; i++)
-    {
-      rgb[i].rgbRed = colorMap[i] & 0xff;
-      rgb[i].rgbGreen = (colorMap[i] >> 8) & 0xff;
-      rgb[i].rgbBlue = colorMap[i] >> 16;
-    }
-  
   if (depth == 8)
     {
+      unsigned i;
+      RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
+      
+      for (i = 0; i < colorMapSize; i++)
+        get_color (dib, i, &rgb[i].rgbRed, &rgb[i].rgbGreen, &rgb[i].rgbBlue);
 
       if (dib->bitmap)
 	{
@@ -352,11 +373,9 @@ dib_fill (dib_t *dib,
   else if (depth == 24)
     {
       LPBYTE base = ((LPBYTE)dib->bits + (clipy * frameWidth * 3));
-      unsigned long colorValue = dib->colorMap[color];
-      BYTE red =  colorValue >> 16;
-      BYTE green = (colorValue >> 8) & 0xff;
-      BYTE blue = colorValue & 0xff;
-      
+      BYTE red, green, blue;
+
+      get_color (base, color, &red, &green, &blue);
       for (yoff = 0; yoff < height; yoff++)
 	{
 	  unsigned xoff;
@@ -377,7 +396,6 @@ dib_fill (dib_t *dib,
     abort ();
 }
 
-
 void
 dib_ellipse (dib_t *dib,
 	     int x, int y,
@@ -387,11 +405,10 @@ dib_ellipse (dib_t *dib,
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
-  RGBQUAD *rgb = &dib->dibInfo->rgb[color];
+  BYTE red, green, blue;
 
-  pen = CreatePen (PS_SOLID,
-		   pixels,
-		   RGB (rgb->rgbRed, rgb->rgbGreen, rgb->rgbBlue));
+  get_color (dib, color, &red, &green, &blue);
+  pen = CreatePen (PS_SOLID, pixels, RGB (red, green, blue));
 
   dib_lock (dib);
   
@@ -415,11 +432,10 @@ dib_line (dib_t *dib,
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
-  RGBQUAD *rgb = &dib->dibInfo->rgb[color];
+  BYTE red, green, blue;
 
-  pen = CreatePen (PS_SOLID,
-		   pixels,
-		   RGB (rgb->rgbRed, rgb->rgbGreen, rgb->rgbBlue));
+  get_color (dib, color, &red, &green, &blue);
+  pen = CreatePen (PS_SOLID, pixels, RGB (red, green, blue));
 
   dib_lock (dib);
   
@@ -444,11 +460,10 @@ dib_rectangle (dib_t *dib,
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
-  RGBQUAD *rgb = &dib->dibInfo->rgb[color];
+  BYTE red, green, blue;
 
-  pen = CreatePen (PS_SOLID,
-		   pixels,
-		   RGB (rgb->rgbRed, rgb->rgbGreen, rgb->rgbBlue));
+  get_color (dib, color, &red, &green, &blue);
+  pen = CreatePen (PS_SOLID, pixels, RGB (red, green, blue));
 
   dib_lock (dib);
   

@@ -1,7 +1,10 @@
-1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* win32dib.c (dib_augmentPalette): Store to rgb array because
-	the drawing routines need this info, even in 24 bit mode.
+	* win32dib.c (get_color): New function.
+	(dib_augmentPalette, dib_fill, dib_ellipse, dib_line, dib_rectangle): 
+	Use it.
+
+1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_raster_copy): Don't free old pixmap (X11 case).
 	(tkobjc_raster_setColormap): Raise a warning if colormap is nil.
