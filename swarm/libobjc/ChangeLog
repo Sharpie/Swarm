@@ -1,3 +1,9 @@
+1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/mips/mframe-irix6.h: Add stack offset counter to mips_args.
+	(MFRAME_INIT_ARGS): Initialize it to 96 (determined empirically).
+	(MFRAME_ARG_ENCODING): Handle stack items. 
+
 1999-05-08  Marcus Daniel  <marcusd@asl.krasnow.gmu.edu>
 
 	* config/mips/mframe-irix6.h (MFRAME_INIT_ARGS, MFRAME_ARG_ENCODING): 
