@@ -12,6 +12,7 @@ Library:      activity
 #import <activity/ActionGroup.h>
 #import <defobj/defalloc.h>
 
+#import <defobj/directory.h>
 
 @implementation ActionGroup_c
 
@@ -386,8 +387,8 @@ PHASE(Using)
   if (((ActionGroup_c *) collection)->bits & BitAutoDrop && position > 0)
     {
       removedAction = [self remove];
-      [getZone((ActionGroup_c *) collection) 
-              freeIVarsComponent: removedAction];
+      [getZone ((ActionGroup_c *) collection) 
+               freeIVarsComponent: removedAction];
     }
 
   // get next action to be executed
