@@ -1,3 +1,9 @@
+1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* simtools.tcl (gimme_ddobj): Was `gimme' with an argument.
+
+	* common.m (tkobjc_drag_and_drop_object): Accommodate.
+
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtools.tcl (do_package, do_package_arg): Eliminate window argument.

@@ -19,8 +19,9 @@ proc send_id {interp ddwin data} {
     drag&drop target $ddwin handle id
 }
 
-proc gimme {asdf} {
-    return $asdf
+proc gimme_ddobj {} {
+    global DDOBJ
+    return $DDOBJ
 }
 
 proc sitecmd {state token} {

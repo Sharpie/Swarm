@@ -230,7 +230,7 @@ tkobjc_dynamicEval (const char *cmd)
 id
 tkobjc_drag_and_drop_object (void)
 {
-  return nameToObject ([[globalTkInterp eval: "gimme $DDOBJ"] result]);
+  return nameToObject ([[globalTkInterp eval: "gimme_ddobj"] result]);
 }
 
 void
