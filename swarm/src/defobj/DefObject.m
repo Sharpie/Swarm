@@ -888,23 +888,20 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 {
   const char *ret;
 
-  if (_obj_displayNameMap)
-    {
-      ret = (const char *) [_obj_displayNameMap at: self];
+  ret = (_obj_displayNameMap
+         ? (const char *) [_obj_displayNameMap at: self]
+         : NULL);
       
-      if (!ret)
-        {
-          const char *name = [self getName];
-          
-          [self setDisplayName: name];
-          SFREEBLOCK (name);
-
-          ret = (const char *) [_obj_displayNameMap at: self];
-        }
+  if (!ret)
+    {
+      const char *name = [self getName];
+      
+      [self setDisplayName: name];
+      SFREEBLOCK (name);
+      
+      ret = (const char *) [_obj_displayNameMap at: self];
     }
-  else
-    ret = NULL;
-
+  
   return ret;
 }
 
