@@ -1,3 +1,8 @@
+1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m (lispInLatticeValues): Use convertToType:dest:
+	instead of memcpy.
+
 1999-08-03  Alex Lancaster  <alex@santafe.edu>
 
 	* space.h (Diffuse2d): Make initializeLattice a CREATING method to
