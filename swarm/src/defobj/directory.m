@@ -27,10 +27,7 @@
 
 Directory *swarmDirectory = nil;
 
-#define internalimplementation implementation // defeat make-h2x
-
-
-@internalimplementation DirectoryEntry
+@implementation DirectoryEntry
 - setCOMObject: (COMOBJECT)theCOMObject
 {
   type = foreign_COM;
@@ -145,7 +142,7 @@ compare_COM_objects (const void *A, const void *B, void *PARAM)
   return a->foreignObject.COM > b->foreignObject.COM;
 }
 
-@internalimplementation Directory
+@implementation Directory
 + createBegin: aZone
 {
   Directory *obj = [super createBegin: aZone];

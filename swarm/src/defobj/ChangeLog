@@ -1,3 +1,7 @@
+2000-10-01  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* directory.m: Remove use of @internalimplementation.
+
 2000-10-01  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* FArguments.m: Include directory.h.

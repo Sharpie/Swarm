@@ -77,10 +77,10 @@ tkobjc_setName (id widget, const char *name)
   
   if (name)
     Tk_Name (tkwin) = (char *)name;
-  stpcpy (stpcpy (stpcpy
-                  (stpcpy (stpcpy (buf, prefix), "-"),
-                   appName), "-"),
-          appModeString);
+  {  
+    char *p = stpcpy (stpcpy (buf, prefix), "-");
+    stpcpy (stpcpy (stpcpy (p, appName), "-"), appModeString);
+  }
 
   Tk_SetClass (tkwin, buf);
 }
