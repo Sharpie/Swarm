@@ -9,6 +9,7 @@
 - packToRight : widget;
 - packForgetAndExpand;
 - setParent: parent;
+- getParent;
 - setActiveFlag: (BOOL)activeFlag;
 - setWidth: (unsigned)width;
 - setHeight: (unsigned)height;
@@ -258,6 +259,7 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 @class Widget;
 
 @class Colormap;
+@class Entry;
 @class Graph;
 @class Canvas;
 @class Histogram;
