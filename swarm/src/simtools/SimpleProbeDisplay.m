@@ -139,13 +139,10 @@
 - update
 {
   int i;
-
-  if (!markedForDropFlag)
-    {
-      for (i = 0; i < numberOfProbes; i++)
-        [widgets[i] update];
-    }
   
+  for (i = 0; i < numberOfProbes; i++)
+    if (!markedForDropFlag)
+      [widgets[i] update];
   return self;
 }
 

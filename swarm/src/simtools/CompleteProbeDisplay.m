@@ -122,16 +122,14 @@ max_class_var_length (Class class)
 
 - update 
 {
-  if (!markedForDropFlag)
-    {
-      id index;
-      id a_widget;
-      
-      index = [widgets begin: [self getZone]];
-      while ((a_widget = [index next]) != nil)
-        [a_widget update];
-      [index drop];
-    }
+  id index;
+  id a_widget;
+  
+  index = [widgets begin: [self getZone]];
+  while ((a_widget = [index next]) != nil)
+    if (!markedForDropFlag)
+      [a_widget update];
+  [index drop];
   return self;
 }
 
