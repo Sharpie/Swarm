@@ -28,21 +28,37 @@ int swarmGUIMode;
 void
 initSwarm (int argc, const char **argv)
 {
-  initSwarmArguments (argc, argv, NULL);
+  initSwarmAppArguments (argc, argv, NULL, NULL, NULL);
+}
+
+void
+initSwarmApp (int argc, const char **argv,
+           const char *version, const char *bugAddress)
+{
+  initSwarmAppArguments (argc, argv, version, bugAddress, Nil);
 }
 
 void
 initSwarmArguments (int argc, const char **argv, Class argumentsClass)
+{
+  initSwarmAppArguments (argc, argv, NULL, NULL, argumentsClass);
+}
+
+void
+initSwarmAppArguments (int argc, const char **argv,
+                       const char *version, const char *bugAddress,
+                       Class argumentsClass)
 {
   swarmGUIMode = 1;
 
   initModule (activity);
   initProbing ();
 
-  if (argumentsClass)
-    arguments = [argumentsClass createArgc: argc Argv: argv];
-  else
-    arguments = [Arguments createArgc: argc Argv: argv];
+  arguments = [argumentsClass ?: [Arguments class]
+                              createArgc: argc
+                              Argv: argv
+                              version: version
+                              bugAddress: bugAddress];
   
   if ([arguments getBatchModeFlag])
     swarmGUIMode = 0;

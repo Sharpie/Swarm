@@ -364,14 +364,25 @@ USING
 @end
 
 
-//F: Initializes the Swarm libraries. This call should be in any Swarm code
-//F: you write.
+//F: Initializes the Swarm libraries without version or bug-report-address
+//F: information.
 extern void initSwarm (int argc, const char **argv);
+
+//F: Initializes the Swarm libraries for an application.  
+extern void initSwarmApp (int argc, const char **argv,
+                          const char *version, const char *bugAddress);
 
 //F: Like initSwarm, but specifies what class to use for argument
 //F: parsing, typically this will be a subclass of Arguments.
-extern void initSwarmArguments (int argc, const char **argv, Class argumentsClass);
+extern void initSwarmArguments (int argc, const char **argv,
+                                Class argumentsClass);
 
+//F: Like initSwarmApp, but specifies what class to use for argument
+//F: parsing, typically this will be a subclass of Arguments.
+extern void initSwarmAppArguments (int argc, const char **argv,
+                                   const char *version, const char *bugAddress,
+                                   Class argumentsClass);
+                                   
 //G: Flag for whether we're in graphics mode or not.  Default is 1.
 extern int swarmGUIMode;
 
