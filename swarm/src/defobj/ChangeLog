@@ -1,3 +1,17 @@
+1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javavars.h: Add c_Collection.
+
+	* directory.m: Include JavaCollection.h.
+	([-javaEnsureObjc:]): Put a JavaCollection instead of JavaProxy
+	for Java collections.
+	(create_class_refs): Set c_Collection.
+
+	* Makefile.am (SRC): Add JavaCollection.m.
+	(defobj_HEADERS): Add JavaCollection.h.
+
+	* JavaProxy.[hm] ([JavaProxy -isJavaProxy]): Return is now boolean.
+
 1999-11-16    <mgd@VAIO>
 
 	* Archiver.m: Don't include predicates.h.

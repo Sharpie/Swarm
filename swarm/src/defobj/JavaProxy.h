@@ -2,5 +2,5 @@
 #import <defobj/Create.h>
 
 @interface JavaProxy: CreateDrop
-- (unsigned)isJavaProxy;
+- (BOOL)isJavaProxy;
 @end

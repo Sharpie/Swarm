@@ -9,7 +9,8 @@
 #include <objc/objc-api.h>
 #include <objc/mframe.h> // mframe_build_signature
 
-#import "JavaProxy.h"
+#import <defobj/JavaProxy.h>
+#import <defobj/JavaCollection.h>
 #import <defobj.h>
 
 #import <defobj/Program.h> // Type_c
@@ -386,8 +387,12 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
           else
             result = SD_ADD (jniEnv, javaObject, (id) str);
         }
-      else if (!result) 
-        result = SD_ADD (jniEnv, javaObject, [JavaProxy create: globalZone]);
+      else if (!result)
+        result =
+          SD_ADD (jniEnv, javaObject, 
+                  ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Collection)
+                   ? [JavaCollection create: globalZone]
+                   : [JavaProxy create: globalZone]));
       
       return result->object;
     }
@@ -651,6 +656,11 @@ create_class_refs (JNIEnv *env)
       if (!(lref = (*env)->FindClass (env, "java/lang/reflect/Field")))
         abort ();
       c_Field = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
+
+      if (!(lref = (*env)->FindClass (env, "java/util/Collection")))
+        abort ();
+      c_Collection = (*env)->NewGlobalRef (env, lref);
       (*env)->DeleteLocalRef (env, lref);
 
       if (!(lref = (*env)->FindClass (env, "swarm/Selector")))

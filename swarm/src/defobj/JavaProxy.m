@@ -1,8 +1,8 @@
 #include "JavaProxy.h"
 
 @implementation JavaProxy
-- (unsigned)isJavaProxy
+- (BOOL)isJavaProxy
 {
-  return 1;
+  return YES;
 }
 @end
