@@ -17,7 +17,7 @@
 
   id <Frame> top_top_Frame, middleFrame, raisedFrame;
   id <CompleteProbeDisplayLabel> title;
-  id <Button> hideB;
+  id <SimpleProbeDisplayHideButton> hideB;
 }
 
 - setObjectList: (id <List>)objectList;
