@@ -1,5 +1,0 @@
-<!entity objectbasecont.sgml system "@srcdir@/objectbasecont.sgml">
-<!entity objectbaserevhistory.sgml system "objectbaserevhistory.sgml">
-<!entity objectbasemeta.sgml system "@srcdir@/objectbasemeta.sgml">
-<!entity objectbase00.sgml system "@srcdir@/objectbase00.sgml">
-<!entity objectbasepages.sgml system "objectbasepages.sgml">

@@ -1,0 +1,5 @@
+<!entity objectbasecont.sgml PUBLIC "-//SFI Hive//ENTITIES Objectbase Content//EN">
+<!entity objectbaserevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Objectbase Revision History//EN">
+<!entity objectbasemeta.sgml PUBLIC "-//SFI Hive//ENTITIES Objectbase Metadata//EN">
+<!entity objectbase00.sgml PUBLIC "-//SFI Hive//ENTITIES Objectbase Introduction//EN">
+<!entity objectbasepages.sgml PUBLIC "-//SFI Hive//ENTITIES Objectbase Generated Content//EN">
