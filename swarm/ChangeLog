@@ -1,5 +1,7 @@
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* VERSION: Bump.
+
 	* configure.in: Define INCLUDEDIR and INCLUDESUBDIR.
 
 	* acconfig.h: Add INCLUDEDIR.
