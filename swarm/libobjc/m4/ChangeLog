@@ -1,3 +1,8 @@
+2004-01-22  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acobjc.m4: new file for compatability with AC_LIBOBJ
+	 and AM_DEPENDENCIES.  
+
 2002-01-16  Marcus G. Daniels  <mgd@marcus.santafe.edu>
 
 	* headers.m4: Add case for darwin.
