@@ -2,7 +2,8 @@
 
 	* Selector.java: Make class public.
 
-	* SwarmEnvironment.java: Remove main.
+	* SwarmEnvironment.java: Remove main.  Wrap call to initSwarm
+	in constructor.
 
 	* Makefile.in (SWARMCLASSFILES): New variable with swarm/ prefix in
 	front of CLASSFILES.
