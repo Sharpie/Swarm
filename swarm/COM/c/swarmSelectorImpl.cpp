@@ -113,7 +113,7 @@ swarmSelectorImpl::GetArgFcallType (unsigned argIndex, unsigned short *retPtr)
       ret = JSToFcallType (type);
     }
   else if (methodInfo)
-    ret = methodArgFcallType (methodInfo, argIndex);
+    ret = methodParamFcallType (methodInfo, argIndex);
   *retPtr = (unsigned) ret;
   return NS_OK;
 }
@@ -238,10 +238,14 @@ swarmSelectorImpl::Create (nsISupports *obj,
     }
   else
     {
+      nsIID *methodIID;
+
       if (!findMethod (obj, wantedMethodName,
-                       &methodInterface, &methodIndex, &methodInfo))
+                       &methodIID, &methodIndex, &methodInfo))
         return NS_ERROR_NOT_IMPLEMENTED;
       
+      if (!NS_SUCCEEDED (obj->QueryInterface (*methodIID, (void **) &methodInterface)))
+        abort ();
       uint8 paramCount = methodInfo->GetParamCount ();
       PRBool voidReturn;
       

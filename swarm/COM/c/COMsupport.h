@@ -6,7 +6,7 @@
 #include <swarmITyping.h>
 
 PRBool findMethod (nsISupports *target, const char *methodName,
-                   nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
+                   nsIID **iid, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
 
 void printGetters (nsISupports *obj);
 fcall_type_t JSToFcallType (unsigned type);
@@ -16,7 +16,7 @@ extern "C" {
 #include "../../src/defobj/COM.h"
 }
 
-fcall_type_t methodArgFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 argIndex);
+fcall_type_t methodParamFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 paramIndex);
 
 void *createComponent (COMclass cClass);
 void *findComponent (const char *className);
@@ -38,9 +38,10 @@ void selectorCOMInvoke (COMselector cSel, void *params);
 void selectorJSInvoke (COMselector cSel, void *params);
 
 void *COMcreateParams (unsigned size);
-void COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
-void COMsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void COMfreeParams (void *args);
+
+void COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value);
+void COMsetReturn (void *params, unsigned pos, fcall_type_t type, types_t *value);
 
 void COMcollect (COMclass cClass,
                  COM_collect_variable_func_t variableFunc, 
@@ -54,8 +55,9 @@ void JSfreeParams (void *args);
 
 const char *COMmethodName (COMmethod cMethod);
 unsigned COMmethodArgCount (COMmethod cMethod);
-fcall_type_t COMmethodArgFcallType (COMmethod cMethod, unsigned argIndex);
-void COMmethodInvoke (COMmethod cMethod, void *params);
+fcall_type_t COMmethodParamFcallType (COMmethod cMethod, unsigned paramIndex);
+void COMmethodSetReturn (COMmethod cMethod, void *params, void *value);
+void COMmethodInvoke (COMmethod cMethod, COMobject cObj, void *params);
 
 swarmITyping *COM_objc_ensure_object_COM (id oObject);
 nsresult COM_objc_ensure_object_COM_return (id oObject, const nsIID *iid, void **ret);

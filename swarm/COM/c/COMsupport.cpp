@@ -23,7 +23,7 @@ struct method_key {
 };
 
 struct method_value {
-  nsISupports *interface;
+  nsIID *iid;
   PRUint16 methodIndex;
   const nsXPTMethodInfo *methodInfo;
 };
@@ -145,7 +145,7 @@ matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
                          &pair->value.methodIndex,
                          &pair->value.methodInfo)))
         {
-          pair->value.interface = interface;
+          pair->value.iid = iid;
           return (void *) pair;
         }
       NS_RELEASE (interface);
@@ -427,14 +427,14 @@ selectorJSInvoke (COMselector cSel, void *params)
 }
 
 PRBool
-findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
+findMethod (nsISupports *obj, const char *methodName, nsIID **iid, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
 {
   struct method_pair pair = {{ obj, methodName }};
 
   if (find (matchMethodName, &pair))
     {
       *index = pair.value.methodIndex;
-      *interface = pair.value.interface;
+      *iid = pair.value.iid;
       *methodInfo = pair.value.methodInfo;
       return PR_TRUE;
     }
@@ -456,7 +456,7 @@ destroyMethod (nsHashKey *key, void *data, void *param)
 {
   struct method_value *value = (struct method_value *) data;
 
-  delete value;
+  // delete value;
   return PR_TRUE;
 }
 
@@ -497,7 +497,8 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
           
           struct method_value *method = new method_value;
           
-          method->interface = interface; // will actually be constant
+          if (!NS_SUCCEEDED (interfaceInfo->GetIID (&method->iid)))
+            abort ();
           method->methodIndex = i;
           method->methodInfo = methodInfo;
 
@@ -510,11 +511,12 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
             {
               if (info->collectVariableFunc)
                 {
-                  if ((methodInfo->IsGetter ()
-                       && lastMethod->methodInfo->IsSetter ())
-                      || (methodInfo->IsSetter () &&
-                          lastMethod->methodInfo->IsGetter ()))
+                  if (methodInfo->IsGetter ()
+                      && lastMethod->methodInfo->IsSetter ())
                     info->collectVariableFunc (method, lastMethod);
+                  else if (methodInfo->IsSetter ()
+                           && lastMethod->methodInfo->IsGetter ())
+                    info->collectVariableFunc (lastMethod, method);
                 }
               else
                 {
@@ -562,21 +564,21 @@ COMmethodArgCount (COMmethod method)
   const nsXPTMethodInfo *methodInfo = value->methodInfo;
 
   PRUint16 count = methodInfo->GetParamCount ();
-  
+
   if (count > 0)
     {
       PRUint16 i = count - 1;
-      const nsXPTParamInfo param = methodInfo->GetParam (i);
-      return count - param.IsRetval ();
+      const nsXPTParamInfo& param = methodInfo->GetParam (i);
+      return count - (param.IsRetval () != 0);
     }
   else
     return 0;
 }
 
 fcall_type_t
-methodArgFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 argIndex)
+methodParamFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 paramIndex)
 {
-  const nsXPTParamInfo& param = methodInfo->GetParam (argIndex);
+  const nsXPTParamInfo& param = methodInfo->GetParam (paramIndex);
   const nsXPTType& type = param.GetType ();
   fcall_type_t ret;
 
@@ -671,33 +673,70 @@ JSToFcallType (unsigned type)
 }
   
 fcall_type_t
-COMmethodArgFcallType (COMmethod cMethod, unsigned argIndex)
+COMmethodParamFcallType (COMmethod cMethod, unsigned paramIndex)
 {
   struct method_value *method = (struct method_value *) cMethod;
 
-  return methodArgFcallType (method->methodInfo, argIndex);
+  if (paramIndex >= method->methodInfo->GetParamCount ())
+    abort ();
+
+  return methodParamFcallType (method->methodInfo, paramIndex);
 }
 
 void
-COMmethodInvoke (COMmethod cMethod, void *params)
+COMmethodSetReturn (COMmethod cMethod, void *params, void *value)
 {
   struct method_value *method = (struct method_value *) cMethod;
+  const nsXPTMethodInfo *methodInfo = method->methodInfo;
+  PRUint16 paramCount = methodInfo->GetParamCount ();
+  
+  if (COMmethodArgCount (cMethod) < paramCount)
+    {
+      nsXPTCVariant &retParam = ((nsXPTCVariant *) params)[paramCount - 1];
+      
+      retParam.ptr = value;
+      retParam.type = methodInfo->GetParam (paramCount - 1).GetType ();
+      retParam.flags = nsXPTCVariant::PTR_IS_DATA;
+    }
+  else
+    abort ();
+}
 
-  if (!NS_SUCCEEDED (XPTC_InvokeByIndex (method->interface,
+void
+COMmethodInvoke (COMmethod cMethod, COMobject obj, void *params)
+{
+  struct method_value *method = (struct method_value *) cMethod;
+  nsISupports *_obj = NS_STATIC_CAST (nsISupports *, obj);
+  nsISupports *interface;
+
+  if (!NS_SUCCEEDED (_obj->QueryInterface (*method->iid,
+                                           (void **) &interface)))
+    abort ();
+
+  if (!NS_SUCCEEDED (XPTC_InvokeByIndex (interface,
                                          method->methodIndex,
                                          method->methodInfo->GetParamCount (),
                                          (nsXPTCVariant *) params)))
     abort ();
+  NS_RELEASE (interface);
 }
 
 void *
 COMcreateParams (unsigned size)
 {
-  nsXPTCVariant *argVec = new nsXPTCVariant[size];
+  nsXPTCVariant *params = new nsXPTCVariant[size];
 
-  return (void *) argVec;
+  return (void *) params;
 }
 
+
+void
+COMfreeParams (void *params)
+{
+  nsXPTCVariant *_params = (nsXPTCVariant *) params;
+
+  delete _params;
+}
 
 static nsXPTType types[FCALL_TYPE_COUNT] = {
   nsXPTType::T_VOID,
@@ -805,19 +844,11 @@ COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 void
 COMsetReturn (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  nsXPTCVariant *retParam = &((nsXPTCVariant *) params)[pos];
+  nsXPTCVariant &retParam = ((nsXPTCVariant *) params)[pos];
 
-  retParam->ptr = value;
-  retParam->type = types[type];
-  retParam->flags = nsXPTCVariant::PTR_IS_DATA;
-}
-
-void
-COMfreeParams (void *params)
-{
-  nsXPTCVariant *_params = (nsXPTCVariant *) params;
-
-  delete _params;
+  retParam.ptr = value;
+  retParam.type = types[type];
+  retParam.flags = nsXPTCVariant::PTR_IS_DATA;
 }
 
 JSContext *
