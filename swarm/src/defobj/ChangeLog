@@ -1,3 +1,7 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.m (ATDELIM): Go back to `@' until BLT 2.4 is for real.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* DefClass.m: Don't include stdio.h or stdlib.h.
