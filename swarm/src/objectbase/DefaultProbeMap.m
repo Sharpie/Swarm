@@ -20,7 +20,7 @@ PHASE(Creating)
 - createEnd
 {
   if (SAFEPROBES)
-    if (probedClass == 0)
+    if (!probedClass && !probedObject)
       {
         raiseEvent (WarningMessage,
                     "DefaultProbeMap object was not properly initialized\n");
@@ -30,9 +30,17 @@ PHASE(Creating)
   probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
-	
-  if (probes == nil)
-    return nil;
+
+  if (probedObject && !probedClass)
+    {
+      COMobject cObj = SD_COM_FIND_OBJECT_COM (probedObject);
+
+      if (cObj && COM_is_javascript (cObj))
+        {
+          [self addJSFields: cObj];
+          return self;
+        }
+    }
 #ifdef HAVE_JDK
   if ([probedClass respondsTo: M(isJavaProxy)])
     { 
