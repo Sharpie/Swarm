@@ -2,8 +2,6 @@ NAME = set
 
 GENERATED_SGML = setrevhistory.sgml
 
-noinst_DATA = $(GENERATED_SGML)
-
 SGML = set.sgml setmeta.sgml
 
 EXTRA_DIST = $(SGML)

@@ -4,8 +4,6 @@ SGML = over01.sgml over02.sgml over03.sgml over04.sgml over05.sgml overbook.sgml
 
 GENERATED_SGML = $(NAME)revhistory.sgml
 
-noinst_DATA = $(GENERATED_SGML)
-
 SGML_FILES = $(SGML) $(GENERATED_SGML)
 
 EXTRA_DIST = overbook.ent $(SGML)
