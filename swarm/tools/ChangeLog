@@ -1,8 +1,14 @@
-2002-01-14    <mgd@SFI-984289>
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* findImp.m, print-hdf5.in, print-table.scm: Add canonical license
+	statement as suggested by GNU GPL, and copyright statements where
+	missing.
+
+2002-01-14  Marcus G. Daniels  <mgd@SFI-984289>
 
 	* Makefile.am (CPPFLAGS): Use -DDLL_EXPORT instead of -DDLL.
 
-2001-11-04    <mgd@HELEN>
+2001-11-04  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.am: Rework to use SWARMLIBS substitution. 
 	Use EXEEXT__ variables.   Don't use USEDLL conditional.
