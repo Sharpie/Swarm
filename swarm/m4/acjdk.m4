@@ -26,7 +26,7 @@ else
     expand_jdkincludedir=$expand_jdkdir/include
   fi
   JAVASWARM_LIB_NAME=javaswarm
-  if test -f $expand_jdkincludedir/jni.h; then
+  if test -f $expand_jdkincludedir/jni.h && test ! -f $expand_jdkincludedir/kaffe/jni.h; then
     JAVAINCLUDES="-I$jdkincludedir"
     if test -f $expand_jdkincludedir/linux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/linux"

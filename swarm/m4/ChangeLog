@@ -1,3 +1,8 @@
+2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* acjdk.m4: Don't take include/jni.h as an indicator of Sun JDK if
+	there is also a kaffe/jni.h.  The former is probably GCJ.
+
 2000-08-10  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* acjdk.m4: Put lib/${proc} before lib/${proc}/VM so that
