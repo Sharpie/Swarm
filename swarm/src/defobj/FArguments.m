@@ -78,6 +78,7 @@ fcall_type_size (fcall_type_t type)
 }
 
 @implementation FArguments_c
+PHASE(Creating)
 
 + createBegin: aZone
 {
@@ -344,6 +345,8 @@ createJavaSignature (FArguments_c *self)
   javaSignature = createJavaSignature ((FArguments_c *) self);
   return self;
 }
+
+PHASE(Using)
 
 - (void *)getResult
 {

@@ -1,5 +1,11 @@
 1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* DefObject.m ([Object_s -lispIn:]): If function name is
+	`parse', don't raise an exception.  This is to allow for
+	compact custom -lispIn: routines.
+
+	* defobj.h (MAKE_PARSE_FUNCTION_NAME): New macro.
+
 	* FArguments.m ([FArguments_c -mapAllocations:]): Protect use
 	of jstring.
 

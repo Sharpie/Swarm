@@ -1226,6 +1226,9 @@ extern const char *generate_class_name (void);
 //#: Name to use for Lisp archiving object-creation function
 #define MAKE_INSTANCE_FUNCTION_NAME "make-instance"
 
+//#: Name to use for Lisp archive custom-parse function
+#define MAKE_PARSE_FUNCTION_NAME "parse"
+
 //#: Conservative approximation of the number of decimal digits for a
 //#: object of a given type, not including terminator. 
 //#: signchar + roundup (log (10)/log(2) = 3.3219).
