@@ -50,8 +50,11 @@
   return [super createEnd];
 }
 
--simpleGenTest6: (id) myGenerator 
-	File: (char *) fname NumVars: (unsigned) nvars Shift: (int) shift {
+- simpleGenTest6: myGenerator 
+            File: (const char *)fname
+         NumVars: (unsigned)nvars
+           Shift: (int)shift
+{
    FILE * theFile;
    unsigned bitbucket;
    int i, status;
@@ -84,8 +87,11 @@
 }
 
 
--splitGenTest6: (id) myGenerator 
-	File: (char *) fname NumVars: (unsigned) nvars Shift: (int) shift {
+-splitGenTest6: myGenerator 
+          File: (const char *)fname
+       NumVars: (unsigned)nvars
+         Shift: (int)shift
+{
    FILE * theFile;
    unsigned bitbucket;
    int i, status;
