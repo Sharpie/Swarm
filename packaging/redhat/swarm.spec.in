@@ -4,13 +4,21 @@ Version: @version@
 Release: @release@
 Copyright: @copyright@
 Group: Development/Libraries
-Source: @ftproot@/swarm-@version@.tar.gz 
+Source: @ftproot@/swarm-@version@.tar.gz
+%ifarch ppc
+Patch: 2.0.1-ppc.patch
+%endif 
 %define prefix      /usr
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
+%ifarch ppc
+BuildPrereq: libffi >= 1.20
+#BuildPrereq: kaffe = 1.0b4
+%else
 BuildPrereq: kaffe = @kaffe_version@
 BuildPrereq: jikes = @jikes_version@
-Icon: swarm.xpm
+%endif
+#Icon: swarm.xpm
 Packager: @packager@
 Distribution: @distribution@
 Vendor: @vendor@
@@ -23,7 +31,10 @@ Requires: xpm
 Requires: xpm-devel
 Requires: blt
 Requires: tcl >= 8.0.4 
-Requires: tk >= 8.0.4 
+Requires: tk >= 8.0.4
+%ifarch ppc
+Requires: libffi >= 1.20
+%endif
 Provides: swarm-base
 Conflicts: swarm-hdf5
  
@@ -35,7 +46,14 @@ or better, and the blt library package.
 
 @macros@
 
+
 %changelog
+* Thu Sep 30 1999 Alex Lancaster <alex@santafe.edu>
+
+- Add "%ifarch ppc" directives to apply 2.0.1-ppc.patch;
+  platform-specific OBJCFLAGS/CFLAGS to configure; slightly alternate
+  versions numbers for kaffe; and Requires: tag for libffi.
+
 * Tue Sep 28 1999 Alex Lancaster <alex@santafe.edu>
 
 - Disable size, md5 and mtime checking using %verify for files which
@@ -132,7 +150,11 @@ the normal binary distribuion
 %package kaffe
 Summary: Adds Java support to swarm-base package.
 Group: Development/Libraries
+%ifnarch ppc
 Requires: kaffe = @kaffe_version@
+%else
+Requires: kaffe = 1.0b4
+%endif
 Requires: swarm-base
 
 %description kaffe
@@ -143,12 +165,26 @@ the Sun JDK.
 %prep 
 %setup -q
 
+%ifarch ppc
+%patch -p1
+%endif
+
 %build
 
 %makebuilddir =without-hdf
 
-%{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --without-hdf5dir --disable-jar 
-make JAVAC=/usr/bin/jikes 
+%ifnarch ppc
+%define ffiflag --without-ffidir
+%define cflags %{?dummy-macro}
+%define objcflags %{?dummy-macro}
+%else
+%define ffiflag --with-ffidir=/usr
+%define cflags CFLAGS='-O -g'
+%define objcflags OBJCFLAGS='-fdollars-in-identifiers'
+%endif
+
+%objcflags %cflags %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --without-hdf5dir --disable-jar %ffiflag 
+make JAVAC=/usr/bin/jikes
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -163,7 +199,7 @@ cd %SWARM_SRC_DIR
 cd =without-hdf
 make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
 
-%post 
+%post
 %define pathfiles etc/swarm/* lib/swarm/lib*.la
 %fix_path %pathfiles 
 
@@ -188,7 +224,6 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
 %verify(not size md5 mtime) %{prefix}/lib/swarm/libkaffeswarm*.la
 %{prefix}/lib/swarm/libkaffeswarm*.so*
 %{prefix}/share/swarm
-
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
