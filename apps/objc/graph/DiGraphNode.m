@@ -1,14 +1,11 @@
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
+// Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular purpose.
+// See file LICENSE for details and terms of copying.
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#import <gui.h>
-#import <simtools.h>
-
-#import <objc/objc-api.h>
 #import <graph.h> 
+#import <random.h>
+#import <simtoolsgui.h> // CREATE_PROBE_DISPLAY
 
 @implementation DiGraphNode
 
@@ -65,13 +62,14 @@
   return self;
 }
 
-+ createBegin: aZone {
-  DiGraphNode * obj;
++ createBegin: aZone
+{
+  DiGraphNode *obj;
 
-  // uses the default distribution for the 
+  // Uses the default distribution for the 
   // random node positions from simtools
   // not recommended - use only for backwards 
-  // compatitibility
+  // compatitibility.
 
   obj = [super createBegin: aZone];
   obj->nodeType = OvalNode;
@@ -80,27 +78,31 @@
   return obj;
 }
 
-- createEnd {  
-
+- createEnd
+{  
   fromList = [List create: [self getZone]];
   toList = [List create: [self getZone]];
 
   return self;
 }
 
-- getNodeItem {
+- getNodeItem
+{
   return nodeItem;
 }
 
-- getToLinks {
+- getToLinks
+{
    return fromList;
 }
 
-- getFromLinks {
+- getFromLinks
+{
    return toList;
 }
 
-- makeLinkTo: aNode {
+- makeLinkTo: aNode
+{
   id aLink;
 
   if (canvas)
@@ -115,7 +117,8 @@
   return aLink;
 }
 
-- makeLinkFrom: aNode {
+- makeLinkFrom: aNode
+{
   id aLink;
 
   if (canvas)    
@@ -130,84 +133,92 @@
   return aLink;
 }
 
-- addFrom: aLink {
+- addFrom: aLink
+{
   [fromList addFirst: aLink];
   return self;
 }
 
-- addTo: aLink {
+- addTo: aLink
+{
   [toList addFirst: aLink];
   return self;
 }
 
-- (int)linkedTo: anObj {
+- (int)linkedTo: anObj
+{
   id index, link;
 
   index = [toList begin: globalZone];
-  while( (link = [index next]) )
-    if([link getTo] == anObj){
-      [index drop]; 
-      return 1;
-    }
+  while ((link = [index next]))
+    if ([link getTo] == anObj)
+      {
+        [index drop]; 
+        return 1;
+      }
   [index drop];
   return 0;
 }
 
-- (int) linkedFrom: anObj {
+- (int)linkedFrom: anObj
+{
   id index, link;
 
   index = [fromList begin: globalZone];
-  while( (link = [index next]) )
-    if([link getFrom] == anObj){
-      [index drop]; 
-      return 1;
-    }
+  while ((link = [index next]))
+    if ([link getFrom] == anObj)
+      {
+        [index drop]; 
+        return 1;
+      }
   [index drop];
   return 0;
 }
 
-- removeFrom: which {
+- removeFrom: which
+{
   [fromList remove: which];
   return self;
 }
 
-- removeTo: which {
+- removeTo: which
+{
   [toList remove: which];
   return self;
 }
 
-- hideNode {
-   
-   canvas = nil;
-   [nodeItem drop];      
-   return self;
+- hideNode
+{
+  canvas = nil;
+  [nodeItem drop];      
+  return self;
 }
 
-- (void)drop {
-
-  while([fromList getCount]){
+- (void)drop
+{
+  while ([fromList getCount])
     [[fromList getFirst] drop];
-  }
   [fromList drop];
 
-  while([toList getCount]){
+  while ([toList getCount])
     [[toList atOffset:0] drop];
-  }
   [toList drop];
 
-  if(canvas)
-     [self hideNode];
+  if (canvas)
+    [self hideNode];
   
   [super drop];
 }
 
 // Callbacks...
 
-- (int)agreeX: (int)x Y: (int)y {
+- (int)agreeX: (int)x Y: (int)y
+{
   return 1;
 }
 
-- updateLinks {
+- updateLinks
+{
   [fromList forEach: M(update)];
   [toList forEach: M(update)];
   return self;

@@ -1,16 +1,13 @@
-// Copyright (C) 1995-1998 The Santa Fe Institute.
-// No warranty implied, see LICENSE for terms.
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+// Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular purpose.
+// See file LICENSE for details and terms of copying.
 
 #import <gui.h>
-#import <simtools.h>
-
 #import <graph.h>
+#import <random.h>
+
+#include <math.h>
 
 #define MAX_EDGES 	       200
 #define MAX_NODES 	       200
@@ -207,9 +204,9 @@
       
       for (i = 0; i < n; i++)
         {
-          phase = 6.2831853 * ((double) i) / ((double) n);
-          x = bx + ((int) (((double) r) * cos(phase)));
-          y = by + ((int) (((double) r) * sin(phase)));
+          phase = (2.0 * M_PI) * ((double) i) / ((double) n);
+          x = bx + ((int) (((double) r) * cos (phase)));
+          y = by + ((int) (((double) r) * sin (phase)));
           obj = [[nodeList atOffset: i] getNodeItem]; 
           [obj initiateMoveX: x - [obj getX] Y: y - [obj getY]];
         }
@@ -406,7 +403,7 @@
 - update
 {
   if (canvas)
-    GUI_UPDATE_IDLE_TASKS();
+    GUI_UPDATE_IDLE_TASKS ();
   return self;
 }
 

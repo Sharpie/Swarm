@@ -1,3 +1,14 @@
+1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* DiGraphNode.m: Don't include string.h, stdio.h, stdlib.h,
+	gui.h, objc-api.h, and simtools.h. Include simtoolsgui.h and random.h.
+	Reformatting throughout.
+
+	* DiGraph.m: Don't include simtools.h, string.h, stdio.h, or
+	stdlib.h.  Include random.h
+	([DiGraph -redistribute]): Use 2.0 * M_PI instead of constant.
+	Minor reformatting.
+
 1998-02-25  Alex Lancaster  <alex@santafe.edu>
 
 	* DiGraph.m (#import): Replaced separate imports of header files
