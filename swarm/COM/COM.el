@@ -418,6 +418,7 @@
         (insert "#define ")
         (insert cppsym)
         (insert "\n"))
+      (insert "#include <swarmITyping.h>\n")
       (loop for iprotocol in iprotocols
             do
             (com-impl-print-interface-include iprotocol phase)
@@ -438,6 +439,7 @@
            (insert "public ")
            (com-interface-name iprotocol iphase))
        t)
+      (insert ", public swarmITyping")
       (insert "\n")
       (insert "{\n")
       (insert "public:\n")
@@ -448,7 +450,9 @@
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
       (insert "\n")
-      (insert "  NS_DECL_ISUPPORTS\n\n")
+      (insert "  NS_DECL_ISUPPORTS\n")
+      (insert "  NS_DECL_SWARMITYPING\n")
+      (insert "\n") 
       (loop for iprotocol in iprotocols
             do
             (insert "  ")
@@ -483,7 +487,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
@@ -510,6 +514,7 @@
     (insert "NS_INTERFACE_MAP_BEGIN(")
     (insert class)
     (insert ")\n")
+    (insert "NS_INTERFACE_MAP_ENTRY(swarmITyping)\n")
     (loop for iprotocol in iprotocols
           do
           (insert "NS_INTERFACE_MAP_ENTRY(")
@@ -717,6 +722,18 @@
         (insert ";\n"))
   (insert "\n"))
 
+(defun com-impl-print-get-iid (protocol phase)
+    (insert "NS_IMETHODIMP\n")
+    (insert (com-impl-name protocol phase))
+    (insert "::GetIid (nsIID **aIid)\n")
+    (insert "{\n")
+    ;; NS_STATIC_CAST doesn't work here.
+    (insert "  *aIid = (nsIID *) &NS_GET_IID (")
+    (insert (com-interface-name protocol phase))
+    (insert ");\n")
+    (insert "  return NS_OK;\n")
+    (insert "}\n\n"))
+
 (defun com-impl-generate-c++ (protocol phase)
   (with-temp-file 
       (com-impl-pathname protocol phase ".cpp")
@@ -746,6 +763,7 @@
     (com-impl-generate-supports protocol phase)
     (com-impl-print-basic-constructor protocol phase)
     (com-impl-print-destructor protocol phase)
+    (com-impl-print-get-iid protocol phase)
     (when (and (string= (protocol-name protocol) "SwarmEnvironment")
                (inclusive-phase-p phase :using))
       (com-impl-print-startup-init-method))
