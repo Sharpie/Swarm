@@ -7,9 +7,9 @@ clean:
 	(cd src; $(MAKE) clean)
 
 realclean: clean
-	- rm -f $(LIBDIR)/* $(BINDIR)/* MakeOut
-	- rm -rf $(INCDIR)/*
-	- rm -f src/tmpobj/*
+	-rm -f $(LIBDIR)/* $(BINDIR)/* MakeOut
+	-rm -rf $(INCDIR)/*
+	-rm -f src/tmpobj/*
 
 binary: FORCE
 	(cd src; $(MAKE) binary)
@@ -19,7 +19,7 @@ FORCE:
 ###
 ### "distributions" are tarballs that contain source/binary distributions
 ### for swarm, set up with their standard configuration
-SWARMDIST=swarm-1.0.4
+SWARMDIST=swarm-1.0.5
 
 ifeq ($(SWARMTMPDIR),)
 TMPDIR=/tmp
