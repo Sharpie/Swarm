@@ -18,10 +18,11 @@ INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 lib_LTLIBRARIES = libobjc.la
 
 libobjc_la_SOURCES = $(CSRC) $(MSRC)
-libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) 
+
+libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(dir $(shell $(CC) -print-libgcc-file-name))
 
 objc_thread_lo = @OBJC_THREAD_FILE@.lo
-libobjc_la_LIBADD = $(objc_thread_lo)
+libobjc_la_LIBADD = $(objc_thread_lo) -lgcc
 libobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
 encoding.lo gc.lo sendmsg.lo: compiler-info.h

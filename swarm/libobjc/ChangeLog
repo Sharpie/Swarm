@@ -1,5 +1,10 @@
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (libobjc_la_LIBADD): Add -lgcc.
+	(libobjc_la_LDFLAGS): Add -L to libgcc location.  This is to
+	resolve symbols like __eprintf on HPUX, where shared library
+	linking doesn't go through gcc.
+
 	* config/hppa/{mframe-hpux,compiler-info-hpux}.h: Renamed from
 	*hpux10.h.
 
