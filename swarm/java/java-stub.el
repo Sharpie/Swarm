@@ -3,9 +3,6 @@
  (push (getenv "BUILDDIR") load-path))
 (require 'protocol)
 
-(defconst *java-path* "swarm/")
-(defconst *c-path* "c/")
-
 (defvar *last-protocol*)
 
 (defun freakyp (java-type)
@@ -457,10 +454,14 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
+(defun java-path (&optional subpath)
+  (concat (get-builddir) "swarm/" subpath))
+
+(defun c-path (&optional subpath)
+  (concat (get-builddir) "c/" subpath))
+
 (defun module-path (module-sym)
-  (concat *java-path*
-          (symbol-name module-sym)
-          "/"))
+  (java-path (concat (symbol-name module-sym) "/")))
 
 (defmacro with-protocol-java-file (protocol phase interface &rest body)
   (let ((dir (make-symbol "dir")))
@@ -475,8 +476,8 @@
 
 (defmacro with-protocol-c-file (protocol &rest body)
   `(progn
-    (ensure-directory *c-path*)
-    (with-temp-file (concat *c-path* (protocol-name ,protocol) ".m")
+    (ensure-directory (c-path))
+    (with-temp-file (c-path (concat (protocol-name ,protocol) ".m"))
       ,@body)))
 
 (defun java-print-package (protocol)
@@ -737,8 +738,8 @@
                 (insert "\n")))))
 
 (defun java-print-makefiles ()
-  (ensure-directory *c-path*)
-  (with-temp-file "Makefile.common"
+  (ensure-directory (c-path))
+  (with-temp-file (c-path "Makefile.common")
     (loop for module-sym being each hash-key of *module-hash-table* 
           using (hash-value protocol-list)
           for dir = (module-path module-sym)
@@ -773,7 +774,7 @@
 
 (defun java-print-classes ()
   (interactive)
-  (ensure-directory *java-path*)
+  (ensure-directory (java-path))
   (java-print-makefiles)
   (loop for protocol being each hash-value of *protocol-hash-table* 
         unless (removed-protocol-p protocol)

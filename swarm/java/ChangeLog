@@ -1,5 +1,10 @@
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* java-stub.el (java-path, c-path): New function.
+	(*java-path*, *c-path*): Remove.
+	(module-path, java-print-classes): Use java-path.
+	(with-protocol-c-file, java-print-makefiles): Use c-path.
+
 	* Makefile.am (elcrule): Use $(shell cd $(dir $@); pwd) instead of
 	$(dir $@), since Emacs for Windows loses with ./ derived from the
 	latter (it can't be frozen due to files like common.el that are
