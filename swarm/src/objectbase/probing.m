@@ -154,7 +154,7 @@ string_convert (fcall_type_t type, const types_t *p,
       sprintf (buf, "%s", p->string ? p->string : "<NULL>");
       break;
     case fcall_type_selector:
-      sprintf (buf, sel_get_name (p->selector));
+      sprintf (buf, p->selector ? sel_get_name (p->selector) : "M(NULL)");
       break;
     case fcall_type_void:
       sprintf (buf, "none");
