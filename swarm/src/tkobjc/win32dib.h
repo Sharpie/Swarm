@@ -10,14 +10,8 @@
 /* BITMAPINFO */
 typedef struct CDIB_BITMAP {
   BITMAPINFOHEADER bmiHead;
-  RGBQUAD rgb[256];
+  RGBQUAD rgb[256]; // Not used for BI_RGB with more than 256 colors.
 } CDIB_BITMAP;
-
-typedef struct CDIBPALETTE { 
-  WORD palVersion; 
-  WORD palNumEntries; 
-  PALETTEENTRY aEntries[256]; 
-} CDIBPALETTE; 	
 
 typedef struct dib {
   /* Controlling window */
@@ -36,6 +30,7 @@ typedef struct dib {
   void *colorMapObjects[256];
   unsigned colorMapBlocks;
   unsigned colorMapSize;
+  unsigned long *colorMap; // only used for when depth > 8
   /* Palette */
   HPALETTE *palette;
   HPALETTE *oldPalette;
@@ -72,7 +67,7 @@ void dib_rectangle (dib_t *dib, int x, int y, unsigned width, unsigned height, u
 
 BOOL dib_copy (dib_t *source, dib_t *dest, int destx, int desty, unsigned width, unsigned height);
 
-BYTE* dib_lock (dib_t *dib);
+LPBYTE dib_lock (dib_t *dib);
 void dib_unlock (dib_t *dib);
 
 void dib_snapshot(dib_t *dib);
@@ -83,7 +78,7 @@ void dib_snapshot(dib_t *dib);
 void dib_setPaintOffset (dib_t *dib, int xOffset, int yOffset);
 
 /* Surface info */
-BYTE *dib_getSurface (dib_t *dib);
+LPBYTE dib_getSurface (dib_t *dib);
 
 int dib_getWidth (dib_t *dib);
 int dib_getHeight (dib_t *dib);

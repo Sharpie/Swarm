@@ -11,6 +11,7 @@ dib_create (void)
   dib->window = NULL;
   dib->colorMapBlocks = 0;
   dib->colorMapSize = 0;
+  dib->colorMap = NULL;
   memset (dib->colorMapOffsets, 0, sizeof (dib->colorMapOffsets));
   memset (dib->colorMapObjects, 0, sizeof (dib->colorMapObjects));
   dib->sourceDC = NULL;
@@ -30,7 +31,7 @@ dib_create (void)
 void
 dib_destroy (dib_t *dib)
 {
-  xfree (dib->dibInfo);
+  XFREE (dib->dibInfo);
   dib->dibInfo = NULL;
   if (dib->bitmap)
     {
@@ -52,7 +53,7 @@ dib_destroy (dib_t *dib)
         }
     }
   else if (dib->bits != NULL)
-    xfree (dib->bits);
+    XFREE (dib->bits);
 
   dib->bitmap = NULL;
   dib->oldBitmap = NULL;
@@ -97,22 +98,6 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
   if (width & 3)
     width += 4 - (width & 3);
 
-#if 0
-  if (dib->bitmap)
-    {
-      xfree (dib->dibInfo);
-      SelectObject (hdc, dib->oldBitmap);
-      DeleteObject (dib->bitmap);
-      if (window)
-        ReleaseDC (window, hdc);
-      else
-        DeleteDC (hdc);
-      dib->bitmap = NULL;
-      dib->oldBitmap = NULL;
-      dib->bits = NULL;
-    }
-#endif
-
   dib->dibInfo->bmiHead.biSize = sizeof (BITMAPINFOHEADER);
   dib->dibInfo->bmiHead.biWidth = width;
   if (TOP_DOWN_DIB)
@@ -120,14 +105,14 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
   else
     dib->dibInfo->bmiHead.biHeight = height;
   dib->dibInfo->bmiHead.biPlanes = 1;
-  dib->dibInfo->bmiHead.biBitCount = 8;
+  dib->dibInfo->bmiHead.biBitCount = 24;
   dib->dibInfo->bmiHead.biCompression = BI_RGB;
   dib->dibInfo->bmiHead.biSizeImage = 0;
   dib->dibInfo->bmiHead.biClrUsed = 0;
   dib->dibInfo->bmiHead.biClrImportant = 0;
   dib->bitmap = CreateDIBSection (hdc,
 				  (BITMAPINFO *)dib->dibInfo,
-				  DIB_PAL_COLORS,
+				  DIB_RGB_COLORS,
 				  &dib->bits,
 				  NULL,
 				  0 /* ignored if above is NULL */ );
@@ -142,9 +127,7 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
 void
 dib_snapshot (dib_t *dib)
 {
-  PALETTEENTRY palette[256];
   int i;
-  unsigned long newColorMap[256];
   HDC hdc = GetDC (dib->window);
   HDC hmemdc = CreateCompatibleDC (hdc);
   HDC hbmmem;
@@ -152,11 +135,11 @@ dib_snapshot (dib_t *dib)
   unsigned width, height;
   int caps;
   HGDIOBJ hb1;
-  unsigned offs;
   HPALETTE holdPal;
-  LPBITMAPINFOHEADER pbmp;
-  unsigned bufsize;
-  PBYTE bits;
+  unsigned pixelCount, bufsize;
+  LPBYTE bits;
+  WORD depth = 24;
+  LPBITMAPINFOHEADER pbmp = &dib->dibInfo->bmiHead;
 
   GetWindowRect (dib->window, &rect);
   dib->bitmap = NULL;
@@ -181,50 +164,60 @@ dib_snapshot (dib_t *dib)
       if (cnt == 0)
 	abort ();
       hpal = CreatePalette (plp);
-      xfree (plp);
+      XFREE (plp);
       SelectPalette (hmemdc, hpal, FALSE);
       holdPal = SelectPalette (hdc, hpal, FALSE);
     }
   if (BitBlt (hmemdc, 0, 0, width, height, hdc, 0, 0, SRCCOPY) == FALSE)
     abort ();
-  offs = sizeof(BITMAPINFOHEADER) + sizeof (RGBQUAD) * 256;
-  bufsize = width * height;
-  pbmp = (LPBITMAPINFOHEADER) xmalloc (offs);
+  pixelCount = width * height;
+  bufsize = pixelCount * (depth >> 3);
   pbmp->biSize = sizeof (BITMAPINFOHEADER);
   pbmp->biWidth = width;
   pbmp->biHeight = -height;
   pbmp->biPlanes = 1;
-  pbmp->biBitCount = 8;
+  pbmp->biBitCount = depth;
   pbmp->biCompression = BI_RGB;
   bits = xmalloc (bufsize);
   hbmmem = SelectObject (hmemdc, hb1);
 
-  if (GetDIBits (hmemdc, hbmmem, 0, height,
-		 bits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != height)
-    abort ();
-      
-  {
-    int i;
-    BYTE max = 0;
-    RGBQUAD *colors = (PVOID)pbmp + sizeof (BITMAPINFOHEADER);
-
-    for (i = 0; i < bufsize; i++)
-      if (bits[i] > max)
-	max = bits[i];
-    
+  if (depth == 8)
     {
-      unsigned colorCount = max + 1;
-      unsigned long map[colorCount];
-
-      for (i = 0; i < colorCount; i++)
-	map[i] = colors[i].rgbRed
-	  | (colors[i].rgbGreen << 8)
-	  | (colors[i].rgbBlue << 16);
-      dib_augmentPalette (dib, SNAPSHOTPALETTE, colorCount, map);
+      if (GetDIBits (hmemdc, hbmmem, 0, height,
+		     bits, (LPBITMAPINFO)pbmp, DIB_PAL_COLORS) != height)
+	abort ();
+      
+      {
+	int i;
+	BYTE max = 0;
+	RGBQUAD *colors = (PVOID)pbmp + sizeof (BITMAPINFOHEADER);
+	LPBYTE pixels = bits;
+	
+	for (i = 0; i < pixelCount; i++)
+	  if (pixels[i] > max)
+	    max = pixels[i];
+	
+	{
+	  unsigned colorCount = max + 1;
+	  unsigned long map[colorCount];
+	  
+	  for (i = 0; i < colorCount; i++)
+	    map[i] = colors[i].rgbRed
+	      | (colors[i].rgbGreen << 8)
+	      | (colors[i].rgbBlue << 16);
+	  dib_augmentPalette (dib, SNAPSHOTPALETTE, colorCount, map);
+	}
+      }
     }
-  }
+  else if (depth == 24)
+    {
+      if (GetDIBits (hmemdc, hbmmem, 0, height,
+		     bits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != height)
+	abort ();
+    }
+  else
+    abort ();
   DeleteObject (hbmmem);
-  xfree (pbmp);
   dib->bits = bits;
   SelectObject (hdc, holdPal);
   ReleaseDC (dib->window, hdc);
@@ -245,35 +238,53 @@ dib_paletteIndexForObject (dib_t *dib, void *object)
 void
 dib_augmentPalette (dib_t *dib,
 		    void *object,
-		    unsigned newColorMapSize, unsigned long *newColorMap)
+		    unsigned colorMapSize, unsigned long *colorMap)
 {
   unsigned lastSize = dib->colorMapSize;
+  WORD depth = dib->dibInfo->bmiHead.biBitCount;
   
   dib->colorMapObjects[dib->colorMapBlocks] = object;
   dib->colorMapOffsets[dib->colorMapBlocks] = lastSize;
-  dib->colorMapSize += newColorMapSize;
+  dib->colorMapSize += colorMapSize;
   dib->colorMapBlocks++;
-  
-  {
-    unsigned i;
-    RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
-    
-    for (i = 0; i < newColorMapSize; i++)
-      {
-	rgb[i].rgbRed = newColorMap[i] & 0xff;
-	rgb[i].rgbGreen = (newColorMap[i] >> 8) & 0xff;
-	rgb[i].rgbBlue = newColorMap[i] >> 16;
-      }
-  }
-  
-  if (dib->bitmap)
+
+  if (depth == 8)
     {
-      HDC shdc = CreateCompatibleDC (NULL);
+      unsigned i;
+      RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
       
-      dib->oldBitmap = SelectObject (shdc, dib->bitmap);
-      SetDIBColorTable (shdc, 0, dib->colorMapSize, dib->dibInfo->rgb);
-      SelectObject (shdc, dib->oldBitmap);
-      DeleteDC (shdc);
+      for (i = 0; i < colorMapSize; i++)
+	{
+	  rgb[i].rgbRed = colorMap[i] & 0xff;
+	  rgb[i].rgbGreen = (colorMap[i] >> 8) & 0xff;
+	  rgb[i].rgbBlue = colorMap[i] >> 16;
+	}
+
+      if (dib->bitmap)
+	{
+	  HDC shdc = CreateCompatibleDC (NULL);
+	  UINT ret;
+	  
+	  dib->oldBitmap = SelectObject (shdc, dib->bitmap);
+	  ret = SetDIBColorTable (shdc, 0, dib->colorMapSize,
+				  dib->dibInfo->rgb);
+	  SelectObject (shdc, dib->oldBitmap);
+	  DeleteDC (shdc);
+	}
+    }
+  else if (depth == 24)
+    {
+      unsigned long *newColorMap;
+      unsigned i;
+      unsigned newSize = dib->colorMapSize * sizeof (unsigned long);
+      
+      dib->colorMap = dib->colorMap
+	? xrealloc (dib->colorMap, newSize)
+	: xmalloc (newSize);
+      newColorMap = &dib->colorMap[lastSize];
+      
+      for (i = 0; i < colorMapSize; i++)
+	newColorMap[i] = colorMap[i];
     }
 }
 
@@ -287,10 +298,10 @@ dib_fill (dib_t *dib,
   unsigned frameHeight = (dib->dibInfo->bmiHead.biHeight < 0
 			  ? -dib->dibInfo->bmiHead.biHeight
 			  : dib->dibInfo->bmiHead.biHeight);
-  BYTE *base;
-  int yoff;
+  unsigned yoff;
   int wdiff, hdiff;
   int clipx, clipy;
+  WORD depth = dib->dibInfo->bmiHead.biBitCount;
 
   if (x < 0)
     {
@@ -323,17 +334,47 @@ dib_fill (dib_t *dib,
 
   if (hdiff > 0)
     height -= hdiff;
-  
-  base = (BYTE *)dib->bits + (clipy * frameWidth);
-  
-  for (yoff = 0; yoff < height; yoff++)
+   
+
+  if (depth == 8)
     {
-      int xoff;
-      BYTE *ybase = &base[yoff * frameWidth + clipx];
-      
-      for (xoff = 0; xoff < width; xoff++)
-	ybase[xoff] = color;
+      LPBYTE base = (LPBYTE)dib->bits + (clipy * frameWidth);
+
+      for (yoff = 0; yoff < height; yoff++)
+	{
+	  unsigned xoff;
+	  LPBYTE ybase = &base[yoff * frameWidth + clipx];
+	  
+	  for (xoff = 0; xoff < width; xoff++)
+	    ybase[xoff] =  color;
+	}
     }
+  else if (depth == 24)
+    {
+      LPBYTE base = ((LPBYTE)dib->bits + (clipy * frameWidth * 3));
+      unsigned long colorValue = dib->colorMap[color];
+      BYTE red =  colorValue >> 16;
+      BYTE green = (colorValue >> 8) & 0xff;
+      BYTE blue = colorValue & 0xff;
+      
+      for (yoff = 0; yoff < height; yoff++)
+	{
+	  unsigned xoff;
+	  BYTE (*ybase)[1][3] =
+	    (void *)(base + ((yoff * frameWidth + clipx) * 3));
+	  
+	  for (xoff = 0; xoff < width; xoff++)
+	    {
+	      LPBYTE xbase = (LPBYTE)&ybase[xoff][0];
+
+	      xbase[0] = red;
+	      xbase[1] = green;
+	      xbase[2] = blue;
+	    }
+	}
+    }
+  else
+    abort ();
 }
 
 
@@ -512,7 +553,7 @@ dib_copy (dib_t *source, dib_t *dest,
   return result;
 }
 
-BYTE *
+LPBYTE
 dib_lock (dib_t *dib)
 {
   GdiFlush ();
@@ -544,13 +585,13 @@ dib_setPaintOffset (dib_t *dib, int xOffset, int yOffset)
   dib->yBitmapOffset = yOffset;
 }
 
-BYTE *
+LPBYTE
 dib_getSurface (dib_t *dib)
 {
   if (dib->bitmap == NULL)
     return NULL;
 
-  return (BYTE *)dib->bits;
+  return (PIXEL_TYPE *)dib->bits;
 }
 
 int

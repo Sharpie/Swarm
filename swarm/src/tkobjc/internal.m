@@ -324,7 +324,21 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 
   if (x >= 0 && x < frameWidth
       && y >= 0 && y < frameHeight)
-    ((BYTE *)dib->bits)[x + y * frameWidth] = c;
+    {
+      WORD depth = dib->dibInfo->bmiHead.biBitCount;
+
+      if (depth == 8)
+	((LPBYTE)dib->bits)[x + y * frameWidth] = c;
+      else if (depth == 24)
+	{
+	  LPBYTE rgb = (LPBYTE)dib->bits + (x + y * frameWidth * 3);
+	  unsigned long colorValue = dib->colorMap[c];
+
+	  rgb[0] = colorValue >> 16;
+	  rgb[1] = (colorValue >> 8) && 0xff;
+	  rgb[2] = colorValue & 0xff;
+	}
+    }
 #endif
 }
 
@@ -730,43 +744,48 @@ tkobjc_pixmap_create (Pixmap *pixmap,
   }
 #else
   {
-
     dib_t *dib = dib_create ();
+    unsigned long map[palette_size];
+    unsigned ci;
 
     dib_createBitmap (dib, NULL, pixmap->width, pixmap->height);
+    
+    for (ci = 0; ci < palette_size; ci++)
+      map[ci] = palette[ci].red
+	| (palette[ci].green << 8)
+	| (palette[ci].blue << 16);
+    
+    dib_augmentPalette (dib, pixmap, palette_size, map);
     {
-      unsigned long map[palette_size];
-      int i;
+      LPBYTE out_pos = dib_lock (dib);
+      WORD depth = dib->dibInfo->bmiHead.biBitCount;
       
-      for (i = 0; i < palette_size; i++)
-        map[i] = palette[i].red
-          | (palette[i].green << 8)
-          | (palette[i].blue << 16);
+      unsigned ri;
       
-      dib_augmentPalette (dib, pixmap, palette_size, map);
-      {
-        unsigned ri;
-        BYTE *out_pos = dib_lock (dib);
-        
-        for (ri = 0; ri < pixmap->height; ri++)
-          {
-            unsigned ci;
-            png_bytep in_row = row_pointers[ri];
-            
-            for (ci = 0; ci < pixmap->width; ci++)
-              {
-                int bit_pos = bit_depth * ci;
-                int byte_offset = bit_pos >> 3;
-                int bit_shift = bit_pos & 0x7;
-                int bit_mask = ((1 << bit_depth) - 1);
-		BYTE val = ((in_row[byte_offset] >> bit_shift) & bit_mask);
-                
-                *out_pos++ = val;
-                
-              }
-          }
-        dib_unlock (dib);
-      }
+      for (ri = 0; ri < pixmap->height; ri++)
+	{
+	  unsigned ci;
+	  png_bytep in_row = row_pointers[ri];
+	  
+	  for (ci = 0; ci < pixmap->width; ci++)
+	    {
+	      int bit_pos = bit_depth * ci;
+	      int byte_offset = bit_pos >> 3;
+	      int bit_shift = bit_pos & 0x7;
+	      int bit_mask = ((1 << bit_depth) - 1);
+	      BYTE val = ((in_row[byte_offset] >> bit_shift) & bit_mask);
+	
+	      if (depth == 8)
+		*out_pos++ = val;
+	      else
+		{
+		  *out_pos++ = palette[val].blue;
+		  *out_pos++ = palette[val].green;
+		  *out_pos++ = palette[val].red;
+		}
+	    }
+	}
+      dib_unlock (dib);
     }
     pixmap->pixmap = dib;
   }
@@ -813,9 +832,12 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
   unsigned ncolors = pixmap->xpmimage.ncolors;
 #else
   dib_t *dib = pixmap->pixmap;
-  unsigned ncolors = dib->colorMapSize;
+  int ncolors = ((dib->dibInfo->bmiHead.biBitCount == 24
+		  && dib->colorMap == NULL)
+		 ? -1
+		 : dib->colorMapSize);
 #endif
-
+  
   if (fp == NULL)
     [PixmapError raiseEvent: "Cannot open output pixmap file: %s\n", filename];
   
@@ -847,80 +869,110 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
     unsigned *data = pixmap->xpmimage.data;
     XpmColor *colorTable = pixmap->xpmimage.colorTable;
 #else
-    BYTE *data = dib->bits;
+    LPBYTE data = dib->bits;
     RGBQUAD *rgb = dib->dibInfo->rgb;
 #endif
-    png_color palette[ncolors];
     unsigned ci;
-    unsigned yi, xi;
+    png_byte rgbbuf[height][width][3];
     png_bytep row_pointers[height];
     
-    for (ci = 0; ci < ncolors; ci++)
+    if (ncolors != -1)
       {
+	png_color palette[ncolors];
+
+	for (ci = 0; ci < ncolors; ci++)
+	  {
 #ifndef _WIN32
-        unsigned red, green, blue;
-        
-        sscanf (colorTable[ci].c_color, "#%4x%4x%4x", 
-                &red, &green, &blue);
-        palette[ci].red = red >> 8;
-        palette[ci].green = green >> 8;
-        palette[ci].blue = blue >> 8;
+	    unsigned red, green, blue;
+	    
+	    sscanf (colorTable[ci].c_color, "#%4x%4x%4x", 
+		    &red, &green, &blue);
+	    palette[ci].red = red >> 8;
+	    palette[ci].green = green >> 8;
+	    palette[ci].blue = blue >> 8;
 #else
-        palette[ci].red = rgb[ci].rgbRed;
-        palette[ci].green = rgb[ci].rgbGreen;
-        palette[ci].blue = rgb[ci].rgbBlue;
+	    palette[ci].red = rgb[ci].rgbRed;
+	    palette[ci].green = rgb[ci].rgbGreen;
+	    palette[ci].blue = rgb[ci].rgbBlue;
 #endif
-      }
-    
-    if (ncolors > 256)
-      {
-        png_byte buf[height][width][3];
-        
-        png_set_IHDR (png_ptr, info_ptr,
-                      width, height,
-                      8, PNG_COLOR_TYPE_RGB,
-                      PNG_INTERLACE_NONE,
-                      PNG_COMPRESSION_TYPE_DEFAULT,
-                      PNG_FILTER_TYPE_DEFAULT);
-        
-        png_set_sRGB (png_ptr, info_ptr, PNG_sRGB_INTENT_PERCEPTUAL);
-        png_write_info (png_ptr, info_ptr);
-        
-        for (yi = 0; yi < height; yi++)
-          for (xi = 0; xi < width; xi++)
-            {
-              png_color color = palette[*data++];
-              buf[yi][xi][0] = color.red;
-              buf[yi][xi][1] = color.green;
-              buf[yi][xi][2] = color.blue;
-            }
-        for (yi = 0; yi < height; yi++)
-          row_pointers[yi] = &buf[yi][0][0];
+	  }
+	if (ncolors < 256)
+	  {
+	    unsigned xi, yi;
+	    png_byte palbuf[height][width];
+#ifndef _WIN32
+	    unsigned *data = pixmap->xpmimage.data;
+#else
+	    LPBYTE data = dib->bits;
+#endif	    
+	    for (yi = 0; yi < height; yi++)
+	      for (xi = 0; xi < width; xi++)
+		palbuf[yi][xi] = (png_byte)*data++;
+	    
+	    for (yi = 0; yi < height; yi++)
+	      row_pointers[yi] = &palbuf[yi][0];
+
+	    png_set_IHDR (png_ptr, info_ptr,
+			  width, height,
+			  8, PNG_COLOR_TYPE_PALETTE,
+			  PNG_INTERLACE_NONE,
+			  PNG_COMPRESSION_TYPE_DEFAULT,
+			  PNG_FILTER_TYPE_DEFAULT);
+	    png_set_PLTE (png_ptr, info_ptr, palette, ncolors);
+	    png_write_info (png_ptr, info_ptr);
+	  }
+	else
+	  {
+	    unsigned yi, xi;
+	    
+	    for (yi = 0; yi < height; yi++)
+	      for (xi = 0; xi < width; xi++)
+		{
+		  png_color color = palette[*data++];
+		  rgbbuf[yi][xi][0] = color.red;
+		  rgbbuf[yi][xi][1] = color.green;
+		  rgbbuf[yi][xi][2] = color.blue;
+		}
+	    for (yi = 0; yi < height; yi++)
+	      row_pointers[yi] = &rgbbuf[yi][0][0];
+	  }
       }
     else
       {
-        png_byte buf[height][width];
-#ifndef _WIN32
-        unsigned *data = pixmap->xpmimage.data;
-#else
-        BYTE *data = dib->bits;
-#endif
-        png_set_IHDR (png_ptr, info_ptr,
-                      width, height,
-                      8, PNG_COLOR_TYPE_PALETTE,
-                      PNG_INTERLACE_NONE,
-                      PNG_COMPRESSION_TYPE_DEFAULT,
-                      PNG_FILTER_TYPE_DEFAULT);
-        png_set_PLTE (png_ptr, info_ptr, palette, ncolors);
-        png_write_info (png_ptr, info_ptr);
-        
-        for (yi = 0; yi < height; yi++)
-          for (xi = 0; xi < width; xi++)
-            buf[yi][xi] = (png_byte)*data++;
-        
-        for (yi = 0; yi < height; yi++)
-          row_pointers[yi] = &buf[yi][0];
+	unsigned yi;
+	    
+	for (yi = 0; yi < height; yi++)
+	  {
+	    BYTE (*ybasesource)[1][3] = (void *) &data[width * yi * 3];
+	    png_byte (*ybasedest)[1][3] = &rgbbuf[yi];
+	    unsigned xi;
+
+	    for (xi = 0; xi < width; xi++)
+	      {
+		LPBYTE source = (LPBYTE) &ybasesource[xi][0];
+		png_bytep dest = (png_bytep) &ybasedest[xi][0];
+
+		dest[0] = source[2];
+		dest[1] = source[1];
+		dest[2] = source[0];
+	      }
+	    row_pointers[yi] = (png_bytep)ybasedest;
+	  }
       }
+    
+    if (ncolors == -1 || ncolors > 256)
+      {
+	png_set_IHDR (png_ptr, info_ptr,
+		      width, height,
+		      8, PNG_COLOR_TYPE_RGB,
+		      PNG_INTERLACE_NONE,
+		      PNG_COMPRESSION_TYPE_DEFAULT,
+		      PNG_FILTER_TYPE_DEFAULT);
+	
+	png_set_sRGB (png_ptr, info_ptr, PNG_sRGB_INTENT_PERCEPTUAL);
+	png_write_info (png_ptr, info_ptr);
+      }
+    
     png_write_image (png_ptr, row_pointers);
   }
   png_write_end (png_ptr, info_ptr);

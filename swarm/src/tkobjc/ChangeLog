@@ -1,3 +1,29 @@
+1998-09-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* win32dib.c: Use XFREE instead of xfree throughout.
+	Use LPBYTE instead of BYTE * throughout.
+	(dib_create): Initialize new slot colorMap to NULL.
+	(dib_createBitmap): Delete disabled free-if-bitmap-already-exists
+	code.  Switch to 24 bit count.
+	(dib_snapshot): Remove unused newColorMap and palette variables.
+	Remove offs, now unused.  Get pgmp from existing dib->dibInfo.
+	Don't free it when finished.  Switch to 24 bit count.
+	Don't augment palette in (new) 24 bit case.
+	(dib_augmentPalette): Remove "new" prefixing argument variable names.
+	Don't set DIB color table in 24 bit case.
+	(dib_fill): Handle 24 bit case.
+	
+	* win32dib.h (CDIB_PALETTE): Remove.
+	(dib): Add colorMap.  Use LPBYTE instead of BYTE * throughout.
+
+	* internal.m (tkobjc_raster_drawPoint): Handle bitmaps
+	of 8 (palette) and 24 (rgb) depths.
+	(tkobjc_pixmap_create): Likewise.
+	(tkobjc_pixmap_save): Set ncolors to -1 when there's no palette,
+	e.g. a screen snapshot.
+	(tkobjc_pixmap_save): Handle > 256 color colormaps and the
+	absence of colormaps.
+
 1998-09-04  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* internal.m (tkobjc_pixmap_save): Write RGB PNG file when
