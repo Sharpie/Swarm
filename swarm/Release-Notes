@@ -15,14 +15,14 @@ to be encountered.
 
 Following is a summary of new features in the Swarm 1.0.0 release:
 
-1.  Dropping a zone (using the standard drop message) now drops all the
+ 1. Dropping a zone (using the standard drop message) now drops all the
     objects that have been created within the zone.  By creating all
     its objects in a single zone, an experiment now has an easy and
     reliable way to release all the storage it has allocated.  Multiple
     runs of experiments (setting parameters differently each time) have
     been demonstrated successfully in both batch or GUI mode.
 
-2.  The random library has been overhauled and now follows the same
+ 2. The random library has been overhauled and now follows the same
     interface style as the rest of the Swarm libraries.  New random bit
     generators and distributions are also available.
 
@@ -32,7 +32,7 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     instructions on porting to the new random library (in the random
     library documentation) for more information.
 
-3.  The swarmobject and random libraries both use a single header file to
+ 3. The swarmobject and random libraries both use a single header file to
     declare the public interface to the entire library (similar to the
     declarations for the defobj, collections, and activity libraries).  To
     use the public interface, you only need to include this single file,
@@ -43,10 +43,10 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     must explicitly import a class header file if you want to subclass
     from it.  You are also restricted from use of class-based typing, since
     details of classes inside a library remain open to change.  See the
-    instructions on porting apps to the new swarmobject interface (in the
+    instructions on porting apps to the nwe swarmobject interface (in the
     swarmobject library documentation) for more information.
 
-4.  A new version of the collections library has *not* been included in this
+ 4. A new version of the collections library has *not* been included in this
     release.  Major upgrade of the collections library is still imminent,
     but was excluded from this release due to the complexity of changes and
     the priority of more basic cleanup in the defobj and activity libraries.
@@ -55,7 +55,7 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     general-purpose facility for subclassing from custom-generated classes,
     which will also be retrofitted to classes in defobj and activity.
 
-5.  There is an entirely new framework for mapping internal storage
+ 5. There is an entirely new framework for mapping internal storage
     allocations made by an object.  User code that creates objects need
     not be aware of the new framework, but it is used heavily by the
     swarm foundation libraries to manage their internal storage.  The new
@@ -69,7 +69,7 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     from accessing the zone that was once contained in an instance variable;
     the message getZone must be used instead.
 
-6.  Standard methods for printing a short description of any object have
+ 6. Standard methods for printing a short description of any object have
     been established for debug purposes.  A default describe method is
     provided for all objects, and more detailed methods that print useful
     information are provided for many of the fundamental classes.  For
@@ -77,13 +77,13 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     and other allocations, and collections have the ability to print all
     their members.  See defobj and debugging documentation for details.
 
-7.  Storage leaks have been eliminated from the most basic swarm libraries,
+ 7. Storage leaks have been eliminated from the most basic swarm libraries,
     including collections and activity.  The new allocation framework and
     debug print methods make it much easier to track down the existence of
     storage leaks (failure to reclaim unused storage) and to determine the
     code responsible.
 
-8.  Swarms now inherit from Zone in addition to defining their own behavior.
+ 8. Swarms now inherit from Zone in addition to defining their own behavior.
     This means that you can allocate objects directly inside a swarm, using
     the swarm as the argument of a create: or createBegin: message, instead
     of having to create or refer to a separate zone variable.
@@ -94,7 +94,7 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     A new message, getPopulation, returns a collection of all objects that
     have been created within a swarm or a zone but not yet dropped.
 
-9.  Any object now supports an ability to register an external reference to
+ 9. Any object now supports an ability to register an external reference to
     the object, and to have this reference notified (via the calling of a
     function) whenever the referenced object is dropped.  Registration of
     references will allow automatic dropping of probes when the objects they
@@ -110,7 +110,7 @@ Following is a summary of new features in the Swarm 1.0.0 release:
 
     The collections library has not been through this kind of cleanup yet.
     Its current capabilities remain limited to what is essential to the
-    implementation of Swarms and schedules in the activity library.  The
+    implementation of warms and schedules in the activity library.  The
     basic List and Array classes remain fairly complete and close to the
     advertised interface, but Map and Set don't even come close yet.
 
