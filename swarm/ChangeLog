@@ -1,5 +1,7 @@
 1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* configure.in (AC_OUTPUT): Extract tests/defobj/Makefile.in.
+
 	* VERSION: Bump.
 
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
