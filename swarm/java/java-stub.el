@@ -127,6 +127,7 @@
       "-addArgument:ofObjCType:" ; void* parameter
       "-addLongLong:" ; long long parameter
       "-addUnsignedLongLong:" ; unsigned long long parameter
+      "-addLongDouble:" ; long double parameter
 
       ;; FCall, FArguments
       "-getResult"; void* return
