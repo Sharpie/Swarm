@@ -1,3 +1,11 @@
+1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-native-class): Print #include jni.h
+	after directory.h to avoid jmalloc malloc, free, calloc
+	preprocessor redefines causing conflict with stdlib declarations
+	of same.  Don't print defobj.h inclusion twice when module is
+	defobj.
+
 1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-makefiles): Name MODULES by hand, for

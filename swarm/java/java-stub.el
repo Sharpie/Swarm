@@ -675,13 +675,15 @@
 
 (defun java-print-native-class (protocol)
   (with-protocol-c-file protocol
-    (insert "#include <jni.h>\n")
     (insert "#include \"directory.h\"\n")
+    (insert "#include <jni.h>\n")
     (insert "#import <defobj.h>\n")
-    (insert "#import <")
-    (insert (module-name (protocol-module protocol)))
-    (insert ".h>\n")
-    (insert "\n")
+    (let ((module-name (module-name (protocol-module protocol))))
+      (unless (string= module-name "defobj")
+        (insert "#import <")
+        (insert module-name)
+        (insert ".h>\n")
+        (insert "\n")))
     (loop for phase in '(:creating :using)
           do
           (loop for method in (expanded-method-list protocol phase)
