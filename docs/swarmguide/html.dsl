@@ -7,6 +7,14 @@
 <style-specification id="html" use="common docbook">
 <style-specification-body> 
 
+
+(define ($generate-book-lot-list$)
+  ;; Which Lists of Titles should be produced for Books?
+  (list (normalize "table")
+        (normalize "figure")
+        (normalize "example")
+        (normalize "equation")))
+
 (define %html-ext% ".html")
 (define %use-id-as-filename% #t)
 
@@ -47,6 +55,20 @@
   (make element gi: "FONT"
  	attributes: '(("COLOR" "GREEN"))
  	(process-children)))
+
+(define ($admon-graphic$ #!optional (nd (current-node)))
+  ;; Admonition graphic file
+  (cond ((equal? (gi nd) (normalize "tip"))
+         (string-append %admon-graphics-path% "tip.jpeg"))
+        ((equal? (gi nd) (normalize "note"))
+         (string-append %admon-graphics-path% "note.jpeg"))
+        ((equal? (gi nd) (normalize "important"))
+         (string-append %admon-graphics-path% "important.jpeg"))
+        ((equal? (gi nd) (normalize "caution"))
+         (string-append %admon-graphics-path% "caution.jpeg"))
+        ((equal? (gi nd) (normalize "warning"))
+         (string-append %admon-graphics-path% "warning.jpeg"))
+        (else (error (string-append (gi nd) " is not an admonition.")))))
 
 </style-specification-body>
 </style-specification>

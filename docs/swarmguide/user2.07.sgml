@@ -143,14 +143,6 @@
       <comment>May still need to be fleshed-out a little -- AKL</comment>
     </title> 
 
-    <figure id="simplebug-probes1">
-      <title>Example <classname>ProbeMaps</classname> for the
-        <application>tutorial</application>
-        <classname>ModelSwarm</classname> and <classname>ObserverSwarm
-        </classname></title> 
-      <graphic entityref="simplebug-probes1"></graphic>
-    </figure>
-    
     <orderedlist>
 
       <listitem><para>Create an instance of

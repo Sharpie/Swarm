@@ -13,6 +13,18 @@
   ;; Are sections enumerated?
   #t)
 
+(define %example-rules%
+  ;; Specify rules before and after an Example
+  #t)
+
+(define %admon-graphics%
+  ;; Use graphics in admonitions?
+  #t)
+
+(define %admon-graphics-path%
+  ;; Path to admonition graphics
+  "figs/")
+
 (element classname ($mono-seq$))
 (element type ($mono-seq$))
 (element function ($bold-mono-seq$))

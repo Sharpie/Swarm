@@ -235,7 +235,7 @@
 
     <figure>
       <title>Nested hierarchy of Swarms</title>
-      <graphic entityref="recursive-swarm"></graphic>
+      <graphic entityref="recursive-swarm" scale="80"></graphic>
     </figure>
 
 </sect2>
@@ -249,7 +249,7 @@
 
       <figure id="system-diagram.figure">
         <title>Swarm virtual computer</title>
-        <graphic entityref="system-diagram"></graphic>
+        <graphic entityref="system-diagram" scale="80"></graphic>
       </figure>
     </para>
 

@@ -26,14 +26,19 @@
         <listitem>
           <figure id="gui-raster.figure">
             <title>Rasters of discrete two-dimensional data</title>
-            <graphic entityref="gui-raster" align="center"></graphic>
+            <graphic entityref="gui-raster" align="center" scale="80"></graphic>
           </figure>
         </listitem>
         <listitem>
-          <figure id="gui-probemap-example.figure">
-            <title>Probes of agent state</title>
-            <graphic entityref="gui-probemap-example" align="center"></graphic>
+
+          <figure id="simplebug-probes1">
+            <title>Example <classname>ProbeMaps</classname> for the
+              <application>tutorial</application>
+              <classname>ModelSwarm</classname> and <classname>ObserverSwarm
+              </classname></title> 
+            <graphic entityref="simplebug-probes1" scale="80"></graphic>
           </figure>
+          
         </listitem>
       </itemizedlist>
 

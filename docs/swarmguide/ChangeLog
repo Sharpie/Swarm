@@ -1,5 +1,31 @@
 1999-05-21  Alex Lancaster  <alex@santafe.edu>
 
+	* userbook.sgml: Add COLOPHON describing the book production.
+
+	* user1.04.sgml (system-diagram, recursive-swarm): Scale GRAPHICs
+	by 80%.
+
+	* user1.05.sgml: Add simplebug-probes2 FIGURE in place of
+	gui-probemap-example FIGURE. Scale simplebug-probes2 and
+	gui-raster GRAPHIC by 80% for printed backends.
+
+	* user2.07.sgml: Move simplebug-probes2 FIGURE to user1.05.sgml.
+
+	* print.dsl ($admon-graphic$): Look for graphics with .eps
+	extensions.
+	(%example-rules%): Remove.
+	(formal-object-float): Set to `true'.
+
+	* common.dsl (%admon-graphics%): Use graphical admonitions in both
+	print and html backends.
+	(%admon-graphics-path%): Look in `figs' subdirectory for
+	admonition graphics.
+	(%example-rules%): Use rules for EXAMPLES in print *and* html
+	backends.
+
+	* html.dsl ($admon-graphic$): Look for graphics with .jpeg
+	extensions.
+
 	* user3.05.sgml: Add section on global lispAppArchiver and extra
 	material for the EXAMPLE.  Add more INDEXTERMs.
 

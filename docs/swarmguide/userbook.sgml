@@ -85,6 +85,17 @@
   &userbiblio.sgml;
   &genindex.sgml; 
 
+  <colophon>
+    <para>This book is generated entirely from a single SGML source
+      document marked up in the <ulink
+      url="http://www.oasis-open.org/docbook/">DocBook 3.1
+      DTD</ulink>.  To generate the resultant output, we use the
+      <ulink
+      url="http://www.nwalsh.com/docbook/dsssl/index.html">Modular
+      DocBook stylesheets</ulink> provided by <ulink
+      url="http://www.nwalsh.com">Norman Walsh</ulink>.</para>
+  </colophon>
+
 </book>
   
 
