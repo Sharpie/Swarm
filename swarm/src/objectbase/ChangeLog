@@ -1,3 +1,14 @@
+2001-09-17  Marcus G. Daniels  <mgd@condor>
+
+	* ProbeMap.m ([ProbeMap -addProbe:], [ProbeMap -_fastAddProbe_:],
+	[ProbeMap -dropProbeMap:]): Remove redundant STRDUP.
+
+	* ProbeMap.m ([ProbeMap -dropProbeFor:]): Add.  Use below.
+	Drop key string.
+
+	* ProbeMap.[hm], objectbase.h: Return void on
+	dropProbeFor{Variable,Message}:.
+
 2001-09-05  Marcus G. Daniels  <mgd@condor>
 
 	* ProbeMap.m ([ProbeMap -drop]): Drop probes Map.

@@ -65,8 +65,8 @@
 - dropProbeMap: (id <ProbeMap>)aProbeMap;
 - addProbe: (id <Probe>)aProbe;
 - _fastAddProbe_: (id <Probe>)aProbe;
-- dropProbeForVariable: (const char *)aVariable;
-- dropProbeForMessage: (const char *)aMessage;
+- (void)dropProbeForVariable: (const char *)aVariable;
+- (void)dropProbeForMessage: (const char *)aMessage;
 - (id <VarProbe>)getProbeForVariable: (const char *)aVariable;
 - (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
 - begin: aZone;

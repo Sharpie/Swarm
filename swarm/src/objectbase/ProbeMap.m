@@ -8,6 +8,8 @@
 #import <defobj.h> // Warning, STRDUP
 #import <defobj/defalloc.h> // getZone
 #import <objectbase/VarProbe.h>
+#import <defobj/macros.h> // DROP
+#import <collections/Map.h> // at:keySlot:memberSlot:
 
 #import "local.h"
 
@@ -592,10 +594,10 @@ PHASE(Using)
     {
       if ([aProbe conformsTo: @protocol (VarProbe)])
         string = [String create: getZone (self)
-                         setC: [(id <VarProbe>)aProbe getProbedVariable]];
+                         setC: [(id <VarProbe>) aProbe getProbedVariable]];
       else	
         string = [String create: getZone (self)
-                         setC: STRDUP ([(id <MessageProbe>) aProbe getProbedMessage])];
+                         setC: [(id <MessageProbe>) aProbe getProbedMessage]];
       
       if ([probes at: string] != nil)
         raiseEvent (WarningMessage,
@@ -642,7 +644,7 @@ PHASE(Using)
                      setC: [(id <VarProbe>) aProbe getProbedVariable]];
   else
     string = [String create: getZone (self)
-                     setC: STRDUP ([(id <MessageProbe>) aProbe getProbedMessage])];
+                     setC: ([(id <MessageProbe>) aProbe getProbedMessage])];
 
   if ([probes at: string] != nil)
     raiseEvent (WarningMessage,
@@ -677,22 +679,10 @@ PHASE(Using)
     if ([aProbe isKindOf: [VarProbe class]])
       [self dropProbeForVariable: [aProbe getProbedVariable]];
     else
-      [self dropProbeForMessage: STRDUP ([aProbe getProbedMessage])];
+      [self dropProbeForMessage: [aProbe getProbedMessage]];
   
   [index drop];
 	
-  return self;
-}
-
-- dropProbeForVariable: (const char *)aVariable
-{
-  id string;
-  
-  string = [String create: getZone (self) setC: aVariable];
-  if([probes removeKey: string] != nil)
-    count--;
-  [string drop];
-  
   return self;
 }
 
@@ -709,16 +699,34 @@ PHASE(Using)
   return res;
 }
 
-- dropProbeForMessage: (const char *)aMessage
+- (void)dropProbeFor: (const char *)aStr
 {
   id string;
+  id *keyPtr, *memberPtr, key;
   
-  string = [String create: getZone (self) setC: aMessage];
-  if([probes removeKey: string] != nil)
-    count--;
-  [string drop];
+  string = [String create: getZone (self) setC: aStr];
+
+  if (![probes at: string])
+    abort ();
+
+  if ([probes at: string keySlot: &keyPtr memberSlot: &memberPtr])
+    abort ();
   
-  return self;
+  key = *keyPtr;
+  [probes removeKey: string];
+  count--;
+  DROP (string);
+  DROP (key);
+}
+
+- (void)dropProbeForMessage: (const char *)aMessage
+{
+  [self dropProbeFor: aMessage];
+}
+
+- (void)dropProbeForVariable: (const char *)aVariable
+{
+  [self dropProbeFor: aVariable];
 }
 
 - (id <Probe>)getProbeForMessage: (const char *)aMessage

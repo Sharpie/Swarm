@@ -357,12 +357,12 @@ USING
 //M: The dropProbeForVariable: method is used to drop a Probe from the 
 //M: ProbeMap. No class verification takes place since the probe is dropped
 //M: based on its variableName, not its actual id value.
-- dropProbeForVariable: (const char *)aVariable; 
+- (void)dropProbeForVariable: (const char *)aVariable; 
 
 //M: The dropProbeForMessage: method is used to drop a Probe from the ProbeMap.
 //M: No class verification takes place since the probe is dropped based on its
 //M: messageName, not its actual id value.
-- dropProbeForMessage: (const char *)aMessage;  
+- (void)dropProbeForMessage: (const char *)aMessage;  
 
 //M: The dropProbeMap: method is used to drop a probe from a probe map. It is
 //M: equivalent to callling dropProbeForVariable for each variable name present
