@@ -55,6 +55,7 @@ AC_ARG_WITH(tcllibname,
 [  --with-tcllibname=NAME           Use -lNAME for Tcl],
   tcllibname=$withval)
 
+md_FIND_TCL
 md_FIND_TCL_HEADERS
 if test -z "$tclincludedir" ; then
   AC_MSG_ERROR(Please specify Tcl header path using --with-tcldir or --with-tclincludedir)
