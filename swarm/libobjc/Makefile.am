@@ -18,8 +18,8 @@ INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 lib_LTLIBRARIES = @LIBOBJC_LA@
 noinst_LTLIBRARIES = libobjc_.la
 EXTRA_LTLIBRARIES = libobjc.la
-bin_PROGS = @OBJC_DLL@
-EXTRA_PROGS = objc.dll
+bin_PROGRAMS = @OBJC_DLL@
+EXTRA_PROGRAMS = objc.dll
 
 libobjc_la_SOURCES = empty.c
 libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
