@@ -1,3 +1,8 @@
+2000-07-26  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Permutation.m ([PermutationItem_c -describe:]): Print out
+	lastDirection and position.
+
 2000-07-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Collection.m ([PermutedIndex_c -_updatePermutation_]): 

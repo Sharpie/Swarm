@@ -47,10 +47,15 @@ PHASE(Using)
   return position;
 }
 
-- (void)describe: outputCharStream
+- (void)describe: stream
 {
-  [super describe: outputCharStream];
-  [item describe: outputCharStream];
+  [super describe: stream];
+  [item describe: stream];
+  [stream catC: "lastDirection: "];
+  [stream catInt: lastDirection];
+  [stream catC: " position: "];
+  [stream catUnsigned: position];
+  [stream catC: "\n"];
 }
 
 @end
