@@ -158,7 +158,7 @@
 
 @interface MyClassDeeper: MyClassDeep
 {
-  int intAryVal[DIM1COUNT][DIM2COUNT];
+  long longAryVal[DIM1COUNT][DIM2COUNT];
   double doubleAryVal[DIM1COUNT][DIM2COUNT];
 }
 + createBegin: aZone;
@@ -173,7 +173,7 @@
   for (i = 0; i < DIM1COUNT; i++)
     for (j = 0; j < DIM2COUNT; j++)
       {
-        obj->intAryVal[i][j] = (i + 1) * (j + 1);
+        obj->longAryVal[i][j] = (i + 1) * (j + 1);
         obj->doubleAryVal[i][j] = (i + 1) * (j + 1);
       }
   return obj;
@@ -189,7 +189,7 @@
   for (i = 0; i < DIM1COUNT; i++)
     for (j = 0; j < DIM2COUNT; j++)
       {
-        if (intAryVal[i][j] != (i + 1) * (j + 1))
+        if (longAryVal[i][j] != (i + 1) * (j + 1))
           return NO;
         if (doubleAryVal[i][j] != (i + 1) * (j + 1))
           return NO;

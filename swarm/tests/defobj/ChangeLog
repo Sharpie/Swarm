@@ -1,3 +1,10 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* archiver.m (MyClassDeepDeeper): Use long for array.  Rename
+	intAryVal to longAryVal.
+	([MyClassDeeper +createBegin:], [MyClassDeeper -checkObject]): 
+	Accomodate.
+
 1999-06-28  Alex Lancaster  <alex@santafe.edu>
 
 	* archiver.m (createArchiver): Conditionally create instances of
