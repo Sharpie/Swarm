@@ -43,6 +43,20 @@ compareIntegers (id val1, id val2)
 }
 
 //
+// compareUnsigned --
+//   function to compare two unsigned integer values stored within id values
+// (Functionally identical to compareIDs, but the identity distinction is
+//  useful for deciding the appropriate use of Map keys.)
+//
+int
+compareUnsigned (id val1, id val2)
+{
+  if ((unsigned) val1 < (unsigned) val2)
+    return -1;
+  return ((unsigned) val1 > (unsigned) val2);
+}
+
+//
 // compare -- internal macro for selection of compare technique
 //
 #define compare(a, b) \
