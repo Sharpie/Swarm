@@ -4,8 +4,7 @@
 (eval-and-compile
  (push (getenv "TOP_BUILDDIR") load-path))
 (require 'protocol)
-
-(defvar *last-protocol*)
+(require 'interface)
 
 (defvar *dollar-sign*)
 
@@ -78,282 +77,6 @@
       ("ProbeMap \\*" . freaky) 
       ))
 
-(defconst *removed-protocols* 
-    '(
-      "CREATABLE"
-      "RETURNABLE"
-      
-      ;; problematic types
-      "Arguments"
-
-      ;; should be done by archiver
-      "ArchiverKeyword"
-      "ArchiverArray"
-      "ArchiverValue"
-      "ArchiverPair"
-      "ArchiverList"
-      "ArchiverQuoted"
-      "InputStream"
-      "OutputStream"
-
-      "HDF5CompoundType"
-
-      ;; deprecated
-      "InFile"
-      "OutFile" 
-      "AppendFile"
-      "ObjectSaver"
-      "ObjectLoader"
-                                
-      ;; weird / broken collections
-      "Set"
-      "OrderedSet"
-      "_Set"
-
-      ;; objectbase non-creatable
-      "ProbeConfig"
-
-      ;; activity
-      "ActivityIndex"
-
-      ;; gui creatable
-      "Frame"
-      "Canvas"
-      "ProbeCanvas"
-      "Label"
-      "ClassDisplayLabel"
-      "VarProbeLabel"
-      "CompleteProbeDisplayLabel"
-      "Button"
-      "ClassDisplayHideButton"
-      "SimpleProbeDisplayHideButton"
-      "SuperButton"
-      "Entry"
-      "MessageProbeEntry"
-      "VarProbeEntry"
-      "ButtonPanel"
-      "Form"
-      "CheckButton"
-      "CanvasItem"
-      "NodeItem"
-      "LinkItem"
-      "ScheduleItem"
-      "OvalNodeItem"
-      "RectangleNodeItem"
-      "TextItem"
-      "Circle"
-      "Rectangle"
-      "Line"
-
-      "Graph"
-      "Histogram"
-      "Pixmap"
-                                
-      ;; gui non-creatable
-      "WindowGeometryRecord"
-      "GraphElement"
-      "InputWidget"
-      "CompositeItem"
-      "CanvasAbstractItem"
-      "Drawer"
-
-      ;; simtoolsgui non-creatable
-      "WindowGeometryRecordName"
-      "CompositeWindowGeometryRecordName"
-      "MessageProbeWidget"
-      "MultiVarProbeWidget"
-
-      ;; random generators
-      "LCGgen" "LCG1gen" "LCG2gen" "LCG3gen"
-
-
-      ;; "PMMLCGgen" "PMMLCG1gen" 
-      "PMMLCG2gen" "PMMLCG3gen" "PMMLCG4gen"
-      "PMMLCG5gen" "PMMLCG6gen" "PMMLCG7gen" "PMMLCG8gen" "PMMLCG9gen"
-
-      "ACGgen"
-      "SCGgen"
-
-      "SWBgen" "SWB1gen" "SWB2gen" "SWB3gen"
-
-      "MWCAgen"
-      "MWCBgen"
-      "RWC2gen"
-      "RWC8gen"
-
-      "TGFSRgen" "TT403gen" "TT775gen" "TT800gen"
-
-      "MRGgen" "MRG5gen" "MRG6gen" "MRG7gen"
-      "C2MRG3gen"
-      "C3MWCgen"
-
-      "Split" "SplitOut" "SplitSingleSeed" "SplitMultiSeed" 
-      "SplitRandomGenerator"
-
-      "C2LCGXgen" "C4LCGXgen"
-      ))
-
-(defconst *removed-modules* '())
-
-(defconst *removed-methods* 
-    '("-getClass" ; conflict with Java
-;;      "-getDisplayName" ; conflict with Java
-;;      "-getTypeName" ; conflict with Java
-;;      "-setDisplayName:" ; conflict with Java
-;;      "-copy:" ; conflict with Java
-;;      "-remove:" ; conflict with Java
-
-      ;; DefinedClass
-      "+getMethodFor:" ; IMP return
-
-      ;; CreatedClass
-      "-at:addMethod:" ; IMP parameter
-      
-      ;; Object_s
-      "-addRef:withArgument:" ; void* parameter, ref_t return
-      "-removeRef:" ; ref_t parameter
-      "+conformsTo:" ; Protocol* parameter
-
-      ;; Zone
-      "-alloc:" ; void* return
-      "-allocBlock:" ; void* return
-      "-free:" ; void* parameter
-      "-freeBlock:blockSize:"; void* parameter
-      "-getMemberBlock" ; void* return
-      "-getData" ; void* return
-
-      ;; FCall
-      "-getRetVal:buf:"; retval_t return
-      "-getCallType"; call_t return
-
-      ;; FArguments
-      "-addArgument:ofObjCType:" ; void* parameter
-      "-addLongDouble:" ; long double parameter
-
-      ;; FCall, FArguments
-      "-getResult"; void* return
-
-      ;; Array
-      "-getData"; void* return
-      "+create:setMemberBlock:setCount:" ; id* parameter
-      "-setMemberBlock:setCount:" ; id* parameter
-      "-getMemberBlock" ; void* return
-
-      ;; Map, passthru in MultiVarProbeWidget
-      "-setCompareFunction:"; compare_t parameter
-      "-getCompareFunction"; compare_t return
-      "-next:" ; id* parameter
-      "-prev:" ; id* parameter
-      "-get:" ; id* parameter
-
-      ;; Schedule
-      ;;  (func_t parameter)
-      "-at:createActionCall:"
-      "-at:createActionCall::"
-      "-at:createActionCall:::"
-      "-at:createActionCall::::"
-
-      ;; ActionCreatingCall (func_t parameters)
-      "-createActionCall:"
-      "-createActionCall::"
-      "-createActionCall:::"
-      "-createActionCall::::"
-
-      ;; ActionCall / FCall
-      "-setFunctionPointer:" ; func_t parameter
-
-      ;; ActionCall
-      "-getFunctionPointer" ; func_t return
-
-      ;; VarProbe
-      "-probeRaw:" ; void* return
-      "-probeAsPointer:" ; void* return
-      "-setData:To:" ; void* parameter
-      "-getDims" ; unsigned * return; removal of this method 
-		 ; makes all array methods unusable
-      "-iterateAsDouble:using:" ; array iterator
-      "-iterateAsInteger:using:" ; array iterator
-      "-getBaseType:" ; array type
-      "-getRank:" ; array rank
-      "-probeAsString:Buffer:"; 2nd arg is char * but that fails because
-                             ; strings[] is const char **;
-      "-probeAsString:Buffer:withFullPrecision:" ;same reason
-
-      ;; MessageProbe
-      "-getArg:" ; val_t return
-      "-dynamicCallOn:" ; val_t return
-
-      ;; random
-      "-putStateInto:" ; void* parameter
-      "-setStateFrom:" ; void* parameter
-      "+create:setStateFromSeeds:"; unsigned* parameter
-      "+create:setA:setV:setW:setStateFromSeeds:" ; unsigned * parameter
-      "-setStateFromSeeds:" ; unsigned* parameter
-      "-getMaxSeedValues" ; unsigned* return
-      "-getLongDoubleSample" ; long double return
-      "-getLongDoubleSample:" ; long double return
-      "-getInitialSeeds" ; unsigned* return
-
-      ;; EZBin
-      "-getDistribution" ; int* return
-
-      ;; Discrete2d
-      "-getOffsets" ; long* return
-      "-allocLattice" ; id* return
-      "-setLattice:" ; id* parameter
-      "-getLattice"; id* return
-
-      ;; EZDistribution
-      "-getProbabilities"; double* return
-
-      ;; DblBuffer2d
-      "-getNewLattice" ; id* return
-
-      ;; QSort
-      "+sortNumbersIn:using:" ; function pointer parameter
-
-      ;; ActionTo
-      "-getMessageSelector"
-
-
-      ;; InputWidget
-      "-linkVariableBoolean:" ; BOOL* parameter
-      "-linkVariableInt:" ; int* parameter
-      "-linkVariableDouble:" ; double* parameter
-      
-      ;; Form
-      "-addLineName:Boolean:" ; BOOL* parameter
-      "-addLineName:Int:" ; int* parameter
-      "-addLineName:Double:" ; double* parameter
-
-      ;; Histogram
-      "-setLabels:count:" ; const char * const * parameter
-      "-setColors:count:" ; const char * const * parameter
-      "-drawHistogramWithInt:" ; int * parameter
-      "-drawHistogramWithInt:atLocations:" ; int*, double* parameters
-      "-drawHistogramWithDouble:" ; double * parameter
-      "-drawHistogramWithDouble:atLocations:" ; double * parameter
-
-      ;; Colormap
-      "-map" ; PixelValue * return
-      "-black" ; PixelValue return
-      "-white" ; PixelValue return
-
-      ;; EZGraph
-      "-getGraph" ; id <Graph> return -- a disabled protocol
-
-      ;; EZBin
-      "-getHistogram" ; id <Histogram> return -- a disabled protocol
-
-      ;; HDF5
-      "-iterate:"
-      "-iterate:drop:"
-      "-iterateAttributes:"
-      "-loadDataset:"
-      "-storeAsDataset:typeName:type:rank:dims:ptr:"
-      "-readRowNames"
-      ))
-
 (defun method-in-protocol-p (protocol method)
   (loop for sig in (protocol-method-list protocol)
         if (eq method sig) return 't
@@ -391,11 +114,6 @@
       (insert "\n * @hide"))
   (insert "\n */\n"))
 
-(defun freaky-message (objc-type)
-  (error "Objective C type `%s' in protocol `%s' is freaky!"
-         objc-type
-         (protocol-name *last-protocol*)))
-
 (defun java-objc-to-java-type-category (objc-type)
   (if objc-type
       (cdr (find objc-type *objc-to-java-type-alist*
@@ -431,8 +149,8 @@
     (if (eq java-type 'freaky)
         (progn
           (freaky-message objc-type)
-          "Object")
-        (insert java-type))))
+          (insert "Object"))
+      (insert java-type))))
 
 (defun java-print-argument (current-module argument)
   (let* ((type-and-varname (cdr argument))
@@ -473,19 +191,6 @@
           (java-print-argument module argument))
     (insert ");\n")))
   
-(defun removed-method-p (method)
-  (or (find (get-method-signature method) *removed-methods* :test #'string=)
-      (method-ellipsis-p method)))
-
-(defun method-ellipsis-p (method)
-  (let ((arguments (method-arguments method)))
-    (loop for argument in arguments
-          when (and (null (first argument))
-                    (null (second argument))
-                    (string= (third argument) "..."))
-          return t
-          finally return nil)))
-
 (defun create-method-p (method)
   (let* ((signature (get-method-signature method))
          (len (length signature))
@@ -532,10 +237,6 @@
   (unless (unwanted-create-method-p protocol method)
     (match-create-signature (get-method-signature method))))
   
-(defun included-method-p (protocol method phase)
-  (and (not (removed-method-p method))
-       (eq phase (method-phase method))))
-
 (defun expanded-method-list (protocol phase)
   (remove-if-not #'(lambda (method) (included-method-p protocol method phase))
                  (mapcar #'methodinfo-method
@@ -555,14 +256,8 @@
         (java-print-javadoc-method method protocol)
         (java-print-method protocol method)))
 
-(defun java-suffix-for-phase (phase)
-  (case phase
-    (:setting "S")
-    (:using "")
-    (:creating "C")))
-
 (defun java-protocol-name (protocol phase)
-  (concat (protocol-name protocol) (java-suffix-for-phase phase)))
+  (concat (protocol-name protocol) (suffix-for-phase phase)))
 
 (defun java-class-name (protocol phase)
   (concat (java-interface-name protocol phase) "Impl"))
@@ -597,56 +292,21 @@
 (defun java-qualified-native-class-name (protocol phase)
   (java-qualified-class-name nil protocol phase))
 
-(defun java-print-implemented-interfaces-list (protocol phase separator)
-  (let ((first t)
-        (module (protocol-module protocol)))
-    (loop for iprotocol in (included-protocol-list protocol)
-          do
-          (if first
-              (setq first nil)
-            (insert separator))
-          (insert (java-qualified-interface-name module iprotocol :setting))
-          (unless (eq phase :setting)
-            (insert separator)
-            (insert (java-qualified-interface-name module iprotocol phase))))
-    (not first)))
+(defun java-print-implemented-interfaces-list (protocol phase)
+  (print-implemented-interfaces-list protocol phase
+                                     #'java-qualified-interface-name
+                                     nil))
 
-(defun removed-protocol-p (protocol)
-  (or (find (module-sym (protocol-module protocol)) *removed-modules*)
-      (find (protocol-name protocol) *removed-protocols* :test #'string=)))
-
-(defun included-protocol-list (protocol)
-  (remove-if #'removed-protocol-p 
-             (protocol-included-protocol-list protocol)))
-
-(defun the-CREATABLE-protocol-p (protocol)
-  (string= (protocol-name protocol) "CREATABLE"))
-
-(defun the-RETURNABLE-protocol-p (protocol)
-  (string= (protocol-name protocol) "RETURNABLE"))
-
-(defun creatable-p (protocol)
-  (member-if #'the-CREATABLE-protocol-p
-             (protocol-included-protocol-list protocol)))
-
-(defun returnable-p (protocol)
-  (member-if #'the-RETURNABLE-protocol-p
-             (protocol-included-protocol-list protocol)))
-
-(defun real-class-p (protocol)
-  (or (returnable-p protocol)
-      (creatable-p protocol)))
-
-(defun java-print-implemented-protocols (protocol phase separator interface)
+(defun java-print-implemented-protocols (protocol phase interface)
   (if interface
       (when (included-protocol-list protocol)
         (insert "extends")
         (insert " ")
-        (java-print-implemented-interfaces-list protocol phase separator))
+        (java-print-implemented-interfaces-list protocol phase))
       (progn
         (insert "implements")
         (insert " ")
-        (java-print-implemented-interfaces-list protocol phase separator))))
+        (java-print-implemented-interfaces-list protocol phase))))
 
 
 (defun collect-convenience-create-methods (protocol)
@@ -762,7 +422,7 @@
 	  (t (inheritance-cases pname))
           ))
   (insert " ")
-  (when (java-print-implemented-protocols protocol phase ", " nil)
+  (when (java-print-implemented-protocols protocol phase nil)
     (insert ", "))
   (insert (java-qualified-interface-name (protocol-module protocol)
                                          protocol :setting))
@@ -790,27 +450,20 @@
   (insert "public interface ")
   (insert (java-interface-name protocol phase))
   (insert " ")
-  (java-print-implemented-protocols protocol phase ", " t)
+  (java-print-implemented-protocols protocol phase t)
   (insert " {\n")
   (java-print-interface-methods-in-phase protocol phase)
   (insert "}\n"))
 
-(defun ensure-directory (dir)
-  (unless (file-directory-p dir)
-    (make-directory dir)))
-
 (defun java-path (&optional subpath)
   (concat (get-builddir) "swarm/" subpath))
 
-(defun c-path (&optional subpath)
-  (concat (get-builddir) "c/" subpath))
-
-(defun module-path (module-sym)
-  (java-path (concat (symbol-name module-sym) "/")))
+(defun java-module-path (module)
+  (java-path (module-path module)))
 
 (defmacro with-protocol-java-file (protocol phase interface &rest body)
   (let ((dir (make-symbol "dir")))
-    `(let ((,dir (module-path (module-sym (protocol-module ,protocol)))))
+    `(let ((,dir (java-module-path (protocol-module ,protocol))))
       (ensure-directory ,dir)
       (with-temp-file (concat ,dir
                               (java-name ,protocol ,phase ,interface)
@@ -1183,64 +836,18 @@
 	    (insert "\n")
 	    (java-print-native-method method protocol :using)))))
 
-(defun java-print-makefiles ()
-  (ensure-directory (c-path))
-  (with-temp-file (concat (get-builddir) "Makefile.common")
-    (loop for module-sym being each hash-key of *module-hash-table* 
-          using (hash-value protocol-list)
-          for dir = (module-path module-sym)
-          do
-          (insert (symbol-name module-sym))
-          (insert "_noncreatable_PROTOCOLS =")
-          (loop for obj in protocol-list
-                when (and (protocol-p obj)
-                          (not (real-class-p obj))
-                          (not (removed-protocol-p obj)))
-                do
-                (insert " ")
-                (insert (protocol-name obj)))
-          (insert "\n\n")
-          (insert (symbol-name module-sym))
-          (insert "_creatable_PROTOCOLS =")
-          (loop for obj in protocol-list
-                when (and (protocol-p obj)
-                          (real-class-p obj)
-                          (not (removed-protocol-p obj)))
-                do
-                (insert " ")
-                (insert (protocol-name obj)))
-          (insert "\n\n"))
-    (insert "MODULES = defobj collections activity objectbase random gui simtoolsgui simtools analysis space\n")
-    ;;(loop for module-sym being each hash-key of *module-hash-table*
-    ;;      do
-    ;;      (insert " ")
-    ;;      (insert (symbol-name module-sym)))
-    ;; (insert "\n")
-    )
-  (loop for module-sym being each hash-key of *module-hash-table*
-        using (hash-value protocol-list)
-        for dir = (module-path module-sym)
-        do
-        (ensure-directory dir)
-        (with-temp-file (concat dir "Makefile")
-          (insert "include ../../Makefile.common\n")
-          (insert "module = ")
-          (insert (symbol-name module-sym))
-          (insert "\n")
-          (insert "include ../Makefile.rules\n"))))
-
 (defun java-print-javadoc-module-summary ()
   (loop for module-sym being each hash-key of *module-hash-table*
         using (hash-value protocol-list)
-        for dir = (module-path module-sym)
+        for module = (lookup-module module-sym)
+        for dir = (java-module-path module)
         do
         (ensure-directory dir)
         (with-temp-file (concat dir "package.html")
           (insert "<body><strong>")
-          (insert (module-summary (lookup-module module-sym)))
+          (insert (module-summary module))
           (insert "</strong>.\n\n")
-          (loop for text in (module-description-list 
-                             (lookup-module module-sym))
+          (loop for text in (module-description-list module)
                 do
                 (insert text))
           (insert "</body>")
@@ -1261,6 +868,22 @@
 
 (defun set-dollar-sign (unicode-flag)
   (setq *dollar-sign* (if unicode-flag "_00024" "$")))
+
+(defun java-print-makefiles ()
+  (print-makefile.common)
+  (loop for module-sym being each hash-key of *module-hash-table*
+        using (hash-value protocol-list)
+        for module = (lookup-module module-sym)
+        for dir = (module-path module)
+        do
+        (ensure-directory dir)
+        (with-temp-file (concat dir "Makefile")
+          (insert "include ")
+          (insert "../../Makefile.common\n")
+          (insert "module = ")
+          (insert (symbol-name module-sym))
+          (insert "\n")
+          (insert "include ../Makefile.rules\n"))))
 
 (defun java-run-all (&key unicode)
   (set-dollar-sign unicode)

@@ -1,3 +1,23 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* java-stub.el (*last-protocol*, *removed-protocols*,
+	*removed-modules*, *removed-methods*, removed-method-p,
+	method-ellipsis-p, included-method-p, removed-protocol-p,
+	the-CREATABLE-protocol-p, the-RETURNABLE-protocol-p, creatable-p,
+	returnable-p, real-class-p, c-path, module-path,
+	ensure-directory): Moved to etc/interface.el.
+	(java-print-implemented-interfaces-list): Use
+	print-implemented-interfaces-list.
+	(java-print-implemented-protocols): Remove separator argument.
+	(java-module-path): New function.
+	(java-print-makefiles): Move common portion to interface.el.
+	(java-print-javadoc-module-summary): Update to use module (not
+	sym) as argument to module-path
+	(with-protocol-java-file): Use java-module-path instead of
+	module-path.
+
+	* Makefile.am (java-stub.elc): Depend on interface.elc.
+
 2000-04-09    <mgd@HELEN>
 
 	* Swarm 2.1.1 frozen.

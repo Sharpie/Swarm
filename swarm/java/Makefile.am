@@ -13,7 +13,7 @@ SUBMAKEFILES = $(foreach module,$(MODULES),swarm/$(module)/Makefile)
 
 bin_SCRIPTS = $(JAVASWARMSCRIPTS)
 
-java-stub.elc: $(abs_top_builddir)/protocol.elc
+java-stub.elc: $(abs_top_builddir)/protocol.elc $(abs_top_builddir)/interface.elc
 
 JAVASTUBS=@JAVASTUBS@
 JAVASTUBS_FUNCTION=@JAVASTUBS_FUNCTION@
