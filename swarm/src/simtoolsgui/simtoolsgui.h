@@ -279,28 +279,6 @@ USING
 - go;
 @end
 
-@protocol ActiveGraph <MessageProbe>
-//S: Provides a continuous data feed between Swarm and the GUI.
-
-//D: An active graph object is the glue between a MessageProbe (for reading
-//D: data) and a BLTGraph GraphElement. ActiveGraphs are created and told
-//D: where to get data from and send it to, and then are scheduled to
-//D: actually do graphic functions. This class is used by EZGraph, and we
-//D: expect to see less direct usage of it by end-users as more analysis
-//D: tools (such as EZGraph) internalize its functionality.
-USING
-//M: Sets the graph element used to draw on.
-- setElement: ge;
-
-//M: Sets the object that will be probed for data.
-- setDataFeed: d;
-
-//M: Fires the probe, reads the value from the object, and draws it
-//M: on the graph element. The X value is implicitly the current
-//M: simulation time. Y is the value read. 
-- step;
-@end
-
 @protocol MessageProbeWidget
 //S: A widget for editing the arguments of a MessageProbe.
 
@@ -312,7 +290,6 @@ USING
 - setProbe: (id <Probe>)probe;
 - pack;
 @end
-
 
 //G: Manager that keeps track of active probes to be updated
 extern id <ProbeDisplayManager> probeDisplayManager;

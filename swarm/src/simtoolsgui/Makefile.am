@@ -10,7 +10,7 @@ INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activ
 
 lib_LTLIBRARIES = libsimtoolsgui.la
 
-SRC = ActionCache.m ActionHolder.m ActiveGraph.m \
+SRC = ActionCache.m ActionHolder.m \
 	ClassDisplayWidget.m CommonProbeDisplay.m CompleteProbeDisplay.m \
 	ControlPanel.m GUIComposite.m GUISwarm.m MessageProbeWidget.m \
 	ProbeDisplay.m ProbeDisplayManager.m SimpleProbeDisplay.m \
@@ -19,7 +19,7 @@ SRC = ActionCache.m ActionHolder.m ActiveGraph.m \
 libsimtoolsgui_la_SOURCES = $(SRC)
 libsimtoolsgui_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
-simtoolsgui_HEADERS = ActionCache.h ActionHolder.h ActiveGraph.h \
+simtoolsgui_HEADERS = ActionCache.h ActionHolder.h \
 	ClassDisplayWidget.h CommonProbeDisplay.h CompleteProbeDisplay.h \
 	ControlPanel.h GUIComposite.h GUISwarm.h MessageProbeWidget.h \
 	ProbeDisplay.h ProbeDisplayManager.h SimpleProbeDisplay.h \
