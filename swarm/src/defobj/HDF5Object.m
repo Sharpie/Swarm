@@ -1210,6 +1210,7 @@ PHASE(Using)
 
 - (size_t)getDatasetRank
 {
+#ifdef HAVE_HDF5
   if (datasetFlag)
     {
       hid_t sid;
@@ -1228,10 +1229,14 @@ PHASE(Using)
     }
   else
     abort ();
+#else
+  hdf5_not_available ();
+#endif
 }
 
 - (size_t)getDatasetDimension: (unsigned)dimNumber
 {
+#ifdef HAVE_HDF5
   if (datasetFlag)
     {
       size_t rank = [self getDatasetRank];
@@ -1255,9 +1260,10 @@ PHASE(Using)
     }
   else
     abort ();
+#else
+  hdf5_not_available  ();
+#endif
 }
-
-
 
 - getCompoundType
 {
