@@ -25,14 +25,8 @@
 #include <swarmconfig.h>
 #endif
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
+#include <misc.h>
 #include <assert.h>
-#include <stdarg.h>
-#include <ctype.h>
-
-#include "misc.h"
 
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.

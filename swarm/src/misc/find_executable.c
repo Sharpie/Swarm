@@ -1,13 +1,6 @@
-#include <unistd.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <misc.h>
 #include <sys/param.h>
 #include <sys/fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "misc.h"
 
 #define FALSE 0
 #define TRUE 1

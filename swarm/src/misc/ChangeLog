@@ -1,3 +1,20 @@
+1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* misc.h: If HAVE_REALPATH is not defined, avoid declaring
+	it in stdlib.h, since it will be redeclared later.  This is
+	necessary with Checker.
+
+	* find_executable.c: Don't include unistd.h, errno.h, sys/types.h,
+	sys/stat.h, stdlib.h, or stdio.h.
+
+	* argp-parse.c: Don't include stdlib.h, string.h, or unistd.h.
+
+	* argp-help.c: Don't include stddef.h, stdlib.h, string.h, stdarg.h,
+	or ctype.h.
+
+	* argp-fmtstream.c: Don't include stdlib.h, string.h, errno.h, 
+	stdarg.h, or ctype.h.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (REVISION): Bump.  Version 1.4.1.

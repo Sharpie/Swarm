@@ -28,13 +28,7 @@
 #include <swarmconfig.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <ctype.h>
-
-#include "misc.h"
+#include <misc.h>
 
 #include "argp-fmtstream.h"
 #include "argp-namefrob.h"

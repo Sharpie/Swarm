@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include <stdlib.h>
+
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
@@ -16,6 +16,16 @@
 #include <math.h>
 
 #include <swarmconfig.h>
+
+#ifndef HAVE_REALPATH
+/* Conflicts can occur when Checker fails to find stub, but it library
+   routine does exist. */
+#define realpath stdlib_realpath
+#include <stdlib.h>
+#undef realpath
+#else
+#include <stdlib.h>
+#endif
 
 #ifndef __ptr_t
 /* This is a macro and not a typedef so that it can be combined with const. */

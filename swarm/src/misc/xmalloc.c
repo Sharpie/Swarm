@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include "misc.h"
+#include <misc.h>
 
 #ifdef USE_GC
 #include <gc.h>

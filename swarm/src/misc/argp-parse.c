@@ -25,12 +25,8 @@
 #include <swarmconfig.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 #include <limits.h>
-
-#include "misc.h"
+#include <misc.h>
 
 #include <misc/getopt.h>
 
