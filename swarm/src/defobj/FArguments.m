@@ -335,7 +335,7 @@ PHASE(Creating)
   return [self addJavaObject: jobj type: fcall_type_object];
 }
 
-- addObject: value
+- (void)addObject: value
 {
 #ifdef HAVE_JDK
   if (language == LanguageJava)
@@ -344,7 +344,6 @@ PHASE(Creating)
   else
 #endif
     ADD_PRIMITIVE (fcall_type_object, id, value);
-  return self;
 }
 
 - addSelector: (SEL)aSel

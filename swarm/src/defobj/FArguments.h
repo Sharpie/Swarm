@@ -82,7 +82,7 @@ Library:      defobj
 - addDouble: (double)value;
 - addLongDouble: (long double)value;
 - addString: (const char *)value;
-- addObject: value;
+- (void)addObject: value;
 - addSelector: (SEL)aSel;
 - addJavaObject: (JOBJECT)javaObject;
 - addJavaObject: (JOBJECT)javaObject type: (fcall_type_t)type;
