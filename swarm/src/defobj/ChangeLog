@@ -1,3 +1,14 @@
+2002-10-30  Marcus G. Daniels  <mgd@condor>
+
+	* HDF5Object.m ([HDF5_c
+	-storeAsDataset:typeName:type:rank:dims:ptr:]): Once again set the
+	size of the reference pointer.
+	(chunk_deflate_plist): Do different chunking for each dimension.
+	Use the dimension size itself as the chunking amount if the
+	dimension is less than VECTOR_BLOCK_SIZE * CHUNK_RATIO.
+	([HDF5_c -createEnd],
+	[HDF5_c -storeAsDataset:typeName:type:rank:dims:ptr:]): Update usage.
+
 2002-10-28  Marcus G. Daniels  <mgd@condor>
 
 	* HDF5Archiver.m ([HDF5_c -getWritableController]): Always drop
