@@ -12,10 +12,10 @@ import swarm.gui.Raster;
 import swarm.Selector;
 import swarm.Globals;
 
-public class Glen2d extends Agent2d {
+public class User2d extends Agent2d {
   Schedule schedule;
 
-  public Glen2d (Zone aZone, Grid2d world, int x, int y) {
+  public User2d (Zone aZone, Grid2d world, int x, int y) {
     super (aZone, world, x, y);
 
     schedule = new ScheduleImpl (aZone, 1);
@@ -39,12 +39,12 @@ public class Glen2d extends Agent2d {
   }
 
   public void stepAgent () {
-    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3),
-               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3));
+    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1),
+               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1));
   }
 
   public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, (byte) 2);
+    r.drawPointX$Y$Color (x, y, (byte) 0);
     return this;
   }
 }

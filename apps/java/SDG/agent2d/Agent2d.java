@@ -18,6 +18,21 @@ public class Agent2d extends SwarmImpl {
     world.putObject$atX$Y (this, x, y);
   }
   
+  public void moveAgent (int xoffset, int yoffset) {
+    int newx, newy;
+    world.putObject$atX$Y (null, x, y);
+    newx = x;
+    newy = y;
+    newx += xoffset;
+    newy += yoffset;
+    newx = Math.abs (newx) % world.getSizeX ();
+    newy = Math.abs (newy) % world.getSizeY ();
+    x = newx;
+    y = newy;
+    world.putObject$atX$Y (this, x, y);
+  }
+
+
   public Object drawSelfOn (Raster r) {
     return this;
   }

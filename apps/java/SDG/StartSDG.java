@@ -34,8 +34,10 @@ public class StartSDG extends GUISwarmImpl {
     model.buildObjects ();
     
     colormap = new ColormapImpl (getZone ());
-    colormap.setColor$ToName ((byte) 0, "red");
-    colormap.setColor$ToName ((byte) 1, "green");
+    colormap.setColor$ToName ((byte) 0, "white");
+    colormap.setColor$ToName ((byte) 1, "red");
+    colormap.setColor$ToName ((byte) 2, "green");
+    colormap.setColor$ToName ((byte) 3, "blue");
 
     raster = new ZoomRasterImpl (getZone (), "raster");
     raster.setColormap (colormap);
@@ -60,6 +62,7 @@ public class StartSDG extends GUISwarmImpl {
   }
 
   public void updateDisplay () {
+    raster.erase ();
     display.display ();
     raster.drawSelf ();
     getActionCache ().doTkEvents ();

@@ -39,21 +39,12 @@ public class Marcus2d extends Agent2d {
   }
 
   public void stepAgent () {
-    int newx, newy;
-    world.putObject$atX$Y (null, x, y);
-    newx = x;
-    newy = y;
-    newx += Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2);
-    newy += Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2);
-    newx = Math.abs (newx) % world.getSizeX ();
-    newy = Math.abs (newy) % world.getSizeY ();
-    x = newx;
-    y = newy;
-    world.putObject$atX$Y (this, x, y);
+    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2),
+               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2));
   }
 
   public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, (byte) 0);
+    r.drawPointX$Y$Color (x, y, (byte) 1);
     return this;
   }
 }
