@@ -24,6 +24,7 @@ Library:      collections
 - setUniformRandom: rnd;
 - createEnd;
 - generatePermutation;
+- mapAllocations: (mapalloc_t) mapalloc;
 - (void)describe: outputCharStream;
 
 @end
