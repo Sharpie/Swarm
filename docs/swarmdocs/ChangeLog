@@ -1,3 +1,9 @@
+1999-01-05  Alex Lancaster  <alex@santafe.edu>
+
+	* README (Requirements): Point user at new OASIS website for the
+	DocBook DTD.  The Davenport Group now longer supports DocBook
+	directly.
+
 1999-01-04  Alex Lancaster  <alex@santafe.edu>
 
 	* AUTHORS: Move Irene to emeritus list, add Vladimir.

@@ -24,17 +24,21 @@ Building this documentation requires a number of packages:
 
 Two further packages are also required: 
 
-* The Davenport DocBook DTD (V3.0)
+* The DocBook DTD (V3.0)
 
-The SGML documentation is marked up using the Davenport DocBook V3.0
-DTD, aimed at computer documentation.  It can be found at:
+The SGML documentation is marked up using the DocBook V3.0 DTD
+(formerly maintained by the Davenport Group - now maintained by
+OASIS), aimed at computer documentation.  The current version can be
+found at:
 
-  http://www.oreilly.com/davenport/docbook/current/
+  http://www.oasis-open.org/docbook/docbook/index.html
+  
+* The modular DocBook stylesheets 
 
-* The modular DocBook stylesheets The DocBook stylesheets are used to
-parse the Swarm SGML in conjunction with the DocBook DTD and generate
-the html, tex and rtf output.  The current version required is listed
-in the Release Notes section in NEWS and can be found at:
+The DocBook stylesheets are used to parse the Swarm SGML in
+conjunction with the DocBook DTD and generate the html, tex and rtf
+output.  The current version required is listed in the Release Notes
+section in NEWS and can be found at:
 
   http://nwalsh.com/docbook/dsssl/
 
