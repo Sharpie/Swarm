@@ -1,3 +1,8 @@
+2000-03-25    <mgd@nest.swarm.org>
+
+	* Action.h: Don't include defobj/directory.h.
+	(CAction): Use JOBJECT instead of jobject.
+
 2000-03-25    <mgd@HELEN>
 
 	* Action.m (describeFunctionCall, describeMessageArgs): Use

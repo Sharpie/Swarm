@@ -15,9 +15,6 @@ Library:      activity
 #import <activity.h>
 
 #include <swarmconfig.h>
-#ifdef HAVE_JDK
-#import <defobj/directory.h>
-#endif
 
 @interface CAction: CreateDrop_s
 {
@@ -114,7 +111,7 @@ Library:      activity
 {
   size_t targetCount;
 #ifdef HAVE_JDK
-  jobject *javaTargets;
+  JOBJECT *javaTargets;
 #endif
   id *objcTargets;
 }
