@@ -7,10 +7,10 @@ USING
 - packFill;
 - packBeforeAndFillLeft: widget expand: (BOOL)expandFlag;
 - packFillLeft: (BOOL)expandFlag;
+- packToRight : widget;
 - packForgetAndExpand;
 - setParent: parent;
 - setActiveFlag: (BOOL)activeFlag;
-- setBorderWidth: (int)width;
 - setWidth: (unsigned)width;
 - setHeight: (unsigned)height;
 - setWidth: (unsigned)width Height: (unsigned)height;
@@ -31,7 +31,8 @@ USING
 @end
 
 @protocol Frame <ArchivedGeometryWidget>
-- enableRelief;
+- setReliefFlag: (BOOL)reliefFlag;
+- setBorderWidth: (int)width;
 - withdraw;
 - deiconify;
 - assertGeometry;
@@ -84,9 +85,14 @@ USING
 
 @protocol Label <Widget>
 - setText: (const char *)text;
-- anchorEast;
-- anchorWest;
-- colorBlue;
+@end
+
+@protocol ClassDisplayLabel <Label>
+- createEnd;
+@end
+
+@protocol VarProbeLabel <Label>
+- createEnd;
 @end
 
 @protocol CompleteProbeDisplayLabel <Label>
@@ -107,13 +113,22 @@ USING
 - setUser: user;
 @end
 
+@protocol ClassDisplayHideButton <Button>
+- setSubWidget: subWidget;
+- setUser: user;
+- setOwner: owner;
+@end
+
 @protocol SimpleProbeDisplayHideButton <Button>
 - setProbeDisplay: probeDisplay;
 - setFrame: frame;
 @end
 
 @protocol SuperButton <Button>
+- createEnd;
 - setSuperWidget: superWidget;
+- setOwner: owner;
+- setUser: user;
 @end
 
 
@@ -222,6 +237,7 @@ typedef unsigned long GUI_PixelValue;
 @class Button;
 @class ButtonPanel;
 @class ClassDisplayHideButton;
+@class ClassDisplayLabel;
 @class ClassDisplayWidget;
 @class CompleteProbeDisplayLabel;
 @class Frame;
@@ -231,6 +247,7 @@ typedef unsigned long GUI_PixelValue;
 @class SimpleProbeDisplayHideButton;
 @class SuperButton;
 @class VarProbeEntry;
+@class VarProbeLabel;
 @class Widget;
 
 @class XColormap;
