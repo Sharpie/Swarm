@@ -263,14 +263,14 @@ lispLoadArchiver (id applicationMap, id expr)
 static void
 hdf5LoadArchiver (id applicationMap, id hdf5file)
 {
-  void appIterateFunc (id appHDF5Obj)
+  int appIterateFunc (id appHDF5Obj)
     {
-      void modeIterateFunc (id modeHDF5Obj)
+      int modeIterateFunc (id modeHDF5Obj)
         {
           id appKey, app;
           id aZone = [hdf5file getZone];
 
-          void objIterateFunc (id hdf5Obj)
+          int objIterateFunc (id hdf5Obj)
             {
               id key = [String create: aZone setC: [hdf5Obj getName]];
               id value = hdf5In (aZone, hdf5Obj);
@@ -282,12 +282,7 @@ hdf5LoadArchiver (id applicationMap, id hdf5file)
                 [objectMap at: key replace: value];
               else
                 [objectMap at: key insert: value];
-          
-              printf ("    <%s> (%s)\n",
-                  [hdf5Obj getName],
-                      ([hdf5Obj getDatasetFlag]
-                       ? "Dataset"
-                       : "Group"));
+              return 0;
             }
 
           appKey = [String create: aZone setC: [appHDF5Obj getName]];
@@ -301,8 +296,10 @@ hdf5LoadArchiver (id applicationMap, id hdf5file)
           [applicationMap at: appKey insert: app];
           
           [modeHDF5Obj iterate: objIterateFunc];
+          return 0;
         }
       [appHDF5Obj iterate: modeIterateFunc];
+      return 0;
     }
   [hdf5file iterate: appIterateFunc];
 }

@@ -1,3 +1,29 @@
+1999-01-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* defobj.m (lispIn, hdf5In): Use it.
+
+	* DefClass.[hm]: Remove lispIn: and hdf5In:.
+
+	* DefClass.[hm], defobj.h ([CreatedClass_s -setBaseTypeObject:]):
+	New method.
+	(createType): New function.
+	
+	* DefClass.m ([CreatedClass_s -hdf5InCreate:]): Set the baseTypeObject
+	to self and call HDF5's getClass.  
+
+	* HDF5Object.m (get_attribute): Trap error from H5Aopen_name.
+
+	* HDF5Object.[hm], defobj.h: New method setBaseTypeObject: and
+	getClass.  -iterate: and -iterateAttributes: now require function
+	to return integer.
+
+	* HDF5Object.h (HDF5_c): c_type -> compoundType.
+	New ivar baseTypeObject.  The baseTypeObject is to
+	avoid redundant type objects being created and thrown away.
+
+	* Archiver.m (hdf5LoadArchiver): Provide return value of 0
+	on iterators.
+
 1999-01-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* HDF5Object.m ([HDF -writeRowNames]): Wrap contents in #ifdef

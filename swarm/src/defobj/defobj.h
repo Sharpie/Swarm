@@ -767,11 +767,11 @@ CREATING
 - setDefiningClass: aClass;
 - at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
-- lispIn: expr;
+- hdf5InCreate: hdf5Obj;
 - lispOut: stream deep: (BOOL)deepFlag;
-- hdf5In: expr;
 - hdf5Out: stream deep: (BOOL)deepFlag;
 - updateArchiver;
+extern id createType (id aZone, const char *name);
 extern Class copyClass (Class class);
 extern void addVariable (Class class, const char *name, const char *type);
 USING
@@ -978,12 +978,15 @@ CREATING
 - setCompoundType: compoundType count: (unsigned)count;
 - setRowNameLength: (size_t)len;
 - createEnd;
+SETTING
+- setBaseTypeObject: baseTypeObject;
 USING
-- iterate: (void (*) (id hdf5Obj))iterateFunc;
-- iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc;
+- iterate: (int (*) (id hdf5Obj))iterateFunc;
+- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 - (BOOL)getDatasetFlag;
 - (const char *)getName;
 - getCompoundType;
+- getClass;
 
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;

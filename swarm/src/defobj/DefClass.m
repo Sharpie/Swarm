@@ -127,7 +127,7 @@ PHASE(CreatingOnly)
   return self;
 }
 
--setSuperclass: aClass
+- setSuperclass: aClass
 {
   superclass = aClass;
   return self;
@@ -219,6 +219,20 @@ copyClass (Class class)
   return newClass;
 }
 
+id
+createType (id aZone, const char *typeName)
+{
+  Class newClass = [CreateDrop class];
+  id typeObject = [id_BehaviorPhase_s createBegin: aZone];
+
+  [typeObject setName: strdup (typeName)];
+  [typeObject setClass: getClass (newClass)];
+  [typeObject setDefiningClass: newClass]; 
+  [typeObject setSuperclass: newClass];
+
+  return typeObject;
+}
+  
 static const char *
 objc_type_for_lisp_type (const char *lispTypeString)
 {
@@ -323,12 +337,8 @@ objc_type_for_lisp_type (const char *lispTypeString)
 
 - hdf5InCreate: hdf5Obj
 {
-  if ([hdf5Obj getDatasetFlag])
-    return [[hdf5Obj getCompoundType] getClass];
-  else
-    {
-    }
-  return self;
+  [hdf5Obj setBaseTypeObject: self];
+  return [hdf5Obj getClass];
 }
 
 - lispIn: expr

@@ -45,7 +45,8 @@
   hid_t loc_id;
 #endif
 
-  id c_type;
+  id baseTypeObject;
+  id compoundType;
 
   unsigned c_count;
 #ifdef HAVE_HDF5
@@ -68,9 +69,11 @@
 - setRowNameLength: (size_t)len;
 - createEnd;
 
+- setBaseTypeObject: typeObject;
 - (BOOL)getDatasetFlag;
 - getCompoundType;
 - (const char *)getName;
+- getClass;
 
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
@@ -80,8 +83,8 @@
 - storeObject: obj;
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 
-- iterate: (void (*) (id hdf5Obj))iterateFunc;
-- iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc;
+- iterate: (int (*) (id hdf5Obj))iterateFunc;
+- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 
 - writeRowNames;
 

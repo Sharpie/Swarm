@@ -253,15 +253,8 @@ lispIn (id aZone, id expr)
         
         if (classFlag)
           {
-            Class newClass = [CreateDrop class];
-
-            obj = [id_BehaviorPhase_s createBegin: aZone];
-            [obj setName: strdup (typeName)];
-            [obj setClass: getClass (newClass)];
-            [obj setDefiningClass: newClass]; 
-            [obj setSuperclass: newClass];
+            obj = createType (aZone, typeName);
             obj = [obj lispInCreate: argexpr];
-            [obj lispIn: argexpr];
             obj = [obj createEnd];
             registerLocalClass (obj);
           }
@@ -288,33 +281,35 @@ id
 hdf5In (id aZone, id hdf5Obj)
 {
   id obj;
-  id typeObject = nil;
+  id typeObject;
 
-  void attrIterateFunc (const char *key,
-                        const char *value)
+  int attrIterateFunc (const char *key,
+                       const char *value)
     {
       if (strcmp (key, ATTRIB_TYPE_NAME) == 0)
         {
           if ((typeObject = objc_lookup_class (value)) == nil)
             {
-              typeObject = [typeObject hdf5InCreate: hdf5Obj];
-              [typeObject hdf5In: hdf5Obj];
-              typeObject = [typeObject createEnd];
+              id typeObj = createType (aZone, value);
+              id newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
               
-              printf ("HDF5: new Class `%s'\n", [typeObject name]);
-              registerLocalClass (typeObject);
+              newTypeObj = [newTypeObj createEnd];
+              registerLocalClass (newTypeObj);
+              typeObject = newTypeObj;
+              return 1;
             }
         }
-      printf ("[%s][%s]\n", key, value);
+      return 0;
     }
-
+  
+  typeObject = nil;
   [hdf5Obj iterateAttributes: attrIterateFunc];
-
+  
   if (typeObject == nil)
     raiseEvent (LoadError,
-                "No type attribute on HDF5 object `%s'",
+                "Failed to find or create class for HDF5 object `%s'",
                 [hdf5Obj getName]);
-
+  
   obj = [typeObject createBegin: aZone];
   obj = [obj hdf5InCreate: hdf5Obj];
   obj = [obj createEnd];

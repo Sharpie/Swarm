@@ -67,14 +67,13 @@ void _obj_initMethodInterfaces (Class_s *class);
 - setDefiningClass: aClass;
 - at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
-- lispIn: expr;
 - lispOut: stream deep: (BOOL)deepFlag;
 - hdf5InCreate: expr;
-- hdf5In: expr;
 - hdf5Out: stream deep: (BOOL)deepFlag;
 - createEnd;
 Class copyClass (Class class);
 void addVariable (Class class, const char *name, const char *type);
+id createType (id aZone, const char *typeName);
 @end
 
 @interface BehaviorPhase_s: CreatedClass_s

@@ -83,11 +83,18 @@ get_attribute (hid_t oid, const char *attrName)
   H5T_class_t class;
   const char *ret = NULL;
   hid_t str_ref_tid;
+  H5E_auto_t errfunc;
+  void *client_data;
+
+  H5Eset_auto (NULL, NULL);
+  aid = H5Aopen_name (oid, attrName);
+  H5Eget_auto (&errfunc, &client_data);
+  H5Eset_auto (errfunc, client_data);  
+
+  if (aid < 0)
+    return NULL;
 
   str_ref_tid = make_string_ref_type ();
-  
-  if ((aid = H5Aopen_name (oid, attrName)) < 0)
-    raiseEvent (LoadError, "could not open attribute `%s'", attrName);
   
   if ((sid = H5Aget_space (aid)) < 0)
     raiseEvent (LoadError,
@@ -311,7 +318,7 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
             int offset;
             
             if ((offset = H5Tget_member_offset (tid, i)) < 0)
-              raiseEvent (LoadError,
+             raiseEvent (LoadError,
                           "unable to get compound type offset #%u",
                           i);
             if (offset != ivar_list[i].ivar_offset)
@@ -455,7 +462,7 @@ PHASE(Creating)
 - setCompoundType: theCompoundType count: (unsigned)theRecordCount
 {
 #ifdef HAVE_HDF5
-  c_type = theCompoundType;
+  compoundType = theCompoundType;
   c_count = theRecordCount;
   c_rnlen = 1 + (unsigned) log10 ((double) c_count);
 #else
@@ -533,7 +540,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                                    H5P_DEFAULT, H5P_DEFAULT))  < 0)
             raiseEvent (SaveError, "Failed to create HDF5 file `%s'", name);
         }
-      else if (c_type)
+      else if (compoundType)
         {
           hsize_t dims[1];
           hsize_t mdims[1];
@@ -548,7 +555,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
           
           if ((loc_id = H5Dcreate (((HDF5_c *) parent)->loc_id,
                                    name,
-                                   [c_type getTid],
+                                   [compoundType getTid],
                                    c_sid,
                                    H5P_DEFAULT)) < 0)
             raiseEvent (SaveError, "unable to create (compound) dataset");
@@ -592,11 +599,17 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
               if ((tid = H5Dget_type (loc_id)) < 0)
                 raiseEvent (LoadError, "Failed to get type of dataset");
 
-              if (strcmp (typeName, "String") != 0)
-                c_type = [[[[HDF5CompoundType createBegin: [self getZone]]
-                             setTid: tid]
-                            setName: typeName]
-                           createEnd];
+              if (typeName
+                  && strcmp (typeName, "String") != 0)
+                compoundType = [[[[HDF5CompoundType createBegin: 
+                                                      [self getZone]]
+                                   setTid: tid]
+                                  setName: typeName]
+                                 createEnd];
+              else
+                {
+                  
+                }
             }
         }
     }
@@ -618,6 +631,13 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 #endif
   return self;
 }
+PHASE(Setting)
+
+- setBaseTypeObject: theBaseTypeObject
+{
+  baseTypeObject = theBaseTypeObject;
+  return self;
+}
 
 PHASE(Using)
 
@@ -633,10 +653,10 @@ PHASE(Using)
 
 - getCompoundType
 {
-  return c_type;
+  return compoundType;
 }
 
-- iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc
+- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
 {
 #ifdef HAVE_HDF5
 
@@ -645,7 +665,7 @@ PHASE(Using)
       const char *value = get_attribute (oid, attrName);
 
       if (value)
-        iterateFunc (attrName, value);
+        return iterateFunc (attrName, value);
 
       return 0;
     }
@@ -659,11 +679,12 @@ PHASE(Using)
   return self;
 }
 
-- iterate: (void (*) (id hdf5obj))iterateFunc
+- iterate: (int (*) (id hdf5obj))iterateFunc
 {
 #ifdef HAVE_HDF5
   herr_t process_object (hid_t oid, const char *memberName, void *client)
     {
+      int ret = 0;
       H5G_stat_t statbuf;
       
       if (H5Gget_objinfo (oid, memberName, 1, &statbuf) == -1)
@@ -682,7 +703,7 @@ PHASE(Using)
                       setName: memberName]
                      setId: gid]
                     createEnd];
-          iterateFunc (group);
+          ret = iterateFunc (group);
           [group drop];
         }
       else if (statbuf.type == H5G_DATASET)
@@ -699,13 +720,13 @@ PHASE(Using)
                         setName: memberName]
                        setId: did]
                       createEnd];
-          iterateFunc (dataset);
+          ret = iterateFunc (dataset);
           [dataset drop];
         }
       else
         raiseEvent (LoadError, "Cannot process HDF5 type %u",
                     (unsigned) statbuf.type);
-      return 0;
+      return ret;
     }
   if (H5Giterate (loc_id, ".", NULL, process_object, self) < 0)
     raiseEvent (LoadError, "cannot iterate over HDF5 objects");
@@ -713,6 +734,63 @@ PHASE(Using)
   hdf5_not_available ();
 #endif  
   return self;
+}
+
+- getClass
+{
+  if (datasetFlag)
+    return [compoundType getClass];
+  else
+    {
+      const char *typeName = get_attribute (loc_id, ATTRIB_TYPE_NAME);
+
+      if (typeName)
+        {
+          Class class = objc_lookup_class (typeName);
+ 
+          if (class != Nil)
+            {
+              printf ("got class `%s'\n", typeName);
+              return class;
+            }
+          else
+            {
+              id typeObject = baseTypeObject;
+
+              int process_object (id hdf5Obj)
+                {
+                  const char *type;
+                  
+                  if (((HDF5_c *) hdf5Obj)->datasetFlag)
+                    {
+                      hid_t tid;
+                      
+                      if ((tid = H5Dget_type (((HDF5_c *) hdf5Obj)->loc_id))
+                          < 0)
+                        raiseEvent (LoadError, "could not get dataset type");
+                      
+                      type = objc_type_for_tid (tid);
+                      if (H5Tclose (tid) < 0)
+                        raiseEvent (LoadError, "could not close dataset tid");
+                    }
+                  else
+                    type = @encode (id);
+                  
+                  addVariable (typeObject,
+                               [hdf5Obj getName],
+                               type);
+                  printf ("component `%s' type: `%s'\n",
+                          [hdf5Obj getName],
+                          type);
+                  return 0;
+                }
+              [self iterate: process_object];
+              return typeObject;
+            }
+        }
+      else
+        return Nil;
+    }
 }
 
 - storeTypeName: (const char *)typeName
@@ -923,7 +1001,7 @@ hdf5_store_attribute (hid_t did,
 - storeObject: obj
 {
 #ifdef HAVE_HDF5
-  if (H5Dwrite (loc_id, [c_type getTid],
+  if (H5Dwrite (loc_id, [compoundType getTid],
                 c_msid, c_sid, H5P_DEFAULT, obj) < 0)
     raiseEvent (SaveError, "unable to store object");
 #else
@@ -978,7 +1056,7 @@ hdf5_store_attribute (hid_t did,
       if (H5Fclose (loc_id) < 0)
         raiseEvent (SaveError, "Failed to close HDF5 file");
     }
-  else if (c_type)
+  else if (compoundType)
     {
       if (createFlag)
         {
