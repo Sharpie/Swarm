@@ -650,7 +650,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, getComponentName, copyComponentID, normalize, selectorCreate, selectorMethod, selectorQuery, selectorIsJavaScript, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, COMcreateParams, COMsetArg, COMsetReturn, COMfreeParams, isJavaScript, JScreateParams, JSsetArg, JSsetReturn, JSfreeParams, JSprobeVariable, JSsetVariable, COMcollect, JScollect, COMmethodName, COMmethodArgCount, COMmethodParamFcallType, COMmethodSetReturn, COMmethodInvoke };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, getComponentName, copyComponentID, normalize, selectorCreate, selectorMethod, selectorQuery, selectorIsJavaScript, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, COMcreateParams, COMsetArg, COMsetReturn, COMfreeParams, COMcollect, COMmethodName, COMmethodArgCount, COMmethodParamFcallType, COMmethodSetReturn, COMmethodInvoke, isJavaScript, JScreateParams, JSsetArg, JSsetReturn, JSfreeParams, JSprobeVariable, JSsetVariable, JSmethodInvoke, JSmethodArgCount, JScollect };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
