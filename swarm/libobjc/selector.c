@@ -403,7 +403,7 @@ __sel_register_typed_name (const char *name, const char *types,
       l = 0;
     }
 
-  DEBUG_PRINTF ("Record selector %s[%s] as: %ld\n", name, types, 
+  DEBUG_PRINTF ("Record selector %s[%s] as: %ld\n", name, types ?: "<NULL>", 
 		soffset_decode (i));
   
   {

@@ -114,8 +114,8 @@ create_tree_of_subclasses_inherited_from (Class bottom_class, Class upper)
 
   DEBUG_PRINTF ("create_tree_of_subclasses_inherited_from:");
   DEBUG_PRINTF ("bottom_class = %s, upper = %s\n",
-		(bottom_class ? bottom_class->name : NULL),
-		(upper ? upper->name : NULL));
+		(bottom_class ? (bottom_class->name ?: "<NULL>") : "<NULL>"),
+		(upper ? upper->name : "<NULL>"));
 
   tree = prev = objc_calloc (1, sizeof (objc_class_tree));
   prev->class = bottom_class;

@@ -1,3 +1,10 @@
+1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* init.c (create_tree_of_subclasses_inherited_from): Handle
+	NULL strings in diagnostic output.
+
+	* selector.c (__sel_register_typed_name): Likewise.
+
 1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/i386/mframe-{freebsd,generic,linux-gnu,openbsd,sysv4.2MP}.h,
