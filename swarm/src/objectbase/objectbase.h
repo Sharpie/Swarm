@@ -131,7 +131,7 @@ SETTING
 //M: The setNonInteractive method sets a VarProbe to be non-interactive.
 //M: This ensures that the user will not be able to change the value of
 //M: a probe, only observe it.  Setting the VarProbe to be
-//M: non-interactive will not interfere with the drag & drop
+//M: non-interactive will not interfere with the drag and drop
 //M: capability of the objects into the VarProbe field.
 //   Currently, setNonInteractive must be used *after* create phase
 //   In any case these should also become setInteractive: BOOL etc.

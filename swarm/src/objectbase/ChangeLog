@@ -1,3 +1,9 @@
+2001-11-27  Alex Lancaster  <alex@swarm.org>
+
+	* objectbase.h (setNonInteractive): Fix doc string to not use an
+	ampersand between `drag' and `drop', can confuse some XML
+	processors.
+	
 2001-11-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* probing.m (string_convert): Add a break after fcall_type_jstring
