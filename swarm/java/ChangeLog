@@ -1,5 +1,7 @@
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (C_EXTRA_DIST): Add JavaProxy and SwarmEnvironment.
+	
 	* javaswarm: New file.
 
 	* Makefile.am (bin_SCRIPTS): Install it.

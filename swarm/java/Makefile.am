@@ -1,4 +1,4 @@
-C_EXTRA_DIST = c/directory.c c/directory.h c/setup.c c/Makefile.in c/ChangeLog
+C_EXTRA_DIST = c/directory.m c/directory.h c/setup.c c/Makefile.in c/JavaProxy.h c/JavaProxy.m c/SwarmEnvironment.h c/SwarmEnvironment.m c/ChangeLog
 SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swarm/Selector.java
 EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST)
 
