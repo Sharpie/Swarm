@@ -1858,7 +1858,7 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
           buf.schar = [expr getChar];
           break;
         default:
-          raiseEvent (InvalidArgument, "Unknown value type `%d'", ntype);
+          raiseEvent (InvalidArgument, "Unknown value type %d", ntype);
           break;
         }
       object_setVariable (obj, ivarName, &buf);

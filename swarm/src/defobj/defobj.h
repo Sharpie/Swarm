@@ -758,7 +758,7 @@ externvar id <Error>
 //E: Mandatory or optional arguments to long options are also mandatory or 
 //E: optional for any corresponding short options.
 //E: 
-//E: Report bugs to bug-swarm@santafe.edu. 
+//E: Report bugs to bug-swarm@swarm.org. 
 //E: -----------------------
 //E: 
 //E: To implement this you need to make your own subclass of Arguments
