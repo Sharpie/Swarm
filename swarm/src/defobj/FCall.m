@@ -324,30 +324,6 @@ PHASE(Creating)
   return self;
 }
 
-- setMethod: (SEL)sel inObject: obj
-{
-  COMselector cSel;
-
-  if (swarmDirectory && (cSel = SD_COM_FIND_SELECTOR_COM (sel)))
-    {
-      callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
-      (COMselector) fmethod = cSel;
-      (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
-    }
-  else
-    {
-      Class class;
-  
-      callType = objccall;
-      fobject = obj;
-      (SEL) fmethod = sel;
-      class = getClass (obj);
-      fclass = class;
-      ffunction = FUNCPTR (get_imp ((Class) fclass, (SEL) fmethod));
-    }
-  return self;
-}
-
 - _setJavaMethod_: (const char *)theMethodName inObject: (JOBJECT)jObj
 {
 #ifdef HAVE_JDK
@@ -366,7 +342,66 @@ PHASE(Creating)
   return self;
 }    
 
-- setJavaMethod: (const char *)theMethodName inObject: (JOBJECT)jObj
+- setMethodFromName: (const char *)theMethodName inObject: obj
+{
+  SEL sel = sel_get_any_typed_uid (theMethodName);
+      
+  [self setMethodFromSelector: sel inObject: obj];
+
+  return self;
+}
+
+- setMethodFromSelector: (SEL)sel inObject: obj
+{
+  if (swarmDirectory)
+    {
+      COMselector cSel = SD_COM_FIND_SELECTOR_COM (sel);
+      
+      if (cSel)
+        {
+          callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
+          (COMmethod) fmethod = COM_selector_method (cSel);
+          (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
+          return self;
+        }
+      else if ([fargs getLanguage] == LanguageJava)
+        {
+          jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
+          
+          if (jsel)
+            {
+              jstring string;
+              const char *javaMethodName;
+              jboolean copy;
+              jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+              
+              string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
+              javaMethodName =
+                (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
+              
+              [(id) self setJavaMethodFromName: javaMethodName inObject: jobj];
+              if (copy)
+                (*jniEnv)->ReleaseStringUTFChars (jniEnv, string,
+                                                  javaMethodName);
+              (*jniEnv)->DeleteLocalRef (jniEnv, string);
+              return self;
+            }
+        }
+    }
+  {
+    Class class;
+    
+    callType = objccall;
+    fobject = obj;
+    (SEL) fmethod = sel;
+    class = getClass (obj);
+    fclass = class;
+    ffunction = FUNCPTR (get_imp ((Class) fclass, (SEL) fmethod));
+    return self;
+  }
+}
+
+- setJavaMethodFromName: (const char *)theMethodName inObject: (JOBJECT)jObj
 {
 #ifdef HAVE_JDK
   [self _setJavaMethod_: theMethodName
@@ -378,7 +413,7 @@ PHASE(Creating)
   return self;
 }
 
-- setJavaMethod: (const char *)theMethodName inClass: (const char *)className
+- setJavaMethodFromName: (const char *)theMethodName inClass: (const char *)className
 { 
 #ifdef HAVE_JDK
   jclass lref;
@@ -459,26 +494,19 @@ PHASE(Creating)
   id <FCall> fc = [FCall createBegin: aZone];
 
   [fc setArguments: fa];
-#ifdef HAVE_JDK
-  if ([fa getLanguage] == LanguageJava)
-    {
-      jstring string;
-      const char *javaMethodName;
-      jboolean copy;
-      jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (aSel);
-      jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (target);
-      
-      string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
-      javaMethodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
+  [fc setMethodFromSelector: aSel inObject: target];
 
-      [(id) fc _setJavaMethod_: javaMethodName inObject: jobj];
-      if (copy)
-        (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, javaMethodName);
-      (*jniEnv)->DeleteLocalRef (jniEnv, string);
-    }
-  else
-#endif
-    [fc setMethod: aSel inObject: target];
+  return [fc createEnd];
+}
+
++ create: aZone target: target
+            methodName: (const char *)theMethodName
+             arguments: (id <FArguments>)fa
+{
+  id <FCall> fc = [FCall createBegin: aZone];
+
+  [fc setArguments: fa];
+  [fc setMethodFromName: theMethodName inObject: target];
 
   return [fc createEnd];
 }
@@ -532,13 +560,21 @@ PHASE(Using)
     }
 #endif
   if (callType == COMcall)
-    COM_selector_invoke ((COMselector) fmethod,
-                         (COMobject) fobject,
-                         COM_params);
+    COM_method_invoke ((COMmethod) fmethod,
+                       (COMobject) fobject,
+                       COM_params);
   else if (callType == JScall)
-    JS_selector_invoke ((COMselector) fmethod,
-                        (COMobject) fobject,
-                        COM_params);
+    {
+      abort ();
+#if 0
+    JS_method_invoke ((COMmethod) fmethod,
+                      (COMobject) fobject,
+                      COM_params);
+#endif
+    }
+  else if (callType == JScall)
+    {
+    }
 #ifndef USE_AVCALL
   else
     {

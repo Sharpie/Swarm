@@ -49,22 +49,16 @@ COM_selector_is_boolean_return (COMselector cSel)
   return comEnv->selectorIsBooleanReturn (cSel);
 }
 
-void
-COM_selector_invoke (COMselector cSel, COMobject cObj, void *params)
-{
-  comEnv->selectorCOMInvoke (cSel, cObj, params);
-}
-
 COMselector
 COM_selector_create (COMmethod cMethod)
 {
   return comEnv->selectorCreate (cMethod);
 }
 
-void
-JS_selector_invoke (COMselector cSel, COMobject cObj, void *params)
+COMmethod
+COM_selector_method (COMselector cSel)
 {
-  comEnv->selectorJSInvoke (cSel, cObj, params);
+  return comEnv->selectorMethod (cSel);
 }
 
 void *

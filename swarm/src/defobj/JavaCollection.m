@@ -182,7 +182,7 @@ PHASE(Using)
       selname = SSTRDUP (sel_get_name (sel));
       ptr = strchr (selname, ':');
       *ptr = '\0';
-      [call setJavaMethod: selname inObject: javaTarget];
+      [call setJavaMethodFromName: selname inObject: javaTarget];
       call = [call createEnd];
       [call performCall];
       (*jniEnv)->DeleteLocalRef (jniEnv, javaTarget);

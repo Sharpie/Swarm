@@ -1078,6 +1078,8 @@ typedef const void *COMOBJECT;
 //D: A language independent interface to dynamic call argument construction.
 CREATING
 - setLanguage: (id <Symbol>)languageType;
+//M: The selector is used to set argument types.  Some languages won't
+//M: have any, and so for those languages this need not be called.
 - setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
 + create: (id <Zone>)aZone setSelector: (SEL)aSel;
@@ -1113,13 +1115,17 @@ typedef enum callTypes { ccall, COMcall, JScall, javacall, javastaticcall,  objc
 //D: A language independent interface to dynamic calls.
 CREATING
 + create: (id <Zone>)aZone target: obj
-                         selector: (SEL)aSel
+                         selector: (SEL)sel
+                        arguments: (id <FArguments>)fa;
++ create: (id <Zone>)aZone target: obj
+                       methodName: (const char *)methodName
                         arguments: (id <FArguments>)fa;
 - setArguments: args;
 - setFunctionPointer: (func_t)fn;
-- setMethod: (SEL)method inObject: object;
-- setJavaMethod: (const char *)methodName inObject: (JOBJECT)jObj;
-- setJavaMethod: (const char *)methodName inClass: (const char *)className;
+- setMethodFromSelector: (SEL)method inObject: object;
+- setMethodFromName: (const char *)methodName inObject: object;
+- setJavaMethodFromName: (const char *)methodName inObject: (JOBJECT)jObj;
+- setJavaMethodFromName: (const char *)methodName inClass: (const char *)className;
 USING
 - (call_t)getCallType;
 - getArguments;

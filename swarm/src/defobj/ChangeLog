@@ -1,5 +1,28 @@
 2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* FCall.m ([FCall_c -setMethodFromSelector:inObject:]): Use
+	COM_selector_method to set fmethod (don't store selector).
+	([FCall_c -performCall]): Use COM_method_invoke on it instead
+	of COM_selector_invoke.
+
+	* FCall.[hm], defobj.h: Rename setMethodFromSelector:inObject:,
+	setJavaMethodFromName:inObject:, and setJavaMethodFromName:inClass:.
+	(addition of FromXXX).
+	 ([FCall_c +create:target:methodName:arguments:],
+	 [FCall_c -setMethodFromName:inObject:]): New methods.
+
+	* COM.h (COMInterface): Add selectorMethod.  Remove
+	selector{COM,JS}Invoke.
+
+	* COM.[hm] ({COM,JS}_selector_invoke): Remove.
+	(COM_selector_method): Add.
+
+	* Arguments.m (parse_opt): Accomodate rename of setJavaMethodFromName
+	and setMethodFromSelector.
+
+	* JavaCollection.m (-forEach::): Accomodate rename of
+	setJavaMethodFromName.
+
 	* internal.m (fcall_type_alignment, fcall_type_size): List
 	all fcall_type enums but also protect as needed HAVE_JDK.  Thanks
 	to Ralf Stephan for reporting this.

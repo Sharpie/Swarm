@@ -124,10 +124,10 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   [fc setArguments: fa];
 #ifdef HAVE_JDK
   if (jobj)
-    [fc setJavaMethod: "parseKey$arg" inObject: jobj];
+    [fc setJavaMethodFromName: "parseKey$arg" inObject: jobj];
   else
 #endif
-    [fc setMethod: M(parseKey:arg:) inObject: arguments];
+    [fc setMethodFromSelector: M(parseKey:arg:) inObject: arguments];
   fc = [fc createEnd];
 
   [fc performCall];

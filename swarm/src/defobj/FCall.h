@@ -51,12 +51,16 @@ void updateJavaTarget (id self, JOBJECT target);
 + create: aZone target: obj
                 selector: (SEL)aSel
                 arguments: (id <FArguments>)fa;
++ create: aZone target: obj
+                methodName: (const char *)methodName
+                arguments: (id <FArguments>)fa;
 - setArguments: args;
 - getArguments;
 - setFunctionPointer: (func_t)fn;
-- setMethod: (SEL)method inObject: object;
-- setJavaMethod: (const char *)methodName inObject: (JOBJECT)jObj;
-- setJavaMethod: (const char *)methodName inClass: (const char *)className;
+- setMethodFromSelector: (SEL)method inObject: object;
+- setMethodFromName: (const char *)methodName inObject: obj;
+- setJavaMethodFromName: (const char *)methodName inObject: (JOBJECT)jObj;
+- setJavaMethodFromName: (const char *)methodName inClass: (const char *)className;
 - createEnd;
 - (void)performCall;
 - (void *)getResult;

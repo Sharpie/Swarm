@@ -31,6 +31,7 @@ struct COMInterface {
   COMobject (*normalize) (COMobject);
 
   COMselector (*selectorCreate) (COMmethod cMethod);
+  COMmethod (*selectorMethod) (COMselector cSel);
   COMselector (*selectorQuery) (COMobject cObj);
   BOOL (*selectorIsJavaScript) (COMselector cSel);
   BOOL (*selectorIsVoidReturn) (COMselector cSel);
@@ -38,9 +39,6 @@ struct COMInterface {
   const char *(*selectorName) (COMselector cSel);
   unsigned (*selectorArgCount) (COMselector cSel);
   fcall_type_t (*selectorArgFcallType) (COMselector cSel, unsigned index);
-
-  void (*selectorCOMInvoke) (COMselector cSel, COMobject cObj, void *params);
-  void (*selectorJSInvoke) (COMselector cSel, COMobject cObj, void *params);
 
   void *(*COMcreateParams) (unsigned size);
   void (*COMsetArg) (void *params, unsigned pos, val_t *val);
@@ -89,9 +87,8 @@ extern const char *COM_get_class_name (COMclass cClass);
 
 extern BOOL COM_selector_is_javascript (COMselector cSel);
 extern BOOL COM_selector_is_boolean_return (COMselector cSel);
-extern void COM_selector_invoke (COMselector cSel, COMobject cObj, void *params);
-extern void JS_selector_invoke (COMselector cSel, COMobject cObj, void *params);
 extern COMselector COM_selector_create (COMmethod cMethod);
+extern COMmethod COM_selector_method (COMselector cSel);
 
 extern void *COM_create_params (unsigned size);
 extern void COM_set_arg (void *params, unsigned pos, val_t *val);
