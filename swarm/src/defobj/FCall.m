@@ -804,7 +804,7 @@ PHASE(Using)
     abort ();
 }
 
-- (void)drop
+- (void)dropAllocations: (BOOL)componentAlloc
 {
 #ifdef HAVE_JDK
   if (callType == javacall)
@@ -818,7 +818,7 @@ PHASE(Using)
 #endif
   if (methodName)
     FREEBLOCK (methodName);
-  [super drop];
+  [super dropAllocations: componentAlloc];
 }
 
 @end

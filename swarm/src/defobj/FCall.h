@@ -62,4 +62,5 @@ void updateJavaTarget (id self, JOBJECT target);
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
 - (func_t)getFunctionPointer;
 - (call_t)getCallType;
+- (void)dropAllocations: (BOOL)componentAlloc;
 @end

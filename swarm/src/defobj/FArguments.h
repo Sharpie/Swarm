@@ -76,5 +76,6 @@ Library:      defobj
 - createEnd;
 - (BOOL)getJavaFlag;
 - (void *)getResult;
+- (void)dropAllocations: (BOOL)componentAlloc;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

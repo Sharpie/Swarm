@@ -440,7 +440,7 @@ PHASE(Using)
   return javaFlag;
 }
 
-- (void)drop
+- (void)dropAllocations: (BOOL)componentAlloc
 {
 #ifdef HAVE_JDK  
   unsigned i;
@@ -460,7 +460,7 @@ PHASE(Using)
         (*jniEnv)->DeleteGlobalRef (jniEnv, *(jobject *) argValues[offset]);
     }
 #endif
-  [super drop];
+  [super dropAllocations: componentAlloc];
 }
 
 - (void)mapAllocations: (mapalloc_t)mapalloc
