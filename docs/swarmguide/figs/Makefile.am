@@ -3,6 +3,7 @@ GS_LIB = @GS_LIB@
 CJPEG = @CJPEG@ -quality 100
 PNGTOPNM = @PNGTOPNM@
 PNMTOPS = @PNMTOPS@
+PNMCROP= pnmcrop
 
 EPS = swarm.eps modeling.eps interface-vs-implementation.eps
 GENERATED_EPS = $(patsubst %.png,%.eps,$(PNG))
@@ -22,8 +23,9 @@ CLEANFILES = $(GENERATED_FIGS)
 
 %.jpeg: $(srcdir)/%.eps
 	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm - < $< -c quit
-	$(CJPEG) $*.ppm > $@
-	$(RM) $*.ppm
+	$(PNMCROP) $*.ppm > $*-crop.ppm
+	$(CJPEG) $*.-crop.ppm > $@
+	$(RM) $*.ppm $*-crop.ppm
 
 %.eps: $(srcdir)/%.png
 	$(PNGTOPNM) $< > $*.pnm
