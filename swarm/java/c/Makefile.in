@@ -13,21 +13,21 @@ LIBTOOL=@LIBTOOL@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
-includedir=@includedir@
 LIBS=@LIBS@
+
+top_srcdir=@top_srcdir@
+srcdir=@srcdir@
+VPATH=$(srcdir)
 
 jdkdir=@jdkdir@
 javaincludedir=$(jdkdir)/include
 JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
-CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir) -I$(srcdir)
+CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src -I$(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir)
 # Solaris JNI headers have some pragmas
 CFLAGS=@CFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 OBJCFLAGS=@OBJCFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 LDFLAGS=@LDFLAGS@
-
-srcdir=@srcdir@
-VPATH=$(srcdir)
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 

@@ -1,3 +1,9 @@
+1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (CPPFLAGS): Add -I$(top_srcdir)/src/misc, and
+	$(top_builddir), -I$(top_builddir), and foreach expansion of
+	srcdir and builddir of modules.  Don't substitute or use $(includedir).
+
 1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.h (JFINDOBJC): Formerly JFIND.
