@@ -8,8 +8,10 @@ import swarm.objectbase.SwarmImpl;
 import swarm.Globals;
 import swarm.Selector;
 import swarm.defobj.ZoneImpl;
+import swarm.activity.ActionGroup;
 import swarm.activity.ActionGroupImpl;
 import swarm.activity.ActivityImpl;
+import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
 import swarm.activity.SwarmActivityImpl;
 
@@ -18,8 +20,8 @@ import swarm.analysis.EZGraphImpl;
 public class MousetrapBatchSwarm extends SwarmImpl {
   int loggingFrequency = 1;		     // Frequency of fileI/O
   
-  ActionGroupImpl displayActions;	     // schedule data structs
-  ScheduleImpl displaySchedule;
+  ActionGroup displayActions;	     // schedule data structs
+  Schedule displaySchedule;
   
   MousetrapModelSwarm mousetrapModelSwarm;   // the Swarm we're observing
   

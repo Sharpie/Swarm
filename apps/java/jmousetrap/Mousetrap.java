@@ -3,8 +3,11 @@
 // the implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
+import swarm.random.UniformDoubleDist;
 import swarm.random.UniformDoubleDistImpl;
+import swarm.random.UniformUnsignedDist;
 import swarm.random.UniformUnsignedDistImpl;
+import swarm.random.UniformIntegerDist;
 import swarm.random.UniformIntegerDistImpl;
 import swarm.gui.ZoomRasterImpl;
 import swarm.Globals;
@@ -23,9 +26,9 @@ public class Mousetrap {
   public boolean triggered;
   public ZoomRasterImpl displayWidget;
   public MousetrapModelSwarm modelSwarm;
-  public UniformDoubleDistImpl uniform0to1;
-  public UniformIntegerDistImpl uniformRadius;
-  public UniformUnsignedDistImpl uniformTrigTime;
+  public UniformDoubleDist uniform0to1;
+  public UniformIntegerDist uniformRadius;
+  public UniformUnsignedDist uniformTrigTime;
 
   public Mousetrap (MousetrapModelSwarm s, int x, int y,
                     Object randGenerator) {

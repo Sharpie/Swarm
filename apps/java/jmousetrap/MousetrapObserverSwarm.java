@@ -8,16 +8,30 @@ import swarm.simtoolsgui.GUISwarmImpl;
 import swarm.Globals;
 import swarm.Selector;
 import swarm.defobj.ZoneImpl;
-import swarm.objectbase.EmptyProbeMapImpl;
-import swarm.objectbase.ActivityControlImpl;
-import swarm.objectbase.SwarmImpl;
+
+import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
+import swarm.activity.ActionGroup;
 import swarm.activity.ActionGroupImpl;
+
+import swarm.objectbase.EmptyProbeMapImpl;
+
+import swarm.objectbase.ActivityControl;
+import swarm.objectbase.ActivityControlImpl;
+import swarm.activity.Activity;
 import swarm.activity.ActivityImpl;
+
+import swarm.objectbase.SwarmImpl;
+
+import swarm.analysis.EZGraph;
+import swarm.analysis.EZGraphImpl;
+
+import swarm.space.Object2dDisplay;
+import swarm.space.Object2dDisplayImpl;
+
 import swarm.gui.ColormapImpl;
 import swarm.gui.ZoomRasterImpl;
-import swarm.analysis.EZGraphImpl;
-import swarm.space.Object2dDisplayImpl;
+
 
 /**
  * The MousetrapObserverSwarm is the top-level swarm that watches
@@ -27,17 +41,16 @@ import swarm.space.Object2dDisplayImpl;
  * that world. */
 public class MousetrapObserverSwarm extends GUISwarmImpl {
   public int displayFrequency;
-  public ScheduleImpl displaySchedule;
+  public Schedule displaySchedule;
   public MousetrapModelSwarm mousetrapModelSwarm;
   
   public ColormapImpl colormap;
   public ZoomRasterImpl displayWindow;
-  public EZGraphImpl triggerGraph;
-  
-  public Object2dDisplayImpl mousetrapDisplay;
-  
-  public ActivityControlImpl observerActCont;
-  public ActionGroupImpl displayActions;
+
+  public EZGraph triggerGraph;
+  public Object2dDisplay mousetrapDisplay;
+  public ActivityControl observerActCont;
+  public ActionGroup displayActions;
   
   /**
    * MousetrapObserverSwarm constructor: since we are only interested in

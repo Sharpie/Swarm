@@ -8,12 +8,16 @@ import swarm.objectbase.SwarmImpl;
 import swarm.Globals;
 import swarm.Selector;
 import swarm.defobj.ZoneImpl;
+import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
 import swarm.activity.ActivityImpl;
+import swarm.objectbase.ActivityControl;
 import swarm.objectbase.ActivityControlImpl;
 import swarm.objectbase.VarProbeImpl;
 import swarm.objectbase.EmptyProbeMapImpl;
+import swarm.random.PMMLCG1gen;
 import swarm.random.PMMLCG1genImpl;
+import swarm.random.UniformDoubleDist;
 import swarm.random.UniformDoubleDistImpl;
 import swarm.space.Grid2dImpl;
 
@@ -31,15 +35,15 @@ public class MousetrapModelSwarm extends SwarmImpl
   public int maxTriggerTime;
   public double trapDensity;
   
-  public ScheduleImpl modelSchedule;
+  public Schedule modelSchedule;
   
   public MousetrapStatistics stats;
   public Grid2dImpl grid;
   
-  public ActivityControlImpl modelActCont;
+  public ActivityControl modelActCont;
   
-  public PMMLCG1genImpl randomGenerator;
-  public UniformDoubleDistImpl uniform0to1;
+  public PMMLCG1gen randomGenerator;
+  public UniformDoubleDist uniform0to1;
 
   class MousetrapProbeMap extends EmptyProbeMapImpl {
     private VarProbeImpl probeVariable (String name) {
