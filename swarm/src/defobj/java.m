@@ -1879,8 +1879,8 @@ swarm_directory_java_ensure_selector (jobject jsel)
           add (retType);
           (*jniEnv)->DeleteLocalRef (jniEnv, retType);
         }
-        add_type (_C_ID);
-        add_type (_C_SEL);
+        add_type (fcall_type_object);
+        add_type (fcall_type_selector);
 
         for (ti = 0; ti < argCount; ti++)
           {
