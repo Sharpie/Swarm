@@ -11,6 +11,7 @@
 
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
+#import <defobj/JavaProxy.h>
 #import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA
 #endif
 
@@ -21,15 +22,13 @@
 PHASE(Creating)
 - createEnd
 {
-  IvarList_t ivarList;
-  id aProbe;
   Class aClass;
 
   id classList;  // added to ensure the vars are added from Object downwards
   id anIndex;    // as required by the ObjectSaver (for example)
 	
   if (SAFEPROBES)
-    if (probedClass == 0)
+    if (!probedClass)
       {
         raiseEvent (WarningMessage,
                     "CompleteVarMap object was not properly initialized\n");
@@ -40,11 +39,11 @@ PHASE(Creating)
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
 	
-  if (probes == nil)
+  if (!probes)
     return nil;
 
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if ([probedClass respondsTo: M(isJavaProxy)])
     { 
       jclass currentClass, nextClass;
 
@@ -80,31 +79,7 @@ PHASE(Creating)
   
   anIndex = [classList begin: getZone (self)];
   while ((aClass = (id) [anIndex next]))
-    {
-      if ((ivarList = aClass->ivars))
-        {
-          unsigned i;
-
-          count += ivarList->ivar_count;
-          
-          for (i = 0; i < ivarList->ivar_count; i++)
-            {
-              const char *name;
-              
-              name = ivarList->ivar_list[i].ivar_name;
-              
-              aProbe = [VarProbe createBegin: getZone (self)];
-              [aProbe setProbedClass: aClass];
-              [aProbe setProbedVariable: name];
-              if (objectToNotify != nil) 
-                [aProbe setObjectToNotify: objectToNotify];
-              aProbe = [aProbe createEnd];
-              
-              [probes at: [String create: getZone (self) setC: name]
-                      insert: aProbe];
-            }
-        }
-    }
+    [self addObjcFields: aClass];
   [anIndex drop];
   [classList drop];
   return self;

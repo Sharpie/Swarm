@@ -25,6 +25,7 @@ PHASE(Creating)
 
   tempObj = [super createBegin: aZone];
   tempObj->objectToNotify = nil;
+  tempObj->count = 0;
   return tempObj;
 }
 
@@ -141,11 +142,6 @@ PHASE(Creating)
         raiseEvent (WarningMessage, "It is an error to reset the class\n");
         return nil;
       }
-
-#ifdef HAVE_JDK
-  // if class passed to setProbedClass is 
-  isJavaProxy = [aClass respondsTo: M(isJavaProxy)];     
-#endif
 
   probedClass = aClass;
   return self;
@@ -295,66 +291,22 @@ PHASE(Creating)
   (*jniEnv)->DeleteLocalRef (jniEnv, methods);
 }
 #endif
-  
-- createEnd
-{
+
+- (void)addObjcFields: (Class)aClass
+{ 
   IvarList_t ivarList;
-  MethodList_t methodList;
 
-  //The compiler seems to put the methods in the 
-  //opposite order than the one in which they were
-  //declared, so we need to manually invert them.
-  
-  unsigned i;
-  id aProbe;
- 
-  if (SAFEPROBES)
-    if (probedClass == 0)
-      {
-        raiseEvent (WarningMessage,
-                    "ProbeMap object was not properly initialized\n");
-        return nil;
-      }
-
-  if (objectToNotify == nil)
-    [self setObjectToNotify: 
-            [probeLibrary getObjectToNotify]];
-  
-  probes = [Map createBegin: getZone (self)];
-  [probes setCompareFunction: &p_compare];
-  probes = [probes createEnd];  
-
-  if (probes == nil)
-    return nil;
-
-#ifdef HAVE_JDK
-  if (isJavaProxy)
-    { 
-      classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
-      if (!classObject)
-	raiseEvent (SourceMessage,
-		    "Java class to be probed can not be found!\n");      
-      count = 0;
-
-      [self addJavaFields: classObject];
-      [self addJavaMethods: classObject];
-      return self;
-    }
-#endif
-
-  if (!(ivarList = probedClass->ivars))
-    count = 0;
-  else
+  if ((ivarList = aClass->ivars))
     {
-      count = ivarList->ivar_count;
-      for (i = 0; i < count; i++)
+      unsigned i;
+      count += ivarList->ivar_count;
+      
+      for (i = 0; i < ivarList->ivar_count; i++)
         {
-          const char *name;
-          
-          name = ivarList->ivar_list[i].ivar_name;
-          
-          aProbe = [VarProbe createBegin: getZone (self)];
-          [aProbe setProbedClass: probedClass];
+          const char *name = ivarList->ivar_list[i].ivar_name;
+          id aProbe = [VarProbe createBegin: getZone (self)];
+
+          [aProbe setProbedClass: aClass];
           [aProbe setProbedVariable: name];
           if (objectToNotify != nil) 
             [aProbe setObjectToNotify: objectToNotify];
@@ -364,27 +316,71 @@ PHASE(Creating)
                   insert: aProbe];
         }
     }
-  
-  if ((methodList = probedClass->methods))
+}
+
+- (void)addObjcMethods: (Class)aClass
+{
+  MethodList_t methodList;
+
+  if ((methodList = aClass->methods))
     {
+      unsigned i;
       count += methodList->method_count;
       
       for (i = methodList->method_count; i > 0; i--)
         {
-          aProbe = [MessageProbe createBegin: getZone (self)];
-          [aProbe setProbedClass: probedClass];
-          [aProbe setProbedSelector: methodList->method_list[i - 1].method_name];
+          id aProbe = [MessageProbe createBegin: getZone (self)];
+
+          [aProbe setProbedClass: aClass];
+          [aProbe setProbedSelector:
+                    methodList->method_list[i - 1].method_name];
           if (objectToNotify != nil) 
             [aProbe setObjectToNotify: objectToNotify];
           aProbe = [aProbe createEnd];
           
-          [probes at: [String 
-                        create: getZone (self)
-                        setC: [aProbe getProbedMessage]]
+          [probes at: [String create: getZone (self)
+                              setC: [aProbe getProbedMessage]]
                   insert: 
                     aProbe];
         }
     }
+}
+  
+- createEnd
+{
+  if (SAFEPROBES)
+    if (!probedClass)
+      {
+        raiseEvent (WarningMessage,
+                    "ProbeMap object was not properly initialized\n");
+        return nil;
+      }
+
+  if (!objectToNotify)
+    [self setObjectToNotify: 
+            [probeLibrary getObjectToNotify]];
+  
+  probes = [Map createBegin: getZone (self)];
+  [probes setCompareFunction: &p_compare];
+  probes = [probes createEnd];  
+
+  if (!probes)
+    return nil;
+
+#ifdef HAVE_JDK
+  if ([probedClass respondsTo: M(isJavaProxy)])
+    { 
+      classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
+      if (!classObject)
+	raiseEvent (SourceMessage,
+		    "Java class to be probed can not be found.\n");      
+      [self addJavaFields: classObject];
+      [self addJavaMethods: classObject];
+      return self;
+    }
+#endif
+  [self addObjcFields: probedClass];
+  [self addObjcMethods: probedClass];
 
   return self;
 }

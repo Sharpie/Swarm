@@ -19,10 +19,6 @@
 PHASE(Creating)
 - createEnd
 {
-  IvarList_t ivarList;
-  int i;
-  id a_probe ;
-
   if (SAFEPROBES)
     if (probedClass == 0)
       {
@@ -38,9 +34,8 @@ PHASE(Creating)
   if (probes == nil)
     return nil;
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if ([probedClass respondsTo: M(isJavaProxy)])
     { 
-      count = 0;
       classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
@@ -50,30 +45,7 @@ PHASE(Creating)
       return self;
     }
 #endif
-
-  if (!(ivarList = probedClass->ivars))
-    count = 0;
-  else 
-    {
-      count = ivarList->ivar_count;
-      
-      for (i = 0; i < count; i++)
-        {
-          const char *name;
-          
-          name = ivarList->ivar_list[i].ivar_name;
-          
-          a_probe = [VarProbe createBegin: getZone (self)];
-          [a_probe setProbedClass: probedClass];
-          [a_probe setProbedVariable: name];
-          if (objectToNotify != nil) 
-            [a_probe setObjectToNotify: objectToNotify];
-          a_probe = [a_probe createEnd];
-          
-          [probes at: [String create: getZone (self) setC: name]
-                  insert: a_probe];
-        }
-    }
+  [self addObjcFields: probedClass];
   return self;
 }
 PHASE(Using)

@@ -1,3 +1,19 @@
+2001-01-11  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ProbeMap.[hm] ([ProbeMap -addObjc{Fields,Methods}:]): New methods.
+
+	* ProbeMap.h (ProbeMap): Remove isJavaProxy.  
+
+	* CompleteProbeMap.m ([CompleteProbeMap -createEnd]): Use new
+	-addObjc{Fields,Methods} instead of inline code.  Do isJavaProxy
+	test using a respondsTo.
+
+	* ProbeMap.m ([ProbeMap -createEnd]): Likewise.
+
+	* CompleteVarMap.m ([CompleteVarMap -createEnd]): Likewise.
+
+	* DefaultProbeMap.m ([DefaultProbeMap -createEnd]): Likewise.
+
 2000-10-14  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* objectbase.h (ProbeMap): Make argument to addProbe: id <Probe>.

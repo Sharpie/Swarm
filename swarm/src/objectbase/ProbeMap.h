@@ -25,7 +25,6 @@
   id probes;
   id objectToNotify;  //could be an object or a list
 
-  unsigned isJavaProxy;
   void *classObject;
 }
 
@@ -77,6 +76,9 @@
 - (void)addJavaFields: (jclass)javaClass;
 - (void)addJavaMethods: (jclass)javaClass;
 #endif
+
+- (void)addObjcFields: (Class)objcClass;
+- (void)addObjcMethods: (Class)objcClass;
 
 - (void)describeForEach: stream;
 @end

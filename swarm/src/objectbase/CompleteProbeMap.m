@@ -19,10 +19,6 @@
 PHASE(Creating)
 - createEnd
 {
-  IvarList_t ivarList;
-  MethodList_t methodList;
-  int i;
-  id aProbe;
   Class aClass;
 
   id classList;  //added to ensure the vars are added from Object downwards
@@ -43,21 +39,16 @@ PHASE(Creating)
   if (probes == nil)
     return nil;
 
-
 #ifdef HAVE_JDK
-  if (isJavaProxy)
-    classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
-
-  if (classObject)
-    { 
+  if ([probedClass respondsTo: M(isJavaProxy)])
+    {
       jclass currentClass, nextClass;
-
+      classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
+      
       if (!classObject)
 	raiseEvent (SourceMessage,
-		    "Java class to be probed can not be found!\n");      
-      
-      count = 0;
-      
+		    "Java class to be probed can not be found.\n");
+
       [self addJavaFields: classObject];
       [self addJavaMethods: classObject];
       
@@ -70,16 +61,12 @@ PHASE(Creating)
           [self addJavaFields: currentClass];
           [self addJavaMethods: currentClass];
         }
-
       return self;
     }
 #endif
-
   classList = [List create: getZone (self)];
   if (!classList) 
     return nil;
-
-  count = 0;
 
   aClass = probedClass;
   do
@@ -87,54 +74,13 @@ PHASE(Creating)
       [classList addFirst: (id) aClass];
       aClass = aClass->super_class;
     } 
-  while(aClass);
+  while (aClass);
   
   anIndex = [classList begin: getZone (self)];
   while ((aClass = (id) [anIndex next]))
     {
-      if ((ivarList = aClass->ivars))
-        {
-          count += ivarList->ivar_count;
-          
-          for (i = 0; i < ivarList->ivar_count; i++)
-            {
-              const char *name = ivarList->ivar_list[i].ivar_name;
-              
-              aProbe = [VarProbe createBegin: getZone (self)];
-              [aProbe setProbedClass: aClass];
-              [aProbe setProbedVariable: name];
-              if (objectToNotify != nil) 
-                [aProbe setObjectToNotify: objectToNotify];
-              aProbe = [aProbe createEnd];
-              
-              [probes at: [String create: getZone (self) setC: name]
-                      insert: aProbe];
-            }
-        }
-      
-      if ((methodList = aClass->methods))
-        {
-          count += methodList->method_count;
-          
-          for (i = 0; i < methodList->method_count; i++)
-            {
-              aProbe = [MessageProbe createBegin: getZone (self)];
-              [aProbe setProbedClass: probedClass];
-              [aProbe setProbedSelector: methodList->method_list[i].method_name];
-              if (objectToNotify != nil) 
-                [aProbe setObjectToNotify: objectToNotify];
-              aProbe = [aProbe createEnd];
-              
-              if (aProbe)
-                [probes 
-                  at: 
-                    [String 
-                      create: getZone (self)
-                      setC: 
-                        sel_get_name (methodList->method_list[i].method_name)]
-                  insert: aProbe];
-            }
-        }
+      [self addObjcFields: aClass];
+      [self addObjcMethods: aClass];
     }
   [anIndex drop];
   [classList drop];
