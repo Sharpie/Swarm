@@ -22,7 +22,7 @@
 #undef BOOL
 
 #define Arguments Win32Arguments
-#define Colormap Win32Colormap
+#define Colormap X11Colormap
 #include "tk/tkWinInt.h"
 #undef Colormap
 #undef Arguments
