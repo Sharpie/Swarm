@@ -693,6 +693,8 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
       Tk_Window tkwin = tkobjc_nameToWindow ([[widget getTopLevel] getWidgetName]);
       Window window = Tk_WindowId (tkwin);
 
+      Tk_MapWindow (tkwin);
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
       keep_inside_screen ([widget getTopLevel]);
       Tk_RestackWindow (tkwin, Above, NULL);
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
