@@ -1,3 +1,7 @@
+1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* config.swarm.in: Use @libdir@ instead of @prefix@/lib.
+
 1998-08-10  Alex Lancaster  <alex@santafe.edu>
 
 	* config.swarm.in (config_swarm_SWARMLIBS): Add tclobjc to list of

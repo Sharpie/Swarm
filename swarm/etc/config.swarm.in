@@ -4,7 +4,7 @@ CC="@CC@"
 
 ## Anciliary variables that need to be set in order for the final
 ## (substituted) SWARM_LD{FLAGS,ADD} variable to be set correctly
-config_swarm_libdir="@prefix@/lib"
+config_swarm_libdir="@libdir@"
 
 tcllibdir="@tcllibdir@"
 tklibdir="@tklibdir@"
