@@ -2,7 +2,7 @@
 
 	* Makefile.conf (FFPREFIX): libffi is now SFI installed software
 	change to /usr/local in SFI configuration.
-	(TCLOBJCPREFIX): Likewise.
+	(TCLOBJCPREFIX): Likewise (for tclobjc-1.3).
 
 1998-03-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
