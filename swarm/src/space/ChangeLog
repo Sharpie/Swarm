@@ -1,3 +1,9 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* space.h: Add Zone typing to +create* methods.  Don't touch
+	arguments that are subclasses of Discrete2d because we don't
+	have a stubbing mechanism for that.
+
 1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m (lispInLatticeValues): Use convertToType:dest:

@@ -82,7 +82,7 @@
 
 CREATING
 //M: Convenience constructor for Discrete2d lattice
-+ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
++ create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y;
 
 //M: Set the world size.
 - setSizeX: (unsigned)x Y: (unsigned)y;
@@ -136,11 +136,11 @@ USING
 
 //M: This method reads a PGM formatted file and pipes the data into
 //M: a Discrete2d object. 
-- (int)setDiscrete2d: a toFile: (const char *)filename;
+- (int)setDiscrete2d: (id <Discrete2d>)a toFile: (const char *)filename;
 
 //M: This method copies the data in one Discrete2d object to
 //M: another Discrete2d object. It assumes that both objects already exist.
-- copyDiscrete2d: a toDiscrete2d: b;
+- copyDiscrete2d: (id <Discrete2d>)a toDiscrete2d: (id <Discrete2d>)b;
 
 - (long *)getOffsets;
 
@@ -161,7 +161,7 @@ USING
 CREATING
 
 //M: Convenience constructor for DblBuffer lattice
-+ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
++ create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y;
 
 //M: Rewrites the method from Discrete2d. Allocate two lattices,
 //M: makes the offsets.
@@ -213,13 +213,13 @@ USING
 
 CREATING
 //M: Convenience constructor for Value2dDisplay
-+ create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d;
++ create: (id <Zone>)aZone setDisplayWidget: r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d;
 
 //M: Set the display widget and the colourmap to use to draw the value array. 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
 
 //M: Set which array to draw. 
-- setDiscrete2dToDisplay: c;
+- setDiscrete2dToDisplay: (id <Discrete2d>)c;
 
 - createEnd;
 
@@ -245,7 +245,7 @@ USING
 CREATING
 
 //M: Set number of states to 2.
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 
 //M: Initialize lattice to random 1/3 in state 1. 
 - initializeLattice;
@@ -263,10 +263,10 @@ USING
 
 CREATING
 //M: Convenience constructor for Diffuse2d
-+ create: aZone setSizeX: (unsigned)x Y: (unsigned)y setDiffusionConstant: (double)d setEvaporationRate: (double)e;
++ create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y setDiffusionConstant: (double)d setEvaporationRate: (double)e;
 
 //M: Set diffusion constant and evaporation rate to 1.0, numStates to 0x7fff.
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 
 //M: Initialize world to 0.
 - initializeLattice;
@@ -298,9 +298,7 @@ USING
 
 CREATING
 //M: Convenience constructor for Grid2d
-+ create: aZone setSizeX: (unsigned)x Y: (unsigned)y;
-+ createBegin: aZone;
-+ create: aZone;
++ create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y;
 
 USING
 //M: Replaces the Discrete2d method.
@@ -327,13 +325,13 @@ USING
 
 CREATING
 //M: Convenience constructor for Object2dDisplay
-+ create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: c setDisplayMessage: (SEL)s;
++ create: (id <Zone>)aZone setDisplayWidget: r setDiscrete2dToDisplay: c setDisplayMessage: (SEL)s;
 
 //M: Set the display widget to use for drawing.
 - setDisplayWidget: (id <Raster>)r;
 
 //M: Set the 2d array to draw.
-- setDiscrete2dToDisplay: c;
+- setDiscrete2dToDisplay: (id <Discrete2d>)c;
 
 //M: Set the message to be sent to each object in the grid to make it
 //M: draw itself. 
@@ -367,15 +365,12 @@ USING
 //D: of a Discrete2d instance to disk (serialize) is now encoded directly 
 //D: to the Discrete2d class, via the lisp and HDF5  archiver features.
 
-CREATING
-+ createBegin: aZone;
-
 USING
 //M: Set the target space to be filled.
 //M: This message can be used more than once, but often it is useful
 //M: to keep one Int2dFiler per space
 //M: (e.g. when the space is saved multiple times). 
-- setDiscrete2dToFile: sSpace;
+- setDiscrete2dToFile: (id <Discrete2d>)sSpace;
 
 //M: This message is optional. It is used when the target Discrete2d
 //M: contains objects.  By sending each object the message specified by
