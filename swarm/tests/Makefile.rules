@@ -4,7 +4,7 @@ MAKEH2X = $(top_srcdir)/src/defobj/make-h2x
 
 SUFFIXES = .m
 
-TYPEINFO = $(MODULE)/$(MODULE).xm $(MODULE)/$(MODULE)/types.h $(MODULE)/classes.h
+TYPEINFO = $(MODULE).xm $(MODULE)/types.h $(MODULE)/classes.h
 
 CLEANFILES = $(TYPEINFO)
 

@@ -5,6 +5,7 @@ MODULE=tactivity
 check_PROGRAMS = ForEachRandomized ForEach ActionGroupRandomized ActionGroup ConcurrentGroupRandomized ConcurrentGroup Schedule DynamicSchedule DynamicScheduleRepeat EmptySchedule 
 
 type_SOURCES = ActionGroup_test.m ActionGroup_test.h ConcurrentGroup_test.h ConcurrentGroup_test.m tactivity.h tactivity.m
+
 include $(top_srcdir)/tests/Makefile.rules
 
 EXTRA_DIST = Holder.h Holder.m
