@@ -1,3 +1,14 @@
+1998-12-29  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Array.m (initArray): Make copyCount unsigned.
+	([Array_c -atOffset:]): Cast count to int for comparison with
+	offset.
+	([Array_c -atOffset:put:]): Likewise.
+	([ArrayIndex_c -setOffset:]): Likewise.
+
+	* Collection.m (indexAtOffset): Cast count to int for comparison with
+	offset.
+
 1998-12-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* List_GEN.m ([TARGET -_createPermutedIndex_:forIndexSubclass:]): 

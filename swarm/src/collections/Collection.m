@@ -100,9 +100,9 @@ PHASE(Using)
 static id
 indexAtOffset (Collection_any *self, int offset)
 {
-  id   index;
+  id index;
 
-  if (offset < 0 || offset >= self->count)
+  if (offset < 0 || offset >= (int) self->count)
     raiseEvent (OffsetOutOfRange, nil);
   for (index = [(id) self begin: scratchZone]; offset >= 0; offset--)
     [index next];

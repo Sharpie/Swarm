@@ -87,7 +87,7 @@ PHASE(Creating)
 static void
 initArray (Array_c  *self)
 {
-  int copyCount;
+  unsigned copyCount;
   id initialMembers = nil, indexSource, indexDest, *newBlock, *memptr;
 
   copyCount = 0;
@@ -302,16 +302,16 @@ PHASE(Using)
 
 - atOffset: (int)offset
 {
-  if (offset < 0 || offset >= count)
+  if (offset < 0 || offset >= (int) count)
     raiseEvent (OffsetOutOfRange, nil);
   return block[offset];
 }
 
 - atOffset: (int)offset put: anObject
 {
-  id  oldMember;
+  id oldMember;
   
-  if (offset < 0 || offset >= count)
+  if (offset < 0 || offset >= (int) count)
     raiseEvent (OffsetOutOfRange, nil);
   oldMember = block[offset];
   block[offset] = anObject;
@@ -443,7 +443,7 @@ PHASE(Using)
 
 - put: anObject
 {
-  id  oldMember;
+  id oldMember;
 
   if (INDEXSTARTP (memPtr) || INDEXENDP (memPtr))
     return nil;
@@ -487,7 +487,7 @@ PHASE(Using)
 
 - setOffset: (int)offset
 {
-  if (offset < 0 || offset >= ((Array_c *) collection)->count)
+  if (offset < 0 || offset >= (int) ((Array_c *) collection)->count)
     raiseEvent (OffsetOutOfRange, nil);
   memPtr = ((Array_c *) collection)->block + offset;
   return *memPtr; 
