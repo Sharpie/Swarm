@@ -24,8 +24,7 @@
 #ifndef __preface_h_OBJECTS_INCLUDE
 #define __preface_h_OBJECTS_INCLUDE
 
-#include <stdlib.h>
-#include <stdarg.h>
+#include <misc.h>
 #if 0
 #include <base/objc-gnu2next.h>
 #include <base/fake-main.h>

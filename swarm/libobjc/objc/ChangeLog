@@ -1,3 +1,7 @@
+1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* mframe-preface.h: Include misc.h instead of stdlib.h and stdarg.h.
+
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (mframe.h): Depend on mframe-preface.h and prepend it.
