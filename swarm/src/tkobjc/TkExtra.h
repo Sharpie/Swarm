@@ -10,4 +10,5 @@
 
 @interface TkExtra : Tk {
 }
+- (const char *)getBltVersion;
 @end

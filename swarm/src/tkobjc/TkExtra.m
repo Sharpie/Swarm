@@ -41,4 +41,14 @@ bind Text <Delete> [bind Text <BackSpace>]
   return filename;
 }
 
+- (const char *)getBltVersion
+{
+  const char *version_string;
+  
+  version_string = Tcl_GetVar (interp, "blt_version", TCL_GLOBAL_ONLY);
+  if (version_string == NULL)
+    version_string = Tcl_GetVar2 (interp, "blt_versions", "BLT", TCL_GLOBAL_ONLY);
+  return version_string;
+}
+
 @end
