@@ -320,7 +320,7 @@ hdf5In (id aZone, id hdf5Obj)
   id obj;
   id typeObject;
   const char *typeName = [hdf5Obj getAttribute: ATTRIB_TYPE_NAME];
-  
+
   if (typeName)
     {
       if (!(typeObject = swarm_directory_ensure_class_named (typeName)))
@@ -335,7 +335,11 @@ hdf5In (id aZone, id hdf5Obj)
     }
   else
     {
-      if ([hdf5Obj getDatasetFlag] && [hdf5Obj getCount] > 1)
+      BOOL datasetFlag = [hdf5Obj getDatasetFlag];
+      unsigned count = [hdf5Obj getCount];
+
+      if ((datasetFlag && count > 1)
+          || (!datasetFlag && count == 0))
         typeObject = [List self];
       else
         {

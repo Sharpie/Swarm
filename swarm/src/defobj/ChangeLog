@@ -1,3 +1,8 @@
+2001-04-05    <mgd@coyote.santafe.edu>
+
+	* defobj.m (hdf5In): Add case for preserving empty lists, since
+	it isn't possible to preserve List attributes on a null value in R.
+
 2001-04-02  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* HDF5Object.m (hdf5_open_dataset): Add plist argument.  Modify
