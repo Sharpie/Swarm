@@ -359,6 +359,11 @@ PHASE(Using)
 #define  MIXIN_INDEX
 #include "CompoundAction.m"
 
+- setActivity: (id <Activity>)theActivity
+{
+  activity = theActivity;
+  return self;
+}
 
 //
 // nextAction: -- return next action, if any, or Holding status

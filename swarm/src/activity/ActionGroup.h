@@ -74,6 +74,7 @@ Library:      activity
 @public
   id <Activity> activity;               // activity for which index created
 }
+- setActivity: (id <Activity>)activity;
 /*** methods implemented in CompoundAction.m file ***/
 - getHoldType;
 /*** methods in GroupIndex_c (inserted from .m file by m2h) ***/

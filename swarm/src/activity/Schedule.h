@@ -134,7 +134,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 @interface ScheduleIndex_c: MapIndex_c
 {
 @public
-  id activity;            // activity for which index created
+  id <Activity> activity; // activity for which index created
   id currentAction;       // action at current index position
   timeval_t currentTime;  // clock value for activity
   timeval_t startTime;    // time when current execution started
@@ -147,6 +147,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 - get;
 - (timeval_t)getCurrentTime;
 - setCurrentTime: (timeval_t)timeval;
+- setActivity: (id <Activity>)activity;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)dropAllocations: (BOOL)componentAlloc;
 @end

@@ -141,10 +141,10 @@ PHASE(Using)
 //
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext
 {
-  SwarmActivity_c     *swarmActivity;
-  ScheduleActivity_c  *newActivity;
-  ScheduleIndex_c     *newIndex, *swarmIndex;
-  ActionMerge_c       *mergeAction, *mergeExternalAction;
+  SwarmActivity_c *swarmActivity;
+  ScheduleActivity_c *newActivity;
+  ScheduleIndex_c *newIndex, *swarmIndex;
+  ActionMerge_c *mergeAction, *mergeExternalAction;
 
   // initialize new activity to run underneath swarm
 
@@ -384,7 +384,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 	      if (!predecessor_action)
 		{
 		  id indexrefs;
-		  ScheduleActivity_c * activity;
+		  ScheduleActivity_c *activity;
 
 		  
 		  indexrefs = [self->activityRefs begin: scratchZone];
@@ -1156,7 +1156,7 @@ PHASE(Using)
   return currentAction;
 }
 
-- setCurrentTime : (timeval_t)tVal
+- setCurrentTime: (timeval_t)tVal
 {
   id member = [self setKey: (id) tVal];
   
@@ -1164,6 +1164,12 @@ PHASE(Using)
     abort ();
   currentTime = tVal;
   currentAction = member;
+  return self;
+}
+
+- setActivity: (id <Activity>)theActivity
+{
+  activity = theActivity;
   return self;
 }
 

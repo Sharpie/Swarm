@@ -198,12 +198,10 @@ setDefaultOrder (unsigned *bits, id aSymbol)
                            getCZone (activityZone)
                          activity: newActivity];
   else
-    {
-      INDEX_CLASS *newIndex = [self _createIndex_: getCZone (activityZone)
-                                    forIndexSubclass: indexClass];
-      newIndex->activity = newActivity;
-      newActivity->currentIndex = newIndex;
-    }
+    newActivity->currentIndex =
+      [[self _createIndex_: getCZone (activityZone)
+             forIndexSubclass: indexClass]
+        setActivity: newActivity];
   return newActivity;
 }
 
