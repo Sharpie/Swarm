@@ -177,19 +177,7 @@ the Sun JDK.
 
 %makebuilddir =without-hdf
 
-%ifnarch ppc
-%define ffiflag --without-ffidir
-%define jdkflag --with-jdkdir=/usr
-%define cflags %{?dummy-macro}
-%define objcflags %{?dummy-macro}
-%else
-%define ffiflag --with-ffidir=/usr
-%define jdkflag --without-jdkdir
-%define cflags CFLAGS='-O -g'
-%define objcflags OBJCFLAGS='-fdollars-in-identifiers'
-%endif
-
-%objcflags %cflags %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --without-hdf5dir --disable-jar %ffiflag %jdkflag 
+%objcflags %cflags %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --without-hdf5dir %ffiflag %jdkflag 
 make JAVAC=/usr/bin/jikes
 
 %install
