@@ -1,3 +1,8 @@
+1999-09-09  Alex Lancaster  <alex@santafe.edu>
+
+	* MessageProbe.m (dynamicCallOn): Adjust HAVE_JDK #ifdef to
+	include the Java declaration.
+
 1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbe.m: Include defalloc.h.
