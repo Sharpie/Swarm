@@ -8,6 +8,8 @@
 PRBool findMethod (nsISupports *target, const char *methodName,
                    nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
 
+void printGetters (nsISupports *obj);
+
 extern "C" {
 #include "../../src/defobj/COM.h"
 }
@@ -16,6 +18,7 @@ void *createComponent (COMclass cClass);
 void *findComponent (const char *className);
 const char *copyString (const char *str);
 const char *getName (COMobject cObj);
+const char *getComponentName (COMclass cClass);
 
 COMobject normalize (COMobject cObj);
 
@@ -33,6 +36,8 @@ void *COMcreateArgVector (unsigned size);
 void COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void COMsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void COMfreeArgVector (void *args);
+
+void COMcollectMethods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag);
 
 JSContext *currentJSContext ();
 void *JScreateArgVector (unsigned size);

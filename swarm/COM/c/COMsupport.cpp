@@ -32,6 +32,13 @@ struct method_pair {
   struct method_value value;
 };
 
+struct collect_methods_t {
+  nsISupports *obj;
+  COM_collect_method_func_t collectMethodFunc;
+  BOOL gettersFlag;
+};
+  
+
 static void *
 find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
 {
@@ -140,6 +147,7 @@ matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
           pair->value.interface = interface;
           return (void *) pair;
         }
+      NS_RELEASE (interface);
     }
 return NULL;
 }
@@ -251,7 +259,6 @@ const char *
 getName (COMobject cObj)
 {
   nsresult rv;
-  char *name, *contractID;
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
   nsCID *cid;
   swarmITyping *typing;
@@ -264,11 +271,19 @@ getName (COMobject cObj)
   if (NS_FAILED (rv))
     abort ();
 
-  rv = nsComponentManager::CLSIDToContractID (cid, &name, &contractID);
-  if (NS_FAILED (rv))
-    abort ();
-
   NS_RELEASE (typing);
+
+  return getComponentName (cid);
+}
+
+const char *
+getComponentName (COMclass cClass)
+{
+  char *name, *contractID;
+  nsCID *cid = (nsCID *) cClass;
+
+  if (NS_FAILED (nsComponentManager::CLSIDToContractID (cid, &name, &contractID)))
+    abort ();
 
   return name;
 }
@@ -407,6 +422,60 @@ findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, P
       return PR_TRUE;
     }
   return PR_FALSE;
+}
+
+static void *
+matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
+{
+  struct collect_methods_t *info = (struct collect_methods_t *) item;
+  nsISupports *obj = NS_STATIC_CAST (nsISupports *, info->obj);
+  nsIID *iid;
+  BOOL collectedFlag = NO;
+
+  if (!NS_SUCCEEDED (interfaceInfo->GetIID (&iid)))
+    abort ();
+
+  nsISupports *ret;
+
+  if (NS_SUCCEEDED (obj->QueryInterface (*iid, (void **) &ret)))
+    {
+      PRUint16 methodCount, i;
+      const nsXPTMethodInfo *methodInfo;
+
+      if (!NS_SUCCEEDED (interfaceInfo->GetMethodCount (&methodCount)))
+        abort ();
+
+      char *name;
+      if (!NS_SUCCEEDED (interfaceInfo->GetName (&name)))
+        abort ();
+
+      printf ("interface: `%s'\n", name);
+      
+      for (i = 0; i < methodCount; i++)
+        {
+          if (!NS_SUCCEEDED (interfaceInfo->GetMethodInfo (i, &methodInfo)))
+            abort ();
+          if (methodInfo->IsGetter () || !info->gettersFlag)
+            {
+              collectedFlag = YES;
+              info->collectMethodFunc (ret, methodInfo->GetName ());
+            }
+        }
+      NS_RELEASE (ret);
+    }
+  return NULL;
+}
+
+
+void
+COMcollectMethods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag)
+{
+  nsISupports *obj = NS_STATIC_CAST (nsISupports *, createComponent (cClass));
+  struct collect_methods_t info = { obj, func, gettersFlag };
+  if (!obj)
+    abort ();
+  find (matchImplementedInterfaces, &info);
+  NS_RELEASE (obj);
 }
 
 void *
@@ -660,7 +729,6 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
         nsCOMPtr <nsIXPConnectWrappedNative> calleeWrapper;
         callContext->GetCalleeWrapper (getter_AddRefs (calleeWrapper));
 
-        printf ("%p %p\n", (void *) cObject, (void *) calleeWrapper);
         JSObject *jsObj;
         if (!NS_SUCCEEDED (calleeWrapper->GetJSObject (&jsObj)))
           abort ();
