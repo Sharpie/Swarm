@@ -27,6 +27,9 @@ else
 AC_MSG_RESULT(-lobjc)
 fi
 CC="$ORIG_CC"
-AC_CHECK_FUNCS(objc_malloc, OBJC_MALLOC_OBJ='', OBJC_MALLOC_OBJ=objc-malloc.lo)
+AC_CHECK_FUNCS(objc_malloc, 
+OBJC_MALLOC_OBJ=''
+AC_DEFINE(HAVE_OBJC_MALLOC),
+OBJC_MALLOC_OBJ=objc-malloc.lo)
 AC_SUBST(OBJC_MALLOC_OBJ)
 ])

@@ -5,7 +5,8 @@
 	* acnextstep.m4: New file.
 
 	* acobjclibs.m4: Check for objc_malloc and substitute
-	OBJC_MALLOC_OBJ.
+	OBJC_MALLOC_OBJ.  Define preprocessor HAVE_OBJC_MALLOC symbol
+	when objc_malloc already exists in Objective C runtime.
 
 1998-07-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
