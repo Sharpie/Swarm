@@ -353,7 +353,7 @@ _obj_splitPhases (Class_s *class)
 {
   classData_t classData, superclassData = 0;
   BehaviorPhase_s *classCreating, *classUsing;
-  char *className;
+  char *classNameBuf;
   methodDefs_t mdefs;
   Method_t mnext;
 
@@ -378,20 +378,19 @@ _obj_splitPhases (Class_s *class)
   // create class for methods in Creating phase
 
   classCreating = nil;
-  if ( ! ( classData->metaobjects &&
-       ((methodDefs_t)classData->metaobjects)->interfaceID == UsingOnly ) ) {
-  
+  if (!(classData->metaobjects
+        && ((methodDefs_t)classData->metaobjects)->interfaceID == UsingOnly))
+    {
       classCreating = [id_BehaviorPhase_s createBegin: _obj_initZone];
-  
-    className = _obj_initAlloc( strlen( class->name ) + 10 );
-    strcpy( className, class->name );
-    strcat( className, ".Creating" );
-
-    [(id)classCreating setName: className];
-    [(id)classCreating setClass: getClass( class )];
-    [(id)classCreating setDefiningClass: class];
-
-  }
+      
+      classNameBuf = _obj_initAlloc (strlen (class->name) + 10);
+      strcpy (classNameBuf, class->name);
+      strcat (classNameBuf, ".Creating");
+      
+      [(id)classCreating setName: classNameBuf];
+      [(id)classCreating setClass: getClass (class)];
+      [(id)classCreating setDefiningClass: class];
+    }
 
   // create class for methods in Using phase
 

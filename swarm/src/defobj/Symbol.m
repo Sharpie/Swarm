@@ -39,12 +39,12 @@ PHASE(Creating)
 + create: aZone setName: (const char *)symbolName
 {
   Symbol_c *newSymbol;
-  char *newName;
+  char *newNameBuf;
 
   newSymbol = [aZone allocIVars: getNextPhase (self)];
-  newName = [aZone alloc: strlen (symbolName) + 1];
-  strcpy (newName, symbolName);
-  newSymbol->name = newName;
+  newNameBuf = [aZone alloc: strlen (symbolName) + 1];
+  strcpy (newNameBuf, symbolName);
+  newSymbol->name = newNameBuf;
   return newSymbol;
 }
 
