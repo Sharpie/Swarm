@@ -39,6 +39,7 @@ _defobj_implement (void)
   [id_Arguments_c setTypeImplemented: Arguments];
   [id_Archiver_c setTypeImplemented: Archiver];
   [id_HDF5_c setTypeImplemented: HDF5];
+  [id_HDF5CompoundType_c setTypeImplemented: HDF5CompoundType];
 }
 
 //

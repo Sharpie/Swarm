@@ -12,6 +12,17 @@
 #undef id
 
 #import <defobj/Create.h>
+#import <collections.h> // Map
+
+@interface HDF5CompoundType_c: CreateDrop_s
+{
+  Class class;
+  hid_t tid;
+}
+- setSourceClass: (Class)class;
+- createEnd;
+- (void)drop;
+@end
 
 @interface HDF5_c: CreateDrop_s
 {
@@ -22,7 +33,7 @@
 - setParent: parent;
 - setName: (const char *)name;
 - createEnd;
-- store: (const char *)name type: (const char *)type ptr: (void *)ptr;
+- storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - (void)drop;
 @end
 

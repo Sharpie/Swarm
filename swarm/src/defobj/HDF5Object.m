@@ -17,6 +17,84 @@
 
 static BOOL typeConvertersInstalled = NO;
 
+static hid_t
+hdf5_tid_for_objc_type (const char *type)
+{
+  hid_t tid;
+
+  switch (*type)
+    {
+    case _C_CHR:
+      tid = H5T_NATIVE_CHAR;
+      break;
+    case _C_UCHR:
+      tid = H5T_NATIVE_UCHAR;
+      break;
+    case _C_SHT:
+      tid = H5T_NATIVE_SHORT;
+      break;
+    case _C_USHT:
+      tid = H5T_NATIVE_USHORT;
+      break;
+    case _C_INT:
+      tid = H5T_NATIVE_INT;
+      break;
+    case _C_UINT:
+      tid = H5T_NATIVE_UINT;
+      break;
+    case _C_LNG:
+      tid = H5T_NATIVE_LONG;
+      break;
+    case _C_ULNG:
+      tid = H5T_NATIVE_ULONG;
+      break;
+    case _C_FLT:
+      tid = H5T_NATIVE_FLOAT;
+      break;
+    case _C_DBL:
+      tid = H5T_NATIVE_DOUBLE;
+      break;
+    default:
+      abort ();
+    }
+  return tid;
+}
+
+@implementation HDF5CompoundType_c
+PHASE(Creating)
+- setSourceClass: (Class)theClass
+{
+  class = theClass;
+  return self;
+}
+
+- createEnd
+{
+  void insert_var (struct objc_ivar *ivar)
+    {
+      if (H5Tinsert (tid, ivar->ivar_name, ivar->ivar_offset,
+                     hdf5_tid_for_objc_type (ivar->ivar_type)) < 0)
+        raiseEvent (SaveError, "unable to insert to compound type");
+    }
+  
+  [super createEnd];
+  
+  if ((tid = H5Tcreate (H5T_COMPOUND, class->instance_size)) < 0)
+    raiseEvent (SaveError, "unable to create compound type");
+  
+  map_ivars (class->ivars, insert_var);
+  return self;
+}
+
+PHASE(Using)
+- (void)drop
+{
+  if (H5Tclose (tid) < 0)
+    raiseEvent (SaveError, "unable to close compound type");
+  [super drop];
+}
+@end
+
 @implementation HDF5_c
 PHASE(Creating)
 - setParent: theParent
@@ -83,50 +161,7 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 PHASE(Using)
 
-static hid_t
-hdf5_tid_for_objc_type (const char *type)
-{
-  hid_t tid;
-
-  switch (*type)
-    {
-    case _C_CHR:
-      tid = H5T_NATIVE_CHAR;
-      break;
-    case _C_UCHR:
-      tid = H5T_NATIVE_UCHAR;
-      break;
-    case _C_SHT:
-      tid = H5T_NATIVE_SHORT;
-      break;
-    case _C_USHT:
-      tid = H5T_NATIVE_USHORT;
-      break;
-    case _C_INT:
-      tid = H5T_NATIVE_INT;
-      break;
-    case _C_UINT:
-      tid = H5T_NATIVE_UINT;
-      break;
-    case _C_LNG:
-      tid = H5T_NATIVE_LONG;
-      break;
-    case _C_ULNG:
-      tid = H5T_NATIVE_ULONG;
-      break;
-    case _C_FLT:
-      tid = H5T_NATIVE_FLOAT;
-      break;
-    case _C_DBL:
-      tid = H5T_NATIVE_DOUBLE;
-      break;
-    default:
-      abort ();
-    }
-  return tid;
-}
-
-- store: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
+- storeAsDataset: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
 {
   hid_t scalar_space (void)
     {

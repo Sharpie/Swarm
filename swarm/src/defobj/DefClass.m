@@ -216,7 +216,7 @@ copyClass (Class class)
 }
 
 static const char *
-objc_type_for (const char *lispTypeString)
+objc_type_for_lisp_type (const char *lispTypeString)
 {
   if (strcmp (lispTypeString, TYPE_SHORT) == 0)
     return @encode (short);
@@ -263,7 +263,7 @@ objc_type_for (const char *lispTypeString)
       varName = strdup ([key getKeywordName]);
       
       if (stringp (val))
-        addVariable (newClass, varName, objc_type_for ([val getC]));
+        addVariable (newClass, varName, objc_type_for_lisp_type ([val getC]));
       else if (listp (val))
         {
           id index = [val begin: aZone];
@@ -285,7 +285,7 @@ objc_type_for (const char *lispTypeString)
             if (!stringp (second))
               raiseEvent (InvalidArgument, "array type should be a string");
             
-            baseType = objc_type_for ([second getC]);
+            baseType = objc_type_for_lisp_type ([second getC]);
           }
           
           {

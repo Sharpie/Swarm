@@ -978,8 +978,18 @@ CREATING
 - setName: (const char *)name;
 - createEnd;
 USING
-- store: (const char *)name type: (const char *)type ptr: (void *)ptr;
+- storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - (void)drop;
+@end
+
+@protocol HDF5CompoundType <Create, Drop, CREATABLE>
+//S: HDF5 composite type interface
+//D: HDF5 composite type interface
+CREATING
++ createBegin: aZone;
+- setSourceClass: (Class)class;
+- createEnd;
+USING
 @end
 #endif
 

@@ -4,10 +4,13 @@
 // See file LICENSE for details and terms of copying.
 
 #include <misc.h> // size_t
+#include <objc/objc-api.h>
 
 extern size_t alignto (size_t pos, size_t alignment);
 extern size_t size_for_objc_type (const char *varType);
 extern size_t alignment_for_objc_type (const char *varType);
+extern void map_ivars (struct objc_ivar_list *ivars,
+                       void (*process_object) (struct objc_ivar *ivar));
 
 extern void
 process_array (const char *type,
@@ -22,4 +25,4 @@ process_array (const char *type,
                                     void *data),
                const void *ptr,
                void *data);
-
+  

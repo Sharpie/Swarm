@@ -1,8 +1,14 @@
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.[hm], defobj.h (HDF5CompoundType): New type.
+
+	* defobj.m (_defobj_implement): Call setTypeImplemented for HDF5
+	and HDF5CompoundType.
+
 	* internal.[hm] (alignment_for_objc_type, size_for_objc_type,
 	alignto): Moved from DefClass.m (formerly type_alignment, type_size,
 	align).
+	(map_ivars): Moved from DefObject.m.
 
 	* DefClass.m: Include internal.h.
 	(addVariable): Use alignment_for_objc_type, size_for_objc_type, and
@@ -13,8 +19,6 @@
 	([HDF -createEnd]): Ensure that ref_string is installed.
 	([HDF -drop]): Drop ref_string if converters installed.
 	Call super drop.
-
-	* defobj.m (_defobj_implement): Call setTypeImplemented for HDF5.
 
 	* defobj.h (HDF5): New protocol.
 
@@ -110,11 +114,11 @@
 	* DefObject.m (output_type, [Object_s -lispIn:]):
 	Handle nil type of id.
 
-	* DefClass.m (objc_type_for, process_type): New functions.
+	* DefClass.m (objc_type_for_lisp_type, process_type): New functions.
 	(TYPE_SHORT, TYPE_UNSIGNED_SHORT, TYPE_INT, TYPE_UNSIGNED,
 	TYPE_LONG, TYPE_UNSIGNED_LONG, TYPE_FLOAT, TYPE_DOUBLE,
 	TYPE_STRING, TYPE_OBJECT): New string macro constants.
-	(process_type, objc_type_for): Use them.
+	(process_type, objc_type_for_lisp_type): Use them.
 	(type_size, type_alignment): New functions.
 	(addVariable): Use them.
 	([CreatedClass_s -lispInCreate:]): Use it for base type

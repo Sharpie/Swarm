@@ -206,6 +206,25 @@ process_array (const char *type,
   }
 }
 
+void
+map_ivars (struct objc_ivar_list *ivars,
+           void (*process_object) (struct objc_ivar *ivar))
+{
+  if (ivars)
+    {
+      unsigned i, ivar_count = ivars->ivar_count;
+      struct objc_ivar *ivar_list = ivars->ivar_list;
+      
+      for (i = 0; i < ivar_count; i++)
+        {
+          // Special case to allow member_t for setIndexFromMemberLoc: lists.
+          if (strcmp (ivar_list[i].ivar_type, "{?=\"memberData\"[2^v]}") == 0)
+            continue;
+          process_object (&ivar_list[i]);
+        }
+    }
+}
+
 #if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)
 id
 nil_method (id receiver, SEL op, ...)

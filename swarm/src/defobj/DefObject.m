@@ -16,7 +16,7 @@ Library:      defobj
 #import <collections.h>
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
 #import <defobj/HDF5Object.h>
-#import <defobj/internal.h> // process_array
+#import <defobj/internal.h> // process_array, map_ivars
 
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
@@ -1011,25 +1011,6 @@ lisp_output_type (const char *type,
     }
 }
 
-static void
-map_ivars (struct objc_ivar_list *ivars,
-           void (*store_object) (struct objc_ivar *ivar))
-{
-  if (ivars)
-    {
-      unsigned i, ivar_count = ivars->ivar_count;
-      struct objc_ivar *ivar_list = ivars->ivar_list;
-      
-      for (i = 0; i < ivar_count; i++)
-        {
-          // Special case to allow member_t for setIndexFromMemberLoc: lists.
-          if (strcmp (ivar_list[i].ivar_type, "{?=\"memberData\"[2^v]}") == 0)
-            continue;
-          store_object (&ivar_list[i]);
-        }
-    }
-}
-  
 - lispOut: stream deep: (BOOL)deepFlag
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
