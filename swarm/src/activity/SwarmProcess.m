@@ -179,7 +179,8 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
 //
 - (id <Activity>)activateIn: swarmContext
 {
-  id activityZone, mergeSchedule;
+  id <Zone> activityZone;
+  Schedule_c *mergeSchedule;
 
   // make sure that not already activated
 
