@@ -51,7 +51,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
       unsigned i;
       jclass currentClass;
 
-      classObject = JFINDJAVA(jniEnv, probedClass);
+      classObject = SD_FINDJAVA(jniEnv, probedClass);
 
       if (!classObject)
 	raiseEvent (SourceMessage,
@@ -61,8 +61,10 @@ extern jmethodID  m_ClassGetDeclaredFields,
       numEntries = 0;
       while (currentClass)
 	{
-	  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, currentClass, 
-						  m_ClassGetDeclaredFields)))
+	  if (!(fields = 
+                (*jniEnv)->CallObjectMethod (jniEnv,
+                                             currentClass, 
+                                             m_ClassGetDeclaredFields)))
 	    abort(); 
 	  fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
       

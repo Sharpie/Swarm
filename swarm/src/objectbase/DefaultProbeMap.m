@@ -46,13 +46,15 @@ extern jmethodID  m_ClassGetDeclaredFields,
       unsigned i;
       
       numEntries = 0;
-      classObject = JFINDJAVA(jniEnv, probedClass);
+      classObject = SD_FINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
       
-      if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
-						  m_ClassGetDeclaredFields)))
+      if (!(fields =
+            (*jniEnv)->CallObjectMethod (jniEnv,
+                                         classObject, 
+                                         m_ClassGetDeclaredFields)))
 	abort(); 
       fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
       
@@ -60,7 +62,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	{
 	  numEntries = fieldslength;
 	  
-	  for (i=0; i<numEntries; i++)
+	  for (i = 0; i < numEntries; i++)
 	    {
 	      jobject field;
 	      jstring name;

@@ -1,3 +1,9 @@
+1999-07-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* CompleteProbeMap.m, CompleteVarMap.m, DefaultProbeMap.m, 
+	MessageProbe.m, ProbeMap.m, VarProbe.m: Accomodate J* to SD_*
+	and swarm directory function renames.
+
 1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* VarProbe.m ([VarProbe -createEnd]): Setup probedType

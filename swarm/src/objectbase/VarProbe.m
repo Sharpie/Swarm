@@ -84,7 +84,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     {
-      classObject = JFINDJAVA(jniEnv, probedClass);
+      classObject = SD_FINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
@@ -328,18 +328,18 @@ PHASE(Using)
 
   switch (probedType[0])
     {
-    case _C_ID:      q = (void *) *(id *)p; break;
-    case _C_CLASS:   q = (void *) *(Class *)p; break;
+    case _C_ID:      q = (void *) *(id *) p; break;
+    case _C_CLASS:   q = (void *) *(Class *) p; break;
     case _C_CHARPTR:
-    case _C_PTR:     q = (void *)*(void **)p; break;
-    case _C_CHR:     q = (void *)(PTRUINT)*(char *)p; break;
-    case _C_UCHR:    q = (void *)(PTRUINT)*(unsigned char *)p; break;
-    case _C_SHT:     q = (void *)(PTRUINT)*(short *)p; break;
-    case _C_USHT:    q = (void *)(PTRUINT)*(unsigned short *)p; break;
-    case _C_INT:     q = (void *)(PTRUINT)*(int *)p; break;
-    case _C_UINT:    q = (void *)(PTRUINT)*(unsigned int *)p; break;
-    case _C_LNG:     q = (void *)(PTRUINT)*(long *)p; break;
-    case _C_ULNG:    q = (void *)(PTRUINT)*(unsigned long *)p; break;
+    case _C_PTR:     q = (void *) *(void **) p; break;
+    case _C_CHR:     q = (void *) (PTRUINT) *(char *) p; break;
+    case _C_UCHR:    q = (void *) (PTRUINT) *(unsigned char *) p; break;
+    case _C_SHT:     q = (void *) (PTRUINT) *(short *) p; break;
+    case _C_USHT:    q = (void *) (PTRUINT) *(unsigned short *) p; break;
+    case _C_INT:     q = (void *) (PTRUINT) *(int *) p; break;
+    case _C_UINT:    q = (void *) (PTRUINT) *(unsigned int *) p; break;
+    case _C_LNG:     q = (void *) (PTRUINT) *(long *) p; break;
+    case _C_ULNG:    q = (void *) (PTRUINT) *(unsigned long *) p; break;
    default:
       if (SAFEPROBES)
         raiseEvent (WarningMessage,
@@ -400,7 +400,7 @@ probe_as_int (const char *probedType, const void *p)
 
 #ifdef HAVE_JDK
   if (isJavaProxy)
-    return java_probe_as_int (fieldObject, JFINDJAVA(jniEnv, anObject));
+    return java_probe_as_int (fieldObject, SD_FINDJAVA (jniEnv, anObject));
 #endif
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -430,20 +430,20 @@ probe_as_double (const char *probedType, const void *p)
 
   switch (probedType[0])
     {
-    case _C_UCHR: d = (double)*(unsigned char *)p; break;
-    case _C_CHR:  d = (double)*(char *)p; break;
+    case _C_UCHR: d = (double) *(unsigned char *) p; break;
+    case _C_CHR:  d = (double) *(char *) p; break;
       
-    case _C_SHT:  d = (double)*(short *)p; break;
-    case _C_USHT: d = (double)*(unsigned short *)p; break;
+    case _C_SHT:  d = (double) *(short *) p; break;
+    case _C_USHT: d = (double) *(unsigned short *) p; break;
 
-    case _C_INT:  d = (double)*(int *)p; break;
-    case _C_UINT: d = (double)*(unsigned int *)p; break;
+    case _C_INT:  d = (double) *(int *) p; break;
+    case _C_UINT: d = (double) *(unsigned int *) p; break;
       
-    case _C_LNG:  d = (double)*(long *)p; break;
-    case _C_ULNG: d = (double)*(unsigned long *)p; break;
+    case _C_LNG:  d = (double) *(long *) p; break;
+    case _C_ULNG: d = (double) *(unsigned long *) p; break;
       
-    case _C_FLT:  d = (double)*(float *)p; break;
-    case _C_DBL:  d = (double)*(double *)p; break;
+    case _C_FLT:  d = (double) *(float *) p; break;
+    case _C_DBL:  d = (double) *(double *) p; break;
       
     default:
       if (SAFEPROBES)
@@ -461,7 +461,7 @@ probe_as_double (const char *probedType, const void *p)
 
 #ifdef HAVE_JDK
   if (isJavaProxy)
-    return java_probe_as_double (fieldObject, JFINDJAVA (jniEnv, anObject));
+    return java_probe_as_double (fieldObject, SD_FINDJAVA (jniEnv, anObject));
 #endif  
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -519,9 +519,11 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   
 #ifdef HAVE_JDK
   if (isJavaProxy)
-    return java_probe_as_string(fieldType, fieldObject, 
-				JFINDJAVA (jniEnv, anObject), 
-				buf, precision);
+    return java_probe_as_string (fieldType,
+                                 fieldObject, 
+                                 SD_FINDJAVA (jniEnv, anObject), 
+                                 buf,
+                                 precision);
 #endif
 
   p = (const char *)anObject + dataOffset; // probeData
@@ -533,27 +535,27 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
         sprintf (buf, "nil");
       else 
         if ([*(id *)p respondsTo: @selector (getInstanceName)])
-          sprintf (buf, "%s", [*(id *)p getInstanceName]);
+          sprintf (buf, "%s", [*(id *) p getInstanceName]);
         else
-          sprintf (buf, "%s", [*(id *)p name]);
+          sprintf (buf, "%s", [*(id *) p name]);
       break;
     case _C_CLASS:
-      if (!(*(Class *)p))
+      if (!(*(Class *) p))
         sprintf (buf, "nil");
       else
-        sprintf (buf, "%s", (*(Class *)p)->name );
+        sprintf (buf, "%s", (*(Class *) p)->name );
       break;
     case _C_PTR:
-      sprintf (buf, "0x%p", *(void **)p);
+      sprintf (buf, "0x%p", *(void **) p);
       break;
     case _C_UCHR:
       if (stringReturnType == DefaultString)
-        sprintf (buf, "%u '%c'",(unsigned)*(unsigned char *)p,
-                *(unsigned char *)p);
+        sprintf (buf, "%u '%c'",(unsigned) *(unsigned char *) p,
+                *(unsigned char *) p);
       else if (stringReturnType == CharString)
-        sprintf (buf, "'%c'",*(unsigned char *)p);
+        sprintf (buf, "'%c'",*(unsigned char *) p);
       else if (stringReturnType == IntString)
-        sprintf (buf, "%u",(unsigned)*(unsigned char *)p);
+        sprintf (buf, "%u", (unsigned) *(unsigned char *) p);
       else
         {
           printf ("stringReturnType set incorrectly!!!\n");
@@ -562,11 +564,11 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
       break;
     case _C_CHR:
       if (stringReturnType == DefaultString)
-        sprintf (buf, "%d '%c'",(int)*(char *)p, *(char *)p);
+        sprintf (buf, "%d '%c'",(int) *(char *) p, *(char *) p);
       else if (stringReturnType == CharString)
-        sprintf (buf, "'%c'",*(char *)p);
+        sprintf (buf, "'%c'",*(char *) p);
       else if (stringReturnType == IntString)
-        sprintf (buf, "%d",(int)*(char *)p);
+        sprintf (buf, "%d",(int) *(char *) p);
       else
         {
           printf ("stringReturnType set incorrectly!!!\n");
@@ -574,39 +576,39 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
         }
       break;
     case _C_SHT:
-      sprintf (buf, "%hd", *(short *)p);
+      sprintf (buf, "%hd", *(short *) p);
       break;
     case _C_USHT:
-      sprintf (buf, "%hu", *(unsigned short *)p);
+      sprintf (buf, "%hu", *(unsigned short *) p);
       break;
     case _C_INT:
-      sprintf (buf, "%d", *(int *)p);
+      sprintf (buf, "%d", *(int *) p);
       break;
     case _C_UINT:
-      sprintf (buf, "%u", *(unsigned *)p);
+      sprintf (buf, "%u", *(unsigned *) p);
       break;
     case _C_LNG:
       sprintf (buf, "%ld", *(long *)p);
       break;
     case _C_ULNG:
-      sprintf (buf, "%lu", *(unsigned long *)p);
+      sprintf (buf, "%lu", *(unsigned long *) p);
       break;
     case _C_FLT:
       if (precision)
         sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
-                 (double)(*(float *)p));
+                 (double) (*(float *) p));
       else
-        sprintf (buf, floatFormat, (double)(*(float *)p));
+        sprintf (buf, floatFormat, (double) (*(float *) p));
       break;
     case _C_DBL:
       if (precision)
         sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
-                *(double *)p);
+                *(double *) p);
       else
-        sprintf (buf, floatFormat, *(double *)p);
+        sprintf (buf, floatFormat, *(double *) p);
       break;
     case _C_CHARPTR:
-      sprintf (buf, "%s", *(char **)p ? *(char **)p : "<NULL>");
+      sprintf (buf, "%s", *(char **) p ? *(char **) p : "<NULL>");
       break;
     default:
       sprintf (buf, "..."); 
@@ -776,7 +778,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_BooleanValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 boolObject);      
     }
   else if (classcmp (fieldType, c_char))
@@ -784,7 +786,7 @@ setFieldFromString (id anObject, jobject field,
       jchar javaChar = value[0];
       
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSetChar, 
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 javaChar);      
     }
   else if (classcmp (fieldType, c_byte))
@@ -798,7 +800,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_ByteValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 byteObject);      
     }
   else  if (classcmp (fieldType, c_int))
@@ -812,7 +814,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_IntegerValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 intObject);      
     }
   else   if (classcmp (fieldType, c_short))
@@ -826,7 +828,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_ShortValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 shortObject);      
     }
   else    if (classcmp (fieldType, c_long))
@@ -840,7 +842,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_LongValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 longObject);      
     }
   else   if (classcmp (fieldType, c_float))
@@ -854,7 +856,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_FloatValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 floatObject);      
     }
   else   if (classcmp (fieldType, c_double))
@@ -864,11 +866,12 @@ setFieldFromString (id anObject, jobject field,
       javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
       
       doubleObject = 
- 	(*jniEnv)->CallStaticObjectMethod (jniEnv, c_Double, 
+ 	(*jniEnv)->CallStaticObjectMethod (jniEnv,
+                                           c_Double, 
 					   m_DoubleValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 doubleObject);
     }
   else   if (classcmp (fieldType, c_string))
@@ -878,7 +881,7 @@ setFieldFromString (id anObject, jobject field,
       javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
       
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 JFINDJAVA (jniEnv, anObject),
+				 SD_FINDJAVA (jniEnv, anObject),
 				 javaString);      
     }
 }

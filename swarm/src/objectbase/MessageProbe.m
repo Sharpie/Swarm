@@ -266,7 +266,7 @@ dynamicCallOn (const char *probedType,
   id <FCall> fc;
 
 #ifdef HAVE_JDK
-  javaFlag = (JFINDJAVA (jniEnv, target) != NULL);
+  javaFlag = (SD_FINDJAVA (jniEnv, target) != NULL);
 #else
   javaFlag = NO;
 #endif
@@ -294,7 +294,7 @@ dynamicCallOn (const char *probedType,
       if (p)
         *p = '\0';
 
-      [fc setJavaMethod: selname inObject: JFINDJAVA (jniEnv, target)];
+      [fc setJavaMethod: selname inObject: SD_FINDJAVA (jniEnv, target)];
     }
   else
 #endif
@@ -307,10 +307,11 @@ dynamicCallOn (const char *probedType,
   if (javaFlag)
     {
       if (retVal->type == _C_CHARPTR)
-        retVal->val.string = java_copy_string (jniEnv, 
-                                               (jstring) retVal->val.object);
+        retVal->val.string =
+          swarm_directory_copy_java_string (jniEnv, 
+                                            (jstring) retVal->val.object);
       else if (retVal->type == _C_ID)
-        retVal->val.object = JFINDOBJC (jniEnv, (jobject) retVal->val.object);
+        retVal->val.object = SD_FINDOBJC (jniEnv, (jobject) retVal->val.object);
     }
 #endif
   [fc drop];

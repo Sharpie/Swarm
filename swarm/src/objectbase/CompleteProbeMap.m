@@ -11,7 +11,7 @@
 #import "local.h"
 
 #ifdef HAVE_JDK
-#import "../defobj/directory.h" // java_ensure_selector
+#import "../defobj/directory.h" // swarm_directory_ensure_selector
 extern jclass c_Selector;
 extern jmethodID  m_ClassGetDeclaredFields,
   m_ClassGetDeclaredMethods, m_MethodGetName,
@@ -58,7 +58,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
       jclass currentClass;
       unsigned i;
 
-      classObject = JFINDJAVA(jniEnv, probedClass);
+      classObject = SD_FINDJAVA (jniEnv, probedClass);
 
       if (!classObject)
 	raiseEvent (SourceMessage,
@@ -69,20 +69,23 @@ extern jmethodID  m_ClassGetDeclaredFields,
       numEntries = 0;
       while (currentClass)
 	{
-	  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, currentClass, 
-						  m_ClassGetDeclaredFields)))
-	    abort(); 
+	  if (!(fields =
+                (*jniEnv)->CallObjectMethod (jniEnv,
+                                             currentClass, 
+                                             m_ClassGetDeclaredFields)))
+	    abort();
 	  fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
 	  
-	  if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv, currentClass, 
-						       m_ClassGetDeclaredMethods)))
+	  if (!(methods =
+                (*jniEnv)->CallObjectMethod (jniEnv, currentClass, 
+                                             m_ClassGetDeclaredMethods)))
 	    abort();
 	  
 	  methodslength = (*jniEnv)->GetArrayLength (jniEnv, methods);
 
 	  numEntries += fieldslength;
 	  
-	  for (i=0; i<numEntries; i++)
+	  for (i = 0; i < numEntries; i++)
 	    {
 	      jobject field;
 	      jstring name;
@@ -133,7 +136,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
 						   m_SelectorConstructor, 
 						   currentClass,
 						   name, 0);
-		  sel = java_ensure_selector (jniEnv, selector);
+		  sel = swarm_directory_ensure_selector (jniEnv, selector);
 		  
 		  a_probe = [MessageProbe createBegin: [self getZone]];
 		  [a_probe setProbedClass: probedClass];
