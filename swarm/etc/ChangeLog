@@ -1,3 +1,21 @@
+2000-05-05  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (*removed-protocols*): Enable GraphElement, Drawer,
+	and SplitRandomGenerator.
+	(removed-method-p): Check *extra-removed-methods* for more removed
+	methods.
+	(regexp-match-p, objc-protocol-for-type, argument-type,
+	augment-type-hash-table, create-type-hash-table,
+	create-type-hash-table-for-convenience-create-methods): New
+	functions.
+	(unwanted-create-method-p, match-signature,
+	match-create-signature, convenience-create-method-p,
+	collect-convenience-create-methods,
+	collect-convenience-constructor-name.arguments, create-method-p,
+	expanded-method-list): Moved from java-stub.el.
+	(unwanted-create-method-p): Check
+	*extra-unwanted-create-method-signatures* for more methods.
+
 2000-04-27    <mgd@nest.swarm.org>
 
 	* protocol.el (*idl-flag*): Add variable.
