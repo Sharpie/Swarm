@@ -7,6 +7,7 @@
 #include <misc/avl.h>
 #include <objc/objc.h>
 #include <objc/objc-api.h>
+#include <objc/mframe.h> // mframe_build_signature
 
 #import "JavaProxy.h"
 #import <defobj.h>
@@ -1060,7 +1061,12 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
                           name, signatureBuf, sel->sel_types);
           }
         else
-          sel = sel_register_typed_name (name, signatureBuf);
+          {
+            const char *type =
+              mframe_build_signature (signatureBuf, NULL, NULL, NULL);
+
+            sel = sel_register_typed_name (name, type);
+          }
       }
       
       SD_ADD (env, jsel, (id) sel);

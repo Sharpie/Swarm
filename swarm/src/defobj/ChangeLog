@@ -1,5 +1,10 @@
 1999-09-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m: Include objc/mframe.h
+	(swarm_directory_ensure_selector): Transform
+	new selector type signature with mframe_build_signature before
+	registering it.
+
 	* FArguments.m ([FArguments_c -_addArgument_:ofType:]): Handle
 	Objective C -> Java argument conversions.
 
