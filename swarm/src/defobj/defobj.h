@@ -135,7 +135,7 @@ USING
 
 //M: getClass returns the class that implements the current behavior of an
 //M: object.
-- getClass;
+- (Class)getClass;
 
 //M: getTypeName returns the name of the originating type of this object.
 - (const char *)getTypeName;
@@ -1061,7 +1061,7 @@ USING
 - (unsigned)getCount;
 - (const char *)getHDF5Name;
 - getCompoundType;
-- getClass;
+- (Class)getClass;
 - (void)assignIvar: obj;
 
 - (BOOL)checkName: (const char *)name;

@@ -182,12 +182,12 @@ PHASE(Using)
 //
 // getClass -- get class object that implements behavior of object
 //
-+ getClass
++ (Class)getClass
 {
   return getClass (self);
 }
 
-- getClass
+- (Class)getClass
 {
   return SD_GETCLASS (self);
 }

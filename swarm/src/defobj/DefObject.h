@@ -56,8 +56,8 @@ Library:      defobj
 + (BOOL)respondsTo: (SEL)aSel;
 - (BOOL)respondsTo: (SEL)aSel;
 + (BOOL)conformsTo: (Protocol *)aProtocol;
-+ getClass;
-- getClass;
++ (Class)getClass;
+- (Class)getClass;
 - getZone;
 - (void)dropAllocations: (BOOL)componentAlloc;
 - (void)drop;
