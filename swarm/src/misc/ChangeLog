@@ -1,3 +1,11 @@
+2001-06-20  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* xmalloc.c (GC_malloc_{atomic_}uncollectable, GC_realloc, GC_free):
+	Declare weak symbols to malloc, malloc, realloc, and free.
+	(xmalloc, xmalloc_atomic, xcalloc, xrealloc, xfree): Always
+	call functions above.
+	(xcalloc): Call memset 0 on results.
+
 2001-06-17  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* xmalloc.c (xmalloc, xmalloc_atomic, xcalloc): Use
