@@ -1,3 +1,7 @@
+1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* misc.h: Use static inlines for ctype-like macros.
+
 1999-08-25    <mgd@HELEN>
 
 	* argp-help.c (hol_entry_cmp): Adjust first1 and first2 to lower

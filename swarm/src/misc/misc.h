@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <math.h>
+#include <objc/objc.h> // BOOL
 
 #include <limits.h>
 
@@ -146,14 +147,59 @@ void debugabort (const char *filename, unsigned lineno, const char *function) __
 
 #define abort() debugabort(__FILE__,__LINE__, __PRETTY_FUNCTION__)
 
-#define isDigit(ch) ({ char _ch = ch; (_ch >= '0' && _ch <= '9'); })
-#define isSpace(ch) ({ char _ch = ch; (_ch == ' ' || _ch == '\t' || _ch == '\n' || _ch == '\r' || _ch == '\f'); })
-#define isUpper(ch) ({ char _ch = ch; (_ch >= 'A' && _ch <= 'Z'); })
-#define isLower(ch) ({ char _ch = ch; (_ch >= 'a' && _ch <= 'z'); })
-#define isAlpha(ch) ({ char _ch = ch; (isUpper (_ch) || isLower (_ch)); })
-#define isAlnum(ch) ({ char _ch = ch; (isAlpha (_ch) || isDigit (_ch)); })
-#define isPunct(ch) ({ char _ch = ch; (((_ch > ' ') && (_ch < '0')) || ((_ch > '9') && (_ch < 'A')) || ((_ch > 'Z') && (_ch < 'a')) || ((_ch > 'z') && (_ch <= '~'))); })
-#define isPrint(ch) ({ char _ch = ch; (isPunct (_ch) || isAlnum (_ch) || (_ch == ' ')); })
+#undef isDigit
+#undef isUpper
+
+static inline BOOL
+isDigit (char ch)
+{
+  return ch >= '0' && ch <= '9'; 
+}
+
+static inline BOOL
+isSpace (char ch)
+{
+  return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r' || ch == '\f';
+}
+
+static inline BOOL
+isUpper (char ch)
+{
+  return ch >= 'A' && ch <= 'Z';
+}
+
+static inline BOOL
+isLower (char ch)
+{
+  return ch >= 'a' && ch <= 'z';
+}
+
+static inline BOOL
+isAlpha (char ch)
+{
+  return isUpper (ch) || isLower (ch);
+}
+
+static inline BOOL
+isAlnum (char ch)
+{
+  return isAlpha (ch) || isDigit (ch);
+}
+
+static inline BOOL
+isPunct (char ch)
+{
+  return (((ch > ' ') && (ch < '0'))
+          || ((ch > '9') && (ch < 'A'))
+          || ((ch > 'Z') && (ch < 'a'))
+          || ((ch > 'z') && (ch <= '~')));
+}
+
+static inline BOOL
+isPrint (char ch) 
+{ 
+  return isPunct (ch) || isAlnum (ch) || ch == ' ';
+}
 
 #endif
 
