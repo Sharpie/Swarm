@@ -1,3 +1,7 @@
+1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (libjavaswarm_la_OBJECTS): Add SwarmEnvironment.lo.
+
 1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.m (Java_SwarmEnvironment_initSwarm): Add 

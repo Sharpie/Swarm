@@ -32,7 +32,7 @@ modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(foreach impmodule,$(SWARMMODULES),-L$(abs_top_builddir)/src/$(impmodule)/.libs) -L$(abs_top_builddir)/libobjc/.libs $(SUPPORTLDFLAGS) -rpath $(libdir)
 
 libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS)) \
-	directory.lo setup.lo
+	directory.lo setup.lo JavaProxy.lo SwarmEnvironment.lo
 
 all: libjavaswarm.la
 
