@@ -11,52 +11,51 @@
 #include <swarmconfig.h> // PTRINT
 
 int
-main(int argc, const char ** argv) 
+main (int argc, const char **argv) 
 {
-  id theList;
+  id list;
   id index;
   id member;
   int currMax, currMin;
 
-  initSwarmBatch(argc, argv);
+  initSwarmBatch (argc, argv);
 
   // first, create a collection to be ordererd....
-  theList = [List createBegin: globalZone];
-  theList = [theList createEnd];
+  list = [List create: globalZone];
 
-  [theList addLast: (id) 3];
-  [theList addLast: (id) 10];
-  [theList addLast: (id) 1];
-  [theList addLast: (id) 12];
-  [theList addLast: (id) 13];
-  [theList addLast: (id) 389];
-  [theList addLast: (id) 99];
+  [list addLast: (id) 3];
+  [list addLast: (id) 10];
+  [list addLast: (id) 1];
+  [list addLast: (id) 12];
+  [list addLast: (id) 13];
+  [list addLast: (id) 389];
+  [list addLast: (id) 99];
 
   // check list in unsorted order
   printf ("unsorted list...\n");
-  index = [theList begin: globalZone];
+  index = [list begin: scratchZone];
   
   while ((member = [index next])) 
     printf (PTRINTFMT ", ", (PTRINT) member);
   [index drop];
 
   // reverse the list...
-  [QSort reverseOrderOf: theList];
+  [QSort reverseOrderOf: list];
 
   // check reversed order
   printf ("\nreversed list...\n");
-  index = [theList begin: globalZone];
+  index = [list begin: scratchZone];
   while ((member = [index next])) 
     printf (PTRINTFMT ", ", (PTRINT) member);
   [index drop];
 
   // sort the list...
-  [QSort sortNumbersIn: theList];
+  [QSort sortNumbersIn: list];
 
   // check list in sorted order
   currMax = 0;
   printf ("\nsorted (ascending) list...\n");
-  index = [theList begin: globalZone];
+  index = [list begin: scratchZone];
   while ((member = [index next])) 
     {
       if (currMax > (PTRINT) member)
@@ -71,10 +70,10 @@ main(int argc, const char ** argv)
 
   // now reverse list...
   currMin = 999;  
-  [QSort reverseOrderOf: theList];
+  [QSort reverseOrderOf: list];
   
   printf("\nsorted and reversed list (descending)...\n");
-  index = [theList begin: globalZone];
+  index = [list begin: scratchZone];
   while ((member = [index next])) 
     {
       if (currMin < (PTRINT) member)
