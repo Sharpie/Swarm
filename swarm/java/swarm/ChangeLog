@@ -1,3 +1,8 @@
+1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in (JAVADEPS): Use expanded jdeps.jar directory,
+	to avoid crashes reading jar files in Japhar.
+
 1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (modules): Append suffix to PRECLASSES, instead of
