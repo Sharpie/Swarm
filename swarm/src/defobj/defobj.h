@@ -980,7 +980,7 @@ USING
 - selectRecord: (unsigned)recordNumber;
 - (void)drop;
 
-void hdf5_not_available (void);
+extern void hdf5_not_available (void);
 @end
 
 @protocol HDF5CompoundType <Create, Drop, CREATABLE>
