@@ -60,16 +60,11 @@ PHASE(Using)
 // to reuse that entry.
 - (BOOL)setColor: (Color)c ToName: (const char *)colorName
 {
-  if ([self colorIsSet: c])
-    {
-      raiseEvent (InvalidArgument, "attempted to set color %d twice\n", c);
-      return NO;
-    }
+  if (isSet[c])
+    raiseEvent (InvalidArgument, "attempted to set color %d twice\n", c);
   else
-    {
-      isSet[c] = YES;
-      return tkobjc_setColor (self, colorName, &map[c]);
-    }
+    isSet[c] = tkobjc_setColor (self, colorName, &map[c]);
+  return isSet[c];
 }
 
 // allocate an RGB combo. We could use XAllocColor directly,
@@ -138,6 +133,10 @@ PHASE(Using)
   return 0;
 }
 
+- unsetColor: (Color)c
+{
+  isSet[c] = NO;
+  return self;
+}
+
 @end
-
-
