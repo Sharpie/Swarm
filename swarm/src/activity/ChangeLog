@@ -1,3 +1,11 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* CompoundAction.m (registerSubactivity): Don't use destroy
+	notification to maintain activitySet.
+
+	* XActivity.m ([Activity_c -dropAllocations:]): If there's an
+	owner, remove self from parent activitySet
+
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Schedule.m ([ScheduleIndex_c -remove]): Avoid leaving behind
