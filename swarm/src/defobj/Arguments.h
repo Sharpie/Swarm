@@ -14,6 +14,7 @@
   const char *appModeString;
   const char *version;
   const char *bugAddress;
+  BOOL inhibitArchiverLoadFlag;
   BOOL batchModeFlag;
   BOOL varySeedFlag;
   BOOL showCurrentTimeFlag;
@@ -41,10 +42,12 @@
 - setVarySeedFlag: (BOOL)varySeedFlag;
 - setDefaultAppConfigPath: (const char *)path;
 - setDefaultAppDataPath: (const char *)path;
+- setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
 
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;
 - (BOOL)getShowCurrentTimeFlag;
+- (BOOL)getInhibitArchiverLoadFlag;
 - (const char *)getAppName;
 - (const char *)getAppModeString;
 - (int)getArgc;

@@ -30,6 +30,8 @@
   hid_t loc_id;
   id parent;
   const char *name;
+  const char *typeName;
+  BOOL createGroupFlag;
 
   id <HDF5CompoundType> c_type;
   unsigned c_count;
@@ -45,13 +47,16 @@
 }
 - setParent: parent;
 - setName: (const char *)name;
-- setType: compoundType count: (unsigned)count;
+- setTypeName: (const char *)typeName;
+- setCreateGroupFlag: (BOOL)createGroupFlag;
+- setRecordType: compoundType count: (unsigned)count;
 - createEnd;
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
 - storeObject: obj;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
+- (const char *)getName;
 - (void)drop;
 @end
 

@@ -1,10 +1,35 @@
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.m (initDefobj): Call setInhibitLoadFlag on Archiver with
+	Arguments' inhibitArchiverLoadFlag value.
+
+	* HDF5Object.m (store_type_name): New function.
+	([HDF5_c -createEnd]): Use it.
+	Don't create group unless createGroupFlag is set,
+	otherwise set loc_id from parent.
+
+	* HDF5Object.[hm], defobj.h (HDF5_c): New ivars typeName and
+	createGroupFlag and setters.
+	([HDF5_c -getName]): New method.
+
+	* Archiver.m (hdf5_output_objects): Pass deepFlag to
+	setCreateGroupFlag.
+
+	* Arguments.[hm] (Arguments_c): New ivar inhibitArchiverLoadFlag
+	and accessors.
+
+	* Archiver.[hm] (Archiver): New ivar inhibitLoadFlag and setter.
+
+	* Archiver.m ([Archiver_c -createEnd]): Use it.
+	(base_options): New option --no-init-file.
+	([Arguments_c -parseKey:arg:]): Call setInhibitArchiverLoadFlag:
+	on --no-init-file.
+
 	* HDF5Object.[hm], defobj.h ([HDF5_c -nameRecord:name:], [HDF5_c
 	-numberRecord:], [HDF5_c -setRowNameLength:]: New methods.
 
-	* HDF5Object.m ([HDF5_c -setType:count:]): Set c_rnlen from decimal
-	size of recordCount.
+	* HDF5Object.m ([HDF5_c -setRecordType:count:]): Set c_rnlen from
+	decimal size of recordCount.
 	([HDF5_c -createEnd]): Create HDF5 attribute for row names.
 	([HDF5_c -drop]): Close c_rn* HDF5 objects.
 
@@ -22,7 +47,8 @@
 	([HDF5_c -createEnd]): Setup point space.
 	([HDF5_c -drop]): Close point space when c_type is set.
 
-	* HDF5Object.[hm], defobj.h ([HDF5_c -setType:count:]): New method.
+	* HDF5Object.[hm], defobj.h ([HDF5_c -setRecordType:count:]): New
+	method.
 	(HDF5CompoundType): New type.
 	([HDF5_c -selectRecord:], [HDF5_c -storeObject:]): New methods.
 

@@ -883,6 +883,7 @@ CREATING
 - setOptionFunc: (int (*) (int, const char *))optionFunc;
 - setBugAddress: (const char *)bugAddress;
 - setVersion: (const char *)version;
+- setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
 - addOptions: (struct argp_option *)options;
 
 + createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
@@ -939,7 +940,8 @@ USING
 //M: A path where application-specific configuration files can be expected
 //M: to be found.
 - (const char *)getAppConfigPath;
--(BOOL)getShowCurrentTimeFlag;
+- (BOOL)getShowCurrentTimeFlag;
+- (BOOL)getInhibitArchiverLoadFlag;
 @end
 
 @protocol Archiver <Create, Drop, CREATABLE>
@@ -976,9 +978,12 @@ extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
 CREATING
 - setParent: parent;
 - setName: (const char *)name;
-- setType: compoundType count: (unsigned)count;
+- setTypeName: (const char *)typeName;
+- setRecordType: compoundType count: (unsigned)count;
+- setCreateGroupFlag: (BOOL)createGroupFlag;
 - createEnd;
 USING
+- (const char *)getName;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - storeObject: obj;
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;

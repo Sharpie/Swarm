@@ -16,6 +16,7 @@
 
 #define REF2STRING_CONV "ref->string"
 #define ROWNAMES "row.names"
+#define ATTRIB_TYPENAME "type"
 
 static unsigned hdf5InstanceCount = 0;
 
@@ -111,7 +112,19 @@ PHASE(Creating)
   return self;
 }
 
-- setType: theCompoundType count: (unsigned)theRecordCount
+- setTypeName: (const char *)theTypeName
+{
+  typeName = theTypeName;
+  return self;
+}
+
+- setCreateGroupFlag: (BOOL)theCreateGroupFlag
+{
+  createGroupFlag = theCreateGroupFlag;
+  return self;
+}
+
+- setRecordType: theCompoundType count: (unsigned)theRecordCount
 {
   c_type = theCompoundType;
   c_count = theRecordCount;
@@ -149,6 +162,40 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
   return 0;
 }     
 
+static void
+store_type_name (hid_t did, const char *name)
+{
+  hid_t type_tid, type_sid, type_aid;
+  hsize_t dims[1];
+  
+  dims[0] = 1;
+  
+  if ((type_tid = H5Tcopy (H5T_C_S1)) < 0)
+    raiseEvent (SaveError, "unable to copy string type");
+  if ((H5Tset_size (type_tid, strlen (name) + 1)) < 0)
+    raiseEvent (SaveError, "unable to set string size");
+  if ((type_sid = H5Screate_simple (1, dims, NULL)) < 0)
+    raiseEvent (SaveError, "unable to create row names data space");
+  
+  if ((type_aid = H5Acreate (did, ATTRIB_TYPENAME,
+                             type_tid, type_sid, H5P_DEFAULT)) < 0)
+    raiseEvent (SaveError, 
+                "unable to create type attribute dataset");
+  
+  if (H5Awrite (type_aid, type_tid, (void *) name) < 0)
+    raiseEvent (SaveError, "unable to write type name attribute");
+
+  if (H5Aclose (type_aid) < 0)
+    raiseEvent (SaveError, "unable to close type name attribute");
+
+  if (H5Tclose (type_tid) < 0)
+    raiseEvent (SaveError, "unable to close type name type");
+  
+  if (H5Sclose (type_sid) < 0)
+    raiseEvent (SaveError, "unable to close type name space");
+}
+
+
 - createEnd
 {
   [super createEnd];
@@ -180,6 +227,8 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                               H5P_DEFAULT)) < 0)
         raiseEvent (SaveError, "unable to create (compound) dataset");
 
+      store_type_name (c_did, typeName);
+      
       {
         hsize_t dims[1];
         
@@ -200,8 +249,13 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
     }
   else
     {
-      if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0)) < 0)
-        raiseEvent (SaveError, "Failed to create HDF5 group `%s'", name);
+      if (createGroupFlag)
+        {
+          if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0)) < 0)
+            raiseEvent (SaveError, "Failed to create HDF5 group `%s'", name);
+        }
+      else
+        loc_id = ((HDF5_c *) parent)->loc_id;
     }
   if (hdf5InstanceCount == 0)
     {
@@ -216,6 +270,11 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 }
 
 PHASE(Using)
+
+- (const char *)getName
+{
+  return name;
+}
 
 - storeAsDataset: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
 {

@@ -282,6 +282,7 @@ lispArchiverPut (const char *key, id object, BOOL deepFlag)
     [map at: keyObj insert: object];
 }
 
+#ifdef HAVE_HDF5
 void
 hdf5ArchiverPut (const char *key, id object, BOOL deepFlag)
 {
@@ -294,6 +295,7 @@ hdf5ArchiverPut (const char *key, id object, BOOL deepFlag)
   else
     [map at: keyObj insert: object];
 }
+#endif
 
 id
 lispArchiverGet (const char *key)
@@ -310,6 +312,7 @@ lispArchiverGet (const char *key)
   return result;
 }
 
+#ifdef HAVE_HDF5
 id
 hdf5ArchiverGet (const char *key)
 {
@@ -324,6 +327,7 @@ hdf5ArchiverGet (const char *key)
   [string drop];
   return result;
 }
+#endif
 
 void
 archiverSave (void)
@@ -349,6 +353,12 @@ PHASE(Creating)
   return newArchiver;
 }
 
+- setInhibitLoadFlag: (BOOL)theInhibitLoadFlag
+{
+  inhibitLoadFlag = theInhibitLoadFlag;
+  return self;
+}
+
 - createEnd
 {
   const char *appName = [arguments getAppName];
@@ -360,29 +370,33 @@ PHASE(Creating)
   
   [currentApplicationKey catC: "/"];
   [currentApplicationKey catC: appModeString];
-  
-  if (lispPath)
+
+  if (!inhibitLoadFlag)
     {
-      FILE *fp = fopen (lispPath, "r");
-      
-      if (fp != NULL)
+      if (lispPath)
         {
-          // Create a temporary zone to simplify destruction of expression
-          id inStreamZone = [Zone create: scratchZone];
-          id inStream = [InputStream create: inStreamZone setFileStream: fp];
+          FILE *fp = fopen (lispPath, "r");
           
-	  lispLoadArchiverExpr (applicationMap,
-				[inStream getExpr]);
-          [inStreamZone drop]; 
-          fclose (fp);
+          if (fp != NULL)
+            {
+              // Create a temporary zone to simplify destruction of expression
+              id inStreamZone = [Zone create: scratchZone];
+              id inStream =
+                [InputStream create: inStreamZone setFileStream: fp];
+              
+              lispLoadArchiverExpr (applicationMap,
+                                    [inStream getExpr]);
+              [inStreamZone drop]; 
+              fclose (fp);
+            }
         }
-    }
 #ifdef HAVE_HDF5
-  if (hdf5Path)
-    {
-      // printf ("post:[%s]\n", [self name]);
-    }
+      if (hdf5Path)
+        {
+          // printf ("post:[%s]\n", [self name]);
+        }
 #endif
+    }
   return self;
 }
 
@@ -524,11 +538,12 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
   
   while ((member = [objectMapIndex next: &key]))
     {
-      id hdf5Group = [[[[HDF5 createBegin: [hdf5Obj getZone]]
-                         setParent: hdf5Obj]
-                        setName: [key getC]]
+      id hdf5Group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                          setParent: hdf5Obj]
+                         setName: [key getC]]
+                        setCreateGroupFlag: deepFlag]
                        createEnd];
-      
+  
       if (![member isClass])
         [member hdf5Out: hdf5Group deep: deepFlag];
       else

@@ -29,11 +29,14 @@ const char *swarm_version = SWARM_VERSION;
 
 id arguments;
 
+#define OPT_INHIBIT_ARCHIVER_LOAD 1
+
 static struct argp_option base_options[] = {
   {"varyseed", 's', 0, 0, "Run with a random seed", 0},
   {"batch", 'b', 0, 0, "Run in batch mode", 1},
   {"mode", 'm', "MODE", 0, "Specify mode of use (for archiving)", 2},
   {"show-current-time", 't', 0, 0, "Show current time in control panel", 3},
+  {"no-init-file", OPT_INHIBIT_ARCHIVER_LOAD, 0, 0, "Inhibit loading of ~/.swarmArchiver", 4},
   { 0 }
 };
 
@@ -114,6 +117,12 @@ PHASE(Creating)
 - setVersion: (const char *)theVersion
 {
   version = theVersion;
+  return self;
+}
+
+- setInhibitArchiverLoadFlag: (BOOL)theInhibitArchiverLoadFlag
+{
+  inhibitArchiverLoadFlag = theInhibitArchiverLoadFlag;
   return self;
 }
 
@@ -243,6 +252,9 @@ PHASE(Creating)
     case 't':
       [self setShowCurrentTimeFlag: YES];
       break;
+    case OPT_INHIBIT_ARCHIVER_LOAD:
+      [self setInhibitArchiverLoadFlag: YES];
+      break;
     default:
       return ARGP_ERR_UNKNOWN;
     }
@@ -346,6 +358,11 @@ PHASE(Using)
 - (BOOL)getShowCurrentTimeFlag
 {
   return showCurrentTimeFlag;
+}
+
+- (BOOL)getInhibitArchiverLoadFlag
+{
+  return inhibitArchiverLoadFlag;
 }
 
 - (const char *)getAppName

@@ -128,7 +128,10 @@ initDefobj (int argc, const char **argv,
                               options: options
                               optionFunc: optionFunc];
   _objc_lookup_class = findLocalClass;
-  archiver = [Archiver create: globalZone];
+  archiver = [[[Archiver createBegin: globalZone]
+                setInhibitLoadFlag:
+                  [arguments getInhibitArchiverLoadFlag]]
+               createEnd];
 }
 
 static id

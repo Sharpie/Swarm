@@ -22,6 +22,7 @@ extern id archiver;
 {
   id currentApplicationKey;
   id <Map> applicationMap;
+  BOOL inhibitLoadFlag;
   const char *lispPath;
 #ifdef HAVE_HDF5
   const char *hdf5Path;
@@ -32,6 +33,7 @@ extern id archiver;
 }
 
 + createBegin: aZone;
+- setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - getApplication;
 - setLispPath: (const char *)lispPath;
 #ifdef HAVE_HDF5
