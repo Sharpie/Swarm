@@ -1,3 +1,8 @@
+1998-04-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h: Colormap protocol now conforms to CreateDrop protocol.
+	(Thanks to Ken Cline.)
+
 1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h: Create class object for Raster.

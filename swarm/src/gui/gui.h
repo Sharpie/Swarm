@@ -178,7 +178,7 @@ typedef unsigned long PixelValue;
 typedef unsigned long Pixmap;     // X.h defines it as an XID
 #endif
 
-@protocol Colormap
+@protocol Colormap <CreateDrop>
 - (PixelValue *)map;
 - (PixelValue)black;
 - (BOOL)setColor: (Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
