@@ -1,7 +1,7 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Prefix
-	archiving keys with "probeDisplay" for bankModelSwarm and
+	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): 
+	Use createArchivedProbeDisplay to create bankModelSwarm and
 	bankObserverSwarm probe displays.
 
 	* Makefile (SWARMHOME): Default to 1.0.5.

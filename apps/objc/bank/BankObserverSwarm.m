@@ -8,7 +8,7 @@
 // createBegin: here we set up the default observation parameters.
 + createBegin: aZone
 {
-  BankObserverSwarm * obj;
+  BankObserverSwarm *obj;
   id <ProbeMap> probeMap;
   
   obj = [super createBegin: aZone];
@@ -51,12 +51,8 @@
   
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
-  [probeDisplayManager createProbeDisplayFor: bankModelSwarm
-                       setWindowGeometryRecordName: 
-                         "probeDisplayBankModelSwarm"];
-  [probeDisplayManager createProbeDisplayFor: self
-                       setWindowGeometryRecordName: 
-                         "probeDisplayBankObserverSwarm"];
+  createArchivedProbeDisplay (bankModelSwarm);
+  createArchivedProbeDisplay (self);
   
   [controlPanel waitForControlEvent];
   if ([controlPanel getState] == ControlStateQuit)
