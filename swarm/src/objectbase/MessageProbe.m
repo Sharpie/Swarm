@@ -8,7 +8,9 @@
 #import <stdlib.h>
 #import <string.h>
 
+#ifndef USE_JAVA
 #import <tkobjc/common.h> // tkobjc_dynamicEval
+#endif
 
 #import "MessageProbe.h"
 #import "swarm_rts_routines.h"
@@ -140,14 +142,14 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
     {
       raiseEvent (WarningMessage, runtimeBugWarning);
       [self drop]; 
-      return nil; // I've just done a Roger Switcheroo!!! Yoo Hoo!
+      return nil;
     }
   
   if (!sel_get_type (probedSelector))
     {
       raiseEvent (WarningMessage, runtimeBugWarning);
       [self drop]; 
-      return nil; // I've just done a Roger Switcheroo!!! Yoo Hoo!
+      return nil;
     }
   
   probedType = strdup (sel_get_type (probedSelector));
@@ -362,8 +364,12 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
         strcat (cmd, arguments[i]);
         strcat (cmd, " ");
       }
-  
+
+#ifndef USE_JAVA
   *result = tkobjc_dynamicEval (cmd);
+#else
+  abort ();
+#endif
   
   // since other routines call this so-called internal 
   // method _trueDynamicCallOn_, I have to put this here.  If and when
