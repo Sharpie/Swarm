@@ -7,6 +7,8 @@
 #include <tkobjc/global.h>
 
 #import <activity/Schedule.h>
+#import "internal.h"
+
 #include <objc/objc-api.h>
 #include <misc.h>
 
@@ -191,7 +193,7 @@ PHASE(Using)
   int key;
   id <MapIndex> mi;
   int xbarpos, ymaxpos;
-  timeval_t max;
+  timeval_t max = 0;
 
   if (schedule == nil)
     return self;
@@ -226,7 +228,7 @@ PHASE(Using)
     [text setCanvas: canvas];
     [text setCenterFlag: NO];
     [text setX: xoffset Y: yoffset];
-    sprintf (buf, "%d", min);
+    sprintf (buf, "%lu", min);
     [text setText: buf];
     minTextItem = [text createEnd];
 
@@ -234,7 +236,7 @@ PHASE(Using)
     [text setCanvas: canvas];
     [text setCenterFlag: NO];
     [text setX: xoffset Y: ymaxpos];
-    sprintf (buf, "%d", max);
+    sprintf (buf, "%lu", max);
     [text setText: buf];
     maxTextItem = [text createEnd];
   }

@@ -566,8 +566,8 @@ tkobjc_raster_createContext (Raster *raster)
 void
 tkobjc_raster_setColormap (Raster *raster)
 {
-  raster_private_t *private = raster->private;
 #ifdef _WIN32
+  raster_private_t *private = raster->private;
   Colormap *colormap = raster->colormap;
   dib_t *dib = private->pm;
   
@@ -635,8 +635,8 @@ tkobjc_raster_flush (Raster *raster)
 void
 tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight)
 {
-  raster_private_t *private = raster->private;
 #ifdef _WIN32
+  raster_private_t *private = raster->private;
   Tk_Window tkwin = private->tkwin;
   Display *display = Tk_Display (tkwin);
   Window w = Tk_WindowId (tkwin);
@@ -960,7 +960,7 @@ check_for_overlaps (Display *display, Window parent,
   int l, r, t, b;
   unsigned w, h;
   unsigned bw, depth;
-  int rl, rr, rt, rb;
+  int rl, rt;
   unsigned rw, rh;
   unsigned rbw, rdepth;
 
@@ -977,7 +977,7 @@ check_for_overlaps (Display *display, Window parent,
   if (!XQueryTree (display, root, &root, &root, &children, &nchildren))
     abort ();
   {  
-    Window *overlapWindows, root;
+    Window *overlapWindows;
     unsigned overlapCount = 0;
     
     for (i = 0; i < nchildren; i++)
@@ -1008,7 +1008,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       Window window, topWindow;
 
       [globalTkInterp eval: "wm frame %s", widgetName];
-      sscanf ([globalTkInterp result], "0x%x", &topWindow);
+      sscanf ([globalTkInterp result], "0x%x", (int *)&topWindow);
 
       window = decorationsFlag ? topWindow : Tk_WindowId (tkwin);
 
@@ -1022,7 +1022,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         Display *display = pixmap->display;
         XSetWindowAttributes attr;
         XWindowAttributes top_attr;
-        BOOL obscured = NO, configured = NO;
+        BOOL obscured = NO;
         
 	keep_inside_screen (tkwin, window);
         check_for_overlaps (display, topWindow,
@@ -1200,7 +1200,6 @@ tkobjc_pixmap_create (Pixmap *pixmap,
     XpmAttributes xpmattrs;
     Tk_Window tkwin = tkobjc_nameToWindow (".");
     Display *display = Tk_Display (tkwin);
-    int rc;
     
     xpmattrs.valuemask = 0;
     

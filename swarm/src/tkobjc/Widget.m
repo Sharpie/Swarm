@@ -9,6 +9,8 @@
 #import <tkobjc/Frame.h>
 #import <tkobjc/common.h>
 
+#include <misc.h> // atoi
+
 @implementation Widget
 
 PHASE(Creating)

@@ -8,8 +8,9 @@ tkobjcdir = $(includedir)/$(MODULE)
 include $(top_srcdir)/src/Makefile.rules
 
 TCLFILES = analysis.tcl comm.tcl simtools.tcl tkbusy.tcl
+XPMFILES = schedule.xpm trigger.xpm
 
-EXTRA_DIST = $(TCLFILES)
+EXTRA_DIST = $(TCLFILES) $(XPMFILES)
 
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@

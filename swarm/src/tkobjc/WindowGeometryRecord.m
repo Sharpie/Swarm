@@ -9,6 +9,8 @@
 #import <collections/predicates.h> // for stringp
 #import "global.h"
 
+#include <misc.h> // atoi
+
 @implementation WindowGeometryRecord
 
 PHASE(Creating)
@@ -41,11 +43,10 @@ PHASE(Using)
 static int
 getVal (id obj)
 {
-  if (stringp (obj))
-    return atoi ([obj getC]);
-  else
+  if (!stringp (obj))
     [WindowGeometryRecordError raiseEvent: "Object is not a string (%s)",
                                [obj name]];
+  return atoi ([obj getC]);
 }
 
 static id

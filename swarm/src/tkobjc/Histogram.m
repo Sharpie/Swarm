@@ -28,11 +28,8 @@ PHASE(Creating)
 // This method can only be called once!
 - setNumBins: (unsigned)n 
 {
-  int i;
-
   numBins = n;
   elements = [[self getZone] alloc: (sizeof (*elements) * n)];
-
 
   return self;
 }

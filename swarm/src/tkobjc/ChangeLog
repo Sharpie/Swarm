@@ -1,6 +1,27 @@
 1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT): Increment.  Swarm 1.3.1 released.
+	(XPMFILES): New variable.
+	(EXTRA_DIST): Include it.
+
+	* internal.m (tkobjc_raster_setColormap, tkobjc_raster_clear):
+	Move private into _WIN32, since it is only used there; avoid
+	warning.
+	(check_for_overlaps): Remove rr, rb, and root.
+	(tkobjc_pixmap_create_from_widget): Cast address to int *.
+	Removed configured.
+	(tkobjc_pixmap_create): Remove rc.
+
+	* WindowGeometryRecord.m (getVal): Reverse logic so that routine
+	ends with return.
+
+	* Widget.m, WindowGeometryRecord.m: Include misc.h.
+
+	* ScheduleItem.m: Include internal.h.
+	([ScheduleItem -_createItem_]): Initialize max to avoid warning.
+	Use %lu instead of %d.
+
+	* Histogram.m ([Histogram -setNumBins:]): Remove i.
 
 1998-10-01  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
