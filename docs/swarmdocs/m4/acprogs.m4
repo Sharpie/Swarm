@@ -19,6 +19,7 @@ for device in png256 ppm ; do
   rm -f $outfile
   AC_MSG_RESULT(yes)
 done
+AC_SUBST(GS_LIB)
 ])
 
  
