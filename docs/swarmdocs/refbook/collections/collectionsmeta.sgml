@@ -1,0 +1,106 @@
+<DOCINFO>
+
+  <TITLE>Collections Library</TITLE>
+
+  <ABSTRACT>
+    <TITLE>Documentation and Implementation Status</TITLE>
+
+    <PARA>The collections library has an almost complete set of
+      Interface Reference documents, and the design of the interface is
+      almost entirely final.  The implementation of the collections library,
+      however, doesn't yet implement many of the more advanced features of
+      this interface.
+    </PARA>
+
+    <PARA>Collections library development has concentrated on the
+      specific features needed by the activity library.  This library uses
+      collections for its underlying support of actions to be executed in
+      schedules.  The collections library itself is still being completed
+      for use as a general-purpose library.</PARA>
+
+    <PARA>The Array and List types have all basic capability fully
+      implemented.  Set and Map have basic messages defined, but currently
+      rely on a crude implementation based on sorted lists.  (This
+      implementation is more than adequate for the usually small and
+      relatively static schedule structures in the activity library, and is
+      the most forgiving when change does take place within members being
+      traversed.)  Much more efficient implementations based on both
+      balanced trees and hash tables are in the works.
+    </PARA>
+
+    <PARA>OrderedSet is currently supported only with the low-level
+      option for an internal member slot, and the implemented messages do
+      not match the ones documented in the Interface Reference.  Support for
+      groups of duplicate members is missing from both Set and Map.</PARA>
+
+    <PARA>None of the special options for restricted usage modes on
+      any type of collection (e.g., read-only restriction) has been
+      implemented.  Stack and Queue are not implemented, but are nothing
+      more than restricted uses of a List.  There is no support for any
+      member type except id or smaller (other member types will depend on a
+      data type facility to be supplied by defobj).</PARA>
+
+    <PARA>Even though incomplete, the portion of capability that is
+      implemented has been exercised very heavily.  The interfaces to Set
+      and Map structures will remain the same even as their underlying
+      implementations improve, so there is no harm in using them.  See the
+      <LINK LINKEND="GRID.REF">GridTurtle test programs</LINK> for the most
+      complete examples of collections usage.</PARA>
+
+    <PARA>The collections library follows the documentation structure
+      suggested by the <LINK LINKEND="DEFOBJ.REF">library interface
+        conventions</LINK> of the defobj library.  There are placeholders at
+      least for each section of documentation (some of which merely indicate
+      that the section is not available yet) so that all links should at
+      least link up with something, whether or not there's anything
+      there.</PARA>
+
+    <PARA>Throughout the documentation, a parenthesized comment that
+      starts with (..  indicates an editorial comment on the current status
+      of implementation or documentation.</PARA>
+
+    <PARA>The documentation priority for all libraries is to complete
+      at least their interface reference documents, so that there is the
+      equivalent of Unix "man pages" that summarize all basic capability.  A
+      second priority is to complete the complementary "Usage Guide"
+      documents.  Unlike the reference documents, the Usage Guide will have
+      a task-oriented organization, and will lead the initial user through
+      actual code examples in the rough order a typical user is likely to
+      need them.  It will serve the role of a tutorial on each
+      library.</PARA>
+
+    <PARA>The Usage Guide code examples have not yet been developed.
+      For the time being, a directory of test programs (<LINK
+      LINKEND="GRID.REF">GridTurtle test programs</LINK>, contained
+      within the documentation release directory) provides code
+      examples of many of the basic features of the defobj,
+      collections, and activity libraries.  These code examples also
+      help indicate the portions of the libraries which are fully
+      implemented and working, since they are run on each new release
+      of these libraries.</PARA>
+
+  </ABSTRACT>
+
+
+  <REVHISTORY>
+    
+    <REVISION>
+      <REVNUMBER>1.1</REVNUMBER>
+      <DATE>1998-05-05</DATE>
+      <AUTHORINITIALS>AKL</AUTHORINITIALS>
+
+      <REVREMARK>Created the the updated SGML version of the collections
+        library.
+      </REVREMARK>
+
+    </REVISION>
+
+  </REVHISTORY>
+
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("collectionscont.sgml" "DOCINFO")
+End:
+-->

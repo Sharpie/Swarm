@@ -1,0 +1,27 @@
+<REFERENCE ID="ACTIVITY.REF">
+  &activitymeta.sgml;
+  
+<TITLE>Activity Library</TITLE>
+  <TITLEABBREV>Activity</TITLEABBREV>
+  
+  <!-- partintro -->
+  &activity00.sgml;
+  
+  <!-- actual reference content -->
+  &activitypages.sgml;
+
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->
+
+
+
+
+
+
+
+

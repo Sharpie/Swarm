@@ -1,0 +1,118 @@
+<PARTINTRO>
+
+  <SIDEBAR>
+    <TITLE>Overview</TITLE>
+
+    <PARA>The object types of the collections library establish a
+      general-purpose foundation to maintain object references or
+      other values as members of structured collections.
+      Customization options consolidate a wide range of basic
+      collection structures into a few core types (Array, List, Set,
+      Map).  These types are defined strictly by their interface, not
+      their internal implementation.  Specialized options, however,
+      give control and flexibility for efficient, low-level use (such
+      as implementing other libraries).</PARA>
+
+  </SIDEBAR>
+
+  <SECT1 ID="COLLECTIONS.DEPEND">
+    <TITLE>Dependencies</TITLE>
+
+    <PARA>Following are the other header files imported by
+      &lt;collections.h&gt:</PARA>
+    
+<PROGRAMLISTING>
+#import &lt;defobj.h&gt
+</PROGRAMLISTING>
+
+    <PARA>The collections library follows the <LINK
+      LINKEND="LIBRARY.APP">library interface conventions</LINK> of
+      the <LINK LINKEND="DEFOBJ.REF">defobj library</LINK>.  It also
+      depends on standard supertypes and classes defined by this
+      library.  Initialization of the collections library
+      automatically initializes the defobj library as well.  Since
+      defobj also requires the collections library, both must always
+      be linked into an application together.</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="COLLECTIONS.COMPAT">
+    <TITLE>Compatibility</TITLE>
+    
+    <PARA>No explicit incompatibilites for particular versions of Swarm</PARA>
+
+  </SECT1>
+  
+  <SECT1 ID="COLLECTIONS.USAGE">
+    <TITLE>Usage Guide</TITLE>
+    
+    <PARA>This section of documentation is not yet available.  In the
+      meantime, see the <LINK LINKEND="GRID.REF">GridTurtle test
+        programs</LINK> for the most complete examples of collections
+      library usage.  If you can't find an example there that
+      exercises a message or option that you want to use, chances are
+      it's not implemented.</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="COLLECTIONS.ADVUSAGE">
+    <TITLE>Advanced Usage Guide</TITLE>
+    <PARA>Unavailable</PARA>
+  </SECT1>
+  
+  <SECT1 ID="COLLECTIONS.SUBCLASS">
+    <TITLE>Subclassing Reference</TITLE>
+
+    <PARA>Until the collections library has been fully implemented,
+      subclassing conventions from collections implementation classes
+      are still in flux.  In general, these classes will be among the
+      most complex uses of multiple classes selected to implement an
+      independent object type. (See <LINK LINKEND="LIBRARY.APP">library definition conventions</LINK> for
+      a summary of the distinction between types and classes.)  New
+      methods are being developed to simplify subclassing from such
+      implementations.  In the meantime, if you need to use to a
+      collection within the implementation of your own class, just put
+      an instance variable in your class and put the collection in
+      that, and pass through the messages of the collection you want
+      to have available on your class to this variable.  In many if
+      not most cases, this is better design anyway, because you
+      control all use of the underlying structure.</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="COLLECTIONS.DESIGN">
+    <TITLE>Interface Design Notes</TITLE>
+
+    <PARA>A collections library is one of the most important
+      foundation services for object-oriented programming.  Most
+      object-oriented systems provide at least the start of a
+      general-purpose collections library.  The GNUSTEP, project, for
+      example, provides the libobject library (currently in alpha test
+      at <ULINK URL="ftp://alpha.prep.ai.mit.edu/"></ULINK>) which
+      includes a collections library along with other services
+      intended to parallel those of the OpenStep framework developed
+      by Next.</PARA>
+
+    <PARA>Swarm has implemented its own collection library to meet the
+      specialized needs of its agent simulation framework.  </PARA>
+
+  </SECT1>
+
+  <SECT1 ID="COLLECTIONS.IMPL">
+    <TITLE>Implementation Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+  
+</PARTINTRO>
+
+<!--
+Local Variables:
+sgml-parent-document:("collectionscont.sgml" "PARTINTRO")
+End:
+-->
+
+
+
+

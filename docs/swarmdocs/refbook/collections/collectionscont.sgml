@@ -1,0 +1,19 @@
+<REFERENCE ID="COLLECTIONS.REF">
+  &collectionsmeta.sgml;
+  
+  <TITLE>Collections Library</TITLE>
+  <TITLEABBREV>Collections</TITLEABBREV>
+  
+  <!-- partintro -->
+  &collections00.sgml;
+  
+  <!-- actual reference content -->
+  &collectionspages.sgml;
+  
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->

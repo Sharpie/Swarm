@@ -1,0 +1,74 @@
+<DOCINFO>
+
+  <TITLE>Activity Library</TITLE>
+
+  <ABSTRACT>
+    <TITLE>Documentation and Implementation Status</TITLE>
+    
+    
+    <PARA>The activity library is in process of being converted to draw even
+      more of its support from underlying types and classes in the defobj
+      and collections libraries.  The basic interface has already been
+      changed to reflect this consolidation, so the programming interface
+      for currently available function is expected to remain stable.
+    </PARA>
+
+    <PARA>The activity library follows the documentation structure of
+      the Swarm <link linkend="defobj.ref">library interface
+      conventions</link>.  There are placeholders for each section of
+      documentation so that all links should at least link up with
+      something, whether or not there's anything there.  The Interface
+      Reference section is already fairly complete, and there is a
+      start toward a more complete Usage Guide section.  The Advanced
+      Usage Guide and other sections will come at a later time.
+    </PARA>
+
+    <PARA>
+      An attempt has been made to remove all discussion of future
+      capabilities and to document instead only the capability that is
+      already there.
+    </PARA>
+
+    <PARA>Source for code examples in the Usage Guide is included in the
+      text where it occurs.  Source consists of fragments taken from example
+      programs.  The example programs themselves may be downloaded from the
+      web pages and compiled on your own system, using links provided for that
+      purpose.  (.. currently there are no code examples in the Usage Guide,
+      which so far is only a general overview of the activity library ..)
+    </PARA>
+
+    <PARA>There is also a directory of test programs (<link
+        linkend="grid.ref">GridTurtle test programs</link>, contained
+        within the documentation release directory) that provides
+        additional code examples of many basic features of the defobj,
+        collections, and activity libraries.  These code examples are
+        very rough and subject to change, however, since their main
+        use is with each new release of the libraries to test various
+        new or existing features.  They are sometimes the only source,
+        however, for examples of some library features that have not
+        yet been used anywhere else.
+    </PARA>
+
+  </ABSTRACT>
+  
+  <REVHISTORY>
+
+    <REVISION>
+      <REVNUMBER>1.1</REVNUMBER>
+      <DATE>1998-05-05</DATE>
+      <AUTHORINITIALS>AKL</AUTHORINITIALS>
+
+      <REVREMARK>Created the updated SGML documentation version of the
+        Swarm library Activity.</REVREMARK>
+
+    </REVISION>
+
+  </REVHISTORY>
+  
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("activitycont.sgml" "DOCINFO")
+End:
+-->

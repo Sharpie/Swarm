@@ -1,0 +1,422 @@
+<PARTINTRO>
+
+  <SIDEBAR>
+    <TITLE>Overview</TITLE>
+
+    <PARA>The activity library is responsible for scheduling actions
+      to occur within a simulated world, and for making these actions
+      actually happen at the right time in the right order.  It
+      provides the foundation of dynamic, object-oriented simulation
+      within Swarm.
+    </PARA>
+
+    <PARA>Actions consist of messages to objects, calls to functions,
+      or groups of actions in some defined order.  The activity
+      library guarantees that all these actions, and the state changes
+      they produce, occur at predictable points in time.  Time is
+      defined by the relative order of actions, and may also be
+      indexed by the discrete values of a world clock.
+    </PARA>
+
+  </SIDEBAR>
+
+  <SECT1 ID="ACTIVITY.DEPEND">
+    <TITLE>Dependencies</TITLE> 
+
+    <PARA>Following are the other header files imported by
+      &lt;activity.h&gt:</PARA>
+
+<PROGRAMLISTING>
+#import &lt;collections.h&gt
+</PROGRAMLISTING>
+
+    <PARA>The activity library follows the Swarm <LINK
+        LINKEND="DEFOBJ.REF"> library interface conventions</LINK> of
+        the <LINK LINKEND="DEFOBJ.REF">defobj library</LINK>.  The
+        activity library relies heavily on the basic collection types
+        defined in the <LINK LINKEND="COLLECTIONS.REF">collections
+        library</LINK>, and the collection interfaces are an integral
+        part of the interfaces defined within this library.
+        Initialization of the activity library is done automatically
+        by the containing Swarm libraries, and automatically
+        initializes the collections and defobj libraries as
+        well.</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="ACTIVITY.COMPAT">
+    <TITLE>Compatibility</TITLE>
+
+    <PARA>No explicit compatibility issues for particular versions of
+      Swarm</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="ACTIVITY.USAGE">
+
+    <TITLE>Usage Guide</TITLE>
+
+    <SECT2>
+      <TITLE>Role of the activity library in Swarm</TITLE>
+
+      <PARA> The activity library provides a foundation for dynamic,
+        object-oriented simulation in Swarm.  Swarm assumes that a user
+        defines an object-oriented representation for the structure of a world
+        to be simulated.  Once such a representation is established, activity
+        library components are responsible for generating all state changes
+        and flow of information within it.  These state changes must be
+        carefully controlled to ensure that they occur only at appropriate
+        times and places in the model.  The activity library provides
+        mechanisms to establish this control.
+      </PARA>
+
+      <PARA>Once the simulation of a dynamic model begins, everything
+        that happens to the model occurs as a direct result of
+        messages sent to world objects by activity library components.
+        These components are also represented by objects, since this
+        is the most effective means for their representation as well,
+        but their purpose is not to represent the current state of the
+        simulated world, but rather to generate changes in world
+        objects by sending messages in a valid order.  The activity
+        library has two basic categories of components: those that
+        represent messages to be sent, including constraints on
+        permissible order for sending them, and those that execute the
+        message sends these representations specify, making sure they
+        conform with all constraints.
+      </PARA>
+
+      <PARA>All changes to a model occur as a result of messages sent
+        to objects within it.  These messages invoke compiled methods
+        of receiving objects, which may change local state or send
+        messages to other objects to propagate effects as widely as
+        needed.  Only top-level function calls or message sends that
+        initiate model processing are the concern of the activity
+        library.  Because the activity library finally interacts with
+        the world model just by invoking its defined methods, the
+        model can prepackage as much behavior as it can in the form of
+        fast compiled methods.  The activity library just triggers the
+        prepackaged behavior at proper times under its own explicit,
+        dynamically interpreted representation.
+      </PARA>
+
+      <PARA>As conditions shift during execution of a model, the model can also
+        examine and alter the representation of its future behavior contained in
+        the activity structures that drive it.  Any changes to this future
+        behavior, however, still occur only as a result of some currently
+        executing action initiated by the activity library.
+      </PARA>
+
+    </SECT2>
+    
+    <SECT2>
+
+      <TITLE>Activity library components</TITLE>
+      
+      <PARA>The activity library defines one set of basic object types
+        to provide a very rich representation of the kinds of message
+        sending patterns it could generate.  Its other major category
+        of object types controls and tracks a current state of
+        processing within these representations.
+      </PARA>
+
+      <PARA>Both these representations are more abstract than typical
+        object representations, since they deal not with any constant
+        state which can be statically analyzed, but with shifting
+        patterns of messages to be fired to generate such state.
+        While the basic structure of a Swarm simulation is that of a
+        discrete event simulation, its activity representation is also
+        more complicated than most such systems.
+      </PARA>
+
+      <PARA>There are two basic reasons for the potential complexity
+        of a Swarm activity representation.  One is that Swarm
+        supports a decentralized representation of activity to be
+        generated, both to reflect the nature of much of the behavior
+        that it simulates, and so that execution may be distributed
+        across multiple parallel processors.  To avoid any need for
+        synchronizing its decoupled activities more often than
+        necessary, Swarm enables a model designer to avoid
+        overspecifying constraints on the patterns of message sends
+        which might potentially be valid.  The partial order
+        representation it adopts for a distributed and decoupled plan
+        of activity is inherently more complicated than the single
+        centralized event list adopted by many discrete event
+        simulation systems.
+      </PARA>
+
+      <PARA>The other reason for potential added complexity is that
+        Swarm's representation of intended activity may be broken into
+        many separate, modular components, which can be bound together
+        in various ways to create larger components.  The Swarm
+        composition structure, when fully implemented, will be
+        fundamentally as powerful as the modular abstractions found in
+        most programming languages, with the added complexity of
+        controlling the time at which various events occur.
+      </PARA>
+
+      <PARA>In spite of this high potential complexity, none of these
+        features is needed for many simple models, such as those that
+        contain only a small variety of basic behaviors, or which
+        define all their behavior to occur at regular, repeating
+        timesteps.  The Swarm representation is extremely rich to
+        enable it to scale to large, multi-level models with a variety
+        of dependent behaviors built into the model, and also to
+        facilitate running models on massively parallel machines.
+        Many of the features which seem complex, moreover, are also
+        especially well-suited to building modular and reusable
+        library components.  It is anticipated that many of the more
+        advanced features will find their heaviest usage in pre-built
+        libraries that hide internal complexity from applications that
+        use them.
+      </PARA>
+
+      <PARA>No matter how complex the structures built from them, all
+        the activity library components finally result in the direct
+        execution of messages sends to objects in a model.  Because of
+        this direct execution, very precise meaning can be defined for
+        each of them, in terms of message sends that can or must
+        occur.  Every component of a structure to be executed, and
+        every event of its execution, can also be accessed using the
+        interfaces of an object-oriented representation.  This means
+        that tools can be built to understand and interact with any
+        components to be executed, and also to trace and debug
+        activity as it occurs.  None of these tools have been built
+        yet as part of Swarm, but many of the activity library
+        interfaces are present to support them, not because normal use
+        of the library requires the added components.
+      </PARA>
+    </SECT2>
+
+    <SECT2>
+      <TITLE>Action plan components</TITLE>
+
+      <PARA>The first set of activity library components represent messages to
+        be sent to objects in a model, together with constraints in the order
+        in which they may be sent.  All these components are defined as
+        subtypes of the one generic type called ActionPlan.
+      </PARA>
+
+      <PARA>The two basic kinds of action plans are a simple group of
+        actions to be performed in some order, called an ActionGroup,
+        and a series of actions to be performed at discrete points in
+        time, called a Schedule.  The basic element of an action plan
+        is a simple object called an Action.  An action defines a
+        particular message to be sent to an object or objects.
+      </PARA>
+
+      <PARA>In its representation of action plans, Swarm relies
+        heavily on the dynamic message sending capabilities of the
+        Objective C language.  The support of Objective C for dynamic
+        message sends is absolutely crucial to Swarm's implementation
+        of generic activity structures.  Objective C defines a special
+        kind of data value called a selector, which identifies a
+        message according to its name.  One of these selector values
+        is stored in each action of an action plan.  During execution
+        of the plan, Objective C machinery performs the actual message
+        send using its selector.
+      </PARA>
+
+      <PARA>Action plans are free-standing objects that may be created
+        directly by a user program, using a variety of selectable
+        create-time options.  Once created, action plans may also
+        refer to each other, by containing special kinds of actions to
+        start another action plan or to perform all the actions within
+        it.
+      </PARA>
+
+      <PARA>Individual actions can be created only as completely
+        controlled components of some action plan.  They are created
+        not by a standard create message, but by special messages
+        (each containing the phrase createAction in its name) sent to
+        an action plan that creates the action as part of the action
+        plan.  If the same action is needed in more than one plan, it
+        has to be created in each plan where it is needed.  If the
+        entire action plan is dropped, all its actions are also
+        automatically dropped.  So the only action plan components
+        which need to be directly managed by an application are the
+        action plans themselves.
+      </PARA>
+
+      <PARA>Action plans are relatively straightforward components,
+        because they are entirely passive.  The only actions they ever contain
+        are those which an application has created in them.  These actions
+        stay in them indefinitely unless a special option is requested to
+        clean them out as each one is executed.  Because these plans are
+        passive, read-only components to all execution machinery, if the same
+        pattern of actions needs to be triggered at multiple points in a
+        model, it's perfectly valid to create one copy of the actions in an
+        action plan, and then refer to the plan anywhere the actions may be
+        needed.
+      </PARA>
+
+      <PARA>Even though action plans are passive, containing only what
+        has been placed in them, there is no requirement that their contents
+        remain fixed.  Both of the action groups and schedules are implemented
+        directly as collections of their actions.  New actions may be added at
+        any time, and existing ones may be dropped or moved from position to
+        another.  The contents of action plans may be as dynamic as they need
+        to be to represent the future actions needed in a model.  None of
+        these shifting contents has any effect on the model until actually
+        processed during model execution.
+      </PARA>
+
+    </SECT2>
+
+    <SECT2>
+      <TITLE>Model execution component</TITLE>
+
+      <PARA> The main responsibility of model execution is just to
+        perform the actions specified by an action plan, in an order
+        of execution consistent with any requirements of the plan.
+        Each action plan may specify as few or as many constraints as
+        it likes over the possible order in which its actions could be
+        performed.  Given these specifications, the execution objects
+        are entirely responsible for selecting each action to be
+        performed and then performing them.
+      </PARA>
+
+      <PARA>There are two simple cases of ordering that account for
+        most all usage, including that of the current Swarm demo
+        programs.  One is to permit the actions to be performed in any
+        order, including concurrent execution if hardware and software
+        support were available to do this.  The other is to require
+        them to be performed in some specific sequence, one after
+        another, so that the effects of one action could depend on
+        actions which preceded it.  This sequence could be either
+        fixed and predetermined, or dynamically established each time
+        the action plan is performed.  If a dynamically determined
+        sequence is needed, perhaps even selecting which actions are
+        to be performed at all, users can provide custom subclasses
+        for an action plan and an execution object that performs it.
+        A builtin option is to generate an entirely random sequence
+        each time a plan is executed.
+      </PARA>
+
+      <PARA>Each time an action plan is being processed, a special
+        kind of object called an activity is created entirely
+        automatically by the runtime processing machinery.  These
+        activity objects implement the internal machinery of a virtual
+        processor which has the ability to execute action plans.  To
+        get any activity started on a model, a processor is first
+        initialized to run a single top-level plan.  All other
+        activity during the lifetime of a model must occur as a result
+        of actions initiated by this plan (which may include the
+        startup of other plans).
+      </PARA>
+
+      <PARA>Because the activity objects are internal to the
+        processing machinery, an application can usually just ignore
+        their existence.  They come and go dynamically as various
+        action plans are started and completed, all arranged in a
+        stack or tree of current activities controlled by a single
+        top-level processor.  The activity objects are potentially
+        useful, however, to obtain information about the context in
+        which an action is currently running, or to build debugging or
+        tracing tools to understand actions being performed.
+      </PARA>
+
+      <PARA>One of the kinds of context information available from an
+        activity object is the current time of a clock value
+        incremented as a schedule is processed.  A schedule is a kind
+        of action plan in which all actions occur at specific points
+        in time explicitly established within the schedule.  As a
+        schedule is executed, the activity object keeps a current time
+        clock, which holds a global time from the start of all model
+        execution, regardless of the time when the schedule itself was
+        started.  An activity object that processes a schedule is
+        called a timeline activity, because its time continually
+        increases from a global base time regardless of times
+        contained in the schedule.
+      </PARA>
+
+      <PARA>New activities are created whenever an action plan being
+        processed contains an action to perform another action plan,
+        or to start another action plan for autonomous execution.  If
+        one action plan performs another, its own processing is
+        stopped until a new activity processing the other action plan
+        completes.  If one action plan starts another, the new action
+        plan is started as an autonomous activity controlled only by a
+        higher-level, containing activity.
+      </PARA>
+
+      <PARA>A Swarm is an activity that exists only to control and
+        coordinate other started subactivities.  Unless the
+        subactivities have some special form of explicit
+        synchronization, none of their internal actions has any
+        required ordering relative to those of other plans except as
+        explicitly established during activity execution.  The swarm
+        can serve as a simple container of started subactivities which
+        only occasionally synchronize for messages they send to each
+        other.  The swarm can be used to hold collections of objects
+        as well as its subactivities as needed to help them coordinate
+        with one another.
+      </PARA>
+
+      <PARA>One special form of synchronization within a swarm is
+        built into the virtual processing machinery.  This
+        synchronization interleaves the actions that occur for every
+        successive time value during processing of timeline
+        subactivities.  This merging of actions is often relied on to
+        interleave display and analysis processing with the scheduled
+        actions of a base model.  Since no other mechanisms for
+        subactivity coordination are implemented in the current
+        version of Swarm, synchronizing subschedule activities is the
+        major current role of the Swarm activity type.  In later
+        versions of Swarm, a swarm will also serve as an important
+        means for organizing a large models into clusters of more
+        densely interacting components, and will also provide a basis
+        of decomposition for parallel execution.  </PARA>
+
+    </SECT2>
+
+  </SECT1>
+
+  <SECT1 ID="ACTIVITY.ADVUSAGE">
+    <TITLE>Advanced Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="ACTIVITY.SUBCLASS">
+    <TITLE>Subclassing Reference</TITLE>
+
+    <PARA>Subclassing is supported by the activity library as an
+      integral technique for extending the framework it implements.
+      There are two specific places where subclassing is expected as
+      the normal technique of extension: definition of concurrent
+      action groups, and definition of customized swarm objects.
+      Concurrent action groups are not yet fully documented because
+      their full interface is still being finalized.  Swarm subclasses
+      should inherit from the Swarm superclass defined in the <link
+      linkend="objectbase.ref">objectbase</link> library; the activity
+      library provides the underlying support packaged by this
+      superclass.
+    </PARA>
+
+  </SECT1>
+
+  <SECT1 ID="ACTIVITY.DESIGN">
+    <TITLE>Interface Design Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="ACTIVITY.IMPL">
+    <TITLE>Implementation Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+  </SECT1>
+
+</PARTINTRO>
+
+<!--
+Local Variables:
+sgml-parent-document:("activitycont.sgml" "PARTINTRO")
+End:
+-->
+
+
+
+
