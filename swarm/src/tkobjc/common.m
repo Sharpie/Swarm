@@ -224,7 +224,7 @@ const char *
 tkobjc_dynamicEval (const char *cmd)
 {
   [globalTkInterp eval: "%s", cmd];
-  return strdup ([globalTkInterp result]);
+  return strdup (([globalTkInterp result]));
 }
 
 id
@@ -286,12 +286,12 @@ tkobjc_createText (id widget, int x, int y,
                    const char *text, const char *font,
                    BOOL centerFlag)
 {
-  return strdup ([[globalTkInterp 
-                    eval: 
-                      "%s create text %d %d -text \"%s\" %s%s -anchor %s", 
-                    [widget getWidgetName], x, y, text, 
-                    (font ? "-font " : ""),
-                    (font ? font : ""),
-                    (centerFlag ? "c" : "w")]
-                   result]);
+  return strdup (([[globalTkInterp 
+                     eval: 
+                       "%s create text %d %d -text \"%s\" %s%s -anchor %s", 
+                     [widget getWidgetName], x, y, text, 
+                     (font ? "-font " : ""),
+                     (font ? font : ""),
+                     (centerFlag ? "c" : "w")]
+                    result]));
 }

@@ -17,15 +17,15 @@ PHASE(Creating)
   [self createPaddedText];
    
   item =
-    strdup ([[globalTkInterp
-               eval: 
-                 "set temp [%s bbox %s]; "
-               "set h [expr ([lindex $temp 3] - [lindex $temp 1]) / 2];"
-               "%s create oval [lindex $temp 0] [expr [lindex $temp 1] - $h] "
-               "[lindex $temp 2] [expr [lindex $temp 3] + $h] -fill white", 
-               [canvas getWidgetName],
-               text,
-               [canvas getWidgetName]] result]);
+    strdup (([[globalTkInterp
+                eval: 
+                  "set temp [%s bbox %s]; "
+                "set h [expr ([lindex $temp 3] - [lindex $temp 1]) / 2];"
+                "%s create oval [lindex $temp 0] [expr [lindex $temp 1] - $h] "
+                "[lindex $temp 2] [expr [lindex $temp 3] + $h] -fill white", 
+                [canvas getWidgetName],
+                text,
+               [canvas getWidgetName]] result]));
   
   [globalTkInterp eval: "%s delete %s",
                   [canvas getWidgetName], text];

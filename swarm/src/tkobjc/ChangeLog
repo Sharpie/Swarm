@@ -1,3 +1,16 @@
+1999-04-19  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* LinkItem.m ([LinkItem -createItem]): Add extra parens around
+	method call arguments to strdup.
+
+	* OvalNodeItem.m ([OvalNodeItem -createItem]): Likewise.
+
+	* RectangleNodeItem.m ([RectangleNodeItem -createItem]): Likewise.
+
+	* common.m (tkobjc_dynamicEval): Likewise.
+
+	* common.m (tkobjc_createText): Likewise.
+
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_pixmap_update_raster): Put pixmap and mask

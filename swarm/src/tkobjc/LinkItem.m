@@ -40,15 +40,15 @@ PHASE(Creating)
   mx = fx + (tx - fx) / 2;
   my = fy + (ty - fy) / 2;
 
-  line1 = strdup ([[globalTkInterp eval: 
+  line1 = strdup (([[globalTkInterp eval: 
                                      "%s create line %d %d %d %d -arrow last", 
                                    [canvas getWidgetName], fx, fy, mx, my] 
-                    result]);
+                    result]));
   
-  line2 = strdup ([[globalTkInterp eval: 
+  line2 = strdup (([[globalTkInterp eval: 
                                     "%s create line %d %d %d %d", 
                                   [canvas getWidgetName], mx, my, tx, ty] 
-                   result]);
+                   result]));
   
   [globalTkInterp eval: "%s lower %s; %s lower %s",
                   [canvas getWidgetName], line1,
