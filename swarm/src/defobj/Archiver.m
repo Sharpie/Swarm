@@ -274,11 +274,11 @@ PHASE(Creating)
   return newArchiver;
 }
 
-+ create: aZone setPath: (const char *)thePath setHDF5Flag: (BOOL)hdf5Flag
++ create: aZone setPath: (const char *)thePath setHDF5Flag: (BOOL)theHDF5Flag
 {
-  id obj = [self createBegin: aZone];
-  [obj setHDF5Flag: hdf5Flag];
-  [obj setPath: thePath];
+  Archiver_c *obj = [self createBegin: aZone];
+  obj->hdf5Flag = theHDF5Flag;
+  obj->path = thePath;
   return [obj createEnd];
 }
 
