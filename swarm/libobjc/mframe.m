@@ -1687,7 +1687,6 @@ mframe_decode_return (const char *type, void* buffer, void* retframe)
 	  __builtin_return (rframe);
 	}
 	*(float*)buffer = retframe_float(retframe);
-printf ("%f\n", *(float *) buffer);
 	break;
       }
 
@@ -1698,7 +1697,6 @@ printf ("%f\n", *(float *) buffer);
 	  __builtin_return (rframe);
 	}
 	*(double*)buffer = retframe_double(retframe);
-printf ("%f\n", *(double *) buffer);
 	break;
       }
 
