@@ -1,5 +1,7 @@
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.rules.in (.deps): Strip off carriage returns.
+
 	* Makefile.in (JAVACOMPILE): New variable.
 	(%.class): Use it.
 

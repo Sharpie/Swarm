@@ -29,5 +29,5 @@ JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 all: $(CLASSES)
 
 .deps: $(JAVAFILES)
-	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
+	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) | tr -d '\r' > .deps
 
