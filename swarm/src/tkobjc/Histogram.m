@@ -150,8 +150,12 @@
 
 - hideLegend
 {
-  [globalTkInterp eval: "%s legend configure -hide yes",
-                  [self getWidgetName]];
+  if ([globalTkInterp newBLTp])
+    [globalTkInterp eval: "%s legend configure -hide yes",
+                    [self getWidgetName]];
+  else
+    [globalTkInterp eval: "%s legend configure -mapped 0",
+                    [self getWidgetName]];
   return self;
 }
 
