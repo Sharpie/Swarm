@@ -1,6 +1,6 @@
 // Bug.h					SimpleBug
 
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 #import <space.h>
 #import <gui.h>
 #import "FoodSpace.h"
@@ -10,7 +10,7 @@
   int xPos, yPos;
   int worldXSize, worldYSize;
   
-  Grid2d * world;
+  Grid2d *world;
   id food;
 
   int haveEaten;
