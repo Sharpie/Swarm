@@ -30,7 +30,7 @@ libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 all: libjavaswarm.la
 
 libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ -rpath $(libdir) $(libjavaswarm_la_LDFLAGS) $(LIBS)
+	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ -rpath $(libdir) $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) $(LIBS)
 
 %.lo: %.c
 	$(LIBTOOL) --mode=compile $(CC) $(CPPFLAGS) $(CFLAGS) -c $<
