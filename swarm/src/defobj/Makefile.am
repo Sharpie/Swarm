@@ -50,6 +50,8 @@ install-data-local:
 
  include $(top_srcdir)/etc/Makefile.protocol
 
+modulemap.elc: $(abs_top_builddir)/protocol.elc
+
 modulemap.c: modulemap.elc
 	MODULES="$(MODULES)" SWARMSRCDIR=$(top_srcdir) $(ENVEMACS) -batch -l $(abs_builddir)/modulemap.elc -f generate-module-map
 	gperf -k \* -r -t modulemap > modulemap.c

@@ -20,6 +20,8 @@
 	(EXTRA_DIST): Add modulemap.el
 	(libdefobj_la_SOURCES): Add modulemap.c.
 
+	* modulemap.elc: New target.  Depend on $(top_builddir)/protocol.elc.
+
 	* modulemap.el: New file.
 
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
