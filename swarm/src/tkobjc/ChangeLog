@@ -1,3 +1,12 @@
+1998-10-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (CURRENT): Increment.  Swarm 1.3.1 released.
+	
+	* internal.m (setSecondaryPath): Instead of $SWARMHOME/lib/ 
+	use $SWARMHOME/../library/$dirname, where dirname is a new argument.
+	(tkobjc_initTclInterp, tkobjc_initTkInterp): Pass "tcl8.0" and
+	"tk8.0" respectively as new arguments.
+
 1998-10-15  Alex Lancaster  <alex@santafe.edu>
 
 	* trigger.xpm, schedule.xpm: Add pixmaps to support ScheduleItem
@@ -5,8 +14,7 @@
 
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.am (CURRENT): Increment.  Swarm 1.3.1 released.
-	(XPMINCLUDES): New subsitituted variable.
+	* Makefile.am (XPMINCLUDES): New substituted variable.
 	(INCLUDES): Use it.
 
 1998-10-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
