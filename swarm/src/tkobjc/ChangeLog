@@ -1,3 +1,7 @@
+1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* WindowGeometryRecord.m (getVal): Expect a _C_LNG from ArchiverValue.
+
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtools.tcl (gimme_ddobj): Was `gimme' with an argument.
