@@ -154,19 +154,29 @@
      actionName: (const char *)action;
 @end
 
-typedef unsigned char GUI_Color; 
-typedef unsigned long GUI_PixelValue;
+typedef unsigned char Color; 
+typedef unsigned long PixelValue;
+
+#if 0
+// - The XPixmap class returns Pixmap. 
+// - The XDrawer protocol, to
+//   which XPixmap conforms, provides the drawOn:X:Y:GC:Caller:, which
+//   requires the GC type.  
+// - The draw: method of Raster and ZoomRaster is not advertised, since
+//   it uses drawOn.
+typedef unsigned long Pixmap;     // X.h defines it as an XID
+#endif
 
 @protocol Colormap
-- (GUI_PixelValue *)map;
-- (GUI_PixelValue)black;
-- (BOOL)setColor: (GUI_Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
-- (BOOL)setColor: (GUI_Color)c ToName: (const char *)colorName;
-- (BOOL)setColor: (GUI_Color)c ToGrey: (double)g;
+- (PixelValue *)map;
+- (PixelValue)black;
+- (BOOL)setColor: (Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
+- (BOOL)setColor: (Color)c ToName: (const char *)colorName;
+- (BOOL)setColor: (Color)c ToGrey: (double)g;
 @end
 
 @protocol Raster <ArchivedGeometryWidget>
-- drawPointX: (int)x Y: (int)y Color: (GUI_Color)c;
+- drawPointX: (int)x Y: (int)y Color: (Color)c;
 - setColormap: (id <Colormap>)c;
 - drawSelf;
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
@@ -211,7 +221,7 @@ typedef unsigned long GUI_PixelValue;
 - setTo: to;
 @end
 
-#include <tkobjc/common.h>
+#import <tkobjc/common.h>
 
 #define GUI_BEEP() tkobjc_ringBell ()
 #define GUI_UPDATE() tkobjc_update ()
@@ -228,7 +238,7 @@ typedef unsigned long GUI_PixelValue;
 // for VarProbeWidget
 #define GUI_FOCUS(widget) tkobjc_focus (widget)
 
-#include <tkobjc/global.h>
+#import <tkobjc/global.h>
 #define GUI_INIT(argc, argv) initTkObjc (argc, argv)
 
 @class Button;
@@ -247,9 +257,8 @@ typedef unsigned long GUI_PixelValue;
 @class VarProbeLabel;
 @class Widget;
 
-@class XColormap;
-
-@class BLTGraph;
+@class Colormap;
+@class Graph;
 @class Canvas;
 @class Histogram;
 @class LinkItem;
@@ -257,5 +266,7 @@ typedef unsigned long GUI_PixelValue;
 @class RectangleNodeItem;
 @class ZoomRaster;
 
+#define ButtonLeft 1
+#define ButtonMiddle 2
+#define ButtonRight 3
 
-#define GUI_ButtonRight 3

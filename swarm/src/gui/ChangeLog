@@ -1,3 +1,11 @@
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h: Remove GUI_ prefixes from GUI_Color and GUI_PixelValue.
+	Notes about XPixmap and XDrawer.  Remove GUI_ButtonRight.
+	Add ButtonLeft, ButtonMiddle, and ButtonRight defines.
+	Use #import for tkobjc/common.h and tkobjc/global.h.
+	Rename class XColormap to Colormap and BLTGraph to Graph.
+
 1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h: Remove some USING tags. 
