@@ -6,15 +6,29 @@ dnl Extra set of brackets hides the Tcl brackets from autoconf m4.
 dnl
 dnl First, if tclsh is around execute it to make a guess as to where Tcl
 dnl is installed, and also to find out if we're using tcl > 7.3.
-AC_DEFUN(md_FIND_TCL_HEADERS,dnl
-[if test -z "$tcllibdir" ; then
-AC_CHECK_PROG(tclsh_found, tclsh, 1, 0)
+AC_DEFUN(md_FIND_TCL,dnl
+[lastPATH=$PATH
+if test -n "$with_tcldir" ; then               
+  PATH=${with_tcldir}/bin:$PATH
+fi
+AC_CHECK_PROG(tclsh8_found, tclsh8.0, yes, no)
+if test $tclsh8_found = no ; then
+  AC_CHECK_PROG(tclsh_found, tclsh, yes, no)
+fi
 changequote(<,>)dnl
-if test "$tclsh_found" = "1"; then
-  tclLibrary=`echo "puts [info library]" | tclsh`
+tclLibrary=''
+if test $tclsh8_found = yes; then
+  tclLibrary=`echo "puts [info library]" | tclsh8.0`
+else
+  if test $tclsh_found = yes; then
+    tclLibrary=`echo "puts [info library]" | tclsh`
+  fi
+fi
+PATH=$lastPATH
+changequote([,])dnl
+if test -n "$tclLibrary"; then
   tclInstalledDir=`dirname "$tclLibrary"`
   tclInstalledDir=`dirname "$tclInstalledDir"`
-fi
 fi
 
 # Second, if TCL_LIBRARY or TK_LIBRARY are set, work from there.
@@ -34,8 +48,11 @@ else
   USER_TK_INCLUDE=""
   USER_TK_LIB=""
 fi
+])
 
-# now define INCPLACES to be those directories where tcl.h and tk.h could be.
+AC_DEFUN(md_FIND_TCL_HEADERS,dnl
+[
+# define INCPLACES to be those directories where tcl.h and tk.h could be.
 # We look in lots of "standard" places as well as where [info version]
 # tells us to look. Note that this list is both for tcl.h and tk.h: they
 # are often installed in the same directory.
@@ -72,7 +89,6 @@ if test -n "$tclincludedir"; then
 else
   AC_MSG_RESULT(no)
 fi
-changequote([,])dnl
 AC_SUBST(tclincludedir)
 AC_SUBST(TCLINCLUDES)
 ])dnl
@@ -150,6 +166,9 @@ INCPLACES="$INCPLACES \
 	$POTENTIALINCDIR/tk4.1/include \
 	$POTENTIALINCDIR/tk4.0/include \
 	$POTENTIALINCDIR/tk/include"
+if test -n "$tclInstalledDir"; then
+  INCPLACES="$tclInstalledDir/include $INCPLACES"
+fi
 AC_MSG_CHECKING(directory of tk.h)
 for dir in $tkincludedir "$TK_INCLUDE_DIR" $INCPLACES; do
   expand_dir=`eval echo $dir`
@@ -183,6 +202,9 @@ LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
 	$POTENTIALLIBDIR/tk4.1/lib \
 	$POTENTIALLIBDIR/tk4.0/lib \
 	$LIBPLACES"
+if test -n "$tclInstalledDir"; then
+  LIBPLACES="$tclInstalledDir/lib $LIBPLACES"
+fi
 AC_MSG_CHECKING(directory and version of libtk)
 for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
   tklibdir=''
