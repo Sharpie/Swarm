@@ -1,3 +1,8 @@
+2001-01-29  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m (convert_from_string): Handle true/false and
+	failing that, try casting the numeric value.  (Backward compatibility.)
+
 2001-01-29  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* VarProbe.m ([VarProbe -_typeSetup_]): Handle ObjC array type.

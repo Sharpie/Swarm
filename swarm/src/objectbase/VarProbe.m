@@ -1284,7 +1284,12 @@ convert_from_string (fcall_type_t type,
   switch (type)
     {
     case fcall_type_boolean:
-      out->boolean = (strcmp (s, "true") == 0);
+      if (strcmp (s, "true") == 0)
+        out->boolean = YES;
+      else if (strcmp (s, "false") == 0)
+        out->boolean = NO;
+      else
+        out->boolean = (BOOL) atoi (s);
       ret = YES;
       break;
 
