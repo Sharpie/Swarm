@@ -11,7 +11,9 @@
 #import <objectbase/Probe.h>
 #import <objectbase/VarProbe.h>
 #import <objectbase/MessageProbe.h>
-#ifdef HAVE_JDK
+
+
+#if defined(HAVE_JDK) && defined(BUILDING_SWARM)
 #import <defobj/directory.h> // jclass
 #endif
 
@@ -69,7 +71,10 @@
 - (VarProbe *)getProbeForVariable: (const char *)aVariable;
 - (MessageProbe *)getProbeForMessage: (const char *)aMessage;
 - begin: aZone;
+
+#if defined(HAVE_JDK) && defined(BUILDING_SWARM)
 - (void)addJavaFields: (jclass)javaClass;
 - (void)addJavaMethods: (jclass)javaClass;
+#endif
 @end
 

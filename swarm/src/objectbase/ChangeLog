@@ -17,8 +17,8 @@
 	-addJavaMethods:]): New methods.
 	([ProbeMap -createEnd]): Rewrite to use them.
 
-	* ProbeMap.h: Include defobj/directory.h.  Declare
-	-addJava{Fields,Methods}:.
+	* ProbeMap.h: When BUILDING_SWARM and HAVE_JDK, include
+	defobj/directory.h and declare -addJava{Fields,Methods}:,
 
 	* CompleteVarMap.m ([CompleteVarMap -createEnd]): Rewrite to use
 	addJavaFields.
