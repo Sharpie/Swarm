@@ -16,6 +16,12 @@
 <!-- library interface conventions -->
 &refapp.sgml;
 
+<!-- GNU LGPL -->
+&lgpl-app.sgml;
+
+<!-- GNU GPL -->
+&gpl-app.sgml;
+
 <!-- index -->
 &refindex.sgml;
 
