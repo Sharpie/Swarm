@@ -389,8 +389,8 @@ USING
 @end
 
 
-@protocol CreateDrop <Create, Drop>
-@end
+// @protocol CreateDrop <Create, Drop>
+// @end
 
 //
 // Miscellaneous operations for mixing into other types.

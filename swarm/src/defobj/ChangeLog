@@ -1,3 +1,7 @@
+1999-02-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* defobj.h: Disable CreateDrop protocol; it is already an @interface.
+
 1999-02-19  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* defobj.h: Add CreateDrop protocol. 
