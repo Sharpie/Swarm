@@ -3,7 +3,7 @@ SWARMHOME=../swarm-1998-08-20
 endif
 APPLICATION=mousetrap
 OBJECTS=main.o Mousetrap.o MousetrapModelSwarm.o MousetrapObserverSwarm.o MousetrapBatchSwarm.o
-DATAFILES = model.setup batch.setup
+DATAFILES = batch.scm
 
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 

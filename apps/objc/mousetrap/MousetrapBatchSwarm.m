@@ -51,12 +51,12 @@
   //   triggerLikelihood, numberOutputTriggers, maxTriggerDistance, 
   //   maxTriggerTime, trapDensity  
 
-  // if we can't find the right key from the Archiver, create the
-  // default MousetrapModelSwarm instance
+  // if we can't find the right key from the Archiver, raise an event
   if ((mousetrapModelSwarm = 
        [archiver getObject: "modelSwarm"]) == nil)
-    mousetrapModelSwarm = [MousetrapModelSwarm create: self];
-
+    raiseEvent(InvalidOperation, 
+               "Can't find archiver file or appropriate key");
+  
   // Now, let the model swarm build its objects.
 
   [mousetrapModelSwarm buildObjects];

@@ -1,4 +1,14 @@
+1999-05-21  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile (DATAFILES): Set to batch.scm.
+
 1999-05-20  Alex Lancaster  <alex@santafe.edu>
+
+	* main.m (main): Raise an InvalidOperation event if archiver can't
+	create object.
+
+	* MousetrapBatchSwarm.m ([MousetrapBatchSwarm -buildObjects]):
+	Likewise.
 
 	* batch.setup, model.setup, LICENSE: Remove files, rename LICENSE
 	to COPYING.
