@@ -429,6 +429,8 @@ createJavaSignature (FArguments_c *self)
   setMappedAlloc (self);
   if (!javaSignature)
     javaSignature = createJavaSignature ((FArguments_c *) self);
+  else
+    javaSignatureLength = strlen (javaSignature);
   return self;
 }
 
@@ -472,7 +474,7 @@ PHASE(Using)
   mapalloc->size = sizeof (ffi_type *) * MAX_TOTAL;
   mapAlloc (mapalloc, ffiArgTypes);
 #endif
-  
+
   mapalloc->size = javaSignatureLength + 1;
   mapAlloc (mapalloc, (char *) javaSignature);
 }

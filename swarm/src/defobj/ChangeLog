@@ -1,5 +1,8 @@
 1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FArguments.m ([FArguments_c -createEnd]): Set javaSignatureLength
+	when its set.
+
 	* directory.m (swarm_directory_copy_java_string): Use SSTRDUP
 	instead of DUPCLASSNAME.
 
