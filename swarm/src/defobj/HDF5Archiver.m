@@ -149,8 +149,7 @@ PHASE(Using)
               [app drop];
               [file drop];
             }
-          else
-            [hdf5Obj drop];
+          [hdf5Obj drop];
         }
     }
   hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]

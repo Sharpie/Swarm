@@ -1,5 +1,19 @@
-2002-04-23  Marcus G. Daniels  <mgd@condor>
+2002-10-28  Marcus G. Daniels  <mgd@condor>
 
+	* HDF5Archiver.m ([HDF5_c -getWritableController]): Always drop
+	the object.
+
+	* HDF5Object.m (make_string_ref_type): It is necessary to use
+	H5T_set_size for the reference object.  By default, on some
+	architectures (e.g. Solaris) it can be 8 bytes.
+	([HDF5_c +createBegin:]): Initialize vector_buf and name.
+	(ref_string, string_ref): Use H5T_CONV_INIT to set up a temporary
+	background buffer.
+	([HDF5_c -drop]): Free c_sid only once.  It has dual use as
+	in extensible vectors and compound types.
+
+2002-04-23  Marcus G. Daniels  <mgd@condor>
+ 
 	* DefObject.[hm], defobj.h ([Object_s
 	-lispStoreDoubleArray:Keyword:Rank:Dims:Stream:])
 	([Object_s -lispStoreIntegerArray:Keyword:Rank:Dims:Stream:]): 
