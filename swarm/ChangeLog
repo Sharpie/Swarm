@@ -1,3 +1,8 @@
+1998-04-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (bininc): Copy BLT library/ TCL files into $SWARMHOME/lib,
+	not $SWARMHOME/library.
+
 1998-04-27  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.conf (alex-SFI-GNU/Linux): Fixed again.  Added
