@@ -1,5 +1,7 @@
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* probing.m (string_convert): Handle Java objects and strings.
+
 	* VarProbe.m, probing.[hm]: Move string_convert into probing
 	as a global.
 

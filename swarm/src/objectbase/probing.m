@@ -170,6 +170,18 @@ string_convert (fcall_type_t type, const types_t *p,
       break;
 #endif
     case fcall_type_jstring:
+#ifdef HAVE_JDK
+      {
+        jboolean copyFlag;
+        const char *utf =
+          (*jniEnv)->GetStringUTFChars (jniEnv,
+                                        (jstring) p->string,
+                                        &copyFlag);
+        strcpy (buf, utf);
+        if (copyFlag)
+          (*jniEnv)->ReleaseStringUTFChars (jniEnv, (jstring) p->string, utf);
+      }
+#endif
     case fcall_type_iid:
       abort ();
     }
