@@ -1,7 +1,3 @@
-1999-06-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* acdll.m4: Disable DLL export/import for now.
-
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acargp.m4: Check for argp.h.

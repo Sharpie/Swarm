@@ -1,7 +1,3 @@
-1999-06-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* acdll.m4: Disable DLL import/export for now.
-
 1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* headers.m4: Map all hpux9* and hpux10* to hpux.

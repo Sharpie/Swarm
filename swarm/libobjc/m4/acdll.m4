@@ -10,15 +10,10 @@ IMPORT_EXTERN=extern
 USEDLL=no
 AC_MSG_RESULT(using plain extern)],
 [USEDLL=yes
-#EXPORT_EXTERN="extern __attribute__ ((dllexport))"
-#EXPORT_EXTERNDEF="__attribute__ ((dllexport))"
-#IMPORT_EXTERN="extern __attribute__ ((dllimport))"
-#AC_MSG_RESULT(using dllimport and dllexport)
-
-EXPORT_EXTERN=extern
-EXPORT_EXTERNDEF=
-IMPORT_EXTERN=extern
-AC_MSG_RESULT(using DLLs)
+EXPORT_EXTERN="extern __attribute__ ((dllexport))"
+EXPORT_EXTERNDEF="__attribute__ ((dllexport))"
+IMPORT_EXTERN="extern __attribute__ ((dllimport))"
+AC_MSG_RESULT(using dllimport and dllexport)
 ])
 AC_SUBST(EXPORT_EXTERN)
 AC_SUBST(EXPORT_EXTERNDEF)
