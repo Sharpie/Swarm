@@ -1,3 +1,8 @@
+1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (objc.dll): Use .o suffix to distinguish from
+	other files.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (objc.dll): Rename libobjc.a to libobjcdll.a.
