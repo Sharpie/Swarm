@@ -885,7 +885,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 
   // finish any processing of previous action
 
-  if (currentAction && REMOVEDP (currentAction))
+  if (currentAction && !REMOVEDP (currentAction))
     {
       //
       // Check if the action at the current index has changed underneath.
