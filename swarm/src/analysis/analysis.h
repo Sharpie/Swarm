@@ -355,7 +355,9 @@ USING
 - step;
 @end
 
-@protocol FunctionGraph 
+@protocol FunctionGraph
+//S: A widget for drawing a function over a range of one variable.
+ 
 //D: The FunctionGraph class is like the ActiveGraph except that instead of
 //D: plotting values versus time it plots them versus some specified range
 //D: on the x-axis.  Also, instead of plotting one value on each step (as
