@@ -178,6 +178,12 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 {
 @public
   ScheduleActivity_c  *subactivity;  // activity holding for merge 
+  id collectionOfActions;            // collection ofActions to be merged
+ 
+  // collection field is used only to speed up access to Schedule that is
+  // to be merged, otherway to get id of this Schedule is to access
+  // subactivity->currentIndex->collection with some casting
+
   BOOL immediateReturnRequestFlag;   // tell merged activity immediately return
 }
 /*** methods in ActionMerge_c (manually inserted) ***/

@@ -640,7 +640,8 @@ installStep (id activity)
   
   _obj_formatIDString (buffer, ((Index_any *)currentIndex)->collection);
   [outputCharStream catC: buffer];
-  
+  [outputCharStream catC: "\n> Index of activity: \n"];
+  [currentIndex describe: outputCharStream];
   if (currentSubactivity)
     {
       [outputCharStream

@@ -1,3 +1,28 @@
+1998-11-19  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	
+	* Schedule.m (_activity_insertAction): modifications to detect 
+	dynamic scheduling and "adjacency test" to check if the action
+	is to be added before pending action; update of indexes
+	if necessary; update mergeSchedules through _update_mergeSchedule
+	routine 
+	(_update_mergeSchedules): new routine used for updates of merge 
+	Schedules in case of dynamic scheduling
+	([ScheduleIndex_c -describe:]): modified to print out start time 
+	and current time of the schedule index 
+
+	* Schedule.h (ActionMerge_c): Add collectionOfActions
+	field to ActionMerge_c to speed up access to schedule
+	that is merged
+	
+	([Schedule_c -_activateUnderSwarm_:::]): using new 
+	collectionOfActions field in ActionMerge_c instead 
+	of self->subactivity->currentIndex->collection
+
+	* SwarmProcess.m ([ActionMerge_c -describe:]): 
+	Likewise
+	
+
 1998-10-29  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* activity.h (ActionCreatingTo): Fix example syntax for

@@ -367,10 +367,10 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
   char  buffer[100];
 
   [outputCharStream catC: "["];
-  _obj_formatIDString( buffer,
-                       ((Index_any *)subactivity->currentIndex)->collection );
+  _obj_formatIDString( buffer, collectionOfActions );
   [outputCharStream catC: buffer];
   [outputCharStream catC: " (merge into swarm)]\n"];
 }
 
 @end
+
