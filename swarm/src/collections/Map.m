@@ -598,8 +598,8 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
                        setName: "keys"]
                       createEnd];
       id valueGroup = [[[[[HDF5 createBegin: aZone]
-                           setParent: hdf5Obj]
-                          setCreateFlag: YES]
+                           setCreateFlag: YES]
+                          setParent: hdf5Obj]
                          setName: "values"]
                         createEnd];
       
