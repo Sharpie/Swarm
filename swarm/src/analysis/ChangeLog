@@ -1,5 +1,7 @@
 1998-08-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	From Sven Thommesen <sthomme@humsci.auburn.edu>:
+
 	* EZBin.[hm] (EZBin): New methods -outputGraph and -outputToFile.
 
 	* EZGraph.[hm] (EZGraph): Likewise.

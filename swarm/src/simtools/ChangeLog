@@ -3,6 +3,7 @@
 	* Makefile.am (SRC, simtools_HEADERS): Add ListShuffler and
 	logically reorder.
 
+	From Sven Thommesen <sthomme@humsci.auburn.edu>:
 	* simtools.h (ListShuffler): New protocol.
 
 	* ListShuffler.[hm]: New files.
