@@ -41,6 +41,10 @@ javaswarmstubs_OBJECTS = $(foreach module,$(MODULES),$(module)_stubs.o)
 JAVASWARM_DLL = @JAVASWARM_DLL@
 LIBJAVASWARM_LA = @LIBJAVASWARM_LA@
 
+JAVASWARM_LIB_NAME = @JAVASWARM_LIB_NAME@
+_LIBJAVASWARM_LA = lib${JAVASWARM_LIB_NAME}.la
+_LIBJAVASWARMSTUBS_LA = lib${JAVASWARM_LIB_NAME}stubs.la
+
 all: $(JAVASWARM_DLL) $(LIBJAVASWARM_LA)
 
 $(libjavaswarmstubs_la_OBJECTS): $(top_srcdir)/src/defobj/directory.h
@@ -53,8 +57,8 @@ install: install-dll
 endif
 
 install-la: all
-	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
-	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir)
+	$(LIBTOOL) --mode=install $(INSTALL) $(_LIBJAVASWARM_LA) $(libdir)
+	$(LIBTOOL) --mode=install $(INSTALL) $(_LIBJAVASWARMSTUBS_LA) $(libdir)
 	$(LIBTOOL) --mode=finish $(libdir)
 
 install-dll: all
@@ -63,15 +67,15 @@ install-dll: all
 %_stubs.m: $(addsuffix .m,$(%_creatable_PROTOCOLS))
 	cat $(addsuffix .m,$($*_creatable_PROTOCOLS)) > $*_stubs.m
 
-libjavaswarmstubs.la: $(libjavaswarmstubs_la_OBJECTS)
+$(_LIBJAVASWARMSTUBS_LA): $(libjavaswarmstubs_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir) $^
 
-libjavaswarm.la: libjavaswarmstubs.la $(libjavaswarm_la_OBJECTS)
+$(_LIBJAVASWARM_LA): $(_LIBJAVASWARMSTUBS_LA) $(libjavaswarm_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(libdir) $(libjavaswarm_la_OBJECTS) libjavaswarmstubs.la -L$(abs_top_builddir)/src $(SWARMLIBS) -lobjc
 
 ENTRYCMD=-e @JAVASWARM_DLL_ENTRY@
 
-$(JAVASWARM_DLL): libjavaswarm.la libjavaswarmstubs.la javaswarm.dll.c
+$(JAVASWARM_DLL): $(_LIBJAVASWARM_LA) $(_LIBJAVASWARMSTUBS_LA) javaswarm.dll.c
 	$(CC) -g -c $(srcdir)/javaswarm.dll.c
 	ld-new -shared --add-stdcall-alias $(ENTRYCMD) --export-all-symbols -o $(JAVASWARM_DLL) javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
 

@@ -1,5 +1,9 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (_LIBJAVASWARMSTUBS_LA, _LIBJAVASWARM_LA): New
+	variables (substituting JAVASWARM_LIB_NAME).  Use throughout
+	instead of literals.
+
 	* SwarmEnvironment.m: Add YES as new inhibitExecutableSearchFlag
 	argument to _initSwarm_.
 
