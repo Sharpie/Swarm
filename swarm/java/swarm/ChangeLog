@@ -1,3 +1,11 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* BaseImpl.java, CustomizedType.java, Globals.java,
+	NonUniqueMethodSignatureException.java, ObjCProxy.java,
+	PhaseCImpl.java, Primitives.java, ProxyClassLoader.java,
+	Selector.java, SignatureNotFoundException.java: Change copyright
+	statement to canonical version as suggested by GNU GPL.
+	
 2001-07-18  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
 	* BaseImpl.java: Make objcPtr private.  Archiving this is a 
