@@ -46,7 +46,7 @@
   if ((*jniEnv)->CallBooleanMethod (jniEnv, iterator, m_hasNext))
     {
       jobject item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, m_next);
-      id proxy = SD_JAVA_ENSUREOBJC (item);
+      id proxy = SD_JAVA_ENSURE_OBJECT_OBJC (item);
 
       if (item)
         (*jniEnv)->DeleteLocalRef (jniEnv, item);

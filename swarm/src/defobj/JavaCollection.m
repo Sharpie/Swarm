@@ -78,7 +78,7 @@ PHASE(Using)
                                 "(Ljava/lang/Object;)Z")))
     abort ();
   (*jniEnv)->CallBooleanMethod (jniEnv, coll, method,
-                                SD_JAVA_ENSUREJAVA (anObject));
+                                SD_JAVA_ENSURE_OBJECT_JAVA (anObject));
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
 }
 
@@ -130,7 +130,7 @@ PHASE(Using)
     abort ();
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   first = (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
-  ret = SD_JAVA_ENSUREOBJC (first);
+  ret = SD_JAVA_ENSURE_OBJECT_OBJC (first);
   (*jniEnv)->DeleteLocalRef (jniEnv, first);
   return ret;
 }

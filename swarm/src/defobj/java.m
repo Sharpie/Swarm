@@ -225,7 +225,7 @@ java_expandArray (jobject fullary, void *inbuf)
         }
       else if (sig[1] == 'L')
         {
-          *((id *) &buf[offset]) = SD_JAVA_ENSUREOBJC (obj);
+          *((id *) &buf[offset]) = SD_JAVA_ENSURE_OBJECT_OBJC (obj);
           offset += sizeof (id);
         }
       else
@@ -483,7 +483,7 @@ map_java_ivars (jobject javaObject,
           {
             jobject obj = GETVALUE (Object);
             
-            val.object = SD_JAVA_ENSUREOBJC (obj);
+            val.object = SD_JAVA_ENSURE_OBJECT_OBJC (obj);
             (*jniEnv)->DeleteLocalRef (jniEnv, obj);
           }
           break;
@@ -504,7 +504,7 @@ map_java_ivars (jobject javaObject,
           {
             jobject sel = GETVALUE (Object);
             
-            val.object = SD_JAVA_FINDOBJC (sel);
+            val.object = SD_JAVA_FIND_OBJECT_OBJC (sel);
             (*jniEnv)->DeleteLocalRef (jniEnv, sel);
           }
           break;
@@ -853,10 +853,10 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
         switch (type)
           {
           case fcall_type_object:
-            SETVALUE (Object, SD_JAVA_ENSUREJAVA (buf->object));
+            SETVALUE (Object, SD_JAVA_ENSURE_OBJECT_JAVA (buf->object));
             break;
           case fcall_type_class:
-            SETVALUE (Object, SD_JAVA_FINDJAVACLASS (buf->class));
+            SETVALUE (Object, SD_JAVA_FIND_CLASS_JAVA (buf->class));
             break;
           case fcall_type_string:
             SETVALUE (Object, (*jniEnv)->NewStringUTF (jniEnv, buf->string));
@@ -1683,7 +1683,7 @@ swarm_directory_objc_ensure_java (id object)
   if (!result)
     {
       Class class = getClass (object);
-      jclass javaClass = SD_JAVA_FINDJAVACLASS (class);
+      jclass javaClass = SD_JAVA_FIND_CLASS_JAVA (class);
       jobject lref = java_instantiate (javaClass);
 
       result = SD_JAVA_ADD (lref, object);
@@ -1758,7 +1758,7 @@ ObjectEntry *
 swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
 {
   jobject nextJavaPhase = SD_JAVA_NEXTPHASE (currentJavaPhase);
-  id currentPhase = SD_JAVA_FINDOBJC (currentJavaPhase);
+  id currentPhase = SD_JAVA_FIND_OBJECT_OBJC (currentJavaPhase);
   ObjectEntry *retEntry;
   avl_tree *objc_tree = swarmDirectory->object_tree;
   
@@ -1805,7 +1805,7 @@ swarm_directory_java_ensure_selector (jobject jsel)
 
   if (!jsel)
     sel = NULL;
-  else if (!(sel = (SEL) SD_JAVA_FINDOBJC (jsel)))
+  else if (!(sel = (SEL) SD_JAVA_FIND_OBJECT_OBJC (jsel)))
     {
       char *name, *p;
       unsigned i;
@@ -1956,7 +1956,7 @@ swarm_directory_java_ensure_class (jclass javaClass)
 {
   Class objcClass;
 
-  if (!(objcClass = SD_JAVA_FINDOBJC (javaClass)))
+  if (!(objcClass = SD_JAVA_FIND_OBJECT_OBJC (javaClass)))
     {
       const char *className = java_get_class_name (javaClass);
 
@@ -2105,8 +2105,8 @@ swarm_directory_java_class_for_object (jobject jobj)
   result = objc_class_for_class_name (className);
   FREECLASSNAME (className);
   if (!result)
-    if (!(result = SD_JAVA_FINDOBJC (jcls)))
-      result = SD_JAVA_ENSUREOBJCCLASS (jcls);
+    if (!(result = SD_JAVA_FIND_OBJECT_OBJC (jcls)))
+      result = SD_JAVA_ENSURE_CLASS_OBJC (jcls);
   (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
   return result;
 }

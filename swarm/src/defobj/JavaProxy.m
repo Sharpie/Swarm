@@ -39,7 +39,7 @@ PHASE(Using)
       
       if (method)
         jobj = (*jniEnv)->NewObject (jniEnv, class, method,
-                                     SD_JAVA_ENSUREJAVA ([self getZone]));
+                                     SD_JAVA_ENSURE_OBJECT_JAVA ([self getZone]));
       else
         {
           (*jniEnv)->ExceptionClear (jniEnv);

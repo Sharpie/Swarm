@@ -20,7 +20,7 @@
 #include <swarmconfig.h>  // HAVE_JDK
 
 #ifdef HAVE_JDK
-#import "java.h" // swarm_directory_{java_hash_code,find_class_named,class_for_object}, SD_JAVA_FINDJAVA
+#import "java.h" // swarm_directory_{java_hash_code,find_class_named,class_for_object}, SD_JAVA_FIND_OBJECT_JAVA
 #endif
 
 Directory *swarmDirectory;
@@ -306,7 +306,7 @@ swarm_directory_superclass (Class class)
     {
       jclass clazz = 0;
       
-      clazz = SD_JAVA_FINDJAVACLASS (class);
+      clazz = SD_JAVA_FIND_CLASS_JAVA (class);
       
       if (clazz)
         {
@@ -315,7 +315,7 @@ swarm_directory_superclass (Class class)
           javaSuperclass = (*jniEnv)->GetSuperclass (jniEnv, clazz);
           if (javaSuperclass)
             {
-              Class superclass = SD_JAVA_ENSUREOBJCCLASS (javaSuperclass);
+              Class superclass = SD_JAVA_ENSURE_CLASS_OBJC (javaSuperclass);
               
               (*jniEnv)->DeleteLocalRef (jniEnv, javaSuperclass);
               return superclass;

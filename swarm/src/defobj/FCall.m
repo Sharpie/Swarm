@@ -601,7 +601,7 @@ PHASE(Using)
 #ifdef HAVE_JDK
   id return_jobject (void)
     {
-      return SD_JAVA_ENSUREOBJC ((jobject) buf->object);
+      return SD_JAVA_ENSURE_OBJECT_OBJC ((jobject) buf->object);
     }
   const char *return_jstring (void)
     {

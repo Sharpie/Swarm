@@ -1,3 +1,13 @@
+2000-07-26    <mgd@DRONE>
+
+	* FCall.m, HDF5Object.m, JavaCollection.m, JavaCollectionIndex.m,
+	JavaProxy.m, directory.m, java.h, java.m: Change
+	SD_JAVA_ENSUREOBJC to SD_JAVA_ENSURE_OBJECT_OBJC,
+	SD_JAVA_FINDJAVACLASS to SD_JAVA_FIND_CLASS_JAVA,
+	SD_JAVA_ENSUREJAVA to SD_JAVA_ENSURE_OBJECT_JAVA,
+	SD_JAVA_ENSUREOBJCCLASS to SD_JAVA_ENSURE_CLASS_OBJC
+	SD_JAVA_FINDOBJC to SD_JAVA_FIND_OBJECT_OBJC.
+
 2000-07-26  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.am (SRC): Add COM.m.

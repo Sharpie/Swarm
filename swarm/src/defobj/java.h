@@ -68,20 +68,20 @@ extern BOOL java_objc_proxy_p (jclass class);
 extern void java_drop (jobject jobj);
 
 
-#define SD_JAVA_FINDOBJC(jobj)  swarm_directory_java_find_objc (jobj)
-#define SD_JAVA_ENSUREOBJC(jobj) swarm_directory_java_ensure_objc (jobj)
+#define SD_JAVA_FIND_OBJECT_OBJC(jobj)  swarm_directory_java_find_objc (jobj)
+#define SD_JAVA_ENSURE_OBJECT_OBJC(jobj) swarm_directory_java_ensure_objc (jobj)
+#define SD_JAVA_ENSURE_OBJECT_JAVA(objc) swarm_directory_objc_ensure_java (objc)
 #define SD_JAVA_FIND_OBJECT_JAVA(objc) swarm_directory_objc_find_object_java (objc)
 #define SD_JAVA_FIND_SELECTOR_JAVA(sel) swarm_directory_objc_find_selector_java (sel)
-#define SD_JAVA_ENSUREJAVA(objc) swarm_directory_objc_ensure_java (objc)
-#define SD_JAVA_FINDJAVACLASS(objcClass) swarm_directory_objc_find_java_class (objcClass)
+#define SD_JAVA_FIND_CLASS_JAVA(objcClass) swarm_directory_objc_find_java_class (objcClass)
 #define SD_JAVA_ADD(jobj, objc) swarm_directory_java_add (objc, jobj)
 #define SD_JAVA_ADD_SELECTOR(jsel, sel) swarm_directory_java_add_selector (sel, jsel)
 #define SD_JAVA_ADDJAVA(jobj, objc) swarm_directory_java_add (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHOBJC(jobj, newobjc) swarm_directory_java_switch_objc (newobjc, jobj)
 #define SD_JAVA_NEXTPHASE(jobj) swarm_directory_java_next_phase (jobj)
-#define SD_JAVA_ENSUREOBJCMETHOD(jobj) swarm_directory_java_ensure_selector (jobj)
-#define SD_JAVA_ENSUREOBJCCLASS(jclazz) swarm_directory_java_ensure_class (jclazz)
+#define SD_JAVA_ENSURE_SELECTOR_OBJC(jobj) swarm_directory_java_ensure_selector (jobj)
+#define SD_JAVA_ENSURE_CLASS_OBJC(jclazz) swarm_directory_java_ensure_class (jclazz)
 #define SD_JAVA_INSTANTIATE(clazz) java_instantiate_pair (clazz)
 
 #define JAVA_COPY_STRING(javaString) java_copy_string (javaString)
