@@ -1,3 +1,8 @@
+1998-09-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_pixmap_create_from_widget): After restacking,
+	do all the pending events (to ensure that window is visible).
+
 1998-09-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (keep_inside_screen): New function.

@@ -695,6 +695,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
 
       keep_inside_screen ([widget getTopLevel]);
       Tk_RestackWindow (tkwin, Above, NULL);
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
 #ifndef _WIN32
       pixmap->display = Tk_Display (tkwin);
       x_pixmap_create_from_window (pixmap, window);
