@@ -268,7 +268,8 @@ void map_objc_class_ivars (Class class,
           if (strcmp (ivar_list[i].ivar_type,
                       "{?=\"memberData\"[2^v]}") == 0)
             continue;
-          else if (*ivar_list[i].ivar_type == _C_PTR)
+          else if (*ivar_list[i].ivar_type == _C_PTR
+                   || *ivar_list[i].ivar_type == _C_STRUCT_B)
             continue;
           else if (*ivar_list[i].ivar_type == _C_ARY_B)
             {
