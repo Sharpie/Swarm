@@ -1,3 +1,12 @@
+1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* gui.h (Widget, WindowGeometryRecord, GraphElement,
+	CanvasAbstractItem): Adopt Create and Drop instead of SwarmObject.
+	(_ClassDisplayLabel, _CompleteProbeDisplayLabel,
+	_ClassDisplayHideButton, _MessageProbeEntry, _TextItem, _Circle):
+	Add USING tag.
+	(_ButtonPanel, _CompositeItem): Add CREATING tag.
+
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* gui.h (_WindowGeometryRecord): Adopt Serialization protocol;

@@ -110,7 +110,7 @@ USING
 - (void)drop;
 @end
 
-@protocol Widget <_Widget, SwarmObject>
+@protocol Widget <_Widget, Create, Drop>
 //S: Widget base class.
 
 //D: All graphical widgets inherit from the Widget base class. Widget
@@ -149,7 +149,7 @@ USING
 - (int)getY;
 @end
 
-@protocol WindowGeometryRecord <_WindowGeometryRecord, SwarmObject>
+@protocol WindowGeometryRecord <_WindowGeometryRecord, Create, Drop>
 //S: A container for window geometry information.
 
 //D: A container for window geometry information that implements
@@ -272,7 +272,7 @@ USING
 - setWidth: (unsigned)w;
 @end
 
-@protocol GraphElement <_GraphElement, SwarmObject>
+@protocol GraphElement <_GraphElement, Create, Drop>
 //S: Contains a set of related data for display.
 
 //D: A GraphElement accumulates a related set of data for display,
@@ -399,6 +399,7 @@ USING
 CREATING
 //M: Create a blue, left-justified label.
 - createEnd;
+USING
 @end
 
 @protocol ClassDisplayLabel <_ClassDisplayLabel, Label>
@@ -430,6 +431,7 @@ CREATING
 //M: Performs drag and drop configruation, Button3 to get a
 //M: CompleteProbeDisplay, and highlighting.
 - createEnd;
+USING
 @end
 
 @protocol CompleteProbeDisplayLabel <_CompleteProbeDisplayLabel, Label>
@@ -463,6 +465,7 @@ CREATING
 - setSubWidget: subWidget;
 - setUser: user;
 - setOwner: owner;
+USING
 @end
 
 @protocol ClassDisplayHideButton <_ClassDisplayHideButton, Button>
@@ -492,6 +495,7 @@ CREATING
 - setSuperWidget: superWidget;
 - setOwner: owner;
 - setUser: user;
+USING
 @end
 
 @protocol SuperButton <_SuperButton, Button>
@@ -556,6 +560,7 @@ CREATING
 - setArg: (int)arg;
 + createBegin: aZone;
 - createEnd;
+USING
 @end
 
 @protocol MessageProbeEntry <_MessageProbeEntry, Entry>
@@ -587,6 +592,7 @@ USING
 @end
 
 @protocol _ButtonPanel
+CREATING
 USING
 //M: Set a default target for use with addButtonName:method:.
 - setButtonTarget: target;
@@ -857,7 +863,7 @@ USING
 - getCanvas;
 @end
 
-@protocol CanvasAbstractItem <_CanvasAbstractItem, SwarmObject>
+@protocol CanvasAbstractItem <_CanvasAbstractItem, Create, Drop>
 //S: An abstract class for items on a Canvas.
 
 //D: CanvasAbstractItem is the root class of all items drawn on a Canvas.
@@ -880,6 +886,7 @@ USING
 @end
 
 @protocol _CompositeItem
+CREATING
 USING
 //M: Must be implemented by subclass.
 - moveX: (long)delta_x Y: (long)delta_y;
@@ -1047,6 +1054,7 @@ CREATING
 
 //M: Create the TextItem.
 - createItem; 
+USING
 @end
 
 @protocol TextItem <_TextItem, CanvasItem>
@@ -1065,6 +1073,7 @@ CREATING
 
 //M: Create the Circle.
 - createItem;
+USING
 @end
 
 @protocol Circle <_Circle, CanvasItem>
