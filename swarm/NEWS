@@ -31,6 +31,11 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** New methods lispInCreate:, lispIn:, lispOut:, implementing
       the default serialization protocol.
 
+*** gui (tkobjc)
+**** Colormap / Raster
+***** Support for window-specific virtual colormaps when default palette 
+      is exhausted.
+
 ** Autoconfiguration
 *** Support for Cygwin B20.
 *** Build with -Wall -Werror.
