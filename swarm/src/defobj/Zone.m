@@ -19,16 +19,21 @@ Library:      defobj
 #include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
 #include "internal.h"
 
+extern void *GC_malloc_uncollectable (size_t);
+extern void *GC_realloc (void *, size_t);
+
 //
 // temporary hack to guarantee double word alignment of allocations
 //
 static inline void *
-dalloc (size_t blockSize)
+dalloc (size_t blockSize, BOOL GCRootFlag)
 {
   static BOOL notAligned = NO;
   void *block;
 
-  block = xmalloc (blockSize);
+  block = (GCRootFlag 
+           ? GC_malloc_uncollectable (blockSize)
+           : xmalloc (blockSize));
 
 // if flag is set at compile time (-DPTR_MALLOC_DALIGN), then runtime check
 // for double-word alignment check can be suppressed from this code.
@@ -52,8 +57,15 @@ dalloc (size_t blockSize)
     }
   
   XFREE (block);
-  block = xmalloc (blockSize + 7);
-  return ((void *) (((unsigned long) block + 7) & ~0x7));
+
+  {
+    size_t newSize = blockSize + 7;
+
+    block = (GCRootFlag
+             ? GC_malloc_uncollectable (newSize)
+             : xmalloc (newSize));
+    return ((void *) (((unsigned long) newSize) & ~0x7));
+  }
 }
 
 //
@@ -74,6 +86,7 @@ PHASE(Creating)
   // the very first zone is created externally by explicit initialization
 
   newZone = [aZone allocIVars: self];
+  newZone->GCFlag = NO;
   return newZone;
 }
 
@@ -84,6 +97,11 @@ PHASE(Creating)
     "> Page size must be a power of two, at least 256, and no greater than\n"
     "> the page size of the zone owner.  Page size requested was: %d.\n",
     pageSize );
+}
+
+- (void)setGCRootFlag: (BOOL)theGCRootFlag
+{
+  GCRootFlag = theGCRootFlag;
 }
 
 - createEnd
@@ -320,16 +338,23 @@ PHASE(Using)
   size_t headerSize = sizeof (ptrdiff_t) + sizeof (size_t);
   size_t offset;
   size_t extraAlloc;
+  size_t adjSize = size + headerSize;
   
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = xmalloc (size + headerSize);
+  newBlock = (GCRootFlag
+              ? GC_malloc_uncollectable (adjSize)
+              : xmalloc (adjSize));
   ptr = newBlock + headerSize;
   aptr = alignptrto (ptr, MAX_ALIGNMENT);
   extraAlloc = (size_t) (ptrdiff_t) (aptr - ptr);
   if (extraAlloc)
     {
-      newBlock = xrealloc (newBlock, size + headerSize + extraAlloc);
+      size_t newSize = size + headerSize + extraAlloc;
+
+      newBlock = (GCRootFlag
+                  ? GC_realloc (newBlock, newSize)
+                  : xrealloc (newBlock, newSize));
       ptr = newBlock + headerSize;
       aptr = alignptrto (ptr, MAX_ALIGNMENT);
       extraAlloc = (size_t) (ptrdiff_t) (aptr - ptr);

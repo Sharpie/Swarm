@@ -17,17 +17,19 @@ Library:      defobj
   id componentZone;          // view of zone qualified for component allocation
   id population;             // external objects created within the zone
   size_t populationTotal;    // total size of population objects
-  size_t objectCount;      // count of internal objects allocated in the zone
+  size_t objectCount;        // count of internal objects allocated in the zone
   size_t objectTotal;        // total size of internal objects
-  size_t blockCount;       // count of internal blocks allocated in the zone
+  size_t blockCount;         // count of internal blocks allocated in the zone
   size_t blockTotal;         // total size of internal blocks
-  size_t allocCount;       // count of blocks allocated by alloc:
+  size_t allocCount;         // count of blocks allocated by alloc:
   size_t allocTotal;         // total size of alloc'ed blocks
   id internalAllocations;    // collection of all internal allocations
+  BOOL GCRootFlag;           // registers pointer with conservative GC
 }
 /*** methods in Zone_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void)setPageSize: (size_t)pageSize;
+- (void)setGCRootFlag: (BOOL)GCRootFlag;
 - createEnd;
 - (size_t)getPageSize;
 - allocIVars: (Class)aClass;

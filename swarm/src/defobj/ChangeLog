@@ -1,5 +1,17 @@
 2001-06-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* java.h (JAVA_{OBJECT,SELECTOR}_ENTRY): Use _objc_GCRootZone for
+	directory entries.
+
+	* Zone.m: Declare GC_malloc_uncollectable and GC_realloc.
+	([Zone_c -alloc:]): Use if GCRootFlag is set.
+	(dalloc): Likewise.
+
+	* Zone.[hm] (Zone_c): Add GCRootFlag and setter.
+
+	* Program.m (_obj_GCRootZone): New global.
+	(initModules): Set it up.
+
 	* JavaProxy.m ([JavaProxy -createJavaCounterpart:]): Note
 	lack of support for inner classes.
 

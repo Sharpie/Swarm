@@ -98,8 +98,10 @@ extern void java_drop (jobject jobj);
 #define JAVA_CONVERT_STRING_ARRAY(jary) java_convert_string_array (jary)
 #define JAVA_CLEANUP_STRING_ARRAY(stringArray, name) { java_cleanup_strings ((const char **) stringArray, (*jniEnv)->GetArrayLength (jniEnv, name)); [scratchZone free: (void *) stringArray]; }
 
-#define JAVA_OBJECT_ENTRY(theJavaObject,theObject) [[[[ObjectEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
-#define JAVA_SELECTOR_ENTRY(theJavaObject,theSel) [[[[SelectorEntry createBegin: globalZone] setJavaObject: theJavaObject] setSelector: theSel] createEnd]
+externvar id _obj_GCRootZone;
+
+#define JAVA_OBJECT_ENTRY(theJavaObject,theObject) [[[[ObjectEntry createBegin: _obj_GCRootZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
+#define JAVA_SELECTOR_ENTRY(theJavaObject,theSel) [[[[SelectorEntry createBegin: _obj_GCRootZone] setJavaObject: theJavaObject] setSelector: theSel] createEnd]
 #define JAVA_OBJCENTRY(theObject) JAVA_ENTRY(theObject,0)
 #define JAVA_JAVAENTRY(theJavaObject) JAVA_ENTRY(0,theJavaObject)
 #define JAVA_FIND_OBJECT_ENTRY(theJavaObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.java = theJavaObject; _findEntry; })
