@@ -1,3 +1,15 @@
+1998-02-26  Alex Lancaster  <alex@santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm -build{Objects,Actions}]): Made
+	all references to object creation in create: and createBegin:
+	calls be to "self" rather than the redundant [self getZone].
+	Swarms are now responsible for managing their own Zones.
+
+	* ModelSwarm.m: Likewise.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Removed
+	redundant variable modelZone.
+
 1998-02-20  Alex Lancaster  <alex@santafe.edu>
 
 	* README: Fixed NEXT -> reference to point to simpleExperBug.
