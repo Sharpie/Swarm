@@ -1,6 +1,7 @@
 1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (OBJCFLAGS): Add @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@.
+	(jdkdir): Renamed from javaprefix.
 
 1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
 

@@ -15,8 +15,8 @@ libdir=@libdir@
 includedir=@includedir@
 LIBS=@LIBS@
 
-javaprefix=@jdkdir@
-javaincludedir=$(javaprefix)/include
+jdkdir=@jdkdir@
+javaincludedir=$(jdkdir)/include
 JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
 CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir)
