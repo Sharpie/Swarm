@@ -1099,7 +1099,7 @@ USING
 - (unsigned *)getDims;
 - (size_t)getElementSize;
 - (unsigned)getElementCount;
-- (char)getArrayType;
+- (fcall_type_t)getArrayType;
 - convertToType: (char)destType dest: (void *)ptr;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
@@ -1119,7 +1119,7 @@ CREATING
 - setClass: (Class)class;
 - setNil;
 USING
-- (char)getValueType;
+- (fcall_type_t)getValueType;
 - (double)getDouble;
 - (long double)getLongDouble;
 - (float)getFloat;

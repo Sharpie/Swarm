@@ -19,7 +19,7 @@
   unsigned *dims;
   size_t elementSize;
   unsigned elementCount;
-  const char *type;
+  fcall_type_t type;
   void *data;
 }
 - setArray: array;
@@ -27,8 +27,8 @@
 - (unsigned *)getDims;
 - (size_t)getElementSize;
 - (unsigned)getElementCount;
-- (char)getArrayType;
-- convertToType: (char)destType dest: (void *)ptr;
+- (fcall_type_t)getArrayType;
+- convertToType: (fcall_type_t)destType dest: (void *)ptr;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;
@@ -36,12 +36,13 @@
 
 @interface ArchiverValue_c: CreateDrop_s <ArchiverValue>
 {
-  char type;
+  fcall_type_t type;
   union {
     long double ld;
     double d;
     float f;
     long long ll;
+    BOOL bool;
     unsigned char ch;
     id obj;
     Class class;
@@ -65,7 +66,7 @@
 - (BOOL)getBoolean;
 - getObject;
 - (Class)getClass;
-- (char)getValueType;
+- (fcall_type_t)getValueType;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 @end

@@ -18,7 +18,6 @@ Library:      collections
 #include <objc/objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isDigit, isSpace
 #include <collections/predicates.h>
-#import "../defobj/internal.h" // lisp_process_array
 
 @implementation InputStream_c
 

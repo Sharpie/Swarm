@@ -1,3 +1,30 @@
+2000-01-11    <mgd@nest.swarm.org>
+
+	* StringObject.m: Inlcude defobj.h.
+	([String hdf5OutShallow:]): Use
+	storeAsDataset:typeName:type:rank:dims:ptr: instead of
+	storeAsDataset:type:ptr:.
+
+	* Stream.m ([ArchiverArray_c -lispOutDeep:]): Update to use new
+	fcall_type_t lisp_process_array interface.
+	([ArchiverValue_c -setDouble:],
+	[ArchiverValue_c -setLongDouble:],
+	[ArchiverValue_c -setBoolean:],
+	[ArchiverValue_c -setFloat:],
+	[ArchiverValue_c -setLongLong:],
+	[ArchiverValue_c -setChar:],
+	[ArchiverValue_c -setNil],
+	[ArchiverValue_c -setClass:],
+	[ArchiverValue_c -lispOutDeep:], [ArchiverValue_c -getValueType]):
+	Likewise.
+
+	* Stream.[hm], collections.h (ArchiverArray_c): Use fcall_type_t
+	for type instead of string.  Update getArrayType and
+	convertToType:dest: as well.
+	(ArchiverValue_c): Likewise.
+
+	* InputStream.m: Don't include internal.h.
+
 2000-01-03  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* StringObject.m ([String_c -lispOutShallow:]): Use catString:

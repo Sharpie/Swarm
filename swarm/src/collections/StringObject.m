@@ -13,6 +13,7 @@ Library:      collections
 #import <defobj/defalloc.h>
 
 #include <misc.h> // memcpy, size_t
+#import <defobj.h> // HDF5 things
 
 @implementation String_c
 
@@ -214,7 +215,9 @@ PHASE(Using)
 {
   [hdf5Obj storeAsDataset: [hdf5Obj getName]
            typeName: [self getTypeName]
-           type: @encode (const char *)
+           type: fcall_type_string
+           rank: 0
+           dims: NULL
            ptr: &string];
   return self;
 }

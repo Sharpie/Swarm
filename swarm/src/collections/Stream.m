@@ -2,7 +2,7 @@
 #import <collections/List.h>
 #import <collections/predicates.h>
 #import <defobj/defalloc.h>
-#import "../defobj/internal.h" // size_for_objc_type
+#import "../defobj/internal.h" // fcall_type_size
 #include <objc/objc-api.h>
 
 @implementation ArchiverKeyword_c
@@ -66,14 +66,8 @@ PHASE(Creating)
       }
   }
 
-  {
-    char *typebuf = [getZone (self) alloc: 2];
-    
-    typebuf[0] = [proto getValueType];
-    typebuf[1] = '\0';
-    type = typebuf;
-  }
-  elementSize = size_for_objc_type (type);
+  type = [proto getValueType];
+  elementSize = fcall_type_size (type);
   {
     size_t size = elementCount * elementSize;
 
@@ -116,27 +110,30 @@ PHASE(Creating)
                 mult *= dims[i];
                 offset += coord[i - 1] * mult;
               }
-            switch (*type)
+            switch (type)
               {
-              case _C_ID:
+              case fcall_type_object:
                 ((id *) data)[offset] = [val getObject];
                 break;
-	      case _C_CLASS:
+	      case fcall_type_class:
 		((Class *) data)[offset] = [val getClass];
 		break;
-              case _C_LNG_LNG:
+              case fcall_type_boolean:
+                ((BOOL *) data)[offset] = [val getBoolean];
+                break;
+              case fcall_type_slonglong:
                 ((long long *) data)[offset] = [val getLongLong];
                 break;
-              case _C_FLT:
+              case fcall_type_float:
                 ((float *) data)[offset] = [val getFloat];
                 break;
-              case _C_DBL:
+              case fcall_type_double:
                 ((double *) data)[offset] = [val getDouble];
                 break;
-              case _C_LNG_DBL:
+              case fcall_type_long_double:
                 ((long double *) data)[offset] = [val getLongDouble];
                 break;
-              case _C_UCHR:
+              case fcall_type_uchar:
                 ((unsigned char *) data)[offset] = [val getChar];
                 break;
               default:
@@ -156,7 +153,7 @@ PHASE(Using)
   return data;
 }
 
-- convertToType: (char)destType dest: (void *)ptr
+- convertToType: (fcall_type_t)destType dest: (void *)ptr
 {
   unsigned coord[rank];
   void permute (unsigned dim)
@@ -186,28 +183,28 @@ PHASE(Using)
           val = ((long long *) data)[offset];
           switch (destType)
             {
-            case _C_INT:
+            case fcall_type_sint:
               ((int *) ptr)[offset] = (int) val;
               break;
-            case _C_UINT:
+            case fcall_type_uint:
               ((unsigned *) ptr)[offset] = (unsigned) val;
               break;
-            case _C_LNG:
+            case fcall_type_slong:
               ((long *) ptr)[offset] = (long) val;
               break;
-            case _C_ULNG:
+            case fcall_type_ulong:
               ((unsigned long *) ptr)[offset] = (unsigned long) val;
               break;
-            case _C_LNG_LNG:
+            case fcall_type_slonglong:
               ((long long *) ptr)[offset] = (long long) val;
               break;
-            case _C_ULNG_LNG:
+            case fcall_type_ulonglong:
               ((unsigned long long *) ptr)[offset] = (unsigned long long) val;
               break;
-            case _C_SHT:
+            case fcall_type_sshort:
               ((short *) ptr)[offset] = (short) val;
               break;
-            case _C_USHT:
+            case fcall_type_ushort:
               ((unsigned short *) ptr)[offset] = (unsigned short) val;
               break;
             default:
@@ -215,10 +212,10 @@ PHASE(Using)
             }
         }
     }
-  if (*type == _C_LNG_LNG)
+  if (type == fcall_type_slonglong)
     permute (0);
   else
-    memcpy (ptr, data, size_for_objc_type (type) * elementCount);
+    memcpy (ptr, data, fcall_type_size (type) * elementCount);
   return self;
 }
 
@@ -237,9 +234,9 @@ PHASE(Using)
   return elementSize;
 }
 
-- (char)getArrayType
+- (fcall_type_t)getArrayType
 {
-  return *type;
+  return type;
 }
 
 - lispOutShallow: (id <OutputStream>)stream
@@ -249,8 +246,7 @@ PHASE(Using)
 
 - lispOutDeep: (id <OutputStream>)stream
 {
-  lisp_process_array (objc_type_for_array (type, rank, dims), 
-                      data, data, stream, YES);
+  lisp_process_array (rank, dims, type, data, data, stream, YES);
   return self;
 }
 
@@ -268,63 +264,63 @@ PHASE(Using)
 PHASE(Creating)
 - setDouble: (double)val
 {
-  type = _C_DBL;
+  type = fcall_type_double;
   value.d = val;
   return self;
 }
 
 - setLongDouble: (long double)val
 {
-  type = _C_LNG_DBL;
+  type = fcall_type_long_double;
   value.ld = val;
+  return self;
+}
+
+- setBoolean: (BOOL)val
+{
+  type = fcall_type_boolean;
+  value.bool = val;
   return self;
 }
 
 - setFloat: (float)val
 {
-  type = _C_FLT;
+  type = fcall_type_float;
   value.f = val;
   return self;
 }
 
 - setLongLong: (long long)val
 {
-  type = _C_LNG_LNG;
+  type = fcall_type_slonglong;
   value.ll = val;
   return self;
 }  
 
 - setChar: (unsigned char)val
 {
-  type = _C_UCHR;
+  type = fcall_type_schar;
   value.ch = val;
   return self;
 }  
 
-- setBoolean: (BOOL)val
-{
-  type = _C_UCHR;
-  value.ch = (unsigned char) val;
-  return self;
-}
-
 - setNil
 {
-  type = _C_ID;
+  type = fcall_type_object;
   value.obj = nil;
   return self;
 }
 
 - setClass: (Class)aClass
 {
-  type = _C_CLASS;
+  type = fcall_type_class;
   value.class = aClass;
   return self;
 }
 
 PHASE(Using)
 
-- (char)getValueType
+- (fcall_type_t)getValueType
 {
   return type;
 }
@@ -351,14 +347,14 @@ PHASE(Using)
 
 - (int)getInteger
 {
-  if (type != _C_LNG_LNG)
+  if (type != fcall_type_slonglong)
     raiseEvent (InvalidArgument, "expecting an integer");
   return (int) value.ll;
 }
 
 - (unsigned)getUnsigned
 {
-  if (type != _C_LNG_LNG)
+  if (type != fcall_type_slonglong)
     raiseEvent (InvalidArgument, "expecting an integer");
   return (unsigned) value.ll;
 }
@@ -392,20 +388,22 @@ PHASE(Using)
 {
   switch (type)
     {
-    case _C_CHR:
-    case _C_UCHR:
+    case fcall_type_boolean:
+      [stream catBoolean: value.bool];
+      break;
+    case fcall_type_schar: case fcall_type_uchar:
       [stream catChar: value.ch];
       break;
-    case _C_DBL:
+    case fcall_type_double:
       [stream catDouble: value.d];
       break;
-    case _C_LNG_DBL:
+    case fcall_type_long_double:
       [stream catLongDouble: value.ld];
       break;
-    case _C_FLT:
+    case fcall_type_float:
       [stream catFloat: value.f];
       break;
-    case _C_LNG_LNG:
+    case fcall_type_slonglong:
       [stream catLongLong: value.ll];
       break;
     default:
