@@ -4,11 +4,32 @@
 #if defined(DLL) && !defined(INHIBIT_OBJC_DLL)
 
 #ifdef BUILDING_LIBOBJC
-#define externobjcvar @EXPORT_EXTERN@
+
+#undef EXPORT_EXTERN
+#undef IMPORT_EXTERN
+#undef EXPORT_EXTERNDEF
+
+#ifdef EXPORT_EXTERN
+#define externobjcvar EXPORT_EXTERN
 #else
-#define externobjcvar @IMPORT_EXTERN@
+#define externobjcvar
 #endif
-#define externobjcvardef @EXPORT_EXTERNDEF@
+
+#else
+
+#ifdef IMPORT_EXTERN
+#define externobjcvar IMPORT_EXTERN
+#else
+#define externobjcvar
+#endif
+
+#endif
+
+#ifdef EXPORT_EXTERNDEF
+#define externobjcvardef EXPORT_EXTERNDEF
+#else
+#define externobjcvardef
+#endif
 
 #else
 
@@ -16,6 +37,7 @@
 #define externobjcvardef
 
 #endif
+
 
 #endif
 

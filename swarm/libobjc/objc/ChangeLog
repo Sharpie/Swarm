@@ -1,3 +1,8 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* externvar.h.in: Don't use substitutions.  Add preprocessor
+	logic to do the right thing.
+
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* externvar.h.in: Add INHIBIT_OBJC_DLL, a flag to inhibit
