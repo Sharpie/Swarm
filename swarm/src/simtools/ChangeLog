@@ -1,3 +1,8 @@
+1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* simtools.m (run_constructors): New static function.
+	(_initSwarm_): Call it for hpux.
+
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtools.h: Stringify application name, version, and bug address.
