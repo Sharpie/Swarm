@@ -1,3 +1,7 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile (APPVERSION, BUGADDRESS): Add.
+
 1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (SWARMHOME): Default to 1999-03-09.
