@@ -1,0 +1,51 @@
+2003-03-17  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* SchellingWorld.m: SchellingWorld is both a grid where agents
+	exist as well as a set of calculating mechanisms that track the
+	number of visible agents of each race within a neighborhood.
+	Note nhoodMask variable can be customized to shape a neighborhood.
+
+	* ModelSwarm.m ([ModelSwarm +createBegin:]): played with parameters.
+
+2003-03-12  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* Person.m ([Person -step]): 
+	 adopt this: if( myTolerance < 1.0 - [self getFractionOf: myColor] )
+  
+         instead of this: if( myTolerance <  [self getFractionOf: ((myColor==0)?1:0)] )
+	
+
+	* ObserverSwarm.m: revise colormap, so low values represent agent types.
+
+	* ModelSwarm.m ([ModelSwarm -buildObjects]): allow for N
+	races. change colors to 0,1...
+
+2003-03-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* DiscreteToroid.h: add method declarations that
+	were missing.
+
+	* ObserverSwarm.m: reformat throughout
+
+	* Neighborhood.m: Deleted this class
+
+	* Person.m ([-getFractionOf:]): fix calculation of fraction 
+	([Person -createEnd]): new method
+
+	* Person.m: Eliminate Neighborhood class, redesign agents accordingly.
+
+	* ModelSwarm.m: reformatting
+
+2003-02-13  Paul E Johnson  <pauljohn@ukans.edu>
+
+	* ModelSwarm.m ([ModelSwarm -stepThroughList]): New method to step through agents,
+	possibly in a shuffled order.
+	([ModelSwarm -randomizeList]): new method to turn on and off randomized processing
+	of the list. The probeLibrary has had this method added above.
+
+	* ObserverSwarm.m: window geometry archiving
+
+	* main.m (main): window geometry archiving
+
+	* ModelSwarm.m: Changed Dist and Generator objects to the modern Swarm names.
+

@@ -1,0 +1,431 @@
+schelling2-1.6
+Paul Johnosn <pauljohn@ku.edu> 2003-04-16
+
+I have a new class, Nhood2dCounter ("Neighborhood 2d Counter"), and I
+want to facilitate its use in other projects.  So this new edition of
+the Schelling model demonstrates what it does and how it works.
+
+This edition of schelling2 is just a little polished and reorganized,
+not substantively changed.  It shows off Nhood2dCounter.
+
+Nhood2dCounter is now an abstracted class that anybody can use if they need to
+have their agents ask a grid "how many visible things are there within
+my neighborhood?"  The shape of the neighborhood is customizable. The
+SchellingWorld has a set of those Nhood2dCounters, one for each race
+in the model, so when an agent wants to know "how many people are like
+me around here," the SchellingWorld has a quick answer.  There is a
+verbose discussion of this in the Nhood2dCounter.h file.
+
+In this edition, there is also some trivial
+clarification/reorganization of the interface between the agents and
+the SchellingWorld.  The Schelling world has several
+collections/spaces in it. It has an "objectGrid", a Swarm Discrete2d
+that records the positions of the agents. It also has the array of
+Nhood2dCounters, each of which tells how many of a color are visible.
+Now, when agents want to move, they no longer do the usual Swarm thing
+of putting a "nil" at the current location and then adding self to
+another location. Instead, when an agent moves, he just tells
+SchellingWorld to remove it, or add itself. In Person.m, for example:
+
+      [myWorld removeObject: self atX: x Y: y];
+      [myWorld addObject: self atX: newX Y: newY];
+
+The SchellingWorld does the bookwork of putting agents in and out of
+objectGrid and also updating the Nhood2dCounter objects. I verified
+that this does give the right numbers.
+
+When one does actually need to use the objectGrid for something,
+such as in the ObserverSwarm's display commands, just ask for
+that grid from the SchellingWorld with "getObjectGrid". 
+
+Please note: Concerning the search for empty spaces to which they
+might move, I have left in this peculiar specification that the
+original model had.  That searches globally and takes the first open
+spot it finds.  The nifty new Nhood2dCounter could be used to just
+scan for openings in the local neighborhood, but that is a substative
+change I don't want to introduce when I'm trying to feature the
+Nhood2dCounter itself.
+
+Following is the README from the Schelling2, it
+still holds.  I've not changed the interface or features, I just
+abstracted Nhood2dCounter.  I wish to add it to the Swarm space
+library, if I can get a show of hands.
+
+-----------------------------------------------
+Paul Johnson <pauljohn@ku.edu> 2003-02-16
+Assoc Prof, Political Science
+University of Kansas
+Swarm Development Group
+
+Thomas Schelling's model of racial segregation is a classic
+in social science and it is one of the first agent-based
+models (J. Mathematical Sociology, 1971).
+
+I found Benedikt Stefansson's old Schelling model.  Benedikt was one
+of the early Swarm users/educators and there were several times during
+my Swarm break-in period when he supplied me with pivotal help.
+(After that, I made a vow to always try to help the new guys.) I
+believe Benedikt's code was updated by Lars-Erik Cederman, and
+possibly some students, who also were at UCLA at the time.
+
+Files in the most recent version I found had this mark at the top.
+
+// Schellings Segregation Model
+// Code by Benedikt Stefansson, <benedikt@ucla.edu>. 
+// First version July 1997
+// Second version February 1998
+
+In Benedikt's model, there are 2 races, and the agents have a pre-set
+tolerance coefficient. If the fraction of neighbors (in a Von Neumann
+neighborhood) who have the same color as the agent is not as high as
+the tolerance parameter, then the agent moves to a new location. The
+new location is chosen completely at random, subject only to the 
+requirement that the targeted space is not occupied.  The model showed
+the famous result that Schelling emphasized, which held that even
+a mild individual desire for same-ness in its environment can drive
+a massive trend toward racial segregation.
+
+I started updating, cutting out old fashioned stuff, adding features,
+improving the display. I've removed some clases, significantly beefed
+up record keeping in the SchellingWorld, added lots and lots of
+options.
+
+So, here you go.
+
+I'm not responsible for any mistakes, but claim credit for
+all success.
+
+To tantalize you, I enclose in the package 2 pictures of the model.
+
+They are online for your persual, in case you find this README:
+
+The "standard" two race Schelling neighborhood model:
+
+http://lark.cc.ku.edu/~pauljohn/Swarm/MySwarmCode/Schelling/schellingSnap1.jpg
+
+A model with 6 races and an intolerant "majority" race, Moore
+neighborhood with radius 4 (you can replicate by loading parameter
+file flight1.setup):
+
+http://lark.cc.ku.edu/~pauljohn/Swarm/MySwarmCode/Schelling/schellingSnap2.jpg
+
+Same model as previous, except with VonNeumann neighborhood.
+
+http://lark.cc.ku.edu/~pauljohn/Swarm/MySwarmCode/Schelling/schellingSnap3.jpg
+
+
+In this version of the Schelling model, there are many new features. Here
+are the most interesting ones.
+
+
+1. The number of races can be 2 or higher.  
+Different races show as different colors.  I only put in
+color assignments for 20 races, but there is no reason a person
+must stop there. (Look in ObserverSwarm.m, where you see I
+had fun browsing the rgb.txt file for names of colors.)
+
+In the original version, there were 2 races, RED and BLUE.  The user
+could set the percentage of agents that were BLUE and also could
+adjust tolerance parameters for both BLUE and RED.  When I added the
+possibility of more races, it made it more confusing to set the
+parameters for the individual classes.  I don't know how I could allow
+the GUI to change the parameters for each race when the number of
+races is variable, so here is what I have done.
+
+The first two races are always BLUE and RED.  Users can set the
+pfraction of agents that are BLUE and RED.  If there are only two
+races, this exhausts the possiblities.  If there are 3 or more races,
+then I have assumed that all the "extras" after RED and BLUE are all
+equally likely. Thus, after taking out the fractions allocated by the
+user for BLUE and RED, the remaining fraction is equally divided. So,
+for example, if the user specifies that there are 7 races altogether,
+and 30% of the agents are BLUE and 25% are RED, then that means that
+45% of the agents are equally divided between 5 races.  That detail is
+pretty easy to customize in the ModelSwarm.m file, if you want
+something different.  Similarly, in the GUI, users can specify the
+tolerance ranges for BLUE, RED, and OTHER types.
+
+
+2. The user can decide whether or not the agents update their
+information in an ASYNCHRONOUS or SYNCHRONOUS manner.  Each agent in
+the list is given a chance to move at each time step.  What
+information is available when they decide?  ASYCHRONOUS is the
+standard and probably more desirable. If updating is ASYNCHRONOUS,
+that means that the agents view their world, and move, and their new
+position is instantly available to the next agent that decides whether
+to move.  In a SYNCHRONOUS world, we want to represent the idea that
+agents are moving simultaneously, so the impacts of agent moves are
+not registered on the world until the whole set of agents is
+processed.  The model is SYNCHRONOUS in the sense that, when an agent
+is deciding whether to move, then that agent does so in light of the
+state of the world at the beginning of the time step.  There is a
+little wrinkle in this, however, because once an agent decides to
+move, then that agent must look about for open positions.  A position
+is open if no agent has yet moved there, and so there is a possibility
+that, during a time step, one agent will move and take a position that
+another one might like.  So the model is not in fact entirely
+SYNCHRONOUS. Rather, the information agents have about the racial
+composition of their neighborhood is updated SYNCHRONOUSLY.
+
+3. This version can investigate edge effects.  The grid on which the
+agents move can be either an edge-wrapping torus or a flat grid. If
+the world is seen as a grid with edges, then the agents near the edge 
+simply act as if there is nothing beyond the last cell, and their 
+decisions are based only on the agents they can see from their position
+as they look into the center of the grid. 
+
+Benedikt's original model assumed the torus. I wanted the user to
+choose at run time.  Implementing this required the elimination of the
+DiscreteToroid class that was used in Benedikt's original model.  Now
+allow SchellingWorld can be set to allow edge-wrapping to make the
+space like a torus or to treat the space as a flat grid.
+
+
+4. Neighborhoods, Neighborhoods!  Here you get fully adjustable size
+(via radius parameter) and type (Von Neumann or Moore).  Now the
+agent's neighborhood can have any radius you want.  If you choose a
+Von Neumann neighborhood with radius 1, then the neighborhood over
+which the agent is seen is like the 1's in here:
+
+0 1 0 
+1 1 1       vn radius 1
+0 1 0 
+
+0 0 1 0 0 
+0 1 1 1 0 
+1 1 1 1 1   vn radius 2
+0 1 1 1 0 
+0 0 1 0 0 
+
+
+0 0 0 1 0 0 0 
+0 0 1 1 1 0 0 
+0 1 1 1 1 1 0 
+1 1 1 1 1 1 1 vn radius 3 
+0 1 1 1 1 1 0 
+0 0 1 1 1 0 0 
+0 0 0 1 0 0 0 
+
+
+etc...
+
+1 1 1 
+1 1 1       moore radius 1
+1 1 1 
+
+
+
+Set the neighborhood by typing in a value in the probe display. The
+default is
+ 
+vonneuman
+
+to get the standard "up down left right" neighborhood.  Actually,
+anything starting with a "v" will do.
+
+If you put anything else, it uses the other type of
+neighborhood, which is a Moore neighborhood.
+
+Benedikt had designed the neighborhood type input in that way.  I was
+surprised to see it, I'm not sure I would have thought of it.  And I
+kinda like it, now I see how it is done. See for yourself in
+ModelSwarm.m. It treats the string that the user types in as an
+array, basically, and it scans just the first letter to decide the
+neighborhood type.
+
+
+
+5. I added lots of record keeping in SchellingWorld. This is designed
+to speed up the model.
+
+Suppose each agent has to calculate the proportion of "like" agents
+there are in the neighborhood.  If we have each agent cycle over the
+whole neighborhood, that can make the model really slow.  There are
+a lot of redundant calculations, as various neighboring agents will be 
+making calculations about the same cells.  Furthermore, even if 
+nobody moves from one time to the next, each agent has to go recalculate
+from its neighborhood.
+
+I wanted to save the time/cost of all those calculations.
+
+If all agents have the same neighborhood type & radius, then the
+agents need not cycle through their neighboring cells and
+calculate. Instead, the SchellingWorld is automatically making those
+calcualtions and any agent can just ask the SchellingWorld for the
+"Visible Number" of a given race from a particular point in the grid.
+This significantly accelerates the neighborhood analysis by the
+agents. It is faster because agents who do not move do not have any
+impact to change the environment of other agents, and the world needs
+not make any new calculations.  So as the model approaches
+equilibrium, the number of calculations required is dramatically
+reduced.  I got the idea of using this accelerated grid while working
+on a project with Dave Brochoux about political protest, which was
+eventually published in Journal of Artificial Societies and Social
+Simulation (2002).  I've since then adapted the same thing for my
+Swarm version of the Nowak/Latane SocialImpact model (which I have
+also available for download).  So, by the time I adapted that approach
+for this model, the code is getting pretty clean. I'm thinking that
+this scheme would be a nice addition to the Swarm library as a subset
+of Discrete2d and I may take care of that.
+
+
+6. In case you compare against the old version, you will see I have
+eliminated the Neighborhood class.  In that version, the agent had a
+Neighborhood object that listed its neighbors.  When the agent moved,
+the Neighborhood object had to be recalculated.  This irritated me. In
+this new version, the agents view their surroundings in the grid and
+decide according to their wishes.  This means that one can easily
+customize the sort of neighborhood that each agent uses, or, if the
+agent is using the standard radius/type that is used in
+SchellingWorld, then the agent can just ask the world for the
+information it needs. The old Neighborhood class was always a
+distraction to me and now, if we want, each individual agent can use
+its own kind of neighborhood.
+
+In case you want to know how you might implement the different
+neighborhoods for agents, please look in Person.m for the method
+"verifyNhoodData:". That method shows how you can iterate over 
+neighboring cells and figure out the racial composition of a
+neighborhood. I originally wrote that to double-check the data
+I was getting from the SchellingWorld, but now it stands as an
+example of how you can customize neighborhoods.
+
+
+7. There is a new Toggle button to determine whether the agents are
+processed in the same order every time or they are randomized at each
+time step. The randomization makes the model run slower.
+
+
+
+
+Interesting things to note.  
+
+1. In this ModelSwarm, there are statistical distributions
+"uniformDouble" and "uniformInteger".  I considered cutting those
+because there are built in Swarm distributions for them. But I left
+them as an example of how a user might want to create distributions
+that draw from separate random number streams.  Since a simulation
+will run the same way every time--using the same random number
+streams--sometimes it is useful to make sure that one part of the
+model always uses the exact same same random numbers while allowing a
+specific part of the model to have random numbers that vary across
+runs.  So I'm leaving these distributions to give some hints about how
+that might be done.
+
+2. I have tried my best to put in a standard format for the code. The
+spacing and use of braces is in the Objective-C style.  So when you see
+a method declared like so:
+
+- (double)getRandomDoubleMin: (double)min Max: (double)max;
+
+please be aware of the fact that the spacing is not an accident.
+There is supposed to be a space after the dash at the beginning, and
+there is not supposed to be a space between a type declaration and a
+variable name.
+
+Also, the style of the braces is like this
+
+if (whatever)
+{
+   some stuff;
+}
+
+rather than this
+
+if (whatever){
+   some stuff
+}
+
+3. Many Swarm users do not realize that they can put a C function into
+an Objective-C method.  To show how it can be done, in
+SchellingWorld.m, I've put in an absolute value function into the
+createEnd method.  Because the function is inside the method, the
+function can ONLY be used inside the method.  It is a good way of
+keeping the scope as small as possible.
+
+4. Note that when I want output to the terminal, I often 
+
+  fprintf(stderr, " blah ");
+
+rather than
+
+  printf( "blah");
+
+This is a trick that Rick Riolo (U Mich) taught me. 
+The fprintf has the advantage that it prints the information right
+away. printf output is cached by the operating system until there is 
+a bunch of it to write to the terminal.
+
+5. If you are interested in learning about dynamic allocation of
+memory, pointers, and macros, the SchellingWorld class has some
+interesting and fairly clear example material.  It shows the dynamic
+allocation of both one and two dimensional arrays.
+
+6. I was unsure, after looking at Benedikt's model, whether the agent
+was supposed to count itself in calculating the neighborhood
+figures. It appeared to me that in the original model, the agents who
+used a Von Neumann neighborhood did not count themselves, but the
+agents in the Moore neighborhood did count themselves. 
+
+If you look in Person.m's method
+
+- (double)getFractionOf: (int)t 
+
+You see I've elected to not count self in the neighborhood
+tally , but as the comments indicate, it would be
+simple/easy/uncontroversial/fun/convenient to change that.
+
+7. At the last minute, I've become concerned about the way agents make
+calculations about when to move.  I don't think this really is a
+problem, but I'm meditating on it.
+
+Benedikt originally wrote it like this:
+
+ if((myTolerance<[myNeighborhood getFractionOf: (myColor==10)? 11 : 10]))
+        [self moveToNewLocation];
+
+There are two types, "10" and "11". This means that, if an agent is
+type "10", then the agent would look to see the fraction of neighbors
+that are the other kind, "11", and then move if it exceeds a threshold.
+
+The problem is this: should "empty" cells be counted?  In Benedikt's
+original model, if a cell is empty, it is still included in the
+calculations, because the Neighborhood.m file's getFractionOf: method
+assumes that if a cell is not a particular color, then it is the other
+color.  Consequently, an empty cell has the same impact on an agent as
+a neighbor of the same color.
+
+I did not realize that implication when I first started revising.
+
+When I generalized the model to allow many more races, I changed it so
+that the agent finds the number of neighbors like it, and also it
+finds out the number of occupied cells in the neighborhood, and then
+they are divided to calculate "fracMyColor." Then 1-fracMyColor is the
+fraction of "other types" in the neighborhood.
+
+  double fracMyColor = [self getFractionOf: myColor];	
+  if( myTolerance < 1.0 - fracMyColor  )
+         [self moveToNewLocation];
+
+The thing that concerns me is the treatment of blank spaces in the grid.
+Benedikt's model assumed they were friends, whereas I'm not counting
+them at all.
+
+TODO list:
+
+
+1. Summary indicator!
+
+This model needs a segregation index. Badly. We want to use it to compare outcomes. We need both an aggregate "objective" index of segregation as
+well as an subjective agent-level indicator.  I suggest summarizing agent observations of "diversity" by calculating "entropy" from each spot in the
+grid. 
+
+2. Note this model uses the deprecated Swarm ObjectSaver to save
+parameter snaps.  I don't think I've ever understood why the Swarm
+team wanted to get rid of this simple/easy to use feature in favor of
+the Lisp and hdf5 archiving, but there must have been good reasons.  I
+think one reason was error-checking.  Anyway, that feature has been on
+the endagered list for a long time, so it would be virtous to swap it
+out for one of the other approaches. I've not done it, however.  In
+fact, I've allowed the user to put in the file name for saved objects
+in the GUI.
