@@ -1,7 +1,8 @@
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* misc.h: Note expectation of atoi, getenv, and qsort getting
-	declared by stdlib.h.
+	declared by stdlib.h.  Include unistd.h and time.h and note
+	purpose.  Declare gettimeofday for cygwin32. 
 
 	* Makefile.am (libmisc_la_LIBADD): Use LIBOBJS instead of MISCOBJS
 	(accompanying automake changes).
