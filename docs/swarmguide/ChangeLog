@@ -1,6 +1,10 @@
-2000-03-03  Alex Lancaster  <alex@santafe.edu>
+2000-03-05    <mgd@nest.swarm.org>
 
-	* Swarm user guide 0.9 beta released.
+	* Swarm user guide 0.9 frozen.
+
+	* configure.in: Fix typo in cygwin test.
+
+2000-03-03  Alex Lancaster  <alex@santafe.edu>
 
 	* common.dsl (%show-comments%): Set to false for release.
 

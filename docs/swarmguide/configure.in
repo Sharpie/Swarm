@@ -34,8 +34,7 @@ changequote([,])dnl
 
 AM_CONFIG_HEADER(config.h)
 
-dnl Change to the directory, since the text may be symbolic or a relative path
-if "$host_os" = cygwin; then
+if test "$host_os" = cygwin; then
   top_dossrcdir=`cygpath -w $srcdir`
   DOSIFYEXPR='`cygpath -w $<`'
 else
