@@ -147,7 +147,10 @@
                      (flatten-arg (cdr l) (cons item out-l))))))))
 
 (define (has-phase-p id)
-    (not (null? (cdr (cdr (cdr (split-string id #\.)))))))
+    (let* ((id-split-list (split-string id #\.)))
+      (if (string=? (car (cdr id-split-list)) "SRC")
+          #f
+          (not (null? (cdr (cdr (cdr id-split-list))))))))
 
 (define (char-change-case ch upcase)
     (let loop ((lc-pos
@@ -212,9 +215,12 @@
              ((string=? phase-abbrev "PU") "Using")))))
 
 (define (id-to-indexitem id)
-    (if (has-phase-p id)
-        (method-signature-id-to-description id)
-        (protocol-id-to-description id)))
+    (let ((id-split-list (split-string id #\.)))
+      (if (string=? (car (cdr id-split-list)) "SRC")
+          (data (select-elements (children (element-with-id id)) "TITLE"))
+          (if (has-phase-p id)
+              (method-signature-id-to-description id)
+              (protocol-id-to-description id)))))
 
 </style-specification-body>
 </style-specification>
