@@ -421,6 +421,7 @@ lisp_output_type (const char *type,
       sprintf (buf, "%lu", ((unsigned long *) ptr)[offset]);
       [stream catC: buf];
       break;
+#if 0
     case _C_LNG_LNG:
       sprintf (buf, "%lld", ((long long *) ptr)[offset]);
       [stream catC: buf];
@@ -429,6 +430,7 @@ lisp_output_type (const char *type,
       sprintf (buf, "%llu", ((unsigned long long *) ptr)[offset]);
       [stream catC: buf];
       break;
+#endif
     case _C_FLT:
       sprintf (buf, "%fF0", ((float *) ptr)[offset]);
       [stream catC: buf];
@@ -479,7 +481,6 @@ lisp_output_type (const char *type,
       abort ();
       break;
     }
-  printf ("done: `%c'", *type);
 }
 
 #if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)

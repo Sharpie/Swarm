@@ -1,7 +1,7 @@
 1999-05-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (lisp_output_type): Add support for long long and
-	unsigned long long.
+	unsigned long long, but disable it pending autoconf support for %lld.
 
 1999-05-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
