@@ -31,7 +31,7 @@ AC_SUBST(vendor)
 AC_SUBST(url)
 AC_SUBST(ftproot)
 
-AC_OUTPUT([Makefile swarm.spec swarm-hdf5.spec])
+AC_OUTPUT([Makefile README.i386 swarm.spec swarm-hdf5.spec])
 
 # Local variables:
 # mode: m4

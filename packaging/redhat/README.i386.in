@@ -1,0 +1,73 @@
+Binary RPM packages of Swarm for Red Hat 6.0 users are available here.
+
+Source packages are available at:
+
+ ftp://ftp.santafe.edu/pub/swarm/redhat/SRPMS
+
+Minimum requirements
+====================
+
+The following Red Hat packages that come with the standard Red Hat 6.0
+distribution are all required before commencing installing *any* of
+various Swarm packages:
+
+  egcs, egcs-objc, libpng, libpng-devel, zlib, xpm, xpm-devel, blt, tcl, tk
+
+[Note depending on the kind of Red Hat installation option you selected, 
+some, or all of these are installed by default].
+
+Demo package
+============
+
+The `swarmdemos' package installs a handful of swarm applications, and
+requires only the above mentioned packages and does not require a
+Swarm installation.  It's ideal for `test-driving' a Swarm
+application.
+
+* swarmdemos-@version@-@release@.i386.rpm
+
+Basic Swarm packages:
+====================
+
+There are two `swarm-base' packages for Swarm development in Objective
+C, you should choose _one_:
+
+* swarm-@version@-@release@.i386.rpm: 
+
+  the `vanilla' Objective C Swarm package, which requires only the 
+  minimum requirements outlined above.
+
+* swarm-hdf5-@version@-@release@.i386.rpm 
+
+  with hdf5 support, which requires hdf5-1.2 or better (RPM-ed by Paul
+  Johnson and available at his site¹, or below)
+
+Java support enabling `add-on' package:
+=======================================
+
+You can add Java support to *either* of the above `swarm-base'
+packages
+
+[Note: this is *not* required if you wish to purely program in
+Objective C and not in Java]:
+
+* swarm-kaffe-@version@-@release@.i386.rpm
+
+  which requires kaffe-1.0.4b4 (also available in the Red Hat 6.0
+  distribution or at one of the many Red Hat ftp mirrors).
+
+Advanced Swarm packages (not required for new users):
+====================================================
+
+swarm-static contains the Swarm libraries statically-linked, useful
+when you wish to profile an application:
+
+* swarm-static-@version@-@release@.i386.rpm
+
+  you will require one of the `swarm-base' packages to be
+  pre-installed.
+
+[Note: this package is *not* required for any Swarm functionality, and
+will generally not be required by new or novice users].
+
+¹  http://lark.cc.ukans.edu/~pauljohn/Swarm/Swarm-2.0_RPMSforRH6/testing/
