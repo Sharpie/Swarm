@@ -13,8 +13,10 @@
   SEL destroyNotificationMethod;
 }
 
-- setupDestroyNotification: notificationTarget
-        notificationMethod: (SEL)destroyNotificationMethod;
+- enableDestroyNotification: notificationTarget
+         notificationMethod: (SEL)destroyNotificationMethod;
+- disableDestroyNotification;
+
 - setWindowGeometryRecordName : (const char *)recordName;
 - loadWindowGeometryRecord;
 - updateArchiver;

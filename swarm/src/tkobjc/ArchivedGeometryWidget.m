@@ -93,8 +93,8 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
     [(id)clientdata _notifyTargetAndDrop_];
 }
 
-- setupDestroyNotification: theNotificationTarget
-        notificationMethod: (SEL)theDestroyNotificationMethod
+- enableDestroyNotification: theNotificationTarget
+         notificationMethod: (SEL)theDestroyNotificationMethod
 {
   Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
                                      (char *)widgetName,
@@ -103,6 +103,16 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
 
   notificationTarget = theNotificationTarget;
   destroyNotificationMethod = theDestroyNotificationMethod;
+  return self;
+}
+
+- disableDestroyNotification
+{
+  Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
+                                     (char *)widgetName,
+                                     [globalTkInterp mainWindow]);
+
+  Tk_DeleteEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
   return self;
 }
 

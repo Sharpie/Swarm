@@ -1,5 +1,8 @@
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-disableDestroyNotification]):  New method.
+
 	* Frame.m ([Frame -drop]): Call archiverUnregister since we
 	aren't calling [super drop].
 
@@ -10,7 +13,7 @@
 	([ArchivedGeometryWidget -_notifyTargetAndDrop_]): New internal
 	method called by above handler.
 	([ArchivedGeometryWidget
-	-setupDestroyNotification:notificationMethod:]):  Configures
+	-enableDestroyNotification:notificationMethod:]):  Configures
 	an event handler for structure changes, and sets the target
 	and method for notification.
 
@@ -34,7 +37,7 @@
 
 	* ArchivedGeometryWidget.h (ArchivedGeometryWidget): Add
 	notificationTarget and destroyNotificationMethod variables, and
-	declare setupDestroyNotification.
+	declare enableDestroyNotification.
 
 	* CanvasItem.m ([CanvasItem -createBindings]): Constify temp.
 
