@@ -26,6 +26,8 @@
 
 (defvar *macro-name-hash-table* (make-hash-table :test #'equal))
 
+(defvar *idl-flag* nil)
+
 (defstruct module
   sym
   summary
@@ -554,6 +556,10 @@
         ((looking-at ".+//G:") (check-global-doc-post parse-state))
 
         ((looking-at "#if 0")
+         (c-forward-conditional 1)
+         (beginning-of-line 0)
+         :ifdef-comment)
+        ((and (looking-at "#ifndef IDL") *idl-flag*)
          (c-forward-conditional 1)
          (beginning-of-line 0)
          :ifdef-comment)
