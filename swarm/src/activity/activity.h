@@ -207,7 +207,7 @@ USING
 externvar id <Symbol> Initialized, Running, Holding, Released, Stopped,
   Terminated, Completed;
 
-@protocol Action <Create, Drop, GetOwner, RETURNABLE>
+@protocol Action <Create, Drop, GetOwner>
 //S: An action type that has been customized for direct execution by an
 //S: action interpreter.
 
