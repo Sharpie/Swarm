@@ -55,7 +55,7 @@ endif
 ### copy selected tcl/tk/blt/tclobjc include files and
 ### the tcl runtime files, so binary-only
 ### clients will have a complete software environment
-BININCDIRS=$(TCLOBJCINCDIR) $(TCLINCDIR) $(TKINCDIR) $(BLTINCDIR) 
+BININCDIRS=$(TCLOBJCINCDIR) $(TCLINCDIR) $(TKINCDIR) $(BLTINCDIR) $(FFIINCDIR) $(PNGINCDIR) $(ZINCDIR)
 TKTCLDIRS=$(TKLIBDIR) $(TCLLIBDIR)
 bininc: FORCE
 	for d in $(BININCDIRS); do \

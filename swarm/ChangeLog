@@ -1,3 +1,7 @@
+1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (BININCDIRS): Include FFIINCDIR, PNGINCDIR, ZINCDIR.
+
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* VERSION: Bump to 1998-04-21.
