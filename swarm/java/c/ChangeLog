@@ -1,3 +1,12 @@
+1999-03-22  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.m (compare_java_objects): Move compare_java_objects 
+	outside of the scope of java_directory_init. 
+	Use new global variable jenv.
+	(compare_objc_objects): Likewise.
+	(java_directory_init): Store Java Environment to jenv global
+	variable.
+
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (libjavaswarm_la_LDFLAGS): Don't use .libs directory.

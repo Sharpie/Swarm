@@ -21,6 +21,8 @@ static jclass c_boolean,
   c_object, c_void,
   c_globalZone;
 
+JNIEnv * jenv;
+
 static void
 create_class_refs (JNIEnv *env)
 {
@@ -194,26 +196,28 @@ java_instantiate_name (JNIEnv *env, const char *className)
   return java_instantiate (env, clazz);
 }
 
+int compare_java_objects (const void *A, const void *B, void *PARAM)
+{
+  return ((*jenv)->IsSameObject (jenv,
+				((jobject_id *) A)->java_object,
+				((jobject_id *) B)->java_object) ==
+	  JNI_FALSE);
+}
+
+int compare_objc_objects (const void *A, const void *B, void *PARAM)
+{
+  if (((jobject_id *) A)->objc_object <
+      ((jobject_id *) B)->objc_object)
+    return -1;
+  
+  return (((jobject_id *) A)->objc_object >
+	  ((jobject_id *) B)->objc_object);
+}
+
 void
 java_directory_init (JNIEnv *env)
 {
-  int compare_java_objects (const void *A, const void *B, void *PARAM)
-    {
-      return ((*env)->IsSameObject (env,
-                                    ((jobject_id *) A)->java_object,
-                                    ((jobject_id *) B)->java_object) ==
-              JNI_FALSE);
-    }
-  int compare_objc_objects (const void *A, const void *B, void *PARAM)
-    {
-      if (((jobject_id *) A)->objc_object <
-          ((jobject_id *) B)->objc_object)
-        return -1;
-      
-      return (((jobject_id *) A)->objc_object >
-              ((jobject_id *) B)->objc_object);
-    }
-
+  jenv = env;
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
   
