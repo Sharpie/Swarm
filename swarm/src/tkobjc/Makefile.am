@@ -22,13 +22,9 @@ INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../coll
 
 override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@
 
-if USEDLL
-noinst_LTLIBRARIES = libtkobjc.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libtkobjc.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libtkobjc.la
 
 SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
 	Canvas.m CanvasAbstractItem.m CanvasItem.m CheckButton.m Circle.m \
@@ -43,7 +39,7 @@ SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
 	ZoomRaster.m common.m internal.m tkobjc.m win32dib.c
 
 libtkobjc_la_SOURCES = $(SRC)
-libtkobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libtkobjc_la_LDFLAGS = @inst_LDFLAGS@
 
 tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	CanvasAbstractItem.h CanvasItem.h CheckButton.h Circle.h \

@@ -1,5 +1,10 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute
+	{inst,noinst}LIBS. 
+	(EXTRA_LTLIBRARIES): New variable.
+	(libtkobjc_la_LDFLAGS): Substitute inst_LDFLAGS.
+
 	* Entry.m, Form.m: Include misc.h.
 
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

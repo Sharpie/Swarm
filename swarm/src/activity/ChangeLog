@@ -2,7 +2,9 @@
 
 	* Makefile.am (INCLUDES): Add -I$(srcdir)/../misc.
 	(module_headers): Use $(TYPEINFO).
-	(noinst_LTLIBRARIES, lib_LTLIBRARIES): Per automake conditional USEDLL.
+	(noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute {noinst,inst}LIBS.
+	(EXTRA_LTLIBRARIES): Set to libactivity.la
+	(libactivity_la_LDFLAGS): Substitute inst_LDFLAGS.
 
 	* Schedule.m: Include misc.h.
 

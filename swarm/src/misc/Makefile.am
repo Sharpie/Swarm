@@ -8,13 +8,9 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(srcdir)/..
 
-if USEDLL
-noinst_LTLIBRARIES = libmisc.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libmisc.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libmisc.la
 
 ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
 	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c getopt1.c \
@@ -33,6 +29,6 @@ noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h
 
 libmisc_la_SOURCES = $(SRC)
 libmisc_la_LIBADD = @LIBOBJS@
-libmisc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libmisc_la_LDFLAGS = @inst_LDFLAGS@
 
 misc_HEADERS = @ARGP_H@ getopt.h avl.h

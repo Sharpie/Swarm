@@ -14,13 +14,9 @@ noinst_HEADERS =  include.dists.creating.m include.dists.setting.m \
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I.. -I$(srcdir)/../activity -I$(srcdir)/..
 
-if USEDLL
-noinst_LTLIBRARIES = librandom.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = librandom.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = librandom.la
 
 SRC = ACGgen.m BernoulliDist.m C2LCGXgen.m C2MRG3gen.m \
 	C2TAUSgen.m C3MWCgen.m C4LCGXgen.m ExponentialDist.m GammaDist.m \
@@ -30,7 +26,7 @@ SRC = ACGgen.m BernoulliDist.m C2LCGXgen.m C2MRG3gen.m \
 	UniformIntegerDist.m UniformUnsignedDist.m random.m
 
 librandom_la_SOURCES = $(SRC)
-librandom_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+librandom_la_LDFLAGS = @inst_LDFLAGS@
 
 random_HEADERS = ACGgen.h BernoulliDist.h C2LCGXgen.h C2MRG3gen.h C2TAUSgen.h \
 	C3MWCgen.h C4LCGXgen.h ExponentialDist.h GammaDist.h LCGgen.h \

@@ -12,13 +12,9 @@ EXTRA_DIST = make-h2x m2h internal.h
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
 
-if USEDLL
-noinst_LTLIBRARIES = libdefobj.la
-lib_LTLIBRARIES = 
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libdefobj.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libdefobj.la
 
 module_headers = $(TYPEINFO)
 
@@ -33,7 +29,7 @@ SRC = Archiver.m Arguments.m Create.m Customize.m \
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 libdefobj_la_SOURCES = $(SRC)
-libdefobj_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libdefobj_la_LDFLAGS = @inst_LDFLAGS@
 
 bin_SCRIPTS = m2h make-h2x
 

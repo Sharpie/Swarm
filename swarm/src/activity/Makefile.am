@@ -8,13 +8,9 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc
 
-if USEDLL
-noinst_LTLIBRARIES = libactivity.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libactivity.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libactivity.la
 
 module_headers = $(TYPEINFO)
 
@@ -23,7 +19,7 @@ BUILT_SOURCES = $(module_headers)
 SRC = Action.m ActionGroup.m CompoundAction.m Schedule.m SwarmProcess.m XActivity.m activity.m
 
 libactivity_la_SOURCES = $(SRC)
-libactivity_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libactivity_la_LDFLAGS = @inst_LDFLAGS@
 
 activity_HEADERS = Action.h ActionGroup.h CompoundAction.h Schedule.h \
 	SwarmProcess.h XActivity.h

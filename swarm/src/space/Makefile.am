@@ -8,19 +8,15 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../random -I$(srcdir)/../gui -I$(srcdir)/../simtools -I$(srcdir)/../simtoolsgui -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
-if USEDLL
-noinst_LTLIBRARIES = libspace.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libspace.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libspace.la
 
 SRC = Ca2d.m ConwayLife2d.m DblBuffer2d.m Diffuse2d.m \
 	Discrete2d.m Grid2d.m Int2dFiler.m Object2dDisplay.m Value2dDisplay.m
 
 libspace_la_SOURCES = $(SRC)
-libspace_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libspace_la_LDFLAGS = @inst_LDFLAGS@
 
 space_HEADERS = Ca2d.h ConwayLife2d.h DblBuffer2d.h Diffuse2d.h Discrete2d.h \
 	Grid2d.h Int2dFiler.h Object2dDisplay.h Value2dDisplay.h

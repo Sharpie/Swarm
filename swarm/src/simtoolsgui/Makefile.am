@@ -8,13 +8,9 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../gui -I$(srcdir)/../simtools -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
-if USEDLL
-noinst_LTLIBRARIES = libsimtoolsgui.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libsimtoolsgui.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libsimtoolsgui.la
 
 SRC = ActionCache.m ActionHolder.m \
 	ClassDisplayWidget.m CommonProbeDisplay.m CompleteProbeDisplay.m \
@@ -25,7 +21,7 @@ SRC = ActionCache.m ActionHolder.m \
 	VarProbeWidget.m simtoolsgui.m
 
 libsimtoolsgui_la_SOURCES = $(SRC)
-libsimtoolsgui_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libsimtoolsgui_la_LDFLAGS = @inst_LDFLAGS@
 
 simtoolsgui_HEADERS = ActionCache.h ActionHolder.h \
 	ClassDisplayWidget.h CommonProbeDisplay.h CompleteProbeDisplay.h \

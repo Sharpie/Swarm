@@ -1,7 +1,9 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Set per USEDLL
-	automake conditional.
+	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute
+	{noinst,inst}LIBS.
+	(EXTRA_LTLIBRARIES): New variable.
+	(libdefobj_la_LDFLAGS): Substitute @inst_LDFLAGS@.
 
 	* Arguments.m ([Arguments_c -createEnd]): For glibc, don't
 	assign to program_invocation_short_name and don't use it.

@@ -1,7 +1,9 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Select
-	per USEDLL automake conditional.
+	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute
+	{inst,noinst}LIBS.
+	(EXTRA_LTLIBRARIES): New variable.
+	(libmisc_la_LDFLAGS): Substitute inst_LDFLAGS.
 
 	* find_executable.c (maybe_executable): Disable Linux check
 	for inode match.  It screws up with Java wrapper script.

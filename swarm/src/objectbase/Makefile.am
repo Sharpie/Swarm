@@ -6,13 +6,9 @@ objectbasedir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-if USEDLL
-noinst_LTLIBRARIES = libobjectbase.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libobjectbase.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libobjectbase.la
 
 JAVAINCLUDES = -I$(top_srcdir)/java/c @JAVAINCLUDES@
 
@@ -25,7 +21,7 @@ SRC = ActivityControl.m \
 	SwarmObject.m VarProbe.m probing.m swarm_rts_routines.m
 
 libobjectbase_la_SOURCES = $(SRC)
-libobjectbase_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libobjectbase_la_LDFLAGS = @inst_LDFLAGS@
 
 noinst_HEADERS = local.h
 

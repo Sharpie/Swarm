@@ -8,13 +8,9 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../random -I$(srcdir)/../simtoolsgui -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
-if USEDLL
-noinst_LTLIBRARIES = libsimtools.la
-lib_LTLIBRARIES =
-else
-noinst_LTLIBRARIES =
-lib_LTLIBRARIES = libsimtools.la
-endif
+noinst_LTLIBRARIES = @noinst_LIBS@
+lib_LTLIBRARIES = @inst_LIBS@
+EXTRA_LTLIBRARIES = libsimtools.la
 
 SRC = InFile.m OutFile.m AppendFile.m \
 	ObjectLoader.m ObjectSaver.m \
@@ -22,7 +18,7 @@ SRC = InFile.m OutFile.m AppendFile.m \
 	UName.m simtools.m
 
 libsimtools_la_SOURCES = $(SRC)
-libsimtools_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
+libsimtools_la_LDFLAGS = @inst_LDFLAGS@
 
 simtools_HEADERS = InFile.h OutFile.h AppendFile.h \
 	ObjectLoader.h ObjectSaver.h \

@@ -1,7 +1,9 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Set per USEDLL
-	automake conditional.
+	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute
+	{inst,noinst}LIBS.
+	(EXTRA_LTLIBRARIES): New variable.
+	(libsimtools_la_LDFLAGS): Substitute inst_LDFLAGS.
 
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
