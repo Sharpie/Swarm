@@ -78,8 +78,7 @@
          <classname>VarProbe</classname> instances (two in this case)
         and one or more <classname>MessageProbe</classname>s (one in this case))</title>
       <graphic entityref="simplebug-probes2"></graphic>
-    </figure>loverboy
-
+    </figure>
 
     <para>There are two main uses for probes: they can be fed into
       data-collection objects and serve as interfaces to the objects
@@ -115,13 +114,12 @@
     of the "default" appearance.</para>
 
     <para> The default probe displays for a simulation can be created
-    quite easily.  In the HeatbugObserverSwarm.m file, for example,
-    one finds these lines:</para>
+    quite easily.  In the <filename>HeatbugObserverSwarm.m</filename>
+    file, for example, one finds these lines:</para>
 
     <programlisting role="ObjC">
-   CREATE_ARCHIVED_PROBE_DISPLAY (heatbugModelSwarm);
-   CREATE_ARCHIVED_PROBE_DISPLAY (self);
-   </programlisting>
+CREATE_ARCHIVED_PROBE_DISPLAY (heatbugModelSwarm);
+CREATE_ARCHIVED_PROBE_DISPLAY (self);</programlisting>
 
     <para> These are macro commands that cause actions inside the
     Swarm kernel to create the default probe displays for the model
@@ -155,9 +153,8 @@
     commented out in the bare-bones test described above):</para>
 
    <programlisting role="ObjC">
-    [displayActions createActionTo: probeDisplayManager message:
-M(update)];
-   </programlisting>
+[displayActions createActionTo: probeDisplayManager message:
+M(update)];</programlisting>
 
     <para>The <varname>probeDisplayManager</varname> is a global
     object and when it is told to update in the observer swarm's
@@ -187,9 +184,8 @@ M(update)];
 </para>
 
  <programlisting role="ObjC">
-   CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (heatbugModelSwarm);
-   CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (self);
- </programlisting>
+CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (heatbugModelSwarm);
+CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (self);</programlisting>
 
    <para>This will cause the probe display to include all instance variables
    and methods.</para>
@@ -210,7 +206,7 @@ M(update)];
    object called <varname>probeLibrary</varname>. </para>
 
       <para> Like <varname>probeDisplayManager</varname>, the
-     "probeLibrary" is a global object provided by the Swarm
+     <varname>probeLibrary</varname> is a global object provided by the Swarm
      kernel. Customization is achieved by writing code that
      communicates back and forth from objects to the
      <varname>probeLibrary</varname>. In short,
@@ -222,7 +218,8 @@ M(update)];
      made at a different point in the code, will return a
      reference to the very same probe instance. </para>
 
-<para> Here is a skeleton example of the commands that can create a customized probe display using this approach.
+<para> Here is a skeleton example of the commands that can create a
+customized probe display using this approach.
 </para>
 
    <example>
@@ -245,12 +242,11 @@ inClass: [agent class]]];
 [probeMap addProbe: [probeLibrary getProbeForMessage: "someMessage" 
 inClass: [agent class]] setHideResult: 1]];
 
-[probeLibrary setProbeMap: probeMap For: [agent class]];
+[probeLibrary setProbeMap: probeMap For: [agent class]];</programlisting>
 
- </programlisting>
-
-      <para>Don't forget to execute the CREATE_PROBE_DISPLAY for this
-      object in the observer swarm. </para>
+      <para>Don't forget to execute the
+      <function>CREATE_PROBE_DISPLAY</function> for this object in the
+      observer swarm. </para>
 
  </example>
 
@@ -310,14 +306,16 @@ inClass: [agent class]] setHideResult: 1]];
 
     <orderedlist>
 
-      <listitem><para>A new object called "<varname>probeMap</varname>"is created.
-    The <varname>probeMap</varname> is an instance of the the Swarm
-    class <classname>EmptyProbeMap</classname>. Next we customize the
-    probe map and pass it to the display mechanism.</para></listitem>
+      <listitem><para>A new object called
+    "<varname>probeMap</varname>"is created.  The
+    <varname>probeMap</varname> is an instance of the the Swarm class
+    <classname>EmptyProbeMap</classname>. Next we customize the probe
+    map and pass it to the display mechanism.</para></listitem>
 
-      <listitem><para>One-by-one, tell <varname>probeMap</varname> to add probes for
-    individual variables and messages, and those probes are retrieved
-    from the <varname>probeLibrary</varname>.</para></listitem>
+      <listitem><para>One-by-one, tell <varname>probeMap</varname> to
+    add probes for individual variables and messages, and those probes
+    are retrieved from the
+    <varname>probeLibrary</varname>.</para></listitem>
 
       <listitem><para>Tell the <varname>probeLibrary</varname> that,
       when it creates a display for this object, to use this special
@@ -325,26 +323,27 @@ inClass: [agent class]] setHideResult: 1]];
       default.</para> </listitem>
     </orderedlist>
 
-    <para>The <varname> probeDisplayManager</varname> creates a widget for every object
-     that you tell it to.  Unless you tell it otherwise, it assumes
-     that the widget for every object is be based on the "default
-     probemap" which includes probes for all instance variables, no
-     message probes.  If you alter the probeMap by the methods we have
-     been discussing, you are replacing the generic "has it all"
-     probeMap with a customized probeMap.  Now if you right-click on
-     the object name button in a customized probeMap, what pops up is
-     a probe display based on the complete probeMap specification, a
-     map in which all variabless and methods are listed.</para>
+    <para>The <varname> probeDisplayManager</varname> creates a widget
+     for every object that you tell it to.  Unless you tell it
+     otherwise, it assumes that the widget for every object is be
+     based on the "default probemap" which includes probes for all
+     instance variables, no message probes.  If you alter the probeMap
+     by the methods we have been discussing, you are replacing the
+     generic "has it all" probeMap with a customized probeMap.  Now if
+     you right-click on the object name button in a customized
+     probeMap, what pops up is a probe display based on the complete
+     probeMap specification, a map in which all variabless and methods
+     are listed.</para>
 
     <para>There are other methods provided by the Swarm kernel
               customization of probe displays. In brief, these are:
-<comment>This needs massive work, plus add CustomProbeMap, doing research now</comment>
+              <comment>This needs massive work, plus add
+              CustomProbeMap, doing research now</comment>
   </para>
+
       <itemizedlist>
-        <listitem><formalpara> 
-            <title>Direct Generation</title>
-            <para> which leaves the user in charge of all the
-              details.</para>
+        <listitem><formalpara> <title>Direct Generation</title> <para>
+            which leaves the user in charge of all the details.</para>
 
           </formalpara>
         </listitem>
@@ -361,17 +360,14 @@ inClass: [agent class]] setHideResult: 1]];
               it is being probed and to control directly the contents
               of the
               <classname>Probe</classname>/<classname>ProbeMap</classname>
-              being requested...     </para>
+              being requested...</para></formalpara>
         
-
- <para>
-  <emphasis>Note that, by
-                default, Object Generation is equivalent to the
-                probeLibrary method described above.  The default
-                behaviour of SwarmObjects, when requested to create a
-                ProbeMap, is to return a reference to the
-                probeLibrary's unique copy!!!</emphasis>
-  </para>    </formalpara></listitem>   
+             <para><emphasis>Note that, by default, Object Generation is
+              equivalent to the probeLibrary method described above.
+              The default behaviour of SwarmObjects, when requested to
+              create a ProbeMap, is to return a reference to the
+              probeLibrary's unique copy!!!</emphasis> </para>
+            </listitem>
         
         <listitem><formalpara> <title>ProbeDisplayManager
               Generation</title>
