@@ -1,3 +1,15 @@
+2000-09-12    <mgd@DRONE>
+
+	* directory.[hm] ([-setCOMObject:]): Make argument of type COMOBJECT.
+
+	* directory.h (DirectoryEntry): Use COMOBJECT for COM field
+	of foreignObject.
+
+	* defobj.h (COMOBJECT): New typedef.
+
+	* COM.h (COM_FIND_OBJECT_ENTRY, COM_OBJECT_ENTRY, COM_SELECTOR_ENTRY): 
+	Cast arguments to setCOMObject: to COMOBJECT.
+
 2000-09-12  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.h: Protect from multiple inclusion. 

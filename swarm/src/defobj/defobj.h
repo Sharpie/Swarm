@@ -1048,6 +1048,7 @@ typedef union {
 } types_t;
 
 typedef void *JOBJECT;
+typedef void *COMOBJECT;
 
 @protocol FArguments <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic call argument construction.

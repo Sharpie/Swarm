@@ -63,9 +63,9 @@ extern const char *COM_class_name (COMobject cobj);
 #define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_object_COM (cClass, (id) cClass)
 #define SD_COM_COPY_STRING(str) COM_copy_string (str)
 
-#define COM_FIND_OBJECT_ENTRY(theCOMObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.COM = theCOMObject; _findEntry; })
-#define COM_OBJECT_ENTRY(theCOMObject, theObject) [[[[ObjectEntry createBegin: globalZone] setCOMObject: theCOMObject] setObject: theObject] createEnd]
-#define COM_SELECTOR_ENTRY(theCOMObject, theSelector) [[[[ObjectEntry createBegin: globalZone] setCOMObject: theCOMObject] setSelector: theSelector] createEnd]
+#define COM_FIND_OBJECT_ENTRY(theCOMObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.COM = (COMOBJECT) theCOMObject; _findEntry; })
+#define COM_OBJECT_ENTRY(theCOMObject, theObject) [[[[ObjectEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setObject: theObject] createEnd]
+#define COM_SELECTOR_ENTRY(theCOMObject, theSelector) [[[[ObjectEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setSelector: theSelector] createEnd]
 
 
 

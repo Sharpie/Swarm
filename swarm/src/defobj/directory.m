@@ -31,7 +31,7 @@ Directory *swarmDirectory = nil;
 
 
 @internalimplementation DirectoryEntry
-- setCOMObject: (void *)theCOMObject
+- setCOMObject: (COMOBJECT)theCOMObject
 {
   type = foreign_COM;
   foreignObject.COM = theCOMObject;

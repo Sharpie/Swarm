@@ -24,10 +24,10 @@ typedef enum {
   foreign_t type;
   union {
     JOBJECT java;
-    void *COM;
+    COMOBJECT *COM;
   } foreignObject;
 }
-- setCOMObject: (void *)COMObject;
+- setCOMObject: (COMOBJECT)COMObject;
 - setJavaObject: (JOBJECT)javaObject;
 void swarm_directory_entry_drop (DirectoryEntry *entry);
 - (void)describe: outputCharStream;
