@@ -1,3 +1,29 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZGraph.m: Minor reformatting.
+	([EZGraph -createEnd]): Use renamed methods setTitle and
+	setAxisLabelsX:Y:.
+
+	* EZDistribution.m: Include gui.h instead of tkobjc.h and
+	tkobjc/control.h.  Use renamed drawHistogramWithDouble:atLocations:.
+
+	* EZDistribution.h: Reformatting throughout.
+
+	* EZBin.m: Include gui.h instead of tkobjc.h and tkobjc/control.h.
+	([EZBin -createEnd]): Use Histogram instead of Histo.  Use renamed
+	method setAxisLabelsX:Y: and setTitle:.  Use new methods
+	setBarWidth:, setXaxisMin:, setupZoomStack, hideLegend,
+	setupActiveOutlierMarker, and setupActiveItemInfo instead of 
+	tkobjc_* frobbing.
+	([EZBin -output]): Use renamed drawHistogramWithInt:atLocations:.
+
+	* EZBin.h: Include gui.h.
+	(EZBin): Make aHisto conform to the Histogram protocol.
+
+1998-01-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZGraph.m:  Don't import <tkobjc.h>.
+
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZBin.m ([EZBin -createEnd]): Use

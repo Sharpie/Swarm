@@ -4,15 +4,14 @@
 // See file LICENSE for details and terms of copying.
 
 #import <collections.h>
-#import <tkobjc.h>
 #import <simtools.h>
 #import <analysis.h>
 
 #define NUMCOLORS 10
-const char graphColors[NUMCOLORS][16] ={"Red", "Green", "Yellow", 
-                                        "Pink", "SeaGreen", "Magenta", 
-                                        "Purple", "DarkGreen", "Goldenrod", 
-                                        "Black"};
+const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow", 
+                                          "Pink", "SeaGreen", "Magenta", 
+                                          "Purple", "DarkGreen", "Goldenrod", 
+                                          "Black" };
 
 @implementation EZGraph
 
@@ -62,8 +61,8 @@ const char graphColors[NUMCOLORS][16] ={"Red", "Green", "Yellow",
       theGraph = [BLTGraph createBegin: [self getZone]];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (theGraph);
       theGraph = [theGraph createEnd];
-      [theGraph title: title];
-      [theGraph axisLabelsX: xLabel Y: yLabel];
+      [theGraph setTitle: title];
+      [theGraph setAxisLabelsX: xLabel Y: yLabel];
       [theGraph pack];
     }
   

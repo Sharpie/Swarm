@@ -7,11 +7,9 @@
 #import <math.h>
 #import <stdlib.h>
 #import <collections.h>
-#import <tkobjc.h>
 #import <simtools.h>
 #import <analysis.h>
-
-#import <tkobjc/control.h>
+#import <gui.h>
 
 #include <objc/objc-api.h>
 
@@ -112,31 +110,33 @@
   for (i = 0; i < binNum; i++)
     {
       cachedLimits[i] = min + (((double) i) * step);
-      locations[i] = min + 0.5*step + ((double)i)*step;
+      locations[i] = min + 0.5 * step + (double)i * step;
     }
   [self reset];
-
+  
   if (graphics)
     {
-      aHisto = [Histo createBegin: [self getZone]];
+      aHisto = [Histogram createBegin: [self getZone]];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
       aHisto = [aHisto createEnd];
-      [aHisto title: theTitle];
+      [aHisto setTitle: theTitle];
       if(xLabel && yLabel) 
-        [aHisto axisLabelsX: xLabel Y: yLabel];
+        [aHisto setAxisLabelsX: xLabel Y: yLabel];
       [aHisto setNumPoints: binNum Labels: NULL Colors: NULL];
       [aHisto pack];
       
-      tkobjc_setHistogramBarWidth (aHisto, step);
-      tkobjc_setHistogramXaxisRange (aHisto, min, max, 
-                                     // stepsize cannot be same size than range
-                                     ((binNum > 2)
-                                      ? (max - min) / (binNum-1)
-                                      : (max-min) / binNum));
-      tkobjc_setupZoomStack (aHisto);
-      tkobjc_setupHistogramLegend (aHisto);
-      tkobjc_setupHistogramActiveOutlierMarker (aHisto);
-      tkobjc_histogramActiveItemInfo (aHisto);      
+      [aHisto setBarWidth: step];
+      [aHisto setXaxisMin: min
+              max: max
+              step: 
+                // stepsize cannot be same size than range
+                ((binNum > 2)
+                 ? (max - min) / (binNum-1)
+                 : (max-min) / binNum)];
+      [aHisto setupZoomStack];
+      [aHisto hideLegend];
+      [aHisto setupActiveOutlierMarker];
+      [aHisto setupActiveItemInfo];
     }
   
   if (fileOutput)
@@ -232,8 +232,8 @@
   
   if (graphics)
     {
-      tkobjc_setHistogramActiveOutlierText (aHisto, outliers, count);
-      [aHisto drawHistoWithInt: distribution atLocations: locations];
+      [aHisto setActiveOutlierText: outliers count: count];
+      [aHisto drawHistogramWithInt: distribution atLocations: locations];
     }
   
   if (fileOutput)

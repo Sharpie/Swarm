@@ -4,13 +4,14 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/GUIComposite.h>
+#import <gui.h>
 
 // EZBin object: used to generate histograms.
 
 @interface EZBin: GUIComposite
 {
   int graphics;
-  id aHisto;
+  id <Histogram> aHisto;
 
   int fileOutput;
   id anOutFile;

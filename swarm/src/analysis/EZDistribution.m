@@ -7,10 +7,9 @@
 #import <math.h>
 #import <stdlib.h>
 #import <collections.h>
-#import <tkobjc.h>
 #import <simtools.h>
 #import <analysis.h>
-#import <tkobjc/control.h>
+#import <gui.h>
 
 @implementation EZDistribution
 
@@ -48,8 +47,8 @@
 
   if (graphics)
     {
-      tkobjc_setHistogramActiveOutlierText (aHisto, outliers, count);
-      [aHisto drawHistoWithDouble: probabilities atLocations: locations];
+      [aHisto setActiveOutlierText: outliers count: count];
+      [aHisto drawHistogramWithDouble: probabilities atLocations: locations];
     }
 
   if (fileOutput)
