@@ -1,3 +1,8 @@
+1999-05-08  Marcus Daniels <marcusd@asl.krasnow.gmu.edu>
+
+	* mframe.foot (mframe_get_arg, mframe_set_arg): Declare typ
+	if either MFRAME_STRUCT_BYREF or MYFRAME_FLT_IN_FRAME_AS_DBL.
+
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe-preface.h: For HPUX, include sys/sigevent.h before stdarg.h and
