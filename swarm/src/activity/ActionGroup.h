@@ -86,10 +86,7 @@ Library:      activity
 @public
   id <Activity> activity;
 }
-+ createBegin: aZone;
-- setCollection: aGroup;
 - setActivity: activity;
-- createEnd;
 - getHoldType;
 - nextAction: (id *)status;
 - (void)dropAllocations: (BOOL)componentAlloc;

@@ -4,10 +4,12 @@
 
 	* XActivity.h (Activity_c): Implement Activity protocol.
 
-	* ActionGroup.[hm] ([GroupPermutedIndex_c -setActivity:]): New setter.
-	([ActionGroup_c -_createPermutedIndex_:activity:]): 
-	Add activity: argument, which sets activity slot in index. Use previous
-	method.
+	* ActionGroup.[hm] ([GroupPermutedIndex_c +createBegin:],
+	[GroupPermutedIndex_c -setCollection:], 
+	[GroupPermutedIndex_c -createEnd]): Remove.
+	([GroupPermutedIndex_c -setActivity:]): New setter.
+	([ActionGroup_c -_createPermutedIndex_:activity:]): Add activity:
+	argument, which sets activity slot in index. Use previous method.
 
 	* CompoundAction.m ([CompoundAction_c -_createActivity_:::]): 
 	Use previous method.

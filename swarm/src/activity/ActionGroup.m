@@ -403,33 +403,12 @@ PHASE(Using)
 
 @implementation GroupPermutedIndex_c
 PHASE(Creating)
-+ createBegin: aZone
-{
-  GroupPermutedIndex_c *newIndex = [aZone allocIVars: self];
-
-  newIndex->collection = [Permutation createBegin: getCZone (aZone)];
-  return newIndex;
-}
-
-- setCollection: aCollection
-{
-  [(Permutation_c *) collection setCollection: aCollection];
-  return self;
-}
-
 - setActivity: theActivity
 {
   activity = theActivity;
   return self;
 }
 
-- createEnd
-{
-  collection = [collection createEnd];
-  index = [collection begin: getCZone (getZone (self))];
-  setMappedAlloc (self);
-  return self;
-}
 PHASE(Using)
 //
 // mix in action plan index methods by source inclusion
