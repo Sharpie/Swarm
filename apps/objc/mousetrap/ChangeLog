@@ -1,3 +1,23 @@
+1998-10-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-_setupMousetraps_]): Remove window argument, pick up both
+	displayWindow and scheduleItem from instance variables.  Use
+	displayWindow instead of window (the former argument).
+	([MousetrapObserverSwarm -_displayWindowDeath_:]): Call
+	_setupMousetraps_ without argument.
+	([MousetrapObserverSwarm -buildObjects]): Likewise.  Setup canvas
+	to call _scheduleItemCanvasDeath_ upon closing of scheduleItem
+	canvas.
+	([MousetrapObserverSwarm -_scheduleItemCanvasDeath_:]): New method.
+	([MousetrapObserverSwarm -_update_]): Don't call scheduleItem update 
+	unless scheduleItem is non-nil.
+
+	* Mousetrap.m ([Mousetrap -trigger]): Don't call scheduleItem
+	trigger unless scheduleItem is non-nil.
+	([Mousetrap -trigger]): Don't set trigger info unless scheduleItem
+	is non-nil.
+
 1998-09-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm -buildObjects]): 

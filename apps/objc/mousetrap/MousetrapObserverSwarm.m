@@ -58,7 +58,7 @@
   return obj;		// We return the newly created ObserverSwarm
 }
 
-- _setupMousetraps_: window
+- _setupMousetraps_
 {
   int x, y, size;
   // draw all the mousetraps 
@@ -71,9 +71,9 @@
 
         if (trap)
           {
-            if (window)
-              [window drawPointX: x Y: y Color: 1];
-            [trap setDisplayWidget: window];
+            if (displayWindow)
+              [displayWindow drawPointX: x Y: y Color: 1];
+            [trap setDisplayWidget: displayWindow];
 #ifdef SCHEDULE_INSPECTION
             [trap setScheduleItem: scheduleItem];
 #endif
@@ -86,9 +86,18 @@
 {
   [displayWindow drop];
   displayWindow = nil;
-  [self _setupMousetraps_: nil];
+  [self _setupMousetraps_];
   return self;
 }
+
+#ifdef SCHEDULE_INSPECTION
+- _scheduleItemCanvasDeath_: caller
+{
+  scheduleItem = nil;
+  [self _setupMousetraps_];
+  return self;
+}
+#endif
 
 // createEnd: create objects we know we'll need. In this case, none,
 // but you might want to override this.
@@ -173,7 +182,9 @@
   [canvas setWidth: 350 Height: 400];
   [canvas setWindowTitle: "Mousetrap Schedule"];
   [canvas pack];
-
+  [canvas enableDestroyNotification: self
+          notificationMethod: @selector (_scheduleItemCanvasDeath_:)];
+  
   scheduleItem = [ScheduleItem createBegin: [self getZone]];
   [scheduleItem setX: 5 Y: 10];
   [scheduleItem setCanvas: canvas];
@@ -194,7 +205,7 @@
   [displayWindow setWidth: [mousetrapModelSwarm getGridSize]
 		 Height: [mousetrapModelSwarm getGridSize]];
   [displayWindow setWindowTitle: "Mousetrap World"];
-  [self _setupMousetraps_: displayWindow];
+  [self _setupMousetraps_];
   [displayWindow drawSelf];
   [displayWindow pack];
   
@@ -234,7 +245,8 @@
   if (displayWindow)
     [displayWindow drawSelf];
 #ifdef SCHEDULE_INSPECTION
-  [scheduleItem update];
+  if (scheduleItem)
+    [scheduleItem update];
 #endif
   return self;
 }

@@ -109,7 +109,8 @@
       if (displayWidget)
         {
 #ifdef SCHEDULE_INSPECTION
-          [scheduleItem trigger: displayWidget X: xCoord Y: yCoord];
+          if (scheduleItem)
+            [scheduleItem trigger: displayWidget X: xCoord Y: yCoord];
 #endif
           [displayWidget drawPointX: xCoord Y: yCoord Color: 2];
         }
@@ -155,10 +156,11 @@
               
               [[modelSwarm getStats] addOneBall];
 #ifdef SCHEDULE_INSPECTION
-              [scheduleItem at: triggerTick
-                            owner: trap
-                            widget: displayWidget
-                            x: xCoord y: yCoord];
+              if (scheduleItem)
+                [scheduleItem at: triggerTick
+                              owner: trap
+                              widget: displayWidget
+                              x: xCoord y: yCoord];
 #endif
               [modelSwarm scheduleTriggerAt: triggerTick For: trap];
             }
