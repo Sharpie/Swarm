@@ -58,8 +58,11 @@ hdf5 version 1.2.
 %changelog
 * Fri Sep 10 1999 Alex Lancaster <alex@santafe.edu>
 
-- **Remove this message if public release made**. Major structural
-  changes to spec file. Not for public release.
+- **Remove this message if public release made** 
+
+- Major structural changes to spec file. Development version, only.
+  Does not build the swarm-hdf5 correctly as yet.  Not for public
+  release.
 
 * Sun Aug 29 1999 Paul Johnson <pauljohn@ukans.edu>
 
