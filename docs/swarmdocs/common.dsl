@@ -3,6 +3,11 @@
 <style-specification id="common">
 <style-specification-body>
 
+(element indexentry 
+         (make display-group 
+               keep: 'page
+               (process-children)))
+
 (define (expand-method signature paramdefs)
     (let ((signature-length (string-length signature)))
       (let next-pos ((start-pos 0) (pos 0) (paramdefs paramdefs))
