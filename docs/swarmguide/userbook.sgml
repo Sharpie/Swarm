@@ -1,6 +1,8 @@
 <!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 
   <!ENTITY usermeta.sgml system "usermeta.sgml">
+  <!ENTITY userrevhistory.sgml system "userrevhistory.sgml">
+
   <!ENTITY user1.01.sgml system "user1.01.sgml">
   <!ENTITY user1.02.sgml system "user1.02.sgml">
   <!ENTITY user1.03.sgml system "user1.03.sgml">
