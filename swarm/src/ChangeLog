@@ -1,7 +1,6 @@
 2000-08-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* swarm.h, SwarmEnvironment.[hm] ([SwarmEnvironment
-	-getArguments]): New method.
+	* swarm.h ([SwarmEnvironment -getArguments]): New getter.
 
 2000-08-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 

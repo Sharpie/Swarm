@@ -21,7 +21,6 @@
 + initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)count args: (const char **)args;
 - (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args;
 
-- (id <Arguments>)getArguments;
 - (timeval_t)getCurrentTime;
 - (id <SwarmActivity>)getCurrentSwarmActivity;
 
