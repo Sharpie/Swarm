@@ -9,6 +9,7 @@
 #define id hdf5id
 #include <hdf5.h>
 #undef id
+#endif
 
 #import <defobj/Create.h>
 #import <collections.h> // Map
@@ -67,5 +68,3 @@
 - (const char *)getName;
 - (void)drop;
 @end
-
-#endif
