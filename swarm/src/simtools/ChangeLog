@@ -1,6 +1,6 @@
 1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Archiver.m: Don't include unistd.h.
+	* Archiver.m: Include misc.h instead of unistd.h.
 
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
