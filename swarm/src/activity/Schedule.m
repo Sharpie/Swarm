@@ -447,7 +447,9 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
       // concurrent group
 
       if (_obj_debug && ![((CAction *) anAction)->owner conformsTo: 
-						  @protocol (ConcurrentGroup)])
+						  @protocol (ConcurrentGroup)]
+	  && ![((CAction *) anAction)->owner conformsTo: 
+						  @protocol (ConcurrentSchedule)])
         raiseEvent (InvalidArgument,
                     "> action to be removed from schedule does not belong to schedule\n");
       
