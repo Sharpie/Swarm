@@ -29,7 +29,8 @@
   (CUM) = ROUND((CUM), align); \
   (TYPE) = objc_skip_typespec(type); \
   sprintf((DEST), "%.*s%d", (TYPE)-type, type, (CUM)); \
-  if (*(TYPE) == '+') \
+  /* GCC generates signatures like "r*0@+20:+16i+12f+48d-24". */ \
+  if (*(TYPE) == '+' || *(TYPE) == '-') \
     { \
       (TYPE)++; \
     } \
