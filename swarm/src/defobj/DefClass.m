@@ -102,9 +102,10 @@ PHASE(CreatingOnly)
   return newClass;
 }
 
-- (void)setName: (const char *)className
+- setName: (const char *)className
 {
   name = className;
+  return self;
 }
 
 - (void)setClass: aClass
