@@ -45,7 +45,7 @@
   while ((type = mframe_next_arg (type, &info)))
     {
       mframe_get_arg (argFrame, &info, &val);
-      [fa addArgument: &val ofObjCType: *type];
+      [fa addArgument: &val ofObjCType: *info.type];
     }
   fa = [fa createEnd];
   
