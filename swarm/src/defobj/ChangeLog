@@ -1,3 +1,8 @@
+2000-11-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (swarm_directory_objc_ensure_java): Add abort
+	for the case that no javaClass is found/created.
+
 2000-10-14  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* defobj.h (DefinedObject): Add -conformsTo:.

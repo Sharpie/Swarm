@@ -1652,7 +1652,11 @@ swarm_directory_objc_ensure_java (id object)
     {
       Class class = getClass (object);
       jclass javaClass = SD_JAVA_FIND_CLASS_JAVA (class);
-      jobject lref = java_instantiate (javaClass);
+      jobject lref;
+
+      if (!javaClass) // e.g., a native class and no class loader (no kawa.jar)
+        abort ();
+      lref = java_instantiate (javaClass);
 
       jobj = SD_JAVA_ADD_OBJECT_JAVA (lref, object);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
