@@ -1,3 +1,8 @@
+1999-04-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-methods*): Switch getRetVal:buf: to
+	getRetVal:. 
+
 1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm (JAVASWARMGDB): Use JAVAENV + JAVACMD with 
