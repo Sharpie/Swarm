@@ -5,7 +5,8 @@
 	* VERSION: Bump.
 
 	* configure.in (swarm_libdir): Define DATADIR to $(datadir)/swarm/ in
-	swarmconfig.h.
+	swarmconfig.h.  Replace GUI lib checking code with md_CHECK_GUILIBS.
+	Add call to md_CHECK_EXESUFFIX.
 
 	* acconfig.h: Add DATADIR.
 
