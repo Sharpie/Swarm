@@ -1089,16 +1089,54 @@ JSsetArg (void *params, unsigned pos, val_t *inval)
 }
 
 void
-JSsetReturn (void *params, unsigned pos, val_t *inval)
-{
-  if (inval->type != fcall_type_void)
-    JSsetArg (params, pos, inval);
-}
-
-void
 JSfreeParams (void *params)
 {
   JS_free (currentJSContext (), params);
+}
+
+static void
+jsSetReturn (jsval inval, val_t *ret)
+{
+  JSContext *cx = currentJSContext ();
+  
+  if (JSVAL_IS_OBJECT (inval))
+    {
+      nsresult rv;
+      NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+      if (!NS_SUCCEEDED (rv))
+        abort ();
+
+      nsISupports *holder;
+      xpc->WrapJS (cx, JSVAL_TO_OBJECT (inval), NS_GET_IID (nsISupports),
+                   (void **) &holder);
+      ret->type = fcall_type_object;
+      ret->val.object = SD_COM_ENSURE_OBJECT_OBJC (holder);
+    }
+  else if (JSVAL_IS_INT (inval))
+    {
+      ret->type = fcall_type_sint;
+      ret->val.sint = JSVAL_TO_INT (inval);
+    }
+  else if (JSVAL_IS_DOUBLE (inval))
+    {
+      jsdouble *dptr = JSVAL_TO_DOUBLE (inval);
+      ret->type = fcall_type_double;
+      ret->val._double = (double) *dptr;
+    }
+  else if (JSVAL_IS_STRING (inval))
+    {
+      ret->type = fcall_type_string;
+      ret->val.string = JS_GetStringBytes (JSVAL_TO_STRING (inval));
+    }
+  else if (JSVAL_IS_BOOLEAN (inval))
+    {
+      ret->type = fcall_type_boolean;
+      ret->val.boolean = JSVAL_TO_BOOLEAN (inval);
+    }
+  else if (JSVAL_IS_VOID (inval))
+    ret->type = fcall_type_void;
+  else
+    abort ();
 }
 
 BOOL
@@ -1116,43 +1154,7 @@ JSprobeVariable (COMobject cObj, const char *variableName, val_t *ret)
   if (!JS_LookupProperty (cx, jsobj, variableName, &val))
     return NO;
 
-  if (JSVAL_IS_OBJECT (val))
-    {
-      nsresult rv;
-      NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
-      if (!NS_SUCCEEDED (rv))
-        abort ();
-
-      nsISupports *holder;
-      xpc->WrapJS (cx, JSVAL_TO_OBJECT (val), NS_GET_IID (nsISupports),
-                   (void **) &holder);
-      ret->type = fcall_type_object;
-      ret->val.object = SD_COM_ENSURE_OBJECT_OBJC (holder);
-    }
-  else if (JSVAL_IS_INT (val))
-    {
-      ret->type = fcall_type_sint;
-      ret->val.sint = JSVAL_TO_INT (val);
-    }
-  else if (JSVAL_IS_DOUBLE (val))
-    {
-      jsdouble *dptr = JSVAL_TO_DOUBLE (val);
-      ret->type = fcall_type_double;
-      ret->val._double = (double) *dptr;
-    }
-  else if (JSVAL_IS_STRING (val))
-    {
-      ret->type = fcall_type_string;
-      ret->val.string = JS_GetStringBytes (JSVAL_TO_STRING (val));
-    }
-  else if (JSVAL_IS_BOOLEAN (val))
-    {
-      ret->type = fcall_type_boolean;
-      ret->val.boolean = JSVAL_TO_BOOLEAN (val);
-    }
-  else
-    abort ();
-
+  jsSetReturn (val, ret);
   return YES;
 }
 
@@ -1172,6 +1174,67 @@ JSsetVariable (COMobject cObj, const char *variableName, val_t *inval)
 
   if (!JS_SetProperty (cx, jsobj, variableName, &val))
     abort ();
+}
+
+unsigned
+JSmethodArgCount (COMobject cObj, const char *methodName)
+{
+#if 0
+  JSObject *jsobj;
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
+
+  if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
+    abort ();
+  
+  JSContext *cx = currentJSContext ();
+
+  jsval funcVal;
+
+  if (!JS_GetProperty (cx, jsobj, methodName, &funcVal))
+    abort ();
+  
+  jsval arityVal;
+  
+  if (!JS_GetProperty (cx, JSVAL_TO_OBJECT (funcVal), "arity", &arityVal))
+    abort ();
+  
+  return JSVAL_TO_INT (arityVal);
+#else
+  return 2;
+#endif
+}
+
+void 
+JSmethodInvoke (COMobject cObj, const char *methodName, void *params)
+{
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
+  JSObject *jsobj;
+  unsigned argCount = JSmethodArgCount (cObj, methodName);
+  jsval *jsparams = (jsval *) params;
+
+  if (!jsObj)
+    abort ();
+
+  if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
+    abort ();
+  
+  if (!JS_CallFunctionName (currentJSContext (),
+                            jsobj,
+                            methodName,
+                            argCount,
+                            jsparams,
+                            &jsparams[argCount]))
+    abort();
+}
+
+void
+JSsetReturn (void *params, unsigned pos, val_t *val)
+{
+  jsval *jsparams = (jsval *) params;
+
+  jsSetReturn (jsparams[pos], val);
 }
 
 swarmITyping *

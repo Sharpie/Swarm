@@ -61,17 +61,19 @@ JSContext *currentJSContext ();
 BOOL isJavaScript (COMobject cObj);
 void *JScreateParams (unsigned size);
 void JSsetArg (void *args, unsigned pos, val_t *value);
-void JSsetReturn (void *args, unsigned pos, val_t *value);
+void JSsetReturn (void *params, unsigned pos, val_t *value);
 void JSfreeParams (void *args);
 
 BOOL JSprobeVariable (COMobject cObj, const char *variableName, val_t *ret);
 void JSsetVariable (COMobject cObj, const char *variableName, val_t *val);
+void JSmethodInvoke (COMobject cObj, const char *methodName, void *params);
+unsigned JSmethodArgCount (COMobject cObj, const char *methodName);
 
 const char *COMmethodName (COMmethod cMethod);
 unsigned COMmethodArgCount (COMmethod cMethod);
 fcall_type_t COMmethodParamFcallType (COMmethod cMethod, unsigned paramIndex);
 void COMmethodSetReturn (COMmethod cMethod, void *params, void *value);
-void COMmethodInvoke (COMmethod cMethod, COMobject cObj, void *params);
+void COMmethodInvoke (COMobject cObj, COMmethod cMethod, void *params);
 
 swarmITyping *COM_objc_ensure_object_COM (id oObject);
 nsresult COM_objc_ensure_object_COM_return (id oObject, const nsIID *iid, void **ret);

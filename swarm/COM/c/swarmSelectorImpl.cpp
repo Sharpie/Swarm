@@ -247,31 +247,14 @@ swarmSelectorImpl::Create (nsISupports *obj,
                            const char *wantedMethodName,
                            swarmISelector **ret)
 {
-  nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (obj));
-  JSObject *jsObj;
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (obj));
 
   jsArgTypes = NULL;
  
-  if (jobj)
+  if (jsObj)
     {
-      if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
-        abort ();
-
       JSContext *cx = currentJSContext ();
-      JS_AddRoot (cx, &jsObj);
-      jsval funcVal;
-
-      if (!JS_GetProperty (cx, jsObj, wantedMethodName, &funcVal))
-        return NS_ERROR_NOT_IMPLEMENTED;
-
-      jsFunc = JS_ValueToFunction (cx, funcVal);
-
-      jsval arityVal;
-
-      if (!JS_GetProperty (cx, JSVAL_TO_OBJECT (funcVal), "arity", &arityVal))
-        abort ();
-
-      argCount = JSVAL_TO_INT (arityVal);
+      argCount = JSmethodArgCount (jsObj, wantedMethodName);
       methodName = JS_strdup (cx, wantedMethodName);
       if (argCount > 0)
         jsArgTypes = (unsigned *) JS_malloc (cx, sizeof (unsigned) * argCount);
