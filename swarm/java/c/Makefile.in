@@ -64,7 +64,7 @@ install-dll: all
 libjavaswarmstubs_.la: $(libjavaswarmstubs__la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs__la_LDFLAGS) $(libjavaswarmstubs__la_OBJECTS)
 
-libjavaswarm_.la: 
+libjavaswarm_.la: $(libjavaswarm__la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm__la_OBJECTS)
 
 libjavaswarmstubs.la: libjavaswarmstubs_.la
