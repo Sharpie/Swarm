@@ -1,3 +1,7 @@
+2001-06-13    <mgd@drone.swarm.org>
+
+	* JavaProxy.m ([JavaProxy -compare:]): Handle classes.
+
 2001-06-11    <mgd@DRONE>
 
 	* defobj.h, FArguments.[hm] ([FArguments_c -addArgument:ofType:]):

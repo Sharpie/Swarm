@@ -113,7 +113,9 @@ PHASE(Using)
 - (int)compare: obj2
 {
   jobject jobj1 = SD_JAVA_FIND_OBJECT_JAVA (self);
-  jobject jobj2 = SD_JAVA_ENSURE_OBJECT_JAVA (obj2);
+  jobject jobj2 = ([obj2 isInstance]
+                   ? SD_JAVA_ENSURE_OBJECT_JAVA (obj2)
+                   : SD_JAVA_FIND_CLASS_JAVA (obj2));
   jmethodID method;
   jclass class;
   jint ret;
