@@ -226,11 +226,14 @@ swarm_directory_COM_ensure_selector (COMselector cSel)
         if (comEnv->selectorIsVoidReturn (cSel))
           add_type (fcall_type_void);
         else
-          add_type (comEnv->selectorArgFcallType (cSel, argCount - 1));
+          {
+            argCount--;
+            add_type (comEnv->selectorArgFcallType (cSel, argCount));
+          }
         add_type (fcall_type_object);
         add_type (fcall_type_selector);
 
-        for (ti = 0; ti < argCount - 1; ti++)
+        for (ti = 0; ti < argCount; ti++)
           add_type (comEnv->selectorArgFcallType (cSel, ti));
 
         sel = sel_get_any_typed_uid (name);

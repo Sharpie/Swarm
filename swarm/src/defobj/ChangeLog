@@ -1,3 +1,7 @@
+2000-09-26  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.m (swarm_directory_COM_ensure_selector): Fix for void return.
+
 2000-09-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* FCall.m (add_ffi_types): Use COM_set_return. 
