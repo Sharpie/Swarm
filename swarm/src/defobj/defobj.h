@@ -1208,6 +1208,31 @@ USING
 //M: deep or shallow per deepFlag.
 - (void)lispOutVars: stream deep: (BOOL)deepFlag;
 
+//M: For customized archiving of dynamically allocated arrays within
+//M: objects. To use this method, override the object's lispOutDeep:
+//M: method as follows. The array is assumed allocated in one long
+//M: piece of memory, but it can be treated in segments to make it
+//M: two dimensional.  The number of rows is "rank" and the length of
+//M: the i'th row is dims[i], thus allowing for a ragged array.
+//M: 
+//M: In this example, Attribute is a class, culture is a
+//M: dynamically allocated array of numDims integers, so rank is 1 and
+//M: a pointer to numDims is passed through for the length of that row.
+
+//M: - (void)lispOutDeep: stream
+//M: {
+//M:  [stream catStartMakeInstance: "Attribute"];
+//M:  [super lispOutVars: stream deep: NO]; //saves ints, doubles, BOOLs, and static arrays
+
+//M:  [super lispStoreIntegerArray: culture Keyword: "culture" Rank: 1 Dims: &numDims Stream: stream];
+//M:  [stream catEndMakeInstance];
+//M: }
+- (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+//M: Lisp save array of doubles, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreDoubleArray: (double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+
+
 //M: Output a shallow HDF5 representation of object state to a stream.
 - (void)hdf5OutShallow: (id <HDF5>)hdf5obj;
 

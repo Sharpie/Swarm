@@ -93,6 +93,8 @@ Library:      defobj
 - hdf5InCreate: expr;
 - hdf5In: expr;
 - (void)lispOutVars: stream deep: (BOOL)deepFlag;
+- (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreDoubleArray: (double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispOutDeep: stream;
 - (void)lispOutShallow: stream;
 - (void)hdf5OutDeep: hdf5obj;

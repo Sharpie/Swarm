@@ -1063,6 +1063,22 @@ initDescribeStream (void)
   map_object_ivars (self, store_object);
 }
 
+- (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream 
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_sint,ptr,NULL,stream,NO);
+}
+
+- (void)lispStoreDoubleArray: (double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+{
+  [stream catSeparator];
+  [stream catKeyword: keyword];
+  [stream catSeparator];
+  lisp_process_array (rank, dims,fcall_type_double,ptr,NULL,stream,NO);
+}
+
 - (void)_lispOut_: stream deep: (BOOL)deepFlag
 {
   [stream catStartMakeInstance: [self getTypeName]];

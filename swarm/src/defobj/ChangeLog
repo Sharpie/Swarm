@@ -1,3 +1,10 @@
+2002-04-23  Marcus G. Daniels  <mgd@condor>
+
+	* DefObject.[hm], defobj.h ([Object_s
+	-lispStoreDoubleArray:Keyword:Rank:Dims:Stream:])
+	([Object_s -lispStoreIntegerArray:Keyword:Rank:Dims:Stream:]): 
+	New methods.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* Archiver.h, Archiver.m, Arguments.h, Arguments.m, COMProxy.h,
