@@ -1,3 +1,7 @@
+1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* VERSION: Bump.
+
 1999-01-18  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (AC_OUTPUT): Add tests/objectbase/Makefile and
