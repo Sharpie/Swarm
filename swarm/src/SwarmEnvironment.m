@@ -96,6 +96,13 @@ PHASE(Creating)
 
 - (void)initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
 {
+  [self _init_: appName version: version bugAddress: bugAddress args: args];
+}
+
+PHASE(Setting)
+
+- (void)_init_: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
+{
   int argc, i;
 
   for (argc = 0; args[argc]; argc++)
@@ -123,6 +130,11 @@ PHASE(Creating)
 }
 
 PHASE(Using)
+
+- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
+{
+  [self _init_: appName version: version bugAddress: bugAddress args: args];
+}
 
 - (timeval_t)getCurrentTime
 {

@@ -1,3 +1,10 @@
+2000-07-25  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* swarm.h, SwarmEnvironment.[hm] (SwarmEnvironment) Add
+	initSwarmUsing, a synonym to initSwarm.  This, way, COM
+	users won't have the counterintuitive Setting phase initSwarm
+	and Java users can only see using phase.
+
 2000-07-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* getters.el (print-arg): New function.

@@ -19,6 +19,7 @@ CREATING
 - createEnd;
 - (void)initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args;
 USING
+- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args;
 - (timeval_t)getCurrentTime;
 - (id <SwarmActivity>)getCurrentSwarmActivity;
 - (void)createProbeDisplay: obj;
