@@ -31,3 +31,5 @@ Add either stubbing for string array conversions (e.g. Histogram) or
 add alternative interfaces that use objects.
 
 Function pointers
+
+Ensure that javaswarm and javacswarm get installed with execute permissions
