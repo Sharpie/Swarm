@@ -14,7 +14,6 @@ Library:      collections
 #include <string.h>
 #include <assert.h>
 
-
 @implementation String_c
 
 PHASE(Creating)
@@ -35,9 +34,9 @@ PHASE(Creating)
 
 - createEnd
 {
-  createByMessageTo( self, copy: );
-  setMappedAlloc( self );
-  setNextPhase( self );
+  createByMessageTo (self, copy:);
+  setMappedAlloc (self);
+  setNextPhase (self);
   return self;
 }
 
@@ -45,8 +44,8 @@ PHASE(Creating)
 {
   String_c *newString;
 
-  newString = [aZone allocIVars: getNextPhase( self )];
-  setMappedAlloc( newString );
+  newString = [aZone allocIVars: getNextPhase (self)];
+  setMappedAlloc (newString);
   newString->count  = 0;
   newString->string = "";
   return newString;
@@ -62,38 +61,43 @@ PHASE(Creating)
 {
   String_c *newString;
 
-  assert( cstring );
-  newString = [aZone allocIVars: getNextPhase( self )];
-  setMappedAlloc( newString );
-  newString->count = strlen( cstring );
+  assert (cstring);
+  newString = [aZone allocIVars: getNextPhase (self)];
+  setMappedAlloc (newString);
+  newString->count = strlen (cstring);
 
-  if ( newString->count > 0 ) {
-    newString->string = [aZone allocBlock: newString->count + 1];
-    memcpy( newString->string, cstring,  newString->count + 1 );
-  } else {
+  if (newString->count > 0)
+    {
+      newString->string = [aZone allocBlock: newString->count + 1];
+      memcpy (newString->string, cstring, newString->count + 1);
+    }
+  else
     newString->string = "";
-  }
+
   return newString;
 }
 
 PHASE(Setting)
 
-- (void) setC: (const char *)cstring
+- (void)setC: (const char *)cstring
 {
-  int   countNew;
-  char  *stringNew;
+  int countNew;
+  char *stringNew;
 
-  if( ! cstring ) raiseEvent( InvalidArgument, "> argument is nil\n" );
-  countNew = strlen( cstring );
-  if ( countNew > 0 ) {
-    stringNew = [getZone( self ) allocBlock: countNew + 1];
-    memcpy( stringNew, cstring, countNew + 1 );
-  } else {
+  if (!cstring)
+    raiseEvent (InvalidArgument, "> argument is nil\n");
+  countNew = strlen (cstring);
+  if (countNew > 0)
+    {
+      stringNew = [getZone (self) allocBlock: countNew + 1];
+      memcpy (stringNew, cstring, countNew + 1);
+    }
+  else
     stringNew = "";
-  }
-  if ( count > 0 ) [getZone( self ) freeBlock: string blockSize: count + 1];
+  if (count > 0)
+    [getZone (self) freeBlock: string blockSize: count + 1];
   string = stringNew;
-  count  = countNew;
+  count = countNew;
 }
 
 PHASE(Using)
@@ -106,41 +110,40 @@ PHASE(Using)
   String_c  *newString;
 
   newString = [aZone copyIVars: self];
-  setMappedAlloc( newString );
-  if ( count > 0 ) {
-    newString->string = [aZone allocBlock: count + 1];
-    memcpy( newString->string, string, count + 1 );
-  }
+  setMappedAlloc (newString);
+  if (count > 0)
+    {
+      newString->string = [aZone allocBlock: count + 1];
+      memcpy (newString->string, string, count + 1);
+    }
   return newString;
 }
 
-- (const char *) getC
+- (const char *)getC
 {
   return string;
 }
 
 - (void) catC: (const char *)cstring
 {
-  id    zone;
-  int   appendCount;
-  char  *stringNew;
+  id zone;
+  int appendCount;
+  char *stringNew;
 
-  zone = getZone( self );
-  if( ! cstring ) raiseEvent( InvalidArgument, "> argument is nil\n" );
-  appendCount = strlen( cstring );
-  if ( (count + appendCount) > 0 ) {
-    stringNew = [zone allocBlock: count + appendCount + 1];
-    memcpy( stringNew, string, count );
-    memcpy( stringNew + count, cstring, appendCount + 1 );
-    if ( count > 0 ) [zone freeBlock: string blockSize: count + 1];
-    string = stringNew;
-    count  = count + appendCount;
-  }
-}
-
-- (void) appendC: (const char *)cstring
-{
-  [self catC: cstring];
+  zone = getZone (self);
+  if (!cstring)
+    raiseEvent (InvalidArgument, "> argument is nil\n");
+  appendCount = strlen (cstring);
+  if ((count + appendCount) > 0)
+    {
+      stringNew = [zone allocBlock: count + appendCount + 1];
+      memcpy (stringNew, string, count);
+      memcpy (stringNew + count, cstring, appendCount + 1);
+      if (count > 0)
+        [zone freeBlock: string blockSize: count + 1];
+      string = stringNew;
+      count  = count + appendCount;
+    }
 }
 
 - (int) getCount
@@ -160,7 +163,7 @@ PHASE(Using)
 
 - (int) compare: aString
 {
-  return strcmp( string, ((String_c *)aString)->string );
+  return strcmp (string, ((String_c *)aString)->string);
 }
 
 - (BOOL)getLiteralFlag
@@ -171,24 +174,27 @@ PHASE(Using)
 //
 // describe: -- standard method to generate debug description
 //
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   char  buffer[100];
 
   [super describe: outputCharStream];
-  sprintf( buffer, "> number of characters: %d\n", count );
+  sprintf (buffer, "> number of characters: %d\n", count);
   [outputCharStream catC: buffer];
-  if ( count <= 64 ) {
-    sprintf( buffer, "> string value: %s\n", string );
-    [outputCharStream catC: buffer];
-  } else {
-    sprintf( buffer, "> string value (first 50 characters): \"%.50s\"\n",
-             string );
-    [outputCharStream catC: buffer];
-  }
+  if ( count <= 64 )
+    {
+      sprintf (buffer, "> string value: %s\n", string);
+      [outputCharStream catC: buffer];
+    } 
+  else
+    {
+      sprintf (buffer, "> string value (first 50 characters): \"%.50s\"\n",
+               string);
+      [outputCharStream catC: buffer];
+    }
 }
 
-- out : outputCharStream
+- out: outputCharStream
 {
   if (literalFlag)
     {
@@ -204,11 +210,12 @@ PHASE(Using)
 //
 // mapAllocations: -- standard method to map internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  if ( ! includeBlocks( mapalloc ) || *string == '\0' ) return;
+  if (!includeBlocks (mapalloc) || *string == '\0')
+    return;
   mapalloc->size = count + 1;
-  mapAlloc( mapalloc, string );
+  mapAlloc (mapalloc, string);
 }
 
 @end
