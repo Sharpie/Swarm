@@ -59,17 +59,21 @@
   #t)
 
 (element PRIMARYIE
-         (make paragraph
-               (let* ((linkends-string (attribute-string "LINKENDS")))
-                 (let loop ((linkends (split-string linkends-string #\space)))
-                      (if (null? linkends)
-                          (empty-sosofo)
-                          (sosofo-append
-                           (make link
-                                 destination: (idref-address (car linkends))
-                                 (process-children))
-                           (literal " ")
-                           (loop (cdr linkends))))))))
+         (sosofo-append
+          (process-children)
+          (make paragraph
+                (let* ((linkends-string (attribute-string "LINKENDS")))
+                  (let loop ((linkends (split-string linkends-string #\space)))
+                       (if (null? linkends)
+                           (empty-sosofo)
+                           (sosofo-append
+                            (literal " ")
+                            (let ((id (car linkends)))
+                              (make link
+                                    destination: (idref-address id)
+                                    (literal
+                                     (id-to-indexitem id))))
+                            (loop (cdr linkends)))))))))
 
 
 </style-specification-body>
