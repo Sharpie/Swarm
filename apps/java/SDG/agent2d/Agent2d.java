@@ -11,12 +11,12 @@ import Organization;
 import swarm.Globals;
 
 public class Agent2d extends SwarmImpl {
-  int x, y; 
   int size;
-  private Grid2d world;
-
-  byte color;
   int scatter;
+
+  int x, y; 
+  private Grid2d world;
+  byte color;
 
   public Agent2d () { }
   public Agent2d (Zone aZone, Organization org,
