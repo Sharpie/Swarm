@@ -11,6 +11,12 @@ fi
 AM_CONFIG_HEADER(swarmconfig.h)
 
 AC_PROG_CC
+
+OBJC="$CC"
+AC_SUBST(OBJC)
+OBJCFLAGS="$CFLAGS -Wall -Wno-import -Wno-protocol -Werror"
+AC_SUBST(OBJCFLAGS)
+
 AM_PROG_LIBTOOL
 
 AC_PATH_XTRA
@@ -152,12 +158,18 @@ md_CHECK_POINTER_FMT
 md_CHECK_BUILTIN_APPLY
 
 
+AC_OBJEXT
+if test $ac_objext = o ; then 
+ # so that LIBOBJS additions from AC_REPLACE_FUNCS have a .lo suffix.
+  ac_objext=lo
+fi
+
 ac_save_CFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -fno-builtin"
-md_REPLACE_FUNCS(memcpy memset strcmp strlen)
+AC_REPLACE_FUNCS(memcpy memset strcmp strlen)
 CFLAGS=$ac_save_CFLAGS
 
-md_REPLACE_FUNCS(memchr realpath stpcpy strchr strdup  strncmp strndup strnlen strpbrk strsep)
+AC_REPLACE_FUNCS(memchr realpath stpcpy strchr strdup strncmp strndup strnlen strpbrk strsep)
 
 if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_cv_func_strnlen = yes; then
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"

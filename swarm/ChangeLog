@@ -1,5 +1,11 @@
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* configure.in: Call AC_OBJEXT and if ac_objext is `o' change to
+	`lo'. Use AC_REPLACE_FUNCS instead of md_REPLACE_FUNCS throughout.
+	(OBJC): Set to CC and substitute.
+	(OBJCFLAGS): Add -Wall -Wno-import -Wno-protocol -Werror to CFLAGS
+	and substitute.
+
 	* NEWS: Note addition of support for virtual colormaps
 	and addition of setFilename: to EZBin and EZGraph.
 
