@@ -12,9 +12,6 @@ i.e. do this
 cd 'your BLT library directory'/lib/blt2.4
 ln -s graph.tcl bltGraph.tcl
 
-Finally your build may fail trying to link findImp in the tools subdirectory.
-Find the link i
-
 
 Project Builder build
 Edit $SRCROOT/macosx/swarmx/configure.sh and $SRCROOT/macosx/swarmx/buildlibs.shto reflect appropriate paths on your system.
@@ -22,13 +19,12 @@ Open the PB project and build the targets autogen, config and swarmlibmake in th
 
 To start over delete everything in $SRCROOT/macosx/swarmx/build
 
-To install do make install in the build directory.
+To install do make install in the build directory.  You may need sudo according to your prefix.
 
 If you think IDEs are for wimps, try:
 
 cd $SRCROOT/macosx/swarmx/build
 
-setenv SED /yourgnused
 setenv MACOSX_DEPLOYMENT_TARGET 10.2
  /yourgnused
 
@@ -41,13 +37,16 @@ CC='your GNU gcc' \
 --with-tkdir='your tk path \
 --with-bltdir='your BLT path' \
 --without-jdkdir \
---without-hdf5dir   
+--with-hdf5dir='your HDF5 path'\
+--with-png='your libpng path'    
 
 make
 
 make install    (sudo may be needed if installing outside your home directory)
 
 That's it.
+
+You may need to fix up DYLD_LIBRARY_PATH to get the run time linking to work.
 
 Start fixing bugs where it crashes.
 
@@ -57,4 +56,4 @@ NB. If you need to compile any GNU utilities ensure you have -no-cpp-precomp as 
 
 Bill Northcott
 w.northcott@unsw.edu.au
-14 Feb 2003
+26 Feb 2003
