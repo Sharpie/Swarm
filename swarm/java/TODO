@@ -6,6 +6,3 @@ add alternative interfaces that use objects.
 
 Write and integrate a runtime query program to determine IMP functions
 for Java stubs; eliminate method dispatch overhead.
-
-javacswarm and javaswarm grab jdkdatadir which isn't inverted back
-to SWARMROOT.  For 2.0.1, I've edited it by hand.
