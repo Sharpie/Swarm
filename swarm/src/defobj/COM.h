@@ -8,10 +8,10 @@
 extern "C" {
 #endif
 
-typedef const void *COMclass;
+typedef void *COMclass;
 typedef void *COMobject;
 typedef void *COMselector;
-typedef const void *COMmethod;
+typedef void *COMmethod;
 
 struct COMInterface;
 
@@ -147,7 +147,7 @@ extern fcall_type_t COM_method_param_fcall_type (COMmethod cMethod, unsigned ind
 
 #define SD_COM_ENSURE_SELECTOR_OBJC(cSelector) swarm_directory_COM_ensure_selector (cSelector)
 
-#define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class_objc (cClass)
+#define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class_objc ((COMclass) cClass)
 
 #define SD_COM_ADD_OBJECT_OBJC(cObject, oObject) swarm_directory_COM_add_object_objc (cObject, oObject)
 
