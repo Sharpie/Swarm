@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user2.06.sect1">
+<sect1>
   <title>Checking on a Swarm's progress: The Observer</title>
 
   <sect2>
@@ -81,8 +81,9 @@
     <para>
       The following sections discuss the achitecture of these two
       classes of displays in greater depth. Most of the examples for
-      discussion are taken from the <application>Arborgames</application> code provided by
-      Melissa Savage.
+      discussion are taken from the
+      <application>Arborgames</application> code provided by Melissa
+      Savage.
     </para>
   </sect2>
 
@@ -135,11 +136,11 @@
             which is defined deep in the bowels of the video display.
 
             <programlisting>
-              colormap = [Colormap create: [self getZone]];
+colormap = [Colormap create: [self getZone]];
 
-              [colormap setColor: 25 ToName: "white"];
-              [colormap setColor: 26 ToName: "LightCyan1"];
-              [colormap setColor: 27 ToName: "PaleTurquoise"];
+[colormap setColor: 25 ToName: "white"];
+[colormap setColor: 26 ToName: "LightCyan1"];
+[colormap setColor: 27 ToName: "PaleTurquoise"];
             </programlisting>
           </para>
 
@@ -172,20 +173,22 @@
               <application>Arborgames</application> look like this:
 
               <programlisting>
-                forestRaster = [ZoomRaster createBegin: [self getZone]];
-                SET_WINDOW_GEOMETRY_RECORD_NAME (forestRaster);
-                forestRaster = [forestRaster createEnd];
+forestRaster = [ZoomRaster createBegin: [self getZone]];
+SET_WINDOW_GEOMETRY_RECORD_NAME (forestRaster);
+forestRaster = [forestRaster createEnd];
 
-                [forestRaster setColormap: colormap];
-                [forestRaster setZoomFactor: 4];
-                [forestRaster setWidth: [forestModelSwarm getWorldSize] 
-                Height: [forestModelSwarm getWorldSize]];
-                [forestRaster setWindowTitle: "The Forest"];
-                [forestRaster pack];
+[forestRaster setColormap: colormap];
+[forestRaster setZoomFactor: 4];
+[forestRaster setWidth: [forestModelSwarm getWorldSize] 
+   Height: [forestModelSwarm getWorldSize]];
+[forestRaster setWindowTitle: "The Forest"];
+[forestRaster pack];
               </programlisting>
+            </para>
+          </formalpara>
 
 
-              This code should be viewed as foundation-building.  The
+              <para>This code should be viewed as foundation-building.  The
               <classname>ZoomRaster</classname> object is created, and
               the macro
               <function>SET_WINDOW_GEOMETRY_RECORD_NAME</function> is
@@ -194,7 +197,6 @@
               window position of the <varname>forestRaster</varname>
               object will be saved in a file in the user's account.
             </para>
-          </formalpara>
 
           <para>
             To briefly summarize the effect of the other commands, we
@@ -215,7 +217,8 @@
         </listitem>
 
         <listitem><formalpara>
-            <title>Map a Swarm Space object onto the <classname>ZoomRaster</classname></title>
+            <title>Map a Swarm Space object onto the 
+              <classname>ZoomRaster</classname></title>
             
             <para>
               By itself, a <classname>ZoomRaster</classname> is just a
@@ -246,14 +249,14 @@
             <varname>forestModelSwarm</varname>).
             
             <programlisting>
-              treeDisplay = [Object2dDisplay createBegin: [self getZone]];
-              [treeDisplay setDisplayWidget: forestRaster];
-              [treeDisplay setDiscrete2dToDisplay: 
-              [[forestModelSwarm getTheForest] getTreeGrid]]; 
-              [treeDisplay setObjectCollection:
-              [[forestModelSwarm getTheForest] getTreeList]]; 
-              [treeDisplay setDisplayMessage: M(drawSelfOn:)];
-              treeDisplay = [treeDisplay createEnd];
+treeDisplay = [Object2dDisplay createBegin: [self getZone]];
+[treeDisplay setDisplayWidget: forestRaster];
+[treeDisplay setDiscrete2dToDisplay: 
+[[forestModelSwarm getTheForest] getTreeGrid]]; 
+[treeDisplay setObjectCollection:
+[[forestModelSwarm getTheForest] getTreeList]]; 
+[treeDisplay setDisplayMessage: M(drawSelfOn:)];
+treeDisplay = [treeDisplay createEnd];
             </programlisting>
 
             This example is slightly more complicated than most,
@@ -289,8 +292,7 @@
             be able to respond to a message of this sort:
 
             <programlisting>
-              
-              [anAgent drawSelfOn: aRaster];
+[anAgent drawSelfOn: aRaster];
             </programlisting>
 
             The program will crash if each agent that is positioned in
@@ -322,10 +324,10 @@
 
         <listitem>
           <formalpara>
-            <title>Tell the <classname>ZoomRaster</classname> Where to Send Clicks</title>
+            <title>Tell the <classname>ZoomRaster</classname> 
+             Where to Send Clicks</title>
 
             <para>
-
               A <classname>ZoomRaster</classname> object is highly
               self-aware.  If you stop a simulation and right-click on
               an object, you may see a probe display pop up.  That
@@ -337,16 +339,17 @@
               <function>buildObjects</function> phase:
 
               <programlisting>
-                [forestRaster setButton: ButtonRight 
-                Client: treeDisplay 
+[forestRaster setButton: ButtonRight 
+                 Client: treeDisplay 
                 Message: M(makeProbeAtX:Y:)];
               </programlisting>
+            </para>
+          </formalpara>
 
-              The <varname>treeDisplay</varname> is told to make a
+           <para>The <varname>treeDisplay</varname> is told to make a
               probe for the object that exists at a particular point
               in the grid.
             </para>
-          </formalpara>
         </listitem>
 
         <listitem>
@@ -373,12 +376,12 @@
             could create an <classname>ActionGroup</classname> like
             this:
 
-            <programlisting>
-              displayActions = [ActionGroup create: self];
-              [displayActions createActionTo: forestRaster message: M(erase)];
-              [displayActions createActionTo: treeDisplay message:M(display)];
-              [displayActions createActionTo: forestRaster message: M(drawSelf)];
-            </programlisting>
+<programlisting>
+displayActions = [ActionGroup create: self];
+[displayActions createActionTo: forestRaster message: M(erase)];
+[displayActions createActionTo: treeDisplay message:M(display)];
+[displayActions createActionTo: forestRaster message: M(drawSelf)];
+</programlisting>
 
             (Of course, that action group has to be put into a
             schedule, which will probably execute it at each time
@@ -418,8 +421,8 @@
             is the relevant code from <filename>Heatbug.m</filename>:
 
             <programlisting> 
-              [world putObject: nil atX: x Y: y];
-              [world putObject: self atX: newX Y: newY];
+[world putObject: nil atX: x Y: y];
+[world putObject: self atX: newX Y: newY];
             </programlisting>
           </para>
 
@@ -432,12 +435,12 @@
             <filename>Forest.m</filename> file:
 
             <programlisting>
-              - addTree: aTree atX: (int) xVal Y: (int) yVal
-              {
-              [treeList addFirst: aTree];
-              [treeGrid putObject: aTree atX: xVal Y: yVal];
-              return self; 
-              }
+- addTree: aTree atX: (int) xVal Y: (int) yVal
+{
+  [treeList addFirst: aTree];
+  [treeGrid putObject: aTree atX: xVal Y: yVal];
+  return self; 
+}
             </programlisting>
 
             Trees don't move (so far as we know), so the only need to
@@ -457,21 +460,23 @@
             the grid. In the <filename>MatureForest.m</filename> file,
 
             <programlisting>
-              -step {
-              id aTree, index ;
+- step 
+{
+  id aTree, index;
 
-              [treeList forEach: M(step)] ;
+  [treeList forEach: M(step)];
 
-              index = [exitQ begin: [self getZone]] ;
-              while( (aTree = [index next]) ){
-              [treeList remove: aTree] ;
-              [treeGrid putObject: nil atX: [aTree getX] Y: [aTree getY]] ;
-              [index remove] ;
-              [aTree drop] ;
-              }
-              [index drop] ;
-              return self ;
-              }
+  index = [exitQ begin: [self getZone]];
+  while( (aTree = [index next]) )
+   {
+    [treeList remove: aTree];
+    [treeGrid putObject: nil atX: [aTree getX] Y: [aTree getY]];
+    [index remove];
+    [aTree drop];
+  }
+  [index drop];
+  return self;
+}
             </programlisting>
 
           </para>
@@ -481,6 +486,7 @@
   </sect2>
 
 </sect1>
+
 <!-- 
 Local Variables: sgml-parent-document:("userbook.sgml" "SECT1")
 End: 

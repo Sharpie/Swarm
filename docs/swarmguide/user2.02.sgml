@@ -21,9 +21,10 @@
       Pick any Swarm application you like, such as Heatbugs.  Look in
       <filename>main.m</filename>. What do you find?  There's a check
       to see if the GUI mode or batch mode is to be run, and depending
-      on that choice, either the ObserverSwarm or the BatchSwarm is
-      designated as "theTopLevelSwarm."</para> <para> Suppose we have
-      do not do anything special when compiling and running the
+      on that choice, either the <classname>ObserverSwarm</classname>
+      or the <classname>BatchSwarm</classname> is designated as
+      <varname>theTopLevelSwarm</varname>.</para> <para> Suppose we
+      have do not do anything special when compiling and running the
       <application>heatbugs</application> executable, so the GUI mode
       is used.  In that case, the relevant code in
       <filename>main.m</filename> is this:
@@ -38,40 +39,52 @@ if (swarmGUIMode == 1)
 </programlisting>
 
       The first command inside the brackets tells the class
-      HeatbugObserverSwarm to execute its createBegin method and
-      return an object which is to be named "theTopLevelSwarm."  In
+      <classname>HeatbugObserverSwarm</classname> to execute its
+      <function>createBegin</function> method and return an object
+      which is to be named <varname>theTopLevelSwarm</varname>.  In
       this example, the <classname>HeatbugObserverSwarm</classname> is
       the class and also serves as a "factory object", an object that
       can build instances of its class.  The second command is a macro
       that saves window positions on subsequent runs of the program.
-      It is set between the createBegin and createEnd methods because
-      it is setting permanent features of the object theTopLevelSwarm.
-      The last command "seals" off the creation phase by telling the
-      recently created object <classname>theTopLevelSwarm</classname>
-      to run its createEnd method.
+      It is set between the <function>createBegin</function> and
+      <function>createEnd</function> methods because it is setting
+      permanent features of the object
+      <varname>theTopLevelSwarm</varname>.  The last command "seals"
+      off the creation phase by telling the recently created object
+      <classname>theTopLevelSwarm</classname> to run its
+      <function>createEnd</function> method.
     </para>
 
     <para>
-      In the Swarm Documentation, the methods
-      that a class can execute are subdivided into categories, such as "CREATING,"
-      "SETTING" and "USING".  The methods or macros that appear under CREATING 
-      can only be used between createBegin and createEnd. Other commands that set 
-      values for instance variables need not be included between the 
-      createBegin/createEnd pair.
+      In the Swarm Documentation, the methods that a class can execute
+      are subdivided into categories, such as "CREATING," "SETTING"
+      and "USING".  The methods or macros that appear under CREATING
+      can only be used between <function>createBegin</function> and
+      <function>createEnd</function>. Other commands that set values
+      for instance variables need not be included between the
+      <function>createBegin</function>/<function>createEnd</function>
+      pair.
     </para>
   </sect2>
 
   <sect2>
-    <title>Detailed look at createBegin/createEnd</title> 
+    <title>Detailed look at
+    <function>createBegin</function>/<function>createEnd</function></title>
 
     <para>
-      Now take the next step and look at the createBegin and createEnd methods
-      that are called by the code in <filename>main.m</filename>. 
-      Follow the steps into <filename>HeatbugObserverSwarm.m</filename>.
-      Here you find the methods +createBegin and -createEnd.  The plus sign
-      on createBegin indicates that this method cannot be executed by an
-      instance of the class HeatbugModelSwarm, but rather only by the
-      factory object.   Here is a portion of the method createBegin:
+      Now take the next step and look at the
+      <function>createBegin</function> and
+      <function>createEnd</function> methods that are called by the
+      code in <filename>main.m</filename>.  Follow the steps into
+      <filename>HeatbugObserverSwarm.m</filename>.  Here you find the
+      methods <function>+createBegin</function> and
+      <function>-createEnd</function>.  The plus sign on
+      <function>createBegin</function> indicates that this method
+      cannot be executed by an instance of the class
+      <classname>HeatbugModelSwarm</classname>, but rather only by the
+      factory object.  Here is a portion of the method
+      <function>createBegin</function>:
+
 <programlisting>
 + createBegin: aZone
 {
@@ -87,26 +100,29 @@ if (swarmGUIMode == 1)
 
       This a good example of how the Swarm toolkit handles the
       creation of objects.  The pointer to the class
-      HeatbugObserverSwarm named <classname>obj</classname> is
-      defined.  Since HeatbugObserverSwarm is subclassed from
+      <classname>HeatbugObserverSwarm</classname> named
+      <classname>obj</classname> is defined.  Since
+      <classname>HeatbugObserverSwarm</classname> is subclassed from
       GUISwarm, it is important to be sure that all of the important
       variables of a GUISwarm object are initialized and inherited by
-      HeatbugObserverSwarm.  This is done in one step by telling the
-      superclass to execute its createBegin method.  Since the classes
-      are linked together in a hierarchy, each higher level class in
-      turn executes its createBegin statement. That is how the
-      instance of the class ends up setting values for all the
+      <classname>HeatbugObserverSwarm</classname>.  This is done in
+      one step by telling the superclass to execute its
+      <function>createBegin</function> method.  Since the classes are
+      linked together in a hierarchy, each higher level class in turn
+      executes its <function>createBegin</function> statement. That is
+      how the instance of the class ends up setting values for all the
       variables that it inherits.
     </para>
 
     <para>
-      The createBegin method of its superclass is told to put the
-      created objects in <classname>aZone</classname>, which is the
-      name of the space passed in from <filename>main.m</filename>.
-      The memory zone that is created is returned and set equal to
-      obj. Then the "return obj" command gives back the created object
-      to the calling code, in this case <filename>main.m</filename>,
-      which then treats it as theTopLevelSwarm.  </para>
+      The <function>createBegin</function> method of its superclass is
+      told to put the created objects in <classname>aZone</classname>,
+      which is the name of the space passed in from
+      <filename>main.m</filename>.  The memory zone that is created is
+      returned and set equal to obj. Then the <literal>return obj</literal> command
+      gives back the created object to the calling code, in this case
+      <filename>main.m</filename>, which then treats it as
+      <varname>theTopLevelSwarm</varname>.  </para>
 
     <para> The reader can investigate in the Swarm source code to see
       that GUISwarm inherits through a hierarchical chain the ability
@@ -114,14 +130,14 @@ if (swarmGUIMode == 1)
       Swarm, which in turn inherits from CSwarmProcess.  That class is
       defined in the activity directory of the source code in a file
       called <filename>SwarmProcess.m</filename>.  This is the first
-      place where you will find createBegin and createEnd methods as
+      place where you will find <function>createBegin</function> and <function>createEnd</function> methods as
       you move up the inheritance tree, so it must be that these are
       the methods that are executed when <classname>super</classname>
       is told to do something in this code.
     </para>
 
     <para>
-      The createEnd method in
+      The <function>createEnd</function> method in
       <filename>HeatbugObserverSwarm.m</filename> is quite simple:
 
 <programlisting>
@@ -135,31 +151,31 @@ if (swarmGUIMode == 1)
       library, it may be hard to figure out exactly why this command
       is needed. As a matter of fact, it is not necessary in this case
       at all, but it does not do any harm.  If it were omitted from
-      this class, then this class would just inherit createEnd method
+      this class, then this class would just inherit <function>createEnd</function> method
       from the somewhere above in the family tree.
     </para>
 
     <para>
-      There are cases in which the createEnd statement may be more
-      substantial.  In the createBegin phase, we typically find
+      There are cases in which the <function>createEnd</function> statement may be more
+      substantial.  In the <function>createBegin</function> phase, we typically find
       commands that set permanent features of objects.  Some methods
       that initialize instance variables can also be included. In the
-      example above, the variable "display frequency" inside *obj is
+      example above, the variable <varname>display frequency</varname> inside *obj is
       set equal to 1.  These variables are set at the first possible
       opportunity because other variables may depend on them.  After
-      <filename>main.m</filename> calls the createBegin method,
+      <filename>main.m</filename> calls the <function>createBegin</function> method,
       <filename>main.m</filename> may include statements that further
       tailor the state of the object and those commands may depend on
-      values set in createBegin.  Finally, when
-      <filename>main.m</filename> calls createEnd, a new slew of
+      values set in <function>createBegin</function>.  Finally, when
+      <filename>main.m</filename> calls <function>createEnd</function>, a new slew of
       commands may be executed that define further elements of the
       object.  </para>
 
     <para>
-      The createEnd statement may be a convenient place to put any
+      The <function>createEnd</function> statement may be a convenient place to put any
       code that completes the initialization of an object. For
       example, suppose inside there is a variable called
-      <classname>age</classname>. In createEnd, one might find this:
+      <classname>age</classname>. In <function>createEnd</function>, one might find this:
 
 <programlisting>
 - createEnd
@@ -170,27 +186,31 @@ if (swarmGUIMode == 1)
 }      
 </programlisting>
 
-      The super class is told to run its createEnd method, which will
-      assure that any variables initialized there are set
-      properly. Then the instance variable age is set equal to 0.
-      (Sometimes you will find examples in which createEnd is a
+      The super class is told to run its
+      <function>createEnd</function> method, which will assure that
+      any variables initialized there are set properly. Then the
+      instance variable age is set equal to 0.  (Sometimes you will
+      find examples in which <function>createEnd</function> is a
       "garbage can" that collects a large number of commands that set
       initial values for variables inside the object.  These commands
       might as well be regrouped and put into a new method inside the
       object that might be called
       <classname>setInitialValues</classname> that would be executed
-      after the createEnd.  The readability of the code is enhanced
-      that way.)
+      after the <function>createEnd</function>.  The readability of
+      the code is enhanced that way.)
     </para>
 
     <para>
-      The "create" message causes the receiver to carry out both its
-      createBegin and createEnd methods.  Why didn't we always use
-      create? Well, sometimes we need to define variables between the
-      createBegin and createEnd steps, as seen in
+      The <function>create</function> message causes the receiver to
+      carry out both its <function>createBegin</function> and
+      <function>createEnd</function> methods.  Why didn't we always
+      use <function>create</function>? Well, sometimes we need to
+      define variables between the <function>createBegin</function>
+      and <function>createEnd</function> steps, as seen in
       <filename>main.m</filename>. If there is no need to set values
       in that way (no methods marked with CREATING in the Swarm
-      Documentation are used), then create is enough.
+      Documentation are used), then <function>create</function> is
+      enough.
     </para>
   </sect2>
 
@@ -208,12 +228,13 @@ if (swarmGUIMode == 1)
 
     <para>
       The Swarm libraries are designed to handle memory allocation
-      with a minimum of user intervention. The createBegin and create
-      commands allocate memory and the user is not expected to think
-      about where the RAM comes from to store an object.  Similarly,
-      when a program is finished with an object, that object can be
-      sent the <function>drop</function> message and that should take
-      care of freeing the memory that the object used.
+      with a minimum of user intervention. The
+      <function>createBegin</function> and create commands allocate
+      memory and the user is not expected to think about where the RAM
+      comes from to store an object.  Similarly, when a program is
+      finished with an object, that object can be sent the
+      <function>drop</function> message and that should take care of
+      freeing the memory that the object used.
     </para>
 
     <para>
@@ -253,15 +274,15 @@ probeMap = [EmptyProbeMap createBegin: self];
 </programlisting>
       This tells the EmptyProbeMap class in the Swarm library to
       create an instance of itself in the memory zone allocated by the
-      ModelSwarm, and that allocated object is to be named "probeMap."
+      ModelSwarm, and that allocated object is to be named <varname>probeMap.</varname>
     </para>
 
     <para>
-      It often seems as if objects appear by "magic." It is more reasonable
-      to say they are provided by the Swarm library in a way that is not
-      entirely obvious.  For example, suppose you want to create a list of
-      objects. One can declare an object "listOfFriends" and then create it,
-      like so:
+      It often seems as if objects appear by "magic." It is more
+      reasonable to say they are provided by the Swarm library in a
+      way that is not entirely obvious.  For example, suppose you want
+      to create a list of objects. One can declare an object
+      <varname>listOfFriends</varname> and then create it, like so:
 
 <programlisting>
 id listOfFriends;
@@ -281,21 +302,25 @@ listOfFriends = [List create: self];
 
       <itemizedlist>
 
-        <listitem><para>if you use a class that conforms to a protocol (such
-            as <classname>List</classname>), where are actually instantiating an
-            object directly, you need to include the header for that only for that
-            library (in the above case it will be
-            <filename>collections.h</filename>) wherever you reference that class
-            that conforms to the protocol.  This might required be in the header
-            file <filename>.h</filename> or only in the implementation file
-            <filename>.m</filename> (if you don't actually use the name of the
-            protocol in the header file).</para></listitem>
+        <listitem><para>if you use a class that conforms to a protocol
+            (such as <classname>List</classname>), where are actually
+            instantiating an object directly, you need to include the
+            header for that only for that library (in the above case
+            it will be <filename>collections.h</filename>) wherever
+            you reference that class that conforms to the protocol.
+            This might required be in the header file
+            <filename>.h</filename> or only in the implementation file
+            <filename>.m</filename> (if you don't actually use the
+            name of the protocol in the header
+            file).</para></listitem>
 
-        <listitem><para>if, however, you are <emphasis>subclasssing</emphasis>
-            from a class that adheres to a protocol (say
-            <classname>SwarmObject</classname>) you <emphasis>also</emphasis> need
-            to include the actual header for that class.  In this example, it will
-            be <filename>objectbase/SwarmObject.h</filename>.</para></listitem>
+        <listitem><para>if, however, you are
+            <emphasis>subclasssing</emphasis> from a class that
+            adheres to a protocol (say
+            <classname>SwarmObject</classname>) you
+            <emphasis>also</emphasis> need to include the actual
+            header for that class.  In this example, it will be
+            <filename>objectbase/SwarmObject.h</filename>.</para></listitem>
 
       </itemizedlist>
 
@@ -309,9 +334,11 @@ listOfFriends = [List create: self];
       The objects at the top level of the swarm hierarchy have the
       power to "create space" for objects that live inside them.  As
       the code in <filename>main.m</filename> proceeds through the
-      creation of theTopLevelSwarm, it is allocating memory and
-      setting other important creation-state variables.  Then, that
-      newly created object is told to go through its paces:
+      creation of <varname>theTopLevelSwarm</varname>, it is
+      allocating memory and setting other important creation-state
+      variables.  Then, that newly created object is told to go
+      through its paces:
+
 <programlisting>
 [theTopLevelSwarm buildObjects];
 [theTopLevelSwarm buildActions];
@@ -321,39 +348,44 @@ listOfFriends = [List create: self];
     </para>
 
     <para>
-      When you go look at the buildObjects method executed by the
-      TopLevelSwarm, what do you find? Depending on what edition of the
-      Heatbugs source you have, you will find something like this:
+      When you go look at the <function>buildObjects</function> method
+      executed by the <varname>theTopLevelSwarm</varname>, what do you
+      find? Depending on what edition of the Heatbugs source you have,
+      you will find something like this:
 
 <programlisting> 
 heatbugModelSwarm = [HeatbugModelSwarm create: self];
 </programlisting>
-      In this code, the "self" is the observer level, meaning that the
-      HeatbugModelSwarm class is told to create an instance of itself in the 
-      memory zone provided by the observer, and that allocated object is named
-      heatbugModelSwarm. 
+
+      In this code, the <varname>self</varname> is the observer level,
+     meaning that the <classname>HeatbugModelSwarm</classname> class
+     is told to create an instance of itself in the memory zone
+     provided by the observer, and that allocated object is named
+     <varname>heatbugModelSwarm</varname>.
     </para>
 
     <para>
       If you then follow the code into the
       <filename>HeatbugModelSwarm.m</filename> file, you find it has
-      createBegin commands that initialize a number of instance
-      variables and objects. Unless you have a pretty old piece of
-      code, those objects will be created in the memory zone "self",
-      the space provided by the model swarm itself.
+      <function>createBegin</function> commands that initialize a
+      number of instance variables and objects. Unless you have a
+      pretty old piece of code, those objects will be created in the
+      memory zone <varname>self</varname>, the space provided by the
+      model swarm itself.
     </para>
 
     <para>
-      Objects that are of type SwarmObject are not memory zones, and
-      so when objects are created inside classes that inherit from
-      SwarmObject, a command to allocate memory must be used.
+      Objects that are of type <classname>SwarmObject</classname> are
+      not memory zones, and so when objects are created inside classes
+      that inherit from <classname>SwarmObject</classname>, a command
+      to allocate memory must be used.
 <programlisting>
 bugPixmap = [Pixmap createBegin: [self getZone]];
 </programlisting>
  
-     The bugPixmap object is created inside
+     The <varname>bugPixmap</varname> object is created inside
       <filename>Heatbug.m</filename>, but the memory zone has to be
-      retrieved with the [self getZone] command.
+      retrieved with the <literal>[self getZone]</literal> command.
     </para>
   </sect2>
 
@@ -379,6 +411,7 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
       bugs project.  As found in SimpleSwarmBug3, for example, the
       <filename>ModelSwarm.m</filename> file creates the bug objects
       in this way:
+
 <programlisting>
 - buildObjects
 {
@@ -406,9 +439,10 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
 </programlisting>
 
       This code cycles over the spaces in a lattice, and if the
-      conditions are right, it causes the Bug class to create an
-      instance of itself, called "aBug", and then that instance is
-      added to the bugList.
+      conditions are right, it causes the <classname>Bug</classname>
+      class to create an instance of itself, called
+      <varname>aBug</varname>, and then that instance is added to the
+      <varname>bugList</varname>.
     </para>
 
     <para>
@@ -416,6 +450,7 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
       versatile. For example, create a new method called
       <function>spawnOneBug</function> that moves out the bug creation
       steps.
+
 <programlisting>
 - buildObjects
 {
@@ -450,9 +485,9 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
 </programlisting>
 
       Why is this more versatile?  By isolating the steps necessary to
-      create a bug and add it to the bug list in the spawnOneBug
-      method, we make it much easier to add new bugs to the simulation
-      as time goes bye.
+      create a bug and add it to the <varname>bugList</varname> in the
+      <function>spawnOneBug</function> method, we make it much easier
+      to add new bugs to the simulation as time goes bye.
     </para>
   </sect2>
 
@@ -464,6 +499,7 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
       help but run into objects that get dropped. Little "helper
       objects" like indexes for lists are created and just as readily
       discarded with the command
+
 <programlisting>
   [someIndexName drop];
 </programlisting>
@@ -485,23 +521,26 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
     </para>
 
     <para>
-      The Swarm Sugar Scape model provides an excellent example of a
-      way to manage the birth and death of agents in an on-going
-      model.  The <application>sss</application> model's
-      <filename>ModelSwarm.m</filename> file contains the critical
-      ingredients.  It has a method
+      The Swarm <application>SugarScape</application> model provides
+      an excellent example of a way to manage the birth and death of
+      agents in an on-going model.  The <application>sss</application>
+      model's <filename>ModelSwarm.m</filename> file contains the
+      critical ingredients.  It has a method
       <function>addNewRandomAgent</function> which does what
-      spawnOneBug does--it includes all the commands that create an
-      instance of a SwarmObject and initializes
+      <function>spawnOneBug</function> does--it includes all the
+      commands that create an instance of a
+      <classname>SwarmObject</classname> and initializes
       it. <application>sss</application> also provides a handy
       structure to kill off agents and replace them with new ones.
       This is managed in a three stage process.  The model swarm
-      creates a Swarm list object called "reaperQueue".  When an event
-      occurs that forces an object below the survival threshold, then
-      that object is added to the reaperQue by the
-      <function>agentDeath</function> method.  Then the model swarm's
+      creates a Swarm list object called
+      <varname>reaperQueue</varname>.  When an event occurs that
+      forces an object below the survival threshold, then that object
+      is added to the <varname>reaperQueue</varname> by the
+      <function>agentDeath</function> method.  Then the model Swarm's
       schedule includes a command that removes the dead agents from
-      the reaperQue.  The reapAgents method transverses the list of
+      the <varname>reaperQueue</varname>.  The
+      <function>reapAgents</function> method transverses the list of
       agents who are to die, it removes them from the list of active
       agents and then tells them to drop themselves from memory.
 

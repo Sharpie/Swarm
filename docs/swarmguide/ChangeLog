@@ -1,5 +1,14 @@
 1999-05-19  Alex Lancaster  <alex@santafe.edu>
 
+	* user2.05.sgml: Normalize SGML tags.
+
+	* print.dsl (%indent-programlisting-lines%): Set to a space " ".
+	(%example-rules%): Put rules before and after EXAMPLEs.
+
+	* user2.02.sgml: Reformatting and SGML tagging throughout.
+
+	* user2.06.sgml: Likewise.  Fix PROGRAMLISTING indenting.
+
 	* user2.04.sgml: Section on activating of Swarms (formerly
 	user2.11.sgml) reinserted here as placeholder.  Correct SGML tags
 	for VARNAME, CLASSNAME, FILENAME, FUNCTION used consistently

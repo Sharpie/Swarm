@@ -6,6 +6,14 @@
 <style-specification id="print" use="common docbook">
 <style-specification-body> 
 
+(define %indent-programlisting-lines%
+  ;; Indent lines in a 'ProgramListing'?
+  " ")
+
+(define %example-rules%
+  ;; Specify rules before and after an Example
+  #t)
+
 </style-specification-body>
 </style-specification>
 

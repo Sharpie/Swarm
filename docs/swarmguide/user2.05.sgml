@@ -320,9 +320,9 @@ object at which the index currently resides will be returned.  For
 example, consider this code that sets a variable called
 "elementFromList" equal to the next one, as provided by the index:
 
-<programListing>
+<programlisting>
 elementFromList = [pplIndex next];
-</programListing>
+</programlisting>
 
 When it is first created, the pplIndex is positioned at the edge of
 the collection, just before the first object in the collection. If we
