@@ -1,3 +1,8 @@
+1999-04-26  Alex Lancaster  <alex@santafe.edu>
+
+	* analysis.h (EZBin, EZGraph): Add compliance to SwarmObject
+	protocol.
+
 1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ActiveGraph.[hm], ActiveOutFile.[hm], Averager.[hm], EZBin.h,
