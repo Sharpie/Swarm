@@ -61,12 +61,9 @@ PHASE(Using)
       "Int2dFiler: attempted to file a (null) space object!\n"];
 
   outFile = [OutFile create: [self getZone] withName: aFileName];
-  
-  if (!outFile)
-    {
-      fprintf (stderr,"Warning (Int2DFiler): could not open %s!\n", aFileName);
-      return self;
-    }
+
+  if (outFile == nil)
+    return nil;
   
   lattice = [discrete2d getLattice];
   offsets = [discrete2d getOffsets];

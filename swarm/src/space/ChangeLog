@@ -1,5 +1,9 @@
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Int2dFiler.m ([Int -fileTo:]): Remove warning on nil outFile --
+	a warning will be issued by OutFile, anyway.  Return nil in this
+	case.
+
 	* Discrete2d.m ([Discrete2d -setDiscrete2d:toFile:]): Add protocol
 	name to error message.
 	
