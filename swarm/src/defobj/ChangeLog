@@ -1,7 +1,5 @@
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* make-h2x: Undef, define externvar as itself.
-
 	* Makefile.am (BUILT_SOURCES): Use TYPEINFO.
 	(module_headers): Remove.
 

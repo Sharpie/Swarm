@@ -3,7 +3,7 @@ AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(libobjc, 1.2)
 
 AC_PROG_CC
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(config.h externvar.h)
 AC_PROG_INSTALL
 
 #gccdir=`$CC -print-libgcc-file-name | sed 's/\/libgcc.a//'`
@@ -79,4 +79,4 @@ AC_SUBST(LIBOBJC_LA)
 AC_SUBST(OBJC_DLL)
 
 AC_CHECK_HEADERS(sys/sigevent.h)
-AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile objc/externvar.h])
+AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile])
