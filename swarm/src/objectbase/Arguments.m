@@ -171,7 +171,7 @@ parse_opt (int key, const char *arg, struct argp_state *state)
     case 'b':
       [self setBatchModeFlag: YES];
       break;
-    case 'a':
+    case 'm':
       [self setAppModeString: getApplicationValue (arg)];
       break;
     case 't':
