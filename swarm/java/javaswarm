@@ -20,6 +20,6 @@ if test -z "$1" ; then
   echo "export LD_LIBRARY_PATH CLASSPATH"
 else
   export LD_LIBRARY_PATH
-  JAVA_HOME=$jdkdir $JAVA -classpath "$classpath" $*
+  eval "$JAVA -classpath $classpath $*"
 fi
 

@@ -1,5 +1,9 @@
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* javaswarm: Use eval "$JAVA .." instead of setting JAVA_HOME before
+	running Java interpreter (eliminate superfluous use of JAVA_HOME
+	for Java implementations where it is not used).
+
 	* Makefile.am (Makefile.common $(SUBMAKEFILES)): Use JAVASTUBS_FUNCTION
 	instead of java-run-all.
 
