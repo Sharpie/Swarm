@@ -52,6 +52,9 @@ jmethodID m_BooleanValueOf,
 jfieldID f_nameFid, f_retTypeFid, 
   f_argTypesFid, f_objcFlagFid;
 
+extern id ControlStateRunning, ControlStateStopped,
+  ControlStateStepping, ControlStateQuit,ControlStateNextTime;
+  
 extern JNIEnv *jniEnv;
 
 static void
@@ -607,9 +610,11 @@ java_directory_init (JNIEnv *env,
 
 {
   jobject o_globalZone, o_uniformIntRand, o_uniformDblRand,
-    o_probeLibrary;
+    o_probeLibrary, o_controlStateRunning, o_controlStateStopped,
+    o_controlStateStepping, o_controlStateQuit, o_controlStateNextTime;
   jfieldID globalZoneFid, uniformIntRandFid, uniformDblRandFid,
-    probeLibraryFid;
+    probeLibraryFid, controlStateRunningFid, controlStateStoppedFid,
+    controlStateSteppingFid, controlStateQuitFid, controlStateNextTimeFid;
   jclass class;
 
   jclass probeLibraryClass =
@@ -620,10 +625,12 @@ java_directory_init (JNIEnv *env,
     java_class_for_typename (env, "UniformIntegerDist", YES);
   jclass uniformDoubleDistClass =
     java_class_for_typename (env, "UniformDoubleDist", YES);
+  jclass symbolClass =
+    java_class_for_typename (env, "Symbol", YES);
 
   const char *zoneClassSig,
     *uniformIntegerDistClassSig, *uniformDoubleDistClassSig,
-    *probeLibraryClassSig;
+    *probeLibraryClassSig, *symbolClassSig;
 
   o_globalZone = (*env)->AllocObject (env, zoneClass);
   o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
@@ -637,6 +644,12 @@ java_directory_init (JNIEnv *env,
   o_probeLibrary = (*env)->AllocObject (env, probeLibraryClass);
   o_probeLibrary = (*env)->NewGlobalRef (env, o_probeLibrary);
 
+  o_controlStateRunning = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
+  o_controlStateStopped = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
+  o_controlStateStepping = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
+  o_controlStateQuit = (*env)->NewGlobalRef (env, (*env)->AllocObject (env, symbolClass));
+  o_controlStateNextTime = (*env)->NewGlobalRef (env, (*env)->AllocObject (env,symbolClass));
+
   zoneClassSig =
     create_signature_from_object (env, o_globalZone);
   uniformIntegerDistClassSig =
@@ -645,6 +658,8 @@ java_directory_init (JNIEnv *env,
     create_signature_from_object (env, o_uniformDblRand);
   probeLibraryClassSig =
     create_signature_from_object (env, o_probeLibrary);
+  symbolClassSig =
+    create_signature_from_object (env, o_controlStateRunning);
 
   jniEnv = env;
   java_tree = avl_create (compare_java_objects, NULL);
@@ -682,6 +697,22 @@ java_directory_init (JNIEnv *env,
 
   XFREE (probeLibraryClassSig);
 
+  controlStateRunningFid = (*env)->GetFieldID (env, class, 
+					    "ControlStateRunning",
+					    symbolClassSig);
+  controlStateStoppedFid = (*env)->GetFieldID (env, class, 
+					    "ControlStateStopped",
+					    symbolClassSig);
+  controlStateSteppingFid = (*env)->GetFieldID (env, class, 
+					     "ControlStateStepping",
+					     symbolClassSig);
+  controlStateQuitFid = (*env)->GetFieldID (env, class, "ControlStateQuit",
+					 symbolClassSig);
+  controlStateNextTimeFid = (*env)->GetFieldID (env, class, 
+					     "ControlStateNextTime",
+					     symbolClassSig);
+
+  XFREE (symbolClassSig);
 
   (*env)->SetObjectField (env,
                           swarmEnvironment,
@@ -703,6 +734,33 @@ java_directory_init (JNIEnv *env,
 			  uniformDblRandFid,
 			  o_probeLibrary);
 
+
+  (*env)->SetObjectField (env,
+			  swarmEnvironment,
+			  controlStateRunningFid,
+			  o_controlStateRunning);
+  
+  (*env)->SetObjectField (env,
+			  swarmEnvironment,
+			  controlStateStoppedFid,
+			  o_controlStateStopped);
+  
+  (*env)->SetObjectField (env,
+			  swarmEnvironment,
+			  controlStateSteppingFid,
+			  o_controlStateStepping);
+  
+  (*env)->SetObjectField (env,
+			  swarmEnvironment,
+			  controlStateQuitFid,
+			  o_controlStateQuit);
+
+  (*env)->SetObjectField (env,
+			  swarmEnvironment,
+			  controlStateNextTimeFid,
+			  o_controlStateNextTime);
+
+
   java_directory_update (env, o_globalZone, globalZone);
   {
     extern id uniformIntRand, uniformDblRand, probeLibrary;
@@ -710,6 +768,12 @@ java_directory_init (JNIEnv *env,
     java_directory_update (env, o_uniformIntRand, uniformIntRand);
     java_directory_update (env, o_uniformDblRand, uniformDblRand);
     java_directory_update (env, o_probeLibrary, probeLibrary);
+
+    java_directory_update (env, o_controlStateRunning, ControlStateRunning );
+    java_directory_update (env, o_controlStateStopped, ControlStateStopped );
+    java_directory_update (env, o_controlStateStepping, ControlStateStepping );
+    java_directory_update (env, o_controlStateQuit, ControlStateQuit );
+    java_directory_update (env, o_controlStateNextTime, ControlStateNextTime );
   }
 }
 

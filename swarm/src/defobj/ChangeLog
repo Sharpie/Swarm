@@ -4,6 +4,9 @@
 	with same name as Java method check to see, if the types match.
 	(java_directory_init): Initialize probeLibrary field of 
 	SwarmEnvironment.
+	(java_directory_init): Initialize ControlState... fields in
+	SwarmEnvironment that correspond to Symbols ControlState...
+	from simtoolsgui.
 
 1999-07-11  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
