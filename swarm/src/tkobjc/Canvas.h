@@ -3,9 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/Widget.h>
+#import <tkobjc/ArchivedGeometryWidget.h>
 
-@interface Canvas: Widget {
+@interface Canvas: ArchivedGeometryWidget
+{
 }
 
 -createEnd;
