@@ -1,12 +1,12 @@
 1999-01-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* defobj.m (lispIn, hdf5In): Use it.
-
 	* DefClass.[hm]: Remove lispIn: and hdf5In:.
 
 	* DefClass.[hm], defobj.h ([CreatedClass_s -setBaseTypeObject:]):
 	New method.
 	(createType): New function.
+
+	* defobj.m (lispIn, hdf5In): Use createType.
 	
 	* DefClass.m ([CreatedClass_s -hdf5InCreate:]): Set the baseTypeObject
 	to self and call HDF5's getClass.  
