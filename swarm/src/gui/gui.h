@@ -967,6 +967,34 @@ USING
 //D: A CompositeCanvasItem for displaying a link between two NodeItems.
 @end
 
+@protocol _ScheduleItem
+CREATING
++ createBegin: aZone;
+
+//M: Set the schedule to be inspected.
+- setSchedule: schedule;
+
+//M: Set the horizontal spacing of a time step.
+- setStep: (unsigned)step;
+
+//M: Position the item on the canvas.
+- setX: (int)x Y: (int)y;
+
+- createItem;
+USING
+//M: Redraw widget with current values from Schedule.
+- update;
+
+//M: Remove the schedule inspector from the canvas.
+- (void)drop;
+@end
+
+@protocol ScheduleItem <_ScheduleItem, CompositeItem>
+//S: A canvas item for displaying the time structure of a schedule.
+
+//S: A CompositeCanvasItem for displaying the time structure of a schedule.
+@end
+
 @protocol _OvalNodeItem
 CREATING
 //M: Create the OvalNodeItem.
@@ -993,6 +1021,8 @@ CREATING
 
 @protocol _TextItem
 CREATING
++ createBegin: aZone;
+
 //M: Set the coordinate for the center of the text.
 - setX: (int)x Y: (int)y;
 
@@ -1001,6 +1031,9 @@ CREATING
 
 //M: Set the font with which to display the text.
 - setFont: (const char *)the_font;
+
+//M: Determine whether text is centered or not.
+- setCenterFlag: (BOOL)centerFlag;
 
 //M: Create the TextItem.
 - createItem; 
@@ -1133,7 +1166,11 @@ extern void initTkObjc (id arguments);
 @class RectangleNodeItem;
 @class Raster;
 @class ZoomRaster;
+
 @class Circle;
+@class Line;
+@class ScheduleItem;
+@class TextItem;
 
 #define ButtonLeft 1
 #define ButtonMiddle 2

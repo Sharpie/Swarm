@@ -1,7 +1,9 @@
 1998-09-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h (Circle): Make argument to setRadius: unsigned.
-	Provide Circle class object.
+	Provide Circle, Line, ScheduleItem, and TextItem class objects.
+	(_ScheduleItem, ScheduleItem): New protocols.
+	(_TextItem): Add +createBegin: and setCenterFlag:.
 
 1998-09-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
