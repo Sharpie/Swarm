@@ -7,6 +7,7 @@
 #import <simtools/SimpleProbeDisplay.h>
 #import <simtools/CompleteProbeDisplay.h>
 #import <simtools/global.h>
+#import <tkobjc/control.h>
 
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1

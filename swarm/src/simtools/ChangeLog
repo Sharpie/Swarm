@@ -1,5 +1,8 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ProbeDisplay.m ([ProbeDisplay -setWindowGeometryRecordName:]):
+	Include tkobjc/control.h.
+
 	* VarProbeWidget.m ([VarProbeWidget -createEnd]): Update to new or
 	renamed tkobjc_setAnchorEast, tkobjc_setWidth,
 	tkobjc_bindReturnToSetValue,
