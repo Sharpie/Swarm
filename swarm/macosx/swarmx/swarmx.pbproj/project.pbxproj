@@ -125,6 +125,35 @@
 //792
 //793
 //794
+		792AD47003C38EEC00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "compiler-info-generic.h";
+			refType = 4;
+		};
+		792AD47203C3B79D00000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			name = configure.sh;
+			path = build/configure.sh;
+			refType = 2;
+		};
+		792AD47303C3B7A600000164 = {
+			children = (
+				792AD47203C3B79D00000164,
+			);
+			isa = PBXGroup;
+			name = build;
+			path = swarmx.pbproj;
+			refType = 4;
+		};
+		792AD47403C3BB6800000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = INSTALL.MacOSX;
+			path = /Users/billn/Public/Swarm/swarm/macosx/INSTALL.MacOSX;
+			refType = 0;
+		};
 		79CEDEB603C15B1500000164 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3133,6 +3162,7 @@
 		C6A0FF2B0290797F04C91782 = {
 			children = (
 				79CEDEB603C15B1500000164,
+				792AD47403C3BB6800000164,
 			);
 			isa = PBXGroup;
 			name = Documentation;
@@ -5218,20 +5248,14 @@
 		};
 		F6EF840E03A43AC2015E7421 = {
 			children = (
-				F6EF841003A43AC2015E7421,
 				F6EF841103A43AC2015E7421,
+				792AD47003C38EEC00000164,
 				F6EF841203A43AC2015E7421,
 				F6EF841303A43AC2015E7421,
 				F6EF841403A43AC2015E7421,
 			);
 			isa = PBXGroup;
 			path = powerpc;
-			refType = 4;
-		};
-		F6EF841003A43AC2015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "compiler-info-generic.h";
 			refType = 4;
 		};
 		F6EF841103A43AC2015E7421 = {
@@ -6074,6 +6098,7 @@
 		};
 		F6EF84B203A43AC5015E7421 = {
 			children = (
+				792AD47303C3B7A600000164,
 				F6EF84C203A43AC5015E7421,
 			);
 			isa = PBXGroup;
@@ -12144,7 +12169,7 @@
 			buildPhases = (
 			);
 			buildSettings = {
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = "-fgnu-runtime";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = config;
