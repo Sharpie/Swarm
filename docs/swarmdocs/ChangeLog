@@ -2,7 +2,7 @@
 
 	* Makefile.rules (_$(NAME).tex $(addprefix $(NAME),.fot .rtf), 
 	$(NAME).html, $(NAME).dvi): Don't depend on figs.
-	($(DATA)): Depend on figs.
+	($(dvi_DATA) $(html_DATA) $(ps_DATA) $(rtf_DATA)): Depend on figs.
 
 	* Makefile.am (html dvi rtf fot ps htmldist dvidist rtfdist
 	psdist): Don't depend on all. 
