@@ -8,6 +8,9 @@ TYPEINFO = $(MODULE).xm types.h classes.h
 
 CLEANFILES = $(TYPEINFO)
 
+override LDFLAGS += -L$(dir $(shell $(CC) -print-libgcc-file-name))
+override LIBS += -lgcc
+
 headers: $(module_headers)
 
 $(TYPEINFO): $(MODULE).h $(MAKEH2X) # $(SOURCES)
