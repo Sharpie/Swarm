@@ -8,9 +8,10 @@
 // The values will appear in ascending order by default.
 // Reverse order can be obtained by calling reverseOrderOf
 
+#import <simtools.h> // QSort
 #import <objectbase/SwarmObject.h>
 
-@interface QSort: SwarmObject
+@interface QSort: SwarmObject <QSort>
 {
 }
 

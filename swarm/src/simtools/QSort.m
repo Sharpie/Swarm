@@ -14,6 +14,9 @@ static id *flat;
 static int size;
 static SEL comp_selector;
 
+PHASE(Creating)
+PHASE(Using)
+
 + (void)_flatten_: aCollection
 {
   id index;  //atOffset would cause repetitive traversal in lists etc.
@@ -110,7 +113,7 @@ cmpObjs (id *a, id *b)
     }
 }
 
-+(void) sortNumbersIn: aCollection
++ (void)sortNumbersIn: aCollection
                 using: (int(*)(const void*,const void*)) comp_fun
 {
   [self _flatten_: aCollection];

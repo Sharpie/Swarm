@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtools.h> // ObjectLoader
 #import <objectbase/SwarmObject.h>
-#import <simtools.h>
 
-@interface ObjectLoader: SwarmObject
+@interface ObjectLoader: SwarmObject <ObjectLoader>
 {
   id <ProbeMap> probeMapCache;
   id theFileObject; 

@@ -3,13 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import "UName.h"
+#import <simtools/UName.h>
 #import <collections.h>
-
-#include <swarmconfig.h>
 #include <misc.h>
 
 @implementation UName
+
+PHASE(Creating)
 
 + create: aZone setBaseName: (const char *)aString
 {
@@ -25,13 +25,6 @@
 
   [obj setBaseNameObject: aStringObject];
   return [obj createEnd];
-}
-
-- resetCounter
-{
-  counter = 0;
-
-  return self;
 }
 
 - setBaseName: (const char *)aString
@@ -66,6 +59,15 @@
   
   [super createEnd];
   [self resetCounter];
+
+  return self;
+}
+
+PHASE(Using)
+
+- resetCounter
+{
+  counter = 0;
 
   return self;
 }

@@ -3,11 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtools.h> // ObjectSaver
 #import <objectbase/SwarmObject.h>
-#import <objectbase/VarProbe.h>
-#import <simtools.h>
+#import <objectbase.h> // ProbeMap
 
-@interface ObjectSaver: SwarmObject
+@interface ObjectSaver: SwarmObject <ObjectSaver>
 {
   id <ProbeMap> templateProbeMap;  
   id theFileObject;    

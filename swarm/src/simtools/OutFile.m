@@ -7,7 +7,7 @@
 #include <misc.h> // fopen, fprintf, fclose
 
 @implementation OutFile
-
+PHASE(Creating)
 + create: aZone withName: (const char *)theName
 {
   FILE *aFile = fopen (theName, "w");
@@ -23,6 +23,8 @@
   theFile = aFile;
   return self;
 }
+
+PHASE(Using)
 
 - (FILE *)_getFile_
 {

@@ -10,6 +10,9 @@
 #import <random.h>
 
 @implementation NSelect
+PHASE(Creating)
+
+PHASE(Using)
 
 + (void)select: (int)n from: aCollection into: bCollection
 {

@@ -11,6 +11,7 @@
 #include <misc.h> // stpcpy
 
 @implementation ObjectLoader
+PHASE(Creating)
 
 + createBegin: aZone
 {
@@ -74,6 +75,17 @@
   return [self load: anObject fromFileNamed: buf];
 }
 
+PHASE(Setting)
+
+- setFileObject: aFileObject
+{
+  theFileObject = aFileObject;
+
+  return self;
+}
+
+PHASE(Using)
+
 + (void)_crash_: anObject
 {
   raiseEvent (LoadError, 
@@ -86,13 +98,6 @@
   raiseEvent (LoadError,
               "Could not initialize class loader for %s (instance)\n",
               [anObject name]);
-}
-
-- setFileObject: aFileObject
-{
-  theFileObject = aFileObject;
-
-  return self;
 }
 
 - loadObject: anObject

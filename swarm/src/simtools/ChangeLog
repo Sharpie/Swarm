@@ -1,3 +1,10 @@
+1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	AppendFile.[hm], InFile.[hm], NSelect.[hm],
+	ObjectLoader.[hm], ObjectSaver.[hm], OutFile.[hm],
+	QSort.[hm], UName.[hm], simtools.h: Add protocol compliance
+	tagging in interfaces (adjusting phase structure as necessary).
+
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I for libobjc.

@@ -3,13 +3,14 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtools.h> // OutFile
 #import <simtools/OutFile.h>
 
 // This object opens the designated file in `append' mode
 // rather than `create' mode, thus not wiping out
 // an existing file.
 
-@interface AppendFile: OutFile
+@interface AppendFile: OutFile <OutFile>
 {
 }
 

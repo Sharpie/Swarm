@@ -9,6 +9,7 @@
 #include <misc.h> // fopen, fgetc, fscanf, fclose, ungetc
 
 @implementation InFile
+PHASE(Creating)
 
 + create: aZone withName: (const char *)theName
 {
@@ -26,6 +27,8 @@
   theFile = aFile;
   return self;
 }
+
+PHASE(Using)
 
 - (int)getWord: (char *)aWord
 {

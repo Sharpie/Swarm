@@ -202,7 +202,7 @@ CREATING
 //D: This class is used to initialize the variables of a target object from
 //D: a data file. The data file is required to have a very simple format.
 
-USING
+CREATING
 //M: The load:from: method loads anObject from the previously opened 
 //M: aFileObject without returning an actual instance of the ObjectLoader 
 //M: class.  The FileObject remains open after the method has been called. 
@@ -224,11 +224,17 @@ USING
 //M: The ObjectLoader class will open the file, initialize the 
 //M: object with its contents and then close the file.
 + load: anObject fromAppDataFileNamed: (const char *)aFileName;
-
+SETTING
 //M: The setFileObject: method sets the source fileObject which the instance 
 //M: of the ObjectLoader class should use by sending it this message.
 - setFileObject: aFileObject;
 
+//M: The setTemplateProbeMap: method is used to specify which variables of the
+//M: target object(s) should be loaded by the ObjectLoader instance to which
+//M: this message was sent.
+- setTemplateProbeMap: (id <ProbeMap>)probeMap;
+
+USING
 //M: The loadObject: message must be sent to an instance of the ObjectLoader 
 //M: class in order to initialize the target object from the requested file.
 - loadObject: anObject;
@@ -236,11 +242,6 @@ USING
 //M: The updateCache: method should be called if an ObjectLoader instance is 
 //M: going to initialize a large number of objects from the same class.
 - updateCache: exampleTarget; 
-
-//M: The setTemplateProbeMap: method is used to specify which variables of the
-//M: target object(s) should be loaded by the ObjectLoader instance to which
-//M: this message was sent.
-- setTemplateProbeMap: (id <ProbeMap>)probeMap;
 @end
 
 @protocol ObjectSaver <SwarmObject, CREATABLE>
@@ -251,7 +252,7 @@ USING
 //D: specified by a template ProbeMap (where the ProbeMap will contain Probes 
 //D: for those variables which should be saved). 
 
-USING
+CREATING
 //M: The save:to: method saves the entire target object without actually 
 //M: returning an instance of ObjectSaver to the user.
 + save: anObject to: aFileObject;
@@ -271,6 +272,7 @@ USING
 + save: anObject toFileNamed: (const char *)aFileName 
                 withTemplate: (id <ProbeMap>)aProbeMap;
 
+SETTING
 //M: The setFileObject: method sets the target fileObject which the instance 
 //M: of the ObjectSaver class should use.
 - setFileObject: aFileObject;
@@ -280,6 +282,7 @@ USING
 //M: message was sent.
 - setTemplateProbeMap: (id <ProbeMap>)aProbeMap;
 
+USING
 //M: The saveObject: message tells an instance of the ObjectSaver class to 
 //M: save the state of the target object into the requested file.
 - saveObject: anObject;
@@ -293,7 +296,7 @@ USING
 //D: default. Reversing the order of a collection can be made by calling 
 //D: reverseOrderOf. All these methods modify the underlying collection, so
 //D: any indexes should always be regenerated. 
-
+CREATING
 USING
 //M: The sortObjectsIn: method will sort the objects in the collection with the
 //M: "compare' function for the object.  If the objects don't provide a
@@ -302,7 +305,7 @@ USING
 
 //M: The sortObjectsIn:using: method will sort the objects in the collection 
 //M: with the specified comparison function for the object.
-+ (void)sortObjectsIn: aCollection using: (SEL) aSelector;
++ (void)sortObjectsIn: aCollection using: (SEL)aSelector;
 
 //M: The sortNumbersIn: method performs integer comparisons on the objects in
 //M: the collection using the default "compare" function.  The default assumes
@@ -313,7 +316,7 @@ USING
 //M: objects in the collection with the specified comparison function for the
 //M: object.
 + (void)sortNumbersIn: aCollection
-                using: (int(*)(const void*,const void*)) comp_fun;
+                using: (int (*) (const void*, const void*))comp_fun;
 
 //M: The reverseOrderOf: method reverses the current order of a collection.
 //M: To make a "reversed" sort, simply call one of the appropriate "sort"
@@ -326,7 +329,7 @@ USING
 
 //D: NSelect selects exactly N elements from a collection without repetition.
 //D: A target collection must be provided.
-
+CREATING
 USING
 //M: The select:from:into: method selects exactly N elements from a collection
 //M: without repetition into another collection.  The selection algorithm

@@ -3,9 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtools.h> // InFile
 #import <objectbase/SwarmObject.h>
 
-@interface InFile: SwarmObject
+@interface InFile: SwarmObject <InFile>
 {
   FILE *theFile;
 }

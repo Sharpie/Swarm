@@ -8,6 +8,7 @@
 #include <misc.h> // fopen
 
 @implementation AppendFile
+PHASE(Creating)
 
 + create: aZone withName: (const char *)theName
 {
@@ -18,5 +19,6 @@
   
   return [[self create: aZone] _setFile_: aFile];
 }
+PHASE(Using)
 
 @end

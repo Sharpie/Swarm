@@ -8,6 +8,7 @@
 #import <defobj.h> // SaveError
 
 @implementation ObjectSaver
+PHASE(Creating)
 
 + createBegin: aZone
 {
@@ -80,6 +81,17 @@
   return self;
 }
 
+PHASE(Setting)
+
+- setFileObject: aFileObject
+{
+  theFileObject = aFileObject;
+
+  return self;
+}
+
+PHASE(Using)
+
 + (void)_crash_: anObject
 {
   raiseEvent (SaveError, 
@@ -92,13 +104,6 @@
   raiseEvent (SaveError,
               "Could not save %s properly (instance)\n",
               [anObject name]);
-}
-
-- setFileObject: aFileObject
-{
-  theFileObject = aFileObject;
-
-  return self;
 }
 
 - saveObject: anObject
