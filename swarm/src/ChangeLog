@@ -1,3 +1,7 @@
+1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (swarm.dll): Use genctors instead of inline commands.
+
 1999-05-25    <mgd@HELEN>
 
 	* Makefile.am (OBJS, swarm.dll): Don't take apart convenience

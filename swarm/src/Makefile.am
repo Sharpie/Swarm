@@ -37,15 +37,11 @@ empty.m:
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc
 
 CTOR = swarm_constructors
-OBJS = ../libobjc/*.o $(foreach module,$(SWARMMODULES),$(module)/*.o)
+OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.o)
 
 swarm.dll: libswarm.la
 	$(CC) -c $(srcdir)/dllinit.c
-	nm $(OBJS) | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(__GLOBAL_\$$I\$$.*\)/extern void $(CTOR)_sym\1 (void) __asm__ (\"\4\");/p" > $(CTOR).c
-	echo >> $(CTOR).c
-	echo "void $(CTOR) (void) {" >> $(CTOR).c
-	nm $(OBJS) | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(__GLOBAL_\$$I\$$.*\)/$(CTOR)_sym\1 ();/p" >> $(CTOR).c
-	echo "}" >> $(CTOR).c
+	$(top_srcdir)/etc/genctors $(OBJS) > $(CTOR).c
 	$(CC) -c $(CTOR).c
 	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
