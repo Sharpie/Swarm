@@ -402,7 +402,7 @@ USING
 //M: as its argument.  The class also determines the size of the structure
 //M: allocated.  All remaining contents of this structure are initialized
 //M: to binary zeroes.
-- allocIVars: aClass;
+- allocIVars: (Class)aClass;
 
 //M: copyIVars: creates copies an existing instance variable structure into
 //M: a new allocation made within the local zone.  The existing instance
@@ -427,7 +427,7 @@ USING
 //M: population.  It is used by classes that allocate additional objects
 //M: as part of the implementation of another object, and that control the
 //M: mapping of this storage separately from the zone level objects.
-- allocIVarsComponent: aClass;
+- allocIVarsComponent: (Class)aClass;
 
 //M: Like allocateIVarsComponent, except it copies the storage that holds
 //M: the instances variables for an object.

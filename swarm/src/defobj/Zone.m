@@ -129,10 +129,10 @@ PHASE(Using)
 //
 // allocIVars: -- allocate and initialize instance variables for object
 //
-- allocIVars: aClass
+- allocIVars: (Class)aClass
 {
   Object_s *newObject;
-  size_t size = ((Class) aClass)->instance_size;
+  size_t size = aClass->instance_size;
 
   //!! need to guarantee that class inherits from Object_s, to define slot
   //!! for zbits
@@ -154,7 +154,7 @@ PHASE(Using)
 
   memset (newObject, 0, size);
   setClass (newObject, aClass);   
-  newObject->zbits = (unsigned long)self;   
+  newObject->zbits = (unsigned long) self;   
   return (id)newObject;
 }
 
@@ -243,7 +243,7 @@ PHASE(Using)
   memset (newObject, 0, aClass->instance_size);
   setClass (newObject, aClass);   
   newObject->zbits = (unsigned long) self;
-  setBit (newObject->zbits, BitComponentAlloc, 1); 
+  setBit (newObject->zbits, BitComponentAlloc, 1);
   return newObject;
 }
 
@@ -299,7 +299,6 @@ PHASE(Using)
       memset ((id *) anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
     }
-
   XFREE (anObject);
 }
 

@@ -30,10 +30,10 @@ Library:      defobj
 - (void)setPageSize: (size_t)pageSize;
 - createEnd;
 - (size_t)getPageSize;
-- allocIVars: aClass;
+- allocIVars: (Class)aClass;
 - copyIVars: anObject;
 - (void)freeIVars: anObject;
-- allocIVarsComponent: aClass;
+- allocIVarsComponent: (Class)aClass;
 - copyIVarsComponent: anObject;
 - (void)freeIVarsComponent: anObject;
 - getComponentZone;
