@@ -90,6 +90,13 @@ auditRunRequest (Activity_c *self, const char *request)
 {
   CAction *action = [currentIndex get];
 
+  BOOL obsoletep ()
+    {
+      Activity_c *subactivity = ((ActionMerge_c *) action)->subactivity;
+
+      return COMPLETEDP (subactivity->status) && !subactivity->keepEmptyFlag;
+    }
+
   if (getClass (action) == id_ActionConcurrent_c)
     {
       id <Index> index =
@@ -101,7 +108,7 @@ auditRunRequest (Activity_c *self, const char *request)
           if (getClass (mergeAction) != id_ActionMerge_c)
             abort ();
 
-          if (COMPLETEDP (mergeAction->subactivity->status))
+          if (obsoletep ())
             [index remove];
         }
       [index drop];
@@ -109,7 +116,7 @@ auditRunRequest (Activity_c *self, const char *request)
     }
   else if (getClass (action) == id_ActionMerge_c)
     {
-      if (COMPLETEDP ((((ActionMerge_c *)action)->subactivity)->status))
+      if (obsoletep ())
         {
           [currentIndex remove];
 
