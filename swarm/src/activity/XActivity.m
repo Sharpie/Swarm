@@ -30,26 +30,33 @@ BOOL  (*_activity_trace)( id );
 //
 // auditRunRequest() -- common function for run and step messages
 //
-static void auditRunRequest( Activity_c *self, char *request )
+static void
+auditRunRequest (Activity_c *self, const char *request)
 {
-  if ( ! self->topLevelAction )
-    raiseEvent( SourceMessage,
-"> can only %s a top-level activity (top-level activity will automatically\n"
-"> %s the lowest level pending activity)\n", request, request );
-
+  if (!self->topLevelAction)
+    raiseEvent (SourceMessage,
+                "> can only %s a top-level activity "
+                "(top-level activity will automatically\n"
+                "> %s the lowest level pending activity)\n",
+                request, request);
+  
   if ( self->status == Running )
-    raiseEvent( SourceMessage, 
-     "> cannot request to %s an activity while it is already running\n"
-     "> (must stop first)\n", request );
-  if ( self->status == Completed )
+    raiseEvent (SourceMessage, 
+                "> cannot request to %s an activity while it "
+                "is already running\n"
+                "> (must stop first)\n",
+                request);
+  if (self->status == Completed)
     raiseEvent( SourceMessage,
-       "> cannot %s an activity that is already completed\n", request );
-/*
-Eventually, could request that a lower-level activity be advanced if not
-holding on other activities, and all are stopped.  For now, no running or
-stepping anyway except at top level, which can never be Holding.  When remove
-restriction to run only at top level, must also add check for Holding.
-*/
+                "> cannot %s an activity that is already completed\n", 
+                request);
+  /*
+    Eventually, could request that a lower-level activity be advanced if not
+    holding on other activities, and all are stopped.  For now, no running or
+    stepping anyway except at top level, which can never be Holding.
+    When remove restriction to run only at top level, must also add check
+    for Holding.
+  */
 }
 
 //
@@ -59,7 +66,7 @@ restriction to run only at top level, must also add check for Holding.
 //
 - run
 {
-  auditRunRequest( self, "run" );
+  auditRunRequest (self, "run");
   ownerActivity = _activity_current;
   _activity_current = self;
   [self _run_];
@@ -600,20 +607,24 @@ static BOOL installStep( id activity )
 // _activity_context_error() --
 //   function to generate error message if invalid context query
 //
-extern id _activity_context_error( char *macroName )
+id
+_activity_context_error (const char *macroName)
 {
-  if ( ! _activity_current )
-    raiseEvent( InvalidOperation,
-"> %s(): there is no currently running activity from which\n"
-"> to obtain requested activity context information.  The context query\n"
-"> macros are available only within a compiled action being executed under\n"
-"> a running activity.  They are not available when the activity is stopped\n"
-"> or otherwise inactive.  This includes any external probe request.\n",
-      macroName );
-
-  raiseEvent( InvalidOperation,
-"> %s(): an Swarm or Schedule does not exist in the current activity\n"
-"> context from which to obtain the requested value.\n", macroName );
-
+  if (!_activity_current)
+    raiseEvent (InvalidOperation,
+                "> %s(): there is no currently running activity from which\n"
+                "> to obtain requested activity context information.\n"
+                "> The context query macros are available only within a"
+                "> compiled action being executed under a running activity.\n"
+                "> They are not available when the activity is stopped\n"
+                "> or otherwise inactive.\n"
+                "> This includes any external probe request.\n",
+                macroName);
+  
+  raiseEvent (InvalidOperation,
+              "> %s(): an Swarm or Schedule does not exist in the current"
+              ">activity context from which to obtain the requested value.\n",
+              macroName);
+  
   return nil;
 }

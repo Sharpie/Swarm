@@ -354,7 +354,7 @@ _activity_context_error( "getCurrentAction" ) )
 //   internal definitions used by current context macros
 //
 extern id  _activity_current;
-extern id  _activity_context_error( char *macroName );
+extern id  _activity_context_error (const char *macroName);
 
 
 //
