@@ -3,6 +3,7 @@ includedir = @includedir@
 exec_prefix = @exec_prefix@
 libdir = @libdir@
 bindir = @bindir@
+sysconfdir = @sysconfdir@
 
 tcllibdir = @tcllibdir@
 tklibdir = @tklibdir@
@@ -52,8 +53,10 @@ all: $(APPLICATION)
 clean:
 	-rm -f $(OBJECTS) $(APPLICATION) $(OTHERCLEAN) core gmon.out
 
-install: $(APPLICATION)
+install: $(APPLICATION) install-config
 	$(INSTALL_PROGRAM) $(APPLICATION) $(bindir)
+
+install-config:
 
 $(APPLICATION): $(OBJECTS)
 	$(LINK) $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
