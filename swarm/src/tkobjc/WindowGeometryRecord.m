@@ -34,6 +34,21 @@ PHASE(Creating)
 }
 
 PHASE(Setting)
+static int
+getVal (id obj)
+{
+  if (!valuep (obj))
+    raiseEvent (WindowGeometryRecordError,
+                "Object is not a ArchiverValue (%s)",
+                [obj name]);
+  if ([obj getValueType] != _C_INT)
+    raiseEvent (WindowGeometryRecordError, 
+                "Object is not an integer (%s)",
+                [obj name]);
+    
+  return [obj getInteger];
+}
+
 - lispIn: expr
 {
   id index = [expr begin: scratchZone];
@@ -76,21 +91,6 @@ PHASE(Setting)
 }
 
 PHASE(Using)
-
-static int
-getVal (id obj)
-{
-  if (!valuep (obj))
-    raiseEvent (WindowGeometryRecordError,
-                "Object is not a ArchiverValue (%s)",
-                [obj name]);
-  if ([obj getValueType] != _C_INT)
-    raiseEvent (WindowGeometryRecordError, 
-                "Object is not an integer (%s)",
-                [obj name]);
-    
-  return [obj getInteger];
-}
 
 - lispOutShallow: stream
 {
