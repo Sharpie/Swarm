@@ -32,9 +32,9 @@ lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
 libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la)
 
-libswarm_la_SOURCES = SwarmEnvironment.m
+libswarm_la_SOURCES = SwarmEnvironment.m SwarmEnvironment_getters.m
 
-include_HEADERS = swarm.h SwarmEnvironment.h
+include_HEADERS = swarm.h SwarmEnvironment.h SwarmEnvironment_getters.h
 
 SwarmEnvironment.lo: SwarmEnvironment_getters.m
 

@@ -1,3 +1,8 @@
+2000-08-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (libswarm_la_SOURCES, include_HEADERS): Add
+	SwarmEnvironment_getters.[hm].
+
 2000-08-24    <mgd@DRONE>
 
 	* SwarmEnvironment.m ([SwarmEnvironment -createEnd]): Check for
