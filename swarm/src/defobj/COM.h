@@ -63,6 +63,7 @@ extern id swarm_directory_COM_ensure_object_objc (COMobject cObject);
 extern SEL swarm_directory_COM_ensure_selector (COMselector cSelector);
 extern Class swarm_directory_COM_ensure_class_objc (COMclass cClass);
 extern COMobject swarm_directory_COM_add_object_COM (COMobject cObject, id oObject);
+extern COMclass swarm_directory_COM_add_class_COM (COMclass cClass, Class oClass);
 extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *COM_copy_string (const char *str);
 extern const char *COM_class_name (COMobject cObj);
@@ -112,7 +113,7 @@ extern void COM_collect_methods (COMclass cClass, COM_collect_method_func_t func
 
 #define SD_COM_ADD_OBJECT_OBJC(cObject, oObject) swarm_directory_COM_add_object_objc (cObject, oObject)
 
-#define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_object_COM (cClass, (id) cClass)
+#define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_class_COM (cClass, oClass)
 #define SD_COM_ADD_SELECTOR(cSel, oSel) swarm_directory_COM_add_selector (cSel, oSel)
 
 #define SD_COM_COPY_STRING(str) COM_copy_string (str)

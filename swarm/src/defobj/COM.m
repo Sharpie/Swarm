@@ -27,13 +27,13 @@ COM_copy_string (const char *str)
 const char *
 COM_class_name (COMobject cObj)
 {
-  return comEnv->getName (cObj);
+  return SSTRDUP (comEnv->getName (cObj));
 }
 
 const char *
 COM_get_class_name (COMclass cClass)
 {
-  return comEnv->getComponentName (cClass);
+  return SSTRDUP (comEnv->getComponentName (cClass));
 }
 
 BOOL
@@ -373,6 +373,12 @@ add (COMobject cObject, id oObject)
   avl_probe (swarmDirectory->object_tree, entry);
   avl_probe (swarmDirectory->COM_tree, entry);
   return entry;
+}
+
+COMclass
+swarm_directory_COM_add_class_COM (COMclass cClass, Class oClass)
+{
+  return add (cClass, oClass)->foreignObject.COM;
 }
 
 COMobject

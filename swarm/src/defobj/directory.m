@@ -54,8 +54,19 @@ swarm_directory_entry_drop (DirectoryEntry *entry)
 
 - (void)describe: outputCharStream
 {
+  if (type == foreign_COM)
+    {
+      const char *className = COM_class_name (foreignObject.COM);
+      
+      [outputCharStream catC: "  COM: "];
+      [outputCharStream catC: className];
+      [outputCharStream catC: " "];
+      [outputCharStream catPointer: foreignObject.COM];
+      [outputCharStream catC: "\n"];
+      FREECLASSNAME (className);
+    }
 #ifdef HAVE_JDK
-  if (type == foreign_java)
+  else if (type == foreign_java)
     {
       const char *className =
         java_class_name (foreignObject.java);
@@ -82,8 +93,21 @@ swarm_directory_entry_drop (DirectoryEntry *entry)
 - (void)describe: stream
 {
   [stream catPointer: self];
-  [stream catC: " object: "];
-  [stream catC: object ? [object name] : "nil"];
+  if (object)
+    {
+      if ([object isInstance])
+        {
+          [stream catC: " object: "];
+          [stream catC: [object name]];
+        }
+      else
+        {
+          [stream catC: " class: "];
+          [stream catC: ((Class) object)->name];
+        }
+    }
+  else
+    [stream catC: "nil"];
   [stream catC: " "];
   [stream catPointer: object];
   [super describe: stream];
@@ -222,18 +246,28 @@ swarm_directory_objc_remove (id object)
 
 - (void)describe: outputCharStream
 {
-  unsigned i;
-
-  for (i = 0; i < DIRECTORY_SIZE; i++)
+  void node_func (void *data, void *param)
     {
-      if (javaTable[i])
-        {
-          [outputCharStream catC: "["];
-          [outputCharStream catUnsigned: i];
-          [outputCharStream catC: "]:\n"];
-          xfprint (javaTable[i]);
-        }
+      xprint (data);
     }
+  avl_walk (COM_tree, node_func, NULL);
+
+#ifdef HAVE_JDK
+ {
+   unsigned i;
+
+   for (i = 0; i < DIRECTORY_SIZE; i++)
+     {
+       if (javaTable[i])
+         {
+           [outputCharStream catC: "["];
+           [outputCharStream catUnsigned: i];
+           [outputCharStream catC: "]:\n"];
+           xfprint (javaTable[i]);
+         }
+     }
+ }
+#endif
 }
 
 @end
@@ -408,36 +442,57 @@ language_independent_class_name_for_typename (const char *typeName, BOOL usingFl
 }
 
 const char *
-language_independent_class_name_for_objc_class (Class class)
+language_independent_class_name_for_objc_class (Class oClass)
 {
   const char *className;
-  
-  if (getBit (class->info, _CLS_DEFINEDCLASS))
-    {
-      Type_c *typeImpl;
-      Class_s *nextPhase;
 
-      nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
-      typeImpl = [class getTypeImplemented];
-      if (typeImpl)
-        className =
-          language_independent_class_name_for_typename (typeImpl->name,
-                                                        nextPhase == NULL); 
+  if ([(id) oClass isInstance])
+    {
+      // It should be there.  SD_COM_FIND_CLASS_COM would recurse.
+      COMclass cClass = SD_COM_FIND_OBJECT_COM (oClass); 
+
+      if (cClass)
+        className = COM_get_class_name (cClass);
       else
-        className = NULL; // e.g., when HDF5 created one
+        {
+          // Likewise.
+          jclass jClass = SD_JAVA_FIND_OBJECT_JAVA (oClass);
+          
+          if (jClass)
+            className = java_get_class_name (jClass);
+          else
+            abort ();
+        }
     }
   else
     {
-      Type_c *typeImpl;
-
-      typeImpl = [class getTypeImplemented];
-
-      if (typeImpl)
-        className =
-	  language_independent_class_name_for_typename (typeImpl->name, YES);
-      else 
-        className =
-	  language_independent_class_name_for_typename (class->name, YES);
+      if (getBit (oClass->info, _CLS_DEFINEDCLASS))
+        {
+          Type_c *typeImpl;
+          Class_s *nextPhase;
+          
+          nextPhase = ((BehaviorPhase_s *) oClass)->nextPhase;
+          typeImpl = [oClass getTypeImplemented];
+          if (typeImpl)
+            className =
+              language_independent_class_name_for_typename (typeImpl->name,
+                                                            nextPhase == NULL);
+          else
+            className = NULL; // e.g., when HDF5 created one
+        }
+      else
+        {
+          Type_c *typeImpl;
+          
+          typeImpl = [oClass getTypeImplemented];
+          
+          if (typeImpl)
+            className =
+              language_independent_class_name_for_typename (typeImpl->name, YES);
+          else 
+            className =
+              language_independent_class_name_for_typename (oClass->name, YES);
+        }
     }
   return className;
 }
