@@ -236,11 +236,13 @@
       ;; EZDistribution
       "-getProbabilities"; double* return
 
-      ;; Discrete2d
+      ;; GridData
       "-getOffsets" ; long* return
+      "-getLattice"; id* return
+
+      ;; Discrete2d
       "-allocLattice" ; id* return
       "-setLattice:" ; id* parameter
-      "-getLattice"; id* return
 
       ;; DblBuffer2d
       "-getNewLattice" ; id* return
