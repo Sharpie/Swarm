@@ -114,7 +114,7 @@ AC_MSG_CHECKING(directory and version of libtcl)
 for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
   tcllibdir=''
   expand_dir=`eval echo $dir`
-  for suffix in .so .a; do
+  for suffix in .so .sl .a; do
     if test -n "$tcllibname"; then
       if test -r $expand_dir/lib${tcllibname}${suffix} ; then
         tcllibdir=$dir
@@ -140,7 +140,7 @@ if test -n "$tcllibdir" ; then
     TCLLDFLAGS=''
     TCLLIB="-l$tcllibname"
   else
-    if test $suffix = .so ; then
+    if test $suffix = .so || test $suffix = .sl; then
       TCLLDFLAGS="-L\${tcllibdir} -R \${tcllibdir}"
     else
       TCLLDFLAGS='-L${tcllibdir}'
@@ -210,7 +210,7 @@ AC_MSG_CHECKING(directory and version of libtk)
 for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
   tklibdir=''
   expand_dir=`eval echo $dir`
-  for suffix in .so .a; do
+  for suffix in .so .sl .a; do
     if test -n "$tklibname" ; then
       if test -r $expand_dir/lib${tklibname}${suffix} ; then
         tklibdir=$dir
@@ -236,7 +236,7 @@ if test -n "$tklibdir" ; then
     TKLDFLAGS=''
     TKLIB=-l$tklibname
   else
-    if test $suffix = .so ; then
+    if test $suffix = .so || test $suffix = .sl ; then
       TKLDFLAGS="-L\${tklibdir} -R \${tklibdir}"
     else
       TKLDFLAGS='-L${tklibdir}'
