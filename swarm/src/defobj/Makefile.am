@@ -3,7 +3,7 @@ CURRENT = 2
 REVISION = 0
 AGE = 0
 defobjdir = $(includedir)/$(MODULE)
-JAVAINCLUDES = -I$(top_srcdir)/java/c @JAVAINCLUDES@
+JAVAINCLUDES = @JAVAINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
@@ -21,7 +21,7 @@ BUILT_SOURCES = $(module_headers)
 
 SRC = Archiver.m Arguments.m Create.m Customize.m \
 	DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m \
-	FCall.m FArguments.m defobj.m internal.m
+	FCall.m FArguments.m defobj.m internal.m directory.m JavaProxy.m
 
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
@@ -32,7 +32,7 @@ bin_SCRIPTS = m2h make-h2x
 
 defobj_HEADERS = Archiver.h Arguments.h Create.h Customize.h \
 	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h \
-	FCall.h FArguments.h defalloc.h deftype.h
+	FCall.h FArguments.h defalloc.h deftype.h directory.h JavaProxy.h
 
 $(OBJECTS): version.h
 

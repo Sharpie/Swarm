@@ -1,3 +1,11 @@
+1999-05-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (JAVAINCLUDES): Remove java/c include.
+	(SRC): Add directory.m and JavaProxy.m.
+	(defobj_HEADERS): Add directory.h and JavaProxy.h.
+
+	* JavaProxy.[hm], directory.[hm]: Moved here from java/c.
+
 1999-05-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (lisp_output_type): Add support for long long and
