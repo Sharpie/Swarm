@@ -1,8 +1,34 @@
 #import <simtools.h> // initSwarmBatch
 #import <defobj.h> // FArguments, FCall
 #import <defobj/Create.h>
-#include <misc.h> // printf
+#include <misc.h> // printf, stpcpy, strlen
 #include <objc/mframe.h>
+
+@interface AnotherObject: CreateDrop
+{
+  const char *name;
+}
+- setName: (const char *)name;
+- (const char *)getNewName;
+@end
+
+@implementation AnotherObject: CreateDrop
+- setName: (const char *)theName
+{
+  name = theName;
+  return self;
+}
+
+- (const char *)getNewName
+{
+  char *buf = [[self getZone] alloc: 1 + strlen (name) + 1 + 1], *p = buf;
+  
+  p = stpcpy (buf, "<");
+  p = stpcpy (p, name);
+  p = stpcpy (p, ">");
+  return buf;
+}
+@end
 
 @interface DelegateObject: CreateDrop
 - (const char *)m1: (int)num float: (float)val double: (double)val2;
@@ -15,7 +41,10 @@
 - (int)im1i: (int)val1;
 - (float)fm1i: (int)val1;
 - (double)dm1i: (int)val1;
-
+- (const char *)testObject;
+- (const char *)testObject: obj0;
+- (const char *)testObject: obj0 : obj1;
+- (const char *)testObject: obj0 : obj1 : obj2;
 @end
 
 @implementation DelegateObject
@@ -119,6 +148,45 @@
 
   printf ("dm1i: %f\n", result);
   return result;
+}
+
+- (const char *)testObject
+{
+  return [self name];
+}
+
+- (const char *)testObject: obj
+{
+  return [obj getNewName];
+}
+
+- (const char *)testObject: obj0 : obj1
+{
+  const char *buf0 = [obj0 getNewName];
+  const char *buf1 = [obj1 getNewName];
+  char buf[strlen (buf0) + 1 + strlen (buf1) + 1], *p = buf;
+
+  p = stpcpy (buf, buf0);
+  p = stpcpy (p, ",");
+  p = stpcpy (p, buf1);
+
+  return SSTRDUP (buf);
+}
+
+- (const char *)testObject: obj0 : obj1 : obj2
+{
+  const char *buf0 = [obj0 getNewName];
+  const char *buf1 = [obj1 getNewName];
+  const char *buf2 = [obj2 getNewName];
+  char buf[strlen (buf0) + 1 + strlen (buf1) + strlen (buf2) + 1], *p = buf;
+
+  p = stpcpy (buf, buf0);
+  p = stpcpy (p, ",");
+  p = stpcpy (p, buf1);
+  p = stpcpy (p, ",");
+  p = stpcpy (p, buf2);
+
+  return SSTRDUP (buf);
 }
 
 @end
@@ -277,5 +345,45 @@ main (int argc, const char **argv)
   if ([obj dm1i: 6] != 11)
     return 1;
 
+  {
+    id anObject0 = [[[AnotherObject createBegin: globalZone]
+                      setName: "anObject0"]
+                     createEnd];
+    id anObject1 = [[[AnotherObject createBegin: globalZone]
+                      setName: "anObject1"]
+                     createEnd];
+    id anObject2 = [[[AnotherObject createBegin: globalZone]
+                      setName: "anObject2"]
+                     createEnd];
+    const char *ret;
+
+    ret = (const char *) [obj perform: M(testObject)];
+    printf ("[testObject] `%s'\n", ret);
+    if (strcmp (ret, "DelegateObject") != 0)
+      return 1;
+
+    ret = (const char *) [obj perform: M(testObject:)
+                              with: anObject0];
+    printf ("[testObject:] `%s'\n", ret);
+    if (strcmp (ret, "<anObject0>") != 0)
+      return 1;
+    
+    ret = (const char *) [obj perform: M(testObject::)
+                              with: anObject0
+                              with: anObject1];
+    printf ("[testObject::] `%s'\n", ret);
+    if (strcmp (ret, "<anObject0>,<anObject1>") != 0)
+      return 1;
+
+    ret = (const char *) [obj perform: M(testObject:::)
+                              with: anObject0
+                              with: anObject1
+                              with: anObject2];
+    printf ("[testObject:::] `%s'\n", ret);
+    if (strcmp (ret, "<anObject0>,<anObject1>,<anObject2>") != 0)
+      return 1;
+  }
+
   return 0;
 }
+

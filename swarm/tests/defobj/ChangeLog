@@ -1,3 +1,11 @@
+1999-09-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* forwarding.m (AnotherObject): New class.
+	([DelegateObject -testObject], [DelegateObject
+	-testObject:], [DelegateObject -testObject:]): New methods for testing
+	perform forwarding.
+	(main): Call them.
+
 1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* archiver.m (MyClass): Add long long and long double entries w/
