@@ -1003,6 +1003,9 @@ USING
 //M: Writes character string to stream
 - (void)catC: (const char *)cstring;
 
+//M: Writes a boolean to stream in Lisp archiver format
+- (void)catBoolean: (BOOL)bool;
+
 //M: Writes a character to stream in Lisp archiver format
 - (void)catChar: (char)ch;
 
@@ -1028,6 +1031,22 @@ USING
 - (void)catLongLong: (long long)lnglng;
 - (void)catUnsignedLongLong: (unsigned long long)ulnglng;
 - (void)catPointer: (void *)ptr;
+- (void)catStartExpr;
+- (void)catEndExpr;
+- (void)catKeyword: (const char *)keyword;
+- (void)catSymbol: (const char *)symbol;
+- (void)catString: (const char *)str;
+- (void)catSeparator;
+- (void)catArrayRank: (unsigned)rank;
+- (void)catType: (const char *)type;
+- (void)catClass: (const char *)className;
+- (void)catStartCons;
+- (void)catStartList;
+- (void)catStartQuotedList;
+- (void)catStartParse;
+- (void)catStartMakeInstance: (const char *)typeName;
+- (void)catStartMakeClass: (const char *)className;
+- (void)catUnsignedPair: (unsigned)a : (unsigned)b;
 @end
 
 @protocol InputStream <Create, Drop, CREATABLE>

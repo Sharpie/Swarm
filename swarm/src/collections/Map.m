@@ -764,15 +764,15 @@ PHASE(Using)
 {
   id index, member, key;
 
-  [outputCharStream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [outputCharStream catC: [self getTypeName]];
-
+  [outputCharStream catStartMakeInstance: [self getTypeName]];
   index = [(id) self begin: scratchZone];
   for (member = [index next: &key];
        [index getLoc] == Member;
        member = [index next: &key])
     {
-      [outputCharStream catC: " (cons "];
+      [outputCharStream catSeparator];
+      [outputCharStream catStartCons];
+      [outputCharStream catSeparator];
       if (COMPAREFUNCEQ (compareIDs) || compareFunc == NULL)
         {
           if (deepFlag)
@@ -781,33 +781,19 @@ PHASE(Using)
             [key lispOutShallow: outputCharStream];
         }
       else if (COMPAREFUNCEQ (compareUnsignedIntegers))
-        {
-          char buf[DSIZE (unsigned)];
-          
-          sprintf (buf, PTRINTFMT, (PTRINT) key);
-          [outputCharStream catC: buf];
-        }
+        [outputCharStream catUnsigned: (unsigned) (PTRUINT) key];
       else if (COMPAREFUNCEQ (compareIntegers))
-        {
-          char buf[DSIZE (unsigned)];
-          
-          sprintf (buf, PTRINTFMT, (PTRINT) key);
-          [outputCharStream catC: buf];
-        }
+        [outputCharStream catInt: (int) (PTRINT) key];
       else if (COMPAREFUNCEQ (compareCStrings))
-        {
-          [outputCharStream catC: "\""];
-          [outputCharStream catC: (const char *) key];
-          [outputCharStream catC: "\""];
-        }
+        [outputCharStream catString: (const char *) key];
       else
         abort ();
-      [outputCharStream catC: " "];
+      [outputCharStream catSeparator];
       if (deepFlag)
         [member lispOutDeep: outputCharStream];
       else
         [member lispOutShallow: outputCharStream];
-      [outputCharStream catC: ")"];
+      [outputCharStream catEndExpr];
     }
   [index drop];
   
@@ -815,22 +801,22 @@ PHASE(Using)
 
   if (compareFunc)
     {
-      [outputCharStream catC: " #:"];
-      [outputCharStream catC: COMPARE_FUNCTION];
+      [outputCharStream catSeparator];
+      [outputCharStream catKeyword: COMPARE_FUNCTION];
       
-      [outputCharStream catC: " #:"];
+      [outputCharStream catSeparator];
       if (COMPAREFUNCEQ (compareIntegers))
-        [outputCharStream catC: COMPARE_INT];
+        [outputCharStream catKeyword: COMPARE_INT];
       else if (COMPAREFUNCEQ (compareUnsignedIntegers))
-        [outputCharStream catC: COMPARE_UNSIGNED];
+        [outputCharStream catKeyword: COMPARE_UNSIGNED];
       else if (COMPAREFUNCEQ (compareCStrings))
-        [outputCharStream catC: COMPARE_CSTRING];
+        [outputCharStream catKeyword: COMPARE_CSTRING];
       else if (COMPAREFUNCEQ (compareIDs))
-        [outputCharStream catC: COMPARE_ID];
+        [outputCharStream catKeyword: COMPARE_ID];
       else
         raiseEvent (InvalidArgument, "Unknown compare function");
     }
-  [outputCharStream catC: ")"];
+  [outputCharStream catEndExpr];
   return self;
 }
 

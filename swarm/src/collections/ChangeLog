@@ -1,3 +1,19 @@
+1999-12-31  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* OutputStream.m: Include defobj/internal.h for
+	lisp_type_for_objc_type.
+
+	* OutputStream.[hm], collections.h: New methods catBoolean:,
+	catStartExpr, catEndExpr, catSymbol:, catString:, catSeparator,
+	catArrayRank:, catType: catClass:, catStartCons, catStartList,
+	catStartQuotedList, catStartParse, catStartMake{Instance,Class},
+	and catUnsignedPair::.
+
+	* List.m ([List_any -_lispOut_:deep:]): Use new OutputStream
+	features instead of literal strings.
+
+	* Map.m ([Map_c -_lispOut_:deep:]): Likewise.
+
 1999-12-29    <mgd@drone.swarm.org>
 
 	* List.m ([List_any -hdf5Out{Deep,Shallow}:]): Use HDF5

@@ -186,9 +186,8 @@ PHASE(Using)
 {
   id index, member;
 
-  [outputCharStream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [outputCharStream catC: [self getTypeName]];
-
+  [outputCharStream catStartMakeInstance: [self getTypeName]];
+  [outputCharStream catSeparator];
   index = [(id) self begin: scratchZone];
   if (deepFlag)
     {
@@ -212,11 +211,10 @@ PHASE(Using)
 
   if (bits & Bit_IndexFromMemberLoc)
     {
-      char buf[6];
-
-      [outputCharStream catC: " #:index-from-member-loc "];
-      sprintf (buf, "%d", [self getIndexFromMemberLoc]);
-      [outputCharStream catC: buf];
+      [outputCharStream catSeparator];
+      [outputCharStream catKeyword: "index-from-member-loc"];
+      [outputCharStream catSeparator];
+      [outputCharStream catInt: [self getIndexFromMemberLoc]];
     }
 
 #if 0
@@ -227,7 +225,7 @@ PHASE(Using)
     }
 #endif
   
-  [outputCharStream catC: ")"];
+  [outputCharStream catEndExpr];
   
   return self;
 }

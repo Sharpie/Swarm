@@ -12,6 +12,7 @@ Library:      collections
 #import <collections/OutputStream.h>
 #import <collections/InputStream.h>
 #import <collections/predicates.h>
+#import <defobj/internal.h> // lisp_type_for_objc_type
 #include <misc.h> // FILE, fputs, isPrint
 #include <swarmconfig.h> // PRINTF_LL_FMT, PTRUINT, PTRUINTFMT
 
@@ -58,6 +59,11 @@ PHASE(Using)
 - (void)catC: (const char *)cstring
 {
   fputs (cstring, fileStream);
+}
+
+- (void)catBoolean: (BOOL)bool
+{
+  [self catC: bool ? "#t" : "#f"];
 }
 
 - (void)catChar: (char)ch
@@ -179,4 +185,122 @@ PHASE(Using)
   [self catC: buf];
 }
 
+- (void)catStartExpr
+{
+  [self catC: "("];
+}
+
+- (void)catEndExpr
+{
+  [self catC: ")"];
+}
+
+- (void)catSeparator
+{
+  [self catC: " "];
+}
+
+- (void)catKeyword: (const char *)keyword
+{
+  [self catC: "#:"];
+  [self catC: keyword];
+}
+
+- (void)catSymbol: (const char *)symbol
+{
+  [self catC: "'"];
+  [self catC: symbol];
+}
+
+- (void)catString: (const char *)str
+{
+  [self catC: "\""];
+  [self catC: str];
+  [self catC: "\""];
+}
+
+- (void)catClass: (const char *)className
+{
+  [self catC: "<"];
+  [self catC: className];
+  [self catC: ">"];
+}
+
+- (void)catArrayRank: (unsigned)rank
+{
+  [self catC: "#"];
+  [self catUnsigned: rank];
+}
+
+- (void)catType: (const char *)type
+{
+  if (*type == _C_ARY_B)
+    {
+      [self catC: "(array '"];
+      [self catC: lisp_type_for_objc_type (type, NULL)];
+      {
+        void outputCount (unsigned dim, unsigned count)
+          {
+            [self catSeparator];
+            [self catUnsigned: count];
+          }
+        lisp_type_for_objc_type (type, outputCount);
+      }
+      [self catC: ")"];
+    }
+  else
+    [self catSymbol: lisp_type_for_objc_type (type, NULL)];
+}
+
+- (void)catStartCons
+{
+  [self catStartExpr];
+  [self catC: "cons"];
+}
+
+- (void)catStartParse
+{
+  [self catStartExpr];
+  [self catC: "parse"];
+}
+
+- (void)catStartList
+{
+  [self catStartExpr];
+  [self catC: "list"];
+}
+
+- (void)catStartQuotedList
+{
+  [self catC: "'("];
+}
+
+- (void)catStartMakeInstance: (const char *)typeName
+{
+  [self catStartExpr];
+  [self catC: MAKE_INSTANCE_FUNCTION_NAME];
+  [self catSeparator];
+  [self catSymbol: typeName];
+}
+
+- (void)catStartMakeClass: (const char *)className
+{
+  [self catStartExpr];
+  [self catC: MAKE_CLASS_FUNCTION_NAME];
+  [self catSeparator];
+  [self catSymbol: className];
+}
+
+- (void)catUnsignedPair: (unsigned)x : (unsigned)y
+{
+  [self catC: "'"];
+  [self catStartExpr];
+  [self catUnsigned: x];
+  [self catSeparator];
+  [self catC: "."];
+  [self catSeparator];
+  [self catUnsigned: y];
+  [self catEndExpr];
+}
 @end
+
