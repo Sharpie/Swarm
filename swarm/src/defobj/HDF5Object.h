@@ -35,9 +35,9 @@
 #ifdef HAVE_HDF5
 - (hid_t)getTid;
 - setDataset: (hid_t)did;
-#endif
 - packObj: (void *)buf to: obj;
 - packBuf: obj to: (void *)buf;
+#endif
 - writeLevel: (const char *)varName;
 - writeLevels;
 - getClass;

@@ -7,8 +7,9 @@
 
 #import <defobj/HDF5Object.h>
 
-#ifdef HAVE_HDF5
 #import <defobj/internal.h> // map_ivars
+
+#ifdef HAVE_HDF5
 
 #include <hdf5.h>
 #include <misc.h> // strncpy, XFREE, log10
@@ -658,11 +659,13 @@ create_class_from_compound_type (id aZone,
 }
 
 PHASE(Setting)
+#ifdef HAVE_HDF5
 - setDataset: (hid_t)loc_id
 {
   did = loc_id;
   return self;
 }
+#endif
 
 PHASE(Using)
 
@@ -679,6 +682,7 @@ PHASE(Using)
   return class;
 }
 
+#ifdef HAVE_HDF5
 - packObj: (void *)buf to: obj
 {
   unsigned inum = 0;
@@ -813,6 +817,7 @@ PHASE(Using)
   return self;
 
 }
+#endif
 
 - writeLevel: (const char *)varName
 {
@@ -1039,6 +1044,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 #endif
 
+#ifdef HAVE_HDF5
 static const char *
 generate_class_name (void)
 {
@@ -1049,6 +1055,7 @@ generate_class_name (void)
 
   return strdup (buf);
 }
+#endif
 
 - createEnd
 {
@@ -1790,8 +1797,12 @@ hdf5_store_attribute (hid_t did,
 
 - writeLevels
 {
+#ifdef HAVE_HDF5
   [compoundType setDataset: loc_id];
   [compoundType writeLevels];
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 

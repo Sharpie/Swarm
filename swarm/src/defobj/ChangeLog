@@ -1,3 +1,10 @@
+1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HDF5Object.[hm]: Only include pack{Obj,Buf}to: when HAVE_HDF5
+	is defined.
+
+	* HDF5Object.m (generate_class_name, [HDF5_c -writeLevels]): Likewise.
+
 1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.m (objc_type_for_tid,
