@@ -120,7 +120,11 @@ public class PackageWriter extends AbstractPackageWriter {
             printFirstRow(label);
             for (int i = 0; i < arr.length; i++) {
                 boolean deprecated = arr[i].tags("deprecated").length > 0;
+                boolean hide = arr[i].tags("hide").length > 0;
                 if (Standard.configuration().nodeprecated && deprecated) {
+                    continue;
+                }
+                if (Standard.configuration().hide && hide) {
                     continue;
                 }
                 if (!isCoreClass(arr[i])) {

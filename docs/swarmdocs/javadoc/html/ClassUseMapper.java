@@ -15,7 +15,7 @@
 // package com.sun.tools.doclets.standard;
 
 import com.sun.javadoc.*;
-import com.sun.tools.doclets.ClassTree;
+//import com.sun.tools.doclets.ClassTree;
 import com.sun.tools.doclets.DocletAbortException;
 import java.util.*;
 

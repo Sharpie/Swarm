@@ -1,3 +1,30 @@
+1999-09-08  Alex Lancaster  <alex@santafe.edu>
+
+	* swarm-doclet.jar: Regenerated.
+
+	* Makefile.am (ORIG_DOCLET): Set to Java source that was included
+	in the original standard doclet.
+	(OVERRIDDEN_DOCLET): Set to the Java source that was copied from
+	com.sun.tools.doclets.
+	(NAMES): Set to ORIG_DOCLET and OVERRIDEN_DOCLET.
+
+	* IndexBuilder.java: New file, likewise copied from
+	com.sun.tools.doclets.
+	(shouldAddToIndexMap): Set to false if @hide tag and corresponding
+	command-line option set.
+
+	* ClassTree.java: New file, copied from com.sun.tools.doclets.
+	(buildTree): Don't generate class in tree if @hide tag and
+	corresponding command-line option set.
+
+	* PackageWriter.java (generateClassKindListing): Emulate
+	deprecated tag supression, but for the @hide tag.
+
+	* Standard.java (generateClassCycle): Likewise.
+
+	* ClassUseMapper.java: Don't import
+	com.sun.tools.doclets.ClassTree, conflicts with local version.
+
 1999-07-13  Alex Lancaster  <alex@santafe.edu>
 
 	* swarm-doclet.jar: Regenerated.

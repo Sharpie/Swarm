@@ -1,4 +1,4 @@
-NAMES = AbstractIndexWriter AbstractPackageIndexWriter			\
+ORIG_DOCLET = AbstractIndexWriter AbstractPackageIndexWriter		\
 AbstractPackageWriter AbstractSubWriter AbstractTreeWriter		\
 AllClassesFrameWriter ClassSubWriter ClassUseMapper ClassUseWriter	\
 ClassWriter ConfigurationStandard ConstructorSubWriter			\
@@ -10,6 +10,10 @@ PackageTreeWriter PackageUseWriter PackageWriter PackagesFileWriter	\
 SerialFieldSubWriter SerialMethodSubWriter SerializedFormWriter		\
 SingleIndexWriter SplitIndexWriter Standard StylesheetWriter		\
 SubWriterHolderWriter TreeWriter
+
+OVERRIDDEN_DOCLET = IndexBuilder ClassTree
+
+NAMES = $(OVERRIDDEN_DOCLET) $(ORIG_DOCLET) 
 
 JAVASOURCE = $(addsuffix .java, $(NAMES))
 CLASSES = $(addsuffix .class, $(NAMES))

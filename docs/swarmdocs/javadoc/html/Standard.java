@@ -18,6 +18,7 @@ import com.sun.tools.doclets.*;
 import com.sun.javadoc.*;
 import java.util.*;
 import java.io.*;
+import java.lang.reflect.Method;
 
 /**
  * The class with "start" method, calls individual Writers.
@@ -186,6 +187,9 @@ public class Standard {
         for(int i = 0; i < arr.length; i++) {
             if (configuration().nodeprecated && 
                      arr[i].tags("deprecated").length > 0) {
+                continue;
+            }
+            if (configuration().hide && arr[i].tags("hide").length > 0) {
                 continue;
             }
             ClassDoc prev = (i == 0)? 
