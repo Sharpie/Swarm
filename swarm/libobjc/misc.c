@@ -25,7 +25,6 @@ Boston, MA 02111-1307, USA.  */
    however invalidate any other reasons why the executable file might be
    covered by the GNU General Public License.  */
 
-#define __USE_FIXED_PROTOTYPES__
 #include <stdlib.h>
 #include "runtime.h"
 
@@ -168,13 +167,17 @@ externobjcvardef void *(*_objc_calloc) (size_t, size_t) = GC_calloc;
 externobjcvardef void (*_objc_free) (void *) = noFree;
 
 #else
+extern void *xmalloc (size_t size);
+extern void *xmalloc_atomic (size_t size);
+extern void *xcalloc (size_t nmemb, size_t size);
+extern void *xrealloc (void *buf, size_t size);
+extern void xfree (void *buf);
 
-externobjcvardef void *(*_objc_malloc) (size_t) = malloc;
-externobjcvardef void *(*_objc_atomic_malloc) (size_t) = malloc;
-externobjcvardef void *(*_objc_valloc) (size_t) = malloc;
-externobjcvardef void *(*_objc_realloc) (void *, size_t) = realloc;
-externobjcvardef void *(*_objc_calloc) (size_t, size_t) = calloc;
-externobjcvardef void (*_objc_free) (void *) = free;
-
+externobjcvardef void *(*_objc_malloc) (size_t) = xmalloc;
+externobjcvardef void *(*_objc_atomic_malloc) (size_t) = xmalloc_atomic;
+externobjcvardef void *(*_objc_valloc) (size_t) = xmalloc;
+externobjcvardef void *(*_objc_realloc) (void *, size_t) = xrealloc;
+externobjcvardef void *(*_objc_calloc) (size_t, size_t) = xcalloc;
+externobjcvardef void (*_objc_free) (void *) = xfree;
 
 #endif
