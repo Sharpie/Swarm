@@ -13,9 +13,6 @@ HEADERS=SwarmObject.h Swarm.h Probe.h VarProbe.h MessageProbe.h \
 
 include $(SWARMHOME)/Makefile.lib
 
-main:		main.o
-	$(CC) $(CFLAGS) -L. $(LDFLAGS) -o main main.o -lswarmobject -lcollections -ldefobj -lobjc
-
 SwarmObject.o: SwarmObject.m SwarmObject.h
 Swarm.o: Swarm.m Swarm.h
 ProbeLibrary.o:	ProbeLibrary.m ProbeLibrary.h
@@ -35,5 +32,4 @@ DefaultProbeMap.o: DefaultProbeMap.m DefaultProbeMap.h \
 CompleteVarMap.o: CompleteVarMap.m CompleteVarMap.h \
                   ProbeMap.m ProbeMap.h Probe.h SwarmObject.h
 swarm_rts_routines.o: swarm_rts_routines.m swarm_rts_routines.h
-main.o: main.m
 ActivityControl.o: ActivityControl.m ActivityControl.h
