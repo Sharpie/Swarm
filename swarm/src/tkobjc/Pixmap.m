@@ -265,7 +265,7 @@ PHASE(Creating)
   Pixmap *obj = [super createBegin: aZone];
 
   obj->widget = nil;
-  obj->directory = STRDUP ("./");
+  obj->directory = ZSTRDUP (aZone, "./");
   obj->filename = NULL;
   obj->decorationsFlag = NO;
 #ifndef _WIN32
