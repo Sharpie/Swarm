@@ -1,5 +1,7 @@
 1998-03-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* win32dib.c: Include win32dib.h not dib.h.
+
 	* Makefile (BACKEND_{H,O}): Renamed from XPIXMAP_{H,O}.  Include
 	win32dib.[hm] for gnu-win32.
 

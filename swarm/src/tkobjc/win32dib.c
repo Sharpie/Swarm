@@ -1,4 +1,4 @@
-#include "dib.h"
+#include "win32dib.h"
 #include <misc.h>
 #include <windows.h>
 
