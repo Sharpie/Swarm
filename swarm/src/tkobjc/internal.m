@@ -679,27 +679,31 @@ void
 tkobjc_raster_setColormap (Raster *raster)
 {
   Colormap *colormap = raster->colormap;
-  raster_private_t *private = raster->private;
-#ifdef _WIN32
-  dib_t *dib = private->pm;
-  
-  if (colormap)
-    dib_augmentPalette (dib,
-			raster,
-			[colormap nextFreeColor],
-			colormap->map);
-#else
-  Tk_Window tkwin = private->tkwin;
-  Display *display = Tk_Display (tkwin);
-  Window window = Tk_WindowId (tkwin);
-  X11Colormap cmap = colormap->cmap;
-
-  if (cmap != DefaultColormap (display, DefaultScreen (display)))
+  if (colormap == nil)
+    raiseEvent (Warning, "colormap is nil");
+  else
     {
-      while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
-      x_set_private_colormap (display, window, colormap->cmap);
-    }
+      raster_private_t *private = raster->private;
+#ifdef _WIN32
+      dib_t *dib = private->pm;
+      
+      dib_augmentPalette (dib,
+                          raster,
+                          [colormap nextFreeColor],
+                          colormap->map);
+#else
+      Tk_Window tkwin = private->tkwin;
+      Display *display = Tk_Display (tkwin);
+      Window window = Tk_WindowId (tkwin);
+      X11Colormap cmap = colormap->cmap;
+      
+      if (cmap != DefaultColormap (display, DefaultScreen (display)))
+        {
+          while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
+          x_set_private_colormap (display, window, colormap->cmap);
+        }
 #endif
+    }
 }
 
 void

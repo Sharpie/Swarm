@@ -1,6 +1,7 @@
 1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_raster_copy): Don't free old pixmap (X11 case).
+	(tkobjc_raster_setColormap): Raise a warning if colormap is nil.
 
 	* internal.[hm] (tkobjc_raster_dropOldPixmap): New function.
 
