@@ -1,3 +1,28 @@
+2000-04-20    <mgd@nest.swarm.org>
+
+	* Widget.m ([Widget -setWindowGeometry:], [Widget
+	-setWindowTitle:]): Use {} instead of "" quoting.
+
+	* Button.m ([Button -setText:], [Button
+	-setButtonTarget:method:]): Likewise.
+
+	* TkExtra.m (setBltLibrary): Likewise.
+
+	* Raster.m ([Raster -createEnd]): Likewise.
+
+	* Label.m ([Label -setText:]): Likewise.
+
+	* Histogram.m ([Histogram -setLabels:count:],
+	[Histogram -setColors:count:],
+	[Histogram -setTitle:],
+	[Histogram -setAxisLabelsX:Y:],
+	[Histogram -setXaxisMin:max:step:precision:],
+	[Histogram -setActiveOutlierText:count:]): Likewise.
+
+	* Graph.m ([Graph -setTitle:], [Graph -setAxisLabelsX:Y:]): Likewise.
+
+	* Entry.m ([Entry -setValue:]): Likewise.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Makefile.am (REVISION): Swarm 2.1.1 frozen.

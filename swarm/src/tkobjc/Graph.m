@@ -91,7 +91,7 @@ PHASE(Using)
 
 - setTitle: (const char *)title
 {
-  [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, title];
+  [globalTkInterp eval: "%s configure -title {%s};", widgetName, title];
   [self setWindowTitle: title];
 
   return self;
@@ -101,7 +101,7 @@ PHASE(Using)
 {
   [globalTkInterp
     eval:
-      "%s xaxis configure -title \"%s\"; %s yaxis configure -title \"%s\";",
+      "%s xaxis configure -title {%s}; %s yaxis configure -title {%s};",
     widgetName, xl, widgetName, yl];
   return self;
 }
@@ -149,7 +149,7 @@ PHASE(Creating)
 #if 0
       // Create a pen for a small, hollow circle.
       [globalTkInterp
-        eval: "%s pen create %s_line -symbol circle -outlinewidth 1 -fill \"\" -pixels 0.05i",
+        eval: "%s pen create %s_line -symbol circle -outlinewidth 1 -fill {} -pixels 0.05i",
         [ownerGraph getWidgetName],
         [self getName]];
 #else
@@ -231,7 +231,7 @@ PHASE(Using)
 
 - setLabel: (const char *)label
 {
-  [globalTkInterp eval: "%s element configure %s -label \"%s\"",
+  [globalTkInterp eval: "%s element configure %s -label {%s}",
                   [ownerGraph getWidgetName],
                   name,
                   label];

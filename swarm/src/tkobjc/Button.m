@@ -26,7 +26,7 @@ PHASE(Using)
 
 - setText: (const char *)text
 {
-  [globalTkInterp eval: "%s configure -text \"%s\"", widgetName, text];
+  [globalTkInterp eval: "%s configure -text {%s}", widgetName, text];
   return self;
 }
 
@@ -37,7 +37,7 @@ PHASE(Using)
   p = stpcpy (bcmd, [target getObjectName]);
   p = stpcpy (p, " ");
   strcpy (p, sel_get_name (sel));
-  [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, bcmd];
+  [globalTkInterp eval: "%s configure -command {%s}", widgetName, bcmd];
   
   return self;
 }

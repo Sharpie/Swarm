@@ -40,7 +40,7 @@ PHASE(Creating)
   //   fixes problem with newer tcl/tk (7.5/4.1 up?) whereby raster
   //   was being erased, *after* our -drawself, on all <Expose>
   //   events...
-  [globalTkInterp eval: "frame %s -background \"\" -width %u -height %u",
+  [globalTkInterp eval: "frame %s -background {} -width %u -height %u",
   	  widgetName, width, height];
 
   tkobjc_raster_create (self);

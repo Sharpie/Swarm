@@ -22,7 +22,7 @@ PHASE(Creating)
 PHASE(Using)
 - setText: (const char *)text
 {
-  [globalTkInterp eval: "%s configure -text \"%s\"", widgetName, text];
+  [globalTkInterp eval: "%s configure -text {%s}", widgetName, text];
   return self;
 }
 

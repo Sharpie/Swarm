@@ -158,7 +158,7 @@ get_geometry_element (id widget, unsigned offset)
 
 - setWindowGeometry: (const char *)s
 {
-  [globalTkInterp eval: "wm geometry %s \"%s\"",
+  [globalTkInterp eval: "wm geometry %s {%s}",
 		  [[self getTopLevel] getWidgetName], s];
 
   return self;
@@ -200,9 +200,8 @@ get_geometry_element (id widget, unsigned offset)
 
 - setWindowTitle: (const char *)s
 {
-  [globalTkInterp eval: "wm title %s \"%s\"", 
-		  [[self getTopLevel] getWidgetName], s];
-
+  [globalTkInterp eval: "wm title %s {%s}", 
+                  [[self getTopLevel] getWidgetName], s];
   return self;
 }
 

@@ -22,7 +22,7 @@ setBltLibrary (id interp, const char *path)
 {
   extern const char *fix_tcl_path (const char *path);
 
-  [interp globalEval: "set blt_library \"%s\"", fix_tcl_path (path)];
+  [interp globalEval: "set blt_library {%s}", fix_tcl_path (path)];
 }
 
 static void

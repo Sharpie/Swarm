@@ -27,7 +27,7 @@ PHASE(Using)
 
 - setValue: (const char *)t
 {
-  [globalTkInterp eval: "%s delete 0 end; %s insert 0 \"%s\"; %s xview 0",
+  [globalTkInterp eval: "%s delete 0 end; %s insert 0 {%s}; %s xview 0",
 		  widgetName, widgetName, t, widgetName];
   return self;
 }

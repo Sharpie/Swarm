@@ -78,7 +78,7 @@ PHASE(Using)
 
   if (l)
     for (i = 0; i < binCount; i++)
-      [globalTkInterp eval: "%s element configure %s -label \"%s\"",
+      [globalTkInterp eval: "%s element configure %s -label {%s}",
 		      widgetName, elements[i], l[i % labelCount]];
   
   return self;
@@ -97,7 +97,7 @@ PHASE(Using)
 
   if (c)
     for (i = 0; i < binCount; i++)
-      [globalTkInterp eval: "%s element configure %s -foreground \"%s\"",
+      [globalTkInterp eval: "%s element configure %s -foreground {%s}",
                       widgetName, elements[i], c[i % colorCount]];
   
   // Note: caller needs to supply enough colors.
@@ -150,7 +150,7 @@ PHASE(Using)
 // this code is in common with BLTGraph
 - setTitle: (const char *)t
 {
-  [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, t];
+  [globalTkInterp eval: "%s configure -title {%s};", widgetName, t];
   [self setWindowTitle: t];
   return self;
 }
@@ -159,7 +159,7 @@ PHASE(Using)
 {
   [globalTkInterp
     eval:
-      "%s xaxis configure -title \"%s\"; %s yaxis configure -title \"%s\";",
+      "%s xaxis configure -title {%s}; %s yaxis configure -title {%s};",
     widgetName, xl, widgetName, yl];
   return self;
 }
@@ -182,7 +182,7 @@ PHASE(Using)
 - setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision
 {
   [globalTkInterp eval: 
-                    "%s xaxis configure -min %g -max %g -stepsize %g -command \"fmtx %d\"",
+                    "%s xaxis configure -min %g -max %g -stepsize %g -command {fmtx %d}",
                   [self getWidgetName],
                   min,
                   max,
@@ -201,7 +201,7 @@ PHASE(Using)
 {
   [globalTkInterp
     eval: 
-      "%s marker configure active_outlier_marker -text \"outliers: %d (%g)\" ",
+      "%s marker configure active_outlier_marker -text {outliers: %d (%g)} ",
     [self getWidgetName], 
     outliers, 
     ((double)outliers / ((double)outliers + (double)count))];
