@@ -138,7 +138,7 @@
     case _C_CHARPTR:
     case _C_PTR:  q = (void *) *(void **)p; break;
 
-    case _C_INT:  q = (void *) *(int *)p; break;
+    case _C_INT:  q = (void *) *(long *)p; break;
 
     default:
       if (SAFEPROBES)
@@ -162,9 +162,9 @@
 
   switch(probedType[0]) {
 
-    case _C_ID:   i = (int) *(id *)p; break;
+    case _C_ID:   i = (long) *(id *)p; break;
     case _C_CHARPTR:
-    case _C_PTR:  i = (int) *(void **)p; break;
+    case _C_PTR:  i = (long) *(void **)p; break;
 
     case _C_UCHR: i = (int) *(unsigned char *)p; break;
     case _C_CHR:  i = (int) *(char *)p; break;
@@ -243,7 +243,7 @@
   			  sprintf(buf, "%s", (*(Class *)p)->name );
 			break;
 	  case _C_PTR:
-			sprintf(buf, "0x%x", (unsigned) *(void **)p);
+			sprintf(buf, "0x%p", *(void **)p);
 			break;
 	  case _C_UCHR:
 			if(stringReturnType == DefaultString)

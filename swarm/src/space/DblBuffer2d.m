@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <stdlib.h>
+#import <string.h> //for alpha
 #import <space/DblBuffer2d.h>
 
 // general plan:
@@ -63,7 +64,7 @@
 }
 
 // override puts to use new lattice, not old.
--putValue: (int) v atX: (int) x Y: (int) y {
+-putValue: (long) v atX: (int) x Y: (int) y {
   *discrete2dSiteAt(newLattice, offsets, x, y) = (id) v;
   return self;
 }

@@ -39,7 +39,7 @@
 -fileTo: (char *) aFileName {
   int x, y;
   id * lattice;
-  int * offsets;
+  long * offsets;
   int xsize, ysize;
   id outFile ;
 
@@ -69,7 +69,7 @@
         
 	potentialObject = *discrete2dSiteAt(lattice, offsets, x, y);
 	if(potentialObject)
-          [outFile putInt: (int) [potentialObject perform: valueMessage]] ;
+          [outFile putLong: (long) [potentialObject perform: valueMessage]] ;
         else 
           [outFile putInt: background] ;          
       }
@@ -82,7 +82,7 @@
         if(x)
           [outFile putString: " "] ;
 
-        [outFile putInt: (int) *discrete2dSiteAt(lattice, offsets, x, y)] ;
+        [outFile putLong: (long) *discrete2dSiteAt(lattice, offsets, x, y)] ;
       }      
       [outFile putNewLine] ;
     }

@@ -45,7 +45,7 @@
 -display {
   int x, y;
   id * lattice;
-  int * offsets;
+  long * offsets;
   int xsize, ysize;
 
   lattice = [discrete2d getLattice];

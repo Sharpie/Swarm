@@ -247,9 +247,9 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
       [zone allocBlock: getClass( suballocPrototype )->instance_size];
     memcpy( suballocList, suballocPrototype,
               getClass( suballocPrototype )->instance_size );
-    ((Object_s *)suballocList)->zbits = (unsigned)zone;
+    ((Object_s *)suballocList)->zbits = (unsigned long)zone;
     self->zbits =
-      (unsigned)suballocList | ( self->zbits & 0x7 ) | BitSuballocList;
+      (unsigned long)suballocList | ( self->zbits & 0x7 ) | BitSuballocList;
     zone = getZone( self );
   } else {
     suballocList = getSuballocList( self );
@@ -605,8 +605,8 @@ static void notifyDisplayName( id object, id reallocAddress, void *arg )
   // set display name to the default if no name string given
 
   if ( ! aName ) {
-    sprintf( buffer, "%0#8x: %.64s",
-             (unsigned int)self, getClass( self )->name );
+    sprintf( buffer, "%0#16lx: %.64s",
+             (unsigned long)self, getClass( self )->name );
     aName = buffer;
   }
 
@@ -646,8 +646,8 @@ static void notifyDisplayName( id object, id reallocAddress, void *arg )
 //
 extern void _obj_formatIDString( char *buffer, id anObject )
 {
-  sprintf( buffer, "%0#8x: %.64s",
-           (unsigned)anObject, ((Class)[anObject getClass])->name );
+  sprintf( buffer, "%0#16lx: %.64s",
+           (unsigned long)anObject, ((Class)[anObject getClass])->name );
 }
 
 //
@@ -796,8 +796,8 @@ void xexec( id anObject, char *msgName )
 	[anObject perform: sel];
       } else {
         fprintf( _obj_xdebug,
-                "Object %0#8x: %.64s does not respond to message %s\n",
-              (unsigned int)anObject, [[anObject getClass] getName], msgName );
+                "Object %0#16lx: %.64s does not respond to message %s\n",
+              (unsigned long)anObject, [[anObject getClass] getName], msgName );
       }
     } else {
       fprintf( _obj_xdebug, "message \"%s\" is not defined\n", msgName );
@@ -817,9 +817,9 @@ void xfexec( id anObject, char *msgName )
   if ( anObject ) {
     if ( ! respondsTo( anObject, M(begin:) ) ) {
       fprintf( _obj_xdebug,
-"object %0#8x: %s does not respond to begin:\n"
+"object %0#16lx: %s does not respond to begin:\n"
 "(begin: is required by xfexec to enumerate the members of a collection)\n",
-        (unsigned)anObject, getClass( anObject )->name );
+        (unsigned long)anObject, getClass( anObject )->name );
     } else {
       index = [anObject begin: scratchZone];
       while ( (member = [index next]) ) {

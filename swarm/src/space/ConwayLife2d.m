@@ -20,7 +20,7 @@
 
   for (y = 0; y < ysize; y++)
     for (x = 0; x < xsize; x++) {
-      int newState = [uniformIntRand getIntegerWithMin: 0L withMax: 2L] == 2;
+      long newState = [uniformIntRand getIntegerWithMin: 0L withMax: 2L] == 2;
       [self putValue: newState atX: x Y: y];
     }
   [self updateLattice];
@@ -28,7 +28,7 @@
 }
 
 -stepRule {
-  int newState;
+  long newState;
   unsigned x, y;
 
   for (x = 0; x < xsize; x++)
@@ -43,16 +43,16 @@
       yp1 = (y + 1) % ysize;
 
 #ifndef NODIRECTACCESS
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xm1, ym1));
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, x, ym1));
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xp1, ym1));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xm1, ym1));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, x, ym1));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xp1, ym1));
 
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xm1, y));
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xp1, y));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xm1, y));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xp1, y));
 	       
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xm1, yp1));
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, x, yp1));
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xp1, yp1));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xm1, yp1));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, x, yp1));
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xp1, yp1));
 #else
       sum += [self getValueAtX: xm1 Y: ym1];
       sum += [self getValueAtX: x   Y: ym1];

@@ -330,12 +330,12 @@ PHASE(Using)
 
   [super describe: outputCharStream];
   if ( getBit( bits, Bit_MemberAlloc ) ) {
-    sprintf( buffer, "> external member allocation at: %0#8x\n",
-             (unsigned)block );
+    sprintf( buffer, "> external member allocation at: %0#16lx\n",
+             (unsigned long)block );
     [outputCharStream catC: buffer];
   } else if ( getBit( bits, Bit_DefaultMember ) ) {
-    sprintf( buffer, "> default member value: %0#8x\n",
-             (unsigned)block[count] );
+    sprintf( buffer, "> default member value: %0#16lx\n",
+             (unsigned long)block[count] );
     [outputCharStream catC: buffer];
   }
 }

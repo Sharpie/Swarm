@@ -63,8 +63,8 @@
   return *discrete2dSiteAt(lattice, offsets, x, y);
 }
 
--(int) getValueAtX: (int) x Y: (int) y {
-  return (int) *discrete2dSiteAt(lattice, offsets, x, y);
+-(long) getValueAtX: (int) x Y: (int) y {
+  return (long) *discrete2dSiteAt(lattice, offsets, x, y);
 }
 
 -putObject: anObject atX: (int) x Y: (int) y {
@@ -72,12 +72,12 @@
   return self;
 }
 
--putValue: (int) v atX: (int) x Y: (int) y {
+-putValue: (long) v atX: (int) x Y: (int) y {
   *discrete2dSiteAt(lattice, offsets, x, y) = (id) v;
   return self;
 }
 
--fastFillWithValue: (int) aValue {
+-fastFillWithValue: (long) aValue {
   int i, lcount ;
   
   lcount = xsize * ysize ;
@@ -99,7 +99,7 @@
   return self ;
 }
 
--fillWithValue: (int) aValue {
+-fillWithValue: (long) aValue {
   unsigned x, y;
 
   for (y = 0; y < ysize; y++)
@@ -123,7 +123,7 @@
   return lattice;
 }
 
--(int *) getOffsets {
+-(long *) getOffsets {
   return offsets;
 }
 

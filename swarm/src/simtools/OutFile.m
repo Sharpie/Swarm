@@ -50,15 +50,27 @@
   return self ;
 }
 
+-putLong: (long) aLong {
+
+  fprintf(theFile,"%ld",aLong);
+  return self;
+}
+
+-putUnsignedLong: (unsigned long) anUnsLong {
+
+  fprintf(theFile, "%lu",anUnsLong);
+  return self;
+}
+
 -putDouble: (double) aDouble {
 
-  fprintf(theFile,"%f",aDouble) ;
+  fprintf(theFile,"%lg",aDouble) ;
   return self ;
 }
 
 -putFloat: (float) aFloat {
 
-  fprintf(theFile,"%f",aFloat) ;
+  fprintf(theFile,"%g",aFloat) ;
   return self ;
 }
 

@@ -62,6 +62,26 @@
     return 1 ;
 }
 
+-(int) getLong: (long *) aLong {
+  int retVal;
+
+  retVal = fscanf(theFile,"%ld", aLong);
+  if (retVal == EOF)
+    return 0;
+  else
+    return 1;
+}
+
+-(int) getUnsignedLong: (unsigned long *) anUnsLong {
+  int retVal;
+
+  retVal = fscanf(theFile, "%lu", anUnsLong);
+  if (retVal == EOF)
+    return 0;
+  else
+    return 1;
+}
+
 -(int) getDouble: (double *) aDouble {
   int retVal ;
 

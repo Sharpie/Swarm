@@ -16,6 +16,8 @@
 -putString: (char *) aString ;
 -putInt: (int) anInt ;
 -putUnsigned: (unsigned) anUnsigned;
+-putLong: (long) aLong ;
+-putUnsignedLong: (unsigned long) anUnsLong ;
 -putDouble: (double) aDouble ;
 -putFloat: (float) aFloat ;
 -putChar: (char) aChar ;

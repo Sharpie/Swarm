@@ -109,7 +109,7 @@ extern id <Symbol>  Concurrent, Sequential, Randomized;
 //
 #ifndef DEFINED_timeval_t
 #define DEFINED_timeval_t
-typedef unsigned  timeval_t;
+typedef unsigned long timeval_t;
 #endif
 extern const timeval_t  TimebaseMax;
 

@@ -76,11 +76,11 @@
   return self  ;
 }
 
--initiateMoveX: (int) delta_x Y: (int) delta_y {
+-initiateMoveX: (long) delta_x Y: (long) delta_y {
 
   if(moveSel && target){
     if([target perform: moveSel with: (id) delta_x with: (id) delta_y])
-      [globalTkInterp eval: "%s move %s %d %d ; set curX %s ; set curY %s",
+      [globalTkInterp eval: "%s move %s %ld %ld ; set curX %s ; set curY %s",
         [canvas getWidgetName],item,delta_x,delta_y,"%x","%y"];
   }
 

@@ -18,7 +18,7 @@
 }
 
 -(BOOL) isProbeMapDefinedFor: (Class) aClass {
-  return [classMap at: aClass] ;
+  return ([classMap at: aClass] != nil) ;
 }
 
 -getProbeMapFor: (Class) aClass {

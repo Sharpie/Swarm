@@ -173,7 +173,7 @@
   n = [self getObjcName];			  // my object name in Tclland
 #else
   char n[33];
-  sprintf(n, "%x", (unsigned) self);		  // my pointer (use %p?)
+  sprintf(n, "%p", self);		  // my pointer (use %p?)
 #endif			
   
   widgetName = [[self getZone] alloc: strlen(p) + strlen(n) + 3];

@@ -36,6 +36,6 @@
 -draw: (id <XDrawer>) xd X: (int) x Y: (int) y;
 -drawSelf;
 -erase;
--handleButton: (int) n X: (int) x Y: (int) y;
+-handleButton: (int) n X: (long) x Y: (long) y;
 -setButton: (int) n Client: c Message: (SEL) s;
 @end

@@ -80,12 +80,12 @@
   return y ;
 }
 
--moveX: (int) the_x Y: (int) the_y {
+-moveX: (long) the_x Y: (long) the_y {
   
   x += the_x ;
   y += the_y ;
   
-  [globalTkInterp eval: "%s move %s %d %d ; %s move %s %d %d",
+  [globalTkInterp eval: "%s move %s %ld %ld ; %s move %s %ld %ld",
     [canvas getWidgetName], text, the_x, the_y,
     [canvas getWidgetName], item, the_x, the_y] ;
 

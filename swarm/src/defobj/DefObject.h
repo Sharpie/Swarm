@@ -16,7 +16,7 @@ Library:      defobj
 @interface Object_s : Object
 {
 @public
-  unsigned  zbits;  // word that contains zone in which object allocated, plus
+  unsigned long zbits;  // word that contains zone in which object allocated, plus
                     // additional bits about the memory allocations for the
                     // object
 }
@@ -25,7 +25,7 @@ Library:      defobj
 {
 @public
   Class     isa;    // class that implements the behavior of an object
-  unsigned  zbits;  // word that contains zone in which object allocated, plus
+  unsigned long zbits;  // word that contains zone in which object allocated, plus
                     // additional bits about the object
 }
 #endif

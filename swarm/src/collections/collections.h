@@ -188,7 +188,7 @@ CREATING
 
 - (void)	setPartiallyOrdered: (BOOL)partiallyOrdered;
 - (void)	setPartialOrderContext: aKeyedCollection;
-- (void)	setIndexFromMember: (int)byteOffset;
+- (void)	setIndexFromMember: (long)byteOffset;
 USING
 -		getDupOption;
 -		getDupMembersType;
@@ -326,7 +326,7 @@ USING
 -		first;  // now getFirst
 -		last;   // now getLast
 -		atOffset: (int)offset replace: anObject;
-- (void)	setIndexFromMemberLoc: (int)offset;
+- (void)	setIndexFromMemberLoc: (long)offset;
 -		createIndex: aZone fromMember: aMember;
 - (int)		length;
 @end

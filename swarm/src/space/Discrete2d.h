@@ -16,7 +16,7 @@
 @public
   int xsize, ysize;
   id * lattice;
-  int * offsets;
+  long * offsets;
 }
 
 -setSizeX: (int) x Y: (int) y;
@@ -28,19 +28,19 @@
 -(int) getSizeY;
 
 -getObjectAtX: (int) x Y: (int) y;
--(int) getValueAtX: (int) x Y: (int) y;
+-(long) getValueAtX: (int) x Y: (int) y;
 
 -putObject: anObject atX: (int) x Y: (int) y;
--putValue: (int) v atX: (int) x Y: (int) y;
+-putValue: (long) v atX: (int) x Y: (int) y;
 
--fastFillWithValue: (int) aValue ;
+-fastFillWithValue: (long) aValue ;
 -fastFillWithObject: anObj ;
 
--fillWithValue: (int) aValue ;
+-fillWithValue: (long) aValue ;
 -fillWithObject: anObj ;
 
 -(id *) getLattice;
--(int *) getOffsets;
+-(long *) getOffsets;
 @end
 
 // fast macro to access lattice array. Use this cautiously.

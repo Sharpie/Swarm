@@ -21,7 +21,7 @@
 -createBindings ;
 -createEnd ;
 -clicked ;
--initiateMoveX: (int) delta_x Y: (int) delta_y ;
+-initiateMoveX: (long) delta_x Y: (long) delta_y ;
 @end
 
 

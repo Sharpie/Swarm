@@ -26,7 +26,7 @@ static inline void *dalloc( size_t blockSize )
 
   block = malloc( blockSize );
   if ( ! block ) raiseEvent( OutOfMemory, nil );
-  if ( ( (unsigned)block & ~0x7 ) == (unsigned)block ) return block;
+  if ( ( (unsigned long)block & ~0x7 ) == (unsigned long)block ) return block;
   if ( ! notAligned ) {
     notAligned = 1;
     fprintf( stderr,
@@ -36,7 +36,7 @@ static inline void *dalloc( size_t blockSize )
   }
   free( block );
   block = malloc( blockSize + 7 );
-  return ( (void *)( (unsigned)block & ~0x7 ) );
+  return ( (void *)( (unsigned long)block & ~0x7 ) );
 }
 
 //
@@ -126,7 +126,7 @@ PHASE(Using)
 
   memset( newObject, 0, ((Class)aClass)->instance_size );
   setClass( newObject, aClass );   
-  newObject->zbits = (unsigned)self;   
+  newObject->zbits = (unsigned long)self;   
   return (id)newObject;
 }
 
@@ -151,7 +151,7 @@ PHASE(Using)
   // initialize and return the newly allocated object
 
   memcpy( newObject, anObject, instanceSize );
-  newObject->zbits = (unsigned)self;
+  newObject->zbits = (unsigned long)self;
   if ( getMappedAlloc( (Object_s *)anObject ) ) setMappedAlloc( newObject );  
   return newObject;
 }
@@ -201,7 +201,7 @@ PHASE(Using)
 
   memset( newObject, 0, ((Class)aClass)->instance_size );
   setClass( newObject, aClass );   
-  newObject->zbits = (unsigned)self;
+  newObject->zbits = (unsigned long)self;
   setBit( newObject->zbits, BitComponentAlloc, 1 ); 
   return newObject;
 }
@@ -225,7 +225,7 @@ PHASE(Using)
   // initialize and return the new object, without adding to population list
 
   memcpy( newObject, anObject, getClass(anObject)->instance_size );
-  newObject->zbits = (unsigned)self;
+  newObject->zbits = (unsigned long)self;
   if ( getMappedAlloc( (Object_s *)anObject ) ) setMappedAlloc( newObject );  
   setBit( newObject->zbits, BitComponentAlloc, 1 ); 
   return newObject;

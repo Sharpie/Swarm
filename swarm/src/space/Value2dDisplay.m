@@ -43,7 +43,7 @@
 -display {
   int x, y;
   id * lattice;
-  int * offsets;
+  long * offsets;
   int xsize, ysize;
 
   lattice = [discrete2d getLattice];
@@ -53,8 +53,8 @@
 
   for (y = 0; y < ysize; y++)
     for (x = 0; x < xsize; x++) {
-      int color;
-      color = (int) *(discrete2dSiteAt(lattice, offsets, x, y));
+      long color;
+      color = (long) *(discrete2dSiteAt(lattice, offsets, x, y));
       color = color/modFactor + colorConstant;
       if (color < 0 || color > 255) {
 	[WarningMessage raiseEvent: "Value2dDisplay: found colour %d not in [0,255].\n", color];

@@ -14,7 +14,7 @@ Library:      defobj
 //   macro to obtain zone in which object allocated
 //
 #define getZone( anObject ) \
-({ unsigned _zbits_ = (anObject)->zbits; \
+({ unsigned long _zbits_ = (anObject)->zbits; \
   ( _zbits_ & BitSuballocList ? \
    (id)((Object_s *)( _zbits_ & ~0x7 ))->zbits : \
    (id)( _zbits_ & ~0x7 ) ); })
@@ -113,7 +113,7 @@ struct mapalloc {
 //   macro to obtain the list of suballocations within an object, if any
 //
 #define getSuballocList( anObject ) \
-({ unsigned _zbits_ = (anObject)->zbits; \
+({ unsigned long _zbits_ = (anObject)->zbits; \
  ( _zbits_ & BitSuballocList ? (id)( _zbits_ & ~0x7 ) : nil ); })
 
 //

@@ -43,11 +43,11 @@ const unsigned maxStates = 0x7fff;
 
   for (y = 0; y < ysize; y++)
     for (x = 0; x < xsize; x++) {
-      int newState;
+      long newState;
 #ifdef RANDOMINIT
-      newState = [uniformRandom rMax: maxStates];
+      newState = (long)[uniformRandom rMax: maxStates];
 #else
-      newState = 0;
+      newState = 0L;
 #endif
       [self putValue: newState atX: x Y: y];
     }
@@ -61,8 +61,8 @@ const unsigned maxStates = 0x7fff;
   for (x = 0; x < xsize; x++)
     for (y = 0; y < ysize; y++) {
       double delta, d;
-      int sum;
-      int newState;
+      long sum;
+      long newState;
       unsigned xm1, xp1, ym1, yp1;
 
       xm1 = (x + xsize - 1) % xsize;
@@ -73,28 +73,28 @@ const unsigned maxStates = 0x7fff;
       sum = 0;
 #ifdef FIRSTORDER
       // do first order approximation (010 141 010)
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, x, ym1));     // north
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, x, yp1));     // south
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xm1, y));     // east
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xp1, y));     // west
-      sum -= 4 * (int) (*(discrete2dSiteAt(lattice, offsets, x, y))); // self
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, x, ym1));     // north
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, x, yp1));     // south
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xm1, y));     // east
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xp1, y));     // west
+      sum -= 4 * (long) (*(discrete2dSiteAt(lattice, offsets, x, y))); // self
       delta = (double) sum / 4.0;			  // average
 #else
       // second order approximation (141 4G4 141)
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xm1, ym1));     // NW
-      sum += 4 * (int) (*(discrete2dSiteAt(lattice, offsets, x, ym1))); // N
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xp1, ym1));     // NE
-      sum += 4 * (int) (*(discrete2dSiteAt(lattice, offsets, xm1, y))); // W
-      sum += 4 * (int) (*(discrete2dSiteAt(lattice, offsets, xp1, y))); // E
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xm1, yp1));     // SW
-      sum += 4 * (int) (*(discrete2dSiteAt(lattice, offsets, x, yp1))); // S
-      sum += (int) *(discrete2dSiteAt(lattice, offsets, xp1, yp1));     // SE
-      sum -= 20 * (int) (*(discrete2dSiteAt(lattice, offsets, x, y)));	// self
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xm1, ym1));     // NW
+      sum += 4 * (long) (*(discrete2dSiteAt(lattice, offsets, x, ym1))); // N
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xp1, ym1));     // NE
+      sum += 4 * (long) (*(discrete2dSiteAt(lattice, offsets, xm1, y))); // W
+      sum += 4 * (long) (*(discrete2dSiteAt(lattice, offsets, xp1, y))); // E
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xm1, yp1));     // SW
+      sum += 4 * (long) (*(discrete2dSiteAt(lattice, offsets, x, yp1))); // S
+      sum += (long) *(discrete2dSiteAt(lattice, offsets, xp1, yp1));     // SE
+      sum -= 20 * (long) (*(discrete2dSiteAt(lattice, offsets, x, y)));	// self
       delta = (double) sum / 20.0;
 #endif      
       
       // now change my value by that smoothing
-      d = ((double)((int)*(discrete2dSiteAt(lattice, offsets, x, y)))) +
+      d = ((double)((long)*(discrete2dSiteAt(lattice, offsets, x, y)))) +
 	  delta * diffusionConstant;
 
       // now do evaporation
@@ -104,11 +104,11 @@ const unsigned maxStates = 0x7fff;
       // the rounding in the default case is different from David
       // Hiebeler's original Swarm code.
       if (d < 0)
-	newState = 0;
+	newState = 0L;
       else if (d + 0.5 >= maxStates)
 	newState = maxStates;
       else
-	newState = (int) floor(d+0.5);	  // round to nearest.
+	newState = (long) floor(d+0.5);	  // round to nearest.
 						  // can't use rint(), sigh.
       
       *(discrete2dSiteAt(newLattice, offsets, x, y)) = (id) newState;

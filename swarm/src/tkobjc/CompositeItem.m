@@ -54,7 +54,7 @@
   return self;
 }
 
--moveX: (int) delta_x Y: (int) delta_y {
+-moveX: (long) delta_x Y: (long) delta_y {
   [self subclassResponsibility: @selector(moveX:Y:)] ;
     return self ;
 }
@@ -65,7 +65,7 @@
   return self  ;
 }
 
--initiateMoveX: (int) delta_x Y: (int) delta_y {
+-initiateMoveX: (long) delta_x Y: (long) delta_y {
 
   if(moveSel && target){
     if([target perform: moveSel with: (id) delta_x with: (id) delta_y])

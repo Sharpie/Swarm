@@ -110,7 +110,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 @public
   Activity_c  *swarmActivity;    // controlling swarm activity, if any
   id          mergeAction;       // merge action of swarm activity, if any
-  int         activationNumber;  // sequential id of activation within swarm
+  long         activationNumber;  // sequential id of activation within swarm
 }
 /*** methods in ScheduleActivity_c (inserted from .m file) ***/
 - (timeval_t) getCurrentTime;

@@ -22,16 +22,16 @@ PHASE(Creating)
   setBit( bits, Bit_ReplaceOnly, replaceOnly );
 }
 
-- (void) setIndexFromMemberLoc: (int)byteOffset  // belongs elsewhere...
+- (void) setIndexFromMemberLoc: (long)byteOffset  // belongs elsewhere...
 {
-  if ( byteOffset > -2044 && byteOffset <= 2048 ) {
+  if ( byteOffset > -2044L && byteOffset <= 2048L ) {
     setField( bits, IndexFromMemberLoc_Shift,
               byteOffset - IndexFromMemberLoc_Min );
     bits |= Bit_IndexFromMemberLoc;
   } else {
     raiseEvent( InvalidArgument,
        "> IndexFromMemberLoc must be within range of -2044 to +2048\n"
-       "> value specified: %d\n", byteOffset );
+       "> value specified: %ld\n", byteOffset );
   }
 }
 

@@ -30,7 +30,7 @@ Library:      collections
 }
 /*** methods in Collection_any (inserted from .m file) ***/
 - (void) setReplaceOnly: (BOOL)replaceOnly;
-- (void) setIndexFromMemberLoc: (int)byteOffset;
+- (void) setIndexFromMemberLoc: (long)byteOffset;
 - (BOOL) getReadOnly;
 - (BOOL) getReplaceOnly;
 - (int) getIndexFromMemberLoc;
