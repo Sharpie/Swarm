@@ -46,7 +46,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 *** gui (tkobjc)
 **** [Internal] / Pixmap
-***** Handle obscured and partially off-screen widget snapshots.
+***** Handle iconified, obscured, and partially-off-screen widget snapshots.
 
 * Release Notes for Swarm 1.3
 

@@ -1,7 +1,7 @@
-1998-09-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-09-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* NEWS: Note support of obscured and partially off-screen widget
-	snapshots.
+	* NEWS: Note support of iconified, obscured and partially-
+	off-screen widget snapshots.
 
 	* VERSION: Bump.
 
