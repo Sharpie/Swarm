@@ -393,6 +393,7 @@ lisp_process_array (const char *type,
                  lisp_array_output_type,
                  ptr,
                  data);
+  [stream catEndArray];
 }
 
 void

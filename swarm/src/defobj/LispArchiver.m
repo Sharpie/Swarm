@@ -300,6 +300,7 @@ lisp_output_objects (id app, id outputCharStream,
           [outputCharStream catC: "\n"];
           if (systemArchiverFlag)
             [outputCharStream catC: "      "];
+	  [outputCharStream catC: " "];
           [outputCharStream catSeparator];
           [outputCharStream catStartCons];
           [outputCharStream catSeparator];
@@ -366,8 +367,8 @@ lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
 static void
 archiverLispPut (id app, const char *keyStr, id value, BOOL deepFlag)
 {
-  id <Map> addMap = [app getStreamMap];
-  id <Zone> aZone = [addMap getZone];
+  id <Map> streamMap = [app getStreamMap];
+  id <Zone> aZone = [streamMap getZone];
   id <String> key = [String create: aZone setC: keyStr];
   id stream = [[[OutputStream createBegin: aZone] setExprFlag: YES] createEnd];
   
@@ -376,10 +377,10 @@ archiverLispPut (id app, const char *keyStr, id value, BOOL deepFlag)
     else
     [value lispOutShallow: stream];
 
-  if ([addMap at: key])
-    [addMap at: key replace: stream];
+  if ([streamMap at: key])
+    [streamMap at: key replace: stream];
   else
-    [addMap at: key insert: stream];
+    [streamMap at: key insert: stream];
 }
 
 - (void)putDeep: (const char *)key object: object

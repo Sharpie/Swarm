@@ -2749,6 +2749,7 @@
 	functions.
 	(lisp_output_type): Renamed from output type.
 	Use lisp_process_array for arrays instead of own code.
+	(lisp_process_array): Call catEndArray at end.
 
 1999-01-09  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
