@@ -8,7 +8,7 @@
 	(JS_collect_func_t): New type.
 
 	* COM.[hm] (COM_is_javascript, JS_collect_variables,
-	JS_collect_methods, JS_probe_variable): New function.
+	JS_collect_methods, JS_probe_variable): New functions.
 
 2001-01-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 
