@@ -9,8 +9,6 @@
 #import <defobj.h> // arguments
 #include <misc.h> // xmalloc, stpcpy
 
-#import "ControlPanel.h" //ControlState{Running,Stopped,Stepping,Quit,NextTime}
-
 externvardef id <ProbeDisplayManager> probeDisplayManager;
 
 void
