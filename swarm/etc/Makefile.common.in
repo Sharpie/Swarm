@@ -19,6 +19,7 @@ bltlibdir = @bltlibdir@
 ffidir = @ffidir@
 zliblibdir = @zliblibdir@
 pnglibdir = @pnglibdir@
+hdf5libdir = @hdf5libdir@
 
 CC = @CC@
 CFLAGS = @CFLAGS@
@@ -50,6 +51,7 @@ TCLLIB = @TCLLIB@
 TKLIB = @TKLIB@
 BLTLIB = @BLTLIB@
 FFILIB = @FFILIB@
+HDF5LIB = @HDF5LIB@
 
 PNGLIB = -lpng
 ZLIBLIB = -lz
@@ -60,9 +62,9 @@ GUILIBS = @GUILIBS@
 DLLIB = @DLLIB@
 OBJCLIBS = @OBJCLIBS@
 
-LDFLAGS = $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
+LDFLAGS = $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(HDF5LDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
 
-SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
+SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
 
 SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
 
