@@ -1,3 +1,7 @@
+1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acfind.m4: Expand includedir before comparing against /usr/include.
+
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* acffi.m4 (FFILDFLAGS): Use -rpath instead of $RPATH.

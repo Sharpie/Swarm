@@ -57,7 +57,8 @@ else
   AC_MSG_RESULT(no)
   AC_MSG_ERROR(Please use --with-$1includedir to specify location of $1.h)
 fi
-if test "$$1includedir" = /usr/include; then
+expand_dir=`eval echo $$1includedir`
+if test "$expand_dir" = /usr/include; then
   _includes=''
 else
   _includes='-I${$1includedir}'
