@@ -20,7 +20,7 @@ AC_SUBST(OBJCFLAGS)
 
 AM_PROG_LIBTOOL
 
-SHLIBPATH_VAR=`./libtool --config | sed -n '/^shlibpath_var=\(.*\)/\1/p'`
+SHLIBPATH_VAR=`./libtool --config | sed -n 's/^shlibpath_var=\(.*\)/\1/p'`
 AC_SUBST(SHLIBPATH_VAR)
 
 AC_PATH_XTRA

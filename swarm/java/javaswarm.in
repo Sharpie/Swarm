@@ -1,5 +1,9 @@
 #!/bin/sh
 
+swarm_prefix=@swarm_prefix@
+swarm_exec_prefix=@swarm_exec_prefix@
+swarm_datadir=@swarm_datadir@
+
 @SHLIBPATH_VAR@=`tr ':' '\012' << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
 @swarm_libdir@
 @xpmlibdir@
@@ -11,7 +15,6 @@
 @zliblibdir@
 EOF`
 
-swarm_datadir=@swarm_datadir@
 
 JAVALIBS=@JAVALIBS@
 JAVACLASSES=@JAVACLASSES@
