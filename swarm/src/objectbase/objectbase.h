@@ -48,11 +48,11 @@ USING
 
 //M: The getProbeForVariable: method returns the VarProbe indexed in the
 //M: ProbeMap by the string aVariable.
-- (id <VarProbe>)getProbeForVariable: (const char *)aVariable;
+- getProbeForVariable: (const char *)aVariable;
 
 //M: The getProbeForMessage: method returns the MessageProbe indexed in
 //M: the ProbeMap by the string aMessage.
-- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
+- getProbeForMessage: (const char *)aMessage;
 @end
 
 @protocol ProbeConfig
