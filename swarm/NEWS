@@ -41,6 +41,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** defobj
 **** In make-h2x, don't rely on basename to determine source filename
      from object filename; use sed.
+**** Fixed memory leak in Zone.
 
 *** gui
 **** Take care to pass writable variable name strings to Tcl_GetVar
