@@ -1,6 +1,6 @@
-diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
+diff -rc2P swarm-2.0.1/configure swarm-1999-09-29/configure
 *** swarm-2.0.1/configure	Mon Sep 20 16:41:28 1999
---- swarm-1999-09-28/configure	Tue Sep 28 21:09:56 1999
+--- swarm-1999-09-29/configure	Wed Sep 29 10:44:06 1999
 ***************
 *** 5039,5043 ****
     PATHDELIM=/
@@ -49,8 +49,23 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
       elif test -f $expand_jdkincludedir/solaris/jni_md.h; then
         JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
 ***************
+*** 5131,5134 ****
+--- 5142,5153 ----
+        fi
+        proc=sparc
++     elif test -f $expand_jdkincludedir/freebsd/jni_md.h; then
++       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/freebsd"
++       threads=green
++       proc=i386
++     elif test -f $expand_jdkincludedir/irix/jni_md.h; then
++       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/irix"
++       threads=native
++       proc=mips
+      elif test -f $expand_jdkincludedir/alpha/jni_md.h; then
+        JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
+***************
 *** 5195,5198 ****
---- 5206,5210 ----
+--- 5214,5218 ----
         javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
       fi
 +     JAVAENV="$extra_JAVAENV $JAVAENV"
@@ -63,10 +78,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! #line 5302 "configure"
   #include "confdefs.h"
   #include <jni.h>
---- 5311,5315 ----
+--- 5319,5323 ----
   CPPFLAGS="$JAVAINCLUDES $CPPFLAGS"
   cat > conftest.$ac_ext <<EOF
-! #line 5314 "configure"
+! #line 5322 "configure"
   #include "confdefs.h"
   #include <jni.h>
 ***************
@@ -76,10 +91,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! if { (eval echo configure:5309: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
     rm -rf conftest*
     jni_h_works=yes
---- 5318,5322 ----
+--- 5326,5330 ----
   ; return 0; }
   EOF
-! if { (eval echo configure:5321: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+! if { (eval echo configure:5329: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
     rm -rf conftest*
     jni_h_works=yes
 ***************
@@ -89,10 +104,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! echo "configure:5322: checking size of int" >&5
   if eval "test \"`echo '$''{'ac_cv_sizeof_int'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
---- 5331,5335 ----
+--- 5339,5343 ----
   if test $jni_h_works = no; then
     echo $ac_n "checking size of int""... $ac_c" 1>&6
-! echo "configure:5334: checking size of int" >&5
+! echo "configure:5342: checking size of int" >&5
   if eval "test \"`echo '$''{'ac_cv_sizeof_int'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
 ***************
@@ -102,10 +117,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! #line 5330 "configure"
   #include "confdefs.h"
   #include <stdio.h>
---- 5339,5343 ----
+--- 5347,5351 ----
   else
     cat > conftest.$ac_ext <<EOF
-! #line 5342 "configure"
+! #line 5350 "configure"
   #include "confdefs.h"
   #include <stdio.h>
 ***************
@@ -115,10 +130,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! if { (eval echo configure:5341: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
   then
     ac_cv_sizeof_int=`cat conftestval`
---- 5350,5354 ----
+--- 5358,5362 ----
   }
   EOF
-! if { (eval echo configure:5353: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+! if { (eval echo configure:5361: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
   then
     ac_cv_sizeof_int=`cat conftestval`
 ***************
@@ -128,10 +143,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! echo "configure:5361: checking size of long" >&5
   if eval "test \"`echo '$''{'ac_cv_sizeof_long'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
---- 5370,5374 ----
+--- 5378,5382 ----
   
     echo $ac_n "checking size of long""... $ac_c" 1>&6
-! echo "configure:5373: checking size of long" >&5
+! echo "configure:5381: checking size of long" >&5
   if eval "test \"`echo '$''{'ac_cv_sizeof_long'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
 ***************
@@ -141,10 +156,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! #line 5369 "configure"
   #include "confdefs.h"
   #include <stdio.h>
---- 5378,5382 ----
+--- 5386,5390 ----
   else
     cat > conftest.$ac_ext <<EOF
-! #line 5381 "configure"
+! #line 5389 "configure"
   #include "confdefs.h"
   #include <stdio.h>
 ***************
@@ -154,10 +169,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! if { (eval echo configure:5380: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
   then
     ac_cv_sizeof_long=`cat conftestval`
---- 5389,5393 ----
+--- 5397,5401 ----
   }
   EOF
-! if { (eval echo configure:5392: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+! if { (eval echo configure:5400: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
   then
     ac_cv_sizeof_long=`cat conftestval`
 ***************
@@ -167,10 +182,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! echo "configure:5400: checking size of long long" >&5
   if eval "test \"`echo '$''{'ac_cv_sizeof_long_long'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
---- 5409,5413 ----
+--- 5417,5421 ----
   
     echo $ac_n "checking size of long long""... $ac_c" 1>&6
-! echo "configure:5412: checking size of long long" >&5
+! echo "configure:5420: checking size of long long" >&5
   if eval "test \"`echo '$''{'ac_cv_sizeof_long_long'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
 ***************
@@ -180,10 +195,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! #line 5408 "configure"
   #include "confdefs.h"
   #include <stdio.h>
---- 5417,5421 ----
+--- 5425,5429 ----
   else
     cat > conftest.$ac_ext <<EOF
-! #line 5420 "configure"
+! #line 5428 "configure"
   #include "confdefs.h"
   #include <stdio.h>
 ***************
@@ -193,10 +208,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! if { (eval echo configure:5419: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
   then
     ac_cv_sizeof_long_long=`cat conftestval`
---- 5428,5432 ----
+--- 5436,5440 ----
   }
   EOF
-! if { (eval echo configure:5431: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+! if { (eval echo configure:5439: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
   then
     ac_cv_sizeof_long_long=`cat conftestval`
 ***************
@@ -206,10 +221,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! #line 5458 "configure"
   #include "confdefs.h"
   #define __int64 INT64
---- 5467,5471 ----
+--- 5475,5479 ----
     CPPFLAGS="$JAVAINCLUDES $CPPFLAGS"
     cat > conftest.$ac_ext <<EOF
-! #line 5470 "configure"
+! #line 5478 "configure"
   #include "confdefs.h"
   #define __int64 INT64
 ***************
@@ -219,10 +234,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! if { (eval echo configure:5466: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
     rm -rf conftest*
     cat >> confdefs.h <<\EOF
---- 5475,5479 ----
+--- 5483,5487 ----
   ; return 0; }
   EOF
-! if { (eval echo configure:5478: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+! if { (eval echo configure:5486: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
     rm -rf conftest*
     cat >> confdefs.h <<\EOF
 ***************
@@ -234,12 +249,12 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! #line 5483 "configure"
   #include "confdefs.h"
   #ifdef __CYGWIN__
---- 5490,5496 ----
+--- 5498,5504 ----
   
   echo $ac_n "checking for DLL options""... $ac_c" 1>&6
-! echo "configure:5493: checking for DLL options" >&5
+! echo "configure:5501: checking for DLL options" >&5
   cat > conftest.$ac_ext <<EOF
-! #line 5495 "configure"
+! #line 5503 "configure"
   #include "confdefs.h"
   #ifdef __CYGWIN__
 ***************
@@ -249,10 +264,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! if { (eval echo configure:5493: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
     rm -rf conftest*
     EXPORT_EXTERN=extern
---- 5502,5506 ----
+--- 5510,5514 ----
   ; return 0; }
   EOF
-! if { (eval echo configure:5505: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+! if { (eval echo configure:5513: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
     rm -rf conftest*
     EXPORT_EXTERN=extern
 ***************
@@ -262,10 +277,10 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! echo "configure:5527: checking for $ac_word" >&5
   if eval "test \"`echo '$''{'ac_cv_path_DLLWRAP'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
---- 5536,5540 ----
+--- 5544,5548 ----
   set dummy dllwrap; ac_word=$2
   echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-! echo "configure:5539: checking for $ac_word" >&5
+! echo "configure:5547: checking for $ac_word" >&5
   if eval "test \"`echo '$''{'ac_cv_path_DLLWRAP'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
 ***************
@@ -275,15 +290,15 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 ! echo "configure:5596: checking for $ac_word" >&5
   if eval "test \"`echo '$''{'ac_cv_path_EMACS'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
---- 5605,5609 ----
+--- 5613,5617 ----
   set dummy emacs; ac_word=$2
   echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-! echo "configure:5608: checking for $ac_word" >&5
+! echo "configure:5616: checking for $ac_word" >&5
   if eval "test \"`echo '$''{'ac_cv_path_EMACS'+set}'`\" = set"; then
     echo $ac_n "(cached) $ac_c" 1>&6
 ***************
 *** 6149,6151 ****
---- 6161,6167 ----
+--- 6169,6175 ----
     test -d avcall || mkdir avcall
     (cd avcall; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/avcall/configure --srcdir=$abs_srcdir/avcall --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static)
 + else
@@ -291,9 +306,20 @@ diff -rc2P swarm-2.0.1/configure swarm-1999-09-28/configure
 +   # avcall.h finds its way into dependency information
 +   touch avcall/avcall.h
   fi
-diff -rc2P swarm-2.0.1/libobjc/config/powerpc/compiler-info-linux-gnu.h swarm-1999-09-28/libobjc/config/powerpc/compiler-info-linux-gnu.h
+diff -rc2P swarm-2.0.1/java/swarm/Makefile.rules.in swarm-1999-09-29/java/swarm/Makefile.rules.in
+*** swarm-2.0.1/java/swarm/Makefile.rules.in	Fri Sep  3 13:34:46 1999
+--- swarm-1999-09-29/java/swarm/Makefile.rules.in	Tue Sep 28 21:41:13 1999
+***************
+*** 9,12 ****
+--- 9,13 ----
+  JAVAC=@JAVAC@
+  JAVACOMPILE=$(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSESARG)'
++ top_srcdir=@top_srcdir@
+  top_dossrcdir=@top_dossrcdir@
+  ifneq ($(top_dossrcdir),.)
+diff -rc2P swarm-2.0.1/libobjc/config/powerpc/compiler-info-linux-gnu.h swarm-1999-09-29/libobjc/config/powerpc/compiler-info-linux-gnu.h
 *** swarm-2.0.1/libobjc/config/powerpc/compiler-info-linux-gnu.h	Wed Dec 31 17:00:00 1969
---- swarm-1999-09-28/libobjc/config/powerpc/compiler-info-linux-gnu.h	Sat Sep 25 01:14:21 1999
+--- swarm-1999-09-29/libobjc/config/powerpc/compiler-info-linux-gnu.h	Sat Sep 25 01:14:21 1999
 ***************
 *** 0 ****
 --- 1,5 ----
@@ -302,9 +328,9 @@ diff -rc2P swarm-2.0.1/libobjc/config/powerpc/compiler-info-linux-gnu.h swarm-19
 + #define PCC_BITFIELD_TYPE_MATTERS 1
 + #define BITS_PER_UNIT 8
 + #define BITS_PER_WORD 32
-diff -rc2P swarm-2.0.1/libobjc/config/powerpc/mframe-linux-gnu.h swarm-1999-09-28/libobjc/config/powerpc/mframe-linux-gnu.h
+diff -rc2P swarm-2.0.1/libobjc/config/powerpc/mframe-linux-gnu.h swarm-1999-09-29/libobjc/config/powerpc/mframe-linux-gnu.h
 *** swarm-2.0.1/libobjc/config/powerpc/mframe-linux-gnu.h	Wed Aug 25 20:03:14 1999
---- swarm-1999-09-28/libobjc/config/powerpc/mframe-linux-gnu.h	Sat Sep 25 01:24:15 1999
+--- swarm-1999-09-29/libobjc/config/powerpc/mframe-linux-gnu.h	Sat Sep 25 01:24:15 1999
 ***************
 *** 10,13 ****
 --- 10,14 ----
@@ -313,9 +339,9 @@ diff -rc2P swarm-2.0.1/libobjc/config/powerpc/mframe-linux-gnu.h swarm-1999-09-2
 + #define MFRAME_STACK_STRUCT     1
   #define MFRAME_STRUCT_BYREF     1
   #define MFRAME_SMALL_STRUCT     0
-diff -rc2P swarm-2.0.1/libobjc/configure swarm-1999-09-28/libobjc/configure
+diff -rc2P swarm-2.0.1/libobjc/configure swarm-1999-09-29/libobjc/configure
 *** swarm-2.0.1/libobjc/configure	Mon Sep 20 15:52:50 1999
---- swarm-1999-09-28/libobjc/configure	Fri Sep 24 19:27:51 1999
+--- swarm-1999-09-29/libobjc/configure	Fri Sep 24 19:27:51 1999
 ***************
 *** 1878,1882 ****
   
