@@ -28,6 +28,7 @@
                                      SD_ENSUREJAVA (jniEnv, [self getZone]));
       else
         {
+          (*jniEnv)->ExceptionClear (jniEnv);
           method = (*jniEnv)->GetMethodID (jniEnv, class, "<init>", "()V");
           
           if (!method)
