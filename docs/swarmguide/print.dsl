@@ -29,10 +29,6 @@
   ;; Indent lines in a 'ProgramListing'?
   " ")
 
-(define formal-object-float
-  ;; Do formal objects float?
-  #t)
-
 (define ($bold-sanserif-seq$ #!optional (sosofo (process-children)))
   (make sequence
     font-family-name: %admon-font-family%

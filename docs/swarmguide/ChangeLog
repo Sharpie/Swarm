@@ -1,3 +1,22 @@
+2000-02-10  Alex Lancaster  <alex@santafe.edu>
+
+	* userbiblio.sgml: New reference, DiBona et. al.
+
+	* print.dsl: Don't make formal objects float.
+
+	* Makefile.am (SGML): Add userpreface.sgml.
+
+	* userpreface.sgml: New file, with `About this Guide' section.
+	
+	* user1.01.sgml, user1.02.sgml, user1.03.sgml, user1.04.sgml,
+	user1.05.sgml, user2.01.sgml, user2.02.sgml, user2.03.sgml,
+	user2.04.sgml, user2.05.sgml, user2.06.sgml, user2.07.sgml,
+	userbiblio.sgml, userbook.sgml, usermeta.sgml: Extensive markup
+	additions, changes, corrections througout for internal
+	consistency.  Add new text on free software, comment out outdated
+	sections on probes, overhauled all references to SFI to be to the
+	SDG.  Updated any new project information since 1999.
+
 2000-02-09  Alex Lancaster  <alex@santafe.edu>
 
 	* user1.01.sgml: Slight wording changes/updates.  Reword free/open

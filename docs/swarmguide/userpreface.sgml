@@ -1,0 +1,74 @@
+<preface id="swarm.user.preface">
+  <title>About this Guide</title>
+
+  <para> This Guide presents an overview of the Swarm simulation
+    toolkit. It is intended to be used in conjunction with other
+    materials, which include the sample programs and tutorials
+    provided by the Swarm team and the <citetitle>Swarm Documentation
+    Set</citetitle>.  Since this is a user guide, it is intended to be
+    less formal and not so encyclopaedic as the <citetitle>Reference
+    Guide for Swarm</citetitle>. When there is any doubt, the
+    <citetitle>Reference Guide</citetitle> (and the source code
+    itself) is the final, most appropriate, authority.</para>
+
+  <para>The inspiration for this Guide was provided by
+    <author><firstname>Benedikt</firstname>
+    <surname>Stefansson</surname></author>
+    <email>benedikt@post.com</email>, who prepared a series of
+    lectures for the 1998 and 1999 SwarmFests.  Benedikt generated a
+    series of slides and illustrations and many of them have been
+    adapted for this Guide. He has also provided help in the form of
+    sample code and advice about many topics.</para>
+
+  <para>Conventions used in this document:</para>
+
+  <itemizedlist>
+    <listitem>
+      <note>
+        <title>Note</title>
+        <para>Interesting fact(s), not necessarily of vital
+          significance to the user.</para>
+      </note>
+    </listitem>
+
+    <listitem>
+      <tip>
+        <title>Tip</title>
+        <para>A coding tip, a suggested convention to adopt or
+          suggested usage.</para>
+      </tip>
+    </listitem>
+
+    <listitem>
+      <important>
+        <title>Important</title>
+        <para>Important fact(s) you should know before proceeding
+        to the next section.</para>
+    </important>
+    </listitem>
+
+    <listitem>
+      <caution>
+        <title>Caution</title>
+        <para>A note of caution, generally regarding a changed
+          usage, deprecated functionality or other compatibility
+          issue.</para>
+      </caution>
+    </listitem>
+    
+    <listitem>
+      <warning>
+        <title>Warning</title> <para>Vital information that a user needs
+          to be aware of before proceeding.</para>
+    </warning>
+    </listitem>
+  </itemizedlist>
+
+</preface>
+
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "PREFACE")
+End:
+-->
+ 

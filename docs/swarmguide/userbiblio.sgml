@@ -1,4 +1,5 @@
 <bibliography id="SWARM.USER.SGML.BIBLIOGRAPY">
+
   <title>Bibliography</title>
   <para>A short bibliography of books, articles, papers useful for learning 
     to program with the Swarm libraries.</para>
@@ -94,9 +95,34 @@
         </abstract>
       </bookbiblio>
     </biblioentry>
+    <biblioentry>
+      <abbrev>DiBona et. al. 1999</abbrev>
+      <title>Open Sources</title>
+      <subtitle>Voices from the Open Source Revolution</subtitle>
+      <authorgroup>
+        <editor>
+          <firstname>Chris</firstname>
+          <surname>DiBona</surname>
+        </editor>
+        <editor>
+          <firstname>Sam</firstname>
+          <surname>Ockman</surname>
+        </editor>
+        <editor>
+          <firstname>Mark</firstname>
+          <surname>Stone</surname>
+        </editor>
+      </authorgroup>
+      <isbn>1-56592-582-3</isbn>
+      <pubdate>1999</pubdate>
+      <publisher>
+        <publishername>O'Reilly & Associates Inc.</publishername>
+        <address><city>Sebastopol</city><state>California</state></address>
+      </publisher>
+    </biblioentry>
   </bibliodiv>
 
-<!-- Comment next section out, but leave in, as a usage guide for 
+  <!-- Comment next section out, but leave in, as a usage guide for 
   SGML authors  -->
 
 <!--

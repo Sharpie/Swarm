@@ -1,9 +1,9 @@
 <chapter id="swarm.user.user1.01.chapter">
   <title>Introduction</title>
 
-  <para>The Swarm project was started in 1994 by Chris Langton at
-    <ulink url="http://www.santafe.edu">Santa Fe Institute</ulink>
-    (<acronym>SFI</acronym>)in New Mexico.  It is currently based at
+  <para>The Swarm project was started in 1994 by Chris Langton, then
+    at <ulink url="http://www.santafe.edu">Santa Fe Institute</ulink>
+     (<acronym>SFI</acronym>)in New Mexico.  It is currently based at
     the non-for-profit organization, <ulink
     url="http://www.swarm.org">Swarm Development Group</ulink> also
     based in Santa Fe, New Mexico.  The aim was to develop both a
@@ -12,17 +12,19 @@
     <acronym>ABM</acronym>s, short for Agent-Based Models).  Armed
     with this framework, researchers are able to focus on the
     substance of the modeling task, avoiding some of the complicated
-    (and uninteresting) details of computer coding.</para>
+    details of computer coding.</para>
 
   <para>The Swarm project has benefitted from the contributions of
     many programmers, including Roger Burkhart, Nelson Minar, Manor
     Askenazi, Glen Ropella, Sven Thommesen, Marcus Daniels, Alex
     Lancaster, Vladimir Jojic, and Irene Lee. </para>
 
-  <sect1 id="swarm.user.user1.01-facts.sect1"><title>Basic Facts About
-    Swarm</title> <para>Swarm is a collection of software libraries
-    which provide support for simulation programming. Among the most
-    prominent features are the following.
+  <sect1 id="swarm.user.user1.01-facts.sect1">
+    <title>Basic Facts About Swarm</title> 
+
+    <para>Swarm is a collection of software libraries which provide
+      support for simulation programming. Among the most prominent
+      features are the following.
 
     <itemizedlist>
 
@@ -76,46 +78,96 @@
 
 </sect1>
 
-<sect1 id="swarm.user.user1.01-target.sect1"><title>Swarm is a Moving Target</title>
+  <sect1 id="swarm.user.user1.01-target.sect1">
 
-    <para>Swarm is <ulink
-        url="http://www.gnu.org/philosophy/free-sw.html">free
-        software</ulink> <footnote> <para>sometimes referred to as
-        "open source" source software, see: <ulink
-        url="http://www.opensource.org/osd.html">http://www.opensource.org/osd.html</ulink>
+    <title>Swarm is a Dynamic Platform</title>
+
+    <para>Swarm is <ulink url="http://www.gnu.org/philosophy/free-sw.html">
+        <firstterm>free software</firstterm></ulink> 
+      <footnote> <para>sometimes referred to as
+        "open source" source software, see the <ulink
+        url="http://www.opensource.org/osd.html">Open Source
+        Definition</ulink>
         </para>
-      </footnote>.</para>
+      </footnote>.  The current Swarm distribution is effectively
+        <footnote> <para>The core Swarm libraries are currently
+        released under the <ulink
+        url="http://www.gnu.org/copyleft/lgpl.html">LGPL</ulink>, but
+        the standard binary distributions generally include many GPLed
+        support components, which effectively mean that Swarm is
+        GPLed.</para>
+      </footnote>
+      released under the GNU General Public License (<ulink
+      url="http://www.gnu.org/copyleft/gpl.html">GPL</ulink>).  The
+      free software model of software development is particularly
+      effective for a tool like Swarm, for both theoretical and
+      practical reasons:
+      <itemizedlist>
+        <listitem>
+          <formalpara>
+            <title>Complete Observability</title> <para>With full
+            source available, if necessary, the modeller can always
+            track the execution of the simulation right down to the
+            operating system level.  This is very important for
+            reproducibility, and ultimately allows you to go about
+            proving (in an abstract mathematical sense) a simulation's
+            `correctness'.</para></formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Hacker Mind-Share</title> <para>More practically,
+            Swarm is open source so that we can harness hacker
+            mind-share: more technically minded users can identify
+            bugs, write patches, implement new features generally
+            contribute to the evolution of Swarm.  These are all
+            identical to the reasons that the GNU/Linux operating
+            system has grown so fast (and is so robust)
+            <citation>DiBona et. al. 1999</citation>.  As Swarm grows,
+            more programmers, and technically curious modellers are
+            becoming involved in the project.</para>
+          </formalpara>
+        </listitem>
+      </itemizedlist>
 
-    <para>Most of the development work has been done by the Swarm
-      Development Group at the SFI.  Their results are periodically
-      released on the Internet and users can edit the source code.
-      The creators fully intended for users to take the code,
-      experiment with it, and propose changes and enhancements.  This
-      open source strategy is designed to capture the contributions of
-      a lively research community. When users make improvements in the
-      libraries, they are encouraged to announce them to the community
-      and make them available.  As a result of the interaction of the
-      community and the Swarm team, the Swarm libraries are constantly
-      being revised.</para>
+    </para>
+
+    <para>Most of the development work is being done by the <ulink
+      url="http://www.swarm.org">Swarm Development Group</ulink>,
+      located in Santa Fe, New Mexico.  (The Swarm project relocated
+      from the SFI at the end of October 1999).  Their results are
+      periodically released on the Internet and users can edit the
+      source code.  The creators fully intended for users to take the
+      code, experiment with it, and propose changes and enhancements.
+      This open source strategy is designed to capture the
+      contributions of a lively research community. When users make
+      improvements in the libraries, they are encouraged to announce
+      them to the community and make them available.  As a result of
+      the interaction of the community and the Swarm team, the Swarm
+      libraries are constantly being revised.</para>
     
     <para>To get an idea of how much things change, consider the brief
       history of the project. Swarm was originally intended for Unix
       operating systems that support the X Windows System.  The first
-      beta version of Swarm was released in 1995.  In January, 1997,
+      beta version of Swarm was released in 1995.  In January 1997,
       version 1.0 was released to the public.  It would run on Solaris
       and Linux operating systems.  Quickly after that, minor releases
       followed that opened up Swarm to the DEC Alpha platform and
       other flavors of Unix.  In April 1998, the reach of Swarm again
       broadened, as version 1.1 was released and, with the help of the
       Cygnus Win32 package, Swarm could be used on the Microsoft
-      Windows 95/NT operating system.</para> <para>Because Swarm does
-      grow and change as a result of the complex interaction within a
-      research community, its precise path for development is not
-      predictable.  Current priorities for the Swarm team at SFI
-      include the further generalization of Swarm to be useful on a
-      broader array of platforms and in conjunction with additional
-      computer languages. Swarm 2.0 introduced the ability of Java
-      programmers to access Swarm libraries, for example.
+      Windows 95/NT (and now 98) operating systems.  In late 1999 the
+      Swarm releases 2.0 and 2.0.1 introduced a Java layer for Swarm
+      to enable Java programmers to access Swarm libraries and enabled
+      the export of data through the HDF5 binary data format from
+      NSCA.</para>
+
+    <para>Because Swarm does grow and change as a result of the
+      complex interaction within a research community, its precise
+      path for development is not predictable.  Current priorities for
+      the Swarm team at the SDG include the further generalization of
+      Swarm to be useful on a broader array of platforms and in
+      conjunction with additional computer languages.  A prototype XML
+      and Scheme layers for Swarm have been tested, for example.
     </para>
 
   </sect1>
@@ -167,62 +219,6 @@
       book <citetitle>Object Oriented Programming and the Objective C
       Language</citetitle> <citation>NeXT, 1993</citation>.</para></sect1>
 
-<sect1>
-
- <title>About This Guide</title> 
-
-
-    <para> This Guide presents an overview of the Swarm simulation
-      toolkit. It is intended to be used in conjunction with other
-      materials, which include the sample programs and tutorials
-      provided by the Swarm team and the Documentation Set.  Since
-      this is a user guide, it is intended to be less formal and not
-      so encyclopaedic as the Reference Manual. When there is any
-      doubt, the Reference Manual (and the source code itself) is the
-      final, most appropriate, authority.</para>
-
-    <para>The inspiration for this Guide was provided
-        by <author><firstname>Benedikt</firstname>
-        <surname>Stefansson</surname></author>
-        <email>benedikt@ucla.edu</email>, who prepared a series of
-        lectures for the 1998 Swarmfest.  Benedikt generated a series
-        of slides and illustrations and many of them have been adapted
-        for this Guide. He has also provided help in the form of
-        sample code and advice about many topics.</para>
-
-    <para>Conventions used in this document:</para>
-
-    <note>
-      <title>Note</title>
-      <para>Interesting fact(s), not necessarily of vital
-        significance to the user.</para>
-    </note>
-
-    <tip>
-      <title>Tip</title>
-      <para>A coding tip, a suggested convention to adopt or
-        suggested usage.</para>
-    </tip>
-
-    <important>
-      <title>Important</title>
-      <para>Important fact(s) you should know before proceeding
-        to the next section.</para>
-    </important>
-
-    <caution>
-      <title>Caution</title>
-      <para>A note of caution, generally regarding a changed
-        usage, deprecated functionality or other compatibility
-        issue.</para>
-    </caution>
-
-    <warning>
-      <title>Warning</title> <para>Vital information that a user needs
-      to be aware of before proceeding.</para>
-    </warning>
-
-  </sect1>
 
 </chapter>
 <!--

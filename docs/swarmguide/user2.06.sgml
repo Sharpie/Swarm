@@ -1,7 +1,7 @@
 <chapter id="swarm.user.user2.06.chapter">
   <title>Checking on a Swarm's progress: The Observer</title>
 
-  <sect1>
+  <sect1 id="swarm.user.user2.06-monitor.sect1">
     <title>Monitoring a Swarm </title>
 
     <para> When a Swarm program is running in the GUI mode, what the
@@ -20,23 +20,22 @@
     <para>
       The most prominent of the extra features of the observer swarm
       is the control panel.  The control panel is the familiar set of
-      buttons that can <guibutton>start</guibutton> and
-      <guibutton>stop</guibutton> a swarm model.  The control panel
+      buttons that can <guibutton>Start</guibutton> and
+      <guibutton>Stop</guibutton> a swarm model.  The control panel
       also can "step" the simulation through its paces one time-unit
-      at-at-time using the <guibutton>next</guibutton> button.  The
-      <guibutton>save</guibutton> button on the control panel is
+      at-at-time using the <guibutton>Next</guibutton> button.  The
+      <guibutton>Save</guibutton> button on the control panel is
       intended to save the window positions of objects that are able
-      to do so.
-    </para>
+      to do so.</para>
 
-    <para>
-      Apart from the control panel, what the user sees at run-time is
-      completely dependent on the particular example that is being
+    <para>Apart from the control panel, what the user sees at run-time
+      is completely dependent on the particular example that is being
       considered.  It is probably safe to say, however, that if one
       stays within the Swarm library, without adding external support
       from the Graph library or other toolkits, then there two
       especially important kinds of display objects that can be
-      created in <filename>ObserverSwarm.m</filename>. These two are:
+      created in <filename>ObserverSwarm.m</filename>. These two
+      are:</para>
 
       <itemizedlist>
         <listitem>
@@ -55,29 +54,24 @@
         <listitem>
 
           <formalpara>
-            <title>The Data Display Graphs <comment>This is a title I just
-              made up to refer to <classname>EZGraphs</classname> and 
-              <classname>EZDistribution</classname>
-              protocols--pj,1999-04-16</comment> </title>
+            <title>The Data Display Graphs</title>
             
-            <para>For the visual presentation of summary information,
-              Swarm provides a set of tools for presenting information
-              in graphic format.  Two of the most common sorts are the
-              histogram, which shows the relative frequency of various
-              values occurring in a stream of data, and a line graph
-              which displays the changes over time in one or more
-              variables as a simulation progresses.  These
-              capabilities are provided by the Swarm protocols
-              <classname>EZDistribution</classname> and
-              <classname>EZGraph</classname>, respectively.
-            </para>
-          </formalpara>
-        </listitem>
-      </itemizedlist>
-    </para>
+          <para>For the visual presentation of summary information,
+            Swarm provides a set of tools for presenting information
+            in graphic format.  Two of the most common sorts are the
+            histogram, which shows the relative frequency of various
+            values occurring in a stream of data, and a line graph
+            which displays the changes over time in one or more
+            variables as a simulation progresses.  These
+            capabilities are provided by the Swarm protocols
+            <classname>EZDistribution</classname> and
+            <classname>EZGraph</classname>, respectively.
+          </para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
 
-    <para>
-      The following sections discuss the achitecture of these two
+    <para>The following sections discuss the achitecture of these two
       classes of displays in greater depth. Most of the examples for
       discussion are taken from the
       <application>Arborgames</application> code provided by Melissa
@@ -85,26 +79,26 @@
     </para>
   </sect1>
 
-  <sect1>
-    <title>Making a clickable <classname>ZoomRaster</classname></title>
+  <sect1 id="swarm.user.user2.06-zoomraster.sect1">
+    <title>Making a clickable
+    <classname>ZoomRaster</classname></title>
 
-    <para>
-      There is no doubt that one of the most impressive aspects of a
-      Swarm presentation is the visually intriguing movement of agents
-      on a landscape.  The ability to stop a simulation from the
-      control panel and then click on objects, open up displays that
-      reveal their internal variables and allow them to be changed, is
-      one of the main strengths of the Swarm library.
+    <para>There is no doubt that one of the most impressive aspects of
+      a Swarm presentation is the visually intriguing movement of
+      agents on a landscape.  The ability to stop a simulation from
+      the control panel and then click on objects, open up displays
+      that reveal their internal variables and allow them to be
+      changed, is one of the main strengths of the Swarm library.
     </para>
 
-    <para>
-      In order to introduce the way in which these
+    <para>In order to introduce the way in which these
       <classname>ZoomRaster</classname> displays are created, we have
       to introduce a number of inter-linked Swarm toolkit items.
       Before we are done, we have to talk about objects created using
-      the Space library, as well as objects from the Gui library.  In
-      the <application>Arborgames</application> simulation, there is a
-      set of standard examples that quite nicely illustrate the vital
+      the <classname>space</classname> library, as well as objects
+      from the <classname>gui</classname> library.  In the
+      <application>Arborgames</application> simulation, there is a set
+      of standard examples that quite nicely illustrate the vital
       steps.  For emphasis, we now consider these elements
       individually.
 
@@ -131,20 +125,16 @@
             object, called <varname>colormap</varname>, is created and
             then told to remember that the numbers 25, 26,and 27 refer
             to the colors "white","LightCyan1" and "PaleTurquoise"
-            which is defined deep in the bowels of the video display.
+            which is defined deep in the bowels of the video
+            display.</para>
 
-            <programlisting>
-colormap = [Colormap create: [self getZone]];
+<programlisting>colormap = [Colormap create: [self getZone]];
 
 [colormap setColor: 25 ToName: "white"];
 [colormap setColor: 26 ToName: "LightCyan1"];
-[colormap setColor: 27 ToName: "PaleTurquoise"];
-            </programlisting>
-          </para>
+[colormap setColor: 27 ToName: "PaleTurquoise"];</programlisting>
 
-          <para>
-
-            <classname>ColorMap</classname>s can have fancier
+          <para><classname>ColorMap</classname>s can have fancier
             items. For example, colors need not be referred to by
             simple names. Rather, each color can be referred to in a
             numerical format. All colors can be referred to by the
@@ -162,16 +152,15 @@ colormap = [Colormap create: [self getZone]];
           <formalpara>
             <title>Create a <classname>ZoomRaster</classname></title>
 
-            <para>
-              A <classname>ZoomRaster</classname> is a visual
+            <para>A <classname>ZoomRaster</classname> is a visual
               placeholder, a rectangular entity of a certain size.
               After trimming out some of the detail, the steps that
               create the <classname>ZoomRaster</classname> called
               <varname>forestRaster</varname> in
-              <application>Arborgames</application> look like this:
+              <application>Arborgames</application> look like this:</para>
+          </formalpara>
 
-              <programlisting>
-forestRaster = [ZoomRaster createBegin: [self getZone]];
+<programlisting>forestRaster = [ZoomRaster createBegin: [self getZone]];
 SET_WINDOW_GEOMETRY_RECORD_NAME (forestRaster);
 forestRaster = [forestRaster createEnd];
 
@@ -180,24 +169,19 @@ forestRaster = [forestRaster createEnd];
 [forestRaster setWidth: [forestModelSwarm getWorldSize] 
    Height: [forestModelSwarm getWorldSize]];
 [forestRaster setWindowTitle: "The Forest"];
-[forestRaster pack];
-              </programlisting>
-            </para>
-          </formalpara>
-
-
-              <para>This code should be viewed as foundation-building.  The
-              <classname>ZoomRaster</classname> object is created, and
-              the macro
-              <function>SET_WINDOW_GEOMETRY_RECORD_NAME</function> is
-              executed.  This means that, when the user clicks
-              <guibutton>save</guibutton> on the control panel, the
-              window position of the <varname>forestRaster</varname>
-              object will be saved in a file in the user's account.
-            </para>
-
-          <para>
-            To briefly summarize the effect of the other commands, we
+[forestRaster pack];</programlisting>
+          
+          <para>This code should be viewed as foundation-building.  The
+            <classname>ZoomRaster</classname> object is created, and
+            the macro
+            <function>SET_WINDOW_GEOMETRY_RECORD_NAME</function> is
+            executed.  This means that, when the user clicks
+            <guibutton>save</guibutton> on the control panel, the
+            window position of the <varname>forestRaster</varname>
+            object will be saved in a file in the user's account.
+          </para>
+          
+          <para>To briefly summarize the effect of the other commands, we
             note the following.  The fourth line tells the new raster
             object to use the colormap we just created.  The fifth
             line controls the magnification of the display, which in
@@ -218,8 +202,7 @@ forestRaster = [forestRaster createEnd];
             <title>Map a Swarm Space object onto the 
               <classname>ZoomRaster</classname></title>
             
-            <para>
-              By itself, a <classname>ZoomRaster</classname> is just a
+            <para>By itself, a <classname>ZoomRaster</classname> is just a
               nice looking set of edges around a blank background.  In
               order to display things inside that window, we need to
               create a connection between the agents who live in the
@@ -230,12 +213,10 @@ forestRaster = [forestRaster createEnd];
               goes through its lifetime, one of its activities is to
               put itself at a position in the grid and then (possibly)
               erase itself from the old spot and put itself in the new
-              spot.
-            </para>
+              spot.</para>
           </formalpara>
 
-          <para>
-            The Swarm protocol <classname>Object2dDisplay</classname>
+          <para>The Swarm protocol <classname>Object2dDisplay</classname>
             can handle the work of drawing the positions of agents in
             a <classname>Grid2d</classname> object on a
             <classname>ZoomRaster</classname>.  In the
@@ -243,21 +224,18 @@ forestRaster = [forestRaster createEnd];
             <varname>forestRaster</varname> is used by an object
             called <varname>treeDisplay</varname> which connects the
             agents in the <classname>Grid2d</classname> to the graphical 
-display.
-
+            display.</para>
             
-            <programlisting>
-treeDisplay = [Object2dDisplay createBegin: [self getZone]];
+<programlisting>treeDisplay = [Object2dDisplay createBegin: [self getZone]];
 [treeDisplay setDisplayWidget: forestRaster];
 [treeDisplay setDiscrete2dToDisplay: 
 [[forestModelSwarm getTheForest] getTreeGrid]]; 
 [treeDisplay setObjectCollection:
 [[forestModelSwarm getTheForest] getTreeList]]; 
 [treeDisplay setDisplayMessage: M(drawSelfOn:)];
-treeDisplay = [treeDisplay createEnd];
-            </programlisting>
+treeDisplay = [treeDisplay createEnd];</programlisting>
 
-            This example is slightly more complicated than most,
+          <para>This example is slightly more complicated than most,
             because the <classname>Grid2d</classname> object is not
             retrieved directly from
             <varname>forestModelSwarm</varname> , but rather from
@@ -272,34 +250,31 @@ treeDisplay = [treeDisplay createEnd];
             accomplished by the setDiscrete2dDisplay command.
           </para>
 
-          <para>
-            Why the <function>setObjectCollection</function> message
-            and the <function>setDisplayMessage</function> are used is
-            interesting and important.  The
+          <para>Why the <function>setObjectCollection</function>
+            message and the <function>setDisplayMessage</function> are
+            used is interesting and important.  The
             <classname>Object2dDisplay</classname> protocol has a
             method called <function>display</function>, which can be
             put in a schedule by the user.  When the display method is
-            executed, the <varname>treeDisplay</varname> (since it follows the
-            <classname>Object2dDisplay</classname> protocol) will send
-            each of the agent-objects in the
+            executed, the <varname>treeDisplay</varname> (since it
+            follows the <classname>Object2dDisplay</classname>
+            protocol) will send each of the agent-objects in the
             <classname>Grid2d</classname> a message telling it to draw
             itself in the <varname>forestRaster</varname>. How does it
             tell the object to draw itself? We tell it how by passing
             it the selector for the agent-object's
             <function>drawSelfOn:</function> method.  Each agent must
-            be able to respond to a message of this sort:
+            be able to respond to a message of this sort:</para>
 
-            <programlisting>
-[anAgent drawSelfOn: aRaster];
-            </programlisting>
+<programlisting>
+[anAgent drawSelfOn: aRaster];</programlisting>
 
-            The program will crash if each agent that is positioned in
-            the <classname>Grid2d</classname> is not able to respond
-            to <function>drawSelfOn:</function>.
+          <para>The program will crash if each agent that is
+            positioned in the <classname>Grid2d</classname> is not
+            able to respond to <function>drawSelfOn:</function>.
           </para>
 
-          <para>
-            The message <literal>setObjectCollection:
+          <para>The message <literal>setObjectCollection:
               [[forestModelSwarm getTheForest] getTreeList]]</literal>
               is not strictly necessary and the program will run
               without it.  It may not run so quickly, however.
@@ -315,9 +290,8 @@ treeDisplay = [treeDisplay createEnd];
               to search through the whole grid.  When the object
               collection is set, then the
               <varname>treeDisplay</varname> will simply go through
-              the list of objects and tell each one to display itself.
-          </para>
-
+              the list of objects and tell each one to display
+              itself.</para>
         </listitem>
 
         <listitem>
@@ -325,8 +299,7 @@ treeDisplay = [treeDisplay createEnd];
             <title>Tell the <classname>ZoomRaster</classname> 
              Where to Send Mouse Clicks</title>
 
-            <para>
-              A <classname>ZoomRaster</classname> object is highly
+            <para>A <classname>ZoomRaster</classname> object is highly
               self-aware.  If you stop a simulation and right-click on
               an object, you may see a probe display pop up.  That
               does not happen by magic, of course.  It is necessary to
@@ -334,30 +307,27 @@ treeDisplay = [treeDisplay createEnd];
               click, that it is supposed to pass that click to some
               other object that knows what to do with it.  That's why
               there is a command like this in the
-              <function>buildObjects</function> phase:
-
-              <programlisting>
-[forestRaster setButton: ButtonRight 
-                 Client: treeDisplay 
-                Message: M(makeProbeAtX:Y:)];
-              </programlisting>
-            </para>
+              <function>buildObjects</function> phase:</para>
           </formalpara>
 
-           <para>The <varname>treeDisplay</varname> is told to make a
-              probe for the object that exists at a particular point
-              in the grid.
-            </para>
+<programlisting>
+[forestRaster setButton: ButtonRight 
+                 Client: treeDisplay 
+                Message: M(makeProbeAtX:Y:)];</programlisting>
+          
+          <para>The <varname>treeDisplay</varname> is told to make a
+            probe for the object that exists at a particular point
+            in the grid.
+          </para>
         </listitem>
 
         <listitem>
           <formalpara>
             <title>Schedule the Display</title>
 
-            <para>
-              This is one of the aspects of Swarm that could use some
-              standardization. In the schedule, one generally includes
-              steps that erase the raster, then the
+            <para>This is one of the aspects of Swarm that could use
+              some standardization. In the schedule, one generally
+              includes steps that erase the raster, then the
               <classname>Object2dDisplay</classname> is told to update
               itself by the <function>display</function> command, and
               then that display is drawn to the screen by telling the
@@ -366,22 +336,19 @@ treeDisplay = [treeDisplay createEnd];
             </para>
           </formalpara>
 
-          <para>
-            In a simple model, one in which we only have one
+          <para>In a simple model, one in which we only have one
             <classname>ZoomRaster</classname> to update, then the
             schedule could be as simple. In the
             <function>buildActions</function> part of the code, one
             could create an <classname>ActionGroup</classname> like
-            this:
+            this:</para>
 
-<programlisting>
-displayActions = [ActionGroup create: self];
+<programlisting>displayActions = [ActionGroup create: self];
 [displayActions createActionTo: forestRaster message: M(erase)];
 [displayActions createActionTo: treeDisplay message:M(display)];
-[displayActions createActionTo: forestRaster message: M(drawSelf)];
-</programlisting>
+[displayActions createActionTo: forestRaster message: M(drawSelf)];</programlisting>
 
-            (Of course, that action group has to be put into a
+          <para>(Of course, that action group has to be put into a
             schedule, which will probably execute it at each time
             point.) The <function>buildActions</function> method in
             <application>arborgames</application> is a bit more
@@ -405,9 +372,8 @@ displayActions = [ActionGroup create: self];
             </para>
           </formalpara>
 
-          <para>
-            It is fairly standard in Swarm models to manage this by
-            creating a <classname>Grid2d</classname> object in the
+          <para>It is fairly standard in Swarm models to manage this
+            by creating a <classname>Grid2d</classname> object in the
             model swarm level and then, when an agent is created, use
             a <function>setWorld</function> method to notify the agent
             where it lives. In <application>heatbugs</application>,
@@ -416,49 +382,44 @@ displayActions = [ActionGroup create: self];
             find a better spot.  When it has decided where to go, the
             heatbug puts "nil" at it spot in the grid where it used to
             be and then it puts itself at the new coordinates.  Here
-            is the relevant code from <filename>Heatbug.m</filename>:
+            is the relevant code from
+            <filename>Heatbug.m</filename>:</para>
 
-            <programlisting> 
-[world putObject: nil atX: x Y: y];
-[world putObject: self atX: newX Y: newY];
-            </programlisting>
-          </para>
+<programlisting> [world putObject: nil atX: x Y: y];
+[world putObject: self atX: newX Y: newY];</programlisting>
+          
+          <para>In the <application>Arborgames</application> example,
+            the trees don't consciously move themselves. Rather, they
+            are created and destroyed according to a set of rules that
+            put them in a spot for a while.  When a tree is created,
+            it is added to the grid with this command that is in the
+            <filename>Forest.m</filename> file:</para>
 
-          <para>
-            In the <application>Arborgames</application> example, the
-            trees don't consciously move themselves. Rather, they are
-            created and destroyed according to a set of rules that put
-            them in a spot for a while.  When a tree is created, it is
-            added to the grid with this command that is in the
-            <filename>Forest.m</filename> file:
-
-            <programlisting>
-- addTree: aTree atX: (int) xVal Y: (int) yVal
+<programlisting>- addTree: aTree atX: (int) xVal Y: (int) yVal
 {
   [treeList addFirst: aTree];
   [treeGrid putObject: aTree atX: xVal Y: yVal];
   return self; 
-}
-            </programlisting>
+}</programlisting>
 
-            Trees don't move (so far as we know), so we only need to
-            update this tree's position arises when the tree dies. The
-            <filename>Forest.m</filename> file creates a class of
-            methods common to the different kinds of forests, and then
-            the subclasses like <classname>MatureForest</classname>
-            are created to provide additional detail.  There are
-            methods that remove a tree from the simulation and take it
-            off the grid.  The trees that are supposed to die are
-            added to a Swarm list called the
-            <varname>exitQ</varname>. For each timestep, the forest
-            tells each kind of tree to do its
+          <para>Trees don't move (so far as we know), so we only need
+            to update this tree's position arises when the tree
+            dies. The <filename>Forest.m</filename> file creates a
+            class of methods common to the different kinds of forests,
+            and then the subclasses like
+            <classname>MatureForest</classname> are created to provide
+            additional detail.  There are methods that remove a tree
+            from the simulation and take it off the grid.  The trees
+            that are supposed to die are added to a Swarm list called
+            the <varname>exitQ</varname>. For each timestep, the
+            forest tells each kind of tree to do its
             <function>step</function> method, which adds trees to the
             <varname>exitQ</varname> list, and then the forest's
             <function>step</function> method removes those trees from
-            the grid. In the <filename>MatureForest.m</filename> file,
+            the grid. In the <filename>MatureForest.m</filename>
+            file,</para>
 
-            <programlisting>
-- step 
+<programlisting>- step 
 {
   id aTree, index;
 
@@ -474,26 +435,23 @@ displayActions = [ActionGroup create: self];
   }
   [index drop];
   return self;
-}
-            </programlisting>
+}</programlisting>
 
-          </para>
         </listitem>
       </orderedlist>
     </para>
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user2.06-graphs.sect1">
     <title>Displaying Results in Graphs</title>
 
     <para>The most commonly used graphs in Swarm are histograms, which
-      display the frequency distribution of a variable, and line plots,
-      which show changes over time in real-valued numbers.  There are
-      some little details that arise in some applications, but for the
-      most part creating graphs is easy. </para>
+      display the frequency distribution of a variable, and line
+      plots, which show changes over time in real-valued numbers.
+      There are some little details that arise in some applications,
+      but for the most part creating graphs is easy. </para>
 
-    <para>
-      The Swarm protocol that can create line plots is called
+    <para>The Swarm protocol that can create line plots is called
       <classname>EZGraph</classname>.  The essential steps require the
       user to create a graph object, and optionally to assign labels
       for various display attributes.  For example, returning to the
@@ -503,25 +461,22 @@ displayActions = [ActionGroup create: self];
       <varname>popGraph</varname>.
     </para>
 
-    <programlisting> 
-popGraph = [EZGraph createBegin: [self getZone]];
+<programlisting>popGraph = [EZGraph createBegin: [self getZone]];
 SET_WINDOW_GEOMETRY_RECORD_NAME (popGraph); 
 [popGraph setTitle: "population"]; 
 [popGraph setAxisLabelsX: "time" Y: "population"];
 popGraph = [popGraph createEnd];
     </programlisting>
 
-    <para>
-      After the <classname>EZGraph</classname> object is in existence,
+    <para>After the <classname>EZGraph</classname> object is in existence,
       then it can be instructed to prepare itself to plot some lines.
       A stream of numbers is thought of as a sequence, and internal to
       the Swarm library there is an object type called sequence that
       is used by the graph tools to keep track of the numbers they are
       to present. </para>
 
-    <para>
-      When the graph object is told to create the sequence, it can be
-      told to formulate a summary statistic and plot it. In the
+    <para>When the graph object is told to create the sequence, it can
+      be told to formulate a summary statistic and plot it. In the
       <application>Heatbugs</application> simulation, the aim is to
       plot a summary of the unhappiness of all bugs.  The average
       level of unhappiness of all bugs is the chosen indicator.  Here
@@ -530,8 +485,7 @@ popGraph = [popGraph createEnd];
       plotting:
     </para>
 
-    <programlisting> 
-[unhappyGraph createAverageSequence: "unhappiness"
+<programlisting>[unhappyGraph createAverageSequence: "unhappiness"
              withFeedFrom: [heatbugModelSwarm getHeatbugList]
               andSelector: M(getUnhappiness)];</programlisting>    
       
@@ -562,8 +516,7 @@ popGraph = [popGraph createEnd];
       each one.
     </para>
 
-      <programlisting>
-for (i = 0; i < speciesNumber; i++)
+<programlisting>for (i = 0; i < speciesNumber; i++)
 {
   id aSpecies;
   aSpecies = [speciesList atOffset: i];
@@ -591,8 +544,7 @@ for (i = 0; i < speciesNumber; i++)
       is required:
     </para>
 
-    <programlisting>
-[displayActions createActionTo: popGraph message: M(step)];</programlisting>
+    <programlisting>[displayActions createActionTo: popGraph message: M(step)];</programlisting>
 
     <para>
       This is often part of an <classname>ActionGroup</classname> that

@@ -1,6 +1,6 @@
 <chapter id="swarm.user.user2.05.chapter">
 
-  <title>Working with lists</title>
+  <title>Working with Lists</title>
 
   <para> Programmers who have worked primarily in non-object-oriented
     languages like Fortran, Pascal, or C, are sometimes perplexed at
@@ -11,14 +11,14 @@
     both widespread in Swarm and different from the usual strategy in
     other languages, it deserves some discussion.  </para>
 
-  <sect1>
-    <title>The <classname>List</classname> class</title> 
+  <sect1 id="swarm.user.user2.05-list-class.sect1">
+    <title>The <classname>List</classname> Class</title> 
     
     <para> This section is not intended as a comprehensive review of
       Swarm's Collections library.  That job is left to a later
       chapter.  Instead, the purpose of this section is to introduce
       some popular usages of the <classname>List</classname> class and
-      discuss the implications for simulation modeling.  </para>
+      discuss the implications for simulation modeling. </para>
 
     <para>The concept of a "linked list" may be familiar to C
       programmers. The motivating idea of a linked list is that one can
@@ -47,11 +47,10 @@
       <classname>OrderedSet</classname>, <classname>Map</classname>,
       and so forth), but a treatment of them is left to a later
       chapter.</para>
-
   </sect1>
 
-  <sect1>
-    <title>Basic <classname>List</classname> syntax</title> 
+  <sect1 id="swarm.user.user2.05-lists-syntax.sect1">
+    <title>Basic <classname>List</classname> Syntax</title> 
 
     <para>A list is created by making a call to the
       <classname>List</classname> class object.  Since there are
@@ -62,14 +61,14 @@
       <classname>List</classname> object, one can import the header
       file <filename>collections.h</filename> from the Swarm library,
       and then this command will create a <classname>List</classname>
-      object:
+      object:</para>
 
       <programlisting>
 id nameOfSomeList;
 nameOfSomeList = [List create: self];
       </programlisting>
 
-      Recall from the discussion of object creation that
+    <para>Recall from the discussion of object creation that
       <varname>self</varname> refers to the memory zone in which the
       list is created. This is appropriate in a
       <classname>Swarm</classname> or <classname>GUISwarm</classname>
@@ -81,20 +80,18 @@ nameOfSomeList = [List create: self];
       methods that can add and remove either the first or last object
       in a list are defined.  For example, to add an object called
       <varname>fred</varname> at the end of a list called
-      <varname>listOfDogs</varname>, one could write
+      <varname>listOfDogs</varname>, one could write:</para>
 
       <programlisting>
 [listOfDogs addLast: fred];
       </programlisting>
 
-      and, if it were necessary to remove the last object in the list,
-      one could write:
+    <para>and, if it were necessary to remove the last object in the
+      list, one could write:</para>
 
       <programlisting>
 [listOfDogs removeLast];
       </programlisting>
-
-    </para>
 
     <para>The object of type <classname>List</classname> is able not
       only to carry out the <function>addFirst:</function>,
@@ -104,6 +101,7 @@ nameOfSomeList = [List create: self];
       methods from the <classname>Collections</classname>
       protocol. Some of the useful methods in the
       <classname>Collections</classname> protocol are:
+
       <itemizedlist>
 	<listitem><para><function>getCount</function>: Use this to
             find out how many items are already in the list </para>
@@ -128,30 +126,32 @@ nameOfSomeList = [List create: self];
     
     <para>Lists have many uses in Swarm projects. The following
       sections discuss them, in turn.  First, lists are used to manage
-      collections of objects and schedule their activities in the model
-      swarm layer of a simulation.  Second, lists are used to pass
-      information back and forth between levels of a simulation.  Third,
-      lists can be used by individual agents to keep track of their
-      experiences and manage their information </para>
+      collections of objects and schedule their activities in the
+      model swarm layer of a simulation.  Second, lists are used to
+      pass information back and forth between levels of a simulation.
+      Third, lists can be used by individual agents to keep track of
+      their experiences and manage their information </para>
 
   </sect1>
 
-  <sect1>
-    <title>Lists: Managing objects in the model swarm</title> 
+  <sect1 id="swarm.user.user2.05-lists-model.sect1">
+    <title>Lists: Managing Objects in the Model Swarm</title> 
 
-    <para> In the SwarmApps package, one can find the "Hello World"
-      example exercises. This exercise provides a good example of the
-      way in which lists are used to organize the agents in a model
-      swarm.  In volume 3 of the Hello World package, a list of people
-      called <varname>pplList</varname> is created.  Here is a
-      skeleton showing the important commands that create and use the
-      <classname>List</classname> protocol in the model swarm
-      level. The file is called <filename>PplModelSwarm.m</filename>.
+    <para>In the <application>swarmapps</application> package, one can
+      find the <application>Hello World</application> example
+      exercises. This exercise provides a good example of the way in
+      which lists are used to organize the agents in a model swarm.
+      In section three of the <application>Hello World</application>
+      package, a list of people called <varname>pplList</varname> is
+      created.  Here is a skeleton showing the important commands that
+      create and use the <classname>List</classname> protocol in the
+      model swarm level. The file is called
+      <filename>PplModelSwarm.m</filename>.</para>
 
       <programlisting>
 @implementation PplModelSwarm
 
--buildObjects
+- buildObjects
 { 
   //...
   // build the list to keep track of the ppl
@@ -179,7 +179,7 @@ nameOfSomeList = [List create: self];
 }
       </programlisting>
 
-      As in most Swarm examples, the list is created in the
+    <para>As in most Swarm examples, the list is created in the
       <function>buildObjects</function> method.  The
       <classname>List</classname> class object is a "factory object,"
       it can create instances that can answer to the
@@ -202,15 +202,16 @@ nameOfSomeList = [List create: self];
       <function>buildObjects</function> method proceeds into a for
       loop that creates the people objects.  At the end of that loop,
       each person is added to the <varname>pplList</varname> by the
-      command
+      command:</para>
 
       <programlisting>
 [pplList addLast: person];
       </programlisting>
-      The Swarm libraries take care of allocating memory and all the other
-      details.</para>
 
-    <para> Once this list of people is created, what happens?  In this
+    <para>The Swarm libraries take care of allocating memory and all
+      the other details.</para>
+    
+    <para>Once this list of people is created, what happens?  In this
       case, the list of people becomes the central organizing element
       of actions that are to be scheduled. The object
       <varname>modelActions</varname> is told to go through the people
@@ -221,21 +222,18 @@ nameOfSomeList = [List create: self];
       the target is a Swarm collection item, the
       <varname>pplList</varname>, and the Swarm library knows how to
       traverse through the list of people. </para>
-
   </sect1>
 
-  <sect1>
-    <title>Lists: Passing information among levels in a Swarm model</title> 
-
+  <sect1 id="swarm.user.user2.05-lists-passing.sect1">
+    <title>Lists: Passing Information Among Levels in a Swarm Model</title> 
 
     <para>Simplified scheduling is not the only usage for lists. It is
       equally important that list objects can be used to quickly communicate
       a great deal of information between objects. This is done by creating 
       methods that can get a list and pass it to another object. </para>
 
-    <para>
-      In the <filename>PplModelSwarm.m</filename> file, for example,
-      one finds this method:
+    <para>In the <filename>PplModelSwarm.m</filename> file, for example,
+      one finds this method:</para>
 
       <programlisting>
 - getPplList
@@ -244,9 +242,10 @@ nameOfSomeList = [List create: self];
 }
       </programlisting>
 
-      When another object needs a list of people, the
+    <para> When another object needs a list of people, the
       <classname>PplModelSwarm</classname> is able to supply
       it.</para>
+
     <para>
       This design is extremely convenient when it comes time to
       consider the observer swarm level of the simulation. The
@@ -256,7 +255,7 @@ nameOfSomeList = [List create: self];
       Consider the <varname>avgFriendGraph</varname> object, for
       example, which charts the average number of friends per person.
       The <function>buildObjects</function> section of
-      <filename>PplObserverSwarm.m</filename> has this command:
+      <filename>PplObserverSwarm.m</filename> has this command:</para>
 
       <programlisting>
 [avgFriendGraph createAverageSequence: "avgNumFriends"
@@ -264,7 +263,7 @@ nameOfSomeList = [List create: self];
          andSelector: M(getNumFriends)];
       </programlisting>
 
-      The method
+    <para>The method
       <function>createAverageSequence:withFeedFrom:andSelector</function>
       is equipped to take a list of objects, ask each one to supply a
       piece of data (the <function>getNumFriends</function> returns an
@@ -291,33 +290,32 @@ nameOfSomeList = [List create: self];
       individual person has that list available, it can ask the list
       for information. For example, to find out how many other people
       are still in the list, the <classname>Person</classname> object
-      can do this:
+      can do this:</para>
 
-      <programlisting>
-[pplPresent getCount]-1
-      </programlisting>
+<programlisting>
+[pplPresent getCount]-1</programlisting>
 
-      which returns an integer equal to the number of objects in the
-      <varname>pplList</varname> minus 1. The
+    <para>which returns an integer equal to the number of objects in
+      the <varname>pplList</varname> minus 1. The
       <classname>Person</classname> object does not have to do
       anything to update the <varname>pplPresent</varname> variable to
       reflect current conditions.  Since the
       <varname>pplPresent</varname> variable is actually a pointer to
       the <varname>pplList</varname> as it currently exists in the
       <classname>PplModelSwarm</classname>, this is always "up to
-      date."  Some additional usages that the
+      date".  Some additional usages that the
       <classname>Person</classname> class might include require the
       creation of <classname>Index</classname> objects, which are
       introduced in the next section.
     </para>
   </sect1>
 
-  <sect1>
-    <title>Lists: Organizing repetitive chores inside SwarmObjects</title> 
+  <sect1 id="swarm.user.user2.05-lists-chores.sect1">
+    <title>Lists: Organizing Repetitive Chores inside Objects</title> 
 
-    <para> In the Hello World example, each instance of the
-      <classname>Person</classname> class is aware of the
-      <varname>pplList</varname> that exists in the
+    <para> In the <application>Hello World</application> example, each
+      instance of the <classname>Person</classname> class is aware of
+      the <varname>pplList</varname> that exists in the
       <classname>PplModelSwarm</classname>.  Inside the individual
       person, the name used to refer to that list is
       <varname>pplPresent</varname>. Because
@@ -327,10 +325,7 @@ nameOfSomeList = [List create: self];
       <classname>Collections</classname> protocol, then a number of
       interesting features can be put to use.</para>
 
-
-
-    <para>
-      Suppose the we want to have the person go through the list of
+    <para>Suppose the we want to have the person go through the list of
       people in the list and make a new list that includes all of the
       people in that list who have a lot of friends, say more than 3.
       In order to carry this out, code has to be designed to traverse
@@ -348,8 +343,8 @@ nameOfSomeList = [List create: self];
       <classname>Index</classname> can also respond to requests for
       information.</para>
 
-    <para> For new Swarm users, the most puzzling thing about the
-      usage of <classname>Index</classname> is the creation process.
+    <para>For new Swarm users, the most puzzling thing about the usage
+      of <classname>Index</classname> is the creation process.
       <classname>Index</classname> objects are not created with the
       standard swarm
       <function>createBegin</function>/<function>createEnd</function>
@@ -362,7 +357,7 @@ nameOfSomeList = [List create: self];
       positions that index object before the first element of the
       collection.  Here is an example of how the
       <varname>pplPresent</varname> list might create an index called
-      <varname>pplIndex</varname>:
+      <varname>pplIndex</varname>:</para>
 
       <programlisting>
 <![CDATA [
@@ -371,8 +366,8 @@ pplIndex = [ pplPresent begin: [self getZone]];
 ]]>
       </programlisting>
 
-      The first line declares the instance variable that will be the
-      index.  It is not necessary to include the protocol name
+    <para>The first line declares the instance variable that will be
+      the index.  It is not necessary to include the protocol name
       &lt;<classname>Index</classname>&gt; in the declaration, so it
       might as well have been just <literal>id pplIndex</literal>.
       Some programmers prefer to include the extra information in the
@@ -388,29 +383,29 @@ pplIndex = [ pplPresent begin: [self getZone]];
       currently resides will be returned.  For example, consider this
       code that sets a variable called
       <varname>elementFromList</varname> equal to the next one, as
-      provided by the index:
+      provided by the index:</para>
 
       <programlisting>
 elementFromList = [pplIndex next];
       </programlisting>
 
-      When it is first created, the <varname>pplIndex</varname> is
-      positioned at the edge of the collection, just before the first
-      object in the collection. If we want the index to move to the
-      next object, and give us a pointer to the next object in the
+    <para>When it is first created, the <varname>pplIndex</varname>
+      is positioned at the edge of the collection, just before the
+      first object in the collection. If we want the index to move to
+      the next object, and give us a pointer to the next object in the
       list, it is done with that command. (As in C, collections are
       numbered beginning with the number zero).
     </para>
 
-    <para>
-      It is common in Swarm examples to use the
-      <function>next</function> method of the index object in a while
-      statement that cycles through the elements of a list.  Here is a
-      bit of code that would go through the list of people in Hello
-      World and ask each one how many friends it has. And, if the
-      number is larger than 3, then that object is added to a list
-      <varname>popularPeople</varname> (which we assume is created
-      somewhere else in the code).
+    <para>It is common in Swarm examples to use the
+      <function>next</function> method of the
+      <classname>Index</classname> object in a while statement that
+      cycles through the elements of a list.  Here is a bit of code
+      that would go through the list of people in <application>Hello
+      World</application> and ask each one how many friends it
+      has. And, if the number is larger than 3, then that object is
+      added to a list <varname>popularPeople</varname> (which we
+      assume is created somewhere else in the code).</para>
 
       <programlisting>
 <![CDATA [
@@ -428,7 +423,7 @@ while ((element = [pplIndex next]) != nil)
 [index drop];
 ]]>      </programlisting>
 
-      This example uses a number of convenient features from the C
+    <para>This example uses a number of convenient features from the C
       language.  One is that the conditions evaluated in logical
       statements are actually calculated.  Hence, the conditional in
       the while statement causes the <varname>pplIndex</varname> to
@@ -438,9 +433,8 @@ while ((element = [pplIndex next]) != nil)
       particular element from the list. In this case, that object is
       asked to give us its number of friends.</para>
 
-    <para>
-      The index object, <varname>pplIndex</varname> plays a vital role
-      in this example.  The index index is accessed inside the
+    <para>The index object, <varname>pplIndex</varname> plays a vital
+      role in this example.  The index index is accessed inside the
       <function>while</function> statement so that we can cycle
       through the elements in a list. The while statement in the
       previous example will begin with the first element of the list,
@@ -449,20 +443,19 @@ while ((element = [pplIndex next]) != nil)
       end?  When it is positioned at the last element of the list,
       then the <literal>[pplIndex next]</literal> command will return
       <varname>nil</varname>.  The logical condition is set so that
-      the program exits the while loop at that point.
-    </para>
+      the program exits the while loop at that point.</para>
 
-    <para>
-      If one inspects a number of Swarm examples, one will find the
-      while loop is constructed in slightly different ways, but the
-      effect is the same. For example, the logical condition is
+    <para>If one inspects a number of Swarm examples, one will find
+      the while loop is constructed in slightly different ways, but
+      the effect is the same. For example, the logical condition is
       sometimes written simply as (<literal>[pplIndex
       next]</literal>).  This is allowed because of the convention
       that, as long as this does not return <varname>nil</varname>,
       then the while loop will continue.  If that approach is used,
       instead of using element in the while loop, we replace all
       occurrences of element with <literal>[index get]</literal>, like
-      so:
+      so:</para>
+
       <programlisting>
 <![CDATA [
 id <Index> pplIndex    = nil;
@@ -479,35 +472,34 @@ while ([pplIndex next]))
 ]]>
       </programlisting>
 
-
-      This last change would cause a performance penalty because
+    <para>This last change would cause a performance penalty because
       the <varname>pplIndex</varname> object is asked to evaluate and
       return on object three times.
     </para>
     
-    <para>
-     It is hard to overstate the value of the index object in working
-     with Swarm lists. One especially important feature of the index
-     is that it can be used to manage items in the list itself. That
-     is, the index can do more than just point to objects. If an index
-     is positioned at an object, and one wants to cut that object from
-     the list, then the command <literal>[pplIndex remove]</literal>
-     will get the job done. The index will automatically reorient
-     itself, so that the next time the index receives the "next"
-     instruction, it will point to the next valid member of the
-     list.
-</para>
-
-
-    <para>One final note: it is important to drop the index object
-      when its use is completed.  That's accomplished by the
-      <literal>[pplIndex drop];</literal> command in the last example.
-      If this is forgotten, the index will continue to occupy memory
-      and waste resources.
+    <para>It is hard to overstate the value of the
+     <classname>Index</classname> protocol in working with Swarm
+     lists. One especially important feature of
+     <classname>Index</classname> is that it can be used to manage
+     items in the list itself. That is, the index can do more than
+     just point to objects. If an index is positioned at an object,
+     and one wants to cut that object from the list, then the command
+     <literal>[pplIndex remove]</literal> will get the job done. The
+     index will automatically reorient itself, so that the next time
+     the index receives the <function>next</function> instruction, it
+     will point to the next valid member of the list.
     </para>
 
+    <para>One final note: it is important to <function>drop</function>
+      the instance of <classname>Index</classname> when its use is
+      completed.  That's accomplished by the <literal>[pplIndex
+      drop];</literal> command in the last example.  If this is
+      forgotten, the index will continue to occupy memory and waste
+      resources.
+    </para>
   </sect1>
 </chapter>
+
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")

@@ -1,16 +1,14 @@
 <chapter id="swarm.user.user2.04.chapter">
-  <title>Building schedules</title> 
+  <title>Building Schedules</title> 
 
-  <para>The Swarm system offers a
-    number of features that enhance the design process of simulation
-    projects. The scheduling apparatus is one of the truly important
-    elements of the Swarm system because it offers a way to integrate
-    the actions (and responses) many different agents in many different
-    levels of a simulation.
-  </para>
+  <para>The core of the Swarm system is the set of features that
+    enhance the design process of simulation projects. The scheduling
+    apparatus is one of the truly important elements of the Swarm
+    system because it offers a way to integrate the actions (and
+    responses) many different agents in many different levels of a
+    simulation.</para>
 
-  <para>
-    The actions that go on in a simulation are orchestrated by a
+  <para>The actions that go on in a simulation are orchestrated by a
     objects that respond to the <classname>Schedule</classname>
     protocol. <classname>Schedule</classname>s are generally built in
     the <function>buildActions</function> method of an object. A
@@ -23,16 +21,17 @@
     larger Swarm hierarchy of the object.
   </para>
 
-  <sect1>
+  <sect1 id="swarm.user.user2.04-schedule.sect1">
     <title>Building <classname>Schedule</classname>s </title> 
 
     <para> Here is an example of some code that makes a simple
       <classname>Schedule</classname>.  This sort of
       <classname>Schedule</classname> might appear in the
       <varname>ModelSwarm</varname> level of the bug tutorial, for
-      example.
-      <programlisting>
--buildActions 
+      example.</para>
+
+<programlisting>
+- buildActions 
 {
   modelSchedule=[Schedule createBegin: self];
   [modelSchedule setRepeatInterval: 1];
@@ -43,10 +42,7 @@
   return self;
 }</programlisting>
 
-    </para>
-
-    <para>
-      The first three lines in the method create the
+    <para>The first three lines in the method create the
       <classname>Schedule</classname> named
       <varname>modelSchedule</varname>.  It might as well be
       <varname>aBugsLife</varname> or any other name the user chooses.
@@ -82,61 +78,62 @@
       there is a whole list of bugs, <varname>bugList</varname>, and
       each bug has to be instructed to carry out its
       <function>step</function> action.  In such a case, the command
-      would be:
+      would be:</para>
 
       <programlisting>
 [modelSchedule at: 0 createActionForEach: bugList message: M(step)];
       </programlisting>
 
-    </para>
     <para>
       Some additional scheduling topics are discussed, but first the
-      abstract question of selectors and the M operator must be addressed.
+      abstract question of selectors and the M<function></function>
+      operator must be addressed.
     </para>
   </sect1>
 
-  <sect1>
-    <title>What's that <function>M()</function> thing?</title> 
+  <sect1 id="swarm.user.user2.04-macro.sect1">
+    <title>What's that <function>M()</function> Thing?</title> 
+
     <para>
-      The commands that tell a <classname>Schedule</classname> to add actions usually have
-      notation like like <function>M(someMethodName)</function> at the
-      end.  <function>M()</function> is a macro used in Swarm to mean
-      that the selector for the message "step" is returned.  Selector,
-      or SEL, is a variable type in Objective-C which refers to the
-      abstract name used in the compiler to refer to a method, in this
-      case <function>step</function>.  <function>M</function> is short
-      for message (or method) and was "created to save the time of
-      typing <function>@selector(myMethod)</function>," in the words
-      of Nelson Minar. Many of the methods available in the Swarm
+      The commands that tell a <classname>Schedule</classname> to add
+      actions usually have notation like like
+      <function>M(someMethodName)</function> at the end.
+      <function>M()</function> is a macro used in Swarm to mean that
+      the selector for the message "step" is returned.  Selector, or
+      <literal>SEL</literal>, is a variable type in Objective C which
+      refers to the abstract name used in the compiler to refer to a
+      method, in this case <function>step</function>.
+      <function>M</function> is short for message (or method) and was
+      "created to save the time of typing
+      <function>@selector(myMethod)</function>," in the words of
+      Nelson Minar.  Many of the methods available in the Swarm
       library want input in the form of a selector, an symbolic
       reference to a method name, and the <function>M()</function>
       notation is one shorthand way of giving it what it wants.
     </para>
 
-    <para>
-      Some of the methods in the Swarm library will also want a list of
-      parameters that go with the selector.  Suppose, for example, you have
-      a psychologist agent that has this method:
+    <para>Some of the methods in the Swarm library will also want a
+      list of parameters that go with the selector.  Suppose, for
+      example, you have a psychologist agent that has this method:</para>
 
-      <programlisting>
--dealWithProblemBetween:anObject And: (id) anotherObject;</programlisting>
+<programlisting>
+- dealWithProblemBetween:anObject And: (id) anotherObject;</programlisting>
 
-      Presumably, you have some code in which there are objects,
+    <para>Presumably, you have some code in which there are objects,
       perhaps named <varname>bill</varname> and
       <varname>susan</varname>, and when you are not needing the Swarm
       libraries for anything, you just tell your psychologist agent to
-      carry out that method with a command such as:
+      carry out that method with a command such as:</para>
 
       <programlisting>
 [yourShrinksName dealWithProblemBetween: bill And: susan];</programlisting>
 
-      The name of this method is
+    <para>The name of this method is
       <function>dealWithProblemBetween:And:</function> and its input
       variables are two objects.
     </para>
 
-    <para>
-      Now suppose you have a whole list of psychologists, and that you
+    <para>Now suppose you have a whole list of psychologists, and that you
       want each one of them to deal with the problem between bill and
       susan. Furthermore, you want them to do it over and over
       again. To do that, you need Swarm to schedule the job, so you
@@ -144,52 +141,54 @@
       documentation that the <classname>Schedule</classname> protocol
       can respond to a method called
       <function>createActionForEach</function>, which has a prototype
-      like this:
+      like this:</para>
 
-      <programlisting>
+<programlisting>
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1 : arg2</programlisting>
 
-      At the end of this definition, we see this method wants to be
-      given a selector, and then the two arguments that go with it. We
-      know we can grab the selector of the command we want with
+    <para>At the end of this definition, we see this method wants to
+      be given a selector, and then the two arguments that go with
+      it. We know we can grab the selector of the command we want with
       <function>M(dealWithProblemBetween:And:)</function>, so when we
       tell the schedule object to make each psychologist look into the
       <varname>bill</varname> and <varname>susan</varname> problem, we
-      need a command like this:
+      need a command like this:</para>
 
       <programlisting>
 [modelSchedule at: 0 createActionForEach: listOfShrinks message: M(dealWithProblemBetween:And:):bill:susan];</programlisting>
-      Admittedly, this notation seems ungainly, but it works.
-    </para>
+      
+    <para>Admittedly, this notation seems ungainly, but it works.</para>
 
-    <para>
-      It is a difficult understand the reason why the selector is
+    <para>It is a difficult understand the reason why the selector is
       needed in the first place.  If one is not well versed in
-      Objective-C, it may be best just to follow the form of the
+      Objective C, it may be best just to follow the form of the
       examples provided with Swarm and not worry about the
       <function>M()</function> until it is absolutely necessary.
+
+      <footnote>
+        <para>On the off chance that you have reached a point of
+          necessity, and that is why you are reading this guide,
+          consider this explanation of the problem. Many jobs happen
+          inside the swarm library.  If you want each member of a
+          certain list to receive a message every time period, you
+          need to give Swarm a way to keep track of the members and
+          the message. Since the objects at which you want the
+          messages aimed already exist and are objects, it is quite
+          straightford to pass a Swarm object that object's name.
+          Passing a Swarm object a method name is, however, more
+          difficult.  You need to give the Swarm object something
+          symbolic if it is to receive and remember it.  You wouldn't
+          want the Swarm library to be built around the passing of
+          character strings, right?  (Well, maybe you would, but
+          pretend your answer is no!) If you pass the selector, you
+          are passing a variable type that the Swarm libraries can
+          remember and use when they need it.
+        </para>
+      </footnote>
     </para>
 
-    <para> 
-      On the off chance that you have reached a point of necessity,
-      and that is why you are reading this guide, consider this explanation
-      of the problem. Many jobs happen inside the swarm library.  If you
-      want each member of a certain list to receive a message every time
-      period, you need to give Swarm a way to keep track of the members and
-      the message. Since the objects at which you want the messages aimed
-      already exist and are objects, it is quite straightford to pass a
-      Swarm object that object's name.  Passing a Swarm object a method name
-      is, however, more difficult.  You need to give the Swarm object
-      something symbolic if it is to receive and remember it.  You wouldn't
-      want the Swarm library to be built around the passing of character
-      strings, right?  (Well, maybe you would, but pretend your answer is
-      no!) If you pass the selector, you are passing a variable type that
-      the Swarm libraries can remember and use when they need it.
-    </para>
-
-    <para>
-      You can go look in the Swarm libraries to see many examples to
-      show why selectors are so vital. Just by coincidence, we
+    <para>You can go look in the Swarm libraries to see many examples
+      to show why selectors are so vital. Just by coincidence, we
       happened to be looking at the
       <filename>Object2dDisplay.m</filename> file, where there is a
       particularly clear example of how these selectors come into
@@ -197,17 +196,16 @@
       <function>display</function> method is often scheduled in the
       observer swarm level of projects that draw on
       <classname>ZoomRaster</classname> grids.  In order to make this
-      possible, the selector required.
-    </para>
+      possible, the selector is required.</para>
 
-    <para>
-      When an instance of <classname>Object2dDisplay</classname> is created, one of the first
-      thing the user does it tell that object what the display message for
-      its members is. The <classname>Object2dDisplay</classname> is passed a selector by the
-      "setDisplayMessage" method.. This bit of code is from
-      SwarmSugarScape's <filename>ObserverSwarm.m</filename> file.
+    <para>When an instance of <classname>Object2dDisplay</classname>
+      is created, one of the first thing the user does it tell that
+      object what the display message for its members is. The
+      <classname>Object2dDisplay</classname> is passed a selector by
+      the "setDisplayMessage" method.. This bit of code is from
+      SwarmSugarScape's <filename>ObserverSwarm.m</filename> file.</para>
 
-      <programlisting>
+<programlisting>
 agentDisplay = [Object2dDisplay createBegin: [self getZone]];
 [agentDisplay setDisplayWidget: worldRaster];
 [agentDisplay setDiscrete2dToDisplay: [sugarSpace getAgentGrid]];
@@ -215,49 +213,52 @@ agentDisplay = [Object2dDisplay createBegin: [self getZone]];
 [agentDisplay setDisplayMessage: M(drawSelfOn:)];   // note the draw method passed as selector
 agentDisplay = [agentDisplay createEnd];</programlisting>
 
-      The <classname>Object2dDisplay</classname> is told which widget
-      it is addressed to <function>setDisplayWidget</function> and
-      which agent list (<varname>[modelSwarm getAgentList]</varname>).
-      Note how the object <varname>agentDisplay</varname> is told to
-      set inside it the value of the selector
-      <function>M(drawSelfOn:)</function>.  It does not ask for the
-      additional information of the input variables that would
-      ordinarly follow <function>drawSelfOn:</function>. It only wants
-      the selector.
+    <para>The <classname>Object2dDisplay</classname> is told which
+      widget it is addressed to <function>setDisplayWidget</function>
+      and which agent list (<varname>[modelSwarm
+      getAgentList]</varname>).  Note how the object
+      <varname>agentDisplay</varname> is told to set inside it the
+      value of the selector <function>M(drawSelfOn:)</function>.  It
+      does not ask for the additional information of the input
+      variables that would ordinarly follow
+      <function>drawSelfOn:</function>. It only wants the selector.
     </para>
+
     <para>
       Each item in the list of agents, which is retrieved by the
       command <varname>[modelSwarm getAgentList]</varname>, has the
       method <function>drawSelfOn:</function>. Here is the method
       <function>drawSelfOn:</function>, which can be found in
-      <filename>SugarAgent.m</filename>:
+      <filename>SugarAgent.m</filename>:</para>
       
-      <programlisting>
+<programlisting>
 - drawSelfOn: (id &lt; Raster &gt; )r
 {
   [r drawPointX: x Y: y Color: 100];
   return;
 }</programlisting>
 
-      If the agent gets the message <function>drawSelfOn:r</function>,
-      then the agent in turn tells the object <varname>r</varname> to
-      use its <function>drawPointX:Y:Color:</function> method to put
-      the agent on the picture.
+    <para>If the agent gets the message
+      <function>drawSelfOn:r</function>, then the agent in turn tells
+      the object <varname>r</varname> to use its
+      <function>drawPointX:Y:Color:</function> method to put the agent
+      on the picture.
     </para>
 
-    <para> The importance of the selector becomes apparent after a
+    <para>The importance of the selector becomes apparent after a
       study of the file <classname>Object2dDisplay</classname>.m in
       the Swarm space library. In
-      <filename>Object2dDisplay.m</filename>, we find this method:
+      <filename>Object2dDisplay.m</filename>, we find this
+      method:</para>
 
-      <programlisting>
+<programlisting>
 - setDisplayMessage: (SEL)s
 {
   displayMessage = s;
   return self;
 }</programlisting>
 
-      This takes the selector and puts its value into an instance
+    <para>This takes the selector and puts its value into an instance
       variable called <varname>displayMessage</varname>. The other set
       methods in <classname>Object2dDisplay</classname> have already
       set the variable <varname>objectCollection</varname> and
@@ -271,7 +272,7 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       When the <function>display</function> method of
       <classname>Object2dDisplay</classname> gets scheduled by the
       ObserverSwarm, this method from
-      <filename>Object2dDisplay.m</filename> is called:
+      <filename>Object2dDisplay.m</filename> is called:</para>
 
       <programlisting role="ObjC">
 - display
@@ -282,11 +283,12 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
   [objectCollection forEach: displayMessage: displayWidget];
 }</programlisting>
 
-      The <function>forEach:</function> method in the Swarm library
-      takes a selector as its first argument, and any parameters
-      needed by the selector follow, separated by semicolons. So, in
-      this example, the <varname>displayMessage</varname> variable has
-      been set as <function>drawSelfOn</function> and the
+    <para>The <function>forEach:</function> method in the Swarm
+      library takes a selector as its first argument, and any
+      parameters needed by the selector follow, separated by
+      semicolons. So, in this example, the
+      <varname>displayMessage</varname> variable has been set as
+      <function>drawSelfOn</function> and the
       <varname>displayWidget</varname> has been set as the
       <varname>worldRaster</varname>. So when the
       <function>display</function> method executes, it passes to each
@@ -294,46 +296,43 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       <varname>worldRaster</varname>.
     </para>
 
-    <para> 
-
-      Almost all uses of the selector type in Swarm allow a variable
-      number of arguments.  It is important to note, however, that
-      these arguments are generally required to be objects.  We would
-      have some trouble if the arguments were floating point values,
-      for example. When such a case arises, one if usually forced to
-      write "wrapper" objects around floats in order to pass them to
-      the Swarm library.  For example, consider a change in the
-      problem faced by the hypothetical psychologists discussed above.
-      Suppose instead of dealing with bill and susan, they are
-      instructed instead to set some variables inside themselves, such
-      as <varname>idealTemperature</varname> or
+    <para>Almost all uses of the selector type in Swarm allow a
+      variable number of arguments.  It is important to note, however,
+      that these arguments are generally required to be objects.  We
+      would have some trouble if the arguments were floating point
+      values, for example. When such a case arises, one if usually
+      forced to write "wrapper" objects around floats in order to pass
+      them to the Swarm library.  For example, consider a change in
+      the problem faced by the hypothetical psychologists discussed
+      above.  Suppose instead of dealing with <varname>bill</varname>
+      and <varname>susan</varname>, they are instructed instead to set
+      some variables inside themselves, such as
+      <varname>idealTemperature</varname> or
       <varname>setLengthOfFeelers</varname> (these are buggish
       psychologists, say).  The method in the psychologist class might
-      have this interface:
+      have this interface:</para>
 
       <programlisting>
 - setTemperature: (float)temp And: (float)feeler;</programlisting>
 
-      Now, if you wanted the Swarm to schedule this
+    <para>Now, if you wanted the Swarm to schedule this
       <function>setTemperature:And:</function> method to happen every
       time step, perhaps to "reinitialize" the objects to a "fresh"
       state, then you would be in a world of hurt.  If you need the
       temperature to be set at 37.3 and the feeler to be 54.1, you
       would be tempted to write this, but you would be making a big
-      mistake:
+      mistake:</para>
 
       <programlisting>
 [modelSchedule at: 0 createActionForEach: listOfShrinks message: M(setTemperature:And):37.3:54.1];</programlisting>
 
-      The <function>createActionForEach:</function> method is looking
-      for something like <function>SELECTOR:id:id</function> at the
-      end, but this command instead gives it
-      <function>SELECTOR:float:float</function>.
-    </para>
-    <para>
+    <para>The <function>createActionForEach:</function> method is
+      looking for something like <function>SELECTOR:id:id</function>
+      at the end, but this command instead gives it
+      <function>SELECTOR:float:float</function>.</para>
 
-      When you need to pass float values in this way, you may have to
-      redesign your methods so that they can take objects.  For
+    <para>When you need to pass float values in this way, you may have
+      to redesign your methods so that they can take objects.  For
       example, you might make a new kind of object to hold the values
       of those floating point numbers.  If that new class, call it the
       <classname>ParameterHolder</classname> for discussion, is able
@@ -341,49 +340,51 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       <function>getFeelr</function>, then this problem could be
       tackled by rewriting the
       <function>setTemperature:And:</function> method into something
-      like:
+      like:</para>
 
-      <programlisting>
+<programlisting>
 - setParameters: holdingObject;</programlisting>
 
-      If you have an instance of
+    <para>If you have an instance of
       <classname>ParameterHolder</classname>, called
       <varname>aHolder</varname> for short, then the psychologist can
       be told to <function>setParameters</function> by a command like
-      this:
+      this:</para>
 
       <programlisting>
 [aShrink setParameters: aHolder];</programlisting>
 
-      Presumably, inside the <function>setParameters</function> method
-      there are actions that get the values from the
+    <para>Presumably, inside the <function>setParameters</function>
+      method there are actions that get the values from the
       <varname>aHolder</varname> which is passed in, as necessary.
     </para>
 
-    <para>
-      If you need to schedule a whole list of psychologists to reset
-      themselves, the schedule command could be written as:
+    <para>If you need to schedule a whole list of psychologists to
+      reset themselves, the schedule command could be written as:</para>
 
       <programlisting>
 [modelSchedule at: 0 createActionForEach: listOfShrinks message: M(setParameters):aHolder];</programlisting>
-    </para>
 
   </sect1>
-  <sect1>
-    <title><classname>ActionGroup</classname>s</title> 
 
-    <para>
-      An <classname>ActionGroup</classname> is a set of actions that
-      are supposed to happen in sequence.  The
+  <sect1 id="swarm.user.user2.04-actiongroup.sect1">
+    <title><classname>ActionGroup</classname>s</title>
+
+    <para>An <classname>ActionGroup</classname> is a set of actions
+      that are supposed to happen in sequence.  The
       <function>buildActions</function> method is often designed to
       first create an <classname>ActionGroup</classname> and then to
       schedule that is be repeated every now and then.
     </para>
 
-    <para>
-
-      Consider the Swarm <application>SugarScape</application> again.
-      Its model swarm has this <function>buildActions</function> method:
+    <para>Consider the Swarm <application>SugarScape</application>
+      again.  Its model swarm has this
+      <function>buildActions</function> method
+      <footnote>
+        <para>Note: the use of shuffler to mix the agents in the list has
+      been integrated into the Swarm libraries and by the time you
+      read this there may be some new syntax involved.</para>
+      </footnote>:</para>
 
 <programlisting>
 - buildActions 
@@ -409,14 +410,10 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
 
   return self;
 }</programlisting>
-
-      (Note: the use of shuffler to mix the agents in the list has
-      been integrated into the Swarm libraries and by the time you
-      read this there may be some new syntax involved.)
-
-      <classname>ActionGroup</classname>s group together events at
-      same timestep. <classname>Schedule</classname> then executes the
-      actions.  If there is only one
+    
+    <para><classname>ActionGroup</classname>s group together events
+      at same timestep. <classname>Schedule</classname> then executes
+      the actions.  If there is only one
       <classname>ActionGroup</classname> in a schedule, then one might
       as well not create a group and just add the actions to a
       schedule one at a time. The use of
@@ -425,53 +422,54 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       be scheduled to start at different times or repeat at different
       intervals.
     </para>
-
-
-
   </sect1>
 
   <sect1>
-    
     <title>Activating Swarms</title> 
 
-    <para>The buildActions method is intended to be the place in which
-    one creates Swarm schedules, but that does not make the simulation
-    carry out the scheduled actions.  In order to put the object's
-    schedule into the "grander scheme of things" in Swarm, it is
-    necessary to activate it.  Through the activation mechanism, the
-    Swarm library integrates the many diverse actions of the different
-    objects that exist in the simulation.  It is done through a
-    hierarchical series of "activateIn:" methods. The
-    <filename>main.m</filename> tells the top level swarm to activate
-    itself (after it has been told to create its objects and
-    schedules, of course).  Then the top level swarm activates any
-    schedules it might have created and (here's where the hierarchy
-    comes into play) it tells the next lower level to activate itself.
-    That next level activates its schedules and tells the level below
-    to activate itself.  This is how the activities of many different
-    levels are synchronized.
-</para>
-
-   <para>Virtually any Swarm program will offer a sufficient example
-   of the progression of <function>activateIn</function> methods from top to bottom. The
-   main.m in <application>Heatbugs</application> has this: </para>
-
-   <programlisting role="ObjC">
-   [theTopLevelSwarm activateIn: nil];
-   </programlisting>
-
-    <para>The top level swarm is told to activate itself in "nil",
-    which is a way of telling the top level that it is in fact at the
-    top of the hierarchy.  It is not told to activate itself within
-    the zone of any other swarm, in other words.  When the time comes,
-    the lower levels are told to activate themselves in the zone of
-    the swarm that is one step above it (as we shall see). </para>
-
-    <para>Assuming we are doing a graphical model, the <function>activateIn:</function>
-    method of the top level is found in
-    <filename>HeatbugObserverSwarm.m</filename>.  In the <filename>HeatbugObserverSwarm.m</filename>'s <function>activateIn:</function> method, we find commands that both activate schedules within the observer swarm and also activate schedules in the next lower level of the simulation:
+    <para>The <function>buildActions</function> method is intended to
+      be the place in which one creates Swarm schedules, but that does
+      not make the simulation carry out the scheduled actions.  In
+      order to put the object's schedule into the "grander scheme of
+      things" in Swarm, it is necessary to activate it.  Through the
+      activation mechanism, the Swarm library integrates the many
+      diverse actions of the different objects that exist in the
+      simulation.  It is done through a hierarchical series of
+      <function>activateIn</function> methods. The
+      <filename>main.m</filename> tells the top level swarm to
+      activate itself (after it has been told to create its objects
+      and schedules, of course).  Then the top level swarm activates
+      any schedules it might have created and (here's where the
+      hierarchy comes into play) it tells the next lower level to
+      activate itself.  That next level activates its schedules and
+      tells the level below to activate itself.  This is how the
+      activities of many different levels are synchronized.
     </para>
 
+   <para>Virtually any Swarm program will offer a sufficient example
+      of the progression of <function>activateIn</function> methods
+      from top to bottom. The <filename>main.m</filename> in
+      <application>Heatbugs</application> has this: </para>
+
+<programlisting role="ObjC">
+[theTopLevelSwarm activateIn: nil];</programlisting>
+
+    <para>The top level swarm is told to activate itself in
+      <varname>nil</varname>, which is a way of telling the top level
+      that it is in fact at the top of the hierarchy.  It is not told
+      to activate itself within the zone of any other swarm, in other
+      words.  When the time comes, the lower levels are told to
+      activate themselves in the zone of the swarm that is one step
+      above it (as we shall see).</para>
+
+    <para>Assuming we are doing a graphical model, the
+    <function>activateIn:</function> method of the top level is found
+    in <filename>HeatbugObserverSwarm.m</filename>.  In the
+      <filename>HeatbugObserverSwarm.m</filename>'s
+      <function>activateIn:</function> method, we find commands that
+      both activate schedules within the observer swarm and also
+      activate schedules in the next lower level of the simulation:
+    </para>
 
 <programlisting role="ObjC" >
 - activateIn:  swarmContext
@@ -486,95 +484,138 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
 }
  </programlisting>
 
-<para>
-It is important to recognize that the <function>activateIn</function> methods of each class within the hierarchy fulfill a vital role in synchronizing the schedules of the levels.  These are typically written so that, first, the activateIn method of the superclass is executed.  Then the schedules of the current class are told to activate themselves in the current context, and then the activateIn: method of the next lower level swarm is told to activate itself. 
-</para>
-<para>
-The <function>activateIn:</function> method returns an object of class Activity, which is a sufficiently important concept that it is treated on its own in the next section.
-</para>
+    <para>
+      It is important to recognize that the
+      <function>activateIn</function> methods of each class within the
+      hierarchy fulfill a vital role in synchronizing the schedules of
+      the levels.  These are typically written so that, first, the
+      activateIn method of the superclass is executed.  Then the
+      schedules of the current class are told to activate themselves
+      in the current context, and then the
+      <function>activateIn</function> method of the next lower level
+      Swarm is told to activate itself.</para>
+
+    <para>
+      The <function>activateIn:</function> method returns an object of
+      class Activity, which is a sufficiently important concept that
+      it is treated on its own in the next section.
+    </para>
   </sect1>
 
-  <sect1>
-    
-    <title>What is an Activity?</title>
+  <sect1 id="swarm.user.user2.04-activity.sect1">
+    <title>What is an <classname>Activity</classname>?</title>
 
     <para>
-    The Activity class is a vital element of the Swarm approach. 
-It's fundamental purpose is to merge all the subjective points of view
-of agents at different levels into a single objective time sequence.
-Somehow, the name Activity does not seem powerful enough.  Perhaps
-perhaps it would be better called an ActivityManagerAndIntegrator, or
-something grand. Of course, on a practical level, it responds to
-messages like run, stop, next, terminate, and so forth.
-</para>
+      The <classname>Activity</classname> class is a vital element of
+      the Swarm approach.  It's fundamental purpose is to merge all
+      the subjective points of view of agents at different levels into
+      a single objective time sequence.  Somehow, the name
+      <classname>Activity</classname> does not seem powerful enough.
+      Perhaps perhaps it would be better called an
+      <classname>ActivityManagerAndIntegrator</classname>, or
+      something grand. Of course, on a practical level, it responds to
+      messages like <function>run</function>,
+      <function>stop</function>, <function>next</function>,
+      <function>terminate</function>, and so forth.
+    </para>
 
-    <para>
-    If you have an object subclassed from Activity, you can tell it to
-    make the simulation run, stop, terminate, or respond to a number
-    of other commands.  Swarm programs are designed hierarchically, so
-    that if you tell an activity from one level to stop, you stop all
-    lower levels of the simulation as well.  Many Swarm programmers do
-    not come face-to-face with the Activity class because it sits
-    behind the scenes. The control panel, in particular, allows users
-    to start and stop their simulations, and all the while the
-    Activity class objects are behind the scenes, doing the actual
-    work.
-</para>
+    <para>If you have an object subclassed from
+      <classname>Activity</classname>, you can tell it to make the
+      simulation run, stop, terminate, or respond to a number of other
+      commands.  Swarm programs are designed hierarchically, so that
+      if you tell an activity from one level to stop, you stop all
+      lower levels of the simulation as well.  Many Swarm programmers
+      do not come face-to-face with the Activity class because it sits
+      behind the scenes. The control panel, in particular, allows
+      users to start and stop their simulations, and all the while the
+      <classname>Activity</classname> class objects are behind the
+      scenes, doing the actual work.</para>
 
-    <para>
-    It is easy to "grab" the activity object of a given Swarm. The
-    method which returns the activity of a Swarm is
-    <function>getActivity</function>.  If one needs to tell the object
-    modelSwarm to stop, for example, then the command
-</para>
+    <para>It is easy to "grab" the activity object of a given Swarm. The
+      method which returns the activity of a Swarm is
+      <function>getActivity</function>.  If one needs to tell the object
+      modelSwarm to stop, for example, then the command:</para>
     <programlisting>
-[[modelSwarm getActivity] stop]; 
+[[modelSwarm getActivity] stop];
 </programlisting>
-    <para>
-    will get the job done. This first grabs that object's activity,
-    and tells that activity to stop. To make that object start up
-    again, it can be sent the <function>run</function> message. 
-</para>
-<para>
-    The ability to start, stop, and terminate an activity is particularly
-    handy when designing a program that repeats a Swarm experiment.  These
-    methods are used in the Swarm tutorial's "SimpleExperBug2" model as well
-    as the "RepeatingHeatbugs" application that is available in the Swarm ftp
-    site.
+
+    <para>will get the job done. This first grabs that object's
+    activity, and tells that activity to stop. To make that object
+    start up again, it can be sent the <function>run</function>
+    message.</para>
+
+    <para>The ability to start, stop, and terminate an activity is
+      particularly handy when designing a program that repeats a Swarm
+      experiment.  These methods are used in the Swarm tutorial's
+      "SimpleExperBug2" model as well as the "RepeatingHeatbugs"
+      application that is available at the Swarm ftp site.
   </para>
-
   </sect1>
-  <sect1>
-    
-    <title>Dynamic Scheduling</title>
-<para>
-The schedules described so far are of a particular static sort.  Each agent, or each agent in a list, is told to execute some action at some particular time.  What if the simulation is designed so that the activation of a certain agent is conditional on events within the model?  The need to create a flexible schedule gives rise to an important feature of Swarm that is referred to as a <emphasis>dynamic schedule</emphasis>. The Mousetrap application is a fully worked out example that shows the power of dynamic scheduling.  
-</para>
-<para>
-The idea behind dynamic scheduling is so simple that one can be in danger of confusing it by explaining it too much.  Simply put, the strategy is as follows.  First, create an object from the Swarm Schedule class.  Don't put any actions in the schedule, just let it sit there in the buildActions method, doing nothing (yet).  Second, write a method that tells that schedule to add things that are to be executed at particular times.  It is as simple as that. 
-</para>
-<para>
-The concept is quite simple, but, as the Mousetrap application
-illustrates, it can be quite complicated in the implementation.  The
-simplest possible dynamic scheduling project of which we are aware was
-made available in the package Swarmfest99-demos (in the swarm ftp
-site, it should be available in the users-contrib/anarchy section).  The application is called simpleObserverBug-growth.  It begins with the familiar exercise from the Swarm tutorial and then models the regeneration of the food supply.
-</para>
 
-<para>
-In the simpleObserverBug-growth example, the <filename>ModelSwarm.m</filename> file has all of the usual ingredients. The dynamic schedule is created in the <function>buildActions</function> method, like so:
+  <sect1 id="swarm.user.user2.04-dynamic.sect1">
+    <title>Dynamic Scheduling</title>
+
+    <para>
+      The schedules described so far are of a particular static sort.
+      Each agent, or each agent in a list, is told to execute some
+      action at some particular time.  What if the simulation is
+      designed so that the activation of a certain agent is
+      conditional on events within the model?  The need to create a
+      flexible schedule gives rise to an important feature of Swarm
+      that is referred to as a <emphasis>dynamic
+      schedule</emphasis>. The <application>Mousetrap</application>
+      application is a fully worked out example that shows the power
+      of dynamic scheduling.</para>
+
+    <para>The idea behind dynamic scheduling is so simple that one can
+      be in danger of confusing it by explaining it too much.  Simply
+      put, the strategy is as follows.  First, create an object from
+      the Swarm <classname>Schedule</classname> class.  Don't put any
+      actions in the schedule, just let it sit there in the
+      <function>buildActions</function> method, doing nothing (yet).
+      Second, write a method that tells that schedule to add things
+      that are to be executed at particular times.  It is as simple as
+      that.</para>
+
+    <para>The concept is quite simple, but, as the
+      <application>Mousetrap</application> application illustrates, it
+      can be quite complicated in the implementation.  The simplest
+      possible dynamic scheduling project of which we are aware was
+      made available in the package
+      <application>Swarmfest99-demos</application> (in the swarm ftp
+      site, it should be available in the
+      <filename>users-contrib/anarchy</filename> section).  The
+      application is called
+      <application>simpleObserverBug-growth</application>.  It begins
+      with the familiar exercise from the Swarm tutorial and then
+      models the regeneration of the food supply.</para>
+
+    <para>In the <application>simpleObserverBug-growth</application>
+      example, the <filename>ModelSwarm.m</filename> file has all of
+      the usual ingredients. The dynamic schedule is created in the
+      <function>buildActions</function> method, like so:</para>
+
 <programlisting>
-  growthSchedule = [Schedule createBegin: [self getZone]];
+  growthSchedule = [Schedule createBegin: self];
   [growthSchedule setAutoDrop: 1];
   growthSchedule = [growthSchedule createEnd];
 </programlisting>
-The growthSchedule is created and the setAutoDrop feature is set, so that actions are executed one time and then dropped from the schedule.  Otherwise, once we add an action into the schedule, it will repeat itself forever.
-</para>
-<para>
-In the <filename>ModelSwarm.m</filename>, one also finds the method that has the power to add items to the schedule.  It is called <function>scheduleGrowthAtX:Y:</function>.  When this method is called, it grows more food at a particular spot.  
-</para>
+
+    <para>The <varname>growthSchedule</varname> is created and the
+      <function>setAutoDrop</function> feature is set, so that actions
+      are executed one time and then dropped from the
+      <varname>growthSchedule</varname>.  Otherwise, once we add an
+      action into the schedule, it will repeat itself forever.</para>
+
+    <para>In the <filename>ModelSwarm.m</filename>, one also finds the
+      method that has the power to add items to the schedule.  It is
+      called <function>scheduleGrowthAtX:Y:</function>.  When this
+      method is called, it grows more food at a particular spot.
+    </para>
+
 <programlisting>
--scheduleGrowthAtX: (int) x Y: (int) y {
+- scheduleGrowthAtX: (int)x Y: (int)y 
+{
   long time;
   time=[[self getActivity] getCurrentTime];
   [growthSchedule at: time+growthInterval
@@ -583,25 +624,40 @@ In the <filename>ModelSwarm.m</filename>, one also finds the method that has the
   return self;
 }
 </programlisting>
-<para>
-As you can see, this method retrieves the current time, and then it tells the growth schedule to create an action to the foodspace at a time in the future.  And the ungainly M() notation appears, which we described in greater detail in a previous section of this chapter.
-</para>
-<para>
-The preceeding steps are the essence of creating the dynamic schedule. The empty schedule is created, and a method is created that can tell that schedule to add an item.  The only remaining step is to design the simulation so that this method actually gets executed during the course of the program.  That means that some class has to have a method that can tell the modelSwarm to execute its scheduleGrowthAtX:Y: method.  In this example, it is done by making the foodSpace object aware of the modelSwarm and the, when a piece of food is consumed, the dynamic scheduling process is put to use.  From the FoodSpace.m class, here is the relevant method:
-</para>
+
+    <para>As you can see, this method retrieves the current time, and
+      then it tells the growth schedule to create an action to the
+      foodspace at a time in the future.  And the ungainly
+      <function>M()</function> notation appears, which we described in
+      greater detail in <xref
+      linkend="swarm.user.user2.04-macro.sect1">.</para>
+
+    <para>The preceeding steps are the essence of creating the dynamic
+      schedule. The empty schedule is created, and a method is created
+      that can tell that schedule to add an item.  The only remaining
+      step is to design the simulation so that this method actually
+      gets executed during the course of the program.  That means that
+      some class has to have a method that can tell the
+      <varname>modelSwarm</varname> to execute its
+      <function>scheduleGrowthAtX:Y:</function> method.  In this
+      example, it is done by making the <varname>foodSpace</varname>
+      object aware of the <varname>modelSwarm</varname> and the, when
+      a piece of food is consumed, the dynamic scheduling process is
+      put to use.  From the <filename>FoodSpace.m</filename> class,
+      here is the relevant method:</para>
 
 <programlisting>
--eatX: (int) x Y: (int) y {
+- eatX: (int)x Y: (int)y 
+{
   [self putValue: 0 atX: x Y: y];
   [model scheduleGrowthAtX: x Y: y];
   return self;
-}
-</programlisting>
+}</programlisting>
 
-</sect1>
-
+  </sect1>
  
 </chapter>
+
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")

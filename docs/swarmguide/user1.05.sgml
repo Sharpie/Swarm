@@ -1,9 +1,7 @@
 <chapter id="swarm.user.user1.05.chapter">
-
   <title>The Graphical User Interface</title>
 
-  <sect1>
-
+  <sect1 id="swarm.user.user1.05-gui-elem.sect1">
     <title>Elements of the Swarm GUI</title>
 
     <para>Swarm provides a number of classes and protocols which
@@ -47,21 +45,21 @@
       describes how probes appear to the user running a Swarm
       simulation, and how the user can manipulate them.  Probes also
       serve purposes <emphasis>other</emphasis> than assisting
-      graphical widgets that the user can manipulate, however in this
-      section we will focus only on their role in the context of the
-      GUI of a running simulation.  The construction of the probes
+      graphical widgets that the user can manipulate.  However, in
+      this section we will focus only on their role in the context of
+      the GUI of a running simulation.  The construction of the probes
       using the Swarm libraries is also left to a subsequent chapter.
-
     </para>
 
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user1.05-gui-probe.sect1">
     <title>GUI Probe Displays</title>
 
-    <para>Graphical `probes' allow a user to view a snapshot of any
-      object in a Swarm simulation in a graphical form.  There are two
-      distinct kinds of displays the user might see:</para>
+    <para>Graphical <firstterm>probes</firstterm> allow a user to view
+      a snapshot of any object in a Swarm simulation in a graphical
+      form.  There are two distinct kinds of displays the user might
+      see:</para>
 
     <itemizedlist>
 
@@ -69,9 +67,10 @@
           an object to be probed is specified
           <emphasis>without</emphasis> any particular
           <classname>ProbeMap</classname> being specified, then the
-          ProbeDisplay generated will provide a window of class
-          DefaultProbeDisplay, which displays all the variables
-          resident in that class structure.
+          <classname>ProbeDisplay</classname> generated will provide a
+          window of class <classname>DefaultProbeDisplay</classname>,
+          which displays all the variables resident in that class
+          structure.
 
             <figure id="gui-probemap-complete.figure">
               <title>Default ProbeMap (also showing the superclass)</title>
@@ -87,10 +86,10 @@
           <classname>ProbeMap</classname> <emphasis>is</emphasis>
           specified then the <classname>ProbeDisplay</classname>
           follows exactly the specification as represented by the
-          contents of a `ProbeMap'. When used in this manner,
-          ProbeDisplays can generate tailored interfaces to objects
-          (so for example, we have purposefully hidden certain
-          instance variables in the
+          contents of a <classname>ProbeMap</classname>. When used in
+          this manner, <classname>ProbeDisplays</classname> can
+          generate tailored interfaces to objects (so for example, we
+          have purposefully hidden certain instance variables in the
           <classname>MousetrapModelSwarm</classname> class, and have
           shown only one of the methods which the class understands).
             <figure id="gui-probemap-customized.figure">
@@ -105,18 +104,20 @@
 
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user1.05-probe-use.sect1">
     <title>Using the GUI Probe Display</title>
 
-    <para>Common to both the standard ProbeDisplay and the
-      CompleteProbeDisplay:</para>
+    <para>Common to both the standard
+      <classname>ProbeDisplay</classname> and the
+      <classname>CompleteProbeDisplay</classname>:</para>
     
     <itemizedlist>
-      <listitem> <para>The different fields in the ProbeDisplay can be
-          updated by typing in new values and pressing
-          <literal>Return</literal>.  However, certain fields
-          (containing pointers or ids, for example) cannot be modified
-          and will generate a beep if such a modification is
+      <listitem> <para>The different fields in the
+          <classname>ProbeDisplay</classname> can be updated by typing
+          in new values and pressing <keycap>Return</keycap>.
+          However, certain fields (containing pointers or
+          <type>id</type>s, for example) cannot be modified and will
+          generate a beep if such a modification is
           attempted.</para></listitem>
 
       <listitem><para> If an instance variable/argument slot is
@@ -128,43 +129,46 @@
           object-typed variable/argument slot and release the mouse
           button).</para></listitem>
 
-      <listitem><para> Also, if an instance variable/argument slot
-          is defined to hold an object, then that object can be
-          inspected by clicking the entry for that variable/argument
-          slot with the <literal>third mouse button </literal>(a
-          ProbeDisplay for that object will be
+      <listitem><para> Also, if an instance variable/argument slot is
+          defined to hold an object, then that object can be inspected
+          by clicking the entry for that variable/argument slot with
+          the <literal>third mouse button </literal>(a
+          <classname>ProbeDisplay</classname> for that object will be
           generated).</para></listitem>
     </itemizedlist>
 
-    <para>Available only on the customized ProbeDisplay:</para>
+    <para>Available Only on the Customized
+    <classname>ProbeDisplay</classname>:</para>
     
     <itemizedlist>
       <listitem><para> Note that the sunken label at the top of the
-          ProbeDisplay is also active.  By clicking on it with the
-          <literal>first mouse button</literal> you get a
-          drag&amp;drop'able representation of
-          <varname>self</varname>. By clicking on it with the
-          <literal>third mouse button</literal> you get a
-          CompleteProbeDisplay to
+          <classname>ProbeDisplay</classname> is also active.  By
+          clicking on it with the <mousebutton>first mouse
+          button</mousebutton> you get a drag&amp;drop'able
+          representation of <varname>self</varname>. By clicking on it
+          with the <mousebutton>third mouse button</mousebutton> you
+          get a <classname>CompleteProbeDisplay</classname> to
           <varname>self</varname>.</para>
       </listitem>
 
     </itemizedlist>
 
-    <para>Available only on the CompleteProbeDisplay:</para>
+    <para>Available only on the
+    <classname>CompleteProbeDisplay</classname>:</para>
     
     <itemizedlist>
-      <listitem><para> The green "superclass" button can be used to
-          display the succesive superclasses of the object being
-          probed.</para></listitem>
+      <listitem><para> The green <guibutton>superclass</guibutton>
+          button can be used to display the succesive superclasses of
+          the object being probed.</para></listitem>
 
-      <listitem><para> The red "hide" button can be used to hide
-          classes which are irrelevant thus reducing
+      <listitem><para> The red <guibutton>hide</guibutton> button can
+          be used to hide classes which are irrelevant thus reducing
           clutter.</para></listitem>
 
-      <listitem><para> The hide button on the lowest class in the
-          hierarchy has a special meaning since clicking on it
-          dismisses the entire ProbeDisplay.</para></listitem>
+      <listitem><para> The <guibutton>hide</guibutton> button on the
+          lowest class in the hierarchy has a special meaning since
+          clicking on it dismisses the entire
+          <classname>ProbeDisplay</classname>.</para></listitem>
 
     </itemizedlist>
 

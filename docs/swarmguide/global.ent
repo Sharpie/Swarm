@@ -14,8 +14,7 @@ mailing lists page</ulink>'>
 <!ENTITY doc-legalnotice
 
  '<LEGALNOTICE> <TITLE>Licence terms for Swarm User Guide</TITLE>
-    <PARA>
-    Reproduction of this documentation requires prior copyright
+    <PARA> Reproduction of this documentation requires prior copyright
     release in writing, from the copyright holder (the &orgname;);
     <EMPHASIS>except</EMPHASIS> for reasonable personal use or
     educational purposes.  Reproduction for mass distribution or
@@ -27,8 +26,8 @@ mailing lists page</ulink>'>
     package <EMPHASIS>and</EMPHASIS> the documentation it generates
     (that is the HTML, TeX, dvi, PostScript and RTF output), must be
     in accordance with the <ULINK
-    url="http://www.gnu.org/copyleft/gpl.html">GNU Public
-    Licence</ULINK> (GPL). </PARA> 
+    url="http://www.gnu.org/copyleft/gpl.html">GNU General Public
+    Licence</ULINK> (GPL). </PARA>
 
   </LEGALNOTICE>'>
 

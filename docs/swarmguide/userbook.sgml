@@ -7,6 +7,7 @@
   <!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Guide Figure List//EN">
   %figs.ent;
 
+  <!ENTITY userpreface.sgml system "userpreface.sgml">
   <!ENTITY user1.01.sgml system "user1.01.sgml">
   <!ENTITY user1.02.sgml system "user1.02.sgml">
   <!ENTITY user1.03.sgml system "user1.03.sgml">
@@ -38,6 +39,7 @@
   
   <title>Swarm User Guide</title>
   &usermeta.sgml;
+  &userpreface.sgml;
 
   <part label="Part I" id="swarm.user.user1.part">
     

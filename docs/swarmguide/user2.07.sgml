@@ -1,82 +1,77 @@
 <chapter id="swarm.user.user2.07.chapter">
 
-  <title>Probing and displaying the contents of Swarm objects
-   
-  </title>
+  <title>Probing and Displaying the Contents of Swarm Objects</title>
   
-  <para>Probes allow the user to
-      dynamically interact with the objects in their simulation. As
-      the simulation progresses, the user can observe and adjust the
-      values of the instance variables.  Furthermore, the user can
-      cause objects to execute their methods, taking parameter values
-      or input specified by the user during the simulation.
-      generating method calls. The main appeal of this approach is
-      that these interactions are not hardwired into the program code,
-      but occur due to user-generated requests.  This interactive
-      process is managed by objects and methods that are, for the most
-      part, hidden from the user.  Still, the interaction can be
-      customized easily.
+  <para>Probes allow the user to dynamically interact with the objects
+      in their simulation. As the simulation progresses, the user can
+      observe and adjust the values of the instance variables.
+      Furthermore, the user can cause objects to execute their
+      methods, taking parameter values or input specified by the user
+      during the simulation.  generating method calls. The main appeal
+      of this approach is that these interactions are not hardwired
+      into the program code, but occur due to user-generated requests.
+      This interactive process is managed by objects and methods that
+      are, for the most part, hidden from the user.  Still, the
+      interaction can be customized easily.
     </para>
 
-  <sect1>
-    <title>What's a probe?</title>
+  <sect1 id="swarm.user.user2.07-probes.sect1">
+    <title>What's a Probe?</title>
     
-    
-    <para>Anyone who has run Heatbugs (or any of the demo programs,
-    for that matter) has seen a probe display.  It is a rectangular
-    window that has rows which list attributes of the object being
-    displayed.  The data being displayed may be gathered from a high
-    level object, such as the observer swarm or the model swarm, or it
-    may be collected from an individual agent.  Almost all Swarm
-    projects have a probe display for the observer and model swarms
-    because starting values for the parameters can be set with those
-    displays.  Probe displays for individual agents are typically
-    created during a run by user interaction with the Swarm program
-    (for example, by clicking on a "clickable
-    <className>ZoomRaster</className>", as discussed in the previous
-    section).</para>
+    <para>Anyone who has run <application>Heatbugs</application> (or
+      any of the demo programs, for that matter) has seen a probe
+      display.  It is a rectangular window that has rows which list
+      attributes of the object being displayed.  The data being
+      displayed may be gathered from a high level object, such as the
+      observer swarm or the model swarm, or it may be collected from
+      an individual agent.  Almost all Swarm projects have a probe
+      display for the observer and model swarms because starting
+      values for the parameters can be set with those displays.  Probe
+      displays for individual agents are typically created during a
+      run by user interaction with the Swarm program (for example, by
+      clicking on a "clickable <className>ZoomRaster</className>", as
+      discussed in the previous section).</para>
 
     <para>The key to this capability is the probe. A probe is an
-    object that can gather information from one object and relay it to
-    other objects, including displays on the screen.  The Swarm
-    Toolkit provides two kinds of probes. The Swarm class
-    <classname>VarProbe</classname> extracts the value of a specific
-    instance variable from an object. The second kind of probe is
-    provided by the <classname>MessageProbe</classname> class.  The
-    <classname>MessageProbe</classname>.  A message probe gives the
-    user the ability to access methods inside an object--to send
-    messages to it, in other words:
+      object that can gather information from one object and relay it
+      to other objects, including displays on the screen.  Swarm
+      provides two kinds of probes. The Swarm class
+      <classname>VarProbe</classname> extracts the value of a specific
+      instance variable from an object. The second kind of probe is
+      provided by the <classname>MessageProbe</classname> class.  The
+      <classname>MessageProbe</classname>.  A message probe gives the
+      user the ability to access methods inside an object--to send
+      messages to it, in other words:
     </para>
 
-      <itemizedlist>
-        <listitem><formalpara><title><classname>VarProbe</classname></title>
-            <para>Probes
-              an instance variable. A variable probe
-              appears to the user in a window with the name of the
-              instance variable and a space that may display the value
-              of the variable (or show a blank or "nil").  Variable
-              probes can display the values of integers and floating
-              point numbers, as well as information about the identity
-              of object variables.  Variable probes do not display the
-              contents of C arrays or
-              structs.</para></formalpara></listitem>
-
+    <itemizedlist>
+      <listitem><formalpara><title><classname>VarProbe</classname></title>
+          <para>Probes an instance variable. A variable probe appears
+          to the user in a window with the name of the instance
+          variable and a space that may display the value of the
+          variable (or show a blank or "nil").  Variable probes can
+          display the values of integers and floating point numbers,
+          as well as information about the identity of object
+          variables.  Variable probes do not display the contents of C
+          arrays or structs.</para></formalpara></listitem>
+      
         <listitem><formalpara><title><classname>MessageProbe</classname>
-            </title> <para>Probes a method. In the same
-            window where the Variable Probe is shown, there may be
-            "buttons" that have the names of methods on them.  These
-            buttons will be executed when they are depressed.  If a
-            method takes arguments, there will be spaces in which the
-            user can enter them.  This can cause agents to change
-            their course of action during a simulation run.
+            </title> <para>Probes a method. In the same window where
+            the Variable Probe is shown, there may be "buttons" that
+            have the names of methods on them.  These buttons will be
+            executed when they are depressed.  If a method takes
+            arguments, there will be spaces in which the user can
+            enter them.  This can cause agents to change their course
+            of action during a simulation run.
             </para></formalpara></listitem>
       </itemizedlist>
-    
 
-      <figure id="simplebug-probes2">
-      <title>A <classname>ProbeDisplay</classname> can combine  
-         <classname>VarProbe</classname> instances (two in this case)
-        and one or more <classname>MessageProbe</classname>s (one in this case))</title>
+
+    <figure id="simplebug-probes2">
+      <title>Combining two <classname>VarProbe</classname> and one
+      <classname>MessageProbe</classname>s on a
+        <classname>ProbeDisplay</classname>
+      </title>
       <graphic entityref="simplebug-probes2"></graphic>
     </figure>
 
@@ -93,137 +88,134 @@
 
     <para>There is a middle-level object between the probe display
       that appears on the screen and the individual probes. It is the
-    <classname>ProbeMap</classname>.  A probe map is a set that
-    collects up all of the probes for a given object.  The probe
-    display does not manage individual probes, but rather it manages
-    probe maps.  As we shall see, then, most of the detail in
-    tailoring probe displays ends up in steps that add or remove
-    probes from the probe map.
+      <classname>ProbeMap</classname>.  A probe map is a set that
+      collects up all of the probes for a given object.  The probe
+      display does not manage individual probes, but rather it manages
+      probe maps.  As we shall see, then, most of the detail in
+      tailoring probe displays ends up in steps that add or remove
+      probes from the probe map.
      </para>
+  </sect1>
 
-
-</sect1>
-
-  <sect1>
+  <sect1 id="swarm.user.user2.07-probedisplay.sect1">
     <title>Managing Probe Displays</title>
 
-
     <para> The appearance of the probe display can be custom-tailored
-    by the programmer.  In order to understand the effect of
-    customization, it is probably best to begin with an understanding
-    of the "default" appearance.</para>
+      by the programmer.  In order to understand the effect of
+      customization, it is probably best to begin with an
+      understanding of the "default" appearance.</para>
 
     <para> The default probe displays for a simulation can be created
-    quite easily.  In the <filename>HeatbugObserverSwarm.m</filename>
-    file, for example, one finds these lines:</para>
+      quite easily.  In the
+      <filename>HeatbugObserverSwarm.m</filename> file, for example,
+      one finds these lines:</para>
 
     <programlisting role="ObjC">
 CREATE_ARCHIVED_PROBE_DISPLAY (heatbugModelSwarm);
 CREATE_ARCHIVED_PROBE_DISPLAY (self);</programlisting>
 
     <para> These are macro commands that cause actions inside the
-    Swarm kernel to create the default probe displays for the model
-    swarm and observer swarm, respectively.  That is all that is
-    required to create the default probe displays.  </para>
-
-
+      Swarm kernel to create the default probe displays for the model
+      swarm and observer swarm, respectively.  That is all that is
+      required to create the default probe displays.  </para>
+    
      <para> It might be a good exercise for the user to check this for
-     herself. Leave those macro lines in
-     <filename>HeatbugObserverSwarm.m</filename>, and comment out
-     everything else to do with probes in that file and also in
-     <filename>HeatbugModelSwarm.m</filename>.  When heatbugs is
-     executed, the user will see that the default probe display
-     presents a list of the instance variables of the object and, if
-     their values are set at start time, those values will be
-     displayed as well. <comment> I need to learn how to insert a jpeg snapshot of the probe display
-     would be included here </comment>
+      herself. Leave those macro lines in
+      <filename>HeatbugObserverSwarm.m</filename>, and comment out
+      everything else to do with probes in that file and also in
+      <filename>HeatbugModelSwarm.m</filename>.  When heatbugs is
+      executed, the user will see that the default probe display
+      presents a list of the instance variables of the object and, if
+      their values are set at start time, those values will be
+      displayed as well. <comment> I need to learn how to insert a jpeg snapshot of the probe display
+        would be included here </comment>
      </para>
 
-     <para>This bare-bones setup will not automatically update the display
-     as the simulation proceeds.  It presents only a snapshot of the
-     creation-time settings.  Many variables that have no value set
-     before time 0 will show blanks or the word "nil" and that will
-     never change.</para>
+    <para>This bare-bones setup will not automatically update the
+      display as the simulation proceeds.  It presents only a snapshot
+      of the creation-time settings.  Many variables that have no
+      value set before time 0 will show blanks or the word
+      <varname>nil</varname> and that will never change.</para>
 
     <para> If one wants the probe pisplay to be updated, then an
-    update command has to be included in the schedule.  In the
-    buildActions method of
-    <filename>HeatbugObserverSwarm.m</filename>, this is the command
-    that will cause the updating to occur (presumably, it was
-    commented out in the bare-bones test described above):</para>
+      update command has to be included in the schedule.  In the
+      <function>buildActions</function> method of
+      <filename>HeatbugObserverSwarm.m</filename>, this is the command
+      that will cause the updating to occur (presumably, it was
+      commented out in the bare-bones test described above):</para>
 
    <programlisting role="ObjC">
 [displayActions createActionTo: probeDisplayManager message:
 M(update)];</programlisting>
 
     <para>The <varname>probeDisplayManager</varname> is a global
-    object and when it is told to update in the observer swarm's
-    schedule, it will update the probes of objects in all other levels
-    of the simulation.</para>
+      object and when it is told to update in the observer swarm's
+      schedule, it will update the probes of objects in all other levels
+      of the simulation.</para>
 
     <para>All of this works because the Swarm kernel provides a great
-    deal of functionality that the user may never need to inspect or
-    worry about.  Most importantly, the object
-    "<varname>probeDisplayManager</varname>" is not explicitly created
-    by the user.  Rather, it appears automatically in any Swarm
-    program that has the GUI mode turned on in its
-    <filename>main.m</filename>. The
-    <varname>probeDisplayManger</varname> is the object that receives
-    messages to create displays for various objects, such as the macro
-    statements above.</para>
+      deal of functionality that the user may never need to inspect or
+      worry about.  Most importantly, the object
+      <varname>probeDisplayManager</varname> is not explicitly created
+      by the user.  Rather, it appears automatically in any Swarm
+      program that has the GUI mode turned on in its
+      <filename>main.m</filename>. The
+      <varname>probeDisplayManger</varname> is the object that
+      receives messages to create displays for various objects, such
+      as the macro statements above.</para>
 
     <para>The default probe display for an object includes only the
-    probes for the instance variables of the object.  It has no
-    buttons to click and execute methods inside the object (i.e., it
-    has no message probes).  If one wants the message probes, there
-    are two alternatives.  While the program is running, a right-click
-    on the object's name button in the top-left part of the display
-    will cause the message probes to be displayed.  A second
-    alternative is to change the macro used to create the probe
-    displays.  Use these macro commands instead:
-</para>
+      probes for the instance variables of the object.  It has no
+      buttons to click and execute methods inside the object (i.e., it
+      has no message probes).  If one wants the message probes, there
+      are two alternatives.  While the program is running, a right-click
+      on the object's name button in the top-left part of the display
+      will cause the message probes to be displayed.  A second
+      alternative is to change the macro used to create the probe
+      displays.  Use these macro commands instead:
+    </para>
 
- <programlisting role="ObjC">
+<programlisting role="ObjC">
 CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (heatbugModelSwarm);
 CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (self);</programlisting>
 
-   <para>This will cause the probe display to include all instance variables
-   and methods.</para>
+    <para>This will cause the probe display to include all instance
+      variables and methods.</para>
 
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user2.07-customize.sect1">
    <title>How to Customize Probe Displays</title>
 
-   <para>Why might one want to customize the display?  Well, frankly,
-   the default probe display may look ugly.  It may include lots of
-   variables the user does not want to see. There are some instance
-   variables, such as C arrays, that cannot be probed, and so their
-   inclusion in a probe display is uninformative.  The Swarm Toolkit
-   is designed to allow the user to pick and choose which variables
-   ought to be included in the display.  There are a number of
-   strategies for customizing, one of the standard strategiew uses an
-   object called <varname>probeLibrary</varname>. </para>
+    <para>Why might one want to customize the display?  Well, frankly,
+      the default probe display may look ugly.  It may include lots of
+      variables the user does not want to see. There are some instance
+      variables, such as C arrays, that cannot be probed, and so their
+      inclusion in a probe display is uninformative.  Swarm is
+      designed to allow the user to pick and choose which variables
+      ought to be included in the display.  There are a number of
+      strategies for customizing, one of the standard strategiew uses
+      an object called <varname>probeLibrary</varname>. </para>
 
       <para> Like <varname>probeDisplayManager</varname>, the
-     <varname>probeLibrary</varname> is a global object provided by the Swarm
-     kernel. Customization is achieved by writing code that
-     communicates back and forth from objects to the
-     <varname>probeLibrary</varname>. In short,
-     the programmer "checks out" a unique, shared copy of a
-     <classname>Probe</classname>/<classname>ProbeMap</classname>
-     from the <varname>probeLibrary</varname> object (of
-     class <classname>ProbeLibrary</classname>) provided by
-     the kernel. By shared we mean that a similar request
-     made at a different point in the code, will return a
-     reference to the very same probe instance. </para>
-
+      <varname>probeLibrary</varname> is a global object provided by the Swarm
+      kernel. Customization is achieved by writing code that
+      communicates back and forth from objects to the
+      <varname>probeLibrary</varname>. In short,
+      the programmer "checks out" a unique, shared copy of a
+      <classname>Probe</classname>/<classname>ProbeMap</classname>
+      from the <varname>probeLibrary</varname> object (of
+      class <classname>ProbeLibrary</classname>) provided by
+      the kernel. By shared we mean that a similar request
+      made at a different point in the code, will return a
+      reference to the very same probe instance. </para>
+    
     <para> Here is a skeleton example of the commands that can create a
-customized probe display using this approach.
-</para>
+      customized probe display using this approach.
+    </para>
 
     <example>
-      <title>Generating a probeMap</title>
+      <title>Generating a <varname>probeMap</varname></title>
 
       <para>To generate a <varname>probeMap</varname> for an instance of the
         class <classname>Agent</classname> called <varname>agent</varname>,
@@ -232,8 +224,7 @@ customized probe display using this approach.
         <classname>MessageProbe</classname> for the message
         <function>someMessage</function>, use the following: </para>
 
-      <programlisting role="ObjC">
-probeMap = [EmptyProbeMap createBegin: self];
+<programlisting role="ObjC">probeMap = [EmptyProbeMap createBegin: self];
 [probeMap setProbedClass: [self class]];
 probeMap = [probeMap createEnd];
 
@@ -247,99 +238,95 @@ inClass: [agent class]] setHideResult: 1]];
       <para>Don't forget to execute the
       <function>CREATE_PROBE_DISPLAY</function> for this object in the
       observer swarm. </para>
-
     </example>
 
     <para>In the file <filename>HeatbugModelSwarm.m</filename>, one
-    can find a fully fleshed out example of these steps.</para>
+      can find a fully fleshed out example of these steps.</para>
 
-    <programlisting role="ObjC">
-  probeMap = [EmptyProbeMap createBegin: aZone];
-  [probeMap setProbedClass: [self class]];
-  probeMap = [probeMap createEnd];
+<programlisting role="ObjC">probeMap = [EmptyProbeMap createBegin: aZone];
+[probeMap setProbedClass: [self class]];
+probeMap = [probeMap createEnd];
 
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "numBugs"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "diffuseConstant"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "worldXSize"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "worldYSize"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "minIdealTemp"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "maxIdealTemp"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "minOutputHeat"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "maxOutputHeat"
-				    inClass: [self class]]]; 
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "evaporationRate"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForMessage: 
-                                      "toggleRandomizedOrder" 
-                                    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "randomMoveProbability"
-				    inClass: [self class]]];
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "addHeatbug:"
-			     inClass: [self class]]
-			setHideResult: 1]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "numBugs"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "diffuseConstant"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "worldXSize"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "worldYSize"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "minIdealTemp"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "maxIdealTemp"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "minOutputHeat"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "maxOutputHeat"
+      			    inClass: [self class]]]; 
+[probeMap addProbe: [probeLibrary getProbeForVariable: "evaporationRate"
+      			    inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForMessage: 
+                                    "toggleRandomizedOrder" 
+                                  inClass: [self class]]];
+[probeMap addProbe: [probeLibrary getProbeForVariable: "randomMoveProbability"
+      			    inClass: [self class]]];
+[probeMap addProbe: [[probeLibrary getProbeForMessage: "addHeatbug:"
+      		     inClass: [self class]]
+      		setHideResult: 1]];
 
-  [probeLibrary setProbeMap: probeMap For: [self class]];
-</programlisting>
-
+[probeLibrary setProbeMap: probeMap For: [self class]];</programlisting>
 
     <para> As in the generic example, in the
-   <application>heatbugs</application> case the user follows a three
-   step procedure that puts a customized probe map in place of the
-   standard "variable probes only" default.
-  </para>
+      <application>heatbugs</application> case the user follows a three
+      step procedure that puts a customized probe map in place of the
+      standard "variable probes only" default.
+    </para>
     
-
     <orderedlist>
 
       <listitem><para>A new object called
-    "<varname>probeMap</varname>" is created.  The
-    <varname>probeMap</varname> is an instance of the the Swarm class
-    <classname>EmptyProbeMap</classname>. Next we customize the probe
-    map and pass it to the display mechanism.</para></listitem>
-
+          <varname>probeMap</varname> is created.  The
+          <varname>probeMap</varname> is an instance of the the Swarm class
+          <classname>EmptyProbeMap</classname>. Next we customize the probe
+          map and pass it to the display mechanism.</para></listitem>
+      
       <listitem><para>One-by-one, tell <varname>probeMap</varname> to
-    add probes for individual variables and messages, and those probes
-    are retrieved from the
-    <varname>probeLibrary</varname>.</para></listitem>
-
+          add probes for individual variables and messages, and those probes
+          are retrieved from the
+          <varname>probeLibrary</varname>.</para></listitem>
+      
       <listitem><para>Tell the <varname>probeLibrary</varname> that,
-      when it creates a probe display for this object, to use this special
-      object<varname>probeMap</varname> rather than the
-      default.</para> </listitem>
+          when it creates a probe display for this object, to use this special
+          object<varname>probeMap</varname> rather than the
+          default.</para> </listitem>
     </orderedlist>
-
+    
     <para>It is important to understand how this customization fits in
-    with the default probe map.  The <varname>
-    probeDisplayManager</varname> creates a widget
-     for every object that you tell it to.  Unless you tell it
-     otherwise, it assumes that the widget for every object is be
-     based on the "default probemap" which includes probes for all
-     instance variables, no message probes.  If you alter the probeMap
-     by the methods we have been discussing, you are replacing the
-     generic "has it all" probeMap with a customized probeMap.  If
-     you right-click on the object name button in a customized
-     probeMap, what pops up is a probe display based on the complete
-     probeMap specification, a map in which all variables and methods
-     are listed.</para>
-
+      with the default probe map.  The <varname>
+      probeDisplayManager</varname> creates a widget for every object
+      that you tell it to.  Unless you tell it otherwise, it assumes
+      that the widget for every object is be based on the "default
+      probemap" which includes probes for all instance variables, no
+      message probes.  If you alter the probeMap by the methods we
+      have been discussing, you are replacing the generic "has it all"
+      probeMap with a customized probeMap.  If you right-click on the
+      object name button in a customized probeMap, what pops up is a
+      probe display based on the complete probeMap specification, a
+      map in which all variables and methods are listed.</para>
+    
     <para>The procedure outlined above is clear and methodical. It is
-    also open to different kinds of customization.  If there is no
-    need for customization of individual probes, there is a "shortcut"
-    that can be used to get most of this work done. Swarm has a class
-    called <classname>CustomProbeMap</classname>.  The
-    <classname>CustomProbeMap</classname> can create the probeMap and
-    fill it with the desired probes.  Here is an example as it would
-    appear in the <application>heatbugs</application> model.</para>
+      also open to different kinds of customization.  If there is no
+      need for customization of individual probes, there is a "shortcut"
+      that can be used to get most of this work done. Swarm has a class
+      called <classname>CustomProbeMap</classname>.  The
+      <classname>CustomProbeMap</classname> can create the probeMap and
+      fill it with the desired probes.  Here is an example as it would
+      appear in the <application>heatbugs</application> model.</para>
 
-    <programlisting role="ObjC">
-   probeMap = [CustomProbeMap create: aZone forClass: [self class]
+    <example>
+      <title>Non-verbose <varname>probeMap</varname> creation</title>
+<programlisting role="ObjC">
+probeMap = [CustomProbeMap create: aZone forClass: [self class]
                               withIdentifiers: "numbugs",
                               "diffuseConstant", "worldXSize",
                               "worldYSize","minIdealTemp",
@@ -354,25 +341,25 @@ inClass: [agent class]] setHideResult: 1]];
    </programlisting>
   
     <para>The last argument to the method
-    create:forClass:withIdentifiers: is basically a set of character
-    strings that are strung together and used inside the Swarm library
-    to do the work of creating the individual probes. The colon
-    separates the variable probes from the message probes.  Notice the
-    inclusion of NULL at the end of the input, which signals the end
-    of the input to the
-    <classname>CustomProbeMap</classname>. </para>
+      <function>create:forClass:withIdentifiers:</function> is
+      basically a set of character strings that are strung together
+      and used inside the Swarm library to do the work of creating the
+      individual probes. The colon separates the variable probes from
+      the message probes.  Notice the inclusion of
+      <literal>NULL</literal> at the end of the input, which signals
+      the end of the input to the
+      <classname>CustomProbeMap</classname>. </para>
 
-    <para> This method will not allow customization of individual
-    probes, so the "setHideResult:1" command that appears in the
-    <application>heatbugs</application> example cannot be included.
-    In order to get specialized probes of that sort, we could break
-    this into two steps, one that creates the
-    <varname>probeMap</varname> with the default probes and then
-    another which adds the special probes.  Consider this:
-</para>
+    <para>This method will not allow customization of individual
+      probes, so the <function>setHideResult:1</function> command that
+      appears in the <application>heatbugs</application> example
+      cannot be included.  In order to get specialized probes of that
+      sort, we could break this into two steps, one that creates the
+      <varname>probeMap</varname> with the default probes and then
+      another which adds the special probes.  Consider this:
+    </para>
 
-    <programlisting role="ObjC">
-   probeMap = [CustomProbeMap create: aZone forClass: [self class]
+<programlisting role="ObjC">probeMap = [CustomProbeMap create: aZone forClass: [self class]
                               withIdentifiers: "numbugs",
                               "diffuseConstant", "worldXSize",
                               "worldYSize","minIdealTemp",
@@ -385,27 +372,28 @@ inClass: [agent class]] setHideResult: 1]];
 			     inClass: [self class]]
 		        	setHideResult: 1]];
 
-   [probeLibrary setProbeMap: probeMap For: [self class]];
-  
- </programlisting>
+   [probeLibrary setProbeMap: probeMap For: [self class]]; </programlisting>
+    
+    </example>
 
+    <!-- 
 
-     <comment>Dear Alex: This needs massive work or deletion.  Some of
-     it seems to be outmoded to me, some is simply opaque or over my
-     head.  Please take a look and see what you think.  I'm simply
-     unprepared to do anything with it!  I do not have any idea what
-     "Direct Generation" refers to, and it seems to me Object
-     Generation is the same thing as Library Generation. In fact, one
-     comment indicates exactly that. I've put in emphasis there. Of
-     course it is also possible this made sense before I started
-     trying to hack it up...
-              </comment> 
+    <comment>Dear Alex: This needs massive work or deletion.  Some of
+      it seems to be outmoded to me, some is simply opaque or over my
+      head.  Please take a look and see what you think.  I'm simply
+      unprepared to do anything with it!  I do not have any idea what
+      "Direct Generation" refers to, and it seems to me Object
+      Generation is the same thing as Library Generation. In fact, one
+      comment indicates exactly that. I've put in emphasis there. Of
+      course it is also possible this made sense before I started
+      trying to hack it up... </comment> 
 
+    commented out material, pending review, as per PJs suggestion
+    2000-02-10
 
     <para>There are other methods provided by the Swarm for
-              customization of probe displays.
-            
-  </para>
+      customization of probe displays.
+    </para>
 
       <itemizedlist>
         <listitem><formalpara> <title>Direct Generation</title> <para>
@@ -463,16 +451,20 @@ inClass: [agent class]] setHideResult: 1]];
               <classname>ProbeMap</classname> obtained from the probed
               object itself.  </para> </formalpara></listitem>
       </itemizedlist>
-
+-->
+    
   </sect1>
   
-  <sect1>
-    <title>Controlling Precision of floating-point numbers in
-      probe displayss</title>
+  <sect1 id="swarm.user.user2.07-precision.sect1">
+    <title>Controlling Precision of Display</title>
+    
+    <para>This section deals with the control of the precision of
+      display of floating point number on
+    <classname>ProbeDisplay</classname>s.</para>
 
     <sect2><title>Global setting of precision</title>
 
-      <para>There are two types of global precision setting via
+      <para>There are two types of  global precision setting via
         <!-- <LINK LINKEND="SWARM.OBJECTBASE.PROBELIBRARY.PROTOCOL">ProbeLibrary</LINK> -->:
       </para>
 
@@ -508,22 +500,21 @@ inClass: [agent class]] setHideResult: 1]];
       </itemizedlist>
 
       <para>To actually initialise these defaults: in the top level
-        swarm, you should add the calls to the global ProbeLibrary
-        instance (which is actually created by the initSwarm call in
-        main) during the - createBegin method (this sets the
-        precision in the global instance,
-        <emphasis>before</emphasis> any probes are checked out of
-        the instance. If neither method is called on probeLibrary,
-        then the precision defaults to six significant figures in
-        both cases.
+        swarm, you should add the calls to the global
+        <varname>probelibrary</varname> instance (which is actually
+        created by the <function>initSwarm</function> call in main)
+        during the - createBegin method (this sets the precision in
+        the global instance, <emphasis>before</emphasis> any probes
+        are checked out of the instance. If neither method is called
+        on <varname>probeLibrary</varname>, then the precision
+        defaults to six significant figures in both cases.
       </para>
 
       <example>
         <title>Global setting precision in
           <filename>HeatbugObserverSwarm.m</filename></title> 
 
-        <programlisting>
-+ createBegin: aZone
+<programlisting>+ createBegin: aZone
 {
    HeatbugObserverSwarm * obj;
    id &lt;ProbeMap&gt; probeMap;
@@ -556,8 +547,7 @@ inClass: [agent class]] setHideResult: 1]];
     </sect2>
     
     <sect2>
-      
-      <title>Setting precision for individual probes</title>
+      <title>Setting Precision for Individual Probes</title>
 
       <para> The formatting for an individual probe can be set
         directly, using a sprintf-style formatting
@@ -591,7 +581,7 @@ inClass: [agent class]] setHideResult: 1]];
       <para>In the following example, it is desired that the number
         of significant figures for the floating point variable
         <function>randomMoveProbability</function> is three (3).
-        Currently (Swarm 1.4.1) this is only works for
+        Currently (Swarm 2.0.1) this is only works for
         <classname>VarProbes</classname> and not
         <classname>MessageProbes</classname>, as yet.
       </para>
@@ -600,8 +590,7 @@ inClass: [agent class]] setHideResult: 1]];
         <title>Setting precision for individual probes in
           <filename>HeatbugModelSwarm.m</filename>:</title>
 
-        <programlisting>
-+ createBegin: aZone
+<programlisting>+ createBegin: aZone
 {
    HeatbugModelSwarm * obj;
    id &lt;ProbeMap&gt; probeMap;
@@ -624,8 +613,7 @@ inClass: [agent class]] setHideResult: 1]];
 
         <para>Or, more compactly:</para>
 
-        <programlisting>
-+ createBegin: aZone
+<programlisting>+ createBegin: aZone
 {
   HeatbugModelSwarm *obj;
   id &lt;ProbeMap&gt; probeMap;
@@ -642,7 +630,10 @@ inClass: [agent class]] setHideResult: 1]];
       </example>
     </sect2>
   </sect1>
+
   
+<!-- commented out by AKL 2000-02-10, pending review, possibly out of date
+
   <sect1>
     <title>SwarmObject Support for Probing</title>
     
@@ -651,15 +642,9 @@ inClass: [agent class]] setHideResult: 1]];
       <classname>Probe</classname>/<classname>ProbeMap</classname>. By
       default, they achieve this by "checking out" the appropriate
       references from the <varname>probeLibrary</varname>.
-      
-      <!-- 
-    <LINK LINKEND="SWARM.OBJECTBASE.SWARMOBJECT.PROTOCOL">Interface
-      definition</LINK> from <LINK LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</LINK> library.
-      -->
-      
-    </para>
+  </para>
 
-    <itemizedlist spacing="compact">
+  <itemizedlist spacing="compact">
       <listitem>
         <para>
 
@@ -735,6 +720,7 @@ while ((aMember = [anIndex next]))
 
   </sect1>
 
+-->
 
 </chapter>
 
