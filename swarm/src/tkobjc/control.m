@@ -7,9 +7,6 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 
-@class ProbeDisplayManager;
-extern ProbeDisplayManager *probeDisplayManager;
-                                                  
 int
 doOneEventSync (void)
 {
@@ -26,35 +23,6 @@ void
 registerCommand (id self, const char *name)
 {
   [globalTkInterp registerObject: self withName: name];
-}
-
-void
-setBorderWidth (id frame, int width)
-{
-  [globalTkInterp eval: "%s configure -bd %d", 
-                  [frame getWidgetName],
-                  width];
-}
-
-void
-setRelief (id raisedFrame)
-{
-  [globalTkInterp eval: "%s configure -relief ridge -borderwidth 3",
-    [raisedFrame getWidgetName]] ;
-}
-
-void
-setAnchorWest (id widget)
-{
-  [globalTkInterp
-    eval: "%s configure -anchor w", [widget getWidgetName]];
-}
-
-void
-setColorBlue (id widget)
-{
-  [globalTkInterp
-    eval: "%s configure -foreground blue", [widget getWidgetName]];
 }
 
 void
@@ -84,23 +52,6 @@ configureProbeCanvas (id canvas)
 }
 
 void
-configureWindowEntry (id widget)
-{
-  [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
-                  [widget getWidgetName],
-                  [widget getWidgetName]];
-}
-
-
-void
-configureWindowExit (id widget)
-{
-  [globalTkInterp eval: "bind %s <Leave> {%s configure -fg blue}",
-                  [widget getWidgetName],
-                  [widget getWidgetName]];
-}
-
-void
 configureHideButton (id owner, id hideB, id raisedFrame)
 {
   [globalTkInterp 
@@ -121,18 +72,67 @@ configureHideButton (id owner, id hideB, id raisedFrame)
 
 void
 configureButton3ForCompleteProbeDisplay (id widget,
-                                         id probedObject)
+                                         id probedObject,
+                                         id theProbeDisplayManager)
 {
   // have to make a private copy of the return for objectToName.
-  char pdmName[512];
-  strcpy (pdmName, tclObjc_objectToName (probeDisplayManager));
+  const char *pdmName = tclObjc_objectToName (theProbeDisplayManager);
+  char pdmNameCopy[strlen (pdmName) + 1];
+
+  strcpy (pdmNameCopy, pdmName);
   
   [globalTkInterp 
     eval: 
       "bind %s <ButtonPress-3> {%s createCompleteProbeDisplayFor: %s}",
     [widget getWidgetName],
-    pdmName,
+    pdmNameCopy,
     tclObjc_objectToName (probedObject)];
+}
+
+void
+configureWindowEntry (id widget)
+{
+  [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
+                  [widget getWidgetName],
+                  [widget getWidgetName]];
+}
+
+
+void
+configureWindowExit (id widget)
+{
+  [globalTkInterp eval: "bind %s <Leave> {%s configure -fg blue}",
+                  [widget getWidgetName],
+                  [widget getWidgetName]];
+}
+
+void
+setBorderWidth (id frame, int width)
+{
+  [globalTkInterp eval: "%s configure -bd %d", 
+                  [frame getWidgetName],
+                  width];
+}
+
+void
+setRelief (id raisedFrame)
+{
+  [globalTkInterp eval: "%s configure -relief ridge -borderwidth 3",
+    [raisedFrame getWidgetName]] ;
+}
+
+void
+setAnchorWest (id widget)
+{
+  [globalTkInterp
+    eval: "%s configure -anchor w", [widget getWidgetName]];
+}
+
+void
+setColorBlue (id widget)
+{
+  [globalTkInterp
+    eval: "%s configure -foreground blue", [widget getWidgetName]];
 }
 
 void
