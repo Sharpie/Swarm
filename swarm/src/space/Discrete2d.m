@@ -184,12 +184,13 @@ PHASE(Setting)
       
       for (i = 0; i < c_count; i++)
         {
-          id obj = [class create: aZone];
+          id obj = [class createBegin: aZone];
           unsigned x, y;
 
           [hdf5Obj selectRecord: i];
           [hdf5Obj shallowLoadObject: obj];
           sscanf (rowNames[i], "%u,%u", &x, &y);
+          obj = [obj createEnd];
           [self putObject: obj atX: x Y: y];
         }
       XFREE (rowNames); // but not the contents
