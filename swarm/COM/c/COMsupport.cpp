@@ -19,6 +19,8 @@
 
 #include "componentIDs.h"
 
+#include "jsapi.h"
+
 struct method_key {
   nsISupports *target;
   const char *methodName;
@@ -263,21 +265,28 @@ const char *
 getName (COMobject cObj)
 {
   nsresult rv;
-  nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
-  nsCID *cid;
-  swarmITyping *typing;
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <swarmITyping> typing (do_QueryInterface (_cObj));
 
-  rv = obj->QueryInterface (NS_GET_IID (swarmITyping), (void **) &typing);
-  if (NS_FAILED (rv))
-    abort ();
-  
-  rv = typing->GetCid (&cid);
-  if (NS_FAILED (rv))
-    abort ();
+  if (!typing)
+    {
+      nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
 
-  NS_RELEASE (typing);
+      if (jsObj)
+        return "[wrapped JavaScript]";
+      else
+        abort ();
+    }
+  else
+    {
+      nsCID *cid;
 
-  return getComponentName (cid);
+      rv = typing->GetCid (&cid);
+      if (NS_FAILED (rv))
+        abort ();
+
+      return getComponentName (cid);
+    }
 }
 
 const char *
@@ -468,8 +477,7 @@ enumCollectFunc (nsHashKey *key, void *data, void *param)
 static PRBool
 destroyMethod (nsHashKey *key, void *data, void *param)
 {
-  struct method_value *value = (struct method_value *) data;
-
+  // struct method_value *value = (struct method_value *) data;
   // delete value;
   return PR_TRUE;
 }
@@ -561,6 +569,55 @@ COMcollect (COMclass cClass,
     abort ();
   find (matchImplementedInterfaces, &info);
   NS_RELEASE (obj);
+}
+
+void
+JScollect (COMobject cObj,
+           JS_collect_func_t variableFunc,
+           JS_collect_func_t methodFunc)
+{
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
+
+  if (!jsObj)
+    abort ();
+
+  JSObject *jsobj;
+  if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
+    abort ();
+
+  JSIdArray *ida = JS_Enumerate (currentJSContext (),
+                                 jsobj);
+  
+  if (!ida)
+    abort ();
+  
+  jsint i;
+  JSContext *cx = currentJSContext ();
+  
+  for (i = 0; i < ida->length; i++)
+    {
+      jsid _id = ida->vector[i];
+      jsval val;
+      
+      if (!JS_IdToValue (cx, _id, &val))
+        abort ();
+      
+      char *name = JS_GetStringBytes (JSVAL_TO_STRING (val));
+      jsval propval;
+      
+      if (!JS_GetProperty (cx, jsobj, name, &propval))
+        abort ();
+
+      if (JS_ValueToFunction (cx, propval))
+        {
+          if (methodFunc)
+            methodFunc (name);
+        }
+      else if (variableFunc)
+        variableFunc (name);
+    }
+  JS_DestroyIdArray (cx, ida);
 }
 
 const char *
@@ -911,12 +968,12 @@ currentJSObject ()
   
   nsCOMPtr <nsIXPConnectWrappedNative> calleeWrapper;
   callContext->GetCalleeWrapper (getter_AddRefs (calleeWrapper));
-  nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (calleeWrapper));
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (calleeWrapper));
 
-  JSObject *jsObj;
-  if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+  JSObject *jsobj;
+ if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
     abort ();
-  return jsObj;
+  return jsobj;
 }
 
 BOOL
@@ -1010,11 +1067,11 @@ JSsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
     case fcall_type_selector:
       {
         nsCOMPtr <swarmISelector> cSel = NS_STATIC_CAST (swarmISelector *, SD_COM_FIND_SELECTOR_COM (value->selector));
-        nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (cSel));
-        JSObject *jsObj;
-        if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+        nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (cSel));
+        JSObject *jsobj;
+        if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
           abort ();
-        jsparams[pos] = OBJECT_TO_JSVAL (jsObj);
+        jsparams[pos] = OBJECT_TO_JSVAL (jsobj);
       }
       break;
     case fcall_type_class:
@@ -1044,6 +1101,61 @@ JSfreeParams (void *params)
   JS_free (currentJSContext (), params);
 }
 
+BOOL
+JSprobeVariable (COMobject cObj, const char *variableName, val_t *ret)
+{
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
+  JSObject *jsobj;
+  jsval val;
+  JSContext *cx = currentJSContext ();
+
+  if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
+    abort ();
+
+  if (!JS_LookupProperty (cx, jsobj, variableName, &val))
+    return NO;
+
+  if (JSVAL_IS_OBJECT (val))
+    {
+      nsresult rv;
+      NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+      if (!NS_SUCCEEDED (rv))
+        abort ();
+
+      nsISupports *holder;
+      xpc->WrapJS (cx, JSVAL_TO_OBJECT (val), NS_GET_IID (nsISupports),
+                   (void **) &holder);
+      ret->type = fcall_type_object;
+      ret->val.object = SD_COM_ENSURE_OBJECT_OBJC (holder);
+    }
+  else if (JSVAL_IS_INT (val))
+    {
+      ret->type = fcall_type_sint;
+      ret->val.sint = JSVAL_TO_INT (val);
+    }
+  else if (JSVAL_IS_DOUBLE (val))
+    {
+      jsdouble *dptr = JSVAL_TO_DOUBLE (val);
+      ret->type = fcall_type_double;
+      ret->val._double = (double) *dptr;
+    }
+  else if (JSVAL_IS_STRING (val))
+    {
+      ret->type = fcall_type_string;
+      ret->val.string = JS_GetStringBytes (JSVAL_TO_STRING (val));
+    }
+  else if (JSVAL_IS_BOOLEAN (val))
+    {
+      ret->type = fcall_type_boolean;
+      ret->val.boolean = JSVAL_TO_BOOLEAN (val);
+    }
+  else
+    abort ();
+
+  return YES;
+}
+
 swarmITyping *
 COM_objc_ensure_object_COM (id oObject)
 {
@@ -1053,7 +1165,13 @@ COM_objc_ensure_object_COM (id oObject)
 nsresult
 COM_objc_ensure_object_COM_return (id oObject, const nsIID *iid, void **ret)
 {
-  return (NS_STATIC_CAST (nsISupports *, swarm_directory_objc_ensure_object_COM (oObject))->QueryInterface (*iid, ret));
+  if (oObject)
+    return (NS_STATIC_CAST (nsISupports *, swarm_directory_objc_ensure_object_COM (oObject))->QueryInterface (*iid, ret));
+  else
+    {
+      *ret = NULL;
+      return NS_OK;
+    }
 }
 
 swarmITyping *

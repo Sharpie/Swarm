@@ -52,6 +52,9 @@ void COMsetReturn (void *params, unsigned pos, fcall_type_t type, types_t *value
 void COMcollect (COMclass cClass,
                  COM_collect_variable_func_t variableFunc, 
                  COM_collect_method_func_t methodFunc);
+void JScollect (COMobject cObj,
+                JS_collect_func_t variableFunc,
+                JS_collect_func_t methodFunc);
 
 JSContext *currentJSContext ();
 BOOL isJavaScript (COMobject cObj);
@@ -59,6 +62,8 @@ void *JScreateParams (unsigned size);
 void JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void JSsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void JSfreeParams (void *args);
+
+BOOL JSprobeVariable (COMobject cObj, const char *variableName, val_t *ret);
 
 const char *COMmethodName (COMmethod cMethod);
 unsigned COMmethodArgCount (COMmethod cMethod);
