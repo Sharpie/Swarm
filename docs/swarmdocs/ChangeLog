@@ -1,5 +1,7 @@
 2000-07-04  Alex Lancaster  <alex@santafe.edu>
 
+	* NEWS: Note preliminary TexInfo support. 
+
 	* docbook2texi: Add file.
 
 	* Makefile.am (EXTRA_DIST): Add docbook2texi.
