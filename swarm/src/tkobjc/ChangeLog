@@ -1,5 +1,31 @@
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ZoomRaster.m: ([ZoomRaster _setConfigureInfo_:]): Use getObjectName
+	instead of getObjcName.
+	[ZoomRaster handleConfigureWidth:Height:): Remove debugging code.
+
+	* Widget.m (makeWidgetName): Use getObjectName instead of getObjcName.
+
+	* Widget.h: Remove objcName and getter. 
+
+	* Widget.m: Don't compute objcName.  Remove getter.  Remove drop.
+
+	* Raster.m ([Raster -createEnd]): Use getObjectName instead of
+	getObjcName.
+
+	* InputWidget.[hm]: Remove linkVariable:Type:.  New static function
+	relink that serves the link methods.
+
+	* InputWidget.m ([InputWidget -createEnd]): Use getObjectName
+	instead of getObjcName.
+
+	* SimpleProbeDisplayHideButton.m ([SimpleProbeDisplayHideButton
+	-createEnd]): Remove pack to get relative placement of class 
+	name and hide button; this is now done in SimpleProbeDisplay.
+
+	* SimpleProbeDisplayHideButton.[hm]: Remove frame and setFrame
+	accessor.
+
 	* ClassDisplayHideButton.m (tkobjc_packForgetArmSuperAndResize): 
 	Copy the name of the object.
 

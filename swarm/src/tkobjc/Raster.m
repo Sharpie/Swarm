@@ -52,11 +52,11 @@
   
   // now arrange for expose events to call our redraw procedure.
   [globalTkInterp eval: "bind %s <Expose> {%s drawSelf}",
-		  widgetName, [self getObjcName]];
+		  widgetName, [self getObjectName]];
   // and our own callback for button clicks
   [globalTkInterp eval: 
     "bind %s <ButtonPress> { %s handleButton: %s X: %s Y: %s }",
-		  widgetName, [self getObjcName], "%b", "%x", "%y"];
+		  widgetName, [self getObjectName], "%b", "%x", "%y"];
   
   tkobjc_raster_createContext (self);
   tkobjc_raster_createPixmap (self);

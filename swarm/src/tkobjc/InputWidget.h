@@ -18,7 +18,6 @@
 }
 
 - (const char *)getValue;
-- linkVariable: (void *)p Type: (int)type;
 - linkVariableInt: (void *)p;
 - linkVariableDouble: (void *)p;
 - linkVariableBoolean: (void *)p;

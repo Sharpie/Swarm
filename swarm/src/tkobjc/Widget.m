@@ -26,9 +26,6 @@
 
 - createEnd
 {
-  const char *p;
-  char *name;
-  
   if (parent == nil)
     {				  // no parent, make a frame
       Frame *defaultFrame;
@@ -36,11 +33,6 @@
       [self setParent: defaultFrame];
     }
   [self setWidgetNameFromParent: parent];
-  
-  p = [self getObjectName];
-  name = [[self getZone] alloc: strlen(p) + 1];
-  strcpy (name, p);
-  objcName = name;
   
   return self;
 }
@@ -55,12 +47,6 @@
 - (const char *)getWidgetName
 {
   return widgetName;
-}
-
-// this is the name of the objc command for ourselves eg: Widget@0x1ab0
-- (const char *)getObjcName
-{
-  return objcName;
 }
 
 - (Widget *)getParent
@@ -239,7 +225,7 @@ makeWidgetName (const char *parentWidgetName, id newWidget)
   char *buf;
 #ifdef LONGNAMES
   char *n;
-  n = [newWidget getObjcName];  // my object name in Tclland
+  n = [newWidget getObjectName];  // my object name in Tclland
 #else
   char n[33];
   sprintf (n, "%p", newWidget); // my pointer (use %p?)
@@ -271,12 +257,6 @@ makeWidgetName (const char *parentWidgetName, id newWidget)
 {
   widgetName = makeWidgetName (theParentName, self);
   return self;
-}
-
-- (void)drop
-{
-  [[self getZone] free: (void *)objcName];
-  [super drop];
 }
 
 @end

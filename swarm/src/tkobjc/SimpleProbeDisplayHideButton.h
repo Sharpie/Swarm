@@ -8,10 +8,8 @@
 
 @interface SimpleProbeDisplayHideButton: Button <_SimpleProbeDisplayHideButton>
 {
-  id frame;
   id probeDisplay;
 }
 
 - setProbeDisplay: probeDisplay;
-- setFrame: frame;
 @end

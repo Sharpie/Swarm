@@ -21,14 +21,14 @@
   return logicalHeight;
 }
 
-- _setConfigureInfo_ : (const char *)eventName
+- _setConfigureInfo_: (const char *)eventName
 {
   [globalTkInterp 
     eval: 
       "bind %s <%s> { %s handle%sWidth: %s Height: %s }",
     [parent getWidgetName], 
     eventName,
-    [self getObjcName],
+    [self getObjectName],
     eventName,
     "%w", "%h"];
   return self;
@@ -122,11 +122,6 @@
             "nonsquare zoom given (nz:%u nh:%lu nw:%u lh: %u lw:%u).\n",
           newZoom, newHeight, newWidth, logicalHeight, logicalWidth];  
     }
-  
-#ifdef DEBUG
-  printf("Handling configure for %s\noldZoom: %u newZoom: %u, newWidth = %u newHeight = %u\n",
-	 [self getObjcName], zoomFactor, newZoom, newWidth, newHeight);
-#endif
   
   // This check isn't just an optimization, it prevents an infinite
   // recursion: [self setZoomFactor] reconfigures the widget, which in turn

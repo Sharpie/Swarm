@@ -13,7 +13,6 @@
 {
   Widget *parent;
   const char *widgetName;
-  const char *objcName;
 }
 
 // creation time messages
@@ -22,7 +21,6 @@
 + createParent: (Widget *)p;			  // convenience interface
 
 - (const char *)getWidgetName;			  // return the widget name
-- (const char *)getObjcName;			  // return the tclobjc name
 - (Widget *)getParent;				  // return the parent
 - (Widget *)getTopLevel;			  // return the top parent
 

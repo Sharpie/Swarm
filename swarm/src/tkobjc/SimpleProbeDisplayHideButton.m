@@ -8,13 +8,9 @@
 #import <tkobjc/common.h>
 #import <tkobjc/global.h>
 
-@implementation SimpleProbeDisplayHideButton
+#import <simtoolsgui/SimpleProbeDisplay.h>
 
-- setFrame: theFrame
-{
-  frame = theFrame;
-  return self;
-}
+@implementation SimpleProbeDisplayHideButton
 
 - setProbeDisplay: theProbeDisplay
 {
@@ -35,10 +31,7 @@
   
   [globalTkInterp eval: "pack %s -side right -fill both -expand 0",
 		  [self getWidgetName]];
-  
-  [globalTkInterp eval: "pack %s -before %s -side left -fill both -expand 0",
-		  [frame getWidgetName],
-		  [self getWidgetName]];
+
   return self;
 }
 

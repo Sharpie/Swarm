@@ -13,49 +13,57 @@
 // you shouldn't instantiate this yourself.
 - createEnd
 {
+  const char *objectName = [self getObjectName];
   char *buf;
   [super createEnd];
   
-  buf = xmalloc (strlen ([self getObjcName]) + 5);
-  sprintf (buf, "%s-var", [self getObjcName]);
+  buf = xmalloc (strlen (objectName) + 5);
+  sprintf (buf, "%s-var", objectName);
   variableName = buf;
   
   return self;
 }
 
-// link the supplied variable to the variable the input widget is using
-- linkVariable: (void *)p Type: (int)type
+static void
+relink (const char *variableName, void *p, int type)
 {
   // unlink anything there
   tkobjc_unlinkVar (variableName);
   tkobjc_linkVar (variableName, p, type);
-  return self;
 }
 
 - linkVariableInt: (void *)p
 {
-  return [self linkVariable: p Type: TCL_LINK_INT];
+  relink (variableName, p, TCL_LINK_INT);
+
+  return self;
 }
 
 - linkVariableDouble: (void *)p
 {
-  return [self linkVariable: p Type: TCL_LINK_DOUBLE];
+  relink (variableName, p, TCL_LINK_DOUBLE);
+
+  return self;
 }
 
 - linkVariableBoolean: (void *)p
 {
-  return [self linkVariable: p Type: TCL_LINK_BOOLEAN];
+  relink (variableName, p, TCL_LINK_BOOLEAN);
+
+  return self;
 }
 
 - (const char *)getValue
 {
   [globalTkInterp eval: "%s get", widgetName];
+
   return [globalTkInterp result];
 }
 
 - setValue: (const char *)v
 {
   [SubclassMustImplement raiseEvent];
+
   return nil;
 }
 
