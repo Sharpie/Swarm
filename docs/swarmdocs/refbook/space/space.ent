@@ -1,0 +1,5 @@
+<!entity spacecont.sgml PUBLIC "-//SFI Hive//ENTITIES Space Content//EN">
+<!entity spacerevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Space Revision History//EN">
+<!entity spacemeta.sgml PUBLIC "-//SFI Hive//ENTITIES Space Metadata//EN">
+<!entity space00.sgml PUBLIC "-//SFI Hive//ENTITIES Space Introduction//EN">
+<!entity spacepages.sgml PUBLIC "-//SFI Hive//ENTITIES Space Generated Content//EN">
