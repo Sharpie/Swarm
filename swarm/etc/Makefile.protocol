@@ -28,4 +28,4 @@ $(abs_top_builddir)/%.elc: $(top_srcdir)/%.el
 %.elc: %.el
 	$(elcrule)
 
-protocol.elc: $(abs_top_builddir)/common.elc $(swarm_srcdir)/etc/protocol.el
+$(abs_top_builddir)/protocol.elc: $(abs_top_builddir)/common.elc $(swarm_srcdir)/etc/protocol.el
