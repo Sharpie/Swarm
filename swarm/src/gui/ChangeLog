@@ -2,7 +2,7 @@
 
 	* gui.h: Add AWT placeholders for GUI_* macros.
 	Change GUI_INIT to take a single argument, the Arguments object.
-	Switch from #ifndef _TK_ to #ifdef USE_JAVA.
+	Switch from #ifdef _TK_ to #ifndef USE_JAVA.
 	(Widget): Add setPositionX:Y:.
 
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>

@@ -225,7 +225,7 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - setTo: to;
 @end
 
-#ifdef USE_JAVA
+#ifndef USE_JAVA
 #import <tkobjc/common.h>
 void initTkObjc (id arguments);
 
