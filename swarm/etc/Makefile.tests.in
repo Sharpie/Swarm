@@ -5,7 +5,7 @@ INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(
 builddir = $(shell cd ../../src; pwd)
 libobjcdir = $(shell cd ../../libobjc; pwd)
 
-CPPFLAGS += -DAPPNAME=$(basename $@) -DBUGADDRESS=bug-swarm@santafe.edu -DAPPVERSION=$(VERSION)
+CPPFLAGS += -DAPPNAME=$(basename $@) -DBUGADDRESS=bug-swarm@swarm.org -DAPPVERSION=$(VERSION)
 
 SWARMBUILDLDFLAGS = -L$(builddir) -R $(builddir) -L$(libobjcdir) -R $(libobjcdir)
 
