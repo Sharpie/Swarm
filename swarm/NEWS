@@ -10,6 +10,8 @@ Copyright © 1996-2000 Swarm Development Group
     not by pointer.  This means it is possible to update the typing
     on Objective C methods from other languages.
 *** Subactivities can be terminated.
+*** New interface ActionForEachHomogeneous, for simple and fast
+    iteration.
 ** Bug fixes
 *** Fixed memory leak in CanvasItem.  Thanks to Ralf Stephan.
 
