@@ -1,3 +1,9 @@
+1999-05-08  Marcus Daniel  <marcusd@asl.krasnow.gmu.edu>
+
+	* config/mips/mframe-irix6.h (MFRAME_INIT_ARGS, MFRAME_ARG_ENCODING): 
+	Add separate counters for floating point and non-floating point
+	registers.
+
 1999-05-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/mips/mframe-irix6.h (refstructp): New inline.

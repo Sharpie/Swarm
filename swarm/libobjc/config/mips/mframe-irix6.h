@@ -3,6 +3,7 @@
 #define MFRAME_STRUCT_BYREF 0
 #define MFRAME_ARGS_SIZE 136
 #define MFRAME_RESULT_SIZE 16 
+#define MFRAME_FLT_IN_FRAME_AS_DBL 1
 
 inline static BOOL
 refstructp (const char *types)
@@ -14,7 +15,7 @@ refstructp (const char *types)
 inline static BOOL
 floatp (const char *types)
 {
-  return *types == _C_FLT || *types == _DBL;
+  return *types == _C_FLT || *types == _C_DBL;
 }
 
 inline static void **
@@ -53,7 +54,7 @@ struct mips_args {
   unsigned size = objc_sizeof_type (type); \
   BOOL structref_flag = refstructp (type); \
   BOOL float_flag = floatp (type); \
-  unsigned offset = structref ? 4 \
+  unsigned offset = structref_flag ? 4 \
                     : float_flag ? (CUM).float_reg_offset : (CUM).reg_offset; \
   \
   offset = ROUND (offset, align); \
@@ -69,7 +70,7 @@ struct mips_args {
       (TYPE)++; \
     } \
   (DEST)=&(DEST)[strlen (DEST)]; \
-  if (!structref) \
+  if (!structref_flag) \
     { \
       if (float_flag) \
         (CUM).float_reg_offset = offset + size; \
