@@ -158,12 +158,6 @@ swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, swarmISelec
 NS_IMETHODIMP
 swarmSelectorImpl::Invoke (nsXPTCVariant *params)
 {
-  printf ("interface: %p methodIndex: %u methodInfo: %p paramCount: %u\n",
-          methodInterface,
-          (unsigned) methodIndex,
-          methodInfo, 
-          (unsigned) methodInfo->GetParamCount ());
-  
   return XPTC_InvokeByIndex (methodInterface,
                              methodIndex,
                              methodInfo->GetParamCount (),
