@@ -35,6 +35,8 @@
 - (Class)getProbedClass;
 - (const char *)getProbedType;
 
+- (val_t)guessValue: (const char *)str;
+
 - setSafety;
 - unsetSafety;
 @end

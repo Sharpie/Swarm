@@ -424,7 +424,7 @@ java_probe_as_int (jobject fieldType, jobject field, jobject object)
 #endif
 
 #define OBJC_CONVERT(type) CONVERT (fcall_type_for_objc_type (probedType[0]), type, p)
-#define COM_CONVERT(type) CONVERT (COM_method_param_fcall_type (getterMethod, 0), type, p)
+#define COM_CONVERT(type) CONVERT (COM_method_param_fcall_type (getterMethod, 0), type, &val.val)
 #define JS_CONVERT(casttype) CONVERT (val.type, casttype, &val.val)
 
 static int
@@ -432,17 +432,16 @@ COM_probe_as_int (COMobject cObj,
                   COMmethod getterMethod)
 {
   void *params = COM_create_params (1);
-  types_t retBuf;
-  types_t *p = &retBuf;
   int ret = 0;
+  val_t val;
 
-  COM_set_return (params, 0, fcall_type_sint, p);
+  COM_set_return (params, 0, &val);
   COM_method_invoke (getterMethod, cObj, params);
 
   COM_CONVERT (int);
   
   COM_free_params (params);
-  return retBuf.sint;
+  return  ret;
 }
 
 static int
@@ -450,7 +449,7 @@ JS_probe_as_int (COMobject cObj, const char *variableName)
 {
   val_t val;
   int ret = 0;
-
+  
   JS_probe_variable (cObj, variableName, &val);
   
   JS_CONVERT (int);
@@ -526,11 +525,10 @@ static double
 COM_probe_as_double (COMobject cObj, COMmethod getterMethod)
 {
   void *params = COM_create_params (1);
-  types_t retBuf;
-  const types_t *p = &retBuf;
+  val_t val;
   double ret = 0.0;
 
-  COM_method_set_return (getterMethod, params, &retBuf);
+  COM_method_set_return (getterMethod, params, &val);
   COM_method_invoke (getterMethod, cObj, params);
 
   COM_CONVERT (double);
@@ -840,13 +838,14 @@ COM_probe_as_string (COMobject cObj,
                      char *buf)
 {
   void *params = COM_create_params (1);
-  types_t retBuf;
+  val_t ret;
 
-  COM_set_return (params, 0, fcall_type_string, &retBuf);
+  ret.type = fcall_type_string;
+  COM_set_return (params, 0, &ret);
   COM_method_invoke (getterMethod, cObj, params);
 
   string_convert (COM_method_param_fcall_type (getterMethod, 0),
-                  &retBuf,
+                  &ret.val,
                   fmt, precision,
                   stringReturnType,
                   buf);
@@ -1424,13 +1423,23 @@ convert_from_string (fcall_type_t type,
   if (language == LanguageCOM)
     {
       void *params = COM_create_params (1);
-      types_t val;
+      val_t val;
       fcall_type_t type = COM_method_param_fcall_type (setterMethod, 0);
 
-      ret = convert_from_string (type, stringReturnType, s, &val);
-      COM_set_arg (params, 0, type, &val);
+      ret = convert_from_string (type, stringReturnType, s, &val.val);
+      val.type = type;
+      COM_set_arg (params, 0, &val);
       COM_method_invoke (setterMethod, SD_COM_FIND_OBJECT_COM (anObject), params);
       COM_free_params (params);
+    }
+  else if (language == LanguageJS)
+    {
+      val_t val = [self guessValue: s];
+
+      JS_set_variable (SD_COM_FIND_OBJECT_COM (anObject),
+                       probedVariable,
+                       &val);
+      ret = YES;
     }
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
@@ -1442,7 +1451,8 @@ convert_from_string (fcall_type_t type,
   else if (language == LanguageObjc)
     ret = convert_from_string (fcall_type_for_objc_type (probedType[0]),
                                stringReturnType,
-                               s, (void *) anObject + dataOffset);
+                               s,
+                               (void *) anObject + dataOffset);
   else
     abort ();
   

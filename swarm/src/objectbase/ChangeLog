@@ -1,3 +1,14 @@
+2001-01-30  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m (COM_probe_as_{int,double,object,string}): Use
+	simplified val_t interface for setting args and return value.
+	([VarProbe -setData:ToString:]): Add support for JavaScript,
+	using -guessValue: to get typing info.
+
+	* Probe.[hm] ([Probe -guessValue:]): New method.
+
+	* Probe.m: Include misc.h.
+
 2001-01-29  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -addJavaFields:]): Reverse order.

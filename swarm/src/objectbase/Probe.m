@@ -11,6 +11,8 @@
 #include <defobj/directory.h>
 #include "../defobj/COM.h"
 
+#include <misc.h> // isDigit, atoi, atof
+
 @implementation Probe
 PHASE(Creating)
 
@@ -156,6 +158,61 @@ PHASE(Using)
 {
   [self subclassResponsibility: @selector(clone)];
   return self;
+}
+
+- (val_t)guessValue: (const char *)str
+{
+  val_t val;
+
+  if (strcmp (str, "false") == 0)
+    {
+      val.type = fcall_type_boolean;
+      val.val.boolean = NO;
+    }
+  else if (strcmp (str, "true") == 0)
+    {
+      val.type = fcall_type_boolean;
+      val.val.boolean = YES;
+    }
+  else
+    {
+      BOOL nonValue = NO, hasDecimal = NO;
+      size_t i;
+      char ch;
+      
+      for (i = 0; (ch = str[i]); i++)
+        {
+          if (ch == '.')
+            if (hasDecimal)
+              {
+                nonValue = YES;
+                break;
+              }
+            else
+              hasDecimal = YES;
+          else if (!isDigit (ch) && !(ch == '-' && i == 0))
+            {
+              nonValue = YES;
+              break;
+            }
+        }
+      if (nonValue)
+        {
+          val.type = fcall_type_string;
+          val.val.string = str;
+        }
+      else if (hasDecimal)
+        {
+          val.type = fcall_type_double; 
+          val.val._double = atof (str);
+        }
+      else
+        {
+          val.type = fcall_type_sint;
+          val.val.sint = atoi (str);
+        }
+    }
+  return val;
 }
 
 @end
