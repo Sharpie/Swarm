@@ -14,7 +14,9 @@
 #undef BOOL
 
 #define Arguments WindowsArguments
+#define Colormap X11Colormap
 #include "tkWinInt.h"
+#undef Colormap
 #undef Arguments
 #endif
 
