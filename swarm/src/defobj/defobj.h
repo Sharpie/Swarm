@@ -1045,7 +1045,7 @@ typedef union {
   unsigned long long ulonglong;
   float _float;
   double _double;
-  double _long_double;
+  long double _long_double;
 } types_t;
 
 typedef void *JOBJECT;

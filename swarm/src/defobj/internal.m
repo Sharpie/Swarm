@@ -817,15 +817,15 @@ class_generate_name (void)
 }
 
 static fcall_type_t
-object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
+object_ivar_type (id obj, const char *ivar_name, BOOL *isArrayPtr)
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    return java_object_ivar_type (SD_JAVA_FIND_OBJECT_JAVA (obj), ivarName, isArrayPtr);
+    return java_object_ivar_type (SD_JAVA_FIND_OBJECT_JAVA (obj), ivar_name, isArrayPtr);
   else
 #endif
     {
-      struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
+      struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
       
       if (*ivar->ivar_type == _C_ARY_B)
         {
@@ -848,21 +848,21 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
 }
 
 void
-object_setVariable (id obj, const char *ivarName, void *inbuf)
+object_setVariable (id obj, const char *ivar_name, void *inbuf)
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    java_object_setVariable (SD_JAVA_FIND_OBJECT_JAVA (obj), ivarName, inbuf);
+    java_object_setVariable (SD_JAVA_FIND_OBJECT_JAVA (obj), ivar_name, inbuf);
   else
 #endif
     {
-      struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
+      struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
       void *ptr = (void *) obj + ivar->ivar_offset;
       unsigned count = 1;
       fcall_type_t type;
       
       if (ivar == NULL)
-        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarName);
+        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivar_name);
       
       if (*ivar->ivar_type == _C_ARY_B)
         {
@@ -886,7 +886,7 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
 
 unsigned
 object_getVariableElementCount (id obj,
-                                const char *ivarName,
+                                const char *ivar_name,
                                 fcall_type_t itype,
                                 unsigned irank,
                                 unsigned *idims)
@@ -894,7 +894,7 @@ object_getVariableElementCount (id obj,
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
     return java_object_getVariableElementCount (SD_JAVA_FIND_OBJECT_JAVA (obj),
-                                                ivarName,
+                                                ivar_name,
                                                 itype,
                                                 irank,
                                                 idims);
@@ -903,8 +903,65 @@ object_getVariableElementCount (id obj,
     abort ();
 }
 
+static void
+typeError (const char *ivar_name,
+           fcall_type_t ivar_type,
+           fcall_type_t value_type)
+{
+  raiseEvent (InvalidArgument,
+              "for instance variable `%s' expected type %u and got %u\n",
+              ivar_type,
+              value_type);
+}
+
+#define CONVERTNUMBER(expr,val_t,vMethod,itype,buf) { \
+   val_t val = [expr vMethod];                      \
+   switch (itype)                                   \
+     {                                              \
+       case fcall_type_sint:                        \
+         buf.sint = (int) val;                      \
+         break;                                     \
+       case fcall_type_uint:                        \
+         buf.uint = (unsigned) val;                 \
+         break;                                     \
+       case fcall_type_sshort:                      \
+         buf.sshort = (short) val;                  \
+         break;                                     \
+       case fcall_type_ushort:                      \
+         buf.ushort = (unsigned short) val;         \
+         break;                                     \
+       case fcall_type_slong:                       \
+         buf.slong = (long) val;                    \
+         break;                                     \
+       case fcall_type_ulong:                       \
+         buf.ulong = (unsigned long) val;           \
+         break;                                     \
+       case fcall_type_slonglong:                   \
+         buf.slonglong = val;                       \
+         break;                                     \
+       case fcall_type_ulonglong:                   \
+         buf.ulonglong = (unsigned long long) val;  \
+         break;                                     \
+       case fcall_type_long_double:                 \
+         buf._double = (double) val;                \
+         break;                                     \
+       case fcall_type_double:                      \
+         buf._double = (double) val;                \
+         break;                                     \
+       case fcall_type_float:                       \
+         buf._float = (float) val;                  \
+         break;                                     \
+       default:                                     \
+         abort ();                                  \
+       }}
+
+#define ENSUREVALUETYPE(expr,vMethod,value_type,ivar_type,ivar_name,buf_expr) \
+  if (ivar_type != value_type)                                                \
+    typeError (ivar_name, ivar_type, value_type);                             \
+  buf_expr = [expr vMethod];
+
 void
-object_setVariableFromExpr (id obj, const char *ivarName, id expr)
+object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
 {
    types_t buf;
   
@@ -917,7 +974,7 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
         {
           fcall_type_t type = [expr getArrayType];
           unsigned count = object_getVariableElementCount (obj,
-                                                           ivarName,
+                                                           ivar_name,
                                                            type,
                                                            [expr getRank],
                                                            [expr getDims]);
@@ -925,12 +982,12 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
             unsigned char buf[fcall_type_size (type) * count];
 
             [expr convertToType: type dest: buf];
-            object_setVariable (obj, ivarName, buf);
+            object_setVariable (obj, ivar_name, buf);
           }
         }
       else
         {
-          struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
+          struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
           void *ptr = (void *) obj + ivar->ivar_offset;
           const char *atype = ivar->ivar_type;
           
@@ -941,79 +998,48 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
     }
   else if (valuep (expr))
     {
-      fcall_type_t ntype = [expr getValueType];
+      fcall_type_t value_type = [expr getValueType];
+      fcall_type_t ivar_type = object_ivar_type (obj, ivar_name, NULL);
       
-      switch (ntype)
+      switch (value_type)
         {
         case fcall_type_object:
-          buf.object = [expr getObject];
+          ENSUREVALUETYPE (expr, getObject, fcall_type_object, ivar_type, ivar_name, buf.object);
           break;
         case fcall_type_class:
-          buf.class = [expr getClass];
+          ENSUREVALUETYPE (expr, getClass, fcall_type_class, ivar_type, ivar_name, buf.class);
           break;
         case fcall_type_long_double:
-          buf._long_double = [expr getLongDouble];
+          CONVERTNUMBER (expr,long double,getLongDouble,ivar_type,buf);
           break;
         case fcall_type_double:
-          buf._double = [expr getDouble];
+          CONVERTNUMBER (expr,double,getDouble,ivar_type,buf);
           break;
         case fcall_type_float:
-          buf._float = [expr getFloat];
+          CONVERTNUMBER (expr,float,getFloat,ivar_type,buf);
           break;
         case fcall_type_boolean:
-          buf.boolean = [expr getBoolean];
+          ENSUREVALUETYPE (expr, getBoolean, fcall_type_boolean, ivar_type, ivar_name, buf.boolean);
           break;
         case fcall_type_slonglong:
-          {
-            long long val = [expr getLongLong];
-            fcall_type_t type = object_ivar_type (obj, ivarName, NULL);
-            
-            switch (type)
-              {
-              case fcall_type_sint:
-                buf.sint = (int) val;
-                break;
-              case fcall_type_uint:
-                buf.uint = (unsigned) val;
-                break;
-              case fcall_type_sshort:
-                buf.sshort = (short) val;
-                break;
-              case fcall_type_ushort:
-                buf.ushort = (unsigned short) val;
-                break;
-              case fcall_type_slong:
-                buf.slong = (long) val;
-                break;
-              case fcall_type_ulong:
-                buf.ulong = (unsigned long) val;
-                break;
-              case fcall_type_slonglong:
-                buf.slonglong = val;
-                break;
-              case fcall_type_ulonglong:
-                buf.ulonglong = (unsigned long long) val;
-                break;
-              default:
-                abort ();
-              }
-          }
+          CONVERTNUMBER (expr,long long,getLongLong,ivar_type,buf);
+          break;
         case fcall_type_schar:
-          buf.schar = [expr getChar];
+          ENSUREVALUETYPE (expr, getChar, fcall_type_schar, ivar_type, ivar_name, buf.schar);
           break;
         default:
-          raiseEvent (InvalidArgument, "Unknown value type %d", ntype);
+          raiseEvent (InvalidArgument, "Unknown value type %d", value_type);
           break;
         }
-      object_setVariable (obj, ivarName, &buf);
+      object_setVariable (obj, ivar_name, &buf);
     }
   else if (stringp (expr))
     {
-      fcall_type_t type = object_ivar_type (obj, ivarName, NULL);
+      fcall_type_t type = object_ivar_type (obj, ivar_name, NULL);
       buf.string = OSTRDUP (obj, [expr getC]);
       if (!(type == fcall_type_string || type == fcall_type_jstring))
-        raiseEvent(InvalidArgument, "`%s' is not a string", ivarName);
-      object_setVariable (obj, ivarName, &buf);
+        raiseEvent(InvalidArgument, "`%s' is not a string", ivar_name);
+      object_setVariable (obj, ivar_name, &buf);
     }
   else if (archiver_list_p (expr))
     {
@@ -1032,7 +1058,7 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
                         MAKE_INSTANCE_FUNCTION_NAME
                         " or "
                         MAKE_CLASS_FUNCTION_NAME);
-          object_setVariable (obj, ivarName, &buf);
+          object_setVariable (obj, ivar_name, &buf);
         }
       else
         raiseEvent (InvalidArgument, "argument not a string");
