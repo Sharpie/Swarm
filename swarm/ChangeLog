@@ -1,3 +1,9 @@
+1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* configure.in (tcllibname, tklibname): New arguments.
+
+	* Makefile.appl.in (LDFLAGS): Add libdir and rpath to LDFLAGS.
+
 1998-06-23  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS (Release Notes for 1.2): Removed features not going into
