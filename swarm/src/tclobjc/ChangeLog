@@ -4,14 +4,15 @@
 	(hash_int): Use PTRUINT instead of unsigned int.
 	(compare_ints): Use PTRINT instead of int.
 
-	* tclObjc.m (tclObjc_msgSendToClientData): Rip out all the
-	`special hack' stuff.  It's unportable, and
-	__builtin_apply/libffi/avcall will do the job just fine.
-	Declare alloca.
-	Handle unsigned ints in libffi and avcall cases, return and arguments.
-	(tclObjc_msgSendToClientData): Use macro for `imp' (closer to usages)
-	to stop compiler warnings on alpha.
-	(BUGGY_BUILTIN_APPLY): Set for __alpha__ or _ABIN32 (Irix 6.5).
+	* tclObjc.m: Rip out all the __builtin_apply support.
+	(dynamicCall): Remove.
+	(tclObjc_msgSendToClientData): Rip out all the
+	`special hack' stuff.  It's unportable, and libffi/avcall will do
+	the job just fine. 
+	Declare alloca.  Handle unsigned ints in libffi and avcall cases,
+	return and arguments.
+	(tclObjc_msgSendToClientData): Use macro for `imp' (closer to
+	usages) to stop compiler warnings on alpha.
 
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

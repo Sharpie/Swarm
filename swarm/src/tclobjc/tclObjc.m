@@ -39,15 +39,6 @@
 
 #include <swarmconfig.h>
 
-#if defined(__CYGWIN__) || defined(__alpha__) || defined(_ABIN32)
-#define BUGGY_BUILTIN_APPLY
-#endif
-
-#ifdef BUGGY_BUILTIN_APPLY
-#define USE_FFI
-#endif
-
-#ifdef USE_FFI
 #ifdef USE_AVCALL
 #include <avcall.h>
 #else
@@ -56,7 +47,6 @@
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION
-#endif
 #endif
 
 #include "tclObjc.h"
@@ -136,15 +126,6 @@ id tclObjc_nameToObject(const char *name)
     }
   return TCLOBJC_NO_OBJ;
 }
-
-#ifndef USE_FFI
-/* Added this function to avoid crash during compilation by gcc-2.7.2. */
-static void *
-dynamic_call (apply_t imp, void *argframe, int argsize)
-{
-  return __builtin_apply ((apply_t)imp, (void*)argframe, argsize);
-}
-#endif
 
 int
 tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
@@ -291,12 +272,8 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     arglist_t argframe = __builtin_apply_args();
 # endif
     char *datum;
-#ifndef USE_FFI
-    void *retframe = NULL ;
-#else
     long long ret;
     void *retframe = &ret;
-#endif
 
     int argsize = method_get_sizeof_arguments(method);
     char argptr_buffer[argsize];
@@ -446,11 +423,6 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       }
 
     {
-#ifndef USE_FFI
-      retframe = dynamic_call ((apply_t) method->method_imp,
-                               argframe, 
-                               argsize);
-#else
 #ifndef USE_AVCALL
       typedef struct alist *av_alist;
       struct alist
@@ -643,7 +615,6 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 #else
       av_call (alist);
 #endif
-#endif
     }
     
     if (debug_printing)
@@ -743,136 +714,85 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 static id
 getObjectReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(id *)p;
-#endif
+  return *(id *) p;
 }
 
 static void *
 getPointerReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(void **)p;
-#endif
+  return *(void **) p;
 }
 
 static int
 getIntegerReturn (void * p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(int *)p;
-#endif
+  return *(int *) p;
 }
 
 static unsigned
 getUIntegerReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(unsigned *)p;
-#endif
+  return *(unsigned *) p;
 }
 
 static short
 getShortReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(short *)p;
-#endif
+  return *(short *) p;
 }
 
 static unsigned short
 getUShortReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(unsigned short *)p;
-#endif
+  return *(unsigned short *) p;
 }
 
 static long
 getLongReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(long *)p;
-#endif
+  return *(long *) p;
 }
 
 static unsigned long
 getULongReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(unsigned long *)p;
-#endif
+  return *(unsigned long *) p;
 }
 
 static char
 getCharReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
-  return *(char *)p;
-#endif
+  return *(char *) p;
 }
 
 static unsigned char
 getUCharReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return (p);
-#else
 #ifndef USE_AVCALL
   // char return is broken in libffi-1.18
-  return *(unsigned int *)p;
+  return *(unsigned int *) p;
 #else
-  return *(unsigned char *)p;
-#endif
+  return *(unsigned char *) p;
 #endif
 }
 
 static char *
 getStringReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return(p);
-#else
-  return *(unsigned char **)p;
-#endif
+  return *(unsigned char **) p;
 }
 
 static float
 getFloatReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return(p);
-#else
-  return *(float *)p;
+  return *(float *) p;
 #endif
 }
 
 static double
 getDoubleReturn (void *p)
 {
-#ifndef USE_FFI
-  __builtin_return(p);
-#else
-  return *(double *)p;
-#endif
+  return *(double *) p;
 }
   
 void tclObjc_registerObjectWithName(Tcl_Interp *interp, 
