@@ -5,7 +5,7 @@ SUBDIRS = misc collections defobj activity \
 	simtools simtoolsgui \
 	analysis space
 
-SWARMMODULES = $(reverse (SUBDIRS))
+SWARMMODULES = $(reverse $(SUBDIRS))
 
 EXTRA_DIST = Makefile.rules
 
