@@ -161,6 +161,9 @@ CREATING
 - (void)setIndexFromMemberLoc: (int)byteOffset;
 
 USING
+//M: Note: copies are shallow; members inside the collection are not copied.
+- copy: aZone;
+
 - (BOOL)getReplaceOnly;
 
 //M: getCount returns the integer number of members currently contained in
