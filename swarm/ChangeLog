@@ -1,3 +1,10 @@
+1998-10-29  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* configure.in: Define PREFIX as $prefix.  Don't expand DATADIR and
+	SYSCONFDIR.
+
+	* acconfig.h: Add PREFIX.
+
 1998-10-09  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (AC_OUTPUT): Add etc/Makefile.common to list of

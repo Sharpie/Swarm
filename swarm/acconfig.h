@@ -6,3 +6,4 @@
 #undef HAVE_OBJC_MALLOC
 #undef DATADIR
 #undef SYSCONFDIR
+#undef PREFIX
