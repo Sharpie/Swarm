@@ -406,7 +406,7 @@ PHASE(Using)
 {
   GroupPermutedIndex_c *newIndex;
 
-  newIndex = [super createBegin: aZone];
+  newIndex = [aZone allocIVars: self];
   newIndex->collection = [Permutation createBegin: [aZone getComponentZone]];
   return newIndex;
 }
@@ -419,8 +419,9 @@ PHASE(Using)
 
 - createEnd
 {
-  [super createEnd];
+  collection = [collection createEnd];
   index = [collection begin: [getZone (self) getComponentZone]];
+  setMappedAlloc (self);
   return self;
 }
 

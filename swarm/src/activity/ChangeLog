@@ -1,3 +1,11 @@
+1999-03-02  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* ActionGroup.m ([GroupPermutedIndex_c +createBegin:]): Use 
+	allocIVars: instead of call to [cuper createBegin:].
+	([GroupPermutedIndex_c -createEnd]): Call [collection createEnd]
+	instead of [super createEnd].
+	([GroupPermutedIndex_c -createEnd]): Call setMappedAlloc on self.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (CURRENT, AGE): Increment.  Version 1.4.1.
