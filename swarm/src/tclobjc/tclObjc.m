@@ -269,7 +269,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
                 unsigned long value;
                 
                 sscanf (argv[argnum], "%lu", &value);
-                [fa addUnsigned: value];
+                [fa addUnsignedLong: value];
               }
               break;
             case _C_SHT:
