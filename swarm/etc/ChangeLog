@@ -1,3 +1,7 @@
+1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.appl.in (clean): Add .libs/$(APPEXE).
+
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* common.el (ensure-ending-slash): New function.

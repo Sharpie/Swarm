@@ -10,7 +10,7 @@ LDFLAGS = $(SWARMLDFLAGS) $(SUPPORTLDFLAGS)
 all: $(APPEXE)
 
 clean:
-	-rm -f $(OBJECTS) $(APPEXE) $(OTHERCLEAN) core gmon.out
+	-rm -f $(OBJECTS) $(APPEXE) .libs/$(APPEXE) $(OTHERCLEAN) core gmon.out
 
 install: $(APPEXE) install-config install-data
 	$(INSTALL_PROGRAM) $(APPEXE) $(bindir)
