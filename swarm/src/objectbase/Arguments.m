@@ -96,8 +96,10 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   argp->children = NULL;
   argp->help_filter = NULL;
 
-  obj->defaultAppConfigPath = "./";
-  obj->defaultAppDataPath = "./";
+  // getApp{Config,Data}Path can return items on the heap, this is
+  // so that's always the case.
+  obj->defaultAppConfigPath = strdup ("./");
+  obj->defaultAppDataPath = strdup ("./");
 
   return obj;
 }
