@@ -1236,22 +1236,22 @@ swarm_directory_signature_for_class (JNIEnv *env, jclass class)
 }
 
 const char *
-swarm_directory_ensure_selector_type_signature (id aZone, jobject jsel)
+swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
 {
   unsigned argCount, typeSigLen = 0;
 
   jobject typeSignature =
-    (*jniEnv)->GetObjectField (jniEnv, jsel, f_typeSignatureFid);
+    (*env)->GetObjectField (env, jsel, f_typeSignatureFid);
 
   if (!typeSignature)
     {
       jobject argTypes = 
-        (*jniEnv)->GetObjectField (jniEnv, jsel, f_argTypesFid);
+        (*env)->GetObjectField (env, jsel, f_argTypesFid);
 
       jobject retType =
-        (*jniEnv)->GetObjectField (jniEnv, jsel, f_retTypeFid);
+        (*env)->GetObjectField (env, jsel, f_retTypeFid);
 
-      argCount = (*jniEnv)->GetArrayLength (jniEnv, argTypes);
+      argCount = (*env)->GetArrayLength (env, argTypes);
       {
         const char *argSigs[argCount];
         const char *retSig;
@@ -1262,16 +1262,16 @@ swarm_directory_ensure_selector_type_signature (id aZone, jobject jsel)
         for (ai = 0; ai < argCount; ai++)
           {
             jclass member =
-              (*jniEnv)->GetObjectArrayElement (jniEnv, argTypes, ai);
+              (*env)->GetObjectArrayElement (env, argTypes, ai);
             
-            argSigs[ai] = swarm_directory_signature_for_class (jniEnv, member);
+            argSigs[ai] = swarm_directory_signature_for_class (env, member);
             typeSigLen += strlen (argSigs[ai]);
           }
         typeSigLen++;
-        retSig = swarm_directory_signature_for_class (jniEnv, retType);
+        retSig = swarm_directory_signature_for_class (env, retType);
         typeSigLen += strlen (retSig);
         
-        sig = [aZone alloc: typeSigLen + 1];
+        sig = [scratchZone alloc: typeSigLen + 1];
         
         p = sig;
         *p++ = '(';
@@ -1280,10 +1280,10 @@ swarm_directory_ensure_selector_type_signature (id aZone, jobject jsel)
         *p++ = ')';
         p = stpcpy (p, retSig);
         
-        (*jniEnv)->SetObjectField (jniEnv,
-                                   jsel,
-                                   f_typeSignatureFid,
-                                   (*jniEnv)->NewStringUTF (jniEnv, sig));
+        (*env)->SetObjectField (env,
+                                jsel,
+                                f_typeSignatureFid,
+                                (*env)->NewStringUTF (env, sig));
         return sig;
       }
     }
@@ -1293,11 +1293,11 @@ swarm_directory_ensure_selector_type_signature (id aZone, jobject jsel)
       const char *sig;
 
       const char *utf =
-        (*jniEnv)->GetStringUTFChars (jniEnv, typeSignature, &copyFlag);
+        (*env)->GetStringUTFChars (env, typeSignature, &copyFlag);
 
-      sig = ZSTRDUP (aZone, utf);
+      sig = SSTRDUP (utf);
       if (copyFlag)
-        (*jniEnv)->ReleaseStringUTFChars (jniEnv, typeSignature, utf);
+        (*env)->ReleaseStringUTFChars (env, typeSignature, utf);
       return sig;
     }
 }
