@@ -1,4 +1,4 @@
-<DOCINFO>
+<referenceinfo>
 
   <TITLE>Random Library</TITLE>
 
@@ -27,11 +27,11 @@
 
 &randomrevhistory.sgml;
   
-</DOCINFO>
+</referenceinfo>
 
 <!--
 Local Variables:
-sgml-parent-document:("randomcont.sgml" "DOCINFO")
+sgml-parent-document:("randomcont.sgml" "REFERENCEINFO")
 End:
 -->
 
