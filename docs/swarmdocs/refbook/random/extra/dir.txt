@@ -1,0 +1,46 @@
+Files in $SWARMHOME/src/random/docs:
+------------------------------------
+
+WHATS.CHANGED.in.0.75		Changes from 0.7 to 0.75
+
+
+WHATS.NEW.in.0.7		Additions to Random since v. 0.6
+
+WHATS.CHANGED.in.0.7		Changes since Random 0.6 (Swarm 1.0.2)
+
+WHATS.LEFT.TODO			Improvements that *may* appear in 0.8
+
+
+README.Generators.v07		Usage Guide for generator objects
+
+README.Distributions.v07	Usage Guide for distribution objects
+
+CHOOSING.A.GENERATOR		Notes on choosing a generator for your sim
+
+DEFAULT.GENERATORS		Default generators invoked by distributions
+
+SOURCES.for.0.7			Literature references
+
+
+doc.generators.table		Summary: seeds,modules,cycles,bits,speed,state
+
+doc.generators.maxvalue		Values returned by [myGen getUnsignedSample]
+
+doc.quality.generators		Results of statistical and timing tests
+
+doc.timings			Timing data for generators and distributions
+
+
+
+data.SimpleGenerators.h		Instance variables for a typical simple gen.
+
+methods.SimpleGenerators.h	Methods implemented for a typical simple gen.
+
+data.SplitGenerators.h		Instance variables for a typical split gen.
+
+methods.SplitGenerators.h	Methods implemented for a typical split gen.
+
+data.NormalDist.h		Instance variables for the Normal distribution
+
+methods.NormalDist.h		Methods implemented for the Normal distribution
+

@@ -1,0 +1,99 @@
+// -------------------------------------------
+//
+// Random 0.75 (Swarm 1.0.4)
+//
+// Notes on choosing a random generator
+//
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1997.12.08
+//
+// ------------------------------------------
+
+A. CHOOSING A GENERATOR
+
+In this version of Random for Swarm there are a total
+of 36 different generators implemented. If you are
+a serious simulationist you need to select which one(s) 
+to use for your model.
+
+Here are some factors to consider:
+
+a) We want a generator to have as good statistical properties
+as possible. We measure this by subjecting the generators to
+various tests. I have subjected the implemented generators to
+two sets of tests, Diehard and ENT. (Look in directory /testR6).
+The file /docs/doc.quality.generators summarizes the test
+results. The highlights are:
+
+a.1. The LCG and SCG generators are of *very* poor quality
+(they fail many of the tests), and should never be used.
+[They are likely to disappear in the next release.]
+
+a.2. The lagged-Fibonacci generators (ACG, SWBi, PSWB) all fail
+the Diehard 'Birthday Spacings Test', and  are therefore only
+conditionally recommended for use.
+
+a.3 The other 32-bit generators pass all tests, and I therefore
+have no reason not to recommend them all for use.
+
+a.4 The 31-bit generators all fail certain tests because one bit
+has a constant value. Beyond that they all seem to be ok.
+
+b) We want a generator to have a long enough period for our purpose,
+and in general the longer the period the better. (However, note that 
+to generate 2^64  random numbers from a fast generator like MT19937
+would take 2.1 million years on a 486/66, so in practice any generator
+with a period close to 2^60 or larger will be acceptable.)
+
+The PMMLCG generators, although they are of acceptable quality
+otherwise, have a period less than 2^31 which we can exhaust in under
+3 hours. So use those only for quick 'toy' applications.
+
+c) We want a generator to execute efficiently, the faster the better.
+The file /docs/doc.quality.generators indicates the execution times
+for the generators as implemented. 
+
+d) We want a generator to take as little resources (memory) as possible.
+The file /docs/doc.quality.generators indicates the size of each
+generator's state in bits.
+
+e) Other things being equal, we want our generator to have a single full
+period rather than a number of shorter periods. This disqualifies SWB,
+and possibly the new MWC and RWC generators (Marsaglia does not say
+how many periods these generators have, but only the period length.)
+
+
+B. STRATEGY FOR USING RANDOM GENERATORS
+
+There are 3 possible strategies for using random generators:
+
+b.1: Use one single generator for your whole simulation, and have all
+'users' of randomness (distributions and other objects) call this single
+generator in an interleaved fashion. For this purpose, generators such as
+MT19937, TT800, TT775, TT443 (and possibly PSWB and SWB) seem particularly
+well suited since they have immense periods. 
+
+The code in <random/random.m> shows how to connect several distribution
+objects to a single random generator. The generator 'randomGenerator' 
+supplied there is of class MT19937.
+
+
+b.2: Use a single generator of long period, but divide this long period
+up into a number of non-overlapping (hence statistically independent)
+segments, and let each 'user' of randomness draw their random numbers from
+separate segments. Doing this requires that we be able to quickly access
+these separate segments. The 'split' generators C2LCGX and C4LCGX implement
+such a scheme. You can specify at creation how you want the period of
+these generators subdivided. (See the source code for details.)
+
+b.3: Use a separate random generator for each 'user' of randomness.
+In this case, you need to make sure that two or more generators of the same
+type are not started with the same seed, since in this case their output will
+be highly correlated. Provide your own seeds, or use RANDOMSEED or NEXTSEED.
+
+The distribution objects, if created with the 'createWithDefault: aZone' method,
+will create for themselves a fresh generator, with each class of distribution
+using a different class of generator. All the generators in this case are
+initialized with NEXTSEED (or RANDOMSEED, if you start the program with
+'-varySeed').

@@ -1,0 +1,146 @@
+// ------------------------------------------------
+// 
+// Random rel. 0.7 (Swarm rel. 1.0.3)
+// 
+// ADDITIONS to the random library since version 0.6
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1997-09-01
+// 
+// ------------------------------------------------
+
+The Swarm random library version 0.7 (delivered with Swarm 1.0.3)
+
+1997-09-01
+
+The following new objects and capabilities have been added to the
+random library since version 0.6 (delivered with Swarm 1.0.0):
+
+1. These new simple random generators have been added:
+
+a) PMMLCG4 ... PMMLCG9: more PMMLCG generators with different parameters.
+(Their periods are all of length modulus-1, of course, i.e. < 2^31.)
+
+b) PSWB: a version of SWB that uses a prime modulus instead of 2^32.
+Slower, but has a single full cycle of length 2^1376.
+
+c) MRG5, MRG6, MRG7: L'Ecuyer's Multiple Recursive Generators,
+with lags of 5, 6, and 7 respectively.  Periods: 2^155, 2^186, 2^217.
+
+d) C2MRG3: L'Ecuyer's Combined Multiple Recursive Generator, a
+combination of two 3-lag MRGs. Period 2^185.
+
+e) C2TAUS1, C2TAUS2, C2TAUS3: combined Tausworthe generators with
+different parameters by L'Ecuyer. Periods: 2^60 for all.
+
+f) TT403, TT775, TT800: Matsumoto and Kurita's Twisted GFSR generators.
+Periods: 2^403, 2^775, 2^800.
+
+g) MT19937: Matsumoto's brand new 'Mersenne Twister', another TGFSR 
+generator with period 2^19937 (10^6001 !) and good properties.
+
+h) MWCA, MWCB, C3MWC, RWC2 and RWC8: Multiply-With-Carry and 
+Recursion-With-Carry generators by George Marsaglia.  
+Periods of 2^59, 2^59, 2^118, 2^92 and 2^250 respectively.
+
+RWC8 is Marsaglia's "Mother of all random generators" from 1994; a
+combination of two Recursion-With-Carry (RWC) generators.
+
+2. The following two 'split' generators have been added:
+
+a) C2LCGX: L'Ecuyer and Cote's combination of two PMMLCG generators from
+1991. Period about 2^60.
+
+b) C4LCGX: L'Ecuyer and Andres's combination of four PMMLCG generators 
+(1997). Period 2^120.
+
+A split generator is a generator with a comparatively long period, for 
+which we can split the period into subsegments (statistically independent
+streams) of chosen length. Thus, C4LCGX is organized into a number A 
+of 'virtual generators', each of which has a number 2^v subsegments of 
+length 2^w. These parameters are user selectable, subject only to 
+A*(2^v)*(2^w) < 2^120.
+
+3. One new distribution object has been added:
+
+BernoulliDist, a Bernoulli Distribution supplied by Barry McMullin.
+It delivers binary values (yes/true/1) with a specified probability.
+
+4. The following new features apply to the generators:
+
+a) Generators now have a method -createWithDefaults, which creates a
+generator and initializes it with RANDOMSEED. The split generators
+are given default values for A, v, w.
+
+b) All generators may now be started the 'lazy' way with a single seed,
+or you may supply a vector of seeds if you want full control. The length
+of the seed vector required is generator dependent. Use the method
+-lengthOfSeedVector to find out what a given generator needs.
+
+c) There are now defined seed values DEFAULTSEED, DEFAULTSEED1,
+DEFAULTSEED2, DEFAULTSEED3, DEFAULTSEED4 which may be used instead of
+a user-chosen value. There is also RANDOMSEED, which is a macro that
+provides a seed value based on the process id and the system clock.
+
+d) Generators now remember the seed values they were started with, and
+will tell you if asked (needed if you use RANDOMSEED and want to replicate.)
+
+e) If you use the -createWithDefaults method, a generator is initialized
+with a seed value named STARTSEED. STARTSEED takes on the value RANDOMSEED
+if you start your program with the switch '-varySeed' on the command line;
+otherwise STARTSEED equals the fixed value DEFAULTSEED. You may of course
+use STARTSEED yourself in any place that requires a seed value.
+ 
+f) In addition to an unsigned int in [0,unsignedMax], all generators now
+also deliver on demand floating point numbers over [0,1). These may be
+supplied as a float or double, using 1 unsigned int, and as a double or
+long double, using 2 unsigned ints to fill the mantissa. 
+
+NOTE: the long double is of different size on different architectures, 
+so use of this output is not portable exactly between architectures. 
+Float, 'thin' Double and 'fat' Double should be.
+
+g) Generators now support a flag called 'antiThetic'. If set, the generator
+returns the value (unsignedMax-x) or (1.0 - y) instead of x (y).
+
+h) The informational comments have been expanded and standardized,
+and moved to the .h files.
+
+5. The following new features apply to the distributions:
+
+a) Distributions now have a method -createWithDefaults, which creates
+a new distribution object and attaches to it a newly created generator of
+a predefined type. The distribution so created is of the 'unfrozen'
+variety, i.e. its parameters have not been set.
+
+b) The distinction between 'frozen' and 'unfrozen' distributions has
+been relaxed. You may now set the default parameters for a distribution
+yet still make occasional calls to it with other parameters.
+
+c) All distributions have added code to interact with the 'split' 
+generators. The distributions detect what type of generator they are
+being connected to, and use the appropriate calls to obtain random
+numbers from them.
+
+d) UniformIntegerDist and UniformUnsignedDist now permit you to set
+minValue equal to maxValue (previously, you got an error message).
+In this case they return minValue "with probability one".
+
+e) UniformDoubleDist now permits you to set minValue equal to maxValue.
+In this case, it returns minValue "with probability one", even if
+a set such as [3.0,3.0) is a bit problematic mathematically ...
+
+f) NormalDist and LogNormalDist now permit you to specify a zero Variance.
+In this case they return Mean and exp(Mean), respectively.
+
+g) While using 'full' doubles (which take two unsigned random ints to
+fill up their mantissas) is the default in all distribution objects
+delivering floating point output, it is possible to set a switch 
+(line 86 in distributions.h) and recompile for those who prefer 
+the speed of using only one 32-bit random number to fill each double.
+
+h) The informational comments have been expanded and standardized,
+and moved to the .h files.
+
+

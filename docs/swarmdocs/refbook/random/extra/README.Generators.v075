@@ -1,0 +1,468 @@
+// ------------------------------------------------
+// 
+// Random v. 0.75 (Swarm 1.0.4)
+// 
+// Notes on the use of the random number generators
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1997-12-08
+// 
+// ------------------------------------------------
+
+IMPROVEMENTS over v. 0.6:
+
+A host of new generators, located on the web or in the literature, have
+been added since the last version of Random. There is now a total of 36
+different generators defined! Some of these have immense periods, some
+are very fast, and some have much better statistical properties than 
+the old generators.
+
+A new *type* of generator, the 'split' generator, has been introduced
+in the form of L'Ecuyer's C2LCGXgen and C4LCGXgen generators.
+
+A 'split' generator is a long-period generator for which we are able to
+split the period into arbitrary sub-periods, which we can access quickly.
+We then configure the generator as having a number (A) of 'virtual generators',
+each of which can address a number (2^v) of sub-segments of length 2^w.
+These parameters (A,v,w) are user selectable when the generator is created.
+(As an example, for C4LCGXgen the default values are A=128, v=31, w=41.)
+The advantage is that the subsegments act as statistically independent
+streams of random numbers.
+
+In addition to the -getUnsignedSample method, generators now also supply
+floating point output in the range [0.0,1.0), in the form of these methods:
+
+   -(float)       getFloatSample;		// using 1 unsigned value
+   -(double)      getThinDoubleSample;		// using 1 unsigned value
+   -(double)      getDoubleSample;		// using 2 unsigned values
+   -(long double) getLongDoubleSample;		// using 2 unsigned values
+
+The last method is not portable across architectures, since the length of a
+long double varies between machines.
+
+Generators may now be started with a single seed, *or* with a vector of seeds
+whose length is generator dependent. (PMMLCG requires 1 integer for a
+seed, while MT19937 needs 624 of them.)
+
+Generators now remember what seed values they were started with. They also
+count how many variates they have delivered (i.e., how many calls to
+-getUnsignedSample they have serviced.)
+
+There are a few arbitrary seed values, DEFAULTSEED, DEFAULTSEED1, DEFAULTSEED2,
+DEFAULTSEED3, DEFAULTSEED4 defined. There is also the value FIRSTSEED, which
+returns the value that the default generator 'randomGenerator' was started with.
+
+The macro NEXTSEED will generate a deterministic sequence of seed values, using
+and inline LCG and starting with FIRSTSEED. There is the macro RANDOMSEED, which
+will be different every time it is invoked because it depends on program time. 
+And there is value STARTSEED, which will by default equal NEXTSEED, but will 
+instead be equal to RANDOMSEED if you start your program with the '-varySeed' 
+command line parameter.
+
+The generators have gained a new creation method, '+createWithDefaults: aZone',
+which creates the generator and initializes it with STARTSEED. Split 
+generators get default values for A,v,w.
+
+
+CHANGES since v. 0.6:
+
+The generator classes have changed names to where they all end in '-gen'.
+A simple search-and-replace in your code will get you up and running again.
+
+(Or perhaps you'll want to try one of the new generators?)
+
+A bug in SWBgen was corrected. Code for ACG and SCG was also changed.
+
+The -verifySelf method is gone. Instead see the test program located in
+/random/testR0.
+
+The 'getState:' method has been named 'putStateInto: (void *) buffer',
+and the 'setState:' method is now 'setStateFrom: (void *) buffer'.
+A quick search-and-replace fixes things in your code.
+
+Note: these methods have also changed somewhat, as has the size of the
+data being saved. As a result, v. 0.7 generators will refuse to
+'setStateFrom' data saved by v. 0.6 objects.
+
+There should be fewer changes like this in the next release.
+
+
+USAGE notes:
+------------
+
+I shall first discuss 'simple' generators, and then discuss how 'split'
+generators differ from 'simple' ones.
+
+In the following text, wherever I use PSWBgen as an example you may
+substitute any other generator.
+
+Note: any name that starts with 'my' is meant to designate a variable
+which you have defined in your own program.
+
+
+SIMPLE generators:
+------------------
+
+You create a generator in one of 3 ways:
+
+(a) the lazy way:
+
+   myGenerator = [ PSWBgen createWithDefaults: [self getZone] ];
+
+This allocates the object and initializes it with STARTSEED, which equals
+NEXTSEED if -varySeed was not specified, or RANDOMSEED if it was.
+
+
+(b) using a single seed value:
+
+   myGenerator = [ PSWBgen create: [self getZone] 
+			setStateFromSeed: mySeed ];
+
+This allocates the object and initializes it with your seed value. If the 
+object actually requires a vector of seed values to fill the state, this 
+method generates the rest of the values needed using an inline PMMLCG 
+generator.
+
+You can find out later what seed value was used to initialize the generator:
+
+   myUnsigned = [ myGenerator getInitialSeed ];
+
+And you can find out what the largest valid seed value is by calling
+
+   myUnsigned = [ myGenerator getMaxSeedValue ];
+
+(For the generators defined in v. 0.7, this value is 2^32-1 for all of them.
+The seed may not be 0.)
+
+You may reset the generator's state at any time using this method:
+
+   [ myGenerator setStateFromSeed: mySeedValue ];
+
+
+(c) using a vector of seed values:
+
+Assume we have defined a fixed array at compile time:
+   unsigned int mySeedVector [vectorLength];
+
+Then we can do this:
+
+   myGenerator = [ PSWBgen create: [self getZone]
+			setStateFromSeeds: mySeedVector ];
+
+You can find out how many seed values are required by asking
+
+   myUnsigned = [ myGenerator lengthOfSeedVector ];
+
+(Obviously, you must first successfully have created the object to do this,
+for example using createWithDefaults!)
+
+And we allocate the seed vector dynamically this way:
+
+   unsigned int *mySeedVector;
+   mySeedVector = [[self getZone] alloc: [ myGenerator lengthOfSeedVector]];
+
+You can find out what vector of seed values was used to initialize the object:
+
+   unsigned int *myVector;
+   myVector = [ myGenerator getInitialSeeds ];
+
+And you can find out the largest seed values that are allowed for the
+particular generator:
+
+   myVector = [ myGenerator getMaxSeedValues ];
+
+(These values vary from generator to generator, and they may not be the same
+for all elements of the vector for a given generator. Seeds may not be 0.)
+
+NOTE: in the above two calls, the variable myVector is set to point to an 
+array internal to the generator. If you want to preserve the values, you 
+need to allocate space in your program either statically or dynamically, 
+and use a for-loop to copy data from myVector[i] to myAllocatedVector[i].
+
+You may reset the generator's state at any time by using the method
+
+   [ myGenerator setStateFromSeeds: (unsigned *) mySeedVector ];
+
+This will also reset to 0 the currentCount variable.
+
+
+NOTE: if you set a generator's state from a vector of seeds, the call
+
+   myUnsignedValue = [ myGenerator getInitialSeed ];
+
+will return a value of 0 (an invalid seed). On the other hand, if you
+initialize the generator with a single seed value, the call
+
+   mySeedVector = [ myGenerator getInitialSeeds ];
+
+will return the seed vector that would produce identical output to what
+you obtained using the single seed.
+
+
+(d) antithetic values:
+
+You can make the generator serve up antithetic values by setting:
+
+   [ myGenerator setAntithetic: myBooleanValue ];
+
+If set, this makes -getUnsignedSample return (unsignedMax-x) instead of x,
+and the floating point methods return (1.0 - y) instead of y.
+
+You can ascertain if this flag is set by calling
+
+   myBooleanValue = [ myGenerator getAntithetic ];
+
+
+(e) generator output:
+
+You obtain successive pseudorandom numbers from a generator by calling
+
+   myUnsignedValue = [ myGenerator getUnsignedSample ];
+
+The largest value thus returned can be found by asking
+
+   myUnsignedValue = [ myGenerator getUnsignedMax ];
+
+(The smallest value returned is always 0.)
+
+If you would rather have floating point output in the range [0.0,1.0),
+you call one of these:
+
+// Using 1 unsigned value to fill the mantissa:
+
+   myFloatValue  = [ myGenerator getFloatSample ];
+   myDoubleValue = [ myGenerator getThinDoubleSample ];
+
+// Using 2 unsigned values to fill the mantissa:
+
+   myDoubleValue     = [ myGenerator getDoubleSample ];
+   myLongDoubleValue = [ myGenerator getLongDoubleSample ];
+
+NOTE that the last method is not portable, because the size of a long double
+varies and hence the precision varies between architectures.
+
+Finally, you can obtain a count of how many variates have been generated:
+
+   myLongLongInt = [ myGenerator getCurrentCount ];
+
+(currentCount is an unsigned long long int, which counts up to 2^64.)
+
+
+SPLIT generators:
+-----------------
+
+A 'split' generator requires us to specify the configuration (A,v,w)
+at create time:
+
+   myGenerator = [ C4LCGXgen create: [self getZone]
+			setA: 64 setv: 20 setw: 76 
+			setStateFromSeed: mySeedValue ];
+
+   myGenerator = [ C4LCGXgen create: [self getZone]
+			setA: 32 setv: 25 setw: 60
+			setStateFromSeeds: (unsigned *) mySeedVector ];
+
+(In both cases, the only limitation is that A * 2^v * 2^w must be less than
+the generator's period, 2^60 for C2LCGX and 2^120 for C4LCGX.)
+
+For obtaining output, we need to specify which of the A 'virtual' generators
+we want to draw from:
+
+   myUnsignedValue = [ myGenerator getUnsignedSample: 12 ];
+   myFloatValue    = [ myGenerator getFloatSample: myVirtualGenerator ];
+   myDoubleValue   = [ myGenerator getThinDoubleSample: someUnsignedValue ];
+   myDoubleValue   = [ myGenerator getDoubleSample: 32 ];
+   myLongDoubleValue = [ myGenerator getLongDoubleSample: 0 ];
+
+Note: virtual generators are numbered from 0 to A-1.
+
+Obtaining the current count of variates generated likewise:
+
+   myLongLongInt = [ myGenerator getCurrentCount: myVirtualGenerator ];
+   myLongLongInt = [ myGenerator getCurrentSegment: myVirtualGenerator ];
+
+The latter call indicates what segment number the virtual generator is
+currently drawing numbers from.
+
+Other than these methods, the other methods discussed above under 'simple'
+generators are the same for 'split' generators.
+
+In *addition* to this, 'split' generators have the following methods to 
+manage the virtual generators:
+
+   // Place all virtual generators at the start of the first segment:
+   [ myGenerator initAll ];	// done automatically at creation
+
+   // Place all virtual generators back to the start of the current segment:
+   [ myGenerator restartAll ];
+
+   // Place all virtual generators at the start of the next segment:
+   [ myGenerator advanceAll ];
+
+   // Place all virtual generators at the start of the indicated segment:
+   [ myGenerator jumpAllToSegment: myLongLongIntValue ];
+
+You may also address individual virtual generators:
+
+   [ myGenerator initGenerator:    myVgen ];
+   [ myGenerator restartGenerator: myVgen ];
+   [ myGenerator advanceGenerator: myVgen ];
+   [ myGenerator jumpGenerator:    myVgen    toSegment: myLongLongIntValue ];
+
+
+
+InternalState methods common to simple and split generators:
+
+
+   // Print (most of) the object's state data to a stream:
+   [ myNormalDist describe: myStream ];
+
+The stream myStream may be created thus:
+id myStream = [ OutStream create: [self getZone] setFileStream: stdout ]; or
+id myStream = [ OutStream create: [self getZone] setFileStream: stderr ];
+
+   // Get the (class) name of the object:
+   myString = [ myNormalDist getName ];
+
+   // Get the object's 'magic number', used by putStateInto / setStateFrom:
+   myUnsigned = [ myNormalDist getMagic ];
+
+
+SAVING AND RESETTING STATE:
+
+You may save, and later restore, the internal state of a generator 
+using these methods:
+
+   // Get the size of the memory buffer needed by putStateInto / setStateFrom:
+   myUnsigned = [ myGenerator getStateSize ];
+
+   // Extract the generator's state data into your memory buffer:
+   [ myGenerator putStateInto: myBuffer ];
+
+   // Set the generator's state from data in a memory buffer:
+   [ myGenerator setStateFrom: myBuffer ];
+
+
+To illustrate, assume the following data definitions:
+
+   FILE * myFile;
+   const char * myFileName = "MyGenFile.bin"; // or whatever
+   int stateSizeG;
+   id stateBufG;
+   int status;
+
+The following code shows how to save an object's state to disk:
+(You should add your own code to deal with disk file errors,
+either aborting or printing out error messages.)
+
+   // Ask how big a buffer we need:
+   stateSizeG = [ myGenerator getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufG  = [[self getZone] alloc: stateSizeG];
+
+   // Ask the generator to put state data into the buffer:
+   [ myGenerator putStateInto: (void *) stateBufG ];
+
+   // Open a disk file for output:
+   myFile = fopen(myFileName, "w");
+   if (myFile == NULL) { };	// error on open: disk full, or no permissions
+
+   // Write the state buffer to disk in binary form:
+   status = fwrite(stateBufG, stateSizeG, 1, myFile);
+   if (status < 1) { };		// error on write: disk full?
+
+   // Close the file
+   status = fclose(myFile);
+   if (status) { };		// error on close ?
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufG];
+
+   // Or, for test purposes, just zero the buffer data instead:
+   // memset(stateBufG, 0, stateSizeG);
+
+
+This code shows how to set an object's state from a disk file:
+
+   // Ask how big a buffer we need:
+   stateSizeG = [ myGenerator getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufG  = [[self getZone] alloc: stateSizeG];
+
+   // Open a disk file for input:
+   myFile = fopen(myFileName, "r");
+   if (myFile == NULL) { };	// error on open: file not found
+
+   // Read state data into the memory buffer:
+   status = fread(stateBufG, stateSizeG, 1, myFile);
+   if (status < 1) { };		// error on read
+
+   // Close the file:
+   status = fclose(myFile);
+   if (status) { };		// error on close
+
+   // Ask the generator set its state from the buffer data:
+   [ myGenerator setStateFrom: (void *) stateBufG ];
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufG];
+
+
+TESTING GENERATORS:
+
+Since v. 0.6 we have done some rudimentary statistical testing of the 
+implemented generators, using Marsaglia's Diehard tests and the ENT tests.
+
+The results of these tests are summarized in document 
+/random/docs/doc.quality.generators, where test results as well as period 
+length, state size and execution times are listed. You can use these data to 
+select a generator that suits your simulation.
+
+Some brief comments: 
+
+a) the tests show that old generators SCG and LCG are of poor quality and 
+should be avoided.
+
+b) the lagged-Fibonacci based generators (ACG, SWB, PSWB) all fail Diehard's
+'Birthday spacings test', for reasons having to do with their lattice structure.
+These generators are only conditionally recommended.
+
+c) The rest of the 32-bit generators (i.e. generators that fill all 32 bits
+of an unsigned int) pass all tests, and are recommended at this time.
+
+(Note that while a test may show that a generator is bad, passing a number of
+tests does not prove that a generator is good!)
+
+d) The 31-bit generators all fail the same set of tests. Some of 
+these cannot be passed by a generator whose output has a 'stuck' bit. 
+Until I clear up with Prof. Marsaglia how to interpret these results, I
+believe all the 31-bit generators are in the 'recommended' category.
+
+However, a cautionary note: while the PMMLCG generators pass the tests,
+they have a very short period ( less than 2^31 ) and should only be used
+for 'toy' simulations. You don't want your generator(s) to 'go around' 
+and start repeating themselves !
+
+For what it's worth, Professor L'Ecuyer recommends his own C4LCGX and C2MRG3 
+generators as well as Matsumoto's TT800 (the monster MT19937 hadn't been
+released yet), and Prof. Marsaglia recommends his own Multiply-With-Carry
+generators (MWCA, MWCB, C3MWC, RWC2, RWC8="Mother").
+
+
+UTILITY OBJECTS PROVIDED:
+
+The following objects have been defined in <random/random.m>, and are
+immediately accessible from anywhere in your program:
+
+id <MT19937>             randomGenerator;
+id <UniformIntegerDist>   uniformIntRand;
+id <UniformUnsignedDist>  uniformUnsRand;
+id <UniformDoubleDist>    uniformDblRand;
+
+The 3 distribution objects all draw their random numbers from the MT19937
+generator, which has a period of 2^19937 (10^6001) and is quite fast.
+
+

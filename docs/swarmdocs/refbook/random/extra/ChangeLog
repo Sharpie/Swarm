@@ -1,0 +1,16 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* methods.NormalDist.h: Use @protocol instead of @deftype.
+
+1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* README.Generators.v075: Constify myFileName.
+
+	* README.Distributions.v07: Constify myFileName.
+
+	* methods.NormalDist.h: Constify return of getName.
+
+	* methods.SimpleGenerators.h: Likewise.
+
+	* methods.SplitGenerators.h: Likewise.
+
