@@ -1,3 +1,8 @@
+2000-12-16    <mgd@HELEN>
+
+	* Makefile.am: Select -lswarm for Unix and -lswarmdll -lobjc for
+	Windows.
+
 2000-12-16  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.am (findImp_LDFLAGS): Add.
