@@ -1,15 +1,10 @@
 import swarm.objectbase.SwarmImpl;
 import swarm.defobj.Zone;
 
+import agent3d.Agent3d;
+
 public class Organization extends SwarmImpl {
-  Context context;
-
-  public Organization (Zone aZone, Context context) {
+  public Organization (Zone aZone) {
     super (aZone);
-    this.context = context;
-  }
-
-  public void addAgent (Agent3d agent) {
-    context.addAgent (agent);
   }
 }

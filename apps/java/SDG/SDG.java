@@ -1,26 +1,36 @@
-import javax.media.j3d.TransformGroup;
 import swarm.activity.Activity;
 import swarm.objectbase.Swarm;
 import swarm.Globals;
 import swarm.defobj.Zone;
+import swarm.space.Grid2d;
+import swarm.space.Grid2dImpl;
+
+import agent2d.Agent2d;
+import agent2d.Marcus2d;
+import agent2d.Glen2d;
 
 public class SDG extends Organization {
-  Agent3d mgd, gepr;
+  Grid2d world;
+  Agent2d mgd, gepr;
 
-  public SDG (Zone aZone, Context context) {
-    super (aZone, context);
+  public SDG (Zone aZone) {
+    super (aZone);
+  }
 
-    mgd = new Marcus (aZone);
-    gepr = new Glen (aZone);
-    
-    addAgent (mgd);
-    addAgent (gepr);
+  public Object buildObjects () {
+    world = new Grid2dImpl (getZone (), 100, 100);
+    mgd = new Marcus2d (getZone (), world, 0, 0);
+    gepr = new Glen2d (getZone (), world, 10, 10);
+    return this;
+  }
+
+  public Grid2d getWorld () {
+    return world;
   }
 
   public Activity activateIn (Swarm swarmContext) {
     super.activateIn (swarmContext);
 
-    System.out.println ("Activating..");
     mgd.activateIn (this);
     gepr.activateIn (this);
     return getActivity ();
