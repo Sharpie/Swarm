@@ -1,3 +1,9 @@
+2000-06-23  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* activity.h (ConcurrentGroup): Adopt CREATABLE instead of RETURNABLE.
+	Add _setActionConcurrent_ and _getEmptyConcurrent_.
+	(ConcurrentSchedule): Adopt ConcurrentGroup instead of ActionGroup.
+
 2000-06-21  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Action.m ([ActionTo_c -describe:]): Print leading self pointer

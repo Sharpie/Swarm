@@ -934,12 +934,15 @@ externvar id _activity_current;
 extern id _activity_context_error (const char *macroName);
 
 
-@protocol ConcurrentGroup <ActionGroup, RETURNABLE>
+@protocol ConcurrentGroup <ActionGroup, CREATABLE>
 //S: Default type used as concurrent group of a schedule.
 //D: Default type used as concurrent group of a schedule.
+USING
+- (void)_setActionConcurrent_: action;
+- _getEmptyActionConcurrent_;
 @end
 
-@protocol ConcurrentSchedule <ActionGroup, Schedule, CREATABLE>
+@protocol ConcurrentSchedule <ConcurrentGroup, Schedule, CREATABLE>
 //S: Time-based map usable for concurrent group.
 //D: Time-based map usable for concurrent group.
 @end
