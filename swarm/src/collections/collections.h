@@ -1112,6 +1112,7 @@ CREATING
 - setUniformRandom: rnd;
 - createEnd;
 USING
+- reshuffle;
 - next;
 - prev;
 - findNext: anObject;

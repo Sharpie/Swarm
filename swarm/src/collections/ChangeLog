@@ -1,3 +1,11 @@
+1999-01-12  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* collections.h (PermutedIndex):  Declare -reshuffle.
+
+	* Permutation.[hm] ([PermutationItem_c -describe:]): New method
+
+	* Collection.[hm] ([PermutedIndex -reshuffle]): New method.
+
 1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* List.[hm] ([List_any -lispOut:deep:]): Renamed from lispOut:; added

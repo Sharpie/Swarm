@@ -21,6 +21,7 @@ Library:      collections
 - setPosition: (int)position;
 - getItem;
 - (int)getPosition;
+- (void)describe: outputCharStream;
 @end
 
 @interface Permutation_c: Array_c

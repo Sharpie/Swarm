@@ -408,6 +408,15 @@ PHASE(Creating)
 
 PHASE(Using)
 
+- reshuffle 
+{
+  id shuffler = ((Permutation_c *) collection)->shuffler;
+  [shuffler shuffleWholeList: collection];
+  [index drop];
+  index = [collection begin: [getZone (self) getComponentZone]];
+  return self;
+}
+
 - next
 {
   while (1)

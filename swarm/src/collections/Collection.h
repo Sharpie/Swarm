@@ -90,6 +90,7 @@ Library:      collections
 - setCollection: collection;
 - setUniformRandom: rnd;
 - createEnd;
+- reshuffle;
 - next;
 - prev;
 - findNext: anObject;

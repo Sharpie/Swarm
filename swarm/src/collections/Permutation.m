@@ -36,6 +36,13 @@ PHASE(Using)
 {
   return position;
 }
+
+- (void) describe: outputCharStream
+{
+  [super describe: outputCharStream];
+  [item describe: outputCharStream];
+}
+
 @end
 
 @implementation Permutation_c
