@@ -284,8 +284,6 @@
         (insert nameKey)))
 
 (defun java-print-method (protocol method)
-  (when (method-factory-flag method)
-    (insert "static "))
   (let* ((arguments (method-arguments method))
          (first-argument (car arguments))
          (signature (get-method-signature method))
@@ -352,9 +350,7 @@
 
 (defun java-print-interface-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
-        when (and (included-method-p protocol method phase)
-                  ;; static modifier not allowed in interfaces
-                  (not (method-factory-flag method)))
+        when (included-method-p protocol method phase)
 	do (java-print-method protocol method)))
 
 (defun java-suffix-for-phase (phase)
@@ -639,9 +635,7 @@
               (insert (java-argument-convert argument
                                              #'java-type-to-signature))))
       (insert " (JNIEnv *env, ")
-      (if (method-factory-flag method)
-          (insert "jclass jclass")
-          (insert "jobject jobj"))
+      (insert "jobject jobj")
       (unless (java-argument-empty-p (car arguments))
         (loop for argument in arguments
               do
@@ -658,13 +652,13 @@
              (java-return (java-objc-to-java-type (method-return-type method)))
              (wrapped-flag 
               (cond ((string= "+createBegin:" signature)
-                     (insert "JUPDATE (env, JINSTANTIATE (env, jclass), ")
+                     (insert "JUPDATE (env, jobj, ")
                      t)
                     ((create-method-p method)
-                     (insert "JUPDATE (env, JINSTANTIATEUSINGFROMCLASS (env, jclass), ")
+                     (insert "JUPDATE (env, JINSTANTIATEUSING (env, jobj), ")
                      t)
                     ((string= "-createEnd" signature)
-                     (insert "JSWITCHUPDATE (env, jobj, JINSTANTIATEUSINGFROMOBJECT (env, jobj), ")
+                     (insert "JSWITCHUPDATE (env, jobj, JINSTANTIATEUSING (env, jobj), ")
                      t)
                     ((string= java-return "Object")
                      (insert "JFINDJAVA (")

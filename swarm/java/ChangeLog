@@ -1,3 +1,9 @@
+1999-03-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-method,
+	java-print-interface-methods-in-phase, java-print-native-method):
+	Go back to non-static constructors.
+
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-native-method): Use
