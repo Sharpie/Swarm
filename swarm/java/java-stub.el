@@ -256,6 +256,17 @@
            "aClass"
            varname)))))
 
+(defun java-print-method-name (arguments native-flag)
+  (insert (car (first arguments)))
+  (loop for argument in (cdr arguments)
+        for nameKey = (car argument)
+        when nameKey
+        do
+        (if native-flag
+            (insert "_00024") ; $
+            (insert "$"))
+        (insert nameKey)))
+
 (defun java-print-method (method)
   (when (method-factory-flag method)
     (insert "static "))
@@ -263,7 +274,7 @@
          (first-argument (car arguments)))
     (java-print-type (method-return-type method))
     (insert " ")
-    (java-print-native-method-name arguments)
+    (java-print-method-name arguments nil)
     (insert " (")
     (java-print-argument first-argument)
     (loop for argument in (cdr arguments)
@@ -594,7 +605,7 @@
       (insert "_")
       (insert (java-class-name protocol phase))
       (insert "_")
-      (java-print-native-method-name arguments)
+      (java-print-method-name arguments t)
       (unless (java-argument-empty-p first-argument)
         (insert "__")
         (insert (java-argument-convert first-argument
