@@ -1885,22 +1885,28 @@
                             (gethash included-module-sym
                                      included-module-hash-table)))))
 
-(defun dot-output-module-graph (module-sym)
+(defun dot-output-module-graph (module-sym &optional compress-flag)
   (let ((edge-hash-table (make-hash-table :test #'equal)))
     (with-temp-file (concat (get-swarmdocs-build-area)
                             (symbol-name module-sym)
+                            (if compress-flag "-singlepage" "")
                             ".dot")
       (insert "digraph ")
       (insert (capitalize (symbol-name module-sym)))
       (insert " {\n")
-      (insert "size=\"10,7.5\"\n")
-      (insert "ratio=compress\n")
-      (insert "rotate=90\n")
+      (if compress-flag
+          (progn
+            (insert "size=\"10,7.5\"\n")
+            (insert "ratio=compress\n")
+            (insert "rotate=90\n"))
+          (progn
+            (insert "ratio=auto\n")
+            (insert "page=\"7.5,10\"\n")))
       (dot-graph-module edge-hash-table module-sym)
       (insert "}\n"))))
 
-(defun dot-output-each-module-graph ()
-  (interactive)
-    (loop for module-sym being each hash-key of *module-hash-table* do
-          (dot-output-module-graph module-sym)))
+(defun dot-output-each-module-graph (&optional compress-flag)
+  (interactive "P")
+  (loop for module-sym being each hash-key of *module-hash-table* do
+        (dot-output-module-graph module-sym compress-flag)))
 
