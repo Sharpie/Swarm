@@ -11,6 +11,6 @@ CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$(module
 CLASSFILES = $(addsuffix .class,$(CLASSES)) $(addsuffix .class,$(INTERFACES))
 
 $(CLASSFILES): $(addsuffix .java,$(CLASSES)) $(addsuffix .java,$(INTERFACES))
-	$(JAVAC) -classpath ../..:$(jdkdir)/lib/classes.zip $^
+	JAVA_HOME=$(jdkdir) $(JAVAC) -classpath ../..:$(jdkdir)/lib/classes.zip $^
 
 all: $(CLASSFILES)

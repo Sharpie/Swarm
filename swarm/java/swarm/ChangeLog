@@ -1,3 +1,8 @@
+1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in (CLASSFILES, %.class): Set JAVA_HOME in context
+	of javac compile.
+
 1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (CLASSES, CLASSFILES): New variables.
