@@ -3,8 +3,6 @@
 	* Makefile.in (javaswarm.dll): For consistency, use javaswarm.dll.o
 	instead of dllinit.o.
 	(javaswarm.dll): Use local dllinit file.  Remove -L to libobjc.
-	Use _SUPPORTLDFLAGS and _SYSLIBS instead of SUPPORTLDFLAGS and SYSLIBS.
-	(libjavaswarm.la): Use 
 	(SWARMLIBSLDFLAGS): Set per USEDLL.
 	(libjavaswarm.la): Use it.
 
