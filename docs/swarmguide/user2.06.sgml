@@ -487,73 +487,125 @@ displayActions = [ActionGroup create: self];
     <title>Displaying Results in Graphs</title>
 
     <para>The most commonly used graphs in Swarm are histograms, which
-    display the frequency distribution of a variable, and line plots,
-    which show changes over time in real-valued numbers.  There are
-    some little details that arise in some applications, but for the
-    most part creating graphs is easy. </para>
-
-
+      display the frequency distribution of a variable, and line plots,
+      which show changes over time in real-valued numbers.  There are
+      some little details that arise in some applications, but for the
+      most part creating graphs is easy. </para>
 
     <para>
- The Swarm protocol that can create line plots is called
-EZGraph.  The essential steps require the user to create a graph
-object, and optionally to assign labels for various display
-attributes.  For example, returning to the Arborgames simulation, one
-can create a graph showing the numbers of trees of various sorts.  The
-first step is to create the graph object, in this case called
-"popGraph."
-  </para>
+      The Swarm protocol that can create line plots is called
+      <classname>EZGraph</classname>.  The essential steps require the
+      user to create a graph object, and optionally to assign labels
+      for various display attributes.  For example, returning to the
+      <application>Arborgames</application> simulation, one can create
+      a graph showing the numbers of trees of various sorts.  The
+      first step is to create the graph object, in this case called
+      <varname>popGraph</varname>.
+    </para>
 
-<programlisting> 
+    <programlisting> 
 popGraph = [EZGraph createBegin: [self getZone]];
-SET_WINDOW_GEOMETRY_RECORD_NAME (popGraph); [popGraph setTitle:
-"population"]; [popGraph setAxisLabelsX: "time" Y: "population"];
+SET_WINDOW_GEOMETRY_RECORD_NAME (popGraph); 
+[popGraph setTitle: "population"]; 
+[popGraph setAxisLabelsX: "time" Y: "population"];
 popGraph = [popGraph createEnd];
-</programlisting>
+    </programlisting>
 
-<para>
-After the EZGraph object is in existence, then it can be instructed to prepare itself to plot some lines.  A stream of numbers is thought of as a sequence, and internal to the Swarm library there is an object type called sequence that is used by the graph tools to keep track of the numbers they are to present. </para>
+    <para>
+      After the <classname>EZGraph</classname> object is in existence,
+      then it can be instructed to prepare itself to plot some lines.
+      A stream of numbers is thought of as a sequence, and internal to
+      the Swarm library there is an object type called sequence that
+      is used by the graph tools to keep track of the numbers they are
+      to present. </para>
 
-<para>
-When the graph object is told to create the sequence, it can be told to formulate a summary statistic and plot it. In the Heatbugs simulation, the aim is to plot a summary of the unhappiness of all bugs.  The average level of unhappiness of all bugs is the chosen indicator.  Here is a code excerpt that shows how an object called unhappyGraph is told to create a sequence for plotting:
+    <para>
+      When the graph object is told to create the sequence, it can be
+      told to formulate a summary statistic and plot it. In the
+      <application>Heatbugs</application> simulation, the aim is to
+      plot a summary of the unhappiness of all bugs.  The average
+      level of unhappiness of all bugs is the chosen indicator.  Here
+      is a code excerpt that shows how an object called
+      <varname>unhappyGraph</varname> is told to create a sequence for
+      plotting:
+    </para>
 
-<programlisting> 
+    <programlisting> 
 [unhappyGraph createAverageSequence: "unhappiness"
-                         withFeedFrom: [heatbugModelSwarm getHeatbugList]
-                          andSelector: M(getUnhappiness)];
+             withFeedFrom: [heatbugModelSwarm getHeatbugList]
+              andSelector: M(getUnhappiness)];</programlisting>    
+      
+    <para>This uses the
+      <function>createAverageSequence:withFeedFrom:andSelector</function>
+      method.  Note that the sequence is assigned the name
+      "unhappiness".  The quotation marks are needed because the name
+      of the sequence is a character string.  The
+      <varname>unhappyGraph</varname> is told to take data from the
+      list of bugs, which is found by asking the
+      <varname>heatbugModelSwarm</varname> to get the list.  Each bug
+      in the list responds to a method
+      <function>getUnhappiness</function>.  The combined effect of
+      these elements is to create the sequence which will collect the
+      average values.
+    </para>
 
-</programlisting>    
-This uses the createAverageSequence:withFeedFrom:andSelector method.  Note that the sequence is assigned the name "unhappiness".  The quotation marks are needed because the name of the sequence is a character string.  The unhappyGraph is told to take data from the list of bugs, which is found by asking the heatbugModelSwarm to get the list.  Each bug in the list responds to a method getUnhappiness.  The combined effect of these elements is to create the sequence which will collect the average values.
-</para>
+    <para>
+      We hasten to point out that not all sequences need be averages.
+      Output from individual objects can be plotted as well.  For an
+      example, we return to the <application>Arborgames</application>
+      <classname>EZGraph</classname> object called
+      <varname>popGraph</varname>.  The population graph is intended
+      to show how numbers for each sort of tree. There is a Swarm list
+      of all species called <varname>speciesList</varname>.  The
+      following code iterates through the list of all species and
+      tells the <varname>popGraph</varname> to create a sequence for
+      each one.
+    </para>
 
-<para>
-We hasten to point out that not all sequences need be averages.  Output from individual objects can be plotted as well.  For an example, we return to the Arborgames EZGraph object called "popGraph".  The population graph is intended to show how numbers for each sort of tree. There is a Swarm list of all species called "speciesList."  The following code iterates through the list of all species and tells the popGraph to create a sequence for each one.   
-<programlisting>
-   for (i = 0;i < speciesNumber; i++)
-        {
-          id aSpecies;
-          aSpecies = [speciesList atOffset: i];
-          [popGraph createSequence: [aSpecies getSpeciesName]
-                    withFeedFrom: aSpecies
-                    andSelector: M(getCount)];
-        }
-</programlisting>
- Each species is able to give its name (respond to getSpeciesName) and provide a count of the number of trees (respond to getCount). If some kind of mistake occurs, say a different kind of object is added into the speciesList, then the program will crash during the run (and there probably will also be a compiler warning). 
-</para>
+      <programlisting>
+for (i = 0; i < speciesNumber; i++)
+{
+  id aSpecies;
+  aSpecies = [speciesList atOffset: i];
+  [popGraph createSequence: [aSpecies getSpeciesName]
+              withFeedFrom: aSpecies  andSelector: M(getCount)];
+}</programlisting>
 
-<para>
-The work to this point has created the graph object, and told it what to graph, but it does not cause the graph to be presented as the simulation runs.  In order to see the plots, the commands have to be part of the observer swarm's schedule'd activity.  As it turns out, an EZGraph has a very simple method called "step" that can do the necessary work, so somewhere in the buildActions method, a command such as this is required:
-<programlisting>
-    [displayActions createActionTo: popGraph message: M(step)];
-</programlisting>
-This is often part of an ActionGroup that is scheduled to update all graphs and ZoomRasters.
-</para>
+    <para>Each species is able to give its name (respond to
+      <function>getSpeciesName</function>) and provide a count of the
+      number of trees (respond to <function>getCount</function>). If
+      some kind of mistake occurs, say a different kind of object is
+      added into the <varname>speciesList</varname>, then the program
+      will crash during the run (and there probably will also be a
+      compiler warning).
+    </para>
 
-</sect2>
+    <para>The work to this point has created the graph object, and
+      told it what to graph, but it does not cause the graph to be
+      presented as the simulation runs.  In order to see the plots,
+      the commands have to be part of the observerSwarm's scheduled
+      activity.  As it turns out, an <classname>EZGraph</classname>
+      has a very simple method called <function>step</function> that
+      can do the necessary work, so somewhere in the
+      <function>buildActions</function> method, a command such as this
+      is required:
+    </para>
+
+    <programlisting>
+[displayActions createActionTo: popGraph message: M(step)];</programlisting>
+
+    <para>
+      This is often part of an <classname>ActionGroup</classname> that
+      is scheduled to update all graphs and
+      <classname>ZoomRasters</classname>.
+    </para>
+
+  </sect2>
 
 </sect1>
 
 <!-- 
-Local Variables: sgml-parent-document:("userbook.sgml" "SECT1")
+Local Variables: 
+sgml-parent-document:("userbook.sgml" "SECT1")
 End: 
 -->
