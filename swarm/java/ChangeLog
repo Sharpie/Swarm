@@ -1,3 +1,19 @@
+1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-method): Denote factory methods
+	with static.
+	(create-method-p): New method.
+	(included-method-p): Use it; exclude +create* methods when
+	protocol is not creatable.  Add protocol argument.
+	(java-print-interface-methods-in-phase): Exclude factory methods
+	as interfaces don't allow static modifier.
+	(creatable-p): Renamed from CREATABLE-p.
+	(java-print-method-invocation): Take protocol and method
+	as arguments.  Handle factory methods.
+	(java-print-native-method): Handle static method arguments
+	and +create* methods in particular.
+	(java-print-native-class): Don't check methods with included-method-p.
+
 1999-03-19  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
 
 	* java-stub.el (java-print-class-phase): Make all classes

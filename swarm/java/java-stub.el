@@ -257,6 +257,8 @@
            varname)))))
 
 (defun java-print-method (method)
+  (when (method-factory-flag method)
+    (insert "static "))
   (let* ((arguments (method-arguments method))
          (first-argument (car arguments)))
     (java-print-type (method-return-type method))
@@ -289,12 +291,27 @@
           return t
           finally return nil)))
 
-(defun included-method-p (method phase)
+(defun create-method-p (method)
+  (let* ((signature (get-method-signature method))
+         (len (length signature))
+         (min-len (min len 7)))
+    (or (string= (substring signature 0 min-len) "+create")
+        (string= signature "+customizeBegin:"))))
+
+(defun included-method-p (protocol method phase)
   (and (not (removed-method-p method))
-       (eq phase (method-phase method))))
+       (eq phase (method-phase method))
+       (if (and (not (creatable-p protocol))
+                (create-method-p method))
+           (progn
+             (message "Skipping method `%s' in non-creatable protocol `%s'"
+                      (get-method-signature method)
+                      (protocol-name protocol))
+             nil)
+           t)))
 
 (defun expanded-method-list (protocol phase)
-  (remove-if-not #'(lambda (method) (included-method-p method phase))
+  (remove-if-not #'(lambda (method) (included-method-p protocol method phase))
                  (mapcar #'caddr 
                          (protocol-expanded-methodinfo-list protocol))))
 
@@ -306,7 +323,9 @@
 
 (defun java-print-interface-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
-        when (included-method-p method phase)
+        when (and (included-method-p protocol method phase)
+                  ;; static modifier not allowed in interfaces
+                  (not (method-factory-flag method)))
 	do (java-print-method method)))
 
 (defun java-suffix-for-phase (phase)
@@ -344,7 +363,7 @@
 (defun the-CREATABLE-protocol-p (protocol)
   (string= (protocol-name protocol) "CREATABLE"))
 
-(defun CREATABLE-p (protocol)
+(defun creatable-p (protocol)
   (member-if #'the-CREATABLE-protocol-p
              (protocol-included-protocol-list protocol)))
 
@@ -372,7 +391,7 @@
 
 (defun java-print-class-phase (protocol phase)
   (insert "public ")
-  (unless (CREATABLE-p protocol)
+  (unless (creatable-p protocol)
     (insert "abstract "))
   (insert "class ")
   (insert (java-class-name protocol phase))
@@ -530,20 +549,25 @@
               (t (error "unkown type %s/%s" type jni-type)))
         (error "unknown type for argument `%s'" argument))))
 
-(defun java-print-method-invocation (arguments)
-  (insert "[JFINDOBJC (jobj) ")
-  (insert (first (car arguments)))
-  (unless (java-argument-empty-p (car arguments))
-    (insert ": ")
-    (java-argument-print-conversion (car arguments))
-    (loop for argument in (cdr arguments)
-          for key = (first argument)
-          when key do 
-          (insert " ")
-          (insert key)
-          end
-          do (insert ": ")
-          (java-argument-print-conversion argument)))
+(defun java-print-method-invocation (protocol method)
+  (insert "[")
+  (if (method-factory-flag method)
+      (insert (protocol-name protocol))
+      (insert "JFINDOBJC (jobj)"))
+  (insert " ")
+  (let ((arguments (method-arguments method)))
+    (insert (first (car arguments)))
+    (unless (java-argument-empty-p (car arguments))
+      (insert ": ")
+      (java-argument-print-conversion (car arguments))
+      (loop for argument in (cdr arguments)
+            for key = (first argument)
+            when key do 
+            (insert " ")
+            (insert key)
+            end
+            do (insert ": ")
+            (java-argument-print-conversion argument))))
   (insert "]"))
 
 (defun java-print-native-method (method protocol phase)
@@ -576,7 +600,10 @@
               (insert "_")
               (insert (java-argument-convert argument
                                              #'java-type-to-signature))))
-      (insert " (JNIEnv *env, jobject jobj")
+      (insert " (JNIEnv *env, ")
+      (if (method-factory-flag method)
+          (insert "jclass jclass")
+          (insert "jobject jobj"))
       (unless (java-argument-empty-p (car arguments))
         (loop for argument in arguments
               do
@@ -588,27 +615,28 @@
       (insert ")\n")
       (insert "{\n")
       (insert "  return ")
-
-      (let ((java-return (java-objc-to-java-type (method-return-type method)))
-            (signature (get-method-signature method)))
-        (cond ((string= "-createEnd" signature)
-               (insert "JSWITCHUPDATE (jobj, JINSTANTIATE (env, \"")
-               (insert (java-class-name protocol :using))
-               (insert "\"), "))
-              ((string= "+createBegin:" signature)
-               (insert "JUPDATE (jobj, "))
-              ((string= java-return "Object")
-               (insert "JFINDJAVA ("))
-              ((string= java-return "String")
-               (insert "(*env)->NewStringUTF (env, ")))
+      
+      (let* ((signature (get-method-signature method))
+             (java-return (java-objc-to-java-type (method-return-type method)))
+             (wrapped-flag 
+              (cond ((create-method-p method)
+                     (insert "JUPDATE (JINSTANTIATE (env, jclass), ")
+                     t)
+                    ((string= "-createEnd" signature)
+                     (insert "JSWITCHUPDATE (jobj, JINSTANTIATENAME (env, \"")
+                     (insert (java-class-name protocol :using))
+                     (insert "\"), ")
+                     t)
+                    ((string= java-return "Object")
+                     (insert "JFINDJAVA (")
+                     t)
+                    ((string= java-return "String")
+                     (insert "(*env)->NewStringUTF (env, ")
+                     t)
+                    (t nil))))
         
-        (java-print-method-invocation arguments)
-        
-        (when (or (string= "+createBegin:" signature)
-                  (string= "-createEnd" signature)
-                  (string= java-return "String")
-                  (string= java-return "Object"))
-          (insert ")")))
+        (java-print-method-invocation protocol method)
+        (when wrapped-flag (insert ")")))
       (insert ";\n")
       (insert "}\n"))))
 
@@ -624,7 +652,6 @@
     (loop for phase in '(:creating :using)
           do
           (loop for method in (expanded-method-list protocol phase)
-                when (included-method-p method phase)
                 do
                 (java-print-native-method method protocol phase)
                 (insert "\n")))))
