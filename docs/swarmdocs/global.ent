@@ -31,13 +31,13 @@ mailing lists page</ulink>'>
       with the Invariant Sections being LIST THEIR TITLES, with the
       Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
       A copy of the license is included in the section entitled "GNU
-      Free Documentation License".
+      Free Documentation License".</PARA>
 
-     The SGML source and associated utilites
+     <PARA>The SGML source and associated utilites
     needed to generate this documentation can be found in the package:
     <ULINK
     url="ftp://ftp.swarm.org/pub/swarm/swarmdocs-&swarm-doc-release-number;.tar.gz">swarmdocs-&swarm-doc-release-number;.tar.gz</ULINK>.
-   </PARA>.  The utilites are distributed under the GNU GPL.</LEGALNOTICE>'>
+   The utilites are distributed under the GNU GPL.</PARA></LEGALNOTICE>'>
 
 <!ENTITY swarm-legalnotice 
 
