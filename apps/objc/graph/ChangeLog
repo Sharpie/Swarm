@@ -1,3 +1,8 @@
+2001-12-28    <mgd@DRONE>
+
+	* DiGraphNode.m ([DiGraphNode -setCanvas:withRandPosFunc:]): 
+	Don't set node string if label is unset.
+
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* DiGraphLink.[hm]: Change return type of -update to void.

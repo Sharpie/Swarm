@@ -39,14 +39,16 @@
       nodeItem = [OvalNodeItem createBegin: [self getZone]]; 
     }
   
-  nodeItem = [[[[nodeItem setX: 
-                            [posFunc getIntegerWithMin: 0L
-                                            withMax: [canvas getWidth]]
-                          Y: 
-                            [posFunc getIntegerWithMin: 0L
-                                            withMax: [canvas getHeight]]] 
-                 setString: label]
-                setCanvas: canvas] createEnd];
+  [nodeItem setX: 
+	      [posFunc getIntegerWithMin: 0L
+		       withMax: [canvas getWidth]]
+	    Y: 
+	      [posFunc getIntegerWithMin: 0L
+		       withMax: [canvas getHeight]]];
+  if (label)
+    [nodeItem setString: label];
+  [nodeItem setCanvas: canvas];
+  nodeItem = [nodeItem createEnd];
   
   [nodeItem setTargetId: self];
   [nodeItem setClickSel: M(showContent)];
