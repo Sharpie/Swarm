@@ -1,5 +1,14 @@
 1998-06-11  Alex Lancaster  <alex@santafe.edu>
 
+	* Makefile.am (GENERATED_SGML): Added for revhistory.
+        (noinst_DATA): Added.
+        (SGML, SGML_FILES): Separated out generated/non-gen files.
+
+	* setmeta.sgml: Replaced REVHISTORY with setrevhistory entity.
+
+	* set.sgml: Added reference to setrevhistory.sgml.  Changed local
+	notion class to JPEG.
+
 	* set.sgml (entity): Included versions.ent, figs.ent and updated
 	all entity references to be consistent with filenames.
 

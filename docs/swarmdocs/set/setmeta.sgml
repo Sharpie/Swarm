@@ -40,15 +40,7 @@
       to the GNU Library Public Licence.</PARA>
   </LEGALNOTICE>
 
-  <REVHISTORY>
-    <REVISION>
-      <REVNUMBER>1.1</REVNUMBER> 
-      <DATE>1998-05-13</DATE>
-      <AUTHORINITIALS>mgd, alex, lee</AUTHORINITIALS>
-      <REVREMARK>Created new SGML documentation from former HTML
-      docs</REVREMARK>
-    </REVISION>
-  </REVHISTORY>
+  &setrevhistory.sgml;
 
 </SETINFO>
 

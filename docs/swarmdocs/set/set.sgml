@@ -18,9 +18,10 @@
 %install.ent;
 
 <!entity setmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN">
+<!entity setrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Set Revision History//EN">
 
-<!entity % local.notation.class "| JPG">
-<!notation JPG system>
+<!entity % local.notation.class "| JPEG">
+<!notation JPEG system>
 ]>
 
 <SET ID="set">
