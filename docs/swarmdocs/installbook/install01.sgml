@@ -141,6 +141,17 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
           </FORMALPARA>
         </LISTITEM>
 
+        <LISTITEM>
+          
+          <FORMALPARA><TITLE>GNU Emacs</TITLE> <PARA>Emacs is a
+          programmable text processing system and editor.  Emacs is
+          needed if you want to build Swarm for Java from source code.
+          Emacs is also a good program for editing Objective C and Java
+          code.  Emacs is available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu/emacs/">.</PARA>
+          </FORMALPARA>
+          </LISTITEM>
+          
+
       </ITEMIZEDLIST></PARA>
     
   </SIMPLESECT>
@@ -167,7 +178,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
             it installed. A reasonably modern version is needed: we've
             used version 3.4f. If you get complaints about "Object"
             being multiply defined, your version of libXpm is too
-            old. The library is available from <ULINK URL="ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz">ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz</ULINK>.</PARA>
+            old. The library is available from <ULINK URL="ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz">ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz</ULINK>.</PARA>
         </FORMALPARA>
       </LISTITEM>
 
@@ -185,9 +196,8 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
             <TITLE><ULINK URL="http://www.tcltk.com/blt/index.html">BLT</ULINK></TITLE>
 
             <PARA>BLT is an add-on to Tk that provides more widgets.  
-<ULINK URL="http://ftp.tcltk.com/pub/blt/BLT2.4g.tar.gz">BLT 2.4g</ULINK>
-is the current version.  Another version,
-<ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/blt8.0-unoff-swarm-1.tar.gz">BLT 8.0-unoff (SFI)</ULINK> is needed for use with Windows.
+<ULINK URL="http://ftp.tcltk.com/pub/blt/BLT2.4i.tar.gz">BLT 2.4i</ULINK>
+is the current version. 
           </PARA>
           </FORMALPARA>
         </LISTITEM>
@@ -210,7 +220,7 @@ is the current version.  Another version,
           </FORMALPARA>
           
           <PARA>The latest version of ffcall is
-            <ULINK URL="ftp://ftp.santafe.edu/pub/gnu/ffcall-1.5.tar.gz">1.5</ULINK>
+            <ULINK URL="ftp://ftp.santafe.edu/pub/gnu/ffcall-1.6.tar.gz">1.5</ULINK>
           </PARA>
           <PARA>The latest version of libffi is:
             <ULINK URL="ftp://ftp.cygnus.com:/pub/green/libffi-1.20.tar.gz">1.20</ULINK>
