@@ -1,4 +1,6 @@
+ifeq ($(SWARMHOME),)
 SWARMHOME=../../swarm
+endif
 APPLICATION=bug
 OBJECTS= main.o  Bug.o
 include $(SWARMHOME)/Makefile.appl
