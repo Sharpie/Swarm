@@ -414,27 +414,37 @@ findSwarm (id arguments)
     return NULL;
 }
 
+- (const char *)_getSwarmHome_: (BOOL)ignoreEnvFlag
+{
+  if (ignoreEnvFlag)
+    return findSwarm (self);
+  else
+    {
+      if (swarmHome == NULL)
+	{
+	  if ((swarmHome = getenv ("SWARMHOME")) == NULL)
+	    swarmHome = findSwarm (self);
+	  else
+	    {
+	      unsigned len = strlen (swarmHome);
+	      
+	      if (swarmHome[len - 1] != '/')
+		{
+		  char *home = xmalloc (len + 2), *p;
+		  
+		  p = stpcpy (home, swarmHome);
+		  p = stpcpy (p, "/");
+		  swarmHome = home;
+		}
+	    }
+	}
+      return swarmHome;
+    }
+}
+
 - (const char *)getSwarmHome
 {
-  if (swarmHome == NULL)
-    {
-      if ((swarmHome = getenv ("SWARMHOME")) == NULL)
-        swarmHome = findSwarm (self);
-      else
-        {
-          unsigned len = strlen (swarmHome);
-
-          if (swarmHome[len - 1] != '/')
-            {
-              char *home = xmalloc (len + 2), *p;
-
-              p = stpcpy (home, swarmHome);
-              p = stpcpy (p, "/");
-              swarmHome = home;
-            }
-        }
-    }
-  return swarmHome;
+  return [self _getSwarmHome_: NO];
 }
 
 - (const char *)_getPath_: (const char *)fixed subpath: (const char *)subpath
@@ -448,7 +458,7 @@ findSwarm (id arguments)
     }
   else
     {
-      const char *home = [self getSwarmHome];
+      const char *home = [self _getSwarmHome_: ignoringEnvFlag];
       if (home)
         {
           const char *newHome = ensureEndingSlash (home);
@@ -477,9 +487,12 @@ findSwarm (id arguments)
 {
   char *executablePath = strdup ([self getExecutablePath]);
   const char *possibleHome = dropDirectory (dropDirectory (executablePath));
-  const char *home = [self getSwarmHome];
+  const char *home;
   BOOL ret = NO;
 
+  ignoringEnvFlag = NO;
+ retry:
+  home = [self _getSwarmHome_: ignoringEnvFlag];
   if (home && possibleHome)
     {
       struct stat possibleHomeStatBuf, homeStatBuf;
@@ -487,6 +500,11 @@ findSwarm (id arguments)
       if (stat (possibleHome, &possibleHomeStatBuf) != -1
           && stat (home, &homeStatBuf) != -1)
         ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
+      if (ret == NO && !ignoringEnvFlag)
+	{
+	  ignoringEnvFlag = YES;
+	  goto retry;
+	}
     }
   XFREE (executablePath);
   return ret;

@@ -18,6 +18,7 @@
   const char *swarmHome;
   const char *defaultAppConfigPath;
   const char *defaultAppDataPath;
+  BOOL ignoringEnvFlag;
 }
 + createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress;
 - (struct argp_option *)addOptions: (struct argp_option *)options;
