@@ -1,6 +1,8 @@
 1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* acinline.m4: New file.
+	* acinline.m4: New file.  
+
+	* Makefile.am: Add acinline.m4 to EXTRA_DIST.
 
 1998-07-18  Alex Lancaster  <alex@santafe.edu>
 
