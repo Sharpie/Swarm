@@ -1,0 +1,505 @@
+Arborgames-Simplified 
+Paul E. Johnson <pauljohn@ku.edu>
+September 9, 2004
+
+Arborgames is a Swarm Classic.  It has a great substantive motivation
+and over the years it has been the subject of many beautiful
+presentations.  It is one of the very first, perhaps the first, Swarm
+model to be written with the real substance of academic research as
+the driving element.  Melissa Savage, a professor of Geography at
+UCLA, and Manor Askenazi, a member of the original Swarm development
+team at the SFI, developed the program and published working papers
+and an article about it.  Dr. Savage's original README information
+is appended at the end of this README.
+
+After the main development work was finished, around 1997, Arborgames
+was made available to the Swarm community and only the bareast, most
+minimal revisions were made. These were strictly maintenance changes
+required by changes in Swarm itself. There were no major changes to 
+suit the recommended practices that were evolving with Swarm.  
+
+Until now!
+
+Arborgames-Simplified is a revised and updated version of Arborgames.
+Arborgames-Simplified generates results which are exactly numerically
+identical to the original model.  The only difference is that the code
+it is easier to read and understand.  It incorporates a significant
+re-design of the flow of events in the forest.  I contend that it is
+easier to understand now, but can only wait for the feedback of
+students everywhere to find out if I am right.  This version adheres
+more closely to the recommended coding standards of Swarm-2.X. It uses
+the simplifications afforded by the Swarm Lisp Archiver.  (If you are
+interested in the changes needed only for the archiver, a version I
+called Arborgames-2.2.1 is available.)
+
+I have done this work because I admire this model very much and have
+wanted to use it in my courses.  I have had trouble teaching with Arborgames
+because some of its usages are old-fashioned and much of the
+implementation was not consistent with my view of the "bottom-up"
+modeling process. This revision seemed more urgent to me when I was
+preparing some material for a Swarm tutorial at the Ecological Society
+of America in Portland, Oregon, on August 1, 2004.  It was completely
+possible to show students the pictures from Arborgames, but it was very
+difficult to recommend that they study the Arborgames code.  And I
+wanted to fix that.
+
+Examples of old fashioned usage are the direct access to instance
+variables with notation like 
+
+species->ageLevel[1] 
+
+instead of 
+
+[species getAgeLevel: 1]. 
+
+There were also usages we now discourage, such as
+the casting of integers as objects in building schedules:
+
+ [modelActions createActionTo:      theFireSpace  
+                       message: M(fastFillWithValue:) : (id) 0];
+
+
+The other problem was more philosophical in nature.  The bottom-up
+approach would have us think of trees growing older, possibly dying of
+old age or starting on fire after being struck by lightning. We are
+trying to get away from the top-down idea that the forest assigns a
+tree to grow one year older, or such.  Examples of the non-bottom-up
+code can be found in many places in Arborgames-2.2, but here's a most
+critical example. When a tree is told to "step," instead of writing
+code to manage the step inside the Tree class, the model was written
+so that the tree would ask the species and the forest to process it.
+Arborgames-2.2 had usages in Tree like
+
+- step
+{
+  totalHeat = 0;
+  [species step: self];
+  return self;
+}
+
+This has been revised so that the step method of the Tree class
+actually handles the process of figuring out if the tree should
+live or not, and it reports the result back to the forest.
+
+Here's another example from Tree.m:
+
+- burn
+{
+  [species fireAtX: x Y: y theTree: self];
+  return self;
+}
+
+The species class would then calculate how much heat the
+tree should give off, and then it would report that to the model,
+which would then tell the forest, and so forth.  The burning process
+in Arborgames-simplified is radically more direct. A tree is
+told by the forest that a fire exists nearby, the tree has enough
+information to decide if it too should burn, and then the tree
+signals to the forest that it too is on fire.  There are fewer 
+men in the middle this way.
+
+
+The Species class is a bit of a philosophical problem in and of
+itself.  The species object was a combination "data warehouse" holding
+the common attributes of the trees of a species and also it was a
+"manager class" that could take trees and age them or burn them. In
+the Species class, when the fate of the tree was being considered, the
+tree would be passed along to the Forest for processing, with a
+command like:
+
+  [youngForest graduateTree: aTree] ;
+
+Instead of having the tree decide if it should grow older and move
+into to the grid representing the mature forest, the forest itself was
+deciding for the tree.  I found it very difficult to justify the
+bottom-up agent-based modeling "theory" (story?)  when the code is
+written with very much top-down management. So I sought to relocate
+code from the Forests and the Species down into the Tree itself, so
+the model would be more truly bottom-up.
+
+The structure of the Classes in Arborgames-2.2 was also a little bit
+difficult to describe.  I never found a completely consistent solution
+for this problem. Arborgames was distributed with parameters for eight
+different species of tree. These were in separate text files,
+species0, species1,...species7. (These were using the old ObjectLoader
+class.  For the past several years, Swarm has had an Archiver and in
+Arborgames-2.2.1, I replaced the old tools with the new tool, and the
+speciesX files were replaced by a single file, species.scm).  In the
+object-oriented way of thinking, one would have a superclass "Tree"
+and subclasses like "Oak", "Maple", or "Species10". Tree objects would
+be instances of "Oak" or "Maple."  
+
+            Tree              Tree class
+
+           |     \
+	         
+          Oak    Maple        Species of tree
+
+         / | \    / | \
+       t1 t2 t3  t4 t5 t6     instances of particular trees
+
+Arborgames is not designed in that way.  Rather, Species and Tree are
+classes on the same leve.  First the Species objects are created.
+Then Tree objects are created.  Each tree given a Species object from
+which it can obtain parameter values.  But no methods can be inherited
+through this method.  And that design is what causes some of the
+non-bottom-up aspects of the model. Instead of being able to "do"
+things by inheriting methods from a species class, a tree had to pass
+itself over to the species object for processing.
+
+There was a good reason for taking this approach, although I have
+suspected that a really clever Objective-C programmer would have
+easily seen a solution.  The number of species is a runtime decision,
+so one cannot write all of the subclasses "Oak" "Maple" and so forth,
+ahead of time. The alternative approach, upon which I cannot improve,
+was used by the original Arborgames author.  One can create a "data
+warehouse" class Species, and create objects from it, and each object
+holds the data for a species.  Then when each object of type Tree is
+created, it is given an instance variable "species" and the value of
+the species object is set into the Tree. So when a tree needs to know
+how much heat it gives off when it burns, then the tree will ask the
+species object for the information. I still wish I had found a way to
+create true classes for trees like "oak" and such.  If I knew how to
+generate classes "on the fly", then I could have redesigned this in a
+way that is completely consistent with the textbook.
+
+Alas, life is not perfect.  But I have gotten much closer. The biggest
+change in Species is that I've cut out all of the elements that that
+appeared to be inconsistent with the bottom-up paradigm.  The Species
+class still holds the variables that govern a species. However, the
+methods that used to exist to process Trees and such are relocated
+into the Tree class itself.  As a result, the Species class is closer
+to serving the role of a C struct which holds a bunch of variables for
+a Tree.
+
+If you compare Arborgames-simplified against Arborgames-2.2, the
+most dramatic change might be the elimination of three classes: Spring,
+YoungForest, and MatureForest. The YoungForest and MatureForest
+classes were difficult to explain because students would get the idea
+that there were really two different geographical units. Instead, the
+idea is that there were several "overlaid grids" representing the
+generations.  One grid showed young grees that might eventually become
+mature. That grid was in YoungForest.  The other grid, the one with
+mature trees--these are the trees that are counted in population
+graphs--was in the class MatureForest.  The trees in the YoungForest
+would age, and then when they reached a certain level (specified by
+their Species), then they would either die (if there was no space for
+them in the mature tree grid) or they would be transferred from the
+YoungForest to the MatureForest. Openings would appear in the
+MatureForest because some trees would grow old and die and some would
+be burnt by fire.
+
+The Spring class only performed the simple role of scanning for open
+spots in the young forest and turning seeds into young trees in the
+grid. I relocated that method into the Forest.
+
+It turned out, at least in my eye, that all of these functions could 
+be designed into a single class called the Forest.  Inside the Forest,
+there are 2 Swarm grids, one for young trees and one for mature trees.
+The step method of the Forest class is now the pivotal method of the
+whole model.
+
+
+- step
+{
+   [self processSpeciesGermination]; // previously work of Spring class
+   [self processSpeciesSeeds];  // previously a method in ForestModelSwarm
+   [self processMatureTrees];   // adapted from MatureForest
+   [self processYoungTrees];    // adapted from YoungForest
+   [self updatePopulationRecords]; // was step method in ForestModel swarm
+  return self;
+}
+
+As I was banging away on this, trying with great frustration to make
+the design seem simpler and more intuitive, I kept running into the
+following problem.  The model was designed so that the trees had
+positions in a Swarm Grid, but each tree was also a member of a
+linked list.  So, when one inserted a tree into the YoungForest,
+one had to insert the tree into the Grid and then also add the tree
+to the list. And, when a tree died, one had to remove it from the
+Grid and then also find it in the list and remove it.
+
+The list was used for 2 things.
+
+1. At each timestep, each element in the list was told to take its
+"step" action (grow older, die, etc.) and
+
+2. The list was accessed by the ForestObserverSwarm's ZoomRaster
+objects.  A ZoomRaster will display the contents of a 2 dimensional
+grid.  However, there is an "accelerator" available for sparsely
+populated grids. One can tell the ZoomRaster to ignore the Grid, 
+and instead cycle through a collection and have the members draw
+themselves.
+
+It turns out that both of these functions can be completely eliminated
+without any loss of power in model calculations or presentation. I 
+only discovered that after a long battle with the Arborgames-2.2 strategy
+of removing dead trees from the forest.  There are several Swarm applications,
+such as sss (Swarm Sugar Scape) that use a "reaper queue" or "exit queue"
+to collect up agents that are scheduled for death.  Here's the reason
+why that is so important.  Suppose you are iterating over a list with
+a Swarm index:
+
+id <Index> index = [myList begin: self]; 
+for ( anObject= [index next]; [index getLoc]==Member; anObject=[index next])
+{
+   [anObject step];
+}
+
+Next suppose that anObject needs to die.  Suppose inside anObject it 
+drops itself, or that the for loop is altered like so:
+
+id <Index> index = [myList begin: self]; 
+for ( anObject= [index next]; [index getLoc]==Member; anObject=[index next])
+{
+   int returnVal = [anObject step];
+   if (returnVal == 1) 
+     {
+	[myList remove: anObject];
+	[anObject drop];
+      }
+}
+
+In theory, that looks nice. However, the Swarm index breaks when
+anObject is removed and dropped in this way. The index has no way of
+knowing a member was lost.  The iterative property of index--meaning
+we ask it for the next item over and over--is destroyed.  As I learned
+while I tried to streamline the model, this is a very serious problem
+that the original Swarm designers had encountered, and so they created
+the idea of setting objects aside into a queue, and then killing them
+later.  Suppose you first collect a list of objects that need to die
+(Step 1), and after than you kill them (Step 2):
+
+//Step 1
+id <Index> index = [myList begin: self]; 
+for ( anObject= [index next]; [index getLoc]==Member; anObject=[index next])
+{
+   int returnVal = [anObject step];
+   if (returnVal == 1) 
+     {
+	[exitQueue addLast: anObject];
+      }
+}
+[index drop];
+
+//Step 2
+id <Index> index = [exitQueue begin: self]; 
+for ( anObject= [index next]; [index getLoc]==Member; anObject=[index next])
+{
+    [myList remove: anObject];
+}
+[exitQueue dropAll];
+[index drop];
+
+That is safe, because objects are not removed from myList while the
+index is going through that same list.  However, this approach is used
+at a pretty high price.  You have to go twice go through lists. It is
+slow because finding particular items in collections is a pretty slow
+process. The Arborgames-2.2 used the collection trick
+setIndexFromMemberLoc:.  That's indended to speed up the search for
+particular items in a collection, however, it is a deprecated method
+and there's been talk for some time that it is unsafe and unstable and
+could be removed from Swarm in the future.  Note that the manual lists
+this method but does not describe it in any way for fear of enticing
+users with its mysterious and elusive powers.
+
+I considered using a faster, more efficient sort of collection. I have
+a Swarm class that uses the AVL binary search tree as its underlying
+architecture.  That's faster to remove individual items.  However, I
+elected not to do that because it would have defeated my simplifying
+purpose in revising this model
+
+A fast, and conceptually sound, way to deal with this problem (while
+still using lists) is to use the ability of the Swarm index to remove the
+item at the point it is being processed.  The manual says this should work.
+The message [index remove] should harmlessly remove the item at which the index
+currently points. For example,
+
+
+id <Index> index = [myList begin: self]; 
+for ( anObject= [index next]; [index getLoc]==Member; anObject=[index next])
+{
+   int returnVal = [anObject step];
+   if (returnVal == 1)   // object said it needs to die
+     {
+	[index remove]; // index cuts anObject out of myList 
+	[anObject drop]; // removes anObject from memory
+      }
+}
+
+[index drop];
+
+It should work, and when I redesigned Arborgames to use this approach, the
+model ran GREAT. Sometimes.  For reasons I could not discover even
+after hours of study, the index would sometimes become corrupted.  When
+the index would reach the End of the list, it would fail to stop. Instead,
+it would point at a "nil" item, and somehow that would cause the index
+to point back into the original collection and the list would end up being
+processed over and over (infinitely, or until the collection was empty).
+That was really frustrating.
+
+After fussing over that for a full weekend, I went to sleep angry and
+woke up on Monday with a beautiful idea.  IT IS POSSIBLE TO DISPENSE
+WITH THE USE OF LISTS ALTOGETHER.  I mentioned above that the lists
+served two purposes.  One was to iterate over the trees and step them
+through life, the other was to drive the ZoomRasters. The first could
+simply be replaced: instead of iterating over a list of trees, why not
+iterate over all of the cells in the grid?  At each cell, check to see
+if there is a tree in each one, and then tell that tree to step. One
+can easily, without any danger, kill trees and put empty cells onto
+the grid. There is no Swarm index to damage by doing so.  The latter
+was there only to try to speed up the graphing process, but it had
+absolutely no benefit.  These Grids are densely populated, and there's
+no benefit to telling the Raster to draw elements in a list when there
+are as many elements in the list as there are spaces in the 2
+dimensional grid.
+
+As a result, the Forest class now simply as 2 grids, the youngTreeGrid
+and the matureTreeGrid.  In case you are eager to use the lists, you
+can.  I left C compler flags that will allow it.  If you compile
+with this command
+
+#make EXTRACPPFLAGS=-DUSELISTS
+
+then the lists will  be used.  If you can't set the command line flag
+for some reason, you can insert the definition flag in the top of Forest.h, 
+Forest.m, and ForestObserverSwarm.m.
+
+Set the flag 
+
+#define USELISTS 1
+
+and the code that uses lists will be activated and my acceleration
+via the grid will not be used.  Since I never did solve the problem
+with the "remove" method that damaged indexes, I am using reaper
+queues to save up the dead agents and dispense with them.  There are
+3 of these queues, one for the mature trees that are dying (exitQ1),
+one for the young trees that are dying (exitQ0), and one for the
+young trees that grew up and joined the mature forest.
+
+In order to verify that the new implementation is valid, I have tested
+its output against Arborgames-2.2 and have confirmed that the population
+levels of each species is exactly the same. The ZoomRaster displays are
+exactly the same.  And the model runs about 1/3 faster than the original
+(because it is not fussing over inserting and removing trees from lists).
+
+As soon as I saw that finding, I decided to try to clean up the code
+and share it out to the students (and you).  I did almost all of the
+cleaning up that I thought was needed.  There are still some usages of
+-> to access instance variables and perhaps someday I'll find the
+stomach to dig through that again and get rid of them.
+
+Oh, one other thing. Note that the "theFireSpace" in ForestModelSwarm
+was really just a grid, so I renamed it "theFireGrid."  Now it is
+managed by the Fire class.  Previously the Fire class had the power to trigger
+fires at random, but the fire grid floated about in ForestModelSwarm. This
+new way is much cleaner. Please note that the ForestModelSwarm no longer
+has such a large amount of "operational" code.  The actual work is done by
+the forest, the trees, the species, and the fires.
+
+Well, so long and thanks for all the fish.
+
+Paul Johnson
+Professor
+Dept. of Political Science 2004-09-08
+
+
+-------------------------------------------------------------------------
+Arborgames-2.2.1
+Additional notes added by Paul Johnson <pauljohn@ku.edu> 2004-08-03
+
+The file species.scm has initialization parameters for 8 types of tree.
+That file is used by the Lisp Archiver object in ForestModelSwarm to
+start the simulation.  These files were deleted in this transition:
+species0 - species7.
+
+Because the Lisp Archiver now allows the use of arrays, there is no longer
+a need for the -packArrays method that was previously used, and the Species
+class no longer has these instance variables (which were used only to initialize
+the arrays):
+
+  ageLevel0, ageLevel1, ageLevel2, ageLevel3, ageLevel4
+  heat0, heat1, heat2
+  resistance0, resistance1, resistance2
+
+The Species instance method "getCount" was renamed "getTreeCount".
+
+-----------------------------------------------------------------------------
+
+Arborgames-2.0. Additional implementation notes added by:
+Alex Lancaster <alex@santafe.edu>
+
+You can write screenshots for certain rasters for each update to PNG
+files if you build like this:
+
+   make CPPFLAGS=-D<name-of-widget>_SCREENSHOT
+
+Where <name-of-widget> is one of:
+
+FIRE
+FOREST
+YOUNG_FOREST
+POPGRAPH
+SPECIESGRAPH
+ENTROPYGRAPH
+
+You can make screenshots for multiple rasters, by adding a new
+-D<name-of-widget>_SCREENSHOT to the  CPPFLAGS argument,
+i.e:
+
+  make CPPFLAGS='-DFIRE_SCREENSHOT -DFOREST_SCREENSHOT'
+
+Note the additional quotes.
+
+-----------------------------------------------------------------------------
+                                ARBORGAMES
+
+        Arborgames is a model of forest dynamics whose goal is to examine the
+role of fire on species diversity.  It is a member of a long lineage of
+individual-based, spatially explicit models of forests which assume discrete
+cells with one individual per cell.  The local interaction of trees in a
+neighborhood, however, allows Arborgames to generate landscape dynamics that
+respond to disturbance in a recursive way: the behavior of fire is governed by
+the contagion of local forest structure, which in turn is governed by the
+pattern of past fires.
+
+        Arborgames follows a minority of forest models in which species are
+based on idealized species traits.  As such, they are abstract species, but
+they mimic a rational gradient of life history traits from highly opportunistic
+to late successional forest tree species.  These life history traits are:  seed
+dispersal capability, seed longevity, fecundity of seeding, seed longevity,
+germination shade tolerance, tree longevity, length of life stages, age at
+reproductive maturity, flammability and heat output while burning.
+
+        The model has three landscape spaces, one for trees, one for seedlings
+and saplings, and one for seeds.  Each grid cell can be occupied both by a tree
+and a potential replacement baby.  In addition, there are spaces for seeds
+dispersed through time by reproducing trees, and visible in a separate window
+for each species.  The pattern in each space is a mosaic of continually
+changing patches, where seeds are cast into the landscape and seedlings
+germinate, grow, and die, either from old age or by burning.  Fires ignite from
+random lightning strikes and propagate only when trees burn hot enough to
+transfer fire to neighbors.  Tree mortality is thus not a fixed probability,
+but depends on susceptibility of the tree and the intensity of the disturbance,
+measured by the proportion and heat of burning neighbors.
+
+        There are several windows to track the shifting forest mosaic: 1. total
+populations numbers of trees by species, 2. landscape entropy, and 3.  number
+of species.  The system can be probed at any time to establish the species and
+age of an individual at any location.  The community dynamics of Arborgames
+depends on simple, local interactions based on species rules which produce
+complex patterns at larger scales.  We are currently analyzing patterns of
+species and landscape diversity produced by different intensities of
+disturbance.  Ecological theory suggests that intermediate levels of
+disturbance play a role in generating and maintaining higher levels of
+diversity.  The model reflects this hypothesis and there are suggestions that
+landscape trajectory is dependent on interactions that happen early in the
+game.
+
+-- 
+Melissa Savage
+Department of Geography
+UCLA
+Los Angeles, CA 90095-1524
+(310) 825-1912
+savage@margay.sscnet.ucla.edu

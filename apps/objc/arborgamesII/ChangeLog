@@ -1,0 +1,297 @@
+2004-09-24  Paul Johnson  <pauljohn@localhost.localdomain>
+
+	* ForestBatchSwarm.m ([ForestBatchSwarm -buildObjects]): Switch
+	from ObjectLoader to lispAppArchiver, using parameters in file
+	arborgames.scm.  Replaces files 'batch.setup' and 'experiment.setup'.
+
+	* Forest.m ([Forest -addTree:Type:atX:Y:]): call the
+	initializeReproductionIvars method for each tree that gets
+	added. This causes tree to calculate edges of its reproductive
+	radius as well as obtain values of IVAR for seedPeriodicity.
+	This is all done to replace the repeated use of -> to get values
+	from Species. We don't want to have a million uses of [species
+	getSeedRadius] in each step, so we just set the IVAR once.
+	([Forest -addTree:Type:atX:Y:]): 
+
+	* Tree.h (SwarmObject): 4 new IVARS for holding outer edges of
+	this particular tree's seeding radius.  
+	* Species.m ([Species -getSeedingRadius]): new accessor method,
+	getting rid of -> for public IVARS
+	([Species -getWorldSize]): new accessor method, getting rid of ->
+	for public IVARS
+	([Species -getWorldSize]): new accessor method, getting rid of ->
+	for public IVARS
+	([Species -getSeedPeriodicity]): new accessor method, getting rid of ->
+	for public IVARS
+
+2004-09-23  Paul Johnson  <pauljohn@localhost.localdomain>
+
+	* Tree.m ([Tree -drawSelfOn:]): Getting rid of usages of ->,
+	replacing with accessor methods
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm -buildObjects]):
+	making colors in EZgraphs line us with colors in rasters.
+
+2004-09-09  Paul Johnson  <pauljohn@localhost.localdomain>
+
+	* Massive changes leading to Arborgames-Simplified
+	* Forest.m : massively re-organized
+	* YoungForest.m: class eliminated
+	* MatureForest.m: class eliminated
+	* Fire.m: fireGrid now included as instance variable, all
+	fire-related activity centralized here.
+	* Tree.m: step and burn methods written in bottom-up style.
+	* ForestModelSwarm.m: step method and other activities dealing
+	with day-to-day events in the model were eliminated. Functions
+	transferred to substantive classes Forest, Fire, and Tree.
+
+2004-08-13  Paul Johnson  <pauljohn@localhost.localdomain>
+
+	* MatureForest.h ([-fireAtX:Y:Heat:]): method declarations had
+	been mistakenly omitted.
+
+2004-08-03  Paul Johnson  <pauljohn@localhost.localdomain>
+
+	* Forest.m ([Forest -fireAtX:Y:]): renamed method
+	destroyTreesAtX:Y: because same named method existed in other
+	classes with significantly different meaning.
+
+	* MatureForest.m: reformat parentheses
+	([MatureForest -addTree:atX:Y:]): replaced pointer and -> with
+	[tree getSpecies];
+
+	* Species.m ([Species -igniteWithHeat:AtAge:]): got rid of species
+	method, translated down to tree level.  It's in "fireWithHeat:
+	now".
+	([Species +createBegin:]): cut this method. Not needed with .scm input
+
+	* Species.m: What the heck is this header for??
+	#define __USE_FIXED_PROTOTYPES__  // for gcc headers
+
+
+2004-08-02  Paul Johnson  <pauljohn@localhost.localdomain>
+
+	* Tree.m ([Tree -spreadSeeds]): New method. Now, the tree spreads
+	its own seeds. It no longer asks the species object to do its
+	seeds for it.  Its more object-oriented this way.
+
+	* Species.m ([Species -fireAtX:theX:theY:]): renamed "forest" as
+	"theForest" and "youngForest" as "theYoungForest" in order to be
+	same as other files (readability enhancement).
+	([Species -createTree:]): New method will create a tree. This
+	avoids tree duplication code that used to be in both Spring and
+	ForestModelSwarm.
+
+	* Spring.m: eliminated this class altogether.
+
+	* Tree.m ([Tree -step]): Trying to make this work in a more bottom-up way. 
+	Tree's step method now does its own
+	work--it does not (any longer) say [species step: self];
+
+	* Species.m ([Species -destroySeedsAtX:Y:]): reformatting
+
+	* YoungForest.h ([-graduateTree:]): declare setForest as (void) return.
+
+	* ForestModelSwarm.m: ForestModelSwarm's new method
+	"processSpeciesSeeds" does all that work formerly done by the
+	class Spring. Concert speciesList to Swarm Array for speed of
+	processing.
+
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Makefile (SWARMHOME, APPVERSION): Update to 2.1.
+	(BUGADDRESS): Update to SDG.
+
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile (APPVERSION, BUGADDRESS): Add.
+
+	* main.m: Include simtools.h.
+
+1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Species.[hm] ([Species -getCount]): Return unsigned.
+
+1998-11-26  Alex Lancaster  <alex@santafe.edu>
+
+	* ForestObserverSwarm.h (MAKE_RASTER_SCREENSHOT): New macro to
+	create PNG files for Rasters, uses the appName from default
+	Arguments class and the widget name to create unique Raster PNG
+	file.
+	(MAKE_EZGRAPH_SCREENSHOT): Likewise for EZGraphs.
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm -buildActions]):
+	Moved all graph update messages to new [self -_drawGraphs_]
+	method.
+	([ForestObserverSwarm -_drawGraphs_]): New method, makes all
+	update calls and creates screenshots if defined at compile-time:
+	{POPGRAPH,SPECIESGRAPH,ENTROPYGRAPH}_SCREENSHOT.
+	([ForestObserverSwarm -_drawRasters_]): Added compile-time #ifdefs
+	for screenshots for each raster: {FOREST, FIRE,
+	YOUNG_FOREST}_SCREENSHOT.
+
+	* README: Added notes on making screenshots.  Fixed some other
+	typos in main section.
+
+1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ForestBatchSwarm.m ([ForestBatchSwarm -buildObjects]): 
+	Use fromAppDataFileNamed: instead of fromFileNamed:.
+
+	* ForestModelSwarm.m ([ForestModelSwarm -buildObjects]): Likewise.
+
+	* Makefile (EXTRALDFLAGS, APPLIBS): Remove.
+	(DATAFILES): Note species files.
+	(SWARMHOME): Default to 1998-08-20.
+
+1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile: Include Makefile.appl from $(SWARMHOME)/etc/swarm.
+
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m: Include simtoolsgui.h.  Use exit instead of return
+	to exit.
+
+	* SeedSpace.h: Include space/Discrete2d.h instead of space.h.
+	Reformatting throughout.
+
+	* ForestObserverSwarm.h: Don't include simtoolsgui.h.
+	(ForestObserverSwarm): Instead of being statically typed, make
+	treeDisplay and youngForestDisplay conform to the Object2dDisplay
+	protocol, and fireDisplay conform to the Value2dDisplay protocol.
+
+	* Fire.h, Forest.h, Spring.h, Tree.h: Include
+	objectbase/SwarmObject.h instead of objectbase.h.  Reformatting
+	throughout.
+
+1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Spring.m: Don't include collections.h or simtools.h.
+	Include random.h and misc.h.  Reformatting throughout.
+
+	* ForestObserverSwarm.h: Don't include objectbase.h, space.h,
+	activity.h, collections.h, or simtools.h.  Include
+	simtoolsgui/GUISwarm.h and simtoolsgui.h.
+
+	* ForestModelSwarm.m: Include random.h.
+
+	* Forest.m: Don't include simtools.h or collections.h.
+	Include random.h.  Reformatting throughout.
+
+	* Fire.m: Don't include collections.h or simtools.h.  Include
+	random.h.  Reformatting throughout.
+
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Constify argv.
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm -buildObjects]): Use
+	Colormap instead of XColormap. 
+	([ForestObserverSwarm -buildObjects]): Change usages of
+	of setDisplayWidget:Colormap: to setDisplayWidget:colormap:.
+
+	* Species.h (Species):  Revert GUI_Color back to Color.
+
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Tree.m: Include gui.h.
+	([Tree -drawSelfOn:]): Change drawSelfOn: argument from
+	Raster* to id <Raster>.
+	Reformatting throughout.
+
+	* Tree.h: Include gui.h instead of tkobjc/Raster.h.  Change
+	drawSelfOn: argument from Raster* to id <Raster>.
+	Reformatting throughout.
+
+	* Species.h (Species): Include gui.h. Use GUI_Color instead of
+	Color.  Reformatting throughout.
+
+	* ForestObserverSwarm.m: Include gui.h.
+	([ForestObserverSwarm -buildObjects]): 
+	Send waitForControlEvent to actionCache instead of controlPanel.
+	([ForestObserverSwarm -buildObjects]): Use GUI_ButtonRight instead
+	of ButtonRight.
+
+	* ForestObserverSwarm.h: Include gui.h instead of tkobjc.h.
+	(ForestObserverSwarm): Make colormap conform to the Colormap
+	protocol instead of being statically typed to XColormap.
+	Make forestRater, youngForestRaster, and fireRaster conform
+	to the ZoomRaster protocol instead of being statically typed
+	to ZoomRaster.
+	Reformatting throughout.
+
+1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm -buildObjects]): Use
+	SET_WINDOW_GEOMETRY_RECORD_NAME For forestRaster, youngForestRaster,
+	fireRaster, speciesGraph, entropyGraph, and popGraph.
+
+	* main.m (main): Likewise for observerSwarm.
+
+1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm
+	-_fireRasterDeath_:]): New internal window-destruction handler
+	methods _fireRasterDeath_:, _forestRasterDeath_:, and
+	_youngForestRasterDeath_:.
+	([ForestObserverSwarm -buildObjects]): Add calls to
+	enableDestroyNotificaiton for forestRaster, youngForestRaster, and
+	fireRaster.
+	([ForestObserverSwarm -_eraseRasters_]): New methods
+	_eraseRasters_, _display_, and _drawRasters_ that check to see if
+	raster is gone before acting.
+	([ForestObserverSwarm -buildActions]): Replace sequential
+	createActionTos to the different raster with single call to self
+	to _eraseRasters_.
+	([ForestObserverSwarm -buildActions]): Likewise, but for _display_.
+	([ForestObserverSwarm -buildActions]): Likewise, but for _drawRasters_.
+
+1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm -buildObjects]): Use
+	CREATE_ARCHIVED_PROBE_DISPLAY for forestModelSwarm and
+	ForestObserverSwarm.
+
+	* main.m (main): Call setWindowGeometryRecordName for observerSwarm.
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm -buildObjects]): 
+	Use setWindowGeometryRecordName version of createProbeDisplayFor
+	for forestModelSwarm and observerSwarm.  Prefix archiving 
+	keys with probeDisplay.
+	([ForestObserverSwarm -buildObjects]): Call setWindowGeometryRecordName
+	for forestRaster.
+	([ForestObserverSwarm -buildObjects]): Likewise for youngForestRaster,
+	fireRaster, speciesGraph, entropyGraph, and populationGraph.
+	Reformatting throughout.
+
+	* Makefile (SWARMHOME): Bump version to 1.0.5.
+
+1997-12-12  glen e. p. ropella  <gepr@swarm.com>
+
+	* MatureForest.h: changed swarmobject to objectbase
+	* Fire.h: changed swarmobject to objectbase
+	* Forest.h: changed swarmobject to objectbase
+	* ForestModelSwarm.h: changed swarmobject to objectbase
+	* ForestObserverSwarm.h: changed swarmobject to objectbase
+	* ForestBatchSwarm.h: changed swarmobject to objectbase
+	* Spring.h: changed swarmobject to objectbase
+	* Tree.h: changed swarmobject to objectbase
+	* YoungForest.h: changed swarmobject to objectbase
+	* Species.h: changed swarmobject to objectbase
+
+1997-12-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ForestObserverSwarm.m: ([ForestObserverSwarm -buildActions]): 
+	send doTkEvents to actionCache, not controlPanel.
+
+	* Spring.m: Include <stdlib.h> for malloc.
+
+	* Makefile (SWARMHOME): Don't define if already defined.
+
+	* ForestModelSwarm.m ([ForestModelSwarm +createBegin:aZone]): 
+	Use id <ProbeMap> instead of ProbeMap *.
+
+	* ForestObserverSwarm.m ([ForestObserverSwarm +createBegin:aZone]): 
+	Likewise.
+
