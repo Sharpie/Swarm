@@ -1678,8 +1678,8 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 #endif
     unsigned ci;
     // row_pointers will point to these
-    png_byte rgbbuf[height][width][3];
-    png_byte palbuf[height][width]; 
+    png_byte *rgbbuf = xmalloc (sizeof (png_byte) * height * width * 3);;
+    png_byte *palbuf = xmalloc (sizeof (png_byte) * height * width);
 
     png_bytep row_pointers[height];
 #ifndef _WIN32
@@ -1720,11 +1720,17 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 	    LPBYTE data = dib->bits;
 #endif	    
 	    for (yi = 0; yi < height; yi++)
-	      for (xi = 0; xi < width; xi++)
-		palbuf[yi][xi] = (png_byte)*data++;
-	    
-	    for (yi = 0; yi < height; yi++)
-	      row_pointers[yi] = &palbuf[yi][0];
+	      {
+		png_byte *row = palbuf + yi * width;
+
+		for (xi = 0; xi < width; xi++)
+		  {
+		    png_byte *col = row + xi;
+		    
+		    *col = (png_byte)*data++;
+		  }
+		row_pointers[yi] = row;
+	      }
 
 	    png_set_IHDR (png_ptr, info_ptr,
 			  width, height,
@@ -1740,15 +1746,20 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 	    unsigned yi, xi;
 	    
 	    for (yi = 0; yi < height; yi++)
-	      for (xi = 0; xi < width; xi++)
-		{
-		  png_color color = palette[*data++];
-		  rgbbuf[yi][xi][0] = color.red;
-		  rgbbuf[yi][xi][1] = color.green;
-		  rgbbuf[yi][xi][2] = color.blue;
-		}
-	    for (yi = 0; yi < height; yi++)
-	      row_pointers[yi] = &rgbbuf[yi][0][0];
+	      {
+		png_byte *row = rgbbuf + yi * width * 3;
+
+		for (xi = 0; xi < width; xi++)
+		  {
+		    png_byte *col = row + xi * 3;
+		    png_color color = palette[*data++];
+
+		    col[0] = color.red;
+		    col[1] = color.green;
+		    col[2] = color.blue;
+		  }
+		row_pointers[yi] = row;
+	      }
 	  }
       }
     else
@@ -1761,7 +1772,7 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 	for (yi = 0; yi < height; yi++)
 	  {
 	    BYTE (*ybasesource)[1][3] = (void *) &data[width * yi * 3];
-	    png_byte (*ybasedest)[1][3] = &rgbbuf[yi];
+	    png_byte (*ybasedest)[1][3] = (void *) rgbbuf + yi * width * 3;
 	    unsigned xi;
 
 	    for (xi = 0; xi < width; xi++)
@@ -1792,9 +1803,12 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
       }
     
     png_write_image (png_ptr, row_pointers);
+    xfree (palbuf);
+    xfree (rgbbuf);
   }
   png_write_end (png_ptr, info_ptr);
   png_destroy_write_struct (&png_ptr, &info_ptr);
+
   fclose (fp);
 #else
   raiseEvent (NotImplemented,
