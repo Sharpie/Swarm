@@ -1,5 +1,10 @@
 2001-10-24  Marcus G. Daniels  <mgd@condor>
 
+	* DefObject.m ([-hdf5OutShallow:]): Use getHDF5Name instead of
+	getName.
+
+	* defobj.m (hdf5In): Likewise.
+
 	* HDF5Object.m ([HDF5_c -createEnd]): Use RDONLY for non-writing
 	open.  See 2001-03-26 if this causes problems.
 

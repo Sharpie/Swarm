@@ -1109,7 +1109,7 @@ initDescribeStream (void)
       id cType = [[[HDF5CompoundType createBegin: getZone (self)]
                     setPrototype: self]
                    createEnd];
-      const char *objName = [hdf5Obj getName];
+      const char *objName = [hdf5Obj getHDF5Name];
 
       id cDataset = [[[[[[HDF5 createBegin: getZone (self)]
                           setName: objName]

@@ -366,7 +366,7 @@ hdf5In (id aZone, id hdf5Obj)
   if (typeObject == nil)
     raiseEvent (LoadError,
                 "Failed to find or create class for HDF5 object `%s'",
-                [hdf5Obj getName]);
+                [hdf5Obj getHDF5Name]);
   
 #ifdef HAVE_JDK
   if (object_is_instance (typeObject)
