@@ -9,7 +9,7 @@ noinst_DATA = versions.ent
 
 alldist: htmldist dvidist rtfdist psdist
 
-html dvi rtf fot ps htmldist dvidist rtfdist psdist:
+html dvi rtf fot ps htmldist dvidist rtfdist psdist: versions.ent
 	- $(MAKE) -C installbook $@
 	- $(MAKE) -C overbook $@
 	- $(MAKE) -C refbook $@

@@ -1,3 +1,8 @@
+1998-10-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (html dvi rtf fot ps htmldist dvidist rtfdist psdist): 
+	Depend on versions.ent.
+
 1998-10-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (versions.ent): Check to see if it's actually
