@@ -1,5 +1,7 @@
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.rules.in (JAVALIBS): Substitute.
+
 	* Makefile.in (JAVAC): Use substitution.
 	(jar): Remove set of JAVA_HOME (included in JAR).
 	(%.class): Likewise.
