@@ -1,4 +1,4 @@
-package agent2d;
+package SDG.agent2d;
 
 import swarm.objectbase.SwarmImpl;
 import swarm.objectbase.Swarm;
@@ -17,8 +17,8 @@ import swarm.defobj.FCallImpl;
 
 import swarm.Globals;
 
-import ObserverSwarm;
-import Organization;
+import SDG.ObserverSwarm;
+import SDG.Organization;
 
 public class Marcus2d extends DirectedAgent2d {
   private final static int incubationTime = 50;

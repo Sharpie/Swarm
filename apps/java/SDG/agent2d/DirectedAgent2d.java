@@ -1,4 +1,4 @@
-package agent2d;
+package SDG.agent2d;
 import swarm.defobj.Zone;
 import swarm.gui.Raster;
 
@@ -9,7 +9,7 @@ import swarm.random.BernoulliDistImpl;
 
 import swarm.Globals;
 
-import Organization;
+import SDG.Organization;
 
 abstract class DirectedAgent2d extends Agent2d {
     int xoffset, yoffset;

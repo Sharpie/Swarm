@@ -1,4 +1,4 @@
-package agent2d;
+package SDG.agent2d;
 
 import swarm.objectbase.SwarmImpl;
 import swarm.objectbase.Swarm;
@@ -10,7 +10,7 @@ import swarm.gui.Raster;
 
 import swarm.Selector;
 
-import Organization;
+import SDG.Organization;
 
 public abstract class SocialAgent2d extends Agent2d {
   Schedule schedule;

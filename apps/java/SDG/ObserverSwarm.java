@@ -1,3 +1,5 @@
+package SDG;
+
 import swarm.Globals;
 import swarm.objectbase.Swarm;
 import swarm.activity.Activity;
@@ -41,7 +43,7 @@ public class ObserverSwarm extends GUISwarmImpl {
   public final static byte AlexTargetColor = 11;
   Object2dDisplay display;
   ZoomRaster raster;
-  SDG model;
+  SDGOrganization model;
   Colormap colormap;
   Schedule displaySchedule;
 
@@ -84,7 +86,7 @@ public class ObserverSwarm extends GUISwarmImpl {
     nameTable = createNameTable();
 
     getControlPanel().setStateStopped();
-    model = new SDG (getZone(), xsize, ysize, numUsers);
+    model = new SDGOrganization (getZone(), xsize, ysize, numUsers);
     model.buildObjects ();
     
     colormap = new ColormapImpl (getZone ());
@@ -118,7 +120,7 @@ public class ObserverSwarm extends GUISwarmImpl {
         (getZone (),
          raster,
          model.getWorld (),
-         new Selector (Class.forName ("agent2d.Agent2d"), "drawSelfOn", false));
+         new Selector (Class.forName ("SDG.agent2d.Agent2d"), "drawSelfOn", false));
       raster.setButton$Client$Message (3, display,
                                        new Selector (display.getClass (),
                                                      "makeProbeAtX$Y", true));

@@ -1,4 +1,4 @@
-package agent2d;
+package SDG.agent2d;
 
 import swarm.objectbase.SwarmImpl;
 import swarm.objectbase.Swarm;
@@ -8,8 +8,8 @@ import swarm.activity.ScheduleImpl;
 import swarm.defobj.Zone;
 import swarm.gui.Raster;
 
-import ObserverSwarm;
-import Organization;
+import SDG.ObserverSwarm;
+import SDG.Organization;
 
 import swarm.Selector;
 import swarm.Globals;

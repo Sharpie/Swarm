@@ -1,3 +1,5 @@
+package SDG;
+
 import swarm.objectbase.SwarmImpl;
 import swarm.defobj.Zone;
 import swarm.space.Grid2d;

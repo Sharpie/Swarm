@@ -1,4 +1,4 @@
-package agent2d;
+package SDG.agent2d;
 
 import swarm.objectbase.SwarmImpl;
 import swarm.objectbase.Swarm;
@@ -10,9 +10,9 @@ import swarm.Selector;
 import swarm.random.NormalDist;
 import swarm.random.NormalDistImpl;
 
-import Organization;
-
 import swarm.Globals;
+
+import SDG.Organization;
 
 public class Agent2d extends SwarmImpl {
   String name = "unknown user";

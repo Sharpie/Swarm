@@ -1,4 +1,4 @@
-package agent2d;
+package SDG.agent2d;
 
 import swarm.objectbase.SwarmImpl;
 import swarm.objectbase.Swarm;
@@ -11,8 +11,8 @@ import swarm.gui.Raster;
 import swarm.Selector;
 import swarm.Globals;
 
-import ObserverSwarm;
-import Organization;
+import SDG.ObserverSwarm;
+import SDG.Organization;
 
 public class User2d extends DirectedAgent2d {
   Schedule schedule;

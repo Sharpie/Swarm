@@ -1,27 +1,27 @@
+package SDG;
+
 import swarm.activity.Activity;
 import swarm.objectbase.Swarm;
 import swarm.Globals;
 import swarm.defobj.Zone;
 
-import agent2d.Agent2d;
-import agent2d.Marcus2d;
-import agent2d.Glen2d;
-import agent2d.Alex2d;
-import agent2d.User2d;
-
-import Organization;
+import SDG.agent2d.Agent2d;
+import SDG.agent2d.Marcus2d;
+import SDG.agent2d.Glen2d;
+import SDG.agent2d.Alex2d;
+import SDG.agent2d.User2d;
 
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
 
-public class SDG extends Organization {
+public class SDGOrganization extends Organization {
   public int userCount = 10;
   Agent2d mgd, gepr, alex;
   Agent2d user1, user2, user3;
   List userList;
 
-  public SDG (Zone aZone, int xsize, int ysize, int users) {
+  public SDGOrganization (Zone aZone, int xsize, int ysize, int users) {
     super (aZone, xsize, ysize);
     userCount = users;
   }

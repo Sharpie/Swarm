@@ -1,4 +1,4 @@
-package agent2d;
+package SDG.agent2d;
 
 import swarm.objectbase.SwarmImpl;
 import swarm.objectbase.Swarm;
@@ -14,8 +14,8 @@ import java.util.Iterator;
 import swarm.Selector;
 import swarm.Globals;
 
-import Organization;
-import ObserverSwarm;
+import SDG.Organization;
+import SDG.ObserverSwarm;
 
 public class Alex2d extends SocialAgent2d {
   Hashtable people;
