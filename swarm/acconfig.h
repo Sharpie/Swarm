@@ -18,3 +18,5 @@
 #undef PTRINTFMT
 #undef PTRUINT
 #undef PTRUINTFMT
+#undef INT64
+#undef JNI_H_NEEDS_INT64

@@ -250,6 +250,7 @@ AC_DEFINE_UNQUOTED(INCLUDESUBDIR,"$includesubdir")
 fi
 
 vj_FIND_JDK
+md_CHECK_JNI_H
 
 AC_PATH_PROG(EMACS, emacs, missing)
 
