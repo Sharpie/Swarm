@@ -1,5 +1,25 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* control.[hm] (tkobjc_gimme_drag_and_drop_object): Renamed from
+	tkobjc_gimme_ddobj.
+
+	* DragDrop.m (new_BLT_p): New function.
+	(oldSetupDragAndDrop): New function.
+	(newSetupDragAndDrop): New function.
+	(setupDragAndDrop): New function.
+	(oldSetupDragAndDropArg): New function.
+	(newSetupDragAndDropArg): New function.
+	(setupDragAndDropArg): New function.
+	(oldSetupHandler): New function.
+	(newSetupHandler): New function.
+	(setupHandler): New function.
+	(setupDragAndDrop): Use new functions newSetupDragAndDrop and
+	oldSetupDragAndDrop.
+	(setupDragAndDropArg): New function.
+	(dragAndDrop): Use new function setupHandler.
+	(dragAndDropArg): Use new functions setupDragAndDropArg and
+	setupHandler.
+
 	* WindowGeometryRecord.m: Include collections/predicates.h.
 
 	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): Constify return

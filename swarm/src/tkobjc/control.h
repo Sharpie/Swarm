@@ -65,7 +65,7 @@ void tkobjc_disabledState (id widget);
 void tkobjc_update (void);
 void tkobjc_focus (id widget);
 const char *tkobjc_dynamicEval (const char *cmd);
-id tkobjc_gimme_ddobj (void);
+id tkobjc_gimme_drag_and_drop_object (void);
 
 const char *tkobjc_packageName (id probedObject);
 const char *tkobjc_getId (id probedObject);

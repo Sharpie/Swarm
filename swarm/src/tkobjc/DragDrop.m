@@ -6,14 +6,14 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 
-static const char *
-BltDragAndDropConfigTag (void)
+static BOOL
+new_BLT_p (void)
 {
   const char *version_string = [globalTkInterp getBltVersion];
   int major, minor;
   
   sscanf (version_string, "%d.%d", &major, &minor);
-  return (major >= 2 && minor >= 3) ? "" : "config";
+  return (major >= 2 && minor >= 3);
 }
 
 void
@@ -26,44 +26,122 @@ dragAndDropTarget (id target, id object)
     tclObjc_objectToName (object)];
 }
 
+static void
+dragAndDropTargetArg (id target, id object, int arg)
+{
+  [globalTkInterp
+    eval: "drag&drop target %s handler id {%s idReceive: %d}", 
+    [target getWidgetName],
+    tclObjc_objectToName (object),
+    arg];
+}
+
+static void
+oldSetupDragAndDrop (id source, id object)
+{
+  const char *objectName = tclObjc_objectToName (object);
+  const char *sourceWidgetName = [source getWidgetName];
+  
+  [globalTkInterp
+    eval: "drag&drop source %s config -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
+    sourceWidgetName,
+    objectName];
+}
+
+static void
+newSetupDragAndDrop (id source, id object)
+{
+  const char *sourceWidgetName = [source getWidgetName];
+  const char *objectName = tclObjc_objectToName (object);
+
+  [globalTkInterp
+    eval: "drag&drop source %s -packagecmd {do_package %s %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
+    sourceWidgetName,
+    objectName];
+}
+
+static void
+setupDragAndDrop (id source, id object)
+{
+  if (new_BLT_p ())
+    newSetupDragAndDrop (source, object);
+  else
+    oldSetupDragAndDrop (source, object);
+}
+
+static void
+oldSetupDragAndDropArg (id source, id object, int arg)
+{
+  const char *sourceWidgetName = [source getWidgetName];
+  const char *objectName = tclObjc_objectToName (object);
+
+  [globalTkInterp
+    eval: "drag&drop source %s config -packagecmd {do_package_arg %s %d} -sitecmd sitecmd -button 1",
+    sourceWidgetName,
+    objectName,
+    arg];
+}
+
+static void
+newSetupDragAndDropArg (id source, id object, int arg)
+{
+  const char *sourceWidgetName = [source getWidgetName];
+  const char *objectName = tclObjc_objectToName (object);
+
+  [globalTkInterp
+    eval: "drag&drop source %s -packagecmd {do_package_arg %s %d %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
+    sourceWidgetName,
+    objectName,
+    arg];
+}
+
+void
+setupDragAndDropArg (id source, id object, int arg)
+{
+  if (new_BLT_p ())
+    newSetupDragAndDropArg (source, object, arg);
+  else
+    oldSetupDragAndDropArg (source, object, arg);
+}
+
+static void
+oldSetupHandler (id source)
+{
+  [globalTkInterp
+    eval: "drag&drop source %s handler id send_id", 
+    [source getWidgetName]];
+}
+
+static void
+newSetupHandler (id source)
+{
+  [globalTkInterp
+    eval: "drag&drop source %s handler id {send_id %%i %%w %%v}", 
+    [source getWidgetName]];
+}
+
+void
+setupHandler (id source)
+{
+  if (new_BLT_p ())
+    newSetupHandler (source);
+  else
+    oldSetupHandler (source);
+}
+
 void
 dragAndDrop (id source, id object)
 {
-  const char *sourceWidgetName = [source getWidgetName],
-    *objectName = tclObjc_objectToName (object);
-
-  [globalTkInterp
-    eval: "drag&drop source %s %s -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
-    sourceWidgetName,
-    BltDragAndDropConfigTag (),
-    objectName];
-
-  [globalTkInterp
-    eval: "drag&drop source %s handler id send_id", 
-    sourceWidgetName,
-    objectName];
+  setupDragAndDrop (source, object);
+  setupHandler (source);
 }
 
 void
 dragAndDropArg (id source, id object, int arg)
 {
-  const char *sourceWidgetName = [source getWidgetName],
-    *objectName = tclObjc_objectToName (object);
-  
-  [globalTkInterp
-    eval: "drag&drop target %s handler id {%s idReceive: %d}", 
-    sourceWidgetName,
-    objectName,
-    arg];
-
-  [globalTkInterp
-    eval: "drag&drop source %s %s -packagecmd {do_package_arg %s %d} -sitecmd sitecmd -button 1",
-    sourceWidgetName,
-    BltDragAndDropConfigTag (),
-    objectName,
-    arg];
-  
-  [globalTkInterp
-    eval: "drag&drop source %s handler id send_id", 
-    sourceWidgetName];
+  dragAndDropTargetArg (source, object, arg);
+  setupDragAndDropArg (source, object, arg);
+  setupHandler (source);
 }
+
+

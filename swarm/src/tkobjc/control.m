@@ -495,7 +495,7 @@ tkobjc_dynamicEval (const char *cmd)
 }
 
 id
-tkobjc_gimme_ddobj (void)
+tkobjc_gimme_drag_and_drop_object (void)
 {
   return tclObjc_nameToObject ([[globalTkInterp eval: "gimme $DDOBJ"] result]);
 }
