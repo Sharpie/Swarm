@@ -6,7 +6,7 @@
 #import <tkobjc/CompositeItem.h>
 #import <gui.h>
 
-@interface LinkItem: CompositeItem <_LinkItem>
+@interface LinkItem: CompositeItem <LinkItem>
 {
   id from, to;
   const char *line1, *line2;

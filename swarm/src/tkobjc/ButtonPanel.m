@@ -9,6 +9,7 @@
 #include <misc.h> // strdup
 
 @implementation ButtonPanel
+PHASE(Creating)
 
 PHASE(Using)
 

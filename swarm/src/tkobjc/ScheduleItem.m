@@ -6,6 +6,7 @@
 #import <tkobjc/ScheduleItem.h>
 #include <tkobjc/global.h>
 
+#import <defobj/Create.h>
 #import <activity/Schedule.h>
 #import "internal.h"
 
@@ -32,7 +33,7 @@ canvasItemDestroyNotify (id obj, id reallocAddress, void *canvas)
   [obj drop];
 }
 
-@interface PendingEvent: SwarmObject
+@interface PendingEvent: CreateDrop
 {
   id scheduleItem;
   timeval_t t;

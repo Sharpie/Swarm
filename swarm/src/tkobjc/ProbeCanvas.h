@@ -6,7 +6,7 @@
 #import <tkobjc/Canvas.h>
 #import <gui.h>
 
-@interface ProbeCanvas: Canvas <_ProbeCanvas>
+@interface ProbeCanvas: Canvas <ProbeCanvas>
 {
   BOOL horizontalScrollbarFlag;
 }

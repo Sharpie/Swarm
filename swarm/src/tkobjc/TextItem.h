@@ -6,7 +6,7 @@
 #import <tkobjc/CanvasItem.h>
 #import <gui.h>
 
-@interface TextItem: CanvasItem <_TextItem>
+@interface TextItem: CanvasItem <TextItem>
 {
   const char *text;
   const char *font;

@@ -6,7 +6,7 @@
 #import <tkobjc/Label.h>
 #import <gui.h>
 
-@interface VarProbeLabel: Label <_VarProbeLabel>
+@interface VarProbeLabel: Label <VarProbeLabel>
 {
 }
 

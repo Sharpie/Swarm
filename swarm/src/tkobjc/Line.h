@@ -6,7 +6,7 @@
 #import <tkobjc/CanvasItem.h>
 #import <gui.h>
 
-@interface Line: CanvasItem <_Line>
+@interface Line: CanvasItem <Line>
 {
   int tx, ty, lx, ly;
 }

@@ -8,7 +8,7 @@
 #import <tkobjc/Widget.h>
 #import <gui.h>
 
-@interface Form: Widget <_Form>
+@interface Form: Widget <Form>
 {
   int numEntries;
   int entryWidth;

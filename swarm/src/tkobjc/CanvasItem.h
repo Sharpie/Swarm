@@ -6,7 +6,7 @@
 #import <tkobjc/CanvasAbstractItem.h>
 #import <gui.h>
 
-@interface CanvasItem: CanvasAbstractItem <_CanvasItem>
+@interface CanvasItem: CanvasAbstractItem <CanvasItem>
 {
   const char *item;
 }

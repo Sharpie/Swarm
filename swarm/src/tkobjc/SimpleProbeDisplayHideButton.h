@@ -6,7 +6,7 @@
 #import <tkobjc/Button.h>
 #import <gui.h>
 
-@interface SimpleProbeDisplayHideButton: Button <_SimpleProbeDisplayHideButton>
+@interface SimpleProbeDisplayHideButton: Button <SimpleProbeDisplayHideButton>
 {
   id probeDisplay;
 }

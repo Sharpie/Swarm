@@ -6,7 +6,7 @@
 #import <tkobjc/NodeItem.h>
 #import <gui.h>
 
-@interface OvalNodeItem: NodeItem <_OvalNodeItem>
+@interface OvalNodeItem: NodeItem <OvalNodeItem>
 {
 }
 - createItem;

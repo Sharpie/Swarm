@@ -6,7 +6,7 @@
 #import <tkobjc/Entry.h>
 #import <gui.h>
 
-@interface VarProbeEntry: Entry <_VarProbeEntry>
+@interface VarProbeEntry: Entry <VarProbeEntry>
 {
   id owner;
   id <VarProbe> varProbe;

@@ -8,7 +8,7 @@
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <gui.h>
 
-@interface Frame: ArchivedGeometryWidget <_Frame>
+@interface Frame: ArchivedGeometryWidget <Frame>
 {
   int borderWidth;
   BOOL reliefFlag;

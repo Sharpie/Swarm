@@ -6,7 +6,7 @@
 #import <tkobjc/CanvasAbstractItem.h>
 #import <gui.h>
 
-@interface CompositeItem: CanvasAbstractItem <_CompositeItem>
+@interface CompositeItem: CanvasAbstractItem <CompositeItem>
 {
 }
 

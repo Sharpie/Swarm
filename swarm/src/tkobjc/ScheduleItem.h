@@ -7,7 +7,7 @@
 #import <gui.h>
 #import <collections.h>
 
-@interface ScheduleItem: CompositeItem
+@interface ScheduleItem: CompositeItem <ScheduleItem>
 {
   id <Schedule> schedule;
   unsigned step;

@@ -6,7 +6,7 @@
 #import <tkobjc/CompositeItem.h>
 #import <gui.h>
 
-@interface NodeItem: CompositeItem <_NodeItem>
+@interface NodeItem: CompositeItem <NodeItem>
 {
   int x, y;
   const char *item;

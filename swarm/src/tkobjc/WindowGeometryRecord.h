@@ -3,11 +3,11 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file LICENSE for details and terms of copying.
 
-#import <objectbase/SwarmObject.h>
+#import <defobj/Create.h>
 #import <gui.h>
 #import <defobj.h> // Serialization
 
-@interface WindowGeometryRecord: SwarmObject <_WindowGeometryRecord, Serialization>
+@interface WindowGeometryRecord: CreateDrop <WindowGeometryRecord, Serialization>
 {
   BOOL positionFlag, sizeFlag;
   unsigned width, height;

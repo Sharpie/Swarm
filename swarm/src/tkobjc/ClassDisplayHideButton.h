@@ -6,7 +6,7 @@
 #import <tkobjc/Button.h>
 #import <gui.h>
 
-@interface ClassDisplayHideButton: Button <_ClassDisplayHideButton>
+@interface ClassDisplayHideButton: Button <ClassDisplayHideButton>
 {
   id owner;
   id user;

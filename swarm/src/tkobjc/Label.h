@@ -6,7 +6,7 @@
 #import <tkobjc/Widget.h>
 #import <gui.h>
 
-@interface Label: Widget <_Label>
+@interface Label: Widget <Label>
 {
 }
 

@@ -6,7 +6,7 @@
 #import <tkobjc/Label.h>
 #import <gui.h>
 
-@interface ClassDisplayLabel: Label <_ClassDisplayLabel>
+@interface ClassDisplayLabel: Label <ClassDisplayLabel>
 {
 }
 

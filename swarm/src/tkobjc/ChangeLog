@@ -1,3 +1,25 @@
+1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h
+	CanvasAbstractItem.h CanvasItem.h CheckButton.h Circle.h
+	ClassDisplayHideButton.h ClassDisplayLabel.h Colormap.h
+	CompleteProbeDisplayLabel.h CompositeItem.h Entry.h Form.h Frame.h
+	Graph.h Histogram.h InputWidget.h Label.h Line.h LinkItem.h
+	MessageProbeEntry.h NodeItem.h OvalNodeItem.h Pixmap.h
+	ProbeCanvas.h Raster.h Rectangle.h RectangleNodeItem.h
+	ScheduleItem.h SimpleProbeDisplayHideButton.h SuperButton.h
+	TextItem.h VarProbeEntry.h VarProbeLabel.h Widget.h
+	WindowGeometryRecord.h ZoomRaster.h: Conform to respective
+	external protocol instead of `new features' protocol.
+	Add phase tags where missing.
+
+	* ButtonPanel.m ClassDisplayHideButton.m Circle.m
+	ClassDisplayLabel.m CompleteProbeDisplayLabel.m CompositeItem.m
+	Line.m MessageProbeEntry.m OvalNodeItem.m ProbeCanvas.m
+	Rectangle.m RectangleNodeItem.m ScheduleItem.m
+	SimpleProbeDisplayHideButton.m SuperButton.m TextItem.m
+	VarProbeLabel.m: Add phase tags where missing.
+
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* WindowGeometryRecord.h (WindowGeometryRecord): Conform to

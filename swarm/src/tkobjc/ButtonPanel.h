@@ -8,7 +8,7 @@
 #import <tkobjc/Frame.h>
 #import <gui.h>
 
-@interface ButtonPanel: Frame <_ButtonPanel>
+@interface ButtonPanel: Frame <ButtonPanel>
 {
   id target;
 }

@@ -7,6 +7,8 @@
 
 @implementation CompositeItem
 
+PHASE(Creating)
+
 PHASE(Using)
 
 - moveX: (long)delta_x Y: (long)delta_y

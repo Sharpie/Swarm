@@ -6,7 +6,7 @@
 #import <tkobjc/NodeItem.h>
 #import <gui.h>
 
-@interface RectangleNodeItem: NodeItem <_RectangleNodeItem>
+@interface RectangleNodeItem: NodeItem <RectangleNodeItem>
 {
 }
 - createItem;

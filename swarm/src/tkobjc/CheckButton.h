@@ -8,7 +8,7 @@
 #import <tkobjc/InputWidget.h>
 #import <gui.h>
 
-@interface CheckButton: InputWidget <_CheckButton>
+@interface CheckButton: InputWidget <CheckButton>
 {
 }
 

@@ -6,7 +6,7 @@
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <gui.h>
 
-@interface Canvas: ArchivedGeometryWidget <_Canvas>
+@interface Canvas: ArchivedGeometryWidget <Canvas>
 {
 }
 

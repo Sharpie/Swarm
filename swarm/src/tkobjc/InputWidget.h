@@ -12,7 +12,7 @@
 #import <tkobjc/Widget.h>
 #import <gui.h>
 
-@interface InputWidget: Widget <_InputWidget>
+@interface InputWidget: Widget <InputWidget>
 {
   const char *variableName;
 }

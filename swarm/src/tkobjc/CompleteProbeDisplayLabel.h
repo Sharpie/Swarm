@@ -6,7 +6,7 @@
 #import <tkobjc/ClassDisplayLabel.h>
 #import <gui.h>
 
-@interface CompleteProbeDisplayLabel: ClassDisplayLabel <_CompleteProbeDisplayLabel>
+@interface CompleteProbeDisplayLabel: ClassDisplayLabel <CompleteProbeDisplayLabel>
 {
   id targetWidget;
   id probedObject;

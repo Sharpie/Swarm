@@ -11,7 +11,7 @@
 @class GraphElement;
 @class BLTVector;
 
-@interface Graph: ArchivedGeometryWidget <_Graph>
+@interface Graph: ArchivedGeometryWidget <Graph>
 {
   id elementList;
 }

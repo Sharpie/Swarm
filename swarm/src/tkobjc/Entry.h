@@ -6,7 +6,7 @@
 #import <tkobjc/InputWidget.h>
 #import <gui.h>
 
-@interface Entry: InputWidget <_Entry>
+@interface Entry: InputWidget <Entry>
 {
 }
 

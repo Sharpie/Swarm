@@ -8,7 +8,7 @@
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <gui.h>
 
-@interface Histogram: ArchivedGeometryWidget <_Histogram>
+@interface Histogram: ArchivedGeometryWidget <Histogram>
 {
   const char **elements;
   int numBins;  			// should be dynamic

@@ -6,7 +6,7 @@
 #import <tkobjc/Entry.h>
 #import <gui.h>
 
-@interface MessageProbeEntry: Entry <_MessageProbeEntry>
+@interface MessageProbeEntry: Entry <MessageProbeEntry>
 {
   int arg;
   BOOL idFlag;

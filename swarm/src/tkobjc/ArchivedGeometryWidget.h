@@ -6,7 +6,7 @@
 #import <tkobjc/Widget.h>
 #import <gui.h>
 
-@interface ArchivedGeometryWidget: Widget <_ArchivedGeometryWidget>
+@interface ArchivedGeometryWidget: Widget <ArchivedGeometryWidget>
 {
   const char *windowGeometryRecordName;
   BOOL saveSizeFlag;

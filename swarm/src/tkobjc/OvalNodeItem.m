@@ -13,8 +13,8 @@
 PHASE(Creating)
 
 - createItem
- {
-   [self createPaddedText];
+{
+  [self createPaddedText];
    
   item =
     strdup ([[globalTkInterp
@@ -36,6 +36,8 @@ PHASE(Creating)
   [self createBindings];
   
   return self;
- }
+}
+
+PHASE(Using)
 
 @end

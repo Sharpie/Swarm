@@ -9,7 +9,7 @@
 #import <gui.h>
 
 // This could include a list of environments (graphics contexts).
-@interface Raster: ArchivedGeometryWidget <_Raster>
+@interface Raster: ArchivedGeometryWidget <Raster>
 {
   id button1Client, button2Client, button3Client;
   SEL button1Sel, button2Sel, button3Sel;

@@ -6,7 +6,7 @@
 #import <tkobjc/Widget.h>
 #import <gui.h>
 
-@interface Button: Widget <_Button>
+@interface Button: Widget <Button>
 {
 }
 

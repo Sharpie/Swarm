@@ -6,7 +6,7 @@
 #import <tkobjc/CanvasItem.h>
 #import <gui.h>
 
-@interface Rectangle: CanvasItem <_Rectangle>
+@interface Rectangle: CanvasItem <Rectangle>
 {
   int tx, ty, lx, ly;
 }

@@ -6,7 +6,7 @@
 #import <tkobjc/Button.h>
 #import <gui.h>
 
-@interface SuperButton: Button <_SuperButton>
+@interface SuperButton: Button <SuperButton>
 {
   id owner;
   id user;

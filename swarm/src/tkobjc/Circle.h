@@ -6,7 +6,7 @@
 #import <tkobjc/CanvasItem.h>
 #import <gui.h>
 
-@interface Circle: CanvasItem <_Circle>
+@interface Circle: CanvasItem <Circle>
 {
   int x, y, r;
 }
