@@ -1084,9 +1084,10 @@ lisp_output_type (const char *type,
       id cType = [[[HDF5CompoundType createBegin: aZone]
                     setClass: [self class]]
                    createEnd];
-      
+      const char *objName = [hdf5Obj getName];
+
       id cDataset = [[[[[[HDF5 createBegin: aZone]
-                          setName: [hdf5Obj getName]]
+                          setName: objName]
                          setCreateFlag: YES]
                         setParent: hdf5Obj]
                        setCompoundType: cType]
@@ -1094,6 +1095,10 @@ lisp_output_type (const char *type,
       
       [cDataset storeTypeName: [self getTypeName]];
       [cDataset shallowStoreObject: self];
+      
+      // for R
+      [cDataset nameRecord: 0 name: objName];
+      [cDataset writeRowNames];
       
       [cDataset drop];
       [cType drop];

@@ -1,15 +1,24 @@
 1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.h (HDF5_c): Replace c_rnlen with two variables:
+	c_rnnlen and c_rnmlen.  
+
 	* HDF5Object.[hm], defobj.h ([HDF5_c -setCompoundType:], [HDF5_c
 	-setCount:],
 	[HDF5_c -getCount]): New methods.
 	([HDF5_c -setCompoundType:count:]): Remove.
-	
+	([HDF5_c -setRowNameLength:]): Remove.
+
 	* HDF5Object.m ([HDF5_c -createEnd]): Check that rank is one and
 	restore c_count in compoundType case.
+	([HDF5_c -numberRecord:]): Use c_rnnlen instead of c_rnlen.
+	([HDF5_c -nameRecord:name:]): Maintain max len in c_rnmlen.
+	([HDF5_c -writeRowsNames]): Set row name length to max
+	c_rnnlen and c_rnmlen, whichever is non-zero.
 
 	* DefObject.m ([HDF5_c -hdf5Out:deep:]): Replace
 	setCompoundType:count: with setCompoundType: (which defaults to 1).
+	Create rowname entry using object name (for R).
 	([HDF5_c -hdf5In:]): Remove compoundType check (now in
 	shallowLoadObject:).
 

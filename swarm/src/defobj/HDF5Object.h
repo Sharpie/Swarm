@@ -54,7 +54,8 @@
   unsigned c_count;
 #ifdef HAVE_HDF5
   hid_t c_sid;
-  hsize_t c_rnlen;
+  hsize_t c_rnnlen;
+  hsize_t c_rnmlen;
 #endif
   const char **c_rnbuf;
 }
@@ -69,7 +70,6 @@
 
 - setCompoundType: compoundType;
 - setCount: (unsigned)count;
-- setRowNameLength: (size_t)len;
 - createEnd;
 
 - setBaseTypeObject: typeObject;

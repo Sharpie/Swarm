@@ -977,7 +977,6 @@ CREATING
 - setName: (const char *)name;
 - setCompoundType: compoundType;
 - setCount: (unsigned)count;
-- setRowNameLength: (size_t)len;
 - createEnd;
 SETTING
 - setBaseTypeObject: baseTypeObject;

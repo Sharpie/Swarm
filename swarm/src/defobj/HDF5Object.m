@@ -535,6 +535,8 @@ PHASE(Creating)
 
   obj->createFlag = NO;
   obj->datasetFlag = NO;
+  obj->c_rnnlen = 0;
+  obj->c_rnmlen = 0;
 #ifdef HAVE_HDF5
   obj->loc_id = 0;
 #endif
@@ -588,17 +590,7 @@ PHASE(Creating)
 {
 #ifdef HAVE_HDF5
   c_count = theRecordCount;
-  c_rnlen = 1 + (unsigned) log10 ((double) c_count);
-#else
-  hdf5_not_available ();
-#endif
-  return self;
-}
-
-- setRowNameLength: (size_t)rnlen
-{
-#ifdef HAVE_HDF5
-  c_rnlen = rnlen;
+  c_rnnlen = 1 + (unsigned) log10 ((double) c_count);
 #else
   hdf5_not_available ();
 #endif
@@ -1176,6 +1168,10 @@ hdf5_store_attribute (hid_t did,
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName
 {
 #ifdef HAVE_HDF5
+  size_t len = strlen (recordName);
+
+  if (len > c_rnmlen)
+    c_rnmlen = len;
   c_rnbuf[recordNumber] = strdup (recordName);
 #else
   hdf5_not_available ();
@@ -1186,10 +1182,10 @@ hdf5_store_attribute (hid_t did,
 - numberRecord: (unsigned)recordNumber
 {
 #ifdef HAVE_HDF5
-  char fmt[2 + c_rnlen + 1 + 1];
-  char buf[c_rnlen + 1];
+  char fmt[2 + c_rnnlen + 1 + 1];
+  char buf[c_rnnlen + 1];
 
-  sprintf (fmt, "%%0%uu", (unsigned) c_rnlen);
+  sprintf (fmt, "%%0%uu", (unsigned) c_rnnlen);
   sprintf (buf, fmt, recordNumber);
   
   c_rnbuf[recordNumber] = strdup (buf);
@@ -1275,8 +1271,13 @@ check_alignment (id obj, id compoundType)
 
   if ((rntid = H5Tcopy (H5T_C_S1)) < 0)
     raiseEvent (SaveError, "unable to copy string type");
-  if ((H5Tset_size (rntid, c_rnlen + 1)) < 0)
-    raiseEvent (SaveError, "unable to set string size");
+
+  {
+    hsize_t len = c_rnnlen ?: c_rnmlen;
+    
+    if ((H5Tset_size (rntid, len + 1)) < 0)
+      raiseEvent (SaveError, "unable to set string size");
+  }
   
   if ((rnaid = H5Acreate (loc_id, ROWNAMES,
                           rntid, rnsid, H5P_DEFAULT)) < 0)
