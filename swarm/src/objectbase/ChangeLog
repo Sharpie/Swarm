@@ -1,5 +1,23 @@
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* VarProbe.m, probing.[hm]: Move string_convert into probing
+	as a global.
+
+	* SwarmObject.m, Swarm.m: Use getProbeMapForObject: instead of
+	getProbeMap:.
+
+	* ProbeLibrary.[hm], objectbase.h:  Add ForObject counterparts.
+	Change display precision routines and ivars to unsigned.
+
+	* ProbeLibrary.m: Include defalloc.h and directory.h.
+	([ProbeLibrary -setProbeMap:ForObject:]): Use getZone (self) as
+	appropriate.
+	([ProbeLibrary -_probeMapForObject_:]): New method. Used in new
+	-getProbeMapForObject: and -isProbeMapDefinedForObject:.
+
+	* ActivityControl.m ([ActivityControl -_setup_ProbeMap]): Use
+	setProbeMap:ForObject: instead of setProbeMapFor: (class).
+
 	* ProbeMap.m ([ProbeMap -_addMessageProbe_:methodName:]): New method.
 	([ProbeMap -addJSMethods:]): Call it.
 

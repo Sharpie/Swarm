@@ -521,6 +521,7 @@ USING
 //M: The isProbeMapDefinedFor: method returns True if there is a non-nil value 
 //M: in the ProbeLibrary for that class and False otherwise.
 - (BOOL)isProbeMapDefinedFor: (Class)aClass;
+- (BOOL)isProbeMapDefinedForObject: anObject;
 
 //M: The getProbeMapFor: method returns a ProbeMap for the aClass class. If a 
 //M: specific ProbeMap has been designed and installed in the ProbeLibrary for 
@@ -528,17 +529,20 @@ USING
 //M: was not designed and installed, then a CompleteProbeMap is created and 
 //M: returned.
 - (id <ProbeMap>)getProbeMapFor: (Class)aClass;
+- (id <ProbeMap>)getProbeMapForObject: anObject;
 
 //M: The getCompleteProbeMapFor: method returns a ProbeMap containing Probes 
 //M: for all the instance variables and messages of the given Class (including 
 //M: inherited variables and messages). The current implementation of 
 //M: ProbeLibrary does not cache CompleteProbeMaps. 
 - (id <ProbeMap>)getCompleteProbeMapFor: (Class)aClass;
+- (id <ProbeMap>)getCompleteProbeMapForObject: anObject;
 
 //M: The getCompleteVarMapFor: method returns a ProbeMap containing Probes for 
 //M: all the instance variables of the given Class (including inherited 
 //M: variables) but does not include any MessageProbes. 
 - (id <ProbeMap>)getCompleteVarMapFor: (Class)aClass;
+- (id <ProbeMap>)getCompleteVarMapForObject: anObject;
 
 //M: The getProbeForVariable:inClass: method returns a probe that has been 
 //M: "checked out" from the appropriate Probes in the probe library. 
@@ -546,6 +550,7 @@ USING
 //M:       of future requests for the same probes, clone the probe prior to 
 //M:       making modifications to the probe.
 - (id <VarProbe>)getProbeForVariable: (const char *)aVar inClass: (Class)aClass;
+- (id <VarProbe>)getProbeForVariable: (const char *)aVar inObject: anObject;
 
 //M: The getProbeForMessage:inClass: method returns a probe that has been 
 //M: "checked out" from the appropriate Probes in the probe library. 
@@ -553,11 +558,13 @@ USING
 //M:       of future requests for the same probes, clone the probe prior to 
 //M:       making modifications to the probe.
 - (id <MessageProbe>)getProbeForMessage: (const char *)aMessage inClass: (Class)aClass;
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage inObject: anObject;
 
 //M: The setProbeMap:For: method sets the standard probe map as the probe map.
 //M: The returned Probe will be cached as though it was produced by the
 //M: library itself.
 - setProbeMap: (id <ProbeMap>)aMap For: (Class)aClass; 
+- setProbeMap: (id <ProbeMap>)aMap ForObject: anObject;
 
 @end
 

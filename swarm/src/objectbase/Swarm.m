@@ -43,18 +43,17 @@ PHASE(Using)
 
 - getProbeMap
 {
-  return [probeLibrary getProbeMapFor: SD_GETCLASS (self)];
+  return [probeLibrary getProbeMapForObject: self];
 }
 
 - getCompleteProbeMap
 {
-  return [probeLibrary getCompleteProbeMapFor: SD_GETCLASS (self)];
+  return [probeLibrary getCompleteProbeMapForObject: self];
 }
 
 - getProbeForVariable: (const char *)aVariable
 {
-  return [probeLibrary getProbeForVariable: aVariable 
-                       inClass: SD_GETCLASS (self)];
+  return [probeLibrary getProbeForVariable: aVariable inObject: self];
 }
 
 @end

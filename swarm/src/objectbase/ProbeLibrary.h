@@ -14,16 +14,16 @@
   id objectToNotify;
   id myZone;
   id classMap;
-  int sigFigsDisplay;
-  int sigFigsSaved;
+  unsigned sigFigsDisplay;
+  unsigned sigFigsSaved;
 }
 
 - createEnd;
 
-- setDisplayPrecision: (int)nSigDisplay;
-- (int)getDisplayPrecision;
-- setSavedPrecision: (int)nSigSaved;
-- (int)getSavedPrecision;
+- setDisplayPrecision: (unsigned)nSigDisplay;
+- (unsigned)getDisplayPrecision;
+- setSavedPrecision: (unsigned)nSigSaved;
+- (unsigned)getSavedPrecision;
 
 // This sets every member of every ProbeMap up so that it will
 // send this message to the designated object every time it's activated.
@@ -52,11 +52,24 @@
 - getObjectToNotify;
 
 - (BOOL)isProbeMapDefinedFor: (Class)aClass;
+- (BOOL)isProbeMapDefinedForObject: anObject;
+
+- (id <ProbeMap>)getProbeMapForObject: anObject;
 - (id <ProbeMap>)getProbeMapFor: (Class)aClass;
+
+- (id <ProbeMap>)getCompleteProbeMapForObject: anObject;
 - (id <ProbeMap>)getCompleteProbeMapFor: (Class)aClass;
+
+- (id <ProbeMap>)getCompleteVarMapForObject: anObject;
 - (id <ProbeMap>)getCompleteVarMapFor: (Class)aClass;
-- (id <VarProbe>)getProbeForVariable: (const char *)aVariable inClass: (Class) aClass;
-- (id <MessageProbe>)getProbeForMessage: (const char *)aVariable inClass: (Class) aClass;
+
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable inObject: anObject;
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable inClass: (Class)aClass;
+
+- (id <MessageProbe>)getProbeForMessage: (const char *)aVariable inObject: anObject;
+- (id <MessageProbe>)getProbeForMessage: (const char *)aVariable inClass: (Class)aClass;
+
 - setProbeMap: (id <ProbeMap>)aMap For: (Class)aClass;
+- setProbeMap: (id <ProbeMap>)aMap ForObject: anObject;
 
 @end

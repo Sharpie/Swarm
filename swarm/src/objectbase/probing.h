@@ -7,3 +7,8 @@
 
 extern id probeLibrary;
 extern void initProbing();
+
+void string_convert (fcall_type_t type, const types_t *p,
+                     const char *floatFormat, unsigned precision,
+                     id <Symbol> stringReturnType,
+                     char *buf);

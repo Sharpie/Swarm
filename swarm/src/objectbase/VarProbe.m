@@ -22,6 +22,7 @@
 #include "../defobj/COM.h"
 
 #import "local.h"
+#import "probing.h" // string_convert
 
 @implementation VarProbe
 
@@ -708,127 +709,6 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
 }
 
 #endif
-
-static void
-string_convert (fcall_type_t type, const types_t *p,
-                const char *floatFormat, unsigned precision,
-                id <Symbol> stringReturnType,
-                char *buf)
-{
-  switch (type)
-    {
-    case fcall_type_boolean:
-      strcpy (buf, p->boolean ? "true" : "false");
-      break;
-      
-    case fcall_type_object:
-      if (!p->object)
-        sprintf (buf, "nil");
-      else 
-        {
-          const char *name = NULL;
-          
-          if ([p->object respondsTo: @selector (getDisplayName)])
-            name = [p->object getDisplayName];
-
-          if (!name)
-            name = [p->object name];
-          strcpy (buf, name);
-        }
-      break;
-    case fcall_type_class:
-      if (!p->_class)
-        sprintf (buf, "nil");
-      else
-        sprintf (buf, "%s", p->_class->name);
-      break;
-    case fcall_type_uchar:
-      if (stringReturnType == DefaultString)
-        sprintf (buf, "%u '%c'", 
-                 (unsigned) p->uchar,
-                 p->uchar);
-      else if (stringReturnType == CharString)
-        sprintf (buf, "'%c'", p->uchar);
-      else if (stringReturnType == IntString)
-        sprintf (buf, "%u", (unsigned) p->uchar);
-      else
-        raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
-      break;
-    case fcall_type_schar:
-      if (stringReturnType == DefaultString)
-        sprintf (buf, "%d '%c'",
-                 (int) p->schar,
-                 p->schar);
-      else if (stringReturnType == CharString)
-        sprintf (buf, "'%c'", p->schar);
-      else if (stringReturnType == IntString)
-        sprintf (buf, "%d",(int) p->schar);
-      else
-       raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
-      break;
-    case fcall_type_ushort:
-      sprintf (buf, "%hu", p->ushort);
-      break;
-    case fcall_type_sshort:
-      sprintf (buf, "%hd", p->sshort);
-      break;
-    case fcall_type_sint:
-      sprintf (buf, "%d", p->sint);
-      break;
-    case fcall_type_uint:
-      sprintf (buf, "%u", p->uint);
-      break;
-#if SIZEOF_LONG_LONG == SIZEOF_LONG
-    case fcall_type_ulonglong:
-#endif
-    case fcall_type_ulong:
-      sprintf (buf, "%lu", p->ulong);
-      break;
-#if SIZEOF_LONG_LONG == SIZEOF_LONG
-    case fcall_type_slonglong:
-#endif
-    case fcall_type_slong:
-      sprintf (buf, "%ld", p->slong);
-      break;
-#if defined(LLFMT) && (SIZEOF_LONG_LONG > SIZEOF_LONG)
-    case fcall_type_slonglong:
-      sprintf (buf, "%" LLFMT "d", p->slonglong);
-      break;
-    case fcall_type_ulonglong:
-      sprintf (buf, "%" LLFMT "u", p->ulonglong);
-      break;
-#endif
-    case fcall_type_float:
-      if (!floatFormat)
-        sprintf (buf, "%.*g", (int) precision,
-                 (double) p->_float);
-      else
-        sprintf (buf, floatFormat, p->_float);
-      break;
-    case fcall_type_double:
-      if (!floatFormat)
-        sprintf (buf, "%.*g", (int) precision, p->_double);
-      else
-        sprintf (buf, floatFormat, p->_double);
-      break;
-    case fcall_type_long_double:
-      if (!floatFormat)
-        sprintf (buf, "%.*g", (int) precision,
-                 (double) p->_long_double);
-      else
-        sprintf (buf, floatFormat, (double) p->_long_double);
-      break;
-    case fcall_type_string:
-      sprintf (buf, "%s", p->string ? p->string : "<NULL>");
-      break;
-    case fcall_type_void:
-    case fcall_type_selector:
-    case fcall_type_jobject:
-    case fcall_type_jstring:
-    case fcall_type_iid:
-      abort ();
-    }
-}
 
 static void
 COM_probe_as_string (COMobject cObj,

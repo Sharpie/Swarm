@@ -6,6 +6,8 @@
 #import <objectbase/ProbeLibrary.h>
 #import <objectbase.h>
 #import <collections.h>
+#import <defobj/defalloc.h> // getZone
+#import <defobj/directory.h> // SD_GETCLASS
 
 @implementation ProbeLibrary
 PHASE(Creating)
@@ -22,30 +24,30 @@ PHASE(Creating)
 {
   sigFigsDisplay = SIGFIGS_DISPLAYED;
   sigFigsSaved = SIGFIGS_SAVED;
-  classMap = [[Map createBegin: [self getZone]] createEnd];
+  classMap = [[Map createBegin: getZone (self)] createEnd];
   return self;
 }
 
 PHASE(Using)
 
-- setDisplayPrecision: (int)nSigDisplay
+- setDisplayPrecision: (unsigned)nSigDisplay
 {
   sigFigsDisplay = nSigDisplay;
   return self;
 }
 
-- (int)getDisplayPrecision
+- (unsigned)getDisplayPrecision
 {
   return sigFigsDisplay;
 }
 
-- setSavedPrecision: (int)nSigSaved
+- setSavedPrecision: (unsigned)nSigSaved
 {
   sigFigsSaved = nSigSaved;
   return self;
 }
 
-- (int)getSavedPrecision
+- (unsigned)getSavedPrecision
 {
   return sigFigsSaved;
 }
@@ -73,19 +75,59 @@ PHASE(Using)
   return objectToNotify;
 }
 
-- (BOOL)isProbeMapDefinedFor: (Class)aClass
+- (id <ProbeMap>)_probeMapForObject_: anObject
 {
-  return ([classMap at: aClass] != nil) ;
+  id ret = [classMap at: anObject];
+  
+  if (!ret)
+    ret = [classMap at: SD_GETCLASS (anObject)];
+  
+  return ret;
 }
 
-- (id <ProbeMap>)getProbeMapFor: (Class)aClass
+- (BOOL)isProbeMapDefinedForObject: anObject
 {
-  id ret_val;
+  return [self _probeMapForObject_: anObject] != nil;
+}
+
+- (BOOL)isProbeMapDefinedFor: (Class)aClass
+{
+  return ([classMap at: aClass] != nil);
+}
+
+- (id <ProbeMap>)getProbeMapForObject: anObject
+{
+  id ret = [self _probeMapForObject_: anObject];
+
+  if (!ret)
+    {
+      Class cls = SD_GETCLASS (anObject);
+
+      if (cls)
+        ret = [self getProbeMapFor: cls];
+      else
+        {
+          id <ProbeMap> temp = [ProbeMap createBegin: getZone (self)];
+          [temp setProbedObject: anObject];
+          if (objectToNotify != nil)
+            [temp setObjectToNotify: objectToNotify];
+          temp = [temp createEnd];
+          [classMap at: anObject insert: temp];
+          
+          ret = temp;
+        }
+    }
+  return ret;
+}
+
+- (id <ProbeMap>)getProbeMapFor: aClass
+{
+  id ret;
   
-  if ((ret_val = [classMap at: aClass]) == nil)
+  if ((ret = [classMap at: aClass]) == nil)
     {
       id <ProbeMap> temp;
-      temp = [ProbeMap createBegin: [self getZone]];
+      temp = [ProbeMap createBegin: getZone (self)];
       [temp setProbedClass: aClass];
       if (objectToNotify != nil)
         [temp setObjectToNotify: objectToNotify];
@@ -93,20 +135,40 @@ PHASE(Using)
       [classMap at: aClass insert: temp];
     }
   else
-    return ret_val;
+    return ret;
   return [classMap at: aClass];
 }
 
-// Since ProbeLibrary is the source of all probes, I am adding methods for
-// making complete probemaps as well, even though they are not cached...
-
-- (id <ProbeMap>)getCompleteProbeMapFor: (Class)aClass
+- (id <ProbeMap>)getCompleteProbeMapForObject: anObject
 {
   id <ProbeMap> temp;
 
-  temp = [CompleteProbeMap createBegin: [self getZone]];
+  temp = [CompleteProbeMap createBegin: getZone (self)];
+  [temp setProbedObject: anObject];
+  if (objectToNotify != nil)
+    [temp setObjectToNotify: objectToNotify];
+  return [temp createEnd];
+}
+
+- (id <ProbeMap>)getCompleteProbeMapFor: aClass
+{
+  id <ProbeMap> temp;
+
+  temp = [CompleteProbeMap createBegin: getZone (self)];
   [temp setProbedClass: aClass];
-  if (objectToNotify != nil) [temp setObjectToNotify: objectToNotify];
+  if (objectToNotify != nil)
+    [temp setObjectToNotify: objectToNotify];
+  return [temp createEnd];
+}
+
+- (id <ProbeMap>)getCompleteVarMapForObject: anObject
+{
+  id <ProbeMap> temp;
+
+  temp = [CompleteVarMap createBegin: getZone (self)];
+  [temp setProbedObject: anObject];
+  if (objectToNotify != nil)
+    [temp setObjectToNotify: objectToNotify];
   return [temp createEnd];
 }
 
@@ -114,23 +176,54 @@ PHASE(Using)
 {
   id <ProbeMap> temp;
 
-  temp = [CompleteVarMap createBegin: [self getZone]];
+  temp = [CompleteVarMap createBegin: getZone (self)];
   [temp setProbedClass: aClass];
   if (objectToNotify != nil)
     [temp setObjectToNotify: objectToNotify];
   return [temp createEnd];
 }
 
-- (id <VarProbe>)getProbeForVariable: (const char *)aVariable inClass: (Class)aClass
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable
+                             inObject: anObject
+{
+  return [[self getProbeMapForObject: anObject] 
+           getProbeForVariable: (const char *)aVariable];
+}
+
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable
+                             inClass: (Class)aClass
 {
   return [[self getProbeMapFor: aClass] 
            getProbeForVariable: (const char *)aVariable];
 }
 
-- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage inClass: (Class)aClass
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage
+                                inObject: anObject
+{
+  return [[self getProbeMapForObject: anObject]
+           getProbeForMessage: (const char *)aMessage];
+}
+
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage
+                                inClass: (Class)aClass
 {
   return [[self getProbeMapFor: aClass]
            getProbeForMessage: (const char *)aMessage];
+}
+
+- setProbeMap: (id <ProbeMap>)aMap ForObject: anObject
+{
+  if ([anObject respondsTo: M(isCOMProxy)]
+      || [anObject respondsTo: M(isJavaProxy)])
+    {
+      if ([classMap at: anObject])
+        [classMap at: anObject replace: aMap];
+      else
+        [classMap at: anObject insert: aMap];
+    }
+  else
+    [self setProbeMap: aMap For: getClass (anObject)];
+  return self;
 }
 
 - setProbeMap: (id <ProbeMap>)aMap For: (Class)aClass
@@ -138,7 +231,7 @@ PHASE(Using)
   if (objectToNotify != nil)
     [aMap setObjectToNotify: objectToNotify];
 
-  if([classMap at: aClass])
+  if ([classMap at: aClass])
     [classMap at: aClass replace: aMap];
   else
     [classMap at: aClass insert: aMap];

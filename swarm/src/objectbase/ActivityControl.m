@@ -213,6 +213,6 @@ PHASE(Using)
                              inClass: [self class]]
                         setHideResult: 0]];
 
-  [probeLibrary setProbeMap: probeMap For: [self class]];
+  [probeLibrary setProbeMap: probeMap ForObject: self];
 }
 @end
