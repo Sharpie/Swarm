@@ -1,3 +1,10 @@
+1999-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* user3.05.sgml: Add new section on the use of the
+	`lispAppArchiver' singleton instance.  Fixed code fragments to
+	reflect the current state of `heatbugs' and `mousetrap' and the
+	new Archiver convenience methods.
+
 1999-05-28  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user2.07.sgml: Added CustomProbeMap treatment, as well as a
