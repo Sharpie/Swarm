@@ -102,6 +102,11 @@
   return self ;
 }
 
+-setFloatFormat: (char *) format {
+  [self subclassResponsibility: @selector(setFloatFormat)] ;
+  return self ;
+}
+
 -setSafety {
   safety = 1 ;
   return self ;
@@ -141,5 +146,12 @@
   [self subclassResponsibility: @selector(probeAsString)] ;
   return NULL ;
 }
+
+-(char *) probeAsString: (id) anObject Buffer: (char *) buf
+      withFullPrecision: (int) precision{
+  [self subclassResponsibility: @selector(probeAsString)] ;
+  return NULL ;
+}
+
 
 @end

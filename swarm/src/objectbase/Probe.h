@@ -37,10 +37,14 @@ extern id <Symbol> DefaultString, CharString, IntString ;
 -unsetSafety ;
 
 -setStringReturnType: returnType ;
+-setFloatFormat: (char *) format;
 
 -(void *) probeRaw: anObject;
 -(void *) probeAsPointer: anObject;
 -(int)    probeAsInt: anObject;
 -(double) probeAsDouble: anObject;
 -(char *) probeAsString: anObject Buffer: (char *) buffer;
+-(char *) probeAsString: (id) anObject Buffer: (char *) buf 
+      withFullPrecision: (int) precision;
+
 @end
