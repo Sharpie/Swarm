@@ -765,7 +765,7 @@ create_method_refs (JNIEnv *env)
 
 
 static void
-create_field_refs (JNIEnv * env)
+create_field_refs (JNIEnv *env)
 {
 
   if (!(f_nameFid = (*env)->GetFieldID (env, c_Selector, "signature", "Ljava/lang/String;")))
@@ -773,6 +773,7 @@ create_field_refs (JNIEnv * env)
   if (!(f_retTypeFid = (*env)->GetFieldID (env, c_Selector, "retType", "Ljava/lang/Class;")))
     abort ();
   if (!(f_argTypesFid = (*env)->GetFieldID (env, c_Selector, "argTypes", "[Ljava/lang/Class;")))
+    abort ();
   if (!(f_typeSignatureFid = (*env)->GetFieldID (env, c_Selector, "typeSignature", "Ljava/lang/String;")))
     abort ();
   if (!(f_objcFlagFid = (*env)->GetFieldID (env, c_Selector, "objcFlag", "Z")))
