@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objectbase.h>
+#import <objectbase/SwarmObject.h>
 #import <gui.h>
 
 @interface CommonProbeDisplay: SwarmObject
