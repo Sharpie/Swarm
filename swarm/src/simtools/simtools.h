@@ -32,12 +32,12 @@ CREATING
 //M: The create:setBaseNameObject: method is used to create an instance of the
 //M: UName class and set the base name given a const char *.  This method will 
 //M: automatically reset the counter.
-+ create: aZone setBaseName: (const char *)aString;
++ create: (id <Zone>)aZone setBaseName: (const char *)aString;
 
 //M: The create:setBaseNameObject: method is used to create an instance of the
 //M: UName class and set the base name given an object of class String. This 
 //M: method will automatically reset the counter.
-+ create: aZone setBaseNameObject: aStringObject;
++ create: (id <Zone>)aZone setBaseNameObject: aStringObject;
 
 //M: The setBaseName: method is used to set the base name given a const char *.
 - setBaseName: (const char *)aString;
@@ -71,10 +71,10 @@ USING
 CREATING
 //M: This is the create method for InFiles, where theName is, of course the
 //M: name of the file to open.
-+ create: aZone setName: (const char *)theName;
++ create: (id <Zone>)aZone setName: (const char *)theName;
 
 //M: for backward compatibility
-+ create: aZone withName: (const char *)theName;
++ create: (id <Zone>)aZone withName: (const char *)theName;
 
 USING
 //M: The getWord: method returns a string that does not contain spaces, tabs,
@@ -145,10 +145,10 @@ USING
 CREATING
 //M: The create:setName: method opens a file named theName and creates an 
 //M: Outfile object.
-+ create: aZone setName: (const char *)theName;
++ create: (id <Zone>)aZone setName: (const char *)theName;
 
 //M: for backward compatibility
-+ create: aZone withName: (const char *)theName;
++ create: (id <Zone>)aZone withName: (const char *)theName;
 
 USING
 //M: The putString: method takes an instance of type string and writes it
@@ -208,10 +208,10 @@ USING
 CREATING
 //M: The create:setName: method is the create method for AppendFiles, where 
 //M: theName is the name of the file to open.
-+ create: aZone setName: (const char *)theName;
++ create: (id <Zone>)aZone setName: (const char *)theName;
 
 //M: for backward compatibility
-+ create: aZone withName: (const char *)theName;
++ create: (id <Zone>)aZone withName: (const char *)theName;
 @end
 
 @protocol ObjectLoader <SwarmObject, CREATABLE>
