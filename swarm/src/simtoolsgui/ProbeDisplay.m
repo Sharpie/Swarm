@@ -6,9 +6,6 @@
 #import <simtoolsgui/ProbeDisplay.h>
 #import <simtoolsgui/SimpleProbeDisplay.h>
 #import <simtoolsgui/CompleteProbeDisplay.h>
-
-// #import <simtools/global.h>
-
 #import <gui.h>
 
 // SAFEPROBES enables lots of error checking here.
@@ -78,7 +75,7 @@ notifyObjectDropped (id anObject, id realloc, id pd)
   // Put a hook here so that the drop method knows whether the drop
   // was called from here.
   [pd setRemoveRef: 0];  // false => don't remove the reference in "drop"
-  [pd drop];
+  [pd markForDrop];
   // There might be an issue of recursivity if a user decided
   // to probe a probe display.  I ignored that. --gepr
 }
