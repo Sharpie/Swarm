@@ -12,7 +12,7 @@ lispProcessPairs (id aZone,
                   id obj,
                   void (*mapUpdateFunc) (id, id))
 {
-  if (!listp (obj))
+  if (!archiver_list_p (obj))
     raiseEvent (InvalidArgument, "argument to processPairs not a list");
   {
     id listExprIndex = [obj begin: scratchZone];
@@ -37,7 +37,7 @@ lispProcessPairs (id aZone,
             
             key = [key copy: aZone];
             
-            if (listp (key))
+            if (archiver_list_p (key))
               {
                 id first = [key getFirst];
                 id last = [key getLast];
@@ -176,7 +176,7 @@ PHASE(Setting)
     {
       id archiverCallExprIndex, archiverCallName;
       
-      if (!listp (expr))
+      if (!archiver_list_p (expr))
         raiseEvent (InvalidArgument, "argument to Archiver lispIn not a list");
       
       archiverCallExprIndex = [expr begin: scratchZone];
@@ -278,7 +278,8 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
                   // serialize the unchanged contents of the parsed
                   // ArchiverList instance
                   id listexpr = [member getExpr];
-                  if (listp (listexpr))
+
+                  if (archiver_list_p (listexpr))
                     [listexpr lispOutDeep: outputCharStream];
                   else
                     raiseEvent(InvalidOperation,

@@ -291,7 +291,7 @@ objc_type_for_lisp_type (const char *lispTypeString)
       
       if (stringp (val))
         addVariable (newClass, varName, objc_type_for_lisp_type ([val getC]));
-      else if (listp (val))
+      else if (archiver_list_p (val))
         {
           id index = [val begin: aZone];
           id first = [index next];

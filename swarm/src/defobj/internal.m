@@ -69,6 +69,9 @@ alignment_for_objc_type (const char *varType)
     case _C_ID:
       alignment = __alignof__ (id);
       break;
+    case _C_CLASS:
+      alignment = __alignof__ (Class);
+      break;
     case _C_ARY_B:
       varType++;
       while (isDigit (*varType))
@@ -119,6 +122,9 @@ size_for_objc_type (const char *varType)
       break;
     case _C_ID:
       size = sizeof (id);
+      break;
+    case _C_CLASS:
+      size = sizeof (Class);
       break;
     case _C_ARY_B:
       {
@@ -398,7 +404,9 @@ lisp_output_type (const char *type,
         break;
       }
     case _C_CLASS:
-      raiseEvent (NotImplemented, "Classes not supported [%s]", type);
+      [stream catC: "<"];
+      [stream catC: (*(Class *) ptr)->name];
+      [stream catC: ">"];
       break;
     case _C_SEL:
       raiseEvent (NotImplemented, "Selectors not supported");

@@ -1,3 +1,18 @@
+1999-11-16    <mgd@VAIO>
+
+	* internal.m (alignment_for_objc_type, size_for_objc_type,
+	lisp_output_type): Handle classes.
+
+	* DefClass.m ([CreatedClass_s -lispInCreate:]): Change listp
+	to archiver_list_p (just a rename).
+
+	* LispArchiver.m (lispProcessPairs,
+	[LispArchiver_c -lispLoadArchiver:], lisp_output_objects): Likewise.
+
+	* defobj.m (lispIn): Likewise.
+
+	* DefObject.m ([Object_s -lispIn:]): Likewise.  Handle classes.
+
 1999-11-08    <mgd@VAIO>
 
 	* directory.m ([-objcRemove:]): Don't make a globalref

@@ -16,7 +16,7 @@ Library:      defobj
 
 #include <objc/objc-api.h> // objc_lookup_class, _objc_lookup_class
 #include <misc.h> // strcmp, sscanf
-#include <collections/predicates.h> // keywordp, listp, stringp
+#include <collections/predicates.h> // keywordp, archiver_list_p, stringp
 
 #include <swarmconfig.h> // HAVE_HDF5
 
@@ -246,8 +246,8 @@ lispInKeyword (id index)
 id
 lispIn (id aZone, id expr)
 {
-  if (!listp (expr))
-    raiseEvent (InvalidArgument, "> expr not a list");
+  if (!archiver_list_p (expr))
+    raiseEvent (InvalidArgument, "> expr not an archiver list");
   {    
     id makeExprIndex = [expr begin: scratchZone];
     BOOL classFlag = NO;

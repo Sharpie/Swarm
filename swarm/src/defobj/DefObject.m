@@ -23,7 +23,7 @@ Library:      defobj
 #import <objc/sarray.h>
 
 #include <misc.h> // strcpy, strlen, sprintf, isDigit
-#include <collections/predicates.h> // arrayp, keywordp, listp, stringp
+#include <collections/predicates.h> // arrayp, keywordp, archiver_list_p, stringp
 
 #ifdef HAVE_JDK
 #include <objc/mframe.h>
@@ -124,6 +124,9 @@ PHASE(Setting)
             case _C_ID:
               *((id *) ptr) = [val getObject];
               break;
+	    case _C_CLASS:
+	      *((Class *) ptr) = [val getClass];
+	      break;
             case _C_LNG_DBL:
               *((long double *) ptr) = [val getLongDouble];
               break;
@@ -167,7 +170,7 @@ PHASE(Setting)
           }
       else if (stringp (val))
         *((const char **) ptr) = STRDUP ([val getC]);
-      else if (listp (val))
+      else if (archiver_list_p (val))
         {
           id first = [val getFirst];
 
