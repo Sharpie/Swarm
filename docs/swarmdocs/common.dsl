@@ -69,24 +69,6 @@
     (data (select-elements (children funcsynopsisinfo-node)
                            "CLASSNAME")))
 
-(define (new-class-p funcsynopsisinfo-node)
-    (let ((classname (get-classname funcsynopsisinfo-node))
-          (previous-classname
-           ;; ipreced is implemented by DocBook
-           (let ((listitem (ipreced (parent (parent funcsynopsisinfo-node)))))
-             (if (node-list-empty? listitem)
-                 #f
-                 (data
-                  (select-elements
-                   (children
-                    (select-elements
-                     (children (select-elements (children listitem)
-                                                "FUNCSYNOPSIS"))
-                     "FUNCSYNOPSISINFO"))
-                   "CLASSNAME"))))))
-      (or (not previous-classname)
-          (not (string=? previous-classname classname)))))
-
 (define (previous-nl last-nl end-node)
   (let loop ((nl last-nl))
         (let ((node (node-list-first nl)))
@@ -187,11 +169,6 @@
               (string (char-change-case (car l) upcase))
               (loop (cdr l))))))
          
-(define (capitalize str)
-    (string-append
-     (string (char-change-case (string-ref str 0) #t))
-     (string-change-case (substring str 1 (string-length str)) #f)))
-
 (define (module-for-id id)
     (let* ((id-elements (split-string id #\.)))
       (string-change-case (car (cdr id-elements)) #f)))
