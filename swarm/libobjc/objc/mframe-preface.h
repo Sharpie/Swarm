@@ -24,6 +24,8 @@
 #ifndef __preface_h_OBJECTS_INCLUDE
 #define __preface_h_OBJECTS_INCLUDE
 
+#undef PACKAGE
+#undef VERSION
 #include <config.h>
 
 #if defined(__hpux__) && defined(HAVE_SYS_SIGEVENT_H)

@@ -1,7 +1,8 @@
 1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* mframe-preface.h: Include config.h.  Don't include sys/sigevent.h
-	unless __hpux__ and HAVE_SYS_SIGEVENT_H.
+	* mframe-preface.h: Undef PACKAGE and VERSION, then include
+	config.h.  Don't include sys/sigevent.h unless __hpux__ and
+	HAVE_SYS_SIGEVENT_H.
 
 1999-05-16  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
 
