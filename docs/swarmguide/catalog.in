@@ -10,6 +10,8 @@ PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Bibliography//EN" @top_dossrcdir@/user
 PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Index//EN" genindex.sgml
 PUBLIC "-//SFI Hive//ENTITIES Guide Figure List//EN" @top_dossrcdir@/figs/figs.ent
 
+PUBLIC "-//SFI Hive//ENTITIES Swarm Logo JPEG//EN" figs/swarm.jpeg
+PUBLIC "-//SFI Hive//ENTITIES Swarm Logo EPS//EN" @top_dossrcdir@/figs/swarm.eps
 PUBLIC "-//SFI Hive//ENTITIES discrete-event-sim JPEG//EN" figs/discrete-event-sim.jpeg
 PUBLIC "-//SFI Hive//ENTITIES interface-vs-implementation JPEG//EN" figs/interface-vs-implementation.jpeg
 PUBLIC "-//SFI Hive//ENTITIES libraries-activity JPEG//EN" figs/libraries-activity.jpeg

@@ -57,13 +57,13 @@
           </formalpara>
         </listitem>
 
-        <listitem>
+      <indexterm><primary>EZGraph</primary></indexterm>
+      <indexterm><primary>EZDistribution</primary></indexterm>
+
+      <listitem>
 
           <formalpara>
             <title>The Data Display Graphs</title>
- 
-	  <indexterm><primary>EZGraph</primary></indexterm>
-	  <indexterm><primary>EZDistribution</primary></indexterm>
            
           <para>For the visual presentation of summary information,
             Swarm provides a set of tools for presenting information

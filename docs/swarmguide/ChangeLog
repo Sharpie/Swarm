@@ -1,7 +1,38 @@
-2000-03-02  Alex Lancaster  <alex@santafe.edu>
-	
+2000-03-03  Alex Lancaster  <alex@santafe.edu>
+
 	* Swarm user guide 0.9 beta released.
 
+	* user2.06.sgml: Move INDEXTERMs out of ITEMIZEDLISTs and up a
+	level as a workaround to print backend problems with generated
+	correct page numbers.
+
+	* user3.05.sgml: Likewise.
+
+	* userpreface.sgml: Add highlights section and note extent of Java
+	coverage.
+
+	* print.dsl (%verbatim-size-factor%): Reduce to 0.75.
+
+	* userbiblio.sgml (Daniels, Goldberg et. el): Add references.
+
+	* user3.05.sgml: Port serialization example to Swarm 2.1.
+	
+	* user2.01.sgml: Add WARNING that Java material stops at the
+	beginning of Part II.
+
+	* user1.04.sgml: Add ObjC/Java code comparisons.
+
+	* usermeta.sgml: Comment out Benedikt as a primary author, in
+	acknowledgments.  Add some more text.
+
+	* user1.03.sgml: Considerable rewriting and massaging to
+	accomodate Java description and ObjC/Java comparisons side-by-side
+	where possible.  Added some completely new Java descriptions.
+
+	* catalog.in: Add PUBLIC identifiers for "Swarm Logo".
+
+2000-03-02  Alex Lancaster  <alex@santafe.edu>
+	
 	* user1.03.sgml: Re-organize to be non-Objective C specific.  Add
 	new Java basics section, to be fleshed out.
 

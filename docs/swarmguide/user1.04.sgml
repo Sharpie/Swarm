@@ -1,7 +1,7 @@
 <chapter id="swarm.user.user1.04.chapter">
   <title>The notion of a Swarm</title>
   
-  <INDEXTERM>
+  <indexterm significance="preferred">
     <PRIMARY>Swarm</PRIMARY>
   </INDEXTERM>
   
@@ -71,23 +71,27 @@
       the model swarm are typically designed in a similar way.  Methods
       that will appear in many classes, for example, include:</para>
 
-<programlisting>
-+createBegin;
--createEnd;
--buildObjects;
--buildActions;
--activateIn
-</programlisting>
+&startlisting-objc;+ createBegin;
+- createEnd;
+- buildObjects;
+- buildActions;
+- activateIn;&java;createBegin ();
+createEnd ()
+buildObjects ();
+buildActions ();
+activateIn ();
+&endlisting;
 
     <para>There are also methods that allow the input and output of
       information from the object. By custom, these are usually
       prefaced by the words <function>get</function> and
       <function>set</function>. For example:</para>
 
-<programlisting>
--setParameterValue: (int) value;
+&startlisting-objc;-setParameterValue: (int) value;
 -(int) getParameterValue;
-</programlisting>
+&java;Object setParameterValue (int value);
+int getParameterValue ();
+&endlisting;
 
     <para>These methods can be written to so that
       <function>setParameterValue</function> causes an object to set
@@ -159,20 +163,21 @@
       memory zone. Using the current style, the code would look like
       so:</para>
 
-<programlisting>
-  forestModelSwarm = [ForestModelSwarm create: self ];  
-  [forestModelSwarm buildObjects];</programlisting>
+&startlisting-objc;forestModelSwarm = [ForestModelSwarm create: self];  
+[forestModelSwarm buildObjects];
+&java;forestModelSwarm = ForestModelSwarm (this.getZone());  
+forestModelSwarm.buildObjects ();
+&endlisting;
 
-    <para>Users may find older versions of this code which accomplish
-      the same purpose, but are slightly more verbose and do not take
-      into account the fact that the observer swarm object is iself a
+    <para><emphasis>In the Objective C case only</emphasis>, users may
+      find older versions of this code which accomplish the same
+      purpose, but are slightly more verbose and do not take into
+      account the fact that the observer swarm object is itself a
       memory zone.</para>
 
-<programlisting>
-  modelZone = [Zone create: [self getZone]];
-  forestModelSwarm = [ForestModelSwarm create: modelZone];  
-  [forestModelSwarm buildObjects];
-</programlisting>
+<programlisting>modelZone = [Zone create: [self getZone]];
+forestModelSwarm = [ForestModelSwarm create: modelZone];  
+[forestModelSwarm buildObjects];</programlisting>
 
     <para>Note the importance of the last line in either of these
       excerpts. The first line of the code creates the model swarm
@@ -181,7 +186,8 @@
       that object to create its own objects by telling the
       <varname>forestModelSwarm</varname> to execute its own
       <function>buildObjects</function> method.  To find out what that
-      implies, one must go look in the implementation file for the
+      implies, one must go look in the implementation file (or
+      <filename>.java</filename> file in the Java case) for the
       <classname>ForestModelSwarm</classname> to see what objects it
       creates.</para>
 

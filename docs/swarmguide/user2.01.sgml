@@ -28,6 +28,21 @@
       analysis of the material.</para>
   </important>
 
+  <warning>
+    <title>Java Stops Here!</title> 
+    
+    <para>From hereon in, the <citetitle>Guide</citetitle> will only
+      refer to examples in Objective C.  The
+      <citetitle>Guide</citetitle> is in the process of being updated
+      to include Java examples of the basic Swarm concepts covered in
+      the following chapters.  That said, although many of the
+      concepts described are described in Objective C terms, most of
+      the concepts carry over intact into the Java context, and
+      (mostly!)  only differ in fairly trivial syntactical ways, so it
+      possible that Java users can benefit from the following sections
+      </para>
+  </warning>
+
   <sect1 id="swarm.user.user2.01-tutorial.sect1">
     <title>Tutorial Progression</title>
     

@@ -1,9 +1,7 @@
 <BOOKINFO>
  <TITLE>Swarm User Guide</TITLE>
- 
-<!--
-  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
--->
+  
+  <!--  <graphic entityref="booktitlelogo" align="center" scale="70"></GRAPHIC> -->
 
   <COPYRIGHT><YEAR>1999-2000</YEAR><HOLDER>&orgname;</HOLDER></COPYRIGHT>
 
@@ -35,13 +33,14 @@
         </AFFILIATION>
       </AUTHOR>
       
-      <AUTHOR>
+<!--      <AUTHOR>
         <FIRSTNAME>Benedikt</FIRSTNAME><SURNAME>Stefansson</SURNAME>
         <AFFILIATION>
           <ORGNAME>CASA Inc.</ORGNAME>
           <ADDRESS><EMAIL>bs@lacasa.com</EMAIL></ADDRESS>
         </AFFILIATION>
       </AUTHOR>
+-->
 
     </AUTHORGROUP>
 
@@ -58,15 +57,22 @@
         of the anatomy of a swarm program. The third part goes into
         significantly greater detail on some elements of programming
         in Swarm that users are likely to enounter as they build
-        programs with Swarm. Users are encouraged to explore the Swarm
-        sample programs and to visit the Swarm homepage, where they
-        can find out the latest news and join the Swarm e-mail
+        programs with Swarm.  Users are encouraged to explore the
+        Swarm sample programs and to visit the &swarm-webpage;, where
+        they can find out the latest news and join the Swarm e-mail
         community.
       </PARA>
 
-      <PARA>Paul Johnson's effort on this project was supported in part
-      by a grant from the National Science Foundation (SBR-9709404).
+      <PARA>Paul Johnson's effort on this project was supported in
+        part by a grant from the National Science Foundation
+        (SBR-9709404).  Paul is the primary author of the main bulk of
+        the <citetitle>Guide</citetitle> material.
        </PARA>
+
+      <para>Alex Lancaster is responsible for most of the
+        SGML-"smithing" and markup issues in DocBook (see <link
+        linkend="swarm.user.colophon">Colophon</link>) and supplied
+        additional material and text.</para>
 
     </ABSTRACT>
 

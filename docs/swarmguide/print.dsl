@@ -31,7 +31,7 @@
 
 (define %verbatim-size-factor% 
   ;; Verbatim font scaling factor
-  0.8)
+  0.75)
 
 (define ($bold-sanserif-seq$ #!optional (sosofo (process-children)))
   (make sequence

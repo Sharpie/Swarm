@@ -6,10 +6,45 @@
     materials, which include the sample programs and tutorials
     provided by the Swarm team and the <citetitle>Swarm Documentation
     Set</citetitle>.  Since this is a user guide, it is intended to be
-    less formal and not so encyclopaedic as the <citetitle>Reference
-    Guide for Swarm</citetitle>. When there is any doubt, the
-    <citetitle>Reference Guide</citetitle> (and the source code
-    itself) is the final, most appropriate, authority.</para>
+    less formal and not so encyclopaedic as the &refbook;. When there
+    is any doubt, the <citetitle>Reference Guide</citetitle> (and the
+    source code itself) is the final, most appropriate,
+    authority.</para>
+
+  <highlights>
+    <itemizedlist>
+      <listitem>
+        <formalpara>
+          <title>Part I</title> <para>An overview of Swarm and a brief
+          primer on Swarm object-oriented programming using Objective
+          C and Java.  <important>
+              <para>At the time of writing only Part I
+          has been written from a joint Objective C/Java perspective,
+          subsequent Parts assume you are using the Objective C
+          version of Swarm, a limitation we hope to rectify in future
+          versions of this
+          <citetitle>Guide</citetitle></para></important></para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>Part II</title> <para>A reprise on the Swarm tutorial
+          package, explaining in-depth various non-obvious features of
+          Swarm coding.  As previously noted, the present this only
+          covers the Objective C version </para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>Part III</title> <para>Advanced Topics: as you might
+          guess, not for the uninitiated, these are important topics
+          you will need to know to become a competent in using the Swarm
+          libraries.</para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
+
+  </highlights>
 
   <para>The inspiration for this Guide was provided by
     <author><firstname>Benedikt</firstname>
@@ -22,47 +57,36 @@
 
   <para>Conventions used in this document:</para>
 
-  <itemizedlist>
-    <listitem>
-      <note>
-        <title>Note</title>
-        <para>Interesting fact(s), not necessarily of vital
-          significance to the user.</para>
-      </note>
-    </listitem>
-
-    <listitem>
-      <tip>
-        <title>Tip</title>
-        <para>A coding tip, a suggested convention to adopt or
-          suggested usage.</para>
-      </tip>
-    </listitem>
-
-    <listitem>
-      <important>
-        <title>Important</title>
-        <para>Important fact(s) you should know before proceeding
-        to the next section.</para>
+  <note>
+    <title>Note</title>
+    <para>Interesting fact(s), not necessarily of vital
+      significance to the user.</para>
+  </note>
+  
+  <tip>
+    <title>Tip</title>
+    <para>A coding tip, a suggested convention to adopt or
+      suggested usage.</para>
+  </tip>
+  
+  <important>
+    <title>Important</title>
+    <para>Important fact(s) you should know before proceeding
+      to the next section.</para>
     </important>
-    </listitem>
 
-    <listitem>
-      <caution>
-        <title>Caution</title>
-        <para>A note of caution, generally regarding a changed
-          usage, deprecated functionality or other compatibility
-          issue.</para>
-      </caution>
-    </listitem>
-    
-    <listitem>
-      <warning>
-        <title>Warning</title> <para>Vital information that a user needs
-          to be aware of before proceeding.</para>
-    </warning>
-    </listitem>
-  </itemizedlist>
+  <caution>
+    <title>Caution</title>
+    <para>A note of caution, generally regarding a changed
+      usage, deprecated functionality or other compatibility
+      issue.</para>
+  </caution>
+
+  <warning>
+    <title>Warning</title> <para>Vital information that a user needs
+      to be aware of before proceeding.</para>
+  </warning>
+
 
 </preface>
 

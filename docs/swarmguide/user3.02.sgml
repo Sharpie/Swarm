@@ -60,15 +60,21 @@
 
     <para>
       Some commands that work in Swarm collections are: 
+
+      <indexterm><primary>getCount</primary></indexterm>
+      <indexterm><primary>atOffset:</primary></indexterm>
+      <indexterm><primary>atOffset:</primary><see>collections</see></indexterm>
+      <indexterm><primary>removeAll</primary></indexterm>
+      <indexterm><primary>deleteAll</primary></indexterm>      
+      <indexterm><primary>forEach:</primary></indexterm>
+
       <itemizedlist>
         <listitem>
-	  <indexterm><primary>getCount</primary></indexterm>
+
           <para><function>getCount</function>: 
               Returns the number of members in the collection</para>
           </listitem>
         <listitem>
-	  <indexterm><primary>atOffset:</primary></indexterm>
-	  <indexterm><primary>atOffset:</primary><see>collections</see></indexterm>
 
           <para><function>atOffset: i</function>: 
               Retrieves the <varname>i</varname>th member of the collection
@@ -85,15 +91,14 @@
               Removes object obj
             </para></listitem>
         <listitem>
-	  <indexterm><primary>removeAll</primary></indexterm>
          <para><function>removeAll</function>: 
               Removes all objects from collection, but leaves the objects in memory</para></listitem>
         <listitem>
-	  <indexterm><primary>deleteAll</primary></indexterm>
+	
           <para><function>deleteAll</function>: 
               Removes all objects from collection and deletes them from memory</para></listitem>
         <listitem>
-	  <indexterm><primary>forEach:</primary></indexterm>
+
           <para><function>forEach:M(message)</function>: 
               Sends message to all members</para></listitem>
       </itemizedlist>

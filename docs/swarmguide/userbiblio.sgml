@@ -5,7 +5,32 @@
     to program with the Swarm libraries.</para>
   <bibliodiv>
     <title>Books</title>
-    <para>This section is for books.</para>
+    <biblioentry>
+      <abbrev>Goldberg & Robson, 1989</abbrev>
+      <bookbiblio>
+        <title>Smalltalk 80 : The Language</title>
+        <authorgroup>
+          <author>
+            <firstname>Adele</firstname>
+            <surname>Goldberg</surname>
+          </author>
+          <author>
+            <firstname>David</firstname>
+            <surname>Robson</surname>
+          </author>
+        </authorgroup>
+        <isbn>0201136880</isbn>
+        <pubdate>June 1989</pubdate>
+        <publisher>
+          <publishername>Addions-Wesley</publishername>
+        </publisher>  
+        <abstract>
+          <formalpara>
+            <title>Abstract</title> <para>Classic Smalltalk
+            reference.</para></formalpara>
+        </abstract>
+      </bookbiblio>
+    </biblioentry>
     <biblioentry>
       <abbrev>Kernighan & Ritchie, 1988</abbrev>
       <bibliomisc>&dash;</bibliomisc>
@@ -119,6 +144,26 @@
         <publishername>O'Reilly & Associates Inc.</publishername>
         <address><city>Sebastopol</city><state>California</state></address>
       </publisher>
+    </biblioentry>
+  </bibliodiv>
+
+  <bibliodiv>
+    <title>Papers</title>
+    <biblioentry>
+      <abbrev>Daniels, 1999</abbrev>
+      <author>
+        <firstname>Marcus</firstname>
+        <surname>Daniels</surname>
+      </author>
+      <citetitle pubwork="article"><ulink url="http://www.swarm.org/intro-papers.html">Integrating Simulation Technologies
+          with Swarm</ulink></citetitle> 
+      <confgroup>
+        <conftitle>Agent Simulation: Applications, Models and
+      Tools</conftitle>
+        <confdates>October 1999</confdates>
+        <confsponsor>Argonne National Laboratory, University of
+          Chicago</confsponsor>
+      </confgroup>
     </biblioentry>
   </bibliodiv>
 
