@@ -17,15 +17,11 @@
 #include "swarmITyping.h"
 #include "swarmIZone.h"
 
+#include "componentIDs.h"
+
 struct method_key {
   nsISupports *target;
   const char *methodName;
-};
-
-struct method_value {
-  nsIID *iid;
-  PRUint16 methodIndex;
-  const nsXPTMethodInfo *methodInfo;
 };
 
 struct method_pair {
@@ -325,6 +321,22 @@ normalize (COMobject cObj)
     }
 }
 
+static NS_DEFINE_CID (kSelector, SWARM_SELECTOR_CID);
+
+COMselector
+selectorCreate (COMmethod cMethod)
+{
+  swarmISelector *cSel, *ret;
+
+  if (!NS_SUCCEEDED (nsComponentManager::CreateInstance (kSelector, nsnull,
+                                                         NS_GET_IID (swarmISelector),
+                                                         (void **) &cSel)))
+    abort ();
+  if (!NS_SUCCEEDED (cSel->CreateFromMethod (cMethod, &ret)))
+    abort ();
+  return cSel;
+}
+
 COMselector
 selectorQuery (COMobject cObj)
 {
@@ -409,20 +421,22 @@ selectorArgFcallType (COMselector cSel, unsigned argIndex)
 }
 
 void
-selectorCOMInvoke (COMselector cSel, void *params)
+selectorCOMInvoke (COMselector cSel, COMobject cObj, void *params)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   
-  if (!NS_SUCCEEDED (sel->COMinvoke ((nsXPTCVariant *) params)))
+  if (!NS_SUCCEEDED (sel->COMinvokeX (NS_STATIC_CAST (nsISupports *,cObj),
+                                      (nsXPTCVariant *) params)))
     abort ();
 }
 
 void
-selectorJSInvoke (COMselector cSel, void *params)
+selectorJSInvoke (COMselector cSel, COMobject cObj, void *params)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
  
-  if (!NS_SUCCEEDED (sel->JSinvoke ((jsval *) params)))
+  if (!NS_SUCCEEDED (sel->JSinvokeX (NS_STATIC_CAST (nsISupports *,cObj),
+                                     (jsval *) params)))
     abort ();
 }
 
@@ -630,15 +644,16 @@ methodParamFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 paramIndex)
     case nsXPTType::T_INTERFACE_IS:
       ret = fcall_type_object;
       break;
+    case nsXPTType::T_IID:
+      ret = fcall_type_iid;
+      break;
       
     case nsXPTType::T_WCHAR:
-    case nsXPTType::T_IID:
     case nsXPTType::T_BSTR:
     case nsXPTType::T_WCHAR_STR:
     case nsXPTType::T_ARRAY:
     case nsXPTType::T_PSTRING_SIZE_IS:
     case nsXPTType::T_PWSTRING_SIZE_IS:
-    default:
       abort ();
     }
   return ret;
@@ -755,11 +770,12 @@ static nsXPTType types[FCALL_TYPE_COUNT] = {
   nsXPTType::T_DOUBLE,
   nsXPTType::T_VOID, // long double
   nsXPTType::T_INTERFACE,
-  nsXPTType::T_IID,
+  nsXPTType::T_IID, // class
   nsXPTType::T_CHAR_STR,
   nsXPTType::T_INTERFACE,
   nsXPTType::T_VOID, // jobject
-  nsXPTType::T_VOID // jstring
+  nsXPTType::T_VOID, // jstring
+  nsXPTType::T_IID // iid
 };
 
 void
@@ -833,11 +849,15 @@ COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
       param->type = nsXPTType::T_CHAR_STR;
       param->val.p = (void *) value->string;
       break;
+    case fcall_type_iid:
+      param->type = nsXPTType::T_IID;
+      param->val.p = value->iid;
+      break;
     case fcall_type_selector:
     case fcall_type_jobject:
     case fcall_type_jstring:
-    default:
       abort ();
+
     }
 }
 
@@ -995,6 +1015,7 @@ JSsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
       jsparams[pos] = STRING_TO_JSVAL (JS_NewStringCopyZ (currentJSContext (),
                                                         value->string));
       break;
+    case fcall_type_iid:
     case fcall_type_jobject:
     case fcall_type_jstring:
       abort ();

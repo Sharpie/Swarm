@@ -202,12 +202,47 @@ swarmSelectorImpl::IsJavaScript (PRBool *ret)
   return NS_OK;
 }
 
+void
+swarmSelectorImpl::setupCOMselector ()
+{
+  uint8 paramCount = methodInfo->GetParamCount ();
+  PRBool voidReturn;
+  
+  if (!NS_SUCCEEDED (IsVoidReturn (&voidReturn)))
+    abort ();
+  
+  argCount = (unsigned) paramCount;
+  if (!voidReturn)
+    argCount--;
+  methodName = (char *) methodInfo->GetName ();
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::CreateFromMethod (COMmethod method,
+                                     swarmISelector **ret)
+{
+  struct method_value *value = (struct method_value *) method;
+
+  methodIID = value->iid;
+  methodIndex = value->methodIndex;
+  methodInfo = value->methodInfo;
+  
+  jsArgTypes = NULL;
+
+  setupCOMselector ();
+
+  NS_ADDREF (*ret = NS_STATIC_CAST (swarmISelector*, this));
+  
+  return NS_OK;
+}
+
 NS_IMETHODIMP
 swarmSelectorImpl::Create (nsISupports *obj,
                            const char *wantedMethodName,
                            swarmISelector **ret)
 {
   nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (obj));
+  JSObject *jsObj;
 
   jsArgTypes = NULL;
  
@@ -238,24 +273,11 @@ swarmSelectorImpl::Create (nsISupports *obj,
     }
   else
     {
-      nsIID *methodIID;
-
       if (!findMethod (obj, wantedMethodName,
                        &methodIID, &methodIndex, &methodInfo))
         return NS_ERROR_NOT_IMPLEMENTED;
-      
-      if (!NS_SUCCEEDED (obj->QueryInterface (*methodIID, (void **) &methodInterface)))
-        abort ();
-      uint8 paramCount = methodInfo->GetParamCount ();
-      PRBool voidReturn;
-      
-      if (!NS_SUCCEEDED (IsVoidReturn (&voidReturn)))
-        abort ();
-      
-      argCount = (unsigned) paramCount;
-      if (!voidReturn)
-        argCount--;
-      methodName = (char *) methodInfo->GetName ();
+
+      setupCOMselector ();
     }
 
   NS_ADDREF (*ret = NS_STATIC_CAST (swarmISelector*, this));
@@ -263,20 +285,39 @@ swarmSelectorImpl::Create (nsISupports *obj,
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::COMinvoke (nsXPTCVariant *params)
+swarmSelectorImpl::COMinvokeX (nsISupports *obj, nsXPTCVariant *params)
 {
+  nsISupports *methodInterface;
+  nsresult rv;
+
   if (!methodInfo)
     abort ();
 
-  return XPTC_InvokeByIndex (methodInterface,
-                             methodIndex,
-                             methodInfo->GetParamCount (),
-                             params);
+  rv = obj->QueryInterface (*methodIID, (void **) &methodInterface);
+
+  if (!NS_SUCCEEDED (rv))
+    return rv;
+
+  rv = XPTC_InvokeByIndex (methodInterface,
+                           methodIndex,
+                           methodInfo->GetParamCount (),
+                           params);
+  NS_RELEASE (methodInterface);
+  return rv;
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::JSinvoke (jsval *args)
+swarmSelectorImpl::JSinvokeX (nsISupports *obj, jsval *args)
 {
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (obj));
+  JSObject *jsObj;
+
+  if (!jobj)
+    abort ();
+
+  if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+    abort ();
+  
   JS_CallFunction (currentJSContext (), jsObj, jsFunc,
                    argCount, args, &args[argCount]);
   return NS_OK;

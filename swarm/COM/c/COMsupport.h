@@ -6,11 +6,16 @@
 #include <swarmITyping.h>
 
 PRBool findMethod (nsISupports *target, const char *methodName,
-                   nsIID **iid, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
+                   const nsIID **iid, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
 
 void printGetters (nsISupports *obj);
 fcall_type_t JSToFcallType (unsigned type);
 
+struct method_value {
+  nsIID *iid;
+  PRUint16 methodIndex;
+  const nsXPTMethodInfo *methodInfo;
+};
 
 extern "C" {
 #include "../../src/defobj/COM.h"
@@ -34,8 +39,9 @@ BOOL selectorIsBooleanReturn (COMselector cSel);
 const char *selectorName (COMselector cSel);
 unsigned selectorArgCount (COMselector cSel);
 fcall_type_t selectorArgFcallType (COMselector cSel, unsigned argIndex);
-void selectorCOMInvoke (COMselector cSel, void *params);
-void selectorJSInvoke (COMselector cSel, void *params);
+void selectorCOMInvoke (COMselector cSel, COMobject obj, void *params);
+void selectorJSInvoke (COMselector cSel, COMobject obj, void *params);
+COMselector selectorCreate (COMmethod cMethod);
 
 void *COMcreateParams (unsigned size);
 void COMfreeParams (void *args);

@@ -17,11 +17,10 @@ public:
   unsigned argCount;
   const char *methodName;
 
-  nsISupports *methodInterface;
+  const nsIID *methodIID;
   PRUint16 methodIndex;
   const nsXPTMethodInfo *methodInfo;
 
-  JSObject *jsObj;
   JSFunction *jsFunc;
   unsigned *jsArgTypes;
   unsigned jsReturnType;
@@ -29,6 +28,8 @@ public:
   NS_DECL_ISUPPORTS
   NS_DECL_SWARMITYPING
   NS_DECL_SWARMISELECTOR
+
+  void setupCOMselector ();
 };
 
 #endif
