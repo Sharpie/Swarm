@@ -215,6 +215,12 @@ USING
 //M: object with its contents and then close the file.
 + load: anObject fromAppConfigFileNamed: (const char *)aFileName;
 
+//M: The load:fromAppConfigFileNamed: method loads anObject from th
+//M: application-specific data file named aFileName. 
+//M: The ObjectLoader class will open the file, initialize the 
+//M: object with its contents and then close the file.
++ load: anObject fromAppDataFileNamed: (const char *)aFileName;
+
 //M: The setFileObject: method sets the source fileObject which the instance 
 //M: of the ObjectLoader class should use by sending it this message.
 - setFileObject: aFileObject;

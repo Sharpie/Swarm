@@ -52,13 +52,23 @@
   return self;
 }
 
-
 + load: anObject fromAppConfigFileNamed: (const char *)aFileName
 {
   const char *configPath = [arguments getAppConfigPath];
   char buf[strlen (configPath) + strlen (aFileName) + 1], *p;
   
   p = stpcpy (buf, configPath);
+  stpcpy (p, aFileName);
+
+  return [self load: anObject fromFileNamed: buf];
+}
+
++ load: anObject fromAppDataFileNamed: (const char *)aFileName
+{
+  const char *dataPath = [arguments getAppDataPath];
+  char buf[strlen (dataPath) + strlen (aFileName) + 1], *p;
+  
+  p = stpcpy (buf, dataPath);
   stpcpy (p, aFileName);
 
   return [self load: anObject fromFileNamed: buf];
