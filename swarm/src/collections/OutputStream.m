@@ -136,7 +136,7 @@ PHASE(Using)
   char buf[DSIZE (long long) + 1];
 
   sprintf (buf, "%lld", lnglng);
-  [stream catC: buf];
+  [self catC: buf];
 }
 
 - (void)catUnsignedLongLong: (unsigned long long)ulnglng
@@ -144,7 +144,7 @@ PHASE(Using)
   char buf[DSIZE (unsigned long long) + 1];
 
   sprintf (buf, "%llu", ulnglng);
-  [stream catC: buf];
+  [self catC: buf];
 }
 
 @end
