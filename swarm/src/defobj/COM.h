@@ -52,8 +52,9 @@ struct COMInterface {
   void (*collectMethods) (COMclass cClass, COM_collect_variable_func_t variableFunc, COM_collect_method_func_t methodFunc);
   const char *(*COMmethodName) (COMmethod cMethod);
   unsigned (*COMmethodArgCount) (COMmethod cMethod);
-  fcall_type_t (*COMmethodArgFcallType) (COMmethod cMethod, unsigned index);
-  void (*COMmethodInvoke) (COMmethod cMethod, void *params);
+  fcall_type_t (*COMmethodParamFcallType) (COMmethod cMethod, unsigned index);
+  void (*COMmethodSetReturn) (COMmethod cMethod, void *params, void *value);
+  void (*COMmethodInvoke) (COMmethod cMethod, COMobject target, void *params);
 };
 
 extern void initCOM (COMEnv *env);
@@ -98,9 +99,10 @@ extern COMobject swarm_directory_update_phase_COM (id oObj);
 
 extern void COM_collect_variables (COMclass cClass, COM_collect_variable_func_t variableFunc);
 extern void COM_collect_methods (COMclass cClass, COM_collect_method_func_t methodFunc);
-extern const char *COM_method_name (COMmethod method);
-extern void COM_method_invoke (COMmethod method, void *params);
-
+extern const char *COM_method_name (COMmethod cMethod);
+extern void COM_method_set_return (COMmethod cMethod, void *params, void *value);
+extern void COM_method_invoke (COMmethod cMethod, COMobject target, void *params);
+extern fcall_type_t COM_method_param_fcall_type (COMmethod cMethod, unsigned index);
 #ifdef __cplusplus
 }
 #endif

@@ -121,9 +121,27 @@ COM_collect_methods (COMclass cClass, COM_collect_method_func_t methodFunc)
 }
 
 const char *
-COM_method_name (COMmethod method)
+COM_method_name (COMmethod cMethod)
 {
-  return comEnv->COMmethodName (method);
+  return comEnv->COMmethodName (cMethod);
+}
+
+fcall_type_t
+COM_method_param_fcall_type (COMmethod cMethod, unsigned index)
+{
+  return comEnv->COMmethodParamFcallType (cMethod, index);
+}
+
+void
+COM_method_set_return (COMmethod cMethod, void *params, void *value)
+{
+  comEnv->COMmethodSetReturn (cMethod, params, value);
+}
+
+void
+COM_method_invoke (COMmethod cMethod, COMobject cObj, void *params)
+{
+  comEnv->COMmethodInvoke (cMethod, cObj, params);
 }
 
 COMobject 

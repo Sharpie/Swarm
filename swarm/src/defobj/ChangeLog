@@ -1,3 +1,12 @@
+2001-01-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.h (COMInterface): Add COMmethodSetReturn, COMmethodInvoke,
+	and rename COMmethodArgFcallType to COMmethodParamFcallType.
+
+	* COM.[hm] (COM_method_invoke): Add target argument.
+	(COM_method_set_return, COM_method_invoke,
+	COM_method_param_fcall_type): New functions.
+
 2001-01-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.h (COMmethod, COM_collect_variable_func_t): New types.
