@@ -524,6 +524,9 @@ USING
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:
                                                                 arg1:arg2:arg3;
+
+//M: Remove action from either schedule or concurrent group.
+- remove: anAction  
 @end
 
 @deftype SynchronizationType
@@ -957,7 +960,13 @@ extern id _activity_context_error (const char *macroName);
 
 @deftype ActivationOrder <ActionGroup, CREATABLE>
 //S: Default type used as concurrent group of a swarm.
-//D: Default type used as concurrent group of a swarm.
+//D: Concurrent group to order merge by activation order within swarm.
+
+//M: Method to sort concurrent merge actions in the order of swarm activation.
+- (void)addLast: mergeAction;
+
+//M: Method to remove concurrent merge action from sorted group
+- remove: mergeAction;
 @end
 
 //G: Error issued when an internal zone is expected, but absent.
