@@ -1,3 +1,9 @@
+1999-07-06  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (STANDARD_JAVADOC_OPTIONS): Use GNU make $(wildcard)
+	function for generating dependencies on the java source files in
+	the Swarm distribution.
+
 1999-07-05  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (java-stub.elc): Depend on

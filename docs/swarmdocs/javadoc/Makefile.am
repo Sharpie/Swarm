@@ -41,7 +41,7 @@ STUBS = $(foreach module, $(MODULES),swarm/$(module)/package.html swarm/$(module
 $(STUBS): java-stub.elc $(foreach module,$(MODULES),$(swarm_dossrcdir)/src/$(module)/$(module).h)
 	SWARMSRCDIR=$(swarm_dossrcdir) $(EMACS) -batch -l $(abs_builddir)/java-stub.elc -f java-run-all-javadoc
 
-STANDARD_JAVADOC_OPTIONS = -public -sourcepath .:$(swarm_dossrcdir)/java/swarm $(foreach module, $(MODULES),swarm.$(module)) $(swarm_dossrcdir)/java/swarm/*.java
+STANDARD_JAVADOC_OPTIONS = -public -sourcepath .:$(swarm_dossrcdir)/java/swarm $(foreach module, $(MODULES),swarm.$(module)) $(wildcard $(swarm_dossrcdir)/java/swarm/*.java)
 
 $(NAME)/index.html: $(STUBS) $(srcdir)/html/swarm-doclet.jar
 	test -d $(NAME) || mkdir $(NAME)
