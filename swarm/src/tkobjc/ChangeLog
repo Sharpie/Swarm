@@ -1,5 +1,10 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* internal.m (x_set_private_colormap, tkobjc_raster_setColormap):
+	Use WarningMessage instead of Warning.
+	(xpmerrcheck): Use WarningMessage instead of Warning and
+	PixmapError instead of Error.
+
 	* win32dib.c (get_color): New function.
 	(dib_augmentPalette, dib_fill, dib_ellipse, dib_line, dib_rectangle): 
 	Use it.

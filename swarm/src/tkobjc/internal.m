@@ -662,7 +662,7 @@ x_set_private_colormap (Display *display, Window window, X11Colormap cmap)
         XFree (colormapWindows);
     }
   else
-    raiseEvent (Warning, "Could not get top window");
+    raiseEvent (WarningMessage, "Could not get top window");
 }
 
 #endif
@@ -672,7 +672,7 @@ tkobjc_raster_setColormap (Raster *raster)
 {
   Colormap *colormap = raster->colormap;
   if (colormap == nil)
-    raiseEvent (Warning, "colormap is nil");
+    raiseEvent (WarningMessage, "colormap is nil");
   else
     {
       if (raster->eraseColor == -1)
@@ -874,9 +874,9 @@ xpmerrcheck (int xpmerr, const char *what)
       break;
     }
   if (warning)
-    raiseEvent  (Warning, "Creating pixmap: %s (%s)\n", warning, what);
+    raiseEvent  (WarningMessage, "Creating pixmap: %s (%s)\n", warning, what);
   if (error)
-    raiseEvent (Error, "Creating pixmap: %s (%s)\n", error, what);
+    raiseEvent (PixmapError, "Creating pixmap: %s (%s)\n", error, what);
 }
 #endif
 
