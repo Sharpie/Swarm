@@ -1,5 +1,8 @@
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Colormap.m ([Colormap -setColor:ToName:]): Don't mark color
+	index as set if color lookup fails.
+
 	* Colormap.[hm] ([Colormap -unsetColor:]): New method.
 	Thanks to Ken Cline.
 

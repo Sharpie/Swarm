@@ -1,5 +1,8 @@
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* NEWS: Note fix to Colormap's setColor:ToName: and addition of
+	unsetColor:.
+
 	* ltconfig (pic_flag): For DLL systems, set -DDLL.  Although
 	DLLs don't need PIC, it's useful to distinguish code with
 	import/exports from those without.

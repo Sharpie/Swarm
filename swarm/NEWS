@@ -42,6 +42,10 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       collection, and false otherwise.  Re-enable protocol conformance to 
       KeyedCollection by Set. 
 
+*** gui
+**** Colormap
+***** New method :unsetColor:.  Thanks to Ken Cline.
+
 *** analysis
 **** EZGraph, EZBin
 ***** New method setColors:count: for customizing the colors used for
@@ -71,6 +75,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       raster to another.
 ***** Widget snapshots for 256-color display configurations of Windows were
       broken.
+**** Colormap
+***** Failed color lookups still resulted in a color index being marked as 
+      in-use.
 
 *** space
 **** Discrete2d, DblBuffer2d
