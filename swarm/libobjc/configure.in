@@ -76,7 +76,7 @@ md_CREATE_LIBOBJC_HEADERS
 
 AC_ARG_ENABLE(onelib,
 [  --enable-onelib       build as a single library],
-  enable_onelib=yes, enable_onelib=no)
+  , enable_onelib=no)
 if test x$enable_onelib = xyes; then
 	ONELIB=yes
 else
