@@ -32,6 +32,8 @@ extern id lispArchiver;
 - setSystemArchiverFlag: (BOOL)systemArchiverFlag;
 - setDefaultLispPath;
 - setDefaultHDF5Path;
+- setDefaultAppLispPath;
+- setDefaultAppHDF5Path;
 
 - createAppKey: (const char *)appName mode: (const char *)modeName;
 - ensureApp: appKey;

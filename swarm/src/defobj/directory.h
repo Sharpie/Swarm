@@ -7,6 +7,8 @@
 #ifdef __osf__
 #define _REENTRANT
 #endif
+
+#ifdef HAVE_JDK
 #include <jni.h>
 #include <misc/avl.h>
 #include <objc/objc.h>
@@ -65,3 +67,4 @@ void java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
 
 #define COPYSTRING(env, javaString) java_copy_string (env, javaString)
 #define CLEANUPSTRINGS(env, stringArray) java_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
+#endif

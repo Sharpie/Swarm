@@ -14,10 +14,15 @@
 #define SWARMARCHIVER_HDF5 "swarmArchiver.hdf"
 #define SWARMARCHIVER_LISP ".swarmArchiver"
 
+#define SWARMARCHIVER_HDF5_SUFFIX "hdf"
+#define SWARMARCHIVER_LISP_SUFFIX "scm"
+
 #define ARCHIVER_FUNCTION_NAME "archiver"
 
 Archiver_c *hdf5Archiver;
 Archiver_c *lispArchiver;
+Archiver_c *hdf5AppArchiver;
+Archiver_c *lispAppArchiver;
 
 @interface Application: CreateDrop
 {
@@ -87,6 +92,22 @@ defaultPath (const char *swarmArchiver)
       return buf;
     }
   return NULL;
+}
+
+static const char *
+defaultAppPath (const char *appDataPath, const char *appName,
+                const char *suffix)
+{
+  // return filename of the form: "appDataPath/appName.suffix"
+  const char *delim = ".";
+  char *buf = 
+    xmalloc(strlen (appDataPath) + strlen (appName) + strlen(suffix) + 1), *p;
+  
+  p = stpcpy (buf, appDataPath);
+  p = stpcpy (p, appName);
+  p = stpcpy (p, delim);
+  p = stpcpy (p, suffix);
+  return buf;
 }
 
 static void
@@ -232,6 +253,24 @@ PHASE(Creating)
 - setDefaultHDF5Path
 {
   path = defaultPath (SWARMARCHIVER_HDF5);
+  hdf5Flag = YES;
+  return self;
+}
+
+- setDefaultAppLispPath
+{
+  path = defaultAppPath ([arguments getAppDataPath],
+                         [arguments getAppName],
+                         SWARMARCHIVER_LISP_SUFFIX);
+  hdf5Flag = NO;
+  return self;
+}
+
+- setDefaultAppHDF5Path
+{
+  path = defaultAppPath ([arguments getAppDataPath],
+                         [arguments getAppName],
+                         SWARMARCHIVER_HDF5_SUFFIX);
   hdf5Flag = YES;
   return self;
 }

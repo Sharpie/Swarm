@@ -1,3 +1,25 @@
+1999-05-20  Alex Lancaster  <alex@santafe.edu>
+
+	* directory.[hm]: Protect Java-specific code with HAVE_JDK
+	#ifdef's.
+
+	* defobj.h: Declare extern {lisp,hdf5}AppArchiver.
+	(Archiver): Add -setDefaultApp{Lisp,HDF5}Path to protocol
+	definition.
+
+	* defobj.m (initDefobj): Create singleton instances of
+	{lisp,hdf5}AppArchiver.
+
+	* Archiver.[hm] ([Archiver_c -setDefaultAppLispPath]): New method
+	to set the default path name for the lispAppArchiver, use
+	defaultAppPath.
+	
+	* Archiver.[hm] ([Archiver_c -setDefaultAppHDF5Path]): Likewise
+	for hdf5AppArchiver, use defaultAppPath.
+	
+	* Archiver.m: (defaultAppPath): Function to generate the
+	application-specific Archiver pathname.
+
 1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* DefObject.m ([Object_s +getName]): Keep this method.  Some

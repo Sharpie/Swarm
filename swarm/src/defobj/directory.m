@@ -7,6 +7,7 @@
 #import "JavaProxy.h"
 #import <defobj.h>
 
+#ifdef HAVE_JDK
 static avl_tree *java_tree;
 static avl_tree *objc_tree;
 
@@ -613,3 +614,4 @@ java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count)
   for (i = 0; i < count; i++)
     XFREE (stringArray[i]);
 }
+#endif

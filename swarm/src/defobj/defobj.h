@@ -967,6 +967,8 @@ CREATING
 - setSystemArchiverFlag: (BOOL)systemArchiverFlag;
 - setDefaultLispPath;
 - setDefaultHDF5Path;
+- setDefaultAppLispPath;
+- setDefaultAppHDF5Path;
 - createEnd;
 USING
 - registerClient: client;
@@ -1104,11 +1106,17 @@ extern void defobj_init_java_call_tables (void *jniEnv);
 //G: The singleton Arguments object.
 extern id arguments;
 
-//G: The singleton HDF5 Archiver object.
+//G: The singleton HDF5 system Archiver object.
 extern id hdf5Archiver;
 
-//G: The singleton Lisp Archiver object.
+//G: The singleton Lisp system Archiver object.
 extern id lispArchiver;
+
+//G: The singleton HDF5 application Archiver object.
+extern id hdf5AppArchiver;
+
+//G: The singleton Lisp application Archiver object.
+extern id lispAppArchiver;
 
 //G: Predefined type descriptors for allocated blocks.
 extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
