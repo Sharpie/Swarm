@@ -14,6 +14,9 @@
 	_ProbeCanvas, _Raster, _ZoomRaster, _Pixmap, _CanvasAbstractItem,
 	_NodeItem, _LinkItem): Reorder definitions for above.
 
+	Move all //S and //D comments in internal protocols to external
+	protocols.
+
 	(_GraphElement): Declare -setOwnerGraph:, -createEnd, and
 	+createOwnerGraph:.
 
