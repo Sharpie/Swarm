@@ -1,5 +1,11 @@
 2000-06-25  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* Schedule.m ([Schedule_c -remove:]): Check that owner of action
+	conforms to ConcurrentGroup rather than checking for the
+	_getEmptyActionConcurrent_ method.
+	([ActionConcurrent_c -describe:]): Print out contents of 
+	concurrentGroup.
+
 	* SwarmProcess.m ([ActionMerge_c -describe:]): Report Swarm,
 	when available.
 
@@ -8,7 +14,7 @@
 	* CompoundAction.m ([CompoundAction_c -_createActivity_::::]): 
 	Eliminate redundant use of allocIVarsComponent:.
 
-	* activity.h (ConcurrentGroup): Adopt CREATABLE instead of RETURNABLE.
+	* activity.h (ConcurrentGroup): 
 	Add _setActionConcurrent_ and _getEmptyConcurrent_.
 	(ConcurrentSchedule): Adopt ConcurrentGroup instead of ActionGroup.
 

@@ -237,7 +237,7 @@ _update_mergeSchedules (Schedule_c *self,
   ScheduleIndex_c *mergeScheduleIndex;
   ActionMerge_c *mergeAction; 
   Schedule_c *mergeSchedule;
-  
+
   if (!mergeScheduleActivity)
     return;
   mergeScheduleIndex = mergeScheduleActivity->currentIndex;
@@ -494,13 +494,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
     {
       // concurrent group
 
-      if (_obj_debug && ![((CAction *) anAction)->owner respondsTo: M(_getEmptyActionConcurrent_)])
-      /*
-      if (_obj_debug && ![((CAction *) anAction)->owner conformsTo: 
-						  @protocol (ConcurrentGroup)]
-	  && ![((CAction *) anAction)->owner conformsTo: 
-						  @protocol (ConcurrentSchedule)])
-      */   raiseEvent (InvalidArgument,
+      if (_obj_debug && ![((CAction *) anAction)->owner conformsTo: @protocol (ConcurrentGroup)])
+        raiseEvent (InvalidArgument,
                     "> action to be removed from schedule does not belong to schedule\n");
       
       removedAction = [(id) ((CAction *) anAction)->owner remove: anAction];
@@ -907,9 +902,8 @@ PHASE(Using)
   [outputCharStream catC: "[ActionConcurrent_c "];
   _obj_formatIDString (buffer, self);
   [outputCharStream catC: buffer];
-  [outputCharStream catC: " concurrentGroup:"];
-  _obj_formatIDString (buffer, concurrentGroup);
-  [outputCharStream catC: buffer];
+  [outputCharStream catC: " concurrentGroup:\n"];
+  [concurrentGroup describeForEach: outputCharStream];
   [outputCharStream catC: "]\n"];
 }
 
