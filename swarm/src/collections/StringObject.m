@@ -184,7 +184,7 @@ PHASE(Using)
   return self;
 }
 
-- lispOutShallow: stream
+- (void)lispOutShallow: stream
 {
   if (literalFlag)
     [stream catString: string];
@@ -196,12 +196,11 @@ PHASE(Using)
       [stream catC: string];
       [stream catC: "\")"];
     }
-  return self;
 }
 
-- lispOutDeep: stream
+- (void)lispOutDeep: stream
 {
-  return [self lispOutShallow: stream];
+  [self lispOutShallow: stream];
 }
 
 
@@ -211,7 +210,7 @@ PHASE(Using)
   return self;
 }
 
-- hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: hdf5Obj
 {
   [hdf5Obj storeAsDataset: [hdf5Obj getName]
            typeName: [self getTypeName]
@@ -219,7 +218,6 @@ PHASE(Using)
            rank: 0
            dims: NULL
            ptr: &string];
-  return self;
 }
 
 //

@@ -22,16 +22,15 @@ PHASE(Using)
   return keywordName;
 }
 
-- lispOutShallow: (id <OutputStream>)stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
-  return [self lispOutDeep: stream];
+  [self lispOutDeep: stream];
 }
 
-- lispOutDeep: (id <OutputStream>)stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   [stream catC: "#:"];
   [stream catC: keywordName];
-  return self;
 }
 
 - (void)drop
@@ -250,15 +249,14 @@ PHASE(Using)
   return type;
 }
 
-- lispOutShallow: (id <OutputStream>)stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
-  return [self lispOutDeep: stream];
+  [self lispOutDeep: stream];
 }
 
-- lispOutDeep: (id <OutputStream>)stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   lisp_process_array (rank, dims, type, data, data, stream, YES);
-  return self;
 }
 
 - (void)drop
@@ -390,12 +388,12 @@ PHASE(Using)
   return value.class;
 }
 
-- lispOutShallow: (id <OutputStream>)stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
-  return [self lispOutDeep: stream];
+  [self lispOutDeep: stream];
 }
 
-- lispOutDeep: (id <OutputStream>)stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   switch (type)
     {
@@ -421,7 +419,6 @@ PHASE(Using)
       [stream catC: "serialization for this type not implemented yet"];
       break;
     }
-  return self;
 }
 
 @end
@@ -463,32 +460,30 @@ PHASE(Using)
   return consFormatFlag;
 }
 
-- lispOutShallow: (id <OutputStream>)stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
-  return [self lispOutDeep: stream];
+  [self lispOutDeep: stream];
 }
 
-- lispOutDeep: (id <OutputStream>)stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   [stream catC: (consFormatFlag ? "(cons " : "(")];
   [car lispOutDeep: stream];
   [stream catC: (consFormatFlag ? " ": " . ")];
   [cdr lispOutDeep: stream];
   [stream catC: ")"];
-  return self;
 }
 @end
 
 @implementation ArchiverList_c
 PHASE(Creating)
 PHASE(Using)
-- lispOutShallow: (id <OutputStream>)stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
   [self lispOutDeep: stream];
-  return self;
 }
 
-- lispOutDeep: (id <OutputStream>)stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   id index = [self begin: getZone (self)];
   id member;
@@ -545,7 +540,6 @@ PHASE(Using)
     }
   [stream catC: ")"];
   [index drop];
-  return self;
 }
 @end
 
@@ -563,13 +557,12 @@ PHASE(Using)
   return value;
 }
 
-- lispOutDeep: (id <OutputStream>)stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   [stream catC: "'"];
   if (stringp (value))
     [stream catC: [value getC]];
   else
     [value lispOutDeep: stream];
-  return self;
 }
 @end

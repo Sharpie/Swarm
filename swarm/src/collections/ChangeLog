@@ -1,3 +1,8 @@
+2000-06-29  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* {List,Map,Stream,StringObject}.[hm], collections.h: Remove
+	return type from {lisp,hdf5}Out{Shallow,Deep}:.
+
 2000-06-26  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* List_GEN.m ([TARGET -addFirst:,-addLast:]): In the case

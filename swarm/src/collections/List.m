@@ -182,7 +182,7 @@ PHASE(Using)
   abort ();
 }
 
-- _lispOut_: outputCharStream deep: (BOOL)deepFlag
+- (void)_lispOut_: outputCharStream deep: (BOOL)deepFlag
 {
   id index, member;
 
@@ -226,21 +226,19 @@ PHASE(Using)
 #endif
   
   [outputCharStream catEndExpr];
-  
-  return self;
 }
 
-- lispOutDeep: stream
+- (void)lispOutDeep: stream
 {
-  return [self _lispOut_: stream deep: YES];
+  [self _lispOut_: stream deep: YES];
 }
 
-- lispOutShallow: stream
+- (void)lispOutShallow: stream
 {
-  return [self _lispOut_: stream deep: NO];
+  [self _lispOut_: stream deep: NO];
 }
 
-- hdf5OutDeep: hdf5Obj
+- (void)hdf5OutDeep: hdf5Obj
 {
   id aZone = [self getZone];
 
@@ -265,11 +263,9 @@ PHASE(Using)
       [itemGroup drop];
     }
   [li drop];
-
-  return self;
 }
 
-- hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: hdf5Obj
 {
   if (![self allSameClass])
     raiseEvent (SaveError,
@@ -312,7 +308,6 @@ PHASE(Using)
       [hdf5ObjDataset drop];
       [hdf5CompoundType drop];
     }
-  return self;
 }
 
 @end

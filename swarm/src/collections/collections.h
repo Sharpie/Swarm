@@ -1076,8 +1076,8 @@ CREATING
 - setKeywordName: (const char *)name;
 USING
 - (const char *)getKeywordName;
-- lispOutShallow: (id <OutputStream>)stream;
-- lispOutDeep: (id <OutputStream>)stream;
+- (void)lispOutShallow: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
 @end
 
 @protocol ArchiverArray <Create, Drop, RETURNABLE>
@@ -1093,8 +1093,8 @@ USING
 - (unsigned)getElementCount;
 - (fcall_type_t)getArrayType;
 - convertToType: (char)destType dest: (void *)ptr;
-- lispOutShallow: (id <OutputStream>)stream;
-- lispOutDeep: (id <OutputStream>)stream;
+- (void)lispOutShallow: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;
 @end
 
@@ -1122,8 +1122,8 @@ USING
 - (BOOL)getBoolean;
 - getObject;
 - (Class)getClass;
-- lispOutShallow: (id <OutputStream>)stream;
-- lispOutDeep: (id <OutputStream>)stream;
+- (void)lispOutShallow: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;
 @end
 
@@ -1138,8 +1138,8 @@ USING
 - getCar;
 - getCdr;
 - (BOOL)getConsFormatFlag;
-- lispOutShallow: (id <OutputStream>)stream;
-- lispOutDeep: (id <OutputStream>)stream;
+- (void)lispOutShallow: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
 @end
 
 @protocol ArchiverList <List, RETURNABLE>
@@ -1147,8 +1147,8 @@ USING
 //D: Archiver list encapsulation for serialization.
 CREATING
 USING
-- lispOutShallow: (id <OutputStream>)stream;
-- lispOutDeep: (id <OutputStream>)stream;
+- (void)lispOutShallow: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
 @end
 
 @protocol ArchiverQuoted <RETURNABLE>
@@ -1158,7 +1158,7 @@ CREATING
 - setQuotedObject: value;
 USING
 - getQuotedObject;
-- lispOutDeep: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
 @end
 
 #define ARCHIVERDOTP(obj) ((id) (obj) == (id) ArchiverDot)

@@ -760,7 +760,7 @@ PHASE(Using)
   return NO;
 }
 
-- _lispOut_: outputCharStream deep: (BOOL)deepFlag
+- (void)_lispOut_: outputCharStream deep: (BOOL)deepFlag
 {
   id index, member, key;
 
@@ -817,17 +817,16 @@ PHASE(Using)
         raiseEvent (InvalidArgument, "Unknown compare function");
     }
   [outputCharStream catEndExpr];
-  return self;
 }
 
-- lispOutDeep: stream
+- (void)lispOutDeep: stream
 {
-  return [self _lispOut_: stream deep: YES];
+  [self _lispOut_: stream deep: YES];
 }
 
-- lispOutShallow: stream
+- (void)lispOutShallow: stream
 {
-  return [self _lispOut_: stream deep: NO];
+  [self _lispOut_: stream deep: NO];
 }
 
 static void
@@ -843,7 +842,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
     [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_CSTRING];
 }
 
-- hdf5OutDeep: hdf5Obj 
+- (void)hdf5OutDeep: hdf5Obj 
 {
   id aZone = getZone (self);
   id key, value;
@@ -959,10 +958,9 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
       else 
         abort ();
     }
-  return self;
 }
   
-- hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: hdf5Obj
 {
   if (![self allSameClass])
     raiseEvent (SaveError,
@@ -1027,7 +1025,6 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
       [mi drop];
       [compoundType drop];
     }
-  return self;
 }
 
 @end

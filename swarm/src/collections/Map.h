@@ -54,12 +54,12 @@ typedef struct mapentry {
 - (BOOL)allSameClass;
 - lispInCreate: expr;
 - lispIn: expr;
-- lispOutShallow: stream;
-- lispOutDeep: stream;
+- (void)lispOutShallow: stream;
+- (void)lispOutDeep: stream;
 - hdf5InCreate: hdf5Obj;
 - hdf5In: hdf5Obj;
-- hdf5OutShallow: hdf5Obj;
-- hdf5OutDeep: hdf5Obj;
+- (void)hdf5OutShallow: hdf5Obj;
+- (void)hdf5OutDeep: hdf5Obj;
 @end
 
 @interface MapIndex_c: Index_any <MapIndex>

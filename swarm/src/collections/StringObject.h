@@ -35,10 +35,10 @@ Library:      collections
 - (int)compare: aString;
 - (BOOL)getLiteralFlag;
 - lispIn: expr;
-- lispOutShallow: stream;
-- lispOutDeep: stream;
 - hdf5In: hdf5Obj;
-- hdf5OutShallow: hdf5Obj;
+- (void)lispOutShallow: stream;
+- (void)lispOutDeep: stream;
+- (void)hdf5OutShallow: hdf5Obj;
 - (void)describe: outputCharStream;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
