@@ -174,8 +174,8 @@ PHASE(Creating)
   if (callType == javacall || callType == javastaticcall)
       {
         ffunction = (callType == javacall ? 
-                     java_call_functions[(unsigned) fargs->returnType] :
-                     java_static_call_functions[(unsigned) fargs->returnType]);
+                     java_call_functions[fargs->returnType] :
+                     java_static_call_functions[fargs->returnType]);
         
         (jmethodID) fmethod =
           (callType == javacall ?
