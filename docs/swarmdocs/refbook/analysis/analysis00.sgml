@@ -13,12 +13,12 @@
 
 <!--
 
-  <SECT1 ID="SWARM.SRC.ANALYSIS.DEPEND">
+  <SECT1 ID="SWARM.ANALYSIS.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
     <PARA>No other library dependences</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ANALYSIS.COMPAT">
+  <SECT1 ID="SWARM.ANALYSIS.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions of
@@ -26,35 +26,35 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ANALYSIS.USAGE">
+  <SECT1 ID="SWARM.ANALYSIS.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ANALYSIS.ADVUSAGE">
+  <SECT1 ID="SWARM.ANALYSIS.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ANALYSIS.SUBCLASS">
+  <SECT1 ID="SWARM.ANALYSIS.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ANALYSIS.DESIGN">
+  <SECT1 ID="SWARM.ANALYSIS.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ANALYSIS.IMPL">
+  <SECT1 ID="SWARM.ANALYSIS.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
