@@ -1,3 +1,8 @@
+2001-02-27  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* SwarmEnvironment.m ([SwarmEnvironment
+	+initSwarm:version:bugAddress:argCount:args:]): Don't call createEnd.
+
 2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* swarm.h, SwarmEnvironment.[hm] ([SwarmEnvironment -typeModule:]): New

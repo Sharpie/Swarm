@@ -117,13 +117,12 @@ PHASE(Creating)
 
   if (COM_init_p ())
     swarmDirectory = [Directory create: globalZone];
-  [obj _init_: appName version: version bugAddress: bugAddress argCount: count args: args];
-  return [obj createEnd];
+  return [obj _init_: appName version: version bugAddress: bugAddress argCount: count args: args];
 }
 
 PHASE(Setting)
 
-- (void)_init_: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)argc args: (const char **)args
+- _init_: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)argc args: (const char **)args
 {
   unsigned i;
 
@@ -145,7 +144,7 @@ PHASE(Setting)
                          optionFunc: NULL
                          inhibitExecutableSearchFlag: YES]];
   }
-  [self createEnd];
+  return [self createEnd];
 }
 
 // It is declare in Using phase (so that it shows up in Globals.env),
