@@ -36,6 +36,12 @@
     MessageProbes, as yet. This method will override any globally
     specified defaults, as set by the ProbeLibrary feature.
 
+ 8. Added a generic hook to the probe mechanism such that an object
+    (designed by the application to accept the right message) will be
+    sent a message whenever a probe is used.
+
+ 9. Renamed the "swarmobject" library to "objectbase" to avoid
+    filename conflicts in brain-dead operating systems.
 
 	      =========================================
 		Release Notes for Swarm Version 1.0.3
