@@ -26,6 +26,8 @@ Library:      collections
 #define COMPARE_CSTRING "compare-c-strings"
 #define COMPARE_ID "compare-ids"
 
+#define COMPAREFUNCEQ(f) (compareFunc == &(f))
+
 #define GROUP_KEYS "keys"
 #define GROUP_VALUES "values"
 
@@ -193,7 +195,7 @@ PHASE(Setting)
             }
           else if (stringp (keyExpr))
             {
-              if (compareFunc == compareCStrings)
+              if (COMPAREFUNCEQ (compareCStrings))
                 key = (id) strdup ([keyExpr getC]);
               else
                 key = [keyExpr copy: aZone];
@@ -223,9 +225,9 @@ PHASE(Setting)
       const char **rowNames = [hdf5Obj readRowNames];
       const char *fmt = NULL;
       
-      if (compareFunc == compareIntegers)
+      if (COMPAREFUNCEQ (compareIntegers))
         fmt = PTRINTFMT;
-      else if (compareFunc == compareUnsignedIntegers)
+      else if (COMPAREFUNCEQ (compareUnsignedIntegers))
         fmt = PTRUINTFMT;
       else
         fmt = NULL;
@@ -241,7 +243,7 @@ PHASE(Setting)
             sscanf (rowNames[i], fmt, (int *) &key);
           else
             {
-              if (compareFunc == compareCStrings)
+              if (COMPAREFUNCEQ (compareCStrings))
                 key = (id) rowNames[i];
               else
                 key = [String create: aZone setC: rowNames[i]];
@@ -252,7 +254,7 @@ PHASE(Setting)
     }
   else
     {
-      if ((compareFunc == compareIDs || compareFunc == NULL)
+      if ((COMPAREFUNCEQ (compareIDs) || compareFunc == NULL)
           && [hdf5Obj checkName: GROUP_KEYS])
         {
           id keyGroup = [[[[[HDF5 createBegin: aZone]
@@ -285,8 +287,8 @@ PHASE(Setting)
             [valueGroup drop];
           }
         }
-      else if (compareFunc == compareIntegers
-               || compareFunc == compareUnsignedIntegers)
+      else if (COMPAREFUNCEQ (compareIntegers)
+               || COMPAREFUNCEQ (compareUnsignedIntegers))
         {
           const char *fmt;
           
@@ -301,10 +303,10 @@ PHASE(Setting)
               return 0;
             }
 
-          fmt = (compareFunc == compareIntegers) ? PTRINTFMT : PTRUINTFMT;
+          fmt = COMPAREFUNCEQ (compareIntegers) ? PTRINTFMT : PTRUINTFMT;
           [hdf5Obj iterate: process_object];
         }
-      else if (compareFunc == compareCStrings)
+      else if COMPAREFUNCEQ (compareCStrings)
         {
           int process_object (id keyComponent)
             {
@@ -677,28 +679,28 @@ PHASE(Using)
   while ((member = [index next: &key]))
     {
       [outputCharStream catC: " (cons "];
-      if (compareFunc == compareIDs || compareFunc == NULL)
+      if (COMPAREFUNCEQ (compareIDs) || compareFunc == NULL)
         {
           if (deepFlag)
             [key lispOutDeep: outputCharStream];
           else
             [key lispOutShallow: outputCharStream];
         }
-      else if (compareFunc == compareUnsignedIntegers)
+      else if (COMPAREFUNCEQ (compareUnsignedIntegers))
         {
           char buf[DSIZE (unsigned)];
           
           sprintf (buf, PTRINTFMT, (PTRINT) key);
           [outputCharStream catC: buf];
         }
-      else if (compareFunc == compareIntegers)
+      else if (COMPAREFUNCEQ (compareIntegers))
         {
           char buf[DSIZE (unsigned)];
           
           sprintf (buf, PTRINTFMT, (PTRINT) key);
           [outputCharStream catC: buf];
         }
-      else if (compareFunc == compareCStrings)
+      else if (COMPAREFUNCEQ (compareCStrings))
         {
           [outputCharStream catC: "\""];
           [outputCharStream catC: (const char *) key];
@@ -723,13 +725,13 @@ PHASE(Using)
       [outputCharStream catC: COMPARE_FUNCTION];
       
       [outputCharStream catC: " #:"];
-      if (compareFunc == compareIntegers)
+      if (COMPAREFUNCEQ (compareIntegers))
         [outputCharStream catC: COMPARE_INT];
-      else if (compareFunc == compareUnsignedIntegers)
+      else if (COMPAREFUNCEQ (compareUnsignedIntegers))
         [outputCharStream catC: COMPARE_UNSIGNED];
-      else if (compareFunc == compareCStrings)
+      else if (COMPAREFUNCEQ (compareCStrings))
         [outputCharStream catC: COMPARE_CSTRING];
-      else if (compareFunc == compareIDs)
+      else if (COMPAREFUNCEQ (compareIDs))
         [outputCharStream catC: COMPARE_ID];
       else
         raiseEvent (InvalidArgument, "Unknown compare function");
@@ -751,13 +753,13 @@ PHASE(Using)
 static void
 hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
 {
-  if (compareFunc == compareIDs)
+  if (COMPAREFUNCEQ (compareIDs))
     [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_ID];
-  else if (compareFunc == compareIntegers)
+  else if (COMPAREFUNCEQ (compareIntegers))
     [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_INT];
-  else if (compareFunc == compareUnsignedIntegers)
+  else if (COMPAREFUNCEQ (compareUnsignedIntegers))
     [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_UNSIGNED];
-  else if (compareFunc == compareCStrings)
+  else if (COMPAREFUNCEQ (compareCStrings))
     [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_CSTRING];
 }
 
@@ -769,7 +771,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
   
   [hdf5Obj storeTypeName: [self getTypeName]];
   
-  if ((compareFunc == NULL || compareFunc == compareIDs)
+  if ((compareFunc == NULL || COMPAREFUNCEQ (compareIDs))
       && !(keyStringFlag = [self allStringKeys]))
     {
       id keyGroup = [[[[[HDF5 createBegin: aZone]
@@ -844,7 +846,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
             }
           store_map_deep (getKeyStr);
         }
-      else if (compareFunc == compareCStrings)
+      else if (COMPAREFUNCEQ (compareCStrings))
         {
           const char *getKeyStr (id key)
             {
@@ -852,7 +854,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
             }
           store_map_deep (getKeyStr);
         }
-      else if (compareFunc == compareUnsignedIntegers)
+      else if (COMPAREFUNCEQ (compareUnsignedIntegers))
         {
           char buf[DSIZE (unsigned) + 1];
           
@@ -863,7 +865,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
             }
           store_map_deep (getKeyStr);
         }
-      else if (compareFunc == compareIntegers)
+      else if (COMPAREFUNCEQ (compareIntegers))
         {
           char buf[DSIZE (int) + 1];
           
@@ -911,7 +913,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
       if ([mi next: &key] == nil)
         key = nil;
       
-      if (compareFunc == compareIDs || compareFunc == NULL)
+      if (COMPAREFUNCEQ (compareIDs) || compareFunc == NULL)
         keyIsString = stringp (key);
       
       [mi setLoc: Start];
@@ -921,11 +923,11 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           
           if (keyIsString)
             [dataset nameRecord: rn name: [key getC]];
-          else if (compareFunc == compareCStrings)
+          else if (COMPAREFUNCEQ (compareCStrings))
             [dataset nameRecord: rn name: (const char *) key];
-          else if (compareFunc == compareUnsignedIntegers)
+          else if (COMPAREFUNCEQ (compareUnsignedIntegers))
             [dataset numberRecord: (PTRUINT) key];
-          else if (compareFunc == compareIntegers)
+          else if (COMPAREFUNCEQ (compareIntegers))
             {
               char buf[DSIZE (int) + 1];
               
