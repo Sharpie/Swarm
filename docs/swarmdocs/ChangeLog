@@ -1,8 +1,9 @@
 1998-10-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.rules ($(NAME).fot _$(NAME).tex $(dvi_DATA) $(ps_DATA)
-	$(html_DATA) $(rtf_DATA)): Use these instead of $(DATA), depend on
-	$(FIGS) and $(GENERATED_SGML).
+	* Makefile.rules (GENERAL): Depend on FIGS.
+	(DATA): Remove dependency on FIGS.
+	(html dvi rtf fot ps): Depend on all-recursive.
+	(all-recursive): Default as nothing.
 
 1998-10-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

@@ -9,7 +9,10 @@ PRINT = $(top_srcdir)/print.dsl
 
 RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE)
 CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
-GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl
+
+FIGS = figs/swarm.eps # for the timestamp
+
+GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl $(FIGS)
 
 .PHONY: fot tex dvi ps rtf html htmldist dvidist psdist rtfdist
 
@@ -19,10 +22,6 @@ DISTNAME=$(NAME)-@VERSION@
 
 htmldir = $(prefix)/html/$(NAME)
 html_DATA = $(NAME).html
-
-FIGS = figs/swarm.eps # for the timestamp
-
-$(NAME).fot _$(NAME).tex $(dvi_DATA) $(ps_DATA) $(html_DATA) $(rtf_DATA): $(FIGS) $(GENERATED_SGML)
 
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
@@ -59,17 +58,19 @@ $(NAME).html: $(GENERAL) $(HTML)
 
 $(NAME).dvi: $(top_srcdir)/tex/macros.tex
 
-fot: $(NAME).fot
+all-recursive: # when no SUBDIRS
 
-tex: _$(NAME).tex
+fot: all-recursive $(NAME).fot
 
-dvi: $(NAME).dvi
+tex: all-recursive _$(NAME).tex
 
-ps: $(NAME).ps 
+dvi: all-recursive $(NAME).dvi
 
-rtf: $(NAME).rtf
+ps: all-recursive $(NAME).ps 
 
-html: $(NAME).html
+rtf: all-recursive $(NAME).rtf
+
+html: all-recursive $(NAME).html
 
 %.fot: %.sgml
 	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
