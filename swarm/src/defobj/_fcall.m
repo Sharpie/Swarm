@@ -13,7 +13,7 @@
 #endif
 
 #import <defobj/FArguments.h>
-#include <jni.h>
+#import <defobj/directory.h> // JNI things
 #include <swarmconfig.h> // HAVE_JDK
 
 void

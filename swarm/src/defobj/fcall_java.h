@@ -1,6 +1,6 @@
 #import <defobj/FArguments.h>
 #import <defobj/FCall.h>
-#include <defobj/directory.h> // JNI things
+#import <defobj/directory.h> // JNI things
 
 extern void java_setup_call (FArguments_c *fa,
                              JNIEnv *env,
