@@ -93,15 +93,15 @@ extern id lispInKeyword (id index);
 //
 
 #define getBit(word, bit) ((word) & bit)
-#define setBit(word, bit, value)((value) ? ((word) |= (unsigned)bit) : \
-                                           ((word) &= ~((unsigned)bit)))
+#define setBit(word, bit, value)((value) ? ((word) |= (unsigned long)bit) : \
+                                           ((word) &= ~((unsigned long)bit)))
 
 // ((value) ? ((word) |= bit) : 
 //				  ((word) &= ~ bit))
 
 #define setField(word, shift, value) (word) |= ((value) << shift)
 
-#define getField(word, shift, mask) ((unsigned)((word) & mask) >> shift)
+#define getField(word, shift, mask) ((unsigned long)((word) & mask) >> shift)
 
 //
 // callMethodInClass() -- macro for method lookup in an alternate superclass
