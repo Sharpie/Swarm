@@ -896,15 +896,15 @@ extern id nameToObject (const char *name);
 // (obsolete once module system in use)
 //
 
-//# macro used to create and initialize a symbol
+//#: macro used to create and initialize a symbol
 #define defsymbol(name) name = [Symbol create: globalZone setName: #name]
 
-//# macro used to create and initialize an Error symbol
+//#: macro used to create and initialize an Error symbol
 #define defwarning(name, message) \
   [(name = [Warning create: globalZone setName: #name]) \
     setMessageString: message]
 
-//# macro used to create and initialize a Warning symbol
+//#: macro used to create and initialize a Warning symbol
 #define deferror(name, message) \
   [(name = [Error create: globalZone setName: #name]) \
     setMessageString: message]
