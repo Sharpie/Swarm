@@ -104,3 +104,4 @@ void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, siz
 #define SD_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
 #endif
 
+#define SD_GETCLASS(obj) swarm_directory_swarm_class (obj)

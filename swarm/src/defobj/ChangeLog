@@ -1,3 +1,11 @@
+2000-03-27    <mgd@nest.swarm.org>
+
+	* javavars.h, directory.m (create_class_refs): Add c_Modifier.
+	(create_method_refs): Add m_MethodGetModifiers, and
+	m_ModifierIs{Public,Static}.
+
+	* directory.h (SD_GETCLASS): New macro.
+
 2000-03-25    <mgd@HELEN>
 
 	* DefObject.m ([Object_s -setDisplayName:],

@@ -668,6 +668,12 @@ create_class_refs (JNIEnv *env)
       c_Field = (*env)->NewGlobalRef (env, lref);
       (*env)->DeleteLocalRef (env, lref);
 
+      if (!(lref = (*env)->FindClass (env,
+                                      "java/lang/reflect/Modifier")))
+	abort ();
+      c_Modifier = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
+
       if (!(lref = (*env)->FindClass (env, "java/util/Collection")))
         abort ();
       c_Collection = (*env)->NewGlobalRef (env, lref);
@@ -851,6 +857,18 @@ create_method_refs (JNIEnv *env)
 	(*env)->GetMethodID (env, c_Method, "getName",
 			     "()Ljava/lang/String;")))
     abort();
+
+  if (!(m_MethodGetModifiers =
+        (*env)->GetMethodID (env, c_Method, "getModifiers", "()I")))
+    abort ();
+
+  if (!(m_ModifierIsPublic = 
+        (*env)->GetStaticMethodID (env, c_Modifier, "isPublic", "(I)Z")))
+    abort ();
+
+  if (!(m_ModifierIsStatic = 
+        (*env)->GetStaticMethodID (env, c_Modifier, "isStatic", "(I)Z")))
+    abort ();
 
   if (!(m_SelectorConstructor =
 	(*env)->GetMethodID (env, c_Selector, "<init>", 
