@@ -30,8 +30,10 @@
   return obj ;
 }
 
--setCanvas: aCanvas {
+- setCanvas: aCanvas
+{
   canvas = aCanvas ;
+  [nodeList forEach: @selector(setCanvas:) :aCanvas];
   return self ;
 }
 

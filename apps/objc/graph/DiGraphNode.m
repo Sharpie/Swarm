@@ -14,6 +14,9 @@
 
 -setCanvas: aCanvas {
   canvas = aCanvas ;
+  
+  if (aCanvas == nil)
+    return self;
 
   if(nodeType == OvalNode)
     nodeItem = [OvalNodeItem createBegin: [self getZone]] ; 

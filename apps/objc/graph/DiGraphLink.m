@@ -17,14 +17,17 @@
   return self ;
 }
 
--setCanvas: the_canvas {
-  canvas = the_canvas ;   
+- setCanvas: theCanvas
+{
+  canvas = theCanvas ;   
   
+  if (canvas == nil)
+    return self;
+
   if (from && to) 
-     linkItem = [[[[[LinkItem createBegin: [self getZone]] 
-                      setFrom: [from getNodeItem]] setTo: [to getNodeItem]] 
-                    setCanvas: canvas] createEnd] ;
- 
+        linkItem = [[[[[LinkItem createBegin: [self getZone]] 
+                        setFrom: [from getNodeItem]] setTo: [to getNodeItem]] 
+                      setCanvas: canvas] createEnd] ;
   return self ;
 }
 
