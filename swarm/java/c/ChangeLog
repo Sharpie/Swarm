@@ -1,3 +1,8 @@
+1999-03-23  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.m (create_class_refs): Type of the field global zone
+	is set to swarm/GlobalZone in GetFieldId call.
+
 1999-03-22  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): Call
