@@ -1,7 +1,9 @@
 1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* config/hppa/mframe-hpux10.h (MFRAME_ARG_ENCODING): Allow
-	negative offsets.
+	* config/hppa/mframe-hpux10.h (MFRAME_ARG_ENCODING): Rewrite.
+	Allow negative offsets.  Use existing offsets, stripping register
+	designation for floats and doubles. 
+	(MFRAME_ARGS): Use new hppa_args struct
 
 	* config/hppa/{mframe,compiler-info}-hpux10.h replace *generic.h.
 

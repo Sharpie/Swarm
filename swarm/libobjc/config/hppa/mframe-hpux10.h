@@ -14,40 +14,51 @@
 ({if (*(TYPES)==_C_STRUCT_B || *(TYPES)==_C_UNION_B || *(TYPES)==_C_ARY_B) \
       **(void***)(ARGS) = (ADDR);})
 
-#define MFRAME_ARGS int
+struct hppa_args {
+  unsigned reg_offset;
+  int stack_offset;  /* Can be negative! */
+}
 
-#define MFRAME_INIT_ARGS(CUM, RTYPE)	\
-((CUM) = (*(RTYPE)==_C_STRUCT_B || *(RTYPE)==_C_UNION_B || \
-    *(RTYPE)==_C_ARY_B) ? sizeof(void*) : 0)
+#define MFRAME_ARGS struct hppa_args
+
+#define MFRAME_INIT_ARGS(CUM, RTYPE) \
+({ (CUM).reg_offset = 0; \
+   (CUM).stack_offset = 0; \
+} 
 
 #define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
-({  \
+({ \
   const char* type = (TYPE); \
-  int align = objc_alignof_type(type); \
-  int size = objc_sizeof_type(type); \
-\
-  (CUM) = ROUND((CUM), align); \
-  (TYPE) = objc_skip_typespec(type); \
-  sprintf((DEST), "%.*s%d", (TYPE)-type, type, (CUM)); \
-  /* GCC generates signatures like "r*0@+20:+16i+12f+48d-24". */ \
-  if (*(TYPE) == '+' || *(TYPE) == '-') \
+  size_t align = objc_alignof_type (type); \
+  size_t size = objc_sizeof_type (type); \
+  unsigned typelen; \
+  BOOL register_flag; \
+  \
+  (TYPE) = objc_skip_typespec (type); \
+  typelen = (TYPE) - type; \
+  register_flag = *(TYPE) == '+' && *type != _C_DBL && *type != _C_FLT; \
+  if (register_flag) \ 
     { \
       (TYPE)++; \
-    } \
-  while (isdigit(*(TYPE))) \
-    { \
-      (TYPE)++; \
-    } \
-  (DEST)=&(DEST)[strlen(DEST)]; \
-  if ((*type==_C_STRUCT_B || *type==_C_UNION_B || *type==_C_ARY_B)) \
-    { \
-      (STACK) = (CUM) + ROUND(size, align); \
+      (CUM).reg_offset = atoi (TYPE); \
+      sprintf ((DEST), "%.*s+%d", typelen, type, (CUM).reg_offset); \
     } \
   else \
     { \
-      (STACK) = (CUM) + size; \
+      if (*(TYPE) == '+' || *(TYPE) == '-') \
+        (TYPE)++; \
+      (CUM).stack_offset = atoi (TYPE); \
+      sprintf ((DEST), "%.*s%d", typelen, type, (CUM).stack_offset); \
+      (STACK) += size; \
     } \
-  ((((CUM) & 01) && ((size+3)/4) > 1) && (CUM)++); \
-  (CUM) += ((size+3)/4); \
+  while (isdigit ((int) *(TYPE))) \
+    { \
+      (TYPE)++; \
+    } \
+  (DEST) = &(DEST)[strlen(DEST)]; \
+  if (register_flag) \
+   (CUM).reg_offset += size; \
+  else \
+   (CUM).stack_offset += size; \
 })
 
