@@ -1,14 +1,19 @@
+1999-01-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Collection.m, Map.m ([... hdf5Out:deep:]): Set componentType
+	from member prototype.
+
 1999-01-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Collection.m, Map.m, String.m ([HDF5_c hdf5Out:deep:]): 
+	* Collection.m, Map.m, String.m (hdf5Out:deep:): 
 	Use setClass: instead of setSourceClass: and setCompoundType:count:
 	instead of setRecordType:count: (renames).
 	Call writeRowNames:.
 
-	* Map.m ([HDF5_c hdf5Out:deep:]): Set typeName to Map member
+	* Map.m ([... hdf5Out:deep:]): Set typeName to Map member
 	type, not Map. 
 
-	* Collection.m, Map.m, String.m ([HDF5_c hdf5Out:deep:]): Use
+	* Collection.m, Map.m, String.m ([... hdf5Out:deep:]): Use
 	getTypeName instead of name.  
 
 	* Map.m ([Map_c -lispOut:deep:]): Likewise.
@@ -20,7 +25,7 @@
 
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Collection.m, Map.m ([HDF5_c hdf5Out:deep:]): Set createFlag.
+	* Collection.m, Map.m ([... hdf5Out:deep:]): Set createFlag.
 	
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

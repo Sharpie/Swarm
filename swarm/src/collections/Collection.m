@@ -293,8 +293,9 @@ indexAtOffset (Collection_any *self, int offset)
                     "shallow HDF5 serialization on Collections must be of same type");
       else
         {
+          id memberProto = [self getFirst];
           id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
-                                   setClass: [[self getFirst] class]]
+                                   setClass: [memberProto class]]
                                   createEnd];
           
           id hdf5ObjDataset =
@@ -306,6 +307,7 @@ indexAtOffset (Collection_any *self, int offset)
               createEnd];
           
           [hdf5ObjDataset storeTypeName: [self getTypeName]];
+          [hdf5ObjDataset storeComponentTypeName: [memberProto getTypeName]];
           {
             id <Index> li = [self begin: scratchZone];
             id member;

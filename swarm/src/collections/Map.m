@@ -658,9 +658,9 @@ PHASE(Using)
         {
           id aZone = [self getZone];
           Class memberProto = [self getFirst];
-          id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
-                                   setClass: [memberProto class]]
-                                  createEnd];
+          id compoundType = [[[HDF5CompoundType createBegin: aZone]
+                               setClass: [memberProto class]]
+                              createEnd];
           size_t maxlen;
           id <MapIndex> mi = [self begin: scratchZone];
           id key;
@@ -685,17 +685,18 @@ PHASE(Using)
           else
             maxlen = DSIZE (unsigned);
           {
-            id hdf5ObjDataset =
+            id dataset =
               [[[[[[[HDF5 createBegin: aZone]
                      setName: [hdf5Obj getName]]
                     setCreateFlag: YES]
                    setParent: hdf5Obj]
-                  setCompoundType: hdf5CompoundType count: [self getCount]]
+                  setCompoundType: compoundType count: [self getCount]]
                  setRowNameLength: maxlen]
                 createEnd];
             id member;
 
-            [hdf5ObjDataset storeTypeName: [memberProto getTypeName]];
+            [dataset storeTypeName: [self getTypeName]];
+            [dataset storeComponentTypeName: [memberProto getTypeName]];
             [mi setLoc: Start];
             while ((member = [mi next: &key]))
               {
@@ -703,20 +704,20 @@ PHASE(Using)
                 char buf[DSIZE (unsigned)];
 
                 if (isString)
-                  [hdf5ObjDataset nameRecord: rn name: [key getC]];
+                  [dataset nameRecord: rn name: [key getC]];
                 else
                   {
                     sprintf (buf, "%u", (unsigned) key);
-                    [hdf5ObjDataset nameRecord: rn name: buf];
+                    [dataset nameRecord: rn name: buf];
                   }
-                [hdf5ObjDataset selectRecord: rn];
-                [member hdf5Out: hdf5ObjDataset deep: NO];
+                [dataset selectRecord: rn];
+                [member hdf5Out: dataset deep: NO];
               }
-            [hdf5ObjDataset writeRowNames];
-            [hdf5ObjDataset drop];
+            [dataset writeRowNames];
+            [dataset drop];
           }
           [mi drop];
-          [hdf5CompoundType drop];
+          [compoundType drop];
         }
     }
 #else
