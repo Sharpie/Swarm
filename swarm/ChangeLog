@@ -1,3 +1,8 @@
+2000-07-13  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* externvar.h.in (externvardef): Add non-BUILDING_SWARM empty
+	definition for when .xm files are created by applications.
+
 2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* VERSION: Bump.

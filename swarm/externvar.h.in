@@ -17,6 +17,10 @@
 #define externvar
 #endif
 
+#ifdef EXPORT_EXTERNDEF
+#define externvardef EXPORT_EXTERNDEF
+#endif
+
 #else
 
 #ifdef IMPORT_EXTERN
@@ -25,11 +29,9 @@
 #define externvar
 #endif
 
-#endif /* BUILDING_SWARM */
+#define externvardef
 
-#ifdef EXPORT_EXTERNDEF
-#define externvardef EXPORT_EXTERNDEF
-#endif
+#endif /* BUILDING_SWARM */
 
 #else
 
