@@ -34,7 +34,7 @@
 @end
 
 // object to describe one element (dataset) in a graph.
-@interface GraphElement: CreateDrop <_GraphElement>
+@interface GraphElement: CreateDrop <GraphElement>
 {
   const char *name;
   id <Graph> ownerGraph;
