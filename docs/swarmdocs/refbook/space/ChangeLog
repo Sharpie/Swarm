@@ -1,3 +1,8 @@
+1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* space00.sgml, spacecont.sgml: Update IDs to
+	SWARM.module.SGML.type.
+
 1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* space.ent: Use public identifiers.

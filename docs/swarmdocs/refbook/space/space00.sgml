@@ -21,12 +21,12 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SRC.SPACE.DEPEND">
+  <SECT1 ID="SWARM.SPACE.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
     <PARA>No other library dependences</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.SPACE.COMPAT">
+  <SECT1 ID="SWARM.SPACE.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions of
@@ -34,35 +34,35 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.SPACE.USAGE">
+  <SECT1 ID="SWARM.SPACE.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.SPACE.ADVUSAGE">
+  <SECT1 ID="SWARM.SPACE.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.SPACE.SUBCLASS">
+  <SECT1 ID="SWARM.SPACE.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.SPACE.DESIGN">
+  <SECT1 ID="SWARM.SPACE.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.SPACE.IMPL">
+  <SECT1 ID="SWARM.SPACE.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
