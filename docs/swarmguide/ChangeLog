@@ -1,3 +1,11 @@
+1999-04-06  Alex Lancaster  <alex@santafe.edu>
+
+	* userbook.sgml: Update PUBLIC identifier for DTD to
+	"-//OASIS//DTD DocBook V3.1//EN"
+	Remove JPEG notation class - now part of the 3.1 DTD.
+
+	* userbook.tex.in: Include macros.tex from $(top_srcdir)/tex.
+
 1999-03-15  Paul E. Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user2.04.sgml: Wrote an OK chapter about scheduling, with a

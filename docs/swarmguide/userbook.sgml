@@ -1,4 +1,4 @@
-<!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!DOCTYPE BOOK PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
 
   <!entity % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
   %global.ent;
@@ -34,9 +34,6 @@
 <!entity usermeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
 <!entity userbiblio.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Bibliography//EN">
 <!entity genindex.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Index//EN">
-
-<!entity % local.notation.class "| JPEG">
-<!notation JPEG system>
 
 ]>
 
