@@ -68,7 +68,7 @@ PHASE(Creating)
 + create: aZone setPath: (const char *)thePath
 {
   Archiver_c *obj = [self createBegin: aZone];
-  [self setPath: thePath];
+  [obj setPath: thePath];
   return [obj createEnd];
 }
 

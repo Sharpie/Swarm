@@ -87,6 +87,7 @@
 
 - (BOOL)getDatasetFlag;
 - (BOOL)getWriteFlag;
+- (fcall_type_t)getDatasetType;
 - (size_t)getDatasetRank;
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
 - getCompoundType;

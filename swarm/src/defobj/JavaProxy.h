@@ -3,4 +3,5 @@
 
 @interface JavaProxy: CreateDrop
 - (BOOL)isJavaProxy;
+- createJavaCounterpart: (const char *)typeName;
 @end

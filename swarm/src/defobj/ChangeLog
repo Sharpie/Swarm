@@ -1,3 +1,32 @@
+2000-01-23    <mgd@nest.swarm.org>
+
+	* internal.[hm] (ivar_elementCount): New function.
+	(class_java_find_field): Add isArray reference return.
+	(object_ivar_type): Likewise.
+
+	* internal.m (map_java_ivars): Don't drop localrefs for objects
+	(which are proxies).
+	(object_setVariableFromPtr): Add support for arrays.
+	(object_setVariableFromExpr): Simplify using
+	object_setVariableFromPtr and ivar_elementCount.
+
+	* JavaProxy.[hm] ([JavaProxy -createJavaCounterpart:]): New method.
+
+	* defobj.m (lispIn, hdf5In): Use it for Java objects.
+
+	* HDF5Object.m ([HDF5_c -getDatasetType]): New method.
+	(create_compound_type_from_prototype): Don't use ivar
+	as hint to offset, just start from zero.  Disable check for empty
+	class.
+	([HDF5CompoundType_c -createEnd]): Copy ivarName for stringMap
+	entry.
+	([HDF5CompoundType_c -packObj:to:]): Use object_setVariableFromPtr
+	for Java assignments. 
+	([HDF5_c -assignIvar:]): For Java, use ivar_elementCount to get
+	buffer size and object_setVariableFromPtr to assign.
+
+	* HDF5Archiver.m ([HDFArchiver_c -createEnd]): Always set write flag.
+
 2000-01-22    <mgd@nest.swarm.org>
 
 	* internal.[hm] (object_setVariableFromExpr): Renamed from

@@ -356,7 +356,7 @@ create_compound_type_from_prototype (id prototype)
 {
   hid_t tid;
   size_t size;
-  size_t offset;
+  size_t offset = 0;
   BOOL insertFlag;
 
   void insert_var (const char *name, fcall_type_t type, void *ptr,
@@ -369,7 +369,6 @@ create_compound_type_from_prototype (id prototype)
       else if (type == fcall_type_string)
         type = fcall_type_sint;
 
-      offset = (PTRUINT) ptr - (PTRUINT) prototype;
       offset = alignsizeto (offset, fcall_type_alignment (type));
       
       if (insertFlag)
@@ -382,7 +381,7 @@ create_compound_type_from_prototype (id prototype)
       offset += fcall_type_size (type);
     }
 
-  check_for_empty_class ([prototype class]);
+  // check_for_empty_class ([prototype class]);
 
   offset = 0;
   insertFlag = NO;
@@ -619,7 +618,7 @@ create_class_from_compound_type (id aZone,
                     for (i = 0; i < count; i++)
                       [stringMap at: (id) strings[i] insert: (id) (i + 1)];
                     
-                    [stringMaps at: (id) ivarName insert: stringMap];
+                    [stringMaps at: (id) STRDUP (ivarName) insert: stringMap];
                   }
                 }
             }
@@ -663,8 +662,8 @@ PHASE(Using)
 {
   unsigned inum = 0;
 
-  void process_ivar (const char *ivar_name, fcall_type_t ivar_type,
-                     void *ivar_ptr, unsigned rank, unsigned *dims)
+  void process_ivar (const char *ivarName, fcall_type_t ivarType,
+                     void *val_ptr, unsigned rank, unsigned *dims)
     {
       hid_t mtid;
       fcall_type_t type;
@@ -680,10 +679,11 @@ PHASE(Using)
         raiseEvent (LoadError,
                     "unable to get compound type offset #%u",
                     inum);
-      
-      if (type == fcall_type_sint && ivar_type == fcall_type_string)
+
+      if (type == fcall_type_sint && ivarType == fcall_type_string
+          && rank == 0)
         {
-          id <Map> stringMap = [stringMaps at: (id) ivar_name];
+          id <Map> stringMap = [stringMaps at: (id) ivarName];
           
           if (!stringMap)
             raiseEvent (LoadError,
@@ -705,22 +705,34 @@ PHASE(Using)
 
             if ([obj respondsTo: M(isJavaProxy)])
               {
-                
+                types_t val;
+
+                val.string = key;
+                object_setVariableFromPtr (obj, ivarName, &val);
               }
             else
-              *(const char **) ivar_ptr = key;
+              *(const char **) val_ptr = key;
             [mi drop];
           }
         }
       else
         {
-          if (!compare_types (ivar_type, type))
+          if (!compare_types (ivarType, type))
             raiseEvent (LoadError, "ivar `%s' in `%s': `%u' != mtid: `%u'", 
                         name, [obj name],
-                        ivar_type, type);
-          memcpy (ivar_ptr,
-                  buf + hoffset,
-                  fcall_type_size (type));
+                        ivarType, type);
+          
+          if ([obj respondsTo: M(isJavaProxy)])
+            object_setVariableFromPtr (obj, ivarName, buf + hoffset);
+          else
+            {
+              unsigned i;
+              unsigned count = 1;
+              
+              for (i = 0; i < rank; i++)
+                count *= dims[i];
+              memcpy (val_ptr, buf + hoffset, fcall_type_size (type) * count);
+            }
         }
       inum++;
     }
@@ -731,8 +743,8 @@ PHASE(Using)
 {
   unsigned inum = 0;
 
-  void process_ivar (const char *ivar_name, fcall_type_t ivar_type,
-                     void *ivar_ptr, unsigned rank, unsigned *dims)
+  void process_ivar (const char *ivarName, fcall_type_t ivarType,
+                     void *val_ptr, unsigned rank, unsigned *dims)
     {
       hid_t mtid;
       fcall_type_t type;
@@ -749,9 +761,10 @@ PHASE(Using)
                     "unable to get compound type offset #%u",
                     inum);
       
-      if (type == fcall_type_sint && ivar_type == fcall_type_string)
+      if (type == fcall_type_sint && ivarType == fcall_type_string
+          && rank == 0)
         {
-          id <Map> stringMap = [stringMaps at: (id) ivar_name];
+          id <Map> stringMap = [stringMaps at: (id) ivarName];
           
           if (!stringMap)
             {
@@ -759,10 +772,10 @@ PHASE(Using)
                              setCompareFunction: compareCStrings]
                             createEnd];
 
-              [stringMaps at: (id) ivar_name insert: stringMap];
+              [stringMaps at: (id) STRDUP (ivarName) insert: stringMap];
             }
           {
-            const char *key = * (const char **)ivar_ptr;
+            const char *key = *(const char **) val_ptr;
             int *ptr = (int *) (buf + hoffset);
             PTRUINT offset = INT_MIN;
 
@@ -773,7 +786,7 @@ PHASE(Using)
                 if (offset == 0)
                   {
                     offset = [stringMap getCount] + 1;
-                    
+
                     [stringMap at: (id) key insert: (id) offset];
                   }
               }
@@ -782,11 +795,11 @@ PHASE(Using)
         }
       else
         {
-          if (!compare_types (ivar_type, type))
+          if (!compare_types (ivarType, type))
             raiseEvent (LoadError, "differing source and target types %d/%d",
-                        ivar_type, type);
+                        ivarType, type);
           memcpy (buf + hoffset,
-                  ivar_ptr,
+                  val_ptr,
                   fcall_type_size (type));
         }
       inum++;
@@ -797,7 +810,10 @@ PHASE(Using)
 static void
 hdf5_delete_attribute (hid_t loc_id, const char *name)
 {
-  void func () { H5Adelete (loc_id, name); }
+  void func ()
+    {
+      H5Adelete (loc_id, name);
+    }
   suppress_messages (func);
 }
 #endif
@@ -884,11 +900,11 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
 
 - (void)writeLevels
 {
-  void store_level (const char *ivar_name, fcall_type_t type,
+  void store_level (const char *ivarName, fcall_type_t type,
                     void *ivar_ptr, unsigned rank, unsigned *dims)
     {
       if (type == fcall_type_string)
-        [self writeLevel: ivar_name];
+        [self writeLevel: ivarName];
     }
   map_object_ivars (prototype, store_level);
 }
@@ -1313,6 +1329,21 @@ PHASE(Using)
   return 0;
 }
 
+- (fcall_type_t)getDatasetType
+{
+  fcall_type_t type;
+  hid_t tid;
+
+  if ((tid = H5Dget_type (loc_id)) < 0)
+    raiseEvent (LoadError, "cannot get dataset type");
+
+  type = fcall_type_for_tid (tid);
+
+  if (H5Tclose (tid) < 0)
+    raiseEvent (LoadError, "cannot close dataset type");
+  return type;
+}
+
 - getCompoundType
 {
   return compoundType;
@@ -1554,12 +1585,40 @@ PHASE(Using)
 
 - (void)assignIvar: obj
 {
+  const char *ivarName = [self getName];
   if ([obj respondsTo: M(isJavaProxy)])
     {
+      if ([self getDatasetFlag])
+        {
+          unsigned rank = [self getDatasetRank];
+          unsigned dims[rank], i;
+          
+          for (i = 0; i < rank; i++)
+            dims[i] = [self getDatasetDimension: i];
+          
+          {
+            fcall_type_t type = [self getDatasetType];
+            unsigned char buf[ivar_elementCount (obj,
+                                                 ivarName,
+                                                 type,
+                                                 rank,
+                                                 dims) *
+                             fcall_type_size (type)];
+            
+            [self loadDataset: buf];
+            object_setVariableFromPtr (obj, ivarName, buf);
+          }
+        }
+      else
+        {
+          types_t buf;
+
+          buf.object = hdf5In ([obj getZone], self);
+          object_setVariableFromPtr (obj, ivarName, &buf);
+        }
     }
   else
     {
-      const char *ivarName = [self getName];
       void *ptr = ivar_ptr_for_name (obj, ivarName);
       
       if (ptr == NULL)

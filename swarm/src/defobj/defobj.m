@@ -23,7 +23,9 @@ Library:      defobj
 
 #ifdef HAVE_JDK
 #import <defobj/directory.h> // swarm_directory_ensure_class_named
+#import <defobj/JavaProxy.h> // -createJavaCounterpart
 #endif
+
 
 BOOL _warning_dropFrom = YES;
 
@@ -305,31 +307,7 @@ lispIn (id aZone, id expr)
 
             obj = [typeObject createBegin: aZone];
             if ([obj respondsTo: M(isJavaProxy)])
-              {
-                obj = [obj createEnd];
-                {
-                  jclass class = (*jniEnv)->FindClass (jniEnv, typeName);
-                  
-                  if (!class)
-                    raiseEvent (SourceMessage,
-                                "Could not find Java class `%s'\n", 
-                                typeName);
-                  {
-                    jmethodID method =
-                      (*jniEnv)->GetMethodID (jniEnv, class, "<init>", "()V");
-                    
-                    jobject jobj = 
-                      (*jniEnv)->NewObject (jniEnv, class, method);
-
-                    if (!jobj)
-                      abort ();
-                    SD_ADD (jniEnv, jobj, obj);
-                    
-                    (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
-                    (*jniEnv)->DeleteLocalRef (jniEnv, class);
-                  }
-                }
-              }
+              obj = [obj createJavaCounterpart: typeName];
             else
               {
                 obj = [obj lispInCreate: argexpr];
@@ -350,13 +328,13 @@ hdf5In (id aZone, id hdf5Obj)
 {
   id obj;
   id typeObject;
-  const char *type = [hdf5Obj getAttribute: ATTRIB_TYPE_NAME];
+  const char *typeName = [hdf5Obj getAttribute: ATTRIB_TYPE_NAME];
     
-  if (type)
+  if (typeName)
     {
-      if (!(typeObject = swarm_directory_ensure_class_named (jniEnv, type)))
+      if (!(typeObject = swarm_directory_ensure_class_named (jniEnv, typeName)))
         {
-          id typeObj = type_create (aZone, type);
+          id typeObj = type_create (aZone, typeName);
           id newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
           
           newTypeObj = [newTypeObj createEnd];
@@ -373,13 +351,13 @@ hdf5In (id aZone, id hdf5Obj)
           id typeObj;
           id newTypeObj;
 
-          type = class_generate_name ();
-          typeObj = type_create (aZone, type);
+          typeName = class_generate_name ();
+          typeObj = type_create (aZone, typeName);
           newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
           
           newTypeObj = [newTypeObj createEnd];
           registerLocalClass (newTypeObj);
-          type = [newTypeObj name];
+          typeName = [newTypeObj name];
           typeObject = newTypeObj;
         }
     }
@@ -389,9 +367,13 @@ hdf5In (id aZone, id hdf5Obj)
                 [hdf5Obj getName]);
   
   obj = [typeObject createBegin: aZone];
-  obj = [obj hdf5InCreate: hdf5Obj];
-  obj = [obj createEnd];
-  
+  if ([obj respondsTo: M(isJavaProxy)])
+    obj = [obj createJavaCounterpart: typeName];
+  else
+    {
+      obj = [obj hdf5InCreate: hdf5Obj];
+      obj = [obj createEnd];
+    }
   [obj hdf5In: hdf5Obj];
 
   return obj;

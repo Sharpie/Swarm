@@ -77,7 +77,7 @@ PHASE(Creating)
   [super createEnd];
   [self ensureApp: 
           [[[[[HDF5 createBegin: aZone]
-               setWriteFlag: NO]
+               setWriteFlag: YES]
                         setParent: nil]
                        setName: path]
             createEnd]];
