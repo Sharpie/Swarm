@@ -61,16 +61,16 @@ static void describeFunctionCall(
 {
   char  buffer[100];
 
-  sprintf( buffer, "(function at " PTRFMT ")(", (unsigned long)fptr );
+  sprintf( buffer, "(function at " PTRFMT ")(", fptr );
   [stream catC: buffer];
   if ( nargs > 0 ) {
-    sprintf( buffer, PTRFMT, (unsigned long)arg1 );
+    sprintf( buffer, PTRFMT, arg1 );
     [stream catC: buffer];
     if ( nargs > 1 ) {
-      sprintf( buffer, ", " PTRFMT, (unsigned long)arg2 );
+      sprintf( buffer, ", " PTRFMT, arg2 );
       [stream catC: buffer];
       if ( nargs > 2 ) {
-        sprintf( buffer, ", " PTRFMT, (unsigned long)arg3 );
+        sprintf( buffer, ", " PTRFMT, arg3 );
         [stream catC: buffer];
       }
     }
@@ -216,13 +216,13 @@ static void describeMessageArgs(
   sprintf( buffer, " %s", sel_get_name( msg ) );
   [stream catC: buffer];
   if ( nargs > 0 ) {
-    sprintf( buffer, " " PTRFMT, (unsigned long)arg1 );
+    sprintf( buffer, " " PTRFMT, arg1 );
     [stream catC: buffer];
     if ( nargs > 1 ) {
-      sprintf( buffer, " " PTRFMT, (unsigned long)arg2 );
+      sprintf( buffer, " " PTRFMT, arg2 );
       [stream catC: buffer];
       if ( nargs > 2 ) {
-        sprintf( buffer, " " PTRFMT, (unsigned long)arg3 );
+        sprintf( buffer, " " PTRFMT, arg3 );
         [stream catC: buffer];
       }
     }

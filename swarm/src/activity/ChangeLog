@@ -1,3 +1,9 @@
+1998-06-15  Alex Lancaster  <alex@santafe.edu>
+
+	* Action.m (describeFunctionCall): Removed cast of pointer to
+	unsigned long.
+	(describeMessageArgs): Likewise.
+
 1998-06-14  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* activity.h: Remove DefaultOrder; don't adopt it in CompoundAction.
