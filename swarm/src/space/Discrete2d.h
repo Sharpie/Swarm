@@ -12,38 +12,39 @@
 
 #import <objectbase.h>
 
-@interface Discrete2d: SwarmObject {
+@interface Discrete2d: SwarmObject
+{
 @public
   int xsize, ysize;
   id * lattice;
   long * offsets;
 }
 
--setSizeX: (int) x Y: (int) y;
--createEnd;
--makeOffsets;
--(id *)allocLattice;
+- setSizeX: (int) x Y: (int) y;
+- createEnd;
+- makeOffsets;
+- (id *)allocLattice;
 
--(int) getSizeX;
--(int) getSizeY;
+- (int)getSizeX;
+- (int)getSizeY;
 
--getObjectAtX: (int) x Y: (int) y;
--(long) getValueAtX: (int) x Y: (int) y;
+- getObjectAtX: (int)x Y: (int)y;
+- (long)getValueAtX: (int)x Y: (int)y;
 
--putObject: anObject atX: (int) x Y: (int) y;
--putValue: (long) v atX: (int) x Y: (int) y;
+- putObject: anObject atX: (int)x Y: (int)y;
+- putValue: (long)v atX: (int)x Y: (int)y;
 
--fastFillWithValue: (long) aValue ;
--fastFillWithObject: anObj ;
+- fastFillWithValue: (long)aValue;
+- fastFillWithObject: anObj;
 
--fillWithValue: (long) aValue ;
--fillWithObject: anObj ;
+- fillWithValue: (long) aValue;
+- fillWithObject: anObj;
 
--(id *) getLattice;
--(long *) getOffsets;
+- (id *)getLattice;
+- (long *)getOffsets;
 
--copyDiscrete2d: (Discrete2d *) a toDiscrete2d: (Discrete2d *) b;
--(int) setDiscrete2d: (Discrete2d *) a toFile: (char *) filename;
+- copyDiscrete2d: (Discrete2d *)a toDiscrete2d: (Discrete2d *)b;
+- (int)setDiscrete2d: (Discrete2d *)a toFile: (const char *) filename;
 @end
 
 // fast macro to access lattice array. Use this cautiously.

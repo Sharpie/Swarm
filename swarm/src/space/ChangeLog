@@ -1,3 +1,11 @@
+1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Discrete2d.h: Constify toFile argument to setDiscrete2d.
+	Reformatting throughout.
+	
+	* Discrete2d.m ([Discrete2d -setDiscrete2d: toFile]): Constify
+	toFile argument.  Reformatting throughout.
+
 1997-12-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Int2dFiler.m ([Int -fileTo:aFileName]): Constify argument.

@@ -14,7 +14,8 @@
 
 @implementation Discrete2d
 
--setSizeX: (int) x Y: (int) y {
+- setSizeX: (int)x Y: (int)y
+{
   if (lattice)
     [InvalidArgument raiseEvent: "You cannot reset the grid size after creation.\n"];
   xsize = x;
@@ -22,16 +23,19 @@
   return self;
 }
 
--createEnd {
+- createEnd
+{
   if (xsize <= 0 || ysize <= 0)
-    [InvalidCombination raiseEvent: "invalid size in creation of Discrete2d\n"];
+    [InvalidCombination
+      raiseEvent: "invalid size in creation of Discrete2d\n"];
   lattice = [self allocLattice];
   [self makeOffsets];
-
+  
   return self;
 }
 
--(id *) allocLattice {
+- (id *)allocLattice
+{
   void * p;
   p = [[self getZone] alloc: xsize * ysize * sizeof(id)];
   memset(p, 0, xsize * ysize * sizeof (id));
@@ -39,9 +43,10 @@
 }
 
 // part of createEnd, really, but separated out for ease of inheritance.
--makeOffsets {
+- makeOffsets
+{
   int i;
-
+  
   // precalculate offsets based on the y coordinate. This lets
   // us avoid arbitrary multiplication in array lookup.
   offsets = [[self getZone] alloc: ysize * sizeof(*offsets)];
@@ -51,44 +56,52 @@
   return self;
 }
 
--(int) getSizeX {
+- (int)getSizeX
+{
   return xsize;
 }
 
--(int) getSizeY {
+- (int)getSizeY
+{
   return ysize;
 }
 
--getObjectAtX: (int) x Y: (int) y {
+- getObjectAtX: (int)x Y: (int)y
+{
   return *discrete2dSiteAt(lattice, offsets, x, y);
 }
 
--(long) getValueAtX: (int) x Y: (int) y {
-  return (long) *discrete2dSiteAt(lattice, offsets, x, y);
+- (long)getValueAtX: (int)x Y: (int)y
+{
+  return (long)*discrete2dSiteAt(lattice, offsets, x, y);
 }
 
--putObject: anObject atX: (int) x Y: (int) y {
+- putObject: anObject atX: (int)x Y: (int)y
+{
   *discrete2dSiteAt(lattice, offsets, x, y) = anObject;
   return self;
 }
 
--putValue: (long) v atX: (int) x Y: (int) y {
+- putValue: (long)v atX: (int)x Y: (int)y
+{
   *discrete2dSiteAt(lattice, offsets, x, y) = (id) v;
   return self;
 }
 
--fastFillWithValue: (long) aValue {
+- fastFillWithValue: (long)aValue
+{
   int i, lcount ;
   
   lcount = xsize * ysize ;
-
+  
   for(i = 0 ; i < lcount ; i++)
     lattice[i] = (id) aValue ;
 
   return self ;
 }
 
--fastFillWithObject: anObj {
+- fastFillWithObject: anObj
+{
   int i, lcount ;
   
   lcount = xsize * ysize ;
@@ -99,7 +112,8 @@
   return self ;
 }
 
--fillWithValue: (long) aValue {
+- fillWithValue: (long)aValue
+{
   unsigned x, y;
 
   for (y = 0; y < ysize; y++)
@@ -109,21 +123,24 @@
   return self;
 }
 
--fillWithObject: anObj {
+- fillWithObject: anObj
+{
   unsigned x, y;
-
+  
   for (y = 0; y < ysize; y++)
     for (x = 0; x < xsize; x++)
       [self putObject: anObj atX: x Y: y];
-
+  
   return self;
 }
 
--(id *) getLattice {
+- (id *)getLattice
+{
   return lattice;
 }
 
--(long *) getOffsets {
+- (long *)getOffsets
+{
   return offsets;
 }
 
@@ -131,7 +148,8 @@
 // Utility methods - these should be in the Swarm libraries.
 // Read in a file in PGM format and load it into a discrete 2d.
 // PGM is a simple image format. It stores grey values for a 2d array.
--(int) setDiscrete2d: (Discrete2d *) a toFile: (char *) filename {
+- (int)setDiscrete2d: (Discrete2d *)a toFile: (const char *)filename 
+{
   id <InFile> f;
   char c1, c2;
   int x, y, fileXSize, fileYSize, maxValue;
@@ -178,8 +196,10 @@
 
 // Copy one Discrete2d's contents to another.
 // This could probably use the fast accessor macros.
--copyDiscrete2d: (Discrete2d *) a toDiscrete2d: (Discrete2d *) b {
+- copyDiscrete2d: (Discrete2d *)a toDiscrete2d: (Discrete2d *)b
+{
   int x, y;
+
   if ([a getSizeX] != [b getSizeX] || [a getSizeY] != [b getSizeY])
     [InvalidArgument raiseEvent: "Two Discrete2ds aren't the same size."];
   for (x = 0; x < [a getSizeX]; x++)
