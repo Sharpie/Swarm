@@ -1,10 +1,7 @@
-SAMPLE_FILES = run.js rungui.js test.js testgui.js test.html testgui.html 
-SAMPLE_DEMO_FILES = demo/runSchedule.js demo/schedule.js demo/swarmIAgent.idl demo/Makefile.in
-EXTRA_DIST = COM.el move-if-change c/Makefile.in c/COMsupport.h c/COMsupport.cpp $(SAMPLE_FILES) $(SAMPLE_DEMO_FILES)
+EXTRA_DIST = COM.el move-if-change c/Makefile.in c/COMsupport.h c/COMsupport.cpp
 EMACS = @EMACS@
 
  include $(top_srcdir)/etc/Makefile.protocol
-
 
 interface.elc: $(abs_top_builddir)/protocol.elc
 
