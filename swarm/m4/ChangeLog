@@ -1,3 +1,8 @@
+1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* acreplacefuncs.m4: New file.  Like AC_REPLACE_FUNCS, but 
+	uses .lo suffix.
+
 1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acinline.m4: New file.  

@@ -1,0 +1,4 @@
+AC_DEFUN(md_REPLACE_FUNCS,
+[AC_CHECK_FUNCS([$1], , [LIBOBJS="$LIBOBJS ${ac_func}.lo"])
+AC_SUBST(LIBOBJS)dnl
+])
