@@ -72,14 +72,14 @@ Library:      defobj
 - (void)xfprintid;
 - lispInCreate: expr;
 - lispIn: expr;
-- lispOutVars: stream deep: (BOOL)deepFlag;
-- lispOutDeep: stream;
-- lispOutShallow: stream;
 - hdf5InCreate: expr;
 - hdf5In: expr;
-- hdf5OutDeep: hdf5obj;
-- hdf5OutShallow: hdf5obj;
-- updateArchiver: archiver;
+- (void)lispOutVars: stream deep: (BOOL)deepFlag;
+- (void)lispOutDeep: stream;
+- (void)lispOutShallow: stream;
+- (void)hdf5OutDeep: hdf5obj;
+- (void)hdf5OutShallow: hdf5obj;
+- (void)updateArchiver: archiver;
 @end
 
 extern id lispIn (id aZone, id expr);

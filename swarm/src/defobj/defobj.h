@@ -525,8 +525,8 @@ CREATING
 - at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
 - hdf5InCreate: hdf5Obj;
-- lispOutShallow: stream;
-- hdf5OutShallow: hdf5Obj;
+- (void)lispOutShallow: stream;
+- (void)hdf5OutShallow: hdf5Obj;
 - updateArchiver: archiver;
 USING
 - getDefiningClass;
@@ -1138,22 +1138,22 @@ SETTING
 
 USING
 //M: Output a shallow Lisp representation of object state to a stream.
-- lispOutShallow: stream;
+- (void)lispOutShallow: stream;
 
 //M: Output a deep Lisp representation of object state to a stream.
-- lispOutDeep: stream;
+- (void)lispOutDeep: stream;
 
 //M: Output just key/variable pairs, where variables are serialized 
 //M: deep or shallow per deepFlag.
-- lispOutVars: stream deep: (BOOL)deepFlag;
+- (void)lispOutVars: stream deep: (BOOL)deepFlag;
 
 //M: Output a shallow HDF5 representation of object state to a stream.
-- hdf5OutShallow: (id <HDF5>)hdf5obj;
+- (void)hdf5OutShallow: (id <HDF5>)hdf5obj;
 
 //M: Output a deep HDF5 representation of object state to a stream.
-- hdf5OutDeep: (id <HDF5>)hdf5obj;
+- (void)hdf5OutDeep: (id <HDF5>)hdf5obj;
 
-- updateArchiver: archiver;
+- (void)updateArchiver: archiver;
 
 //F: Expect and convert a boolean from next index item.
 extern BOOL lispInBoolean (id index);

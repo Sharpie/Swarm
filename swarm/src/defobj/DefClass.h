@@ -67,10 +67,10 @@ void _obj_initMethodInterfaces (Class_s *class);
 - setDefiningClass: aClass;
 - at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
-- lispOutShallow: stream;
 - hdf5InCreate: expr;
-- hdf5OutShallow: stream;
 - createEnd;
+- (void)hdf5OutShallow: stream;
+- (void)lispOutShallow: stream;
 @end
 
 @interface BehaviorPhase_s: CreatedClass_s

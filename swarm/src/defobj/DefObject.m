@@ -973,7 +973,7 @@ initDescribeStream (void)
 }
 
 
-- lispOutVars: stream deep: (BOOL)deepFlag
+- (void)lispOutVars: stream deep: (BOOL)deepFlag
 {
   void store_object (const char *name, fcall_type_t type,
                      void *ptr, unsigned rank, unsigned *dims)
@@ -994,30 +994,27 @@ initDescribeStream (void)
         
     }
   map_object_ivars (self, store_object);
-  return self;
 }
 
-- _lispOut_: stream deep: (BOOL)deepFlag
+- (void)_lispOut_: stream deep: (BOOL)deepFlag
 {
   [stream catStartMakeInstance: [self getTypeName]];
   [stream catSeparator];
   [self lispOutVars: stream deep: deepFlag];
   [stream catEndMakeInstance];
-  return self;
 }
 
-- lispOutShallow: stream
+- (void)lispOutShallow: stream
 {
-  return [self _lispOut_: stream deep: NO];
+  [self _lispOut_: stream deep: NO];
 }
 
-- lispOutDeep: stream
+- (void)lispOutDeep: stream
 {
   [self _lispOut_: stream deep: YES];
-  return self;
 }
 
-- hdf5OutDeep: hdf5Obj
+- (void)hdf5OutDeep: hdf5Obj
 {
   void store_object (const char *name,
                      fcall_type_t type,
@@ -1048,10 +1045,9 @@ initDescribeStream (void)
     }
   [hdf5Obj storeTypeName: [self getTypeName]];
   map_object_ivars (self, store_object);
-  return self;
 }
 
-- hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: hdf5Obj
 {
   if ([hdf5Obj getCompoundType])
     [hdf5Obj shallowStoreObject: self];
@@ -1080,13 +1076,11 @@ initDescribeStream (void)
       [cDataset drop];
       [cType drop];
     }
-  return self;
 }
 
-- updateArchiver: archiver
+- (void)updateArchiver: archiver
 {
   raiseEvent (SubclassMustImplement, "updateArchiver:");
-  return self;
 }
 
 //

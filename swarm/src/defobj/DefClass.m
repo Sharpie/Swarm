@@ -235,7 +235,7 @@ PHASE(CreatingOnly)
   return [hdf5Obj getClass];
 }
 
-- lispOutShallow: stream
+- (void)lispOutShallow: stream
 {
   struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
   unsigned i, count = ivars->ivar_count;
@@ -249,19 +249,16 @@ PHASE(CreatingOnly)
       [stream catType: ivars->ivar_list[i].ivar_type];
     }
   [stream catEndMakeClass];
-  return self;
 }
 
-- hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: hdf5Obj
 {
   raiseEvent (NotImplemented, "DefClass / hdf5OutShallow:");
-  return nil;
 }
 
-- updateArchiver: archiver
+- (void)updateArchiver: archiver
 {
   [archiver putShallow: [self name] object: self];
-  return self;
 }
 
 @end
