@@ -64,8 +64,10 @@ else
       proc=i386
     elif test -f $expand_jdkincludedir/irix/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/irix"
-      threads=native
+      threads=green
       proc=mips
+      JAVALIBS="\${jdkdir}/lib32/${proc}/${threads}_threads"
+      JAVACMD="\${jdkdir}/bin32/${proc}/${threads}_threads/java"
     elif test -f $expand_jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
       JAVALIBS='${jdkdir}/shlib'
@@ -79,7 +81,6 @@ else
         threads=green
       fi
       proc=PA_RISC
-      LD_LIBRARY_PATH_VARNAME=SHLIB_PATH
     elif test -f $expand_jdkincludedir/winnt/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
       JAVALIBS=no
@@ -116,6 +117,8 @@ else
     test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/${proc}/${threads}_threads/java"
     if test -f ${expand_jdkdir}/jre/lib/rt.jar; then
       JAVACLASSES=${jdkdir}/jre/lib/rt.jar
+    elif test -f ${expand_jdkdir}/lib/rt.jar; then
+      JAVACLASSES=${jdkdir}/lib/rt.jar
     else
       JAVACLASSES=${jdkdir}/lib/classes.zip
     fi
@@ -126,8 +129,7 @@ else
       USEDOSCLASSPATH=yes
       JAVASWARM_DLL_ENTRY='__cygwin_noncygwin_dll_entry@12'
     else
-      test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
-      JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\${$LD_LIBRARY_PATH_VARNAME}"
+      JAVAENV="$SHLIBPATH_VAR=$JAVALIBS:\${$SHLIBPATH_VAR}"
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
     JAVAENV="$extra_JAVAENV $JAVAENV"

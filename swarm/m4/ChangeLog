@@ -1,3 +1,8 @@
+1999-10-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Check for $jdkdir/lib/rt.jar.
+	Use SHLIBPATH_VAR instead of local LD_LIBRARY_PATH_VARNAME.
+
 1999-09-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Add case for i386-freebsd / green threads
