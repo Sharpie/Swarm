@@ -1,3 +1,7 @@
+1999-04-25  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (SUBDIRS): Add space.
+
 1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (SUBDIRS): Add collections.
