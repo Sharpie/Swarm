@@ -4,21 +4,23 @@
 #define MFRAME_ARGS_SIZE 136
 #define MFRAME_RESULT_SIZE 16 
 
-#define _MFRAME_GET_STRUCT_ADDR(ARGS, TYPES) \
-({ const char *type = (TYPES); \
-   ((*type ==_C_ARY_B) ? \
-     (method_get_next_argument (ARGS, &type)) \
-     : (((*type==_C_STRUCT_B || *type ==_C_UNION_B) \
-         && objc_sizeof_type (type) > MFRAME_SMALL_STRUCT) \
-           ? ((void **)(ARGS) + 1) : NULL)) \
- })
-
+inline static
+void **mframe_get_struct_addr_ptr (arglist_t args, const char *types)
+{
+  return (*types ==_C_ARY_B) ?
+    (method_get_next_argument (ARGS, &types))
+    : (((*types == _C_STRUCT_B || *types ==_C_UNION_B)
+        && objc_sizeof_type (types) > MFRAME_SMALL_STRUCT)
+       ? ((void **) args + 1)
+       : NULL);
+}
+    
 #define MFRAME_GET_STRUCT_ADDR(ARGS, TYPES) \
-({ void **ptr = _MFRAME_GET_STRUCT_ADDR (ARGS, TYPES); \
+({ void **ptr = mframe_get_struct_addr_ptr (ARGS, TYPES); \
    ptr ? *ptr : NULL })
 
 #define MFRAME_SET_STRUCT_ADDR(ARGS, TYPES, ADDR) \
-( { void **ptr = _MFRAME_GET_STRUCT_ADDR(ARGS, TYPES); \
+( { void **ptr = mframe_get_struct_addr_ptr (ARGS, TYPES); \
     if (ptr) *ptr = (ADDR); } )
      
 #define MFRAME_ARGS int

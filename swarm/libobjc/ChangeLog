@@ -3,7 +3,7 @@
 	* config/mips/mframe-irix6.h (MFRAME_{G,S}ET_STRUCT_ADDR): 
 	Use an offset of 1 into the argframe for struct return address.
 	Note that this only occurs for structures larger than 16 bytes,
-	(_MFRAME_GET_STRUCT_ADDR): New macro.
+	(mframe_get_struct_addr_ptr): New static inline.
 	(MFRAME_GET_STRUCT_ADDR, MFRAME_SET_STRUCT_ADDR): Use it.
 
 	* config/mips/compiler-info-irix6.h, config/mips/mframe-irix6.h:
