@@ -15,11 +15,30 @@
 
 @implementation MousetrapStatistics
 
--(int) getNumTriggered { return numTriggered; }
--(int) getNumBalls { return numBalls; }
--addOneBall { numBalls++; return self; }
--addOneTriggered { numTriggered++; return self; }
--removeOneBall {
+- (int)getNumTriggered
+{ 
+  return numTriggered;
+}
+
+- (int)getNumBalls
+{
+  return numBalls;
+}
+
+- addOneBall
+{
+  numBalls++;
+  return self;
+}
+
+-addOneTriggered
+{
+  numTriggered++;
+  return self;
+}
+
+- removeOneBall
+{
   if (numBalls > 0)
     numBalls--;
   else
@@ -41,31 +60,60 @@
 // These methods provide access to the objects inside the ModelSwarm.
 // These objects are the ones visible to other classes via message call.
 
--(MousetrapStatistics *) getStats { return stats; }
--(int) getGridSize { return gridSize; }
--(double) getTriggerLikelihood { return triggerLikelihood; }
--(int) getNumberOutputTriggers { return numberOutputTriggers; }
--(int) getMaxTriggerDistance { return maxTriggerDistance; }
--(int) getMaxTriggerTime { return maxTriggerTime; }
--(Grid2d *)getWorld { return grid; }
+- (MousetrapStatistics *)getStats
+{
+  return stats;
+}
 
--(Mousetrap *)getMousetrapAtX: (int) x Y: (int) y {
+- (int)getGridSize
+{
+  return gridSize; 
+}
+
+- (double)getTriggerLikelihood
+{
+  return triggerLikelihood; 
+}
+
+- (int)getNumberOutputTriggers
+{
+  return numberOutputTriggers;
+}
+
+- (int)getMaxTriggerDistance
+{
+  return maxTriggerDistance;
+}
+
+- (int)getMaxTriggerTime
+{
+  return maxTriggerTime;
+}
+
+- (Grid2d *)getWorld
+{
+  return grid;
+}
+
+- (Mousetrap *)getMousetrapAtX: (int)x Y: (int)y
+{
   return [grid getObjectAtX: x Y: y];
 }
 
 // createBegin: here we set up the default simulation parameters.
 
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   MousetrapModelSwarm * obj;
   id <ProbeMap> probeMap;
-
+  
   // First, call our superclass createBegin - the return value is the
   // allocated MousetrapModelSwarm object.
-
+  
   obj = [super createBegin: aZone];
 
   // Now fill in various simulation parameters with default values.
-
+  
   obj->gridSize = 50;
   obj->triggerLikelihood = 1.0;
   obj->numberOutputTriggers = 2;
@@ -109,11 +157,12 @@
 // to later. (In this example, this method does nothing at all and could
 // just be inherited. But it's here to show you a place to customize.)
 
--createEnd {
+- createEnd
+{
   id tempObj;
-
+  
   tempObj = [super createEnd];
-
+  
   randomGenerator = [PMMLCG1 create: [self getZone]
 			     setStateFromSeed: 1234567890];
   uniform0to1 = [UniformDouble create: [self getZone]
@@ -126,19 +175,20 @@
 // Now it's time to build the model objects. We use various parameters
 // inside ourselves to choose how to create things.
 
--buildObjects {
+- buildObjects
+{
   int x, y;
-
+  
   // First, allow our parent class to build anything.
-
+  
   [super buildObjects];
-
+  
   // Then, create a statistics object to manage gathering statistics
-
+  
   stats = [MousetrapStatistics create: [self getZone]];
   
   // Now set up the grid used to represent agent position
-
+  
   grid = [Grid2d createBegin: [self getZone]];
   [grid setSizeX: gridSize Y: gridSize];
   grid = [grid createEnd];
@@ -155,15 +205,16 @@
   for (y = 0; y < gridSize; y++)
     for (x = 0; x < gridSize; x++)
       if (trapDensity >= 1.0 || 
-	  (float)[uniform0to1 getDoubleSample] < trapDensity) {
-	Mousetrap * aMousetrap;
-	aMousetrap = [Mousetrap create: [self getZone]
-				setModelSwarm: self
-				setXCoord: x 
-				setYCoord: y
-				setGenerator: randomGenerator];
-	[grid putObject: aMousetrap atX: x Y: y];
-      }
+	  (float)[uniform0to1 getDoubleSample] < trapDensity)
+        {
+          Mousetrap * aMousetrap;
+          aMousetrap = [Mousetrap create: [self getZone]
+                                  setModelSwarm: self
+                                  setXCoord: x 
+                                  setYCoord: y
+                                  setGenerator: randomGenerator];
+          [grid putObject: aMousetrap atX: x Y: y];
+        }
   
   return self;
 }
@@ -180,14 +231,14 @@
 // know that once an action has been executed, it is to be
 // dropped from the schedule (setAutoDrop = 1).
 
--buildActions {
-
+- buildActions
+{
   // First, we let our superClass build actions
-
+  
   [super buildActions];
-
+  
   // just make one schedule. Autodrop, so old activities get destroyed.
-
+  
   modelSchedule = [Schedule createBegin: [self getZone]];
   [modelSchedule setAutoDrop: 1];
   modelSchedule = [modelSchedule createEnd];
@@ -209,7 +260,8 @@
 // trigger. "Triggering"  mousetraps simply means to add a "trigger" action 
 // on them to the schedule, inserted at the proper time in the future.
 
--scheduleTriggerAt: (int) n For: (Mousetrap *) trap {
+- scheduleTriggerAt: (int)n For: (Mousetrap *)trap
+{
   [modelSchedule at: n createActionTo: trap message: M(trigger)];
   return self;
 }
@@ -218,15 +270,15 @@
 // we're being started in - typically, this model is run as a subswarm
 // of an observer swarm.
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   // First, activate ourselves via the superclass activateIn: method.
   // Just pass along the context: the activity library does the right thing.
   [super activateIn: swarmContext];
-
+  
   // Now activate our own schedule.
   [modelSchedule activateIn: self];
-
+  
 
   //                  Activity Control Usage
   //   Attach a controller to the model swarm activity.  This interface
@@ -251,8 +303,10 @@
   // attach the AC
   [modelActCont attachToActivity: [self getSwarmActivity]];
   // create a probe display for the AC
-  [probeDisplayManager createProbeDisplayFor: modelActCont];
-
+  [probeDisplayManager createProbeDisplayFor: modelActCont
+                       setWindowGeometryRecordName: 
+                         "probeDisplayModelActivityController"];
+  
   // Finally, return our activity.
   return [self getSwarmActivity];
 }

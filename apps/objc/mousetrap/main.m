@@ -23,11 +23,13 @@ main(int argc, char ** argv) {
   // typed mousetrap -batchmode. Otherwise, it's set to 1.
   
   if (swarmGUIMode == 1)
-
-    // We've got graphics, so make a full ObserverSwarm to get GUI objects
-
-    theTopLevelSwarm = [MousetrapObserverSwarm create: globalZone];
-
+    {
+      // We've got graphics, so make a full ObserverSwarm to get GUI objects
+      
+      theTopLevelSwarm = [MousetrapObserverSwarm createBegin: globalZone];
+      [theTopLevelSwarm setWindowGeometryRecordName: "observerSwarm"];
+      theTopLevelSwarm = [theTopLevelSwarm createEnd];
+    }
   else
 
     // No graphics - make a batchmode swarm and run it.

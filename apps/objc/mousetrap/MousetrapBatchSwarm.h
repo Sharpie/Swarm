@@ -17,27 +17,28 @@
 
 #import "MousetrapModelSwarm.h"
 
-@interface MousetrapBatchSwarm : Swarm {
+@interface MousetrapBatchSwarm: Swarm
+{
+  int loggingFrequency;		       		 // Frequency of fileI/O
 
-  int loggingFrequency;		       		  // Frequency of fileI/O
-
-  id displayActions;				  // schedule data structs
+  id displayActions;				 // schedule data structs
   id displaySchedule;
 
-  MousetrapModelSwarm * mousetrapModelSwarm;	  // the Swarm we're observing
+  MousetrapModelSwarm * mousetrapModelSwarm;	 // the Swarm we're observing
 
-                                                  // The EZGraph will be used 
-  id triggerGraph;                                // in FileI/O mode rather 
-                                                  // than the usual Graphics 
-                                                  // mode...
+                                                 // The EZGraph will be used 
+  id triggerGraph;                               // in FileI/O mode rather 
+                                                 // than the usual Graphics 
+                                                 // mode...
 }
 
-+createBegin: (id) aZone;
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
--go;						  // Batch mode needs its own
++ createBegin: aZone;
+- buildObjects;
+- buildActions;
+- activateIn: (id) swarmContext;
+- go;						 // Batch mode needs its own
 
--checkToStop;					  // Special method to end sim. 
+- checkToStop;					 // Special method to end sim. 
 
 @end
+

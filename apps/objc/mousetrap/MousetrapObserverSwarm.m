@@ -25,19 +25,20 @@
 //    that is unique to the creation of a MousetrapObserverSwarm.
 //    This method is actually invoked in main.m
 
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   MousetrapObserverSwarm * obj;
   id <ProbeMap> probeMap;
-
+  
   // invoke our superClass createBegin to allocate ourselves.
   // obj is the allocated ObserverSwarm
   
   obj = [super createBegin: aZone];
-
+  
   // Fill in the relevant parameters (only one, in this case).
-
+  
   obj->displayFrequency = 1;
-
+  
   // Also, build a customized probe map. Without a probe map, the default
   // is to show all variables and messages. Here we choose to
   // customize the appearance of the probe, give a nicer interface.
@@ -59,7 +60,8 @@
 // createEnd: create objects we know we'll need. In this case, none,
 // but you might want to override this.
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
@@ -69,14 +71,15 @@
 // Primairly, the Mousetrap model itself, but also the
 // various instrumentation that observes the model. 
 
--buildObjects {
+- buildObjects
+{
   id modelZone;					// zone for model
   int x, y, size;
-
+  
   // Let our superClass build any objects it needs to first
   
   [super buildObjects];
-
+  
   // Then, we create the model that we're actually observing. The
   // model is a subswarm of the observer. We create the model in
   // its own zone, so storage is segregated.
@@ -87,8 +90,12 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
   
-  [probeDisplayManager createProbeDisplayFor: mousetrapModelSwarm];
-  [probeDisplayManager createProbeDisplayFor: self];
+  [probeDisplayManager createProbeDisplayFor: mousetrapModelSwarm
+                       setWindowGeometryRecordName:
+                         "probeDisplayMousetrapModelSwarm"];
+  [probeDisplayManager createProbeDisplayFor: self
+                       setWindowGeometryRecordName: 
+                         "probedDisplayMousetrapObserverSwarm"];
 
   // Instruct the control panel to wait for a button event: we halt here
   // until someone hits a control panel button so the user can get a
@@ -115,6 +122,7 @@
   // set up the EZGraph object
   
   triggerGraph = [EZGraph createBegin: [self getZone]];
+  [triggerGraph setWindowGeometryRecordName: "triggerGraph"];
   [triggerGraph setTitle: "Trigger data vs. time"];
   [triggerGraph setAxisLabelsX: "time" Y: "number triggered"];
   triggerGraph = [triggerGraph createEnd] ;
@@ -135,7 +143,9 @@
   // Next, create a 2d window to display the mousetrap world
   // and  set its size, zoom factor, title.
 
-  displayWindow = [ZoomRaster create: globalZone];
+  displayWindow = [ZoomRaster createBegin: globalZone];
+  [displayWindow setWindowGeometryRecordName: "mousetrapWorld"];
+  displayWindow = [displayWindow createEnd];
   [displayWindow setColormap: colormap];
   [displayWindow setZoomFactor: 6];
   [displayWindow setWidth: [mousetrapModelSwarm getGridSize]
@@ -146,18 +156,20 @@
 
   size = [mousetrapModelSwarm getGridSize];
   for (x = 0; x < size; x++)
-    for (y = 0; y < size; y++) {
-      Mousetrap * trap;
-      trap = [mousetrapModelSwarm getMousetrapAtX: x Y: y];
-      if (trap) {
-	[displayWindow drawPointX: x Y: y Color: 1];
-	[trap setDisplayWidget: displayWindow];
+    for (y = 0; y < size; y++)
+      {
+        Mousetrap * trap;
+        trap = [mousetrapModelSwarm getMousetrapAtX: x Y: y];
+        if (trap)
+          {
+            [displayWindow drawPointX: x Y: y Color: 1];
+            [trap setDisplayWidget: displayWindow];
+          }
       }
-    }
-	
+  
   [displayWindow drawSelf];
   [displayWindow pack];
-
+  
   // Also create an Object2dDisplay: this object is just used
   // to receive and handle probes on mousetraps.
 
@@ -198,8 +210,8 @@
 // will also want to run the model without any display.
 
 
--buildActions {
-
+- buildActions
+{
   // First, let our superclass build any actions
 
   [super buildActions];
@@ -253,12 +265,12 @@
 // in "nil". But other Swarms and Schedules and such will be activated
 // inside of us.
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   // First, activate ourselves (just pass along the context).
-
+  
   [super activateIn: swarmContext];
-
+  
   // Activate the model swarm in ourselves. The model swarm is a
   // subswarm of the observer swarm.
 
@@ -310,20 +322,23 @@
   //   If some other object (like another program) were to control the
   //   activity, then this would be replaced with whatever instantiated
   //   the interface for that object (like a tcp/ip address or a socket).
-  [probeDisplayManager createProbeDisplayFor: observerActCont];
+  [probeDisplayManager createProbeDisplayFor: observerActCont
+                       setWindowGeometryRecordName: 
+                         "probeDisplayObserverActivityController"];
   
   return [self getSwarmActivity];
 }
 
 // monitor method - if all the balls have landed, time to quit!
 
--checkToStop {
-  if ([[mousetrapModelSwarm getStats] getNumBalls] == 0) {
-    printf("All the balls have landed!\n");
-
-    [controlPanel setStateStopped];
-  }
-
+- checkToStop
+{
+  if ([[mousetrapModelSwarm getStats] getNumBalls] == 0)
+    {
+      printf("All the balls have landed!\n");
+      
+      [controlPanel setStateStopped];
+    }
   return self;
 }
 

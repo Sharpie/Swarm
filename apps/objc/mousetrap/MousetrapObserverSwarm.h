@@ -17,21 +17,22 @@
 #import <analysis.h>
 #import "MousetrapModelSwarm.h"
 
-@interface MousetrapObserverSwarm : GUISwarm {
-  int displayFrequency;				// one parameter: update frequency
+@interface MousetrapObserverSwarm: GUISwarm
+{
+  int displayFrequency;			// one parameter: update frequency
 
-  id displayActions;				// schedule data structs
+  id displayActions;			// schedule data structs
   id displaySchedule;
 
-  MousetrapModelSwarm * mousetrapModelSwarm;	// the Swarm we're observing
+  MousetrapModelSwarm *mousetrapModelSwarm;	// the Swarm we're observing
 
  // Display objects, widgets, etc.
 
-  XColormap * colormap;				// allocate colors
-  ZoomRaster * displayWindow;			// 2d display widget
-  EZGraph *triggerGraph;			// graphing widget
+  XColormap *colormap;			// allocate colors
+  ZoomRaster *displayWindow;		// 2d display widget
+  EZGraph *triggerGraph;		// graphing widget
 
-  Object2dDisplay * mousetrapDisplay;           // to Probe mousetraps
+  Object2dDisplay *mousetrapDisplay;    // to Probe mousetraps
 
   // declare the activity controller, which provides an interface 
   //   to the observerSwarm activity.
@@ -40,12 +41,12 @@
 
 // Methods overriden to make the Swarm
 
-+createBegin: (id) aZone;
--createEnd;
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;			// Context is self (ObserverSwarm).
++ createBegin: aZone;
+- createEnd;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;		// Context is self (ObserverSwarm).
 
--checkToStop;					// Method to end simulation
+- checkToStop;			        // Method to end simulation
 
 @end
