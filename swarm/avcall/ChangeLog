@@ -1,3 +1,9 @@
+2003-01-20  Marcus G. Daniels  <mgd@santafe.edu>
+
+	* avcall-rs6000-darwin.s: Regenerated using
+	gcc -D_AIX -O2 -fno-omit-frame-pointer -no-cpp-precomp -D__rs6000__ 
+	-S avcall-rs6000.c -o avcall-rs6000-darwin.s
+
 2002-12-31  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.in, avcall.m4: AS_...  is assumed to be a macro by
