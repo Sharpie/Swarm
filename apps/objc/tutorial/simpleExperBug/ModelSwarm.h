@@ -5,10 +5,6 @@
 
 #import <objectbase/Swarm.h>
 #import <space.h>
-#import <activity.h>
-#import <collections.h>
-#import <objectbase.h>
-#import <simtools.h>
 
 @interface ModelSwarm: Swarm
 {
