@@ -90,21 +90,6 @@ if test -z "$tklibdir" ; then
   AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
 fi
 
-AC_ARG_WITH(tclobjcdir,
-[  --with-tclobjcdir=DIR            Use DIR/include and DIR/lib for tclobjc],
-  tclobjcdir=$withval)
-
-AC_ARG_WITH(tclobjcincludedir,
-[  --with-tclobjcincludedir=DIR     Use DIR for tclobjc headers],
-  tclobjcincludedir=$withval)
-
-AC_ARG_WITH(tclobjclibname,
-[  --with-tclobjclibname=NAME       Use -lNAME for tclobjc],
-  tclobjclibname=$withval)
-
-md_FIND_TCLOBJC_HEADERS
-md_FIND_TCLOBJC_LIBRARIES
-
 AC_ARG_WITH(bltdir,
 [  --with-bltdir=DIR                Use DIR/include and DIR/lib for BLT],
   bltdir=$withval)
@@ -148,6 +133,7 @@ AC_ARG_WITH(pngincludedir,
 md_FIND_PNG
 md_CHECK_INLINING
 md_CHECK_OBJC_LIBS
+md_CHECK_NEXTSTEP
 md_CHECK_POINTER_FMT
 
 AC_CHECK_LIB(dl,main)
@@ -156,6 +142,6 @@ if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_c
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 fi
 
-AC_OUTPUT([Makefile etc/config.swarm etc/Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile Makefile.appl Makefile.lib
+AC_OUTPUT([Makefile etc/config.swarm etc/Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile Makefile.appl Makefile.lib
 ])
 

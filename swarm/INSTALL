@@ -15,10 +15,9 @@ are included after the following section.
 Required and Optional Flags for Configuring Swarm =========================
 
    Minimally, you can type: `./configure --with-defaultdir=/usr/local'
-if all the required packages (tk, tcl, tclobjc, libffi, png, zlib,
-blt) are actually installed in in /usr/local.  The configure script
-will identify the specific paths, and you can type `make'and you are
-done.
+if all the required packages (tk, tcl, libffi, png, zlib, and blt) are
+actually installed in in /usr/local.  The configure script will
+identify the specific paths, and you can type `make'and you are done.
 
   However, on most machines, you will probably need to specify at
 least one additional option that the `configure' script cannot guess.
@@ -52,7 +51,6 @@ options described below:
 
 `--with-tcldir=DIR' --- Use DIR/include and DIR/lib for Tcl.  
 `--with-tkdir=TKDIR' --- Use DIR/include and DIR/lib for Tk.  
-`--with-tclobjcdir=DIR' --- Use DIR/include and DIR/lib for tclobjc.
 `--with-bltdir=DIR' --- Use DIR/include and DIR/lib for BLT.  
 `--with-ffidir=DIR' ---  Use DIR/include and DIR/lib for libffi
 `--with-zlibdir=DIR' --- Use DIR/include and DIR/lib for zlib
@@ -67,7 +65,6 @@ for each required package.
 
 `--with-tclincludedir=DIR' --- Use DIR for Tcl header files.
 `--with-tkincludedir=DIR' --- Use DIR for Tk header files.  
-`--with-tclobjcincludedir=DIR' --- Use DIR for tclobjc headers. 
 `--with-zlibincludedir=DIR' --- Use DIR for zlib include files    
 `--with-pngincludedir=DIR' --- DIR for PNG include files  
 
@@ -80,13 +77,10 @@ distributions.
 
 `--with-tcllibname=NAME' --- Use -lNAME for Tcl   
 `--with-tklibname=NAME' --- Use -lNAME for Tk     
-`--with-tclobjclibname=NAME' --- Use -lNAME for tclobjc.  
 `--with-bltlibname=NAME' --- Use -lNAME for BLT.  
 
 These options are useful if the name of the library differs from the
-name derived from the name of the option.  For example, if you have a
-special version of tclobjc, called `tclobjc-gcc2.7.2' rather than just
-`tclobjc', you will need this option.
+name derived from the name of the option.  
 
 `--with-ffcalldir=DIR' --- Use DIR/include and DIR/lib for
 ffcall. ffcall is an alternative to libffi, and sometimes works on
