@@ -958,13 +958,21 @@ PHASE(Creating)
 
 - setExtensibleVectorType: (fcall_type_t)extensibleVectorType
 {
+#ifdef HAVE_HDF5
   vector_tid = tid_for_fcall_type (extensibleVectorType);
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
 - setExtensibleDoubleVector
 {
+#ifdef HAVE_HDF5
   vector_tid = H5T_NATIVE_DOUBLE;
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
@@ -1849,6 +1857,7 @@ hdf5_store_attribute (hid_t did,
 
 - (void)addDoubleToVector: (double)val
 {
+#ifdef HAVE_HDF5
   hsize_t size[1];
   hsize_t maxsize[1];
   hssize_t coord[1][1];
@@ -1872,6 +1881,9 @@ hdf5_store_attribute (hid_t did,
 
   if (H5Dwrite (loc_id, H5T_NATIVE_DOUBLE, psid, c_sid, H5P_DEFAULT, &val) < 0)
     raiseEvent (InvalidArgument, "unable to write to vector");
+#else
+  hdf5_not_available ();
+#endif
 }
 
 - (void)loadDataset: (void *)ptr
