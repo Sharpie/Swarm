@@ -108,8 +108,8 @@
   // set up gridded geometry so this is resizeable. Only works if
   // the parent is a toplevel.
   [globalTkInterp eval: "wm grid %s %d %d %d %d; wm aspect %s 1 1 1 1",
-		  [parent getWidgetName], logicalWidth, logicalHeight, 
-		  zoomFactor, zoomFactor, [parent getWidgetName]];
+		  [parent getWidgetName],  zoomFactor, zoomFactor,
+		  logicalWidth, logicalHeight, [parent getWidgetName]];
 
   return self;
 }
