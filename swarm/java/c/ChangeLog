@@ -1,3 +1,7 @@
+1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (ALLOBJECTS): Don't convert to .o filenames.
+
 1999-06-05    <mgd@HELEN>
 
 	* Makefile.in (javaswarm.dll): Remove constructor stuff.  Use wildcard
