@@ -1,5 +1,8 @@
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (install-data-local): Install externvar.h to
+	$(includedir).
+
 	* configure.in (AC_OUTPUT): Extract externvar.h.
 	Move dllwrap check into md_CHECK_DLL.
 	Set LIBSWARM_LA or SWARM_DLL depending on value of USE_DLL.
