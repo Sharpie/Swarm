@@ -1,3 +1,8 @@
+1999-03-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.java: Add globalZone instance variable.  Initialize
+	it in the constructor.
+
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (GENINTERFACEFILES): New variable.
