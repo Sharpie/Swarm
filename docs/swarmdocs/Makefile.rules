@@ -44,7 +44,7 @@ _%.tex: %.sgml
 	- $(JADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) $<
 
 %.dvi: %.tex _%.tex
-	$(JADETEX) $< ; $(JADETEX) $< 
+	- $(JADETEX) $< ; $(JADETEX) $< 
 
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<

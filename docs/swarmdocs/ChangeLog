@@ -9,6 +9,8 @@
 
 	* Makefile.am:  Add html, dvi, rtf, and ps targets.
 
+	* Makefile.rules: Allow an error code from jadetex.
+
 1998-06-16  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS:  Added `Release Notes for 1.2'.
