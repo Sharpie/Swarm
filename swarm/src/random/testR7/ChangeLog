@@ -1,0 +1,9 @@
+1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HumbugModelSwarm.m, HumbugModelSwarm.m.7b: Include objectbase.h
+	instead of swarmobject.h.
+	
+	* HumbugModelSwarm.h: Likewise.  Include from objectbase/ instead
+	of swarmobject/.
+
+
