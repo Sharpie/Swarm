@@ -345,32 +345,32 @@ PHASE(Creating)
 {
   COMclass cClass = SD_COM_FIND_CLASS_COM (aClass);
   
-  void collect_method (COMobject obj, const char *name)
+  void collect_variable (COMmethod getterMethod, COMmethod setterMethod)
     {
-      printf ("[%s]\n", name);
+      printf ("variable: `%s'\n", COM_method_name (getterMethod));
       // [self _addVarProbe_: aClass variableName: name];
     }
 
   if (!cClass)
     abort ();
 
-  COM_collect_methods (cClass, collect_method, YES);
+  COM_collect_variables (cClass, collect_variable);
 }
 
 - (void)addCOMMethods: (Class)aClass
 {
   COMclass cClass = SD_COM_FIND_CLASS_COM (aClass);
 
-  void collect_method (COMobject obj, const char *name)
+  void collect_method (COMmethod method)
     {
       // [self _addMessageProbe_: aClass selector: ??
-      printf ("method: `%s'\n", name);
+      printf ("method: `%s'\n", COM_method_name (method));
     }
 
   if (!cClass)
     abort ();
   
-  COM_collect_methods (cClass, collect_method, NO);
+  COM_collect_methods (cClass, collect_method);
 }
 
   

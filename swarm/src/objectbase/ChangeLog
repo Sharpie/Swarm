@@ -1,3 +1,9 @@
+2001-01-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ProbeMap.m ([ProbeMap -addCOMMethods:]): Change collect_method
+	for new COMmethod argument usage.
+	([ProbeMap -addCOMFields:]): Likewise for collect_variable.
+
 2001-01-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m: Use "language == LanguageJava" instead if
