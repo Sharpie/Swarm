@@ -1,5 +1,8 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* config/unknown/mframe-generic.h (MFRAME_ARG_ENCODING): Cast
+	pointer difference to int to avoid warning (Irix 6.5).
+
 	* mframe.m: Include sys/sigevent.h in case of HPUX.
 	This is to avoid warning about implicit structure definition.
 
