@@ -408,9 +408,11 @@ copy_to_nth_colon (const char *str, int n)
 {
   val_t val = [self dynamicCallOn: target];
   
-  if (val.type != _C_DBL)
-    abort ();
-  return val.val._double;
+  if (val.type == _C_INT)
+    return (double)val.val._int;
+  else if (val.type == _C_DBL)
+    return val.val._double;
+  abort ();
 }
 
 - setHideResult: (BOOL)theHideResultFlag

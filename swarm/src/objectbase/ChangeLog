@@ -5,6 +5,8 @@
 	internal functions for both versions of push_argument now take a
 	pointer because libffi uses pointers instead of values for
 	arguments.
+	([MessageProbe -doubleDynamicCallOn:]): Add int->double coercion
+	capability (motivated by Bank).
 
 1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
