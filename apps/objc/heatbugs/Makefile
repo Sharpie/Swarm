@@ -1,4 +1,6 @@
+ifeq ($(SWARMHOME),)
 SWARMHOME=../swarm
+endif
 APPLICATION=heatbugs
 OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
 	HeatbugObserverSwarm.o HeatbugBatchSwarm.o
