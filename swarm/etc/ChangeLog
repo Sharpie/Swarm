@@ -1,3 +1,8 @@
+1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.tests.in (INCLUDES): Add top_builddir/libobjc and
+	top_srcdir/libobjc.
+
 1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.appl.in (clean): Add .libs/$(APPEXE).

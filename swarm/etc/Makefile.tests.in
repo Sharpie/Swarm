@@ -1,6 +1,6 @@
 include $(top_builddir)/etc/Makefile.common
 
-INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(top_builddir)/src/$(module)) -I$(top_srcdir)/src/gui/
+INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(top_builddir)/src/$(module)) -I$(top_srcdir)/src/gui/ -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc
 
 builddir = $(shell cd ../../src; pwd)
 libobjcdir = $(shell cd ../../libobjc; pwd)
