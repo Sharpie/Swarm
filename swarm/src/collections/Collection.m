@@ -474,4 +474,12 @@ indexAtOffset (Collection_any *self, int offset)
     }
 }
 
+- mapAllocations: (mapalloc_t) mapalloc
+{
+  mapObject(mapalloc, ((Index_any *) permutationIndex)->collection);
+  mapObject(mapalloc, permutationIndex);
+  mapObject(mapalloc, index);
+  return self;
+}
+
 @end;

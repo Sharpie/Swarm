@@ -6,6 +6,8 @@
 #import <collections/ListShuffler.h>
 #import <random.h>
 
+id uniformUnsRand;
+
 @implementation ListShuffler_c
 
 PHASE(Creating)
@@ -38,7 +40,7 @@ PHASE(Creating)
       // [InvalidCombination raiseEvent: 
       // "ListShuffler was created without a random number generator.\n"];
     }
-  
+  setNextPhase(self);
   return self;
 }
 

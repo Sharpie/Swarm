@@ -91,4 +91,5 @@ Library:      collections
 - (void)setLoc: locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;
+- mapAllocations: (mapalloc_t) mapalloc;
 @end

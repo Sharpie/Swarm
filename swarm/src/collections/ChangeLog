@@ -1,3 +1,19 @@
+1998-12-14  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Collection.m ([PermutedIndex_c -mapAllocations:mapalloc]): 
+	mapAllocations: implemented.
+
+	* Collection.h: Add mapAllocations: method to PermutedIndex_c.
+
+	* ListShuffler.m: Declare uniformUnsRandom to avoid linking problems.
+	([ListShuffler_c -createEnd]): Add setNextPhase.
+
+	* Permutation.m ([Permutation_c -mapAllocations:mapalloc]): 
+	mapAllocations: implemented.
+
+	* Permutation.h: Add mapAllocations method.
+	
+
 1998-12-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* ListShuffler.[hm], collections.h ([ListShuffler_c

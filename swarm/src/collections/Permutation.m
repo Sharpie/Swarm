@@ -78,6 +78,12 @@ PHASE(Using)
   return self;
 }
 
+- mapAllocations: (mapalloc_t) mapalloc
+{
+  mapObject(mapalloc, shuffler);
+  return self;
+}
+
 - (void)describe: outputCharStream
 {
   char buffer[20];
