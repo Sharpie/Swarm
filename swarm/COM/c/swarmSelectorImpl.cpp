@@ -6,7 +6,7 @@
 #include "xptcall.h"
 #include "xpt_struct.h"
 
-#include <objc/objc-api.h>
+#include <defobj.h> // fcall_type_t
 
 NS_IMPL_ISUPPORTS1(swarmSelectorImpl, swarmISelector)
 
@@ -73,71 +73,73 @@ swarmSelectorImpl::GetArgCount (unsigned *ret)
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::GetArgObjcType (unsigned argIndex, char *retPtr)
+swarmSelectorImpl::GetArgFcallType (unsigned argIndex, unsigned short *retPtr)
 {
-  const nsXPTParamInfo param = methodInfo->GetParam (argIndex);
-  nsXPTType type = param.GetType ();
+  const nsXPTParamInfo& param = methodInfo->GetParam (argIndex);
+  const nsXPTType& type = param.GetType ();
 
-  char ret;
+  fcall_type_t ret;
   
-  switch (type)
+  switch (type.TagPart ())
     {
+    case nsXPTType::T_BOOL:
+      ret = fcall_type_boolean;
+      break;
     case nsXPTType::T_I8:
-      ret = _C_CHR;
+      ret = fcall_type_schar;
       break;
     case nsXPTType::T_I16:
-      ret = _C_SHT;
+      ret = fcall_type_sshort;
       break;
     case nsXPTType::T_I32:
-      ret = _C_INT;
+      ret = fcall_type_sint;
       break;
     case nsXPTType::T_I64:
-      ret = _C_LNG_LNG;
+      ret = fcall_type_slonglong;
       break;
     case nsXPTType::T_U8:
-      ret = _C_UCHR;
+      ret = fcall_type_uchar;
       break;
     case nsXPTType::T_U16:
-      ret = _C_USHT;
+      ret = fcall_type_ushort;
       break;
     case nsXPTType::T_U32:
-      ret = _C_UINT;
+      ret = fcall_type_uint;
       break;
     case nsXPTType::T_U64:
-      ret = _C_ULNG_LNG;
+      ret = fcall_type_ulonglong;
       break;
     case nsXPTType::T_FLOAT:
-      ret = _C_FLT;
+      ret = fcall_type_float;
       break;
     case nsXPTType::T_DOUBLE:
-      ret = _C_DBL;
+      ret = fcall_type_double;
       break;
     case nsXPTType::T_CHAR:
-      ret = _C_CHR;
+      ret = fcall_type_schar;
       break;
     case nsXPTType::T_VOID:
-      ret = _C_VOID;
+      ret = fcall_type_void;
       break;
     case nsXPTType::T_CHAR_STR:
-      ret = _C_CHARPTR;
+      ret = fcall_type_string;
       break;
     case nsXPTType::T_INTERFACE:
-      ret = _C_ID;
+    case nsXPTType::T_INTERFACE_IS:
+      ret = fcall_type_object;
       break;
 
-    case nsXPTType::T_BOOL:
     case nsXPTType::T_WCHAR:
     case nsXPTType::T_IID:
     case nsXPTType::T_BSTR:
     case nsXPTType::T_WCHAR_STR:
-    case nsXPTType::T_INTERFACE_IS:
     case nsXPTType::T_ARRAY:
     case nsXPTType::T_PSTRING_SIZE_IS:
     case nsXPTType::T_PWSTRING_SIZE_IS:
     default:
       abort ();
     }
-  *retPtr = ret;
+  *retPtr = (unsigned) ret;
   return NS_OK;
 }
   

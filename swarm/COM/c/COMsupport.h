@@ -1,5 +1,6 @@
 #include "nsISupports.h"
 #include "nsIInterfaceInfo.h"
+#include <defobj.h>
 
 PRBool findMethod (nsISupports *target, const char *methodName,
                    nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
@@ -15,5 +16,6 @@ BOOL selectorIsVoidReturn (COMobject cSel);
 BOOL selectorIsBooleanReturn (COMobject cSel);
 const char *selectorName (COMobject cSel);
 unsigned selectorArgCount (COMobject cSel);
-char selectorArgObjcType (COMobject cSel, unsigned argIndex);
+fcall_type_t selectorArgFcallType (COMobject cSel, unsigned argIndex);
+void *createArgVector (unsigned size);
 }

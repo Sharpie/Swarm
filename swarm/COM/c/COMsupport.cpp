@@ -5,6 +5,7 @@
 #include "nsIEnumerator.h"
 #include "nsMemory.h"
 #include "xptinfo.h"
+#include "xptcall.h"
 #include "COM.h"
 #include "COMsupport.h"
 #include "plstr.h"
@@ -301,16 +302,16 @@ selectorArgCount (COMobject cSel)
   return ret;
 }
 
-char
-selectorArgObjcType (COMobject cSel, unsigned argIndex)
+fcall_type_t
+selectorArgFcallType (COMobject cSel, unsigned argIndex)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
-  char ret;
+  unsigned short ret;
 
-  if (!NS_SUCCEEDED (sel->GetArgObjcType (argIndex, &ret)))
+  if (!NS_SUCCEEDED (sel->GetArgFcallType (argIndex, &ret)))
     abort ();
   
-  return ret;
+  return (fcall_type_t) ret;
 }
 
 }
@@ -330,3 +331,10 @@ findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, P
   return PR_FALSE;
 }
 
+void *
+createArgVector (unsigned size)
+{
+  nsXPTCVariant *argVec = new nsXPTCVariant[size];
+
+  return (void *) argVec;
+}
