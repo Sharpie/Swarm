@@ -1,5 +1,9 @@
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (GENINTERFACEFILES): New variable.
+	(all): Use it. 
+	(GENCLASSFILES, GENINTERFACEFILES): Do phase expansion.
+
 	* GlobalZone.java: Make public.
 
 	* Selector.java: Add objcFlag.  This flag determines whether
