@@ -1,3 +1,9 @@
+2004-04-13    <pauljohn@localhost.localdomain>
+
+	* bug.scm (cons): inserted file. Have no idea why it was not
+	included with package already.  The program does not run without
+	it.  Wish I had that old PC to be sure what was in my head...
+
 2003-04-17    <pauljohn@localhost.localdomain>
 
 	* I have checked in this tutorial exercise and began
