@@ -568,7 +568,7 @@
                (insert ")"))
               ((string= jni-type "jstring")
                (insert "strings[")
-               (insert (format "%u" string-pos))
+               (insert (format "%d" string-pos))
                (insert "]"))
               ((string= jni-type "jclass")
                (insert "JFINDOBJCCLASS (env, ")

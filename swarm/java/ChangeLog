@@ -1,3 +1,8 @@
+1999-05-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-argument-print-conversion): Use %d, not 
+	%u (which doesn't exist).
+
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-path, c-path): New function.
