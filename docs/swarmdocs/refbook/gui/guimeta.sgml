@@ -4,11 +4,9 @@
 
   <ABSTRACT>
     <TITLE>Documentation and Implementation Status</TITLE>
-    
-    <PARA>Meta-information on the state of the documentation with
-      respect to the low-level documentation is included in this
-      DOCINFO section.</PARA>
-    
+
+    <PARA></PARA>
+
   </ABSTRACT>
 
 &guirevhistory.sgml;  

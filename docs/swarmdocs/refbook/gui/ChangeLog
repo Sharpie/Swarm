@@ -1,3 +1,9 @@
+1998-06-17  Alex Lancaster  <alexl@bigfoot.com>
+
+	* guimeta.sgml: Removed redundant text from ABSTRACT.
+
+	* gui00.sgml: Added objectbase.h to list of dependencies.
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (MODULE): New variable.  Include Makefile.rules 

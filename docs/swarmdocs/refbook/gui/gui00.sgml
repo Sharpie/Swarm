@@ -9,13 +9,19 @@
 
   </SIDEBAR>
 
-<!--
-
   <SECT1 ID="SWARM.GUI.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
-    <PARA>No other library dependences</PARA>
+
+    <PARA>Following are the other header files imported by
+    &lt;gui.h&gt;:
+
+<PROGRAMLISTING>
+#import &lt;objectbase.h&gt;
+</PROGRAMLISTING>
+
+      </PARA>
+
   </SECT1>
--->
 
   <SECT1 ID="SWARM.GUI.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
