@@ -11,8 +11,9 @@ Library:      collections
 
 #import <collections/String.h>
 #import <defobj/defalloc.h>
-#include <string.h>
+
 #include <assert.h>
+#include <misc.h> // memcpy
 
 @implementation String_c
 

@@ -10,9 +10,6 @@ Library:      collections
 */
 
 #import <collections/OutputStream.h>
-#include <string.h>
-#include <assert.h>
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
 
 @implementation OutputStream_c
@@ -34,8 +31,8 @@ PHASE(Creating)
 
 - createEnd
 {
-  createByCopy( );
-  setNextPhase( self );
+  createByCopy ();
+  setNextPhase (self);
   return self;
 }
 
@@ -43,7 +40,7 @@ PHASE(Creating)
 {
   OutputStream_c  *newStream;
 
-  newStream = [aZone allocIVars: getNextPhase( self )];
+  newStream = [aZone allocIVars: getNextPhase (self)];
   newStream->fileStream = file;
   return newStream;
 }
@@ -57,7 +54,7 @@ PHASE(Using)
 
 - (void) catC: (const char *)cstring
 {
-  fputs( cstring, fileStream );
+  fputs (cstring, fileStream);
 }
 
 - (void) appendC: (const char *)cstring

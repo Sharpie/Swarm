@@ -1,3 +1,9 @@
+1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* String.m: Don't include string.h.  Include misc.h.
+
+	* InputStream.m, OutputStream.m: Don't include string.h or assert.h.
+
 1998-07-08  Alex Lancaster  <alex@santafe.edu>
 
 	* collections.h (KeyedCollection): Removed to design document

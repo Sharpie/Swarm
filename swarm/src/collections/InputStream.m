@@ -11,10 +11,8 @@ Library:      collections
 
 #import <collections.h>
 #import <collections/InputStream.h>
-#include <string.h>
-#include <assert.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <stdio.h> // fputs
+#include <ctype.h> // isspace
 
 @implementation InputStream_c
 
@@ -22,7 +20,7 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  InputStream_c  *newStream = [aZone allocIVars: self];
+  InputStream_c *newStream = [aZone allocIVars: self];
   return newStream;
 }
 
@@ -33,23 +31,23 @@ PHASE(Creating)
 
 - createEnd
 {
-  createByCopy( );
-  setNextPhase( self );
+  createByCopy ();
+  setNextPhase (self);
   return self;
 }
 
 + create: aZone setFileStream: (FILE *)file
 {
-  InputStream_c  *newStream;
+  InputStream_c *newStream;
 
-  newStream = [aZone allocIVars: getNextPhase( self )];
+  newStream = [aZone allocIVars: getNextPhase (self)];
   newStream->fileStream = file;
   return newStream;
 }
 
 PHASE(Using)
 
-- (FILE *) getFileStream
+- (FILE *)getFileStream
 {
   return fileStream;
 }
