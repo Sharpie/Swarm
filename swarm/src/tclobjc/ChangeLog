@@ -3,6 +3,7 @@
 	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute
 	{inst,noinst}LIBS.
 	(EXTRA_LTLIBRARIES): New variable.
+	(MODULE): New variable.
 
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

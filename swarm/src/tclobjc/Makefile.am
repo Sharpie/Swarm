@@ -1,3 +1,4 @@
+MODULE = tclobjc
 CURRENT = 1
 REVISION = 1
 AGE = 1
