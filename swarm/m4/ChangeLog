@@ -1,3 +1,9 @@
+1999-07-30  Alex Lancaster  <alex@santafe.edu>
+
+	* acswarm.m4 (al_INIT_SWARM): LIBTOOL, set to use `libtool-swarm',
+	in $(swarm_bindir), rather than the extracted libtool in
+	top_builddir.  Extract (swarm_{bindir,libdir,datadir}) variables.
+
 1999-07-28  Alex Lancaster  <alex@santafe.edu>
 
 	* acjdk.m4: For kaffe, extract prefix from kaffe shell script and
