@@ -1,3 +1,17 @@
+1998-03-18  Alex Lancaster  <alex@santafe.edu>
+
+	* ObserverSwarm.m: Minor reformatting.
+
+	* ModelSwarm.m: Import activity.h and simtools.h.
+
+	* ModelSwarm.h: Removed irrelevant <collections.h>, <activity.h>
+	and <objectbase.h> imports.
+	
+	* FoodSpace.h: Removed irrelevant import of <simtools.h>. Minor
+	reformatting.
+
+	* Bug.h: Removed irrelevant <gui.h> import.
+		
 1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m: Include simtoolsgui/GUISwarm.h.

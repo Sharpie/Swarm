@@ -36,7 +36,7 @@
   // model is a subswarm of the observer. Note that creating the
   // modelSwarm in the current Swarm, by referring to "self" in the
   // [ModelSwarm create: self] call does actually create the new Swarm
-  // in it's *own* segregated Zone. H
+  // in it's *own* segregated Zone. 
 
   // However, it does this in such a way that when current
   // (ObserverSwarm) is dropped it will also drop the ModelSwarm and all
