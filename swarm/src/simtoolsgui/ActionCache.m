@@ -180,6 +180,7 @@ PHASE(Using)
   cacheIndex = [actionCache begin: scratchZone];
   while ((actionHolder = [cacheIndex next]) != nil)
     {
+      [cacheIndex remove];
       actionType = [actionHolder getType];
       if (actionType == Control)
         {
@@ -222,10 +223,8 @@ PHASE(Using)
             raiseEvent (InvalidActionType,
                         "Control Action Name: [%s] not recognized in deliverActions",
                         actionName);
-      }
-      [cacheIndex remove];
+        }
       [actionHolder drop];
-      
     }
   [cacheIndex drop];
 
@@ -246,18 +245,18 @@ PHASE(Using)
 - sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd
 {
   id anAction;
+  BOOL immediateFlag = (strcmp (cmd, "Stop") == 0
+                        || strcmp (cmd, "Save") == 0
+                        || strcmp (cmd, "Quit") == 0);
+
   // if in waitForControlEvent, then reset the control panel
   // state and insert the start action onto the cache
   // when control finally gets back to controlpanel, it will
   // fall out of the busy wait loop and continue at the point
   // from which waitForControlEvnt was called.
-  if ([ctrlPanel getState] == ControlStateStopped)
-    {
-      if (!(strcmp (cmd, "Stop") == 0
-            || strcmp (cmd, "Save") == 0
-            || strcmp (cmd, "Quit") == 0))
-        [ctrlPanel setState: ControlStateRunning];
-    }
+  if ([ctrlPanel getState] == ControlStateStopped
+      && !immediateFlag)
+    [ctrlPanel setState: ControlStateRunning];
 
   // create a 'cmd' action
   anAction = [ActionHolder createBegin: [self getZone]];
@@ -268,7 +267,7 @@ PHASE(Using)
   // insert the action
   [self insertAction: anAction];
 
-  if (strcmp (cmd, "Save") == 0 || strcmp (cmd, "Quit") == 0)
+  if (immediateFlag)
     [self deliverActions];
   
   return self;

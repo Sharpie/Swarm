@@ -1,3 +1,9 @@
+1999-09-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionCache.m ([ActionCache -deliverActions]): Remove ActionHolder
+	as soon as we've got it.
+	([ActionCache -sendActionOfType:type:]): Call deliverActions on Stop.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.
