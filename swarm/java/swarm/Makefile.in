@@ -31,7 +31,7 @@ GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-class-f
 
 GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-interface-files)))
 
-GENFILES = $(addprefix swarm/,$(GENCLASSFILES) $(GENINTERFACEFILES))
+GENFILES = $(GENCLASSFILES) $(GENINTERFACEFILES)
 
 SWARMGENFILES = $(addprefix swarm/,$(GENFILES))
 SWARMCLASSES = $(PRECLASSES) $(POSTCLASSES)
