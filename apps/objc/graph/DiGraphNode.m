@@ -86,6 +86,11 @@
   return self;
 }
 
+- (const char *)getNodeLabel
+{
+  return label;
+}
+
 - getNodeItem
 {
   return nodeItem;

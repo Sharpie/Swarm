@@ -35,5 +35,6 @@
 - hideNode;
 - (void)drop;
 - setNodeLabel: (const char *)aLabel;
+- (const char *) getNodeLabel;
 
 @end
