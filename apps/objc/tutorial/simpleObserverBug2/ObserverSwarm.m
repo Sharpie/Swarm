@@ -8,7 +8,7 @@
 
 @implementation ObserverSwarm
 
-+createBegin: aZone
++ createBegin: aZone
 {
   ObserverSwarm * obj;
   id <ProbeMap> probeMap;
@@ -63,8 +63,8 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
 
-  createProbeDisplay (modelSwarm);
-  createProbeDisplay (self);
+  CREATE_PROBE_DISPLAY (modelSwarm);
+  CREATE_PROBE_DISPLAY (self);
 
   // Instruct the control panel to wait for a button event.
   // We halt here until someone hits a control panel button.

@@ -41,7 +41,7 @@
 
   // Finally, create a probeDisplay to show the parameterManager
 
-  createArchivedProbeDisplay (self);
+  CREATE_ARCHIVED_PROBE_DISPLAY (self);
 
   return self;
 }
@@ -133,7 +133,7 @@
 
   // Build a probeDisplay on ourself
 
-  createArchivedProbeDisplay (self);
+  CREATE_ARCHIVED_PROBE_DISPLAY (self);
 
   // build the EZGraph for model results
 
@@ -284,7 +284,7 @@
 
   // Now we create a probeDisplay for this model instance
 
-  createArchivedProbeDisplay (modelSwarm);
+  CREATE_ARCHIVED_PROBE_DISPLAY (modelSwarm);
 
   // Let the modelSwarm build its objects and actions and activate
   // it in "nil", giving us a new activity. We don't start it here...
