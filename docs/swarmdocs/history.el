@@ -1,7 +1,8 @@
 (require 'cl)
 (require 'gnus)
+(require 'timezone)
 (eval-and-compile
- (push (getenv "TOP_BUILDDIR") load-path))
+  (push (getenv "TOP_BUILDDIR") load-path))
 (require 'common)
 
 (defstruct changelog-item
@@ -53,7 +54,12 @@
       t)))
 
 (defun parse-date (date)
-  (gnus-encode-date date))
+  (let* ((parse (timezone-parse-date date))
+	 (date (mapcar (lambda (d) (and d (string-to-int d))) parse))
+	 (time (mapcar 'string-to-int (timezone-parse-time (aref parse 3)))))
+    (encode-time (caddr time) (cadr time) (car time)
+		 (caddr date) (cadr date) (car date)
+		 (* 60 (timezone-zone-to-minute (nth 4 date))))))
 
 (defun decode-time-as-gmt (time)
   (set-time-zone-rule "GMT")

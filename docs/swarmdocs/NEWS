@@ -1,6 +1,10 @@
 swarmdocs NEWS --- history of major changes to swarmdocs.  -*- text -*-
 Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 
+* Release Notes for swarmdocs 2.0.1
+
+** Updates for Modular Stylesheets 1.44.
+
 * Release Notes for swarmdocs 2.0
 
 ** Use new information from the parsing script to generate `deprecated' 

@@ -27,6 +27,11 @@ html_DATA = $(NAME).html
 
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
+install-data-hook:
+	(cd $(htmldir) && $(LN_S) $(prefix)/figs figs)
+
+uninstall-local:
+	- (cd $(htmldir); rm -rf *)	
 
 htmldist: html
 	cd .. ; tar cf - $(addprefix $(NAME)/,$(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz

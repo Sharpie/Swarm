@@ -1,3 +1,22 @@
+1999-09-03  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (AC_PROG_LN_S): Call macro to extract link command
+	appropriate to system.
+	(AM_INIT_AUTOMAKE):  Bump version to 2.0.1.
+
+	* Makefile.rules (install-data-hook): New rule, generates a
+	symbolic or hard link inside each target html install directory to
+	the figs.  Use $(LN_S) autoconf macro for the actual link.
+	(uninstall-local): Be extra pedantic about cleanup of all files
+	installed in htmldir subdirectories.
+	
+	* NEWS: Note stylesheets version 1.44.
+
+	* history.el (parse-date): Don't call gnus-encode-date (doesn't
+	exist in pgnus > 0.95), call timezone conversion primitives
+	directly.
+	(timezone): Require it.
+
 1999-07-23  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note stylesheet version 1.42.
