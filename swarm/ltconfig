@@ -2701,7 +2701,7 @@ sys_lib_search_path_spec=$sys_lib_search_path_spec
 sys_lib_dlsearch_path_spec=$sys_lib_dlsearch_path_spec
 
 # Fix the shell variable \$srcfile for the compiler.
-fix_srcfile_path="$fix_srcfile_path"
+fix_srcfile_path='$fix_srcfile_path'
 
 # Set to yes if exported symbols are required
 always_export_symbols=$always_export_symbols
