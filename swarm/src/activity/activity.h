@@ -170,7 +170,7 @@ USING
 //E: message including colons and subsequent argument portions.  An example
 //E: of a message with one additional argument is the following:
 
-//E: [createActionTo: aTurtle message: $m(move:) : (id)10];
+//E: [createActionTo: aTurtle message: M(move:) : obj];
 
 USING
 - createActionTo: target message: (SEL)aSel;

@@ -1,3 +1,8 @@
+1998-10-29  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* activity.h (ActionCreatingTo): Fix example syntax for
+	createActionTo:message:.
+
 1998-10-27  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* SwarmProcess.m (notifySwarm): Remove activityRef. 
