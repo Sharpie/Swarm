@@ -379,6 +379,7 @@ id <Symbol>  Unsafe, UnsafeAtMember, SafeAlways;
 //D: copy is an independent index that maintains its own position under any
 //D: further processing.
 
+USING
 //M: getCollection returns the collection referred to by an index.  This
 //M: collection never changes during the lifetime of the index.
 - getCollection;
@@ -789,6 +790,7 @@ CREATING
 //D: if remove is requested on an index that is not positioned at either the
 //D: first or last member, an invalid operation error is raised.
 
+USING
 //M: Add a member after the index.
 - (void)addAfter: anObject;
 
@@ -802,6 +804,7 @@ CREATING
 //D: A Stack is a subtype of List which restricts the addition and removal
 //D: of members to the start of a list.  
 
+USING
 //M: Push an item on the stack.
 - (void)push: anObject;
 
@@ -815,6 +818,7 @@ CREATING
 //D: Queue is a subtype of List which restricts addition of members to the
 //D: start of the list and removal to the end.
 
+USING
 //M: Queue-up an item.
 - (void)enqueue: anObject;
 
@@ -989,7 +993,12 @@ USING
 @end
 
 @deftype PartialOrderRelations
-//M: These messages maintain the ordering relations within a partially ordered collection.
+//S: These messages maintain the ordering relations within a partially
+//S: ordered collection.
+
+//D: These messages maintain the ordering relations within a partially
+//D: ordered collection.
+USING
 - (void)getPredecessors: aMember;
 - (void)getSuccessors: aMember;
 - (void)getCostarts: aMember;
@@ -1149,6 +1158,7 @@ typedef struct { void *memberData[2]; id owner; } dupmember_t;
 //D: value is part of the key value, by determining which key values will
 //D: compare equal to any member.
 
+USING
 //M: The add: message adds a new member to a set.  It returns true if
 //M: member added matched the key of any member already contained in the
 //M: Set.  Whether or not the member was actually added to the collection
@@ -1261,6 +1271,7 @@ USING
 @end
 
 @deftype MapIndex <KeyedCollectionIndex>
+USING
 //M: The setKey: messages repositions the index to
 //M: an entry having a key value that matches its argument.  If there is
 //M: more than one entry matching this key value, the index is positioned

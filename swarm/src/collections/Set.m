@@ -64,7 +64,7 @@ PHASE(Using)
   return nil;
 }
 
-- (BOOL) contains: aKey
+- (BOOL)contains: aKey
 {
   return [self at: aKey] != nil;
 }
@@ -81,11 +81,11 @@ PHASE(Using)
   return nil;
 }
 
-- (BOOL) at: aKey memberSlot: (id **)memptr
+- (BOOL)at: aKey memberSlot: (id **)memptr
 {
   raiseEvent (NotImplemented, nil);
 
-  return nil;
+  return NO;
 }
 
 - remove: aKey
