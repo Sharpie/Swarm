@@ -1,4 +1,4 @@
-;; Copyright © 1999 Santa Fe Institute
+;; Copyright © 1999, 2000 Swarm Development Group
 
 (require 'cl)
 (eval-and-compile
