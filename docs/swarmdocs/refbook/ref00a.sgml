@@ -51,11 +51,27 @@
     </PARA>
   </SIDEBAR>
 
-    <sect1>
-      <title>Porting from 1.4 or 1.4.1 to 2.0</title>
-      <itemizedlist>
-        <listitem>
-
+  <sect1>
+    <title>Porting from 2.0 or 2.0.1 to 2.1</title>
+    <itemizedlist>
+      <listitem>
+        <para>Backward-compatibility Random module protocol names have
+          been removed.  (Generators have the name suffix "gen" and
+          distributions have the suffix "Dist".)
+        </para>
+      </listitem>
+      <listitem>
+        <para>The Archiver method
+          <function>getWithZone:object:</function> was renamed to
+          <function>getWithZone:key:</function>.
+        </para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+  <sect1>
+    <title>Porting from 1.4 or 1.4.1 to 2.0</title>
+    <itemizedlist>
+      <listitem>
           <para>The method <function>setNumBins:</function>, found in
             the analysis library protocol <link
             linkend="swarm.analysis.ezbin.protocol">

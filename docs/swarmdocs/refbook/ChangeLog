@@ -1,3 +1,9 @@
+2000-02-29    <mgd@nest.swarm.org>
+
+	* Swarmdocs 2.1 frozen.
+
+	* ref00a.sgml: Add 2.1 porting notes.
+
 2000-02-15  Alex Lancaster  <alex@santafe.edu>
 
 	* ref00.sgml: Update Acknowledgment section and remove
