@@ -1,0 +1,363 @@
+<PREFACE ID="COMPATIBILITY.PREFACE">
+  <TITLE>Swarm Changes and Compatibility</TITLE>
+
+  <SECT1>
+    <TITLE>1.0.5 to 1.1</TITLE>
+
+    <ITEMIZEDLIST>
+      <LISTITEM><PARA> Always use the "gui" protocol when calling
+          doing any GUI events:
+          
+          <ITEMIZEDLIST>
+            <LISTITEM><PARA>Replace all occurences of tkobjc.h with
+                gui.h</PARA></LISTITEM>
+            
+            <LISTITEM><PARA><EMPHASIS>never</EMPHASIS> explicitly
+                reference any Tcl/Tk-specific code, in particular
+                module with a call to globalTkInterp will no longer
+                compile.</PARA></LISTITEM>
+
+          </ITEMIZEDLIST>
+        </PARA>
+      </LISTITEM>
+      
+      <LISTITEM><PARA> Using simtools/simtoolsgui: 
+          
+          <ITEMIZEDLIST>
+            <LISTITEM><PARA>Add the header file simtoolsgui.h to
+                your list of imports whenever you are referencing
+                any of the following classes:
+                
+                <PROGRAMLISTING>
+ActionCache, ControlPanel, SimpleProbeDisplay, ActionHolder,
+GUIComposite, VarProbeWidget, ActiveGraph, GUISwarm,
+ClassDisplayWidget, MessageProbeWidget, CommonProbeDisplay,
+ProbeDisplay, CompleteProbeDisplay,
+ProbeDisplayManager</PROGRAMLISTING>
+
+              </PARA>
+            </LISTITEM>
+            
+          </ITEMIZEDLIST>
+        </PARA></LISTITEM>
+      
+      <LISTITEM><PARA> Explictly import the header when you are
+          subclassing from a given class:
+          
+          <ITEMIZEDLIST> 
+            
+            <LISTITEM><PARA>You also need to import the header
+                file for any class for which you are
+                subclassing.  In particular, when you are
+                creating a GUISwarm you are subclassing from
+                GUISwarm so you need to explicitly import both
+                &lt;simtoolsgui.h&gt; AND
+                &lt;simtoolsgui/GUISwarm.h&gt;. The same is true
+                for &lt;objectbase/SwarmObject.h&gt; and
+                &lt;objectbase/Swarm.h&gt;</PARA></LISTITEM>
+          </ITEMIZEDLIST></PARA></LISTITEM>
+
+      <LISTITEM><PARA> Colormap class name change:
+          
+          <ITEMIZEDLIST>
+            <LISTITEM><PARA>Change all references of
+                XColormap to Colormap as it is no longer
+                specific to X11.</PARA></LISTITEM>
+
+            <LISTITEM><PARA> Change all method references to set the
+                Colormap for the Value2dDisplay class ([Value2dDisplay
+                -Colormap]) to lowercase ([Value2dDisplay -colormap])
+                to avoid namespace conflicts with Colormap class.  For
+                example, in heatbugs:
+
+                <PROGRAMLISTING>
+[heatDisplay setDisplayWidget: worldRaster Colormap: colormap];      
+                  
+                 should now be:
+                  
+[heatDisplay setDisplayWidget: worldRaster colormap: colormap];      
+
+                </PROGRAMLISTING>
+              </PARA></LISTITEM>
+          </ITEMIZEDLIST>
+          
+        </PARA></LISTITEM>
+      
+      <LISTITEM><PARA> Ensure that all required classes
+          conform to their protocol:
+          
+          <ITEMIZEDLIST>
+            <LISTITEM><PARA>Make all occurences of
+                (Raster *) to the protocol i.e. (id
+                &lt;Raster&gt;)</PARA></LISTITEM>
+            
+            <LISTITEM><PARA>Similarly change any
+                references to Colormap, ZoomRaster,
+                InFile and OutFile.</PARA></LISTITEM>
+          </ITEMIZEDLIST>
+          
+        </PARA></LISTITEM>
+      
+      <LISTITEM><PARA> Import random.h explicitly:
+          
+          <ITEMIZEDLIST>
+            <LISTITEM><PARA>The header file
+                &lt;random.h&gt; is no longer
+                included by &lt;simtools.h&gt;
+                should always <EMPHASIS>explicitly</EMPHASIS>
+                reference the random library if you
+                use it in a given module (.m) file.
+                This again reduces the inter-library
+                dependence, if you don't need to use
+                the random library in your
+                application, you shouldn't be
+                including it.  </PARA></LISTITEM>
+          </ITEMIZEDLIST></PARA></LISTITEM>
+
+      <LISTITEM><PARA> ActionCache and ControlPanel:
+
+          <ITEMIZEDLIST>
+            <LISTITEM><PARA>Make all references to -doTkEvents and
+                -waitForControlEvent be to actionCache NOT
+                controlPanel.</PARA></LISTITEM>
+          </ITEMIZEDLIST>
+        </PARA></LISTITEM>
+
+    </ITEMIZEDLIST>
+  </SECT1>
+
+  <SECT1>
+    <TITLE>1.0.4 to 1.0.5</TITLE>
+
+    <ITEMIZEDLIST>
+
+      <LISTITEM><PARA>EZGraph's setGraphWindowGeometryRecordName and
+          GUISwarm's setControlPanelGeometryRecordName have been
+          retired.  The macro SET_WINDOW_GEOMETRY_RECORD_NAME can now
+          be used in any geometry archiving context.</PARA></LISTITEM>
+
+      <LISTITEM><PARA>After adjusting an application per previous
+          item, be aware that the new internal naming conventions used
+          by `GUIComposite' classes (e.g. EZBin and GUISwarm) will
+          probably differ from the archiving keys in your application.
+          Such widgets will probably lose their saved
+          placements.</PARA></LISTITEM>
+
+    </ITEMIZEDLIST>
+
+  </SECT1>
+
+  <SECT1>
+    <TITLE>1.0.3 to 1.0.4</TITLE>
+
+    <ITEMIZEDLIST>
+
+      <LISTITEM><PARA>doTkEvents has been moved from ControlPanel to
+          ActionCache.  Be sure to direct all doTkEvent messages to
+          the Swarm's instance of ActionCache and not the ControlPanel
+          (a warning message will be generated
+          otherwise).</PARA></LISTITEM>
+
+      <LISTITEM><PARA>The swarmobject library has been renamed to
+          objectbase.  Although the build procedure creates a link to
+          maintain compatibility, applications should include
+          &lt;objectbase.h&gt; instead of
+          &lt;swarmobject.h&gt;.</PARA></LISTITEM>
+
+      <LISTITEM><PARA>Avoid calling globalTkInterp in all future
+          applications, it will not be supported from version 1.1
+          onwards.</PARA></LISTITEM>
+
+      <LISTITEM><PARA>If there exists a &lt;LIBRARY.h&gt; file,
+          e.g. &lt;simtools.h&gt;, that file is the advertised
+          interface to LIBRARY, and it will defined in terms of
+          protocols.  Whenever possible, define variables in terms of
+          the protocol they respond to:
+
+          <PROGRAMLISTING> id &lt;ProbeMap&gt; probeMap; </PROGRAMLISTING>
+
+          rather than using a static type:
+
+          <PROGRAMLISTING>ProbeMap *probeMap; </PROGRAMLISTING>
+
+          (One advantage of this is that fewer imports will be needed in your
+          application.)  </PARA></LISTITEM>
+
+    </ITEMIZEDLIST>
+  </SECT1>
+
+  <SECT1>
+    <TITLE>1.0.2 to 1.0.3</TITLE>
+
+    <ITEMIZEDLIST>
+
+      <LISTITEM><PARA>Activity Library: Reference Release-Note #3: The
+          AutoDrop option for any concurrent groups is automatically
+          set to the same as the schedule in which it is
+          contained. (Any existing setting of the option on the
+          concurrent group type is ignored.) So, in 1.0.2, if you
+          didn't set the AutoDrop flag for a concurrentGroup
+          initialized under a schedule, it defaulted to NO or false.
+          </PARA></LISTITEM>
+
+      <LISTITEM><PARA>Random Library: 13, 14
+
+          <ORDEREDLIST>
+
+            <LISTITEM><PARA>Reference Release-Note #13 This release
+                includes Random v0.7, written by Sven Thommesen. This
+                version adds several new bit generators and
+                distributions and rearranges the
+                library. (Ref. $SWARMHOME/src/random/docs/WHATS.CHANGED.in.0.7
+                and WHATS.NEW.in.0.7)</PARA></LISTITEM>
+
+            <LISTITEM><PARA>Reference Release-Note #14: With the
+                addition of the ability to make use of the default
+                random number generators and distributions such that
+                different runs start with a different seed or with the
+                same seed, the static seed was changed. This means
+                that runs with 1.0.3 will not match runs made with the
+                static seed for 1.0.2. This is acceptable because the
+                use of the default generators and distributions is
+                <EMPHASIS>DEPRECATED</EMPHASIS>.</PARA></LISTITEM>
+          </ORDEREDLIST>
+
+        </PARA></LISTITEM>
+    </ITEMIZEDLIST>
+  </SECT1>
+
+  <SECT1>
+    <TITLE>1.0.0 to 1.0.1</TITLE>
+
+    <PARA>There should not be any imcompatibilities between 1.0.1 and
+      1.0.0. There are a couple of changes that affect the behavior of
+      Swarm, however. The big ones are:
+
+      <ITEMIZEDLIST>
+
+        <LISTITEM><PARA>The automatic dropping of probe displays upon
+            the dropping of an object to which those probe displays
+            were attached. This could break your application code if
+            you leave in the
+            <PROGRAMLISTING>dropProbeDisplaysFor:</PROGRAMLISTING>
+            message where you drop such an object.</PARA></LISTITEM>
+
+        <LISTITEM><PARA>The default probeMap has changed. This is only
+            an issue when
+            <PROGRAMLISTING>createProbeDisplayFor:</PROGRAMLISTING> is
+            called without having previously created and installed a
+            probeMap for that class. The new behavior is to create a
+            probeMap on-the-fly that contains only the instance
+            variables for that class.</PARA></LISTITEM>
+
+      </ITEMIZEDLIST>
+
+      See the <ULINK
+        URL="http://www.santafe.edu/projects/swarm/release.html#changes">Release
+        Page</ULINK> for other differences.</PARA>
+  </SECT1>
+
+  <SECT1>
+    <TITLE>Beta to 1.0.0</TITLE>
+
+    <PARA>As can be expected with any software package, it is sometimes
+      unavoidable that changes in the functionality of the package will
+      cause incompatibilities with earlier versions. This is especially true
+      when a package is a "proof-of-principle" package like Swarm.</PARA>
+
+    <PARA>We've made an attempt to compile all the problems a user might have
+      moving to the new release and put them here. Please read this thoroughly
+      to decide what you might need to do to your app to get it to work with
+      the new release.
+
+      <ORDEREDLIST>
+
+        <LISTITEM><PARA>The biggest and most pervasive problems will
+            be due to the new <EMPHASIS>random</EMPHASIS>
+            library. Notes on how to deal with this problem are
+            provided in the <LINK LINKEND="RANDOM.REF">documentation
+            for the <EMPHASIS>random</EMPHASIS>
+            library</LINK>.</PARA></LISTITEM>
+
+        <LISTITEM>
+          <PARA>A rather benign problem results from the repackaging
+            of the <EMPHASIS>swarmobject</EMPHASIS> library. The
+            interface to this library was brought into sync with the
+            <EMPHASIS>defobj</EMPHASIS>and
+            <EMPHASIS>collections</EMPHASIS> libraries. (The rest of
+            the errant libraries will follow in a later release.) The
+            solutions to the problems associated with this interface
+            change are detailed in the <LINK
+            LINKEND="OBJECTBASE.REF">documentation for the
+            <EMPHASIS>objectbase</EMPHASIS> library</LINK>.</PARA>
+        </LISTITEM>
+
+        <LISTITEM><PARA>There are a couple rather benign
+            incompatibility introduced with 1.0 in the new
+            <EMPHASIS>activity</EMPHASIS> library. Many parts of
+            <EMPHASIS>activity</EMPHASIS> have changed.  But, for the
+            most part, everything works exactly the same. For details
+            on the incompatibilities please see the <LINK
+            LINKEND="ACTIVITY.REF">documentation for the
+            <EMPHASIS>activity</EMPHASIS> library</LINK>. Briefly, the
+            incompatibilities are:
+
+            <ITEMIZEDLIST>
+
+              <LISTITEM><PARA>The high-level structural changes in the
+                  activity library has led to the renaming of the
+                  variable
+                  <PROGRAMLISTING>swarmActivity</PROGRAMLISTING>. It
+                  is recommended that 
+
+<PROGRAMLISTING>[self getActivity]</PROGRAMLISTING>
+
+                  be used in its place
+                  (if your app even used this variable, it was
+                  probably in the
+                  <EMPHASIS>BatchSwarm</EMPHASIS>). This is a new
+                  message and it takes the place of the
+                  <PROGRAMLISTING>getSwarmActivity</PROGRAMLISTING>
+                  message.  But, the obsolete message has been left in
+                  place for backwards compatibility.</PARA></LISTITEM>
+
+              <LISTITEM>
+                <PARA>The
+                  <PROGRAMLISTING>getCurrentActivity()</PROGRAMLISTING>
+                  macro is gone. If you used the old
+                  getCurrentActivity() in your code, it won't work
+                  now. Use of this macro was not very widespread,
+                  since its main use is to access activity library
+                  internals. One of the other macros should be
+                  sufficient for any application.</PARA>
+              </LISTITEM>
+
+            </ITEMIZEDLIST>
+            
+          </PARA></LISTITEM>
+
+        <LISTITEM><PARA> The functionality of
+            <EMPHASIS>Zone</EMPHASIS>s has been greatly improved and
+            expanded upon. Most of the aspects of the idea behind
+            <EMPHASIS>Zone</EMPHASIS>s are now in place.  However,
+            there is one incompatibility that must be noted in case
+            your code is fairly old. The dropFrom: message has been
+            removed. Even though it was still present in recent
+            releases, its behavior was identical to drop. Any existing
+            usage should be replaced by a simple drop message without
+            any zone argument. SwarmObject subclasses are now
+            restricted from accessing the zone that was once contained
+            in an instance variable; the message getZone must be used
+            instead.</PARA></LISTITEM>
+
+      </ORDEREDLIST></PARA>
+
+  </SECT1>
+  
+</PREFACE>
+
+<!--
+Local Variables:
+sgml-parent-document:("refbook.sgml" "PREFACE")
+End:
+-->
