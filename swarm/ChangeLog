@@ -4,6 +4,8 @@
 	the mgd-PSU-GNU/Linux-glibc2 to mgd-PSU-GNU/Linux.  Add a gcc28-libc1
 	configuration, add a gcc-libc1 configuration, and keep the default
 	for gcc272 with glibc2.
+	(OPTFLAGS): Remove -g from the mgd-PSU-Irix5 configuration; it causes
+	confusion to the archiver, for some reason.
 
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
