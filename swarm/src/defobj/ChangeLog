@@ -1,4 +1,4 @@
-2004-12-11  Marcus G. Daniels
+2004-12-11  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.am (EXTRA_DIST, defobj_HEADERS): Move COM.h to latter.
 
