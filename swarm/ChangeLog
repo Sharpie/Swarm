@@ -1,3 +1,10 @@
+2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* VERSION: Bump.
+
+	* NEWS: Note addition of SwarmEnvironment and 
+	addOption:key:arg:flags:doc:group:.
+
 2000-07-05  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* VERSION: Bump.
