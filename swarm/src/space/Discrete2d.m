@@ -23,8 +23,8 @@ PHASE(Creating)
 - setSizeX: (unsigned)x Y: (unsigned)y
 {
   if (lattice)
-    [InvalidArgument
-      raiseEvent: "You cannot reset the grid size after creation.\n"];
+    raiseEvent (InvalidArgument,
+                "You cannot reset the grid size after creation.\n");
   xsize = x;
   ysize = y;
   return self;
@@ -50,17 +50,35 @@ PHASE(Creating)
   offsets = [[self getZone] alloc: ysize * sizeof(*offsets)];
 
   for (i = 0; i < ysize; i++)
-    offsets[i] = xsize * i; // cache this multiplaction
+    offsets[i] = xsize * i; // cache this multipliction
   return self;
 }
 
 - createEnd
 {
   if (xsize <= 0 || ysize <= 0)
-    [InvalidCombination
-      raiseEvent: "invalid size in creation of Discrete2d\n"];
+    raiseEvent (InvalidArgument, "invalid size in creation of Discrete2d\n");
   lattice = [self allocLattice];
   [self makeOffsets];
+  return self;
+}
+
+- lispInCreate: expr
+{
+  [super lispIn: expr];
+  return self;
+}
+
+- hdf5InCreate: hdf5Obj
+{
+  if ([hdf5Obj getDatasetFlag])
+    {
+      if ([hdf5Obj getDatasetRank] != 2)
+        raiseEvent (InvalidArgument, "Rank of lattice dataset must be 2");
+      
+      xsize = [hdf5Obj getDatasetDimension: 0];
+      ysize = [hdf5Obj getDatasetDimension: 1];
+    }
   return self;
 }
 
@@ -69,6 +87,13 @@ PHASE(Setting)
 - setLattice: (id *)theLattice
 {
   lattice = theLattice;
+  return self;
+}
+
+- hdf5In: hdf5Obj
+{
+  if ([hdf5Obj getDatasetFlag])
+    [hdf5Obj loadDataset: lattice];
   return self;
 }
 
@@ -160,24 +185,11 @@ PHASE(Using)
   return offsets;
 }
 
-- lispInCreate: expr
-{
-  // call the superclass
-  [super lispIn: expr];
-  return self;
-}
-
 - _lispInLatticeValues_: array
 {
-  unsigned x, y;
-  long tempArray[xsize][ysize];
-
-  memcpy ((void *)tempArray, [array getData], 
+  memcpy ((void *)lattice,
+          [array getData], 
           [array getElementCount] * [array getElementSize]);
-
-  for (x = 0; x < xsize; x++) 
-    for (y = 0; y < ysize; y++)
-      *discrete2dSiteAt (lattice, offsets, x, y) = (id) tempArray[x][y];
 
   return self;
 }
@@ -206,7 +218,7 @@ PHASE(Using)
           lispIn (aZone, objExpr);
       }
     else
-      raiseEvent(InvalidArgument, "Expecting a either cons pair or an array");
+      raiseEvent (InvalidArgument, "Expecting either cons pair or an array");
   }
   while ((site = [l next]));
   return self;
@@ -288,23 +300,17 @@ PHASE(Using)
 
 - _lispOutLatticeValues_: stream
 {
-  long tempArray[xsize][ysize];
-  unsigned x, y;        
-  char buf[2 * DSIZE(unsigned) + 5];
+  char buf[DSIZE(unsigned) + 5 + 1];
   
   // generate compiler encoding for 2D array
-  sprintf (buf, "%c%u%c%u%c%c%c", 
+  sprintf (buf,
+           "%c%u%c%u%c%c%c", 
            _C_ARY_B, xsize, _C_ARY_B, ysize, _C_LNG, _C_ARY_E, _C_ARY_E);
   
   [stream catC: " #:lattice \n (parse "];
   
-  // unpack the array into the lattice data structure
-  for (x = 0; x < xsize; x++) 
-    for (y = 0; y < ysize; y++)
-      tempArray[x][y] = (long) *discrete2dSiteAt (lattice, offsets, x, y);
-  
   lisp_output_type (buf,
-                    (void *) tempArray,
+                    (void *) lattice,
                     0,
                     NULL,
                     stream,
@@ -317,7 +323,7 @@ PHASE(Using)
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
-  [self lispOutVars: stream deep: NO]; // The others ivars are scalar
+  [self lispOutVars: stream deep: NO];
   [self _lispOutLatticeValues_: stream];
   [stream catC: ")"];
   return self;
@@ -331,6 +337,27 @@ PHASE(Using)
   [self _lispOutLatticeObjects_: stream];
   [stream catC: ")"];
   return self;
+}
+
+- hdf5OutShallow: hdf5Obj
+{
+  char buf[DSIZE(unsigned) + 5 + 1];
+  
+  // generate compiler encoding for 2D array
+  sprintf (buf,
+           "%c%u%c%u%c%c%c", 
+           _C_ARY_B, xsize, _C_ARY_B, ysize, _C_LNG, _C_ARY_E, _C_ARY_E);
+  
+  [hdf5Obj storeAsDataset: [hdf5Obj getName]
+           typeName: [self name]
+           type: buf
+           ptr: lattice];
+  return self;
+}
+
+- hdf5OutDeep: hdf5Obj
+{
+  abort ();
 }
   
 // Read in a file in PGM format and load it into a discrete 2d.
