@@ -1,3 +1,9 @@
+1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbe.h (VarProbe): Implement VarProbe, not _VarProbe.
+
+	* objectbase.h (VarProbe, _VarProbe): Merge.
+
 1999-02-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VarProbe.m: Include ../defobj/internal.h.

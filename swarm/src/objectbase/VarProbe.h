@@ -6,7 +6,7 @@
 #import <objectbase/Probe.h>
 #import <objectbase.h>
 
-@interface VarProbe: Probe <_VarProbe>
+@interface VarProbe: Probe <VarProbe>
 {
   const char *probedVariable;
   int dataOffset;
