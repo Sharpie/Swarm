@@ -1,3 +1,9 @@
+1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* protocol.el (fixup-method): Add conversions for
+	getControllingActivity, getOwnerActivity, getTopLevelActivity, and
+	getAction.
+
 1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in (ZLIBLIB, PNGLIB): Substitute.
