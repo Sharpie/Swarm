@@ -8,6 +8,7 @@
 	`special hack' stuff.  It's unportable, and
 	__builtin_apply/libffi/avcall will do the job just fine.
 	Declare alloca.
+	Handle unsigned ints in libffi and avcall cases.
 
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -528,6 +528,9 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
         case _C_INT:
           fret = &ffi_type_sint;
           break;
+        case _C_UINT:
+          fret = &ffi_type_uint;
+          break;
         case _C_FLT:
           fret = &ffi_type_float;
           break;
@@ -550,31 +553,35 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
           switch (type)
             {
             case _C_ID:
-              av_ptr (alist, id, *(id *)obj);
+              av_ptr (alist, id, *(id *) obj);
               break;
 
             case _C_SEL:
-              av_ptr (alist, SEL, (SEL *)obj);
+              av_ptr (alist, SEL, (SEL *) obj);
               break;
 
             case _C_UCHR:
-              av_uchar (alist, *(unsigned char *)obj);
+              av_uchar (alist, *(unsigned char *) obj);
               break;
               
             case _C_INT:
-              av_int (alist, *(int *)obj);
+              av_int (alist, *(int *) obj);
+              break;
+
+            case _C_UINT:
+              av_uint (alist, *(unsigned *) obj);
               break;
               
             case _C_FLT:
-              av_float (alist, *(float *)obj);
+              av_float (alist, *(float *) obj);
               break;
 
             case _C_DBL:
-              av_double (alist, *(double *)obj);
+              av_double (alist, *(double *) obj);
               break;
               
             case _C_LNG:
-              av_long (alist, *(long *)obj);
+              av_long (alist, *(long *) obj);
               break;
               
             case _C_CHARPTR:
