@@ -3,6 +3,8 @@
 	* configure.in: Don't fail if jadetex or dvips are missing,
 	but do issue a warning.
 
+	* acprogs.m4: Moved to m4/.
+
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* common.dsl: Revert 1998-09-15 change; it's needed in order

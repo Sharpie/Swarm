@@ -53,7 +53,7 @@ done
 
 for i in JADETEX DVIPS; do
 if eval test '$ac_cv_prog_'$i = missing ; then
-AC_MSG_WARNING(Failed to find $i)
+AC_MSG_WARN(Failed to find $i)
 fi
 done
 
