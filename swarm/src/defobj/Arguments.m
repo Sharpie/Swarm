@@ -524,14 +524,25 @@ getSwarmPrefix (void)
 
   if ((swarmPrefix = expandvars (getenv ("SWARMHOME"))) == NULL)
     {
-      const char *expanded_path;
-
-      expanded_path = expandvars (PREFIX);
+      const char *expanded_path = expandvars (PREFIX);
       
       if (access (expanded_path, F_OK) == -1)
         swarmPrefix = NULL;
       else
         swarmPrefix = expanded_path;
+    }
+  if (swarmPrefix)
+    { 
+      unsigned len = strlen (swarmPrefix);
+    
+      if (swarmPrefix[len - 1] != '/')
+	{
+	  char *str = xmalloc (len + 2), *p;
+	  
+	  p = stpcpy (str, swarmPrefix);
+	  p = stpcpy (p, "/");
+	  swarmPrefix = str;
+	}
     }
   return swarmPrefix;
 }
@@ -637,19 +648,7 @@ expandvars (const char *path)
     {
       if (swarmHome == NULL)
 	{
-          if ((swarmHome = getSwarmPrefix ()) == NULL)
-            { 
-              unsigned len = strlen (swarmHome);
-              
-              if (swarmHome[len - 1] != '/')
-                {
-                  char *home = xmalloc (len + 2), *p;
-                  
-                  p = stpcpy (home, swarmHome);
-                  p = stpcpy (p, "/");
-                  swarmHome = home;
-                }
-            }
+          swarmHome = getSwarmPrefix ();
           if (swarmHome)
             {
               char sigPathBuf[(strlen (swarmHome) + 1 +
@@ -662,11 +661,10 @@ expandvars (const char *path)
               
               if (access (sigPathBuf, F_OK) == -1)
                 swarmHome = NULL;
-
             }
           if (swarmHome == NULL)
             swarmHome = findSwarm (self);
-        }  
+        }
       return swarmHome;
     }
 }

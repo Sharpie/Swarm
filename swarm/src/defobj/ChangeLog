@@ -1,3 +1,8 @@
+1999-09-19    <mgd@HELEN>
+
+	* Arguments.m (getSwarmPrefix): Ensure path ends in slash.
+	([Arguments_c -_getSwarmHome_:]): Don't do that here.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.
