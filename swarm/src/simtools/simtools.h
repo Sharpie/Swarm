@@ -340,46 +340,60 @@ USING
 
 
 
-//F: Initializes the Swarm libraries without version or bug-report-address
-//F: information.
-extern void initSwarm (int argc, const char **argv);
+//F: Internal function used by the initSwarm* macros to initialize the
+//F: libraries
+extern void _initSwarm_ (int argc, const char **argv, const char *appName,
+                         const char *version, const char *bugAddress,
+                         Class argumentsClass,
+                         struct argp_option *options,
+                         int (*optionFunc) (int key, const char *arg),
+                         BOOL forceBatchMode);
 
-//F: Initializes the Swarm libraries for batch mode
-//F: without version or bug report address information.
-extern void initSwarmBatch (int argc, const char **argv);
 
-//F: Initializes the Swarm libraries for an application.  
-extern void initSwarmApp (int argc, const char **argv,
-                          const char *version, const char *bugAddress);
+//#: Initializes the Swarm libraries without version or bug-report-address
+//#: information.
+#define initSwarm(argc, argv) \
+ _initSwarm_ (argc, argv, APPNAME, APPVERSION, BUGADDRESS, Nil, NULL, NULL, NO)
 
-//F: Like initSwarmApp, but initializes in batch-mode only
-extern void initSwarmAppBatch (int argc, const char **argv,
-                          const char *version, const char *bugAddress);
+//#: Initializes the Swarm libraries for batch mode
+//#: without version or bug report address information.
+#define initSwarmBatch(argc,  argv) \
+ _initSwarm_ (argc, argv, APPNAME, APPVERSION, BUGADDRESS, Nil, NULL, NULL, YES)
 
-//F: Like initSwarmApp, but specifies a parsing function .
-extern void initSwarmAppOptions (int argc, const char **argv,
-                                 const char *version, const char *bugAddress,
-                                 struct argp_option *options,
-                                 int (*optionFunc) (int key, const char *arg));
+//#: Initializes the Swarm libraries for an application.  
+#define initSwarmApp(argc, argv, version, bugAddress) \
+ _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, NULL, NULL, NO)
 
-//F: Like initSwarmAppOptions, but initializes in batch-mode only
-extern void initSwarmAppOptionsBatch (int argc, const char **argv,
-                                 const char *version, const char *bugAddress,
-                                 struct argp_option *options,
-                                 int (*optionFunc) (int key, const char *arg));
+//#: Like initSwarmApp, but initializes in batch-mode only
+#define initSwarmAppBatch(argc, argv, version, bugaddress) \
+ _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, NULL, NULL, YES)
 
-//F: Like initSwarm, but specifies what class to use for argument
-//F: parsing, typically this will be a subclass of Arguments.
-extern void initSwarmArguments (int argc, const char **argv,
-                                Class argumentsClass);
+//#: Like initSwarmApp, but specifies a parsing function .
+#define initSwarmAppOptions(argc, argv, version, bugAddress, options, \
+                             optionFunc) \
+ _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, options, \
+               optionFunc, NO)
 
-//F: Like initSwarmApp, but specifies what class to use for argument
-//F: parsing, typically this will be a subclass of Arguments.
-extern void initSwarmAppArguments (int argc, const char **argv,
-                                   const char *version, const char *bugAddress,
-                                   Class argumentsClass);
+//#: Like initSwarmAppOptions, but initializes in batch-mode only
+#define initSwarmAppOptionsBatch(argc, argv, version, bugAddress, \
+                                 options, optionFunc) \
+ _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, options, \
+               optionFunc, YES)
 
-//G: Flag for whether we're in graphics mode or not.  Default is 1.
+//#: Like initSwarm, but specifies what class to use for argument
+//#: parsing, typically this will be a subclass of Arguments.
+#define initSwarmArguments(argc, argv, argumentsClass) \
+ _initSwarm_ (argc, argv, APPNAME, APPVERSION, BUGADDRESS, argumentsClass, \
+               NULL, NULL, NO)
+
+//#: Like initSwarmApp, but specifies what class to use for argument
+//#: parsing, typically this will be a subclass of Arguments.
+#define initSwarmAppArguments(argc, argv, version, bugAddress, \
+                                    argumentsClass) \
+ _initSwarm_ (argc, argv, APPNAME, version, bugAddress, argumentsClass, \
+               NULL, NULL, NO)
+
+//G: Flag for whether we're in graphics mode or not.  Default is NO.
 externvar BOOL swarmGUIMode;
 
 @class ControlPanel;

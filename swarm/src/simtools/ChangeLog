@@ -1,3 +1,23 @@
+1999-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* simtools.m (_initSwarm_): New function, made from the old init()
+	function with a new argument `appName'.  Make non-static.  Pass
+	appName to initDefobj() call.
+	(init): Remove old internal static function.
+	(initSwarm{Batch, App, AppBatch, AppOptions, AppOptionsBatch}):
+	Remove functions, now macros in simtools.h.
+
+	* simtools.h (initSwarm): Redefine as a macro. Call new internal
+	function _initSwarm_().  If not explicitly set by the macro, pass
+	APPNAME, BUGADDRESS, APPVERSION which will be passed from the
+	application Makefile to the internal _initSwarm_().
+	(initSwarmBatch): Likewise.
+	(initSwarmApp): Likewise.
+	(initSwarmAppBatch): Likewise.
+	(initSwarmAppOptions): Likewise.
+	(initSwarmAppOptionsBatch): Likewise
+	(_initSwarm_):  Define internal function.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute

@@ -15,8 +15,8 @@
 
 externvardef BOOL swarmGUIMode = NO;
 
-static void
-init (int argc, const char **argv, 
+void
+_initSwarm_ (int argc, const char **argv, const char *appName,
       const char *version, const char *bugAddress,
       Class argumentsClass,
       struct argp_option *options,
@@ -25,8 +25,8 @@ init (int argc, const char **argv,
 {
   initModule (activity);
 
-  initDefobj (argc, argv,
-              version, bugAddress,
+  initDefobj (argc, argv, 
+              appName, version, bugAddress,
               argumentsClass,
               options, optionFunc);
 
@@ -39,70 +39,4 @@ init (int argc, const char **argv,
   
   if (swarmGUIMode)
     initSimtoolsGUI ();
-}
-
-void
-initSwarm (int argc, const char **argv)
-{
-  init (argc, argv, NULL, NULL, Nil, NULL, NULL, NO);
-}
-
-void
-initSwarmBatch (int argc, const char **argv)
-{
-  init (argc, argv, NULL, NULL, Nil, NULL, NULL, YES);
-}
-
-void
-initSwarmApp (int argc, const char **argv,
-              const char *version, const char *bugAddress)
-{
-  init (argc, argv, version, bugAddress, Nil, NULL, NULL, NO);
-}
-
-void
-initSwarmAppBatch (int argc, const char **argv,
-              const char *version, const char *bugAddress)
-{
-  init (argc, argv, version, bugAddress, Nil, NULL, NULL, YES);
-}
-
-void
-initSwarmAppOptions (int argc, const char **argv,
-                     const char *version, const char *bugAddress,
-                     struct argp_option *options,
-                     int (*optionFunc) (int key, const char *arg))
-{
-  init (argc, argv,
-        version, bugAddress,
-        Nil,
-        options, optionFunc,
-        NO);
-}
-
-void
-initSwarmAppOptionsBatch (int argc, const char **argv,
-                     const char *version, const char *bugAddress,
-                     struct argp_option *options,
-                     int (*optionFunc) (int key, const char *arg))
-{
-  init (argc, argv,
-        version, bugAddress,
-        Nil,
-        options, optionFunc,
-        YES);
-}
-
-void
-initSwarmArguments (int argc, const char **argv, Class argumentsClass)
-{
-  init (argc, argv, NULL, NULL, argumentsClass, NULL, NULL, NO);
-}
-
-void
-initSwarmAppArguments (int argc, const char **argv,
-                       const char *version, const char *bugAddress,
-                       Class argumentsClass)
-{
-  init (argc, argv, version, bugAddress, argumentsClass, NULL, NULL, NO);
 }
