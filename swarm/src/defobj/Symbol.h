@@ -19,7 +19,7 @@ Library:      defobj
 /*** methods in Symbol_c (inserted from .m file by m2h) ***/
 - createEnd;
 + create: aZone setName: (const char *)symbolName;
-- (const char *) getName;
+- (const char *)getName;
 - (void) describe: outputCharStream;
 @end
 

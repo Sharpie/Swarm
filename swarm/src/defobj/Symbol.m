@@ -49,7 +49,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (const char *) getName
+- (const char *)getName
 {
   return name;
 }
