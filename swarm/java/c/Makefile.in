@@ -75,7 +75,7 @@ libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
 
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la javaswarm.dll.c
 	$(CC) -c $(srcdir)/javaswarm.dll.c
-	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarmdll.a --driver-name $(CC) -o javaswarm.dll javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) -L../libobjc/.libs $(top_builddir)/libobjc/*.o $(SUPPORTLDFLAGS) $(SYSLIBS)
+	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarmdll.a --driver-name $(CC) -o javaswarm.dll javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(top_builddir)/libobjc/*.o $(SUPPORTLDFLAGS) $(SYSLIBS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
