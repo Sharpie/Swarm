@@ -1,3 +1,8 @@
+1999-05-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (keep_inside_screen): For Windows, use GetDeviceCaps
+	instead of GetWindowRect for determining desktop pixel size.
+
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES): Switch from lib_LTLIBRARIES.

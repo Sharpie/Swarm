@@ -992,11 +992,12 @@ keep_inside_screen (Tk_Window tkwin, Window window)
       h += bw * 2;
     }
 #else
-  RECT rect, rootrect;
+  RECT rect;
   // wm frame returns a hwnd
   HWND hwnd = ((Tk_WindowId (tkwin) == window) ?
 	       TkWinGetHWND (window) 
 	       : (HWND)window);
+  HDC dc = GetDC (hwnd);
   
   if (GetWindowRect (hwnd, &rect) == FALSE)
     raiseEvent (PixmapError, "Cannot get geometry for window");
@@ -1005,13 +1006,11 @@ keep_inside_screen (Tk_Window tkwin, Window window)
   x = rect.left;
   y = rect.top;
 
-  if (GetWindowRect (HWND_DESKTOP, &rootrect) == FALSE)
-    raiseEvent (PixmapError, "Cannot get geometry for desktop");
+  rw = GetDeviceCaps (dc, HORZRES);
+  rh = GetDeviceCaps (dc, VERTRES);
 
-  rx = rootrect.left;
-  ry = rootrect.top;
-  rh = rootrect.bottom - rootrect.top;
-  rw = rootrect.right - rootrect.left;
+  rx = 0;
+  ry = 0;
 #endif
 
   if (Tk_WindowId (tkwin) == window)
