@@ -68,13 +68,17 @@ else
       test -n "$JAVALIBS" || JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
     fi
     test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/${proc}/${threads}_threads/java"
+    if test -f ${jdkdir}/jre/lib/rt.jar; then
+      JAVACLASSES=${jdkdir}/jre/lib/rt.jar
+    else
+      JAVACLASSES=${jdkdir}/lib/classes.zip
+    fi
     if test "$host_os" = cygwin; then
-      JAVACLASSES="`cygpath -w ${jdkdir}/lib/classes.zip`"
+      JAVACLASSES="`cygpath -w ${JAVACLASSES}`"
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
       USEDOSCLASSPATH=yes
     else
-      JAVACLASSES="${jdkdir}/lib/classes.zip"
       test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
       JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\${$LD_LIBRARY_PATH_VARNAME}"
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'

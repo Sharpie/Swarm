@@ -1,3 +1,8 @@
+1999-07-30    <mgd@HELEN>
+
+	* acjdk.m4: Use jre/lib/rt.jar instead of classes.zip, if available.
+	Convert that with cygpath -w if on cygwin.
+
 1999-07-30  Alex Lancaster  <alex@santafe.edu>
 
 	* acswarm.m4 (al_INIT_SWARM): LIBTOOL, set to use `libtool-swarm',
