@@ -4,7 +4,6 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools.h>                // ... for initSwarm() and swarmGUIMode
-#import <simtools/Archiver.h>
 #import "HeatbugObserverSwarm.h"
 #import "HeatbugBatchSwarm.h"
 
