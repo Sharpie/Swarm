@@ -49,7 +49,7 @@ PHASE(Using)
     return map[c];
   else
     {
-      [InvalidArgument raiseEvent: "attempted to access unset color %d\n", c];
+      raiseEvent (InvalidArgument,"attempted to access unset color %d\n", c);
       return white;
     }
 }
@@ -62,7 +62,7 @@ PHASE(Using)
 {
   if ([self colorIsSet: c])
     {
-      [InvalidArgument raiseEvent: "attempted to set color %d twice\n", c];
+      raiseEvent (InvalidArgument, "attempted to set color %d twice\n", c);
       return NO;
     }
   else
@@ -134,7 +134,7 @@ PHASE(Using)
   for (i = MAXCOLORS - 1; i > 0; i--)
     if (isSet[i - 1])
       return i;
-  [ResourceAvailability raiseEvent: "No free colors"];
+  raiseEvent (ResourceAvailability, "No free colors");
   return 0;
 }
 

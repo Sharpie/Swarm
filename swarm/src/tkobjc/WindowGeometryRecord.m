@@ -39,11 +39,13 @@ static int
 getVal (id obj)
 {
   if (!valuep (obj))
-    [WindowGeometryRecordError
-      raiseEvent: "Object is not a ArchiverValue (%s)", [obj name]];
+    raiseEvent (WindowGeometryRecordError,
+                "Object is not a ArchiverValue (%s)",
+                [obj name]);
   if ([obj getValueType] != _C_INT)
-    [WindowGeometryRecordError
-      raiseEvent: "Object is not an integer (%s)", [obj name]];
+    raiseEvent (WindowGeometryRecordError, 
+                "Object is not an integer (%s)",
+                [obj name]);
     
   return [obj getInteger];
 }
@@ -76,12 +78,14 @@ getVal (id obj)
               height = getVal ([l getLast]);
             }
           else
-            [WindowGeometryRecordError
-              raiseEvent: "Unknown keyword: `%s'\n", str];
+            raiseEvent (WindowGeometryRecordError,
+                        "Unknown keyword: `%s'\n",
+                        str);
         }
       else
-        [WindowGeometryRecordError raiseEvent: "String expected (%s)\n",
-                                   [obj name]];
+        raiseEvent (WindowGeometryRecordError, 
+                    "String expected (%s)\n",
+                    [obj name]);
     }
   [index drop];
   return self;

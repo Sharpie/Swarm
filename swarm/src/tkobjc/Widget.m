@@ -24,8 +24,8 @@ PHASE(Creating)
     }
   else
     {
-      [InvalidCombination raiseEvent:
-                            "It is an error to reset a Widget's parent\n"];
+      raiseEvent (InvalidCombination,
+                  "It is an error to reset a Widget's parent\n");
       return nil;
     }
 }  

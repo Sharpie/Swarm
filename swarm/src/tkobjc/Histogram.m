@@ -41,9 +41,8 @@ PHASE(Creating)
   [super createEnd];
 
   if (numBins < 1)
-    [InvalidCombination
-      raiseEvent:
-    "Histogram: creation error: number of bins not specified\n"];
+    raiseEvent (InvalidCombination, 
+                "Histogram: creation error: number of bins not specified\n");
 
   // create the graph with one element
   [globalTkInterp eval: "barchart %s;", widgetName];
@@ -74,9 +73,8 @@ PHASE(Using)
     return self;	// nothing to be done
 
   if (numBins < 1)
-    [InvalidCombination
-      raiseEvent:
-    "Histogram: cannot set labels -- number of bins not set\n"];
+    raiseEvent (InvalidCombination,
+                "Histogram: cannot set labels -- number of bins not set\n");
 
   if (l)
     for (i = 0; i < numBins; i++)
@@ -94,9 +92,8 @@ PHASE(Using)
     return self;	// nothing to be done
 
   if (numBins < 1)
-    [InvalidCombination
-      raiseEvent:
-    "Histogram: cannot set colors -- number of bins not set\n"];
+    raiseEvent (InvalidCombination,
+                "Histogram: cannot set colors -- number of bins not set\n");
 
   if (c)
     for (i = 0; i < numBins; i++)

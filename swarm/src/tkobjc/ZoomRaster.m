@@ -32,10 +32,9 @@ PHASE(Creating)
   // We do things to the parent widget that are really only allowed
   // on toplevels.  This check is at least friendly.
   if (!([parent isKindOfClassNamed: "Frame"]) && ([parent getParent] == 0))
-    [WindowCreation 
-      raiseEvent: 
-        "Warning: ZoomRaster created as child of non toplevel.\n"
-      "Resize code probably\nwill not work.\n"];
+    raiseEvent (WindowCreation,
+                "Warning: ZoomRaster created as child of non toplevel.\n"
+                "Resize code probably\nwill not work.\n");
   
   logicalWidth = width;
   logicalHeight = height;
@@ -122,10 +121,9 @@ PHASE(Using)
         // Still not right?  Try the width.
         newZoom = newWidth / logicalWidth;
       else
-        [WindowUsage
-          raiseEvent:
-            "nonsquare zoom given (nz:%u nh:%lu nw:%u lh: %u lw:%u).\n",
-          newZoom, newHeight, newWidth, logicalHeight, logicalWidth];  
+        raiseEvent (WindowUsage,
+                    "nonsquare zoom given (nz:%u nh:%lu nw:%u lh: %u lw:%u)\n",
+                    newZoom, newHeight, newWidth, logicalHeight, logicalWidth);  
     }
   
   // This check isn't just an optimization, it prevents an infinite

@@ -138,7 +138,7 @@ PHASE(Creating)
 - createEnd
 {
   if (ownerGraph == nil)
-    [InvalidCombination raiseEvent: "This element has no owner graph!\n"];
+    raiseEvent (InvalidCombination, "This element has no owner graph!\n");
   name = strdup ([self getObjectName]);
   xData = [BLTVector create: [self getZone]];
   yData = [BLTVector create: [self getZone]];

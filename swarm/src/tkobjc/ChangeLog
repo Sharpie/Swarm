@@ -1,5 +1,9 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Colormap.m, Graph.m, Histogram.m, Pixmap.m, Widget.m,
+	WindowGeometryRecord.m, ZoomRaster.m: Change from raiseEvent:
+	to raiseEvent().
+
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
 	-loadWindowGeometryRecord], [ArchivedGeometryWidget
 	-updateArchiver], [ArchivedGeometryWidget -drop]): 

@@ -58,18 +58,18 @@ PHASE(Creating)
   p = stpcpy (p, filename);
   
   if ((fp = fopen (path, "rb")) == NULL)
-    [MissingFiles raiseEvent: "Cannot open %s", filename];
+    raiseEvent (MissingFiles, "Cannot open %s", filename);
   
   if (fread (header, sizeof (header), 1, fp) != 1)
     {
       fclose (fp);
-      [MissingFiles raiseEvent: "Short read of %s", filename];
+      raiseEvent (MissingFiles, "Short read of %s", filename);
     }
   
   if (png_check_sig (header, sizeof (header)) == 0)
     {
       fclose (fp);
-      [MissingFiles raiseEvent: "%s is not a PNG file", filename];
+      raiseEvent (MissingFiles, "%s is not a PNG file", filename);
     }
   if ((read_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING,
                                           (png_voidp)NULL,
@@ -77,19 +77,19 @@ PHASE(Creating)
                                           (png_error_ptr)NULL)) == NULL)
     {
       fclose (fp);
-      [PixmapError raiseEvent: "Could not create PNG read_struct"];
+      raiseEvent (PixmapError, "Could not create PNG read_struct");
     }
   if ((read_info_ptr = png_create_info_struct (read_ptr)) == NULL)
     {
       fclose (fp);
       png_destroy_read_struct (&read_ptr, NULL, NULL);
-      [PixmapError raiseEvent: "Could not create PNG info struct"];
+      raiseEvent (PixmapError, "Could not create PNG info struct");
     }
   if (setjmp (read_ptr->jmpbuf))
     {
       png_destroy_read_struct (&read_ptr, &read_info_ptr, (png_infopp)NULL);
       fclose (fp);
-      [PixmapError raiseEvent: "Problem reading PNG file `%s'", filename];
+      raiseEvent (PixmapError, "Problem reading PNG file `%s'", filename);
     }
 
   png_init_io (read_ptr, fp);
@@ -122,8 +122,9 @@ PHASE(Creating)
       {
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
         if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, &palette_size))
-          [PaletteError raiseEvent: "Cannot get palette from PNG file: %s\n",
-                       filename];
+          raiseEvent (PaletteError,
+                      "Cannot get palette from PNG file: %s\n",
+                       filename);
       }
     
     {
@@ -191,9 +192,9 @@ PHASE(Creating)
                     id indexObj = [cMap at: (id)rgb];
 
                     if (indexObj == nil)
-                      [PaletteError raiseEvent:
-                                      "No index for R:%d G:%d B:%d\n",
-                                    rgb[0], rgb[1], rgb[2]];
+                      raiseEvent (PaletteError,
+                                  "No index for R:%d G:%d B:%d\n",
+                                  rgb[0], rgb[1], rgb[2]);
                     new_row_pointers_buffer[ri][ci] = 
                       (png_byte)(unsigned)indexObj - 1;
                   }
