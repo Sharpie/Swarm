@@ -341,12 +341,11 @@
   //   This will be fixed in a later version of Swarm.  The current
   //   controlPanel behavior was left in for compatibility with the
   //   beta versions.
-  observerActCont = [ActivityControl createBegin: [self getZone]];
 
   // In the future, there may be specific create-phase options that
   //   will allow optimization of the controller (like preknowledge
   //   of what type of object is using the controller).
-  observerActCont = [observerActCont createEnd];
+  observerActCont = [ActivityControl create: self];
 
   // Every object that inherits from DefinedObject (which ActivityController
   //   does) inherits the ability to be "named" in the object database.  In

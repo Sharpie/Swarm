@@ -287,8 +287,7 @@
   //   See the comments for the ActivityControl attached to the observer
   // swarm in MousetrapObserverSwarm.m
   //
-  modelActCont = [ActivityControl createBegin: [self getZone]];
-  modelActCont = [modelActCont createEnd];
+  modelActCont = [ActivityControl create: self];
   [modelActCont setDisplayName: "Model Swarm Controller"];
   // attach the AC
   [modelActCont attachToActivity: [self getSwarmActivity]];

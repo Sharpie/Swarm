@@ -1,3 +1,11 @@
+1999-08-08  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapModelSwarm.m ([MousetrapModelSwarm -activateIn:]): Use
+	convenience constructor for ActivityControl object creation.
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-activateIn:]): Likewise.
+
 1999-08-07  Alex Lancaster  <alex@santafe.edu>
 
 	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
