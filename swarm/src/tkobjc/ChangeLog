@@ -19,6 +19,9 @@
 
 	* Makefile (XDRAWER_H): Remove.  Change to Drawer.h throughout.
 
+	* Drawer.h:  Renamed from XDrawer.h.  Protocol is now consists
+	of the method drawX:Y:raster:, not drawOn:X:Y:GC:Caller:.
+
 1998-04-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* win32dib.[ch] (dib_fill): Make width and height arguments unsigned.
