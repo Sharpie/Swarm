@@ -7,13 +7,19 @@
 
 # make-h2x -- generate .xm, .xt, and .xc files from module source directory
 
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ]; then
   echo 'Usage: make-h2x <module-name>.xm'
   exit 1
 fi
 
+if [ $# -ge 2 ] ; then
+  srcdir="$2"
+else
+  srcdir="."
+fi
+
 m=`basename $1 .xm`
-if [ ! -f $m.h ]; then
+if [ ! -f $srcdir/$m.h ]; then
   echo "make-h2x: header file $m.h does not exist in directory"
   exit 1
 fi
@@ -29,7 +35,7 @@ echo \
 
 # extract all declared symbols into temporary file
 
-$CC -E "$CFLAGS" $m.h | \
+sh -c "$CC $CFLAGS -E $srcdir/$m.h" | \
 sed -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \
@@ -60,7 +66,7 @@ echo '0};
 
 # extract all declared types into temporary file
 
-sed <$m.h >$m.xm+ \
+sed <$srcdir/$m.h >$m.xm+ \
   -e 's/	//g' \
   -e '/^@deftype/!d' \
   -e 's/@deftype[ *]\([A-Za-z0-9_][A-Za-z0-9_]*\).*/\1/'
@@ -93,7 +99,7 @@ echo '0};
 # extract all implemented classes into temporary file
 
 for object in $OBJECTS; do
-  source=`basename $object .o`.m
+  source=$srcdir/`basename $object .o`.m
   if [ -f $source ]; then sources="$sources $source"; fi
 done
 if [ "$sources" = "" ]; then
