@@ -72,6 +72,7 @@
 }
 + createBegin: aZone;
 - setParent: parent;
+- getParent;
 - setName: (const char *)name;
 - setWriteFlag: (BOOL)writeFlag;
 - setDatasetFlag: (BOOL)datasetFlag;

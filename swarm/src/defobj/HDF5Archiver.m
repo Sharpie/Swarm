@@ -125,7 +125,19 @@ PHASE(Using)
       if ([hdf5Obj getWriteFlag])
         return hdf5Obj;
       else
-        [hdf5Obj drop];
+        {
+          if (systemArchiverFlag)
+            {
+              id parent = [hdf5Obj getParent];
+              id parentParent = [parent getParent];
+
+              [hdf5Obj drop];
+              [parent drop];
+              [parentParent drop];
+            }
+          else
+            [hdf5Obj drop];
+        }
     }
   hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
                  setWriteFlag: YES]

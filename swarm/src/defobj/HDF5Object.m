@@ -929,6 +929,7 @@ PHASE(Creating)
   obj->loc_id = 0;
   obj->vector_type = fcall_type_void;
   obj->c_count = 0;
+  obj->c_sid = -1;
 #endif
   return obj;
 }
@@ -1425,6 +1426,11 @@ PHASE(Using)
 - (const char *)getHDF5Name
 {
   return name;
+}
+
+- getParent
+{
+  return parent;
 }
 
 - (BOOL)checkName: (const char *)objName
@@ -2226,17 +2232,25 @@ hdf5_store_attribute (hid_t did,
       else
         {
           if (!datasetFlag)
-            if (H5Gclose (loc_id) < 0)
-              raiseEvent (SaveError, "Failed to close HDF5 group");
+            {
+              if (H5Gclose (loc_id) < 0)
+                raiseEvent (SaveError, "Failed to close HDF5 group");
+            }
+          else
+            {
+              if (H5Dclose (loc_id) < 0)
+                raiseEvent (SaveError, "Failed to close HDF5 dataset");
+            }
         }
       if (H5Sclose (psid) < 0)
         raiseEvent (SaveError, "Failed to close point space");
       if (vector_type != fcall_type_void)
         {
-          if (H5Dclose (loc_id) < 0)
-            raiseEvent (SaveError, "Failed to close vector dataset");
           if (H5Sclose (bsid) < 0)
             raiseEvent (SaveError, "Failed to close block space");
+        }
+      if (c_sid > 0)
+        {
           if (H5Sclose (c_sid) < 0)
             raiseEvent (SaveError, "Failed to close vector space"); 
         }

@@ -1,3 +1,15 @@
+2001-12-03  Marcus G. Daniels  <mgd@condor>
+
+	* HDF5Object.m ([HDF5_c -drop]): Always drop datasets.  Drop
+	c_sid if set (!= -1), and only drop bsid when vector_type is
+	not void.
+
+	* HDF5Object.[hm] ([HDF5_c -getParent]): New method.
+	([HDF5_c +createBegin:]): Initialize c_sid to -1.
+
+	* HDF5Archiver.m ([HDF5Archiver_c -getWritableController]): Shut down
+	all components of the system archiver.
+
 2001-11-12  Marcus G. Daniels  <mgd@condor>
 
 	* Makefile.am: Depend on install-defobjHEADERS.
