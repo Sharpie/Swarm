@@ -1,3 +1,8 @@
+1998-07-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* make-h2x: Use sed instead of basename for determining source
+	filename.
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Customize.m, Program.m, Zone.m: Don't include string.h.

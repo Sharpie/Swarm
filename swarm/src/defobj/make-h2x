@@ -99,8 +99,7 @@ echo '0};
 # extract all implemented classes into temporary file
 
 for object in $OBJECTS; do
-  base=`basename $object .o`
-  test $base = $object && base=`basename $object .lo`
+  base=`echo $object | sed -e 's/\.lo$//' -e 's/\.o$//'`
   source=$srcdir/${base}.m
   if [ -f $source ]; then sources="$sources $source"; fi
 done
