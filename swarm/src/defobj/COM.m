@@ -17,9 +17,15 @@ COM_init_p ()
 }
 
 const char *
-swarm_COM_copy_string (const char *str)
+COM_copy_string (const char *str)
 {
   return comEnv->copyString (str);
+}
+
+const char *
+COM_class_name (COMobject cObj)
+{
+  return comEnv->getName (cObj);
 }
 
 COMobject 

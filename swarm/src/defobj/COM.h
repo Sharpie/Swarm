@@ -15,6 +15,7 @@ struct COMInterface {
   void *(*createComponent) (COMclass cClass);
   void *(*findComponent) (const char *componentName);
   const char *(*copyString) (const char *str);
+  const char *(*getName) (COMobject cObj);
 };
 
 extern void initCOM (COMEnv *env);
@@ -29,7 +30,9 @@ extern SEL swarm_directory_COM_ensure_selector (COMobject cSelector);
 extern Class swarm_directory_COM_ensure_class (COMclass cClass);
 extern COMobject swarm_directory_COM_add_object_COM (COMobject cObject, id oObject);
 extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
-extern const char *swarm_COM_copy_string (const char *str);
+extern const char *COM_copy_string (const char *str);
+extern const char *COM_class_name (COMobject cobj);
+
 #ifdef __cplusplus
 }
 #endif
@@ -48,7 +51,7 @@ extern const char *swarm_COM_copy_string (const char *str);
 #define SD_COM_ADD_OBJECT_OBJC(cObject, oObject) swarm_directory_COM_add_object_objc (cObject, oObject)
 
 #define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_object_COM ((COMobject) cClass, (id) cClass)
-#define SD_COM_COPY_STRING(str) swarm_COM_copy_string (str)
+#define SD_COM_COPY_STRING(str) COM_copy_string (str)
 
 #define COM_FIND_OBJECT_ENTRY(theCOMObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.COM = theCOMObject; _findEntry; })
 #define COM_OBJECT_ENTRY(theCOMObject, theObject) [[[[ObjectEntry createBegin: globalZone] setCOMObject: theCOMObject] setObject: theObject] createEnd]
@@ -100,7 +103,6 @@ extern Class swarm_directory_COM_find_class_named (const char *className);
 #define SD_COM_SWITCHOBJC(cobj, newobjc) swarm_directory_COM_switch_objc (newobjc, cobj)
 #define SD_COM_NEXTPHASE(cobj) swarm_directory_COM_next_phase (cobj)
 
-extern const char *COM_class_name (COMobject cobj);
 extern void COM_drop (COMobject cobj);
 
 extern Class swarm_directory_COM_class_for_object (COMobject cobj);

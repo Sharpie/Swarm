@@ -1,8 +1,16 @@
 2000-08-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* directory.m: Include COM.h.
+	(swarm_directory_language_independent_class_name_for_objc_object):
+	Add support for COM.
+
 	* COM.h (SD_COM_FIND_CLASS_COM_CAST,
 	SD_COM_ENSURE_OBJECT_COM_CAST): New macros which
 	add type argument, passing it to NS_STATIC_CAST.
+	(COMInterface): Add getName.
+
+	* COM.[hm] (COM_class_name): New function.
+	(COM_copy_string): Remove "swarm" prefix.
 
 2000-08-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 

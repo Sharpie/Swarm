@@ -23,6 +23,7 @@
 #ifdef HAVE_JDK
 #import "java.h" // swarm_directory_{java_hash_code,find_class_named,class_for_object}, SD_JAVA_FIND_OBJECT_JAVA
 #endif
+#import "COM.h" // SD_COM_FIND_OBJECT_COM
 
 Directory *swarmDirectory;
 
@@ -344,28 +345,33 @@ swarm_directory_superclass (Class class)
 
 
 const char *
-swarm_directory_language_independent_class_name_for_objc_object  (id object)
+swarm_directory_language_independent_class_name_for_objc_object  (id oObj)
 {
   if (swarmDirectory)
     {
-      ObjectEntry *entry = swarm_directory_objc_find_object (object);
+      ObjectEntry *entry = swarm_directory_objc_find_object (oObj);
 
       if (entry)
         {
 #ifdef HAVE_JDK
           if (entry->type == foreign_java)
             {
-              jobject jobj;
+              jobject jObj;
               
-              if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
-                return java_class_name (jobj);
+              if ((jObj = SD_JAVA_FIND_OBJECT_JAVA (oObj)))
+                return java_class_name (jObj);
             }
-          else
 #endif
-            abort ();
+          if (entry->type == foreign_COM)
+            {
+              COMobject cObj;
+
+              if ((cObj = SD_COM_FIND_OBJECT_COM (oObj)))
+                return COM_class_name (cObj);
+            }
         }
     }
-  return (const char *) (getClass (object))->name;      
+  return (const char *) (getClass (oObj))->name;      
 }
 
 static const char *
