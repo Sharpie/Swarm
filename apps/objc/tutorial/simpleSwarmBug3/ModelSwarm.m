@@ -3,6 +3,8 @@
 #import "ModelSwarm.h"
 #import "Bug.h"
 #import <random.h>
+#import <simtools.h>
+#import <activity.h>
 
 @implementation ModelSwarm  
 
