@@ -37,5 +37,27 @@ AC_SUBST(docbookdtd_srcdir)
 AC_SUBST(docbookstyle_srcdir)
 AC_SUBST(gridturtle_srcdir)
 
+AC_CHECK_PROG(EMACS, emacs, emacs, missing)
+AC_CHECK_PROG(JADE, jade, jade, missing)
+AC_CHECK_PROG(JADETEX, jadetex, jadetex, missing)
+AC_CHECK_PROG(DVIPS, dvips, dvips, missing)
+
+if test "$ac_cv_prog_EMACS" = missing ; then
+AC_MSG_ERROR(Failed to find emacs)
+fi
+
+if test "$ac_cv_prog_JADE" = missing ; then
+AC_MSG_ERROR(Failed to find jade)
+fi
+
+if test "$ac_cv_prog_JADETEX" = missing ; then
+AC_MSG_ERROR(Failed to find jadetex)
+fi
+
+if test "$ac_cv_prog_DVIPS" = missing ; then
+AC_MSG_ERROR(Failed to find dvips)
+fi
+
+
 AC_OUTPUT([catalog Makefile figs/Makefile src/Makefile install/Makefile over/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tech/Makefile src/refbook.tex over/overbook.tex install/installbook.tex set/set.tex])
 

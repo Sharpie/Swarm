@@ -1,3 +1,16 @@
+1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* configure.in: Check for emacs, jade, jadetex, and dvips.
+	Abort if any are missing.
+
+	* Makefile.rules (JADE): Substitute JADE, JADETEX, and DVIPS.
+	Remove revhistory rules (now in Makefile.common).
+
+	* Makefile.am (EXTRA_DIST): New variable.  Enumerate toplevel
+	elisp, dsl, included makefiles, global.ent and docbook.dcl.
+
+	* Makefile.common: New file.
+
 1998-06-15  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: Removed PUBLIC identifier for "Installing Preface" -

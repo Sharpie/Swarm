@@ -1,7 +1,6 @@
-JADE = jade
-JADETEX = jadetex
-DVIPS = dvips
-EMACS = emacs
+JADE = @JADE@
+JADETEX = @JADETEX@
+DVIPS = @DVIPS@
 
 HTML = $(top_srcdir)/html.dsl
 PRINT = $(top_srcdir)/print.dsl
@@ -50,5 +49,3 @@ _%.tex: %.sgml
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
 
-%revhistory.sgml: ChangeLog $(swarm_ChangeLog) $(top_srcdir)/history.el $(top_srcdir)/common.el
-	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/history.el -f process-changelog $*
