@@ -1,9 +1,16 @@
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* SwarmEnvironment.[hm], swarm.h ([SwarmEnvironment
-	-initSwarm:version:bugAddress:args:, getCurrentTime,
-	creteArchivedProbeDisplay,
-	setWindowGeometryRecordName,getCurrentSwarmActivity]): New methods
+	-initSwarm:version:bugAddress:args:, -getCurrentTime,
+	-getCurrentSwarmActivity,
+	-createProbeDisplay:,
+	-createCompleteProbeDisplay:,
+	-createArchivedProbeDisplay:name:
+	-createArchivedCompleteProbeDisplay:name:
+	-setWindowGeometryRecordName,
+	-setComponentWindowGeometryRecordFor:widget:name:,
+	-setCompondentWindowGeometryRecordName:name:, -xprint, -xfprint,
+	-dumpDirectory]): New methods
 	(_initSwarm_): Move here from simtools.m.
 
 	* SwarmEnvironment.h (SwarmEnvironment): Inherit from CreateDrop,

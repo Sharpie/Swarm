@@ -1,11 +1,11 @@
 #import <SwarmEnvironment.h>
 
-#import <simtools.h>
 #import <collections.h>
 #import <defobj.h>
 #import <activity.h>
 #import <random.h>
 #import <objectbase.h>
+#import <simtools.h>
 #import <simtoolsgui.h>
 
 #import <objectbase/probing.h> // initProbing
@@ -136,9 +136,24 @@ PHASE(Using)
   return getCurrentSwarmActivity ();
 }
 
+- (void)createProbeDisplay: obj
+{
+  CREATE_PROBE_DISPLAY (obj);
+}
+
+- (void)createCompleteProbeDisplay: obj
+{
+  CREATE_COMPLETE_PROBE_DISPLAY (obj);
+}
+
 - (void)createArchivedProbeDisplay: obj name: (const char *)name
 {
   createArchivedProbeDisplayNamed (obj, name);
+}
+
+- (void)createArchivedCompleteProbeDisplay: obj name: (const char *)name
+{
+  createArchivedCompleteProbeDisplayNamed (obj, name);
 }
 
 - (void)setWindowGeometryRecordName: obj name: (const char *)name
@@ -146,6 +161,34 @@ PHASE(Using)
   [obj setWindowGeometryRecordName: name];
 }
 
+- (void)setComponentWindowGeometryRecordNameFor: obj 
+                                         widget: widget
+                                           name: (const char *)name
+{
+  [obj setWindowGeometryRecordNameForComponent: name widget: widget];
+}
+
+- (void)setComponentWindowGeometryRecordName: widget name: (const char *)name
+{
+  [self setComponentWindowGeometryRecordNameFor: self
+        widget: widget
+        name: name];
+}
+
+- (void)xprint: obj
+{
+  xprint (obj);
+}
+
+- (void)xfprint: obj
+{
+  xfprint (obj);
+}
+
+- (void)dumpDirectory
+{
+  swarm_directory_dump ();
+}
 
 void
 _initSwarm_ (int argc, const char **argv, const char *appName,
