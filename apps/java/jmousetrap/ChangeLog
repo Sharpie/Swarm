@@ -1,3 +1,8 @@
+1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Mousetrap.java: Return an Object, for the sake of the ActionTo
+	interface.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* 2.0.1 release.

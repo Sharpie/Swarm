@@ -64,8 +64,7 @@ public class Mousetrap {
   /**
    * The crucial step for a Mousetrap (equivalent to "step" for a Heatbug)  
    */
-  public void trigger ()
-  {
+  public Object trigger () {
     int n, xTrigger, yTrigger;
     int triggerTick;
 
@@ -101,6 +100,7 @@ public class Mousetrap {
         }
       }
     }
+    return this;
   }
 }
 
