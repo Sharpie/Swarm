@@ -12,7 +12,7 @@
   float bugDensity;
 
   FoodSpace *food;
-  Grid2d *world;
+  id <Grid2d> world;
   Bug *reportBug;
 
   id bugList;

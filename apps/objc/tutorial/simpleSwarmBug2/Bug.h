@@ -9,7 +9,7 @@
   int xPos, yPos;
   int worldXSize, worldYSize;
   
-  Grid2d *world;
+  id <Grid2d> world;
   id food;
 
   int haveEaten;

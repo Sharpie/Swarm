@@ -1,8 +1,8 @@
 // FoodSpace.h
 
-#import <space.h>
+#import <space/Discrete2d.h>
 
-@interface FoodSpace : Discrete2d 
+@interface FoodSpace: Discrete2d 
 {
 }
 
