@@ -12,7 +12,6 @@
 {
 }
 
-- (const char *)getIdName;
 - getProbeMap;
 - getCompleteProbeMap;
 - getProbeForVariable: (const char *)aVariable;

@@ -1,5 +1,7 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* SwarmObject.[mh] ([SwarmObject -getIdName]): Remove.
+
 	* objectbase.h (VarProbe): Declare DefaultString, CharString,
 	IntString.
 

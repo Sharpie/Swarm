@@ -8,11 +8,6 @@
 
 @implementation SwarmObject
 
-- (const char *)getIdName
-{
-  return [self name];
-}
-
 - getProbeMap
 {
   return [probeLibrary getProbeMapFor: [self class]];
