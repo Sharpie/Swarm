@@ -47,7 +47,7 @@ PHASE(Creating)
   
   // precalculate offsets based on the y coordinate. This lets
   // us avoid arbitrary multiplication in array lookup.
-  offsets = [[self getZone] alloc: ysize * sizeof(*offsets)];
+  offsets = [[self getZone] alloc: ysize * sizeof (*offsets)];
 
   for (i = 0; i < ysize; i++)
     offsets[i] = xsize * i; // cache this multipliction
@@ -387,7 +387,7 @@ PHASE(Using)
 
 - _lispOutLatticeValues_: stream
 {
-  char buf[DSIZE(unsigned) + 5 + 1];
+  char buf[2 * DSIZE(unsigned) + 5 + 1];
   
   // generate compiler encoding for 2D array
   sprintf (buf,
@@ -438,7 +438,7 @@ PHASE(Using)
   [group setName: "ivars"];
   [super hdf5OutShallow: group];
   {
-    char buf[DSIZE(unsigned) + 5 + 1];
+    char buf[2 * DSIZE(unsigned) + 5 + 1];
     
     // generate compiler encoding for 2D array
     sprintf (buf,

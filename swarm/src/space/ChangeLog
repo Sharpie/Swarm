@@ -21,8 +21,6 @@
 	([Discrete2d -hdf5In:]): Implement.
 	([Discrete2d -_lispInLatticeValues_:], [Discrete2d
 	-_lispOutLatticeObjects_:]): Don't use tempArray.
-	([Discrete2d -_lispOutLatticeValues_:]): Don't gratuitously allocate
-	scratch buffer.
 	([Discrete2d -hdf5OutShallow:]): Implement
 
 	* Discrete2d.h (Discrete2d):  -{{hdf5,lisp}{In,Out}}: Declare.
