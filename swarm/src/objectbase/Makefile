@@ -36,4 +36,7 @@ ActivityControl.o: ActivityControl.m ActivityControl.h
 Arguments.o: Arguments.m Arguments.h version.h
 
 version.h: $(SWARMHOME)/VERSION
-	echo '#define VERSION "$(VERSION)"' > version.h
+	echo '#define SWARM_VERSION "$(VERSION)"' > version.h
+	tail -1 $(SWARMHOME)/VERSION | sed 's/^\([0-9][0-9]*\)\..*/#define SWARM_MAJOR \1/' >> version.h
+	tail -1 $(SWARMHOME)/VERSION | sed 's/^[0-9][0-9]*\.\([0-9][0-9]*\)\..*/#define SWARM_MINOR \1/' >> version.h
+	tail -1 $(SWARMHOME)/VERSION | sed 's/^[0-9][0-9]*\.[0-9][0-9]*\.\([0-9][0-9]*\)/#define SWARM_SUBMINOR \1/' >> version.h

@@ -14,15 +14,17 @@ const char *program_invocation_name;
 const char *program_invocation_short_name;
 #endif
 
+#define SIGNATURE_FILE "VERSION"
+
 #include "version.h"
 
-const char *swarm_version = VERSION;
+const char *swarm_version = SWARM_VERSION;
 
 id arguments;
 
 @implementation Arguments
 
-const char *argp_program_version = "Swarm " VERSION;
+const char *argp_program_version = "Swarm " SWARM_VERSION;
 const char *argp_program_bug_address = "bug-swarm@santafe.edu";
 
 static struct argp_option base_options[] = {
@@ -278,7 +280,7 @@ static char *
 findSwarm (id arguments)
 {
   const char *swarmPrefix = "swarm-";
-  const char *signatureFile = "VERSION";
+  const char *signatureFile = SIGNATURE_FILE;
   int len = strlen (swarmPrefix) + strlen (swarm_version) + 1 + strlen (signatureFile) + 1;
   char *swarmVersionPathBuf = xmalloc (len);
   char *p, *swarmPath;
@@ -290,7 +292,7 @@ findSwarm (id arguments)
   
   swarmPath = findDirectory (arguments, swarmVersionPathBuf);
   if (swarmPath == NULL)
-    swarmPath = findDirectory (arguments, "swarm/VERSION");
+    swarmPath = findDirectory (arguments, "swarm/" SIGNATURE_FILE);
   if (swarmPath)
     return dropDirectory (swarmPath);
   else
