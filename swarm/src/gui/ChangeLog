@@ -1,6 +1,8 @@
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* gui.h: Move setRaster: from Creating to Setting phase.
+	* gui.h (Pixmap): Move setRaster: from Creating to Setting phase.
+	Revert create:widget: and create:file: addition and use
+	setFile: and setWidget: instead.
 
 1998-08-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

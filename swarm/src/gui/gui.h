@@ -764,11 +764,15 @@ USING
 
 @protocol _Pixmap
 CREATING
-//M: Create a pixmap from a widget, or from the root window if widget is nil.
-+ create: aZone widget: widget;
++ createBegin: aZone;
 
 //M: Create a pixmap from a PNG file.
-+ create: aZone file: (const char *)filename;
+- setFile: (const char *)filename;
+
+//M: Create a pixmap from a widget, or from the root window if widget is nil.
+- setWidget: (id <Widget>)widget;
+
+- createEnd;
 SETTING
 //M: Set the raster that the pixmap will be shown on.
 //M: It's used to augment raster the color palette as necessary.
