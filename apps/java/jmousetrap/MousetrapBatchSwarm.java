@@ -41,11 +41,11 @@ public class MousetrapBatchSwarm extends SwarmImpl
         super.buildObjects();
 
         mousetrapModelSwarm 
-            = new MousetrapModelSwarm((ZoneImpl)this.getZone());
+            = new MousetrapModelSwarm (getZone ());
 
         mousetrapModelSwarm.buildObjects();
       
-        triggerGraph = new EZGraphImpl((ZoneImpl)this.getZone(), true);
+        triggerGraph = new EZGraphImpl(getZone (), true);
 
         try {
         
@@ -74,22 +74,21 @@ public class MousetrapBatchSwarm extends SwarmImpl
 
         if (loggingFrequency > 0) {
             
-            displayActions = new ActionGroupImpl((ZoneImpl)this.getZone());
+            displayActions = new ActionGroupImpl (getZone());
       
             try {
                 
                 displayActions.createActionTo$message 
                     (triggerGraph, new Selector 
                         (triggerGraph.getClass(), "step", true));
-                displayActions.createActionTo$message (this, new Selector
-                    (this.getClass(), "checkToStop", false));
+                displayActions.createActionTo$message (this,
+                                                       new Selector (getClass(), "checkToStop", false));
             } catch (Exception e) {
                 System.out.println ("Exception batch EZGraph: " 
                                     + e.getMessage());
             }
             
-            displaySchedule = new
-                ScheduleImpl ((ZoneImpl)this.getZone(), loggingFrequency);
+            displaySchedule = new ScheduleImpl (getZone (), loggingFrequency);
             
             displaySchedule.at$createAction (0, displayActions);
         }
@@ -98,7 +97,7 @@ public class MousetrapBatchSwarm extends SwarmImpl
     }
 
 
-    public Object activateIn (Object swarmContext)
+    public ActivityImpl activateIn (Object swarmContext)
     {
     
         super.activateIn(swarmContext);
@@ -124,12 +123,12 @@ public class MousetrapBatchSwarm extends SwarmImpl
                 ("It is logging data every " + loggingFrequency +
                  " timesteps to: trigger.output");
     
-        ((SwarmActivityImpl) this.getActivity()).run(); 
+        this.getActivity().run(); 
     
         if (loggingFrequency > 0)
             triggerGraph.drop();
     
-        return ((SwarmActivityImpl) this.getActivity()).getStatus();
+        return this.getActivity().getStatus();
     }
     
     public Object checkToStop ()

@@ -1,3 +1,9 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MousetrapModelSwarm.java, MousetrapBatchSwarm.java,
+	MousetrapObserverSwarm.java, : Remove this.* () style calls and
+	eliminate most casting.
+
 1999-08-17    <mgd@HELEN>
 
 	* Makefile: Add StartMousetrap.java.

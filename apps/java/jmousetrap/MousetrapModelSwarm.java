@@ -129,7 +129,7 @@ public class MousetrapModelSwarm extends SwarmImpl
     return maxTriggerTime;
   }
 
-  public Object getWorld ()
+  public Grid2dImpl getWorld ()
   {
     return grid;
   }
@@ -153,13 +153,13 @@ public class MousetrapModelSwarm extends SwarmImpl
 
     super.buildObjects();
     
-    stats = new MousetrapStatistics();
-    grid = new Grid2dImpl((ZoneImpl)this.getZone(), gridSize, gridSize);
+    stats = new MousetrapStatistics ();
+    grid = new Grid2dImpl (getZone (), gridSize, gridSize);
 
-    for (y = 0; y< gridSize; y++)
-      for (x = 0; x< gridSize; x++)
+    for (y = 0; y < gridSize; y++)
+      for (x = 0; x < gridSize; x++)
         if (trapDensity >= 1.0 || 
-            (float)(uniform0to1.getDoubleSample()) < trapDensity) {
+            (float)(uniform0to1.getDoubleSample ()) < trapDensity) {
           Mousetrap aMousetrap;
                     
           aMousetrap = new Mousetrap (this, x, y, randomGenerator);
@@ -181,7 +181,7 @@ public class MousetrapModelSwarm extends SwarmImpl
   public Object buildActions ()
   {
     super.buildActions();
-    modelSchedule = new ScheduleImpl ((ZoneImpl)this.getZone(), true);
+    modelSchedule = new ScheduleImpl (getZone (), true);
     scheduleTriggerAt$For (0, (Mousetrap) grid.getObjectAtX$Y 
                            (gridSize/2, gridSize/2));
     
@@ -210,12 +210,12 @@ public class MousetrapModelSwarm extends SwarmImpl
    * Now set up the model's activation. swarmContext indicates where
    * we're being started in - typically, this model is run as a
    * subswarm of an observer swarm.  */
-  public Object activateIn (Object swarmContext)
+  public ActivityImpl activateIn (Object swarmContext)
   {
     super.activateIn (swarmContext);
     modelSchedule.activateIn (this);
    
-    modelActCont = new ActivityControlImpl ((ZoneImpl)this.getZone());
+    modelActCont = new ActivityControlImpl (getZone ());
     modelActCont.attachToActivity (this.getActivity());
 
     modelActCont.setDisplayName ("Model Swarm Controller");
