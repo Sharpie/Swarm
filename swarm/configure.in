@@ -1,4 +1,4 @@
-AC_INIT(Makefile.rules)
+AC_INIT(Makefile.appl.in)
 
 VERSION=`head -1 $srcdir/VERSION`
 AM_INIT_AUTOMAKE(Swarm, $VERSION)
@@ -9,6 +9,27 @@ AC_PROG_CC
 AC_PROG_RANLIB
 
 AC_PATH_XTRA
+if test "$ac_R_space" = yes ; then
+  RPATH='-R '
+else 
+  if test "$ac_R_nospace" = yes ; then
+    RPATH='-R'
+  else
+    RPATH='-Wl,-rpath '
+  fi
+fi
+
+AC_ARG_WITH(defaultdir,
+[  --with-defaultdir=DIR            Use DIR instead of prefix as default path],
+  defaultdir=$withval)
+
+if test -z "$defaultdir" ; then
+  if test $prefix = NONE ; then
+    defaultdir=/usr/local
+  else
+    defaultdir=$prefix
+  fi
+fi
 
 AC_ARG_WITH(tcldir,
 [  --with-tcldir=DIR                Use DIR/include and DIR/lib for Tcl],
@@ -56,14 +77,13 @@ if test -z "$tklibdir" ; then
   fi
 fi
 
-if test $prefix = NONE ; then
-  prefix=/usr/local
-fi
-
-
 AC_ARG_WITH(tclobjcdir,
-[  --with-tclobjc=DIR               Use DIR/include and DIR/lib for tclobjc],
+[  --with-tclobjcdir=DIR            Use DIR/include and DIR/lib for tclobjc],
   tclobjcdir=$withval)
+
+AC_ARG_WITH(tclobjclibname,
+[  --with-tclobjclibname=NAME       Use -lNAME for tclobjc],
+  tclobjclibname=$withval)
 
 AC_ARG_WITH(tclobjcincludedir,
 [  --with-tclobjcincludedir=DIR     Use DIR for tclobjc headers],
@@ -76,6 +96,10 @@ AC_ARG_WITH(bltdir,
 [  --with-bltdir=DIR                Use DIR/include and DIR/lib for BLT],
   bltdir=$withval)
 
+AC_ARG_WITH(bltlibname,
+[  --with-bltlibname=NAME           Use -lNAME for BLT],
+  bltlibname=$withval)
+
 md_FIND_BLT
 
 AC_ARG_WITH(ffidir,
@@ -83,7 +107,7 @@ AC_ARG_WITH(ffidir,
   ffidir=$withval)
 
 AC_ARG_WITH(ffcalldir,
-[  --with-ffidir=DIR                Use DIR/include and DIR/lib
+[  --with-ffcalldir=DIR             Use DIR/include and DIR/lib
                                      for ffcall (alternative to libffi)])
 
 md_FIND_FFI
@@ -96,11 +120,10 @@ md_FIND_ZLIB
 
 AC_ARG_WITH(pngdir,
 [  --with-pngdir=DIR                Use DIR/include and DIR/lib for png],
-  pngdir=$withval
-  AC_MSG_ERROR(--with-pngdir is a required option))
+  pngdir=$withval)
 
 md_FIND_PNG
 
-CFLAGS="$CFLAGS -Wno-import"
+AC_CHECK_LIB(dl,main)
 
-AC_OUTPUT([Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile])
+AC_OUTPUT([Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile Makefile.appl])
