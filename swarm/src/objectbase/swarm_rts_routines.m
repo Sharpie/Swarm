@@ -7,6 +7,7 @@
 // the file encoding.c. Manor wrote the patch.
 
 #import <objectbase/swarm_rts_routines.h>
+#include <misc.h> // abort
 
 // Avoid using chars as an index to ctype table.
 #define isDigit(ch) isdigit((int)ch)

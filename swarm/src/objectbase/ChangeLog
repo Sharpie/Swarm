@@ -1,3 +1,7 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* swarm_rts_routines.m: Include misc.h.
+
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* objectbase.h: Include externvar.h.
