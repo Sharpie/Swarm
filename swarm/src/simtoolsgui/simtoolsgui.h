@@ -117,10 +117,10 @@ USING
 @end
 
 //G: Type Symbols for ActionCache
-extern id <Symbol> Control, Probing, Spatial;
+externvar id <Symbol> Control, Probing, Spatial;
 
 //G: Error Symbols for ActionCache
-extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
+externvar id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 
 @protocol CommonProbeDisplay <WindowGeometryRecordName>
@@ -354,10 +354,10 @@ USING
 @end
 
 //G: Manager that keeps track of active probes to be updated
-extern id <ProbeDisplayManager> probeDisplayManager;
+externvar id <ProbeDisplayManager> probeDisplayManager;
 
 //G: State Symbols for the ControlPanel.
-extern id ControlStateRunning, ControlStateStopped, ControlStateStepping,
+externvar id ControlStateRunning, ControlStateStopped, ControlStateStepping,
   ControlStateNextTime, ControlStateQuit;
 
 //F: Initialize the library and create a ProbeDisplayManager.
