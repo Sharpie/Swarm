@@ -1,5 +1,8 @@
 1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.rules: Add $(top_srcdir)/history.el as a dependent of
+	%revhistory.sgml.
+
 	* history.el (process-changelog): Always print REVNUMBER pair,
 	even when empty.
 
