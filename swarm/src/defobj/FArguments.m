@@ -37,8 +37,9 @@ const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "J", "J",
 
   "F", "D",
-  "D",
-  "X",
+  "D", // long double
+  "X", // Object
+  "X", // Class
   "Ljava/lang/String;", 
   "Lswarm/Selector;",
   "Ljava/lang/Object;",
@@ -61,6 +62,7 @@ char objc_types[FCALL_TYPE_COUNT] = {
   _C_DBL,
   _C_LNG_DBL,
   _C_ID,
+  _C_CLASS,
   _C_CHARPTR,
   _C_SEL,
   '\001',
@@ -106,6 +108,8 @@ fcall_type_size (fcall_type_t type)
       return sizeof (long double);
     case fcall_type_object:
       return sizeof (id);
+    case fcall_type_class:
+      return sizeof (Class);
     case fcall_type_string:
       return sizeof (const char *);
     case fcall_type_selector:
@@ -204,7 +208,8 @@ get_fcall_type_for_objc_type (char objcType)
   for (i = 0; i < FCALL_TYPE_COUNT; i++)
     if (objcType == objc_types[i])
       return i;
-  abort ();
+  raiseEvent (InvalidArgument, "Could not find objc type `%c'\n", objcType);
+  return 0;
 }
 
 
@@ -360,6 +365,9 @@ get_fcall_type_for_objc_type (char objcType)
       break;
     case fcall_type_object:
       result = &resultVal.object;
+      break;
+    case fcall_type_class:
+      result = &resultVal.class;
       break;
     case fcall_type_string:
       result = &resultVal.string;

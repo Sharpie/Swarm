@@ -1,3 +1,22 @@
+1999-08-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (c_Field, c_Class, c_Method, c_Object, c_String):
+	Renamed from lowercased version; use consistent naming convention
+	for standard classes vs. primtives.  Accommodate throughout.
+	(get_java_class, get_type_field_for_class): Split out internal
+	functions previously named `find' and `find_primtive'.
+	(swarm_directory_ensure_selector): Add type info to type-conflict
+	message.
+
+	* defobj.h (types_t): Add Class.
+
+	* FArguments.m (java_type_signature, objc_types, fcall_type_size,
+	[FArguments_c -_setReturnType_:]): Accomodate fcall_type_class.
+	(get_fcall_type_for_objc_type): Raise an event rather than aborting.
+
+	* FArguments.h (FCALL_TYPE_COUNT): Increment.
+	(fcall_type_t): Add fcall_type_class.
+
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (swarm_directory_ensure_selector): Add types to

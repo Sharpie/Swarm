@@ -27,16 +27,15 @@ jclass c_boolean,
   c_int, 
   c_short, c_long,
   c_float, c_double,
-  c_object, c_string, 
   c_void;
 
 jclass c_Boolean, 
   c_Char, c_Byte, 
   c_Integer, c_Short,
   c_Long, c_Float,
+  c_Class, c_Field, c_Method, c_Selector,
+  c_Object, c_String, 
   c_Double, c_PhaseCImpl;
-  
-jclass c_field, c_class, c_method, c_Selector;
 
 jmethodID m_BooleanValueOf,
   m_ByteValueOf, 
@@ -397,7 +396,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   
   result = [swarmDirectory javaFind: javaObject];
 
-  if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_string))
+  if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_String))
     {
       jboolean isCopy;
       const char *utf, *str;
@@ -546,70 +545,78 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 
 @end
 
+static jclass
+get_java_class (JNIEnv *env, const char *name)
+{
+  char class_name_buf[10 + strlen (name) + 1];
+  char *p;
+  jclass ret, clazz;
+  
+  p = stpcpy (class_name_buf, "java/lang/");
+  p = stpcpy (p, name);
+  if (!(clazz = (*env)->FindClass (env, class_name_buf)))
+    abort ();
+  
+  ret = (*env)->NewGlobalRef (env, clazz);
+  return ret;
+}
+
+static jclass
+get_type_field_for_class (JNIEnv *env, jclass clazz)
+{
+  jfieldID field;
+  jclass ret;
+  
+  if (!(field = (*env)->GetStaticFieldID (env,
+                                          clazz,
+                                          "TYPE",
+                                          "Ljava/lang/Class;")))
+    abort ();
+  if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
+    abort ();
+  ret = (*env)->NewGlobalRef (env, ret);
+  return ret;
+}   
+
 static void
 create_class_refs (JNIEnv *env)
 {
-  jclass find (const char *name)
+  jclass get_primitive (const char *name)
     {
-      char class_name_buf[10 + strlen (name) + 1];
-      char *p;
-      jclass ret, clazz;
-      
-      p = stpcpy (class_name_buf, "java/lang/");
-      p = stpcpy (p, name);
-      if (!(clazz = (*env)->FindClass (env, class_name_buf)))
-        abort ();
-
-      ret = (*env)->NewGlobalRef (env, clazz);
-      return ret;
-    }
-  jclass find_primitive (const char *name)
-    {
-      jfieldID field;
-      jclass clazz = find (name);
-      jclass ret;
-      
-      if (!(field = (*env)->GetStaticFieldID (env,
-                                              clazz,
-                                              "TYPE",
-                                              "Ljava/lang/Class;")))
-        abort ();
-      if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
-        abort ();
-      ret = (*env)->NewGlobalRef (env, ret);
-      return ret;
+      return get_type_field_for_class (env, get_java_class (env, name));
     }
   if (!initFlag)
-    {
-      c_char = find_primitive ("Character");
-      c_byte= find_primitive ("Byte");
-      c_int = find_primitive ("Integer");
-      c_short = find_primitive ("Short");
-      c_long = find_primitive ("Long");
-      c_float = find_primitive ("Float");
-      c_double = find_primitive ("Double");
-      c_void = find_primitive ("Void");
+   {
+      c_char = get_primitive ("Character");
+      c_byte= get_primitive ("Byte");
+      c_int = get_primitive ("Integer");
+      c_short = get_primitive ("Short");
+      c_long = get_primitive ("Long");
+      c_float = get_primitive ("Float");
+      c_double = get_primitive ("Double");
+      c_void = get_primitive ("Void");
+      c_boolean = get_primitive ("Boolean");
 
-      c_Boolean = find ("Boolean");
-      c_Char = find ("Character");
-      c_Byte= find ("Byte");
-      c_Integer = find ("Integer");
-      c_Short = find ("Short");
-      c_Long = find ("Long");
-      c_Float = find("Float");
-      c_Double = find ("Double");
+      c_Boolean = get_java_class (env, "Boolean");
+      c_Char = get_java_class (env, "Character");
+      c_Byte= get_java_class (env, "Byte");
+      c_Integer = get_java_class (env, "Integer");
+      c_Short = get_java_class (env, "Short");
+      c_Long = get_java_class (env, "Long");
+      c_Float = get_java_class (env, "Float");
+      c_Double = get_java_class (env, "Double");
      
-      c_string = find ("String");
-      c_object = find ("Object");
-      c_class = find ("Class");
+      c_String = get_java_class (env, "String");
+      c_Object = get_java_class (env, "Object");
+      c_Class = get_java_class (env, "Class");
 
-      if (!(c_field = (*env)->FindClass (env, "java/lang/reflect/Field")))
+      if (!(c_Field = (*env)->FindClass (env, "java/lang/reflect/Field")))
         abort ();
-      c_field = (*env)->NewGlobalRef (env, c_field);
+      c_Field = (*env)->NewGlobalRef (env, c_Field);
 
-      if (!(c_method = (*env)->FindClass (env, "java/lang/reflect/Method")))
+      if (!(c_Method = (*env)->FindClass (env, "java/lang/reflect/Method")))
         abort ();
-      c_method = (*env)->NewGlobalRef (env, c_method);
+      c_Method = (*env)->NewGlobalRef (env, c_Method);
 
       if (!(c_Selector = (*env)->FindClass (env, "swarm/Selector")))
         abort ();
@@ -620,7 +627,7 @@ create_class_refs (JNIEnv *env)
       c_PhaseCImpl = (*env)->NewGlobalRef (env, c_PhaseCImpl);
 
       initFlag = YES;
-    }
+   }
 }
 
 void 
@@ -657,60 +664,60 @@ create_method_refs (JNIEnv *env)
   m_DoubleValueOf = findMethodID ("Double", c_Double);
   
   if (!(m_StringValueOf = 
-      (*env)->GetStaticMethodID (env, c_string, "valueOf", 
+      (*env)->GetStaticMethodID (env, c_String, "valueOf", 
 				 "(Ljava/lang/Object;)Ljava/lang/String;")))
     abort ();
 
   if (!(m_FieldSet = 
-	(*env)->GetMethodID (env, c_field, "set", 
+	(*env)->GetMethodID (env, c_Field, "set", 
 			     "(Ljava/lang/Object;Ljava/lang/Object;)V")))
     abort();
 
   if (!(m_FieldSetChar = 
-	(*env)->GetMethodID (env, c_field, "setChar", 
+	(*env)->GetMethodID (env, c_Field, "setChar", 
 			     "(Ljava/lang/Object;C)V")))
     abort();
  
   if (!(m_ClassGetDeclaredField =
-      (*env)->GetMethodID (env, c_class, "getDeclaredField",
+      (*env)->GetMethodID (env, c_Class, "getDeclaredField",
 			   "(Ljava/lang/String;)Ljava/lang/reflect/Field;")))
     abort();
 
   if (!(m_ClassGetDeclaredFields =
-  	(*env)->GetMethodID (env, c_class, "getDeclaredFields",
+  	(*env)->GetMethodID (env, c_Class, "getDeclaredFields",
 			     "()[Ljava/lang/reflect/Field;")))
     abort();
   
   if (!(m_ClassGetDeclaredMethods =
-  	(*env)->GetMethodID (env, c_class, "getDeclaredMethods",
+  	(*env)->GetMethodID (env, c_Class, "getDeclaredMethods",
   		     "()[Ljava/lang/reflect/Method;")))
     abort();
 
   if (!(m_FieldGetName = 
-	(*env)->GetMethodID (env, c_field, "getName", "()Ljava/lang/String;")))
+	(*env)->GetMethodID (env, c_Field, "getName", "()Ljava/lang/String;")))
     abort();
 
   if (!(m_FieldGetType =
-	(*env)->GetMethodID (env, c_field, "getType", "()Ljava/lang/Class;")))
+	(*env)->GetMethodID (env, c_Field, "getType", "()Ljava/lang/Class;")))
     abort();
   
   if (!(m_FieldGetInt =
-      (*env)->GetMethodID (env, c_field, "getInt", 
+      (*env)->GetMethodID (env, c_Field, "getInt", 
 			   "(Ljava/lang/Object;)I")))
     abort();
 
   if (!(m_FieldGetDouble =
-      (*env)->GetMethodID (env, c_field, "getDouble", 
+      (*env)->GetMethodID (env, c_Field, "getDouble", 
 			   "(Ljava/lang/Object;)D")))
     abort();
 
   if (!(m_FieldGet =
-      (*env)->GetMethodID (env, c_field, "get",
+      (*env)->GetMethodID (env, c_Field, "get",
 			   "(Ljava/lang/Object;)Ljava/lang/Object;")))
     abort();
 
   if (!(m_MethodGetName =
-	(*env)->GetMethodID (env, c_method, "getName",
+	(*env)->GetMethodID (env, c_Method, "getName",
 			     "()Ljava/lang/String;")))
     abort();
   
@@ -720,11 +727,12 @@ create_method_refs (JNIEnv *env)
     abort();
 
   if (!(m_HashCode =
-        (*env)->GetMethodID (env, c_object, "hashCode", "()I")))
+        (*env)->GetMethodID (env, c_Object, "hashCode", "()I")))
     abort ();
 
   if (!(m_Equals =
-        (*env)->GetMethodID (env, c_object, "equals", "(Ljava/lang/Object;)Z")))
+        (*env)->GetMethodID (env, c_Object, "equals",
+                             "(Ljava/lang/Object;)Z")))
     abort ();
   
   if (!(m_PhaseCImpl_copy_creating_phase_to_using_phase = 
@@ -974,14 +982,14 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               
             jboolean classp (jclass matchClass)
               {
-                return (*env)->IsInstanceOf (env, class, matchClass);
+                return (*env)->IsSameObject (env, class, matchClass);
               }
-              
-            if (classp (c_Selector))
-              type = _C_SEL;
-            else if (classp (c_object))
+
+            if (classp (c_Object))
               type = _C_ID;
-            else if (classp (c_string))
+            else if (classp (c_Selector))
+              type = _C_SEL;
+            else if (classp (c_String))
               type = _C_CHARPTR;
             else if (classp (c_int))
               type = _C_INT;
@@ -1002,6 +1010,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
             else if (classp (c_void))
               type = _C_VOID;
             else
+#if 0
               {
                 jstring name = get_class_name_from_object (env, class);
                 const char *className = 
@@ -1009,6 +1018,9 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
                                                     
                 raiseEvent (InternalError, "Unknown type `%s'", className);
               }
+#else
+            type = _C_ID;
+#endif
             add_type (type);
           }
           
@@ -1024,17 +1036,15 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
         if (sel)
           {
             if (!sel_get_typed_uid (name, signatureBuf))
-              raiseEvent (SourceMessage,
-                          "Method `%s' type (%s) from the Swarm library\n"
-                          "method with the same name.\n\n"
-                          "Adjust type to match Swarm method's type (%s)\n"
-                          "use different method name!\n",
+              raiseEvent (WarningMessage,
+                          "Method `%s' type (%s) differs from Swarm "
+                          "method's type (%s)\n",
                           name, signatureBuf, sel->sel_types);
           }
         else
           sel = sel_register_typed_name (name, signatureBuf);
       }
-
+      
       SD_ADD (env, jsel, (id) sel);
 
       if (copyFlag)

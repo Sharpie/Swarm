@@ -1097,6 +1097,7 @@ USING
 typedef union {
   id object;
   SEL selector;
+  Class class;
   const char *string;
   char schar;
   unsigned char uchar;
