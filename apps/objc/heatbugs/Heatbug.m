@@ -133,8 +133,8 @@ static id <Pixmap> bugPixmap = nil;
 // Heatbug behaviour is actually implemented here. The notion of a "step"
 // method is a nice simplification for basic simulations.
 
-- step
-{
+-step{
+
   HeatValue heatHere;
   int newX, newY;
   int tries;
@@ -193,22 +193,63 @@ static id <Pixmap> bugPixmap = nil;
   else 
     {
       tries = 0;
-      while ([world getObjectAtX: newX Y: newY] != nil && tries < 10)
-        {
-          newX = (x + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
-                  worldXSize) % worldXSize;
-          newY = (y + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
-                  worldYSize) % worldYSize;
+      
+      // only search if the current cell is neither the optimum or
+      // randomly chosen location - else don't bother
+      if ( (newX != x || newY != y) )
+          {
+              while ( ([world getObjectAtX: newX Y: newY] != nil) && 
+                      (tries < 10) )
+                  {
+                      int location, xm1, xp1, ym1, yp1;
+                      // choose randomly from the nine possible
+                      // random locations to move to
+                      location = [uniformIntRand getIntegerWithMin: 1L 
+                                                 withMax: 8L];
+
+                      xm1 = (x + worldXSize - 1) % worldXSize;
+                      xp1 = (x + 1) % worldXSize;
+                      ym1 = (y + worldYSize - 1) % worldYSize;
+                      yp1 = (y + 1) % worldYSize;
+
+                      switch (location)
+                          {
+                          case 1:  
+                              newX = xm1; newY = ym1;   // NW
+                              break;  
+                          case 2:
+                              newX = x ; newY = ym1;    // N
+                              break;  
+                          case 3:
+                              newX = xp1 ; newY = ym1;  // NE
+                              break;  
+                          case 4:
+                              newX = xm1 ; newY = y;    // W
+                              break;  
+                          case 5:
+                              newX = xp1 ; newY = y;    // E
+                              break;  
+                          case 6:
+                              newX = xm1 ; newY = yp1;  // SW
+                              break;  
+                          case 7:
+                              newX = x ; newY = yp1;    // S
+                              break;  
+                          case 8:
+                              newX = xp1 ; newY = yp1;  // SE
+                          default:
+                              break;
+                          }
           
-          tries++;					  // don't try too hard.
-        }
-      if (tries == 10)
-        {
-          // no nearby clear spot, so just don't move.
-          newX = x;
-          newY = y;
-        }
-  
+                      tries++;			// don't try too hard.
+                  }
+              if (tries == 10)
+                  {
+                      // no nearby clear spot, so just don't move.
+                      newX = x;
+                      newY = y;
+                  }
+          }
       // Phew - we've finally found a spot to move ourselves, in (newX, newY).
       // Update heat where we were sitting.
   

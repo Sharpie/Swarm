@@ -8,12 +8,35 @@
 // These functions simplify and stereotype access to the space variable,
 // making the Heatbug code higher level.
 
+#import <random.h>
 #import "HeatSpace.h"
 
 // global constant: maximum heat.
 // This could just be used from the Diffuse2d object's max states.
 
 const HeatValue maxHeat = 0x7fff;
+
+@implementation HeatCell
+
+- setX: (int)theX
+{
+    x = theX;
+    return self;
+}
+- setY: (int)theY
+{
+    y = theY;
+    return self;
+}
+- (int)getX
+{ 
+    return x;
+}
+- (int)getY
+{
+    return y;
+}
+@end
 
 @implementation HeatSpace
 
@@ -36,48 +59,83 @@ const HeatValue maxHeat = 0x7fff;
 // The X and Y arguments are used both as input (where to search from)
 // and as output (pointers are filled with the coordinate of the extreme).
 // Note that wraparound edges (boundary conditions) are implicitly in
-// the code - look at the call to [self getCellX:Y:].
+// the code - look at the call to [self getValueAtX:Y:].
 
--(HeatValue) findExtremeType: (HeatExtremeType) type X: (int *) px Y: (int *) py {
+- (HeatValue) findExtremeType: (HeatExtremeType) type X: (int *) px Y: (int *) py
+{
   HeatValue bestHeat;
   int x, y;
   int bestX, bestY;
+  id <List>heatList;
+  id  cell, bestCell;
+  int offset;
+  char buf[100];
 
   // prime loop: assume extreme is right where we're standing
+  bestHeat = [self getValueAtX: *px Y: *py];
 
-  bestX = *px;
-  bestY = *py;
-  bestHeat = [self getValueAtX: bestX Y: bestY];
+  // Now scan through the world, finding the best cell in the 8 cell
+  // nbd.  To remove the bias from the choice of location, we keep a
+  // list of all best ones and then choose a random location if there
+  // are points of equal best heat.
+  heatList = [List create: [self getZone]];
 
-  // Now scan through the world, finding the best cell in the 8 cell nbd.
-  // Note that this is slightly biased: if two cells have the same
-  // best heat, then the one more to the top (or left) is preferred.
-  // To do this exactly, you have to keep a list of all best ones and
-  // then choose a random element.
+  for (y = *py - 1; y <= *py + 1; y++) {  
+      for (x = *px - 1; x <= *px + 1; x++) {
+          HeatValue heatHere;
+          BOOL hereIsBetter, hereIsEqual;
 
-  for (x = *px - 1; x <= *px + 1; x++) {
-    for (y = *py - 1; y <= *py + 1; y++) {
-      HeatValue heatHere;
-      BOOL hereIsBetter;
+          heatHere = [self getValueAtX: (x+xsize)%xsize Y: (y+ysize)%ysize];
+          hereIsBetter = (type == cold) ? (heatHere < bestHeat)
+              : (heatHere > bestHeat);
+          
+          // printf("@ (%d,%d) = %d ", x, y, heatHere);
+          
+          hereIsEqual = (heatHere == bestHeat);
+          
+          if (hereIsBetter) {	      // this spot more extreme
+              
+              cell = [[[HeatCell create: [self getZone]] setX: x] setY: y];
+              
+              // this heat must be the best so far, so delete all the
+              // other cells we have accumulated
+              [heatList deleteAll];
+              [heatList addLast: cell]; // now list only has the one new cell
 
-      heatHere = [self getValueAtX: (x+xsize)%xsize Y: (y+ysize)%ysize];
-      hereIsBetter = (type == cold) ? (heatHere < bestHeat)
-	                            : (heatHere > bestHeat);
-      if (hereIsBetter) {			  // this spot more extreme
-	bestHeat = heatHere;			  // update information
-	bestX = x;
-	bestY = y;
+              bestHeat = heatHere;   // update information
+          }
+          
+          // if we have spots of equal best heat - then we add to the
+          // list from which we can choose randomly later
+          if (hereIsEqual) {
+              cell = [[[HeatCell create: [self getZone]] setX: x] setY: y];
+              [heatList addLast: cell]; // add to the end of the list
+          }
       }
-    }
+      // printf("\n");
   }
+  
+  // printf("---------\n");
+
+  // choose a random position from the list
+  offset = [uniformIntRand getIntegerWithMin: 0L 
+                           withMax: ([heatList getCount] - 1)];
+
+  // choose a point at random from the heat list
+  bestCell = [heatList atOffset: offset];
 
   // Now we've found the requested extreme. Arrange to return the
   // information (normalize coordinates), and return the heat we found.
 
-  *px = (bestX + xsize) % xsize;
-  *py = (bestY + ysize) % ysize;
+  *px = ([bestCell getX] + xsize) % xsize;
+  *py = ([bestCell getY] + ysize) % ysize;
 
-  return bestHeat;
+  // clean up the temporary list of (x,y) points
+  [heatList deleteAll];
+  [heatList drop];
+
+  return ([self getValueAtX: *px Y: *py]);
 }
 
 @end
+

@@ -19,6 +19,18 @@ extern const HeatValue maxHeat;
 // Enum used in findExtremeType:X:Y:
 typedef enum { cold, hot } HeatExtremeType;
 
+// Class HeatCell. Stores an (x,y) co-ordinate
+@interface HeatCell: SwarmObject 
+{
+    int x;
+    int y;
+}
+- setX: (int)theX;
+- setY: (int)theY;
+- (int)getX;
+- (int)getY;
+@end
+
 // Class HeatSpace. Inherit from Diffuse, don't add any new variables
 @interface HeatSpace: Diffuse2d
 {
@@ -30,3 +42,4 @@ typedef enum { cold, hot } HeatExtremeType;
 // New method: search a neighbourhood for the requested extreme. 
 - (HeatValue)findExtremeType: (HeatExtremeType)heat X: (int *)x Y: (int *)y;
 @end
+

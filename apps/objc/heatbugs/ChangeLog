@@ -1,3 +1,15 @@
+1998-10-06  Alex Lancaster  <alex@santafe.edu>
+
+	* HeatSpace.[hm]: Add new class `HeatCell' for maintaining a list
+	of points.
+	([HeatSpace -findExtremeType:]): Add logic to maintain a list of
+	sites of equal extreme heat and select randomly to remove bias.
+
+	* Heatbug.m ([Heatbug -step]): When if the ideal (or random
+	selected) position is the current location of the Heatbug - don't
+	search for another cell.  Thanks to Catherine Dibble
+	<cath@econ.ucsb.edu> for pointing this out.  
+	
 1998-09-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm +createBegin:]): 
