@@ -92,7 +92,10 @@ PHASE(Creating)
           }
         }
       else
-        abort ();
+        {
+          javaFlag = NO;
+          [self setObjCReturnType: *type];
+        }
     }
   else
 #endif

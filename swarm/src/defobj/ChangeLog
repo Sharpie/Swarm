@@ -1,3 +1,9 @@
+2000-04-20    <mgd@nest.swarm.org>
+
+	* FArguments.m ([FArguments_c -setSelector:]): Don't abort
+	when there is not a Java selector available.  Turn off 
+	javaFlag and set the return type.
+
 2000-04-13    <mgd@nest.swarm.org>
 
 	* javavars.h New variable m_ClassGetField. 
