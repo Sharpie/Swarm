@@ -19,7 +19,7 @@ else
     echo missing for libobjc.
     echo Using information from unknown.
     echo '****************************************'
-    cpudir=unknown
+    cpudir=$configsrcdir/unknown
 fi
 
 if test -f $cpudir/compiler-info-${target_os}.h; then
