@@ -524,6 +524,9 @@ USING
 @end
 
 @deftype SynchronizationType
+//S: Synchronization type sets the type of schedule which is used
+//S: internally by the swarm to synchronize subschedules. 
+
 //D: Synchronization type sets the type of schedule which is used
 //D: internally by the swarm to synchronize subschedules.  Its default is a
 //D: schedule with a concurrent group of ActivationOrder.
@@ -537,16 +540,21 @@ USING
 
 CREATING
 - (void)setSynchronizationType: aScheduleType;
+
 USING
 - getSynchronizationType;
 @end
 
 @deftype InternalTimeMultiplier
+//S: Unimplemented internal time unit.
+
 //D: (.. This option will be used in the future to support an internal time
 //D: unit within the swarm that can be more fine-grained than the context
 //D: in which the swarm is included. ..)
+
 CREATING
 - (void)	setInternalTimeMultiplier: (timeval_t)multiplier;
+
 USING
 - (timeval_t)	getInternalTimeMultiplier;
 @end
@@ -622,7 +630,7 @@ USING
 //D: plans if they are suitably qualified.  Given any action belonging to
 //D: any plan, the set of specific explicit ordering constraints in which
 //D: it participates may be obtained by one of the messages getSuccessors,
-//D: getPredecessors, getCostarts, and Coends inherited from the <a
+//D: getPredecessors, getCostarts, and Coends inherited from the
 //D: KeyedCollection type.
 
 //D: Separate subtypes of Action are defined for each of the various forms
@@ -826,10 +834,10 @@ extern id <Symbol>  HoldStart, HoldEnd;
 
 
 @deftype ForEachActivity <Activity>
-USING
 //S: State of execution within a ForEach action.
 //D: State of execution within a ForEach action.
 
+USING
 - getCurrentMember;
 @end
 
