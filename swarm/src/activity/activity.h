@@ -430,6 +430,8 @@ USING
 
 //M: Remove action from either schedule or concurrent group.
 - remove: anAction;
+
+- insertGroup: aKey; 
 @end
 
 @deftype SynchronizationType
