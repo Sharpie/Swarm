@@ -3,6 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.    
 
+//S: General simulation tools
+
 //D: A collection of tools that are only loosely related to each other.
 //D: the class hierarchy is virtually flat.
 
@@ -42,6 +44,7 @@ CREATING
 //M: The setBaseNameObject: method is used to set the base name given an object
 //M: of class String.
 - setBaseNameObject: aStringObject;
+
 USING
 //M: The getNewName method generates a new name as a character string.
 - (const char *)getNewName;
@@ -59,6 +62,7 @@ USING
 //D: This class is intended to simplify the input file-I/O in Swarm. It
 //D: essentially deals with the detailed file opening and closing routines
 //D: thus alleviating the need for C file I/O procedure calls.
+
 CREATING
 //M: This is the create method for InFiles, where theName is, of course the
 //M: name of the file to open.
@@ -125,6 +129,7 @@ USING
 //D: This class is intended to simplify output file-I/O in Swarm. It 
 //D: essentially deals with the detailed file opening and closing routines 
 //D: thus alleviating the need for C file I/O procedure calls. 
+
 CREATING
 //M: The create:withName: method opens a file named theName and creates an 
 //M: Outfile object.
@@ -180,6 +185,7 @@ USING
 
 //D: This class subclasses from OutFile, the only functional difference being
 //D: that it opens a given file in Append Mode rather than in Overwrite mode.
+
 CREATING
 //M: The create:withName: method is the create method for AppendFiles, where 
 //M: theName is the name of the file to open.
@@ -191,6 +197,7 @@ CREATING
 
 //D: This class is used to initialize the variables of a target object from
 //D: a data file. The data file is required to have a very simple format.
+
 USING
 //M: The load:from: method loads anObject from the previously opened 
 //M: aFileObject without returning an actual instance of the ObjectLoader 
@@ -227,6 +234,7 @@ USING
 //D: If only a subset of the variables should be written out, the set is 
 //D: specified by a template ProbeMap (where the ProbeMap will contain Probes 
 //D: for those variables which should be saved). 
+
 USING
 //M: The save:to: method saves the entire target object without actually 
 //M: returning an instance of ObjectSaver to the user.
@@ -269,6 +277,7 @@ USING
 //D: default. Reversing the order of a collection can be made by calling 
 //D: reverseOrderOf. All these methods modify the underlying collection, so
 //D: any indexes should always be regenerated. 
+
 USING
 //M: The sortObjectsIn: method will sort the objects in the collection with the
 //M: "compare' function for the object.  If the objects don't provide a
@@ -301,6 +310,7 @@ USING
 
 //D: NSelect selects exactly N elements from a collection without repetition.
 //D: A target collection must be provided.
+
 USING
 //M: The select:from:into: method selects exactly N elements from a collection
 //M: without repetition into another collection.  The selection algorithm
@@ -327,10 +337,16 @@ USING
 - step;
 @end
 
-void initSwarm (int argc, const char **argv);
-void initSwarmArguments (int argc, const char **argv, Class argumentsClass);
 
-// Flag for whether we're in graphics mode or not. Default is 1.
+//F: Initializes the Swarm libraries. This call should be in any Swarm code
+//F: you write.
+extern void initSwarm (int argc, const char **argv);
+
+//F: Like initSwarm, but specifies what class to use for argument
+//F: parsing, typically this will be a subclass of Arguments.
+extern void initSwarmArguments (int argc, const char **argv, Class argumentsClass);
+
+//G: Flag for whether we're in graphics mode or not.  Default is 1.
 extern int swarmGUIMode;
 
 @class ControlPanel;
