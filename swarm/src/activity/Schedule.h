@@ -11,6 +11,7 @@ Library:      activity
 
 #import <activity/ActionGroup.h>
 #import <activity/XActivity.h>
+#import <activity/Action.h> // CAction
 #import <collections/Map.h>
 #import <defobj/Zone.h>
 
