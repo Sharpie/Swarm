@@ -182,6 +182,9 @@
       "-_performAction_:"
       ;; GetSubActivityAction
       "-_getSubactivityAction_"
+      ;; ConcurrentGroup
+      "-_setActionConcurrent_:"
+      "-_getEmptyActionConcurrent_"
       
       ;; ActionCreatingCall (func_t parameters)
       "-createActionCall:"

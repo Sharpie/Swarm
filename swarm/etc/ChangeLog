@@ -1,3 +1,8 @@
+2000-07-06  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* interface.el (*removed-methods*): Add _setActionConcurrent_:
+	and _getEmptyActionConcurrent_.
+
 2000-07-06    <mgd@DRONE>
 
 	* Makefile.protocol: Use OSTYPE instead of host_triplet
