@@ -367,13 +367,13 @@ java_directory_init (JNIEnv *env,
     abort ();
   
   globalZoneFid = (*env)->GetFieldID (env, class, "globalZone", 
-				      "Lswarm/defobj/ZoneU;");
+				      "Lswarm/defobj/ZoneUImpl;");
   uniformIntRandFid = 
       (*env)->GetFieldID (env, class, "uniformIntRand",
-			  "Lswarm/random/UniformIntegerDistU;");  
+			  "Lswarm/random/UniformIntegerDistUImpl;");  
   uniformDblRandFid =
       (*env)->GetFieldID (env, class, "uniformDblRand",
-			  "Lswarm/random/UniformDoubleDistU;");
+			  "Lswarm/random/UniformDoubleDistUImpl;");
   
   o_globalZone = (*env)->GetObjectField (env, swarmEnvironment, globalZoneFid);
 

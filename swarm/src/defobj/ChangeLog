@@ -2,6 +2,7 @@
 
 	* directory.m (get_base_class_name): New function.
 	(java_instantiate_using): Use it.  Tack on "Impl" after "U".
+	(java_directory_init): Accomodate Impl suffix.
 
 1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
