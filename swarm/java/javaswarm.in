@@ -28,7 +28,7 @@ export @SHLIBPATH_VAR@
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
 
 if test x$JAVA_CLASSES_INSTALLED_AS = xjar; then
-  classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASES}:$CLASSPATH"
+  classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH"
 else
   classpath=".:${swarm_datadir}:${JAVACLASSES}:$CLASSPATH"
 fi
