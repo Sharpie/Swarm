@@ -4,6 +4,7 @@
 	X11 and GDI things.
 
 	* Makefile.appl.in: Use GUILIBS where X variables were used.
+	Add ZLIBLDFLAGS.
 
 1998-06-24  Alex Lancaster  <alex@santafe.edu>
 
