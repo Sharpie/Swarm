@@ -8,19 +8,22 @@
 #import <objc/Object.h>
 #import <tkobjc/Widget.h>
 
-@interface Histo : Widget {
-  char ** elements;
-  int numPoints;				  // should be dynamic
+@interface Histo : Widget
+{
+  const char **elements;
+  int numPoints;  // should be dynamic
 }
 
--setNumPoints: (int) n Labels: (char **) l Colors: (char **) c;  // how many points to draw.
--drawHistoWithDouble: (double *) points;	  // data format hack
--drawHistoWithInt: (int *) points;
+- setNumPoints: (int)n
+        Labels: (const char * const *)l
+        Colors: (const char * const *)c;    // how many points to draw.
+- drawHistoWithDouble: (double *) points;	  // data format hack
+- drawHistoWithInt: (int *) points;
 
 // This is used by EZBin to avoid the usual integer tagging of elements...
--drawHistoWithInt: (int *) points atLocations: (double *) locations ;
--drawHistoWithDouble: (double *) points atLocations: (double *) locations ;
+- drawHistoWithInt: (int *)points atLocations: (double *)locations;
+- drawHistoWithDouble: (double *)points atLocations: (double *)locations;
 
--title: (char *) t;                               // title the graph
--axisLabelsX: (char *) xl Y: (char *) yl;	  // change labels here.
+- title: (const char *)t;                             // title the graph
+- axisLabelsX: (const char *)xl Y: (const char *)yl;  // change labels here.
 @end

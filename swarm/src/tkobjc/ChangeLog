@@ -1,5 +1,16 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Histo.m ([Histo -setNumPoints:Labels:Colors:]): Constify arguments.
+	([Histo -title:]): Constify argument.
+	([Histo -axisLabelsX:Y:]): Constify arguments.
+	Reformatting throughout.
+
+	* Histo.h (Histo): Constify elements.
+	Constify arguments to setNumPoints.
+	Constify argument to title.
+	Constify argument to axisLabels.
+	Reformatting throughout.
+
 	* control.[hm]: Add new functions tkobjc_setupZoomStack,
 	tkobjc_setHistogramBarWidth, tkobjc_setHistogramXaxisRange,
 	tkobjc_setupHistogramMisc, tkobjc_setupHistogramLegend,

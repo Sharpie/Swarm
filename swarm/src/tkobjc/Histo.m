@@ -17,7 +17,8 @@
 
 @implementation Histo
 
--createEnd {
+-createEnd
+{
   [super createEnd];
 
   // create the graph with one element
@@ -30,29 +31,37 @@
 }
 
 // you can only call this once. Fix it.
--setNumPoints: (int) n Labels: (char **) l Colors: (char **) c{
+- setNumPoints: (int)n
+        Labels: (const char * const *)l 
+        Colors: (const char * const *)c
+{
   int i;
 
   numPoints = n;
 
   elements = [[self getZone] alloc: (sizeof(*elements) * n)];
-  for (i = 0; i < n; i++) {
-    char strBuffer[256];
-    sprintf(strBuffer, "%d", i);
-    elements[i] = strdup(strBuffer);
-    [globalTkInterp eval: "%s element create %s; %s element configure %s -relief flat", widgetName, strBuffer, widgetName, elements[i]];
-    if (l && l[i])
-      [globalTkInterp eval: "%s element configure %s -label \"%s\"",
-		      widgetName, elements[i], l[i]];
-    if (c && c[i])
-      [globalTkInterp eval: "%s element configure %s -foreground \"%s\"",
-		      widgetName, elements[i], c[i]];
-  }    
+  for (i = 0; i < n; i++)
+    {
+      char strBuffer[256];
 
+      sprintf (strBuffer, "%d", i);
+      elements[i] = strdup (strBuffer);
+      [globalTkInterp
+        eval: "%s element create %s; %s element configure %s -relief flat",
+        widgetName, strBuffer, widgetName, elements[i]];
+      if (l && l[i])
+        [globalTkInterp eval: "%s element configure %s -label \"%s\"",
+                        widgetName, elements[i], l[i]];
+      if (c && c[i])
+        [globalTkInterp eval: "%s element configure %s -foreground \"%s\"",
+                        widgetName, elements[i], c[i]];
+    }
+  
   return self;
 }
 
--drawHistoWithDouble: (double *) points {
+- drawHistoWithDouble: (double *) points
+{
   int i;
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %f }",
@@ -61,7 +70,8 @@
 }
 
 // ick. How to do two data formats right?
--drawHistoWithInt: (int *) points {
+- drawHistoWithInt: (int *) points
+{
   int i;
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %d }",
@@ -69,7 +79,8 @@
   return self;
 }
 
--drawHistoWithInt: (int *) points atLocations: (double *) locations {
+- drawHistoWithInt: (int *) points atLocations: (double *) locations
+{
   int i;
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %d }",
@@ -77,7 +88,8 @@
   return self;
 }
 
--drawHistoWithDouble: (double *) points atLocations: (double *) locations {
+- drawHistoWithDouble: (double *) points atLocations: (double *) locations
+{
   int i;
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %g }",
@@ -86,19 +98,22 @@
 }
 
 // this code is in common with BLTGraph
--title: (char *) t {
+- title: (const char *)t
+{
   [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, t];
   [self setWindowTitle: t];
   return self;
 }
 
--axisLabelsX: (char *) xl Y: (char *) yl {
+- axisLabelsX: (const char *)xl Y: (const char *)yl
+{
   [globalTkInterp eval: "%s xaxis configure -title \"%s\"; %s yaxis configure -title \"%s\";",
 		  widgetName, xl, widgetName, yl];
   return self;
 }
 
--pack {
+- pack
+{
   [globalTkInterp eval: "pack %s -fill both -expand true;", widgetName];
   return self;
 }
