@@ -25,7 +25,8 @@ typedef enum {fcall_type_void = 0,
               fcall_type_float, fcall_type_double, fcall_type_long_double,
               fcall_type_object, fcall_type_class,
               fcall_type_string, fcall_type_selector, 
-              fcall_type_jobject, fcall_type_jstring
+              fcall_type_jobject, fcall_type_jstring,
+              fcall_type_iid
               } fcall_type_t;
 
 #include <objc/objc.h>
@@ -49,9 +50,10 @@ typedef union {
   float _float;
   double _double;
   long double _long_double;
+  void *iid;
 } types_t;
 
-#define FCALL_TYPE_COUNT 21
+#define FCALL_TYPE_COUNT 22
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,31 @@
+2001-01-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (java_type_signature): Add iid entry.
+	(map_java_ivars): Handle iid, include other explicit cases instead
+	of a default.
+	(java_object_setVariable): Likewise.
+
+	* java.m, COM.m: Include misc.h.
+	(swarm_directory_{java,COM}_ensure_selector): Use stpcpy to build
+	signature.
+
+	* internal.m (fcall_type_alignment, fcall_type_size): Handle iid.
+	(objc_types): Add iid entry.
+	(objc_type_for_fcall_type): Handle _C_PTR case.
+
+	* defobj.h (fcall_type_t): Add fcall_type_iid.
+	(FCALL_TYPE_COUNT): Increment.
+	(types_t): Add iid.
+
+	* FCall.m ([FCall_c -setMethod:inObject:]): Set fobject in COM case.
+	([FCall_c -performCall]): Pass to invoke functions.
+
+	* COM.h (COMInterface): Add selectorCreate.
+	Add object argument to selector{COM,JS}Invoke.
+
+	* COM.[hm] ({COM,JS}_selector_invoke): Add object argument.
+	(COM_selector_create): Add.
+
 2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* defobj.h: Use const void * for COMOBJECT.

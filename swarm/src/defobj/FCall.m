@@ -332,6 +332,7 @@ PHASE(Creating)
     {
       callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
       (COMselector) fmethod = cSel;
+      (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
     }
   else
     {
@@ -530,9 +531,13 @@ PHASE(Using)
     }
 #endif
   if (callType == COMcall)
-    COM_selector_invoke ((COMselector) fmethod, COM_params);
+    COM_selector_invoke ((COMselector) fmethod,
+                         (COMobject) fobject,
+                         COM_params);
   else if (callType == JScall)
-    JS_selector_invoke ((COMselector) fmethod, COM_params);
+    JS_selector_invoke ((COMselector) fmethod,
+                        (COMobject) fobject,
+                        COM_params);
 #ifndef USE_AVCALL
   else
     {

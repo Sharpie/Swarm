@@ -11,6 +11,8 @@
 #import "javavars.h"
 #undef extern
 
+#include <misc.h> // stpcpy
+
 static BOOL initFlag = NO;
 
 static jobject proxyClassLoader = 0;
@@ -29,7 +31,8 @@ static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "Ljava/lang/String;", 
   "Lswarm/Selector;",
   "Ljava/lang/Object;",
-  "Ljava/lang/String;"
+  "Ljava/lang/String;",
+  "X" // iid
 };
 
 const char *
@@ -519,7 +522,17 @@ map_java_ivars (jobject javaObject,
             (*jniEnv)->DeleteLocalRef (jniEnv, sel);
           }
           break;
-        default:
+        case fcall_type_void:
+        case fcall_type_ushort:
+        case fcall_type_uint:
+        case fcall_type_ulong:
+        case fcall_type_slong:
+        case fcall_type_ulonglong:
+        case fcall_type_long_double:
+        case fcall_type_class:
+        case fcall_type_jobject:
+        case fcall_type_jstring:
+        case fcall_type_iid:
           abort ();
         }
       process_object (name, type, &val, 0, NULL);
@@ -897,10 +910,17 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
             break;
           case fcall_type_schar:
             SETVALUE (Char, buf->schar);
-          default:
-            raiseEvent (InvalidArgument,
-                        "Unhandled fcall type `%d'", type);
-            break;
+          case fcall_type_void:
+          case fcall_type_ushort:
+          case fcall_type_uint:
+          case fcall_type_ulong:
+          case fcall_type_slong:
+          case fcall_type_ulonglong:
+          case fcall_type_selector:
+          case fcall_type_jobject:
+          case fcall_type_jstring:
+          case fcall_type_iid:
+            abort ();
           }
 #undef SETVALUE
 #undef _SETVALUE
@@ -1838,20 +1858,20 @@ swarm_directory_java_ensure_selector (jobject jsel)
 
       {
         jsize ti;
-        char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
+        char signatureBuf[(argCount + 3) * 3 + 1], *p = signatureBuf;
           
-        void add_type (char type)
+        void add_type (fcall_type_t type)
           {
-            *p++ = type;
+            const char *objctype =  objc_type_for_fcall_type (type);
+
+            p = stpcpy (p, objctype);
             *p++ = '0';
             *p = '\0';
+            [globalZone free: (void *) objctype];
           }
         void add (jclass class)
           {
-            const char *type = 
-              objc_type_for_fcall_type (fcall_type_for_java_class (class));
-            add_type (*type);
-            [globalZone free: (void *) type];
+            add_type (fcall_type_for_java_class (class));
           }
         {
           jobject retType = (*jniEnv)->GetObjectField (jniEnv, jsel, f_retTypeFid);

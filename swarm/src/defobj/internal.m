@@ -99,7 +99,9 @@ fcall_type_alignment (fcall_type_t varType)
     case fcall_type_class:
       alignment = __alignof__ (Class);
       break;
-
+    case fcall_type_iid:
+      alignment = __alignof__ (void *);
+      break;
     default:
       abort ();
     }
@@ -502,9 +504,12 @@ lisp_output_type (fcall_type_t type,
     case fcall_type_string:
       [stream catString: ((const char **) ptr)[offset]];
       break;
-    default:
-      abort ();
+    case fcall_type_iid:
+      [stream catPointer: ((void **) ptr)[offset]];
       break;
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+      abort ();
     }
 }
 
@@ -656,7 +661,8 @@ static char objc_types[FCALL_TYPE_COUNT] = {
   _C_CHARPTR,
   _C_SEL,
   '\001',
-  '\002'
+  '\002',
+  _C_PTR
 };
 
 size_t
@@ -708,9 +714,10 @@ fcall_type_size (fcall_type_t type)
     case fcall_type_jstring:
       return sizeof (jstring);
 #endif
-    default:
-      abort ();
+    case fcall_type_iid:
+      return sizeof (void *);
     }
+  abort ();
 }
 
 fcall_type_t
@@ -733,11 +740,27 @@ fcall_type_for_objc_type (char objcType)
 const char *
 objc_type_for_fcall_type (fcall_type_t type)
 {
-  char *objctype = [globalZone alloc: 2];
-  
-  objctype[0] = objc_types[type];
-  objctype[1] = '\0';
-  return objctype;
+  char baseType = objc_types[type];
+
+  if (baseType == _C_PTR)
+    {
+      char *objctype = [globalZone alloc: 3];
+      
+      objctype[0] = _C_PTR;
+      objctype[1] = _C_VOID;
+      objctype[2] = '\0';
+      
+      return objctype;
+    }
+  else
+    {
+      char *objctype = [globalZone alloc: 2];
+      
+      objctype[0] = baseType;
+      objctype[1] = '\0';
+      
+      return objctype;
+    }
 }
 
 struct objc_ivar_list *

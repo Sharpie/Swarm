@@ -3,6 +3,7 @@
 #import <defobj/COMProxy.h>
 #import <objc/mframe.h> // mframe_build_signature
 #import "internal.h" // objc_type_for_fcall_type
+#include <misc.h> // strdup
 
 static COMEnv *comEnv = 0;
 
@@ -49,15 +50,21 @@ COM_selector_is_boolean_return (COMselector cSel)
 }
 
 void
-COM_selector_invoke (COMselector cSel, void *params)
+COM_selector_invoke (COMselector cSel, COMobject cObj, void *params)
 {
-  comEnv->selectorCOMInvoke (cSel, params);
+  comEnv->selectorCOMInvoke (cSel, cObj, params);
+}
+
+COMselector
+COM_selector_create (COMmethod cMethod)
+{
+  return comEnv->selectorCreate (cMethod);
 }
 
 void
-JS_selector_invoke (COMselector cSel, void *params)
+JS_selector_invoke (COMselector cSel, COMobject cObj, void *params)
 {
-  comEnv->selectorJSInvoke (cSel, params);
+  comEnv->selectorJSInvoke (cSel, cObj, params);
 }
 
 void *
@@ -313,14 +320,13 @@ swarm_directory_COM_ensure_selector (COMselector cSel)
       const char *name = comEnv->selectorName (cSel);
       {
         unsigned ti;
-        char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
+        char signatureBuf[(argCount + 3) * 3 + 1], *p = signatureBuf;
         
         void add_type (fcall_type_t type)
           {
-            const char *objcType =
-              objc_type_for_fcall_type (type);
+            const char *objcType = objc_type_for_fcall_type (type);
 
-            *p++ = *objcType;
+            p = stpcpy (p, objcType);
             *p++ = '0';
             *p = '\0';
             [globalZone free: (void *) objcType];
