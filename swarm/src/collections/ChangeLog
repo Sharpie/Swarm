@@ -1,3 +1,11 @@
+1999-03-02  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* Permutation.m ([Permutation_c +createBegin:]): Use component zone
+	for allocating shuffler.
+	([Permutation_c -mapAllocations:mapalloc]): Call 
+	[super mapAllocations: mapalloc] to deallocate block of memory
+	allocated by array.
+
 1999-02-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputStream.m ([InputStream_c -getExpr]): Disable "nil" handling.

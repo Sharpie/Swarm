@@ -53,7 +53,7 @@ PHASE(Creating)
 {
   Permutation_c *obj = [super createBegin: aZone];
 
-  obj->shuffler = [ListShuffler createBegin: aZone];
+  obj->shuffler = [ListShuffler createBegin: [aZone getComponentZone]];
   return obj;
 }
 
@@ -112,6 +112,7 @@ PHASE(Using)
 
   [index drop];
   mapObject (mapalloc, shuffler);
+  [super mapAllocations: mapalloc];  
 }
 
 - (void)describe: outputCharStream
