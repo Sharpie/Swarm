@@ -32,7 +32,7 @@ libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(modul
 
 libswarm_la_SOURCES = SwarmEnvironment.m
 
-include_HEADERS = swarm.h
+include_HEADERS = swarm.h SwarmEnvironment.h
 
 SwarmEnvironment.lo: SwarmEnvironment_getters.m
 

@@ -1,4 +1,4 @@
-2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
+2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.am: Include Makefile.protocol.
 	(INCLUDES, SwarmEnvironment.lo, SwarmEnvironment_getters.m,
@@ -6,6 +6,7 @@
 	($(srcdir)/SwarmEnvironment_getters.m): Add.
 	(libswarm_la_SOURCES): Change from empty.c to SwarmEnvironment.m.
 	(empty.c): Remove.
+	(include_HEADERS): Add swarm.h and SwarmEnvironment.h.
 
 	* swarm.h, SwarmEnvironment.[hm]: New files.
 

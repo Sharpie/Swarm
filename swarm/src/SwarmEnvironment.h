@@ -9,13 +9,15 @@
 
 @interface SwarmEnvironment: Object <SwarmEnvironment>
 {
+  id <Arguments> arguments;
+  BOOL forceBatchMode;
 }
-+ (void)initSwarmArgc: (int)argc
-                 argv: (const char **)argv
-                 name: (const char *)appName
-              version: (const char *)version
-           bugAddress: (const char *)bugAddress
-                class: (Class)class;
++ createBegin;
+- setArguments: (id <Arguments>)arguments;
+- setBatchMode: (BOOL)batchMode;
+- createEnd;
 
+#ifdef BUILDING_SWARM
 #import "SwarmEnvironment_getters.h"
+#endif
 @end

@@ -12,12 +12,10 @@
 
 //D: Container object for Swarm globals
 CREATING
-+ (void)initSwarmArgc: (int)argc
-                 argv: (const char **)argv
-                 name: (const char *)appName
-              version: (const char *)version
-           bugAddress: (const char *)bugAddress
-                class: (Class)class;
++ createBegin; // bootstrapping -- there are no Zones available yet
+- setArguments: (id <Arguments>)arguments;
+- setBatchMode: (BOOL)batchMode;
+- createEnd;
 GETTERS
 - (id <Symbol>)getStart;
 - (id <Symbol>)getMember;
