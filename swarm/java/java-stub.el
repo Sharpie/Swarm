@@ -353,6 +353,7 @@
 
       ;; HDF5
       "-iterate:"
+      "-iterate:drop:"
       "-iterateAttributes:"
       "-loadDataset:"
       "-storeAsDataset:typeName:type:ptr:"

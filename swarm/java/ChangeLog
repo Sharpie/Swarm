@@ -1,3 +1,7 @@
+1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* java-stub.el (*removed-methods*): Add -iterate:drop:.
+
 1999-12-27    <mgd@DRONE>
 
 	* java-stub.el (*objc-to-java-type-alist*): Map long, unsigned
