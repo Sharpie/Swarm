@@ -1,5 +1,7 @@
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* XActivity.m ([Activity_c -drop]): Handle Completed.
+
 	* activity.h ([Schedule -setKeepEmptyFlag:]): Make create-time.
 
 2000-06-26  Marcus G. Daniels  <mgd@nest.swarm.org>

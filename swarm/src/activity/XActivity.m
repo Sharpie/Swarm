@@ -693,14 +693,22 @@ installStep (Activity_c *activity)
     {
       if (TERMINATEDP (status))
         {
-          for (activity = self; activity->currentSubactivity;
-               activity = activity->currentSubactivity );
+          for (activity = self;
+               activity->currentSubactivity;
+               activity = activity->currentSubactivity);
+
           if (activity->breakFunction != terminateFunction)
             {
               [self dropAllocations: YES];
               return;
             }
         }
+      else if (COMPLETEDP (status))
+        {
+          [self dropAllocations: YES];
+          return;
+        }
+
       raiseEvent (SourceMessage,
                   "> can only drop a top-level activity or a terminated activity that is not\n"
                   "> currently running\n" );
