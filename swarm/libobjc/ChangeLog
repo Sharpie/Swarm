@@ -1,5 +1,8 @@
 1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* mframe.m (mframe_next_arg): Handle negative offsets (as stack
+	offsets).
+
 	* config/hppa/mframe-hpux10.h (MFRAME_ARG_ENCODING): Rewrite.
 	Allow negative offsets.  Use existing offsets, stripping register
 	designation for floats and doubles. 

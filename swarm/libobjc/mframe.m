@@ -449,30 +449,37 @@ mframe_next_arg(const char *typePtr, NSArgumentInfo *info)
    */
   if (info->type[0] != _C_PTR || info->type[1] == '?')
     {
+      BOOL negFlag = NO;
+
       /*
        *	May tell the caller if the item is stored in a register.
        */
-      if (*typePtr == '+')
+      if (*typePtr == '-')
+        {
+          typePtr++;
+          negFlag = YES;
+          info->isReg = NO;
+        }
+      else if (*typePtr == '+')
 	{
 	  typePtr++;
 	  info->isReg = YES;
 	}
-      else if (info->isReg)
-	{
-	  info->isReg = NO;
-	}
+      else
+        info->isReg = NO;
 
       /*
        *	May tell the caller what the stack/register offset is for
        *	this argument.
        */
       info->offset = 0;
-      while (isdigit((int)*typePtr))
+      while (isdigit ((int) *typePtr))
 	{
 	  info->offset = info->offset * 10 + (*typePtr++ - '0');
 	}
+      if (negFlag)
+        info->offset *= -1;
     }
-
   return typePtr;
 }
 
