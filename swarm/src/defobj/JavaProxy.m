@@ -19,14 +19,28 @@
                   "Could not find Java class `%s'\n", 
                   typeName);
     {
+      jobject jobj;
       jmethodID method =
-        (*jniEnv)->GetMethodID (jniEnv, class, "<init>", "()V");
+        (*jniEnv)->GetMethodID (jniEnv, class, "<init>", "(Lswarm/defobj/Zone;)V");
       
-      jobject jobj = 
-        (*jniEnv)->NewObject (jniEnv, class, method);
-      
-      if (!jobj)
-        abort ();
+      if (method)
+        jobj = (*jniEnv)->NewObject (jniEnv, class, method,
+                                     SD_ENSUREJAVA (jniEnv, [self getZone]));
+      else
+        {
+          method = (*jniEnv)->GetMethodID (jniEnv, class, "<init>", "()V");
+          
+          if (!method)
+            raiseEvent (SourceMessage, "Could not find constructor for `%s'\n",
+                        typeName);
+          
+          {
+            jobj = (*jniEnv)->NewObject (jniEnv, class, method);
+
+            if (!jobj)
+              abort ();
+          }
+        }
       SD_ADD (jniEnv, jobj, self);
       
       (*jniEnv)->DeleteLocalRef (jniEnv, jobj);

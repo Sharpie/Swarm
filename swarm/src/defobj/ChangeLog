@@ -1,3 +1,8 @@
+2000-01-24    <mgd@nest.swarm.org>
+
+	* JavaProxy.m ([JavaProxy -createJavaCounterpart:]): First 
+	try constructor with a Zone argument, and then a simple constructor.
+
 2000-01-23    <mgd@nest.swarm.org>
 
 	* directory.[hm], internal.[hm]: Move/rename
