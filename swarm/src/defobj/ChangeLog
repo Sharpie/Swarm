@@ -2,6 +2,10 @@
 
 	* Makefile.am (CURRENT): Bump.  Version 2.1.
 
+	* internal.m (object_setVariableFromExpr): Check for
+	fcall_type_schar, not fcall_type_uchar (which is reserved for boolean,
+	anyway).
+
 	* directory.m (java_classname_for_typename): Convert Create_byboth
 	to swarm/CustomizedType.
 

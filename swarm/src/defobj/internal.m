@@ -1854,8 +1854,8 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
                 abort ();
               }
           }
-        case fcall_type_uchar:
-          buf.uchar = [expr getChar];
+        case fcall_type_schar:
+          buf.schar = [expr getChar];
           break;
         default:
           raiseEvent (InvalidArgument, "Unknown value type `%d'", ntype);
