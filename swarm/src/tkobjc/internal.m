@@ -902,6 +902,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                               globalVariableValue: "configured"],
                             "yes") == 0)
           {
+            obscured = YES;
             configured = YES;
             goto retry;
           }
