@@ -1,0 +1,9 @@
+1997-12-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (binary): Don't use ld directly, instead invoke
+	through LINKER (gcc) using -nostdlib and -Wl,-r (this was motivated
+	by the desire to have EXTRALDFLAGS that can contain -Wl,-rpath).
+
+Mon Dec  8 22:23:22 1997  glen e. p. ropella  <gepr@swarm.com>
+
+        * Makefile (DIRS): changed swarmobject to objectbase  
