@@ -383,6 +383,7 @@ updateTarget (FCall_c *self, id target)
   add_ffi_types (self);
 }
 
+#ifdef HAVE_JDK
 void
 updateJavaTarget (FCall_c *self, JOBJECT target)
 {
@@ -394,6 +395,7 @@ updateJavaTarget (FCall_c *self, JOBJECT target)
   self->fobject = target;
   add_ffi_types (self);
 }
+#endif
 
 PHASE(Using)
 
