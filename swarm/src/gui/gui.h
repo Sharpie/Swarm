@@ -262,9 +262,9 @@ void initTkObjc (id arguments);
 // for VarProbeWidget
 #define GUI_FOCUS(widget) _GUI_MSG ("GUI_FOCUS")
 
-#import <javaobjc/global.h>
+#import <awtobjc/global.h>
 
-#define GUI_INIT(arguments)  initJavaObjc (arguments)
+#define GUI_INIT(arguments)  initAWTObjc (arguments)
 #endif
 
 @class Button;
