@@ -178,7 +178,7 @@ java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag)
       return result;
     }
   else
-    abort ();
+    return NULL;
 }
 
 jobject
