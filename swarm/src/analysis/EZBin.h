@@ -3,15 +3,14 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objectbase/SwarmObject.h>
+#import <simtools/GUIComposite.h>
 
 // EZBin object: used to generate histograms.
 
-@interface EZBin : SwarmObject
+@interface EZBin : GUIComposite
 {
   int graphics;
   id aHisto;
-  const char *graphWindowGeometryRecordName;
 
   int fileOutput;
   id anOutFile;
@@ -34,7 +33,6 @@
   double minval, maxval, average, average2, std;
 }
 
-- setWindowGeometryRecordName: (const char *)name;
 - setTitle: (const char *)aTitle; 
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 

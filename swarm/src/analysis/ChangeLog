@@ -1,5 +1,12 @@
 1998-01-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* EZBin.m ([EZBin -setWindowGeometryRecordName]): Remove.
+	([EZBin -createEnd]): Use inherited windowGeometryRecordName method
+	to get value previously provided by graphWindowGeometryRecordName.
+
+	* EZBin.h (EZBin): Include GUIComposite.h, and inherit from it instead
+	of SwarmObject.  Remove graphWindowGeometryRecordName and setter.
+
 	* EZBin.m ([EZBin -update]): Include objc-api.h and talk directly
 	to the runtime to extract a double from a collection item.
 
