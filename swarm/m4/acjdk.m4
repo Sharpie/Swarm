@@ -194,6 +194,9 @@ else
   AC_DEFINE(HAVE_JDK)
   JAVASTUBS=stubs
   JAVASWARMSCRIPTS="javaswarm javacswarm"
+  if test "$host_os" = cygwin; then
+    JAVASWARMSCRIPTS="$JAVASWARMSCRIPTS jdkswarm jdkcswarm"
+  fi
   AC_SUBST(JAVASWARM_DLL_ENTRY)
   AC_SUBST(JAVASWARM_LIB_NAME)
   JAVAC=${JAVAC-$javac_default}
