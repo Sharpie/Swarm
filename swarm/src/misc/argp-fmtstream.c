@@ -25,7 +25,7 @@
    don't have that.  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <swarmconfig.h>
 #endif
 
 #include <stdlib.h>

@@ -22,7 +22,7 @@
    marcus@sysc.pdx.edu 1997-09-02 */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <swarmconfig.h>
 #endif
 
 #include <stddef.h>
