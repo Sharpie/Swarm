@@ -1,3 +1,8 @@
+1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* List.m (setListClass): Fix off by one error in computing name
+	for using-phase-lookup-by-string.  Use buffer on stack instead of heap.
+
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (BUILT_SOURCES): Use TYPEINFO.

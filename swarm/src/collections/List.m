@@ -49,21 +49,17 @@ setListClass (id obj, id aClass)
   if ((strcmp (className, "List_any.Creating") == 0) ||
       (strcmp (className, "List_linked") == 0) ||
       (strcmp (className, "List_mlinks") == 0))
-    {
-      setClass (obj, aClass);
-    }
+    setClass (obj, aClass);
   else   // using a custom subclass must have the `.Creating' extension
     {
-      if (strstr (className, ".Creating") != NULL)
+      const char *end;
+      if ((end = strstr (className, ".Creating")) != NULL)
         {
-          int strpos = (int)(strlen (className) - strlen(".Creating"));
-          char *buf = xmalloc (strpos);
+          size_t len = end - className;
+          char buf[len + 1];
           
-          // strip the `.Creating' to generate the final name of the
-          // class to lookup
-          sprintf(buf, "%*.*s", strpos, strpos, className);
-          setClass (obj, objc_lookup_class(buf));
-          XFREE(buf);
+          sprintf (buf, "%.*s", (int) len, className);
+          setClass (obj, objc_lookup_class (buf));
         }
       else
         raiseEvent (InvalidOperation, 
