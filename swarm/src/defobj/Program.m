@@ -25,7 +25,7 @@ Library:      defobj
 
 id _obj_initZone;
 externvardef id _obj_globalZone, _obj_sessionZone, _obj_scratchZone;
-externvardef id _obj_GCRootZone;
+externvardef id _obj_GCFixedRootZone;
 
 extern void _obj_splitPhases (Class_s  *class);
 
@@ -165,9 +165,9 @@ initModules (void)
   _obj_sessionZone = [Zone create: _obj_initZone];
   _obj_scratchZone = [Zone create: _obj_initZone];
 
-  _obj_GCRootZone = [Zone createBegin: _obj_initZone];
-  [_obj_GCRootZone setGCRootFlag: YES];
-  _obj_GCRootZone = [_obj_GCRootZone createEnd];
+  _obj_GCFixedRootZone = [Zone createBegin: _obj_initZone];
+  [_obj_GCFixedRootZone setGCFixedRootFlag: YES];
+  _obj_GCFixedRootZone = [_obj_GCFixedRootZone createEnd];
 
   // initialize collections at the end (so that it can use Zones)
   _obj_initModule (_collections_); 

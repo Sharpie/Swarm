@@ -1,15 +1,38 @@
+2001-06-27  Marcus G. Daniels  <mgd@dhcp144.santafe.edu>
+
+	* Zone.m ([Zone_c -alloc:], [Zone_c -free:]): Don't alloc
+	GCFixedRootFlag here.
+
+	* FCall.m (JAVAINFO_SIZE, java_fclass, java_fobject): New macros.
+	Use throughout replacing fclass and fobject.
+	([FCall_c +createBegin:]): Allocation javaInfo from
+	_obj_GCFixedRootZone.
+	([FCall_c -dropAllocations:]): Drop javaInfo.
+
+	* FCall.h (FCall_c): Replace fobject, fclass, and fmethod with 
+	javaInfo vector.
+
+	* FArguments.m (ALLOCBLOCKGC): New macro replaces ZALLOCBLOCK and
+	ALLOCBLOCK.
+	([FArguments_c -setJavaSignature:],
+	[FArguments_c -addArgument:ofType:],
+	[FArguments_c -addString:],
+	[FArguments_c -addJavaObject:type:], createJavaSignature): Use it.
+	([FArguments_c -mapAllocations:]): Set the zone to
+	_obj_GCFixedRootZone.
+
 2001-06-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* java.h (JAVA_{OBJECT,SELECTOR}_ENTRY): Use _objc_GCRootZone for
 	directory entries.
 
 	* Zone.m: Declare GC_malloc_uncollectable and GC_realloc.
-	([Zone_c -alloc:]): Use if GCRootFlag is set.
-	(dalloc): Likewise.  Add GCRootFlag argument and adjust callers.
+	([Zone_c -alloc:]): Use if GCFixedRootFlag is set.
+	(dalloc): Likewise.  Add GCFixedRootFlag argument and adjust callers.
 
-	* Zone.[hm] (Zone_c): Add GCRootFlag and setter.
+	* Zone.[hm] (Zone_c): Add GCFixedRootFlag and setter.
 
-	* Program.m (_obj_GCRootZone): New global.
+	* Program.m (_obj_GCFixedRootZone): New global.
 	(initModules): Set it up.
 
 	* JavaProxy.m ([JavaProxy -createJavaCounterpart:]): Note

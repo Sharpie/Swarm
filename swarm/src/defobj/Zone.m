@@ -19,19 +19,21 @@ Library:      defobj
 #include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
 #include "internal.h"
 
+
 extern void *GC_malloc_uncollectable (size_t);
-extern void *GC_realloc (void *, size_t);
+extern void *GC_realloc (void *buf, size_t size);
+extern void GC_free (void *buf);
 
 //
-// temporary hack to guarantee double word alignment of allocations
+// hack to guarantee double word alignment of allocations
 //
 static inline void *
-dalloc (size_t blockSize, BOOL GCRootFlag)
+dalloc (size_t blockSize, BOOL GCFixedRootFlag)
 {
   static BOOL notAligned = NO;
   void *block;
 
-  block = (GCRootFlag 
+  block = (GCFixedRootFlag 
            ? GC_malloc_uncollectable (blockSize)
            : xmalloc (blockSize));
 
@@ -55,13 +57,16 @@ dalloc (size_t blockSize, BOOL GCRootFlag)
                "Please report to swarm@santafe.edu.\n"
                "Standard fixup taken, execution continuing...\n" );
     }
-  
-  XFREE (block);
+ 
+  if (GCFixedRootFlag) 
+    GC_free (block);
+  else
+    XFREE (block);
 
   {
     size_t newSize = blockSize + 7;
 
-    block = (GCRootFlag
+    block = (GCFixedRootFlag
              ? GC_malloc_uncollectable (newSize)
              : xmalloc (newSize));
     return ((void *) (((unsigned long) newSize) & ~0x7));
@@ -86,7 +91,7 @@ PHASE(Creating)
   // the very first zone is created externally by explicit initialization
 
   newZone = [aZone allocIVars: self];
-  newZone->GCRootFlag = NO;
+  newZone->GCFixedRootFlag = NO;
   return newZone;
 }
 
@@ -99,9 +104,9 @@ PHASE(Creating)
     pageSize );
 }
 
-- (void)setGCRootFlag: (BOOL)theGCRootFlag
+- (void)setGCFixedRootFlag: (BOOL)theGCFixedRootFlag
 {
-  GCRootFlag = theGCRootFlag;
+  GCFixedRootFlag = theGCFixedRootFlag;
 }
 
 - createEnd
@@ -155,7 +160,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *) dalloc (size + 2 * sizeof (id), GCRootFlag);
+  newObject = (Object_s *) dalloc (size + 2 * sizeof (id), GCFixedRootFlag);
 
   // clears mlinks of population entry
   memset (newObject, 0, size + 2 * sizeof (id));
@@ -188,7 +193,7 @@ PHASE(Using)
   // allocate object of required size, including links in object header
 
   instanceSize = getClass (anObject)->instance_size;
-  newObject = (Object_s *) dalloc (instanceSize + 2 * sizeof (id), GCRootFlag);
+  newObject = (Object_s *) dalloc (instanceSize + 2 * sizeof (id), GCFixedRootFlag);
 
   // clears mlinks of population entry
   memset (newObject, 0, instanceSize + 2 * sizeof (id));
@@ -238,7 +243,10 @@ PHASE(Using)
       
       memset ((id *) anObject - 2, _obj_fillfree, size + (2 * sizeof (id)));
     }
-  XFREE ((id *) anObject - 2);
+  if (GCFixedRootFlag)
+    GC_free ((id *) anObject - 2);
+  else
+    XFREE ((id *) anObject - 2);
 }
 
 //
@@ -250,7 +258,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
   
-  newObject = (Object_s *) dalloc (aClass->instance_size, GCRootFlag);
+  newObject = (Object_s *) dalloc (aClass->instance_size, GCFixedRootFlag);
 
   if (_obj_debug)
     {
@@ -276,7 +284,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *) dalloc (getClass (anObject)->instance_size, GCRootFlag);
+  newObject = (Object_s *) dalloc (getClass (anObject)->instance_size, GCFixedRootFlag);
 
   if (_obj_debug)
     {
@@ -317,7 +325,10 @@ PHASE(Using)
       memset ((id *) anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
     }
-  XFREE (anObject);
+  if (GCFixedRootFlag)
+    GC_free (anObject);
+  else
+    XFREE (anObject);
 }
 
 //
@@ -340,11 +351,11 @@ PHASE(Using)
   size_t extraAlloc;
   size_t adjSize = size + headerSize;
   
+  if (GCFixedRootFlag)
+    abort ();
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = (GCRootFlag
-              ? GC_malloc_uncollectable (adjSize)
-              : xmalloc (adjSize));
+  newBlock = xmalloc (adjSize);
   ptr = newBlock + headerSize;
   aptr = alignptrto (ptr, MAX_ALIGNMENT);
   extraAlloc = (size_t) (ptrdiff_t) (aptr - ptr);
@@ -352,9 +363,7 @@ PHASE(Using)
     {
       size_t newSize = size + headerSize + extraAlloc;
 
-      newBlock = (GCRootFlag
-                  ? GC_realloc (newBlock, newSize)
-                  : xrealloc (newBlock, newSize));
+      newBlock = xrealloc (newBlock, newSize);
       ptr = newBlock + headerSize;
       aptr = alignptrto (ptr, MAX_ALIGNMENT);
       extraAlloc = (size_t) (ptrdiff_t) (aptr - ptr);
@@ -381,6 +390,9 @@ PHASE(Using)
 {
   ptrdiff_t offset = *(ptrdiff_t *) (aBlock - sizeof (ptrdiff_t));
 
+  if (GCFixedRootFlag)
+    abort ();
+
   if (_obj_debug)
     {
       size_t size = *(size_t *) (aBlock - sizeof (ptrdiff_t) - sizeof (size_t));
@@ -399,18 +411,19 @@ PHASE(Using)
   
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = dalloc (size, GCRootFlag);
+  newBlock = dalloc (size, GCFixedRootFlag);
   if (_obj_debug)
     {
       blockCount++;
       blockTotal += size;
-      memset (newBlock, _obj_fillalloc, size);
+      if (!GCFixedRootFlag)
+	memset (newBlock, _obj_fillalloc, size);
     }
   return newBlock;
 }
 
 //
-// freeBlock: -- free block allocated by allocBlock: or copyBlock:
+// freeBlock: -- free block allocated by allocBlock:
 //
 - (void)freeBlock: (void *)aBlock blockSize: (size_t)size
 {
@@ -420,7 +433,14 @@ PHASE(Using)
       blockTotal -= size;
       memset (aBlock, _obj_fillfree, size);
     }
-  XFREE (aBlock);
+  if (GCFixedRootFlag)
+    {
+      extern void GC_free (void *);
+
+      GC_free (aBlock);
+    }
+  else
+    XFREE (aBlock);
 }
 
 //

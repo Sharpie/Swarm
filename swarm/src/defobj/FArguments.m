@@ -34,9 +34,9 @@ Library:      defobj
 #import "javavars.h" // f_retTypeFid, c_boolean
 #endif
 
-#define ZALLOCBLOCK(aZone, size) [aZone allocBlock: size]
-#define ALLOCBLOCK(size) ZALLOCBLOCK([self getZone], size)
-#define ALLOCTYPE(type) ALLOCBLOCK (fcall_type_size (type))
+#define ALLOCBLOCKGC(size) [_obj_GCFixedRootZone allocBlock: size]
+// Use GC zone for drop consistency on argValues
+#define ALLOCTYPE(type) ALLOCBLOCKGC (fcall_type_size (type))
 
 @implementation FArguments_c
 PHASE(Creating)
@@ -129,7 +129,7 @@ PHASE(Creating)
 
 - setJavaSignature: (const char *)theJavaSignature
 {
-  char *buf = ALLOCBLOCK (strlen (theJavaSignature) + 1);
+  char *buf = ALLOCBLOCKGC (strlen (theJavaSignature) + 1);
 
   strcpy (buf, theJavaSignature);
   javaSignature = buf;
@@ -162,7 +162,8 @@ PHASE(Creating)
     {
       size = fcall_type_size (type);
       argTypes[offset] = type;
-      argValues[offset] = ALLOCBLOCK (size);
+      // use GC zone for consistency with drop
+      argValues[offset] = ALLOCBLOCKGC (size);
       memcpy (argValues[offset], value, size);
       ADD_PRIMITIVE_SIZE (type);
       assignedArgumentCount++;
@@ -283,7 +284,7 @@ PHASE(Creating)
       size = sizeof (jstring);
       ptr = &string;
       argTypes[offset] = fcall_type_jstring;
-      argValues[offset] = ALLOCBLOCK (size);
+      argValues[offset] = ALLOCBLOCKGC (size);
       memcpy (argValues[offset], ptr, size);
       ADD_PRIMITIVE_SIZE (fcall_type_jstring);
       assignedArgumentCount++;
@@ -305,7 +306,7 @@ PHASE(Creating)
   jobj = (*jniEnv)->NewGlobalRef (jniEnv, jobj);
   ptr = &jobj;
   argTypes[offset] = type;
-  argValues[offset] = ALLOCBLOCK (size);
+  argValues[offset] = ALLOCBLOCKGC (size);
   memcpy (argValues[offset], ptr, size);
   ADD_PRIMITIVE_SIZE (type);
   assignedArgumentCount++;
@@ -443,7 +444,7 @@ createJavaSignature (FArguments_c *self)
   unsigned i;
   char *str, *p;
 
-  str = ALLOCBLOCK (self->javaSignatureLength + 1);
+  str = ALLOCBLOCKGC (self->javaSignatureLength + 1);
   p = stpcpy (str, "(");
   for (i = 0; i < self->assignedArgumentCount; i++)
     p = stpcpy (p, java_signature_for_fcall_type (self->argTypes[i + MAX_HIDDEN]));
@@ -519,6 +520,7 @@ PHASE(Using)
   if (!includeBlocks (mapalloc))
     return;
 
+  mapalloc->zone = _obj_GCFixedRootZone;
   for (i = 0; i < assignedArgumentCount; i++)
     {
       unsigned offset = i + MAX_HIDDEN;
