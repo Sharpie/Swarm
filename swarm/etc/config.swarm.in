@@ -1,7 +1,49 @@
-# Config file for applications generated automatically during Swarm 
-# installation
+## Config file for applications - this is processed by `configure'
+## at `installation-time' to generate a Swarm configuration file.
 CC="@CC@"
-SWARM_LDADD="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc @TCLOBJCLIB@ @BLTLIB@ @TKLIB@ @TCLLIB@ -lpng -lz @FFILIB@ @GUILIBS@ -lobjc -lm @LIBS@"
-SWARM_LDFLAGS="-L@prefix@/lib @RPATH@@prefix@/lib -L@tcllibdir@ -R@tcllibdir@ -L@tklibdir@ -R@tklibdir@ -L@bltlibdir@ -R@bltlibdir@ -L@tclobjcdir@/lib -L@ffidir@/lib -R@ffidir@/lib -L@pnglibdir@ -R@pnglibdir@ -L@zliblibdir@  @X_LIBS@" 
 
+## Anciliary variables that need to be set in order for the final
+## (substituted) SWARM_LD{FLAGS,ADD} variable to be set correctly
+config_swarm_libdir="@prefix@/lib"
 
+tcllibdir="@tcllibdir@"
+tklibdir="@tklibdir@"
+bltlibdir="@bltlibdir@"
+tclobjcdir="@tclobjcdir@"
+ffidir="@ffidir@"
+zliblibdir="@zliblibdir@"
+pnglibdir="@pnglibdir@"
+
+config_swarm_TCLLDFLAGS="@TCLLDFLAGS@"
+config_swarm_TKLDFLAGS="@TKLDFLAGS@"
+config_swarm_BLTLDFLAGS="@BLTLDFLAGS@"
+config_swarm_TCLOBJCLDFLAGS="@TCLOBJCLDFLAGS@"
+config_swarm_FFILDFLAGS="@FFILDFLAGS@"
+config_swarm_PNGLDFLAGS="@PNGLDFLAGS@"
+config_swarm_ZLIBLDFLAGS="@ZLIBLDFLAGS@"
+
+config_swarm_TCLLIB="@TCLLIB@"
+config_swarm_TKLIB="@TKLIB@"
+config_swarm_BLTLIB="@BLTLIB@"
+config_swarm_TCLOBJCLIB="@TCLOBJCLIB@"
+config_swarm_FFILIB="@FFILIB@"
+
+config_swarm_PNGLIB="-lpng"
+config_swarm_ZLIBLIB="-lz"
+
+config_swarm_X_LIBS="@X_LIBS@"
+config_swarm_X_EXTRA_LIBS="@X_EXTRA_LIBS@"
+config_swarm_GUILIBS="@GUILIBS@"
+
+config_swarm_SYSLIBS="$config_swarm_TCLOBJCLIB $config_swarm_BLTLIB $config_swarm_TKLIB $config_swarm_TCLLIB $config_swarm_PNGLIB $config_swarm_ZLIBLIB $config_swarm_FFILIB $config_swarm_GUILIBS -lobjc -lm"
+
+config_swarm_SWARMLIBS="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc"
+
+config_swarm_LIBS="@LIBS@"
+
+## The final shell variables which are to be substituted in the application
+## Makefiles(s)
+
+SWARM_LDFLAGS="-L$config_swarm_libdir @RPATH@$config_swarm_libdir $config_swarm_TCLOBJCLDFLAGS $config_swarm_BLTLDFLAGS $config_swarm_TCLLDFLAGS $config_swarm_TKLDFLAGS $config_swarm_FFILDFLAGS $config_swarm_PNGLDFLAGS $config_swarm_ZLIBLDFLAGS $config_swarm_X_LIBS"
+
+SWARM_LDADD="$config_swarm_SWARMLIBS $config_swarm_SYSLIBS $config_swarm_LIBS"

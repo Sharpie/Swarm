@@ -1,2 +1,2 @@
 install-data-local:
-	$(INSTALL) config.swarm $(prefix)
+	$(INSTALL) config.swarm $(prefix)/etc/config.swarm
