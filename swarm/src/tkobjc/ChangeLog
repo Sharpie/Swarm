@@ -1,13 +1,19 @@
 1998-09-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* internal.m (overlap_p): Don't check windows that already
-	are in override_redirect state.
-	(check_for_overlaps): Rename unmappedWindows and unmappedCount
-	to overlapWindows, and overlapCount.
+	* internal.m (overlap_p): Don't check windows that already are in
+	override_redirect state.
+	(check_for_overlaps): Rename unmappedWindows and unmappedCount to
+	overlapWindows, and overlapCount.  
 	(tkobjc_pixmap_create_from_widget): Don't unmap and remap, just
-	set override_redirect state.  Do Tk_RestackWindow while
-	in override_redirect mode, followed by snapshot.
-
+	set override_redirect state.  Do Tk_RestackWindow while in
+	override_redirect mode, followed by snapshot.
+	(get_top_level_window): New function.
+	(tkobjc_pixmap_create_from_widget): Use get_top_level_window, and
+	use it for all WM-related things.  Do keep_inside_screen,
+	Tk_RestackWindow within override_redirect.  Temporarily
+	map toplevel window for snapshot (for WMs with virtual desktops).
+	Copy keep_inside_screen and Tk_RestackWindow to win32 version.
+	
 1998-09-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (overlap_p, check_for_overlaps): New functions.
