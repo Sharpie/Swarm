@@ -29,41 +29,43 @@ PHASE(Creating)
 }
 
 
-- (void)setMaxElement: (int)max
+- setMaxElement: (unsigned)max
 {
   maxElement = max;
+  return self;
 }
 
-- (void)setMinElement: (int)min
+- setMinElement: (unsigned)min
 {
   if (min < 1)
     raiseEvent (InvalidArgument, "> Minimal element of a permutation"
                " must be greater than zero");
   minElement = min;
-
+  return self;
 }
 
-- (void)setUniformRandom: rnd
+- setUniformRandom: rnd
 {
   [shuffler setUniformRandom: rnd];
+  return self;
 }
 
 - createEnd
 {
-  int i;
-  //id obj;
+  unsigned i;
+
   if (maxElement <= minElement)
     raiseEvent (InvalidArgument,
                 " > maximumElement of permutation is less or/n "
                 " > equal to the minimumElement /n");
   
-  [super setCount: maxElement - minElement + 1];
+  [self setCount: maxElement - minElement + 1];
   [super createEnd];
 
   shuffler = [shuffler createEnd];
      
-  for (i = minElement; i <= (int) maxElement; i++)
-    [super atOffset: i - minElement put: (id) i];
+  for (i = minElement; i <= maxElement; i++)
+    [self atOffset: i - minElement put: (id) i];
   
   return self;
 }
@@ -80,16 +82,16 @@ PHASE(Using)
 {
   char buffer[20];
   id index;
-  int elem;
+  unsigned elem;
 
   [outputCharStream catC: "Permutation:\n"];
   index = [self begin: scratchZone];
   [index setLoc:Start];
-  elem = (int) [index next];
+  elem = (unsigned) [index next];
   while (elem) 
     {
-       sprintf (buffer, " %d ", elem);
-       elem = (int) [index next];
+       sprintf (buffer, " %u ", elem);
+       elem = (unsigned) [index next];
        [outputCharStream catC: buffer];
 
     }

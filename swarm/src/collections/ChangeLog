@@ -1,5 +1,14 @@
 1998-12-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Permutation.m ([Permutation_c -setMinElement:]): 
+	([Permutation_c -setMaxElement:]): Take unsigned as argument 
+	instead of int and return self instead of nothing.
+	([Permutation_c -setUniformRandom:]): Return self instead of nothing.
+	([Permutation_c -createEnd]): Use unsigned instead of int for i.
+	Send setCount: and atOffset: to self instead of super.
+	([Permutation_c -describe:]): Make elem unsigned and sprintf format
+	%u instead of %d.
+
 	* collections.m (_collections_implement): Associate ListShuffler_c
 	and ListShuffler.
 

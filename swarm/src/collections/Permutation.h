@@ -13,15 +13,15 @@ Library:      collections
 
 @interface Permutation_c: Array_c
 {
-  int maxElement;                
-  int minElement; 
+  unsigned maxElement;                
+  unsigned minElement; 
   id uniformRandom;
   id shuffler;
 }
 + createBegin: aZone;
-- (void)setMaxElement: (int)max;
-- (void)setMinElement: (int)min;
-- (void)setUniformRandom: rnd;
+- setMaxElement: (unsigned)max;
+- setMinElement: (unsigned)min;
+- setUniformRandom: rnd;
 - createEnd;
 - generatePermutation;
 - (void)describe: outputCharStream;
