@@ -290,10 +290,6 @@
 
 1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* tk/tkInt.h (TkpClipMask, TkpCreateNativePixmap,
-	TkpGetNativeAppBitmap, TkSetPixmapColormap): Use X11Pixmap instead
-	of Pixmap.
-
 	* win32dib.h (dib): New members colorMapOffsets, colorMapObjects,
 	colorMapBlocks and colorMapSize.
 	(dib_setPalette, dib_realizePalette): Remove declarations.
