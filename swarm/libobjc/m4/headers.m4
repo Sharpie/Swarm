@@ -3,6 +3,7 @@ AC_DEFUN(md_CREATE_LIBOBJC_HEADERS,
 
 case "$host_cpu" in
   i486 | i586 | i686) host_cpu=i386 ;;
+  hppa1.1) host_cpu=hppa ;;
 esac
 
 case "$target_os" in

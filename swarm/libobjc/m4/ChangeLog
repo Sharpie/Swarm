@@ -1,3 +1,7 @@
+1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* headers.m4: Convert hppa1.1 cpu into hppa.
+
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* headers.m4 (md_CREATE_LIBOBJC_HEADERS): Convert solaris2.5.1 and
