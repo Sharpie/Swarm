@@ -449,10 +449,6 @@ CREATING
 @end
 
 @protocol _InputWidget
-//S: Abstract superclass for widgets that take input.
-
-//D: InputWidgets get their input in one of two ways: by being readable, or
-//D: by being linked to a C variable.
 CREATING
 - createEnd;
 
@@ -474,6 +470,13 @@ USING
 - setValue: (const char *)v;
 @end
 
+@protocol InputWidget <_InputWidget, Widget>
+//S: Abstract superclass for widgets that take input.
+
+//D: InputWidgets get their input in one of two ways: by being readable, or
+//D: by being linked to a C variable.
+@end
+
 @protocol _Entry
 CREATING
 - createEnd;
@@ -486,7 +489,7 @@ USING
 - setHeight: (unsigned)h; // since this isn't possible with Tk, it will abort.
 @end
 
-@protocol Entry <_Entry, _InputWidget, Widget>
+@protocol Entry <_Entry, InputWidget>
 //S: Handles text-field input.
 
 //D: Handles text-field input.
@@ -583,7 +586,7 @@ USING
 - setBoolValue: (BOOL)v;
 @end
 
-@protocol CheckButton <_CheckButton, Widget>
+@protocol CheckButton <_CheckButton, InputWidget>
 //S: A check box on/off selection widget.
 
 //D: A check box on/off selection widget.
