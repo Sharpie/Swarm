@@ -93,8 +93,8 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
 
-  createArchivedProbeDisplay (heatbugModelSwarm);
-  createArchivedProbeDisplay (self);
+  CREATE_ARCHIVED_PROBE_DISPLAY (heatbugModelSwarm);
+  CREATE_ARCHIVED_PROBE_DISPLAY (self);
  
   // Instruct the control panel to wait for a button event: we halt here
   // until someone hits a control panel button so the user can get a

@@ -303,7 +303,7 @@
   // attach the AC
   [modelActCont attachToActivity: [self getSwarmActivity]];
   // create a probe display for the AC
-  createArchivedProbeDisplay(modelActCont);
+  CREATE_ARCHIVED_PROBE_DISPLAY (modelActCont);
   
   // Finally, return our activity.
   return [self getSwarmActivity];

@@ -117,8 +117,8 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
   
-  createArchivedProbeDisplay (mousetrapModelSwarm);
-  createArchivedProbeDisplay (self);
+  CREATE_ARCHIVED_PROBE_DISPLAY (mousetrapModelSwarm);
+  CREATE_ARCHIVED_PROBE_DISPLAY (self);
 
   // Instruct the control panel to wait for a button event: we halt here
   // until someone hits a control panel button so the user can get a
@@ -339,7 +339,7 @@
   //   If some other object (like another program) were to control the
   //   activity, then this would be replaced with whatever instantiated
   //   the interface for that object (like a tcp/ip address or a socket).
-  createArchivedProbeDisplay (observerActCont);
+  CREATE_ARCHIVED_PROBE_DISPLAY (observerActCont);
   
   return [self getSwarmActivity];
 }

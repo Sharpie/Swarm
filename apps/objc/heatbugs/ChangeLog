@@ -6,7 +6,7 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]): 
-	Use createArchivedProbeDisplay to create probe displays for
+	Use CREATE_ARCHIVED_PROBE_DISPLAY to create probe displays for
 	heatbugModelSwarm and heatbugObserverSwarm.
 
 	* Makefile (SWARMHOME): Default is swarm-1.0.5.

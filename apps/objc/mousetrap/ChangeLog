@@ -18,7 +18,7 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MousetrapModelSwarm.m ([MousetrapModelSwarm -activateIn:]): Use
-	createArchivedProbeDisplay to create probe display for
+	CREATE_ARCHIVED_PROBE_DISPLAY to create probe display for
 	modelActCont.
 
 	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm -buildObjects]): 
