@@ -6,7 +6,7 @@ if test "x$ACLOCAL" = xaclocal; then
   ACLOCAL="aclocal -I m4"
 fi
 
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(swarmconfig.h)
 
 AC_PROG_CC
 AM_PROG_LIBTOOL

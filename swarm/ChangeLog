@@ -1,5 +1,9 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
+	* Makefile.am (install-data-local): Install Makefile.appl and
+	Makefile.lib to etcdir, not prefix.
+	(install-data-local): Install swarmconfig.h instead of config.h.
+
 	* configure.in: Test for memcpy, memset, strcmp, and strlen
 	while -fno-builtin is set.
 
