@@ -1,7 +1,7 @@
 AC_DEFUN(md_CHECK_DLL,
 [AC_MSG_CHECKING(for DLL options)
 AC_TRY_COMPILE([#ifdef __CYGWIN__
-#error
+/* #error */
 #endif
 ],[],
 [EXPORT_EXTERN=extern
