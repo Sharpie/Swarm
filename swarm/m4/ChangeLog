@@ -1,5 +1,8 @@
 1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* acpng.m4: Let check for zlib and png fail.
+	(PNGLIB, ZLIBLIB): New substitutions.
+
 	* acfind.m4: Check in /usr/lib32 before /usr/lib.
 
 1999-10-14  Alex Lancaster  <alex@ip89.santafe.edu>
