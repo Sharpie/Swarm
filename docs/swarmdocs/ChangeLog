@@ -1,3 +1,10 @@
+1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.rules (htmldir, html_DATA, dvidir, dvi_DATA, psdir, ps_DATA,
+	rtfdir, rtf_DATA): New variables (handle installation).
+	(install-data-local): New target.
+	(CLEANFILES): Update per new variables.
+
 1998-06-16  Marcus G. Daniels  <mgd@lucero.santafe.edu>
 
 	* print.dsl (toc-depth): 1 for book.

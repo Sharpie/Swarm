@@ -11,7 +11,22 @@ GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl
 
 COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
 
-CLEANFILES = *.html $(NAME).tex _$(NAME).tex $(NAME).rtf
+htmldir = $(prefix)/html/$(NAME)
+html_DATA = $(NAME).html
+
+install-data-local:
+	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
+
+dvidir = $(prefix)/dvi
+dvi_DATA = $(NAME).dvi
+
+psdir = $(prefix)/ps
+ps_DATA = $(NAME).ps
+
+rtfdir = $(prefix)/rtf
+rtf_DATA = $(NAME).rtf
+
+CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(ps_DATA) $(rtf_DATA) $(NAME).dvi
 
 _$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)
 
