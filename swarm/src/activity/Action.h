@@ -55,8 +55,9 @@ Library:      activity
 
 @interface ActionCall_c: CFAction
 {
+  func_t funcPtr;
 }
-- (void)setFunctionPointer: (func_t)fptr;
+- (void)setFunctionPointer: (func_t)funcPtr;
 - createEnd;
 - (func_t)getFunctionPointer;
 - (void)describe: outputCharStream;

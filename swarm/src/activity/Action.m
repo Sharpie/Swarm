@@ -133,9 +133,9 @@ PHASE(Using)
 
 @implementation ActionCall_c
 PHASE(Creating)
-- (void)setFunctionPointer: (func_t)fptr
+- (void)setFunctionPointer: (func_t)theFuncPtr
 {
-  [call setFunctionPointer: fptr];
+  funcPtr = theFuncPtr;
 }
 
 - createEnd
@@ -149,6 +149,7 @@ PHASE(Creating)
   arguments = [arguments createEnd];
 
   call = [FCall createBegin: getZone (self)];
+  [call setFunctionPointer: funcPtr];
   [call setArguments: arguments];
   call = [call createEnd];
   return self;
@@ -157,7 +158,7 @@ PHASE(Creating)
 PHASE(Using)
 - (func_t)getFunctionPointer
 {
-  return [call getFunctionPointer];
+  return funcPtr;
 }
 
 static void

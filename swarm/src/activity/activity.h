@@ -187,6 +187,14 @@ USING
 - (func_t)getFunctionPointer;
 @end
 
+@protocol ActionCreatingFAction
+//S: An action that calls a FCall.
+
+//D: The createFAction: message creates an action that runs a FCall closure.
+USING
+- (id <FAction>)createFAction: (id <FCall>)call;
+@end
+
 @protocol ActionCreatingCall
 //S: An action that calls a C function.
 
@@ -249,7 +257,7 @@ USING
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 @end
 
-@protocol ActionCreating <ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach>
+@protocol ActionCreating <ActionCreatingFAction, ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach>
 //S: Protocol shared by ActionGroup and Schedule.
 
 //D: ActionCreating defines the createAction messages for ActionGroup just
@@ -776,6 +784,7 @@ CREATING
 USING
 - at: (timeval_t)tVal createAction: anActionType;
 
+- (id <FAction>)at: (timeval_t)tVal createFAction: (id <FCall>)call;
 - (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr;
 - (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1;
 - (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2;

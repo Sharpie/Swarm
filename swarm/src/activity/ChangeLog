@@ -1,5 +1,9 @@
 1999-10-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* activity.h (ActionCreatingFAction): New protocol.
+	(ActionCreating): Adopt it.
+	(Schedule): Add at:createFAction: declaration.
+
 	* CompoundAction.m (getDefaultOrder): New function.
 
 	* Action.m ([ActionForEach_c -getDefaultOrder]): Use it.
