@@ -14,6 +14,7 @@
 #import <defobj/directory.h> // SD_SUPERCLASS
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // SD_JAVA_ENSURE_SELECTOR_OBJC, SD_JAVA_FIND_OBJECT_JAVA, java_field_usable_p
+#import "../defobj/COM.h" // SD_COM_FIND_CLASS_COM, COM_collect_methods
 #import "../defobj/javavars.h" // m_*, c_*
 #endif
 
@@ -173,6 +174,50 @@ PHASE(Creating)
   return self;
 }
 
+- (void)_addVarProbe_: (Class)aClass variableName: (const char *)name
+{
+  id <VarProbe> varProbe = [VarProbe createBegin: getZone (self)];
+  id <String> key = [String create: getZone (self) setC: name];
+
+  [varProbe setProbedClass: probedClass];
+  [varProbe setProbedVariable: name];
+	  
+  if (objectToNotify != nil) 
+    [varProbe setObjectToNotify: objectToNotify];
+  varProbe = [varProbe createEnd];
+  
+  if (![probes at: key insert: varProbe])
+    {
+      [varProbe drop];
+      [key drop];
+    }
+  else
+    count++;
+}
+
+- (void)_addMessageProbe_: (Class)aClass selector: (SEL)aSel
+{
+  id <MessageProbe> messageProbe = [MessageProbe createBegin: getZone (self)];
+  id <String> key;
+  
+  [messageProbe setProbedClass: aClass];
+  [messageProbe setProbedSelector: aSel];
+  if (objectToNotify != nil) 
+    [messageProbe setObjectToNotify: objectToNotify];
+  messageProbe = [messageProbe createEnd];
+
+  key = [String create: getZone (self) setC: [messageProbe getProbedMessage]];
+  
+  if (![probes at: key insert: messageProbe])
+    {
+      [messageProbe drop];
+      [key drop];
+    }
+  else
+    count ++;
+}
+
+
 #ifdef HAVE_JDK
 
 - (void)addJavaFields: (jclass)javaClass
@@ -198,25 +243,14 @@ PHASE(Creating)
 	  jstring name;
 	  const char *buf;
 	  jboolean isCopy;
-	  id aProbe;
 
           name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
 	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-	  aProbe = [VarProbe createBegin: getZone (self)];
-	  [aProbe setProbedClass: probedClass];
-	  [aProbe setProbedVariable: buf];
-	  
-	  if (objectToNotify != nil) 
-	    [aProbe setObjectToNotify: objectToNotify];
-	  aProbe = [aProbe createEnd];
-	  
-	  [probes at: [String create: getZone (self) setC: buf]
-		  insert: aProbe];
+          [self _addVarProbe_: probedClass variableName: buf];
 	  
 	  if (isCopy)
 	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
 	  (*jniEnv)->DeleteLocalRef (jniEnv, name);
-          count++;
 	}
       (*jniEnv)->DeleteLocalRef (jniEnv, field);
     }
@@ -253,7 +287,6 @@ PHASE(Creating)
 	      jstring name = (*jniEnv)->CallObjectMethod (jniEnv,
 							  method, 
 							  m_MethodGetName);
-	      id aProbe;
 
               selector = (*jniEnv)->NewObject (jniEnv,
                                                c_Selector, 
@@ -267,22 +300,8 @@ PHASE(Creating)
                 {
                   sel = SD_JAVA_ENSURE_SELECTOR_OBJC (selector);
                   (*jniEnv)->DeleteLocalRef (jniEnv, selector);
-                  
-                  aProbe = [MessageProbe createBegin: getZone (self)];
-                  [aProbe setProbedClass: probedClass];
-                  [aProbe setProbedSelector: sel];
-                  if (objectToNotify != nil) 
-                    [aProbe setObjectToNotify: objectToNotify];
-                  
-                  aProbe = [aProbe createEnd];
-              
-                  if (!aProbe)
-                    abort ();
-                  
-                  [probes at: [String create: getZone (self)
-                                      setC: [aProbe getProbedMessage]]
-                          insert: aProbe];
-                  count++;
+
+                  [self _addMessageProbe_: probedClass selector: sel];
                 }
             }
 	  (*jniEnv)->DeleteLocalRef (jniEnv, method);
@@ -299,22 +318,10 @@ PHASE(Creating)
   if ((ivarList = aClass->ivars))
     {
       unsigned i;
-      count += ivarList->ivar_count;
       
       for (i = 0; i < ivarList->ivar_count; i++)
-        {
-          const char *name = ivarList->ivar_list[i].ivar_name;
-          id aProbe = [VarProbe createBegin: getZone (self)];
-
-          [aProbe setProbedClass: aClass];
-          [aProbe setProbedVariable: name];
-          if (objectToNotify != nil) 
-            [aProbe setObjectToNotify: objectToNotify];
-          aProbe = [aProbe createEnd];
-          
-          [probes at: [String create: getZone (self) setC: name]
-                  insert: aProbe];
-        }
+          [self _addVarProbe_: aClass
+                variableName: ivarList->ivar_list[i].ivar_name];
     }
 }
 
@@ -325,26 +332,44 @@ PHASE(Creating)
   if ((methodList = aClass->methods))
     {
       unsigned i;
-      count += methodList->method_count;
       
       for (i = methodList->method_count; i > 0; i--)
-        {
-          id aProbe = [MessageProbe createBegin: getZone (self)];
-
-          [aProbe setProbedClass: aClass];
-          [aProbe setProbedSelector:
-                    methodList->method_list[i - 1].method_name];
-          if (objectToNotify != nil) 
-            [aProbe setObjectToNotify: objectToNotify];
-          aProbe = [aProbe createEnd];
-          
-          [probes at: [String create: getZone (self)
-                              setC: [aProbe getProbedMessage]]
-                  insert: 
-                    aProbe];
-        }
+        [self _addMessageProbe_: aClass
+              selector: methodList->method_list[i - 1].method_name];
     }
 }
+
+- (void)addCOMFields: (Class)aClass
+{
+  COMclass cClass = SD_COM_FIND_CLASS_COM (aClass);
+  
+  void collect_method (COMobject obj, const char *name)
+    {
+      [self _addVarProbe_: aClass variableName: name];
+    }
+
+  if (!cClass)
+    abort ();
+
+  COM_collect_methods (cClass, collect_method, YES);
+}
+
+- (void)addCOMMethods: (Class)aClass
+{
+  COMclass cClass = SD_COM_FIND_CLASS_COM (aClass);
+
+  void collect_method (COMobject obj, const char *name)
+    {
+      // [self _addMessageProbe_: aClass selector: ??
+      printf ("method: `%s'\n", name);
+    }
+
+  if (!cClass)
+    abort ();
+  
+  COM_collect_methods (cClass, collect_method, NO);
+}
+
   
 - createEnd
 {
@@ -367,18 +392,23 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if ([probedClass respondsTo: M(isJavaProxy)])
     { 
-      classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
-      if (!classObject)
-	raiseEvent (SourceMessage,
-		    "Java class to be probed can not be found.\n");      
+      jclass classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
+
       [self addJavaFields: classObject];
       [self addJavaMethods: classObject];
       return self;
     }
 #endif
-  [self addObjcFields: probedClass];
-  [self addObjcMethods: probedClass];
-
+  else if (COM_init_p () && SD_COM_FIND_CLASS_COM (probedClass))
+    {
+      [self addCOMFields: probedClass];
+      [self addCOMMethods: probedClass];
+    }
+  else
+    {
+      [self addObjcFields: probedClass];
+      [self addObjcMethods: probedClass];
+    }
   return self;
 }
 

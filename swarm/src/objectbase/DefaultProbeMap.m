@@ -36,7 +36,8 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if ([probedClass respondsTo: M(isJavaProxy)])
     { 
-      classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+      jclass classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
+
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      

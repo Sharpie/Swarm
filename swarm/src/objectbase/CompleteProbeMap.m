@@ -40,7 +40,7 @@ PHASE(Creating)
   if ([probedClass respondsTo: M(isJavaProxy)])
     {
       jclass currentClass, nextClass;
-      classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
+      jclass classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
       
       if (!classObject)
 	raiseEvent (SourceMessage,

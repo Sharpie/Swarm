@@ -24,8 +24,6 @@
   unsigned count;
   id probes;
   id objectToNotify;  //could be an object or a list
-
-  void *classObject;
 }
 
 + createBegin: aZone;
@@ -72,13 +70,19 @@
 - (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
 - begin: aZone;
 
+- (void)_addVarProbe_: (Class)aClass variableName: (const char *)aName;
+- (void)_addMessageProbe_: (Class)aClass selector: (SEL)aSel;
+
 #if defined(HAVE_JDK) && defined(BUILDING_SWARM)
 - (void)addJavaFields: (jclass)javaClass;
 - (void)addJavaMethods: (jclass)javaClass;
 #endif
 
-- (void)addObjcFields: (Class)objcClass;
-- (void)addObjcMethods: (Class)objcClass;
+- (void)addObjcFields: (Class)oClass;
+- (void)addObjcMethods: (Class)oClass;
+
+- (void)addCOMFields: (Class)oClass;
+- (void)addCOMMethods: (Class)oClass;
 
 - (void)describeForEach: stream;
 @end
