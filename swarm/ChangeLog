@@ -1,3 +1,9 @@
+1999-09-16  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (libobjc): Add `--enable-static' to list of flags
+	passed-through to the configure in the libobjc subdirectory.
+	(avcall): Likewise.
+
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Don't substitute Globals.java.
