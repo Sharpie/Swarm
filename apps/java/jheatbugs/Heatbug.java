@@ -94,10 +94,8 @@ public class Heatbug
     private Grid2d _world;
     // The heat of each cell of the 2-dimensional world:
     private HeatSpace _heatSpace;
-   // My personal index to the ColorMap defined in HeatbugModelSwarm:
-    private byte _colorIndex;
-    public void setColorIndex (byte colorIndex)
-    { _colorIndex = colorIndex; }
+   // My personal index to the ColorMap defined in HeatbugObserverSwarm:
+    public byte colorIndex;
     // The model I belong to:
     private HeatbugModelSwarm _model;
     // My index in the Heatbug list:
@@ -303,7 +301,7 @@ public synchronized void heatbugStep ()
 
 public Object drawSelfOn (Raster raster)
 {
-    raster.drawPointX$Y$Color (x, y, _colorIndex);
+    raster.drawPointX$Y$Color (x, y, colorIndex);
     return this;
 }
 

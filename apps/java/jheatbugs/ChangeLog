@@ -6,8 +6,11 @@
 	(buildActions): Remove now-obsolete boolean argument from FArguments.
 
 	* Heatbug.java: Change variables _x, _y, _unhappiness, 
-	_idealTemperature, _outputHeat, and _randomMoveProbability
-	to be public, removing leading "_".
+	_idealTemperature, _outputHeat, _randomMoveProbability, and _colorIndex
+	to be public, removing leading "_".  Remove setter for _colorIndex.
+	Fix comment about owner of Colormap.
+
+	* HeatbugObserverSwarm.java (buildObjects): Set the color directly.
 
 	* Makefile (all): Don't run executable by default.
 

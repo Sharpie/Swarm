@@ -258,7 +258,7 @@ public Object buildObjects ()
     for (int i = 0; i < heatbugList.size (); i++)
     {
         Heatbug bug = (Heatbug) heatbugList.get (i);
-        bug.setColorIndex 
+        bug.colorIndex =
          ((byte) 
           (64 + 63 * 
            (bug.getIdealTemperature () - heatbugModelSwarm.minIdealTemp) 
