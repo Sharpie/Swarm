@@ -160,7 +160,7 @@ PHASE(Using)
 {
   char buf[20];
 
-  sprintf (buf, "%p", ptr);
+  sprintf (buf, PTRHEXFMT, ptr);
   [self catC: buf];
 }
 
