@@ -357,8 +357,8 @@ extern void _initSwarm_ (int argc, const char **argv, const char *appName,
 #else
 #define APPVERSION_STRING NULL
 #endif
-#ifdef BUGADDRESS_STRING
-#define BUGADDRESS_STRING STRINGIFYSYM(APPVERSION)
+#ifdef BUGADDRESS
+#define BUGADDRESS_STRING STRINGIFYSYM(BUGADDRESS)
 #else
 #define BUGADDRESS_STRING NULL
 #endif
