@@ -971,7 +971,8 @@
         do
         (setq *last-protocol* protocol)
         (java-print-interface protocol)
-        (java-print-class protocol)))
+        (when (creatable-p protocol)
+          (java-print-class protocol))))
 
 (defun java-run-all-unicode ()
   (java-run-all :unicode t))
