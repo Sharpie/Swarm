@@ -16,26 +16,29 @@ if test $jdkdir = no; then
   JAVASWARMLIBS=
   JAVASWARMSCRIPTS=
 else
+  expand_jdkdir=`eval echo $jdkdir`
   USEDOSCLASSPATH=no
   JAVASWARM_DLL_LOADNAME=javaswarm # a default is needed for Globals.java
-  if test $jdkdir = /usr && test -d /usr/include/java; then
+  if test $expand_jdkdir = /usr && test -d /usr/include/java; then
     jdkincludedir=$jdkdir/include/java
+    expand_jdkincludedir=$expand_jdkdir/include/java
   else
     jdkincludedir=$jdkdir/include
+    expand_jdkincludedir=$expand_jdkdir/include
   fi
-  if test -f $jdkincludedir/jni.h; then
+  if test -f $expand_jdkincludedir/jni.h; then
     JAVAINCLUDES="-I$jdkincludedir"
-    if test -f $jdkincludedir/linux/jni_md.h; then
+    if test -f $expand_jdkincludedir/linux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/linux"
-      if test -d ${jdkdir}/bin/i386/native_threads; then
+      if test -d ${expand_jdkdir}/bin/i386/native_threads; then
 	threads=native
-      elif test -d ${jdkdir}/bin/i386/green_threads; then
+      elif test -d ${expand_jdkdir}/bin/i386/green_threads; then
         threads=green
       else
         AC_MSG_ERROR([Can't find threads])
       fi
       proc=i386
-    elif test -f $jdkincludedir/solaris/jni_md.h; then
+    elif test -f $expand_jdkincludedir/solaris/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
       if test -d ${jdkdir}/bin/sparc/native_threads; then
 	threads=native
@@ -45,25 +48,25 @@ else
         AC_MSG_ERROR([Can't find threads])
       fi
       proc=sparc
-    elif test -f $jdkincludedir/alpha/jni_md.h; then
+    elif test -f $expand_jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
       JAVALIBS='${jdkdir}/shlib'
       threads=native
       proc=alpha
-    elif test -f $jdkincludedir/hp-ux/jni_md.h; then
+    elif test -f $expand_jdkincludedir/hp-ux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/hp-ux"
-      if test -d ${jdkdir}/lib/PA_RISC/native_threads; then
+      if test -d ${expand_jdkdir}/lib/PA_RISC/native_threads; then
         threads=native
       else
         threads=green
       fi
       proc=PA_RISC
       LD_LIBRARY_PATH_VARNAME=SHLIB_PATH
-    elif test -f $jdkincludedir/winnt/jni_md.h; then
+    elif test -f $expand_jdkincludedir/winnt/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
       JAVALIBS=no
       JAVACMD='${jdkdir}/bin/java'
-    elif test -f $jdkincludedir/win32/jni_md.h; then
+    elif test -f $expand_jdkincludedir/win32/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/win32"
       JAVALIBS=no
       JAVACMD='${jdkdir}/bin/java'
@@ -77,15 +80,15 @@ else
       JAVALIBS=
     else
       if test -z "$JAVALIBS"; then
-        if test -d "${jdkdir}/jre/lib/${proc}"; then
-          if test -d "${jdkdir}/jre/lib/${proc}/${threads}_threads"; then
+        if test -d "${expand_jdkdir}/jre/lib/${proc}"; then
+          if test -d "${expand_jdkdir}/jre/lib/${proc}/${threads}_threads"; then
             JAVALIBS="\${jdkdir}/jre/lib/${proc}/${threads}_threads"
           fi
-          if test -d "${jdkdir}/jre/lib/${proc}/classic"; then
+          if test -d "${expand_jdkdir}/jre/lib/${proc}/classic"; then
             JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}/classic"
           fi
           JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}"
-        elif test -d "${jdkdir}/lib/${proc}/${threads}_threads"; then
+        elif test -d "${expand_jdkdir}/lib/${proc}/${threads}_threads"; then
           JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
         else
           AC_MSG_ERROR([Cannot find JDK library])
@@ -93,7 +96,7 @@ else
       fi
     fi
     test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/${proc}/${threads}_threads/java"
-    if test -f ${jdkdir}/jre/lib/rt.jar; then
+    if test -f ${expand_jdkdir}/jre/lib/rt.jar; then
       JAVACLASSES=${jdkdir}/jre/lib/rt.jar
     else
       JAVACLASSES=${jdkdir}/lib/classes.zip
@@ -114,7 +117,7 @@ else
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBPREFIX=''
     JAVALIBPATH_VAR=
-  elif test -f $jdkincludedir/japhar/jni.h; then
+  elif test -f $expand_jdkincludedir/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkincludedir/japhar"
     JAVACLASSES="`$jdkdir/bin/japhar-config info datadir`"
     JAVACMD='${jdkdir}/bin/japhar'
@@ -125,7 +128,7 @@ else
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=japhar_
     JAVALIBPATH_VAR=
-  elif test -f $jdkincludedir/kaffe/jni.h ; then
+  elif test -f $expand_jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
     kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $jdkdir/bin/kaffe`
     kaffe_datadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
@@ -144,11 +147,11 @@ else
     AC_DEFINE(HAVE_KAFFE)
     JAVACLASSES="$jdkdatadir${PATHDELIM}Klasses.jar${PATHSEP}$jdkdatadir${PATHDELIM}pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
-    if test -x "${jdkdir}/libexec/Kaffe"; then
+    if test -x "${expand_jdkdir}/libexec/Kaffe"; then
       JAVACMD='${jdkdir}/libexec/Kaffe'
-    elif test -x "${jdkdir}/lib/kaffe/Kaffe"; then
+    elif test -x "${expand_jdkdir}/lib/kaffe/Kaffe"; then
       JAVACMD='${jdkdir}/lib/kaffe/Kaffe'
-    elif test -x "${jdkdir}/lib/kaffe/bin/Kaffe"; then
+    elif test -x "${expand_jdkdir}/lib/kaffe/bin/Kaffe"; then
       JAVACMD='${jdkdir}/lib/kaffe/bin/Kaffe'
     else
       AC_MSG_ERROR([Cannot find Kaffe executable])
