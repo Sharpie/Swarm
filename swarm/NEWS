@@ -29,11 +29,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
       application-specific configuration files.
 
 *** simtools
-**** New methods in UName
-***** +create:setConfigBaseName: requests a base name derived from the
-      expected path for Swarm configuraiton files.
-***** +create:setConfigAppBaseName: requests a base name derived from the 
-      expected path for configuration files of the current Swarm application.
+**** ObjectLoader now has a +load:fromAppConfigFileNamed: method for
+     loading an object from the path for application-specific
+     configuration files.
 
 *** simtoolsgui
 **** A new widget, MultiVarProbeWidget displays a matrix of 
