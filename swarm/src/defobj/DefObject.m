@@ -836,11 +836,163 @@ struct array_element {
 };
 
 static const char *
-output_type (const char *type,
-             const void *ptr,
-             unsigned offset,
-             void *data,
-             id <OutputStream> stream)
+process_array (const char *type,
+               void (*start_array) (unsigned rank),
+               void (*end_array) (unsigned rank),
+               void (*start_dim) (unsigned dimnum),
+               void (*end_dim) (unsigned dimnum),
+               void (*start_element) (void),
+               void (*end_element) (void),
+               const char * (*output_type) (const char *type,
+                                            unsigned offset,
+                                            void *data),
+               const void *ptr,
+               void *data)
+{
+  char *tail;
+  struct array_element array_element;
+  
+  errno = 0;
+  array_element.count = strtoul (type + 1, &tail, 10);
+  if (errno != 0)
+    raiseEvent (InvalidArgument, "Value out of range [%s]", type + 1);
+  
+  array_element.prev = data;
+  
+  if (*tail != _C_ARY_B)
+    {
+      struct array_element *aeptr;
+      unsigned rank = 0;
+      const char *ret = NULL;
+      
+      aeptr = &array_element;
+      while (aeptr)
+        {
+          rank++;
+          aeptr = aeptr->prev;
+        }
+      aeptr = &array_element;
+      {
+        unsigned dims[rank];
+        unsigned i;
+        
+        i = rank;
+        while (aeptr)
+          {
+            i--;
+            dims[i] = aeptr->count;
+            aeptr = aeptr->prev;
+          }
+        start_array (rank);
+        {
+          unsigned coord[rank];
+          
+          void permute (unsigned dim)
+            {
+              unsigned i;
+              
+              if (dim < rank)
+                {
+                  start_dim (dim);
+                  for (i = 0; i < dims[dim]; i++)
+                    {
+                      coord[dim] = i;
+                      permute (dim + 1);
+                    }
+                  end_dim (dim);
+                }
+              else
+                {
+                  unsigned offset = 0;
+                  unsigned mult = 1;
+                  
+                  offset = coord[rank - 1];
+                  for (i = rank - 1; i > 0; i--)
+                    {
+                      mult *= dims[i];
+                      offset += coord[i - 1] * mult;
+                    }
+                  start_element ();
+                  ret = output_type (tail, offset, NULL);
+                  end_element ();
+                }
+            }
+          permute (0);
+        }
+      }
+      return ret;
+    }
+  else
+    return output_type (tail, 0, &array_element);
+}
+
+
+static const char *
+lisp_output_type (const char *type,
+                  const void *ptr,
+                  unsigned offset,
+                  void *data,
+                  id <OutputStream> stream);
+
+static void
+lisp_process_array (const char *type,
+                    const void *ptr, void *data,
+                    id <OutputStream> stream)
+{
+  const char *space;
+  
+  void lisp_start_array (unsigned rank)
+    {
+      char buf[1 + rank + 1]; // always big enough
+      
+      sprintf (buf, "#%u", rank);
+      [stream catC: buf];
+    }
+  void lisp_end_array (unsigned rank)
+    {
+    }
+  void lisp_start_dim ()
+    {
+      [stream catC: "("];
+      space = "";
+    }
+  void lisp_end_dim ()
+    {
+      [stream catC: ")"];
+    }
+  void lisp_start_element ()
+    {
+      [stream catC: space];
+    }
+  void lisp_end_element ()
+    {
+      space = " ";
+    }
+  const char *lisp_array_output_type (const char *type,
+                                      unsigned offset,
+                                      void *data)
+    {
+      return lisp_output_type (type, ptr, offset, data, stream);
+    }
+    
+  process_array (type,
+                 lisp_start_array,
+                 lisp_end_array,
+                 lisp_start_dim,
+                 lisp_end_dim,
+                 lisp_start_element,
+                 lisp_end_element,
+                 lisp_array_output_type,
+                 ptr,
+                 data);
+}
+
+static const char *
+lisp_output_type (const char *type,
+                  const void *ptr,
+                  unsigned offset,
+                  void *data,
+                  id <OutputStream> stream)
 {
   char buf[22];  // 2^64
 
@@ -931,90 +1083,7 @@ output_type (const char *type,
       raiseEvent (NotImplemented, "Atoms not supported");
       break;
     case _C_ARY_B:
-      {
-        char *tail;
-        struct array_element array_element;
-
-        errno = 0;
-        array_element.count = strtoul (type + 1, &tail, 10);
-        if (errno != 0)
-          raiseEvent (InvalidArgument, "Value out of range [%s]", type + 1);
-        
-        array_element.prev = data;
-        
-        if (*tail != _C_ARY_B)
-          {
-            struct array_element *aeptr;
-            unsigned rank = 0;
-            const char *ret = NULL;
-            
-            aeptr = &array_element;
-            while (aeptr)
-              {
-                rank++;
-                aeptr = aeptr->prev;
-              }
-            aeptr = &array_element;
-            {
-              unsigned dims[rank];
-              unsigned i;
-
-              i = rank;
-              while (aeptr)
-                {
-                  i--;
-                  dims[i] = aeptr->count;
-                  aeptr = aeptr->prev;
-                }
-              {
-                char buf[1 + rank + 1]; // always big enough
-                
-                sprintf (buf, "#%u", rank);
-                [stream catC: buf];
-              }
-              {
-                unsigned coord[rank];
-                const char *space;
-
-                void permute (unsigned dim)
-                  {
-                    unsigned i;
-
-                    if (dim < rank)
-                      {
-                        [stream catC: "("];
-                        space = "";
-                        for (i = 0; i < dims[dim]; i++)
-                          {
-                            coord[dim] = i;
-                            permute (dim + 1);
-                          }
-                        [stream catC: ")"];
-                      }
-                    else
-                      {
-                        unsigned offset = 0;
-                        unsigned mult = 1;
-
-                        offset = coord[rank - 1];
-                        for (i = rank - 1; i > 0; i--)
-                          {
-                            mult *= dims[i];
-                            offset += coord[i - 1] * mult;
-                          }
-                        [stream catC: space];
-                        ret = output_type (tail, ptr, offset, NULL, stream);
-                        space = " ";
-                      }
-                  }
-                permute (0);
-              }
-            }
-            return ret;
-          }
-        else
-          return output_type (tail, ptr, 0, &array_element, stream);
-      }
+      lisp_process_array (type, ptr, data, stream);
       break;
     case _C_ARY_E:
       abort ();
@@ -1059,11 +1128,11 @@ output_type (const char *type,
           [stream catC: " #:"];
           [stream catC: ivar_list[i].ivar_name];
           [stream catC: " "];
-          output_type (ivar_list[i].ivar_type,
-                       (void *) self + ivar_list[i].ivar_offset,
-                       0,
-                       NULL,
-                       stream);
+          lisp_output_type (ivar_list[i].ivar_type,
+                            (void *) self + ivar_list[i].ivar_offset,
+                            0,
+                            NULL,
+                            stream);
         }
     }
   

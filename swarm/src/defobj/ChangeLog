@@ -1,3 +1,12 @@
+1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* DefObject.m (process_array): New function.
+	(lisp_process_array): Use it, providing
+	lisp{start,end}{array,dim,element} and output_type
+	functions.
+	(lisp_output_type): Renamed from output type.
+	Use lisp_process_array for arrays instead of own code.
+
 1999-01-09  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m (output_type, [Object_s -lispIn:]):
