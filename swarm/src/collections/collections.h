@@ -992,6 +992,8 @@ USING
 //G: Tokens used by the archiving parser.
 extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 
+#define ARCHIVERLITERALP(obj) ((id)(obj) == (id)ArchiverLiteral)
+
 @protocol String <Create, Drop, Copy, CREATABLE>
 //S: Character string object (later to support collection behavior).
 

@@ -11,7 +11,8 @@
 
 	* Map.h, List_GEN.h, Set.h: Reformatting throughout.
 
-	* collections.h (INDEXSTARTP, INDEXENDP, REMOVEDP): New macros.
+	* collections.h (INDEXSTARTP, INDEXENDP, REMOVEDP,
+	ARCHIVERLITERALP): New macros.
 
 	* Collection.m: Reformatting throughout.
 	([Index_any -findNext:]): Use INDEXENDP.
