@@ -1,3 +1,10 @@
+2000-01-22    <mgd@nest.swarm.org>
+
+	* Stream.m ([ArchiverKeyword_c -setKeywordName:]): Copy	argument.
+	([ArchiverKeyword_c -drop]): And drop it.
+
+	* Stream.[hm], collections.h: Add getRank.
+
 2000-01-16    <mgd@nest.swarm.org>
 
 	* Map.m, List.m ([... hdf5OutShallow:]): Use setPrototType:

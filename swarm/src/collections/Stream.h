@@ -24,6 +24,7 @@
 }
 - setArray: array;
 - (void *)getData;
+- (unsigned)getRank;
 - (unsigned *)getDims;
 - (size_t)getElementSize;
 - (unsigned)getElementCount;

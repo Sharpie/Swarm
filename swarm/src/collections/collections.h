@@ -1096,6 +1096,7 @@ CREATING
 - setArray: array;
 USING
 - (void *)getData;
+- (unsigned)getRank;
 - (unsigned *)getDims;
 - (size_t)getElementSize;
 - (unsigned)getElementCount;

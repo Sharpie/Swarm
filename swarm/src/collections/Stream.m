@@ -11,7 +11,7 @@ PHASE(Creating)
 
 - setKeywordName: (const char *)name
 {
-  keywordName = name;
+  keywordName = STRDUP (name);
   return self;
 }
 
@@ -32,6 +32,12 @@ PHASE(Using)
   [stream catC: "#:"];
   [stream catC: keywordName];
   return self;
+}
+
+- (void)drop
+{
+  FREEBLOCK (keywordName);
+  [super drop];
 }
 
 @end
@@ -147,6 +153,11 @@ PHASE(Creating)
 }
 
 PHASE(Using)
+
+- (unsigned)getRank
+{
+  return rank;
+}
 
 - (void *)getData
 {
