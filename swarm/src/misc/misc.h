@@ -2,6 +2,8 @@
 #define _MISC_H
 
 #include <stddef.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -9,9 +11,9 @@
 #include <sys/time.h>
 #include <errno.h>
 #include <ctype.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <math.h>
 
 #if defined(__CYGWIN32__) && !defined(__CYGWIN__)
 int gettimeofday (struct timeval *p, struct timezone *z);
