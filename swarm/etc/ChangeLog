@@ -1,3 +1,7 @@
+2003-04-20  northcob  <northcob@allele2>
+
+	* Makefile.common.in, swarm.config.in: Add SED configuration variable for libtool >1.4.2
+
 2003-01-08  northcob  <northcob@allele2>
 
 	* Makefile.common.in: Remove FFILIB from SYSLIBS - not needed and
