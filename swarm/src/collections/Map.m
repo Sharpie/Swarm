@@ -111,25 +111,29 @@ PHASE(Using)
   return member;
 }
 
-- (BOOL) at: aKey insert: anObject
+- (BOOL)at: aKey insert: anObject
 {
-  id          index;
+  id index;
   mapentry_t  newEntry, anEntry;
-  int         result;
+  int result;
 
-  newEntry = [getZone( self ) allocBlock: sizeof *newEntry];
-  newEntry->key    = aKey;
+  newEntry = [getZone (self) allocBlock: sizeof *newEntry];
+  newEntry->key = aKey;
   newEntry->member = anObject;
 
   index = [list begin: scratchZone];
-  result = 1;
-  while ( (anEntry = (mapentry_t)[index next]) ) {
-    if ( (result = compare( anEntry->key, aKey )) > 0 ) break;
-  }
+  while ((anEntry = (mapentry_t)[index next]))
+    if ((result = compare (anEntry->key, aKey)) == 0)
+      {
+        [index drop];
+        return NO;
+      }
+    else if (result > 0)
+      break;
   [index addBefore: (id)newEntry];
   [index drop];
   count++;
-  return ( result != 0 );
+  return YES;
 }
 
 - at: aKey replace: anObject
@@ -138,14 +142,16 @@ PHASE(Using)
   mapentry_t  anEntry;
 
   index = [list begin: scratchZone];
-  while ( (anEntry = (mapentry_t)[index next]) ) {
-    if ( compare( anEntry->key, aKey ) == 0 ) {
-      oldMem = anEntry->member;
-      anEntry->member = anObject;
-      [index drop];
-      return oldMem;
+  while ((anEntry = (mapentry_t)[index next]))
+    {
+      if (compare( anEntry->key, aKey) == 0)
+        {
+          oldMem = anEntry->member;
+          anEntry->member = anObject;
+          [index drop];
+          return oldMem;
+        }
     }
-  }
   [index drop];
   return nil;
 }

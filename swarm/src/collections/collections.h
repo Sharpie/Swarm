@@ -936,11 +936,9 @@ USING
 USING
 //M: at:insert: inserts an entry into a Map containing the key and member
 //M: values given as its arguments.  It returns true if the key was not
-//M: previously contained in the collection.  If the key was already
-//M: present, the action of the message depends on the value in effect for
-//M: the DuplicatesOption.  With default options, the attempt to insert a
+//M: previously contained in the collection.  An attempt to insert a
 //M: duplicate key is simply rejected and false is returned.
-- (BOOL)	at: aKey insert: anObject;
+- (BOOL)at: aKey insert: anObject;
 
 //M: Replaces an existing member value associated with a key
 //M: value by a new value given as its final argument.  The message returns
