@@ -2,9 +2,8 @@
 
 	* ActionCache.h, ActionHolder.h, ClassDisplayWidget.h,
 	ControlPanel.[hm], GUIComposite.h, GUISwarm.h,
-	MessageProbeWidget.h, MessageProbeWidget.m,
-	MultiVarProbeDisplay.h, MultiVarProbeWidget.h, ProbeDisplay.h,
-	ProbeDisplayManager.[hm], VarProbeWidget.h, simtoolsgui.h: Add
+	MessageProbeWidget.[hm], MultiVarProbeDisplay.h,
+	ProbeDisplayManager.[hm], simtoolsgui.h: Add
 	protocol compliance tags to interfaces, adjust phase info
 	as necessary.
 
