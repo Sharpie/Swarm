@@ -115,6 +115,22 @@ const char *realpath (const char *path, char *resolved_path);
 long long strtoll (const char *nptr, char **endptr, int base);
 #endif
 
+#ifndef LLONG_MIN
+#ifdef LONG_LONG_MIN
+#define LLONG_MIN LONG_LONG_MIN
+#else
+#error long long min value missing
+#endif
+#endif
+
+#ifndef LLONG_MAX
+#ifdef LONG_LONG_MAX
+#define LLONG_MAX LONG_LONG_MAX
+#else
+#error long long max value missing
+#endif
+#endif
+
 const char *find_executable (const char *program_name);
 
 void debugabort (const char *filename, unsigned lineno, const char *function) __attribute__ ((noreturn));
