@@ -829,25 +829,29 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         unsigned overlapCount, i;
         Window *overlapWindows;
         Display *display = pixmap->display;
-        Window parent = get_top_level_window (display, window);
+        Window topWindow = get_top_level_window (display, window);
         XSetWindowAttributes attr;
-        XWindowAttributes parent_attr;
+        XWindowAttributes top_attr;
         
-        check_for_overlaps (display, parent,
+        check_for_overlaps (display, topWindow,
                             &overlapWindows, &overlapCount);
 
         attr.override_redirect = True;
-        XChangeWindowAttributes (display, parent, CWOverrideRedirect, &attr);
-        for (i = 0; i < overlapCount; i++)
-          if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                        CWOverrideRedirect,
-                                        &attr))
-            abort ();
-
-        if (!XGetWindowAttributes (display, parent, &parent_attr))
+        if (!XChangeWindowAttributes (display, topWindow,
+                                      CWOverrideRedirect, &attr))
           abort ();
-        if (parent_attr.map_state == IsUnmapped)
-          XMapWindow (display, parent);
+        for (i = 0; i < overlapCount; i++)
+          {
+            if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                          CWOverrideRedirect,
+                                          &attr))
+              abort ();
+          }
+
+        if (!XGetWindowAttributes (display, topWindow, &top_attr))
+          abort ();
+        if (top_attr.map_state == IsUnmapped)
+          XMapWindow (display, topWindow);
         Tk_RestackWindow (tkwin, Above, NULL);
         keep_inside_screen (tkwin, window);
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
@@ -855,10 +859,12 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         
         x_pixmap_create_from_window (pixmap, window);
         
-        if (parent_attr.map_state == IsUnmapped)
-          XUnmapWindow (display, parent);
+        if (top_attr.map_state == IsUnmapped)
+          XUnmapWindow (display, topWindow);
         attr.override_redirect = False;
-        XChangeWindowAttributes (display, parent, CWOverrideRedirect, &attr);
+        if (!XChangeWindowAttributes (display, topWindow,
+                                      CWOverrideRedirect, &attr))
+          abort ();
         for (i = 0; i < overlapCount; i++)
           if (!XChangeWindowAttributes (display, overlapWindows[i],
                                         CWOverrideRedirect,
