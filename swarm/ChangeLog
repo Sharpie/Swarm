@@ -1,5 +1,7 @@
 1999-09-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* NEWS: Note fixes so far.
+
 	* configure.in: Create phony avcall/avcall.h in libffi configuration.
 
 	* VERSION: Bump.
