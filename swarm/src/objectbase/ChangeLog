@@ -1,3 +1,9 @@
+1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbe.m: Include swarmconfig.h.
+	([VarProbe -probeAsPointer:]): Use PTRUINT instead of locally-defined
+	PTRINT.  Remove local definition.
+
 1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Use JFINDJAVA instead of

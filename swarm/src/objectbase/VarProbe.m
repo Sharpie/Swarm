@@ -12,6 +12,8 @@
 
 #include "../defobj/internal.h" // process_array
 
+#include <swarmconfig.h> // PTRUINT
+
 @implementation VarProbe
 
 PHASE(Creating)
@@ -217,21 +219,20 @@ PHASE(Using)
   
   p = ((char *)anObject) + dataOffset;
 
-#define PTRINT unsigned long
   switch (probedType[0])
     {
     case _C_ID:      q = (void *) *(id *)p; break;
     case _C_CLASS:   q = (void *) *(Class *)p; break;
     case _C_CHARPTR:
     case _C_PTR:     q = (void *)*(void **)p; break;
-    case _C_CHR:     q = (void *)(PTRINT)*(char *)p; break;
-    case _C_UCHR:    q = (void *)(PTRINT)*(unsigned char *)p; break;
-    case _C_SHT:     q = (void *)(PTRINT)*(short *)p; break;
-    case _C_USHT:    q = (void *)(PTRINT)*(unsigned short *)p; break;
-    case _C_INT:     q = (void *)(PTRINT)*(int *)p; break;
-    case _C_UINT:    q = (void *)(PTRINT)*(unsigned int *)p; break;
-    case _C_LNG:     q = (void *)(PTRINT)*(long *)p; break;
-    case _C_ULNG:    q = (void *)(PTRINT)*(unsigned long *)p; break;
+    case _C_CHR:     q = (void *)(PTRUINT)*(char *)p; break;
+    case _C_UCHR:    q = (void *)(PTRUINT)*(unsigned char *)p; break;
+    case _C_SHT:     q = (void *)(PTRUINT)*(short *)p; break;
+    case _C_USHT:    q = (void *)(PTRUINT)*(unsigned short *)p; break;
+    case _C_INT:     q = (void *)(PTRUINT)*(int *)p; break;
+    case _C_UINT:    q = (void *)(PTRUINT)*(unsigned int *)p; break;
+    case _C_LNG:     q = (void *)(PTRUINT)*(long *)p; break;
+    case _C_ULNG:    q = (void *)(PTRUINT)*(unsigned long *)p; break;
    default:
       if (SAFEPROBES)
         raiseEvent (WarningMessage,
