@@ -29,7 +29,7 @@ swarmSelectorImpl::GetCid (nsCID **acid)
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::Create (nsISupports *class_, const char *methodName, PRBool objcFlag, swarmISelector **ret)
+swarmSelectorImpl::Create (swarmITyping *obj, const char *methodName, PRBool objcFlag, swarmISelector **ret)
 {
   printf ("methodName: `%s' objcFlag: %u\n", methodName, (unsigned) objcFlag);
   *ret = NS_STATIC_CAST (swarmISelector*, this);
