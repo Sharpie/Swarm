@@ -1267,3 +1267,16 @@
   (build-method-signature-hash-table)
   (build-protocol-vector)
   (build-method-signature-vector))
+
+(defun setter-method-p (method)
+  (string= (substring (caar (method-arguments method)) 0 3) "set"))
+
+(defun collect-setter-methods (protocol)
+  (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
+        for method = (methodinfo-method methodinfo)
+        for phase = (method-phase method)
+        when (and (member phase '(:creating :setting))
+                  (setter-method-p method))
+        collect method))
+
+       
