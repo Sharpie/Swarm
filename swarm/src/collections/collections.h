@@ -966,10 +966,12 @@ USING
 - (void)catInt: (int)i;
 
 //M: Writes an unsigned to stream in Lisp archiver format
-- (void)catUnsigned: (unsigned)un;
 
-//M: Writes parsed Lisp InputStream list expression back to the stream
-- (void)catExpr: expr;
+- (void)catUnsigned: (unsigned)un;
+- (void)catShort: (short)sht;
+- (void)catUnsignedShort: (unsigned short)usht;
+- (void)catLong: (long)lng;
+- (void)catUnsignedLong: (unsigned long)ulng;
 @end
 
 @protocol InputStream <Create, Drop, CREATABLE>
@@ -1048,6 +1050,15 @@ CREATING
 USING
 - getCar;
 - getCdr;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
+@end
+
+@protocol ArchiverList <List, CREATABLE>
+//S: Archiver list encapsulation for serialization.
+//D: Archiver list encapsulation for serialization.
+CREATING
+USING
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 @end

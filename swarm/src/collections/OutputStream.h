@@ -29,5 +29,8 @@ Library:     collections
 - (void)catFloat: (float)flt;
 - (void)catInt: (int)i;
 - (void)catUnsigned: (unsigned)un;
-- (void)catExpr: expr;
+- (void)catShort: (short)sht;
+- (void)catUnsignedShort: (unsigned short)usht;
+- (void)catLong: (long)lng;
+- (void)catUnsignedLong: (unsigned long)ulng;
 @end

@@ -9,8 +9,7 @@
 BOOL
 stringp (id obj)
 {
-  // conformsTo @protocol(String) doesn't work.
-  return [obj isKindOfClassNamed: "String_c"];
+  return [obj conformsTo: @protocol(String)];
 }
 
 BOOL
@@ -22,38 +21,37 @@ literal_string_p (id obj)
 BOOL
 symbolp (id obj)
 {
-  return [obj isKindOfClassNamed: "Symbol_c"];
+  return [obj conformsTo: @protocol(Symbol)];
 }
 
 BOOL
 listp (id obj)
 {
-  // conformsTo @protocol(List) core dumps. isKindOf doesn't work either!
-  return [obj isKindOfClassNamed: "List_linked"];
+  return [obj conformsTo: @protocol(ArchiverList)];
 }
 
 BOOL
 keywordp (id obj)
 {
-  return [obj isKindOfClassNamed: "ArchiverKeyword_c"];
+  return [obj conformsTo: @protocol(ArchiverKeyword)];
 }
 
 BOOL
 valuep (id obj)
 {
-  return [obj isKindOfClassNamed: "ArchiverValue_c"];
+  return [obj conformsTo: @protocol(ArchiverValue)];
 }
 
 BOOL
 arrayp (id obj)
 {
-  return [obj isKindOfClassNamed: "ArchiverArray_c"];
+  return [obj conformsTo: @protocol(ArchiverArray)];
 }
 
 BOOL
 pairp (id obj)
 {
-  return [obj isKindOfClassNamed: "ArchiverPair_c"];
+  return [obj conformsTo: @protocol(ArchiverPair)];
 }
 
 BOOL

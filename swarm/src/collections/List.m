@@ -14,7 +14,7 @@ Library:      collections
 #import <defobj.h> // SaveError
 
 #include <collections/predicates.h> // keywordp
-#include <misc.h> // abort
+#include <misc.h> // abort, XFREE, strstr
 
 @implementation List_any
 
@@ -39,6 +39,38 @@ PHASE(Creating)
   setBit (bits, Bit_DequeOnly, dequeOnly);
 }
 
+static void
+setListClass (id obj, id aClass)
+{
+  const char *className = [[obj getClass] name];
+
+  // if using any of the standard List implementations, just set as
+  // per using the standard object types
+  if ((strcmp (className, "List_any.Creating") == 0) ||
+      (strcmp (className, "List_linked") == 0) ||
+      (strcmp (className, "List_mlinks") == 0))
+    {
+      setClass (obj, aClass);
+    }
+  else   // using a custom subclass must have the `.Creating' extension
+    {
+      if (strstr (className, ".Creating") != NULL)
+        {
+          int strpos = (int)(strlen (className) - strlen(".Creating"));
+          char *buf = xmalloc (strpos);
+          
+          // strip the `.Creating' to generate the final name of the
+          // class to lookup
+          sprintf(buf, "%*.*s", strpos, strpos, className);
+          setClass (obj, objc_lookup_class(buf));
+          XFREE(buf);
+        }
+      else
+        raiseEvent (InvalidOperation, 
+                    "Must have a custom classname with a .Creating suffix");
+    }
+}
+
 - createEnd
 {
   id index, member;
@@ -51,7 +83,7 @@ PHASE(Creating)
     {
       if (createByMessageToCopy (self, createEnd))
         return self;
-      setClass (self, id_List_linked);
+      setListClass (self, id_List_linked);
       setMappedAlloc (self);
       index = [(id) firstLink begin: scratchZone];
       firstLink = NULL;
@@ -63,9 +95,9 @@ PHASE(Creating)
     {
       createByCopy ();
       if (bits & Bit_IndexFromMemberLoc)
-        setClass (self, id_List_mlinks);
+        setListClass (self, id_List_mlinks);
       else
-        setClass (self, id_List_linked);
+        setListClass (self, id_List_linked);
       setMappedAlloc (self);
     }
   return self;

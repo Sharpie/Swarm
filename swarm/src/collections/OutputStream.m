@@ -103,54 +103,32 @@ PHASE(Using)
   [self catC: buf];
 }
 
-- (void)catExpr: expr
+- (void)catShort: (short)sht
 {
-  id index = [expr begin: [self getZone]];
-  id member;
+  char buf[DSIZE(short) + 1];
+  sprintf (buf, "%hd", sht);
+  [self catC: buf];
+}
 
-  if (!listp (expr))
-    raiseEvent(InvalidArgument, "expression must be a list!\n");
+- (void)catUnsignedShort: (unsigned short)usht
+{
+  char buf[DSIZE(unsigned short) + 1];
+  sprintf (buf, "%hu", usht);
+  [self catC: buf];
+}
 
-  [self catC: "("];
+- (void)catLong: (long)lng
+{
+  char buf[DSIZE(long) + 1];
+  sprintf (buf, "%ld", lng);
+  [self catC: buf];
+}
 
-  // get the first member of the list
-  member = [index next];
-  if (stringp (member))
-      [self catC: [member getC]];
-  else
-    raiseEvent(InvalidArgument, "first argument must be a string!\n");
-  
-  // advance to the next element in list
-  member = [index next];
-  if (stringp (member))
-    {
-      [self catC: " '"];
-      [self catC: [member getC]];
-    }
-  else
-    raiseEvent(InvalidArgument, "second argument must be a string!\n");
-  
-  while ((member = [index next]))
-    {
-      [self catC: " "];
-      if (member == (id) ArchiverEOL)
-        break;
-      else if (stringp (member))
-        {
-          [self catC: "\""];
-          [self catC: [member getC]];
-          [self catC: "\""];
-        }
-      else if (listp (member))
-        [self catExpr: member];
-      else if (keywordp (member) || valuep(member) || 
-               arrayp(member) || pairp(member))
-        [member lispOutDeep: self];
-      else
-        raiseEvent(InvalidArgument, "expression type not supported");
-    }
-  [self catC: ")"];
-  [index drop];
+- (void)catUnsignedLong: (unsigned long)ulng
+{
+  char buf[DSIZE(unsigned long) + 1];
+  sprintf (buf, "%ld", ulng);
+  [self catC: buf];
 }
 
 @end

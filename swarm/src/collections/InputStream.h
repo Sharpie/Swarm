@@ -11,6 +11,7 @@ Library:     collections
 
 #import <defobj/Create.h>
 #import <collections.h>
+#import <collections/List_linked.h>
 
 @interface InputStream_c: CreateDrop_s <InputStream>
 {
@@ -26,7 +27,7 @@ Library:     collections
 - getExpr;
 @end
 
-@interface ArchiverKeyword_c: CreateDrop_s
+@interface ArchiverKeyword_c: CreateDrop_s <ArchiverKeyword>
 {
   const char *keywordName;
 }
@@ -36,7 +37,7 @@ Library:     collections
 - lispOutDeep: (id <OutputStream>)stream;
 @end
 
-@interface ArchiverArray_c: CreateDrop_s
+@interface ArchiverArray_c: CreateDrop_s <ArchiverArray>
 {
   unsigned rank;
   unsigned *dims;
@@ -56,7 +57,7 @@ Library:     collections
 - (void)drop;
 @end
 
-@interface ArchiverValue_c: CreateDrop_s
+@interface ArchiverValue_c: CreateDrop_s <ArchiverValue>
 {
   char type;
   union {
@@ -84,7 +85,7 @@ Library:     collections
 - lispOutDeep: (id <OutputStream>)stream;
 @end
 
-@interface ArchiverPair_c: CreateDrop_s
+@interface ArchiverPair_c: CreateDrop_s <ArchiverPair>
 {
   id car;
   id cdr;
@@ -93,6 +94,14 @@ Library:     collections
 - setCdr: cdr;
 - getCar;
 - getCdr;
+- lispOutShallow: (id <OutputStream>)stream;
+- lispOutDeep: (id <OutputStream>)stream;
+@end
+
+
+@interface ArchiverList_c: List_linked <ArchiverList>
+{
+}
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 @end

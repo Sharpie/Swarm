@@ -1,3 +1,42 @@
+1999-06-08  Alex Lancaster  <alex@santafe.edu>
+
+	* collections.m (_collections_implement): Add setTypeImplemented
+	for ArchiverList_c to ArchiverList.
+
+	* collections.h (ArchiverList): Add protocol, conform to List,
+	CREATABLE.
+	(OutputStream): Remove -catExpr: method. Add
+	-cat{Short,UnsignedShort,Long,UnsignedLong}: methods.
+
+	* OutputStream.[hm] ([OutputStream_c -catExpr:]): Remove,
+	functionality now in ArchiverList_c.
+	([OutputStream_c -cat{Short,UnsignedShort,Long,UnsignedLong}:]):
+	New methods.
+
+	* InputStream.[hm]: ([ArchiverList_c -lispOut{Shallow,Deep}:]):
+	New class, subclasses from List_linked and allows serialization of
+	itself.
+	([ArchiverList_c -lispOutDeep:]): Moved functionality previously
+	in ([OutputStream_c catExpr:]) into method.
+
+	* predicates.m (stringp): Change predicate to use `conformsTo:
+	@protocol(String)'.
+	(symbolp): Likewise for Symbol.
+	(keywordp): Likwise for ArchiverKeyword.
+	(valuep): Likewise for ArchiverKeyword.
+	(arrayp): Likewise for ArchiverArray.
+	(pairp): Likewise for ArchiverPair.
+	(listp): Set to conform to @protocol(ArchiverList).
+
+	* List.m (setListClass): New function to wrap `setClass'
+	functionality for Lists.  If not one of the standard List
+	implementation (List_any, List_linked, List_mlinks), set the final
+	class name using setClass() to that of the current CREATING phase
+	class name without the `.Creating' suffix, otherwise default to
+	the previous behavior.
+	([List_any -createEnd]): Use new setListClass() function in place
+	of setClass.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (module_headers): Use $(TYPEINFO).

@@ -205,7 +205,8 @@ readString (id inStream, BOOL literalFlag)
     }
   else if (c == '(')
     {
-      id list = [List create: aZone];
+      id list = [ArchiverList create: aZone];
+      //id list = [List create: aZone];
         
         while (YES)
         {
@@ -643,13 +644,10 @@ PHASE(Using)
 {
   switch (type)
     {
-    case _C_ID:
-      {
-        [stream catC: "id is of type = "];
-        // [stream catC: [value.obj getType]];
-        [stream catC: ""];
-        break;
-      }
+    case _C_CHR:
+    case _C_UCHR:
+      [stream catChar: value.ch];
+      break;
     case _C_DBL:
       [stream catDouble: value.d];
       break;
@@ -659,12 +657,8 @@ PHASE(Using)
     case _C_INT:
       [stream catInt: value.i];
       break;
-    case _C_CHR:
-    case _C_UCHR:
-      [stream catChar: value.ch];
-      break;
     default:
-      [stream catC: "not implemented yet"];
+      [stream catC: "serialization for this type not implemented yet"];
       break;
     }
   return self;
@@ -702,7 +696,7 @@ static void
 lisp_output_one_of_pair (id obj, id stream)
 {
   if (listp (obj))
-    [stream catExpr: obj];
+    [obj lispOutDeep: stream];
   else if (stringp (obj) || valuep (obj) || arrayp (obj))
     [obj lispOutDeep: stream];
   else 
@@ -723,5 +717,62 @@ lisp_output_one_of_pair (id obj, id stream)
   [stream catC: ")"];
   return self;
 }
+@end
 
+@implementation ArchiverList_c
+PHASE(Creating)
+PHASE(Using)
+- lispOutShallow: (id <OutputStream>)stream
+{
+  [self lispOutDeep: stream];
+  return self;
+}
+
+- lispOutDeep: (id <OutputStream>)stream
+{
+  id index = [self begin: [self getZone]];
+  id member;
+
+  [stream catC: "("];
+
+  // get the first member of the list
+  member = [index next];
+  if (stringp (member))
+      [stream catC: [member getC]];
+  else
+    raiseEvent(InvalidArgument, "first argument must be a string!\n");
+  
+  // advance to the next element in list
+  member = [index next];
+  if (stringp (member))
+    {
+      [stream catC: " '"];
+      [stream catC: [member getC]];
+    }
+  else
+    raiseEvent(InvalidArgument, "second argument must be a string!\n");
+  
+  while ((member = [index next]))
+    {
+      [stream catC: " "];
+      if (member == (id) ArchiverEOL)
+        break;
+      else if (stringp (member))
+        {
+          [stream catC: "\""];
+          [stream catC: [member getC]];
+          [stream catC: "\""];
+        }
+      else if (listp (member))
+        [member lispOutDeep: stream];
+      else if (keywordp (member) || valuep(member) || 
+               arrayp(member) || pairp(member))
+        [member lispOutDeep: stream];
+      else
+        raiseEvent(InvalidArgument, "expression type not supported");
+    }
+  [stream catC: ")"];
+  [index drop];
+  return self;
+}
 @end
