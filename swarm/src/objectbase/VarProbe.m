@@ -557,10 +557,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
       else if (stringReturnType == IntString)
         sprintf (buf, "%u", (unsigned) *(unsigned char *) p);
       else
-        {
-          printf ("stringReturnType set incorrectly!!!\n");
-          exit (-1);
-        }
+        raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
       break;
     case _C_CHR:
       if (stringReturnType == DefaultString)
