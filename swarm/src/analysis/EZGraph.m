@@ -49,10 +49,19 @@ char graphColors[NUMCOLORS][16] ={"Red", "Green", "Yellow",
   return self ;
 }
 
--createEnd {
+-setGraphWindowGeometryRecordName : (const char *)windowGeometryRecordName
+{
+  graphWindowGeometryRecordName = windowGeometryRecordName;
+  return self;
+}
+
+-createEnd
+{
 
   if(graphics){
-    theGraph = [BLTGraph create: [self getZone]];
+    theGraph = [BLTGraph createBegin: [self getZone]];
+    [theGraph setWindowGeometryRecordName: graphWindowGeometryRecordName];
+    theGraph = [theGraph createEnd];
     [theGraph title: title] ;
     [theGraph axisLabelsX: xLabel Y: yLabel];
     [theGraph pack];
