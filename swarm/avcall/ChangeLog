@@ -1,4 +1,4 @@
-2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
+2003-02-02  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* avcall.m4: add missing CL_PROG_LD and CL_PROG_CP 
 	macros.
