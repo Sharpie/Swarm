@@ -17,7 +17,7 @@ main (int argc, char ** argv)
   if (swarmGUIMode == 1)
     {
       observerSwarm = [BankObserverSwarm createBegin: globalZone];
-      [observerSwarm setWindowGeometryRecordName: "bankObserverSwarm"];
+      SET_WINDOW_GEOMETRY_RECORD_NAME (observerSwarm);
       observerSwarm = [observerSwarm createEnd];
 
       [observerSwarm buildObjects];

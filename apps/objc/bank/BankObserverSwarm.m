@@ -70,7 +70,7 @@
   if (interactiveGraph)
     {
       graphCanvas = [Canvas createBegin: [self getZone]];
-      [graphCanvas setWindowGeometryRecordName: "graphCanvas"];
+      SET_WINDOW_GEOMETRY_RECORD_NAME (graphCanvas);
       graphCanvas = [graphCanvas createEnd];
 
       [graphCanvas enableDestroyNotification: self
@@ -87,7 +87,7 @@
   [bankModelSwarm buildObjects];
 
   activeBanks = [EZGraph createBegin: [self getZone]];
-  [activeBanks setWindowGeometryRecordName: "activeBanks"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (activeBanks);
   [activeBanks setTitle: "Active Banks"];
   [activeBanks setAxisLabelsX: "Time" Y: "Banks"];
   activeBanks = [activeBanks createEnd];
@@ -97,7 +97,7 @@
                        andSelector: M(incident)];
 
   investorGraph = [BLTGraph createBegin: [self getZone]];
-  [investorGraph setWindowGeometryRecordName: "investorGraph"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (investorGraph);
   investorGraph = [investorGraph createEnd];
 
   [investorGraph title: "Entropy of investor link distribution"];
