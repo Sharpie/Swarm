@@ -13,8 +13,16 @@ if test $found = yes; then
   XPMLDFLAGS=$_ldflags
   XPMLIB=-l$xpmlibname
 else
-  XPMLDFLAGS=''
-  XPMLIB==''
+  gnuwin32=no
+AC_TRY_COMPILE([#ifdef __CYGWIN32__
+#error
+#endif],[],gnuwin32=yes)
+  if test $gnuwin32 = yes; then
+    XPMLDFLAGS=''
+    XPMLIB=''
+  else
+    AC_MSG_ERROR(Please use --with-xpmdir to specify location of XPM),
+  fi
 fi
 
 AC_SUBST(xpmlibdir)
