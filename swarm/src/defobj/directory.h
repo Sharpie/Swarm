@@ -31,6 +31,7 @@ jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
 unsigned swarm_directory_java_hash_code (jobject javaObject);
 
 char swarm_directory_objc_type_for_java_class (JNIEnv *env, jclass class);
+const char *swarm_directory_signature_for_class (JNIEnv *env, jclass class);
 
 @interface DirectoryEntry: CreateDrop
 {
@@ -92,6 +93,8 @@ Class swarm_directory_ensure_class (JNIEnv *env, jclass javaClass);
 
 const char *swarm_directory_copy_java_string (JNIEnv *env, jstring javaString);
 void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
+
+const char *swarm_directory_signature_for_class (JNIEnv *env, jclass class);
 
 #define SD_COPYSTRING(env, javaString) swarm_directory_copy_java_string (env, javaString)
 #define SD_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))

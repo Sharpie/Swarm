@@ -153,9 +153,10 @@ PHASE(Creating)
   return newArguments;
 }
 
-- setJavaFlag: (BOOL)theJavaFlag
+- setJavaSignature: (const char *)theJavaSignature
 {
-  javaFlag = theJavaFlag;
+  javaSignature = STRDUP (theJavaSignature);
+  javaFlag = YES;
   return self;
 }
 
@@ -419,7 +420,8 @@ createJavaSignature (FArguments_c *self)
 {
   [super createEnd];
   setMappedAlloc (self);
-  javaSignature = createJavaSignature ((FArguments_c *) self);
+  if (!javaSignature)
+    javaSignature = createJavaSignature ((FArguments_c *) self);
   return self;
 }
 

@@ -1,3 +1,20 @@
+1999-09-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javavars.h: Add f_typeSignatureFid.
+
+	* directory.m (create_field_refs): Set f_typeSignatureFid.
+	(exactclassp, classp): Make them toplevel static functions.
+	(swarm_directory_signature_for_class): New function.  Use them.
+	(swarm_directory_objc_type_for_java_class): Modify usage of
+	exactclassp, classp.  * FArguments.m ([FArguments_c -createEnd]):
+	Don't call createJavaSignature if one has been set.
+
+	* DefObject.m (ensureJavaTypeSignature): New function.
+	([Object_s -forward::]): Use it.  Call setJavaSignature:.
+
+	* FArguments.[hm], defobj.h ([FArguments_c -setJavaSignature:]): 
+	New method.  Replaces -setJavaFlag:.
+
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0 released.

@@ -48,4 +48,9 @@ extern jmethodID m_BooleanValueOf,
   m_Equals,
   m_PhaseCImpl_copy_creating_phase_to_using_phase;
 
-extern jfieldID f_nameFid, f_retTypeFid, f_argTypesFid, f_objcFlagFid, f_nextPhase;
+extern jfieldID f_nameFid,
+  f_retTypeFid,
+  f_argTypesFid,
+  f_typeSignatureFid,
+  f_objcFlagFid,
+  f_nextPhase;

@@ -1055,7 +1055,7 @@ typedef union {
 //D: A language independent interface to dynamic call argument construction.
 CREATING
 + createBegin: (id <Zone>)aZone;
-- setJavaFlag: (BOOL)javaFlag;
+- setJavaSignature: (const char *)javaSignature;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addUnsignedChar: (unsigned char)value;

@@ -720,7 +720,7 @@ create_method_refs (JNIEnv *env)
       (*env)->GetMethodID (env, c_Field, "getLong", 
 			   "(Ljava/lang/Object;)J")))
     abort();
-
+  
   if (!(m_FieldGetFloat =
       (*env)->GetMethodID (env, c_Field, "getFloat", 
 			   "(Ljava/lang/Object;)F")))
@@ -773,6 +773,7 @@ create_field_refs (JNIEnv * env)
   if (!(f_retTypeFid = (*env)->GetFieldID (env, c_Selector, "retType", "Ljava/lang/Class;")))
     abort ();
   if (!(f_argTypesFid = (*env)->GetFieldID (env, c_Selector, "argTypes", "[Ljava/lang/Class;")))
+  if (!(f_typeSignatureFid = (*env)->GetFieldID (env, c_Selector, "typeSignature", "Ljava/lang/String;")))
     abort ();
   if (!(f_objcFlagFid = (*env)->GetFieldID (env, c_Selector, "objcFlag", "Z")))
     abort ();
@@ -812,46 +813,9 @@ get_base_class_name (JNIEnv *env, jobject jobj)
 }
 #endif
 
-#if 0
-static void
-fill_signature (char *buf, const char *className)
-{
-  char *bp = buf;
-  const char *cp = className;
-
-  *bp++ = 'L';
-  while (*cp)
-    {
-      *bp = (*cp == '.') ? '/' : *cp;
-      bp++;
-      cp++;
-    }
-  *bp++ = ';';
-  *bp = '\0';
-}
-
-static const char *
-create_signature_from_class_name (JNIEnv *env, const char *className)
-{
-  char buf[1 + strlen (className) + 1 + 1];
-
-  fill_signature (buf, className);
-  return SSTRDUP (buf);
-}
-
-static const char *
-create_signature_from_object (JNIEnv *env, jobject jobj)
-{
-  const char *className = get_class_name_from_object (env, jobj);
-  const char *ret = create_signature_from_class_name (env, className);
-  
-  FREECLASSNAME (className);
-  return ret;
-}
-#endif
 
 static Class
-objc_class_for_class_name (const char * classname)
+objc_class_for_class_name (const char *classname)
 {
   int len = strlen (classname);
   int end, beg;
@@ -892,7 +856,7 @@ swarm_directory_next_phase (JNIEnv *env, jobject jobj)
 {
   (*env)->CallVoidMethod (env, jobj, 
                           m_PhaseCImpl_copy_creating_phase_to_using_phase);
-  return (*env)->GetObjectField(env, jobj, f_nextPhase);
+  return (*env)->GetObjectField (env, jobj, f_nextPhase);
 }
 
 static jobject
@@ -956,49 +920,53 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
   ASSOCIATE (ControlStateNextTime);
 }
 
+static BOOL
+exactclassp (JNIEnv *env, jclass class, jclass matchClass)
+{
+  return (*env)->IsSameObject (env, class, matchClass);
+}
+
+static BOOL
+classp (JNIEnv *env, jclass class, jclass matchClass)
+{
+  jobject clazz;
+  
+  for (clazz = class;
+       clazz;
+       clazz = (*env)->GetSuperclass (env, clazz))
+    if ((*env)->IsSameObject (env, clazz, matchClass))
+      return YES;
+  return NO;
+}
+
 char
 swarm_directory_objc_type_for_java_class (JNIEnv *env, jclass class)
 {
   char type;
 
-  BOOL exactclassp (jclass matchClass)
-    {
-      return (*env)->IsSameObject (env, class, matchClass);
-    }
-  BOOL classp (jclass matchClass)
-    {
-      jobject clazz;
-      
-      for (clazz = class;
-           clazz;
-           clazz = (*env)->GetSuperclass (env, clazz))
-        if ((*env)->IsSameObject (env, clazz, matchClass))
-          return YES;
-      return NO;
-    }
-  if (classp (c_Selector))
+  if (classp (env, class, c_Selector))
     type = _C_SEL;
-  else if (classp (c_String))
+  else if (classp (env, class, c_String))
     type = _C_CHARPTR;
-  else if (classp (c_Class))
+  else if (classp (env, class, c_Class))
     type = _C_CLASS;
-  else if (exactclassp (c_int))
+  else if (exactclassp (env, class, c_int))
     type = _C_INT;
-  else if (exactclassp (c_short))
+  else if (exactclassp (env, class, c_short))
     type = _C_SHT;
-  else if (exactclassp (c_long))
+  else if (exactclassp (env, class, c_long))
     type = _C_LNG;
-  else if (exactclassp (c_boolean))
+  else if (exactclassp (env, class, c_boolean))
     type = _C_UCHR;
-  else if (exactclassp (c_byte))
+  else if (exactclassp (env, class, c_byte))
     type = _C_UCHR;
-  else if (exactclassp (c_char))
+  else if (exactclassp (env, class, c_char))
     type = _C_CHR;
-  else if (exactclassp (c_float))
+  else if (exactclassp (env, class, c_float))
     type = _C_FLT;
-  else if (exactclassp (c_double))
+  else if (exactclassp (env, class, c_double))
     type = _C_DBL;
-  else if (exactclassp (c_void))
+  else if (exactclassp (env, class, c_void))
     type = _C_VOID;
   else
     type = _C_ID;
@@ -1207,4 +1175,61 @@ swarm_directory_get_language_independent_class_name  (id object)
 #else
   return (const char *) (getClass (object))->name;
 #endif
+}
+
+static void
+fill_signature (char *buf, const char *className)
+{
+  char *bp = buf;
+  const char *cp = className;
+
+  *bp++ = 'L';
+  while (*cp)
+    {
+      *bp = (*cp == '.') ? '/' : *cp;
+      bp++;
+      cp++;
+    }
+  *bp++ = ';';
+  *bp = '\0';
+}
+
+const char *
+swarm_directory_signature_for_class (JNIEnv *env, jclass class)
+{
+  const char *type;
+
+  if (classp (env, class, c_Selector))
+    type = "Lswarm/Selector;";
+  else if (classp (env, class, c_String))
+    type = "Ljava/lang/String;";
+  else if (classp (env, class, c_Class))
+    type = "Ljava/lang/Class;";
+  else if (exactclassp (env, class, c_int))
+    type = "I";
+  else if (exactclassp (env, class, c_short))
+    type = "S";
+  else if (exactclassp (env, class, c_long))
+    type = "L";
+  else if (exactclassp (env, class, c_boolean))
+    type = "Z";
+  else if (exactclassp (env, class, c_byte))
+    type = "B";
+  else if (exactclassp (env, class, c_char))
+    type = "C";
+  else if (exactclassp (env, class, c_float))
+    type = "F";
+  else if (exactclassp (env, class, c_double))
+    type = "D";
+  else if (exactclassp (env, class, c_void))
+    type = "V";
+  else
+    {
+      const char *name = get_class_name (env, class);
+      char *buf = [scratchZone alloc: 1 + strlen (name) + 1 + 1];
+
+      fill_signature (buf, name);
+      type = buf;
+    }
+  return type;
 }
