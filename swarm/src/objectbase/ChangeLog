@@ -1,3 +1,8 @@
+2003-09-14    <mgd@DRONE>
+
+	* swarm_rts_routines.m (skip_typespec): Don't require a type
+	for _C_PTR.
+
 2003-06-18    <pauljohn@localhost.localdomain>
 
 	* VarProbe.m ([VarProbe -drop]): realized ZFREEBLOCK(globalZone,

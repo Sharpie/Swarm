@@ -110,9 +110,12 @@ skip_typespec (const char *type)
       return ++type;
       
     case _C_PTR:
+      ++type;
       /* Just skip the following typespec */
-      
-      return skip_typespec (++type);
+      if (isDigit (*type))
+        return type;
+      else
+        return skip_typespec (type);
       
     default:
       abort();
