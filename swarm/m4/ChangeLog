@@ -1,3 +1,9 @@
+1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add acobjclibs.m4 and acreplacefuncs.m4.
+
+	* acobjclibs.m4: New file.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acreplacefuncs.m4: New file.  Like AC_REPLACE_FUNCS, but 
