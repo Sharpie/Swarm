@@ -1,3 +1,8 @@
+1999-01-13  Alex Lancaster  <alex@santafe.edu>
+
+	* setmeta.sgml: Remove old LEGALNOTICE text.  Refer to the
+	newly-defined {doc,swarm}-legalnotice entities from global.ent.
+
 1999-01-11  Alex Lancaster  <alex@santafe.edu>
 
 	* setmeta.sgml: Make email ULINK an EMAIL tag.  Tidy text.
