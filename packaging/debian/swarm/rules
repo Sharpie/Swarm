@@ -4,9 +4,15 @@
 
 package=swarm
 
+ifneq ($(DEB_BUILD_GNU_TYPE),sparc-linux)
+ENV = JAVAC=javac
+else
+ENV = JAVAC=javac CONSERVATIVE_OPTIMIZATION=yes
+endif
+
 build:
 	$(checkdir)
-	JAR=/usr/lib/jdk1.1/bin/jar JAVAC=javac ./configure --prefix=/usr --with-jdkdir=/usr --enable-subdirs
+	$(ENV) ./configure --prefix=/usr --with-jdkdir=/usr --enable-subdirs
 	$(MAKE) 
 	touch build
 
