@@ -1,7 +1,7 @@
 <!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 
-  <!ENTITY usermeta.sgml system "usermeta.sgml">
-  <!ENTITY userrevhistory.sgml system "userrevhistory.sgml">
+  <!entity % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
+  %global.ent;
 
   <!ENTITY user1.01.sgml system "user1.01.sgml">
   <!ENTITY user1.02.sgml system "user1.02.sgml">
@@ -26,9 +26,14 @@
   <!ENTITY user3.05.sgml system "user3.05.sgml">
   <!ENTITY user3.06.sgml system "user3.06.sgml">
   <!ENTITY user3.07.sgml system "user3.07.sgml">
+
+ <!entity modeling PUBLIC "-//SFI Hive//ENTITIES Modeling GIF//EN" ndata gif>
+
+ <!entity usermeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
+
 ]>
 
-<BOOK ID="userguide">
+<BOOK ID="userbook">
 
   &usermeta.sgml;
 

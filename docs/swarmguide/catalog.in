@@ -1,11 +1,10 @@
+PUBLIC "-//SFI Hive//ENTITIES Globals//EN" @top_dossrcdir@/global.ent  
 PUBLIC "-//SFI Hive//DOCUMENT DSSSL HTML Style Sheet//EN" @top_dossrcdir@/html.dsl
 PUBLIC "-//SFI Hive//DOCUMENT DSSSL Print Style Sheet//EN" @top_dossrcdir@/print.dsl
 PUBLIC "-//SFI Hive//DOCUMENT DSSSL Common Definitions//EN" @top_dossrcdir@/common.dsl
 
-PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN" @top_dossrcdir@/tutorialmeta.sgml
-PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Content//EN" @top_dossrcdir@/tutorialcont.sgml
-PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Chapter 1//EN" @top_dossrcdir@/tutorial01.sgml
-PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Revision History//EN" tutorialbookrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN" @top_dossrcdir@/usermeta.sgml
 
+PUBLIC "-//SFI Hive//ENTITIES Modeling GIF//EN" @top_dossrcdir@/figs/modeling.gif
 
 SGMLDECL "@top_dossrcdir@/docbook.dcl"
