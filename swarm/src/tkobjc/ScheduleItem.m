@@ -10,6 +10,8 @@
 #import <activity/Schedule.h>
 #include "internal.h"
 
+#import <tkobjc/CanvasItem.h>
+
 #include <objc/objc-api.h>
 #include <misc.h>
 
@@ -21,17 +23,22 @@
 #define ANIMATEOFFSET 300
 
 static void
-canvasFrameDestroyNotify (id obj, id reallocAddress, void *canvas)
+canvasItemDestroyNotify (id obj, id reallocAddress, void *canvas)
+{
+  const char *item = ((CanvasItem *) obj)->item;
+  
+  if (item)
+    [globalTkInterp eval: "%s delete %s",
+		    [(id) canvas getWidgetName], item];
+}
+
+static void
+canvasLabelDestroyNotify (id obj, id reallocAddress, void *canvas)
 {
   [(id)canvas removeWidget: obj];
   [globalTkInterp eval: "destroy %s", [obj getWidgetName]];
 }
 
-static void
-canvasItemDestroyNotify (id obj, id reallocAddress, void *canvas)
-{
-  [obj drop];
-}
 
 @interface PendingEvent: CreateDrop
 {
@@ -166,12 +173,7 @@ PHASE(Using)
   processingUpdate = YES;
 
   if (zone)
-    {
-      [line drop];
-      [minTextItem drop];
-      [maxTextItem drop];
-      [zone drop];
-    }
+    [zone drop];
   
   [self _createItem_];
   while (GUI_EVENT_ASYNC ()) {}  
@@ -251,6 +253,7 @@ PHASE(Using)
     sprintf (buf, "%lu", min);
     [text setText: buf];
     minTextItem = [text createEnd];
+    [minTextItem addRef: canvasItemDestroyNotify withArgument: canvas];
 
     text = [TextItem createBegin: zone];
     [text setCanvas: canvas];
@@ -259,6 +262,7 @@ PHASE(Using)
     sprintf (buf, "%lu", max);
     [text setText: buf];
     maxTextItem = [text createEnd];
+    [maxTextItem addRef: canvasItemDestroyNotify withArgument: canvas];
   }
 
   {
@@ -280,7 +284,7 @@ PHASE(Using)
           [bar setTX: xbarpos - BARSIZE/2 TY: ypos
                LX: xbarpos + BARSIZE/2 LY: ypos];
           bar = [bar createEnd];
-          [bar addRef: canvasItemDestroyNotify withArgument: NULL];
+          [bar addRef: canvasItemDestroyNotify withArgument: canvas];
         }
         {
           id <TextItem> text;
@@ -314,7 +318,7 @@ PHASE(Using)
             text = [text createEnd];
             [zone free: buf];
           }
-          [text addRef: canvasItemDestroyNotify withArgument: NULL];
+          [text addRef: canvasItemDestroyNotify withArgument: canvas];
         }
         {
           id <CompleteProbeDisplayLabel> label;
@@ -329,7 +333,7 @@ PHASE(Using)
                   X: xoffset + ENTRYOFFSET
                   Y: ypos
                   centerFlag: YES];
-          [label addRef: canvasFrameDestroyNotify withArgument: canvas];
+          [label addRef: canvasLabelDestroyNotify withArgument: canvas];
         }
      }
     [mi drop];

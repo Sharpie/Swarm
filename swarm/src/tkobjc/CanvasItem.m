@@ -6,6 +6,7 @@
 #import <tkobjc/CanvasItem.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/global.h>
+#import <defobj/defalloc.h>
 
 @implementation CanvasItem
 
@@ -32,6 +33,13 @@ PHASE(Creating)
   return self;
 }
 
+- createEnd
+{
+  [super createEnd];
+  setMappedAlloc (self);
+  return self;
+}
+
 PHASE(Using)
 
 - initiateMoveX: (long)deltaX Y: (long)deltaY
@@ -50,10 +58,21 @@ PHASE(Using)
   return self;
 }
 
+- (void)mapAllocations: (mapalloc_t)mapalloc
+{
+}
+
+- (void)dropAllocations: (BOOL)componentAlloc
+{
+  if (componentAlloc && item)
+    FREEBLOCK (item);
+  [super dropAllocations: componentAlloc];
+}
+
+
 - (void)drop
 {
   [globalTkInterp eval: "%s delete %s", [canvas getWidgetName], item];  
-  FREEBLOCK (item);
   [super drop];
 }
 

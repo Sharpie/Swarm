@@ -8,9 +8,11 @@
 
 @interface CanvasItem: CanvasAbstractItem <CanvasItem>
 {
+@public
   const char *item;
 }
 
+- createEnd;
 - createBindings;
 - initiateMoveX: (long)delta_x Y: (long)delta_y;
 @end

@@ -1,3 +1,21 @@
+2000-06-14    <mgd@DRONE>
+
+	* ScheduleItem.m: Include tkobjc/CanvasItem.h.
+	(canvasItemDestroyNotify): Get item from obj.  Don't use drop
+	method here.
+	([ScheduleItem -update]): Don't drop line, minTextItem, and
+	maxTextItem here.
+	([ScheduleItem -_createItem_]): Pass canvas to canvasItemDestroyNotify
+	addRef.  Create refs for minTextItem and maxTextItem.
+
+	* CanvasItem.m: Include defobj/defalloc.h.
+	([CanvasItem -createEnd]): Call setMappedAlloc.
+	([CanvasItem -mapAllocations:]): New method.
+	([CanvasItem -dropAllocations:]): New method.  Free item here.
+	([CanvasItem -drop]): Not here.
+
+	* CanvasItem.h (CanvasItem): Make item public.
+
 2000-05-22  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* common.[hm] (tkobjc_createText): Add zone argument.
