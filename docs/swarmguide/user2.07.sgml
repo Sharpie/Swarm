@@ -1,71 +1,44 @@
-<SECT1 id="SWARM.USER.USER2.07.SECT1">
-  <TITLE>Activating Swarms</TITLE>
+<sect1 id="swarm.user.user2.07.sect1">
+  <title>Activating Swarms</title>
 
-<SECT2>
- <TITLE>Step IV: Activating the Swarm</TITLE> 
+<sect2>
+ <title>Step IV: Activating the Swarm</title> 
 
+    <programlisting>
+- activateIn: swarmContext {
 
+ [super activateIn: swarmContext];
+ 
+ [modelSchedule activateIn: self];
 
+ return [self getActivity];
 
-<H2>-activateIn: (id) swarmContext {
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>
-</TITLE><PARA>
-</UL><UL>
-<H2> [super activateIn: swarmContext];
-</TITLE><PARA>
-</UL><UL>
-<H2> 
-</TITLE><PARA>
-</UL><UL>
-<H2> [modelSchedule activateIn: self];
-</TITLE><PARA>
-</UL><UL>
-<H2>
-</TITLE><PARA>
-</UL><UL>
-<H2> return [self getActivity];
-</TITLE><PARA>
-</UL><UL>
-<H2>
-</TITLE><PARA>
-</UL><UL>
-<H2>}</TITLE><PARA>
-</PARA></FORMALPARA> 
+}
+</programlisting>
 
+</sect2>
 
+<sect2>
+ <title>Activation of schedule(s)</title> 
 
+    <para>In main.m: <literal>[modelSwarm activateIn: nil];</literal>
+    calls the following method:
 
-</SECT2>
+      <programlisting>
+- activateIn: swarmContext
+{
+ [modelSchedule activateIn: self]
+ returns self;
+}
+</programlisting>
 
-<SECT2>
- <TITLE>Activation of schedule(s)</TITLE> 
+      There is only one Swarm so we activate it in
+      <literal>nil</literal>. This one line could set in motion
+      complex scheme of merging and activation
+    </para>
 
-
-
-
-<H2> In main.m:[modelSwarm activateIn: nil];         </TITLE><PARA>
-<BR></UL></P>
--activateIn: (id) swarmContext<BR></UL></P>
-[modelSchedule activateIn: self]<BR></UL></P>
-There is only one 
-<BR></UL><UL>
-Swarm so we activate 
-</UL><UL>
-it in nil</UL></P>
-This one line could set
-<BR></UL><UL>
-in motion complex scheme 
-</UL><UL>
-of merging and activation</UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

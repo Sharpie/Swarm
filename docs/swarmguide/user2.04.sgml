@@ -1,147 +1,88 @@
-<SECT1 id="SWARM.USER.USER2.04.SECT1">
-  <TITLE>Initializing Swarms</TITLE>
+<sect1 id="swarm.user.user2.04.sect1">
+  <title>Initializing Swarms</title>
 
-<SECT2>
- <TITLE>Step I: Initializing</TITLE> 
+<sect2>
+ <title>Step I: Initializing</title> 
 
+    <programlisting>
+<![CDATA [
++ createBegin: aZone 
+{
+  ModelSwarm * obj;
 
-
-
-<H2>+createBegin: (id) aZone {
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>  ModelSwarm * obj;
-</TITLE><PARA>
-</UL><UL>
-<H2>  
-</TITLE><PARA>
-</UL><UL>
-<H2>  obj = [super createBegin: aZone];
-</TITLE><PARA>
-</UL><UL>
-<H2>  obj-&#062worldXSize = 80;
-</TITLE><PARA>
-</UL><UL>
-<H2>  obj-&#062worldYSize = 80;
-</TITLE><PARA>
-</UL><UL>
-<H2>  obj-&#062seedProb = 0.1;
-</TITLE><PARA>
-</UL><UL>
-<H2>  obj-&#062xPos = 40;
-</TITLE><PARA>
-</UL><UL>
-<H2>  obj-&#062yPos = 40;
-</TITLE><PARA>
-</UL><UL>
-<H2>  
-</TITLE><PARA>
-</UL><UL>
-<H2> return obj;
-</TITLE><PARA>
-</UL><UL>
-<H2>}</TITLE><PARA>
-1<BR></UL></P>
-2<BR></UL></P>
-3<BR></UL></P>
-4<BR></UL></P>
-5<BR></UL></P>
-</PARA></FORMALPARA> 
+  obj = [super createBegin: aZone];
+  obj->worldXSize = 80;
+  obj->worldYSize = 80;
+  obj->seedProb = 0.1;
+  obj->xPos = 40;
+  obj->yPos = 40;
+  
+ return obj;
+}
+]]>
+</programlisting>
 
 
+</sect2>
 
+<sect2>
+ <title>Details on createBegin method</title> 
 
-</SECT2>
+    <formalpara><title>The <emphasis>+</emphasis> indicates that this is a class 
+        method as opposed to <emphasis>-</emphasis> which indicates an instance 
+        method</title><para></para></formalpara>
 
-<SECT2>
- <TITLE>Details on createBegin method</TITLE> 
+    <formalpara><title>ModelSwarm * obj</title>
+      <para>indicates to compiler that obj is statically typed to 
+        <classname>ModelSwarm </classname>class</para>
+    </formalpara>
 
+    <formalpara><title>[super ...]</title>
+      <para>Executes createBegin method in the super class of 
+        obj (Swarm) and returns an instance of ModelSwarm
 
+    <formalpara><title>obj->varName=val</title>
+      <para>Abuses OOP paradigm and ôpokesö values directly into object</para>
+    </formalpara>
 
+</sect2>
 
-<FORMALPARA><TITLE>The ô+ö indicates that this is a class method as opposed to ô-ö which indicates an instance method
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>ModelSwarm * obj
-</TITLE><PARA>
-<UL>
-indicates to compiler that obj is statically typed to ModelSwarm class
-</UL></UL></P>
-<FORMALPARA><TITLE>[super ...]
-</TITLE><PARA>
-<UL>
-Executes createBegin method in the super class of obj (Swarm) and returns an instance of ModelSwarm
-</UL></UL><UL>
-<FORMALPARA><TITLE>obj-&#062varName=val
-</TITLE><PARA>
-<UL>
-Abuses OOP paradigm and ôpokesö values directly into object</UL></UL></P>
-1<BR></UL></P>
-5<BR></UL></P>
-3<BR></UL></P>
-4<BR></UL></P>
-</PARA></FORMALPARA> 
+<sect2>
+ <title>Memory zones</title> 
 
+    <formalpara><title>The Defobj super class provides facilities to create and 
+        drop an object through</title><para></para></formalpara>
 
+    <formalpara><title>In either case the object is created "in a memory zone"</title>
+      <para></para></formalpara>
 
+    <formalpara><title>Effectively this means that the underlying mechanism provides 
+        enough memory for the instance, it's variables and methods.</title>
+      <para></para></formalpara>
 
-</SECT2>
+    <formalpara><title>The zone also keeps track of all objects created in it and 
+        allows you to reclaim memory simply by dropping a zone. It will signals to 
+        all objects in it to destroy themselves</title><para></para></formalpara> 
 
-<SECT2>
- <TITLE>Memory zones</TITLE> 
+</sect2>
 
+<sect2>
+ <title>Where did that zone come from?</title> 
 
+    <para>In main.m: modelSwarm= [ModelSwarm create: globalZone];</para>
 
+    <para>In main.m : initSwarm (argc, argv);</para>
 
-<FORMALPARA><TITLE>The Defobj super class provides facilities to create and drop an object through
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>In either case the object is created ôin a memory zoneö
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Effectively this means that the underlying mechanism provides enough memory for the instance, itÆs variables and methods.
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>The zone also keeps track of all objects created in it and allows you to reclaim memory simply by dropping a zone. It will signals to all objects in it to destroy themselves</TITLE><PARA>
-2<BR></UL></P>
-</PARA></FORMALPARA> 
+    <para>In ModelSwarm.m: +createBegin:
 
+      Executes various functions in defobj and simtools which create a
+      global memory zone among other things create: method is
+      implemented in defobj, superclass of the Swarm class and it
+      calls the createBegin: method in ModelSwarm
+    </para>
 
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>Where did that zone come from?</TITLE> 
-
-
-
-
-In main.m: modelSwarm= [ModelSwarm create: globalZone];<BR></UL></P>
-<H2>In main.m : initSwarm (argc, argv);</TITLE><PARA>
-<BR></UL></P>
-In ModelSwarm.m: +createBegin:<BR></UL></P>
-Executes various
-<BR></UL><UL>
-functions in defobj and simtools
-</UL><UL>
-which create a global memory zone
-</UL><UL>
-among other things</UL></P>
-create: method is implemented
-<BR></UL><UL>
-in defobj, superclass of the Swarm class
-</UL><UL>
-and it calls the createBegin:
-</UL><UL>
-method in ModelSwarm</UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

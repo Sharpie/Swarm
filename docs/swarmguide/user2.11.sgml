@@ -1,59 +1,149 @@
-<SECT1 id="SWARM.USER.USER2.11.SECT1">
-  <TITLE>Advanced miscellanea</TITLE>
+<sect1 id="swarm.user.user2.11.sect1">
+  <title>Advanced miscellanea</title>
 
-<SECT2>
- <TITLE>Final frontier: Experiment Bug</TITLE> 
+<sect2>
+ <title>Final frontier: Experiment Bug</title> 
 
+<!-- image ?? -->
 
-
-
-main<BR></UL></P>
+    <para>
+      <literallayout>main
 Observer
-<BR></UL><UL>
-Swarm</UL></P>
-Model<BR></UL></P>
+
+Swarm
+Model
 Experiment
-<BR></UL><UL>
-Swarm</UL></P>
-Probe<BR></UL></P>
-Graph<BR></UL></P>
-</PARA></FORMALPARA> 
 
+Swarm
+Probe
+Graph
+</literallayout></PARA>
 
+</sect2>
 
+<sect2>
+ <title>Multilevel activation</title> 
 
-</SECT2>
+    <para>
 
-<SECT2>
- <TITLE>Creating a graph</TITLE> 
+      <programlisting>- activateIn: swarmContext
+{
+ [schedule activateIn: self]
+ [experimentSwarm activateIn: self];
+ return self;
+}
+</programlisting>
 
+      In main.m:<literal>[observerSwarm activateIn: nil];         </literal>
 
+      <programlisting>- activateIn:  swarmContext
+- activateIn:  swarmContext
+{
+ [schedule activateIn: self]
+ [schedule activateIn: self]
 
+ [modelSwarm activateIn: self];
+}
+</programlisting>
 
-<FORMALPARA><TITLE>EZGraph class sets up line graph for either
-</TITLE><PARA>
-<UL>
-Single agent or object
-Collection of agents 
-</UL></UL><UL>
-<FORMALPARA><TITLE>In both cases need
-</TITLE><PARA>
-<UL>
-Name of sequence
-Type of sequence (Count, Total, Average, Min, Max)
-Target (obj or collection)
-Name of method to fetch data
-</UL></UL></P>
-Agent<BR></UL></P>
-Averager<BR></UL></P>
-Collection<BR></UL></P>
-</PARA></FORMALPARA> 
+    <para>
+      <literallayout>ObserverSwarm
+ExperSwarm
+ModelSwarm
+</literallayout>
+</para>
 
+</sect2>
 
+<sect2>
+ <title>Two approaches to experiments</title> 
 
+    <formalpara><title>Use external program to execute
+        Swarms</title><para></para></formalpara>
 
-</SECT2>
-</SECT1>
+    <formalpara><title>Use Swarm to control experiment
+        runs</title><para> External program </para></formalpara>
+
+</sect2>
+
+<sect2>
+ <title>Two approaches: Pros and cons</title> 
+
+    <formalpara><title>Use Swarm to control experiment runs</title><para>
+      </para></formalpara>
+
+    <formalpara><title>Pros:</title><para>
+        <itemizedlist>
+          <listitem>
+            All processing is done within Swarm framework</listitem>
+          <listitem>
+            Can use GUI interactively</listitem>
+        </itemizedlist>
+
+    <formalpara><title>Cons</title><para>
+        <itemizedlist>
+          <listitem>
+            Sequential - can't parallelize in present form</listitem>
+        </itemizedlist>
+      </para></formalpara>
+
+    <formalpara><title>Use external program to execute Swarms</title>
+      <para></para>
+    </formalpara>
+
+    <formalpara><title>Pros:</title><para>
+        <itemizedlist>
+          <listitem>
+            Can do "poor man's" paralellization on multiprocessor 
+            machines</listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
+
+    <formalpara><title>Cons:</title><para>
+        <itemizedlist>
+          <listitem>
+            Requires knowledge of tools outside Swarm framework</listitem>
+        </itemizedlist>
+      </para></formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>Creating a graph</title> 
+
+    <formalpara><title><classname>EZGraph</classname> class sets up
+        line graph for either</title><para>
+        <itemizedlist>
+          <listitem>
+            Single agent or object</listitem>
+          <listitem>
+            Collection of agents </listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
+
+    <formalpara><title>In both cases need</title><para>
+        <itemizedlist>
+          <listitem>
+            Name of sequence</listitem>
+          <listitem>
+            Type of sequence (Count, Total, Average, Min, Max)</listitem>
+          <listitem>
+            Target (obj or collection)</listitem>
+          <listitem>
+            Name of method to fetch data</listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
+
+    <literallayout>Agent
+      Averager
+      Collection
+    </literallayout>
+
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

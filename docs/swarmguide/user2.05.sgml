@@ -1,93 +1,59 @@
-<SECT1 id="SWARM.USER.USER2.05.SECT1">
-  <TITLE>Building agents</TITLE>
+<sect1 id="swarm.user.user2.05.sect1">
+  <title>Building agents</title>
 
-<SECT2>
- <TITLE>Step II: Building the agents</TITLE> 
+<sect2>
+ <title>Step II: Building the agents</title> 
 
+    <programlisting>- buildObjects 
+{
 
+ foodSpace = [FoodSpace createBegin: globalZone];
+ [foodSpace setSizeX: worldXSize Y: worldYSize];
+ foodSpace = [foodSpace createEnd];
+ [foodSpace seedFoodWithProb: seedProb];
 
+ aBug = [Bug createBegin: globalZone];
+ [aBug setWorldSizeX: worldXSize Y: worldYSize];
+ [aBug setFoodSpace: foodSpace];
+ [aBug setX: xPos Y: yPos];
+ aBug = [aBug createEnd];
 
-<H2>-buildObjects {
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>  foodSpace = [FoodSpace createBegin: globalZone];
-</TITLE><PARA>
-</UL><UL>
-<H2>  [foodSpace setSizeX: worldXSize Y: worldYSize];
-</TITLE><PARA>
-</UL><UL>
-<H2>  foodSpace = [foodSpace createEnd];
-</TITLE><PARA>
-</UL><UL>
-<H2>  [foodSpace seedFoodWithProb: seedProb];
-</TITLE><PARA>
-</UL><UL>
-<H2>  
-</TITLE><PARA>
-</UL><UL>
-<H2>  aBug = [Bug createBegin: globalZone];
-</TITLE><PARA>
-</UL><UL>
-<H2>  [aBug setWorldSizeX: worldXSize Y: worldYSize];
-</TITLE><PARA>
-</UL><UL>
-<H2>  [aBug setFoodSpace: foodSpace];
-</TITLE><PARA>
-</UL><UL>
-<H2>  [aBug setX: xPos Y: yPos];
-</TITLE><PARA>
-</UL><UL>
-<H2>  aBug = [aBug createEnd];
-</TITLE><PARA>
-</UL><UL>
-<H2>  
-</TITLE><PARA>
-</UL><UL>
-<H2>  return self; }</TITLE><PARA>
-</PARA></FORMALPARA> 
+ return self; 
 
+}
+</programlisting>
 
+</sect2>
 
+<sect2>
+ <title>Details on the buildObjects phase</title> 
 
-</SECT2>
+    <formalpara><title>The purpose of this method is to create each instance 
+        of objects needed at the start of simulation, and then to pass parameters 
+        to the objects</title><para></para></formalpara>
 
-<SECT2>
- <TITLE>Details on the buildObjects phase</TITLE> 
+    <formalpara><title>It is good OOP protocol to provide setX: methods for each 
+        parameter X we want to set, as in: [aBug setFoodSpace: foodSpace]</title><para>
+      </para></formalpara> 
 
+</sect2>
 
+<sect2>
+ <title>Why createBegin vs. create?</title> 
 
+    <formalpara><title>Using createBegin:, createEnd is appropriate when we 
+        want a reminder that the object needs to initialize something, 
+        calculate or set (usually this code is put in the createEnd method).</title>
+      <para></para></formalpara>
 
-<FORMALPARA><TITLE>The purpose of this method is to create each instance of objects needed at the start of simulation, and then to pass parameters to the objects
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>It is good OOP protocol to provide setX: methods for each parameter X we want to set, as in: [aBug setFoodSpace: foodSpace]</TITLE><PARA>
-</PARA></FORMALPARA> 
+    <formalpara><title>Always use createBegin with createEnd to 
+        avoid messy problems</title><para></para></formalpara>
 
+    <formalpara><title>But create: is perfectly fine if we just want just to 
+        create an object without further ado</title><para></para></formalpara> 
 
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>Why createBegin vs. create?</TITLE> 
-
-
-
-
-<FORMALPARA><TITLE>Using createBegin:, createEnd is appropriate when we want a reminder that the object needs to initialize something, calculate or set (usually this code is put in the createEnd method).
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Always use createBegin with createEnd to avoid messy problems
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>But create: is perfectly fine if we just want just to create an object without further ado</TITLE><PARA>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

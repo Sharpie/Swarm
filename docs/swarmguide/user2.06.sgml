@@ -1,153 +1,88 @@
-<SECT1 id="SWARM.USER.USER2.06.SECT1">
-  <TITLE>Building schedules</TITLE>
+<sect1 id="swarm.user.user2.06.sect1">
+  <title>Building schedules</title>
 
-<SECT2>
- <TITLE>Step III: Building schedules </TITLE> 
+<sect2>
+ <title>Step III: Building schedules </title> 
 
+    <programlisting>-buildActions 
+{
 
+ modelSchedule=[Schedule createBegin: self];
+ [modelSchedule setRepeatInterval: 1];
+ modelSchedule = [modelSchedule createEnd];
 
+ [modelSchedule at: 0 createActionTo: aBug message: M(step)];
 
-<H2>-buildActions {
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>
-</TITLE><PARA>
-</UL><UL>
-<H2>modelSchedule=[Schedule createBegin: self];
-</TITLE><PARA>
-</UL><UL>
-<H2>[modelSchedule setRepeatInterval: 1];
-</TITLE><PARA>
-</UL><UL>
-<H2>modelSchedule = [modelSchedule createEnd];
-</TITLE><PARA>
-</UL><UL>
-<H2>
-</TITLE><PARA>
-</UL><UL>
-<H2>[modelSchedule at: 0 
-</TITLE><PARA>
-</UL><UL>
-<H2>   createActionTo: aBug  
-</TITLE><PARA>
-</UL><UL>
-<H2>          message: M(step)];
-</TITLE><PARA>
-</UL><UL>
-<H2>return self;
-</TITLE><PARA>
-</UL><UL>
-<H2>}</TITLE><PARA>
-</PARA></FORMALPARA> 
+ return self;
+}
+</programlisting>
 
+</sect2>
 
+<sect2>
+ <title>Schedules</title> 
 
+    <para>Schedules define event in terms of:
+      <itemizedlist>
+        <listitem>Time of first invocation</listitem>
+        <listitem>Target object           </listitem>
+        <listitem>Method to call          </listitem>
+        <listitem>Repeat interval         </listitem>
+      </itemizedlist>
 
-</SECT2>
+      <programlisting>
+t=1
+t=2
+t=3
+[bug eat]
+[bug eat]
+[schedule at:  t createActionTo: agent message: M(method)]
+</programlisting>
 
-<SECT2>
- <TITLE>Schedules</TITLE> 
+    </para>
 
+</sect2>
 
+<sect2>
+ <title>ActivityGroups</title> 
 
+    <para>ActivityGroups group together events at same timestep. Schedule then 
+      <emphasis>executes</emphasis> group
+      <programlisting>t=1
+t=2
+t=3
+[bug eat]
+[bug eat]
+[bug sleep]
+[food grow]
+</programlisting>
 
-Schedules define event in terms of:
-<UL>
-Time of first invocation
-Target object
-Method to call
-Repeat interval </UL></UL></P>
-t=1<BR></UL></P>
-t=2<BR></UL></P>
-t=3<BR></UL></P>
-[bug eat]<BR></UL></P>
-[bug eat]<BR></UL></P>
+</sect2>
 
-<BR></UL></P>
-[schedule at:      t 
-<BR></UL><UL>
-createActionTo: agent
-</UL><UL>
-message:            M(method)]</UL></P>
-1<BR></UL></P>
-2<BR></UL></P>
-3<BR></UL></P>
-2<BR></UL></P>
-1<BR></UL></P>
-4<BR></UL></P>
-3<BR></UL></P>
-</PARA></FORMALPARA> 
+<sect2>
+ <title>Implementation</title> 
 
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>ActivityGroups</TITLE> 
-
-
-
-
-ActivityGroups group together events at same timestep
-</PARA></FORMALPARA>
-Schedule then ôexecutesö group</UL></P>
-t=1<BR></UL></P>
-t=2<BR></UL></P>
-t=3<BR></UL></P>
-[bug eat]<BR></UL></P>
-[bug eat]<BR></UL></P>
-[bug sleep]<BR></UL></P>
-[food grow]<BR></UL></P>
-
-<BR></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>Implementation</TITLE> 
-
-
-
-
+    <programlisting>
 schedule1=[Schedule createBegin: [self getZone]];
-<BR></UL><UL>
 [schedule1 setRepeatInterval: 2];
-</UL><UL>
 schedule1=[schedule1 createEnd];
-</UL><UL>
 [schedule1 at: 1 createActionTo: bug message: M(eat)];
-</UL><UL>
 
-</UL><UL>
 actionGroup=[ActionGroup createBegin: [self getZone]];
-</UL><UL>
 [actionGroup createEnd];
-</UL><UL>
 [actionGroup createActionTo: bug message: M(sleep)];
-</UL><UL>
 [actionGroup createActionTo: food message: M(grow)];
-</UL><UL>
 schedule2=[Schedule createBegin: [self getZone]];
-</UL><UL>
 schedule2=[schedule2 createEnd];
-</UL><UL>
 [schedule2 at: 2 createAction: actionGroup];
-</UL></P>
-t=1<BR></UL></P>
-t=2<BR></UL></P>
-t=3<BR></UL></P>
-</PARA></FORMALPARA> 
 
+t=1
+t=2
+t=3
+</programlisting>
 
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

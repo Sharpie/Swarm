@@ -1,81 +1,117 @@
-<SECT1 id="SWARM.USER.USER2.10.SECT1">
-  <TITLE>Swarm and probes</TITLE>
+<sect1 id="swarm.user.user2.10.sect1">
+  <title>Swarm and probes</title>
 
-<SECT2>
- <TITLE>Bug with Observer II: Add probes</TITLE> 
+<sect2>
+ <title>Bug with Observer II: Add probes</title> 
 
+<!-- need image -->
 
-
-
+    <programlisting>
 Model
-<BR></UL><UL>
-Swarm</UL></P>
-bugList<BR></UL></P>
+Swarm
+bugList
 Observer
-<BR></UL><UL>
-Swarm</UL></P>
-Probe<BR></UL></P>
-Probe<BR></UL></P>
-main<BR></UL></P>
-</PARA></FORMALPARA> 
+Swarm
+Probe
+Probe
+main
+</programlisting>
+
+
+</sect2>
+
+<sect2>
+ <title>How the probes come in...</title> 
+
+    <programlisting>Observer
+Swarm
+Model
+Swarm
+</programlisting>
+
+    <itemizedlist>
+      <listitem>
+        <para>A custom ProbeMap with 4 MessageProbes</para></listitem>
+      <listitem>
+        <para>A custom ProbeMap with 1 MessageProbes</para></listitem>
+      <listitem>
+        <para>ControlPanel is provided by kernel</para></listitem>
+    </itemizedlist>
+
+</sect2>
+
+<sect2>
+ <title>Brief overview of probes</title> 
+
+<para>Two major uses for probes:
+      
+      <itemizedlist>
+        <listitem>
+          To interface with an object </listitem>
+        <listitem>
+          To create a GUI to an object</listitem>
+      </itemizedlist>
+
+      Interface with an object of two types:
+
+      <itemizedlist>
+        <listitem>VarProbe: 	   Probes an instance variable</listitem>
+        <listitem>MessageProbe:    Probes a method</listitem>
+      </itemizedlist>
+
+      GUI utilities:
+      <itemizedlist>
+        <listitem>ProbeMap: 	  Collection of Var and MessageProbes</listitem>
+      </itemizedlist>
+
+</sect2>
+
+<sect2>
+ <title>Creating graphic probe to object</title> 
 
 
 
 
-</SECT2>
+    <formalpara><title>Check out instance of EmtpyProbeMap</title>
+      <para></para></formalpara>
 
-<SECT2>
- <TITLE>Creating ModelSwarmÆs probe</TITLE> 
+    <formalpara><title>Attach VarProbe or MessageProbe to each
+        variable or message to appear on GUI</title><para>
+      </para></formalpara>
 
+    <formalpara><title>Put each probe on
+        ProbeMap</title><para></para></formalpara>
 
+    <formalpara><title>Ask probeDisplayManager to create actual
+        widget</title><para>
+        <literallayout>
+Object
+VarProbes
+MessageProbe
+A ProbeMap
+        </literallayout>
 
+      </para></formalpara> 
 
-<H2>probeMap = [EmptyProbeMap createBegin: self];
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>[probeMap setProbedClass: [self class]];
-</TITLE><PARA>
-</UL><UL>
-<H2>probeMap = [probeMap createEnd];
-</TITLE><PARA>
-</UL><UL>
-<H2> 
-</TITLE><PARA>
-</UL><UL>
-<H2> [probeMap addProbe: [probeLibrary
-</TITLE><PARA>
-</UL><UL>
-<H2>getProbeForVariable: "worldXSizeö 
-</TITLE><PARA>
-</UL><UL>
-<H2>            inClass: [self class]]];
-</TITLE><PARA>
-</UL><UL>
-<H2> 
-</TITLE><PARA>
-</UL><UL>
-<H2>[probeLibrary setProbeMap: probeMap 
-</TITLE><PARA>
-</UL><UL>
-<H2>                      For: [self class]];
-</TITLE><PARA>
-</UL><UL>
-<H2>(also must execute CREATE_PROBE_DISPLAY macro
-</TITLE><PARA>
-</UL><UL>
-<H2> in ObserverSwarm)
-</TITLE><PARA>
-1<BR></UL></P>
-2<BR></UL></P>
-3<BR></UL></P>
-4<BR></UL></P>
-</PARA></FORMALPARA> 
+</sect2>
 
+<sect2>
+ <title>Creating ModelSwarm's probe</title> 
 
+    <programlisting>probeMap = [EmptyProbeMap createBegin: self];
+[probeMap setProbedClass: [self class]];
+probeMap = [probeMap createEnd];
 
+[probeMap addProbe: [probeLibrary getProbeForVariable: "worldXSize"
+          inClass: [self class]]];
 
-</SECT2>
-</SECT1>
+[probeLibrary setProbeMap: probeMap For: [self class]];
+
+(also must execute CREATE_PROBE_DISPLAY macro in ObserverSwarm)
+</programlisting>
+
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

@@ -1,63 +1,267 @@
-<SECT1 id="SWARM.USER.USER2.09.SECT1">
-  <TITLE>Swarm with GUI: Observer Swarms</TITLE>
+<sect1 id="swarm.user.user2.09.sect1">
+  <title>Swarm with GUI: Observer Swarms</title>
 
-<SECT2>
- <TITLE>Bug with Observer: Adding GUI</TITLE> 
+<sect2>
+ <title>Bug with Observer: Adding GUI</title> 
 
-
-
-
-Raster<BR></UL></P>
-main<BR></UL></P>
+    <programlisting>Raster
+main
 Food
-<BR></UL><UL>
-Space</UL></P>
+
+Space
 Model
-<BR></UL><UL>
-Swarm</UL></P>
-bugList<BR></UL></P>
-Observer
-<BR></UL><UL>
-Swarm</UL></P>
-World<BR></UL></P>
-Value2dDisplay<BR></UL></P>
-Object2dDisplay<BR></UL></P>
-Colormap<BR></UL></P>
-</PARA></FORMALPARA> 
+
+Swarm
+bugListObserver
+
+Swarm
+World
+Value2dDisplay
+Object2dDisplay
+Colormap
+</programlisting>
+
+</sect2>
+
+<sect2>
+ <title>Creating an ObserverSwarm</title> 
+
+    <formalpara>
+      <title> createBegin, createEnd </title>
+      <para> Initialize memory and parameters</para>
+    </formalpara>
+
+    <formalpara>
+      <title>buildObjects</title><para>Build ModelSwarm
+        Build graphs, rasters and probes
+      </para>
+    </formalpara>
+
+    <formalpara>
+      <title>buildActions</title>
+      <para>Define order and timing of GUI events</para>
+    </formalpara>
+
+    <formalpara>
+      <title>activate</title>
+      <para></PARA></FORMALPARA> 
+
+</sect2>
+
+<sect2>
+ <title>Step I: Initializing</title> 
+    <programlisting>
+<![CDATA[
++ createBegin: aZone 
+{
+  ObserverSwarm *obj;
+  obj = [super createBegin: aZone];
+  obj->displayFrequency = 1;
+  return obj;
+}
+]]>
+</programlisting>
+</sect2>
+
+<sect2>
+ <title>Step II: Creating objects</title> 
+
+    <programlisting>- buildObjects 
+{
+  [super buildObjects]; 
+
+  modelSwarm = [ModelSwarm create: self];  
+  [controlPanel setStateStopped];
+  [modelSwarm buildObjects];
+
+  (create Colormap)
+
+  (create Raster)
+
+  (create foodDisplay)
+
+  (create bugDisplay)
+
+  return self;
+}
+</programlisting>
+
+</sect2>
+
+<sect2>
+ <title>Step III: Building schedules</title> 
+
+    <programlisting>- buildActions 
+{
+
+ [super buildActions];
+ [modelSwarm buildActions];
+
+ (create ActionGroup)
+
+   (create foodDisplay action)
+
+   (create bugDisplay action)
+
+   (create worldRaster action)
+
+   (create GUI update action)
+
+   (create Schedule)
+
+   (create action to ActionGroup)
+
+   return self;
+}
+</programlisting>
+
+</sect2>
+
+<sect2>
+ <title>Step IV: Activating the Swarms</title> 
+
+    <programlisting>- activateIn: swarmContext {
+
+  [super activateIn: swarmContext];
+  [modelSwarm activateIn: self];
+  [displaySchedule activateIn: self];
+  return [self getSwarmActivity];
+}
+</programlisting>
+
+</sect2>
+
+<sect2>
+ <title>Integration of Swarm activities</title> 
+
+<!-- need image here!! I think, AKL -->
+
+    <para>
+      Sub-Swarm
+      ModelSwarm
+      ObserverSwarm
+      Swarm kernel
+    </para>
+
+</sect2>
+
+<sect2>
+ <title>Multilevel activation</title> 
+
+    <programlisting>
+- activateIn: swarmContext
+{
+ [schedule activateIn: self];
+ [subSwarm activateIn: self];
+ return self;
+}
+</programlisting>
+
+    <para>In main.m: <literal>[topSwarm activateIn: nil];</literal>
+
+      <programlisting>
+- activateIn: swarmContext
+{
+ [schedule activateIn: self];
+ return self;
+}
+</programlisting>
+</para>
+
+</sect2>
+
+<sect2>
+ <title>Merging two Swarms</title> 
+
+    <orderedlist>
+      <listitem>
+        main( ) creates ObserverSwarm</listitem>
+
+      <listitem>
+        ObserverSwarm creates ModelSwarm as a subswarm in own memory zone
+      </listitem>
+
+      <listitem>
+        ModelSwarm creates agents and activates self in ObserverSwarm</listitem>
+    </orderedlist>
 
 
+<!-- again, figure required, AKL -->
 
+    <programlisting>
+[modelSwarm create: self];
 
-</SECT2>
+[modelSwarm buildObjects];
 
-<SECT2>
- <TITLE>What do these new objects do?</TITLE> 
+[modelSwarm buildActions];
 
+[modelSwarm activateIn: self];
 
+-create: aZone;
 
+-buildObjects;
 
-food<BR></UL></P>
-bugList<BR></UL></P>
-world<BR></UL></P>
-Raster<BR></UL></P>
-Holds x,y
-<BR></UL><UL>
-location of food as array of 0,1</UL></P>
-Holds x,y
-<BR></UL><UL>
-locations of bugs as array of ids</UL></P>
-Object2dDisplay<BR></UL></P>
-Value2dDisplay<BR></UL></P>
-Colormap<BR></UL></P>
-ModelSwarm<BR></UL></P>
-ObserverSwarm<BR></UL></P>
-</PARA></FORMALPARA> 
+-buildActions;
 
+-activateIn: swarmContext;
+</programlisting>
 
+</sect2>
 
+<sect2>
+ <title>Managing the Raster display</title> 
 
-</SECT2>
-</SECT1>
+    <para><classname>ZoomRaster</classname> displays data from
+      lattice.  We will display the food distribution from
+      <classname>FoodSpace</classname> and ask bugs to draw location.
+      In addition to <classname>ZoomRaster</classname> need the 3
+      classes:
+    </para>
+
+    <itemizedlist>
+      <listitem>
+        <formalpara>
+          <title><classname>ColorMap</classname></title>
+          <para>Associates a number with a color in palette</para>
+        </formalpara>
+      </listitem>
+
+      <listitem>
+        <formalpara>
+          <title><classname>Value2dDisplay</classname></title>
+          <para>Maps array of x,y int data to raster</para>
+        </formalpara>
+      </listitem>
+
+      <listitem>
+        <formalpara>
+          <title><classname>Object2dDisplay</classname></title>
+          <para>Feeds data from agents & captures mouseclick</para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
+
+</sect2>
+
+<sect2>
+ <title>What do these new objects do?</title> 
+
+    <para>food -- Holds x,y location of food as array of 0,1.  bugList -- 
+      Holds x,y locations of bugs as array of ids
+    </para>
+    
+    <programlisting>world
+Raster
+
+Object2dDisplay
+Value2dDisplay
+Colormap
+ModelSwarm
+ObserverSwarm
+</programlisting>
+
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")
