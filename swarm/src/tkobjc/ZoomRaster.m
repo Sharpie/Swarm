@@ -178,6 +178,39 @@
   return self;
 }
 
+- ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+      Width: (unsigned)penWidth Color: (Color)c
+{
+  tkobjc_raster_ellipse (self,
+                         x0 * zoomFactor, y0 * zoomFactor,
+                         (x1 - x0) * zoomFactor, (y1 - y0) * zoomFactor,
+                         penWidth, c);
+
+  return self;
+}
+
+- lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+   Width: (unsigned)penWidth Color: (Color)c
+{
+  tkobjc_raster_line (self,
+                      x0 * zoomFactor, y0 * zoomFactor,
+                      x1 * zoomFactor, y1 * zoomFactor,
+                      penWidth, c);
+
+  return self;
+}
+
+- rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+        Width: (unsigned)penWidth Color: (Color)c
+{
+  tkobjc_raster_rectangle (self,
+                           x0 * zoomFactor, y0 * zoomFactor,
+                           (x1 - x0) * zoomFactor, (y1 - y0) * zoomFactor,
+                           penWidth, c);
+  
+  return self;
+}
+
 - draw: (id <Drawer>)drawer X:(int)x Y: (int)y
 {
   return [drawer drawX: x * zoomFactor Y: y * zoomFactor];
