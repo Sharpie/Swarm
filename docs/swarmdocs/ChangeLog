@@ -1,5 +1,9 @@
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* configure.in: Update help strings to be conventional.  Get
+	default for stylesheet from DOCBOOK, defaulting to
+	/DocBookStyleSheets.
+
 	* protocol.el (module): Rename slot module to sym.  New slots
 	function-list and line.  Remove scratch-doc-list; item-doc-list is
 	now used for globals, macros, and typedefs as well.

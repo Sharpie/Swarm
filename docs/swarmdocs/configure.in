@@ -3,17 +3,27 @@ AC_INIT(protocol.el)
 AM_INIT_AUTOMAKE(Swarmdocs, 0.0)
 
 AC_ARG_WITH(swarm,dnl
-  --with-swarm=$(SWARMHOME),dnl
+changequote(<,>)dnl
+  --with-swarm=DIR        Swarm in DIR [$(SWARMHOME)],dnl
+changequote([,])dnl
   swarm_srcdir=$withval,dnl
   swarm_srcdir='$(SWARMHOME)')
 
+if test -z "$DOCBOOK" ; then
+  DOCBOOK=/DocBookStylesheets
+fi
+
 AC_ARG_WITH(stylesheet,dnl
-  --with-stylesheet=directory-of-stylesheets,dnl
+changequote(<,>)dnl
+  --with-stylesheet=DIR   DSSSL style sheets in DIR [${DOCBOOK:-/DocBookStyleSheets}],dnl
+changequote([,])dnl
   stylesheets_srcdir=$withval,dnl
-  stylesheets_srcdir=/net/wijiji/disk2/src/docbook)
+  stylesheets_srcdir=\$DOCBOOK)
 
 AC_ARG_WITH(gridturtle,dnl
-  --with-gridturtle=directory-of-gridturtle,dnl
+changequote(<,>)dnl
+  --with-gridturtle=DIR   GridTurtle in DIR [$(swarm_srcdir)/../gridturtle],dnl
+changequote([,])dnl
   gridturtle_srcdir=$withval,dnl
   gridturtle_srcdir=$swarm_srcdir/../gridturtle)
 
