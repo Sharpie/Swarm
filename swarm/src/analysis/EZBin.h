@@ -66,4 +66,6 @@
 - (double)getMax;
 - (double)getAverage;
 - (double)getStd;
+
+- (id <Histogram>)getHistogram;
 @end

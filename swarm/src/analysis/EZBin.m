@@ -79,9 +79,9 @@ PHASE(Creating)
 
   [super createEnd];
 
-  distribution = (int *)xmalloc (binNum * sizeof(int));
-  cachedLimits = (double *)xmalloc (binNum * sizeof(double));
-  locations = (double *)xmalloc (binNum * sizeof(double));
+  distribution = (int *)xmalloc (binNum * sizeof (int));
+  cachedLimits = (double *)xmalloc (binNum * sizeof (double));
+  locations = (double *)xmalloc (binNum * sizeof (double));
   step = (max - min) / ((double) binNum);
 
   for (i = 0; i < binNum; i++)
@@ -268,7 +268,6 @@ PHASE(Using)
 
 - outputGraph 
 {
-
   if (graphics)
     {
       [aHisto setActiveOutlierText: outliers count: count];
@@ -285,10 +284,11 @@ PHASE(Using)
   if (fileOutput)
     {
       [anOutFile putInt: distribution[0]];
-      for(i = 1; i < binNum; i++){
-        [anOutFile putTab];
-        [anOutFile putInt: distribution[i]];
-      }
+      for(i = 1; i < binNum; i++)
+        {
+          [anOutFile putTab];
+          [anOutFile putInt: distribution[i]];
+        }
       [anOutFile putNewLine];
     }
 
@@ -339,11 +339,9 @@ PHASE(Using)
 - (double)getMax
 {
   if (clean)
-    {
-      [InvalidOperation
-        raiseEvent:
-          "Attempted to getMax from a reset EZBin (no data available).\n"];
-    }
+    [InvalidOperation
+      raiseEvent:
+        "Attempted to getMax from a reset EZBin (no data available).\n"];
   
   return maxval;
 }
@@ -351,22 +349,18 @@ PHASE(Using)
 - (double)getAverage
 {
   if (clean)
-    {
-      [InvalidOperation
-        raiseEvent:
-          "Attempted to getAverage from a reset EZBin (no data available).\n"];
-    }
+    [InvalidOperation
+      raiseEvent:
+        "Attempted to getAverage from a reset EZBin (no data available).\n"];
   return average;
 }
 
 - (double)getStd
 {
   if (clean)
-    {
-      [InvalidOperation
-        raiseEvent:
-          "Attempted to getStd from a reset EZBin (no data available).\n"];
-    }
+    [InvalidOperation
+      raiseEvent:
+        "Attempted to getStd from a reset EZBin (no data available).\n"];
   
   return std;
 }
@@ -381,6 +375,11 @@ PHASE(Using)
     [anOutFile drop];
   
   [super drop];
+}
+
+- (id <Histogram>)getHistogram
+{
+  return aHisto;
 }
 
 @end

@@ -185,6 +185,9 @@ USING
 //M: The getStd method gets the standard deviation in the dataset. The 
 //M: value is read out of the object, not computed everytime it is asked for.
 - (double)getStd;
+
+//M: Return the histogram widget.
+- (id <Histogram>)getHistogram;
 @end
 
 @protocol EZDistribution <EZBin>
