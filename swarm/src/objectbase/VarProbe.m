@@ -13,7 +13,7 @@
 #include "../defobj/internal.h" // process_array
 
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // directory services for Java Proxy lookup
+#import <defobj/directory.h> // SD_FINDJAVA, JNI
 #include <defobj/javavars.h>
 #endif
 
@@ -66,51 +66,24 @@ PHASE(Creating)
 							    probedVariable));
       if (!fieldObject)
 	raiseEvent (SourceMessage,
-		    "Can not find field to be probed in the Java class !\n"); 
+		    "Can not find field to be probed in the Java class!\n"); 
       fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, fieldObject);
 
-      fieldType = (*jniEnv)->CallObjectMethod(jniEnv,
-                                              fieldObject, 
-					      m_FieldGetType);      
+      fieldType = (*jniEnv)->CallObjectMethod (jniEnv,
+                                               fieldObject, 
+                                               m_FieldGetType);      
       if (!fieldType)
-	raiseEvent (SourceMessage,
-		    "Unknown type of probed field!\n");
+	raiseEvent (SourceMessage, "Unknown type of probed field!\n");
+
       fieldType = (*jniEnv)->NewGlobalRef (jniEnv, fieldType);
       {
-	//ugly!
-          jboolean classp (jclass matchClass)
-            {
-              return (*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass);
-            }
-          (char *) probedType = [aZone alloc: 1];
-          if (classp (c_Object))
-            ((char *) probedType)[0] = _C_ID;
-          else if (classp (c_String))
-            ((char *) probedType)[0] = _C_CHARPTR;
-          else if (classp (c_int))
-            ((char *) probedType)[0] = _C_INT;
-          else if (classp (c_short))
-            ((char *) probedType)[0] = _C_SHT;
-          else if (classp (c_long))
-            ((char *) probedType)[0] = _C_LNG;
-          else if (classp (c_boolean))
-            ((char *) probedType)[0] = _C_UCHR;
-          else if (classp (c_byte))
-            ((char *) probedType)[0] = _C_UCHR;
-          else if (classp (c_char))
-            ((char *) probedType)[0] = _C_CHR;
-          else if (classp (c_float))
-            ((char *) probedType)[0] = _C_FLT;
-          else if (classp (c_double))
-            ((char *) probedType)[0] = _C_DBL;
-          else if (classp (c_void))
-            ((char *) probedType)[0] = _C_VOID;
-          else
-            ((char *) probedType)[0] = _C_ID;
+        char *buf = [aZone alloc: 2];
+        
+        buf[0] = swarm_directory_objc_type_for_java_class (jniEnv, fieldType);
+        buf[1] = '\0';
+        
+        probedType = (const char *) buf;
       }
-    
-
-
       interactiveFlag = YES;
       return self;
     }

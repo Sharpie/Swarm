@@ -1,5 +1,8 @@
 1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* VarProbe.m ([VarProbe -createEnd]): Use
+	swarm_directory_objc_type_for_java_class instead of duplicate code.
+
 	* ProbeMap.m ([ProbeMap -addJavaFields:], [ProbeMap
 	-addJavaMethods:]): New methods.
 	([ProbeMap -createEnd]): Rewrite to use them.
