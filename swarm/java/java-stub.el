@@ -17,6 +17,7 @@
       ("char \\*" . "java.lang.String")
 
       ("const char \\*\\*" . "java.lang.String[]")
+      ("const char \\* const \\*" . "java.lang.String[]")
       
       ("char" . "char")
       ("unsigned char" . "byte")

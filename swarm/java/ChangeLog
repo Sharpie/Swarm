@@ -1,5 +1,9 @@
-2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+2001-04-04  Marcus G. Daniels  <mgd@drone.swarm.org>
 
+	* java-stub.el (*objc-to-java-type-alist*): Convert 
+	const char * const * to java.lang.String[].
+
+2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 	* java-stub.el (java-print-class-target): New function.
 	(java-print-method-invocation-arguments): use it.
 	(java-objc-type): Moved to interface.el as c-objc-type.
