@@ -1,3 +1,8 @@
+1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* simtools.[hm] (initSwarmBatch): New function.
+	(initSwarmApp, initSwarmAppOptions): Add batchMode argument.
+
 1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* simtools.m (init): Don't setup any error or warning types.

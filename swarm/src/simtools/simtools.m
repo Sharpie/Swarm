@@ -20,7 +20,8 @@ init (int argc, const char **argv,
       const char *version, const char *bugAddress,
       Class argumentsClass,
       struct argp_option *options,
-      int (*optionFunc) (int key, const char *arg))
+      int (*optionFunc) (int key, const char *arg),
+      BOOL forceBatchMode)
 {
   initModule (activity);
 
@@ -31,7 +32,7 @@ init (int argc, const char **argv,
 
   initProbing ();
 
-  swarmGUIMode = ![arguments getBatchModeFlag];
+  swarmGUIMode = ![arguments getBatchModeFlag] && !forceBatchMode;
 
   initRandom (arguments);
 
@@ -42,33 +43,41 @@ init (int argc, const char **argv,
 void
 initSwarm (int argc, const char **argv)
 {
-  init (argc, argv, NULL, NULL, Nil, NULL, NULL);
+  init (argc, argv, NULL, NULL, Nil, NULL, NULL, NO);
+}
+
+void
+initSwarmBatch (int argc, const char **argv)
+{
+  init (argc, argv, NULL, NULL, Nil, NULL, NULL, YES);
 }
 
 void
 initSwarmApp (int argc, const char **argv,
-              const char *version, const char *bugAddress)
+              const char *version, const char *bugAddress, BOOL batchMode)
 {
-  init (argc, argv, version, bugAddress, Nil, NULL, NULL);
+  init (argc, argv, version, bugAddress, Nil, NULL, NULL, batchMode);
 }
 
 void
 initSwarmAppOptions (int argc, const char **argv,
                      const char *version, const char *bugAddress,
                      struct argp_option *options,
-                     int (*optionFunc) (int key, const char *arg))
+                     int (*optionFunc) (int key, const char *arg),
+                     BOOL batchMode)
 {
   init (argc, argv,
         version, bugAddress,
         Nil,
-        options, optionFunc);
+        options, optionFunc,
+        batchMode);
 }
 
 
 void
 initSwarmArguments (int argc, const char **argv, Class argumentsClass)
 {
-  init (argc, argv, NULL, NULL, argumentsClass, NULL, NULL);
+  init (argc, argv, NULL, NULL, argumentsClass, NULL, NULL, NO);
 }
 
 void
@@ -76,5 +85,5 @@ initSwarmAppArguments (int argc, const char **argv,
                        const char *version, const char *bugAddress,
                        Class argumentsClass)
 {
-  init (argc, argv, version, bugAddress, argumentsClass, NULL, NULL);
+  init (argc, argv, version, bugAddress, argumentsClass, NULL, NULL, NO);
 }

@@ -336,15 +336,21 @@ USING
 //F: information.
 extern void initSwarm (int argc, const char **argv);
 
+//F: Initializes the Swarm libraries for batch mode
+//F: without version or bug report address information.
+extern void initSwarmBatch (int argc, const char **argv);
+
 //F: Initializes the Swarm libraries for an application.  
 extern void initSwarmApp (int argc, const char **argv,
-                          const char *version, const char *bugAddress);
+                          const char *version, const char *bugAddress,
+                          BOOL batchMode);
 
 //F: Like initSwarmApp, but specifies a parsing function .
 extern void initSwarmAppOptions (int argc, const char **argv,
                                  const char *version, const char *bugAddress,
                                  struct argp_option *options,
-                                 int (*optionFunc) (int key, const char *arg));
+                                 int (*optionFunc) (int key, const char *arg),
+                                 BOOL batchMode);
 
 //F: Like initSwarm, but specifies what class to use for argument
 //F: parsing, typically this will be a subclass of Arguments.
@@ -369,5 +375,3 @@ extern BOOL swarmGUIMode;
 @class ObjectSaver;
 @class QSort;
 @class NSelect;
-
-
