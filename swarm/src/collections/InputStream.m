@@ -203,8 +203,8 @@ readString (id inStream, BOOL literalFlag)
             break;
           [list addLast: newObj];
         }
-      
-      if (ARCHIVERDOTP ([list atOffset: 1]) && [list getCount] == 3)
+
+      if ([list getCount] == 3 && ARCHIVERDOTP ([list atOffset: 1]))
         {
           id pair = [ArchiverPair createBegin: aZone];
           

@@ -1,3 +1,8 @@
+1999-10-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputStream.m ([InputStream_c -getExpr]): Check length before
+	checking for dotted pair.
+
 1999-10-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* collections.m (_collections_implement): Call setTypeImplemented
