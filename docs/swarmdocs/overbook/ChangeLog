@@ -1,3 +1,9 @@
+1999-04-06  Alex Lancaster  <alex@santafe.edu>
+
+	* overbook.sgml: Change PUBLIC identifier for DTD to
+	"-//OASIS//DTD DocBook V3.1//EN".  Remove JPEG notation class: now
+	part of the 3.1 DTD.
+
 1999-02-17  Alex Lancaster  <alex@santafe.edu>
 
 	* over04.sgml (PROGRAMLISTING: main): Change comment that says
