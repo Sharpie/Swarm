@@ -1,3 +1,7 @@
+1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acwarnflags.m4: New file.
+
 1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4 (vj_DISABLE_JAVA): Remove.
