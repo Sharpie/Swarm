@@ -1,9 +1,9 @@
-<!entity overmeta.sgml system "overmeta.sgml">
-<!entity overrevhistory.sgml system "overrevhistory.sgml">
-<!entity overcont.sgml system "overcont.sgml">
-<!entity over01.sgml system "over01.sgml">
-<!entity over02.sgml system "over02.sgml">
-<!entity over03.sgml system "over03.sgml">
-<!entity over04.sgml system "over04.sgml">
-<!entity over05.sgml system "over05.sgml">
+<!entity overmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Metadata//EN">
+<!entity overrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Revision History//EN">
+<!entity overcont.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Content//EN">
+<!entity over01.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 1//EN">
+<!entity over02.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 2//EN">
+<!entity over03.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 3//EN">
+<!entity over04.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 4//EN">
+<!entity over05.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 5//EN">
 
