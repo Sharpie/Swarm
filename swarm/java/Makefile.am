@@ -10,7 +10,7 @@ EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
 
 define elcrule
 cp -f $< $(dir $@)_$(notdir $<)
-$(EMACS) -batch -f batch-byte-compile $(abs_builddir)/$(notdir $<)
+$(EMACS) -batch -f batch-byte-compile $(abs_builddir)/_$(notdir $<)
 mv $(dir $@)_$(notdir $@) $@
 $(RM) $(dir $@)_$(notdir $<)
 endef
