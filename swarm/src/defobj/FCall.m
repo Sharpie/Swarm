@@ -317,14 +317,12 @@ PHASE(Creating)
 {
   FCall_c *newCall = [aZone allocIVars: self];
   newCall->fargs = NULL;
-#ifdef HAVE_JDK
   {
     JOBJECT *ptr = [_obj_GCFixedRootZone allocBlock: GCINFO_SIZE];
     
     memset (ptr, 0, GCINFO_SIZE);
     newCall->gcInfo = ptr;
   }
-#endif
   return newCall;
 }
 
@@ -1021,10 +1019,9 @@ PHASE(Using)
     }
   else if (callType == javastaticcall)
     (*jniEnv)->DeleteGlobalRef (jniEnv, gc_fclass);
-
+#endif
   [_obj_GCFixedRootZone freeBlock: gcInfo blockSize: GCINFO_SIZE];
 
-#endif
   if (methodName)
     FREEBLOCK (methodName);
   [super dropAllocations: componentAlloc];
