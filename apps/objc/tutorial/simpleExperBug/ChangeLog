@@ -1,3 +1,22 @@
+1998-02-26  Alex Lancaster  <alex@santafe.edu>
+
+	* ModelSwarm.m ([ModelSwarm -build{Objects,Actions}]): Made all
+	references to object creation in create: and createBegin: calls be
+	to "self" rather than the redundant [self getZone].  Swarms are
+	now responsible for managing their own Zones.
+	
+	* ExperSwarm.m ([ExperSwarm -build{Objects,Actions}]): Likewise.
+	
+	* ExperSwarm.m ([ExperSwarm -dropModel]): Removed drop of
+	probeDisplay and made the drop message directly to the modelSwarm,
+	rather than the redundant modelZone.
+	
+	* ExperSwarm.[hm] ([ExperSwarm -buildModel]): Removed redundant
+	variable modelZone and its creation and use.  Also removed the
+	creation of the archived probeDisplay for modelSwarm, so that
+	simulations can be without any displays to interrupt cycling
+	through different models.
+	
 1998-02-11  Alex Lancaster  <alex@santafe.edu>
 
 	* ExperSwarm.h: Include objectbase.h instead of swarmobject.h.
