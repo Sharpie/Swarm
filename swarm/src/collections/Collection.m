@@ -242,6 +242,16 @@ indexAtOffset (Collection_any *self, int offset)
   [index drop];
 }
 
+- lispin: expr
+{
+  return self;
+}
+
+- lispout: stream
+{
+  return self;
+}
+
 @end
 
 // Index_any: index for any Collection

@@ -19,7 +19,7 @@ typedef struct mapentry {
   id  member;
 } *mapentry_t;
 
-@interface Map_c: Collection_any // <Map>
+@interface Map_c: Collection_any <Serialization>
 {
 @public
   id  list;                   // list of key-member entries in key sequence
@@ -40,7 +40,9 @@ typedef struct mapentry {
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - createIndex: aZone fromMember: anObject;
 - createIndex: aZone fromKey: aKey;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
+- lispin: expr;
+- lispout: stream;
 @end
 
 @interface MapIndex_c: Index_any // <MapIndex>

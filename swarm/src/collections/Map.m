@@ -281,7 +281,7 @@ PHASE(Using)
   return nil;
 }
 
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   id index;
   mapentry_t anEntry;
@@ -295,6 +295,16 @@ PHASE(Using)
       [index drop];
     }
   mapObject (mapalloc, list);
+}
+
+- lispin: expr
+{
+  return self;
+}
+
+- lispout: stream
+{
+  return self;
 }
 
 @end

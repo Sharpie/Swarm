@@ -87,7 +87,7 @@ USING
 @end
 
 
-@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
+@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach, Serialization>
 //S: A generic collection interface.
 
 //D: A collection is a grouping of object references or other data values which
@@ -148,7 +148,6 @@ USING
 //D: collections library.
 
 CREATING
-
 //M: This boolean-valued option restricts valid usage of a collection by
 //M: excluding all operations which add or remove members.  For some
 //M: collection subtypes, a replace-only restriction can obtain many of the
@@ -872,7 +871,7 @@ USING
 //D: unique position within the member sequence
 @end
 
-@protocol Map <KeyedCollection, CREATABLE>
+@protocol Map <KeyedCollection, Serialization, CREATABLE>
 //S: Collection of associations from key objects to member objects.
 
 //D: Map is a subtype of KeyedCollection in which the key value associated

@@ -1,5 +1,18 @@
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Collection.m ([Collection_any -lispin:], [Collection_any
+	-lispout:]): Stubs.
+
+	* Map.m ([Map_c -lispin:], [Map_c -lispout:]): Likewise.
+
+	* Collection.h (Collection_any): Conform to Serialization protocol.
+	Declare -lispin: and -lispout:.
+
+	* Map.h (Map_c): Likewise.
+
+	* collections.h (Collections, Map): Adopt Serialization 
+	protocol.
+
 	* Collection.[hm], Map.[hm]: Reformatting throughout.
 
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
