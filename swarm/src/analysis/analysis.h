@@ -148,7 +148,7 @@ CREATING
 - setUpperBound: (double)theMax;
 
 //M: Set a custom vector of colors for the histogram bars
-- setColors: (const char * const *)colors count: (unsigned)nc;
+- setColors: (const char * const *)colors count: (unsigned)count;
 
 USING
 //M: Sets the number of significant figures shown for major-tick labels.
@@ -370,7 +370,7 @@ CREATING
 - setAxisLabelsX: (const char *)xl Y:(const char *)yl;
 
 //M: Set a custom vector of colors for the graph lines
-- setColors: (const char * const *)colors count: (unsigned)nc;
+- setColors: (const char * const *)colors count: (unsigned)count;
 
 USING
 //M: Fix the range of X values on the graph between some range.

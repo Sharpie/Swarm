@@ -1,3 +1,8 @@
+2001-05-13  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* analysis.h (EZBin, EZGraph): For the sake of COM, name the count:
+	argument "count".
+
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* ActiveGraph.[hm], ActiveOutFile.[hm], Averager.[hm], EZBin.[hm],
