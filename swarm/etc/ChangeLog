@@ -1,3 +1,8 @@
+2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Makefile.protocol: Replace rule for protocol.elc with generic
+	elc rule.
+
 2000-07-09  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* common.el (pathname-for-swarmdocs-pages-output):
