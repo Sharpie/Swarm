@@ -11,16 +11,6 @@
 
 #include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
 
-#ifdef HAVE_HDF5
-#define id hdf5id
-#include <hdf5.h>
-#undef id
-#endif
-
-#define ARCHIVER_FUNCTION_NAME "archiver"
-
-#define SWARMARCHIVER ".swarmArchiver"
-
 Archiver_c *archiver;
 
 static int
@@ -111,15 +101,8 @@ compareStrings (id val1, id val2)
 @end
 
 #ifdef HAVE_HDF5
-@interface _HDF5: CreateDrop
-{
-  id parent;
-}
-- setParent: parent;
-- createEnd;
-@end
 
-@implementation _HDF5
+@implementation HDF5
 PHASE(Creating)
 - setParent: theParent
 {
@@ -127,31 +110,154 @@ PHASE(Creating)
   return self;
 }
 
-- createEnd
+- setName: (const char *)theName
 {
+  name = theName;
   return self;
 }
+
+- createEnd
+{
+  [super createEnd];
+  if (parent == nil)
+    {
+      if ((loc_id = H5Fcreate (name, H5F_ACC_TRUNC,
+                               H5P_DEFAULT, H5P_DEFAULT))  < 0)
+        raiseEvent (SaveError, "Failed to create HDF5 file `%s'", name);
+    }
+  else
+    {
+      if ((loc_id = H5Gcreate (((HDF5 *) parent)->loc_id, name, 0)) < 0)
+        raiseEvent (SaveError, "Failed to create HDF5 group `%s'", name);
+    }
+  return self;
+}
+
 PHASE(Using)
+
+- store: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
+{
+  void store (hid_t type)
+    {
+      hid_t did;
+      hid_t space;
+      hsize_t dims[1];
+
+      if ((space = H5Screate_simple (1, dims, NULL)) == -1)
+        raiseEvent (SaveError, "unable to create dataspace");
+      if ((did = H5Dcreate (loc_id, datasetName,
+                            type, space, H5P_DEFAULT)) < 0)
+        raiseEvent (SaveError, "unable to store %s as char", datasetName);
+      
+      if (H5Dwrite (did, type, space, space, H5P_DEFAULT, ptr) < 0)
+        raiseEvent (SaveError, "unable to write %s as char", datasetName);
+      if (H5Dclose (did) < 0)
+        raiseEvent (SaveError, "unable to close dataset %s", datasetName);
+      if (H5Sclose (space) < 0)
+        raiseEvent (SaveError, "unable to close dataspace");
+    }
+
+  switch (*type)
+    {
+    case _C_CHR:
+      store (H5T_NATIVE_CHAR);
+      break;
+    case _C_UCHR:
+      store (H5T_NATIVE_UCHAR);
+      break;
+    case _C_SHT:
+      store (H5T_NATIVE_SHORT);
+      break;
+    case _C_USHT:
+      store (H5T_NATIVE_USHORT);
+      break;
+    case _C_INT:
+      store (H5T_NATIVE_INT);
+      break;
+    case _C_UINT:
+      store (H5T_NATIVE_UINT);
+      break;
+    case _C_LNG:
+      store (H5T_NATIVE_LONG);
+      break;
+    case _C_ULNG:
+      store (H5T_NATIVE_ULONG);
+      break;
+    case _C_FLT:
+      store (H5T_NATIVE_FLOAT);
+      break;
+    case _C_DBL:
+      store (H5T_NATIVE_DOUBLE);
+      break;
+    case _C_CHARPTR:
+      {
+        const char *str = *(const char **)ptr;
+        hid_t stringtype = H5Tcopy (H5T_C_S1);
+        H5Tset_size (stringtype, strlen (str) + 1);
+
+        printf ("string:[%s]\n", str);
+        store (stringtype);
+        if (H5Tclose (stringtype) < 0)
+          raiseEvent (SaveError, "cannot close stringtype");
+      }
+      break;
+    case _C_ARY_B:
+      printf ("ignoring array [%s]", name);
+      break;
+    default:
+      abort ();
+    }
+  return self;
+}
+
+- (void)drop
+{
+  if (parent == nil)
+    {
+      if (H5Fclose (loc_id) < 0)
+        raiseEvent (SaveError, "Failed to close HDF5 file");
+    }
+  else
+    {
+      if (H5Gclose (loc_id) < 0)
+        raiseEvent (SaveError, "Failed to close HDF5 group");
+    }
+}  
+
 @end
 #endif
 
 static const char *
-lispDefaultPath (void)
+defaultPath (const char *swarmArchiver)
 {
   const char *home = getenv ("HOME");
 
   if (home)
     {
-      char *buf = xmalloc (strlen (home) + 1 + strlen (SWARMARCHIVER) + 1), *p;
+      char *buf = xmalloc (strlen (home) + 1 + strlen (swarmArchiver) + 1), *p;
 
       p = stpcpy (buf, home);
       p = stpcpy (p, "/");
-      p = stpcpy (p, SWARMARCHIVER);
+      p = stpcpy (p, swarmArchiver);
       
       return buf;
     }
   return NULL;
 }
+
+static const char *
+lispDefaultPath (void)
+{
+  return defaultPath (SWARMARCHIVER_LISP);
+}
+
+#ifdef HAVE_HDF5
+static const char *
+hdf5DefaultPath (void)
+{
+  return defaultPath (SWARMARCHIVER_HDF5);
+}
+#endif
 
 static void
 lispProcessPairs (id aZone, 
@@ -302,16 +408,44 @@ lispArchiverPut (const char *key, id object, BOOL deepFlag)
     [map at: keyObj insert: object];
 }
 
+void
+hdf5ArchiverPut (const char *key, id object, BOOL deepFlag)
+{
+  id app = [archiver getApplication];
+  id map = deepFlag ? [app getHDF5DeepMap] : [app getHDF5ShallowMap];
+  id keyObj = [String create: [archiver getZone] setC: key];
+  
+  if ([map at: keyObj])
+    [map at: keyObj replace: object];
+  else
+    [map at: keyObj insert: object];
+}
+
 id
 lispArchiverGet (const char *key)
 {
   id string = [String create: [archiver getZone] setC: key];
   id app = [archiver getApplication];
   id result;
-
+  
   result = [[app getLispDeepMap] at: string];
   if (result == nil)
     result = [[app getLispShallowMap] at: string];
+  
+  [string drop];
+  return result;
+}
+
+id
+hdf5ArchiverGet (const char *key)
+{
+  id string = [String create: [archiver getZone] setC: key];
+  id app = [archiver getApplication];
+  id result;
+  
+  result = [[app getHDF5DeepMap] at: string];
+  if (result == nil)
+    result = [[app getHDF5ShallowMap] at: string];
   
   [string drop];
   return result;
@@ -335,6 +469,9 @@ PHASE(Creating)
   newArchiver->classes = [List create: aZone];
   newArchiver->instances = [List create: aZone];
   newArchiver->lispPath = lispDefaultPath ();
+#ifdef HAVE_HDF5
+  newArchiver->hdf5Path = hdf5DefaultPath ();
+#endif
   return newArchiver;
 }
 
@@ -408,25 +545,24 @@ PHASE(Using)
 }
 
 static void
-lisp_print_appkey (id <String> appKey, id <OutputStream> outputCharStream)
+lisp_print_appkey (const char *appKey, id <OutputStream> outputCharStream)
 {
-  const char *str = [appKey getC];
   FILE *fp = [outputCharStream getFileStream];
   
   [outputCharStream catC: "'("];
-  while (*str && *str != '/')
+  while (*appKey && *appKey != '/')
     {
-      fputc (*str, fp);
-      str++;
+      fputc (*appKey, fp);
+      appKey++;
     }
-  if (*str == '/')
+  if (*appKey == '/')
     {
       fputc (' ', fp);
-      str++;
-      while (*str)
+      appKey++;
+      while (*appKey)
         {
-          fputc (*str, fp);
-          str++;
+          fputc (*appKey, fp);
+          appKey++;
         }
     }
   [outputCharStream catC: ")"];
@@ -467,7 +603,7 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
   [outputCharStream catC: "\n    (cons "];
   while ((app = [appMapIndex next: &appKey]))
     {
-      lisp_print_appkey (appKey, outputCharStream);
+      lisp_print_appkey ([appKey getC], outputCharStream);
       [outputCharStream catC: "\n      (list"];
       lisp_output_objects ([app getLispShallowMap], outputCharStream, NO);
       lisp_output_objects ([app getLispDeepMap], outputCharStream, YES);
@@ -477,6 +613,92 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
   [appMapIndex drop];
   return self;
 }
+
+#ifdef HAVE_HDF5
+
+static id
+hdf5_create_app_group (const char *appKey, id hdf5Obj)
+{
+  id hdf5AppObj = hdf5Obj;
+  char *modeKey;
+
+  appKey = strdup (appKey);
+  modeKey = (char *) appKey;
+  
+  while (*modeKey && *modeKey != '/')
+    modeKey++;
+  if (*modeKey == '/')
+    {
+      *modeKey = '\0';
+      modeKey++;
+      hdf5AppObj = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+                       setParent: hdf5Obj]
+                      setName: appKey]
+                     createEnd];
+    }
+  return [[[[HDF5 createBegin: [hdf5AppObj getZone]]
+             setParent: hdf5AppObj]
+            setName: modeKey]
+           createEnd];
+}
+
+static void
+hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
+{
+  id objectMapIndex = [objectMap begin: scratchZone];
+  id key, member;
+  
+  while ((member = [objectMapIndex next: &key]))
+    {
+      id hdf5Group = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+                         setParent: hdf5Obj]
+                        setName: [key getC]]
+                       createEnd];
+      
+      if (![member isClass])
+        [member hdf5Out: hdf5Group deep: deepFlag];
+      else
+        {
+          SEL sel = M(hdf5Out:deep:);
+          IMP func = get_imp (id_CreatedClass_s, sel);
+          
+          func (member, sel, hdf5Group, NO);
+        }
+    }
+}
+
+- (unsigned)countHDF5Objects: (BOOL)deepFlag
+{
+  id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
+  id app;
+  id <String> appKey;
+  unsigned count = 0;
+  
+  while ((app = [appMapIndex next: &appKey]))
+    count += [(deepFlag ? [app getHDF5DeepMap] : [app getHDF5ShallowMap])
+               getCount];
+  [appMapIndex drop];
+  return count;
+}
+
+- hdf5Out: hdf5Obj
+{
+  id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
+  id app;
+  id <String> appKey;
+  
+  while ((app = [appMapIndex next: &appKey]))
+    {
+      id hdf5Group = hdf5_create_app_group ([appKey getC], hdf5Obj);
+        
+      hdf5_output_objects ([app getHDF5ShallowMap], hdf5Group, NO);
+      hdf5_output_objects ([app getHDF5DeepMap], hdf5Group, YES);
+    }
+  [appMapIndex drop];
+  return self;
+}
+
+#endif
 
 - updateArchiver
 {
@@ -507,17 +729,22 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
       fclose (fp);
       [outStream drop];
     }
+#ifdef HAVE_HDF5
   if (hdf5Path)
     {
-      hid_t fid;
-
-      if ((fid = H5Fcreate (hdf5Path, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT))
-          < 0)
-        raiseEvent (SaveError, "Failed to create HDF5 file `%s'", hdf5Path);
-      // [self hdfOut: fid];
-      if (H5Fclose (fid) < 0)
-        raiseEvent (SaveError, "Failed to close HDF5 file `%s'", hdf5Path);
+      if ([self countHDF5Objects: YES] +
+          [self countHDF5Objects: NO] > 0)
+        {
+          id hdf5Obj = [[[[HDF5 createBegin: [self getZone]]
+                           setParent: nil]
+                          setName: hdf5Path]
+                         createEnd];
+          
+          [self hdf5Out: hdf5Obj];
+          [hdf5Obj drop];
+        }
     }
+#endif
   return self;
 }
 

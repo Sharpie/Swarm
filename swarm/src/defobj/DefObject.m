@@ -15,6 +15,7 @@ Library:      defobj
 #import <defobj/defalloc.h>
 #import <collections.h>
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
+#import <defobj/Archiver.h> // HDF5
 
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
@@ -1112,14 +1113,11 @@ lisp_output_type (const char *type,
   return type + 1;
 }
 
-- lispOut: stream deep: (BOOL)deepFlag
-{
-  struct objc_ivar_list *ivars = getClass (self)->ivars;
-  
-  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [stream catC: [self name]];
-  [stream catC: " "];
 
+static void
+map_ivars (struct objc_ivar_list *ivars,
+           void (*store_object) (struct objc_ivar *ivar))
+{
   if (ivars)
     {
       unsigned i, ivar_count = ivars->ivar_count;
@@ -1130,25 +1128,65 @@ lisp_output_type (const char *type,
           // Special case to allow member_t for setIndexFromMemberLoc: lists.
           if (strcmp (ivar_list[i].ivar_type, "{?=\"memberData\"[2^v]}") == 0)
             continue;
-          [stream catC: " #:"];
-          [stream catC: ivar_list[i].ivar_name];
-          [stream catC: " "];
-          lisp_output_type (ivar_list[i].ivar_type,
-                            (void *) self + ivar_list[i].ivar_offset,
-                            0,
-                            NULL,
-                            stream,
-                            deepFlag);
+          store_object (&ivar_list[i]);
         }
     }
+}
   
+- lispOut: stream deep: (BOOL)deepFlag
+{
+  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
+  [stream catC: [self name]];
+  [stream catC: " "];
+  
+  {
+    void store_object (struct objc_ivar *ivar)
+      {
+        [stream catC: " #:"];
+        [stream catC: ivar->ivar_name];
+        [stream catC: " "];
+        lisp_output_type (ivar->ivar_type,
+                          (void *) self + ivar->ivar_offset,
+                          0,
+                          NULL,
+                          stream,
+                          deepFlag);
+      }
+    map_ivars (getClass (self)->ivars, store_object);
+  }
   [stream catC: ")"];
   return self;
 }
 
 #ifdef HAVE_HDF5
-- hdf5Out: hdf5obj deep: (BOOL)deepFlag
+- hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
+  void store_object (struct objc_ivar *ivar)
+    {
+      const char *name = ivar->ivar_name;
+      const char *type = ivar->ivar_type;
+      void *ptr = (void *)self + ivar->ivar_offset;
+
+      if (*type == _C_ID)
+        {
+          id obj = *((id *) ptr);
+          
+          if (obj != nil && deepFlag)
+            {
+              id hdf5ObjGroup = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                    setParent: hdf5Obj]
+                                   setName: name]
+                                  createEnd];
+              
+              [obj hdf5Out: hdf5ObjGroup deep: YES];
+              [hdf5ObjGroup drop];
+            }
+        }
+      else
+        [hdf5Obj store: name type: type ptr: ptr];
+    }
+
+  map_ivars (getClass (self)->ivars, store_object);
   return self;
 }
 #endif

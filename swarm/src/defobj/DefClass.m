@@ -534,7 +534,7 @@ process_type (const char *varType,
 
 - hdf5Out: stream deep: (BOOL)deepFlag
 {
-  raiseEvent (NotImplemented, "DefClass / hdf5Out:");
+  raiseEvent (NotImplemented, "DefClass / hdf5Out:deep:");
   return nil;
 }
 
