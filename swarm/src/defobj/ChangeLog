@@ -1,5 +1,8 @@
 1999-01-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.m ([HDF -writeRowNames]): Wrap contents in #ifdef
+	HAVE_HDF5, otherwise call hdf5_not_available.
+
 	* Archiver.m (hdf5LoadArchiver): Wrap in #ifdef HAVE_HDF5.
 
 	* defobj.m (findTypeOrLocalClass): New static function.

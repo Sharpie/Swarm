@@ -934,6 +934,7 @@ hdf5_store_attribute (hid_t did,
 
 - writeRowNames
 {
+#ifdef HAVE_HDF5
   hsize_t dims[1];
   hid_t rnmemtid = make_string_ref_type ();
   hid_t rntid, rnsid, rnaid;
@@ -963,6 +964,9 @@ hdf5_store_attribute (hid_t did,
     raiseEvent (SaveError, "unable to close row names dataspace");
   if (H5Tclose (rnmemtid) < 0)
     raiseEvent (SaveError, "unable to close row names reference type");
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
