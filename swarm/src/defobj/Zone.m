@@ -138,10 +138,13 @@ PHASE(Using)
   // allocate object of required size, including links in object header
 
   newObject = (Object_s *) dalloc (size + 2 * sizeof (id));
+
+  memset (newObject, 0, size + 2 * sizeof (id));
   
   // add object to the population list, skipping over links in object header
 
   newObject = (Object_s *) ((id *) newObject + 2);
+
   if (population)
     {
       [population addLast: newObject];
@@ -150,7 +153,6 @@ PHASE(Using)
 
   // initialize and return the newly allocated object
 
-  memset (newObject, 0, size);
   setClass (newObject, aClass);   
   newObject->zbits = (unsigned long) self;   
   return (id) newObject;
