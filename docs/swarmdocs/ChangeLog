@@ -1,7 +1,7 @@
 1998-10-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in: Don't fail if jadetex or dvips are missing,
-	but do issue a warning.
+	but do issue a warning.  Add m4/Makefile to the AC_OUTPUT.
 
 	* acprogs.m4: Moved to m4/.
 
