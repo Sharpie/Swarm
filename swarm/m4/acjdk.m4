@@ -32,9 +32,9 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/genunix"
     fi
     if test "$host_os" = cygwin; then
-      JAVACMD='${jdkdosdir}\bin\java'
+      JAVACMD='"${jdkdosdir}\bin\java"'
       JAVACLASSES='${jdkdosdir}\lib\classes.zip'
-      JAVAENV='JAVA_HOME=${jdkdosdir}'
+      JAVAENV='JAVA_HOME="${jdkdosdir}"'
       JAVAC='JAVA_HOME=${jdkdosdir} ${jdkdosdir}\bin\javac'
     else
       JAVACMD='${jdkdir}/bin/java'
