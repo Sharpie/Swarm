@@ -587,13 +587,15 @@ externvar id <ProbeLibrary> probeLibrary;
 //D: to parse the more complex interface to the activity. 
 
 CREATING
+
+USING
+
 //M: The attachToActivity: method sets an instance variable inside the 
 //M: ActivityControl object that points to the Activity to be controlled. 
 //M: It then creates a Schedule upon which it places a message to itself to
 //M: update its own variables.
 - attachToActivity: anActivity;
 
-USING
 //M: The run method sends a run message to the activity if the conditions are
 //M: appropriate.  This message causes the activity to continue executing the
 //M: actions on its schedule until either no other actions are waiting, or 
