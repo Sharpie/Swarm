@@ -128,7 +128,7 @@
         [theFileObject putString: [aProbe getProbedVariable]] ;
         [theFileObject putTab] ;
         [theFileObject putString: 
-          [aProbe probeAsString: anObject Buffer: aBuffer]] ;
+          [aProbe probeAsString: anObject Buffer: aBuffer withFullPrecision: 1]] ;
         [theFileObject putNewLine] ;
       } ;
   [anIndex drop] ;
