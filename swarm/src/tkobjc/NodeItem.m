@@ -7,6 +7,7 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/global.h>
 #import <tkobjc/common.h>
+#import <defobj/defalloc.h> // getZone
 #include <misc.h> // stpcpy
 
 static void
@@ -140,7 +141,7 @@ PHASE(Using)
 
 - createText
 {
-  text = tkobjc_createText (canvas, x, y, string, font, YES);
+  text = tkobjc_createText (getZone (self), canvas, x, y, string, font, YES);
 
   return self;
 }
@@ -153,7 +154,8 @@ PHASE(Using)
   stpcpy (ptr, "xx");
   
   // font and size independence means I have to make a fake label first...
-  text = tkobjc_createText (canvas, x, y, stringpad, font, YES);
+  text = tkobjc_createText (getZone (self), 
+                            canvas, x, y, stringpad, font, YES);
 
   return self;
 }
@@ -164,6 +166,8 @@ PHASE(Using)
                   [canvas getWidgetName], text];  
   [globalTkInterp eval: "%s delete %s",
                   [canvas getWidgetName], item];  
+  FREEBLOCK (text);
+  FREEBLOCK (item);
   [super drop];
 }
  

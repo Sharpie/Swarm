@@ -33,7 +33,7 @@ PHASE(Creating)
 {
   [self createItem];
   [self createBindings];
-  return self;
+  return [super createEnd];
 }
 
 PHASE(Using)

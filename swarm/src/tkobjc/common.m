@@ -284,11 +284,12 @@ tkobjc_pack (id widget)
 
 
 const char *
-tkobjc_createText (id widget, int x, int y,
+tkobjc_createText (id aZone,
+                   id widget, int x, int y,
                    const char *text, const char *font,
                    BOOL centerFlag)
 {
-  return OSTRDUP (widget,
+  return ZSTRDUP (aZone,
                   ([[globalTkInterp 
                       eval: 
                         "%s create text %d %d -text \"%s\" %s%s -anchor %s", 

@@ -6,6 +6,7 @@
 #import <tkobjc/TextItem.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/global.h>
+#import <defobj/defalloc.h> // getZone
 
 @implementation TextItem
 
@@ -51,7 +52,8 @@ PHASE(Creating)
  
 - createItem
 {
-  item = tkobjc_createText (canvas, x, y, text, font, centerFlag);
+  item = tkobjc_createText (getZone (self),
+                            canvas, x, y, text, font, centerFlag);
 
   return self;
 }

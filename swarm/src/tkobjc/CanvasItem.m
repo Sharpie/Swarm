@@ -53,6 +53,8 @@ PHASE(Using)
 - (void)drop
 {
   [globalTkInterp eval: "%s delete %s", [canvas getWidgetName], item];  
+  FREEBLOCK (item);
+  [super drop];
 }
 
 @end
