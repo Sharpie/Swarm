@@ -1,3 +1,7 @@
+2001-04-17    <mgd@coyote.santafe.edu>
+
+	* Selector.java: Skip over same-named, but different arity methods.
+
 2000-11-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Selector.java: Add getSignature method.

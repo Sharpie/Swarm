@@ -1,4 +1,4 @@
-// Swarm library. Copyright © 1999-2000 Swarm Development Group.
+// Swarm library. Copyright (C) 1999-2000 Swarm Development Group.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -15,7 +15,7 @@ public class Selector {
   boolean objcFlag;
   String typeSignature;
   
-  public Selector (Class theClass, String methodName, boolean theObjcFlag) throws NonUniqueMethodSignatureException, SignatureNotFoundException {
+    public Selector (Class theClass, String methodName, boolean theObjcFlag) throws NonUniqueMethodSignatureException, SignatureNotFoundException {
     
     super ();
 
@@ -36,19 +36,21 @@ public class Selector {
           if (methods[mi].getName ().compareTo (methodName) == 0)
             {
               if (matchCount > 0) {
-                int i;
-                Class []margTypes = methods[mi].getParameterTypes ();
-                
-                if (margTypes.length != argTypes.length)
-                  throw new NonUniqueMethodSignatureException ();
-                
-                for (i = 0; i < argTypes.length; i++)
-                  if (argTypes[i] != margTypes[i]) {
-                    System.err.println (signature + " arg: " + i + ": " + argTypes[i] + " != " + margTypes[i]);
-                    throw new NonUniqueMethodSignatureException ();
-                  }
-                if (retType != methods[mi].getReturnType ())
-                  System.err.println (signature + " retType: "+ retType + " != " + methods[mi].getReturnType ());
+                  int i;
+                  Class []margTypes = methods[mi].getParameterTypes ();
+                  
+                  // Skip over same-named, but different-arity methods
+                  // This comes up in ProbeMaps for base classes, e.g. wait
+                  if (margTypes.length == argTypes.length)
+                      {
+                          for (i = 0; i < argTypes.length; i++)
+                            if (argTypes[i] != margTypes[i]) {
+                                System.err.println (signature + " arg: " + i + ": " + argTypes[i] + " != " + margTypes[i]);
+                                throw new NonUniqueMethodSignatureException ();
+                            }
+                        if (retType != methods[mi].getReturnType ())
+                            System.err.println (signature + " retType: "+ retType + " != " + methods[mi].getReturnType ());
+                      }
               }
               signature = methodName;
               retType = methods[mi].getReturnType ();
