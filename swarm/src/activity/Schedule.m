@@ -263,9 +263,9 @@ _update_mergeSchedules (Schedule_c *self,
 	      aMember = [index next];
 	      if (!aMember) 
 		raiseEvent (InvalidOperation, 
-			    "> MergeSchedule is invalid. There is no",
-			    "> mergeAction for schedule where action",
-			    "> should be inserted!");
+			    "> MergeSchedule is invalid. There is no\n"
+			    "> mergeAction for schedule where action\n"
+			    "> should be inserted!\n");
 	      if (((ActionMerge_c *) aMember)->collectionOfActions == self)
 		{
 		  mergeAction = aMember;

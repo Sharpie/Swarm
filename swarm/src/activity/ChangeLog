@@ -1,3 +1,7 @@
+2000-10-09  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Schedule.m (_update_mergeSchedules): Fix error message.
+
 2000-09-30  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* SwarmProcess.m: Include misc.h.
