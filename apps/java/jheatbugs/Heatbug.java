@@ -159,9 +159,15 @@ public class Heatbug
         
         newX = x;
         newY = y;
-        heat.findExtremeType$X$Y (((heatHere < idealTemperature) ? 
-                                   HeatSpace.hot : HeatSpace.cold),
-                                  new HeatCell (newX, newY));
+        {
+          HeatCell heatCell = new HeatCell (newX, newY);
+          
+          heat.findExtremeType$X$Y (((heatHere < idealTemperature) ? 
+                                     HeatSpace.hot : HeatSpace.cold),
+                                    heatCell);
+          newX = heatCell.x;
+          newY = heatCell.y;
+        }
         
         // After choice of ideal spot is made, there's a chance of
         // random move.  (Note the normalization of coordinates to [0,
