@@ -948,6 +948,12 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
   ASSOCIATE (ControlStateStepping);
   ASSOCIATE (ControlStateQuit);
   ASSOCIATE (ControlStateNextTime);
+
+  {
+    extern id <Symbol> Randomized;
+    
+    ASSOCIATE (Randomized);
+  }
 }
 
 static BOOL

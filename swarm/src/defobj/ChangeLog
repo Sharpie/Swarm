@@ -1,5 +1,7 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (swarm_directory_init): New symbol Randomized.
+
 	* FCall.m ([FCall_c -getRetVal:buf:]): Force BUGGY_BUILTIN_APPLY
 	on i386 when < gcc-2.95.
 
