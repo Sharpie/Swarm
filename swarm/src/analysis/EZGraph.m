@@ -450,7 +450,8 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 {
   id index, aSequence;
   
-  [graph drop];
+  if (graphics)
+    [graph drop];
 
   index = [sequenceList begin: [self getZone]];
   while ((aSequence = [index next]))
@@ -522,7 +523,8 @@ PHASE(Using)
 
 - (void)drop
 {
-  [activeGrapher drop];
+  if (activeGrapher)
+    [activeGrapher drop];
   if (activeOutFile)
     [activeOutFile drop];
   [super drop];
