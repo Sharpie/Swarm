@@ -164,7 +164,7 @@
     if( !aProbe )
       [self _crash_: anObject] ;
 
-    if(![theFileObject getWord: aString])
+    if(![theFileObject getLine: aString])
       [self _crash_: anObject] ;
        
     if(![aProbe setData: anObject ToString: aString])
