@@ -61,7 +61,9 @@ namespace eval TkBusy {
     variable TkBusy
     variable cursor
 
-    if { "$cmd" == "on"  || "$cmd" == "hold" } {
+    if { "$cmd" == "isbusy" } {
+      return { "NOT IMPLEMENTED" }
+    } elseif { "$cmd" == "on"  || "$cmd" == "hold" } {
       set TkBusy "focus [focus];destroy .tkbusy;"
       set script "button .tkbusy;focus .tkbusy;bindtags .tkbusy .tkbusy; bind .tkbusy <FocusOut> \"focus .tkbusy\";"
       if { "$but" != "" } {
@@ -95,7 +97,7 @@ namespace eval TkBusy {
 }
 
 catch {
-    proc busy {cmd arg} {
+    proc busy {cmd {arg ""}} {
       return [TkBusy::tkbusy $cmd $arg]
     }
 }
