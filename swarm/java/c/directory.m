@@ -3,55 +3,53 @@
 #include <misc/avl.h>
 #include <jni.h>
 
-avl_tree *_directory_tree;
+static avl_tree *directory_tree;
 
-int 
-_directory_compare_jobjects (const void *A, const void *B, void *PARAM)
+static int 
+compare_objects (const void *A, const void *B, void *PARAM)
 {
-  if (((jobject_id *) A)->javaobject < ((jobjid *) B)->javaobject)
+  if (((jobject_id *) A)->java_object < ((jobject_id *) B)->java_object)
     return -1;
-  return (((jobject_id *) A)->javaobject > ((jobjid *) B)->javaobject);
+
+  return (((jobject_id *) A)->java_object > ((jobject_id *) B)->java_object);
 }
 
 jobject_id *
-_directory_findEntry (jobject javaobject)
+java_directory_find (jobject java_object)
 {
-   jobject_id pattern;
-   jobject_id *result; 
+  jobject_id pattern;
+  jobject_id *result; 
   
-   patern.javaobject = javaobject;
-   result = avl_find (_directory_tree, &pattern);
-   if (!result) 
-     abort();
-
-   return result;
+  pattern.java_object = java_object;
+  result = avl_find (directory_tree, &pattern);
+  if (!result) 
+    abort ();
+  
+  return result;
 }
-   
+
 
 jobject_id * 
-_directory_addNewEntry (jobject javaobject, id objcobject)
+java_directory_add (jobject java_object, id objc_object)
 {
-  jobject_id * data;
+  jobject_id *data;
   
   data = xmalloc (sizeof (jobject_id));
-  data->objcobject = objcobject;
-  data->javaobject = javaobject;
-
-  avl_insert (_directory_tree, data);
+  data->objc_object = objc_object;
+  data->java_object = java_object;
+  
+  avl_insert (directory_tree, data);
   return data;
 }
 
-
-avl_tree * 
-initDirectoryTree (void)
+void
+java_directory_init (void)
 {
-  _directory_tree = avl_create (_directory_compare_jobjects, NULL);
-  return _directory_tree;
+  directory_tree = avl_create (compare_objects, NULL);
 }
 
 void
-removeDirectoryTree (void)
+java_directory_drop (void)
 {
-  avl_free(_directory_tree);
+  avl_free (directory_tree);
 }
-

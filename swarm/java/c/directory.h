@@ -1,18 +1,18 @@
 #include <misc/avl.h>
 #include <jni.h>
+#include <objc/objc.h>
 
 typedef struct jobject_id
 {
-  jobject javaobject;
-  id objcobject;
+  jobject java_object;
+  id objc_object;
 } jobject_id;
 
-avl_tree *initDirectoryTree (void);
+void java_directory_init (void);
+void java_directory_drop (void);
+jobject_id *java_directory_find (jobject java_object);
+jobject_id *java_directory_add (jobject java_object, id objc_object);
 
-void removeDirectoryTree (void);
+#define JFIND(jobj) (java_directory_find (jobj))->objc_object
+#define JADD(jobj, objc) java_directory_add (jobj, objc);
 
-#define DIRECTORY_ID_LOOKUP(jobj) \
-((jobject_id *) _directory_findEntry (jobj))->objcobject
-
-#define DIRECTORY_ADD_NEW_ENTRY(jobj, objc) \
-_directory_addNewEntry (jobj, objc);

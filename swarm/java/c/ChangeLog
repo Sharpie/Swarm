@@ -1,7 +1,27 @@
 1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.[hm] (java_directory_init): Formerly initDirectoryTree.
+	(java_directory_drop): Formerly removeDirectoryTree.
+	(java_directory_find): Formerly _directory_findEntry.
+	(java_directory_add): Formerly _directory_addNewEntry.
+
+	* directory.m: Include objc/objc.h.
+	(compare_objects): Formerly _directory_compare_jobjects.  Make static.
+
+	* directory.h (java_directory_find, java_directory_add): Declare.
+	(JFIND): Formerly DIRECTORY_ID_LOOKUP.
+	(JADD): Formerly DIRECTORY_ADD_NEW_ENTRY.
+
+	* directory.m: Rename javaobject -> java_object and objcobject to
+	objc_object throughout.
+
+	* Makefile.in (srcdir): Substitute.
+	(VPATH): Set to $(srcdir).
+	(libjavaswarm_la_OBJECTS): Add directory.lo.
+
 	* directory.m: Include misc.h instead of stdlib.h.
 	(_directory_addNewEntry): Use xmalloc instead of malloc.
+	(compare_jobjects): 
 
 	* directory.h: Don't declare extern _directory_tree.
 

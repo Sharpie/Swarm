@@ -24,11 +24,13 @@ CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir)
 OBJCFLAGS=@OBJCFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 LDFLAGS=@LDFLAGS@
 
+srcdir=@srcdir@
+VPATH=$(srcdir)
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 
 libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
-libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
+libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS)) directory.lo
 
 all: libjavaswarm.la
 
