@@ -6,6 +6,8 @@ SUBDIRS = collections defobj activity \
 	analysis space \
 	misc
 
+EXTRA_DIST = Makefile.rules
+
 .PHONY: headers
 
 all-recursive: headers

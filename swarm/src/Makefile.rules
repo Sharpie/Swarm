@@ -1,9 +1,11 @@
 .PHONY: headers
 
+SUFFIXES = .m
+
 headers: $(module_headers)
 
 types.h classes.h: $(MODULE).h
-	CC="$(CC)" CFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)" OBJECTS="$(lib$(MODULE)_a_OBJECTS)" sh $(top_srcdir)/src/defobj/make-h2x $(MODULE).xm $(srcdir)
+	CC="$(CC)" CFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)" OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(top_srcdir)/src/defobj/make-h2x $(MODULE).xm $(srcdir)
 	mv $(MODULE).xt types.h
 	mv $(MODULE).xc classes.h
 
