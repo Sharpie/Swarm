@@ -3,12 +3,11 @@
 <!entity % global.entities system "@top_srcdir@/global.ent">
 %global.entities;
 
-<!entity % figures.entities system "@top_srcdir@/figures.ent">
-%figures.entities;
-
 <!entity % src.entities system "src.ent">
 %src.entities;
 
+<!entity % local.notation.class "| JPG">
+<!notation JPG system>
 ]>
 
 <BOOK ID="refbook">

@@ -44,3 +44,23 @@
 <!entity gpl-app.sgml system "@srcdir@/gpl-app.sgml">
 
 <!entity srcrevhistory.sgml system "srcrevhistory.sgml">
+
+<!ENTITY % html "IGNORE">
+<![%html;[
+<!entity % print "IGNORE">
+<!entity switcheroo PUBLIC "-//SFI Hive//ENTITIES Switcheroo JPEG//EN" ndata jpg>
+<!entity settitlelogo PUBLIC "-//SFI Hive//ENTITIES Swarm Logo JPEG//EN" ndata jpg>
+<!entity booktitlelogo PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo JPEG//EN" ndata jpg>
+<!entity complete-probe-map PUBLIC "-//SFI Hive//ENTITIES Complete ProbeMap JPEG//EN" ndata jpg>
+<!entity customized-probe-map PUBLIC "-//SFI Hive//ENTITIES Customized ProbeMap JPEG//EN" ndata jpg>
+]]>
+
+<!entity % print "INCLUDE">
+<![%print;[
+<!entity switcheroo PUBLIC "-//SFI Hive//ENTITIES Switcheroo EPS//EN" ndata eps>
+<!entity settitlelogo PUBLIC "-//SFI Hive//ENTITIES Swarm Logo EPS//EN" ndata eps>
+<!entity booktitlelogo PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo EPS//EN" ndata eps>
+<!entity complete-probe-map PUBLIC "-//SFI Hive//ENTITIES Complete ProbeMap JPEG//EN" ndata eps>
+<!entity customized-probe-map PUBLIC "-//SFI Hive//ENTITIES Customized ProbeMap EPS//EN" ndata eps>
+]]>
+

@@ -1,3 +1,10 @@
+1998-06-07  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* src.ent.in: Define graphic entities per html/print.
+
+	* refbook.sgml.in: Add local.notation.class entity
+	and notation for JPG.
+
 1998-06-07  Alex Lancaster  <alex@santafe.edu>
 
 	* config.ent: Removed.
