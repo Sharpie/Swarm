@@ -13,10 +13,10 @@ Library:      activity
 
 extern id  _activity_activityRefsType;
 
-@interface ActionType_c : Object_s
+@interface ActionType_c: Object_s
 @end
 
-@interface CompoundAction_c : Collection_any
+@interface CompoundAction_c: Collection_any
                          // mixin inheritance for ActionGroup or Schedule
 {                        // (variables here are for documentation only)
 @public

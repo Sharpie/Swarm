@@ -23,6 +23,13 @@ PHASE(Creating)
 #define  MIXIN_CREATE
 #include "CompoundAction.m"
 
++ createBegin: aZone
+{
+  Schedule_c *obj = [super createBegin: aZone];
+  
+  obj->keepEmptyFlag = YES;
+  return obj;
+}
 //
 // create:setRepeatInterval: -- convenience create message
 //
@@ -51,9 +58,9 @@ PHASE(Creating)
   setBit (bits, BitRelTimeSet, 1);
 }
 
-- setKeepEmpty: (BOOL) val
+- setKeepEmptyFlag: (BOOL)theKeepEmptyFlag
 {
-  keep = val;
+  keepEmptyFlag = theKeepEmptyFlag;
   return self;
 }
 
@@ -144,7 +151,7 @@ PHASE(Using)
   swarmActivity = swarmContext;
   newActivity =
     [self _createActivity_: swarmActivity : activityClass : indexClass];
-  [newActivity setKeepEmpty: keep];
+  [newActivity setKeepEmptyFlag: keepEmptyFlag];
   newActivity->ownerActivity = nil;
   newActivity->swarmActivity = swarmActivity;
   newActivity->activationNumber = swarmActivity->nextActivation++;
@@ -188,7 +195,7 @@ static ActionConcurrent_c *
 createGroup (Schedule_c *self)
 {
   id newGroup;
-  ActionConcurrent_c  *newAction;
+  ActionConcurrent_c *newAction;
   id zone = getZone (self);
 
   // create new concurrent group to receive new action
@@ -196,9 +203,9 @@ createGroup (Schedule_c *self)
   newGroup = [self->concurrentGroupType createBegin: getCZone (zone)];
   [newGroup setDefaultOrder: [self getDefaultOrder]];
   newGroup = [newGroup createEnd];
-  setBit( ((Collection_any *) newGroup)->bits, BitConcurrentGroup, 1);
-  setBit( ((Collection_any *) newGroup)->bits, BitAutoDrop,
-          getBit( self->bits, BitAutoDrop ) );
+  setBit (((Collection_any *) newGroup)->bits, BitConcurrentGroup, 1);
+  setBit (((Collection_any *) newGroup)->bits, BitAutoDrop,
+          getBit( self->bits, BitAutoDrop));
 
   newAction = [zone allocIVarsComponent: id_ActionConcurrent_c];
   setMappedAlloc (newAction);
@@ -218,10 +225,10 @@ createGroup (Schedule_c *self)
 
 
 void
-_update_mergeSchedules(Schedule_c *self, 
-		       SwarmActivity_c *mergeScheduleActivity,
-		       timeval_t oldTime,
-		       timeval_t tVal)
+_update_mergeSchedules (Schedule_c *self, 
+                        SwarmActivity_c *mergeScheduleActivity,
+                        timeval_t oldTime,
+                        timeval_t tVal)
 {
   ScheduleIndex_c *mergeScheduleIndex;
   id mergeAction; 
@@ -237,7 +244,7 @@ _update_mergeSchedules(Schedule_c *self,
   mergeAction=[mergeSchedule at: (id) oldTime];
   if (mergeAction)
     {
-      if (getClass(mergeAction) == id_ActionConcurrent_c) 
+      if (getClass (mergeAction) == id_ActionConcurrent_c) 
 	{
 	  id concGroup;
 	  id index;
@@ -845,7 +852,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   char buffer[100];
 
   [outputCharStream catC: "["];
-  _obj_formatIDString( buffer, concurrentGroup );
+  _obj_formatIDString (buffer, concurrentGroup);
   [outputCharStream catC: buffer];
   [outputCharStream catC: " (concurrent group)]\n"];
 }
@@ -860,6 +867,15 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 
 @implementation ConcurrentSchedule_c
 PHASE(Creating)
+
++ createBegin: aZone
+{
+  ActivationOrder_c *obj = [super createBegin: aZone];
+
+  obj->keepEmptyFlag = NO;
+  return obj;
+}
+
 PHASE(Using)
 //
 // addLast: --
@@ -918,6 +934,7 @@ PHASE(Using)
 //
 @implementation ActivationOrder_c
 PHASE(Creating)
+
 PHASE(Using)
 //
 // addLast: --
@@ -1143,7 +1160,7 @@ PHASE(Using)
 
 - setCurrentTime : (timeval_t)tVal
 {
-  id member = [self setKey : (id)tVal];
+  id member = [self setKey: (id) tVal];
   
   if (member == nil)
     abort ();

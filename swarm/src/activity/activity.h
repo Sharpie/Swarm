@@ -482,6 +482,10 @@ USING
 - remove: anAction;
 
 - insertGroup: aKey; 
+
+//M: Indicate whether an empty schedule should be dropped and ignored or
+//M: or kept and attended to (default is YES).
+- setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 @end
 
 @protocol SynchronizationType

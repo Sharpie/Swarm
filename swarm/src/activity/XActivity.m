@@ -140,16 +140,17 @@ auditRunRequest (Activity_c *self, const char *request)
       if (currentSubactivity)
         {
           _activity_current = currentSubactivity;
-          subStatus = [(id)currentSubactivity _run_];  // try to run to completion
+          subStatus = [(id) currentSubactivity _run_];  // try to run to completion
           _activity_current = self;
           
           if (!HOLDINGP (subStatus))
             {
               // if sub is holding just continue
-              if (COMPLETEDP (subStatus) )
+              if (COMPLETEDP (subStatus))
                 {
-		  if (!currentSubactivity->keep)
-		    [currentSubactivity dropAllocations: YES];
+		  if (!currentSubactivity->keepEmptyFlag)
+                    [currentSubactivity dropAllocations: YES];
+
                   // drop completed subactivity and continue
                   if (TERMINATEDP (status))
                     goto activityTerminated;
@@ -571,9 +572,9 @@ installStep (id activity)
   return YES;
 }
 
-- setKeepEmpty: (BOOL) val
+- setKeepEmptyFlag: (BOOL)theKeepEmptyFlag
 {
-  keep = val;
+  keepEmptyFlag = theKeepEmptyFlag;
   return self;
 }
 

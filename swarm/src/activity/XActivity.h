@@ -15,7 +15,7 @@ Library:      activity
 //
 // Activity_c -- state of processing within an action type
 //
-@interface Activity_c : Object_s
+@interface Activity_c: Object_s
 {
 @public
   Activity_c *ownerActivity;        // activity running this activity
@@ -26,7 +26,7 @@ Library:      activity
   Activity_c *currentSubactivity;   // subactivity for current action
   BOOL immediateReturnFlag;         // return after first _performAction_
   BOOL (*breakFunction) (id);       // function to call on each step
-  BOOL keep;
+  BOOL keepEmptyFlag;
 }
 /*** methods in Activity_c (inserted from .m file by m2h) ***/
 - run;
@@ -49,7 +49,7 @@ Library:      activity
 - getSubactivities;
 - (void)setSerialMode: (BOOL)serialMode;
 - (BOOL)getSerialMode;
-- setKeepEmpty: (BOOL) val;
+- setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 - getCurrentSubactivity;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)drop;

@@ -23,14 +23,15 @@ Library:      activity
   // locally defined variables
   id concurrentGroupType;     // type for group of actions at same time
   timeval_t  repeatInterval;  // rescheduling interval, or zero
-  BOOL keep;
+  BOOL keepEmptyFlag;
 }
++ createBegin: aZone;
 /*** methods implemented in CompoundAction.m file ***/
 - (void)setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
 - (void)setDefaultOrder: aSymbol;
 - getDefaultOrder;
-- setKeepEmpty: (BOOL) val;
+- setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 - activate;
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : activityClass : indexClass;
@@ -100,6 +101,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 {
   CAction *actionConcurrent;  // action that includes group in schedule
 }
++ createBegin: aZone;
 /*** methods in ConcurrentSchedule_c (inserted from .m file by m2h) ***/
 - (void)addLast: anAction;
 - (void)_setActionConcurrent_: action;

@@ -1,3 +1,22 @@
+1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* activity.h (Schedule): Declare -setKeepEmptyFlag:.
+
+	* Schedule.[hm] ([Schedule_c +createBegin:]): New method (set
+	keepEmptyFlag default to YES). 
+	([ConcurrentSchedule_c +createBegin:]): New method,
+	set keepEmptyFlag default to NO.
+
+	* Schedule.h (Schedule_c): Rename keep -> keepEmptyFlag.
+
+	* XActivity.h (Activity_c): Likewise.
+
+	* Schedule.m ([Schedule_c -_activateUnderSwarm_:::]),
+	XActivity.m ([Activity_c -_run_]): Accommodate.
+
+	* XActivity.[hm], Schedule.[hm]: Rename setKeepEmpty ->
+	setKeepEmptyFlag.
+
 1999-02-01  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* Schedule.h: Add setKeepEmpty:.
