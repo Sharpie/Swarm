@@ -44,9 +44,18 @@
       ;; activity
       "ActivityIndex"
 
+      ;; "Canvas"
+
+      ;; "CanvasItem"
+      ;; "CanvasAbstractItem"
+
+      ;; "CompositeItem"
+      ;; "NodeItem"
+      ;; "OvalNodeItem"
+      ;; "RectangleNodeItem"
+
       ;; gui creatable
       "Frame"
-      "Canvas"
       "ProbeCanvas"
       "Label"
       "ClassDisplayLabel"
@@ -62,16 +71,12 @@
       "ButtonPanel"
       "Form"
       "CheckButton"
-      "CanvasItem"
-      "NodeItem"
       "LinkItem"
       "ScheduleItem"
-      "OvalNodeItem"
-      "RectangleNodeItem"
       "TextItem"
+      "Line"
       "Circle"
       "Rectangle"
-      "Line"
 
       "Graph"
       "GraphElement"
@@ -81,8 +86,6 @@
       ;; gui non-creatable
       "WindowGeometryRecord"
       "InputWidget"
-      "CompositeItem"
-      "CanvasAbstractItem"
 
       ;; simtoolsgui non-creatable
       "MessageProbeWidget"
