@@ -234,7 +234,7 @@ _update_mergeSchedules (Schedule_c *self,
                         timeval_t tVal)
 {
   ScheduleIndex_c *mergeScheduleIndex;
-  id mergeAction; 
+  ActionMerge_c *mergeAction; 
   id mergeSchedule;
   
   if (!mergeScheduleActivity)
@@ -372,11 +372,11 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 			tVal;
 		      swarmActivity = 
 			((ScheduleActivity_c *) activity)->swarmActivity;
-		      _update_mergeSchedules(self, 
-					     ((SwarmActivity_c *)
-					      swarmActivity), 
-					     oldTime, 
-					     tVal);
+		      _update_mergeSchedules (self, 
+                                              ((SwarmActivity_c *)
+                                               swarmActivity), 
+                                              oldTime, 
+                                              tVal);
 		    }
 		  activity = [indexrefs next];
 		}
@@ -414,7 +414,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		      if (swarmActivity)
 			{
 			  mergeScheduleIndex = swarmActivity->currentIndex;
-			  mergeSchedule = (Schedule_c *) mergeScheduleIndex->collection;
+			  mergeSchedule =
+                            (Schedule_c *) mergeScheduleIndex->collection;
 			  _activity_insertAction (mergeSchedule,
                                                   tVal, 
 						  activity->mergeAction);
@@ -435,7 +436,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
       
       // if concurrent group already exists, then just add new action to group
       existingAction = *memptr;
-      if (getClass(existingAction) == id_ActionConcurrent_c) 
+      if (getClass (existingAction) == id_ActionConcurrent_c) 
 	{
 	  existingGroup =
 	    (id) ((ActionConcurrent_c *) existingAction)->concurrentGroup;
@@ -496,7 +497,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 {
   id  removedAction, emptyAction;
 
-  if (_obj_debug && ![anAction conformsTo: @protocol(Action)])
+  if (_obj_debug && ![anAction conformsTo: @protocol (Action)])
     raiseEvent (InvalidArgument,
                 "> object to be removed from schedule is not an action\n");
 
@@ -862,7 +863,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
   // identify the action group that held the concurrent actions
-
   mapObject (mapalloc, concurrentGroup);
 }
 
@@ -1156,6 +1156,7 @@ PHASE(Using)
     {
       swarmIndex =
         ((ScheduleActivity_c *) activity)->swarmActivity->currentIndex;
+
       _activity_insertAction ((id) swarmIndex->collection, currentTime,
                               ((ScheduleActivity_c *) activity)->mergeAction);
       if (currentAction) 
@@ -1213,12 +1214,20 @@ PHASE(Using)
 
   if (currentAction && currentAction != (actionAtIndex = [super get]))
     {
-      removedAction = [(id)actionAtIndex->concurrentGroup removeFirst];
+      removedAction = [(id) actionAtIndex->concurrentGroup removeFirst];
       [self prev];
     }
   else
-    // just remove the action at the index
-    removedAction = [super remove];
+    {
+      // just remove the action at the index
+      removedAction = [super remove];
+      
+      // Avoid leaving behind invalid owners in mergeAction
+      // `owner' is used in [Schedule remove:], for example
+      if ([collection conformsTo: @protocol (ConcurrentSchedule)])
+        removedAction->owner =
+          ((ConcurrentSchedule_c *) collection)->actionConcurrent->owner;
+    }
   currentAction = Removed;
   return removedAction;
 }

@@ -103,6 +103,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 
 @interface ConcurrentSchedule_c: Schedule_c <ConcurrentSchedule>
 {
+@public
   CAction *actionConcurrent;  // action that includes group in schedule
 }
 + createBegin: aZone;

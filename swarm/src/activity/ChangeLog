@@ -1,3 +1,10 @@
+1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Schedule.m ([ScheduleIndex_c -remove]): Avoid leaving behind
+	invalid ActivationOrder_c owners in mergeAction.
+
+	* Schedule.h (ConcurrentSchedule_c): Make actionConcurrent public.
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmProcess.m ([CSwarmProcess -activateIn:]): Pass activityZone
