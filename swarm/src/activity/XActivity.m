@@ -551,7 +551,7 @@ installStep (id activity)
 //
 // setSerialMode -- set serial execution mode  
 //
-- (void) setSerialMode: (BOOL)serialMode
+- (void)setSerialMode: (BOOL)serialMode
 {
   if (!serialMode)
     raiseEvent (NotImplemented,
@@ -606,6 +606,7 @@ installStep (id activity)
             {
               [index remove];
               [activity dropAllocations: YES];
+              [index drop];
             }
           else
             {
