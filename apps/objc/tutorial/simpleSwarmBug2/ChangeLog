@@ -1,3 +1,16 @@
+1998-03-18  Alex Lancaster  <alex@santafe.edu>
+
+	* ModelSwarm.m: Imported <activity.h> - implementation makes use
+	of it.
+
+	* ModelSwarm.h: Removed irrelevant import of <activity.h>. Minor
+	reformatting.
+	
+	* FoodSpace.h: Removed irrelevant import of <simtools.h>. Minor
+	reformatting.
+
+	* Bug.h: Minor reformatting.
+
 1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Bug.m, FoodSpace.m, ModelSwarm.m: Include random.h instead of
