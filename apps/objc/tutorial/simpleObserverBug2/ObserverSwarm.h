@@ -19,8 +19,8 @@
 
  // Now, higher order display and data objects
 
-  Value2dDisplay *foodDisplay;                    // display the heat
-  Object2dDisplay *bugDisplay;                    // display the heatbugs
+  id <Value2dDisplay> foodDisplay;                // display the heat
+  id <Object2dDisplay> bugDisplay;                // display the heatbugs
 }
 
 // Methods overriden to make the Swarm.

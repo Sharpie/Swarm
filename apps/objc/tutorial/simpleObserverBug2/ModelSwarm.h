@@ -12,7 +12,7 @@
   float bugDensity;
 
   FoodSpace *food;
-  Grid2d *world;
+  id <Grid2d> world;
 
   id bugList;
   id modelActions;
@@ -23,7 +23,7 @@
 - getFood;
 - getBugList;
 
-+ createBegin: (id)aZone;
++ createBegin: aZone;
 - createEnd;
 - buildObjects;
 - buildActions;
