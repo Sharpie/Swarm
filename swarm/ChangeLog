@@ -1,5 +1,8 @@
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* ltmain.sh, ltconfig, config.guess, config.sub, install-sh, missing,
+	mkinstalldirs, INSTALL): New files.
+
 	* configure.in: Add AM_PROG_LIBTOOL.  Remove AC_PROG_RANLIB.
 	Substitute RPATH.
 
