@@ -4,7 +4,8 @@
 
 	* global.ent: Simplify copyright info.
 
-	* configure.in: Fix typo in cygwin host_os check.
+	* configure.in: Run AC_CANONICAL_HOST.  Fix typo in cygwin host_os
+	check.  Don't require that jadetex and dvips be found.
 
 	* common.dsl (id-to-indexitem): Remove SET case.  Return #f when
 	there's not a special case.

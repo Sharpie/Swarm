@@ -1,5 +1,5 @@
 AC_INIT(history.el)
-
+AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(swarmdocs, 2.1)
 
 AM_MAINTAINER_MODE()
@@ -124,13 +124,11 @@ AC_MSG_ERROR(Failed to find $i)
 fi
 done
 
-dnl TeX wants to look through path to find itself.
-for i in JADETEX DVIPS; do
-if eval test '$ac_cv_prog_'$i = missing ; then
-AC_MSG_ERROR(Failed to find $i)
-fi
-done
-
+#for i in JADETEX DVIPS; do
+#if eval test '$ac_cv_prog_'$i = missing ; then
+#AC_MSG_ERROR(Failed to find $i)
+#fi
+#done
 
 AC_SUBST(SGML_CATALOG_FILES)
 md_PROG_GS
