@@ -1,3 +1,7 @@
+1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acconfig.h: Add HAVE_X11_XPM_H and HAVE_XPM_H.
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Call md_CHECK_SIZES.

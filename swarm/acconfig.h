@@ -11,6 +11,8 @@
 #undef PREFIX
 #undef HAVE_HDF5
 #undef HAVE_JDK
+#undef HAVE_XPM_H
+#undef HAVE_X11_XPM_H
 #undef HAVE_XPM_ALLOCPIXELS
 #undef PTRINT
 #undef PTRINTFMT
