@@ -1,3 +1,11 @@
+1999-02-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add common.el and protocol.el.
+
+	* common.el: New files, moved from swarmdocs.
+
+	* protocol.el: New file, input-code from swarmdocs protocol.el.
+
 1999-02-15  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.lib.in (SWARMINCLUDES): Replaces INCLUDES.
