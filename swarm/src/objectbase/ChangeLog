@@ -1,12 +1,16 @@
 1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* objectbase.h (val_t): Add _uchar.
+
 	* MessageProbe.m ([MessageProbe -dynamicCallOn:]): Add a version
 	for libffi.  Only use avcall if USE_AVCALL is defined.  The
 	internal functions for both versions of push_argument now take a
 	pointer because libffi uses pointers instead of values for
 	arguments.
-	([MessageProbe -doubleDynamicCallOn:]): Add int->double coercion
+	([MessageProbe -doubleDynamicCallOn:]): Add int,uchar->double coercion
 	capability (motivated by Bank).
+	([MessageProbe -dynamicCallOn:]): Add unsigned char support
+	to both versions.
 
 1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

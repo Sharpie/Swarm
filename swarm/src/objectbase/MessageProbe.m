@@ -207,6 +207,10 @@ copy_to_nth_colon (const char *str, int n)
         case _C_SEL:
           av_ptr (alist, SEL, arg->val.selector);
           break;
+
+        case _C_UCHR:
+          av_uchar (alist, arg->val._uchar);
+          break;
           
         case _C_INT:
           av_int (alist, arg->val._int);
@@ -225,7 +229,6 @@ copy_to_nth_colon (const char *str, int n)
         }
     }
 
-
   imp = [target methodFor: probedSelector];
   if (!imp)
     abort ();
@@ -237,6 +240,9 @@ copy_to_nth_colon (const char *str, int n)
       break;
     case _C_SEL:
       av_start_ptr (alist, imp, SEL, &retVal.val.selector);
+      break;
+    case _C_UCHR:
+      av_start_uchar (alist, imp, &retVal.val._uchar);
       break;
     case _C_INT:
       av_start_int (alist, imp, &retVal.val._int);
@@ -317,6 +323,11 @@ copy_to_nth_colon (const char *str, int n)
           *alist->type_pos = &ffi_type_pointer;
           *alist->value_pos = &arg->val.selector;
           break;
+
+        case _C_UCHR:
+          *alist->type_pos = &ffi_type_uchar;
+          *alist->value_pos = &arg->val._uchar;
+          break;
           
         case _C_INT:
           *alist->type_pos = &ffi_type_sint;
@@ -374,6 +385,10 @@ copy_to_nth_colon (const char *str, int n)
       fret = &ffi_type_pointer;
       ret_addr = &retVal.val.selector;
       break;
+    case _C_UCHR:
+      fret = &ffi_type_uchar;
+      ret_addr = &retVal.val._uchar;
+      break;
     case _C_INT:
       fret = &ffi_type_sint;
       ret_addr = &retVal.val._int;
@@ -410,6 +425,12 @@ copy_to_nth_colon (const char *str, int n)
   
   if (val.type == _C_INT)
     return (double)val.val._int;
+  else if (val.type == _C_UCHR)
+#ifdef USE_AVCALL
+    return (double)val.val._uchar;
+#else
+    return (double)val.val._int;
+#endif
   else if (val.type == _C_DBL)
     return val.val._double;
   abort ();

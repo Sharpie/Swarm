@@ -59,12 +59,12 @@ USING
 
    These are currently implemented here but belong in VarProbe...
 
--setStringReturnType: returnType ;      
--(void *) probeRaw: anObject ;
--(void *) probeAsPointer: anObject ;
--(int)    probeAsInt: anObject ;
--(double) probeAsDouble: anObject ;
--(char *) probeAsString: anObject Buffer: (char *) buffer ;
+- setStringReturnType: returnType ;      
+- (void *)probeRaw: anObject ;
+- (void *)probeAsPointer: anObject ;
+- (int)   probeAsInt: anObject ;
+- (double)probeAsDouble: anObject ;
+- (char *)probeAsString: anObject Buffer: (char *) buffer ;
 
 */
 @end
@@ -110,6 +110,8 @@ typedef struct val {
   union {
     id object;
     SEL selector;
+    char _char;
+    unsigned char _uchar;
     int _int;
     float _float;
     double _double;
