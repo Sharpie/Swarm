@@ -1,5 +1,7 @@
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* acconfig.h: Replace POINTER_FMT_HEX_PREFIX with PTRHEXFMT.
+
 	* configure.in (AC_REPLACE_FUNCS): Remove strdup.
 
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
