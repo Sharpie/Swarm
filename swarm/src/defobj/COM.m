@@ -48,6 +48,12 @@ COM_add_arg (fcall_type_t type, void *value)
   comEnv->addArg (type, value);
 }
 
+void
+COM_set_return (fcall_type_t type, void *value)
+{
+  comEnv->setReturn (type, value);
+}
+
 COMobject 
 swarm_directory_objc_find_object_COM (id oObject)
 {

@@ -27,6 +27,7 @@ struct COMInterface {
   fcall_type_t (*selectorArgFcallType) (COMobject cSel, unsigned index);
   void *(*createArgVector) (unsigned size);
   void (*addArg) (fcall_type_t type, void *value);
+  void (*setReturn) (fcall_type_t type, void *value);
 };
 
 extern void initCOM (COMEnv *env);
@@ -48,6 +49,7 @@ extern const char *COM_class_name (COMobject cObj);
 extern BOOL COM_selector_is_boolean_return (COMobject cSel);
 extern void *COM_create_arg_vector (unsigned size);
 extern void COM_add_arg (fcall_type_t type, void *value);
+extern void COM_set_return (fcall_type_t type, void *value);
 extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
 extern void swarm_directory_COM_add_selector (COMobject cSel, SEL oSel);
 

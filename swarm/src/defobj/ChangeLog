@@ -1,24 +1,29 @@
 2000-09-23  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* _fcall.m, fcall_{objc,java}.h: Remove FArgument argument from
+	each _set_return_type function.
+
 	* defobj.h: Add preprocessor hair to make fcall_type_t available
 	to C++.
 
 	* FCall.m: Import COM.h. 
-	(add_ffi_types): Add check for COM, create COM_args.
+	(add_ffi_types): Add check for COM, create COM_args, call COM_add_arg
+	for each argument and then COM_set_return.
 
 	* FArguments.h (FArguments_c): Rename XPTCparams to COM_args.
 
 	* COM.h: Include defobj.h for fcall_type_t.  (Not import, COM.h
 	need to be includable by C++.)
 	(COMInterface): Replace selectorArgObjcType with
-	selectorArgFcallType.  Add createArgVector and addArg.
+	selectorArgFcallType.  Add createArgVector, addArg, and setReturn.
 	(COM_SELECTOR_ENTRY): Create a SelectorEntry, not an ObjectEntry.
 
 	* COM.m: Include internal.h.
 	(swarm_directory_COM_ensure_selector): Updates for
 	selectorArgFcallType from selectorArgObjcType.
 
-	* COM.[hm] (COM_create_arg_vector, COM_add_arg): New functions.
+	* COM.[hm] (COM_create_arg_vector, COM_add_arg, COM_set_return):
+	New functions.
 
 2000-09-22  Marcus G. Daniels  <mgd@forager.swarm.org>
 

@@ -93,8 +93,9 @@ ADD_PRIMITIVE (FArguments_c *fa, fcall_type_t type, void *val)
 }
 
 void
-SET_RETURN_TYPE (FCall_c *fc, FArguments_c *fa)
+SET_RETURN_TYPE (FCall_c *fc)
 {
+  FArguments_c *fa = fc->fargs;
   void (*func) (void) = fc->ffunction;
 
   switch (fa->returnType)

@@ -230,7 +230,15 @@ add_ffi_types (FCall_c *fc)
 
   if (fc->callType == COMcall)
     {
-      fa->COM_args = COM_create_arg_vector (MAX_ARGS);
+      fa->COM_args = COM_create_arg_vector (fa->assignedArgumentCount + 1);
+      
+      for (i = 0; i < fa->assignedArgumentCount; i++)
+        {
+          unsigned pos = i + MAX_HIDDEN;
+          
+          COM_add_arg (fa->argTypes[pos], fa->argValues[pos]);
+        }
+      COM_set_return (fa->returnType, &fa->resultVal);
     }
   else
     {
@@ -248,7 +256,7 @@ add_ffi_types (FCall_c *fc)
 #ifdef HAVE_JDK
       if (fc->callType == javacall || fc->callType == javastaticcall)
         {
-          java_set_return_type (fc, fa);
+          java_set_return_type (fc);
           fillHiddenArguments (fc);
           for (i = 0; i < fa->assignedArgumentCount; i++)
             {
@@ -260,7 +268,7 @@ add_ffi_types (FCall_c *fc)
       else
 #endif
         {
-          objc_set_return_type (fc, fa);
+          objc_set_return_type (fc);
           fillHiddenArguments (fc);
           for (i = 0; i < fa->assignedArgumentCount; i++)
             {
