@@ -1,3 +1,7 @@
+2000-02-27    <mgd@nest.swarm.org>
+
+	* StartMousetrap.java (main): Update for SDG and 2.1.
+
 1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Mousetrap.java: Return an Object, for the sake of the ActionTo

@@ -9,8 +9,7 @@ import swarm.defobj.ZoneImpl;
  * This class provides the `main' function of the Mousetrap application */
 public class StartMousetrap {
   public static void main (String[] args) {
-    Globals.env.initSwarm ("jmousetrap", "2.0.1", "bug-swarm@santafe.edu",
-                           args);
+    Globals.env.initSwarm ("jmousetrap", "2.1", "bug-swarm@swarm.org", args);
     
     if (Globals.env.guiFlag) {
       MousetrapObserverSwarm topLevelSwarm =
