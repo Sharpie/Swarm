@@ -1,6 +1,7 @@
 2003-09-12  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* Makefile.rules : add GENERAL dependency for FOs
+	* configure.in : add test for MacOS X JDK and configure javadoc
 	
 2003-09-10  Alex Lancaster  <alex@swarm.org>
 

@@ -32,7 +32,15 @@ if test $javadoc = no; then
   JAVADOCDIR=
 else
   AC_MSG_RESULT(yes)
-  AC_PATH_PROG(JAVADOC, javadoc, missing, $javadoc/bin)
+  MACOSJAVA=no
+  expand_javadoc=`eval echo $javadoc`
+  USEDOSCLASSPATH=no
+  if test $expand_javadoc = /System/Library/Frameworks/JavaVM.framework; then
+    MACOSJAVA=yes
+	AC_PATH_PROG(JAVADOC, javadoc, missing, $javadoc/Commands)
+  else
+	AC_PATH_PROG(JAVADOC, javadoc, missing, $javadoc/bin)
+  fi
   if test $JAVADOC != missing; then
     AC_MSG_RESULT(yes)
     JAVADOCDIR="javadoc"
