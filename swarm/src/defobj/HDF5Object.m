@@ -121,8 +121,13 @@ suppress_messages (void (*func) ())
   void *client_data;
   H5E_auto_t errfunc;
 
+  herr_t quiet_errfunc (void *client_data)
+    {
+      return 0;
+    }
+
   H5Eget_auto (&errfunc, &client_data);
-  H5Eset_auto (NULL, NULL);
+  H5Eset_auto (quiet_errfunc, NULL);
   func ();
   H5Eset_auto (errfunc, client_data);  
 }
@@ -1077,18 +1082,18 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
         {
           if (loc_id == 0)
             {
-              hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
-
-              if (!datasetFlag)
+              void func ()
                 {
-                  if ((loc_id = H5Gopen (parent_loc_id, name)) < 0)
-                    return nil;
+                  hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
+                  
+                  if (!datasetFlag)
+                    loc_id = H5Gopen (parent_loc_id, name);
+                  else
+                    loc_id = H5Dopen (parent_loc_id, name);
                 }
-              else
-                {
-                  if ((loc_id = H5Dopen (parent_loc_id, name)) < 0)
-                    return nil;
-                }
+              suppress_messages (func);
+              if (loc_id < 0)
+                return nil;
             }
           if (datasetFlag)
             {
