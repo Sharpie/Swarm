@@ -149,6 +149,12 @@ if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_c
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 fi
 
+if test $prefix = /usr; then
+  includedir=${includedir}/swarm
+  libdir=${libdir}/swarm
+  sysconfdir=${sysconfdir}/swarm
+fi
+
 AC_OUTPUT([Makefile etc/config.swarm etc/Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile Makefile.appl Makefile.lib
 ])
 

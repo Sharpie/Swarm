@@ -1,13 +1,15 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
+	* configure.in: In the case prefix=/usr, append "swarm" to libdir,
+	includedir, and sysconfdir.
+
 	* VERSION: Bump.
 
 	* Makefile.appl.in (INCLUDES): Don't define if includedir is
 	/usr/include.
 
 	* Makefile.am (install-data-local): Install Makefile.appl and
-	Makefile.lib to etcdir, not prefix.
-	(etcdir): Define to $(prefix)/etc.
+	Makefile.lib to sysconfdir, not prefix.
 	(install-data-local): Install swarmconfig.h instead of config.h.
 
 	* configure.in: Test for memcpy, memset, strcmp, and strlen

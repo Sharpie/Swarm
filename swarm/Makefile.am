@@ -1,9 +1,8 @@
 SUBDIRS = src m4 etc
-etcdir = $(prefix)/etc
 
 EXTRA_DIST = VERSION
 
 install-data-local:
-	$(INSTALL) Makefile.appl Makefile.lib $(etcdir)
+	$(INSTALL) Makefile.appl Makefile.lib $(sysconfdir)
 	$(INSTALL) swarmconfig.h $(includedir)
 
