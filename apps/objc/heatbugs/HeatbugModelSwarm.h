@@ -32,9 +32,10 @@
 
 - getHeatbugList;				  // access methods into the
 - (id <Grid2d>)getWorld;			  // model swarm. These methods
-- (HeatSpace *)getHeat;                        // allow the model swarm to
+- (HeatSpace *)getHeat;                           // allow the model swarm to
 						  // be observed.
-
+- (BOOL)toggleRandomizedOrder;                    // method to toggle the
+                                                  // randomization feature
 - addHeatbug: (Heatbug *)bug;			  // special method for demo
 
 + createBegin: aZone;				  // extra methods you

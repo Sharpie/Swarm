@@ -29,6 +29,13 @@
   return heat;
 }
 
+- (BOOL)toggleRandomizedOrder
+{
+  randomizeHeatbugUpdateOrder = 
+    ( (randomizeHeatbugUpdateOrder == NO) ? YES : NO );
+  return (randomizeHeatbugUpdateOrder);
+}
+
 // This method isn't normally used, but is convenient when running probes:
 // it lets you easily clone a heatbug and drag it into the model.
 
@@ -92,8 +99,8 @@
 				    inClass: [self class]]]; 
   [probeMap addProbe: [probeLibrary getProbeForVariable: "evaporationRate"
 				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: 
-                                      "randomizeHeatbugUpdateOrder" 
+  [probeMap addProbe: [probeLibrary getProbeForMessage: 
+                                      "toggleRandomizedOrder" 
                                     inClass: [self class]]];
   [probeMap addProbe: [probeLibrary getProbeForVariable: "randomMoveProbability"
 				    inClass: [self class]]];

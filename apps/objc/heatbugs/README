@@ -16,9 +16,11 @@ in which the bugs actually run their step rule.  This has the effect
 of removing any systematic bias in the iteration throught the heatbug
 list from timestep to timestep
 
-By default, this flag is not set (to duplicate the behavoir of the
-previous heatbug versions), but you can override this by setting the
-flag in the probe display for HeatbugModelSwarm.
+The `toggleRandomizedOrder' message probe on the probe display for
+HeatbugModelSwarm can be used to set this feature (note that `YES' =
+randomization is `on' and `NO' = randomization is `off'.  By default,
+this flag is *not* set (to duplicate the behavoir of the previous
+heatbug versions).
 
 * A note relevant to all Swarm application, not just heatbugs:
 

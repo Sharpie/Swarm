@@ -1,3 +1,15 @@
+1999-01-14  Alex Lancaster  <alex@santafe.edu>
+
+	* README: Note regarding toggleRandomizedOrder.
+
+	* HeatbugModelSwarm.[hm] ([HeatbugModelSwarm
+	-toggleRandomizedOrder]): New method, toggles the randomizedOrder
+	state for the heatbugList traversal.  Default is Sequential
+	(i.e. `NO').
+	([HeatbugModelSwarm +createBegin:]): Removed VarProbe for
+	randomizeHeatbugUpdateOrder, add MessageProbe for
+	toggleRandomizedOrder.
+
 1999-01-13  Alex Lancaster  <alex@santafe.edu>
 
 	* README: Add notes regarding new randomization feature.
