@@ -1,5 +1,17 @@
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.[hm], defobj.h (HDF5_c): Remove typeName and setter.  
+	New method -storeTypeName:, which replaces internal function
+	store_type_name.
+
+	* Archiver.m (hdf5_create_app_group): Return application group 
+	by reference.  Assert that mode exists.
+	(hdf5_output_objects): Drop memberGroup when member serialization
+	complete.
+	([Archiver_c hdf5Out:]): Drop appGroup and modeGroup when 
+	hdf5_output_objects has processed both shallow and deep requests
+	for the app.
+
 	* defobj.[hm] (hdf5_not_available): New function for raising an error
 	any time a HDF5 feature is used but HDF5 not present in
 	configuration.

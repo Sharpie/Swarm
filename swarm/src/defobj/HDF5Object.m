@@ -130,12 +130,6 @@ PHASE(Creating)
   return self;
 }
 
-- setTypeName: (const char *)theTypeName
-{
-  typeName = theTypeName;
-  return self;
-}
-
 - setCreateGroupFlag: (BOOL)theCreateGroupFlag
 {
   createGroupFlag = theCreateGroupFlag;
@@ -189,38 +183,6 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
   return 0;
 }
 
-static void
-store_type_name (hid_t did, const char *name)
-{
-  hid_t type_tid, type_sid, type_aid;
-  hsize_t dims[1];
-  
-  dims[0] = 1;
-  
-  if ((type_tid = H5Tcopy (H5T_C_S1)) < 0)
-    raiseEvent (SaveError, "unable to copy string type");
-  if ((H5Tset_size (type_tid, strlen (name) + 1)) < 0)
-    raiseEvent (SaveError, "unable to set string size");
-  if ((type_sid = H5Screate_simple (1, dims, NULL)) < 0)
-    raiseEvent (SaveError, "unable to create row names data space");
-  
-  if ((type_aid = H5Acreate (did, ATTRIB_TYPENAME,
-                             type_tid, type_sid, H5P_DEFAULT)) < 0)
-    raiseEvent (SaveError, 
-                "unable to create type attribute dataset");
-  
-  if (H5Awrite (type_aid, type_tid, (void *) name) < 0)
-    raiseEvent (SaveError, "unable to write type name attribute");
-
-  if (H5Aclose (type_aid) < 0)
-    raiseEvent (SaveError, "unable to close type name attribute");
-
-  if (H5Tclose (type_tid) < 0)
-    raiseEvent (SaveError, "unable to close type name type");
-  
-  if (H5Sclose (type_sid) < 0)
-    raiseEvent (SaveError, "unable to close type name space");
-}
 #endif
 
 - createEnd
@@ -246,17 +208,14 @@ store_type_name (hid_t did, const char *name)
       if ((c_msid = H5Screate_simple (1, mdims, NULL)) < 0)
         raiseEvent (SaveError, "unable to create (compound) point space");
       
-      
-      loc_id = 0;
-      if ((c_did = H5Dcreate (((HDF5_c *) parent)->loc_id,
+      loc_id = ((HDF5_c *) parent)->loc_id;
+      if ((c_did = H5Dcreate (loc_id,
                               name,
                               ((HDF5CompoundType_c *) c_type)->tid,
                               c_sid,
                               H5P_DEFAULT)) < 0)
         raiseEvent (SaveError, "unable to create (compound) dataset");
 
-      store_type_name (c_did, typeName);
-      
       {
         hsize_t dims[1];
         
@@ -291,8 +250,8 @@ store_type_name (hid_t did, const char *name)
                             H5T_REFERENCE,
                             H5T_STRING, ref_string) == -1)
         raiseEvent (SaveError, "unable to register ref->string converter");
-      hdf5InstanceCount++;
     }
+  hdf5InstanceCount++;
 #else
   hdf5_not_available ();
 #endif
@@ -304,6 +263,40 @@ PHASE(Using)
 - (const char *)getName
 {
   return name;
+}
+
+- storeTypeName: (const char *)typeName
+{
+  hid_t type_tid, type_sid, type_aid;
+  hsize_t dims[1];
+  hid_t did = c_type ? c_did : loc_id;
+  
+  dims[0] = 1;
+  
+  if ((type_tid = H5Tcopy (H5T_C_S1)) < 0)
+    raiseEvent (SaveError, "unable to copy string type");
+  if ((H5Tset_size (type_tid, strlen (typeName) + 1)) < 0)
+    raiseEvent (SaveError, "unable to set string size");
+  if ((type_sid = H5Screate_simple (1, dims, NULL)) < 0)
+    raiseEvent (SaveError, "unable to create row names data space");
+  
+  if ((type_aid = H5Acreate (did, ATTRIB_TYPENAME,
+                             type_tid, type_sid, H5P_DEFAULT)) < 0)
+    raiseEvent (SaveError, 
+                "unable to create type attribute dataset");
+  
+  if (H5Awrite (type_aid, type_tid, (void *) typeName) < 0)
+    raiseEvent (SaveError, "unable to write type name attribute");
+
+  if (H5Aclose (type_aid) < 0)
+    raiseEvent (SaveError, "unable to close type name attribute");
+
+  if (H5Tclose (type_tid) < 0)
+    raiseEvent (SaveError, "unable to close type name type");
+  
+  if (H5Sclose (type_sid) < 0)
+    raiseEvent (SaveError, "unable to close type name space");
+  return self;
 }
 
 - storeAsDataset: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
@@ -326,14 +319,14 @@ PHASE(Using)
       
       if ((did = H5Dcreate (loc_id, datasetName,
                             tid, sid, H5P_DEFAULT)) < 0)
-        raiseEvent (SaveError, "unable to store %s as char", datasetName);
+        raiseEvent (SaveError, "unable to create dataset `%s'", datasetName);
       
-
+      
       if (H5Dwrite (did, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
-        raiseEvent (SaveError, "unable to write %s as char", datasetName);
+        raiseEvent (SaveError, "unable to write to dataset `%s'", datasetName);
 
       if (H5Dclose (did) < 0)
-        raiseEvent (SaveError, "unable to close dataset %s", datasetName);
+        raiseEvent (SaveError, "unable to close dataset `%s'", datasetName);
       if (H5Sclose (sid) < 0)
         raiseEvent (SaveError, "unable to close dataspace");
     }
@@ -503,10 +496,10 @@ PHASE(Using)
       
     }
   else
-
     {
-      if (H5Gclose (loc_id) < 0)
-        raiseEvent (SaveError, "Failed to close HDF5 group");
+      if (createGroupFlag)
+        if (H5Gclose (loc_id) < 0)
+          raiseEvent (SaveError, "Failed to close HDF5 group");
     }
   hdf5InstanceCount--;
   if (hdf5InstanceCount == 0)

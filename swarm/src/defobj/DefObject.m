@@ -1058,7 +1058,7 @@ lisp_output_type (const char *type,
                                         setParent: hdf5Obj]
                                        setName: name]
                                       createEnd];
-                  
+
                   [obj hdf5Out: hdf5ObjGroup deep: YES];
                   [hdf5ObjGroup drop];
                 }
@@ -1066,6 +1066,7 @@ lisp_output_type (const char *type,
           else
             [hdf5Obj storeAsDataset: name type: type ptr: ptr];
         }
+      [hdf5Obj storeTypeName: [self name]];
       map_ivars (getClass (self)->ivars, store_object);
     }
   else

@@ -966,7 +966,6 @@ CREATING
 + createBegin: aZone;
 - setParent: parent;
 - setName: (const char *)name;
-- setTypeName: (const char *)typeName;
 - setRecordType: compoundType count: (unsigned)count;
 - setRowNameLength: (size_t)len;
 - setCreateGroupFlag: (BOOL)createGroupFlag;
@@ -974,6 +973,7 @@ CREATING
 USING
 - (const char *)getName;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
+- storeTypeName: (const char *)typeName;
 - storeObject: obj;
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;

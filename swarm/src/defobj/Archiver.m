@@ -523,7 +523,7 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
 #ifdef HAVE_HDF5
 
 static id
-hdf5_create_app_group (const char *appKey, id hdf5Obj)
+hdf5_create_app_group (const char *appKey, id hdf5Obj, id *hdf5AppObjPtr)
 {
   id hdf5AppObj = hdf5Obj;
   char *modeKey;
@@ -541,7 +541,10 @@ hdf5_create_app_group (const char *appKey, id hdf5Obj)
                        setParent: hdf5Obj]
                       setName: appKey]
                      createEnd];
+      *hdf5AppObjPtr = hdf5AppObj;
     }
+  else
+    raiseEvent (InvalidArgument, "expecting composite app/mode key");
   return [[[[HDF5 createBegin: [hdf5AppObj getZone]]
              setParent: hdf5AppObj]
             setName: modeKey]
@@ -556,21 +559,22 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
   
   while ((member = [objectMapIndex next: &key]))
     {
-      id hdf5Group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                          setParent: hdf5Obj]
-                         setCreateGroupFlag: deepFlag]
-                        setName: [key getC]]
-                       createEnd];
-  
+      id memberGroup = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                            setParent: hdf5Obj]
+                           setCreateGroupFlag: deepFlag]
+                          setName: [key getC]]
+                         createEnd];
+      
       if (![member isClass])
-        [member hdf5Out: hdf5Group deep: deepFlag];
+        [member hdf5Out: memberGroup deep: deepFlag];
       else
         {
           SEL sel = M(hdf5Out:deep:);
           IMP func = get_imp (id_CreatedClass_s, sel);
           
-          func (member, sel, hdf5Group, NO);
+          func (member, sel, memberGroup, NO);
         }
+      [memberGroup drop];
     }
 }
 #endif
@@ -603,10 +607,14 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
   
   while ((app = [appMapIndex next: &appKey]))
     {
-      id hdf5Group = hdf5_create_app_group ([appKey getC], hdf5Obj);
-        
-      hdf5_output_objects ([app getHDF5ShallowMap], hdf5Group, NO);
-      hdf5_output_objects ([app getHDF5DeepMap], hdf5Group, YES);
+      id appGroup;
+      id modeGroup = hdf5_create_app_group ([appKey getC], hdf5Obj, appGroup);
+      
+      hdf5_output_objects ([app getHDF5ShallowMap], modeGroup, NO);
+      hdf5_output_objects ([app getHDF5DeepMap], modeGroup, YES);
+      
+      [modeGroup drop];
+      [appGroup drop];
     }
   [appMapIndex drop];
   return self;

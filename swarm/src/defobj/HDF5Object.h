@@ -31,7 +31,6 @@
 {
   id parent;
   const char *name;
-  const char *typeName;
   BOOL createGroupFlag;
 #ifdef HAVE_HDF5
   hid_t loc_id;
@@ -55,14 +54,15 @@
 + createBegin: aZone;
 - setParent: parent;
 - setName: (const char *)name;
-- setTypeName: (const char *)typeName;
 - setCreateGroupFlag: (BOOL)createGroupFlag;
 - setRecordType: compoundType count: (unsigned)count;
 - setRowNameLength: (size_t)len;
 - createEnd;
+
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
+- storeTypeName: (const char *)typeName;
 - storeObject: obj;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - (const char *)getName;
