@@ -1,5 +1,8 @@
 1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.appl.in (SWARMLIBS): Reorder: simtoolsgui and tkobjc
+	after simtools.
+
 	* configure.in: Check for _WIN32 to select GUILIBS between
 	X11 and GDI things.
 

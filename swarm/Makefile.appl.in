@@ -44,7 +44,7 @@ LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 
 SYSLIBS = $(TCLOBJCLIB) $(BLTLIB) $(TKLIB) $(TCLLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lobjc -lm
 
-SWARMLIBS = -lspace -lanalysis -lsimtoolsgui -ltkobjc -lsimtools -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
+SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
 
 LIBS = @LIBS@
 
