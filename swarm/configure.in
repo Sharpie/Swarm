@@ -272,12 +272,12 @@ if test -n "$includesubdir"; then
 AC_DEFINE_UNQUOTED(INCLUDESUBDIR,"$includesubdir")
 fi
 
+md_CHECK_PATH_SYNTAX
 vj_FIND_JDK
 md_CHECK_JNI_H
 
 AC_CHECK_HEADERS(sys/sigevent.h)
 
-md_CHECK_PATH_SYNTAX
 
 AC_PATH_PROG(EMACS, emacs, missing)
 
