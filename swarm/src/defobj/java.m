@@ -1714,15 +1714,15 @@ static int
 java_compareDirectoryEntries (DirectoryEntry *obj1, DirectoryEntry* obj2)
 {
 #if 0
-  printf ("`%s'%p/%p vs %p\n",
-          getObjcName (obj1->javaObject, obj2->object),
-          object, javaObject,
-          ((DirectoryEntry *) obj2)->javaObject);
-#endif
   return (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
                                               obj1->foreignObject.java,
                                               m_Equals,
                                               obj2->foreignObject.java);
+#else
+  return (int) !(*jniEnv)->IsSameObject (jniEnv,
+                                         obj1->foreignObject.java,
+                                         obj2->foreignObject.java);
+#endif
 }
 
 static id <Map>

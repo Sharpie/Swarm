@@ -1,3 +1,11 @@
+2001-05-08    <mgd@coyote.santafe.edu>
+
+	* java.m (java_compareDirectoryEntries): Use IsSameObject instead
+	of call to m_Equals.  Remove obsolete diagnostic.
+
+	* JavaProxy.m ([JavaProxy -createJavaCounterpart:]): Print an error
+	with the type name if NewObject fails.
+
 2001-04-21    <mgd@coyote.santafe.edu>
 
 	* java.m (java_object_setVariable): Confirm that data type and

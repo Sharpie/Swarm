@@ -54,7 +54,8 @@ PHASE(Using)
             jobj = (*jniEnv)->NewObject (jniEnv, class, method);
 
             if (!jobj)
-              abort ();
+              raiseEvent (SourceMessage, "Could not instantiate `%s'",
+                          typeName);
           }
         }
       if ((*jniEnv)->IsInstanceOf (jniEnv, jobj, c_Collection))
