@@ -1,6 +1,10 @@
-2000-03-28    <mgd@nest.swarm.org>
+2000-04-02    <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1.1 frozen.
+
+	* activity00.sgml: Delete sentence about top-level
+	functions calls and methods being a "concern" to the activity
+	library.  Huh?
 
 2000-02-29    <mgd@nest.swarm.org>
 

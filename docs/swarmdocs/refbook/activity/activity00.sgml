@@ -91,9 +91,7 @@
         to objects within it.  These messages invoke compiled methods
         of receiving objects, which may change local state or send
         messages to other objects to propagate effects as widely as
-        needed.  Only top-level function calls or message sends that
-        initiate model processing are the concern of the activity
-        library.  Because the activity library finally interacts with
+        needed.  Because the activity library finally interacts with
         the world model just by invoking its defined methods, the
         model can prepackage as much behavior as it can in the form of
         fast compiled methods.  The activity library just triggers the
