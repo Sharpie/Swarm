@@ -900,6 +900,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       SetWindowPos ((HWND)topWindow,
 		    HWND_TOPMOST, 0, 0, 0, 0,
 		    SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
       GdiFlush ();
       win32_pixmap_create_from_window (pixmap, window, decorationsFlag);
 #endif
