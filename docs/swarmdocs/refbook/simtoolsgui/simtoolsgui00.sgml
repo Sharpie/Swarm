@@ -20,6 +20,7 @@
 
 <PROGRAMLISTING>
 #import &lt;objectbase.h&gt;
+#import &lt;activity.h&gt;
 </PROGRAMLISTING>
 
       </PARA>
