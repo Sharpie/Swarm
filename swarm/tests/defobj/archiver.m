@@ -7,11 +7,6 @@
 #define OBJNAME "myObj"
 id archiver;
 
-BOOL deepFlag;
-
-#define USEHDF5 128
-#define USEDEEP 129
-
 #define STRVAL "Hello World"
 #define INTVAL -100
 #define UNSIGNEDVAL 100
@@ -33,7 +28,9 @@ BOOL deepFlag;
   unsigned long ulongVal;
   float floatVal;
   double doubleVal;
+  BOOL deepFlag;
 }
+- setDeepFlag: (BOOL)deepFlag;
 - updateArchiver;
 @end
 
@@ -52,6 +49,12 @@ BOOL deepFlag;
   obj->floatVal = FLOATVAL;
   obj->doubleVal = DOUBLEVAL;
   return obj;
+}
+
+- setDeepFlag: (BOOL)theDeepFlag
+{
+  deepFlag = theDeepFlag;
+  return self;
 }
 
 - updateArchiver
@@ -88,61 +91,52 @@ BOOL deepFlag;
 @end
 
 static id
-createArchiver (BOOL hdf5Flag, BOOL inhibitLoadFlag)
+createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag)
 {
-  return [[[[[Archiver createBegin: globalZone]
+  return [[[[[Archiver createBegin: aZone]
               setPath: hdf5Flag ? "archive.hdf" : "archive.scm"]
              setHDF5Flag: hdf5Flag]
             setInhibitLoadFlag: inhibitLoadFlag]
            createEnd];
 }
 
-int
-main (int argc, const char **argv)
+static BOOL
+checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag)
 {
   id obj;
-  BOOL hdf5Flag = NO;
-  int ret;
+  BOOL ret;
 
-  struct argp_option options[] = {
-    {"hdf5", USEHDF5, 0, 0, "Use HDF5 for archiving", 5 },
-    {"deep", USEDEEP, 0, 0, "Use deep serialization", 6 },
-    { 0 }
-  };
-
-  int parse (int key, const char *arg)
-    {
-      if (key == USEHDF5)
-        {
-          hdf5Flag = YES;
-          return 0;
-        }
-      else if (key == USEDEEP)
-        {
-          deepFlag = YES;
-          return 0;
-        }
-      return ARGP_ERR_UNKNOWN;
-    }
-  
-  deepFlag = NO;
-
-  initSwarmAppOptionsBatch (argc, argv, "1.4.1", "bug-swarm@santafe.edu",
-                            options, parse);
-
-  archiver = createArchiver (hdf5Flag, YES);
-  obj = [MyClass create: globalZone];
+  archiver = createArchiver (aZone, hdf5Flag, YES);
+  obj = [[[MyClass createBegin: aZone]
+           setDeepFlag: deepFlag]
+          createEnd];
   [archiver registerClient: obj];
   [archiver save];
   [obj drop];
   [archiver drop];
-
-  archiver = createArchiver (hdf5Flag, NO);
+  
+  archiver = createArchiver (aZone, hdf5Flag, NO);
   obj = [archiver getObject: OBJNAME];
   [archiver drop];
-
-  ret = [obj checkObject] == YES ? 0 : 1;
+  
+  ret= [obj checkObject];
   [obj drop];
   
   return ret;
+}
+
+int
+main (int argc, const char **argv)
+{
+  initSwarmBatch (argc, argv);
+
+  if (checkArchiver (globalZone, NO, NO) == NO)
+    raiseEvent (InternalError, "Shallow Lisp serialization failed");
+  if (checkArchiver (globalZone, NO, YES) == NO)
+    raiseEvent (InternalError, "Deep Lisp serialization failed");
+  if (checkArchiver (globalZone, YES, NO) == NO)
+    raiseEvent (InternalError, "Shallow HDF5 serialization failed");
+  if (checkArchiver (globalZone, YES, YES) == NO)
+    raiseEvent (InternalError, "Deep HDF5 serialization failed");
+  return 0;
 }
