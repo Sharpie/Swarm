@@ -378,17 +378,15 @@ archiverLispPut (id aZone, const char *keyStr, id value, id addMap,
 static id
 archiverLispGet (id aZone, id string, id app)
 {
-  id result;
-
-  id valexpr = [[[app getDeepMap] at: string] getExpr];
-  if (valexpr == nil)
-    valexpr = [[[app getShallowMap] at: string] getExpr];
+  id archiverObject = [[app getDeepMap] at: string];
+  id valexpr = archiverObject ? [archiverObject getExpr] : nil;
   
-  if (valexpr != nil)
-    result = lispIn (aZone, valexpr);
-  else
-    return nil;
-  return result;
+  if (valexpr == nil)
+    {
+      archiverObject = [[app getShallowMap] at: string];
+      valexpr = archiverObject ? [archiverObject getExpr] : nil;
+    }
+  return (valexpr != nil) ? lispIn (aZone, valexpr) : nil;
 }
 
 - _getWithZone_: aZone _object_: (const char *)key 

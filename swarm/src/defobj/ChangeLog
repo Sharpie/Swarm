@@ -1,5 +1,8 @@
 1999-10-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* LispArchiver.m (archiverLispGet): Explicitly handle nil 
+	ArchiverObjects.
+
 	* internal.m (nil_method): Update for > gcc 2.8.
 
 	* Zone.m ([Zone_c -freeIVars:], [Zone_c -freeIVarsComponent:]): 
