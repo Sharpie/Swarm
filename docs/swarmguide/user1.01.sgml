@@ -105,7 +105,8 @@
       predictable.  Current priorities for the Swarm team at SFI
       include the further generalization of Swarm to be useful on a
       broader array of platforms and in conjunction with additional
-      computer languages.
+      computer languages. Swarm 2.0 introduced the ability of Java
+      programmers to access Swarm libraries, for example.
     </para>
 
   </sect2>

@@ -30,10 +30,27 @@
 	<listitem>
           <formalpara><title>Objective C allows run-time binding</title> 
 
-            <para><comment>Objective-C leaves open the possibility that 
-              ???</comment>.
-              At the time the Swarm project began, C++ did not allow
-              this</para>
+            <para>Run-time binding is somewhat esoteric and
+            controversial.  In contrast to other languages which check
+            the match between the receiver of a command and its
+            ability to carry out the command when a program is
+            compiled, Objective-C leaves that matching exercise until
+            the program is running.  This means, for example, that one
+            can have a program that builds a list of objects and then
+            sends a message to each one.  In Objective-C, the compiler
+            won't worry about which type of object is in the list. The
+            advantage, conceptually, is that one can put commands in
+            their code without knowing the precise identity of the
+            receiver, so code can be written to allow an environment
+            and set of objects to change and evolve. The disadvantage,
+            as critics of run-time binding will quickly point out, is
+            that programs crash when an object recieves a message and
+            it does not have the method that it is being told to
+            execute.  The organization of the Swarm Toolkit into
+            protocols reduces the risk of these crashes, however,
+            because the compiler does check and issue a warning if a
+            method is not implemented in a class that advertises a
+            certain protocol.</para>
           </formalpara>
         </listitem> 
       </itemizedlist>
@@ -234,9 +251,12 @@
 
     <para>For readers who are already familiar with C, perhaps a
       comparison of C functions against Objective-C methods is in
-      order.</para>
+      order. Since Objective-C is a superset of C, an Objective-C
+      method can include any valid C commands. A method can return any
+      type that a C function can return, and in addition it can an id
+      (which, strictly speaking, is a pointer to an object).  </para>
 
-    <para>Objective-C method:</para>
+    <para>In the abstract, an Objective-C method has this structure:</para>
     
 <programlisting role="ObjC">
 - (type)name: (type)arg1 argName2: (type)arg2 
@@ -246,7 +266,7 @@
 }
 </programlisting>
 
-    <para>C function:</para>
+    <para>In comparison, a C function would look like this:</para>
 
     <programlisting role="C">
 (type)name((type) arg1,(type) arg2)) 
@@ -256,9 +276,13 @@
 }
 </programlisting>
 
-    <para>Code in body could look exactly the same in C and
-      Objective-C.  The two languages are compared side-by-side in
-      figure     
+    <para>The code in body of an Objective-C method can be exactly the
+    same as in C.  The two languages are compared side-by-side in the
+    following example, which describes how a function "rand_move()"
+    might compare to a method "rand_move:".  Of course, each of these
+    assumes there are other functions and variables that can be
+    accessed, but the contrast in style should be informative.
+    
       <example id="swarm.user.user1.03.c-vs-objc.example">
         <title>C vs Objective-C</title>
 
@@ -383,8 +407,14 @@ listOfPuppies=[List create: [self getZone]];
     <para>There is one additional complication that readers should be
       aware of.  Objective-C allows the creation of entities called
       protocols.  A protocol, as readers will recall from their study
-      of Objective-C, is a set of methods that an object can execute
-      when it adopts the that protocol. </para>
+      of Objective-C, is a list of methods that an object is able to
+      execute.  The Swarm Toolkit is structured by protocols, which
+      means that there are lists of methods assigned to various names
+      and classes inside the library "adopt" those protocols and then
+      implement the methods listed in the protocols.  Hence, in the
+      Swarm Reference materials present the libraries as a collection
+      of classes, each of which adheres to a given set of
+      protocols. </para>
 
     <para>To the Swarm user, the distinction between class and
       protocol is not vital most of the time.  The most important
@@ -393,42 +423,51 @@ listOfPuppies=[List create: [self getZone]];
       <filename>objectbase/SwarmObject.h</filename>), are classes from
       which users subclass to make model swarms or individual
       agents. It should not matter to the user that these classes have
-      adopted protocols (taken on methods from protocol files inside
-      the library).  The class SwarmObject, for example, adopts
-      protocols Create and Drop. These protocols give SwarmObjects the
-      ability to execute methods like createBegin, createEnd, or drop.
-      Users who create classes using SwarmObject inherit these methods
-      and there is no reason to be concerned whether SwarmObject got
-      those methods by inheriting them from some other class or
-      adoopting them from a protocol. </para>
+      adopted protocols (taken on the obligation to implement methods
+      listed in protocols).  The class SwarmObject, for example,
+      adopts protocols Create and Drop. This means that objects from
+      SwarmObject Class have the ability to execute methods like
+      createBegin, createEnd, or drop.  Users who create classes using
+      SwarmObject inherit these methods. One of the principal
+      advantagesof protocol usage is that there will be compile-time
+      warnings if a class does not implement a method that is listed
+      in a protocol that the class adopts.  In a crude way, adopting a
+      protocol is like advertising that a class can do certain things,
+      and the compiler enforces a 'truth in advertising'
+      policy. </para>
 
     <para>The fact that many of the important components of the Swarm
-      library are written as protocols can, however, be important in
-      some notation. Early versions of Swarm, for example, had a class
-      List from which users could subclass lists.  More recent
-      versions have a List protocol.  This change causes a wrinkle
-      that alters the syntax in user programs.  For example, when the
-      ability to create lists was offered by a class, then the
-      notation to create an instance of such a list would have been:
+      library are organized as protocols can, however, be important in
+      some notation. Early versions of Swarm had less emphasis on
+      protocals than the current version.  As a result of the
+      introduction of protocols, usage conventions have changed.  In
+      Swarm, there is a class List that can be used to create
+      collections.  In the "old days" of swarm, one would create a
+      statically typed object of class List, as this code indicates:
+
 
 <programlisting role="ObjC">
 List * listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
 </programlisting>
 
-      In contrast, when the collections library is written as a
-      protocol, the notation to define the type is different.  If one
-      needs to define a variable listOfPuppies that is "statically
-      typed" as a list, the command changes to:
-      <programlisting role="ObjC">
+      In contrast, when the List class advertises that it adopts the
+      List protocol, the notation to define the type is different.  If
+      one needs to define a variable listOfPuppies that has the
+      properties of a List class item, the recommended approach is to
+      create a variable of type id and indicate the protocols adopted
+      by that object in brackets:
+
+
+<programlisting role="ObjC">
 id &lt; List &gt;  listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
       </programlisting>
     </para>
 
-    <para>Since many of the important pieces of functionality in the
-      Swarm library is now written in the protocol format, these
-      details may be important. However, these details do not
+    <para>Since almost all of the important pieces of functionality in the
+      Swarm library are now written in the protocol format, these
+      details may be important in coding details. However, these details do not
       significantly change the way applications are designed.</para>
 
 </sect2>

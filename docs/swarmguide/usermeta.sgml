@@ -69,19 +69,20 @@
 
     <ABSTRACT>
 
-      <TITLE>A tutorial introduction to the Swarm Simulation System</TITLE>
+      <TITLE>A User's Guide for the Swarm Simulation System</TITLE>
       
-      <PARA> This document is based on the Swarm Tutorial presented at
-        Swarmfest 1998 by Benedikt Stefansson of UCLA School of
-        Economics. The tutorial is presented in three parts: an
-        Introduction to Swarm, a SimpleBug demo, and the Swarm
-        Libraries.  The Introduction to Swarm covers the
-        underpinnings and background information necessary to
-        understand Swarm.  The SimpleBug demo is a walkthrough of
-        converting a simple C code snippet into a Swarm
-        application. Finally, the Swarm Libraries is an in depth
-        look at the libraries that comprise the Swarm Simulation
-        System.
+      <PARA> This document began with the Swarm Tutorial presented at
+        Swarmfest 1998 by Benedikt Stefansson of UCLA Department of
+        Economics. The Swarm Toolkit is discussed in three stages of
+        increasing detail.  The first part provides an introductory
+        treatment and description of Swarm. The second part provides a
+        deeper survey of the anatomy of a swarm program. The third
+        part goes into significantly greater detail on some elements
+        of programming in Swarm that users are likely to enounter as
+        they build programs with Swarm. Users are encouraged to
+        explore the Swarm sample programs and to visit the Swarm
+        homepage, where they can find out the latest news and join the
+        Swarm e-mail community.
       </PARA>
 
     </ABSTRACT>
