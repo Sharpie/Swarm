@@ -8,7 +8,8 @@
 	([FArguments -_setReturnType_:]): Use strlen for adding to
 	javaSignatureLength.
 	(createJavaSignature): Simplify to use stpcpy; no offsets.
-	(objc_types): Add _C_CHR.
+	(objc_types): Add _C_CHR.  Use \001 instead of \0 to avoid
+	possibile confusion with end of signature.
 
 	* FArguments.[hm], FCall.[hm]: Rename argSwarmTypes -> argTypes
 	and argTypes -> ffiArgTypes.  Likewise for returns.

@@ -63,7 +63,7 @@ char objc_types[FCALL_TYPE_COUNT] = {
   _C_ID,
   _C_CHARPTR,
   _C_SEL,
-  '\0'
+  '\001'
 };
 
 @implementation FArguments
@@ -243,13 +243,11 @@ createJavaSignature (FArguments *self)
 
   str = [[self getZone] allocBlock: self->javaSignatureLength + 3];
   p = stpcpy (str, "(");
-  printf ("%u\n", self->assignedArgumentCount);
   for (i = 0; i < self->assignedArgumentCount; i++)
     p = stpcpy (p, java_type_signature [self->argTypes[i + MAX_HIDDEN]]);
   
   p = stpcpy (p, ")");
   p = stpcpy (p, java_type_signature [self->returnType]);
-  printf("\n%s\n", str);
   return str;
 }
 
