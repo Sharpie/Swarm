@@ -16,7 +16,23 @@
 
       <PARA>Swarm is a collection of libraries against which you link
         your simulation code. This document describes the interface
-        for those core libraries.</PARA>
+        for those core libraries.
+
+      <important>
+        <para>The probe, random and technical appendices formerly part
+          of the <citetitle>Reference Guide for Swarm</citetitle> have
+          been removed and relocated to the new &userbook;.  In the
+          interests of conserving paper, the grid turtle example
+          programs are available in <filename>tar.gz</filename> format
+          from the Swarm ftp site (see <xref
+          linkend="swarm.grid.sgml.appendix">) and pointers to the
+          full text of the LGPL and GPL licenses (see <xref
+          linkend="swarm.license.sgml.appendix">) are provided rather
+          than the full text itself.
+        </para>
+      </important>
+
+    </PARA>
 
   </ABSTRACT>
   &refbookrevhistory.sgml;

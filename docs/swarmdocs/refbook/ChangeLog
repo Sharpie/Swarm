@@ -2,6 +2,20 @@
 
 	* Swarmdocs 2.1 frozen.
 
+	* refcont.sgml: Remove {lgpl,gpl}-app.sgml inclusion in content.
+
+	* refbook.ent: Likewise for the relevant ENTITIES.
+	
+	* lgpl-app.sgml, gpl-app.sgml: Remove files.
+
+	* Makefile.am (SGML): Add license-app.sgml.
+
+	* refmeta.sgml: Add admonition regarding reorganization and
+	deletion of appendices in ABSTRACT.
+
+	* grid-app.sgml: Remove the inline gridturtle code.  Add
+	admonition specifying location of tar.gz file for download.
+
 	* Makefile.am (noinst_DATA): Remove variable entirely, since we
 	neither install nor distribute the GENERATED_SGML files.
 

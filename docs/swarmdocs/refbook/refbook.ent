@@ -40,8 +40,7 @@
 <!entity gridexamples.sgml PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN">
 <!entity probes-app.sgml PUBLIC "-//SFI Hive//ENTITIES Probes//EN">
 <!entity conventions-app.sgml PUBLIC "-//SFI Hive//ENTITIES Conventions//EN">
-<!entity lgpl-app.sgml PUBLIC "-//SFI Hive//ENTITIES LGPL//EN">
-<!entity gpl-app.sgml PUBLIC "-//SFI Hive//ENTITIES GPL//EN">
+<!entity license-app.sgml PUBLIC "-//SFI Hive//ENTITIES License//EN">
 <!entity refbookrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN">
 
 

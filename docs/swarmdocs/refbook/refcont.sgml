@@ -36,11 +36,14 @@
 <!-- library interface conventions -->
 &conventions-app.sgml;
 
+<!-- licenses -->
+&license-app.sgml;
+
 <!-- GNU LGPL -->
-&lgpl-app.sgml;
+<!-- &lgpl-app.sgml; -->
 
 <!-- GNU GPL -->
-&gpl-app.sgml;
+<!-- &gpl-app.sgml; -->
 
 <!-- index -->
 &refindex.sgml;

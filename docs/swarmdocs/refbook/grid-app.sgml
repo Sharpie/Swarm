@@ -6,6 +6,13 @@
 
   <TITLE>GridTurtle Test Programs</TITLE>
   
+  <important id="SWARM.GRID.SGML.IMPORTANT">
+    <para>To prevent the guide from getting overbulky, the actual
+      program listings of the Grid Turtle test programs, that were
+      formerly contained here, can now be found in a separate archive
+      on the Swarm ftp site: <ulink
+      url="ftp://ftp.swarm.org/pub/swarm/gridturtle-&swarm-release-number;.tar.gz">gridturtle-&swarm-release-number;.tar.gz</ulink></para>
+  </important>
 
   <SECT1>
     <TITLE>Overview</TITLE>
@@ -57,7 +64,7 @@
       <ITEMIZEDLIST>
 
         <LISTITEM><FORMALPARA> <TITLE><LINK
-            LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID0.M">grid0.m</LINK></TITLE>
+            LINKEND="SWARM.GRID.SGML.IMPORTANT">grid0.m</LINK></TITLE>
             
             <PARA> Initialization of library package.  (Swarm
               applications ordinarily just call initSwarm() which
@@ -68,9 +75,9 @@
         <LISTITEM><FORMALPARA>
             
             <TITLE>
-              <LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID1A.M">grid1a.m</LINK>,
-              <LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID1B.M">grid1b.m</LINK>,
-              <LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID1C.M">grid1c.m</LINK>
+              grid1a.m,
+              grid1b.m,
+              grid1c.m
             </TITLE>
 
             <PARA>Tests of Array type.  The setInitialValue:,
@@ -82,10 +89,8 @@
         <LISTITEM><FORMALPARA> 
             
             <TITLE>
-              <LINK
-              LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID2.M">grid2.m</LINK>,
-              <LINK
-              LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID2B.M">grid2b.m</LINK></TITLE>
+              grid2.m,
+              grid2b.m</TITLE>
 
             <PARA>Tests of List type.  grid2 also tests inheritance
               from a class that implements the List type (not yet
@@ -99,10 +104,8 @@
 
         <LISTITEM><FORMALPARA>
             
-            <TITLE><LINK
-            LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID3.M">grid3.m</LINK>,
-            <LINK
-            LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID3B.M">grid3b.m</LINK></TITLE>
+            <TITLE>grid3.m,
+            grid3b.m</TITLE>
 
             <PARA>Tests of Map type.  grid3b uses an alternate compare
               function to handle integers rather than id values as
@@ -110,10 +113,8 @@
 
         <LISTITEM><FORMALPARA> 
             
-            <TITLE><LINK
-              LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID4.M">grid4.m</LINK>,
-              <LINK
-              LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID4B.M">grid4b.m</LINK></TITLE>
+            <TITLE>grid4.m,
+              grid4b.m</TITLE>
             
             <PARA>Test of Set and OrderedSet types.  The OrderedSet
               creation in grid4b uses message names that differ from
@@ -121,15 +122,14 @@
               interface.</PARA></FORMALPARA>
         </LISTITEM>
 
-        <LISTITEM><FORMALPARA> <TITLE><LINK
-            LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID5.M">grid5.m</LINK></TITLE>
+        <LISTITEM><FORMALPARA> <TITLE>grid5.m</TITLE>
 
             <PARA>Tests of ActionGroup execution independent of any
               schedule, both by itself and within a
               swarm.</PARA></FORMALPARA></LISTITEM>
 
         <LISTITEM><FORMALPARA>
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID6.M">grid6.m</LINK></TITLE>
+            <TITLE>grid6.m</TITLE>
 
             <PARA>Test of running an entire top-level activity within
               an action of an already running
@@ -137,14 +137,14 @@
 
         <LISTITEM><FORMALPARA> 
 
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID7.M">grid7.m</LINK></TITLE>
+            <TITLE>grid7.m</TITLE>
             <PARA>Tests of schedule execution and schedule merging,
               using various combinations of absolute, relative, and
               repeating schedules.</PARA></FORMALPARA></LISTITEM>
 
         <LISTITEM><FORMALPARA>
 
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID8.M">grid8.m</LINK></TITLE> 
+            <TITLE>grid8.m</TITLE> 
 
             <PARA>Basic test of schedules running within a simulation
               swarm that is nested within an observer
@@ -152,12 +152,12 @@
 
         <LISTITEM><FORMALPARA> 
 
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID9.M">grid9.m</LINK></TITLE>
+            <TITLE>grid9.m</TITLE>
             
             <PARA>Test of two-level nested swarms using a custom
               subclass for the swarm.  (Normal user subclassing should
               use the Swarm superclass provided in the <LINK
-              LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</LINK>
+              LINKEND="SWARM.GRID.SGML.IMPORTANT">objectbase</LINK>
               library.)</PARA></FORMALPARA></LISTITEM>
       </ITEMIZEDLIST>
 
@@ -165,8 +165,8 @@
 
         <LISTITEM><FORMALPARA>
 
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.MOUSETRAPS.M">mousetraps</LINK>,
-              <LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.MOUSETRAP.M">Mousetrap.m</LINK></TITLE>
+            <TITLE>mousetraps,
+              Mousetrap.m</TITLE>
 
             <PARA>
               Sample application (main program and supporting class)
@@ -181,8 +181,8 @@
 
         <LISTITEM><FORMALPARA>
 
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.MOUSETRAPS2.M">mousetraps2</LINK>,
-              <LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.MOUSETRAP2.M">Mousetrap2.m</LINK></TITLE>
+            <TITLE>mousetraps2,
+              Mousetrap2.m</TITLE>
             
             <PARA>Variant of mousetraps that schedules actions at
               subclock divisions of a coarser-grained schedule.  Used
@@ -191,7 +191,7 @@
               enough.</PARA> </FORMALPARA></LISTITEM>
 
         <LISTITEM><FORMALPARA>
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.STRTEST.M">strtest.m</LINK></TITLE>
+            <TITLE>strtest.m</TITLE>
             
             <PARA>Simple test of basic operations on the String
               type.</PARA>
@@ -209,7 +209,7 @@
       <ITEMIZEDLIST>
         
         <LISTITEM><FORMALPARA>
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.MAKEFILE">Makefile</LINK></TITLE>
+            <TITLE>Makefile</TITLE>
 
             <PARA>Make file for all programs in the directory.  Change
               the SWARMHOME macro setting at the top to reflect
@@ -221,7 +221,7 @@
 
         <LISTITEM><FORMALPARA>
             
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID.H">grid.h</LINK></TITLE>
+            <TITLE>grid.h</TITLE>
             
             <PARA>Header file that defines the GridTurtle object type.
               This file is also compiled to publish external
@@ -231,7 +231,7 @@
               sample.</PARA></FORMALPARA></LISTITEM>
 
         <LISTITEM><FORMALPARA>
-            <TITLE><LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRID.M">grid.m</LINK></TITLE>
+            <TITLE>grid.m</TITLE>
 
             <PARA>Initialization of the grid module.  Not normally a
               part of an application program, but included to test
@@ -241,14 +241,14 @@
 
         <LISTITEM><FORMALPARA>
             <TITLE>
-              <LINK LINKEND="SWARM.GRID.SGML.EXAMPLE.GRIDTURTLE.M">GridTurtle.m</LINK>
+              GridTurtle.m
             </TITLE>
             
             <PARA>Code for the class that implements the GridTurtle
               object type.  The interface for this type is specified
               in the file grid.h.  Methods for coding classes that
               implement a type (see <LINK
-              LINKEND="SWARM.LIBRARY.SGML.APPENDIX"> library
+              LINKEND="SWARM.GRID.SGML.IMPORTANT"> library
               interface conventions</LINK> for a summary of the
               differences between types and classes) are not currently
               documented.  The important thing to know is simply that
@@ -258,13 +258,6 @@
       </ITEMIZEDLIST>
     </SECT2>
   </SECT1>
-
-  <SECT1>
-    <TITLE>GridTurtle Code examples</TITLE>
-
-    &gridexamples.sgml;
-
-   </SECT1>
 
 </APPENDIX>
 
