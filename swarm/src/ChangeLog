@@ -1,6 +1,6 @@
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.rules (headers): Depend only on the .xm file.
+	* Makefile.rules (headers): Depend only on the first BUILT_SOURCES.
 
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

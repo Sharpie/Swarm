@@ -1,16 +1,16 @@
 .PHONY: headers
 
-MAKEH2X = $(top_srcdir)/src/defobj/make-h2x
-
 SUFFIXES = .m
 
-TYPEINFO = $(MODULE).xm types.h classes.h
+override CPPFLAGS += -DBUILDING_SWARM
 
 CLEANFILES = $(TYPEINFO)
 
-headers: $(firstword $(TYPEINFO))
+MAKEH2X = $(top_srcdir)/src/defobj/make-h2x
 
-override CPPFLAGS += -DBUILDING_SWARM
+TYPEINFO = $(MODULE).xm types.h classes.h
+
+headers: $(firstword $(BUILT_SOURCES))
 
 $(firstword $(TYPEINFO)): $(MODULE).h $(MAKEH2X) # $(SOURCES)
 	OBJC="$(OBJC)" OBJCFLAGS='$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)' OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
