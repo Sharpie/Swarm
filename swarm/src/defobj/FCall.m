@@ -277,8 +277,9 @@ fillHiddenArguments (FCall_c * self)
   return [fargs getResult];
 }
 
-- (retval_t)getReturnVal: (void *)res
+- (retval_t)getReturnVal
 {
+  void *res = [self getResult];
   unsigned char return_uchar (void) { return *(unsigned char *) res; }
   unsigned short return_ushort (void) { return *(unsigned short *) res; }
   unsigned return_unsigned (void) { return *(unsigned *) res; }

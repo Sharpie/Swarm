@@ -1,5 +1,7 @@
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.h (FCall): Add getReturnVal.
+
 	* FArguments.[hm] ([FArguments -addArgument:ofObjCType:], 
 	[FArguments -setObjCReturnType:]): New methods.
 	([FArguments -_setReturnType_:]): Renamed from setReturnType:.

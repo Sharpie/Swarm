@@ -1041,6 +1041,7 @@ CREATING
 - createEnd;
 - performCall;
 - (void *)getResult;
+- (retval_t)getReturnVal;
 
 extern void defobj_init_java_call_tables (void *jniEnv);
 @end
