@@ -1,3 +1,8 @@
+1997-11-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf (CC): Make it possible to override CC from
+	within a site config.
+	
 1997-11-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (SETUP): Let environment or command line SETUP
