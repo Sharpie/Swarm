@@ -1,10 +1,12 @@
 JAVA_CLASSES = \
+HeatbugModelSwarm.class \
 Heatbug.class \
 HeatbugBatchSwarm.class \
-HeatbugModelSwarm.class \
 HeatbugObserverSwarm.class \
 HeatSpace.class \
 StartHeatbugs.class
+
+
 
 all: executable
 
@@ -46,6 +48,21 @@ scrub :
 
 wrapup :
 	sh wrapup.ksh
+
+# Here we edit HeatbugModelSwarm.java depending on the translation of 
+# $SWARMHOME; we have to be sure that HeatbugModelSwarm.java is first in the
+# list $JAVA_CLASSES (otherwise another rule may compile it without editing 
+# it):
+HeatbugModelSwarm.class : HeatbugModelSwarm.java
+	echo $(SWARMHOME) | grep    "swarm-[12]\.[01]" \
+	 && (grep "new FArgumentsImpl (this, sel)" $< >/dev/null && \
+		 perl -pi.bak -e's/new FArgumentsImpl \(this, sel\)/new FArgumentsImpl (this, sel, true)/' $< \
+		) || :
+	echo $(SWARMHOME) | grep -v "swarm-[12]\.[01]" \
+	 && (grep "new FArgumentsImpl (this, sel, true)" $< >/dev/null && \
+		 perl -pi.bak -e's/new FArgumentsImpl \(this, sel, true\)/new FArgumentsImpl (this, sel)/' $< \
+		) || :
+	$(SWARMHOME)/bin/javacswarm $<
 
 
 

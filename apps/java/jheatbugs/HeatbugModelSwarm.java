@@ -627,7 +627,10 @@ public Object buildActions ()
     Selector sel = new Selector (proto.getClass (), "heatbugStep", false);
     _actionForEach = modelActions.createFActionForEachHomogeneous$call
      (_heatbugList,
-      new FCallImpl (this, proto, sel, new FArgumentsImpl (this, sel))
+      new FCallImpl (this, proto, sel, new FArgumentsImpl (this, sel, true))
+      // ... Until Swarm 2.1, FArgumentsImpl() takes 3 arguments (of which the
+      // last argument should be the boolean value true). After Swarm 2.1, it 
+      // takes 2 arguments.
      );
     } catch (Exception e)
     { e.printStackTrace (System.err); }
@@ -745,7 +748,7 @@ public Object buildObjects ()
         if (_startInOneCluster)
         {
             // This would be all we'd need, if collisions were OK:
-            /// heatbug.putAtX$Y (worldXSize/2, worldYSize/5);
+            ///heatbug.putAtX$Y (worldXSize/2, worldYSize/5);
             // But we're avoiding collisions, so:
             // We will allow no collisions, so we'll squeeze them into a box
             // about sqrt (numBugs) high and by sqrt (numBugs) wide:
@@ -801,8 +804,11 @@ public Object modelStep ()
     if (printDiagnostics >= 20)
     {
         double totalHeat = _heatSpace.totalHeat ();
-        System.out.println ("Total heat / step count is " + totalHeat 
-         / getActivity ().getScheduleActivity ().getCurrentTime () + ".");
+        System.out.println 
+         ("Total heat / step count is " + 
+          totalHeat / getActivity ().getScheduleActivity ().getCurrentTime () + 
+          "."
+         );
     }
     return this;
 }

@@ -1,3 +1,9 @@
+2001-11-09    <timothyrhowe@hotmail.com>
+
+	* Makefile: rule for HeatbugModelSwarm.class changed to dynamically edit
+	HeatbugModelSwarm.java depending on value of $SWARMHOME -- to support
+	FArgumentsImpl's constructor on both Swarm 2.1.1 and Swarm 2.2.
+
 2001-11-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Heatbug.java, HeatbugModelSwarm.java: Make both

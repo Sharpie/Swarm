@@ -174,8 +174,9 @@ public synchronized void heatbugStep ()
         evaporation rate would affect the constant. Diffusion should cancel 
         itself out. 
 
-        We're missing something here, because when we invoke current -i -d0 -e1
-        -p20, total heat divided by step count drops continually, even when
+        We're missing something here, because when we invoke current -d0 -e1
+        -p20, in which case the formula reduces to newHeat = self, total heat 
+        divided by step count drops continually, even when
         heat is not being discarded. And yet the Heatbugs keep getting happier, 
         even with step count in the divisor of the calculation of unhappiness. 
 
@@ -284,6 +285,7 @@ public synchronized void heatbugStep ()
         // Deposit heat at my old location; move to my new location. We
         // never subtract heat -- so even if the Heatbugs don't move, they
         // may still become happier:
+
         _heatSpace.addHeat (outputHeat, x, y);
         _world.putObject$atX$Y (null, x, y);
         x = newX;
