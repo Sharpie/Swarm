@@ -626,7 +626,7 @@ pixmap_create_from_root_window (Pixmap *pixmap)
 #endif
 }
 
-static void
+static BOOL
 keep_inside_screen (Tk_Window tkwin, Window window)
 {
   int x, rx, y, ry;
@@ -698,7 +698,11 @@ keep_inside_screen (Tk_Window tkwin, Window window)
     ny = y;
 
   if (nx != x || ny != y)
-    Tk_MoveToplevelWindow (tkwin, nx + dx, ny + dy);
+    {
+      Tk_MoveToplevelWindow (tkwin, nx + dx, ny + dy);
+      return YES;
+    }
+  return NO;
 }
 
 #ifndef _WIN32
@@ -831,7 +835,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         Window topWindow = get_top_level_window (display, window);
         XSetWindowAttributes attr;
         XWindowAttributes top_attr;
-        BOOL obscured = NO;
+        BOOL obscured = NO, configured = NO;
         
         check_for_overlaps (display, topWindow,
                             &overlapWindows, &overlapCount);
@@ -877,9 +881,16 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
           for (i = 0; i < overlapCount; i++)
             if (!XUnmapWindow (display, overlapWindows[i]))
               abort ();
-        
+
         Tk_RestackWindow (tkwin, Above, NULL);
-        keep_inside_screen (tkwin, window);
+	if (keep_inside_screen (tkwin, window)) 
+          {
+            if (!obscured) 
+              {
+                obscured = YES;
+                goto retry;
+              }
+           }
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         XFlush (display);
 if (!obscured)
@@ -891,15 +902,15 @@ if (!obscured)
             obscured = YES;
             goto retry;
           }
-        else if (strcmp ([globalTkInterp
-                           globalVariableValue: "visibility"],
-                         "yes") == 0
-              && strcmp ([globalTkInterp
+}
+else if (!configured)
+{
+        if (strcmp ([globalTkInterp
                            globalVariableValue: "configured"],
                          "yes") == 0)
 
           {
-            obscured = YES;
+            configured = YES;
             goto retry;
           }
 }
