@@ -24,12 +24,18 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** CompoundAction
 ***** Fixed casting bug which lead to segfaults on some platforms.
 
+*** space
+**** Discrete2d
+***** Free memory used by the 2d lattice internally when dropping Discrete2d 
+      instance.  Thanks to Jay Pringle for testcase reporting this.
+
 * Release Notes for Swarm 1.4.1
 ** New features
 *** activity
 **** Schedule
 ***** New method setKeepEmptyFlag: for tagging Schedules so that they will be
-      kept even when completed and empty, which is now true by default.
+      kept even when completed and empty, which is now true by
+default.
 
 *** defobj
 **** HDF5Object
