@@ -1,0 +1,4 @@
+package swarm;
+
+class GlobalZone {
+}
