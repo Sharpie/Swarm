@@ -1,3 +1,12 @@
+1999-07-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (class-protocols, interface-protocols,
+	module-create-classes, module-using-classes): New macros.
+	(module-classes, module-interfaces): Changed from -files to
+	plural.
+	(install-java-classes-as-files): Do separate phase by phase
+	expansion to avoid command line argument overlow on Irix 6.5.
+
 1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (Selector.class): Depend on

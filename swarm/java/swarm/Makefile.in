@@ -19,17 +19,45 @@ INTERFACEPHASES := $(CLASSPHASES) S
 PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector PhaseCImpl
 POSTCLASSES = SwarmEnvironment
 
-define module-class-files
-$(addprefix $(module)/,$(subst __u,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx)Impl,$($(module)_creatable_PROTOCOLS)))))
+define class-protocols
+$($(module)_creatable_PROTOCOLS)
 endef
 
-define module-interface-files
-$(addprefix $(module)/,$(subst __u,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$($(module)_creatable_PROTOCOLS) $($(module)_noncreatable_PROTOCOLS)))))
+define interface-protocols
+$($(module)_creatable_PROTOCOLS) $($(module)_noncreatable_PROTOCOLS)
 endef
 
-GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-class-files)))
+define module-create-classes
+$(addprefix $(module)/,$(addsuffix CImpl,$(class-protocols)))
+endef
 
-GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-interface-files)))
+define module-using-classes
+$(addprefix $(module)/,$(addsuffix Impl,$(class-protocols)))
+endef
+
+define module-classes
+$(module-create-classes) $(module-using-classes)
+endef
+
+define module-creating-interfaces
+$(addprefix $(module)/,$(addsuffix C,$(interface-protocols)))
+endef
+
+define module-setting-interfaces
+$(addprefix $(module)/,$(addsuffix S,$(interface-protocols)))
+endef
+
+define module-using-interfaces
+$(addprefix $(module)/,$(interface-protocols))
+endef
+
+define module-interfaces
+$(module-creating-interface) $(module-setting-interface) $(module-using-interface)
+endef
+
+GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-classes)))
+
+GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-interfaces)))
 
 GENFILES = $(GENCLASSFILES) $(GENINTERFACEFILES)
 
@@ -67,8 +95,11 @@ install-java-classes-as-files: all
 	test -d $(datadir) || mkdir $(datadir)
 	$(RM) ../filelist
 	for f in $(SWARMCLASSES); do echo $$f >> ../filelist ; done
-	$(foreach module,$(MODULES),for f in $(module-class-files); do echo $$f >> ../filelist; done;)
-	$(foreach module,$(MODULES),for f in $(module-interface-files); do echo $$f >> ../filelist; done;)
+	$(foreach module,$(MODULES),for f in $(module-creating-classes); do echo $$f >> ../filelist; done;)
+	$(foreach module,$(MODULES),for f in $(module-using-classes); do echo $$f >> ../filelist; done;)
+	$(foreach module,$(MODULES),for f in $(module-creating-interfaces); do echo $$f >> ../filelist; done;)
+	$(foreach module,$(MODULES),for f in $(module-setting-interfaces); do echo $$f >> ../filelist; done;)
+	$(foreach module,$(MODULES),for f in $(module-using-interfaces); do echo $$f >> ../filelist; done;)
 	sed -e 's,^,swarm/,' -e 's,$$,\.class,' < ../filelist > ../filelist.new
 	(cd ..; tar -c -f - -T filelist.new) | (cd $(datadir); tar xf -)
 	$(RM) ../filelist ../filelist.new
