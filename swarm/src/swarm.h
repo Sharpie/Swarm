@@ -70,6 +70,10 @@ GETTERS
 - (id <Archiver>)getHdf5AppArchiver;
 - (id <Archiver>)getLispAppArchiver;
 - (BOOL)getGuiFlag;
+
+- (id <Symbol>)getLanguageCOM;
+- (id <Symbol>)getLanguageJava;
+- (id <Symbol>)getLanguageObjc;
 @end
 
 //G: Flag for whether we're in graphics mode or not.  Default is NO.
