@@ -4,10 +4,11 @@
 	this variable as the target.  This avoids problems with parallel
 	makes.
 
-	* Makefile.am (swarm.dll): Rename libswarm.a to libswarmdll.a.
-	(install-data-local): Accomodate.
+	* Makefile.am: Put all DLL things in a USEDLL automake conditional.
+	(swarm.dll): Rename libswarm.a to libswarmdll.a.
+	Use swarm.dll.[co].  Add OBJCLIBS.
+	(install-data-local): Accomodate.  Remove shell condition on USEDLL.
 	(swarm_dll_SOURCES): Remove (calling dllinit.c swarm.dll.c instead).
-	(swarm.dll): Use swarm.dll.[co].
 
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -25,7 +25,6 @@ include $(top_builddir)/etc/Makefile.common
 CURRENT = 0
 REVISION = 0
 AGE = 0
-DLLWRAP = @DLLWRAP@
 
 lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
@@ -37,14 +36,15 @@ LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
 
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc -rpath $(libdir)
 
+if USEDLL
+DLLWRAP = @DLLWRAP@
 OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
 swarm.dll: swarm.dll.c $(OBJS)
 	$(CC) -c $(srcdir)/swarm.dll.c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
+	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS) $(OBJCLIBS)
 
 install-data-local: 
-	if test $(USEDLL) = yes; then \
-	  $(INSTALL) libswarmdll.a $(libdir) && ranlib $(libdir)/libswarmdll.a ; \
-	fi
-
+	$(INSTALL) libswarmdll.a $(libdir)
+	ranlib $(libdir)/libswarmdll.a
+endif
