@@ -5,11 +5,6 @@
 
 #import <gui.h>
 
-#import <tkobjc/Raster.h>
-@class Raster;
-#import <tkobjc/Colormap.h>
-@class Colormap;
-
 #define Colormap X11Colormap
 #include <tk.h>
 #include <X11/Xlib.h>    // XColormap
@@ -18,6 +13,12 @@
 #include <X11/xpm.h>
 #endif
 #undef Colormap
+
+#import <tkobjc/Raster.h>
+@class Raster;
+
+#import <tkobjc/Colormap.h>
+@class Colormap;
 
 Tk_Window tkobjc_nameToWindow (const char *widgetName);
 
