@@ -114,7 +114,7 @@ Library:      defobj
 - (void)lispStoreUnsignedArray: (unsigned int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispStoreLongArray: (long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispStoreUnsignedLongArray: (unsigned long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreLongLongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispStoreUnsignedLongLongArray: (unsigned long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispStoreFloatArray: (float *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 - (void)lispStoreDoubleArray: (double *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;

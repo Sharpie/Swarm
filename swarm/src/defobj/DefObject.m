@@ -1238,7 +1238,7 @@ initDescribeStream (void)
   lisp_process_array (rank, dims,fcall_type_ulong,ptr,NULL,stream,NO);
 }
 
-- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
+- (void)lispStoreLongLongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream
 {
   [stream catSeparator];
   [stream catKeyword: keyword];

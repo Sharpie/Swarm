@@ -1,38 +1,14 @@
 2003-05-10    <pauljohn@localhost.localdomain>
 
-	* defobj.h: inserted headers and explanation for all methods listed in next entries.
+	* defobj.h: inserted headers and explanation for all methods listed 
+	in next entries.
 
 	* DefObject.[hm]: New methods to facilitate
-	serialization. Explanation will be inserted into defobj.h
-	
-- (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
-- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;
-- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val;
-- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val;
-- (void)lispSaveStream: stream Integer: (const char*)aName Value: (int)val;
-- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val;
-- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val;
-- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val;
-- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val;
-- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val;
-- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val;
-- (void)lispSaveStream: stream Double: (const char*) aName Value: (double)val;
-
-        These methods are for saving all kinds of dynamically allcated
-	arrays. Previously, there were methods for Integers and
-	Doubles. After using/testing those methods, I decided I needed the
-	same for other types of primitive.
-	
-- (void)lispStoreBooleanArray: (BOOL *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreCharArray: (char *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreShortArray: (short int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreUnsignedArray: (unsigned int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreLongArray: (long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreUnsignedLongArray: (unsigned long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreUnsignedLongLongArray: (unsigned long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-- (void)lispStoreFloatArray: (float *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
-
+	serialization. Explanation will be inserted into defobj.h.
+	-lispSaveStream:{Boolean,Char,Short,UnsignedShort,Integer,Unsigned,
+	Long,UnsignedLong,LongLong,UnsignedLongLong,Float,Double}:Value:
+	-lispStore{Boolean,Char,Short,Unsigned,Long,UnsignedLong,LongLong,
+	UnsingedLongLong,Float,Double}Array:Keyword:Rank:Dims:Stream:
 	
 2003-05-01    <mgd@arrow.santafe.edu>
 

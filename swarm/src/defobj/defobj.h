@@ -1266,47 +1266,47 @@ USING
 
 //M: On the given stream, save a character variable called "aName"
 //M: which has value "val".
-- (void)lispSaveStream: stream Char: (const char*)aName Value: (char)val;
+- (void)lispSaveStream: stream Char: (const char *)aName Value: (char)val;
 
 //M: On the given stream, save a short integer variable called "aName"
 //M: which has value "val".
-- (void)lispSaveStream: stream Short: (const char*)aName Value: (short)val;
+- (void)lispSaveStream: stream Short: (const char *)aName Value: (short)val;
 
 //M: On the given stream, save an unsigned short integer variable
 //M: called "aName" which has value "val".
-- (void)lispSaveStream: stream UnsignedShort: (const char*)aName Value: (unsigned short)val;
+- (void)lispSaveStream: stream UnsignedShort: (const char *)aName Value: (unsigned short)val;
 
 //M: On the given stream, save an integer variable called "aName"
 //M: which has value "val".
-- (void)lispSaveStream: stream Integer: (const char*)aName Value: (int)val;
+- (void)lispSaveStream: stream Integer: (const char *)aName Value: (int)val;
 
 //M: On the given stream, save an unsigned integer variable called
 //M: "aName" which has value "val".
-- (void)lispSaveStream: stream Unsigned: (const char*) aName Value: (unsigned int)val;
+- (void)lispSaveStream: stream Unsigned: (const char *) aName Value: (unsigned)val;
 
-//M: On the given stream, save a long integer variable called "aName"
+//M: On the given stream, save a long variables called "aName"
 //M: which has value "val".
-- (void)lispSaveStream: stream Long: (const char*)aName Value: (long int)val;
+- (void)lispSaveStream: stream Long: (const char *)aName Value: (long)val;
 
-//M: On the given stream, save an unsigned long integer variable
+//M: On the given stream, save an unsigned long variable
 //M: called "aName" which has value "val".
-- (void)lispSaveStream: stream UnsignedLong: (const char*)aName Value: (unsigned long int)val;
+- (void)lispSaveStream: stream UnsignedLong: (const char *)aName Value: (unsigned long)val;
 
-//M: On the given stream, save a long long integer variable called
+//M: On the given stream, save a long long variable called
 //M: "aName" which has value "val".
-- (void)lispSaveStream: stream LongLong: (const char*)aName Value: (long long int)val;
+- (void)lispSaveStream: stream LongLong: (const char *)aName Value: (long long)val;
 
 //M: On the given stream, save an unsigned long long variable called
 //M: "aName" which has value "val".
-- (void)lispSaveStream: stream UnsignedLongLong: (const char*) aName Value: (unsigned long long int)val;
+- (void)lispSaveStream: stream UnsignedLongLong: (const char *) aName Value: (unsigned long long)val;
 
 //M: On the given stream, save a float valued variable called "aName"
 //M: which has value "val".
-- (void)lispSaveStream: stream Float: (const char*) aName Value: (double)val;
+- (void)lispSaveStream: stream Float: (const char *) aName Value: (double)val;
 
 //M: On the given stream, save a double valued variable called "aName"
 //M: which has value "val".
-- (void)lispSaveStream: stream Double: (const char*) aName Value: (double)val;
+- (void)lispSaveStream: stream Double: (const char *) aName Value: (double)val;
 
 
 //M: For customized archiving of dynamically allocated arrays within
@@ -1343,19 +1343,19 @@ USING
 - (void)lispStoreShortArray: (short int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
 //M: Lisp save array of unsigned integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
-- (void)lispStoreUnsignedArray: (unsigned int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+- (void)lispStoreUnsignedArray: (unsigned *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
-//M: Lisp save array of long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
-- (void)lispStoreLongArray: (long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+//M: Lisp save array of long, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreLongArray: (long *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
-//M: Lisp save array of unsigned long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
-- (void)lispStoreUnsignedLongArray: (unsigned long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+//M: Lisp save array of unsigned long, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreUnsignedLongArray: (unsigned long *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
-//M: Lisp save array of long long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
-- (void)lispStoreLonglongArray: (long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+//M: Lisp save array of long long, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreLongLongArray: (long long *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
-//M: Lisp save array of unsigned long long integers, see lispStoreIntegerArray:Keyword:Rank:Dims.
-- (void)lispStoreUnsignedLongLongArray: (unsigned long long int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
+//M: Lisp save array of unsigned long long, see lispStoreIntegerArray:Keyword:Rank:Dims.
+- (void)lispStoreUnsignedLongLongArray: (unsigned long long *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
 //M: Lisp save array of floats, see lispStoreIntegerArray:Keyword:Rank:Dims.
 - (void)lispStoreFloatArray: (float *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
