@@ -14,13 +14,14 @@
     </PARA>
 
     <PARA>The activity library follows the documentation structure of
-      the Swarm <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">library interface
-      conventions</LINK>.  There are placeholders for each section of
-      documentation so that all links should at least link up with
-      something, whether or not there's anything there.  The Interface
-      Reference section is already fairly complete, and there is a
-      start toward a more complete Usage Guide section.  The Advanced
-      Usage Guide and other sections will come at a later time.
+      the Swarm <LINK LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">library
+      interface conventions</LINK>.  There are placeholders for each
+      section of documentation so that all links should at least link
+      up with something, whether or not there's anything there.  The
+      Interface Reference section is already fairly complete, and
+      there is a start toward a more complete Usage Guide section.
+      The Advanced Usage Guide and other sections will come at a later
+      time.
     </PARA>
 
     <PARA>
@@ -38,15 +39,16 @@
     </PARA>
 
     <PARA>There is also a directory of test programs (<LINK
-        LINKEND="SWARM.SRC.GRID.APP">GridTurtle test programs</LINK>, contained
-        within the documentation release directory) that provides
-        additional code examples of many basic features of the defobj,
-        collections, and activity libraries.  These code examples are
-        very rough and subject to change, however, since their main
-        use is with each new release of the libraries to test various
-        new or existing features.  They are sometimes the only source,
-        however, for examples of some library features that have not
-        yet been used anywhere else.
+        LINKEND="SWARM.GRID.SGML.APPENDIX">GridTurtle test
+        programs</LINK>, contained within the documentation release
+        directory) that provides additional code examples of many
+        basic features of the defobj, collections, and activity
+        libraries.  These code examples are very rough and subject to
+        change, however, since their main use is with each new release
+        of the libraries to test various new or existing features.
+        They are sometimes the only source, however, for examples of
+        some library features that have not yet been used anywhere
+        else.
     </PARA>
 
   </ABSTRACT>

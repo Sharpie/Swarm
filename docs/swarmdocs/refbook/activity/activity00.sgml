@@ -20,7 +20,7 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SRC.ACTIVITY.DEPEND">
+  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
@@ -30,10 +30,13 @@
 #import &lt;collections.h&gt
 </PROGRAMLISTING>
 
-    <PARA>The activity library follows the Swarm <LINK LINKEND="SWARM.SRC.DEFOBJ.REF"> library interface conventions</LINK> of
-        the <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj library</LINK>.  The
-        activity library relies heavily on the basic collection types
-        defined in the <LINK LINKEND="SWARM.SRC.COLLECTIONS.REF">collections
+    <PARA>The activity library follows the Swarm <LINK
+        LINKEND="SWARM.DEFOBJ.SGML.REFERENCE"> library interface
+        conventions</LINK> of the <LINK
+        LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj library</LINK>.
+        The activity library relies heavily on the basic collection
+        types defined in the <LINK
+        LINKEND="SWARM.COLLECTIONS.SGML.REFERENCE">collections
         library</LINK>, and the collection interfaces are an integral
         part of the interfaces defined within this library.
         Initialization of the activity library is done automatically
@@ -43,7 +46,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ACTIVITY.COMPAT">
+  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions of
@@ -51,7 +54,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ACTIVITY.USAGE">
+  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.USAGE">
 
     <TITLE>Usage Guide</TITLE>
 
@@ -370,14 +373,14 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ACTIVITY.ADVUSAGE">
+  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ACTIVITY.SUBCLASS">
+  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Subclassing is supported by the activity library as an
@@ -388,21 +391,21 @@
       Concurrent action groups are not yet fully documented because
       their full interface is still being finalized.  Swarm subclasses
       should inherit from the Swarm superclass defined in the <LINK
-      LINKEND="SWARM.SRC.OBJECTBASE.REF">objectbase</LINK> library;
-      the activity library provides the underlying support packaged by
-      this superclass.
+      LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</LINK>
+      library; the activity library provides the underlying support
+      packaged by this superclass.
     </PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ACTIVITY.DESIGN">
+  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.ACTIVITY.IMPL">
+  <SECT1 ID="SWARM.ACTIVITY.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
