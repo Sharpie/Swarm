@@ -7,8 +7,7 @@
 // the file encoding.c. Manor wrote the patch.
 
 #import <objectbase/swarm_rts_routines.h>
-#include <misc.h> // abort
-#include "../defobj/internal.h" // isDigit
+#include <misc.h> // abort, isDigit
 
 const char*
 skip_type_qualifiers (const char *type)
