@@ -1,5 +1,13 @@
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.[hm] (java_instantiate_using_from_object,
+	java_instantiate_using_from_class): New functions.
+	(java_instantiate_name): Remove.
+
+	* directory.h (JINSTANTIATEUSINGFROMCLASS,
+	JINSTANTIATEUSINGFROMOBJECT): New macros.
+	(JINSTANTIATENAME): Remove.
+	
 	* directory.m (o_globalZone): Make jobject, not jclass.
 	(create_class_refs, java_directory_init): Accomodate.
 

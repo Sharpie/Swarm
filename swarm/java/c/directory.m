@@ -22,7 +22,7 @@ static jclass c_boolean,
 
 static jobject o_globalZone;
 
-JNIEnv * jenv;
+JNIEnv *jenv;
 
 static void
 create_class_refs (JNIEnv *env)
@@ -192,11 +192,45 @@ java_instantiate (JNIEnv *env, jclass clazz)
 }
 
 jobject
-java_instantiate_name (JNIEnv *env, const char *className)
+java_instantiate_using_from_object (JNIEnv *env, jobject jobj)
 {
-  jclass clazz = (*env)->FindClass (env, className);
+  return java_instantiate_using_from_class (env, (*env)->GetObjectClass (env, jobj));
+}  
+
+jobject
+java_instantiate_using_from_class (JNIEnv *env, jclass clazz)
+{
+  jmethodID methodID;
+  jstring classNameObj;
+  jboolean copyFlag;
+  const char *utf;
+
   if (!clazz)
     abort ();
+  methodID = (*env)->GetStaticMethodID (env,
+                                        clazz,
+                                        "getName",
+                                        "()Ljava/lang/String;");
+  if (!methodID)
+    abort ();
+  
+  classNameObj = (*env)->CallStaticObjectMethod (env, clazz, methodID);
+  methodID = (*env)->GetMethodID (env,
+                                  classNameObj,
+                                  "concat",
+                                  "(Ljava/lang/String;)Ljava/lang/String;");
+  classNameObj = (*env)->CallObjectMethod (env,
+                                           classNameObj,
+                                           methodID,
+                                           (*env)->NewStringUTF (env, "U"));
+
+  utf = (*env)->GetStringUTFChars (env, classNameObj, &copyFlag);
+  printf ("[%s]\n", utf);
+
+  clazz = (*env)->FindClass (env, utf);
+  if (!clazz)
+    abort ();
+
   return java_instantiate (env, clazz);
 }
 
@@ -384,3 +418,4 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
     XFREE (name);
   return sel;
 }
+
