@@ -43,7 +43,7 @@
   // Ok, we have cached our function to call on each object - do it.
   // note that we don't do lookup for each step: this code only works
   // if the collection is homogeneous.
-  iter = [collection begin: zone];
+  iter = [collection begin: [self getZone]];
   while ((obj = [iter next]) != nil) {
     double v = [self doubleDynamicCallOn: obj];
     if(v > 0.0)

@@ -150,7 +150,7 @@
 -update {
   id iter, obj;
 
-  iter = [collection begin: zone];
+  iter = [collection begin: [self getZone]];
   while( (obj = [iter next]) ){
     int i ;
     double v = [self doubleDynamicCallOn: obj];
