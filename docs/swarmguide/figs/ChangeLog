@@ -1,0 +1,10 @@
+1999-05-17  Alex Lancaster  <alex@santafe.edu>
+
+	* ChangeLog: Start.
+
+	* graph-{graph, histogram, raster}.png:  Add files.
+
+	* figs.ent: Add graph-{graph, histogram, raster} entities.
+
+	* Makefile.am (PNG): Likewise.
+

@@ -86,6 +86,15 @@ jpeg>
 
 <!entity system-diagram PUBLIC "-//SFI Hive//ENTITIES system-diagram
 JPEG//EN" ndata jpeg>
+
+<!entity gui-graph PUBLIC "-//SFI Hive//ENTITIES gui-graph
+JPEG//EN" ndata jpeg>
+
+<!entity gui-histogram PUBLIC "-//SFI Hive//ENTITIES gui-histogram
+JPEG//EN" ndata jpeg>
+
+<!entity gui-raster PUBLIC "-//SFI Hive//ENTITIES gui-raster
+JPEG//EN" ndata jpeg>
                               
 ]]>                           
                               
@@ -176,6 +185,15 @@ swarm-discrete-event EPS//EN" ndata eps>
 eps> 
 
 <!entity system-diagram PUBLIC "-//SFI Hive//ENTITIES system-diagram
+EPS//EN" ndata eps>
+
+<!entity gui-graph PUBLIC "-//SFI Hive//ENTITIES gui-graph
+EPS//EN" ndata eps>
+
+<!entity gui-histogram PUBLIC "-//SFI Hive//ENTITIES gui-histogram
+EPS//EN" ndata eps>
+
+<!entity gui-raster PUBLIC "-//SFI Hive//ENTITIES gui-raster
 EPS//EN" ndata eps>
                               
 ]]>                           
