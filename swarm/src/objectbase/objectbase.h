@@ -188,7 +188,7 @@ USING
 //M: which may differ from the "displayed" precision.
 - (const char *)probeAsString: anObject
                        Buffer: (char *)buf
-            withFullPrecision: (int)precision;
+            withFullPrecision: (unsigned)precision;
 
 //M: Returns rank of array, or 0 for scalar objects.
 - (unsigned)getRank;
@@ -254,31 +254,37 @@ SETTING
 USING
 //M: The isResultId method returns 1 if the return value of the message is of
 //M: type object, and returns 0 otherwise.
-- (BOOL)isResultId;                  // I doubt that a user will 
+- (BOOL)isResultId;
 
 //M: The isArgumentId: method returns 1 if a given argument of the message
 //M: is of type object, and returns 0 otherwise.
-- (BOOL)isArgumentId: (int)which;    // ever need these.
+- (BOOL)isArgumentId: (unsigned)which;
 
 //M: The getProbedMessage method returns the string matching the identifier of
 //M: the message being probed.
 - (const char *)getProbedMessage;
 
-- (int)getArgCount;
+- (unsigned)getArgCount;
 
 //M: The getArg: method returns the argument type for a given index.
-- (val_t)getArg: (int)which;
+- (val_t)getArg: (unsigned)which;
 
 //M: The getArgName: method returns a string representation of the argument
 //M: key with the given index.
-- (const char *)getArgName: (int)which;
+- (const char *)getArgName: (unsigned)which;
 
 //M: The getHideResult method returns 1 if the result field is "hidden".
 - (BOOL)getHideResult;
 
 //M: The setArg:ToString: method sets the nth argument of the message. 
 //M: The argument must be provided in string form.
-- setArg: (int)which ToString: (const char *)what;
+- setArg: (unsigned)which ToString: (const char *)what;
+
+//M: The setArg:ToUnsigned: method sets the nth argument of the message 
+//M: used by the probe to an unsigned integer value.  The user is 
+//M: responsible for matching the unsigned integer type of this 
+//M: argument with the argument type of the method being probed.
+- setArg: (unsigned)which ToUnsigned: (unsigned)x;
 
 //M: The dynamicCallOn: method generates a dynamic message call on the target
 //M: object. 
@@ -490,11 +496,11 @@ USING
 //M: global ProbeLibrary instance to access this displayed precision. However, 
 //M: individual probes can vary from this global default, by using the 
 //M: setFloatFormat method on a exisiting probe. 
-- setDisplayPrecision: (int)nSigDisplay;
+- setDisplayPrecision: (unsigned)nSigDisplay;
 
 //M: The getDisplayPrecision method gets the current display precision set in 
 //M: the ProbeLibrary instance.
-- (int)getDisplayPrecision;
+- (unsigned)getDisplayPrecision;
 
 //M: The setSavedPrecision: method sets the number of significant digits saved 
 //M: for floating-point and double floating-point numbers through ObjectSaver. 
@@ -502,11 +508,11 @@ USING
 //M: numbers, including double floating point numbers. This floating point 
 //M: precision affects all numbers saved via the ObjectSaver class. There is 
 //M: currently no way to override this global default for an individual probe. 
-- setSavedPrecision: (int) nSigSaved;
+- setSavedPrecision: (unsigned)nSigSaved;
 
 //M: The getSavedPrecision method gets the current saved precision set in the 
 //M: ProbeLibrary instance.
-- (int)getSavedPrecision;
+- (unsigned)getSavedPrecision;
 
 //M: The isProbeMapDefinedFor: method returns True if there is a non-nil value 
 //M: in the ProbeLibrary for that class and False otherwise.

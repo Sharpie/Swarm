@@ -1,5 +1,14 @@
 2001-01-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* VarProbe.[hm], objectbase.h ([VarProbe
+	-probeAsString:Buffer:withFullPrecision:]): Cast precision values
+	to int.  Make precision argument unsigned.  Likewise for getter
+	and setter.
+
+	* MessageProbe.[hm] (-getArgCount, -setArg:ToString:, -getArg:,
+	-getArgName:, -isArgumentId): Don't use int for count or
+	positional values.  Add -setArg:ToUnsigned:.
+
 	* ProbeMap.h (ProbeMap): Remove classObject.
 
 	* ProbeMap.[hm]: Add -_addVarProbe_:variableName: and

@@ -58,12 +58,12 @@ PHASE(Creating)
   probedType = STRDUP (sel_get_type (probedSelector));
 
   {
-    int argCount = [self getArgCount];
+    unsigned argCount = [self getArgCount];
 
     if (argCount > 0)
       {
         val_t empty_val;
-        int i;
+        unsigned i;
         
         empty_val.type = '\0';
         arguments = 
@@ -126,17 +126,25 @@ nth_type (const char *type, unsigned which)
   return sel_get_name (probedSelector);
 }
 
-- (int)getArgCount
+- (unsigned)getArgCount
 {
   return get_number_of_arguments (probedType) - 2;
 }
 
-- (val_t)getArg: (int)which
+- (val_t)getArg: (unsigned)which
 {
   return arguments[which];
 }
 
-- setArg: (int)which ToString: (const char *)what
+- setArg: (unsigned)which ToUnsigned: (unsigned)x
+{
+  arguments[which].type = _C_UINT;
+  arguments[which].val.uint =  x;
+
+  return self;
+}
+
+- setArg: (unsigned)which ToString: (const char *)what
 {
   switch (nth_type (probedType, which))
     {
@@ -251,7 +259,7 @@ copy_to_nth_colon (const char *str, int n)
   return NULL;
 } 
 
-- (const char *)getArgName: (int)which
+- (const char *)getArgName: (unsigned)which
 {
   return copy_to_nth_colon (sel_get_name (probedSelector), which);
 }
@@ -261,7 +269,7 @@ copy_to_nth_colon (const char *str, int n)
   return (probedType[0] == _C_ID);
 }
 
-- (BOOL)isArgumentId: (int)which
+- (BOOL)isArgumentId: (unsigned)which
 {
   return (nth_type (probedType, which) == _C_ID);
 }

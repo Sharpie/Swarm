@@ -46,8 +46,8 @@
 - (double)probeAsDouble: anObject;
 - (const char *)probeAsString: anObject Buffer: (char *)buffer;
 - (id <String>)probeAsString: anObject;
-- (const char *)probeAsString: (id) anObject Buffer: (char *)buf 
-            withFullPrecision: (int) precision;
+- (const char *)probeAsString: nObject Buffer: (char *)buf 
+            withFullPrecision: (unsigned)precision;
 
 - (unsigned)getRank;
 - (unsigned *)getDims;

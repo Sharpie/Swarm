@@ -611,7 +611,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
 
 - (const char *)probeAsString: anObject
                        Buffer: (char *)buf 
-            withFullPrecision: (int)precision
+            withFullPrecision: (unsigned)precision
 {
   const void *p;
   
@@ -712,21 +712,21 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
 #endif
     case _C_FLT:
       if (precision)
-        sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
+        sprintf (buf, "%.*g", (int) [probeLibrary getSavedPrecision],
                  (double) (*(float *) p));
       else
         sprintf (buf, floatFormat, (double) (*(float *) p));
       break;
     case _C_DBL:
       if (precision)
-        sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
+        sprintf (buf, "%.*g", (int) [probeLibrary getSavedPrecision],
                  *(double *) p);
       else
         sprintf (buf, floatFormat, *(double *)p);
       break;
     case _C_LNG_DBL:
       if (precision)
-        sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
+        sprintf (buf, "%.*g", (int) [probeLibrary getSavedPrecision],
                  (double) *(long double *) p);
       else
         sprintf (buf, floatFormat, (double) *(long double *) p);

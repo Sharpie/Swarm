@@ -18,10 +18,11 @@
 + create: aZone setProbedSelector: (SEL)aSel;
 
 - (const char *)getProbedMessage;
-- (int)getArgCount;
-- setArg: (int)which ToString: (const char *)str;
-- (val_t)getArg: (int)which;
-- (const char *)getArgName: (int)which;
+- (unsigned)getArgCount;
+- setArg: (unsigned)which ToUnsigned: (unsigned)val;
+- setArg: (unsigned)which ToString: (const char *)str;
+- (val_t)getArg: (unsigned)which;
+- (const char *)getArgName: (unsigned)which;
 
 - (val_t)dynamicCallOn: target;
 - (double)doubleDynamicCallOn: target;
@@ -30,7 +31,7 @@
 - (const char *)stringDynamicCallOn: target;
 
 - (BOOL)isResultId;
-- (BOOL)isArgumentId: (int)which;
+- (BOOL)isArgumentId: (unsigned)which;
 
 - (BOOL)getHideResult;
 - setHideResult: (BOOL)hideResult;
