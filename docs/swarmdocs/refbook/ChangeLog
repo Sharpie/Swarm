@@ -1,3 +1,8 @@
+2000-06-13  Alex Lancaster  <alex@santafe.edu>
+
+	* refmeta.sgml: Add link directly to Random Appendix in User
+	Guide.
+
 2000-05-30  Alex Lancaster  <alex@santafe.edu>
 
 	* refbook.sgml: Update DOCTYPE to DocBook DTD V4.0.
