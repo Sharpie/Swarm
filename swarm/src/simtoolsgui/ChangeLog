@@ -1,3 +1,8 @@
+2001-05-13  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* ActionCache.m ([ActionCache -deliverActions]): Only update
+	time on control panel if there is a current activity.
+
 2001-04-14  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* GUIComposite.[hm], simtoolsgui.h ([GUIComposite

@@ -174,10 +174,13 @@ PHASE(Using)
   
   if ([arguments getShowCurrentTimeFlag])
     {
-      char buf[20];
-      
-      sprintf (buf, "%lu", getCurrentTime ());
-      [panel setWindowTitle: buf];
+      if (_activity_current)
+        {
+          char buf[20];
+
+          sprintf (buf, "%lu", getCurrentTime ());
+          [panel setWindowTitle: buf];
+        }
     }
   cacheIndex = [actionCache begin: scratchZone];
   while ((actionHolder = [cacheIndex next]) != nil)
