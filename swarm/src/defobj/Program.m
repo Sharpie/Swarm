@@ -96,8 +96,8 @@ initModules (void)
         {
           _obj_nmodules++;
           // get uninitialized module object
-          module = (void **)[class initialize]; 
-          module[0] = (void *)modules;
+          module = (void **) [class initialize]; 
+          module[0] = (void *) modules;
           modules = module;
         }
     }
@@ -120,7 +120,7 @@ initModules (void)
   // initialize _obj_initZone for use by _obj_initModule()
 
   _obj_initZone = _obj_initAlloc (((Class)id_Zone_c)->instance_size);
-  *(id *)_obj_initZone = id_Zone_c;
+  *(id *) _obj_initZone = id_Zone_c;
   
   // initialize interface identifier constants
 
@@ -212,7 +212,7 @@ _obj_initModule (void *module)
 
   // advance a pointer to the start of symbol names
 
-  symbol = symbolName = (char **)moduleObject->symbols;
+  symbol = symbolName = (char **) moduleObject->symbols;
   for (; *symbolName; symbolName++);
   symbolName++;
 
@@ -228,13 +228,16 @@ _obj_initModule (void *module)
       switch (symbolType)
         {
         case 'S':
-          *(id *)*symbol = [Symbol create: _obj_initZone setName: *symbolName];
+          *(id *) *symbol =
+            [Symbol create: _obj_initZone setName: *symbolName];
           break;
         case 'W':
-          *(id *)*symbol = [Warning create: _obj_initZone setName: *symbolName];
+          *(id *) *symbol =
+            [Warning create: _obj_initZone setName: *symbolName];
           break;
         case 'E':
-          *(id *)*symbol = [Error create: _obj_initZone setName: *symbolName];
+          *(id *) *symbol =
+            [Error create: _obj_initZone setName: *symbolName];
           break;
         default:
           abort();
@@ -247,13 +250,13 @@ _obj_initModule (void *module)
 
   // advance a pointer to start of protocols for types
 
-  protocol = (id *)moduleObject->types;
+  protocol = (id *) moduleObject->types;
   for ( ; *protocol; protocol++);
   protocol++;
   
   // initialize the global id constant for each type
 
-  typeID = (Type_c ***)moduleObject->types;
+  typeID = (Type_c ***) moduleObject->types;
   for ( ; *typeID; typeID++, protocol++ )
     {
       
@@ -263,17 +266,17 @@ _obj_initModule (void *module)
       **typeID = [_obj_initZone allocIVars: id_Type_c];
       type = **typeID;
       type->owner = moduleObject;
-      type->name = (*(proto_t *)protocol)->name;
+      type->name = (*(proto_t *) protocol)->name;
       type->typeID = *typeID;
       type->supertypes = *protocol;
       
       // also mark whether type is creatable based on protocol declaration
       
-      for (protoList = (*(proto_t *)protocol)->protoList;
+      for (protoList = (*(proto_t *) protocol)->protoList;
            protoList; protoList = protoList->next)
         {
-          for (proto = (proto_t *)protoList->list;
-               proto < (proto_t *)(protoList->list + protoList->count);
+          for (proto = (proto_t *) protoList->list;
+               proto < (proto_t *) (protoList->list + protoList->count);
                proto++)
             {
               if (strcmp ((*proto)->name, "CREATABLE") == 0)
@@ -284,9 +287,9 @@ _obj_initModule (void *module)
   
   // loop on classes to initialize owner module and class id
   
-  for (class = (Class **)moduleObject->classes; *class; class++)
+  for (class = (Class **) moduleObject->classes; *class; class++)
     {
-      classData = _obj_getClassData ((Class_s *)**class);
+      classData = _obj_getClassData ((Class_s *) **class);
       if (classData->owner)
         raiseEvent (InternalError, nil);
       
@@ -305,9 +308,9 @@ _obj_initModule (void *module)
 
   // loop on classes to set external id's of creatable types
 
-  for (class = (Class **)moduleObject->classes; *class; class++)
+  for (class = (Class **) moduleObject->classes; *class; class++)
     {
-      classData = _obj_getClassData( (Class_s *)**class );
+      classData = _obj_getClassData( (Class_s *) **class );
       
       type = classData->typeImplemented;
       if (type && type->implementation)
@@ -336,7 +339,7 @@ _obj_initModule (void *module)
   
   // audit that implementation provided for each creatable type interface
   
-  for (typeID = (Type_c ***)moduleObject->types; *typeID; typeID++)
+  for (typeID = (Type_c ***) moduleObject->types; *typeID; typeID++)
     if ((**typeID)->implementation == Creating)
       {
         raiseEvent (WarningMessage,
@@ -357,7 +360,7 @@ defobj_lookup_type (const char *typename)
   
   for (i = 0; i < _obj_nmodules; i++)
     {
-      id *types = (id *)[_obj_modules[i] getTypes];
+      id *types = (id *) [_obj_modules[i] getTypes];
       unsigned len, pos;
       
       for (len = 0; types[len]; len++);
@@ -366,10 +369,10 @@ defobj_lookup_type (const char *typename)
         {
           Protocol *protocol = types[pos + len + 1];
           // -name doesn't work and protocol_name is protected
-          const char *name = ((const char **)protocol)[1];
+          const char *name = ((const char **) protocol)[1];
           
           if (strcmp (name, typename) == 0)
-            return *(id *)types[pos];
+            return *(id *) types[pos];
         }
       types++;
       
