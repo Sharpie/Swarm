@@ -1,0 +1,29 @@
+1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Call setWindowGeometryRecordName on experSwarm.
+	Reformatting throughout.
+	
+	* ModelSwarm.h: Reformatting throughout.
+
+	* Makefile (SWARMHOME): Don't define if already defined.
+
+	* ExperSwarm.m ([ParameterManager -initializeParameters]): 
+	Use setWindowGeometryRecordName version of createProbeDisplayFor.
+	([ParameterManager -printParameters:]): Don't use statically
+	typed OutFile, declare compliance with OutFile protocol instead.
+	([ExperSwarm +createBegin:]): Don't use statically typed ProbeMap,
+	declare compliance with ProbeMap protocol instead.
+	([ExperSwarm -buildObjects]): Use setWindowGeometryRecordName
+	version of createProbeDisplayFor.
+	([ExperSwarm -buildObjects]): Call setWindowGeometryRecordName
+	for resultGraph.
+	([ExperSwarm -buildActions]): Send doTkEvents to actionCache,
+	not controlPanel.
+	([ExperSwarm -checkToStop]): Send doTkEvents to actionCache, not
+	controlPanel.
+	Reformatting throughout.
+
+	* ExperSwarm.h (ParameterManager): Don't use statically
+	typed pmProbeMap, declare compliance with ProbeMap protocol.
+	(ExperSwarm): Don't statically type logFile, declare compliance
+	with OutFile protocol.  Reformatting throughout.
