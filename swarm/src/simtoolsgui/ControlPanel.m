@@ -74,7 +74,12 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
           (activityState != Running))
         activityState = [activityID run];
       else if (controlState == ControlStateStopped)
-        [self setStateStopped];
+        {
+          if ( (state == ControlStateStopped) && _activity_current )
+            return state;
+          else
+            [self setStateStopped];
+        }
       else if (controlState == ControlStateQuit)
         return Completed;  // this returns to go,which returns to main
       else if (controlState == ControlStateStepping) 
