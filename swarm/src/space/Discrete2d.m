@@ -6,6 +6,7 @@
 #import <space/Discrete2d.h>
 #import <space.h>
 #import <simtools.h> // InFile
+#import <defobj.h> // ProtocolViolation
 
 // Note - this code assumes that ints can be written in where ids have been
 // allocated. It uses casts to do this, and I think is portable to all
