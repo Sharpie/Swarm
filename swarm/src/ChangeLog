@@ -1,8 +1,7 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules (CPPFLAGS): Append -Dexternvar=$(EXPORT_EXTERN)
-	and -Dexternvardef=$(EXPORT_EXTERNDEF),
-	and -Dexternobjcvar=$(IMPORT_EXTERN).
+	and -Dexternvardef=$(EXPORT_EXTERNDEF).
 	($(TYPEINFO)): Use single quotes on OBJCFLAGS, so that CPPFLAGS
 	may contain double quotes. 
 
