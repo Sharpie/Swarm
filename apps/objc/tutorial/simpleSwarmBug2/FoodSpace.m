@@ -7,7 +7,7 @@
 
 - seedFoodWithProb: (float)seedProb
 {
-  int x, y;
+  unsigned int x, y;
   
   for (y = 0; y < ysize; y++) 
     for (x = 0; x < xsize; x++) 
