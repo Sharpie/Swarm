@@ -964,10 +964,10 @@ CREATING
 + createBegin: aZone;
 
 //M: Convenience method to create a Lisp Archiver from a specified path
-+ create: aZone fromLispPath: (const char *)path;
++ create: aZone setLispPath: (const char *)path;
 
 //M: Convenience method to create an HDF5 Archiver from a specified path
-+ create: aZone fromHDF5Path: (const char *)path;
++ create: aZone setHDF5Path: (const char *)path;
 
 //M: Make the Archiver ignore any file found in the specified path
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;

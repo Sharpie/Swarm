@@ -274,7 +274,7 @@ PHASE(Creating)
   return newArchiver;
 }
 
-+ create: aZone fromLispPath: (const char *)thePath
++ create: aZone setLispPath: (const char *)thePath
 {
   id obj = [self createBegin: aZone];
   [obj setHDF5Flag: NO];
@@ -282,7 +282,7 @@ PHASE(Creating)
   return [obj createEnd];
 }
 
-+ create: aZone fromHDF5Path: (const char *)thePath
++ create: aZone setHDF5Path: (const char *)thePath
 {
   id obj = [self createBegin: aZone];
   [obj setHDF5Flag: YES];
