@@ -28,6 +28,9 @@
   const char *title;
   const char *fileName;
 
+  const char * const *graphColors;
+  unsigned colorCount;
+
   unsigned colorIdx;
 }
 
@@ -37,6 +40,8 @@
 - setTitle: (const char *)aTitle;
 - setFileName: (const char *)aFileName;
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+
+- setColors: (const char * const *) colors count: (unsigned)nc;
 
 - createEnd;
 

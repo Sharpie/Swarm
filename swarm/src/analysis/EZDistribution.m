@@ -18,8 +18,8 @@ PHASE(Creating)
 {
   [super createEnd];
 
-  probabilities = (double *)xmalloc (binNum * sizeof (double));
-  maximumEntropy = log (1.0 / ((double) binNum));
+  probabilities = (double *)xmalloc (binCount * sizeof (double));
+  maximumEntropy = log (1.0 / ((double) binCount));
    
   return self;
 }
@@ -28,11 +28,11 @@ PHASE(Using)
 
 - update
 {
-  int i;
+  unsigned i;
 
   [super update];
 
-  for (i = 0; i < binNum; i++)
+  for (i = 0; i < binCount; i++)
     {
       probabilities[i] = ((double)distribution[i]) / ((double)count);
       if (probabilities[i] > 0.0)
@@ -46,7 +46,7 @@ PHASE(Using)
 
 - output
 {
-  int i;
+  unsigned i;
 
   if (graphics)
     {
@@ -57,7 +57,7 @@ PHASE(Using)
   if (fileOutput)
     {
       [anOutFile putInt: probabilities[0]];
-      for (i = 1; i < binNum; i++)
+      for (i = 1; i < binCount; i++)
         {
           [anOutFile putTab];
           [anOutFile putInt: probabilities[i]];

@@ -1,3 +1,39 @@
+1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* analysis.h, FunctionGraph.[hm] ([FunctionGraph
+	-setXMin:Max:Resolution:]): Make resolution argument unsigned.
+
+	* EZGraph.m (defaultGraphColors): New static variable.
+	(graphColors): Remove (as a global).
+	([EZGraph +createBegin:]): Set graphColors to defaultGraphColors.
+	Set colorCount to NUMCOLORS.
+
+	* EZGraph.[hm], analysis.h ([EZGraph -setColors:count:]): New method.
+
+	* EZGraph.h (EZGraph): New variables graphColors and colorCount.
+
+	* EZDistribution.m ([EZDistribution -createEnd], [EZDistribution
+	-update], [EZDistribution -output]): Use binCount instead of
+	numBins.
+
+	* EZBin.m (defaultBinColors): New variable.  
+	(binColors): Remove.
+	([EZBin +createBegin:]): Set binColors to defaultBinColors and
+	binColorCount to NUMCOLORS.
+	([EZBin -createEnd]): Switch to unsigned casts for mallocs.
+	Make i unsigned.  Use setBinCount: instead of setNumBins: with
+	Histogram.
+	([EZBin -createEnd]): Pass binColorCount instead of NUMCOLORS to
+	Histogram setColors:count:.
+
+	* EZBin.h (EZBin): Rename binNum to binCount. Make distribution,
+	binCount, count, and outliers unsigned.  Make clean a boolean.
+	Add binColors and binColorCount. 
+
+	* EZBin.[hm]: Adjust getters and setters per above.
+
+	* EZBin.[hm], analysis.h ([EZBin -setColors:colors:]): New method.
+
 1999-04-26  Alex Lancaster  <alex@santafe.edu>
 
 	* analysis.h (EZBin, EZGraph): Add compliance to SwarmObject

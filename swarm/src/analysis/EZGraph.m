@@ -10,11 +10,12 @@
 #import <misc.h> // strlen, stpcpy
 
 #define NUMCOLORS 12
-const char graphColors[NUMCOLORS][16] =
-//    { "Red",     "Green",  "Yellow",    "Pink",      "SeaGreen",
-//      "Magenta", "Purple", "DarkGreen", "Goldenrod", "Black" };
-        { "Red",   "Blue",   "Orange", "DarkGreen", "Magenta",   "Purple",
-        "Green", "Yellow", "Cyan",   "SeaGreen",  "Goldenrod", "Black" };  
+
+static const char * defaultGraphColors[NUMCOLORS] = {
+  "blue", "orange", "yellow", "green",
+  "red", "purple", "violet", "cyan",
+  "grey50", "darkgreen", "goldenrod", "seagreen"
+};
 
 @implementation EZGraph
 
@@ -30,8 +31,19 @@ PHASE(Creating)
   obj->fileName = NULL;
   obj->xLabel = NULL;
   obj->yLabel = NULL;
+  obj->graphColors = defaultGraphColors;
+  obj->colorCount = NUMCOLORS;
+  obj->colorIdx = 0;
 
   return obj;
+}
+
+- setColors: (const char * const *)colors count: (unsigned)nc
+{
+  colorCount = nc;
+  graphColors = colors;
+
+  return self;
 }
 
 - setGraphics: (BOOL)state
@@ -176,7 +188,8 @@ sequence_graph_filename(const char *fileName, const char *aName)
       
       anElement = [graph createElement];
       [anElement setLabel: aName];
-      [anElement setColor: graphColors[colorIdx++ % NUMCOLORS]];
+      [anElement setColor: graphColors[colorIdx % colorCount]];
+      colorIdx++;
 
       aGrapher = [ActiveGraph createBegin: [self getZone]];
       [aGrapher setElement: anElement];

@@ -19,19 +19,22 @@
 
   BOOL monoColorBars;
 
+  const char * const *binColors;
+  unsigned binColorCount;
+
   const char *fileName;
   const char *title;
   const char *xLabel;
   const char *yLabel;
 
-  int *distribution;
+  unsigned *distribution;
   double *locations;
   double *cachedLimits;
   double min, max;
-  int clean;
-  int binNum;
-  int count;
-  int outliers;
+  BOOL clean;
+  unsigned binCount;
+  unsigned count;
+  unsigned outliers;
   id collection;
   SEL probedSelector;
 
@@ -47,10 +50,12 @@
 - setFileOutput: (BOOL)state;
 - setMonoColorBars: (BOOL)mcb;
 
-- setBinNum: (int)binNum;
+- setColors: (const char * const *)colors count: (unsigned)nc;
+
+- setBinCount: (unsigned)binCount;
 - setLowerBound: (double)min;
 - setUpperBound: (double)max;
-- setCollection: (id)aCollection;
+- setCollection: aCollection;
 - setProbedSelector: (SEL)aSel;
 - setPrecision: (unsigned)precision;
 
@@ -60,11 +65,12 @@
 - outputGraph;
 - outputToFile;
 
-- (int *)getDistribution;
+- (unsigned *)getDistribution;
 
 - (unsigned)getCount;
-- (int)getOutliers;
-- (int)getBinNum;
+- (unsigned)getOutliers;
+- (unsigned)getBinCount;
+- (unsigned)getBinColorCount;
 - (double)getUpperBound;
 - (double)getLowerBound;
 - (const char *)getFileName;

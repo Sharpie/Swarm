@@ -36,7 +36,7 @@
 
 - setArithmeticWarn: (BOOL)state;
 
-- setXMin: (double)minx Max: (double)maxx Resolution: (int)steps;
+- setXMin: (double)minx Max: (double)maxx Resolution: (unsigned)steps;
 - setXMin: (double)minx Max: (double)maxx StepSize: (double)size;
 
 - setResetFrequency: (unsigned)freq;

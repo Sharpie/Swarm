@@ -13,14 +13,10 @@
 
 #define NUMCOLORS 12
 
-const char * const binColors[NUMCOLORS] =
-//	{ "Red",     "Green",  "Yellow",    "Pink",      "SeaGreen",
-//	  "Magenta", "Purple", "DarkGreen", "Goldenrod", "Black"     };
-        { "Red",   "Blue",   "Orange", "DarkGreen", "Magenta",   "Purple",
-	  "Green", "Yellow", "Cyan",   "SeaGreen",  "Goldenrod", "Black"  };
-
-// const char * const binLabels[NUMCOLORS] = 
-// 	{ "A","B","C","D","E","F","G","H","I","J","K","L" };
+const char * const defaultBinColors[NUMCOLORS] =
+	{ "blue", "orange", "yellow", "green",
+	  "red", "purple", "violet", "cyan",
+	  "grey50", "darkgreen", "goldenrod", "seagreen" };
 
 @implementation EZBin
 
@@ -39,7 +35,18 @@ PHASE(Creating)
   anObj->xLabel = NULL;
   anObj->yLabel = NULL;
   anObj->precision = 3;
+  anObj->binColors = defaultBinColors;
+  anObj->binColorCount = NUMCOLORS;
+
   return anObj;
+}
+
+- setColors: (const char * const *)colors count: (unsigned)nc
+{
+  binColorCount = nc;
+  binColors = colors;
+
+  return self;
 }
 
 - setGraphics: (BOOL)state
@@ -80,15 +87,15 @@ PHASE(Creating)
   return self;
 }
 
-- setProbedSelector: (SEL) aSel
+- setProbedSelector: (SEL)aSel
 {
   probedSelector = aSel;
   return self;
 }
 
-- setBinNum: (int)theBinNum
+- setBinCount: (unsigned)theBinCount
 {
-  binNum = theBinNum;
+  binCount = theBinCount;
   return self;
 }
 
@@ -112,7 +119,7 @@ PHASE(Creating)
   if (collection == nil)
     [InvalidCombination raiseEvent: "EZBin created without a collection\n"];
 
-  if (binNum <= 0)
+  if (binCount <= 0)
     [InvalidCombination raiseEvent: "EZBin without a positive Bin Number!!!\n"];
 
   if (!title)
@@ -126,12 +133,12 @@ PHASE(Creating)
 
   [super createEnd];
 
-  distribution = (int *)xmalloc (binNum * sizeof (int));
-  cachedLimits = (double *)xmalloc (binNum * sizeof (double));
-  locations = (double *)xmalloc (binNum * sizeof (double));
-  step = (max - min) / ((double) binNum);
+  distribution = (unsigned *) xmalloc (binCount * sizeof (unsigned));
+  cachedLimits = (double *) xmalloc (binCount * sizeof (double));
+  locations = (double *) xmalloc (binCount * sizeof (double));
+  step = (max - min) / ((double) binCount);
 
-  for (i = 0; i < binNum; i++)
+  for (i = 0; i < binCount; i++)
     {
       cachedLimits[i] = min + (((double) i) * step);
       locations[i] = min + 0.5 * step + (double) i * step;
@@ -141,16 +148,15 @@ PHASE(Creating)
   if (graphics)
     {
       aHisto = [Histogram createBegin: [self getZone]];
-      [aHisto setNumBins: binNum];
+      [aHisto setBinCount: binCount];
       aHisto = [aHisto createEnd];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
 
       [aHisto setTitle: title];
       if(xLabel && yLabel) 
         [aHisto setAxisLabelsX: xLabel Y: yLabel];
-      // [aHisto setLabels: binLabels];
       if (!monoColorBars)
-        [aHisto setColors: binColors count: NUMCOLORS];
+        [aHisto setColors: binColors count: binColorCount];
       [aHisto pack];
       
       [aHisto setBarWidth: step];
@@ -159,8 +165,8 @@ PHASE(Creating)
               max: max
               step: 
                 // stepsize cannot be same size than range
-                ((binNum > 2)
-                 ? (max - min) / (binNum - 1)
+                ((binCount > 2)
+                 ? (max - min) / (binCount - 1)
                  : step)];
 #else
       [aHisto setXaxisMin: min
@@ -201,9 +207,9 @@ PHASE(Using)
   
   count = 0;
   outliers = 0;
-  clean = 1;
+  clean = YES;
 
-  for (i = 0; i < binNum; i++)
+  for (i = 0; i < binCount; i++)
     distribution[i] = 0;
   
   return self;
@@ -240,7 +246,7 @@ PHASE(Using)
           average = v;
           average2 = v * v;
           std = 0.0;
-          clean = 0;
+          clean = NO;
         }
       else
         {
@@ -259,14 +265,14 @@ PHASE(Using)
           std = sqrt(average2 - average*average);
         }
       
-      for (i = 0; i < binNum - 1; i++)
+      for (i = 0; i < binCount - 1; i++)
         if ((v >= cachedLimits[i]) && (v < cachedLimits[i + 1]))
           {
             distribution[i]++;
             break;
           }
       
-      if (i == binNum - 1)
+      if (i == binCount - 1)
         distribution[i]++;
       
       count++;
@@ -278,7 +284,7 @@ PHASE(Using)
 
 - output
 {
-  int i;
+  unsigned i;
   
   if (graphics)
     {
@@ -289,10 +295,11 @@ PHASE(Using)
   if (fileOutput)
     {
       [anOutFile putInt: distribution[0]];
-      for(i = 1; i < binNum; i++){
-        [anOutFile putTab];
-        [anOutFile putInt: distribution[i]];
-      }
+      for(i = 1; i < binCount; i++)
+        {
+          [anOutFile putTab];
+          [anOutFile putInt: distribution[i]];
+        }
       [anOutFile putNewLine];
     }
   
@@ -317,7 +324,7 @@ PHASE(Using)
   if (fileOutput)
     {
       [anOutFile putInt: distribution[0]];
-      for(i = 1; i < binNum; i++)
+      for(i = 1; i < binCount; i++)
         {
           [anOutFile putTab];
           [anOutFile putInt: distribution[i]];
@@ -338,7 +345,7 @@ PHASE(Using)
   return fileName;
 }
 
-- (int *)getDistribution
+- (unsigned *)getDistribution
 {
   return distribution;
 }
@@ -348,14 +355,19 @@ PHASE(Using)
   return count;
 }
 
-- (int)getOutliers
+- (unsigned)getOutliers
 {
   return outliers;
 }
 
-- (int)getBinNum
+- (unsigned)getBinCount
 {
-  return binNum;
+  return binCount;
+}
+
+- (unsigned)getBinColorCount
+{
+  return binColorCount;
 }
 
 - (double)getLowerBound

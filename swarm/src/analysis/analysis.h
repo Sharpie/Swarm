@@ -121,8 +121,8 @@ CREATING
 //M: in a single color (blue). The default is differently colored bars.
 - setMonoColorBars: (BOOL)mcb;
 
-//M: The setBinNum method sets the number of bins the histogram will have.
-- setBinNum: (int)theBinNum;
+//M: The setBinCount method sets the number of bins the histogram will have.
+- setBinCount: (unsigned)theBinCount;
 
 //M: The setLowerBound method sets the inclusive lower bound on the
 //M: histogram range. 
@@ -131,6 +131,9 @@ CREATING
 //M: The setUpperBound method sets the non-inclusive upper bound on the
 //M: histogram range.
 - setUpperBound: (double)theMax;
+
+//M: Set a custom vector of colors for the histogram bars
+- setColors: (const char * const *)colors count: (unsigned)nc;
 
 - createEnd;
 
@@ -165,7 +168,7 @@ USING
 
 //M: The getDistribution method returns an array of integers containing the 
 //M: number of entries which landed in each bin of the histogram.
-- (int *)getDistribution;
+- (unsigned *)getDistribution;
 
 //M: The getCount method gets the number of entries which landed within the 
 //M: bounds of the histogram.
@@ -175,10 +178,14 @@ USING
 //M: bounds of the histogram.  Pressing the "o" key on the graphical 
 //M: representation of the histogram will display this value both as an integer
 //M: and as a percentage of the total number of attempted entries.
-- (int)getOutliers;
+- (unsigned)getOutliers;
 
-//M: The getBinNum method gets the number of bins in the histogram.
-- (int)getBinNum;
+//M: The getBinCount method gets the number of bins in the histogram.
+- (unsigned)getBinCount;
+
+//M: The getBinColorCount method gets the number of distinct bin colors 
+//M: allocated (by default, or by the user).
+- (unsigned)getBinColorCount;
 
 //M: The getLowerBound method gets the lower bound on the histogram range.
 - (double)getLowerBound;
@@ -287,6 +294,9 @@ CREATING
 //M: the histogram in the graphical version of EZGraph. (Only relevant if the 
 //M: state of setGraphics is set to 1.)
 - setAxisLabelsX: (const char *)xl Y:(const char *)yl;
+
+//M: Set a custom vector of colors for the graph lines
+- setColors: (const char * const *)colors count: (unsigned)nc;
 
 - createEnd;
 
@@ -467,7 +477,7 @@ CREATING
 - setArithmeticWarn: (BOOL)state;
 
 //M: Set the range and resolution of X values at which to compute values.
-- setXMin: (double)minx Max: (double)maxx Resolution: (int)steps;
+- setXMin: (double)minx Max: (double)maxx Resolution: (unsigned)steps;
 
 //M: Set the range and step size of X values at which to compute values.
 - setXMin: (double)minx Max: (double)maxx StepSize: (double)size;

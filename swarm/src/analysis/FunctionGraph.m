@@ -85,7 +85,7 @@ PHASE(Setting)
   return self;
 }
 
-- setXMin: (double)minx Max: (double)maxx Resolution: (int)steps
+- setXMin: (double)minx Max: (double)maxx Resolution: (unsigned)steps
 {
   static const char *Step0_Error =
     "\t Attempted to set number of steps to zero (0) when maxx != minx.\n";
