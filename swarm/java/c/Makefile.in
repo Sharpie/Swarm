@@ -1,3 +1,6 @@
+CURRENT = 0
+REVISION = 0
+AGE = 0
 include ../Makefile.common
 CC=@CC@
 RANLIB=@RANLIB@
@@ -18,14 +21,16 @@ CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES)
 CFLAGS=@CFLAGS@
 LDFLAGS=@LDFLAGS@
 
+
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 
+libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 
 all: libjavaswarm.la
 
 libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ -rpath $(libdir) $(LIBS)
+	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ -rpath $(libdir) $(libjavaswarm_la_LDFLAGS) $(LIBS)
 
 %.lo: %.c
 	$(LIBTOOL) --mode=compile $(CC) $(CPPFLAGS) $(CFLAGS) -c $<
