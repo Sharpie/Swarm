@@ -1,0 +1,16 @@
+1997-12-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Common.dists.m: ([-getName]): Constify return of getName.
+
+	* BernoulliDist.h: Constify return of getName.
+	* ExponentialDist.h: Likewise.
+	* GammaDist.h: Likewise.
+	* LogNormalDist.h: Likewise.
+	* NormalDist.h: Likewise.
+	* RandomBitDist.h: Likewise.
+	* UniformDoubleDist.h: Likewise.
+	* UniformIntegerDist.h: Likewise.
+	* UniformUnsignedDist.h: Likewise.
+	* random.h: (InternalState): Likewise.
+	
+	

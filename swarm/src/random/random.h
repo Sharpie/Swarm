@@ -32,7 +32,7 @@ Modified:	 1997-12-08 (v. 0.75) by Sven Thommesen
 - (void)	putStateInto: (void *) buffer;	// save state data for later use
 - (void)	setStateFrom: (void *) buffer;	// set state from saved data
 - (void)	describe: (id) outStream;	// prints ascii data to stream
-- (char *)      getName;			// returns name of object
+- (const char *)getName;			// returns name of object
 - (unsigned)	getMagic;			// object's 'magic number'
 @end
 

@@ -158,7 +158,7 @@
    return stateSize;
 }
 
--(char *) getName {
+-(const char *) getName {
    return distName;
 }
 
