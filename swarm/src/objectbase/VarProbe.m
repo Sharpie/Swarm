@@ -451,17 +451,22 @@ probe_as_double (const char *probedType, const void *p)
 - iterateAsDouble: anObject using: (void (*) (unsigned rank, unsigned *vec, double val))func
 {
   unsigned vec[rank];
-  unsigned di, ii;
+  unsigned di;
   const void *ary = (const void *) anObject + dataOffset;
   
   void start_dim (unsigned dimnum)
     {
+      vec[dimnum] = 0;
       di = dimnum;
-      ii = 0;
     }
-  void start_element (void)
+  void end_dim (void)
     {
-      vec[di] = ii++;
+      if (di > 0)
+        vec[di - 1]++;
+    }
+  void end_element (void)
+    {
+      vec[di]++;
     }
   void output_type (const char *type, unsigned offset, void *data)
     {
@@ -469,8 +474,8 @@ probe_as_double (const char *probedType, const void *p)
     }
   process_array (probedType,
                  NULL,
-                 start_dim, NULL,
-                 start_element, NULL,
+                 start_dim, end_dim,
+                 NULL, end_element,
                  output_type,
                  ary,
                  NULL);
@@ -485,12 +490,15 @@ probe_as_double (const char *probedType, const void *p)
 
   void start_dim (unsigned dimnum)
     {
-      if (dimnum > 0)
-        vec[dimnum - 1]++;
       vec[dimnum] = 0;
       di = dimnum;
     }
-  void start_element (void)
+  void end_dim (void)
+    {
+      if (di > 0)
+        vec[di - 1]++;
+    }
+  void end_element (void)
     {
       vec[di]++;
     }
@@ -501,8 +509,8 @@ probe_as_double (const char *probedType, const void *p)
 
   process_array (probedType,
                  NULL,
-                 start_dim, NULL,
-                 start_element, NULL,
+                 start_dim, end_dim,
+                 NULL, end_element,
                  output_type,
                  ary,
                  NULL);
