@@ -1,6 +1,7 @@
 2000-05-01  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* directory.[hm], java.[hm]: Move Java-related stuff into java.[hm].
+	* internal.[hm], directory.[hm], java.[hm]:
+	Move Java-related stuff into java.[hm].
 
 	* DefObject.m, FArguments.m, FCall.m, JavaCollection.m,
 	JavaCollectionIndex.m, JavaProxy.m: 
