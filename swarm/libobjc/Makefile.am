@@ -18,8 +18,8 @@ EXTRA_LTLIBRARIES = libswarmobjc.la
 #EXTRA_PROGRAMS = objc.dll
 
 libswarmobjc_la_SOURCES = $(CSRC) $(MSRC)
-libswarmobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) # -L$(dir $(shell $(CC) -print-libgcc-file-name))
-libswarmobjc_la_LIBADD = $(objc_thread_lo) -lgcc
+libswarmobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libswarmobjc_la_LIBADD = $(objc_thread_lo) # -lgcc
 libswarmobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
 override CPPFLAGS += -DBUILDING_LIBOBJC
@@ -42,9 +42,9 @@ objc.dll: libswarmobjc.la objc.dll.c
 
 #$(CC) -Wl,-shared -Wl,--export-all-symbols -Wl,--output-def,libswarmobjc.def -Wl,--out-implib,libswarmobjcdll.a -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
 
-install-data-local: 
-	$(INSTALL) libswarmobjcdll.a $(DESTDIR)$(libdir)
-	ranlib $(DESTDIR)$(libdir)/libswarmobjcdll.a
+#install-data-local: 
+#	$(INSTALL) libswarmobjcdll.a $(DESTDIR)$(libdir)
+#	ranlib $(DESTDIR)$(libdir)/libswarmobjcdll.a
 endif
 
 #CC1OBJ = @gccdir@/cc1obj
