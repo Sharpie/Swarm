@@ -1,3 +1,7 @@
+1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acffi.m4: Ignore libffi on Sparc and ix86.
+
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acffi.m4 (USEBUILTINAVCALL): Add an automake conditional.
