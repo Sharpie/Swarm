@@ -12,8 +12,7 @@
 #ifdef HAVE_HDF5
 
 #include <hdf5.h>
-#include <misc.h> // strncpy, XFREE, log10
-#include <limits.h> // INT_MIN
+#include <misc.h> // strncpy, XFREE, log10 ,INT_MIN
 
 #define REF2STRING_CONV "ref->string"
 #define STRING2REF_CONV "string->ref"

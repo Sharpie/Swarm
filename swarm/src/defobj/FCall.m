@@ -212,19 +212,21 @@ avcall_add_primitive (FArguments_c *fa, fcall_type_t type, void *val)
     case fcall_type_selector:
       av_ptr (fa->avalist, SEL, *(SEL *) val);
       break;
+#ifdef HAVE_JDK
     case fcall_type_jobject:
       av_ptr (fa->avalist, jobject, *(jobject *) val);
       break;
     case fcall_type_jstring:
       av_ptr (fa->avalist, jstring, *(jstring *) val);
       break;
+#endif
     default:
       abort ();
     }
 }
 #endif
 
-
+#ifndef USE_AVCALL
 static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_void,
   &ffi_type_uchar, &ffi_type_schar, 
@@ -239,6 +241,7 @@ static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_pointer, 
   &ffi_type_pointer,
   &ffi_type_pointer};
+#endif
 
 static void
 add_ffi_types (FCall_c *fc)
