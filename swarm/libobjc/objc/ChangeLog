@@ -1,3 +1,7 @@
+2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
+
+	* Makefile.am (install-data-local): $(DESTDIR)
+
 2001-11-12  Marcus G. Daniels  <mgd@condor>
 
 	* Makefile.am (install-data-local): Depend on install-objcHEADERS.

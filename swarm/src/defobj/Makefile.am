@@ -41,9 +41,9 @@ version.h: $(top_srcdir)/VERSION
 	sed -n '2s/^[0-9][0-9]*\.[0-9][0-9]*\.\([0-9][0-9]*\)/#define SWARM_SUBMINOR \1/p' < $< >> $@
 
 install-data-local: install-defobjHEADERS
-	$(INSTALL_DATA) classes.h $(defobjdir)
-	$(INSTALL_DATA) types.h $(defobjdir)
-	$(INSTALL_DATA) version.h $(defobjdir)
+	$(INSTALL_DATA) classes.h $(DESTDIR)$(defobjdir)
+	$(INSTALL_DATA) types.h $(DESTDIR)$(defobjdir)
+	$(INSTALL_DATA) version.h $(DESTDIR)$(defobjdir)
 
  include $(top_srcdir)/etc/Makefile.protocol
 

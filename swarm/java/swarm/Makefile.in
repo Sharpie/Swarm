@@ -100,12 +100,12 @@ jar: all
 endif
 
 install-java-classes-as-jar: jar
-	test -d $(datadir) || mkdir $(datadir)
-	test -d $(datadir)/swarm || mkdir $(datadir)/swarm
-	$(INSTALL) swarm.jar $(datadir)/swarm
+	test -d $(DESTDIR)$(datadir) || mkdir $(DESTDIR)$(datadir)
+	test -d $(DESTDIR)$(datadir)/swarm || mkdir $(DESTDIR)$(datadir)/swarm
+	$(INSTALL) swarm.jar $(DESTDIR)$(datadir)/swarm
 
 install-java-classes-as-files: all
-	test -d $(datadir) || mkdir $(datadir)
+	test -d $(DESTDIR)$(datadir) || mkdir $(DESTDIR)$(datadir)
 	$(RM) ../filelist
 	for f in $(SWARMCLASSES); do echo $$f >> ../filelist ; done
 	$(foreach module,$(MODULES),for f in $(module-creating-classes); do echo $$f >> ../filelist; done;)
@@ -114,7 +114,7 @@ install-java-classes-as-files: all
 	$(foreach module,$(MODULES),for f in $(module-setting-interfaces); do echo $$f >> ../filelist; done;)
 	$(foreach module,$(MODULES),for f in $(module-using-interfaces); do echo $$f >> ../filelist; done;)
 	sed -e 's,^,swarm/,' -e 's,$$,\.class,' < ../filelist > ../filelist.new
-	(cd ..; tar -c -f - -T filelist.new) | (cd $(datadir); tar xf -)
+	(cd ..; tar -c -f - -T filelist.new) | (cd $(DESTDIR)$(datadir); tar xf -)
 	$(RM) ../filelist ../filelist.new
 
 install: install-java-classes-as-@JAVA_CLASSES_INSTALLED_AS@

@@ -9,11 +9,11 @@ EXTRA_DIST = VERSION
 SWARM_INSTALL = @SWARM_INSTALL@
 
 install-data-local:
-	$(mkinstalldirs) $(includedir) 
-	$(INSTALL_DATA) swarmconfig.h $(includedir)
-	$(INSTALL_DATA) externvar.h $(includedir)
-	$(mkinstalldirs) $(bindir) $(datadir)/swarm
-	$(INSTALL_PROGRAM) $(top_builddir)/libtool $(bindir)/libtool-swarm
-	if test $(SWARM_INSTALL) = install-sh; then $(INSTALL_PROGRAM) $(srcdir)/install-sh $(bindir); fi
+	$(mkinstalldirs) $(DESTDIR)$(includedir)
+	$(INSTALL_DATA) swarmconfig.h $(DESTDIR)$(includedir)
+	$(INSTALL_DATA) externvar.h $(DESTDIR)$(includedir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(datadir)/swarm
+	$(INSTALL_PROGRAM) $(top_builddir)/libtool $(DESTDIR)$(bindir)/libtool-swarm
+	if test $(SWARM_INSTALL) = install-sh; then $(INSTALL_PROGRAM) $(srcdir)/install-sh $(DESTDIR)$(bindir); fi
 
 install-recursive: install-data-local

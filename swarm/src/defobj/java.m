@@ -228,7 +228,7 @@ java_expandArray (jobject fullary, void *inbuf)
       
       if (sig[1] == '[')
         {
-          unsigned i;
+          int i;
 
           for (i = 0; i < len; i++)
             {
@@ -365,7 +365,7 @@ map_java_class_ivars_internal (jclass class,
   jclass superClass = (*jniEnv)->GetSuperclass (jniEnv, class);
   jarray fields;
   jsize count;
-  unsigned fi;
+  int fi;
   
   if (superClass)
     {
@@ -565,7 +565,7 @@ class_java_find_field (jclass javaClass, const char *fieldName,
 {
   jarray fields;
   jsize count;
-  unsigned i;
+  int i;
   BOOL match = NO;
   jobject field = NULL;
   jobject name;
@@ -1884,7 +1884,7 @@ swarm_directory_java_ensure_selector (jobject jsel)
   else if (!(sel = (SEL) SD_JAVA_FIND_OBJECT_OBJC (jsel)))
     {
       char *name, *p;
-      unsigned i;
+      int i;
       jboolean copyFlag;
       jboolean objcFlag;
       jarray argTypes;

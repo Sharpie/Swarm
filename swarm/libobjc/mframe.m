@@ -396,8 +396,8 @@ mframe_next_arg(const char *typePtr, NSArgumentInfo *info)
 
       case _C_UNION_B:
 	{
-	  int	max_size = 0;
-	  int	max_align = 0;
+	  unsigned	max_size = 0;
+	  unsigned	max_align = 0;
 
 	  /*
 	   *	Skip "<name>=" stuff.
@@ -1241,7 +1241,7 @@ mframe_build_return_opts (arglist_t argframe,
   /* A pointer to the memory that will hold the return value. */
   retval_t retframe = NULL;
   /* The size, in bytes, of memory pointed to by RETFRAME. */
-  int retsize;
+  unsigned retsize;
   /* Which argument number are we processing now? */
   int argnum;
   /* Type qualifier flags; see <objc/objc-api.h>. */

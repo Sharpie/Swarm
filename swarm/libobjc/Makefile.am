@@ -18,7 +18,7 @@ EXTRA_LTLIBRARIES = libobjc.la
 #EXTRA_PROGRAMS = objc.dll
 
 libobjc_la_SOURCES = $(CSRC) $(MSRC)
-libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) # -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) # -L$(dir $(shell $(CC) -print-libgcc-file-name))
 libobjc_la_LIBADD = $(objc_thread_lo) -lgcc
 libobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
@@ -43,8 +43,8 @@ objc.dll: libobjc.la objc.dll.c
 #$(CC) -Wl,-shared -Wl,--export-all-symbols -Wl,--output-def,libobjc.def -Wl,--out-implib,libobjcdll.a -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
 
 install-data-local: 
-	$(INSTALL) libobjcdll.a $(libdir)
-	ranlib $(libdir)/libobjcdll.a
+	$(INSTALL) libobjcdll.a $(DESTDIR)$(libdir)
+	ranlib $(DESTDIR)$(libdir)/libobjcdll.a
 endif
 
 #CC1OBJ = @gccdir@/cc1obj

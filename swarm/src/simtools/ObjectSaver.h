@@ -36,6 +36,8 @@
 - setTemplateProbeMap: (id <ProbeMap>)aProbeMap;
 - saveObject: anObject;
 
++ (void)_crash_: anObject;
+
 - (void)_crash_: anObject;
 
 @end

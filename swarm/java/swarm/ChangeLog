@@ -1,3 +1,8 @@
+2002-10-18    <pauljohn@dv253s74.lawrence.ks.us>
+
+	* Makefile.in (install-java-classes-as-jar): $(DESTDIR) appended
+	to ${datadir}
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* BaseImpl.java, CustomizedType.java, Globals.java,

@@ -402,7 +402,7 @@ PHASE(Creating)
 
   if ((ivarList = aClass->ivars))
     {
-      unsigned i;
+      int i;
       
       for (i = 0; i < ivarList->ivar_count; i++)
           [self _addVarProbeForClass_: aClass

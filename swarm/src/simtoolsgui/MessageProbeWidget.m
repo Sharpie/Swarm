@@ -217,7 +217,7 @@ PHASE(Using)
 
 - (void)drop
 {
-  unsigned i;
+  int i;
 
   for (i = 0; i < argCount; i++)
     [myWidgets[i] drop];

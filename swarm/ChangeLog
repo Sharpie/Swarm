@@ -1,3 +1,13 @@
+2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
+
+	* VERSION: Bump
+
+	* Makefile.am (install-data-local): $(DESTDIR) added
+
+	* ltmain.sh (relink_command): added Bruno Haible's patch for
+	DESTDIR support in libtool.  See
+	http://mail.gnu.org/pipermail/bug-libtool/2002-February/003019.html
+
 2002-09-17  Paul E Johnson  <pauljohn@ukans.edu>
 
 	* Makefile.am (install-data-local): Must create destination

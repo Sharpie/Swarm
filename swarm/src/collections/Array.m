@@ -471,7 +471,7 @@ PHASE(Using)
 
 - (void)_lispOut_: outputCharStream deep: (BOOL)deepFlag
 {
-  int i;
+  unsigned i;
   id member;
 
   [outputCharStream catStartMakeInstance: [self getTypeName]];

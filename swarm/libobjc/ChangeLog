@@ -1,3 +1,8 @@
+2002-09-13    <pjohnson@localhost.localdomain>
+
+	* mframe.m (mframe_next_arg): max_size and max_align should be unsigned.
+	(mframe_build_return_opts): retsize is now unsigned
+
 2001-11-05    <mgd@forager.swarm.org>
 
 	* Makefile.am: Don't use libgcc -L. 

@@ -37,7 +37,7 @@ main (int argc, const char **argv)
 {
   Class impClass;
   IMP imp;
-  unsigned argn;
+  int argn; 
 
   initSwarmBatch (1, argv);
 
@@ -45,7 +45,7 @@ main (int argc, const char **argv)
   if (!impClass)
     abort ();
 
-  for (argn = 2; argn < argc; argn++)
+  for (argn = 2; argn <  argc; argn++)
     {
       Class class;
       SEL sel;
@@ -70,7 +70,7 @@ main (int argc, const char **argv)
           
           while (methods)
             {
-              unsigned i;
+              int i;
               
               for (i = 0; i < methods->method_count; i++)
                 {

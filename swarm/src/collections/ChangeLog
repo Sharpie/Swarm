@@ -1,3 +1,11 @@
+2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
+
+	* Makefile.am (install-data-local): $(DESTDIR) added
+
+2002-09-13    <pjohnson@localhost.localdomain>
+
+	* Array.m ([Array_c -_lispOut_:deep:]): i must be unsigned
+
 2002-05-14  Marcus G. Daniels  <mgd@condor>
 
 	* collections.h (Array, List, Map): Adopt Serialization.

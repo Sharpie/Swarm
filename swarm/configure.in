@@ -298,7 +298,7 @@ else
   LIBJAVASWARM_LA=lib${JAVASWARM_LIB_NAME}.la
   JAVASWARM_DLL=
   inst_LIBS='lib$(MODULE).la' 
-  inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
+  inst_LDFLAGS='-rpath $(DESTDIR)$(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
 fi
 AC_SUBST(SWARM_DLL)
 AC_SUBST(LIBSWARM_LA)

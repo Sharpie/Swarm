@@ -26,7 +26,7 @@ libcollections_la_LDFLAGS = @inst_LDFLAGS@
 collections_HEADERS = Array.h Collection.h InputStream.h Stream.h List.h List_GEN.h List_linked.h List_mlinks.h ListShuffler.h Map.h OrderedSet.h OutputStream.h Set.h Permutation.h StringObject.h collections.h predicates.h macros.h
 
 install-data-local:
-	$(INSTALL_DATA) classes.h $(collectionsdir)
-	$(INSTALL_DATA) types.h $(collectionsdir)
+	$(INSTALL_DATA) classes.h $(DESTDIR)$(collectionsdir)
+	$(INSTALL_DATA) types.h $(DESTDIR)$(collectionsdir)
 
 

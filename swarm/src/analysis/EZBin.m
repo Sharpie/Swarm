@@ -129,7 +129,7 @@ PHASE(Creating)
 
 - createEnd
 {
-  int i;
+  unsigned i;
   double step;
   
   if (collection == nil)
@@ -220,7 +220,7 @@ PHASE(Using)
 
 - (void)reset
 {
-  int i;
+  unsigned i;
   
   count = 0;
   outliers = 0;
@@ -244,7 +244,7 @@ PHASE(Using)
       iter = [collection begin: getZone (self)];
       while ((obj = [iter next]))
         {
-          int i;
+          unsigned i;
           double v = [mp doubleDynamicCallOn: obj];
           
           if (v > max || v < min)
@@ -330,7 +330,7 @@ PHASE(Using)
 
 - (void)outputToFile 
 {
-  int i;
+  unsigned i;
   
   if (fileOutput)
     {

@@ -22,6 +22,6 @@ mframe.h: mframe-preface.h mframe.head mframe.foot
 all-local: mframe.h
 
 install-data-local: install-objcHEADERS
-	$(INSTALL) mframe.h $(includedir)/objc
-	$(INSTALL) externvar.h $(includedir)/objc
+	$(INSTALL) mframe.h $(DESTDIR)$(includedir)/objc
+	$(INSTALL) externvar.h $(DESTDIR)$(includedir)/objc
 

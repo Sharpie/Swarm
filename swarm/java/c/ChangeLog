@@ -1,3 +1,7 @@
+2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
+
+	* Makefile.in (install-la): $(DESTDIR) added
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* SwarmEnvironmentExtra.m: Change copyright statement to canonical

@@ -26,7 +26,7 @@ stubs_INSTALL=install-stubs
 
 all: $($(JAVASTUBS)_ALL)
 install: $($(JAVASTUBS)_INSTALL) install-binSCRIPTS
-	test -z "$(KAWAJAR)" || $(INSTALL) $(srcdir)/$(KAWAJAR) $(datadir)/swarm/kawa.jar
+	test -z "$(KAWAJAR)" || $(INSTALL) $(srcdir)/$(KAWAJAR) $(DESTDIR)$(datadir)/swarm/kawa.jar
 
 all-stubs: stubs
 	$(MAKE) -C c all
@@ -56,4 +56,4 @@ $(JAVA_OBJS): $(JAVA_SRC)
 # don't link against javaswarm -- this will screw up constructors
 # when the library load happens from Java
 libgcjswarm.la: $(JAVA_OBJS)
-	libtool-new --mode=link gcc $(JAVA_OBJS) -o libgcjswarm.la -rpath $(libdir)
+	libtool-new --mode=link gcc $(JAVA_OBJS) -o libgcjswarm.la -rpath $(DESTDIR)$(libdir)
