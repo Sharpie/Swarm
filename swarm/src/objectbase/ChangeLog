@@ -1,3 +1,15 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* CompleteProbeMap.h, CompleteProbeMap.m, CompleteVarMap.h,
+	CompleteVarMap.m, CustomProbeMap.h, CustomProbeMap.m,
+	DefaultProbeMap.h, DefaultProbeMap.m, EmptyProbeMap.h,
+	EmptyProbeMap.m, MessageProbe.h, MessageProbe.m, Probe.h, Probe.m,
+	ProbeLibrary.h, ProbeLibrary.m, ProbeMap.h, ProbeMap.m, Swarm.h,
+	Swarm.m, SwarmObject.h, SwarmObject.m, VarProbe.h, VarProbe.m,
+	local.h, objectbase.h, probing.h, probing.m, swarm_rts_routines.h,
+	swarm_rts_routines.m: Change copyright statement to canonical
+	version as suggested by GNU GPL.
+
 2001-12-17  Marcus G. Daniels  <mgd@dhcp144.santafe.edu>
 
 	* VarProbe.h: Make getter and setterMethod ivars and setter

@@ -1,4 +1,9 @@
-2001-11-04    <mgd@HELEN>
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* misc.h: Change copyright statement to canonical version as
+	suggested by GNU GPL.
+
+2001-11-04  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.am: Avoid multi-line values as they confused Cygwin
 	automake.

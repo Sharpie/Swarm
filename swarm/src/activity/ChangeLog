@@ -1,4 +1,12 @@
-2001-11-04    <mgd@HELEN>
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* Action.h, Action.m, ActionGroup.h, ActionGroup.m,
+	CompoundAction.h, CompoundAction.m, Schedule.h, Schedule.m,
+	SwarmProcess.h, SwarmProcess.m, XActivity.h, XActivity.m,
+	activity.h, activity.m, macros.h: Change copyright statement
+	to canonical version as suggested by GNU GPL.
+
+2001-11-04  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.am: Don't use multi-line values in variable assignments.
 	It confuses automake on Cygwin.

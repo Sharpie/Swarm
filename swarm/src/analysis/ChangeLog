@@ -1,3 +1,11 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* ActiveGraph.h, ActiveGraph.m, ActiveOutFile.h, ActiveOutFile.m,
+	Averager.h, Averager.m, EZBin.h, EZBin.m, EZDistribution.h,
+	EZDistribution.m, EZGraph.h, EZGraph.m, Entropy.h, Entropy.m,
+	FunctionGraph.h, FunctionGraph.m, analysis.h: Change copyright
+	statement to canonical version as suggested by GNU GPL.
+
 2002-04-10  Marcus G. Daniels  <mgd@condor>
 
 	* EZGraph.m ([EZSequence -setUnsignedArg:]): Don't treat GUI
