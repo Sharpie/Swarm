@@ -1,6 +1,17 @@
+1998-06-10  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* catalog.in: New public identifiers for html.dsl and print.dsl.
+
+	* Makefile.rules:  Change .htm to .html throughout.
+	(HTML, PRINT): New variables (replace SWARMBOOK).  Update
+	usages of SWARMBOOK#{html,print} with HTML and PRINT.
+
+	* html.dsl, print.dsl: New files (splits former contents of
+	swarmbook.dsl).
+
 1998-06-09  Alex Lancaster  <alex@santafe.edu>
 
-	* catalog.in: Removed Emacs local variable 'mode' - was being
+	* catalog.in: Removed Emacs local variable `mode' - was being
 	confused as an entity name by jade.
 	
 	* global.ent (corpauthor):  Created new entity.  Set to SDP.
