@@ -1,11 +1,10 @@
 1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CompleteProbeDisplay.m ([CompleteProbeDisplay -drop]): Don't
-	call disableDestroyNotification for topLevel.
+	call disableDestroyNotification for topLevel.  Note that markDrop
+	in superclass (CommonProbeDisplay) should take care of it.
 
 	* SimpleProbeDisplay.m ([SimpleProbeDisplay -drop]): Likewise.
-
-	* CommonProbeDisplay.m ([CommonProbeDisplay -markForDrop]): Likewise.
 
 	* Makefile:  New file.
 

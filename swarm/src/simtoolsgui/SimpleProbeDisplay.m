@@ -146,6 +146,9 @@
 {
   int i;
   
+  // If drops all go through markForDrop, then the disable there
+  // should take care of it.
+  // [topLevel disableDestroyNotification];
   [leftFrame drop];
   [rightFrame drop];
   [middleFrame drop];

@@ -137,9 +137,11 @@ max_class_var_length (Class class)
 
 - (void)drop
 {
- 
-  id index;
-  id a_widget;
+  id index, a_widget;
+
+  // If drops all go through markForDrop, then the disable there
+  // should take care of it.
+  // [topLevel disableDestroyNotification];
 
   index = [widgets begin: [self getZone]];
   while ((a_widget = [index next]) != nil)
