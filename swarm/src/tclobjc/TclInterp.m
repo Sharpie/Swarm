@@ -172,7 +172,15 @@ List* tclList;
     const char *path = [self checkTclLibrary];
     
     if (path)
-      Tcl_SetVar (interp, "tcl_library", (char *) path, TCL_GLOBAL_ONLY);
+      {
+#if (TCL_MAJOR_VERSION >= 8) && (TCL_MINOR_VERSION >= 1)
+        extern void TclSetLibraryPath (Tcl_Obj *pathPtr);
+        Tcl_Obj *pathObj = Tcl_NewStringObj (path, -1);
+        TclSetLibraryPath (Tcl_NewListObj (1, &pathObj));
+#else
+        Tcl_SetVar (interp, "tcl_library", (char *) path, TCL_GLOBAL_ONLY);
+#endif
+      }
     else
       {
         char *msg = Tcl_GetVar (interp, "errorInfo", TCL_GLOBAL_ONLY);

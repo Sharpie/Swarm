@@ -1,3 +1,9 @@
+1999-07-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* TclInterp.m ([TclInterp -preInitWithArgc:argv:]): Handle
+	Tcl 8.1 initialization using TclSetLibraryPath instead of
+	a Tcl_SetVar on tcl_library.
+
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (CPPFLAGS): Add -DBUILDING_SWARM.
