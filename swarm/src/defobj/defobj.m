@@ -237,7 +237,8 @@ lispIn (id aZone, id expr)
         
         if (strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0)
           classFlag = YES;
-        else if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) != 0)
+        else if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) != 0
+                 && strcmp (funcName, "make-objc") != 0)
           raiseEvent (InvalidArgument, "> makeExprObj not \""
                       MAKE_INSTANCE_FUNCTION_NAME
                       "\" or \""

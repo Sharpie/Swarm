@@ -1,5 +1,7 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.m (lispIn): Continue to support make-objc.
+
 	* DefClass.m ([CreatedClass_s -updateArchiver]): Use lispArchiver,
 	instead of archiver.
 
