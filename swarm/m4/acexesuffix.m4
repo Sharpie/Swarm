@@ -4,7 +4,7 @@ AC_TRY_COMPILE([#ifdef __CYGWIN32__
 #error
 #endif],[],
 EXESUFFIX='',
-EXESUFFIX=.exe,
+EXESUFFIX=.exe)
 AC_MSG_RESULT($EXESUFFIX)
 AC_SUBST(EXESUFFIX)
 ])
