@@ -474,7 +474,7 @@ USING
 - linkVariableDouble: (double *)p;
 
 //M: Attach the widget value to a boolean.
-- linkVariableBoolean: (BOOL *)p;
+- linkVariableBoolean: (unsigned *)p;
 @end
 
 @protocol Entry <InputWidget, CREATABLE>
@@ -549,7 +549,7 @@ USING
 - setEntryWidth: (int)ew;
 
 //M: Add a boolean CheckButton widget.
-- addLineName: (const char *)n Boolean: (BOOL *)p;
+- addLineName: (const char *)n Boolean: (unsigned *)p;
 
 //M: Add an Entry to get an integer.
 - addLineName: (const char *)n Int: (int *)p;
