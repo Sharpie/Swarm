@@ -1,3 +1,11 @@
+1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* acfind.m4: New file.
+
+	* acpng.m4: Move md_FIND_{LIB,INCLUDE} to acfind.m4.
+
+	* actcltk.m4: Use md_FIND_LIB in md_FIND_BLT.
+
 1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* acpng.m4: Use zliblibdir and pnglibdir instead of zlibdir and

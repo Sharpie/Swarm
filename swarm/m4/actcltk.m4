@@ -253,30 +253,19 @@ AC_SUBST(TCLOBJCLIB)
 ])
 
 AC_DEFUN(md_FIND_BLT,
-[if test -z "$bltdir" ; then
-  bltdir=$defaultdir
-fi
-if test -z "$bltlibname" ; then
-  bltlibname=BLT
-fi
-AC_MSG_CHECKING(directory of lib${bltlibname}.so)
-if test -f $bltdir/lib/lib${bltlibname}.so ; then
-  BLTLDFLAGS="-L\$(bltdir)/lib $RPATH\$(bltdir)/lib"
-  AC_MSG_RESULT($bltdir/lib)
-else
-  AC_MSG_RESULT(no)
-  AC_MSG_CHECKING(directory of lib${bltlibname}.a)
-  if test -f $bltdir/lib/lib${bltlibname}.a ; then
-    BLTLDFLAGS='-L$(bltdir)/lib'
-    AC_MSG_RESULT($bltdir/lib)
-  else
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR(Please use --with-bltdir to specify location of BLT package)
+[test -z "$bltdir" && bltdir=$defaultdir
+if test -z "$bltlibname"; then
+  bltlibname=BLT8.0
+  md_FIND_LIB(blt,BLT8.0,$bltdir/lib/shared,1)
+  if test -z "$_ldflags" ; then
+    md_FIND_LIB(blt,BLT)
   fi
+else
+  md_FIND_LIB(blt,$bltlibname,$bltdir/lib/shared)
 fi
-BLTLIB=-l${bltlibname}
+BLTLDFLAGS=$_ldflags
+BLTLIB=-l$bltlibname
 AC_SUBST(bltdir)
 AC_SUBST(BLTLDFLAGS)
 AC_SUBST(BLTLIB)
 ])
-
