@@ -1,3 +1,18 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* Archiver.h, Archiver.m, Arguments.h, Arguments.m, COMProxy.h,
+	COMProxy.m, Create.h, Create.m, Customize.h, Customize.m,
+	DefClass.h, DefClass.m, DefObject.h, DefObject.m, FArguments.h,
+	FArguments.m, FCall.h, FCall.m, HDF5Archiver.h, HDF5Archiver.m,
+	HDF5Object.h, HDF5Object.m, JavaClassProxy.h, JavaClassProxy.m,
+	JavaCollection.h, JavaCollection.m, JavaCollectionIndex.h,
+	JavaCollectionIndex.m, JavaProxy.h, JavaProxy.m, LispArchiver.h,
+	LispArchiver.m, Program.h, Program.m, Symbol.h, Symbol.m, Zone.h,
+	Zone.m, _fcall.m, defalloc.h, defobj.h, defobj.m, deftype.h,
+	directory.h, directory.m, fcall_java.h, fcall_java.m,
+	fcall_objc.m, internal.h, internal.m: Change copyright statement
+	to canonical version as suggested by GNU GPL.
+
 2002-04-09  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* HDF5Object.m (get_attribute_string_list): Use max of size
