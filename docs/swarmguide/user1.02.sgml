@@ -11,7 +11,7 @@
 
   <figure>
     <title>Agent-based modeling</title>
-    <graphic entityref="modeling" scale="50"></graphic>
+    <graphic entityref="modeling"></graphic>
   </figure>
 
   <para>Object oriented programming is ideally suited to represent
