@@ -92,7 +92,7 @@
     <para>In Objective-C, the term "message" is used to refer to an
       instruction that tells an object to carry out one of its
       methods.  Here is an example of a message that tells an object
-      known as <function>bobDole</function> to execute its method
+      known as <varname>bobDole</varname> to execute its method
       <function>runForPresident</function>.</para>
    
     <programlisting> [bobDole runForPresident];</programlisting>
