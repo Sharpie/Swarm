@@ -11,6 +11,8 @@ Library:      collections
 
 #import <defobj.h>
 
+//S: Standard collection types
+
 //D: The collections library follows the library interface conventions of
 //D: the defobj library.  It also depends on standard supertypes and
 //D: classes defined by this library.  Initialization of the collections
@@ -77,8 +79,6 @@ USING
 
 // (.. This option is not currently implemented for any collection types.)
 
-//D: The IndexSafety option has one of the following values:
-//D: id <Symbol> Unsafe, UnsafeAtMember, SafeAlways;
 //D: If not specified, the default value depends on the specific collection
 //D: subtype.  In typical cases, the default value is Unsafe.  A non-default
 //D: value is required for indexes to have a guarantee of safety when
@@ -322,12 +322,11 @@ USING
 //M: The begin: message is the standard method for creating a new index for
 //M: traversing the elements of a collection.  All further information
 //M: about indexes is documented under the Index type.
--		begin: aZone;
+- begin: aZone;
 @end
 
-// values for index safety
-
-extern id <Symbol>  Unsafe, UnsafeAtMember, SafeAlways;
+//G: values for index safety
+extern id <Symbol> Unsafe, UnsafeAtMember, SafeAlways;
 
 
 @deftype Index <DefinedObject, Copy, Drop>
@@ -842,22 +841,12 @@ USING
 @end
 
 
-//
-// compare_t, bucket_t --
-//   pointer to function typedefs used by keyed collections
-// 
-//
-typedef int (*compare_t)( id, id );
-typedef int (*bucket_t)( id );
-
-//
-// compareIDs, compareIntegers -- general-purpose compare functions
-//
+//F: A routine for comparing objects.
+//F: Only useful for equality (EQ) discrimination.
 extern int compareIDs (id, id);
-extern int compareIntegers (id, id);
 
-// values for DupOption
-extern id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
+//F: A routine for comparing integers.
+extern int compareIntegers (id, id);
 
 @deftype DupOption
 //S: An interface for defining how duplicates should be handled.
@@ -870,6 +859,9 @@ CREATING
 USING
 - getDupOption;
 - getDupMembersType;
+
+//G: values for DupOption
+extern id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
 @end
 
 @deftype Sorted
@@ -899,22 +891,12 @@ USING
 
 //D: Use the function pointed to by the argument as the method for
 //D: determining whether two members have the same key value, and also for
-//D: ordering the keys of the collection if the Sorted option is true.  The
-//D: argument is declared with the following function pointer type:
-
-//D: typedef int (*idXid_t) (id, id);
+//D: ordering the keys of the collection if the Sorted option is true. 
 
 //D: The function given will be called whenever one key value needs to be
 //D: compared with another.  Multiple calls to the function typically occur
 //D: whenever members are added or removed from the collection, until the
 //D: correct member for insertion or removal is determined.
-
-//D: The compare function accepts two key values as its arguments.  Like
-//D: member types, key types declared with the id pointer type, but may
-//D: contain any type of value (such as an integer) up to the size of an
-//D: id.  An explicit compare function can support any type of value as a
-//D: key, regardless of whether it is an object that supports a standard
-//D: compare: message.
 
 //D: The compare function is called repeatedly by the collection to compare
 //D: two key values.  The function should return zero if the key values are
@@ -922,11 +904,20 @@ USING
 //D: the first greater than the second.  If a keyed collection is not
 //D: sorted, either -1 or +1 may be returned for unequal keys, regardless
 //D: of whether one might be taken as greater or less than the other.
+
+//T: The compare function accepts two key values as its arguments.  Like
+//T: member types, key types declared with the id pointer type, but may
+//T: contain any type of value (such as an integer) up to the size of an
+//T: id.  An explicit compare function can support any type of value as a
+//T: key, regardless of whether it is an object that supports a standard
+//T: compare: message.
+typedef int (*compare_t) (id, id);
+
 CREATING
 - (void)setCompareFunction: (compare_t)aFunction;
 
 USING
-- (int(*)())getCompareFunction;
+- (compare_t)getCompareFunction;
 @end
 
 @deftype BucketFunction
@@ -954,23 +945,21 @@ USING
 //D: is less performance impact than with hash keys of an unsorted
 //D: collection.
 
-//D: A bucket function accepts a single key value as its argument, and
-//D: return an integer that identifies a bucket.  As with a compare
-//D: function, the key value is declared as an id pointer type, but may
-//D: actually contain whatever kind of value is used within the collection.
-//D: Following is the type of the bucket function pointer:
-
-//D: typedef int (*bucket_t) (id);
-
 //D: A new bucket function may be established any time during the lifetime
 //D: of a collection.  A new bucket function can ensure that keys remain
 //D: suitably distributed to buckets as the total number of keys in a
 //D: collection grows or shrinks.
 
+//T: A bucket function accepts a single key value as its argument, and
+//T: return an integer that identifies a bucket.  As with a compare
+//T: function, the key value is declared as an id pointer type, but may
+//T: actually contain whatever kind of value is used within the collection.
+typedef int (*bucket_t) (id);
+
 CREATING
 - (void)setBucketFunction: (bucket_t)aFunction setMaxBuckets: (int)max;
 USING
-- (int(*)())getBucketFunction;
+- (bucket_t)getBucketFunction;
 
 //D: A value for MaxBuckets must be given in the same message that sets a
 //D: bucket function.  Its value specifies the number of buckets to which a
@@ -1139,6 +1128,7 @@ USING
 @end
 
 
+@deftype MemberSlot
 //S: Allocation in member/key for fast setMember:/setKey:
 
 //D: The MemberSlot option indicates that space has been reserved within
@@ -1157,26 +1147,25 @@ USING
 //D: which specifies that no slot for an internal position link is
 //D: available within each member.
 
-//D: This type declares the required space for a position link in a
-//D: collection that does not accept duplicate key values.
+//T: This type declares the required space for a position link in a
+//T: collection that does not accept duplicate key values.
 
-//D: If a member slot is defined, a memory pointer of some kind must always
-//D: be used for the value of every member.  These members may be object id
-//D: pointers, but other types of memory pointers are acceptable as well.
+//T: If a member slot is defined, a memory pointer of some kind must always
+//T: be used for the value of every member.  These members may be object id
+//T: pointers, but other types of memory pointers are acceptable as well.
 
-//D: The contents of the first two words of position link vary according to
-//D: the position of a member in a collection. 
-
+//T: The contents of the first two words of position link vary according to
+//T: the position of a member in a collection. 
 typedef struct memberData { void *memberData[2]; } member_t;
 
-//D: The third word of a
-//D: dupmember_t link contains the id of the collection in which a member
-//D: is directly contained.  This collection is either an internally
-//D: created collection containing members with duplicate keys, or the
-//D: collection to which the member was added if there is no other member
-//D: with the same key.
-
+//T: The third word of a
+//T: dupmember_t link contains the id of the collection in which a member
+//T: is directly contained.  This collection is either an internally
+//T: created collection containing members with duplicate keys, or the
+//T: collection to which the member was added if there is no other member
+//T: with the same key.
 typedef struct { void *memberData[2]; id owner; } dupmember_t;
+@end
 
 @deftype Set <KeyedCollection, CREATABLE>
 //S: Collection of members each having a defined identity.
@@ -1365,6 +1354,7 @@ USING
 - getExpr;
 @end
 
+//G: Tokens used by the archiving parser.
 extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 
 @deftype String <Create, Drop, Copy, CREATABLE>

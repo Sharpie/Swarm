@@ -1,3 +1,9 @@
+1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* collections.h: Updated documentation tags.
+	(BucketFunction): -getBucketFunction now returns bucket_t.
+	(CompareFunction): -getCompareFunction now returns compare_t.
+
 1998-06-01  Alex Lancaster  <alex@santafe.edu>
 
 	* collections.h (Collection): Added method -setIndexFromMemberLoc:
