@@ -78,6 +78,8 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
 #endif /* ! HAVE_READLINE */
 
 #ifdef __CYGWIN32__
+#undef Tk_CreateFileHandler
+#undef Tk_DeleteFileHandler
 #define Tk_CreateFileHandler(a, b, c, d)
 #define Tk_DeleteFileHandler(a)
 #endif

@@ -571,7 +571,7 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     } else {
       IMP imp = method->method_imp;
 #ifndef USE_FFI
-      dynamic_call ((apply_t)imp, argframe, argsize);
+      retframe = dynamic_call ((apply_t)imp, argframe, argsize);
 #else
 #ifndef USE_AVCALL
       typedef struct alist *av_alist;
@@ -772,9 +772,9 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 	  char * s;
 
           if(do_special_hack)
-	    returnedObject = (id) returnValue ;
+	    returnedObject = (id)returnValue;
           else 
-	    returnedObject = getObjectReturn(retframe);
+	    returnedObject = getObjectReturn (retframe);
          
           s = tclObjc_objectToName(returnedObject);
 	  sprintf(resultString, s);

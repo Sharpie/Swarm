@@ -1,3 +1,8 @@
+1998-08-20  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* TkInterp.m: Undef Tk_{Create,Delete}FileHandler before
+	redefining as NOPs in Cygwin32 case. 
+
 1998-08-14  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* tclObjc.m (dynamic_call): Wrap call to __builtin_apply with this
