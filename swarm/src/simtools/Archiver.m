@@ -99,7 +99,7 @@ compareStrings (id val1, id val2)
   if (!listp (expr))
     [self _badType_: expr];
   value = [expr getFirst];
-  if (value != ArchiverLiteral)
+  if (!ARCHIVERLITERALP (value))
     [self _badValue_: value];
   value = [expr getLast];
   return value;
