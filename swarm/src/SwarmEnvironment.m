@@ -130,9 +130,13 @@ PHASE(Setting)
 
 PHASE(Using)
 
-- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)count args: (const char **)args
+- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
 {
-  [self _init_: appName version: version bugAddress: bugAddress argCount: count args: args];
+  unsigned argc = 0;
+
+  while (args[argc]) argc++;
+
+  [self _init_: appName version: version bugAddress: bugAddress argCount: argc args: args];
 }
 
 - (timeval_t)getCurrentTime
