@@ -1,0 +1,34 @@
+1997-11-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* XActivity.m ([Activity_c -_run_]): Do not advance to next action
+	if immediateReturnFlag is set; return as holding.
+
+	* Schedule.m ([Schedule_c -_activateUnderSwarm_:::]): Initialize
+	mergeExternalAction (a merge action with configurable slots).
+	(_schedule_external_activity): Add internal function for
+	scheduling merges for one-shot actions.
+	(_check_external_activity): Add internal function for detecting
+	schedules that are outside the scope of the current activity.
+	(_activity_insertAction): Call check for schedules changes to
+	external activities.
+
+	* SwarmProcess.m ([ActionMerge_c -_performAction_:]): Set immediate
+	return flag in activity if requested by merge.
+
+	* CompoundAction.m ([CompoundAction_c -_createActivity_:::]):
+	Initialize immediateReturnFlag.
+
+	* XActivity.h (Object_s): Add immediateReturnFlag.
+	
+	* Schedule.[hm] ([ScheduleActivity_c -setCurrentTime :]):  Add method
+	to synchronize schedules with a given time.
+	
+	* Schedule.h (ScheduleActivity_c): Add mergeExternalAction instance
+	variable for merging external Swarms.
+
+	* Schedule.h (ActionMerge_c): Add flag instance variable
+	`immediateReturnRequestFlag' for requesting that next execution of
+	activity not proceed to next timestep, but instead return.
+	
+
+
