@@ -12,14 +12,14 @@ VPATH=$(srcdir)
 include ../Makefile.common
 
 CLASSES = Selector SwarmEnvironment GlobalZone
+CLASSFILES = $(addsuffix .class,$(CLASSES))
 
-CLASSFILES = $(addprefix swarm/,$(addsuffix .class,$(CLASSES)))
-
+SWARMCLASSFILES = $(addprefix swarm/,$(CLASSFILES))
 GENCLASSFILES = $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$($(module)PROTOCOLS))))
 
-all:
+all: $(CLASSFILES)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
-	cd .. ; JAVA_HOME=$(jdkdir) $(JAR) cf swarm/swarm.jar $(CLASSFILES) $(GENCLASSFILES)
+	cd .. ; JAVA_HOME=$(jdkdir) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES)
 
 install: all
 	test -d $(datadir) || mkdir $(datadir)

@@ -1,3 +1,9 @@
+1999-03-21  Marcus G. Daniels  <mgd@chimayo.santafe.edu>
+
+	* Makefile.in (SWARMCLASSFILES): New variable with swarm/ prefix in
+	front of CLASSFILES.
+	(all): Pass SWARMCLASSFILES and GENCLASSFILES to jar. 
+
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (INTERFACES, CLASSES): Use computed
@@ -6,8 +12,6 @@
 	(JAVAC): Don't substitute, set to $(jdkdir)/bin/javac.
 
 	* Makefile.in (GENCLASSFILES): New variable.
-	(CLASSFILES): Include swarm/ prefix.
-	(all): Pass CLASSFILES and GENCLASSFILES to jar.
 	(JAR, JAVAC): Set as $(jdkdir)/bin/{jar,javac}, not substitutions.
 
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
