@@ -4,10 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #include <swarmconfig.h>
-#if defned(HAVE_JDK) && defined(USE_AVCALL)
+#if defined(HAVE_JDK) && defined(USE_AVCALL)
 
-#ifdef __CYGWIN__
-#ifndef HAVE_KAFFE
+#if defined(__CYGWIN__) && !defined(HAVE_KAFFE)
 #define MSVC
 #endif
 
@@ -38,5 +37,4 @@ java_setup_static_call (FArguments_c *fa,
 
 #define JAVA
 #include "_fcall.m"
-#endif
 #endif
