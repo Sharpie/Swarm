@@ -9,16 +9,12 @@ changequote([,])dnl
   swarm_srcdir=$withval,dnl
   swarm_srcdir='$(SWARMHOME)')
 
-if test -z "$DOCBOOK" ; then
-  DOCBOOK=/DocBookStylesheets
-fi
-
 AC_ARG_WITH(stylesheet,dnl
 changequote(<,>)dnl
   --with-stylesheet=DIR   DSSSL style sheets in DIR [${DOCBOOK:-/DocBookStyleSheets}],dnl
 changequote([,])dnl
   stylesheets_srcdir=$withval,dnl
-  stylesheets_srcdir=\$DOCBOOK)
+  stylesheets_srcdir=${DOCBOOK:-/DocBookStyleSheets})
 
 AC_ARG_WITH(gridturtle,dnl
 changequote(<,>)dnl
