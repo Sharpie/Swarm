@@ -263,13 +263,12 @@ uninstall-am: uninstall-graphicsDATA uninstall-iconsDATA \
 
 %.png: %.eps
 	convert -quality 100% $^ $@
-#	gs -sDEVICE=png256 -dNOPAUSE -q -sOutputFile=$@ $< -c quit
 
 %.jpeg: %.png
 	convert -crop 0x0 -geometry 50% -quality 100% $^ $@
 
 sdg-small.png: sdg-small-source.png
-	convert -geometry 55% -crop 180x80+20+90 -quality 100% $^ $@
+	convert -geometry 55% -quality 100% $^ $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
