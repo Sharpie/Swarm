@@ -175,7 +175,21 @@ Generators"</title>
 </artheader>
 </biblioentry>
 
-<!-- Russell: <temporarily misplaced - CACI Modsim-II manual from about 1992> -->
+<biblioentry>
+<abbrev>Russell, 1992</abbrev>
+<author><firstname>Edward C.</firstname><surname>Russell</surname></author>
+<title>"Building Simulation Models With SIMSCRIPT II.5"</title>
+<publisher>
+<publishername>CACI Products Company</publishername>
+<address><city>La Jolla</city><state>CA</state>
+</address>
+</publisher>
+<date>1992</date>
+<subtitle>The company's web site is: <ulink url="http://www.caciasl.com">
+http://www.caciasl.com</ulink></subtitle>
+</biblioentry>
+
+<!-- Russell: <temporarily misplaced - CACI Modsim-II manual from about 1992> -->  
 
 <biblioentry>
 <abbrev>Watkins, 1994</abbrev>

@@ -1,3 +1,10 @@
+1999-03-08  Alex Lancaster  <alex@santafe.edu>
+
+	* Usage-Guide.Resources.sgml (Russell, 1992): Add citation.
+
+	* Usage-Guide.Bibliography.sgml (Russell, 1992): Add biblioentry,
+	as per email from Sven Thommesen.
+
 1999-02-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (SGML): Add Whats-Left-ToDo-0.8.sgml.
