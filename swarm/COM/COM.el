@@ -8,8 +8,7 @@
 (defconst *com-impl-prefix* "swarm")
 
 (defconst *com-objc-to-idl-type-alist*
-    '(("id +<\\(.*\\)>" . protocol)
-      ("id .*" . "nsISupports")
+    '(("id .*" . "nsISupports")
       ;("SEL" . "swarmISelector")
       ("SEL" . "nsISupports")
       ("void" . "void")
@@ -37,7 +36,7 @@
       ("unsigned long long" . "long")
       ("long long" . "long")
 
-      ("JOBJECT" . "nsISupports")
+      ("JOBJECT" . freaky)
 
       ("Color" . "octet")
 
@@ -91,10 +90,16 @@
     ("double" . "double")
     ("char" . "char")
     ("wchar" . "PRUnichar")
-    ("string" . "const char *")
-    ("wstring" . "PRUnichar *")))
+    ("string" . "const char*")
+    ("wstring" . "PRUnichar*")))
 
 (defvar *com-uuid-hash-table* (make-hash-table :test #'equal))
+
+(defvar *extra-removed-methods* '("-addJavaObject:"
+                                  "-setJavaMethod:inObject:"))
+
+(defvar *extra-unwanted-create-method-signatures*
+  '("+create:setAutoDrop:"))
 
 (defun com-phase-name (protocol phase)
   (concat (protocol-name protocol) (suffix-for-phase phase)))
@@ -147,22 +152,19 @@
   (cond ((eq com-type-category 'freaky)
          (freaky-message objc-type)
          com-type-category)
-        ((eq com-type-category 'protocol)
-         (let* ((protocol-name (match-string 1 objc-type))
-                (protocol (lookup-protocol protocol-name)))
-           (if (real-class-p protocol)
-               (com-interface-name protocol :using)
-             "nsISupports")))
+        ((let ((protocol (objc-protocol-for-type objc-type)))
+           (when protocol
+             (com-interface-name protocol :using))))
         (t com-type-category)))
 
 (defun com-objc-to-idl-type-category (objc-type)
   (if objc-type
-      (cdr (find objc-type *com-objc-to-idl-type-alist*
-                 :key #'car
-                 :test #'(lambda (a b)
-                           (let ((expr (concat (concat "^" b) "$")))
-                             (string-match expr a)))))
-      "nsISupports"))
+      (if (objc-protocol-for-type objc-type)
+          'protocol
+        (cdr (find objc-type *com-objc-to-idl-type-alist*
+                   :key #'car
+                   :test #'regexp-match-p)))
+    "nsISupports"))
 
 (defun com-objc-to-idl-type (objc-type)
   (com-type-category-to-com-type objc-type
@@ -202,17 +204,10 @@
   (when (stringp type)
     (string-match (concat "^" *com-interface-prefix*) type)))
 
-(defun com-argument-type (argument)
-  (let* ((type-and-varname (cdr argument))
-         (varname (cadr type-and-varname)))
-    ;; the case of method with no arguments
-    (when varname
-      (car type-and-varname))))
-
 (defun com-idl-type (objc-type)
   (let ((idl-type (com-objc-to-idl-type objc-type)))
     (unless idl-type
-      (error "No Java type for `%s'" objc-type))
+      (error "No IDL type for `%s'" objc-type))
     (if (eq idl-type 'freaky)
         (progn
           (freaky-message objc-type)
@@ -240,29 +235,16 @@
   (insert ".idl\"\n"))
 
 (defun com-idl-print-includes (protocol phase)
-  (let ((ht (make-hash-table :test #'equal)))
-    (loop for method in (protocol-method-list protocol)
-          when (included-method-p protocol method phase)
-          do
-          (let* ((return-type (method-return-type method))
-                 (idl-return-type (com-idl-type return-type)))
-            (when (com-swarm-type-p idl-return-type)
-              (setf (gethash idl-return-type ht) return-type)))
-          (loop for argument in (method-arguments method)
-                for argument-type = (com-argument-type argument)
-                for idl-argument-type = (com-idl-type argument-type)
-                when (com-swarm-type-p idl-argument-type)
-                do
-                (setf (gethash idl-argument-type ht) argument-type)))
+  (let ((ht (create-type-hash-table protocol phase)))
     (insert "\n")
-    (loop for idl-type being each hash-key of ht
+    (loop for objc-type being each hash-key of ht
           do
           (insert "interface ")
-          (insert idl-type)
+          (insert (com-objc-to-idl-type objc-type))
           (insert ";\n"))
     (insert "\n")
-    (loop for idl-type being each hash-key of ht
-          do (com-idl-print-include idl-type))))
+    (loop for objc-type being each hash-key of ht
+          do (com-idl-print-include (com-objc-to-idl-type objc-type)))))
 
 (defun com-idl-print-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
@@ -332,7 +314,7 @@
          (c++-type (com-impl-type-from-idl-type idl-type)))
     (if c++-type
         c++-type
-      (concat idl-type " *"))))
+      (concat idl-type "*"))))
 
 (defun com-impl-print-interface-include (iprotocol phase)
   (insert "#include <")
@@ -358,10 +340,24 @@
                           (included-protocol-list protocol))))
     (with-temp-file
         (com-impl-pathname protocol phase ".h")
+      (let ((cppsym 
+             (concat "__gen_" (com-impl-name protocol phase) "_h__\n")))
+        (insert "#ifndef ")
+        (insert cppsym)
+        (insert "\n")
+        (insert "#define ")
+        (insert cppsym)
+        (insert "\n"))
       (loop for iprotocol in iprotocols
             do
             (com-impl-print-interface-include iprotocol phase)
             (com-impl-print-interface-include iprotocol :setting))
+      (insert "\n")
+      (when (eq phase :using)
+        (loop for argument-protocol being each hash-value of
+              (create-type-hash-table-for-convenience-create-methods protocol)
+              do
+              (com-impl-print-interface-include argument-protocol :using)))
       (insert "\n")
       (insert "class ")
       (insert (com-impl-name protocol phase))
@@ -377,6 +373,13 @@
       (insert "  ")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
+      (when (eq phase :using)
+        (loop for method in (collect-convenience-create-methods protocol)
+              do
+              (insert "  ")
+              (com-impl-print-class-constructor-method-declaration protocol
+                                                                   method)
+              (insert ";\n")))
       (insert "  virtual ~")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
@@ -391,10 +394,11 @@
             (insert (com-impl-ns-decl iprotocol phase))
             (insert "\n"))
       (insert "\n")
-      (insert "};\n"))))
+      (insert "};\n")
+      (insert "#endif\n"))))
 
-(defun com-impl-print-constructor (protocol phase)
-  (let ((name (com-impl-name protocol phase)))
+(defun com-impl-print-basic-constructor (protocol)
+  (let ((name (com-impl-name protocol :creating)))
     (insert name)
     (insert "::")
     (insert name)
@@ -403,6 +407,51 @@
     (insert "  NS_INIT_REFCNT ();\n")
     (insert "}\n")
     (insert "\n")))
+
+(defun com-impl-print-class-constructor-method-declaration (protocol method)
+  (let ((name (com-impl-name protocol :using))
+        (name.arguments
+         (collect-convenience-constructor-name.arguments method)))
+    (insert name)
+    (insert " (")
+    (insert (com-interface-name (lookup-protocol "Zone") :using))
+    (insert "* aZone")
+    (loop for name.argument in name.arguments
+          do
+          (insert ", ")
+          (com-print-argument (cdr name.argument) #'com-impl-type))
+    (insert ")")))
+
+(defun com-impl-print-class-constructor-method (protocol method)
+  (let ((name (com-impl-name protocol :using))
+        (name.arguments
+         (collect-convenience-constructor-name.arguments method)))
+    (insert name)
+    (insert "::")
+    (com-impl-print-class-constructor-method-declaration protocol method)
+    (insert "\n{\n")
+    (insert "  new ")
+    (insert (com-impl-name protocol :creating))
+    (insert " (this).Create")
+    (loop for name.argument in name.arguments
+          do
+          (insert "_")
+          (insert (car (cdr name.argument))))
+    (insert " (")
+    (insert "aZone")
+    (loop for name.argument in name.arguments
+          do
+          (insert ", ")
+          (insert (caddr (cdr name.argument))))
+    (insert ");\n")
+    (insert "  NS_INIT_REFCNT ();\n")
+    (insert "}\n")
+    (insert "\n")))
+
+(defun com-impl-print-convenience-constructors (protocol)
+  (loop for method in (collect-convenience-create-methods protocol)
+        do
+        (com-impl-print-class-constructor-method protocol method)))
 
 (defun com-impl-print-destructor (protocol phase)
   (let ((name (com-impl-name protocol phase)))
@@ -449,7 +498,7 @@
                                             (goto-char start)
                                             (when (search-forward "const " end t)
                                               (replace-match "")))))
-                                      (insert "*ret"))))
+                                      (insert "* ret"))))
         (if (com-print-argument first-argument #'com-impl-type)
             (progn
               (loop for argument in (cdr arguments)
@@ -485,9 +534,22 @@
 (defun com-impl-generate-c++ (protocol phase)
   (with-temp-file 
       (com-impl-pathname protocol phase ".cpp")
-    (com-impl-print-impl-include protocol phase)
+    (when (eq phase :using)
+      (com-impl-print-impl-include protocol :using))
+    (com-impl-print-impl-include protocol :creating)
+    (loop for argument-protocol being each hash-value of
+          (create-type-hash-table protocol phase)
+          do
+          (com-impl-print-interface-include argument-protocol :using))
     (insert "\n")
-    (com-impl-print-constructor protocol phase)
+    (when (eq phase :using)
+      (loop for argument-protocol being each hash-value of
+            (create-type-hash-table-for-convenience-create-methods protocol)
+            do
+            (com-impl-print-interface-include argument-protocol :using)))
+    (com-impl-print-basic-constructor protocol)
+    (when (eq phase :using)
+      (com-impl-print-convenience-constructors protocol))
     (com-impl-print-destructor protocol phase)
     (com-impl-print-method-definitions protocol phase)))
 
