@@ -38,6 +38,14 @@ AC_SUBST(JAVASTUBS)
 AC_SUBST(JAVAINCLUDES)
 AC_SUBST(JAVACLASSES)
 AC_SUBST(JAVA)
+if test -n "$JAR"; then
+  JAR_HOME=`dirname $JAR`/..
+else
+  JAR='${jdkdir}/bin/jar'
+  JAR_HOME='${jdkdir}'
+fi
+AC_SUBST(JAR)
+AC_SUBST(JAR_HOME)
 AC_SUBST(jdkdir)
 ])
 
