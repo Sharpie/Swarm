@@ -1,3 +1,7 @@
+2000-05-17  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* protocol.el (generate-complete-protocol-list): New function.
+
 2000-05-06  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (*extra-removed-methods*,

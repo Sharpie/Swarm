@@ -1053,6 +1053,19 @@
         (< (length a) (length b))
         diff)))
 
+(defun generate-complete-protocol-list (protocol)
+  (remove-if #'removed-protocol-p
+             (let ((seen-protocols (make-hash-table)))
+               (setf (gethash protocol seen-protocols) t)
+               (flet ((expand (protocol)
+                              (cons
+                               protocol
+                               (loop for iprotocol in
+                                     (protocol-included-protocol-list protocol)
+                                     unless (gethash iprotocol seen-protocols)
+                          append (expand iprotocol)))))
+                 (expand protocol)))))
+
 (defun generate-expanded-methodinfo-list (protocol uniquify-flag)
   (let ((expanded-protocols-hash-table (make-hash-table))
         (method-hash-table
@@ -1323,3 +1336,4 @@
   (build-method-signature-hash-table)
   (build-protocol-vector)
   (build-method-signature-vector))
+
