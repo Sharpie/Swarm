@@ -33,11 +33,7 @@
 
 /* modified for long long <mgd@swarm.org> 1999-08-12 */
 
-#include <limits.h>
-#include <ctype.h>
-#include <errno.h>
-#include <stdlib.h>
-
+#include <misc.h>
 /*
  * Convert a string to a long integer.
  *
@@ -120,7 +116,7 @@ strtoll (const char *nptr, char **endptr, int base)
   if (any < 0)
     {
       acc = neg ? LLONG_MIN : LLONG_MAX;
-      rptr->_errno = ERANGE;
+      errno = ERANGE;
     }
   else if (neg)
     acc = -acc;
