@@ -27,27 +27,42 @@ if test -n "$ffidir" ; then
       AC_MSG_CHECKING(directory of libffi)
       for dir in $ffidir /usr ; do
         ffidir_expand=`eval echo $dir`
-        if test -f $ffidir_expand/lib/libffi.so ; then
-          FFILDFLAGS="-L\${ffilibdir} -R \${ffilibdir}"
-          AC_MSG_RESULT($dir/lib/libffi.so)
-          break
-        else
-          if test -f $ffidir_expand/lib/libffi.a ; then
-            FFILDFLAGS='-L${ffilibdir}'
-            AC_MSG_RESULT($dir/lib/libffi.a)
-            break
-          fi
-        fi
+		for suffix in .dylib .so .sl; do
+			for subdir in /lib /; do
+				if test -f $ffidir_expand$subdir/libffi$suffix ; then
+				  FFILDFLAGS="-L\${ffilibdir} -R \${ffilibdir}"
+				  AC_MSG_RESULT($ffidir_expand$subdir/libffi${suffix})
+				  break
+				else
+				  if test -f $ffidir_expand/lib/libffi.a ; then
+					FFILDFLAGS='-L${ffilibdir}'
+					AC_MSG_RESULT($dir/lib/libffi.a)
+					break
+				  fi
+				fi
+			done
+			if test -n "$FFILDFLAGS" ; then
+				break
+			fi
+		done
+		if test -n "$FFILDFLAGS" ; then
+			break
+		fi
       done
       if test -z "$FFILDFLAGS" ; then
         AC_MSG_RESULT(no)    
       else
         ffidir=$dir
         AC_MSG_CHECKING(directory of libffi include)
-        if test -f $ffidir_expand/include/ffi.h ; then
-          AC_MSG_RESULT($ffidir/include)
-          FFILIB=-lffi
-        else
+        for dir in $ffidir /usr ; do
+		    ffidir_expand=`eval echo $dir`
+			if test -f $ffidir_expand/include/ffi.h ; then
+			  AC_MSG_RESULT($ffidir_expand/include)
+			  FFILIB=-lffi
+			  break
+			fi
+		done
+        if test -z "$FFILIB" ; then
           AC_MSG_RESULT(no)
         fi
       fi
