@@ -1,3 +1,8 @@
+1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (JAVALIBPATH_VAR): New variable.  Set to KAFFELIBRARYPATH
+	in case of Kaffe, default to _JAVASWARM_LIBPATH in others.
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acdll.m4, Makefile.am (EXTRA_DIST): New macro.

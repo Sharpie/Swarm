@@ -54,6 +54,7 @@ else
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
     JAVALIBPREFIX=''
+    JAVALIBPATH_VAR=
   elif test -f $jdkincludedir/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkincludedir/japhar"
     JAVACLASSES="`$jdkdir/bin/japhar-config info datadir`"
@@ -64,6 +65,7 @@ else
     JAVALIBS='${jdkdir}/lib'
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=japhar_
+    JAVALIBPATH_VAR=
   elif test -f $jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
     JAVACLASSES="$datadir/kaffe/Klasses.jar:$datadir/kaffe/pizza.jar"
@@ -74,6 +76,7 @@ else
     JAVA='KAFFELIBRARYPATH=${JAVALIBS} ${JAVACMD}'
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=
+    JAVALIBPATH_VAR=KAFFELIBRARYPATH
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
@@ -91,6 +94,8 @@ AC_SUBST(JAVASTUBS_FUNCTION)
 AC_SUBST(JAVAINCLUDES)
 AC_SUBST(JAVALIBS)
 AC_SUBST(JAVALIBPREFIX)
+test -n "$JAVALIBPATH_VAR" || JAVALIBPATH_VAR="_JAVASWARM_LIBPATH"
+AC_SUBST(JAVALIBPATH_VAR)
 AC_SUBST(JAVASWARMSCRIPTS)
 AC_SUBST(JAVACLASSES)
 AC_SUBST(JAVACMD)
