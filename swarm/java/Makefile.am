@@ -35,6 +35,8 @@ all: stubs
 	$(MAKE) -C c all
 	$(MAKE) -C swarm all
 
+# although this excludes all the Java and C stubs, it is useful
+# because it makes makefile regeneration automatic.
 stubs: Makefile.common $(MAKEFILES)
 
 Makefile.common $(MAKEFILES): java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
