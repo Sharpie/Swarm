@@ -1,3 +1,7 @@
+1999-04-25  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (AC_OUTPUT): Extract tests/space/Makefile.
+
 1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* configure.in (enable_jar): New test.
