@@ -92,10 +92,12 @@ fcall_type_size (fcall_type_t type)
       return sizeof (const char *);
     case fcall_type_selector:
       return sizeof (SEL);
+#ifdef HAVE_JDK
     case fcall_type_jobject:
       return sizeof (jobject);
     case fcall_type_jstring:
       return sizeof (jstring);
+#endif
     default:
       abort ();
     }
