@@ -746,6 +746,10 @@ USING
 - (const char *)getAppModeString;
 - (int)getArgc;
 - (const char **)getArgv;
+//M: Redefine to give a version name/number to your application.
+- (const char *)getVersion;
+//M: Redefine to set an e-mail address for application bugs.
+- (const char *)getBugAddress;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
 - (const char *)getConfigPath;

@@ -26,9 +26,6 @@ id arguments;
 
 @implementation Arguments
 
-const char *argp_program_version = "Swarm " SWARM_VERSION;
-const char *argp_program_bug_address = "bug-swarm@santafe.edu";
-
 static struct argp_option base_options[] = {
   {"varyseed", 's', 0, 0, "Run with a random seed", 0},
   {"batch", 'b', 0, 0, "Run in batch mode", 1},
@@ -114,6 +111,24 @@ parse_opt (int key, const char *arg, struct argp_state *state)
 #endif  
   [arguments setAppName: program_invocation_short_name];
   [arguments setAppModeString: "default"];
+  {
+    const char *appName = [arguments getAppName];
+    const char *swarmstr = " (Swarm ";
+    const char *version = [arguments getVersion];
+    char *buf = xmalloc (strlen (appName) + 1 + 
+                         strlen (version) + strlen (swarmstr) +
+                         strlen (swarm_version) + 1 + 1);
+    char *p;
+
+    p = stpcpy (buf, appName);
+    p = stpcpy (p, " ");
+    p = stpcpy (p, version);
+    p = stpcpy (p, swarmstr);
+    p = stpcpy (p, swarm_version);
+    p = stpcpy (p, ")");
+    argp_program_version = buf;
+  }
+  argp_program_bug_address = [arguments getBugAddress];
 
   argp_parse (argp, theArgc, theArgv, 0, 0, arguments);
   
@@ -497,6 +512,25 @@ findSwarm (id arguments)
         return [self _appendAppName_: dataPath];
     }
   return appDataPath;
+}
+
+- (const char *)getVersion
+{
+  return "[no version]";
+}
+
+- (const char *)getBugAddress
+{
+  const char *bugstr = "bug-";
+  const char *address = "@[none set]";
+  char *buf = xmalloc (strlen (bugstr) + strlen (applicationName) + 
+                       strlen (address) + 1);
+  char *p;
+
+  p = stpcpy (buf, bugstr);
+  p = stpcpy (p, applicationName);
+  p = stpcpy (p, address);
+  return buf;
 }
 @end
 

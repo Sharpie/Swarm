@@ -39,6 +39,8 @@
 - (const char *)getAppModeString;
 - (int)getArgc;
 - (const char **)getArgv;
+- (const char *)getVersion;
+- (const char *)getBugAddress;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
 - (const char *)getConfigPath;

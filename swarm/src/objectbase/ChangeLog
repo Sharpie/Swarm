@@ -1,5 +1,14 @@
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Arguments.m ([Arguments +createArgc:Argv:]): Construct version
+	string from getVersion and application name.  Set bug address
+	fro getBugAddress.
+
+	* Arguments.[mh] ([Arguments -getVersion], [Arguments -getBugAddress]):
+	New methods.
+
+	* objectbase.h: Advertise above.
+
 	* objectbase.h (val_t): Add _uint, _ulong, and _long.
 
 	* VarProbe.m ([VarProbe -createEnd]): Add support for long
