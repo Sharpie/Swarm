@@ -606,10 +606,14 @@ java_directory_init (JNIEnv *env,
                      jobject swarmEnvironment)
 
 {
-  jobject o_globalZone, o_uniformIntRand, o_uniformDblRand;
-  jfieldID globalZoneFid, uniformIntRandFid, uniformDblRandFid;
+  jobject o_globalZone, o_uniformIntRand, o_uniformDblRand,
+    o_probeLibrary;
+  jfieldID globalZoneFid, uniformIntRandFid, uniformDblRandFid,
+    probeLibraryFid;
   jclass class;
 
+  jclass probeLibraryClass =
+    java_class_for_typename (env, "ProbeLibrary", YES);
   jclass zoneClass =
     java_class_for_typename (env, "Zone", YES);
   jclass uniformIntegerDistClass =
@@ -618,7 +622,8 @@ java_directory_init (JNIEnv *env,
     java_class_for_typename (env, "UniformDoubleDist", YES);
 
   const char *zoneClassSig,
-    *uniformIntegerDistClassSig, *uniformDoubleDistClassSig;
+    *uniformIntegerDistClassSig, *uniformDoubleDistClassSig,
+    *probeLibraryClassSig;
 
   o_globalZone = (*env)->AllocObject (env, zoneClass);
   o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
@@ -629,12 +634,17 @@ java_directory_init (JNIEnv *env,
   o_uniformDblRand = (*env)->AllocObject (env, uniformDoubleDistClass);
   o_uniformDblRand = (*env)->NewGlobalRef (env, o_uniformDblRand);
 
+  o_probeLibrary = (*env)->AllocObject (env, probeLibraryClass);
+  o_probeLibrary = (*env)->NewGlobalRef (env, o_probeLibrary);
+
   zoneClassSig =
     create_signature_from_object (env, o_globalZone);
   uniformIntegerDistClassSig =
     create_signature_from_object (env, o_uniformIntRand);
   uniformDoubleDistClassSig =
     create_signature_from_object (env, o_uniformDblRand);
+  probeLibraryClassSig =
+    create_signature_from_object (env, o_probeLibrary);
 
   jniEnv = env;
   java_tree = avl_create (compare_java_objects, NULL);
@@ -662,7 +672,16 @@ java_directory_init (JNIEnv *env,
       (*env)->GetFieldID (env, class, "uniformDblRand",
                           uniformDoubleDistClassSig);
 
+
   XFREE (uniformDoubleDistClassSig);
+
+  probeLibraryFid = 
+    (*env)->GetFieldID (env, class, "probeLibrary",
+			probeLibraryClassSig);
+  
+
+  XFREE (probeLibraryClassSig);
+
 
   (*env)->SetObjectField (env,
                           swarmEnvironment,
@@ -679,12 +698,18 @@ java_directory_init (JNIEnv *env,
                           uniformDblRandFid,
                           o_uniformDblRand);    
  
+  (*env)->SetObjectField (env,
+			  swarmEnvironment,
+			  uniformDblRandFid,
+			  o_probeLibrary);
+
   java_directory_update (env, o_globalZone, globalZone);
   {
-    extern id uniformIntRand, uniformDblRand;
+    extern id uniformIntRand, uniformDblRand, probeLibrary;
 
     java_directory_update (env, o_uniformIntRand, uniformIntRand);
     java_directory_update (env, o_uniformDblRand, uniformDblRand);
+    java_directory_update (env, o_probeLibrary, probeLibrary);
   }
 }
 

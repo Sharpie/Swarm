@@ -2,6 +2,8 @@
 
 	* directory.m (java_ensure_selector): If there exists selector 
 	with same name as Java method check to see, if the types match.
+	(java_directory_init): Initialize probeLibrary field of 
+	SwarmEnvironment.
 
 1999-07-11  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
