@@ -54,11 +54,11 @@ ok.</para></listitem>
 
 <listitem><para>We want a generator to have a long enough period for
 our purpose, and in general the longer the period the
-better. (However, note that to generate 2^64 random numbers from a
+better. (However, note that to generate 2<superscript>64</superscript> random numbers from a
 fast generator like MT19937 would take 2.1 million years on a 486/66,
-so in practice any generator with a period close to 2^60 or larger
+so in practice any generator with a period close to 2<superscript>60</superscript> or larger
 will be acceptable.)  The PMMLCG generators, although they are of
-acceptable quality otherwise, have a period less than 2^31 which we
+acceptable quality otherwise, have a period less than 2<superscript>31</superscript> which we
 can exhaust in under 3 hours. So use those only for quick `toy'
 applications.</para></listitem>
 

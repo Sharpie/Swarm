@@ -1,3 +1,16 @@
+1999-02-10  Alex Lancaster  <alex@santafe.edu>
+
+	* Usage-Guide.Choosing-A-Generator.sgml: Replace all `^' plaintext
+	with SUPERSCRIPT.
+
+	* Table.Generators.Data.sgml: Likewise.
+
+	* Table.Generators.Quality.sgml: Likewise.
+	(SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE): Make all "col5"
+	entries with LITERAL tag for layout.
+
+	* Usage-Guide.For-Beginners.sgml: Add id to <SECT1>.
+
 1999-02-09  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (SGML): Update with new SGML, as defined below.
@@ -11,7 +24,8 @@
 	Usage-Guide.Distributions.sgml, Usage-Guide.For-Beginners.sgml,
 	Usage-Guide.Generators.sgml, Usage-Guide.Resources.sgml,
 	Usage-Guide.Test-Programs.sgml, Whats-Left-ToDo-0.8.sgml: Add new
-	massaged SGML for `Random' APPENDIX.
+	massaged SGML which were converted from the orginal non-SGML files
+	for `Random' APPENDIX.
 	
 	* CHOOSING.A.GENERATOR, DEFAULT.GENERATORS, WHATS.NEW.in.0.7,
 	WHATS.LEFT.TODO, data.SplitGenerators.h, README.Distributions.v07,
@@ -21,6 +35,17 @@
 	doc.quality.generators, doc.timings, methods.NormalDist.h,
 	methods.SimpleGenerators.h, methods.SplitGenerators.h: Remove.
 	Replaced with new versions.
+
+1999-02-03  Sven Thommesen <sthomme@humsci.auburn.edu>
+	
+	* README.Distributions-0.8, README.Generators-0.8,
+	README.Random-0.8, Table.Generators.Data,
+	Table.Generators.Quality, Usage-Guide.Bibliography,
+	Usage-Guide.Choosing-A-Generator, Usage-Guide.Default-Generators,
+	Usage-Guide.Distributions, Usage-Guide.For-Beginners,
+	Usage-Guide.Generators, Usage-Guide.Resources,
+	Usage-Guide.Test-Programs, Whats-Left-ToDo-0.8: replaced version
+	0.75 files with version 0.8 files. Renamed many of the files.
 
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 

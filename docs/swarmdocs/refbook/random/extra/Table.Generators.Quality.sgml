@@ -24,66 +24,65 @@ statistically:</para>
 <colspec colname="col4">
 <colspec colname="col5" align="justify">
 <spanspec align="center" namest="col1" nameend="col5" spanname="all">
+<spanspec align="justify" namest="col5" nameend="col5" spanname="col5">
 <thead>
 <row>
 <entry>Generator</entry>
 <entry>timing uS (unsigned)</entry>
 <entry>bits state</entry>
 <entry>period (s) # length</entry>
-<entry>
-tests failed (x)
-abcdefghijklmnopqrstuvwx
-</entry>
+<entry>tests failed (x)</entry>
 </row>
 </thead>
 
 <tbody>
+<row><entry spanname="col5"><literal>abcdefghijklmnopqrstuvwx</literal></entry></row>
 <row><entry spanname="all">30-bit output</entry></row>
 
-<row><entry>SCG</entry><entry>3.328</entry><entry>1650</entry><entry>1	2^55</entry><entry>x.xx2xxxxxxx..x..xx.xx..</entry></row>
+<row><entry>SCG</entry><entry>3.328</entry><entry>1650</entry><entry>1	2<superscript>55</superscript></entry><entry><literal>x.xx2xxxxxxx..x..xx.xx..</literal></entry></row>
 
 <row><entry spanname="all">32-bit output</entry></row>
 
-<row><entry>LCG1    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2^32   </entry><entry>x...xxxxxxx.........x...</entry></row>
-<row><entry>LCG2    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2^32   </entry><entry>x...xxxxxxx.........x...</entry></row>
-<row><entry>LCG3    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2^32   </entry><entry>x...xxxxxxx.........x...</entry></row>
+<row><entry>LCG1    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2<superscript>32</superscript>   </entry><entry><literal>x...xxxxxxx.........x...</literal></entry></row>
+<row><entry>LCG2    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2<superscript>32</superscript>   </entry><entry><literal>x...xxxxxxx.........x...</literal></entry></row>
+<row><entry>LCG3    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2<superscript>32</superscript>   </entry><entry><literal>x...xxxxxxx.........x...</literal></entry></row>
                     
-<row><entry>ACG	    </entry><entry> 2.702</entry><entry> 1760</entry><entry>   1	2^55   </entry><entry>x.......................</entry></row>
-<row><entry>SWB1    </entry><entry> 3.285</entry><entry> 1185</entry><entry>  64	2^1178 </entry><entry>x.......................</entry></row>
-<row><entry>SWB2    </entry><entry> 3.285</entry><entry>  769</entry><entry>1536	2^757  </entry><entry>x.......................</entry></row>
-<row><entry>SWB3    </entry><entry> 3.285</entry><entry>  673</entry><entry> 192	2^664  </entry><entry>x.......................</entry></row>
-<row><entry>PSWB    </entry><entry> 3.452</entry><entry> 1377</entry><entry>   1	2^1376 </entry><entry>x.......................</entry></row>
+<row><entry>ACG	    </entry><entry> 2.702</entry><entry> 1760</entry><entry>   1	2<superscript>55</superscript>   </entry><entry><literal>x.......................</literal></entry></row>
+<row><entry>SWB1    </entry><entry> 3.285</entry><entry> 1185</entry><entry>  64	2<superscript>1178</superscript> </entry><entry><literal>x.......................</literal></entry></row>
+<row><entry>SWB2    </entry><entry> 3.285</entry><entry>  769</entry><entry>1536	2<superscript>757</superscript>  </entry><entry><literal>x.......................</literal></entry></row>
+<row><entry>SWB3    </entry><entry> 3.285</entry><entry>  673</entry><entry> 192	2<superscript>664</superscript>  </entry><entry><literal>x.......................</literal></entry></row>
+<row><entry>PSWB    </entry><entry> 3.452</entry><entry> 1377</entry><entry>   1	2<superscript>1376</superscript> </entry><entry><literal>x.......................</literal></entry></row>
                     
-<row><entry>MWCA    </entry><entry> 3.399</entry><entry>   64</entry><entry>  ??	2^59   </entry><entry>........................</entry></row>
-<row><entry>MWCB    </entry><entry> 3.420</entry><entry>   64</entry><entry>  ??	2^59   </entry><entry>........................</entry></row>
-<row><entry>MT19937 </entry><entry> 3.698</entry><entry>19968</entry><entry>   1	2^19937</entry><entry>........................</entry></row>
-<row><entry>TT800   </entry><entry> 4.654</entry><entry>  800</entry><entry>   1	2^800  </entry><entry>........................</entry></row>
-<row><entry>C3MWC   </entry><entry> 6.387</entry><entry>  192</entry><entry>  ??	2^118  </entry><entry>........................</entry></row>
-<row><entry>RWC2    </entry><entry> 7.445</entry><entry>   96</entry><entry>  ??	2^92   </entry><entry>........................</entry></row>
-<row><entry>RWC8    </entry><entry>14.649</entry><entry>  288</entry><entry>  ??	2^250  </entry><entry>........................</entry></row>
+<row><entry>MWCA    </entry><entry> 3.399</entry><entry>   64</entry><entry>  ??	2<superscript>59</superscript>   </entry><entry><literal>........................</literal></entry></row>
+<row><entry>MWCB    </entry><entry> 3.420</entry><entry>   64</entry><entry>  ??	2<superscript>59</superscript>   </entry><entry><literal>........................</literal></entry></row>
+<row><entry>MT19937 </entry><entry> 3.698</entry><entry>19968</entry><entry>   1	2<superscript>19937</superscript></entry><entry><literal>........................</literal></entry></row>
+<row><entry>TT800   </entry><entry> 4.654</entry><entry>  800</entry><entry>   1	2<superscript>800</superscript>  </entry><entry><literal>........................</literal></entry></row>
+<row><entry>C3MWC   </entry><entry> 6.387</entry><entry>  192</entry><entry>  ??	2<superscript>118</superscript>  </entry><entry><literal>........................</literal></entry></row>
+<row><entry>RWC2    </entry><entry> 7.445</entry><entry>   96</entry><entry>  ??	2<superscript>92</superscript>   </entry><entry><literal>........................</literal></entry></row>
+<row><entry>RWC8    </entry><entry>14.649</entry><entry>  288</entry><entry>  ??	2<superscript>250</superscript>  </entry><entry><literal>........................</literal></entry></row>
 
 <row><entry spanname="all">31-bit output</entry></row>
 
-<row><entry>C2TAUS1</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2^60	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>C2TAUS2</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2^60	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>C2TAUS3</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2^60	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>TT775  </entry><entry> 4.654</entry><entry>775</entry><entry>1	2^775	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>TT403  </entry><entry> 4.670</entry><entry>403</entry><entry>1	2^403	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG1</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG2</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG3</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG4</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG5</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG6</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG7</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG8</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>PMMLCG9</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>C2LCGX </entry><entry> 7.029</entry><entry> 62</entry><entry>1	2^60  (S)</entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>MRG5   </entry><entry> 9.674</entry><entry>155</entry><entry>1	2^155	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>MRG6   </entry><entry>10.449</entry><entry>186</entry><entry>1	2^186	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>MRG7   </entry><entry>10.913</entry><entry>217</entry><entry>1	2^217	 </entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>C4LCGX </entry><entry>11.688</entry><entry>124</entry><entry>1	2^210 (S)</entry><entry>1..-1x111x1.........x...</entry></row>
-<row><entry>C2MRG3 </entry><entry>13.459</entry><entry>186</entry><entry>1	2^185	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>C2TAUS1</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2<superscript>60</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>C2TAUS2</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2<superscript>60</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>C2TAUS3</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2<superscript>60</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>TT775  </entry><entry> 4.654</entry><entry>775</entry><entry>1	2<superscript>775</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>TT403  </entry><entry> 4.670</entry><entry>403</entry><entry>1	2<superscript>403</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG1</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG2</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG3</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG4</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG5</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG6</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG7</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG8</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>PMMLCG9</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>C2LCGX </entry><entry> 7.029</entry><entry> 62</entry><entry>1	2<superscript>60</superscript>  (S)</entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>MRG5   </entry><entry> 9.674</entry><entry>155</entry><entry>1	2<superscript>155</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>MRG6   </entry><entry>10.449</entry><entry>186</entry><entry>1	2<superscript>186</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>MRG7   </entry><entry>10.913</entry><entry>217</entry><entry>1	2<superscript>217</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>C4LCGX </entry><entry>11.688</entry><entry>124</entry><entry>1	2<superscript>210</superscript> (S)</entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>C2MRG3 </entry><entry>13.459</entry><entry>186</entry><entry>1	2<superscript>185</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 
 </tbody>
 </tgroup>
@@ -175,7 +174,7 @@ SCG.</para></listitem>
 SWB3, PSWB.</para></listitem>
 
 <listitem><para>Use with caution: the PMMLCGi generators (very short
-period 2^31).</para></listitem>
+period 2<superscript>31</superscript>).</para></listitem>
 
 <listitem><para>All other generators are recommended at this
 time.</para></listitem>
