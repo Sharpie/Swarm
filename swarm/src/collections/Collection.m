@@ -14,6 +14,8 @@ Library:      collections
 #import <collections/Permutation.h> // PermutationItem_c
 #import <collections.h> // INDEX{START,END}P, Permutation
 #import <defobj/defalloc.h>
+#import <defobj.h> // hdf5In
+
 #include <swarmconfig.h> // HAVE_HDF5
 
 @implementation Collection_any
@@ -299,11 +301,12 @@ indexAtOffset (Collection_any *self, int offset)
                                   createEnd];
           
           id hdf5ObjDataset =
-            [[[[[[HDF5 createBegin: aZone]
-                  setName: [hdf5Obj getName]]
-                 setParent: hdf5Obj]
-                setCreateFlag: YES]
-               setCompoundType: hdf5CompoundType count: [self getCount]]
+            [[[[[[[HDF5 createBegin: aZone]
+                   setName: [hdf5Obj getName]]
+                  setParent: hdf5Obj]
+                 setCreateFlag: YES]
+                setCompoundType: hdf5CompoundType]
+               setCount: [self getCount]]
               createEnd];
           
           [hdf5ObjDataset storeTypeName: [self getTypeName]];

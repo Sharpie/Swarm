@@ -592,7 +592,7 @@ SETTING
 //M: the existing count, or a new array is being created, all members will
 //M: be assigned an initial default value of either nil, or a value
 //M: previously specified for DefaultMember.
-- (void)setCount: (unsigned)count;
+- setCount: (unsigned)count;
 @end
 
 

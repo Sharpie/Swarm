@@ -24,7 +24,7 @@ Library:      collections
 + create: aZone setMemberBlock: (id *)members setCount: (unsigned)memberCount;
 - (void)setMemberBlock: (id *)members setCount: (unsigned)memberCount;
 - (void)setDefaultMember: memberValue;
-- (void)setCount: (unsigned)memberCount;
+- setCount: (unsigned)memberCount;
 - (void *)getMemberBlock;
 - getDefaultMember;
 - (unsigned)getCount;

@@ -155,7 +155,7 @@ initArray (Array_c  *self)
 
 PHASE(Setting)
 
-- (void) setMemberBlock: (id *)members setCount: (unsigned)memberCount
+- (void)setMemberBlock: (id *)members setCount: (unsigned)memberCount
 {
   if (getNextPhase (getClass (self)))
     { 
@@ -214,7 +214,7 @@ PHASE(Setting)
     }
 }
 
-- (void)setCount: (unsigned)memberCount
+- setCount: (unsigned)memberCount
 {
   id *newBlock, defaultMember, *memptr;
   id zone = getZone (self);
@@ -229,7 +229,6 @@ PHASE(Setting)
       if (bits & Bit_MemberAlloc)
         [self setMemberBlock: (id *) nil setCount: 0];
       count = memberCount;
-      
     }
   else
     { 
@@ -274,6 +273,7 @@ PHASE(Setting)
       block = newBlock;
       count = memberCount;
     }
+  return self;
 }
 
 PHASE(Using)

@@ -1,3 +1,12 @@
+1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* List.m ([List_any -hdf5In:]): New method.
+	
+	* Array.[hm], collections.h ([Array_c -setCount:]): Return self.
+
+	* Collection.m, Map.m ([... hdf5Out:deep:]): For dataset,
+	set compoundType and count separately.
+
 1999-01-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Collection.m, Map.m ([... hdf5Out:deep:]): Set componentType

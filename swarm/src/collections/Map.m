@@ -686,15 +686,16 @@ PHASE(Using)
             maxlen = DSIZE (unsigned);
           {
             id dataset =
-              [[[[[[[HDF5 createBegin: aZone]
-                     setName: [hdf5Obj getName]]
-                    setCreateFlag: YES]
-                   setParent: hdf5Obj]
-                  setCompoundType: compoundType count: [self getCount]]
+              [[[[[[[[HDF5 createBegin: aZone]
+                      setName: [hdf5Obj getName]]
+                     setCreateFlag: YES]
+                    setParent: hdf5Obj]
+                   setCompoundType: compoundType]
+                  setCount: [self getCount]]
                  setRowNameLength: maxlen]
                 createEnd];
             id member;
-
+            
             [dataset storeTypeName: [self getTypeName]];
             [dataset storeComponentTypeName: [memberProto getTypeName]];
             [mi setLoc: Start];
@@ -724,6 +725,11 @@ PHASE(Using)
   hdf5_not_available ();
 #endif
   return self;
+}
+
+- hdf5In: hdf5Obj
+{
+  return nil;
 }
 
 @end
