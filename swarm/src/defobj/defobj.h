@@ -887,13 +887,12 @@ USING
 CREATING
 + createBegin: aZone;
 - createEnd;
-
-- setArgc: (int)argc Argv: (const char **)argv;
+- setArgc: (int)theArgc Argv: (const char **)theArgv;
+- setAppName: (const char *)appName;
 - setAppModeString: (const char *)appModeString;
 - setOptionFunc: (int (*) (int, const char *))optionFunc;
 - setBugAddress: (const char *)bugAddress;
 - setVersion: (const char *)version;
-- setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
 - addOptions: (struct argp_option *)options;
 
 + createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
@@ -921,9 +920,7 @@ CREATING
 - (int)parseKey: (int)key arg: (const char *)arg;
 
 SETTING
-- setArgc: (int)theArgc Argv: (const char **)theArgv;
-- setAppName: (const char *)appName;
-- setAppModeString: (const char *)appModeString;
+- setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
 //M: Specify a default path to use for configuration files when
