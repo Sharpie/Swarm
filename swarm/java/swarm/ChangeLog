@@ -1,5 +1,8 @@
 1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.rules.in (all): Use JavaDeps to create compilation rules
+	and dependencies.
+
 	* Makefile.in (CLASSES): Remove GlobalZone.
 
 1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
