@@ -1,7 +1,7 @@
 1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (SWARM_EXTRA_DIST): Add swarm/PhaseCImpl.java,
-	swarm/SwarmEnvironment.java, swarm/Globals.java.in, and JavaDeps.
+	swarm/SwarmEnvironment.java, swarm/Globals.java.in, and JavaDeps.jar.
 
 1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
