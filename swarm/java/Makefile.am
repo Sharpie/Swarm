@@ -3,37 +3,16 @@ SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swa
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
 EXTRA_SCRIPTS = javacswarm.in javaswarm.in
 EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS)
-
-abs_top_builddir := $(shell cd $(top_builddir); pwd)
-abs_builddir := $(shell pwd)
 EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
 
-define elcrule
-cp -f $< $(dir $@)_$(notdir $<)
-$(EMACS) -batch -f batch-byte-compile $(shell cd $(dir $@); pwd)/_$(notdir $<)
-mv $(dir $@)_$(notdir $@) $@
-$(RM) $(dir $@)_$(notdir $<)
-endef
-
-MODULES = defobj collections activity objectbase random simtools gui simtoolsgui space analysis
+swarm_srcdir = $(top_srcdir)
+ include $(top_srcdir)/etc/Makefile.protocol
 
 SUBMAKEFILES = $(foreach module,$(MODULES),swarm/$(module)/Makefile)
 
 .PHONY: all stubs
 
 bin_SCRIPTS = $(JAVASWARMSCRIPTS)
-
-%.elc: $(top_srcdir)/etc/%.el
-	$(elcrule)
-
-$(abs_top_builddir)/%.elc: $(top_srcdir)/etc/%.el
-	$(elcrule)
-
-%.elc: %.el
-	$(elcrule)
-
-protocol.elc: $(abs_top_builddir)/common.elc
-protocol.elc: $(top_srcdir)/etc/protocol.el
 
 java-stub.elc: protocol.elc
 

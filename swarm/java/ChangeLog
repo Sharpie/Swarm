@@ -1,3 +1,9 @@
+1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (swarm_srcdir): Define as top_srcdir.
+	Include $(top_srcdir)/etc/Makefile.protocol.  Remove protocol
+	compilation rules.
+
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-protocol-name, java-name): New functions.
