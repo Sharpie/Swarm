@@ -189,8 +189,8 @@ public double randomMoveProbability = 0.4;
     { this.randomMoveProbability = randomMoveProbability; }
 // ... End variables referenced by the SCM file -- they must be public.
 
-private int _worldXSize = 80;
-private int _worldYSize = 80;
+public int worldXSize = 80;
+public int worldYSize = 80;
 private Schedule _modelSchedule;
 private ArrayList _heatbugList;
     public ArrayList getHeatbugList ()
@@ -212,23 +212,25 @@ private boolean _startInOneCluster = false;
     public boolean getStartInOneCluster () { return _startInOneCluster; }
     public void setStartInOneCluster (boolean startInOneCluster) 
     { _startInOneCluster = startInOneCluster; }
-private int _printDiagnostics = 0;
+    public int printDiagnostics = 0;
     public void setPrintDiagnostics (int printDiagnostics) 
-    { _printDiagnostics = printDiagnostics; }
-// Todo: _diffusionConstant and some other variables are copies of variables in
-// Diffuse2d -- can we figure out a way to get rid of them?
-private double _diffusionConstant = 1.0; 
-// ... 0 = minimum, 1 = maximum diffusion of heat in _heatSpace.
+    { this.printDiagnostics = printDiagnostics; }
+
+    // Todo: diffusionConstant and some other variables are copies of
+    // variables in Diffuse2d -- can we figure out a way to get rid of them?
+
+    public double diffusionConstant = 1.0; 
+    // ... 0 = minimum, 1 = maximum diffusion of heat in _heatSpace.
     public double getDiffusionConstant ()
-    { return _diffusionConstant; }
+    { return diffusionConstant; }
     public Object setDiffusionConstant (double diffusionConstant)
-    { _diffusionConstant = diffusionConstant; return this; }
-private double _evaporationRate = 0.99; 
-// ... 0 = minimum, 1 = maximum retention of heat in _heatSpace.
+    { this.diffusionConstant = diffusionConstant; return this; }
+    public double evaporationRate = 0.99; 
+    // ... 0 = minimum, 1 = maximum retention of heat in _heatSpace.
     public double getEvaporationRate ()
-    { return _evaporationRate; }
+    { return evaporationRate; }
     public Object setEvaporationRate (double evaporationRate)
-    { _evaporationRate = evaporationRate; return this; }
+    { this.evaporationRate = evaporationRate; return this; }
 // ... According to the documentation for Diffuse2d, newHeat = "evapRate * 
 // (self + diffusionConstant*(nbdavg - self)) where nbdavg is the weighted 
 // average of the 8 neighbours" -- but what does "weighted" mean?
@@ -310,11 +312,11 @@ public HeatbugModelSwarm (Zone aZone)
     heatbugModelProbeMap.addProbe (probeVariable ("minOutputHeat"));
     heatbugModelProbeMap.addProbe (probeVariable ("maxOutputHeat"));
     heatbugModelProbeMap.addProbe (probeVariable ("randomMoveProbability"));
-    heatbugModelProbeMap.addProbe (probeVariable ("_printDiagnostics"));
-    heatbugModelProbeMap.addProbe (probeVariable ("_diffusionConstant"));
-    heatbugModelProbeMap.addProbe (probeVariable ("_evaporationRate"));
-    heatbugModelProbeMap.addProbe (probeVariable ("_worldXSize"));
-    heatbugModelProbeMap.addProbe (probeVariable ("_worldYSize"));
+    heatbugModelProbeMap.addProbe (probeVariable ("printDiagnostics"));
+    heatbugModelProbeMap.addProbe (probeVariable ("diffusionConstant"));
+    heatbugModelProbeMap.addProbe (probeVariable ("evaporationRate"));
+    heatbugModelProbeMap.addProbe (probeVariable ("worldXSize"));
+    heatbugModelProbeMap.addProbe (probeVariable ("worldYSize"));
     // The number of colons after the name of each method must match the number
     // of arguments in the method's signature:
     heatbugModelProbeMap.addProbe (probeMessage ("addHeatbugs:"));
@@ -629,7 +631,7 @@ public Object buildActions ()
     Selector sel = new Selector (proto.getClass (), "heatbugStep", false);
     _actionForEach = modelActions.createFActionForEachHomogeneous$call
      (_heatbugList,
-      new FCallImpl (this, proto, sel, new FArgumentsImpl (this, sel, true))
+      new FCallImpl (this, proto, sel, new FArgumentsImpl (this, sel))
      );
     } catch (Exception e)
     { e.printStackTrace (System.err); }
@@ -696,16 +698,16 @@ public Object buildObjects ()
     super.buildObjects();
 
     // Create a 2-dimensional array of Heatbug positions:
-    _world = new Grid2dImpl (getZone (), _worldXSize, _worldYSize);
+    _world = new Grid2dImpl (getZone (), worldXSize, worldYSize);
 
     // Create a HeatSpace, which is a 2-dimensional array of heat values:
     _heatSpace = new HeatSpace
      (getZone (), 
-      _worldXSize, 
-      _worldYSize, 
-      _diffusionConstant, 
-      _evaporationRate, 
-      _printDiagnostics
+      worldXSize, 
+      worldYSize, 
+      diffusionConstant, 
+      evaporationRate, 
+      printDiagnostics
      );
 
     // Create a list to keep track of the Heatbugs:
@@ -723,7 +725,7 @@ public Object buildObjects ()
           _heatSpace, 
           this, 
           heatbugIndex, 
-          _printDiagnostics
+          printDiagnostics
          );
 
         // Add the bug to the end of the list:
@@ -747,13 +749,13 @@ public Object buildObjects ()
         if (_startInOneCluster)
         {
             // This would be all we'd need, if collisions were OK:
-            /// heatbug.putAtX$Y (_worldXSize/2, _worldYSize/5);
+            /// heatbug.putAtX$Y (worldXSize/2, worldYSize/5);
             // But we're avoiding collisions, so:
             // We will allow no collisions, so we'll squeeze them into a box
             // about sqrt (numBugs) high and by sqrt (numBugs) wide:
             heatbug.putAtX$Y 
-             ((_worldXSize/2 + x) % _worldXSize, 
-              (_worldYSize/5 + y) % _worldYSize
+             ((worldXSize/2 + x) % worldXSize, 
+              (worldYSize/5 + y) % worldYSize
              );
             if (++x >= Math.pow (numBugs, 0.5))
             {
@@ -767,9 +769,9 @@ public Object buildObjects ()
             // quickly separate themselves: 
             heatbug.putAtX$Y
              (Globals.env.uniformIntRand.getIntegerWithMin$withMax
-               (0, (_worldXSize-1)),
+               (0, (worldXSize-1)),
               Globals.env.uniformIntRand.getIntegerWithMin$withMax
-               (0, (_worldYSize-1))
+               (0, (worldYSize-1))
              );
             // ... We could eliminate collision-warning messages by invoking
             // world.setOverwriteWarnings (false) before this loop. We could
@@ -778,7 +780,7 @@ public Object buildObjects ()
             // two Heatbugs are initialized at the same cell and, being hemmed
             // in by other Heatbugs, they both choose to stay in the cell. 
         }
-        if (_printDiagnostics >= 1)
+        if (printDiagnostics >= 1)
             System.out.println 
              ("I initialized Heatbug " + heatbug + ".");
     } /// for each Heatbug
@@ -788,11 +790,11 @@ public Object buildObjects ()
 
 public Object modelStep ()
 {
-    _heatSpace.setPrintDiagnostics (_printDiagnostics);
+    _heatSpace.setPrintDiagnostics (printDiagnostics);
     // Monitor the heat at an arbitrary cell (2, 2) (HeatSpace monitors 
     // the same cell):
     int x = 2; int y = 2;
-    if (_printDiagnostics >= 10)
+    if (printDiagnostics >= 10)
         System.out.println 
          ("In modelStep(), at step "
           + getActivity ().getScheduleActivity ().getCurrentTime ()
@@ -800,7 +802,7 @@ public Object modelStep ()
           + _heatSpace.getValueAtX$Y (x, y) + "."
          );
     // See if total heat is a function of the number of steps:
-    if (_printDiagnostics >= 20)
+    if (printDiagnostics >= 20)
     {
         double totalHeat = _heatSpace.totalHeat ();
         System.out.println ("Total heat / step count is " + totalHeat 

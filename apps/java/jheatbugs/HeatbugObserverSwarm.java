@@ -51,7 +51,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
 
 // This defines the number of steps after which we display a snapshot of the 
 // simulation; we could speed up the simulation by displaying less frequently:
-private int _displayFrequency = 1;
+public int displayFrequency = 1;
 
 // This defines the timing of the Swarm's Actions:  
 private Schedule _displaySchedule;
@@ -93,7 +93,7 @@ public HeatbugObserverSwarm (Zone aZone)
 
     // Create Probes for some variables and methods (see HeatbugModelSwarm.java
     // for an explanation of Probes, ProbeMaps, and ProbeDisplays):
-    heatbugObserverProbeMap.addProbe (probeVariable ("_displayFrequency"));
+    heatbugObserverProbeMap.addProbe (probeVariable ("displayFrequency"));
     heatbugObserverProbeMap.addProbe (probeMessage ("graphBug:"));
 
     Globals.env.probeLibrary.setProbeMap$For
@@ -194,9 +194,9 @@ public Object buildActions ()
     }
 
     // Define the Schedule:
-    _displaySchedule = new ScheduleImpl (getZone (), _displayFrequency);
-      // ... The repeat interval is _displayFrequency, so the schedule will
-      // begin once every _displayFrequency steps of the simulation.
+    _displaySchedule = new ScheduleImpl (getZone (), displayFrequency);
+      // ... The repeat interval is displayFrequency, so the schedule will
+      // begin once every displayFrequency steps of the simulation.
     // Insert the updateActions ActionGroup into the Schedule:
     _displaySchedule.at$createAction 
      (0, 
