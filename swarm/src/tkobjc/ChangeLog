@@ -1,3 +1,8 @@
+1997-12-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* WindowGeometryRecord.h: Remove get_expr_func_t and
+	put_string_func_t typedefs.
+
 1997-12-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* analysis.tcl: Delete troublesome newlines for parameters

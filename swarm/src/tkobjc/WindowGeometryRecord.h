@@ -12,8 +12,6 @@
 - (const char *)getWindowGeometry;
 - setWindowGeometry : (const char *)theWindowGeometryString;
 - (void)describe : outputCharStream;
-typedef (*put_string_func_t) (const char *);
-typedef (*get_expr_func_t) (id *obj);
 
 - in : expr;
 + in : aZone expr: expr;
