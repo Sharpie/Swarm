@@ -946,7 +946,7 @@ typeError (const char *ivar_name,
          buf.ulonglong = (unsigned long long) val;  \
          break;                                     \
        case fcall_type_long_double:                 \
-         buf._double = (double) val;                \
+         buf._long_double = (long double) val;      \
          break;                                     \
        case fcall_type_double:                      \
          buf._double = (double) val;                \

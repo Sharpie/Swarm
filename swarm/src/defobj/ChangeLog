@@ -1,5 +1,7 @@
 2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* internal.m (CONVERTNUMBER): Handle long double.
+
 	* HDF5Archiver.m ([HDF5Archiver_c -sync]): Don't call flush
 	if there is no application object.
 
