@@ -8,13 +8,9 @@ import swarm.Selector;
 import swarm.defobj.Zone;
 import swarm.defobj.SymbolImpl;
 
-import swarm.defobj.FArgumentsC;
 import swarm.defobj.FArguments;
-import swarm.defobj.FArgumentsCImpl;
 import swarm.defobj.FArgumentsImpl;
-import swarm.defobj.FCallC;
 import swarm.defobj.FCall;
-import swarm.defobj.FCallCImpl;
 import swarm.defobj.FCallImpl;
 
 import swarm.activity.Activity;
@@ -291,25 +287,18 @@ public class HeatbugModelSwarm extends SwarmImpl
       System.err.println ("Exception stepRule: " + e.getMessage ());
     }
 
-    FArgumentsC argumentsCreating =
-      new FArgumentsCImpl (new FArgumentsImpl ());
-    argumentsCreating.createBegin (getZone ());
     try {
-      argumentsCreating.setSelector$setJavaFlag
-        (new Selector (heatbugList.get (0).getClass (), "heatbugStep", false),
-         true);
+      Selector sel = 
+        new Selector (heatbugList.get (0).getClass (), "heatbugStep", false);
+      actionForEach =
+        modelActions.createFActionForEachHomogeneous$call
+        (heatbugList,
+         new FCallImpl (this, heatbugList.get (0), sel, 
+                        new FArgumentsImpl (this, sel, true)));
     } catch (Exception e) {
       e.printStackTrace (System.err);
     }
-    FArguments arguments = (FArguments) argumentsCreating.createEnd ();
-    FCallC callCreating = new FCallCImpl (new FCallImpl ());
-    callCreating.createBegin (getZone ());
-    callCreating.setJavaMethod$inObject ("heatbugStep", heatbugList.get (0));
-    callCreating.setArguments (arguments);
-    FCall call = (FCall) callCreating.createEnd ();
     
-    actionForEach =
-      modelActions.createFActionForEachHomogeneous$call (heatbugList, call);
     syncUpdateOrder ();
 
     try {

@@ -1,3 +1,10 @@
+1999-12-22    <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.java: Don't include FArguments, FCall creating
+	implementation and interface.
+	(buildActions): Use FCall and FArguments constructors to condense
+	things somewhat.
+
 1999-12-21    <mgd@nest.swarm.org>
 
 	* HeatbugModelSwarm.java (actionForEach): New ivar.
