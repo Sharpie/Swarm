@@ -725,7 +725,13 @@ hol_entry_cmp (const struct hol_entry *entry1, const struct hol_entry *entry2)
 	{
 	  char first1 = short1 ? short1 : long1 ? *long1 : 0;
 	  char first2 = short2 ? short2 : long2 ? *long2 : 0;
-	  int lower_cmp = tolower (first1) - tolower (first2);
+	  int lower_cmp;
+
+	  if (isUpper (first1))
+	    first1 = (first1 - 'A') + 'a';
+	  if (isUpper (first2))
+	    first2 = (first2 - 'A') + 'a';
+	  lower_cmp = first1 - first2;
 	  /* Compare ignoring case, except when the options are both the
 	     same letter, in which case lower-case always comes first.  */
 	  return lower_cmp ? lower_cmp : first2 - first1;

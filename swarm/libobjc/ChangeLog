@@ -2,7 +2,8 @@
 
 	* mframe.m (mframe_build_signature, mframe_next_arg): Use isDigit.
 
-	* selector.c (sel_types_match): Use isDigit.
+	* selector.c (sel_types_match): Use isDigit.  Use isUpper to
+	downcase for Java/ObjC hack type compare.
 
 	* encoding.c (atoi, objc_sizeof_type, objc_alignof_type,
 	objc_skip_typespec, objc_skip_offset,

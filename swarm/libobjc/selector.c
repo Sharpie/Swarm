@@ -28,7 +28,6 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include "encoding.h"
 
 #include <string.h> /* strcpy */
-#include <ctype.h> /* tolower */
 
 /* Initial selector hash table size. Value doesn't matter much */
 #define SELECTOR_HASH_SIZE 128
@@ -176,12 +175,21 @@ sel_types_match (const char* t1, const char* t2)
       if (!*t1 && !*t2)
 	return YES;
 #if 1
-      /* Hack for Swarm Java -> Objective C selector construction. */
-      if (tolower (*t1) != tolower (*t2))
+      {
+	/* Hack for Swarm Java -> Objective C selector construction. */
+
+	char t1v = *t1;
+	char t2v = *t2;
+
+	t1v = isUpper (t1v) ? t1v - 'A' + 'a' : t1v;
+	t2v = isUpper (t2v) ? t2v - 'A' + 'a' : t2v;
+	if (t1v != t2v)
+	  return NO;
+      }
 #else
       if (*t1 != *t2)
-#endif
 	return NO;
+#endif
       t1++;
       t2++;
     }

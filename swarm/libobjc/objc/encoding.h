@@ -30,7 +30,7 @@ Boston, MA 02111-1307, USA.  */
 #define __encoding_INCLUDE_GNU
 
 #define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
-
+#define isUpper(ch) ((ch) >= 'A' && (ch) <= 'Z')
 #include "objc/objc-api.h"
 
 #define _C_CONST	'r'

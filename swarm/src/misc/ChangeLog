@@ -1,4 +1,7 @@
-1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-08-25    <mgd@HELEN>
+
+	* argp-help.c (hol_entry_cmp): Adjust first1 and first2 to lower
+	case without using tolower.
 
 	* strtoll.c (strtoll): Use misc.h ctype macros.
 
