@@ -1,3 +1,9 @@
+1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* List.m ([List_any -{hdf5,lispIn}:]): Move to setting phase.
+
+	* Map.m ([Map_c -{lisp,hdf5}In:]): Likewise.
+
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I for libobjc.  Remove -I for

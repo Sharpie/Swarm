@@ -106,20 +106,6 @@ PHASE(Setting)
   raiseEvent (NotImplemented, nil);
 }
 
-PHASE(Using)
-
-- (BOOL)getDequeOnly
-{
-  return bits & Bit_DequeOnly;
-}
-
-- (unsigned)getCountPerBlock
-{
-  raiseEvent (NotImplemented, nil);
-  
-  abort ();
-}
-
 - lispIn: expr
 {
   id index, member;
@@ -132,6 +118,49 @@ PHASE(Using)
       [(id) self addLast: lispIn ([self getZone], member)];
   [index drop];
   return self;
+}
+
+- hdf5In: hdf5Obj
+{
+  if ([hdf5Obj getDatasetFlag])
+    {
+      id aZone = [self getZone];
+      Class class = [hdf5Obj getClass];
+      unsigned i, c_count = [hdf5Obj getCount];
+
+      for (i = 0; i < c_count; i++)
+        {
+          id obj = [class create: aZone];
+
+          [hdf5Obj selectRecord: i];
+          [hdf5Obj shallowLoadObject: obj];
+          [(id) self addLast: obj];
+        }
+    }
+  else
+    {
+      int process_object (id component)
+        {
+          [(id) self addLast: hdf5In ([self getZone], component)];
+          return 0;
+        }
+      [hdf5Obj iterate: process_object];
+    }
+  return self;
+}
+
+PHASE(Using)
+
+- (BOOL)getDequeOnly
+{
+  return bits & Bit_DequeOnly;
+}
+
+- (unsigned)getCountPerBlock
+{
+  raiseEvent (NotImplemented, nil);
+  
+  abort ();
 }
 
 - _lispOut_: outputCharStream deep: (BOOL)deepFlag
@@ -186,35 +215,6 @@ PHASE(Using)
 - lispOutShallow: stream
 {
   return [self _lispOut_: stream deep: NO];
-}
-
-- hdf5In: hdf5Obj
-{
-  if ([hdf5Obj getDatasetFlag])
-    {
-      id aZone = [self getZone];
-      Class class = [hdf5Obj getClass];
-      unsigned i, c_count = [hdf5Obj getCount];
-
-      for (i = 0; i < c_count; i++)
-        {
-          id obj = [class create: aZone];
-
-          [hdf5Obj selectRecord: i];
-          [hdf5Obj shallowLoadObject: obj];
-          [(id) self addLast: obj];
-        }
-    }
-  else
-    {
-      int process_object (id component)
-        {
-          [(id) self addLast: hdf5In ([self getZone], component)];
-          return 0;
-        }
-      [hdf5Obj iterate: process_object];
-    }
-  return self;
 }
 
 - hdf5OutDeep: hdf5Obj

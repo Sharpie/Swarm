@@ -166,6 +166,171 @@ setCompareFunctionByName (id self, const char *funcName)
   return self;
 }
 
+PHASE(Setting)
+- lispIn: expr
+{
+  id index, member;
+  id aZone = [self getZone];  
+
+  index = [(id) expr begin: scratchZone];
+  while ((member = [index next]) != nil)
+    {
+      if (keywordp (member))
+        [index next];
+      else if (pairp (member))
+        {
+          id pair = member;
+          id keyExpr = [pair getCar];
+          id valueExpr = [pair getCdr];
+          id key, value;
+          
+          if (valuep (keyExpr))
+            {
+              if ([keyExpr getValueType] != _C_INT)
+                raiseEvent (InvalidArgument, "ArchiverValue not integer");
+              key = (id) [keyExpr getInteger];
+            }
+          else if (stringp (keyExpr))
+            {
+              if (compareFunc == compareCStrings)
+                key = (id) strdup ([keyExpr getC]);
+              else
+                key = [keyExpr copy: aZone];
+            }
+          else
+            key = lispIn (aZone, keyExpr);
+          value = lispIn (aZone, valueExpr);
+          [(id) self at: key insert: value];
+        }
+      else
+        raiseEvent (InvalidArgument,
+                    "Expecting quoted dotted pair or cons expression");
+    }
+  [index drop];
+  return self;
+}
+
+- hdf5In: hdf5Obj
+{
+  id aZone = [self getZone];
+
+  if ([hdf5Obj getDatasetFlag])
+    {
+      id aZone = [self getZone];
+      Class class = [hdf5Obj getClass];
+      unsigned i, c_count = [hdf5Obj getCount];
+      const char **rowNames = [hdf5Obj readRowNames];
+      const char *fmt = NULL;
+      
+      if (compareFunc == compareIntegers)
+        fmt = "%d";
+      else if (compareFunc == compareUnsignedIntegers)
+        fmt = "%u";
+      else
+        fmt = NULL;
+
+      for (i = 0; i < c_count; i++)
+        {
+          id obj = [class create: aZone];
+          id key;
+          
+          [hdf5Obj selectRecord: i];
+          [hdf5Obj shallowLoadObject: obj];
+          if (fmt)
+            sscanf (rowNames[i], fmt, (int *) &key);
+          else
+            {
+              if (compareFunc == compareCStrings)
+                key = (id) rowNames[i];
+              else
+                key = [String create: aZone setC: rowNames[i]];
+            }
+          [(id) self at: key insert: obj];
+        }
+      XFREE (rowNames); // but not the contents
+    }
+  else
+    {
+      if ((compareFunc == compareIDs || compareFunc == NULL)
+          && [hdf5Obj checkName: GROUP_KEYS])
+        {
+          id keyGroup = [[[[[HDF5 createBegin: aZone]
+                          setCreateFlag: NO]
+                         setParent: hdf5Obj]
+                        setName: GROUP_KEYS]
+                       createEnd];
+          id valueGroup = [[[[[HDF5 createBegin: aZone]
+                               setCreateFlag: NO]
+                              setParent: hdf5Obj]
+                             setName: GROUP_VALUES]
+                            createEnd];
+          {
+            int process_object (id keyComponent)
+              {
+                id valueComponent = [[[[[HDF5 createBegin: aZone]
+                                         setCreateFlag: NO]
+                                        setParent: valueGroup]
+                                       setName: [keyComponent getName]]
+                                      createEnd];
+                id key = hdf5In (aZone, keyComponent);
+                id value = hdf5In (aZone, valueComponent);
+
+                [self at: key insert: value];
+                [valueComponent drop];
+                return 0;
+              }
+            [keyGroup iterate: process_object];
+            [keyGroup drop];
+            [valueGroup drop];
+          }
+        }
+      else if (compareFunc == compareIntegers
+               || compareFunc == compareUnsignedIntegers)
+        {
+          const char *fmt;
+          
+          int process_object (id keyComponent)
+            {
+              const char *keyStr = [keyComponent getName];
+              int key;
+              id value = hdf5In (aZone, keyComponent);
+              
+              sscanf (keyStr, fmt, &key);
+              [self at: (id) key insert: value];
+              return 0;
+            }
+
+          fmt = (compareFunc == compareIntegers) ? "%d" : "%u";
+          [hdf5Obj iterate: process_object];
+        }
+      else if (compareFunc == compareCStrings)
+        {
+          int process_object (id keyComponent)
+            {
+              const char *key = strdup ([keyComponent getName]);
+              id value =  hdf5In (aZone, keyComponent);
+
+              [self at: (id) key insert: value];
+              return 0;
+            }
+          [hdf5Obj iterate: process_object];
+        }
+      else // assume strings
+        {
+          int process_object (id keyComponent)
+            {
+              const char *key = strdup ([keyComponent getName]);
+              id value =  hdf5In (aZone, keyComponent);
+
+              [self at: [String create: aZone setC: key] insert: value];
+              return 0;
+            }
+          [hdf5Obj iterate: process_object];
+        }
+    }
+  return self;
+}
+
 PHASE(Using)
 
 //
@@ -482,49 +647,6 @@ PHASE(Using)
   return NO;
 }
 
-- lispIn: expr
-{
-  id index, member;
-  id aZone = [self getZone];  
-
-  index = [(id) expr begin: scratchZone];
-  while ((member = [index next]) != nil)
-    {
-      if (keywordp (member))
-        [index next];
-      else if (pairp (member))
-        {
-          id pair = member;
-          id keyExpr = [pair getCar];
-          id valueExpr = [pair getCdr];
-          id key, value;
-          
-          if (valuep (keyExpr))
-            {
-              if ([keyExpr getValueType] != _C_INT)
-                raiseEvent (InvalidArgument, "ArchiverValue not integer");
-              key = (id) [keyExpr getInteger];
-            }
-          else if (stringp (keyExpr))
-            {
-              if (compareFunc == compareCStrings)
-                key = (id) strdup ([keyExpr getC]);
-              else
-                key = [keyExpr copy: aZone];
-            }
-          else
-            key = lispIn (aZone, keyExpr);
-          value = lispIn (aZone, valueExpr);
-          [(id) self at: key insert: value];
-        }
-      else
-        raiseEvent (InvalidArgument,
-                    "Expecting quoted dotted pair or cons expression");
-    }
-  [index drop];
-  return self;
-}
-
 - _lispOut_: outputCharStream deep: (BOOL)deepFlag
 {
   id index, member, key;
@@ -803,127 +925,6 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
       [dataset drop];
       [mi drop];
       [compoundType drop];
-    }
-  return self;
-}
-
-- hdf5In: hdf5Obj
-{
-  id aZone = [self getZone];
-
-  if ([hdf5Obj getDatasetFlag])
-    {
-      id aZone = [self getZone];
-      Class class = [hdf5Obj getClass];
-      unsigned i, c_count = [hdf5Obj getCount];
-      const char **rowNames = [hdf5Obj readRowNames];
-      const char *fmt = NULL;
-      
-      if (compareFunc == compareIntegers)
-        fmt = "%d";
-      else if (compareFunc == compareUnsignedIntegers)
-        fmt = "%u";
-      else
-        fmt = NULL;
-
-      for (i = 0; i < c_count; i++)
-        {
-          id obj = [class create: aZone];
-          id key;
-          
-          [hdf5Obj selectRecord: i];
-          [hdf5Obj shallowLoadObject: obj];
-          if (fmt)
-            sscanf (rowNames[i], fmt, (int *) &key);
-          else
-            {
-              if (compareFunc == compareCStrings)
-                key = (id) rowNames[i];
-              else
-                key = [String create: aZone setC: rowNames[i]];
-            }
-          [(id) self at: key insert: obj];
-        }
-      XFREE (rowNames); // but not the contents
-    }
-  else
-    {
-      if ((compareFunc == compareIDs || compareFunc == NULL)
-          && [hdf5Obj checkName: GROUP_KEYS])
-        {
-          id keyGroup = [[[[[HDF5 createBegin: aZone]
-                          setCreateFlag: NO]
-                         setParent: hdf5Obj]
-                        setName: GROUP_KEYS]
-                       createEnd];
-          id valueGroup = [[[[[HDF5 createBegin: aZone]
-                               setCreateFlag: NO]
-                              setParent: hdf5Obj]
-                             setName: GROUP_VALUES]
-                            createEnd];
-          {
-            int process_object (id keyComponent)
-              {
-                id valueComponent = [[[[[HDF5 createBegin: aZone]
-                                         setCreateFlag: NO]
-                                        setParent: valueGroup]
-                                       setName: [keyComponent getName]]
-                                      createEnd];
-                id key = hdf5In (aZone, keyComponent);
-                id value = hdf5In (aZone, valueComponent);
-
-                [self at: key insert: value];
-                [valueComponent drop];
-                return 0;
-              }
-            [keyGroup iterate: process_object];
-            [keyGroup drop];
-            [valueGroup drop];
-          }
-        }
-      else if (compareFunc == compareIntegers
-               || compareFunc == compareUnsignedIntegers)
-        {
-          const char *fmt;
-          
-          int process_object (id keyComponent)
-            {
-              const char *keyStr = [keyComponent getName];
-              int key;
-              id value = hdf5In (aZone, keyComponent);
-              
-              sscanf (keyStr, fmt, &key);
-              [self at: (id) key insert: value];
-              return 0;
-            }
-
-          fmt = (compareFunc == compareIntegers) ? "%d" : "%u";
-          [hdf5Obj iterate: process_object];
-        }
-      else if (compareFunc == compareCStrings)
-        {
-          int process_object (id keyComponent)
-            {
-              const char *key = strdup ([keyComponent getName]);
-              id value =  hdf5In (aZone, keyComponent);
-
-              [self at: (id) key insert: value];
-              return 0;
-            }
-          [hdf5Obj iterate: process_object];
-        }
-      else // assume strings
-        {
-          int process_object (id keyComponent)
-            {
-              const char *key = strdup ([keyComponent getName]);
-              id value =  hdf5In (aZone, keyComponent);
-
-              [self at: [String create: aZone setC: key] insert: value];
-              return 0;
-            }
-          [hdf5Obj iterate: process_object];
-        }
     }
   return self;
 }
