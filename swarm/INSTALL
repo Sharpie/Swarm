@@ -29,6 +29,21 @@ least one additional option that the `configure' script cannot guess.
 `--prefix' -- the location to which Swarm is to be installed.  By
 default, this is /usr/local/bin, /usr/local/lib etc.
 
+`--enable-shared[=PKGS]' ---  build shared libraries [default=yes]  
+`--disable-shared' --- same as --enable-shared=yes
+
+This version of Swarm can build `shared' libraries (sometimes called
+dynamic libraries), which significantly reduce the size of resulting
+executable files.  
+
+*** Important note for SunOS/Solaris users!! ***
+
+As `configure' builds shared libraries by default, you should be sure
+that your system can support shared libraries.  At the time of
+writing, Swarm has been successfully built with shared libraries only
+on GNU/Linux systems.  If you are using SunOS/Solaris you should be
+sure set this to `--disable-shared' or `--enable-shared=no'.
+
 `--with-defaultdir=DIR' --- Uses DIR instead of prefix as default path.
 You can specify this option as the default location to search for
 required packages, and still override locations for individual

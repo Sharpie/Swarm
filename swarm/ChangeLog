@@ -3,7 +3,8 @@
 	* README: Removed outdated mention of Makefile.conf, tidied,
 	reformatting.
 
-	* INSTALL: Add extra `configure' options.
+	* INSTALL: Add extra `configure' options. Add note regarding
+	problems with building shared libraries on Sun/Solaris machines.
 
 	* NEWS: Elaborate on command-line and graphics features.
 
