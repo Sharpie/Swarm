@@ -1,5 +1,8 @@
 1999-03-15  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* Makefile.am: Add CFLAGS_NOWARN_UNKNOWN_PRAGMAS to OBJCFLAGS and 
+	CFLAGS to prevent unkown pragma warning while parsing jni.h.
+
 	* FCall.h: Rename FCall fields with f prefix to avoid name clashes.
 
 	* FCall.m: Likewise

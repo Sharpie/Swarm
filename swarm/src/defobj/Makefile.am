@@ -9,6 +9,9 @@ JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)
 
 include $(top_srcdir)/src/Makefile.rules
 
+override CFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+
 EXTRA_DIST = make-h2x m2h internal.h
 
 INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
