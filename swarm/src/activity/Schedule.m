@@ -51,6 +51,12 @@ PHASE(Creating)
   setBit (bits, BitRelTimeSet, 1);
 }
 
+- setKeepEmpty: (BOOL) val
+{
+  keep = val;
+  return self;
+}
+
 - createEnd
 {
   if (repeatInterval)
@@ -138,6 +144,7 @@ PHASE(Using)
   swarmActivity = swarmContext;
   newActivity =
     [self _createActivity_: swarmActivity : activityClass : indexClass];
+  [newActivity setKeepEmpty: keep];
   newActivity->ownerActivity = nil;
   newActivity->swarmActivity = swarmActivity;
   newActivity->activationNumber = swarmActivity->nextActivation++;
@@ -364,10 +371,52 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		}
 	      [indexrefs drop];
 	    }
+	  else
+	    {
+	      id predecessor_action;
+              [index prev];
+	      predecessor_action = [index prev];
+	      if (!predecessor_action)
+		{
+		  id indexrefs;
+		  ScheduleActivity_c * activity;
+
+		  
+		  indexrefs = [self->activityRefs begin: scratchZone];
+		  [indexrefs setLoc: Start];
+		  activity = [indexrefs next];
+		  
+		  while (activity)
+		    {
+		      ScheduleIndex_c *scheduleIndex,*mergeScheduleIndex;
+		      Schedule_c *mergeSchedule;
+		      Activity_c *swarmActivity;
+	       
+		      scheduleIndex = activity->currentIndex;
+		      [scheduleIndex setLoc: Start];
+		      scheduleIndex->currentAction = 0; 
+		      scheduleIndex->currentTime = tVal;
+		      if (((ScheduleIndex_c *) scheduleIndex)->startTime > 
+			 tVal)
+			((ScheduleIndex_c *) scheduleIndex)->startTime -=
+			 ((Schedule_c *)self)->repeatInterval;
+		      swarmActivity = activity->swarmActivity;
+		      if (swarmActivity)
+			{
+			  mergeScheduleIndex = swarmActivity->currentIndex;
+			  mergeSchedule = (Schedule_c *) mergeScheduleIndex->collection;
+			  _activity_insertAction (mergeSchedule, tVal, 
+						  activity->mergeAction);
+			}
+		      activity = [indexrefs next];
+		    }
+		  [indexrefs drop];
+		}
+	    }
 	  [index drop];
 	}
       if (!(self->bits & BitSingletonGroups))
-        return;
+	return;
       existingAction = anAction;      
     }
   else 
@@ -446,11 +495,13 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
     {
       // concurrent group
 
+      if (_obj_debug && ![((CAction *) anAction)->owner respondsTo: M(_getEmptyActionConcurrent_)])
+      /*
       if (_obj_debug && ![((CAction *) anAction)->owner conformsTo: 
 						  @protocol (ConcurrentGroup)]
 	  && ![((CAction *) anAction)->owner conformsTo: 
 						  @protocol (ConcurrentSchedule)])
-        raiseEvent (InvalidArgument,
+      */   raiseEvent (InvalidArgument,
                     "> action to be removed from schedule does not belong to schedule\n");
       
       removedAction = [(id) ((CAction *) anAction)->owner remove: anAction];
@@ -465,6 +516,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
     }
   return removedAction;
 }
+
 
 //
 // createAction... -- create actions comprising the action plan

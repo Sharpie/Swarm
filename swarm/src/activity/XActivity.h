@@ -26,6 +26,7 @@ Library:      activity
   Activity_c *currentSubactivity;   // subactivity for current action
   BOOL immediateReturnFlag;         // return after first _performAction_
   BOOL (*breakFunction) (id);       // function to call on each step
+  BOOL keep;
 }
 /*** methods in Activity_c (inserted from .m file by m2h) ***/
 - run;
@@ -48,6 +49,7 @@ Library:      activity
 - getSubactivities;
 - (void)setSerialMode: (BOOL)serialMode;
 - (BOOL)getSerialMode;
+- setKeepEmpty: (BOOL) val;
 - getCurrentSubactivity;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)drop;

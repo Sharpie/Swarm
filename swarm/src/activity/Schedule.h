@@ -23,12 +23,14 @@ Library:      activity
   // locally defined variables
   id concurrentGroupType;     // type for group of actions at same time
   timeval_t  repeatInterval;  // rescheduling interval, or zero
+  BOOL keep;
 }
 /*** methods implemented in CompoundAction.m file ***/
 - (void)setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
 - (void)setDefaultOrder: aSymbol;
 - getDefaultOrder;
+- setKeepEmpty: (BOOL) val;
 - activate;
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : activityClass : indexClass;

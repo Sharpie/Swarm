@@ -146,9 +146,10 @@ auditRunRequest (Activity_c *self, const char *request)
           if (!HOLDINGP (subStatus))
             {
               // if sub is holding just continue
-              if (COMPLETEDP (subStatus))
+              if (COMPLETEDP (subStatus) )
                 {
-                  [currentSubactivity dropAllocations: YES];
+		  if (!currentSubactivity->keep)
+		    [currentSubactivity dropAllocations: YES];
                   // drop completed subactivity and continue
                   if (TERMINATEDP (status))
                     goto activityTerminated;
@@ -568,6 +569,12 @@ installStep (id activity)
 - (BOOL)getSerialMode
 {
   return YES;
+}
+
+- setKeepEmpty: (BOOL) val
+{
+  keep = val;
+  return self;
 }
 
 //

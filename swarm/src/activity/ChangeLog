@@ -1,3 +1,19 @@
+1999-02-01  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* Schedule.h: Add setKeepEmpty:.
+
+	* Schedule.m ([Schedule_c -setKeepEmpty:val]): Add setKeepEmpty:.
+	([Schedule_c -_activateUnderSwarm_:::]): Activity inherits keep 
+	from the schedule.
+	(_activity_insertAction): Check for empty schedule and do necessary 
+	updates of merge schedules.
+
+	* XActivity.m: Add setKeepEmpty:.
+	([Activity_c -_run_]): Check keep.
+
+	* XActivity.h: Add setKeepEmpty:.
+	(Activity_c): Add keep field.
+
 1999-01-22  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* Schedule.m ([Schedule_c -remove:]): Another conformsTo: check -
