@@ -364,9 +364,6 @@ PHASE(Creating)
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];  
 
-  if (!probes)
-    return nil;
-
 #ifdef HAVE_JDK
   if ([probedClass respondsTo: M(isJavaProxy)])
     { 

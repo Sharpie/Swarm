@@ -23,7 +23,6 @@ PHASE(Creating)
 - createEnd
 {
   Class aClass;
-
   id classList;  // added to ensure the vars are added from Object downwards
   id anIndex;    // as required by the ObjectSaver (for example)
 	
@@ -39,9 +38,6 @@ PHASE(Creating)
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
 	
-  if (!probes)
-    return nil;
-
 #ifdef HAVE_JDK
   if ([probedClass respondsTo: M(isJavaProxy)])
     { 
