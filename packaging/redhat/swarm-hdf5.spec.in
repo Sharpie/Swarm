@@ -4,7 +4,7 @@ Version: @version@
 Release: @release@
 Copyright: @copyright@
 Group: Development/Libraries
-Source: @ftproot@/swarm-@version@.tar.gz 
+Source: @ftproot@/swarm-@date_version@.tar.gz 
 %define prefix      /usr
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
@@ -27,6 +27,7 @@ Requires: libffi >= 1.20
 Provides: swarm-base
 Requires: hdf5 >= @hdf5_version@
 Conflicts: swarm
+%define date_version @date_version@
  
 %description
 Swarm is a simulation toolkit for Complex Adaptive Systems. The Swarm
@@ -82,7 +83,7 @@ or better, and the blt library package.  This version enables hdf5.
   in the BuildRoot using rpm, as yet.
 
 %prep 
-%setup -n swarm-@version@
+%setup -n swarm-%date_version
 
 %build
 
