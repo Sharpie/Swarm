@@ -1,5 +1,9 @@
 2000-06-18    <mgd@DRONE>
 
+	* directory.h (SD_SUPERCLASS): New macro.
+
+	* directory.[hm] (swarm_directory_superclass): New function.
+
 	* java.m (java_modifier_usable_p,
 	java_field_usable_p, java_method_usable_p): 
 	(map_java_ivars): Use m_ClassGetDeclareFields instead of

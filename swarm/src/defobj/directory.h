@@ -67,6 +67,10 @@ extern void swarm_directory_dump ();
 
 #define SD_GETCLASS(obj) swarm_directory_swarm_class (obj)
 
+extern Class swarm_directory_superclass (Class class);
+#define SD_SUPERCLASS(class) swarm_directory_superclass (class)
+
+
 #if 1
 #define DIRECTORY_SIZE 21599
 #else

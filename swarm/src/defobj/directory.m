@@ -298,6 +298,21 @@ swarm_directory_swarm_class (id object)
   return [object getClass];
 }
 
+Class
+swarm_directory_superclass (Class class)
+{
+  if ([class respondsTo: M(isJavaProxy)])
+    {
+      jclass clazz = SD_JAVA_FINDJAVACLASS (class);
+      
+      return SD_JAVA_ENSUREOBJCCLASS ((*jniEnv)->GetSuperclass (jniEnv,
+								clazz));
+    }
+  else
+    return class_get_super_class (class);
+}
+
+
 const char *
 swarm_directory_language_independent_class_name  (id object)
 {
