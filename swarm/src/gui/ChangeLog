@@ -1,7 +1,7 @@
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* gui.h (Raster): Add ellipseX0:Y0:X1:Y1:Width:Color and
-	lineX0:Y0:X1:Y1:Width:Color:.
+	* gui.h (Raster): Add ellipseX0:Y0:X1:Y1:Width:Color,
+	lineX0:Y0:X1:Y1:Width:Color:, and rectangleX0:Y0:X1:Y1:Width:Color:.
 
 1998-04-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
