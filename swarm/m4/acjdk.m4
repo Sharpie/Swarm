@@ -22,18 +22,23 @@ else
   else
     jdkdosdir=$jdkdir
   fi
-  if test -f $jdkdir/include/jni.h; then
-    JAVAINCLUDES="-I$jdkdir/include"
-    if test -f $jdkdir/include/solaris/jni_md.h; then
-      JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/solaris"
-    elif test -f $jdkdir/include/alpha/jni_md.h; then
-      JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/alpha"
-    elif test -f $jdkdir/include/hp-ux/jni_md.h; then
-      JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/hp-ux"
-    elif test -f $jdkdir/include/winnt/jni_md.h; then  # WebObjects
-      JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/winnt"
+  if $jdkdir = /usr; then
+    jdkincludedir=$jdkdir/include/java
+  else
+    jdkincludedir=$jdkdir/include
+  fi
+  if test -f $jdkincludedir/jni.h; then
+    JAVAINCLUDES="-I$jdkincludedir"
+    if test -f $jdkincludedir/solaris/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
+    elif test -f $jdkincludedir/alpha/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
+    elif test -f $jdkincludedir/hp-ux/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/hp-ux"
+    elif test -f $jdkincludedir/winnt/jni_md.h; then  # WebObjects
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
     else
-      JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/genunix"
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/genunix"
     fi
     JAVACMD='${jdkdir}/bin/java'
     if test "$host_os" = cygwin; then
@@ -49,8 +54,8 @@ else
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
     JAVALIBPREFIX=''
-  elif test -f $jdkdir/include/japhar/jni.h; then
-    JAVAINCLUDES="-I$jdkdir/include/japhar"
+  elif test -f $jdkincludedir/japhar/jni.h; then
+    JAVAINCLUDES="-I$jdkincludedir/japhar"
     JAVACLASSES="`$jdkdir/bin/japhar-config info datadir`"
     JAVACMD='${jdkdir}/bin/japhar'
     JAVAENV=''
@@ -59,8 +64,8 @@ else
     JAVALIBS='${jdkdir}/lib'
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=japhar_
-  elif test -f $jdkdir/include/kaffe/jni.h ; then
-    JAVAINCLUDES="-I$jdkdir/include/kaffe"
+  elif test -f $jdkincludedir/kaffe/jni.h ; then
+    JAVAINCLUDES="-I$jdkincludedir/kaffe"
     JAVACLASSES="$datadir/kaffe/Klasses.jar:$datadir/kaffe/pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
     JAVALIBS='${jdkdir}/lib/kaffe' # count on -rpath for main executable
