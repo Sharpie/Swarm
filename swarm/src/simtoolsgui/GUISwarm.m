@@ -66,7 +66,8 @@ PHASE(Using)
 
 - (void)drop
 {
-  FREEBLOCK (baseWindowGeometryRecordName);
+  if (baseWindowGeometryRecordName)
+    FREEBLOCK (baseWindowGeometryRecordName);
   [actionCache drop];
   [controlPanel drop];
   [super drop];

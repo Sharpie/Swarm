@@ -72,7 +72,8 @@ PHASE(Using)
 
 - (void)drop
 {
-  FREEBLOCK (baseWindowGeometryRecordName);
+  if (baseWindowGeometryRecordName)
+    FREEBLOCK (baseWindowGeometryRecordName);
   [super drop];
 }
 @end
