@@ -72,8 +72,8 @@ public class MousetrapModelSwarm extends SwarmImpl
         private void add (String name) {
             addProbe (probeVariable (name));
         }
-        public MousetrapModelProbeMap (Zone aZone, Class aClass) {
-            super (aZone, aClass);
+        public MousetrapModelProbeMap (Zone _aZone, Class aClass) {
+            super (_aZone, aClass);
             add ("triggerLikelihood");
             add ("numberOutputTriggers");
             add ("maxTriggerDistance");
