@@ -1,17 +1,11 @@
 <BOOKINFO>
-  <TITLE>Reference Guide for Swarm &swarm-release-number;</TITLE>
+  <TITLE>Reference Guide for Swarm &swarm-release-number;</TITLE> 
+
+  <AUTHOR><AFFILIATION>Santa Fe Institute</AFFILIATION></AUTHOR>
+
+  <GRAPHIC ALIGN="CENTER" ENTITYREF="largelogo"></GRAPHIC>
+
   <BOOKBIBLIO>
-    
-    <ABSTRACT>
-      <TITLE>Overview</TITLE>
-
-      <PARA>Swarm is essentially a collection of libraries against
-        which you link your simulation code. This document is the
-        complete interface references for those core libraries which
-        are crucial to the proper execution of Swarm, and are
-        therefore shipped with the Swarm distribution.</PARA>
-
-    </ABSTRACT>
     
     <RELEASEINFO>&swarm-release-number;</RELEASEINFO>
     <PUBDATE>May 1998</PUBDATE>
@@ -19,6 +13,29 @@
       <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
       <HOLDER>the Santa Fe Institute</HOLDER></COPYRIGHT>
   </BOOKBIBLIO>
+
+  <ABSTRACT>
+      <TITLE>Overview</TITLE>
+
+      <PARA>Swarm is essentially a collection of libraries against
+        which you link your simulation code. This document describes the
+        complete interface references for those core libraries which
+        are crucial to the proper execution of Swarm, and are
+        therefore shipped with the Swarm distribution.</PARA>
+
+  </ABSTRACT>
+
+  <REVHISTORY>
+    <REVISION>
+    
+      <REVNUMBER>1.1</REVNUMBER> 
+      <DATE>1998-05-13</DATE>
+      <AUTHORINITIALS>mgd, alex, lee</AUTHORINITIALS>
+      <REVREMARK>Created new SGML documentation from former HTML
+      docs</REVREMARK>
+    </REVISION>
+  </REVHISTORY>
+
 </BOOKINFO>
 
 <!--
