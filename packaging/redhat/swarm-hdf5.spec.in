@@ -37,6 +37,20 @@ or better, and the blt library package.  This version enables hdf5.
 @macros@
 
 %changelog
+* Mon Feb 28 2000 Marcus G. Daniels <mgd@swarm.org>
+
+- Remove ppc patch.
+
+- Remove versioning on kaffe and jikes BuildPrereq.
+
+- Break out system-specific build rules in to separate file, swarm.rules.
+
+- Add support for Sparc and SUSE/i386.
+
+- Hardwire /packages/bin/gcc as compiler.
+
+- Minimize use of %defines (using substitutions instead).
+
 * Fri Oct 22 1999 Alex Lancaster <alex@santafe.edu>
 
 - Replace $RPM_PACKAGE_VERSION with %{version} throughout.
