@@ -1037,7 +1037,6 @@ USING
 
 CREATING
 + create: aZone setC: (const char *)cstring;
-- setLiteralFlag: (BOOL)literalFlag;
 
 SETTING
 - (void)setC: (const char *)cstring;
@@ -1047,7 +1046,6 @@ USING
 - (void)catC: (const char *)cstring;
 - (unsigned)getCount;
 - (int)compare: aString;
-- (BOOL)getLiteralFlag;
 @end
 
 @protocol ListShuffler <Create, Drop, CREATABLE>

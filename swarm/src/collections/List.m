@@ -107,7 +107,7 @@ PHASE(Using)
   return bits & Bit_DequeOnly;
 }
 
-- (int)getCountPerBlock
+- (unsigned)getCountPerBlock
 {
   raiseEvent (NotImplemented, nil);
   

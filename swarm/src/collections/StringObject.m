@@ -12,7 +12,7 @@ Library:      collections
 #import <collections/StringObject.h>
 #import <defobj/defalloc.h>
 
-#include <misc.h> // memcpy
+#include <misc.h> // memcpy, size_t
 
 @implementation String_c
 
@@ -61,7 +61,8 @@ PHASE(Creating)
 
   if (newString->count > 0)
     {
-      newString->string = [getZone (newString) allocBlock: newString->count + 1];
+      newString->string = [getZone (newString)
+                                   allocBlock: newString->count + 1];
       memcpy (newString->string, cstring, newString->count + 1);
     }
   else
@@ -70,7 +71,7 @@ PHASE(Creating)
   return newString;
 }
 
-- setLiteralFlag : (BOOL)theLiteralFlag
+- setLiteralFlag: (BOOL)theLiteralFlag
 {
   literalFlag = theLiteralFlag;
   return self;
@@ -80,7 +81,7 @@ PHASE(Setting)
 
 - (void)setC: (const char *)cstring
 {
-  int countNew;
+  size_t countNew;
   char *stringNew;
 
   if (!cstring)
@@ -126,7 +127,7 @@ PHASE(Using)
 - (void)catC: (const char *)cstring
 {
   id zone;
-  int appendCount;
+  size_t appendCount;
   char *stringNew;
 
   zone = getZone (self);
@@ -145,24 +146,24 @@ PHASE(Using)
     }
 }
 
-- (int)getCount
+- (unsigned)getCount
 {
   return count;
 }
 
-- (int)count
+- (unsigned)count
 {
   return count;
 }
 
-- (int)length
+- (unsigned)length
 {
   return count;
 }
 
 - (int)compare: aString
 {
-  return strcmp (string, ((String_c *)aString)->string);
+  return strcmp (string, ((String_c *) aString)->string);
 }
 
 - (BOOL)getLiteralFlag
@@ -170,17 +171,52 @@ PHASE(Using)
   return literalFlag;
 }
 
+- lispIn: expr
+{
+  id first = [expr getFirst];
+  const char *newStr = [first getC];
+
+  count = strlen (newStr);
+  string = [getZone (self) allocBlock: count + 1];
+  strcpy (string, newStr);
+
+  return self;
+}
+
+- lispOut: stream deep: (BOOL)deepFlag
+{
+  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " 'String \""];
+  [stream catC: string];
+  [stream catC: "\")"];
+  return self;
+}
+
+- hdf5In: hdf5Obj
+{
+  abort ();
+  return self;
+}
+
+- hdf5Out: hdf5Obj deep: (BOOL)deepFlag
+{
+  [hdf5Obj storeAsDataset: [hdf5Obj getName]
+           typeName: [self name]
+           type: @encode (const char *)
+           ptr: &string];
+  return self;
+}
+
 //
 // describe: -- standard method to generate debug description
 //
 - (void)describe: outputCharStream
 {
-  char  buffer[100];
+  char buffer[100];
 
   [super describe: outputCharStream];
   sprintf (buffer, "> number of characters: %d\n", count);
   [outputCharStream catC: buffer];
-  if ( count <= 64 )
+  if (count <= 64)
     {
       sprintf (buffer, "> string value: %s\n", string);
       [outputCharStream catC: buffer];
@@ -191,19 +227,6 @@ PHASE(Using)
                string);
       [outputCharStream catC: buffer];
     }
-}
-
-- out: outputCharStream
-{
-  if (literalFlag)
-    {
-      [outputCharStream catC: "\""];
-      [outputCharStream catC: [self getC]];
-      [outputCharStream catC: "\""];
-    }
-  else
-    [outputCharStream catC: [self getC]];
-  return self;
 }
 
 //

@@ -1,5 +1,18 @@
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* collections.h (String): Remove setLiteralFlag: and getLiteralFlag.
+
+	* StringObject.[hm] ([String_c -getCount], [String_c -count], 
+	[String_c -length]): Return unsigned.
+	([String_c -lispIn:], [String_c -lispOut:deep:],
+	[String_c -hdfIn:], [String_c -hdfOutOut:deep:): New methods.
+
+	* StringObject.m: ([String_c -out:]): Remove.
+
+	* List.[hm]: Make getCountPerBlock return unsigned.
+
+	* InputStream.m: Include StringObject.h.
+
 	* Map.m ([Map_c -hdf5Out:deep:]): Use storeAttributes:value: to
 	save a compare function attribute.  Add support for non-object
 	keys.

@@ -14,7 +14,7 @@ Library:      collections
 typedef struct link *link_t;
 
 @protocol Dummy  // (mangles file symbol name to avoid libobjects conflict)
-- (int)getCountPerBlock;
+- (unsigned)getCountPerBlock;
 @end
 
 @interface List_any: Collection_any <Dummy, Serialization>
@@ -33,7 +33,7 @@ typedef struct link *link_t;
 - createEnd;
 - (void)setCountPerBlock: (int)countPerBlock;
 - (BOOL)getDequeOnly;
-- (int)getCountPerBlock;
+- (unsigned)getCountPerBlock;
 - lispInCreate: expr;
 - lispIn: expr;
 - lispOut: stream deep: (BOOL)deepFlag;

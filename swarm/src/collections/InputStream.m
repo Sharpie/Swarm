@@ -10,6 +10,7 @@ Library:      collections
 */
 
 #import <collections.h>
+#import <collections/StringObject.h> // setLiteralFlag:
 #import <collections/InputStream.h>
 #include <objc/objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isspace, isdigit

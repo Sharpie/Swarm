@@ -29,11 +29,15 @@ Library:      collections
 - copy: aZone;
 - (const char *)getC;
 - (void)catC: (const char *)cstring;
-- (int)getCount;
-- (int)count;
-- (int)length;
+- (unsigned)getCount;
+- (unsigned)count;
+- (unsigned)length;
 - (int)compare: aString;
 - (BOOL)getLiteralFlag;
+- lispIn: expr;
+- lispOut: stream deep: (BOOL)deepFlag;
+- hdf5In: hdf5Obj;
+- hdf5Out: hdf5Obj deep: (BOOL)deepFlag;
 - (void)describe: outputCharStream;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
