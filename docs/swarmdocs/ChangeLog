@@ -1,3 +1,7 @@
+1998-05-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* history.el (process-changelog): print closing REVISION tag.
+
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.rules: Make phony fot, tex, dvi, ps, rtf, and html

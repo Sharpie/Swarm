@@ -171,5 +171,6 @@
                   (insert "</AUTHORINITIALS>\n")
                   (insert "<REVREMARK>\n")
                   (insert (changelog-item-description changelog-item))
-                  (insert "</REVREMARK>\n")))
+                  (insert "</REVREMARK>\n")
+                  (insert "</REVISION>\n")))
       (insert "</REVHISTORY>\n"))))
