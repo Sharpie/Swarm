@@ -1,3 +1,7 @@
+1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Swarm 2.0.1 released.
+
 1999-09-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.appl.in (clean): Remove .libs/$(APPEXE) as well.
