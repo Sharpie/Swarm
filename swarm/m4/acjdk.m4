@@ -83,6 +83,11 @@ else
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=
     JAVALIBPATH_VAR=KAFFELIBRARYPATH
+    if test "$host_os" = cygwin; then
+      PATHSEP=':'
+      PATHDELIM='/'
+      PATHEXPR='$<'
+    fi
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
