@@ -26,7 +26,6 @@
 #import "COM.h" // SD_COM_FIND_OBJECT_COM
 
 Directory *swarmDirectory = nil;
-SEL allocSel = 0;
 
 @implementation DirectoryEntry
 - setCOMObject: (COMOBJECT)theCOMObject
@@ -155,7 +154,6 @@ compare_COM_objects (const void *A, const void *B, void *PARAM)
   obj->selector_tree = avl_create (compare_objc_selectors, NULL);
   obj->COM_tree = avl_create (compare_COM_objects, NULL);
 
-  allocSel = M(alloc:);
   return obj;
 }
 

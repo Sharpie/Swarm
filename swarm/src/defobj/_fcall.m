@@ -79,6 +79,9 @@ ADD_PRIMITIVE (FArguments_c *fa, fcall_type_t type, void *val)
     case fcall_type_object:
       av_ptr (AVALIST (fa), id, *(id *) val);
       break;
+    case fcall_type_class:
+      av_ptr (AVALIST (fa), Class, *(Class *) val);
+      break;
 #ifdef HAVE_JDK
     case fcall_type_jobject:
       av_ptr (AVALIST (fa), jobject, *(jobject *) val);
@@ -151,6 +154,9 @@ SET_RETURN_TYPE (FCall_c *fc)
       break;
     case fcall_type_selector:
       av_start_ptr (AVALIST (fa), func, SEL, &fa->resultVal.selector);
+      break;
+    case fcall_type_class:
+      av_start_ptr (AVALIST (fa), func, Class, &fa->resultVal._class);
       break;
     case fcall_type_jobject:
       av_start_ptr (AVALIST (fa), func, jobject, &fa->resultVal.object);
