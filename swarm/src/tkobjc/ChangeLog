@@ -5,6 +5,7 @@
 	* internal.[hm] (tkobjc_raster_dropOldPixmap): New function.
 
 	* Raster.m ([Raster -setWidth:Height:]): Use it.
+	Reset colormap after creating resized pixmap.
 
 	* internal.m (setSecondaryPath): Use share/ instead of ../library.
 	Swarm 1.4 Win32 layout will follow GNU conventions.

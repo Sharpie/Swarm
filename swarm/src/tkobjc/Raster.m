@@ -93,6 +93,7 @@ PHASE(Using)
   width = newWidth;
   height = newHeight;
   tkobjc_raster_createPixmap (self);
+  tkobjc_raster_setColormap (self);
   [super setWidth: width Height: height];
   [self erase];
   tkobjc_raster_copy (self, oldWidth, oldHeight);

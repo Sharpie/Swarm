@@ -721,7 +721,6 @@ tkobjc_raster_createPixmap (Raster *raster)
 
   dib_createBitmap (dib, TkWinGetHWND (Tk_WindowId (tkwin)),
 		    raster->width, raster->height);
-  tkobjc_raster_setColormap (raster);
 #endif
 }
 
