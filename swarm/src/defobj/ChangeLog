@@ -1,3 +1,11 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Archiver.m: Include defalloc.h.
+	(defaultPath, defaultAppPath): alloc: in scratchZone, not xmalloc.
+	([Archiver_c -ensureApp:], [Archiver_c -createAppKey:mode:],
+	[Archiver_c -ensureApp:], [Archiver_c -getApplication],
+	[Archiver_c -updateArchiver]): Use getZone () instead of method.
+
 1999-09-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Zone.m ([Zone_c -describeForEachID:], [Zone_c -mapAllocations:]): 

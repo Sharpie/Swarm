@@ -8,7 +8,8 @@
 #import <collections.h>
 #import <collections/predicates.h> // list_literal_p, listp, pairp, stringp
 #import <defobj.h> // arguments, STRDUP
-#include <misc.h> // access, getenv, xmalloc, stpcpy
+#import <defobj/defalloc.h> // getZone
+#include <misc.h> // access, getenv, stpcpy
 
 
 const char *
@@ -19,9 +20,10 @@ defaultPath (const char *swarmArchiver)
   if (home)
     {
       size_t homelen = strlen (home);
-      char *buf = xmalloc (homelen + 1 + strlen (swarmArchiver) + 1), *p;
+      char *buf =
+        [scratchZone alloc: homelen + 1 + strlen (swarmArchiver) + 1];
+      char *p = stpcpy (buf, home);
 
-      p = stpcpy (buf, home);
       if (homelen == 0 || home[homelen - 1] != '/')
         p = stpcpy (p, "/");
 
@@ -36,8 +38,10 @@ const char *
 defaultAppPath (const char *appDataPath, const char *appName,
                 const char *suffix)
 {
-  char *buf = 
-    xmalloc (strlen (appDataPath) + strlen (appName) + strlen (suffix) + 1);
+  char *buf =
+    [scratchZone
+      alloc: 
+        strlen (appDataPath) + strlen (appName) + strlen (suffix) + 1];
   char *p;
   
   p = stpcpy (buf, appDataPath);
@@ -182,7 +186,7 @@ PHASE(Using)
 
 - createAppKey: (const char *)appName mode: (const char *)modeName
 {
-  id appKey = [String create: [self getZone] setC: appName];
+  id appKey = [String create: getZone (self) setC: appName];
 
   [appKey catC: "/"];
   [appKey catC: modeName];
@@ -192,11 +196,10 @@ PHASE(Using)
 - ensureApp: appKey
 {
   id app;
-  id aZone = [self getZone];
   
   if ((app = [applicationMap at: appKey]) == nil)
     {
-      app = [[[Application createBegin: aZone]
+      app = [[[Application createBegin: getZone (self)]
                setName: [appKey getC]]
               createEnd];
       
@@ -211,7 +214,7 @@ PHASE(Using)
   
   if (app == nil)
     {
-      app = [Application create: [self getZone]];
+      app = [Application create: getZone (self)];
       [applicationMap at: currentApplicationKey insert: app];
     }
   return app;
@@ -282,7 +285,7 @@ PHASE(Using)
   id item;
   IMP func = get_imp (id_CreatedClass_s, M(updateArchiver:));
   
-  index = [classes begin: [self getZone]];
+  index = [classes begin: getZone (self)];
   while ((item = [index next]))
     func (item, M(updateArchiver:), self);
   [index drop];
