@@ -130,7 +130,7 @@ to indent the lines in the navigation panel.</para>
 
 <!-- ==================================================================== -->
 
-<xsl:variable name="footer.hr" select="0"/>
+<xsl:param name="footer.hr" select="0"/>
 
 <doc:variable name="footer.hr" xmlns="">
 <refpurpose>Toggle &lt;HR> before footer</refpurpose>

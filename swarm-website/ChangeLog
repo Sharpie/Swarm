@@ -1,3 +1,18 @@
+2004-01-22  Alex Lancaster  <alex@swarm.org>
+
+	* xsl/website/website.xsl, xsl/website/tabular.xsl: Use xsl:param
+	rather than xsl:variable to override global variable, makes
+	xsltproc happy.
+
+	* community-past-swarmfests.xml: Info on 2003 SwarmFest moved
+	here, some extra formatting.
+
+	* community-swarmfest.xml: Add info on SwarmFest 2004, move 2003
+	info to community-past-swarmfests.xml.
+
+	* sdg-board.xml: Updated board to reflect current status as of
+	2003-12-18.
+
 2003-06-05  Alex Lancaster  <alex@swarm.org>
 
 	* dtd/website.dtd: Use full system id (overriden by XML catalog).

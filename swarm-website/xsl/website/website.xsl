@@ -5,7 +5,7 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: website.xsl,v 1.1.1.1 2003-05-16 20:00:37 mgd Exp $
+     $Id: website.xsl,v 1.2 2004-01-22 09:31:00 alexl Exp $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -27,7 +27,8 @@
 
 <!-- ==================================================================== -->
 
-<xsl:variable name="VERSION">1.0</xsl:variable>
+
+<xsl:param name="VERSION">1.0</xsl:param>
 
 <doc:variable name="VERSION" xmlns="">
 <refpurpose>Stylesheet version</refpurpose>

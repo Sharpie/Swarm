@@ -1,17 +1,20 @@
 <webpage navto="yes" id="community-swarmfest">
-  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
-  <config class="html" param="author" value="$Author: mgd $"/>
+  <config class="html" param="rcsdate" value="$Date: 2004-01-22 09:31:00 $"/>
+  <config class="html" param="author" value="$Author: alexl $"/>
   <head>
-    <title>SwarmFest 2003</title>
+    <title>SwarmFest 2004</title>
     <abstract>
       <para>Information on past, current, and future meetings of the
       Swarm User Community.</para>
     </abstract>
   </head>
 
-  <para>Please see the <ulink
-  url="http://www.nd.edu/~swarm03/">conference
-  website</ulink>.</para>
+ <para>SwarmFest 2004 will be held at the <ulink
+   url="http://www.cscs.umich.edu/">Center for Complex Systems</ulink>
+  at the <ulink url="http://www.umich.edu/">University of
+   Michigan</ulink>. Please see the <ulink
+   url="http://www.cscs.umich.edu/swarmfest04/">conference
+   website</ulink> for all details.</para>
 
   <para>Information on <link linkend="community-past-swarmfest">past
   SwarmFests</link>.</para>
