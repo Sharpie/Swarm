@@ -16,7 +16,6 @@ Library:      collections
 #include <collections/predicates.h> // keywordp, stringp
 
 #import <defobj.h> // hdf5in, HDF5
-#include <misc.h> // XFREE
 
 #include <swarmconfig.h> // HAVE_HDF5
 
@@ -202,7 +201,7 @@ PHASE(Setting)
 - lispIn: expr
 {
   id index, member;
-  id aZone = [self getZone];  
+  id aZone = getZone (self);
 
   index = [(id) expr begin: scratchZone];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
@@ -244,11 +243,10 @@ PHASE(Setting)
 
 - hdf5In: hdf5Obj
 {
-  id aZone = [self getZone];
+  id aZone = getZone (self);
 
   if ([hdf5Obj getDatasetFlag])
     {
-      id aZone = [self getZone];
       Class class = [hdf5Obj getClass];
       unsigned i, c_count = [hdf5Obj getCount];
       const char **rowNames = [hdf5Obj readRowNames];
@@ -279,7 +277,7 @@ PHASE(Setting)
             }
           [(id) self at: key insert: obj];
         }
-      XFREE (rowNames); // but not the contents
+      [[hdf5Obj getZone] free: rowNames]; // but not the contents
     }
   else
     {
@@ -863,7 +861,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
 
 - hdf5OutDeep: hdf5Obj 
 {
-  id aZone = [hdf5Obj getZone];
+  id aZone = getZone (self);
   id key, value;
   BOOL keyStringFlag = NO;
   
@@ -987,7 +985,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
                 "shallow HDF5 serialization on Map must be same type");
   else
     {
-      id aZone = [self getZone];
+      id aZone = getZone (self);
       Class memberProto = [self getFirst];
       id compoundType = [[[HDF5CompoundType createBegin: aZone]
                            setClass: [memberProto class]]

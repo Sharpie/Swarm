@@ -1,3 +1,8 @@
+1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Map.m: Don't include misc.h.
+	([Map_c -hdf5In:]): Use free: instead of XFREE on rowNames.
+
 1999-09-07  Alex Lancaster  <alex@santafe.edu>
 
 	* collections.h (Collection): Make -begin:, -beginPermuted:
