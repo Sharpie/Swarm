@@ -1,3 +1,8 @@
+2000-04-28    <mgd@nest.swarm.org>
+
+	* Action.m ([FActionForEachHomogeneous_c -createEnd]): 
+	Change from SD_FINDJAVA to SD_JAVA_FINDJAVA.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump.  Swarm 2.1.1 frozen.

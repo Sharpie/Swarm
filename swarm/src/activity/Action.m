@@ -485,7 +485,7 @@ PHASE(Creating)
           for (i = 0, obj = [index next];
                [index getLoc] == Member;
                obj = [index next], i++)
-            javaTargets[i] = SD_FINDJAVA (jniEnv, obj);
+            javaTargets[i] = SD_JAVA_FINDJAVA (jniEnv, obj);
 #endif
         }
       else
