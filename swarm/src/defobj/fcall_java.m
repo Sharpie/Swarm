@@ -15,8 +15,8 @@
 
 #import "fcall_java.h"
 #include <avcall.h>
-#import "java.h"
 #endif
+#import "java.h"
 #import <defobj/FArguments.h>
 
 void

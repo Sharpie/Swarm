@@ -36,7 +36,7 @@ Library:      defobj
 #import <defobj.h> // FCall, FArguments
 
 
-#include <defobj/directory.h>
+#import <defobj/directory.h>
 
 extern id _obj_implModule;  // defined in Program.m
 

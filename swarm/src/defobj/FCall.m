@@ -32,7 +32,7 @@ Library:      defobj
 #include <misc.h>
 #include <objc/mframe.h>
 
-#include <defobj/directory.h>
+#import <defobj/directory.h>
 
 #ifdef HAVE_JDK
 #include "java.h" // swarm_directory_java_ensure_objc
