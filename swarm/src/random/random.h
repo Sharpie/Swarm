@@ -22,7 +22,7 @@ Modified:	 1997-12-08 (v. 0.75) by Sven Thommesen
 
 #import <defobj.h>
 
-@deftype InternalState
+@protocol InternalState
 //S: Archiving routines for internal generator and distribution state.
 
 //D: Methods to save the internal state of an object (generator, distribution)

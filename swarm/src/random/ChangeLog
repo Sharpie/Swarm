@@ -1,6 +1,6 @@
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* distributions.h, generators.h: Change @deftype to @protocol
+	* distributions.h, generators.h, random.h: Change @deftype to @protocol
 	throughout.
 
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
