@@ -1,3 +1,11 @@
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Makefile (SWARMHOME, APPVERSION): Update to 2.1.
+	(BUGADDRESS): Update to SDG.
+
+	* ExperSwarm.m ([ExperSwarm -buildObjects]): Use
+	getWithZone:key: instead of getWithZone:object:.
+
 1999-10-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ExperSwarm.m ([ExperSwarm -_resultGraphDeath_]): New method.

@@ -133,7 +133,7 @@
   // the `bug.scm' datafile.
 
   if ((parameterManager = 
-       [lispAppArchiver getWithZone: self object: "parameterManager"]) == nil)
+       [lispAppArchiver getWithZone: self key: "parameterManager"]) == nil)
     raiseEvent(InvalidOperation,
                "Can't find the parameterManager parameters");
   
