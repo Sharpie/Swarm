@@ -5,6 +5,8 @@
 	* Makefile.in (SECLASSES): Add.
 	(POSTCLASSES): Include above.
 
+	* SwarmEnvironment.java: Remove.
+
 2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* ObjCProxy.java, ProxyClassLoader.java: New files.
