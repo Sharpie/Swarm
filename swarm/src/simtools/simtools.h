@@ -349,46 +349,78 @@ extern void _initSwarm_ (int argc, const char **argv, const char *appName,
                          int (*optionFunc) (int key, const char *arg),
                          BOOL forceBatchMode);
 
+#define STRINGIFY(sym) #sym
+#define STRINGIFYSYM(sym) STRINGIFY(sym)
+#define APPNAME_STRING STRINGIFYSYM(APPNAME)
+#ifdef APPVERSION
+#define APPVERSION_STRING STRINGIFYSYM(APPVERSION)
+#else
+#define APPVERSION_STRING NULL
+#endif
+#ifdef BUGADDRESS_STRING
+#define BUGADDRESS_STRING STRINGIFYSYM(APPVERSION)
+#else
+#define BUGADDRESS_STRING NULL
+#endif
 
 //#: Initializes the Swarm libraries without version or bug-report-address
 //#: information.
 #define initSwarm(argc, argv) \
- _initSwarm_ (argc, argv, APPNAME, APPVERSION, BUGADDRESS, Nil, NULL, NULL, NO)
+ _initSwarm_ (argc, argv, \
+              APPNAME_STRING, \
+              APPVERSION_STRING, \
+              BUGADDRESS_STRING, \
+              Nil, NULL, NULL, NO)
 
 //#: Initializes the Swarm libraries for batch mode
 //#: without version or bug report address information.
 #define initSwarmBatch(argc,  argv) \
- _initSwarm_ (argc, argv, APPNAME, APPVERSION, BUGADDRESS, Nil, NULL, NULL, YES)
+ _initSwarm_ (argc, argv, \
+              APPNAME_STRING, \
+              APPVERSION_STRING, \
+              BUGADDRESS_STRING, \
+              Nil, NULL, NULL, YES)
 
 //#: Initializes the Swarm libraries for an application.  
 #define initSwarmApp(argc, argv, version, bugAddress) \
- _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, NULL, NULL, NO)
+ _initSwarm_ (argc, argv, \
+              APPNAME_STRING, \
+              version, bugAddress, Nil, NULL, NULL, NO)
 
 //#: Like initSwarmApp, but initializes in batch-mode only
 #define initSwarmAppBatch(argc, argv, version, bugaddress) \
- _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, NULL, NULL, YES)
+ _initSwarm_ (argc, argv, \
+              APPNAME_STRING, \
+              version, bugAddress, Nil, NULL, NULL, YES)
 
 //#: Like initSwarmApp, but specifies a parsing function .
 #define initSwarmAppOptions(argc, argv, version, bugAddress, options, optionFunc) \
- _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, options, \
-               optionFunc, NO)
+ _initSwarm_ (argc, argv, \
+              APPNAME_STRING, \
+              version, bugAddress, Nil, options, optionFunc, NO)
 
 //#: Like initSwarmAppOptions, but initializes in batch-mode only
 #define initSwarmAppOptionsBatch(argc, argv, version, bugAddress, options, optionFunc) \
- _initSwarm_ (argc, argv, APPNAME, version, bugAddress, Nil, options, \
-               optionFunc, YES)
+ _initSwarm_ (argc, argv, \
+              APPNAME_STRING, \
+              version, bugAddress, Nil, options, optionFunc, YES)
 
 //#: Like initSwarm, but specifies what class to use for argument
 //#: parsing, typically this will be a subclass of Arguments.
 #define initSwarmArguments(argc, argv, argumentsClass) \
- _initSwarm_ (argc, argv, APPNAME, APPVERSION, BUGADDRESS, argumentsClass, \
-               NULL, NULL, NO)
+ _initSwarm_ (argc, argv, \
+              APPNAME_STRING, \
+              APPVERSION_STRING, \
+              BUGADDRESS_STRING, \
+              argumentsClass, \
+              NULL, NULL, NO)
 
 //#: Like initSwarmApp, but specifies what class to use for argument
 //#: parsing, typically this will be a subclass of Arguments.
-#define initSwarmAppArguments(argc, argv, version, bugAddress, argumentsClass)\
- _initSwarm_ (argc, argv, APPNAME, version, bugAddress, argumentsClass, \
-               NULL, NULL, NO)
+#define initSwarmAppArguments(argc, argv, version, bugAddress, argumentsClass) \
+ _initSwarm_ (argc, argv, \
+              STRINGIFY(APPNAME), \
+              version, bugAddress, argumentsClass, NULL, NULL, NO)
 
 //G: Flag for whether we're in graphics mode or not.  Default is NO.
 externvar BOOL swarmGUIMode;
