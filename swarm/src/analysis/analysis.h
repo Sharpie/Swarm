@@ -100,7 +100,7 @@
 - setLowerBound: (double)theMin;
 
 //M: The setUpperBound method sets the upper bound on the histogram range.
-- setUpperBound: (double) theMax;
+- setUpperBound: (double)theMax;
 
 //M: The setCollection method sets the collection of target objects which will 
 //M: be requested to generate the dataset for the histogram.
@@ -109,7 +109,7 @@
 //M: The setProbedSelector method sets the selector that will be applied to
 //M: the objects in the specified collection in order to generate the dataset 
 //M: (inherited from MessageProbe.)
-- setProbedSelector: (SEL) aSel;
+- setProbedSelector: (SEL)aSel;
 
 //M: The reset method resets the histogram.
 - reset;
