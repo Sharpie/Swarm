@@ -1,6 +1,26 @@
 1998-05-27  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* Makefile.rules: Usee addprefix, not addsuffixes for output
+	* protocol.el (parse-state, module): New structures.
+	(protocol): Add typedef-list.
+	(skip-whitespace-backward, make-global, immediate-tag-prossed,
+	is-doc-type, set-buf, append-buf, handle-global-doc-post,
+	handle-global, skip-c-comment, check-common-tags,
+	check-protocol-tags, handle-protocol-tag-change,
+	handle-common-tag-change, handle-protocol-tag, handle-common-tag,
+	same-tag-p, end-tag-p, process-header-file, load-module): New
+	functions.
+	(*protocol-regexp*): New variable.
+	(find-protocol): Use *protocol-regexp*.
+	(update-extern): Take parse-state as an argument.
+	(load-protocol): Use process-header-file (most of contents moved
+	to this new functions).
+	(load-protocols): Reset to beginning of buffer.
+	(load-all-modules): Renamed from load-protocols-for-all-modules.
+	Call load-module.
+	(load-and-process-modules): Renamed from
+	load-and-process-protocols.  Call load-all-modules.
+
+	* Makefile.rules: Use addprefix, not addsuffixes for output
 	format rules.
 
 1998-05-27  Alex Lancaster  <alex@santafe.edu>

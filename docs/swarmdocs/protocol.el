@@ -17,6 +17,15 @@
 
 (defvar *method-example-counter-hash-table* (make-hash-table :test #'equal))
 
+(defstruct module
+  name
+  summary
+  description-list
+  global-list
+  macro-list
+  typedef-list
+  example-list)
+
 (defstruct protocol
   module
   name
@@ -25,6 +34,7 @@
   included-protocol-list
   macro-list
   global-list
+  typedef-list
   example-list
   method-list
   expanded-methodinfo-list)
@@ -41,16 +51,51 @@
   name
   description-list)
 
+(defstruct parse-state
+  tag
+  last-tag
+  phase
+
+  buf
+
+  summary-doc
+  description-doc-list
+
+  extern-type
+  extern-name
+  global-doc-list
+  global-list
+
+  macro-sig
+  macro-doc-list
+  macro-list
+
+  method-doc-list
+  method-list
+
+  typedef-sig
+  typedef-doc-list
+  typedef-list
+
+  scratch-example-list
+  example-list)
+
 (defconst *doc-types* '(:method-doc :summary-doc :description-doc
                         :macro-doc
-                        :global-doc :global-begin :global-end :global-break))
+                        :global-doc :global-begin :global-end :global-break
+                        :example-doc))
+
+(defconst *protocol-regexp* "^@\\(protocol\\|deftype\\)")
 
 (defun find-protocol ()
   (interactive)
-  (re-search-forward "^@\\(protocol\\|deftype\\)" nil t))
+  (re-search-forward *protocol-regexp* nil t))
 
 (defun skip-whitespace ()
   (skip-chars-forward " \t\r\n"))
+
+(defun skip-whitespace-backward ()
+  (skip-chars-backward " \t\r\n"))
 
 (defun skip-name ()
   (skip-chars-forward "[a-zA-Z_.][a-zA-Z0-9_.]")
@@ -172,199 +217,336 @@
                  0)))))
     (1+ index)))
 
-(defun update-extern ()
+(defun make-global (parse-state)
+  (make-named-object
+   :name (concat
+          (parse-state-extern-type parse-state)
+          " "
+          (parse-state-extern-name parse-state))
+   :description-list
+   (if (eq (parse-state-tag parse-state) :global)
+       (parse-state-global-doc-list parse-state)
+       (list (extract-doc-string line)))))
+   
+(defun immediate-tag-processed (parse-state line)
+  (when (member (parse-state-tag parse-state)
+                '(:global-begin :global-end :global-break))
+    (prog1
+        (make-global parse-state)
+      (setf (parse-state-global-doc-list parse-state) nil))))
+    
+(defun is-doc-type (parse-state)
+  (member (parse-state-tag parse-state) *doc-types*))
+
+(defun extract-doc-string (str)
+  (if (> (length str) 5)
+      (substring str 5)
+      ""))
+
+(defun set-buf (parse-state line)
+  (setf (parse-state-buf parse-state)
+        (extract-doc-string line)))
+
+(defun append-buf (parse-state line)
+  (let ((tag (parse-state-tag parse-state)))
+    (when (is-doc-type parse-state)
+      (let ((buf (parse-state-buf parse-state)))
+        (setf (parse-state-buf parse-state)
+              (if (eq tag :example-doc)
+                  (concat buf "\n" (extract-doc-string line))
+                  (concat
+                   (if (string-match " $" buf) buf (concat buf " "))
+                   (extract-doc-string line))))))))
+
+
+(defun update-extern (parse-state)
   (unless (save-excursion
             (beginning-of-line)
             (looking-at "\\s-+//G:"))
-    (setq extern-name
+    (setf (parse-state-extern-name parse-state)
           (save-excursion
             (backward-word 1) 
             (let ((beg (point)))
               (forward-word 1)
               (buffer-substring beg (point)))))))
 
+(defun handle-global-doc-post (parse-state)
+  (search-forward "//G:")
+  (backward-char 4)
+  (let ((last-extern (parse-state-extern-name parse-state)))
+    (update-extern parse-state)
+    (cond ((save-excursion
+             (beginning-of-line)
+             (looking-at ".*;.*//G:"))
+           :global-end)
+          ((not (string= last-extern
+                         (parse-state-extern-name parse-state)))
+           :global-break)
+          (t :global-doc))))
+
+(defun handle-global (parse-state)
+  (let ((tag :global))
+    (re-search-forward "\\s-+")
+    (setf (parse-state-extern-type parse-state)
+          (let ((beg (point)))
+            (re-search-forward "\\(;\\|//G:\\)")
+            (backward-char)
+            (let ((have-global-tag (looking-at ":")))
+              (if have-global-tag
+                  (setq tag :global-begin)
+                  (progn
+                    (setq have-global-tag
+                          (search-forward "//G:"
+                                          (end-of-line-position) t))
+                    (when have-global-tag
+                      (setq tag :global-end)
+                      (backward-char))))
+              (when have-global-tag
+                (backward-char 3)
+                (update-extern parse-state)
+                (backward-word 1)
+                (skip-chars-backward " \t\r\n")))
+            (buffer-substring beg (point))))
+    (when (or (eq tag :global-begin) (eq tag :global-end))
+      (search-forward "//G: ")
+      (backward-char 5))
+    tag))
+
+(defun skip-c-comment ()
+  (interactive)
+  (search-forward "*/")
+  (beginning-of-line 2))
+
+(defun check-common-tags (parse-state)
+  (cond ((looking-at "[ \t]*$") :newline)
+        ((looking-at "//S:") :summary-doc)
+        ((looking-at "//D:") :description-doc)
+        ((looking-at "//#:") :macro-doc)
+        ((looking-at "//G:") :global-doc)
+        ((looking-at ".+//G:") (handle-global-doc-post parse-state))
+        ((looking-at "#if 0")
+         (c-forward-conditional 1)
+         (beginning-of-line 0)
+         :ifdef-comment)
+        ((looking-at "#ifndef")
+         :ifndef)
+        ((looking-at "#if [^0]")
+         :if)
+        ((looking-at "#endif")
+         :endif)
+        ((looking-at "#else")
+         :else)
+        ((looking-at "#undef")
+         :undef)
+        ((looking-at "/\\*")
+         (skip-c-comment)
+         :c-comment)
+        ((looking-at "#import")
+         :import)
+        ((looking-at "")
+         :page-break)
+        ((looking-at "typedef\\s-+\\(.*\\);")
+         (setf (parse-state-typedef-sig parse-state)
+               (match-string 1))
+         :typedef)
+        ((looking-at "typedef\\s-+\\(struct\\|union\\)")
+         (search-forward "{")
+         (backward-char)
+         (forward-sexp)
+         (skip-whitespace)
+         (let ((beg (point)))
+           (search-forward ";")
+           (backward-char)
+           (skip-whitespace-backward)
+           (setf (parse-state-typedef-sig parse-state)
+                 (buffer-substring beg (point))))
+         :typedef)
+        ((or (looking-at "// ") (looking-at "//$")) :objc-comment)
+        ((looking-at "#define\\s-+\\([^(]+\\)\\((.*)\\)?\\s-")
+         (setf (parse-state-macro-sig parse-state)
+               (concat (match-string 1) (match-string 2)))
+         :macro)
+        ((looking-at "@class")
+         :class)
+        ((looking-at "\\(void\\|id\\|const\\s-+char\\s-*\\*\\).*(")
+         (search-forward ";")
+         :func)
+        ((looking-at "extern\\s-") (handle-global parse-state))))
+  
+(defun check-protocol-tags (parse-state)
+  (let ((tag
+         (cond ((looking-at "CREATING") :creating)
+               ((looking-at "SETTING") :setting)
+               ((looking-at "USING") :using)
+               ((looking-at "-")  :method)
+               ((looking-at "+") :factory-method)
+               ((looking-at "//M:") :method-doc)
+               ((looking-at "@end") :protocol-end)
+               ((looking-at "//E:") :example-doc)
+               ((looking-at "///M:") :bogus-method))))
+    (when (member tag '(:creating :setting :using))
+      (setf (parse-state-phase parse-state) tag))
+    tag))
+
+(defun handle-protocol-tag-change (parse-state)
+  (let ((buf (parse-state-buf parse-state)))
+    (case (parse-state-last-tag parse-state)
+      (:example-doc
+       (push (concat buf "\n") (parse-state-scratch-example-list parse-state))
+       (unless (or (parse-state-method-list parse-state)
+                   (parse-state-method-doc-list parse-state))
+         (setf (parse-state-example-list parse-state)
+               (parse-state-scratch-example-list parse-state))
+         (setf (parse-state-scratch-example-list parse-state) nil)))
+      (:method-doc
+       (push buf (parse-state-method-doc-list parse-state))))))
+
+(defun handle-common-tag-change (parse-state)
+  (let ((buf (parse-state-buf parse-state)))
+    (case (parse-state-last-tag parse-state)
+      (:macro-doc
+       (push buf (parse-state-macro-doc-list parse-state)))
+      ((:global-doc :global)
+       (push buf (parse-state-global-doc-list parse-state)))
+      (:summary-doc
+       (if (parse-state-summary-doc parse-state)
+           (error "summary already set")
+           (setf (parse-state-summary-doc parse-state) buf)))
+      (:description-doc
+       (push buf (parse-state-description-doc-list parse-state))))))
+
+(defun handle-protocol-tag (protocol-name parse-state)
+  (when (member (parse-state-tag parse-state) '(:method :factory-method))
+    (push (parse-method protocol-name
+                        (parse-state-phase parse-state)
+                        (eq (parse-state-tag parse-state) :factor-method)
+                        (reverse (parse-state-method-doc-list
+                                  parse-state))
+                        (reverse (parse-state-scratch-example-list
+                                  parse-state)))
+          (parse-state-method-list parse-state))
+    (setf (parse-state-scratch-example-list parse-state) nil)
+    (setf (parse-state-method-doc-list parse-state) nil)))
+
+(defun handle-common-tag (parse-state)
+  (let ((tag (parse-state-tag parse-state)))
+    (cond ((eq tag :global)
+           (push (make-global parse-state)
+                 (parse-state-global-list parse-state))
+           (setf (parse-state-global-doc-list parse-state) nil))
+          ((eq tag :macro)
+           (while (looking-at ".*\\\\\\s-*$")
+             (forward-line))
+           (push (make-named-object
+                  :name (parse-state-macro-sig parse-state)
+                  :description-list (parse-state-macro-doc-list parse-state))
+                 (parse-state-macro-list parse-state))
+           (setf (parse-state-macro-doc-list parse-state) nil))
+          ((eq tag :typedef)
+           (push (make-named-object
+                  :name (parse-state-typedef-sig parse-state)
+                  :description-list
+                  (parse-state-typedef-doc-list parse-state))
+                 (parse-state-typedef-list parse-state))
+           (setf (parse-state-typedef-doc-list parse-state) nil)))))
+
+(defun same-tag-p (parse-state)
+  (eq (parse-state-tag parse-state)
+      (parse-state-last-tag parse-state)))
+
+(defun end-tag-p (parse-state)
+  (eq (parse-state-tag parse-state) :protocol-end))
+
+(defun process-header-file (protocol-flag)
+  (let ((parse-state (make-parse-state)))
+    (beginning-of-line 1)
+    (while (and (zerop (forward-line 1))
+                (not (and protocol-flag (end-tag-p parse-state))))
+      (beginning-of-line)
+      (let ((tag (check-common-tags parse-state)))
+        (unless tag
+          (if protocol-flag
+              (progn
+                (setq tag (check-protocol-tags parse-state))
+                (unless tag
+                  (error "Unrecognized text (protocol): [%s]"
+                         (line-text))))
+              (if (looking-at *protocol-regexp*)
+                  (re-search-forward "^@end")
+                  (error "Unrecognized text (non-protocol): [%s]"
+                         (line-text)))))
+        (setf (parse-state-tag parse-state) tag))
+      (let ((line (line-text)))
+        (let ((immediate-object (immediate-tag-processed parse-state line)))
+          (if immediate-object
+              (push immediate-object (parse-state-global-list parse-state))
+              (progn
+                (if (same-tag-p parse-state)
+                    (append-buf parse-state line)
+                    (progn
+                      (when protocol-flag
+                        (handle-protocol-tag-change parse-state))
+                      (handle-common-tag-change parse-state)
+                      (when (is-doc-type parse-state)
+                        (set-buf parse-state line))))))))
+      (when protocol-flag
+        (handle-protocol-tag protocol-name parse-state))
+      (handle-common-tag parse-state)
+      (setf (parse-state-last-tag parse-state)
+            (parse-state-tag parse-state)))
+    parse-state))
+        
 (defun load-protocol (module)
   (interactive)
   (skip-whitespace)
-  (let* ((name
+  (let* ((protocol-name
           (let ((beg (point)))
             (skip-name)
             (buffer-substring beg (point))))
          (included-protocol-list
-          (parse-included-protocol-list))
-         (last-tag nil)
-         (description-doc-list nil)
-         (summary-doc nil)
-         (method-doc-list nil)
-         (macro-doc-list nil)
-         (global-doc-list nil)
-         (global-list nil)
-         (macro-list nil)
-         (method-list nil)
-         (global-example-list nil)
-         (example-list nil)
-         (phase nil)
-         (tag nil)
-         (macro-sig nil)
-         (extern-sig nil)
-         (extern-name nil)
-         (buf nil))
-    (beginning-of-line 1)
-    (while (and (zerop (forward-line 1)) (not (eq tag :end)))
-      (beginning-of-line)
-      (cond ((looking-at "CREATING")
-             (setq tag :creating)
-             (setq phase :creating))
-            ((looking-at "SETTING")
-             (setq phase :setting)
-             (setq tag :setting))
-            ((looking-at "USING")
-             (setq phase :using)
-             (setq tag :using))
-            ((looking-at "[ \t]*$") (setq tag :newline))
-            ((looking-at "-")
-             (setq tag :method))
-            ((looking-at "+")
-             (setq tag :factory-method))
-            ((looking-at "//M:") 
-             (setq tag :method-doc))
-            ((looking-at "//S:") (setq tag :summary-doc))
-            ((looking-at "//D:") (setq tag :description-doc))
-            ((looking-at "//E:") (setq tag :example-doc))
-            ((looking-at "//#:") (setq tag :macro-doc))
-            ((looking-at "//G:") (setq tag :global-doc))
-            ((looking-at ".+//G:")
-             (setq tag :global-doc)
-             (search-forward "//G:")
-             (backward-char 4)
-             (let ((last-extern extern-name))
-               (update-extern)
-               (cond ((save-excursion
-                        (beginning-of-line)
-                        (looking-at ".*;.*//G:"))
-                      (setq tag :global-end))
-                     ((not (string= last-extern extern-name))
-                      (setq tag :global-break)))))
-            ((looking-at "#if 0")
-             (c-forward-conditional 1)
-             (beginning-of-line 0))
-            ((looking-at "@end") (setq tag :end))
-            ((looking-at "// ") (setq tag :comment))
-            ((looking-at "#define\\s-+\\([^(]+\\)\\((.*)\\)?\\s-")
-             (setq tag :macro)
-             (setq macro-sig (concat (match-string 1) (match-string 2))))
-            ((looking-at "extern\\s-")
-             (setq tag :global)
-             (re-search-forward "\\s-+")
-             (setq extern-sig
-                   (let ((beg (point)))
-                     (re-search-forward "\\(;\\|//G:\\)")
-                     (backward-char)
-                     (let ((have-global-tag (looking-at ":")))
-                       (if have-global-tag
-                           (setq tag :global-begin)
-                           (progn
-                             (setq have-global-tag
-                                   (search-forward "//G:"
-                                                   (end-of-line-position) t))
-                             (when have-global-tag
-                               (setq tag :global-end)
-                               (backward-char))))
-                       (when have-global-tag
-                         (backward-char 3)
-                         (update-extern)
-                         (backward-word 1)
-                         (skip-chars-backward " \t\r\n")))
-                     (buffer-substring beg (point))))
-             (when (or (eq tag :global-begin) (eq tag :global-end))
-               (search-forward "//G: ")
-               (backward-char 5)))
-            ((looking-at "///M:") (setq tag :bogus-method))
-            (t (error "Unknown text: [%s]"
-                      (buffer-substring (point) (end-of-line-position)))))
-      (let ((line (line-text))
-            (is-doc-type (member tag *doc-types*)))
-        (flet ((extract-doc-string (str)
-                 (if (> (length str) 5)
-                     (substring str 5)
-                     "")))
-          (if (member tag '(:global-begin :global-end :global-break))
-              (push (extract-doc-string line) global-doc-list)
-              
-              (if (eq tag last-tag)
-                  (if is-doc-type
-                      (setq buf (concat 
-                                 (if (string-match " $" buf) 
-                                     buf
-                                     (concat buf " "))
-                                 (extract-doc-string line)))
-                      (when (eq tag :example-doc)
-                        (setq buf
-                              (concat buf "\n" (extract-doc-string line)))))
-                  (progn
-                    (case last-tag
-                      (:example-doc
-                       (push (concat buf "\n") example-list)
-                       (unless (or method-list method-doc-list)
-                         (setq global-example-list example-list)
-                         (setq example-list nil)))
-                      (:method-doc
-                       (push buf method-doc-list))
-                      (:macro-doc
-                       (push buf macro-doc-list))
-                      (:global-doc
-                       (push buf global-doc-list))
-                      (:global
-                       (push buf global-doc-list))
-                      (:summary-doc (if summary-doc
-                                        (error "summary already set")
-                                        (setq summary-doc buf)))
-                      (:description-doc (push buf description-doc-list)))
-                    (when (or is-doc-type (eq tag :example-doc))
-                      (setq buf (extract-doc-string line))))))))
-
-      (cond ((member tag '(:method :factory-method))
-             (push (parse-method name
-                                 phase
-                                 (eq tag :factory-method)
-                                 (reverse method-doc-list)
-                                 (reverse example-list))
-                   method-list)
-             (setq method-doc-list nil))
-            ((eq tag :macro)
-             (while (looking-at ".*\\\\\\s-*$")
-               (forward-line))
-             (push (make-named-object
-                    :name macro-sig
-                    :description-list macro-doc-list)
-                   macro-list)
-             (setq macro-doc-list nil))
-            ((member tag '(:global :global-break :global-begin :global-end))
-             (push (make-named-object
-                    :name (concat extern-sig " " extern-name)
-                    :description-list global-doc-list)
-                   global-list)
-             (setq global-doc-list nil)))
-      
-      (setq last-tag tag))
-
-    (make-protocol
-     :module module
-     :name name
-     :example-list (reverse global-example-list)
-     :included-protocol-list included-protocol-list
-     :summary summary-doc
-     :description-list (reverse description-doc-list)
-     :macro-list (reverse macro-list)
-     :global-list (reverse global-list)
-     :method-list (reverse method-list))))
+          (parse-included-protocol-list)))
+    (let ((parse-state (process-header-file t)))
+      (make-protocol
+       :module module
+       :name protocol-name
+       :example-list (reverse (parse-state-example-list parse-state))
+       :included-protocol-list included-protocol-list
+       :summary (parse-state-summary-doc parse-state)
+       :description-list
+       (reverse (parse-state-description-doc-list parse-state))
+       :macro-list
+       (reverse (parse-state-macro-list parse-state))
+       :global-list
+       (reverse (parse-state-global-list parse-state))
+       :method-list
+       (reverse (parse-state-method-list parse-state))
+       :typedef-list
+       (reverse (parse-state-typedef-list parse-state))
+      ))))
 
 (defun load-protocols (module)
   (interactive)
+  (goto-char (point-min))
   (loop
    while (find-protocol)
    collect (load-protocol module)))
-   
+
+(defun load-module (module)
+  (goto-char (point-min))
+  (let ((parse-state (process-header-file nil)))
+    (make-module
+     :name (symbol-name module)
+     :summary (parse-state-summary-doc parse-state)
+     :description-list
+     (reverse (parse-state-description-doc-list parse-state))
+     :example-list (reverse (parse-state-example-list parse-state))
+     :macro-list
+     (reverse (parse-state-macro-list parse-state))
+     :global-list
+     (reverse (parse-state-global-list parse-state))
+     :typedef-list
+     (reverse (parse-state-typedef-list parse-state)))))
+
 (defun create-included-protocol-list (protocol)
   (loop for included-protocol-name in (protocol-included-protocol-list protocol)
         for included-protocol = (get-protocol included-protocol-name)
@@ -389,7 +571,7 @@
 (defun get-module (module-spec)
   (if (consp module-spec) (car module-spec) module-spec))
 
-(defun load-protocols-for-all-modules ()
+(defun load-all-modules ()
   (interactive)
 
   (let ((old-push-mark (symbol-function 'push-mark)))
@@ -409,6 +591,7 @@
               (find-file-read-only 
                (pathname-for-module module (cdr module-spec)))
               (find-file-read-only (pathname-for-module module)))
+          (load-module module)
           (loop for protocol in (load-protocols module)
                 for name = (protocol-name protocol)
                 for exist = (gethash name *protocol-hash-table*)
@@ -956,9 +1139,9 @@
     (sgml-generate-protocol-index)
     (sgml-generate-method-signature-index)))
 
-(defun load-and-process-protocols ()
+(defun load-and-process-modules ()
   (interactive)
-  (load-protocols-for-all-modules)
+  (load-all-modules)
   (generate-expanded-methodinfo-lists)
   (build-method-signature-hash-table)
   (build-protocol-vector)
@@ -966,7 +1149,7 @@
 
 (defun run-all ()
   (interactive)
-  (load-and-process-protocols)
+  (load-and-process-modules)
   (sgml-create-refentries-for-all-modules)
-  (sgml-generate-indices))
-
+  (sgml-generate-indices)
+  nil)
