@@ -16,6 +16,7 @@ const char *program_invocation_short_name;
 
 #define SIGNATURE_FILE "Makefile.appl"
 #define SIGNATURE_SUBPATH "etc/swarm/"
+#define SIGNATURE_PATH "etc/swarm/" SIGNATURE_FILE
 
 #include "version.h"
 
@@ -355,7 +356,7 @@ static char *
 findSwarm (id arguments)
 {
   const char *swarmPrefix = "swarm-";
-  const char *signatureFile = SIGNATURE_SUBPATH;
+  const char *signatureFile = SIGNATURE_PATH;
   int len = strlen (swarmPrefix) + strlen (swarm_version) + 1 + strlen (signatureFile) + 1;
   char *swarmVersionPathBuf = xmalloc (len);
   char *p, *swarmPath;
@@ -367,10 +368,10 @@ findSwarm (id arguments)
   
   swarmPath = findDirectory (arguments, swarmVersionPathBuf);
   if (swarmPath == NULL)
-    swarmPath = findDirectory (arguments, "swarm/" SIGNATURE_SUBPATH);
+    swarmPath = findDirectory (arguments, "swarm/" SIGNATURE_PATH);
   if (swarmPath)
     {
-      unsigned i, dropCount = countSlashes (SIGNATURE_SUBPATH) + 1;
+      unsigned i, dropCount = countSlashes (SIGNATURE_PATH) + 1;
       
       for (i = 0; i < dropCount; i++)
         swarmPath = dropDirectory (swarmPath);
@@ -405,33 +406,28 @@ findSwarm (id arguments)
 
 - (const char *)_getPath_: (const char *)fixed subpath: (const char *)subpath
 {
-  const char *signature = SIGNATURE_FILE;
-  char *filepath = xmalloc (strlen (fixed) + strlen (signature) + 1), *p;
-  const char *ret;
-
-  p = strcpy (filepath, fixed);
-  stpcpy (p, signature);
-
-  if (access (filepath, R_OK) != -1)
-    ret = fixed;
+  struct stat buf;
+  
+  if (stat (fixed, &buf) != -1)
+    {
+      if (buf.st_mode & S_IFDIR)
+        return fixed;
+    }
   else
     {
       const char *home = [self getSwarmHome];
       if (home)
         {
           const char *newHome = ensureEndingSlash (home);
-          char *buf = xmalloc (strlen (newHome) + strlen (subpath) + 1);
+          char *buf = xmalloc (strlen (newHome) + strlen (subpath) + 1), *p;
             
           p = stpcpy (buf, newHome);
           stpcpy (p, subpath);
-          ret = buf;
           xfree ((char *)newHome);
+          return buf;
         }
-      else
-        ret = NULL;
     }
-  xfree (filepath);
-  return ret;
+  return NULL;
 }
 
 - (const char *)getConfigPath

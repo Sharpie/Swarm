@@ -6,9 +6,13 @@
 	([Arguments -_getPath_:subpath:]): New method.
 	([Arguments -getConfigPath], [Arguments -getDataPath]): Use it
 	(latter is new).
-	([Arguments -_runningFromInstall_], [Arguments -_appendAppName_:]): 
-	([Arguments -getAppConfigPath], [Arguments -getAppDataPath]): Use them
-	(latter is new).
+	([Arguments -_runningFromInstall_], [Arguments
+	-_appendAppName_:]):
+	([Arguments -getAppConfigPath], [Arguments -getAppDataPath]): Use
+	them (latter is new).
+	(SIGNATURE_SUBPATH, SIGNATURE, SIGNATURE_PATH): Versions for 
+	subdirectory, file, and combined.  SIGNATURE is now Makefile.appl
+	instead of VERSION.
 
 	* Arguments.[hm]: New ivar defaultAppDataPath and setter.
 
@@ -34,7 +38,6 @@
 	setter.
 
 	* Arguments.m: Include objectbase.h, collections.h, and swarmconfig.h.
-	Change SIGNATURE_FILE to etc/swarm/Makefile.appl.
 	(countSlashes): New function.
 	(findSwarm): Use it to determine how many directories to drop.
 
