@@ -1,6 +1,6 @@
 AC_DEFUN(md_FIND_FFI,
 [USE_FFCALL=0
-if test -n "$with_ffidir" && "$with_ffidir" != no; then
+if test -n "$with_ffidir" && test "$with_ffidir" != no; then
   case $target_cpu in
     i?86|sparc)
       AC_MSG_WARN(Ignoring --with-ffidir: libffi is known to be less reliable than avcall on this platform.)
