@@ -20,7 +20,7 @@ DISTNAME=$(NAME)-@VERSION@
 htmldir = $(prefix)/html/$(NAME)
 html_DATA = $(NAME).html
 
-$(dvi_DATA) $(html_DATA) $(ps_DATA) $(rtf_DATA): figs
+dvi html ps rtf all: figs
 
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
