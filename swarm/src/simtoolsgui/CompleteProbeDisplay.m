@@ -59,10 +59,11 @@ PHASE(Creating)
   maxwidth = 0;
 
   classList = [List create: [self getZone]];
-  for (class = [probedObject class]; 
+  for (class = SD_GETCLASS (probedObject);
        class != nil; 
-       class = class_get_super_class (class))
+       class = SD_SUPERCLASS (class))
     {
+      printf ("[%s]\n", class->name);
       [classList addFirst: (id) class];	
       maxwidth = max (max_class_var_length (class), maxwidth);
     }
