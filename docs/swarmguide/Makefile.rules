@@ -1,0 +1,102 @@
+JADE = @JADE@
+SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
+JADETEX = @JADETEX@
+DVIPS = @DVIPS@
+GZIP = gzip --best
+top_dossrcdir = @top_dossrcdir@
+
+HTML = $(top_dossrcdir)/html.dsl
+PRINT = $(top_dossrcdir)/print.dsl
+JADEFLAGS = -V biblio-citation-check
+
+RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE) $(JADEFLAGS)
+CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
+
+FIGS = figs/swarm.eps # for the timestamp
+
+GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl $(FIGS)
+
+.PHONY: fot tex dvi ps rtf html htmldist dvidist psdist rtfdist
+
+COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
+
+DISTNAME=$(NAME)-@VERSION@
+
+htmldir = $(prefix)/html/$(NAME)
+html_DATA = $(NAME).html
+
+install-data-local:
+	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
+install-data-hook:
+	(cd $(htmldir) && $(LN_S) -f $(prefix)/figs figs)
+
+uninstall-local:
+	- (cd $(htmldir); rm -rf *)	
+
+htmldist: html
+	cd .. ; tar cf - $(addprefix $(NAME)/,$(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz
+
+dvidir = $(prefix)/dvi
+dvi_DATA = $(NAME).dvi
+
+dvidist: dvi
+	cd .. ; tar cf - $(NAME)/$(NAME).dvi $(NAME)/figs | $(GZIP) > $(DISTNAME)-dvi.tar.gz
+
+psdir = $(prefix)/ps
+ps_DATA = $(NAME).ps
+
+psdist: ps
+	$(GZIP) < $(NAME).ps > ../$(DISTNAME).ps.gz
+
+rtfdir = $(prefix)/rtf
+rtf_DATA = $(NAME).rtf
+
+rtfdist: rtf
+	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(DISTNAME)-rtf.tar.gz 
+
+CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(dvi_DATA) $(ps_DATA) $(rtf_DATA)
+
+$(FIGS):
+	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
+
+_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)
+
+$(NAME).html: $(GENERAL) $(HTML)
+
+$(NAME).dvi: $(top_srcdir)/tex/macros.tex
+
+all-recursive: # when no SUBDIRS
+
+fot: all-recursive $(NAME).fot
+
+tex: all-recursive _$(NAME).tex
+
+dvi: all-recursive $(NAME).dvi
+
+ps: all-recursive $(NAME).ps 
+
+rtf: all-recursive $(NAME).rtf
+
+html: all-recursive $(NAME).html
+
+%.fot: %.sgml
+	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\1:,'`
+
+_%.tex: %.sgml
+	$(RUNJADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
+
+%.rtf: %.sgml
+	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
+
+%.html: %.sgml
+	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`
+
+%.dvi: %.tex _%.tex
+	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
+
+%.ps: %.dvi
+	$(DVIPS) -o $@ $<
+
+# Local variables:
+# mode: makefile
+# end:
