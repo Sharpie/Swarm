@@ -103,10 +103,15 @@
       
       lcount = xsize * ysize;
       for (i = 0; i < lcount; i++)
-        if ((lattice[i] != (id) ULONGVAL) && 
-            ((i == ((OTHERX-1)*(OTHERY-1))) && 
-             (lattice[i] != (id) OTHERULONGVAL)))
-          return NO;
+        {
+          if (i == (OTHERY * xsize + OTHERX))
+            {
+              if (lattice[i] != (id) OTHERULONGVAL)
+                return NO;
+            }
+          else if (lattice[i] != (id) ULONGVAL)
+            return NO;
+        }
     }
   else
     {
@@ -123,27 +128,27 @@
 
 
 static id
-createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag, BOOL valueFlag)
+createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag, BOOL deepFlag)
 {
   return [[[[[Archiver createBegin: aZone]
               setPath: (hdf5Flag
-                        ? (valueFlag ? "values.hdf" : "objects.hdf")
-                        : (valueFlag ? "values.scm" : "objects.scm"))]
+                        ? (deepFlag ? "objects.hdf" : "values.hdf")
+                        : (deepFlag ? "objects.scm" : "values.scm"))]
              setHDF5Flag: hdf5Flag]
             setInhibitLoadFlag: inhibitLoadFlag]
            createEnd];
 }
 
 static BOOL
-checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL valueFlag)
+checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL deepFlag)
 {
   id obj;
   BOOL ret;
   id archiver;
 
-  archiver = createArchiver (aZone, hdf5Flag, YES, valueFlag);
+  archiver = createArchiver (aZone, hdf5Flag, YES, deepFlag);
 
-  if (valueFlag)
+  if (!deepFlag)
     {
       obj = [[[[MyDiscrete2d createBegin: aZone]
                 setSizeX: XSIZE Y: YSIZE]
@@ -172,10 +177,10 @@ checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL valueFlag)
   [obj drop];
   [archiver drop];
       
-  archiver = createArchiver (aZone, hdf5Flag, NO, valueFlag);
+  archiver = createArchiver (aZone, hdf5Flag, NO, deepFlag);
   obj = [archiver getObject: OBJNAME];
   [archiver drop];
-  
+
   ret = [obj checkObject];
   [obj drop];
   
@@ -189,12 +194,20 @@ main (int argc, const char **argv)
 
   if (checkArchiverDiscrete2d (globalZone, NO, YES) == NO)
     raiseEvent (InternalError, 
-                "Deep Lisp serialization of Discrete2d with values failed");
+                "Deep Lisp serialization of Discrete2d with objects failed");
 
   if (checkArchiverDiscrete2d (globalZone, NO, NO) == NO)
     raiseEvent (InternalError, 
-                "Deep Lisp serialization of Discrete2d with objects failed");
+                "Shallow Lisp serialization of Discrete2d with values failed");
+
+#ifdef HAVE_HDF5
+  if (checkArchiverDiscrete2d (globalZone, YES, NO) == NO)
+    raiseEvent (InternalError, 
+                "Shallow HDF5 serialization of Discrete2d with values failed");
+#endif
+
   return 0;
 }
+
 
 
