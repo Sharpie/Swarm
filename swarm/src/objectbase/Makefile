@@ -4,12 +4,12 @@ OBJECTS=SwarmObject.o Swarm.o Probe.o VarProbe.o MessageProbe.o \
 	ProbeMap.o CustomProbeMap.o EmptyProbeMap.o ProbeLibrary.o \
 	DefaultProbeMap.o CompleteProbeMap.o \
 	CompleteVarMap.o probing.o swarm_rts_routines.o \
-	ActivityControl.o 
+	ActivityControl.o Arguments.o
 HEADERS=SwarmObject.h Swarm.h Probe.h VarProbe.h MessageProbe.h \
 	ProbeMap.h CustomProbeMap.h EmptyProbeMap.h ProbeLibrary.h \
 	DefaultProbeMap.h CompleteProbeMap.h \
 	CompleteVarMap.h probing.h swarm_rts_routines.h \
-	ActivityControl.h
+	ActivityControl.h Arguments.h
 
 include $(SWARMHOME)/Makefile.lib
 
@@ -33,3 +33,4 @@ CompleteVarMap.o: CompleteVarMap.m CompleteVarMap.h \
                   ProbeMap.m ProbeMap.h Probe.h SwarmObject.h
 swarm_rts_routines.o: swarm_rts_routines.m swarm_rts_routines.h
 ActivityControl.o: ActivityControl.m ActivityControl.h
+Arguments.o: Arguments.m Arguments.h
