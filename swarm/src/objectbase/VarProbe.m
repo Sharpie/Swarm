@@ -85,7 +85,7 @@ PHASE(Creating)
 
       fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-      probedType = objc_type_for_fcall_type (swarm_directory_fcall_type_for_java_class (jniEnv, fieldType));
+      probedType = objc_type_for_fcall_type (fcall_type_for_java_class (jniEnv, fieldType));
       interactiveFlag = YES;
       return self;
     }
@@ -677,8 +677,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
 id
 java_probe_as_object (jclass fieldType, jobject field, jobject object)
 {
-  fcall_type_t type =
-    swarm_directory_fcall_type_for_java_class (jniEnv, fieldType);
+  fcall_type_t type = fcall_type_for_java_class (jniEnv, fieldType);
   jobject jobj;
   id ret;
 
