@@ -1,3 +1,41 @@
+1997-12-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VarProbeWidget.h: Constify return of -package. Reformatting
+	throughout.
+
+	* VarProbeWidget.m ([VarProbeWidget -createEnd]): Replace calls to
+	Tcl with new tkobjc functions setAnchorEast, setWidth,
+	disabledState,
+	([VarProbeWidget -Spawn]): Use new tkobjc functions ringBell, and
+	update.
+	([VarProbeWidget -update]): Use new tkobjc functions normalState,
+	disabledState, and update.
+	([VarProbeWidget -package]): Constify return value.  Use new 
+	tkobjc functions ringBell and update.
+
+	([VarProbeWidget -idReceive]): Use new tkobjc function focus.
+
+	* MessageProbeWidget.m ([MessageProbeWidget -createEnd]): Replace
+	calls to Tcl with new tkobjc functions disabledState, setWidth,
+	and setText, and existing tkobjc function packFillLeft.
+	([MessageProbeWidget -dynamic]): Use new tkobjc functions
+	ringBell, normalState, and disabledState.
+	([MessageProbeWidget -Spawn]): Use new tkobjc function ringBell.
+	([MessageProbeWidget -argSpawn:which]): Likewise.
+	([MessageProbeWidget -package]): Likewise.
+	([MessageProbeWidget -package:which]): Likewise.
+	([MessageProbeWidget -idReceive:which]): Use new tkobjc function
+	normalState, disabledState, and update. 
+	Reformatting throughout.
+
+	* MessageProbeWidget.h: Consify -package and -package:.
+	Reformatting throughout.
+
+	* MessageProbeWidget.m: Include <tkobjc/control.h>.
+	
+	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Add
+	extra conditional braces to pacify GCC.
+
 1997-12-08  Alex Lancaster  <alex@wijiji.santafe.edu>
 
 	* ObjectSaver.m ([ObjectSaver -saveObject:]):

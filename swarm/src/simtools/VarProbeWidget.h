@@ -7,29 +7,30 @@
 #import <swarmobject/SwarmObject.h>
 #import <swarmobject/VarProbe.h>
 
-@interface VarProbeWidget : Widget {
-	id     myObject ;
-	VarProbe *myProbe ;
-	Frame  *myLeft  ;
-	Frame  *myRight ;
-	Label  *myLabel ;
-	int maxLabelWidth ;
-        int interactive ;
-	Entry  *myEntry ;
+@interface VarProbeWidget : Widget
+{
+  id myObject;
+  VarProbe *myProbe;
+  Frame *myLeft;
+  Frame *myRight;
+  Label *myLabel;
+  int maxLabelWidth;
+  int interactive;
+  Entry *myEntry;
 }
 
-+createBegin: aZone ;
--setObject: obj ;
--setProbe: (Probe *) the_probe;
--setMyLeft: aFrame ;
--setMyRight: aFrame ;
--setMaxLabelWidth: (int) width ;
--createEnd ;
--pack ;
--setValue;
--update ;
--Spawn ;
--idReceive ;
--(char *)package ;
--(const char *)getId ;
++ createBegin: aZone;
+- setObject: obj;
+- setProbe: (Probe *) the_probe;
+- setMyLeft: aFrame;
+- setMyRight: aFrame;
+- setMaxLabelWidth: (int) width;
+- createEnd;
+- pack;
+- setValue;
+- update;
+- Spawn;
+- idReceive;
+- (const char *)package;
+- (const char *)getId;
 @end
