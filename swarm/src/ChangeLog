@@ -1,7 +1,3 @@
-1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* Makefile.am (swarm.dll): Switch to using new DLL-capable linker.
-
 1999-08-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (DLLWRAP): Move substitution outside of automake
