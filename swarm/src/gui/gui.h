@@ -558,10 +558,12 @@ CREATING
 //M: Indicate the object that is using this widget.
 - setOwner: owner;
 
-//M: Set the type of object edited by this entry.
-- setProbeType: (char)probeType;
+//M: Set the variable probe associated with this widget.
+- setVarProbe: varProbe;
 
 - createEnd;
+USING
+- getVarProbe;
 @end
 
 @protocol VarProbeEntry <_VarProbeEntry, Entry>
