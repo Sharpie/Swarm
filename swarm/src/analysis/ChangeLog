@@ -1,3 +1,8 @@
+2000-07-15  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Makefile.am (INCLUDES): Add -I$(srcdir)/../random for swarm.h
+	via simtools.h which is for OutFile.  (sigh)
+
 2000-05-17  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* EZGraph.[mh], analysis.h ([EZGraph
