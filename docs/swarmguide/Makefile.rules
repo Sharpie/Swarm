@@ -1,5 +1,4 @@
 JADE = @JADE@
-SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
 JADETEX = @JADETEX@
 DVIPS = @DVIPS@
 GZIP = gzip --best
@@ -9,8 +8,8 @@ HTML = $(top_dossrcdir)/html.dsl
 PRINT = $(top_dossrcdir)/print.dsl
 JADEFLAGS = -V biblio-citation-check
 
-RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE) $(JADEFLAGS)
-CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog  @catopts@ 
+RUNJADE = $(JADE) $(JADEFLAGS)
+CATOPTS = -c $(top_builddir)/catalog  @catopts@ 
 
 FIGS = figs/swarm.eps # for the timestamp
 

@@ -1,3 +1,12 @@
+2000-02-16    <mgd@nest.swarm.org>
+
+	* configure.in: new --with-dtd-common option.  When set, prepend
+	to catopts.
+
+	* Makefile.rules (CATOPTS): Remove $(STANDARD_CATALOG_OPT).
+	(RUNJADE): Remove SGML_CATALOG_FILES environment setting.
+	(SGML_CATALOG_FILES): Remove substitution.
+
 2000-02-15  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: New switcheroo EPS and JPEG figure entities.
