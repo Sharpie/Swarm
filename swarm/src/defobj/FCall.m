@@ -204,6 +204,7 @@ fillHiddenArguments (FCall * self)
 - createEnd
 {
   unsigned int res;
+
   if (_obj_debug && (callType == ccall || callType == objccall) && !ffunction)
     raiseEvent (SourceMessage, "Function to be called not set!\n");
   if (_obj_debug && !args)
