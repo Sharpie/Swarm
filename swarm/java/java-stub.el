@@ -263,9 +263,6 @@
       "-createActionCall:::"
       "-createActionCall::::"
 
-      ;; ActivityIndex
-      "-nextAction:"
-
       ;; ActionCall / FCall
       "-setFunctionPointer:" ; func_t parameter
 

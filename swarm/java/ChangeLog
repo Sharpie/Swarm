@@ -1,7 +1,6 @@
 1999-11-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-protocols*): Add ActivityIndex.
-	(*removed-methods*): Add nextAction:.
 
 1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
