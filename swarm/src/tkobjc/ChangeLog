@@ -1,5 +1,7 @@
 1998-11-09  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* ScheduleItem.h: Declare _drop_.
+
 	* internal.m (tkobjc_pixmap_create): Reverse bit order for paletted
 	bitmaps (less than 8 bits).
 

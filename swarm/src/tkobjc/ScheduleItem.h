@@ -36,5 +36,6 @@
 - (int)getYForTime: (timeval_t)tval;
 - trigger: widget X: (int)x Y: (int)y;
 - (unsigned)getSleepTime;
+- (void)_drop_;
 - (void)drop;
 @end
