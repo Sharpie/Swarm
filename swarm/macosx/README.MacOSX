@@ -5,13 +5,26 @@ This is the start of build for MacOSX/Darwin.
 The contents of this directory are not expected to be meaningful on any
 other platform.
 
-This readme is current as at 31 Dec 2002 for MacOS X 10.2.3 with the
+This readme is current as at 2 Jan 2003 for MacOS X 10.2.3 with the
 December 2002 Developer Tools.  Do not waste your time with any MacOS setup
 older than this.  Apple are rapidly improving the *NIX compatability and
 functionality of the bsd subsystem.
 
 This work was being done with Xfree86 4.2.1.1.  Libraries Tcl/Tk 8.4.1,
 HDF5 1.5-42, and BLT2.4z are all installed in /usr/local.
+
+Sources or compiled code can be obtained as
+Xfree86 (binary and source)  http://sourceforge.net/projects/xonx
+OroborosX (binary and source)  http://oroborosx.sourceforge.net/
+Tcl/Tk  (source and Aqua binaries)   http://sourceforge.net/projects/tcl
+HDF5    (source)   http://hdf.ncsa.uiuc.edu/
+BLT     (source)   http://sourceforge.net/projects/blt
+BLT (patches and binary)  http://savannah.nongnu.org/patch/?group=swarm
+
+Documentation on MacOS X porting issues can be found at
+http://developer.apple.com/unix/
+and more specifically
+http://developer.apple.com/techpubs/macosx/Darwin/GettingStarted/PortingUNIX/index.html
 
 
 I. Contents of this directory
