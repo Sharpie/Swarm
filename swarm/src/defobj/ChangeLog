@@ -1,3 +1,26 @@
+1999-12-21    <mgd@nest.swarm.org>
+
+	* defobj.h (types_t): Add boolean.
+
+	* _fcall.m (ADD_PRIMITIVE, SET_RETURN_TYPE): Handle boolean.
+
+	* FCall.m (defobj_init_java_call_tables, ffi_types): Add entries
+	for boolean.
+	([FCall_c -performCall]): Handle boolean.
+	([FCall_c -getRetVal:buf:]): Add/use return_boolean.
+
+	* FArguments.m (java_type_signature, objc_types): Add entries for
+	boolean.
+	(fcall_type_size): Handle boolean.
+
+	* FArguments.[hm], defobj.h ([FArguments_c -setSelector:setJavaFlag:],
+	[FArguments_c -setBooleanReturnType]): New methods.
+
+	* FArguments.h (FCALL_TYPE_COUNT): Increment.
+	(fcall_type_t): Add fcall_type_boolean.
+
+	* directory.m (swarm_directory_init): Associate symbol Sequential.
+
 1999-12-16    <mgd@nest.swarm.org>
 
 	* directory.[hm] ([DirectoryEntry

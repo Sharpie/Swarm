@@ -57,6 +57,8 @@ defobj_init_java_call_tables (void *jEnv)
 {
   java_static_call_functions[fcall_type_void] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticVoidMethod);
+  java_static_call_functions[fcall_type_boolean] =
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticBooleanMethod);
   java_static_call_functions[fcall_type_uchar] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticCharMethod);
   java_static_call_functions[fcall_type_schar] = 
@@ -98,6 +100,8 @@ defobj_init_java_call_tables (void *jEnv)
 
   java_call_functions[fcall_type_void] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallVoidMethod);
+  java_call_functions[fcall_type_boolean] = 
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallBooleanMethod);
   java_call_functions[fcall_type_uchar] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallCharMethod);
   java_call_functions[fcall_type_schar] = 
@@ -191,6 +195,7 @@ fillHiddenArguments (FCall_c *self)
 #ifndef USE_AVCALL
 static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_void,
+  &ffi_type_uchar, /* boolean */
   &ffi_type_uchar, &ffi_type_schar, 
   &ffi_type_ushort, &ffi_type_sshort, 
   &ffi_type_uint, &ffi_type_sint, 
@@ -466,6 +471,9 @@ PHASE(Using)
       {
       case fcall_type_void:
         break;
+      case fcall_type_boolean:
+        fargs->resultVal.boolean = VAL (BOOL, ret);
+        break;
       case fcall_type_schar:
         // character return is broken in libffi-1.18
         fargs->resultVal.schar = VAL (int, ret);
@@ -588,6 +596,7 @@ PHASE(Using)
 
 #ifndef BUGGY_BUILTIN_APPLY
   {
+    BOOL return_boolean (void) { return buf->boolean; }
     char return_schar (void) { return buf->schar; }
     unsigned char return_uchar (void) { return buf->uchar; }
     short return_sshort (void) { return buf->sshort; }
@@ -617,6 +626,9 @@ PHASE(Using)
       {
       case fcall_type_void:
         APPLY (return_void);
+        break;
+      case fcall_type_boolean:
+        APPLY (return_boolean);
         break;
       case fcall_type_uchar: 
         APPLY (return_uchar);
@@ -688,6 +700,7 @@ PHASE(Using)
       case fcall_type_void:
         ptr = NULL;
         break;
+      case fcall_type_boolean:
       case fcall_type_uchar:
 #ifdef __sparc__
         buf->uint = buf->uint >> 24;

@@ -23,6 +23,7 @@ ADD_PRIMITIVE (FArguments_c *fa, fcall_type_t type, void *val)
     {
     case fcall_type_void:
       abort ();
+    case fcall_type_boolean:
     case fcall_type_uchar:
       av_uchar (AVALIST (fa), *(unsigned char *) val);
       break;
@@ -94,6 +95,7 @@ SET_RETURN_TYPE (FCall_c *fc, FArguments_c *fa)
     case fcall_type_void:
       av_start_void (AVALIST (fa), func);
       break;
+    case fcall_type_boolean:
     case fcall_type_uchar:
       av_start_uchar (AVALIST (fa), func, &fa->resultVal.uchar);
       break;

@@ -1046,8 +1046,10 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
   
   {
     extern id <Symbol> Randomized;
+    extern id <Symbol> Sequential;
     
     ASSOCIATE (Randomized);
+    ASSOCIATE (Sequential);
   }
 
   {

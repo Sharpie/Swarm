@@ -1036,6 +1036,7 @@ typedef union {
   SEL selector;
   Class class;
   const char *string;
+  BOOL boolean;
   char schar;
   unsigned char uchar;
   short sshort;
@@ -1056,9 +1057,11 @@ typedef union {
 //D: A language independent interface to dynamic call argument construction.
 CREATING
 + createBegin: (id <Zone>)aZone;
+- setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
 - setJavaSignature: (const char *)javaSignature;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
+- addBoolean: (BOOL)value;
 - addUnsignedChar: (unsigned char)value;
 - addShort: (short)value;
 - addUnsignedShort: (unsigned short)value;
@@ -1074,6 +1077,7 @@ CREATING
 - addString: (const char *)value;
 - addObject: value;
 - setObjCReturnType: (char)type;
+- setBooleanReturnType;
 - createEnd;
 USING
 - (BOOL)getJavaFlag;

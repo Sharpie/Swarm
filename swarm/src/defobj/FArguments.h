@@ -18,9 +18,11 @@ Library:      defobj
 #include <avcall.h>
 #endif
 
-#define FCALL_TYPE_COUNT 20
+#define FCALL_TYPE_COUNT 21
 
-typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
+typedef enum {fcall_type_void = 0,
+              fcall_type_boolean,
+              fcall_type_uchar, fcall_type_schar,
               fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
               fcall_type_sint, fcall_type_ulong, fcall_type_slong,
               fcall_type_slonglong, fcall_type_ulonglong,
@@ -59,8 +61,10 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
    BOOL javaFlag;
 }
 + createBegin: aZone;
+- setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
 - setJavaSignature: (const char *)javaSignature;
 - addArgument: (void *)value ofObjCType: (char)type;
+- addBoolean: (BOOL)value;
 - addChar: (char)value;
 - addUnsignedChar: (unsigned char)value;
 - addShort: (short)value;
@@ -78,6 +82,7 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - addObject: value;
 - _setReturnType_: (fcall_type_t)type;
 - setObjCReturnType: (char)type;
+- setBooleanReturnType;
 - createEnd;
 - (BOOL)getJavaFlag;
 - (void *)getResult;

@@ -26,11 +26,12 @@ Library:      defobj
 #endif
 
 #ifdef HAVE_JDK
-#include <defobj/directory.h> // jniEnv
+#import <defobj/directory.h> // jniEnv
+#import <defobj/javavars.h> // f_retTypeFid, c_boolean
 #endif
 
 const char *java_type_signature[FCALL_TYPE_COUNT] = {
-  "V", "C", "C", "S", "S",
+  "V", "C", "C", "C", "S", "S",
   "I", "I", "J", "J", 
 
   /* bogus */
@@ -48,6 +49,7 @@ const char *java_type_signature[FCALL_TYPE_COUNT] = {
 
 char objc_types[FCALL_TYPE_COUNT] = {
   _C_VOID,
+  _C_UCHR, /* boolean */
   _C_UCHR,
   _C_CHR,
   _C_USHT,
@@ -80,6 +82,8 @@ fcall_type_size (fcall_type_t type)
     {
     case fcall_type_void:
       return 0;
+    case fcall_type_boolean:
+      return sizeof (BOOL);
     case fcall_type_uchar:
       return sizeof (unsigned char);
     case fcall_type_schar:
@@ -147,6 +151,48 @@ PHASE(Creating)
   return newArguments;
 }
 
+- setSelector: (SEL)selector setJavaFlag: (BOOL)theJavaFlag
+{
+  const char *type = sel_get_type (selector);
+
+  if (!type)
+    {
+      const char *name = sel_get_name (selector);
+
+      selector = sel_get_any_typed_uid (name);
+      type = sel_get_type (selector);
+    }
+  if (swarmDirectory && theJavaFlag)
+    {
+      jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
+      
+      if (jsel)
+        {
+          const char *sig =
+            swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+          
+          [self setJavaSignature: sig];
+          [scratchZone free: (void *) sig];
+          {
+            jobject retType =
+              (*jniEnv)->GetObjectField (jniEnv, jsel, f_retTypeFid);
+            
+            if ((*jniEnv)->IsSameObject (jniEnv, retType, c_boolean))
+              [self setBooleanReturnType];
+            else
+              [self setObjCReturnType: *type];
+            (*jniEnv)->DeleteLocalRef (jniEnv, retType);
+          }
+        }
+      else
+        abort ();
+    }
+  else
+    [self setObjCReturnType: *type];
+  return self;
+}
+
+
 - setJavaSignature: (const char *)theJavaSignature
 {
   char *buf = ALLOCBLOCK (strlen (theJavaSignature) + 1);
@@ -204,6 +250,12 @@ get_fcall_type_for_objc_type (char objcType)
 }
 
 #define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_type_signature[fcall_type]); argValues[MAX_HIDDEN + assignedArgumentCount] = ALLOCTYPE (fcall_type); argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount] = value; assignedArgumentCount++; }
+
+- addBoolean: (BOOL)value
+{
+  ADD_PRIMITIVE (fcall_type_boolean, BOOL, value);
+  return self;
+}
 
 - addChar: (char)value
 {
@@ -349,6 +401,9 @@ get_fcall_type_for_objc_type (char objcType)
 
   switch (type)
     {
+    case fcall_type_boolean:
+      result = &resultVal.boolean;
+      break;
     case fcall_type_uchar:
       result = &resultVal.uchar;
       break;
@@ -419,6 +474,11 @@ get_fcall_type_for_objc_type (char objcType)
 - setObjCReturnType: (char)objcType
 {
   return [self _setReturnType_: get_fcall_type_for_objc_type (objcType)];
+}
+
+- setBooleanReturnType
+{
+  return [self _setReturnType_: fcall_type_boolean];
 }
 
 static const char *
