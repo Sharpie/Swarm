@@ -95,6 +95,7 @@ getValueList (id index)
                                    [obj name]];
     }
   [index drop];
+  return self;
 }
 
 - lispout: stream
