@@ -9,8 +9,7 @@
 #import <objectbase/swarm_rts_routines.h>
 #include <misc.h> // abort
 
-// Avoid using chars as an index to ctype table.
-#define isDigit(ch) isdigit((int)ch)
+#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
 
 const char*
 skip_type_qualifiers (const char *type)
