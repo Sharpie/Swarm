@@ -84,7 +84,7 @@ PHASE(Creating)
   index = [collection begin: scratchZone];
   for (elem = [index next], i = 0; i < count; elem = [index next], i++)
     [self atOffset: i put: 
-	    [[[[PermutationItem createBegin: getCZone ( getZone (self))]
+	    [[[[PermutationItem createBegin: getCZone (getZone (self))]
 		setPosition: i]
 	       setItem: elem]
 	      createEnd]];
