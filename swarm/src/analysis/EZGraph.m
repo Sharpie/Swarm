@@ -8,11 +8,12 @@
 #import <simtools.h> // OutFile
 #import <analysis.h> // ActiveGraph, ActiveOutFile
 
-#define NUMCOLORS 10
-const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow", 
-                                          "Pink", "SeaGreen", "Magenta", 
-                                          "Purple", "DarkGreen", "Goldenrod", 
-                                          "Black" };
+#define NUMCOLORS 12
+const char graphColors[NUMCOLORS][16] =
+//    { "Red",     "Green",  "Yellow",    "Pink",      "SeaGreen",
+//      "Magenta", "Purple", "DarkGreen", "Goldenrod", "Black" };
+        { "Red",   "Blue",   "Orange", "DarkGreen", "Magenta",   "Purple",
+        "Green", "Yellow", "Cyan",   "SeaGreen",  "Goldenrod", "Black" };  
 
 @implementation EZGraph
 
@@ -101,7 +102,7 @@ PHASE(Using)
   return self;
 }
 
-- getGraph
+- (id <Graph>) getGraph
 {
   return theGraph;
 }

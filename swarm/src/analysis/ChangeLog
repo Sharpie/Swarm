@@ -1,3 +1,24 @@
+1998-09-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* analysis.h: Add setMonoColorBars:, change getGraph return type,
+	and include createEnd.
+
+	* EZGraph.m ([EZGraph +createBegin:]): Add more colors, change
+	scheme. 
+
+	* EZGraph.h (EZGraph): Make theGraph conform to Graph protocol.
+
+	* EZGraph.[hm]: Make getGraph return object conforming to Graph
+	protocol.
+
+	* EZBin.m: New array binColors.
+	([EZBin +createBegin:]): Initialize monoColorsBars to NO.
+	([EZBin -createEnd]): Call setColors: if not monoColorsBars.
+
+	* EZBin.[hm]: New setter setMonoColorsBars:.
+
+	* EZBin.h (EZBin): Add monoColorBars.
+
 1998-09-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* analysis.h (EZBin): Note that the upper bound is not inclusive.

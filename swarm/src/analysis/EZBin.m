@@ -12,6 +12,17 @@
 
 #include <objc/objc-api.h>
 
+#define NUMCOLORS 12
+
+const char * const binColors[NUMCOLORS] =
+//	{ "Red",     "Green",  "Yellow",    "Pink",      "SeaGreen",
+//	  "Magenta", "Purple", "DarkGreen", "Goldenrod", "Black"     };
+        { "Red",   "Blue",   "Orange", "DarkGreen", "Magenta",   "Purple",
+	  "Green", "Yellow", "Cyan",   "SeaGreen",  "Goldenrod", "Black"  };
+
+// const char * const binLabels[NUMCOLORS] = 
+// 	{ "A","B","C","D","E","F","G","H","I","J","K","L" };
+
 @implementation EZBin
 
 PHASE(Creating)
@@ -23,6 +34,7 @@ PHASE(Creating)
   anObj = [super createBegin: aZone];
   anObj->fileOutput = 0;
   anObj->graphics = 1;
+  anObj->monoColorBars = NO;
   anObj->theTitle = NULL;
   anObj->xLabel = NULL;
   anObj->yLabel = NULL;
@@ -42,6 +54,12 @@ PHASE(Creating)
   return self;
 }
 
+- setMonoColorBars: (BOOL)mcb
+{
+  monoColorBars = mcb;
+  return self;
+}
+
 - setTitle: (const char *)aTitle
 {
   theTitle = aTitle;
@@ -57,6 +75,24 @@ PHASE(Creating)
 - setProbedSelector: (SEL) aSel
 {
   probedSelector = aSel;
+  return self;
+}
+
+- setBinNum: (int)theBinNum
+{
+  binNum = theBinNum;
+  return self;
+}
+
+- setLowerBound: (double)theMin
+{
+  min = theMin;
+  return self;
+}
+
+- setUpperBound: (double)theMax
+{
+  max = theMax;
   return self;
 }
 
@@ -94,12 +130,16 @@ PHASE(Creating)
   if (graphics)
     {
       aHisto = [Histogram createBegin: [self getZone]];
-      SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
+      [aHisto setNumBins: binNum];
       aHisto = [aHisto createEnd];
+      SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
+
       [aHisto setTitle: theTitle];
       if(xLabel && yLabel) 
         [aHisto setAxisLabelsX: xLabel Y: yLabel];
-      [aHisto setNumPoints: binNum Labels: NULL Colors: NULL];
+      // [aHisto setLabels: binLabels];
+      if (!monoColorBars)
+        [aHisto setColors: binColors];
       [aHisto pack];
       
       [aHisto setBarWidth: step];
@@ -135,24 +175,6 @@ PHASE(Using)
 {
   xLabel = xl;
   yLabel = yl;
-  return self;
-}
-
-- setBinNum: (int)theBinNum
-{
-  binNum = theBinNum;
-  return self;
-}
-
-- setLowerBound: (double)theMin
-{
-  min = theMin;
-  return self;
-}
-
-- setUpperBound: (double)theMax
-{
-  max = theMax;
   return self;
 }
 

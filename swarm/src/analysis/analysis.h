@@ -111,7 +111,10 @@ CREATING
 //M: the histogram in the graphical version of EZBin. (Only relevant if the 
 //M: state of setGraphics is set to 1.)
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
-USING
+
+//M: The setMonoColorBars method specifies whether all bars should be shown
+//M: in a single color (blue). The default is differently colored bars.
+- setMonoColorBars: (BOOL)mcb;
 
 //M: The setBinNum method sets the number of bins the histogram will have.
 - setBinNum: (int)theBinNum;
@@ -123,6 +126,10 @@ USING
 //M: The setUpperBound method sets the non-inclusive upper bound on the
 //M: histogram range.
 - setUpperBound: (double)theMax;
+
+- createEnd;
+
+USING
 
 //M: Sets the number of significant figures shown for major-tick labels.
 - setPrecision: (unsigned)precision;
@@ -277,7 +284,7 @@ USING
 
 //M: The getGraph method lets the user access the graph generated internally
 //M: by the EZGraph. (Only relevant if the state of setGraphics is set to 1.)
-- getGraph;
+- (id <Graph>)getGraph;
 
 //M: The createSequence method creates a sequence in the EZGraph based on
 //M: the return value provided by the object anObj when sent the selector

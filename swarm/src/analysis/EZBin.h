@@ -16,6 +16,8 @@
   BOOL fileOutput;
   id anOutFile;
 
+  BOOL monoColorBars;
+
   const char *theTitle;
   const char *xLabel;
   const char *yLabel;
@@ -40,6 +42,7 @@
 
 - setGraphics: (BOOL)state;
 - setFileOutput: (BOOL)state;
+- setMonoColorBars: (BOOL)mcb;
 
 - setBinNum: (int)theBinNum;
 - setLowerBound: (double)theMin;

@@ -6,6 +6,7 @@
 // Simple Graph Object -> encapsulates many of the low-level objects 
 //                        required to get graphs/file traces to work.
 
+#import <gui.h>
 #import <simtoolsgui/GUIComposite.h>
 
 @class EZGraph;
@@ -15,7 +16,7 @@
 @interface EZGraph: GUIComposite
 {
   int graphics;
-  id theGraph;
+  id <Graph> theGraph;
 
   int fileOutput;
 
@@ -39,7 +40,7 @@
 - setRangesYMin: (double)ymin Max: (double)ymax;
 - setScaleModeX: (BOOL)xs Y: (BOOL)ys;
 
-- getGraph;
+- (id <Graph>) getGraph;
 
 - createGraphSequence: (const char *)aName 
           forSequence: aSeq
