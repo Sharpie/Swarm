@@ -1,3 +1,8 @@
+1998-03-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Arguments.m ([Arguments +createArgc:Argv:]): glibc or not,
+	set program_invocation_name with expanded absolute path.
+
 1998-03-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbe.m ([MessageProbe -setArg:ToString:], [MessageProbe

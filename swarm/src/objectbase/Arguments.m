@@ -161,8 +161,8 @@ static struct argp argp = { options, parse_opt, NULL, NULL };
   id arguments = [Arguments createBegin: globalZone];
   
   [arguments setArgc: theArgc Argv: theArgv];
-#ifndef __GLIBC__
   program_invocation_name = find_executable (theArgv[0]);
+#ifndef __GLIBC__
   program_invocation_short_name = getApplicationValue (theArgv[0]);
 #endif  
   [arguments setAppName: program_invocation_short_name];
