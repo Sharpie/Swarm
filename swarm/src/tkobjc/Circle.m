@@ -36,17 +36,5 @@
   return self;
 }
 
-- reportClick
-{
-  printf ("Reporting!!!\n");
-
-  return self;
-}
-
-- (int)reportMoveX: (int)d_x Y: (int)d_y
-{
-  return 1;
-}
-
 @end
 

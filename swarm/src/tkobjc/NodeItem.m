@@ -59,42 +59,55 @@
   return self;
 }
 
+static void
+createButton3Binding (const char *canvasName,
+                      const char *item,
+                      const char *objectName)
+{
+  [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
+                  canvasName,
+                  item,
+                  objectName];
+}
+
+static void
+createButton1Binding (const char *canvasName,
+                      const char *item)
+{
+  [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
+                  canvasName,
+                  item,
+                  "%x", "%y"];
+}
+
+static void
+createButton1MotionBinding (const char *canvasName,
+                            const char *item,
+                            const char *objectName)
+{
+  [globalTkInterp eval: "%s bind %s <B1-Motion> {"
+                  "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
+                  "set curX %s; set curY %s}",
+                  canvasName,
+                  item,
+                  objectName,
+                  "%x", "%y", "%x", "%y"];
+}
+
 - createBindings
 {
   const char *canvasName = [canvas getWidgetName];
   const char *objectName = [self getObjectName];
 
-  [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-                  canvasName, item, objectName];
-  
-  [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-                  canvasName, text, objectName];
-  
-  [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
-                  canvasName,
-                  item,
-                  "%x", "%y"];
-  
-  [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
-                  canvasName,
-                  text,
-                  "%x", "%y"];
-  
-  [globalTkInterp eval: "%s bind %s <B1-Motion> {"
-                  "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
-                  "set curX %s; set curY %s}",
-                  canvasName,
-                  item,
-                  objectName,
-                  "%x", "%y", "%x", "%y"];
+  createButton3Binding (canvasName, item, objectName);
+  createButton3Binding (canvasName, text, objectName);
 
-  [globalTkInterp eval: "%s bind %s <B1-Motion> {"
-                  "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
-                  "set curX %s; set curY %s}",
-                  canvasName,
-                  text,
-                  objectName,
-                  "%x", "%y", "%x", "%y"];
+  createButton1Binding (canvasName, item);
+  createButton1Binding (canvasName, text);
+  
+  createButton1MotionBinding (canvasName, item, objectName);
+  createButton1MotionBinding (canvasName, text, objectName);
+
   return self;
 }
 
@@ -110,12 +123,13 @@
 
 - moveX: (long)the_x Y: (long)the_y
 {
+  const char *canvasName = [canvas getWidgetName];
   x += the_x;
   y += the_y;
   
   [globalTkInterp eval: "%s move %s %ld %ld; %s move %s %ld %ld",
-                  [canvas getWidgetName], text, the_x, the_y,
-                  [canvas getWidgetName], item, the_x, the_y];
+                  canvasName, text, the_x, the_y,
+                  canvasName, item, the_x, the_y];
   
   return self;
 }

@@ -9,6 +9,7 @@
 @interface OvalNodeItem: NodeItem <_OvalNodeItem>
 {
 }
+- createItem;
 @end
 
 

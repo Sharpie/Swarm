@@ -14,6 +14,4 @@
 - setX: (int)x Y: (int)y;
 - setRadius: (int)r;
 - createItem;
-- reportClick;
-- (int)reportMoveX: (int)d_x Y: (int)d_y;
 @end

@@ -9,6 +9,7 @@
 @interface RectangleNodeItem: NodeItem <_RectangleNodeItem>
 {
 }
+- createItem;
 @end
 
 

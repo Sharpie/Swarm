@@ -1,3 +1,25 @@
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* OvalNodeItem.h, RectangleNodeItem.h: Declare createItem.
+	
+	* NodeItem.m ([NodeItem -moveX:Y:]): Get canvasName and use it
+	instead of calling getWidgetName twice.
+
+	* CanvasAbstractItem.h (CanvasAbstractItem): Add item as an instance
+	variable.
+
+	* CanvasItem.h (CanvasItem): Remove item as an instance variable.
+
+	* CanvasItem.[hm]: Don't declare createItem.
+
+	* Circle.[hm]:  Remove reportClick and reportMoveX:Y:.
+
+	* NodeItem.h: Remove item.
+
+	* NodeItem.m (createButton3Binding, createButton1Binding,
+	createButton1MotionBinding): New static functions.
+	([NodeItem -createBindings]): Use them.
+
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CanvasAbstractItem.[hm]: New files.

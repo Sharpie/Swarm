@@ -9,12 +9,6 @@
 
 @implementation CanvasItem
 
-- createItem
-{
-  [self subclassResponsibility: @selector (createItem)];
-  return self;
-}
-
 - createBindings
 {
   const char *temp = [self getObjectName];

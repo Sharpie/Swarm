@@ -10,7 +10,6 @@
 {
   int x, y;
   const char *text;
-  const char *item;
   const char *string;
   const char *font;
 }

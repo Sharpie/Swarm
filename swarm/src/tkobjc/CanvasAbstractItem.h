@@ -11,6 +11,7 @@
   id canvas;
   id target;
   SEL clickSel, moveSel, postMoveSel;
+  const char *item;
 }
 
 - setCanvas: canvas;
