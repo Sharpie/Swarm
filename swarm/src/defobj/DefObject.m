@@ -132,14 +132,22 @@ PHASE(Setting)
                 char itype = *ivar->ivar_type;
                 long long ival = [val getLongLong];
 
-                if (itype == _C_INT || itype == _C_UINT)
+                if (itype == _C_INT)
                   *((int *) ptr) = (int) ival;
-                else if (itype == _C_SHT || itype == _C_USHT)
+                else if (itype == _C_UINT)
+                  *((unsigned *) ptr) = (unsigned) ival;
+                else if (itype == _C_SHT)
                   *((short *) ptr) = (short) ival;
-                else if (itype == _C_LNG || itype == _C_ULNG)
+                else if (itype == _C_USHT)
+                  *((unsigned short *) ptr) = (unsigned short) ival;
+                else if (itype == _C_LNG)
                   *((long *) ptr) = (long) ival;
-                else if (itype == _C_LNG_LNG || itype == _C_ULNG_LNG)
+                else if (itype == _C_ULNG)
+                  *((unsigned long *) ptr) = (unsigned long) ival;
+                else if (itype == _C_LNG_LNG)
                   *((long long *) ptr) = ival;
+                else if (itype == _C_ULNG_LNG)
+                  *((unsigned long long *) ptr) = (unsigned long long) ival;
                 else
                   abort ();
               }
