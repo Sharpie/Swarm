@@ -59,7 +59,7 @@ install-java-classes-as-files: all
 	$(foreach module,$(MODULES),for f in $(module-class-files); do echo $$f >> ../filelist; done;)
 	$(foreach module,$(MODULES),for f in $(module-interface-files); do echo $$f >> ../filelist; done;)
 	(cd ..; tar -c -f - -T filelist) | (cd $(datadir); tar xf -)
-	$(RM) filelist
+	$(RM) ../filelist
 
 install: install-java-classes-as-@JAVA_CLASSES_INSTALLED_AS@
 
