@@ -1,3 +1,8 @@
+2003-06-29  mgd  <mgd@drone>
+
+	* avcall-i386-msvc.c: Use __msvc_builtin_avcall in
+	DECLARE_FUNCTION and FUNBEGIN as well as GLOBL.
+
 2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* complete conversion to libtool 1.4.3
