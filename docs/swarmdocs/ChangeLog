@@ -13,6 +13,8 @@
 	* Makefile.am (noinst_DATA): Add version.ent.
 	(versions.ent): Generate from VERSION, SWARMHOME VERSION, and date.
 
+	* figures-html.ent, figures-print.ent: Remove.
+
 1998-06-07  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* swarmbook.dsl ($img$): New definition for HTML: handle public

@@ -1,5 +1,0 @@
-<!ENTITY switcheroo SYSTEM "../figs/switcheroo.jpg" ndata jpg>
-<!ENTITY settitlelogo SYSTEM "../figs/largelogo.gif" ndata gif>
-<!ENTITY booktitlelogo SYSTEM "../figs/smalllogo.gif" ndata gif>
-<!ENTITY complete-probe-map SYSTEM "../figs/complete.jpg" ndata jpg>
-<!ENTITY customized-probe-map SYSTEM "../figs/customized.jpg" ndata jpg>
