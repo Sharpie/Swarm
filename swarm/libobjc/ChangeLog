@@ -2,6 +2,8 @@
 
 	* class.c (__objc_class_links_resolved): Use externobjcvardef.
 
+	* sendmsg.c (__objc_uninstalled_dtable): Likewise.
+
 	* selector.c (__objc_selector_max_index): Likewise.
 
 	* init.c (__objc_runtime_mutex, __objc_runtime_threads_alove):
@@ -14,7 +16,8 @@
 	* init.c (create_tree_of_subclasses_inherited_from): Handle
 	NULL strings in diagnostic output.
 
-	* selector.c (__sel_register_typed_name): Likewise.
+	* selector.c (__sel_register_typed_name,
+	__objc_uninstalled_dtable): Likewise.
 
 1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

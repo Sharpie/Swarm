@@ -320,7 +320,7 @@ sel_get_type (SEL selector)
 }
 
 /* The uninstalled dispatch table */
-extern struct sarray* __objc_uninstalled_dtable;
+externobjcvar struct sarray* __objc_uninstalled_dtable;
 
 /* Store the passed selector name in the selector record and return its
    selector value (value returned by sel_get_uid).

@@ -35,7 +35,7 @@ Boston, MA 02111-1307, USA.  */
 #endif
 
 /* The uninstalled dispatch table */
-struct sarray* __objc_uninstalled_dtable = 0;   /* !T:MUTEX */
+externobjcvardef struct sarray* __objc_uninstalled_dtable = 0;   /* !T:MUTEX */
 
 /* Send +initialize to class */
 static void __objc_send_initialize(Class);
