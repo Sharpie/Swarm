@@ -1,3 +1,11 @@
+1999-06-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* activity.h (RelativeTime): Make setRelativeTime: return self.
+	(RepeatInterval): Likewise.
+
+	* Schedule.[hm] ([Schedule_c -setRelativeTime:],
+	[Schedule_c -setRepeatInterval:]): Likewise.
+	
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (BUILT_SOURCES): Use TYPEINFO.

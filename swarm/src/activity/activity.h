@@ -644,7 +644,7 @@ USING
 //D: begins.  Otherwise, the times are assumed to be absolute times, with
 //D: their base in the starting time of the entire model.
 SETTING
-- (void)setRelativeTime: (BOOL)relativeTime;
+- setRelativeTime: (BOOL)relativeTime;
 USING
 - (BOOL)getRelativeTime;
 @end
@@ -665,7 +665,7 @@ USING
 //D: any actions which it contains.
 //D: (.. This option is currently supported only on schedule, not swarms.)
 SETTING
-- (void)setRepeatInterval: (timeval_t)repeatInterval;
+- setRepeatInterval: (timeval_t)repeatInterval;
 USING
 - (timeval_t)getRepeatInterval;
 @end

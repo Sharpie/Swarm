@@ -42,9 +42,9 @@ Library:      activity
 + create: aZone setRepeatInterval: (timeval_t)rptInterval;
 - (void)setConcurrentGroupType: groupType;
 - (void)setSingletonGroups: (BOOL)singletonGroups;
-- (void)setRelativeTime: (BOOL)relativeTime;
+- setRelativeTime: (BOOL)relativeTime;
 - createEnd;
-- (void)setRepeatInterval: (timeval_t)rptInterval;
+- setRepeatInterval: (timeval_t)rptInterval;
 - getConcurrentGroupType;
 - (BOOL)getSingletonGroups;
 - (BOOL)getRelativeTime;

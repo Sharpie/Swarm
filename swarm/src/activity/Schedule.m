@@ -53,10 +53,11 @@ PHASE(Creating)
   setBit (bits, BitSingletonGroups, singletonGroups);
 }
 
-- (void)setRelativeTime: (BOOL)relativeTime
+- setRelativeTime: (BOOL)relativeTime
 {
   setBit (bits, BitRelativeTime, relativeTime);
   setBit (bits, BitRelTimeSet, 1);
+  return self;
 }
 
 - setKeepEmptyFlag: (BOOL)theKeepEmptyFlag
@@ -89,7 +90,7 @@ PHASE(Creating)
 
 PHASE(Setting)
 
-- (void)setRepeatInterval: (timeval_t)rptInterval
+- setRepeatInterval: (timeval_t)rptInterval
 {
   if (rptInterval == 0)
     raiseEvent (InvalidArgument,
@@ -100,6 +101,7 @@ PHASE(Setting)
                 "> cannot specify a repeat interval after schedule created without it\n" );
 
   repeatInterval = rptInterval;
+  return self;
 }
 
 PHASE(Using)
