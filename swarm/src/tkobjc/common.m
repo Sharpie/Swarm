@@ -244,7 +244,9 @@ tkobjc_update (void)
 void
 tkobjc_releaseAndUpdate (void)
 {
+#ifndef _WIN32
   [globalTkInterp eval: "foreach w [busy isbusy] {busy release $w} ; update"];
+#endif
 }
 
 void
@@ -253,10 +255,12 @@ tkobjc_updateIdleTasks (int hold)
   [globalTkInterp eval:
                     "update idletasks"];
 
+#ifndef _WIN32
   if (hold)
     [globalTkInterp eval:
                   "foreach w [winfo children .] {busy hold $w} ;"
                     "update"];
+#endif
 }
 
 void

@@ -6,9 +6,6 @@
 	(initTkObjc): Don't eval tkbusy_tcl or comm_tcl.
 	Disable `send'. 
 
-	* common.m (tkobjc_releaseAndUpdate, tkobjc_updateIdleTasks):
-	Remove ifdnef on _WIN32.
-
 2000-03-14    <mgd@nest.swarm.org>
 
 	* internal.m (tkobjc_pixmap_update_raster): Add check for nil
