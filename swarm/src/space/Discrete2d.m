@@ -204,7 +204,7 @@ PHASE(Using)
 
   for (x = 0; x < xsize; x++) 
     for (y = 0; y < ysize; y++)
-      *discrete2dSiteAt(lattice, offsets, x, y) = (id)tempArray[x][y];
+      *discrete2dSiteAt (lattice, offsets, x, y) = (id) tempArray[x][y];
 
   // finally, set Discrete2d to store values
   useValues = YES;
@@ -223,7 +223,7 @@ PHASE(Using)
         id coordExpr = [site getCar];
         id objExpr = [site getCdr];
         
-        if (listp (coordExpr) && ( [coordExpr getCount] == 2) )
+        if (listp (coordExpr) && ([coordExpr getCount] == 2))
           {
             tempX = [[coordExpr getFirst] getInteger];
             tempY = [[coordExpr getLast] getInteger];
@@ -232,14 +232,14 @@ PHASE(Using)
           raiseEvent (InvalidArgument, "Expecting a pair of integers");
         {
           id obj = lispIn (aZone, objExpr);
-          *discrete2dSiteAt(lattice, offsets, tempX, tempY) =
+          *discrete2dSiteAt (lattice, offsets, tempX, tempY) =
             [self _lispInAttr_: obj];
         }
       }
     else
       raiseEvent(InvalidArgument, "Expecting a either cons pair or an array");
   }
-  while ( (site = [li next]) );
+  while ((site = [li next]));
   
   // finally, set Discrete2d to store objects
   useObjects = YES;
@@ -249,8 +249,8 @@ PHASE(Using)
 - lispIn: expr
 {
   id index, val, member;
-  [super lispIn: expr];
 
+  [super lispIn: expr];
   index = [(id) expr begin: scratchZone];
   while ((member = [index next]) != nil)
     {
@@ -303,7 +303,7 @@ PHASE(Using)
 
 - _lispOutAttr_: outputCharStream anObject: obj atX: (unsigned)x Y: (unsigned)y
 {
-  char buffer[2*DSIZE(int) + 20];
+  char buffer[2 * DSIZE (int) + 20];
   if (obj != nil)
     {
       sprintf(buffer, "  (cons '(%d %d)\n   ", x, y);
@@ -361,18 +361,18 @@ PHASE(Using)
         char buf[2*DSIZE(unsigned) + 5];
         
         // generate compiler encoding for 2D array
-        sprintf(buf, "%c%u%c%u%c%c%c", 
-                _C_ARY_B,xsize,_C_ARY_B, ysize,_C_LNG,_C_ARY_E,_C_ARY_E);
-
+        sprintf (buf, "%c%u%c%u%c%c%c", 
+                 _C_ARY_B,xsize,_C_ARY_B, ysize,_C_LNG,_C_ARY_E,_C_ARY_E);
+        
         [stream catC: " #:lattice \n (parse "];
 
         // unpack the array into the lattice data structure
         for (x = 0; x < xsize; x++) 
           for (y = 0; y < ysize; y++)
-            tempArray[x][y] = (long)*discrete2dSiteAt(lattice, offsets, x, y);
+            tempArray[x][y] = (long) *discrete2dSiteAt (lattice, offsets, x, y);
        
-        lisp_output_type (strdup(buf),
-                          (void *)tempArray,
+        lisp_output_type (strdup (buf),
+                          (void *) tempArray,
                           0,
                           NULL,
                           stream,
