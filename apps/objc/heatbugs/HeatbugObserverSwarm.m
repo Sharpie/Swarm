@@ -16,7 +16,7 @@
 
 + createBegin: aZone
 {
-  HeatbugObserverSwarm * obj;
+  HeatbugObserverSwarm *obj;
   id <ProbeMap> probeMap;
   
   // Superclass createBegin to allocate ourselves.
@@ -42,7 +42,7 @@
 
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "graphBug:"
 			     inClass: [self class]]
-			setHideResult: 1]];
+			setHideResult: YES]];
 
   // Now install our custom probeMap into the probeLibrary.
 
@@ -202,8 +202,17 @@
       {
         char filename[40];
 
-        sprintf (filename, "heatbugs%07d.png", getCurrentTime ());
-        [[[[[Pixmap createBegin: [self getZone]] setWidget: nil] createEnd] save: filename] drop];
+        sprintf (filename, "graph%07d.png", getCurrentTime ());
+        [actionCache doTkEvents];
+        [[[[[[Pixmap createBegin: [self getZone]]
+              setWidget: [unhappyGraph getGraph]]
+             setDecorationsFlag: NO]
+            createEnd] save: filename] drop];
+        sprintf (filename, "raster%07d.png", getCurrentTime ());
+        [[[[[[Pixmap createBegin: [self getZone]]
+              setWidget: worldRaster]
+             setDecorationsFlag: YES]
+            createEnd] save: filename] drop];
       }
 #endif
     }
@@ -231,7 +240,7 @@
   // a specific order, but at one step of simulation time. Some of these
   // actions could be executed in parallel, but we don't explicitly
   // notate that here.
-
+  
   displayActions = [ActionGroup create: [self getZone]];
 
   // Schedule up the methods to draw the display of the world

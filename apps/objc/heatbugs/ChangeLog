@@ -1,3 +1,9 @@
+1998-09-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm +createBegin:]): 
+	Use YES in argument to setHideResult.
+	([HeatbugObserverSwarm -_update_]): Show use of widget snapshots.
+
 1998-09-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m (main): Use initSwarmApp instead of initSwarm.  Specify
