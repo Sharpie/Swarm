@@ -113,8 +113,8 @@ USING
 //M: getTypeName returns the name of the originating type of this object.
 - (const char *)getTypeName;
 
-//M: Adds an external reference to an object that is notified whenever the
-//M: object is changed or relocated.
+//M: Adds an external reference to an object that is notified when a
+//M: an object is dropped.
 - (ref_t)addRef: (notify_t)notifyFunction withArgument: (void *)arg;
 
 //M: Remove an external reference to an object.
@@ -649,12 +649,12 @@ CREATING
 //M: situations.  Allocations within a zone are not limited to the page
 //M: size, since any requests that exceed the page size are simply passed
 //M: up to the owner zone within which the zone was allocated.
-- (void)setPageSize: (int)pageSize;
+- (void)setPageSize: (size_t)pageSize;
 
 USING
 - getReclaimPolicy;
 - (BOOL)getStackedSubzones;
-- (int)getPageSize;
+- (size_t)getPageSize;
 
 //M: allocIVars: allocates the instance variable structure for a new
 //M: object.  The initial word of this structure is set to class id passed
@@ -1064,6 +1064,7 @@ CREATING
 - addDouble: (double)value;
 - setObjCReturnType: (char)type; 
 - createEnd;
+USING
 - (void *)getResult;
 @end
 

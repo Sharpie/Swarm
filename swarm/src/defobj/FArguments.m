@@ -341,6 +341,7 @@ createJavaSignature (FArguments_c *self)
 
 - createEnd
 {
+  [super createEnd];
   setMappedAlloc (self);
   javaSignature = createJavaSignature ((FArguments_c *) self);
   return self;
