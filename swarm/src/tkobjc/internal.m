@@ -1229,8 +1229,8 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
 void
 tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
 {
-  raster_private_t *private = raster->private;
 #ifdef _WIN32
+#if 0
   // (Apparently, there isn't a need to merge the pixmap and raster
   // pixmaps by hand, but without doing so, somehow the black
   // gets lost. -mgd)
@@ -1250,8 +1250,11 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
       
       dib_augmentPalette (raster_dib, pixmap, palette_size, map);
     }
+#endif
 #else
   {
+    raster_private_t *private = raster->private;
+
     Tk_Window tkwin = private->tkwin;
     Display *display = Tk_Display (tkwin);
     Window window = Tk_WindowId (tkwin);
