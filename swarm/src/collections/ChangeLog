@@ -1,3 +1,13 @@
+1999-03-03  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* Permutation.m ([Permutation_c -createEnd]): Use macro getCZone
+	instead of getComponentZone: method.
+	([Permutation_c +createBegin:]): Likewise.
+
+	* Collection.m ([PermutedIndex_c -createEnd]): Likewise.
+	([PermutedIndex_c -reshuffle]): Likewise.
+	([PermutedIndex_c -createEnd]): Likewise.
+
 1999-03-02  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* Permutation.m ([Permutation_c +createBegin:]): Use component zone

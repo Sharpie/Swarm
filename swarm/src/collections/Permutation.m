@@ -53,7 +53,7 @@ PHASE(Creating)
 {
   Permutation_c *obj = [super createBegin: aZone];
 
-  obj->shuffler = [ListShuffler createBegin: [aZone getComponentZone]];
+  obj->shuffler = [ListShuffler createBegin: getCZone(aZone)];
   return obj;
 }
 
@@ -85,7 +85,7 @@ PHASE(Creating)
   index = [collection begin: scratchZone];
   for (elem = [index next], i = 0; i < count; elem = [index next], i++)
     [self atOffset: i put: 
-	    [[[[PermutationItem createBegin: [[self getZone] getComponentZone]]
+	    [[[[PermutationItem createBegin: getCZone ( getZone (self))]
 		setPosition: i]
 	       setItem: elem]
 	      createEnd]];

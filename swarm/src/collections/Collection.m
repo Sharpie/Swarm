@@ -407,7 +407,7 @@ PHASE(Creating)
 + createBegin: aZone
 {
   PermutedIndex_c *obj = [aZone allocIVars: self];
-  obj->collection = [Permutation createBegin: [aZone getComponentZone]];
+  obj->collection = [Permutation createBegin: getCZone (aZone)];
   return obj;
 }
 
@@ -426,7 +426,7 @@ PHASE(Creating)
 - createEnd
 {
   collection = [collection createEnd];
-  index = [collection begin: [getZone (self) getComponentZone]];
+  index = [collection begin: getCZone (getZone (self))];
   setMappedAlloc (self);  
   return self;
 }
@@ -438,7 +438,7 @@ PHASE(Using)
   id shuffler = ((Permutation_c *) collection)->shuffler;
   [shuffler shuffleWholeList: collection];
   [index drop];
-  index = [collection begin: [getZone (self) getComponentZone]];
+  index = [collection begin: getCZone (getZone (self))];
   return self;
 }
 
