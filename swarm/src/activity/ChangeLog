@@ -1,3 +1,8 @@
+2001-05-01  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Schedule.m (createGroup): Copy BitRandomized and BitConcurrent
+	to new concurrent group.
+
 2001-04-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Action.m: Include misc.h.

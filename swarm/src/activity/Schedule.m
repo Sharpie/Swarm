@@ -210,7 +210,13 @@ createGroup (Schedule_c *self)
   newGroup = [self->concurrentGroupType create: getCZone (zone)];
   setBit (((Collection_any *) newGroup)->bits, BitConcurrentGroup, 1);
   setBit (((Collection_any *) newGroup)->bits, BitAutoDrop,
-          getBit( self->bits, BitAutoDrop));
+          getBit (self->bits, BitAutoDrop));
+
+  setBit (((Collection_any *) newGroup)->bits, BitRandomized,
+          getBit (self->bits, BitRandomized));
+  setBit (((Collection_any *) newGroup)->bits, BitConcurrent,
+          getBit (self->bits, BitConcurrent));
+
 
   newAction = [zone allocIVarsComponent: id_ActionConcurrent_c];
   setMappedAlloc (newAction);
