@@ -8,7 +8,7 @@
 #import "local.h"
 
 #include <objc/objc-api.h>
-#include <misc.h> // strcmp, sprintf, sscanf
+#include <misc.h> // strcmp, strcpy, sprintf, sscanf
 
 #include "../defobj/internal.h" // process_array
 
@@ -488,18 +488,18 @@ probe_as_double (const char *probedType, const void *p)
 #ifdef HAVE_JDK
 const char *
 java_probe_as_string (jclass fieldType, jobject field, jobject object,
-		      char * buf, int precision)
+		      char *buf, int precision)
 {
   jobject value;
   jobject str;
   jboolean isCopy;
-  const char * result;
+  const char *result;
   value = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGet, object);
   str = (*jniEnv)->CallStaticObjectMethod (jniEnv, c_string, m_StringValueOf, 
 					   value);
   
   result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
-  sprintf (buf, "%s", (char *) result);
+  strcpy (buf, result);
   if (isCopy)
     (*jniEnv)->ReleaseStringUTFChars (jniEnv, str, result);
   return buf;
