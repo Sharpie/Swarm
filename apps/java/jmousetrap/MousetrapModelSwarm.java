@@ -11,11 +11,11 @@ import swarm.random.*;
 
 
 /** 
- * The MousetrapModelSwarmImpl defines the mousetrap world. All of the
+ * The MousetrapModelSwarm defines the mousetrap world. All of the
  * structures specific to the model are built and scheduled here.
  * Observations on the model are built and scheduled in the
- * MousetrapObserverSwarmImpl */
-public class MousetrapModelSwarmImpl extends SwarmImpl
+ * MousetrapObserverSwarm */
+public class MousetrapModelSwarm extends SwarmImpl
 {
   public int gridSize;
   public double triggerLikelihood;
@@ -41,11 +41,11 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
   }
 
   /**
-   * MousetrapModelSwarmImpl constructor: since we are only interested
+   * MousetrapModelSwarm constructor: since we are only interested
    * in subclassing from the `USING' phase object, this constructor
    * does the work of the createBegin, createEnd methods in Objective
    * C */
-  public MousetrapModelSwarmImpl (ZoneImpl aZone)
+  public MousetrapModelSwarm (ZoneImpl aZone)
   {
     super(aZone);
     

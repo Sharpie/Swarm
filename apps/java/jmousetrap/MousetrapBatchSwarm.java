@@ -9,14 +9,14 @@ import swarm.analysis.*;
 import swarm.space.*;
 import swarm.random.*;
 
-public class MousetrapBatchSwarmImpl extends SwarmImpl
+public class MousetrapBatchSwarm extends SwarmImpl
 {
     int loggingFrequency = 1;		     // Frequency of fileI/O
 
     ActionGroupImpl displayActions;	     // schedule data structs
     ScheduleImpl displaySchedule;
 
-    MousetrapModelSwarmImpl mousetrapModelSwarm;   // the Swarm we're observing
+    MousetrapModelSwarm mousetrapModelSwarm;   // the Swarm we're observing
     
     EZGraphImpl triggerGraph;
 
@@ -26,7 +26,7 @@ public class MousetrapBatchSwarmImpl extends SwarmImpl
         System.out.flush ();
     }
 
-    public MousetrapBatchSwarmImpl (ZoneImpl aZone)
+    public MousetrapBatchSwarm (ZoneImpl aZone)
     {
         super(aZone);
     }
@@ -36,7 +36,7 @@ public class MousetrapBatchSwarmImpl extends SwarmImpl
         super.buildObjects();
 
         mousetrapModelSwarm 
-            = new MousetrapModelSwarmImpl((ZoneImpl)this.getZone());
+            = new MousetrapModelSwarm((ZoneImpl)this.getZone());
 
         mousetrapModelSwarm.buildObjects();
       

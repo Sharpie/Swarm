@@ -23,7 +23,7 @@ public class Mousetrap
   public int yCoord;
   public boolean triggered;
   public ZoomRasterImpl displayWidget;
-  public MousetrapModelSwarmImpl modelSwarm;
+  public MousetrapModelSwarm modelSwarm;
   public UniformDoubleDistImpl uniform0to1;
   public UniformIntegerDistImpl uniformRadius;
   public UniformUnsignedDistImpl uniformTrigTime;
@@ -34,7 +34,7 @@ public class Mousetrap
     System.out.flush ();
   }
 
-  public Mousetrap (MousetrapModelSwarmImpl s, int x, 
+  public Mousetrap (MousetrapModelSwarm s, int x, 
                     int y, Object randGenerator)
   {
     int maxD;
@@ -101,7 +101,7 @@ public class Mousetrap
         trap = modelSwarm.getMousetrapAtX$Y (xTrigger, yTrigger);
                 
         if (trap != null) {
-          ((MousetrapModelSwarmImpl) modelSwarm).getStats().addOneBall();
+          ((MousetrapModelSwarm) modelSwarm).getStats().addOneBall();
           modelSwarm.scheduleTriggerAt$For(triggerTick, trap);
         }
       }
@@ -124,8 +124,8 @@ class StartMousetrap
 
     if (Globals.env.guiFlag) {
         
-      MousetrapObserverSwarmImpl topLevelSwarm 
-        = new MousetrapObserverSwarmImpl(Globals.env.globalZone);
+      MousetrapObserverSwarm topLevelSwarm 
+        = new MousetrapObserverSwarm(Globals.env.globalZone);
         
       Globals.env.setWindowGeometryRecordName (topLevelSwarm);
       topLevelSwarm.buildObjects ();
@@ -135,8 +135,8 @@ class StartMousetrap
         
     }
     else {
-      MousetrapBatchSwarmImpl topLevelSwarm 
-        = new MousetrapBatchSwarmImpl((ZoneImpl)Globals.env.globalZone);
+      MousetrapBatchSwarm topLevelSwarm 
+        = new MousetrapBatchSwarm((ZoneImpl)Globals.env.globalZone);
       topLevelSwarm.buildObjects();
       topLevelSwarm.buildActions();
       topLevelSwarm.activateIn(null);

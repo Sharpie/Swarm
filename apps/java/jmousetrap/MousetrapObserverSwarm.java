@@ -10,16 +10,16 @@ import swarm.space.*;
 import swarm.random.*;
 
 /**
- * The MousetrapObserverSwarmImpl is the top-level swarm that watches
- * and reports on what's happening in the MousetrapModelSwarmImpl. It
+ * The MousetrapObserverSwarm is the top-level swarm that watches
+ * and reports on what's happening in the MousetrapModelSwarm. It
  * is like the lab-bench on which the mousetrap world is located,
  * along with the various instruments that we construct to monitor
  * that world. */
-public class MousetrapObserverSwarmImpl extends GUISwarmImpl
+public class MousetrapObserverSwarm extends GUISwarmImpl
 {
     public int displayFrequency;
     public ScheduleImpl displaySchedule;
-    public MousetrapModelSwarmImpl mousetrapModelSwarm;
+    public MousetrapModelSwarm mousetrapModelSwarm;
   
     public ColormapImpl colormap;
     public ZoomRasterImpl displayWindow;
@@ -37,10 +37,10 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
     }
 
     /**
-     * MousetrapObserverSwarmImpl constructor: since we are only interested in
+     * MousetrapObserverSwarm constructor: since we are only interested in
      * subclassing from the `USING' phase object, this constructor does
      * the work of the createBegin, createEnd methods in Objective C */
-    public MousetrapObserverSwarmImpl (ZoneImpl aZone)
+    public MousetrapObserverSwarm (ZoneImpl aZone)
     {
         super(aZone);
         
@@ -101,14 +101,14 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
   /**
    * Create the objects used in the display of the model.  Here, we
    * create the objects used in the experiment. Primarily, the
-   * MousetrapModelSwarmImpl instance, itself, but also the various
+   * MousetrapModelSwarm instance, itself, but also the various
    * instrumentation that observes the model.  */
     public Object buildObjects ()
     {
         super.buildObjects();
 
         mousetrapModelSwarm 
-            = new MousetrapModelSwarmImpl((ZoneImpl)this.getZone());
+            = new MousetrapModelSwarm((ZoneImpl)this.getZone());
 
         Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm);
         Globals.env.createArchivedProbeDisplay (this);

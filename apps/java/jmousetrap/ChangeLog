@@ -1,3 +1,14 @@
+1999-08-10  Alex Lancaster  <alex@santafe.edu>
+
+	* Mousetrap.java: Changed the following references to classnames
+	Mousetrap{Observer,Model,Batch}SwarmImpl ->
+	Mousetrap{Observer,Model,Batch}Swarm.
+
+	* MousetrapObserverSwarm.java, MousetrapBatchSwarm.java,
+	MousetrapModelSwarm.java: New files, renamed by removing their
+	respective `Impl' suffixes.  Changed all class names accordingly,
+	throughout.  Removed old files.
+
 1999-08-09  Alex Lancaster  <alex@santafe.edu>
 
 	* MousetrapObserverSwarmImpl.java (buildObjects()): Uncomment code
