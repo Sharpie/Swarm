@@ -1,0 +1,72 @@
+-*- outline -*-or
+
+This file attempts to describe the rules to use when hacking Swarm.
+Don't put this file into the distribution.  Don't mention it in the
+ChangeLog.
+
+* Administrivia
+
+** If you incorporate a change from somebody on the net:
+First, if it is a large change, we need to determine what we do about
+copyright.  Currently all code is (C) Swarm Development Group, we need
+to determine whether we need to do formal copyright assignment or not.
+
+Second, be sure to add their name and/or email address to THANKS.
+
+** Bug reports
+If somebody reports a new bug, mention his name in the ChangeLog entry
+and in the test case you write.  Put him/her into THANKS.
+
+The correct response to most actual bugs is to write a new test case
+which demonstrates the bug.  Then fix the bug, re-run the test suite,
+and check everything in.
+
+** Update the NEWS file
+All user-visible changes (which include serious bug fixes), should be
+mentioned in NEWS.
+
+** Portability issues
+Discoveries in portability matters should be written down in the
+documentation (what fails, why it fails, *where* it fails, and what's
+to be written instead?).
+
+* Autoconfiscation
+
+** Automake/autoconf versions currently known to work:
+
+*** Red Hat Linux 8.0
+Paul (?) awaiting your text?
+
+*** MacOS X 10.2
+autoconf 2.52
+automake 1.5
+libtool 1.4.3
+
+* Test suite
+
+** make check
+Use liberally.  We really should fix the test suite if they are
+broken.
+
+* Release Procedure
+
+When we get around to making a *real* release...
+
+** Tests
+See above.
+
+** Update NEWS
+The version number, *and* the date of the release (including for
+betas).
+
+** Update ChangeLog
+Should have an entry similar to `Version 2.2'.
+Check all this in once `make distcheck' passes.
+
+** Bump the version number
+In configure.in.
+
+** Announce
+Send message to: announce@swarm.org
+
+-----
