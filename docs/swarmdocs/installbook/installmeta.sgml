@@ -24,10 +24,11 @@
   
   <REVHISTORY>
     <REVISION>
-      <REVNUMBER>1.1
-      </REVNUMBER>
-      <DATE>1998-04-23
-      </DATE>
+      <REVNUMBER>1.1</REVNUMBER>
+      <DATE>1998-05-13</DATE>
+      <AUTHORINITIALS>mgd, alex, lee</AUTHORINITIALS>
+      <REVREMARK>Created new SGML documentation from former HTML
+      docs</REVREMARK>
     </REVISION>
   </REVHISTORY>
   
