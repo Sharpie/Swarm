@@ -1,3 +1,7 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (CPPFLAGS): Add -DBUILDING_SWARM.
+
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* tclObjc.m (tclObjc_msgSendToClientData): Rewritten to use
