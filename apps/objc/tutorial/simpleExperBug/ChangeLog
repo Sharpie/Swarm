@@ -1,5 +1,11 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ExperSwarm.m ([ParameterManager -initializeParameters]): Use
+	createArchivedProbeDisplay to create probe display for
+	ParameterManager.
+	([ExperSwarm -buildObjects]): Likewise, but for ExperSwarm.
+	([ExperSwarm -buildModel]): Likewise, but for modelSwarm.
+
 	* main.m (main): Call setWindowGeometryRecordName on experSwarm.
 	Reformatting throughout.
 	

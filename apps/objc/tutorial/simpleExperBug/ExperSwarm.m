@@ -41,8 +41,7 @@
 
   // Finally, create a probeDisplay to show the parameterManager
 
-  [probeDisplayManager createProbeDisplayFor: self
-                       setWindowGeometryRecordName: "parameterManager"];
+  createArchivedProbeDisplay (self);
 
   return self;
 }
@@ -134,8 +133,7 @@
 
   // Build a probeDisplay on ourself
 
-  [probeDisplayManager createProbeDisplayFor: self
-                       setWindowGeometryRecordName: "experSwarm"];
+  createArchivedProbeDisplay (self);
 
   // build the EZGraph for model results
 
@@ -286,7 +284,7 @@
 
   // Now we create a probeDisplay for this model instance
 
-  [probeDisplayManager createProbeDisplayFor: modelSwarm];
+  createArchivedProbeDisplay (modelSwarm);
 
   // Let the modelSwarm build its objects and actions and activate
   // it in "nil", giving us a new activity. We don't start it here...
