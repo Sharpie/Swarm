@@ -1,3 +1,7 @@
+1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Quote JAVALIBS for Kaffe setting of KAFFELIBRARYPATH.
+
 1999-06-02    <mgd@HELEN>
 
 	* acjdk.m4: For Kaffe, get DOS-style path of ${jdkdir}/lib/kaffe,

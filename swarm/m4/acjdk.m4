@@ -81,7 +81,7 @@ else
 
     JAVACMD='${jdkdir}/libexec/Kaffe'
     JAVAENV=''
-    JAVA='KAFFELIBRARYPATH=${JAVALIBS} ${JAVACMD}'
+    JAVA='KAFFELIBRARYPATH="${JAVALIBS}" ${JAVACMD}'
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=
     JAVALIBPATH_VAR=KAFFELIBRARYPATH
