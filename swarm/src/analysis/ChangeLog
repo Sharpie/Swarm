@@ -1,3 +1,10 @@
+1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZDistribution.m ([EZDistribution -drop]): Use XFREE instead of
+	xfree.
+
+	* EZBin.m ([EZBin -drop]): Likewise.
+
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZGraph.[hm], analysis.h: Add setRanges[XY]Min:Max: and

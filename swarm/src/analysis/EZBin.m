@@ -7,7 +7,7 @@
 #import <simtoolsgui.h>
 #import <simtools.h> // OutFile
 
-#include <misc.h> // xmalloc, xfree
+#include <misc.h> // xmalloc, XFREE
 #include <math.h> // sqrt
 
 #include <objc/objc-api.h>
@@ -330,8 +330,8 @@ PHASE(Using)
 
 - (void)drop 
 {
-  xfree (distribution);
-  xfree (cachedLimits);
+  XFREE (distribution);
+  XFREE (cachedLimits);
   if (graphics)
     [aHisto drop];
   if (fileOutput)

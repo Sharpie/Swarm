@@ -8,7 +8,7 @@
 #import <simtools.h> // OutFile
 #import <gui.h>
 
-#include <misc.h> // xmalloc, xfree
+#include <misc.h> // xmalloc, XFREE
 
 @implementation EZDistribution
 
@@ -95,7 +95,7 @@ PHASE(Using)
 
 - (void)drop
 {
-  xfree (probabilities);
+  XFREE (probabilities);
   [super drop];
 }
 
