@@ -53,7 +53,7 @@
   </para>
 
   <sect2>
-    <title>Using the Lisp <classname>Archiver</classname> to manage
+    <title>Using the <classname>LispArchiver</classname> to manage
       simulation parameters</title>
     <indexterm>
       <primary>parameter files</primary>
@@ -93,7 +93,7 @@
             SWARMHOME</envar>/share/swarm/<application>appName</application>
         </filename>) or in the local directory.  Using this variable
         obviates the need for hand creation of
-        <classname>Archiver</classname> instances.  It permits one
+        <classname>LispArchiver</classname> instances.  It permits one
         datafile (which can contain as many keys to objects as is
         required), and imposes a naming convention for that datafile.
      </para>
@@ -278,9 +278,9 @@ if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self
     </sect3>
 
     <sect3>
-      <title>Using custom <classname>Archiver</classname> instances</title>
+      <title>Using custom <classname>LispArchiver</classname> instances</title>
       <indexterm>
-        <primary><classname>Archiver</classname></primary>
+        <primary><classname>LispArchiver</classname></primary>
         <secondary>application</secondary>
         <tertiary>custom</tertiary>
       </indexterm>
@@ -324,16 +324,16 @@ if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self
 
       <para>The only difference with the previous example, is that we
           <emphasis>explicitly</emphasis> create an instance of the
-          <classname>Archiver</classname> with the named file, and
+          <classname>LispArchiver</classname> with the named file, and
           then ask the archiver to `generate' an instance of the
           object using the appropriate `key' as per the previous
           example.  So here's the relevant excerpt from
           <filename>main.m</filename>:</para>
 
 <programlisting>
-// create an instance of the Archiver to retrieve the file
+// create an instance of the LispArchiver to retrieve the file
 // set the path to `batch.scm'
-id archiver =  [Archiver create: globalZone fromLispPath: "batch.scm"];
+id archiver =  [LispArchiver create: globalZone setPath: "batch.scm"];
 
 // retrieve the object from the archiver, if it can't be found
 // just raise an event; note that the call to the
@@ -354,14 +354,14 @@ if ((theTopLevelSwarm =
 <programlisting>
 <![ CDATA [
   // create the instance to read the file
-  archiver =  [Archiver create: self fromLispPath: "batch.scm"];
+  archiver =  [LispArchiver create: self setPath: "batch.scm"];
 
   // * `modelSwarm' is the key for the instance of the MousetrapModelSwarm
   //   with parameter values for the model instance variables: gridSize
   //   triggerLikelihood, numberOutputTriggers, maxTriggerDistance, 
   //   maxTriggerTime, trapDensity  
 
-  // if we can't find the right key from the Archiver, raise an event
+  // if we can't find the right key from the LispArchiver, raise an event
   if ((mousetrapModelSwarm = 
        [archiver getWithZone: self object: "modelSwarm"]) == nil)
     raiseEvent(InvalidOperation, 
