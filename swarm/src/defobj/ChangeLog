@@ -1,3 +1,13 @@
+1998-05-26  Alex Lancaster  <alex@santafe.edu>
+
+	* defobj.h (raiseEvent,M(), initModule, globalZone, scratchZone,
+	defsymbol, defwarning, deferror): Added (//#) doc strings.
+	(<{Warning,Error}>): Added (//G) doc strings after each definition.
+	(<Symbol>, _obj_formatIDString, objc_get_class, _obj_debug,
+	(_obj_xerror, *_obj_xdebug, xsetname, xprint, xprintid, xfprint,
+	xfprintid, xexec, xfexec): Added (//G) doc strings before each
+	definition.
+
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* defobj.h: Remove instances of <p> in the documentation.
