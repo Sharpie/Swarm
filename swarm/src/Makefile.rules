@@ -1,0 +1,15 @@
+SUFFIXES = .m
+
+.PHONY: headers
+
+.m.o:
+	$(COMPILE) -Wno-import -c $< 
+
+headers: $(module_headers)
+
+types.h classes.h: $(MODULE).h
+	CC="$(CC)" CFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)" OBJECTS="$(lib$(MODULE)_a_OBJECTS)" sh $(top_srcdir)/src/defobj/make-h2x $(MODULE).xm $(srcdir)
+	mv $(MODULE).xt types.h
+	mv $(MODULE).xc classes.h
+
+include_HEADERS = $(MODULE).h
