@@ -2,6 +2,9 @@
 
 	* protocol.el (RETURNABLE-protocol): New function.
 	(load-all-modules): Use it.
+	(parse-method-worker): Renamed from parse-method.
+	(fixup-method): New function.
+	(parse-method): Use them.
 
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

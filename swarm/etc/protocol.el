@@ -199,9 +199,9 @@
         (buffer-substring beg end)
       (skip-whitespace))))
 
-(defun parse-method (protocol
-                     factory-flag
-                     parse-state)
+(defun parse-method-worker (protocol
+                            factory-flag
+                            parse-state)
   (let ((phase (parse-state-phase parse-state))
         (method-description-list 
          (reverse (parse-state-item-doc-list parse-state)))
@@ -241,6 +241,21 @@
        :description-list method-description-list
        :example-list method-example-list
        :deprecated-list method-deprecated-list))))
+
+(defun fixup-method (method)
+  (let ((sig (get-method-signature method)))
+    ;; these fixups are because of problems with protocol self-reference
+    (cond ((string= sig "-getZone")
+           (setf (method-return-type method) "id <Zone>"))
+          ((or (string= sig "+create:") (string= sig "+createBegin:"))
+           (let ((first-argument (first (method-arguments method))))
+             (setf (nth 1 first-argument) "id <Zone>"))))
+    method))
+
+(defun parse-method (protocol
+                     factory-flag
+                     parse-state)
+  (fixup-method (parse-method-worker protocol factory-flag parse-state)))
   
 (defun parse-function (module
                        protocol
