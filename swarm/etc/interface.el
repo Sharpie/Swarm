@@ -482,11 +482,13 @@
         (string= sig "+customizeBegin:")
         (not (method-factory-flag method)))))
   
-(defun collect-convenience-create-methods (protocol)
+(defun collect-convenience-create-methods (protocol &optional immediate-flag)
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
         for method = (methodinfo-method methodinfo)
         when (and (not (removed-method-p method))
-                  (convenience-create-method-p protocol method))
+                  (convenience-create-method-p protocol method)
+                  (or (not immediate-flag)
+                      (zerop (methodinfo-level methodinfo))))
         collect method))
 
 (defun collect-convenience-constructor-name.arguments (method)
@@ -537,12 +539,16 @@
           (augment-type-hash-table ht method))
     ht))
 
-(defun create-type-hash-table-for-convenience-create-methods (protocol)
+(defun create-type-hash-table-for-convenience-create-methods (protocol &optional immediate-flag)
   (let ((ht (make-hash-table :test #'equal)))
-    (loop for method in (collect-convenience-create-methods protocol)
+    (loop for method in
+          (collect-convenience-create-methods protocol immediate-flag)
           do
           (augment-type-hash-table ht method))
     ht))
+
+(defun create-type-hash-table-for-immediate-convenience-create-methods (protocol)
+  (create-type-hash-table-for-convenience-create-methods protocol t))
     
 (defun print-argument (argument
                        convert-type-func

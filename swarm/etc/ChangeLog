@@ -1,3 +1,11 @@
+2000-08-23  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el
+	(create-type-hash-table-for-convenience-create-methods,
+	collect-convenience-create-methods): Add optional immediate flag.
+	(create-type-hash-table-for-immediate-convenience-create-methods):
+	New function.
+
 2000-08-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (*java-flag*): Add.
