@@ -1,0 +1,7 @@
+AC_INIT(protocol.el)
+
+AM_INIT_AUTOMAKE(Swarmdocs, 0.0)
+
+AM_CONFIG_HEADER(config.h)
+
+AC_OUTPUT([Makefile src/Makefile installing/Makefile overview/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/refbook.tex overview/overbook.tex installing/installbook.tex set/set.tex src/activity/activity.ent src/analysis/analysis.ent src/collections/collections.ent src/defobj/defobj.ent src/gui/gui.ent src/objectbase/objectbase.ent src/random/random.ent src/simtools/simtools.ent src/simtoolsgui/simtoolsgui.ent src/space/space.ent src/src.ent src/refbook.sgml set/set.sgml])

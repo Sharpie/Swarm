@@ -1,3 +1,24 @@
+1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* history.el: Require gnus for time encoding function.
+	Load common.el from swarmdocs path derived from SWARMHOME.
+	(process-changelog): Rename from parse-changelogs.
+	Modify to only process a module at a time, defaulting to
+	command line argument of batch Emacs run.
+
+	* common.el (get-swarmdocs-build-area): New function.
+	(pathname-for-swarmdocs-revision-output,
+	pathname-for-swarmdocs-pages-output): Use get-swarmdocs-build-area
+	isntead of get-swarmdocs.
+
+	* Makefile.am, acconfig.h, configure.in, Makefile.rules: New files.
+
+	* install-sh, missing, mkinstalldirs: New files.
+
+	* AUTHORS, COPYING, INSTALL, NEWS, README: New files.
+
+	* macros.tex: New file.
+
 1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* common.el, history.el: New files.

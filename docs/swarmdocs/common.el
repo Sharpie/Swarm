@@ -43,9 +43,12 @@
   (let ((module-name (symbol-name module)))
     (concat (get-swarmdocs) "src/" module-name "/" filename)))
 
+(defun get-swarmdocs-build-area ()
+    (concat (getenv "SWARMDOCS_BUILD_AREA") "/"))
+
 (defun pathname-for-swarmdocs-pages-output (module)
   (let ((module-name (symbol-name module)))
-    (concat (get-swarmdocs)
+    (concat (get-swarmdocs-build-area)
             "src/"
             module-name
             "/"
@@ -54,10 +57,10 @@
 
 (defun pathname-for-swarmdocs-revision-output (module)
   (let ((module-name (symbol-name module)))
-    (concat (get-swarmdocs)
+    (concat (get-swarmdocs-build-area)
             "src/"
             module-name
             "/"
             module-name
-            "revision.sgml")))
+            "revhistory.sgml")))
   

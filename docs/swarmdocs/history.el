@@ -1,5 +1,7 @@
 (require 'cl)
-(load "common.el")
+(require 'gnus)
+
+(load (concat (getenv "SWARMHOME") "/../swarmdocs/common.el"))
 
 (defstruct changelog-item
   filename
@@ -131,44 +133,43 @@
   (prog1 (parse-changelog-buffer filename-restriction)
     (kill-buffer (current-buffer))))
 
-(defun parse-changelogs ()
-  (interactive)
-  (loop for module in (swarm-modules)
-        unless (consp module)
-        for swarmhome-changelog-list = 
-        (parse-changelog (pathname-for-module module "ChangeLog")
-                         (header-filename-for-module module))
-        for swarmdocs-changelog-list =
-        (parse-changelog (pathname-for-swarmdocs module "ChangeLog"))
-        for combined-changelog-list = (append
-                                           swarmdocs-changelog-list
-                                           swarmhome-changelog-list)
-        do
-        (with-temp-file (pathname-for-swarmdocs-revision-output module)
-          (insert "<REVHISTORY>\n")
-          (loop for changelog in combined-changelog-list
-                for date-string = (format-time-string 
-                                   "%Y-%m-%d"
-                                   (changelog-timestamp changelog))
-                for author = (first (split-string
-                                     (changelog-email changelog)
-                                     "@"))
-                do
-                (loop for changelog-item in (changelog-item-list changelog)
-                      do
-                      (insert "<REVISION>\n")
-                      (let ((filename (changelog-item-filename changelog-item)))
-                        (when filename
-                          (insert "<REVNUMBER>")
-                          (insert filename)
-                          (insert "</REVNUMBER>\n")))
-                      (insert "<DATE>")
-                      (insert date-string)
-                      (insert "</DATE>\n")
-                      (insert "<AUTHORINITIALS>")
-                      (insert author)
-                      (insert "</AUTHORINITIALS>\n")
-                      (insert "<REVREMARK>\n")
-                      (insert (changelog-item-description changelog-item))
-                      (insert "</REVREMARK>\n")))
-          (insert "</REVHISTORY>\n"))))
+(defun process-changelog (&optional module-arg)
+  (let* ((module (if module-arg
+                     module-arg
+                     (intern (car (last command-line-args)))))
+         (swarmhome-changelog-list
+          (parse-changelog (pathname-for-module module "ChangeLog")
+                           (header-filename-for-module module)))
+         (swarmdocs-changelog-list
+          (parse-changelog (pathname-for-swarmdocs module "ChangeLog")))
+         (combined-changelog-list (append
+                                   swarmdocs-changelog-list
+                                   swarmhome-changelog-list)))
+    (with-temp-file (pathname-for-swarmdocs-revision-output module)
+      (insert "<REVHISTORY>\n")
+      (loop for changelog in combined-changelog-list
+            for date-string = (format-time-string 
+                               "%Y-%m-%d"
+                               (changelog-timestamp changelog))
+            for author = (first (split-string
+                                 (changelog-email changelog)
+                                 "@"))
+            do
+            (loop for changelog-item in (changelog-item-list changelog)
+                  do
+                  (insert "<REVISION>\n")
+                  (let ((filename (changelog-item-filename changelog-item)))
+                    (when filename
+                      (insert "<REVNUMBER>")
+                      (insert filename)
+                      (insert "</REVNUMBER>\n")))
+                  (insert "<DATE>")
+                  (insert date-string)
+                  (insert "</DATE>\n")
+                  (insert "<AUTHORINITIALS>")
+                  (insert author)
+                  (insert "</AUTHORINITIALS>\n")
+                  (insert "<REVREMARK>\n")
+                  (insert (changelog-item-description changelog-item))
+                  (insert "</REVREMARK>\n")))
+      (insert "</REVHISTORY>\n"))))
