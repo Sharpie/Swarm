@@ -51,13 +51,13 @@ printVal (val_t val)
       switch (val.val.uint)
         {
         case NO:       
-          sprintf (buf, "%o (NO)", (unsigned char)val.val.uint);
+          sprintf (buf, "%o (NO)", (unsigned) val.val.uint);
           break;
         case YES:       
-          sprintf (buf, "%o (YES)", (unsigned char)val.val.uint);
+          sprintf (buf, "%o (YES)", (unsigned) val.val.uint);
           break;  
         default:
-          sprintf (buf, "%o", (unsigned char)val.val.uint);
+          sprintf (buf, "%o", (unsigned) val.val.uint);
           break;
         }
       break;
