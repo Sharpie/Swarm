@@ -36,8 +36,6 @@
 
 extern void *alloca (size_t);
 
-static jobject swarmEnvironment;
-
 #define internalimplementation implementation // defeat make-h2x
 
 #ifdef HAVE_JDK
@@ -926,20 +924,19 @@ swarm_directory_create_refs (JNIEnv *env)
 }
 
 void
-swarm_directory_init (JNIEnv *env, jobject _swarmEnvironment)
+swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
 {
   void associate (const char *fieldName, id objcObject)
     {
       SD_ADD (env,
 	      get_swarmEnvironment_field (env,
-					  _swarmEnvironment,
+					  swarmEnvironment,
 					  fieldName),
 	      objcObject);
     }
 #define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
 
   jniEnv = env;
-  swarmEnvironment = (*env)->NewGlobalRef (env, _swarmEnvironment);
   swarmDirectory = [Directory create: globalZone];
 
   swarm_directory_create_refs (env);

@@ -1,3 +1,8 @@
+1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m: Remove swarmEnvironment static variable and globalref
+	setup.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* DefObject.m ([Object_s -lispIn:]): Use isDigit instead of isdigit.
