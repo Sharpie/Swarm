@@ -37,7 +37,7 @@ libjavaswarmstubs_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 
 libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_builddir) $(foreach impmodule,$(SWARMMODULES),-L$(abs_top_builddir)/src/$(impmodule)) -L$(abs_top_builddir)/libobjc $(SUPPORTLDFLAGS) -rpath $(libdir)
 
-libjavaswarm_la_OBJECTS = directory.lo setup.lo JavaProxy.lo SwarmEnvironment.lo
+libjavaswarm_la_OBJECTS = setup.lo SwarmEnvironment.lo
 
 all: libjavaswarm.la libjavaswarmstubs.la
 
@@ -46,7 +46,7 @@ install: all
 	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir)
 	$(LIBTOOL) --mode=finish $(libdir) 
 
-$(libjavaswarmstubs_la_OBJECTS): directory.h
+$(libjavaswarmstubs_la_OBJECTS): 
 
 libjavaswarmstubs.la: $(libjavaswarmstubs_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs_la_LDFLAGS) $(libjavaswarmstubs_la_OBJECTS)
