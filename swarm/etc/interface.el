@@ -630,7 +630,7 @@
     
 (defun create-dispatch-hash-table (protocol phase)
   (let ((ht (make-hash-table)))
-    ;(load-dispatch-hash-table protocol phase ht)
+    (load-dispatch-hash-table protocol phase ht)
     ht))
   
 (defun c-objc-type (type)
