@@ -821,6 +821,7 @@ PHASE(Using)
 
 - getClass
 {
+#ifdef HAVE_HDF5
   if (datasetFlag)
     {
       if (compoundType)
@@ -875,6 +876,10 @@ PHASE(Using)
       else
         return Nil;
     }
+#else
+  hdf5_not_available ();
+  return Nil;
+#endif
 }
 
 - storeTypeName: (const char *)typeName
@@ -1081,6 +1086,7 @@ hdf5_store_attribute (hid_t did,
   return self;
 }
 
+#ifdef HAVE_HDF5
 static void *
 check_alignment (id obj, id compoundType)
 {
@@ -1100,6 +1106,7 @@ check_alignment (id obj, id compoundType)
                 tid_size, offset, class->instance_size);
   return (void *) obj + offset;
 }
+#endif
 
 - shallowLoadObject: obj
 {
