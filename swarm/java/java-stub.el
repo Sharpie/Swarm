@@ -497,8 +497,13 @@
                   (convenience-create-method-p method))
         collect method))
 
-(defun collect-name.arguments (method)
-    (flet ((strip (key) (substring key 3))
+(defun collect-convenience-constructor-name.arguments (method)
+    (flet ((strip (key) 
+             (if (> (length key) 3)
+                 (if (string-match (substring key 0 3) "set")
+                     (substring key 3)
+                     key)
+                 key))
            (fix (key) (concat (downcase (substring key 0 1))
                               (substring key 1))))
       (loop for argument in (cdr (method-arguments method))
@@ -506,7 +511,8 @@
                           argument))))
 
 (defun java-print-class-constructor-method (protocol method)
-  (let* ((name.arguments (collect-name.arguments method))
+  (let* ((name.arguments
+          (collect-convenience-constructor-name.arguments method))
          (zone-protocol (lookup-protocol "Zone"))
          (zone-class-name (java-class-name zone-protocol :using))
          (creating-class-name (java-class-name protocol :creating))

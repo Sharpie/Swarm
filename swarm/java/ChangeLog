@@ -1,3 +1,9 @@
+1999-08-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (collect-convenience-constructor-name.arguments):
+	Strip off "set" prefix, but check first to see if it is really
+	there.  Renamed from collect-name.arguments.
+
 1999-07-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-native-method): Accomodate more
