@@ -231,7 +231,8 @@ void initTkObjc (id arguments);
 
 #define GUI_BEEP() tkobjc_ringBell ()
 #define GUI_UPDATE() tkobjc_update ()
-#define GUI_UPDATE_IDLE_TASKS_AND_HOLD() tkobjc_updateIdleTasksAndHold ()
+#define GUI_UPDATE_IDLE_TASKS() tkobjc_updateIdleTasks (NO)
+#define GUI_UPDATE_IDLE_TASKS_AND_HOLD() tkobjc_updateIdleTasks (YES)
 #define GUI_RELEASE_AND_UPDATE() tkobjc_releaseAndUpdate () 
 #define GUI_DRAG_AND_DROP(source,object) tkobjc_dragAndDrop (source, object)
 #define GUI_DRAG_AND_DROP_OBJECT() tkobjc_drag_and_drop_object ()
@@ -249,6 +250,7 @@ void initTkObjc (id arguments);
 #define _GUI_MSG(str) printf ("GUI [%s,%d] %s\n",__FILE__,__LINE__,str)
 #define GUI_BEEP() _GUI_MSG ("GUI_BEEP")
 #define GUI_UPDATE() _GUI_MSG ("GUI_UPDATE")
+#define GUI_UPDATE_IDLE_TASKS() _GUI_MSG ("GUI_UPDATE_IDLE_TASKS")
 #define GUI_UPDATE_IDLE_TASKS_AND_HOLD() _GUI_MSG ("GUI_UPDATE_IDLE_TASKS_AND_HOLD")
 #define GUI_RELEASE_AND_UPDATE()  _GUI_MSG ("GUI_RELEASE_AND_UPDATE")
 #define GUI_DRAG_AND_DROP(source,object) _GUI_MSG ("GUI_DRAG_AND_DROP")
