@@ -13,7 +13,7 @@ AC_SUBST(ZLIBLDFLAGS)
 AC_DEFUN(md_FIND_PNG,
 [test -z "$pngdir" && pngdir=$defaultdir
 md_FIND_INCLUDE(png)
-md_FIND_LIB(png,png)
+md_FIND_LIB(png)
 PNGINCLUDES=$_includes
 PNGLDFLAGS=$_ldflags
 AC_SUBST(pngincludedir)

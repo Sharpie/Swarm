@@ -1,5 +1,8 @@
 AC_DEFUN(md_FIND_LIB,
 [libname=$2
+if test -z "$libname" ; then
+  libname=$1
+fi
 AC_MSG_CHECKING(directory of lib${libname})
 _libdir="$$1libdir"
 test -z "$_libdir" && _libdir=$$1dir/lib
@@ -39,9 +42,9 @@ AC_DEFUN(md_FIND_INCLUDE,
   $1includedir=$$1dir/include
 fi
 AC_MSG_CHECKING(directory of $1.h)
-for dir in $$1includedir /usr/include; do
-  expand_dir=`eval echo $dir`
-  if test -r $expand_dir/$1.h ; then
+for dir in $$1includedir /usr/include /usr/local/include; do
+ expand_dir=`eval echo $dir`
+ if test -r $expand_dir/$1.h ; then
     $1includedir=$dir
     break
   else

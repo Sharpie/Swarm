@@ -1,3 +1,11 @@
+1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* acpng.m4 (md_FIND_PNG): Simplify usage to single argument.
+
+	* acfind.m4 (AC_FIND_LIB): Don't require second argument, default
+	to first. 
+	(AC_FIND_INCLUDE): Add /usr/local/include as a checked directory.
+
 1998-10-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* acobjclibs.m4 (md_CHECK_OBJC_LIBS): Try -lobjc -lpthread -lposix4
