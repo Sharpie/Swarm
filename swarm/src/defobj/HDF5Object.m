@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <swarmconfig.h> // HAVE_HDF5
+#include <swarmconfig.h> // HAVE_HDF5, PTRINT
 
 #import <defobj/HDF5Object.h>
 
@@ -18,9 +18,6 @@
 #define STRING2REF_CONV "string->ref"
 #define ROWNAMES "row.names"
 #define LEVELSPREFIX "levels."
-
-#define PTRINT long
-#define PTRUINT unsigned long
 
 static unsigned hdf5InstanceCount = 0;
 
