@@ -1,3 +1,9 @@
+1999-12-31  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* Discrete2d.m (lispOutLatticeObjects, lispOutLatticeValues,
+	[Discrete2d -lispOutShallow:], [Discrete2d -lispOutDeep:]): Use
+	new OutputStream methods.
+
 1999-12-29    <mgd@drone.swarm.org>
 
 	* Discrete2d.m ([Discrete2d -hdf5InCreate:, -hdf5In:,

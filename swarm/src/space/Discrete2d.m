@@ -419,7 +419,10 @@ lispOutLatticeObjects (Discrete2d *self, id stream)
 {
   unsigned x, y;
   
-  [stream catC: " #:lattice \n(parse\n"];
+  [stream catSeparator];
+  [stream catKeyword: "lattice"];
+  [stream catSeparator];
+  [stream catStartParse];
   for (x = 0; x < self->xsize; x++)
     for (y = 0; y < self->ysize; y++)
       {
@@ -427,15 +430,16 @@ lispOutLatticeObjects (Discrete2d *self, id stream)
 
         if (obj != nil)
           {
-            char buffer[2 * DSIZE (int) + 22];
-
-            sprintf (buffer, "  (cons '(%u . %u)\n   ", x, y);
-            [stream catC: buffer];    
+            [stream catSeparator];
+            [stream catStartCons];
+            [stream catSeparator];
+            [stream catUnsignedPair: x : y];
+            [stream catSeparator];
             [obj lispOutDeep: stream];
-            [stream catC: ")\n"];    
+            [stream catEndExpr];
           }
       }
-  [stream catC: ")"];
+  [stream catEndExpr];
 }
 
 static void
@@ -450,7 +454,11 @@ lispOutLatticeValues (Discrete2d *self, id stream)
            _C_ARY_B, self->xsize,
            _C_LNG, _C_ARY_E, _C_ARY_E);
   
-  [stream catC: " #:lattice \n (parse "];
+  [stream catSeparator];
+  [stream catKeyword: "lattice"];
+  [stream catSeparator];
+  [stream catStartParse];
+  [stream catSeparator];  
   
   lisp_output_type (buf,
                     (void *) self->lattice,
@@ -458,26 +466,24 @@ lispOutLatticeValues (Discrete2d *self, id stream)
                     NULL,
                     stream,
                     NO);
-  [stream catC: ")"];
+  [stream catEndExpr];
 }
 
 - lispOutShallow: stream
 {
-  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [stream catC: [self getTypeName]];
+  [stream catStartMakeInstance: [self getTypeName]];
   [self lispOutVars: stream deep: NO];
   lispOutLatticeValues (self, stream);
-  [stream catC: ")"];
+  [stream catEndExpr];
   return self;
 }
 
 - lispOutDeep: stream
 {
-  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [stream catC: [self getTypeName]];
+  [stream catStartMakeInstance: [self getTypeName]];
   [self lispOutVars: stream deep: NO]; // The others ivars are scalar
   lispOutLatticeObjects (self, stream);
-  [stream catC: ")"];
+  [stream catEndExpr];
   return self;
 }
 
