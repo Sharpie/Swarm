@@ -3,10 +3,8 @@
 	* Makefile.rules.in (JAVADEPS): Switch to JavaDeps.jar and handle
 	case of "srcdir=.".
 
-1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
 	* Globals.java.in: Rename from Globals.java to allow
-	for JAVASWARMDLLNAME substitution.
+	for JAVASWARM_DLL_LOADNAME substitution.
 
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
