@@ -1,6 +1,12 @@
 swarmdocs NEWS --- history of major changes to swarmdocs.  -*- text -*-
 Copyright © 1996-2000 Swarm Development Group
 
+* Release Notes for swarmdocs 2.2
+
+** All books now conform to the OASIS DocBook 4.0 DTD
+
+** Updates for the Modular Stylesheets 1.54.
+
 * Release Notes for swarmdocs 2.1
 
 ** Removed probe, random and technical appendices.  Material has been 

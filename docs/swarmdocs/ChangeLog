@@ -1,9 +1,17 @@
-2000-03-28    <mgd@nest.swarm.org>
+2000-05-30  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Start release notes for swarmdocs 2.2, note updates for
+	4.0 DTD and other changes.
+
+	* html.dsl ($img$): Remove function, fixes in modular stylesheets
+	means it is no longer required.
+
+2000-03-28  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* configure.in (AM_INIT_AUTOMAKE): Bump version. 
 	Swarmdocs 2.1.1 frozen.
 
-2000-03-01    <mgd@nest.swarm.org>
+2000-03-01  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1 frozen.
 

@@ -225,32 +225,6 @@
                (literal "Published ")
                (process-children)))
 
-(define ($img$ #!optional (nd (current-node)) (alt #f))
-    ;; overridden to handle public identifiers
-    (let* ((fileref (attribute-string (normalize "fileref") nd))
-           (entattr (attribute-string (normalize "entityref") nd))
-           (gensysid (entity-generated-system-id entattr))
-           (entityref (if entattr
-                          (string-append "figs/"
-                                         (car (reverse (split-string gensysid #\/))))
-                          #f))
-           (format  (attribute-string (normalize "format")))
-           (align   (attribute-string (normalize "align")))
-           (attr    (append
-                     (if align
-                         (list (list "ALIGN" align))
-                         '())
-                     (if entityref
-                         (list (list "SRC" (graphic-file entityref)))
-                         (list (list "SRC" (graphic-file fileref))))
-                     (if alt
-                         (list (list "ALT" alt))
-                         '()))))
-      (if (or fileref entityref)
-          (make empty-element gi: "IMG"
-                attributes: attr)
-          (empty-sosofo))))
-
 ;; defined in dbttlpg.dsl to not use $img$.
 (define (graphic) (make element gi: "P" ($img$)))
 (mode book-titlepage-recto-mode (element graphic (graphic)))
