@@ -1,5 +1,7 @@
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (EXTRA_DIST): Add acinstall.m4.
+
 	* acinstall.m4: New file.
 
 1998-08-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
