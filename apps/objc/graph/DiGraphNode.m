@@ -12,6 +12,36 @@
 
 -setCanvas: the_canvas {
   canvas = the_canvas ;
+
+  if(nodeType == OvalNode)
+    nodeItem = [OvalNodeItem createBegin: [self getZone]] ; 
+  else if(nodeType == RectangleNode)
+    nodeItem = [RectangleNodeItem createBegin: [self getZone]] ; 
+  else {
+    fprintf(stderr,
+      "Invalid nodeType in DiGraphNode. Defaulting to OvalNode.\n") ;
+    nodeItem = [OvalNodeItem createBegin: [self getZone]] ; 
+  }
+  
+  nodeItem = [[[[nodeItem setX: 
+                     [uniformIntRand getIntegerWithMin: 0
+                                               withMax: [canvas getWidth]]
+                             Y: 
+                     [uniformIntRand getIntegerWithMin: 0
+                                               withMax: [canvas getHeight]]] 
+                          setString: label]
+                          setCanvas: canvas] createEnd] ;
+
+  [nodeItem setTargetId: self] ;
+  [nodeItem setClickSel: M(showContent)] ;
+  [nodeItem setMoveSel: M(agreeX:Y:)] ;
+  [nodeItem setPostMoveSel: M(updateLinks)] ;
+
+  return self ;
+}
+
+-setNodeLabel: (char *) aLabel {
+  label = aLabel ;
   return self ;
 }
 
@@ -28,28 +58,6 @@
 
   fromList = [List create: [self getZone]] ;
   toList = [List create: [self getZone]] ;
-
-  if(canvas){
-    if(nodeType == OvalNode)
-      nodeItem = [OvalNodeItem createBegin: [self getZone]] ; 
-    else if(nodeType == RectangleNode)
-      nodeItem = [RectangleNodeItem createBegin: [self getZone]] ; 
-    else {
-     fprintf(stderr,
-     "Invalid nodeType in DiGraphNode. Defaulting to OvalNode.\n") ;
-      nodeItem = [OvalNodeItem createBegin: [self getZone]] ; 
-    }
-  
-    nodeItem = [[[[nodeItem setX: [uniformRandom rMax: [canvas getWidth]]
-                               Y: [uniformRandom rMax: [canvas getHeight]]] 
-                            setString: name]
-                            setCanvas: canvas] createEnd] ;
-
-    [nodeItem setTargetId: self] ;
-    [nodeItem setClickSel: M(showContent)] ;
-    [nodeItem setMoveSel: M(agreeX:Y:)] ;
-    [nodeItem setPostMoveSel: M(updateLinks)] ;
-  }
 
   return self;
 }
@@ -127,12 +135,21 @@
 }
 
 -(void) drop {
-  [fromList forEach: M(drop)] ;
-  [fromList drop] ;  
-  [toList forEach: M(drop)] ;
+
+  while([fromList getCount]){
+    [[fromList getFirst] drop] ;
+  }
+  [fromList drop] ;
+
+  while([toList getCount]){
+    [[toList atOffset:0] drop] ;
+  }
   [toList drop] ;
+
   if(canvas)
     [nodeItem drop] ;
+
+  [super drop] ;
 }
 
 //Callbacks...
@@ -153,4 +170,3 @@
 }
 
 @end
-

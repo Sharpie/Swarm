@@ -1,7 +1,7 @@
 // Copyright (C) 1995 The Santa Fe Institute.
 // No warranty implied, see LICENSE for terms.
 
-#import <swarmobject.h>
+#import <objectbase.h>
 
 @interface DiGraphNode: SwarmObject {
   id fromList ;
@@ -9,7 +9,7 @@
   id canvas ;
   id nodeItem ;
   id nodeType ;
-  char *name ;
+  char *label ;
 }
 
 -setCanvas: aCanvas ;
@@ -26,4 +26,6 @@
 -(int) agreeX: (int) x Y: (int) y ;
 -updateLinks ;
 -(void) drop ;
+-setNodeLabel: (char *) aLabel ;
+
 @end

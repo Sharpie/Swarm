@@ -1,7 +1,7 @@
 // Copyright (C) 1995 The Santa Fe Institute.
 // No warranty implied, see LICENSE for terms.
 
-#import <swarmobject.h>
+#import <objectbase.h>
 
 @interface DiGraphLink: SwarmObject {
   id from ;

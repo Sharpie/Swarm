@@ -1,11 +1,14 @@
 // Copyright (C) 1995 The Santa Fe Institute.
 // No warranty implied, see LICENSE for terms.
 
-#import <swarmobject.h>
+#import <objectbase.h>
 
 @interface DiGraph: SwarmObject {
   id nodeList ;
   id canvas ;
+
+  // For BoingDistribute...
+  float springLength ;
 }
 
 -setCanvas: aCanvas ;
@@ -13,9 +16,18 @@
 -getCanvas ;
 -getNodeList ;
 -addNode: aNode ;
--removeNode: which ;
+-dropNode: which ;
 -addLinkFrom: this To: that ;
 -removeLink: aLink ;
--redistribute ;
 -update ;
+
+// Node placement techniques...
+
+-redistribute ;
+
+-setSpringLength: (float) aLength ;
+-boingDistribute: (int) iterations ;
+-boingDistribute ;
+-(double) boingStep ;
+
 @end

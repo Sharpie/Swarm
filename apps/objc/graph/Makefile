@@ -1,4 +1,4 @@
-SWARMHOME=../swarm
+SWARMHOME=../swarm-1.0.4
 LIBNAME=graph
 OBJECTS=DiGraph.o DiGraphLink.o DiGraphNode.o graph.o
 HEADERS=DiGraph.h DiGraphLink.h DiGraphNode.h 
