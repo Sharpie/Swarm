@@ -3,8 +3,8 @@
 	* Makefile.am (CURRENT, VERSION, AGE, lib_LTLIBRARIES,
 	libswarm_la_SOURCES, LIBS, empty.m, libswarm_la_LDFLAGS): New
 	target for libswarm.  Include Makefile.common.
-	(SWARMMODULES): New variable.
-	(SUBDIRS): Use it.
+	(SWARMMODULES): New variable (reversed SUBDIRS). 
+	(SUBDIRS): Move misc to front.
 
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
