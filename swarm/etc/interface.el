@@ -136,6 +136,7 @@
       "-addRef:withArgument:" ; void* parameter, ref_t return
       "-removeRef:" ; ref_t parameter
       "+conformsTo:" ; Protocol* parameter
+      "-conformsTo:" ; Protocol* parameter
 
       ;; Zone
       "-alloc:" ; void* return

@@ -282,7 +282,11 @@
            (setf (method-return-type method) "id <Action>"))
           ((string= sig "-activateIn:")
            (let ((first-argument (first (method-arguments method))))
-             (setf (nth 1 first-argument) "id <Swarm>"))))
+             (setf (nth 1 first-argument) "id <Swarm>")))
+          ((or (string= sig "-addProbeMap:")
+               (string= sig "-dropProbeMap:"))
+           (let ((first-argument (first (method-arguments method))))
+             (setf (nth 1 first-argument) "id <ProbeMap>"))))
     method))
 
 (defun parse-method (protocol

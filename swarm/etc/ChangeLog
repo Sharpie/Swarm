@@ -1,3 +1,9 @@
+2000-10-14  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (*removed-methods*): Add -conformsTo:.
+
+	* protocol.el (fixup-method): Handle -addProbeMap: and -dropProbeMap:.
+
 2000-09-23  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* protocol.el (check-common-tags): Handle extern "C" {}.
