@@ -4,7 +4,6 @@
 
 #import <objectbase/SwarmObject.h>
 #import <space.h>
-#import <simtools.h>
 
 @interface Bug: SwarmObject
 {
