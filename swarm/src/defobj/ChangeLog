@@ -1,3 +1,33 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m: Don't declare fillHiddenArguments.
+	(FUNCPTR): Use local macro instead of FFI_FN.
+	(fillHiddenArguments): Add support for avcall.
+	(avcall_add_primitive): New function.
+	(add_ffi_types): Moved from FArguments -- now calls
+	fillHiddenArguments at the right point.  Add support for avcall
+	(use avcall_add_primitive).
+	([FCall_c -createEnd]): Don't call fillHiddenArguments.
+	([FCall_c -setMethod:inObject:], [FCall_c -createEnd]): Don't
+	abort in avcall case.
+	([FCall_c -performCall]): Use av_call in avcall case.
+
+	* FArguments.m: Include avcall.h if USE_AVCALL.
+	Ifdef ffi_types.
+	(fcall_type_size): Make static.  Rewrite to do case/sizeof.
+	([FArguments_c +createBegin:]): Ifdef ffiArgTypes and ffiReturnType
+	init.  Don't abort if USE_AVCALL.
+	(ADD_PRIMITIVE): This is valid for USE_AVCALL or not; don't abort
+	in AVCALL case.
+	([FArguments_c -mapAllocations:]): Ifdef mapalloc setup for
+	ffiArgTypes.
+
+	* FArguments.h: Include swarmconfig.h.  Include avcall.h if
+	USE_AVCALL.
+	(FArguments_c): Add avalist.  Ifdef ffi-specific things.
+
+	* FArguments.[hm]: Remove add_ffi_types and fcall_type_size.
+
 1999-04-26  Alex Lancaster  <alex@lucero.santafe.edu>
 
 	* FCall.m ([FCall_c -getRetVal:]): (fcall_type_jobject,

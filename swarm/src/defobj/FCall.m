@@ -31,8 +31,6 @@ JNIEnv *jniEnv;
 #include <directory.h>
 #endif
 
-static void fillHiddenArguments (FCall_c *self);
-
 #ifdef HAVE_JDK
 void * java_static_call_functions[FCALL_TYPE_COUNT];
 void * java_call_functions[FCALL_TYPE_COUNT];
@@ -47,116 +45,267 @@ java_not_available (void)
 }
 #endif
 
+#define FUNCPTR(f) ((void (*)())f) 
+
 #ifdef HAVE_JDK
 void 
 defobj_init_java_call_tables (void *jEnv)
 {
   java_static_call_functions[fcall_type_void] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticVoidMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticVoidMethod);
   java_static_call_functions[fcall_type_uchar] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticCharMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticCharMethod);
   java_static_call_functions[fcall_type_schar] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticCharMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticCharMethod);
   java_static_call_functions[fcall_type_ushort] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticShortMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticShortMethod);
   java_static_call_functions[fcall_type_sshort] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticShortMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticShortMethod);
   java_static_call_functions[fcall_type_uint] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticIntMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticIntMethod);
   java_static_call_functions[fcall_type_sint] =
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticIntMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticIntMethod);
   java_static_call_functions[fcall_type_ulong] =
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
   java_static_call_functions[fcall_type_slong] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
   java_static_call_functions[fcall_type_float] =
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticFloatMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticFloatMethod);
   java_static_call_functions[fcall_type_double] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticDoubleMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticDoubleMethod);
   java_static_call_functions[fcall_type_object] = NULL;
   java_static_call_functions[fcall_type_string] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_selector] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_jobject] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_jstring] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
 
   java_call_functions[fcall_type_void] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallVoidMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallVoidMethod);
   java_call_functions[fcall_type_uchar] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallCharMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallCharMethod);
   java_call_functions[fcall_type_schar] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallCharMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallCharMethod);
   java_call_functions[fcall_type_ushort] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallShortMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallShortMethod);
   java_call_functions[fcall_type_sshort] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallShortMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallShortMethod);
   java_call_functions[fcall_type_uint] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallIntMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallIntMethod);
   java_call_functions[fcall_type_sint] =
-      FFI_FN ((*(JNIEnv *) jEnv)->CallIntMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallIntMethod);
   java_call_functions[fcall_type_ulong] =
-      FFI_FN ((*(JNIEnv *) jEnv)->CallLongMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallLongMethod);
   java_call_functions[fcall_type_slong] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallLongMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallLongMethod);
   java_call_functions[fcall_type_float] =
-      FFI_FN ((*(JNIEnv *) jEnv)->CallFloatMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallFloatMethod);
   java_call_functions[fcall_type_double] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallDoubleMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallDoubleMethod);
   java_call_functions[fcall_type_object] = NULL;
   java_call_functions[fcall_type_string] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_selector] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_jobject] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_jstring] = 
-      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
 }
 #endif
 
 static void 
 fillHiddenArguments (FCall_c *self)
 {
-#ifndef USE_AVCALL
   FArguments_c *fargs = self->fargs;
 
   switch (self->callType)
     {
     case objccall: 
       fargs->hiddenArgumentCount = 2;	
+#ifdef USE_AVCALL
+      av_ptr (fargs->avalist, id, self->fobject);
+      av_ptr (fargs->avalist, SEL, self->fmethod);
+#else
       fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 2] = &self->fobject;
       fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+#endif
       break;
 #ifdef HAVE_JDK
     case javacall:
       fargs->hiddenArgumentCount = 3;
+#ifdef USE_AVCALL
+      av_ptr (fargs->avalist, JNIEnv *, jniEnv);
+      av_ptr (fargs->avalist, jobject, self->fobject);
+      av_ptr (fargs->avalist, jmethodID, self->fmethod);
+#else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
       fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 2] = &self->fobject;
       fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+#endif
       break;
     case javastaticcall:
       fargs->hiddenArgumentCount = 3;
+#ifdef USE_AVCALL
+      av_ptr (fargs->avalist, JNIEnv *, jniEnv);
+      av_ptr (fargs->avalist, jclass, self->fclass);
+      av_ptr (fargs->avalist, jmethodID, self->fmethod);
+#else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
       fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 2] = &self->fclass;
       fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+#endif
       break;
 #endif
     }
+}
+
+#ifdef USE_AVCALL
+static void
+avcall_add_primitive (FArguments_c *fa, fcall_type_t type, void *val)
+{
+  switch (type)
+    {
+    case fcall_type_void:
+      abort ();
+    case fcall_type_uchar:
+      av_uchar (fa->avalist, *(unsigned char *) val);
+      break;
+    case fcall_type_schar:
+      av_char (fa->avalist, *(char *) val);
+      break;
+    case fcall_type_ushort:
+      av_ushort (fa->avalist, *(unsigned short *) val);
+      break;
+    case fcall_type_sshort:
+      av_short (fa->avalist, *(short *) val);
+      break;
+    case fcall_type_uint:
+      av_uint (fa->avalist, *(unsigned *) val);
+      break;
+    case fcall_type_sint:
+      av_int (fa->avalist, *(int *) val);
+      break;
+    case fcall_type_ulong:
+      av_ulong (fa->avalist, *(unsigned long *) val);
+      break;
+    case fcall_type_float:
+      av_float (fa->avalist, *(float *) val);
+      break;
+    case fcall_type_double:
+      av_double (fa->avalist, *(double *) val);
+      break;
+    case fcall_type_string:
+      av_ptr (fa->avalist, const char *, *(const char **) val);
+      break;
+    case fcall_type_selector:
+      av_ptr (fa->avalist, SEL, *(SEL *) val);
+      break;
+    case fcall_type_jobject:
+      av_ptr (fa->avalist, jobject, *(jobject *) val);
+      break;
+    case fcall_type_jstring:
+      av_ptr (fa->avalist, jstring, *(jstring *) val);
+      break;
+    default:
+      abort ();
+    }
+}
+#endif
+
+static void
+add_ffi_types (FCall_c *fc)
+{
+  unsigned i;
+  FArguments_c *fa = fc->fargs;
+  void (*func) (void) = fc->ffunction;
+
+#ifndef USE_AVCALL
+  fa->ffiReturnType = ffi_types[fa->returnType];
+  fillHiddenArguments (fc);
+  for (i = 0; i < fa->assignedArgumentCount; i++)
+    {
+      unsigned pos = i + MAX_HIDDEN;
+      fcall_type_t type = fa->argTypes[pos];
+      
+      fa->ffiArgTypes[pos] = ffi_types[type];
+    }
 #else
-  abort ();
+  switch (fa->returnType)
+    {
+    case fcall_type_void:
+      av_start_void (fa->avalist, func);
+      break;
+    case fcall_type_uchar:
+      av_start_uchar (fa->avalist, func, &fa->resultVal.uchar);
+      break;
+    case fcall_type_schar:
+      av_start_char (fa->avalist, func, &fa->resultVal.schar);
+      break;
+    case fcall_type_ushort:
+      av_start_ushort (fa->avalist, func, &fa->resultVal.ushort);
+      break;
+    case fcall_type_sshort:
+      av_start_short (fa->avalist, func, &fa->resultVal.sshort);
+      break;
+    case fcall_type_uint:
+      av_start_uint (fa->avalist, func, &fa->resultVal.uint);
+      break;
+    case fcall_type_sint:
+      av_start_int (fa->avalist, func, &fa->resultVal.sint);
+      break;
+    case fcall_type_ulong:
+      av_start_ulong (fa->avalist, func, &fa->resultVal.ulong);
+      break;
+    case fcall_type_slong:
+      av_start_long (fa->avalist, func, &fa->resultVal.slong);
+      break;
+    case fcall_type_float:
+      av_start_float (fa->avalist, func, &fa->resultVal._float);
+      break;
+    case fcall_type_double:
+      av_start_double (fa->avalist, func, &fa->resultVal._double);
+      break;
+    case fcall_type_object:
+      av_start_ptr (fa->avalist, func, id, &fa->resultVal.object);
+      break;
+    case fcall_type_string:
+      av_start_ptr (fa->avalist, func, const char *, &fa->resultVal.string);
+      break;
+    case fcall_type_selector:
+      av_start_ptr (fa->avalist, func, SEL, &fa->resultVal.selector);
+      break;
+    case fcall_type_jobject:
+      av_start_ptr (fa->avalist, func, jobject, &fa->resultVal.object);
+      break;
+    case fcall_type_jstring:
+      av_start_ptr (fa->avalist, func, jstring, &fa->resultVal.object);
+      break;
+    default:
+      abort ();
+    }
+  fillHiddenArguments (fc);
+  for (i = 0; i < fa->assignedArgumentCount; i++)
+    {
+      unsigned pos = i + MAX_HIDDEN;
+      fcall_type_t type = fa->argTypes[pos];
+    
+      avcall_add_primitive (fa, type, fa->argValues[pos]);
+    }
 #endif
 }
+
 
 @implementation FCall_c
 
@@ -195,9 +344,8 @@ PHASE(Creating)
                       methodName, fargs->javaSignature);
       }
 #endif
-  fillHiddenArguments (self);
+  add_ffi_types (self);
 #ifndef USE_AVCALL
-  add_ffi_types ((FArguments_c *) fargs);
   {
     unsigned res;
     
@@ -211,8 +359,6 @@ PHASE(Creating)
       raiseEvent (SourceMessage,
                   "Failed while preparing foreign function call closure!\n"); 
   }
-#else
-  abort ();
 #endif
   setNextPhase (self);
   return self;
@@ -247,11 +393,7 @@ PHASE(Setting)
   (SEL) fmethod = mtd;
   cl = getClass (obj);
   (Class) fclass = cl;
-#ifndef USE_AVCALL
-  ffunction = FFI_FN (get_imp ((Class) fclass, (SEL) fmethod));
-#else
-  abort ();
-#endif
+  ffunction = FUNCPTR (get_imp ((Class) fclass, (SEL) fmethod));
   return self;
 }
 
@@ -299,7 +441,7 @@ PHASE(Using)
 #endif
 
 #else
-  abort ();
+  av_call (fargs->avalist);
 #endif
 }
 

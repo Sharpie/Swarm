@@ -21,16 +21,16 @@ Library:      defobj
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION
+#else
+#include <avcall.h>
+#endif
 
 #ifdef HAVE_JDK
 #include <jni.h>
 extern JNIEnv *jniEnv;
 #endif
 
-// swarm_types table is modified in such way that 
-// swarm_types[fcall_type_float] == &ffi_type_double
-// due to ffi bug
-
+#ifndef USE_AVCALL
 ffi_type *ffi_types[FCALL_TYPE_COUNT] = { &ffi_type_void,
                                           &ffi_type_uchar, &ffi_type_schar, 
                                           &ffi_type_ushort, &ffi_type_sshort, 
@@ -43,7 +43,6 @@ ffi_type *ffi_types[FCALL_TYPE_COUNT] = { &ffi_type_void,
                                           &ffi_type_pointer,
                                           &ffi_type_pointer};
 #endif
-
 
 const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "S", "S", "I", 
@@ -74,10 +73,46 @@ char objc_types[FCALL_TYPE_COUNT] = {
   '\002'
 };
 
-size_t
+static size_t
 fcall_type_size (fcall_type_t type)
 {
-  return ffi_types[type]->size;
+  switch (type)
+    {
+    case fcall_type_void:
+      return 0;
+    case fcall_type_uchar:
+      return sizeof (unsigned char);
+    case fcall_type_schar:
+      return sizeof (char);
+    case fcall_type_ushort:
+      return sizeof (unsigned short);
+    case fcall_type_sshort:
+      return sizeof (short);
+    case fcall_type_uint:
+      return sizeof (unsigned);
+    case fcall_type_sint:
+      return sizeof (int);
+    case fcall_type_ulong:
+      return sizeof (unsigned long);
+    case fcall_type_slong:
+      return sizeof (long);
+    case fcall_type_float:
+      return sizeof (float);
+    case fcall_type_double:
+      return sizeof (double);
+    case fcall_type_object:
+      return sizeof (id);
+    case fcall_type_string:
+      return sizeof (const char *);
+    case fcall_type_selector:
+      return sizeof (SEL);
+    case fcall_type_jobject:
+      return sizeof (jobject);
+    case fcall_type_jstring:
+      return sizeof (jstring);
+    default:
+      abort ();
+    }
 }
 
 @implementation FArguments_c
@@ -90,19 +125,17 @@ PHASE(Creating)
   newArguments = [aZone allocIVars: self];
   newArguments->assignedArgumentCount = 0;
   newArguments->hiddenArgumentCount = 0;
-#ifndef USE_AVCALL
-  newArguments->ffiArgTypes = [aZone allocBlock: (sizeof (ffi_type *) * 
-				       (MAX_ARGS + MAX_HIDDEN))];
   newArguments->argTypes = [aZone allocBlock:
                                     (sizeof (fcall_type_t) * 
                                      (MAX_ARGS + MAX_HIDDEN))];
-#else
-  abort ();
-#endif
   newArguments->argValues = [aZone allocBlock: (sizeof (void *) * 
                                                 (MAX_ARGS + MAX_HIDDEN))];
-  newArguments->returnType = 0;
+#ifndef USE_AVCALL
+  newArguments->ffiArgTypes = [aZone allocBlock: (sizeof (ffi_type *) * 
+				       (MAX_ARGS + MAX_HIDDEN))];
   newArguments->ffiReturnType = &ffi_type_void;
+#endif
+  newArguments->returnType = 0;
   newArguments->result = NULL;
   newArguments->javaSignatureLength = 0;
   return newArguments;
@@ -144,15 +177,11 @@ PHASE(Creating)
         size = fcall_type_size (type);
     }
   else
+#endif
     size = fcall_type_size (type);
   argTypes[offset] = type;
-#endif
-#ifndef USE_AVCALL
   argValues[offset] = [[self getZone] allocBlock: size];
   memcpy (argValues[offset], value, size);
-#else
-  abort ();
-#endif
   javaSignatureLength += strlen (java_type_signature[type]);
   assignedArgumentCount++;
 
@@ -179,11 +208,7 @@ get_fcall_type_for_objc_type (char objcType)
 
 #define ADD_COMMON_TEST if (assignedArgumentCount == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
 
-#ifndef USE_AVCALL
 #define ADD_PRIMITIVE(fcall_type, type, value)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArgumentCount] = [[self getZone] allocBlock: fcall_type_size (fcall_type)]; argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount++] = value; }
-#else
-#define ADD_PRIMITIVE(type) abort ()
-#endif
 
 - addChar: (char)value
 {
@@ -319,21 +344,6 @@ get_fcall_type_for_objc_type (char objcType)
   return [self _setReturnType_: get_fcall_type_for_objc_type (objcType)];
 }
 
-void
-add_ffi_types (FArguments_c * self)
-{
-  unsigned i;
-
-  for (i = 0; i < self->assignedArgumentCount; i++)
-#ifndef USE_AVCALL
-    *(self->ffiArgTypes + i + MAX_HIDDEN) =
-      ffi_types [self->argTypes[i + MAX_HIDDEN]];
-  self->ffiReturnType = ffi_types [self->returnType];
-#else
-  abort ();
-#endif
-}
-
 static const char *
 createJavaSignature (FArguments_c *self)
 {
@@ -393,9 +403,11 @@ PHASE(Using)
   
   mapalloc->size = sizeof (fcall_type_t) * MAX_TOTAL;
   mapAlloc (mapalloc, argTypes);
-  
+
+#ifndef USE_AVCALL  
   mapalloc->size = sizeof (ffi_type *) * MAX_TOTAL;
   mapAlloc (mapalloc, ffiArgTypes);
+#endif
   
   mapalloc->size = javaSignatureLength + 3;
   mapAlloc (mapalloc, (char *) javaSignature);

@@ -13,6 +13,10 @@ Library:      defobj
 #import <defobj/Create.h>
 #include <objc/objc.h> // retval_t
 
+#include <swarmconfig.h>
+#ifdef USE_AVCALL
+#include <avcall.h>
+#endif
 
 #define FCALL_TYPE_COUNT 16
 
@@ -31,12 +35,16 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 @public
    unsigned assignedArgumentCount;
    unsigned hiddenArgumentCount;
-   fcall_type_t *argTypes;
-   void **ffiArgTypes;
    fcall_type_t returnType;
-   void *ffiReturnType;
-   void **argValues;
    types_t resultVal;
+   fcall_type_t *argTypes;
+   void **argValues;
+#ifndef USE_AVCALL
+   void **ffiArgTypes;
+   void *ffiReturnType;
+#else
+   av_alist avalist;
+#endif
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;
@@ -61,6 +69,3 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - (void *)getResult;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
-
-extern void add_ffi_types (FArguments_c *self);
-extern size_t fcall_type_size (fcall_type_t type);
