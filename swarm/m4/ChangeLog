@@ -1,3 +1,11 @@
+1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add acjdk.m4 to EXTRA_DIST.
+
+	* acjdk.m4: New file.
+	(vj_FIND_JDK): Locates JDK through javac path.
+	(vj_DISABLE_JAVA): Parsing of --enable-java and --disable-java.
+
 1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acobjclibs.m4 (md_CHECK_OBJC_LIBS): Add "-x none" after
