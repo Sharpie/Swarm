@@ -21,19 +21,19 @@ import ObserverSwarm;
 import Organization;
 
 public class Marcus2d extends DirectedAgent2d {
+  private final static int incubationTime = 50;
   Schedule schedule;
   Selector incubateSelector;
   Selector checkWorkSelector;
   Selector xmoveSelector, ymoveSelector;
   Action xmoveNext, ymoveNext;
   int xfreq, yfreq;
-  int incubationTime, incubationRemaining;
+  int incubationRemaining;
   boolean working;
 
   public Marcus2d (Zone aZone, Organization org, int x, int y) {
     super (aZone, org, x, y, 5, 4, .25, .75, 100, 10);
     
-    this.incubationTime = 50;
     schedule = new ScheduleImpl (aZone, true);
 
     try {
@@ -62,13 +62,6 @@ public class Marcus2d extends DirectedAgent2d {
     }
   }
   
-  public Activity activateIn (Swarm context) {
-    super.activateIn (context);
-
-    schedule.activateIn (this);
-    return getActivity ();
-  }
-
   public void startIncubation (int t) {
     color = ObserverSwarm.MarcusIncubateColor;
     working = false;
@@ -79,12 +72,15 @@ public class Marcus2d extends DirectedAgent2d {
   }
 
   public void startWork (int t) {
-    color = frobbed ? ObserverSwarm.MarcusListenColor : ObserverSwarm.MarcusNativeColor;
     working = true;
-    if (!frobbed)
+    if (frobbed)
+      color = ObserverSwarm.MarcusListenColor;
+    else {
+      color = ObserverSwarm.MarcusNativeColor;
       direction =
         Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359);
-    
+    }
+      
     setOffsets ();
     if (direction == 90) {
       yfreq = 1;
@@ -168,6 +164,14 @@ public class Marcus2d extends DirectedAgent2d {
                                                     this,
                                                     ymoveSelector);
   }
+
+  public Activity activateIn (Swarm context) {
+    super.activateIn (context);
+
+    schedule.activateIn (this);
+    return getActivity ();
+  }
+
 
   public boolean frob (int direction) {
     if (!working)
