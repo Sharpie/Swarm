@@ -14,7 +14,6 @@ pnglibdir = @pnglibdir@
 CC = @CC@
 CFLAGS = @CFLAGS@
 
-MODULES = collections defobj activity objectbase random simtools tkobjc gui simtoolsgui space misc
 INCLUDES = -I$(includedir)
 
 TCLLDFLAGS = @TCLLDFLAGS@

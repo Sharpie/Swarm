@@ -1,3 +1,7 @@
+1998-07-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.appl.in (MODULES): Remove.
+
 1998-07-13  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (AC_OUTPUT): Add etc/Makefile and etc/config.swarm
