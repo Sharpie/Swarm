@@ -488,9 +488,8 @@ lisp_output_type (const char *type,
 id
 nil_method (id receiver, SEL op, ...)
 {
-  [NotImplemented raiseEvent:  "The message `%s' was sent to nil.\n",
-                  sel_get_name (op)];
-
+  raiseEvent (InvalidArgument,  "The message `%s' was sent to nil.\n",
+              sel_get_name (op));
   return nil;
 }
 #endif
