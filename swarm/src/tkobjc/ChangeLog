@@ -1,3 +1,8 @@
+2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbeEntry.m ([VarProbeEntry -createEnd]): Don't crash if
+	no probedType set.
+
 2000-12-03  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* ScheduleItem.m ([ScheduleItem -_createItem_]): Use conformsTo

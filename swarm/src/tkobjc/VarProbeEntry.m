@@ -112,14 +112,18 @@ PHASE(Creating)
   else
     [self setActiveFlag: NO];
 
-  if (([varProbe getProbedType])[0] == _C_ID)
-    {
-      tkobjc_bindButton3ToSpawn (self, owner, 0);
-      tkobjc_dragAndDropTarget (self, owner);
-      tkobjc_dragAndDrop (self, owner);
-    }
-  else
-    tkobjc_bindButton3ToBeUnhelpful (self);
+  {
+    const char *probedType = [varProbe getProbedType];
+    
+    if (!probedType || probedType[0] == _C_ID)
+      {
+        tkobjc_bindButton3ToSpawn (self, owner, 0);
+        tkobjc_dragAndDropTarget (self, owner);
+        tkobjc_dragAndDrop (self, owner);
+      }
+    else
+      tkobjc_bindButton3ToBeUnhelpful (self);
+  }
   return self;
 }
 
