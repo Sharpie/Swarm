@@ -1,3 +1,8 @@
+1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.m (Java_SwarmEnvironment_initSwarm): Add 
+	calls to java_directory_init and init_javacall_tables.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.h (JUPDATE): New macro.
