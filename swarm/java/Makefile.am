@@ -1,6 +1,8 @@
 C_EXTRA_DIST = c/Makefile.in c/SwarmEnvironmentExtra.m c/ChangeLog c/javaswarm.dll.c
 KAWAJAR=@KAWAJAR@
-SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swarm/Selector.java swarm/NonUniqueMethodSignatureException.java swarm/SignatureNotFoundException.java swarm/PhaseCImpl.java swarm/Primitives.java swarm/Globals.java swarm/CustomizedType.java swarm/ObjCProxy.java swarm/ProxyClassLoader.java $(KAWAJAR) JavaDeps.jar
+SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog $(SWARM_JAVA_BASIC) $(SWARM_JAVA_EXTRA)
+SWARM_JAVA_BASIC = swarm/Selector.java swarm/NonUniqueMethodSignatureException.java swarm/SignatureNotFoundException.java swarm/PhaseCImpl.java swarm/Primitives.java swarm/Globals.java swarm/CustomizedType.java swarm/ObjCProxy.java 
+SWARM_JAVA_EXTRA = swarm/ProxyClassLoader.java $(KAWAJAR) JavaDeps.jar
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
 EXTRA_SCRIPTS = javacswarm.in javaswarm.in jdkcswarm jdkswarm
 EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS)
@@ -41,3 +43,5 @@ stubs: Makefile.common
 Makefile.common: java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
 	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@java-stub.elc' -f $(JAVASTUBS_FUNCTION)
 
+gcjswarm.so:
+	gcj -fPIC -shared -o gcjswarm.so --encoding=UTF-8 -fjni -g -O2 $(addprefix $(srcdir)/,$(SWARM_JAVA_BASIC)) swarm/*.java $(foreach module,$(MODULES),swarm/$(module)/*.java)
