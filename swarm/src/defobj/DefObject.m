@@ -873,7 +873,7 @@ struct array_element {
   struct array_element *prev;
 };
 
-static void
+static const char *
 output_type (const char *type,
              const void *ptr,
              unsigned offset,
@@ -888,7 +888,7 @@ output_type (const char *type,
       [((id *)ptr)[offset] lispout: stream];
       break;
     case _C_CLASS:
-      raiseEvent (NotImplemented, "Classes not supported");
+      raiseEvent (NotImplemented, "Classes not supported [%s]", type);
       break;
     case _C_SEL:
       raiseEvent (NotImplemented, "Selectors not supported");
@@ -931,15 +931,15 @@ output_type (const char *type,
       [stream catC: buf];
       break;
     case _C_FLT:
-      sprintf (buf, "%lu", ((float *) ptr)[offset]);
+      sprintf (buf, "%fF0", ((float *) ptr)[offset]);
       [stream catC: buf];
       break;
     case _C_DBL:
-      sprintf (buf, "%lu", ((double *) ptr)[offset]);
+      sprintf (buf, "%lfD0", ((double *) ptr)[offset]);
       [stream catC: buf];
       break;
     case _C_BFLD:
-      raiseEvent (NotImplemented, "Bit fields not supported");
+      raiseEvent (NotImplemented, "Bit fields not supported [%s]", type);
       break;
     case _C_VOID:
       abort ();
@@ -948,7 +948,7 @@ output_type (const char *type,
       abort ();
       break;
     case _C_PTR:
-      raiseEvent (NotImplemented, "Pointers not supported");
+      raiseEvent (NotImplemented, "Pointers not supported [%s]", type);
       break;
     case _C_CHARPTR:
       [stream catC: "\""];
@@ -974,6 +974,7 @@ output_type (const char *type,
           {
             struct array_element *aeptr;
             unsigned rank = 0;
+            const char *ret = NULL;
             
             aeptr = &array_element;
             while (aeptr)
@@ -1030,29 +1031,30 @@ output_type (const char *type,
                             offset += coord[i - 1] * mult;
                           }
                         [stream catC: space];
-                        output_type (tail, ptr, offset, NULL, stream);
+                        ret = output_type (tail, ptr, offset, NULL, stream);
                         space = " ";
                       }
                   }
                 permute (0);
               }
             }
+            return ret;
           }
         else
-          output_type (tail, ptr, 0, &array_element, stream);
+          return output_type (tail, ptr, 0, &array_element, stream);
       }
       break;
     case _C_ARY_E:
       abort ();
       break;
     case _C_UNION_B:
-      raiseEvent (NotImplemented, "Unions not supported");
+      raiseEvent (NotImplemented, "Unions not supported [%s]", type);
       break;
     case _C_UNION_E:
       abort ();
       break;
     case _C_STRUCT_B:
-      raiseEvent (NotImplemented, "Structures not supported");
+      raiseEvent (NotImplemented, "Structures not supported [%s]", type);
       break;
     case _C_STRUCT_E:
       abort ();
@@ -1109,6 +1111,27 @@ lispinQuotedExpr (id expr)
 
 - lispin: expr
 {
+  id <Index> li = [expr begin: [expr getZone]];
+  id key, val;
+
+  while ((key = [li next]) != nil)
+    {
+      if (!listp (key))
+        raiseEvent (InvalidArgument, "expecting list [%s]", [key name]);
+      {
+        id first = [key getFirst];
+
+        if (first != (id) ArchiverSymbol)
+          raiseEvent (InvalidArgument, "expecting keyword [%s]", [first name]);
+      }
+
+      {
+        if ((val = [li next]) == nil)
+          raiseEvent (InvalidArgument, "missing value");
+        
+        xprint (val);
+      }
+    }
   return self;
 }
 //
