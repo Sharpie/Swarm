@@ -1,5 +1,9 @@
 1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ModelSwarm.h: Include objectbase.h instead of swarmobject.h.
+	* ObserverSwarm.h: Likewise.
+	* ObserverSwarm.m: Likewise.
+
 	* ModelSwarm.m ([ModelSwarm +createBegin:aZone]): Use
 	id <ProbeMap> probeMap instead of ProbeMap*.
 	* ObserverSwarm.m ([ObserverSwarm +createBegin:]): Likewise.

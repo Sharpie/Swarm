@@ -7,7 +7,7 @@
 #import <activity.h>
 #import <collections.h>
 #import <tkobjc.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 
 
 @interface ModelSwarm: Swarm {

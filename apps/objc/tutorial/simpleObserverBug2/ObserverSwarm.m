@@ -3,7 +3,7 @@
 #import "ObserverSwarm.h"
 #import "ModelSwarm.h"
 #import <collections.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <analysis.h>
 
 @implementation ObserverSwarm

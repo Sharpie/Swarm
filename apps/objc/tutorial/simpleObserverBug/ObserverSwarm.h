@@ -1,6 +1,6 @@
 // ObserverSwarm.h
 
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <space.h>
 #import <activity.h>
 #import <tkobjc.h>
