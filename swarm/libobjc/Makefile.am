@@ -12,13 +12,14 @@ EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c thr-posix.c
 
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
-lib_LTLIBRARIES = @LIBOBJC_LA@
+lib_LTLIBRARIES = @inst_LIBS@
+noinst_LTLIBRARIES = @noinst_LIBS@
 EXTRA_LTLIBRARIES = libswarmobjc.la
 #bin_PROGRAMS = @OBJC_DLL@
 #EXTRA_PROGRAMS = objc.dll
 
 libswarmobjc_la_SOURCES = $(CSRC) $(MSRC)
-libswarmobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libswarmobjc_la_LDFLAGS = @inst_LDFLAGS@
 libswarmobjc_la_LIBADD = $(objc_thread_lo) # -lgcc
 libswarmobjc_la_DEPENDENCIES = $(objc_thread_lo)
 

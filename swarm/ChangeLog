@@ -1,3 +1,10 @@
+2003-08-01  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* configure.in, Makefile.am : added '--enable-onelib' option to 
+	  build as a single library.
+	* ltmain.sh, config.sub, config.guess : update libtool to 1.5a (28Jul03)
+	  removes annoyances such as relink on install.
+
 2003-07-17  Alex Lancaster  <alex@swarm.org>
 
 	* INSTALL: Note `--without-jdkdir' option for non-Java builds.

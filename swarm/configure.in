@@ -23,7 +23,7 @@ AC_SUBST(OBJCFLAGS)
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
-SHLIBPATH_VAR=`./libtool --config | sed -n 's/^shlibpath_var=\(.*\)/\1/p'`
+SHLIBPATH_VAR=`./libtool --config | $SED -n 's/^shlibpath_var=\(.*\)/\1/p'`
 AC_SUBST(SHLIBPATH_VAR)
 
 AC_PATH_XTRA
@@ -205,6 +205,15 @@ if test $prefix = /usr || test $enable_subdirs = yes; then
    libdir=${libdir}/swarm
 fi
 
+AC_ARG_ENABLE(onelib,
+[  --enable-onelib                        build as a single library],
+  enable_onelib=yes, enable_onelib=no)
+if test x$enable_onelib = xyes; then
+	ONELIB=yes
+else
+	ONELIB=no
+fi
+
 md_CHECK_LINKFLAGS
 
 AC_CHECK_LIB(dl,main,DLLIB=-ldl)
@@ -258,10 +267,10 @@ if test $exec_prefix = NONE; then
 else
   swarm_exec_prefix=$exec_prefix
 fi
-swarm_bindir="`echo $bindir | sed 's/{/{swarm_/'`"
-swarm_libdir="`echo $libdir | sed 's/{/{swarm_/'`"
-swarm_includedir="`echo $includedir | sed 's/{/{swarm_/'`"
-swarm_datadir="`echo $datadir | sed 's/{/{swarm_/'`"
+swarm_bindir="`echo $bindir | $SED 's/{/{swarm_/'`"
+swarm_libdir="`echo $libdir | $SED 's/{/{swarm_/'`"
+swarm_includedir="`echo $includedir | $SED 's/{/{swarm_/'`"
+swarm_datadir="`echo $datadir | $SED 's/{/{swarm_/'`"
 
 SWARMLDFLAGS="-L\${swarm_libdir} -rpath \${swarm_libdir}"
 AC_SUBST(SWARMLDFLAGS)
@@ -295,12 +304,21 @@ if test $USEDLL = yes; then
   noinst_LIBS='lib$(MODULE).la'
   inst_LDFLAGS=-static
 else
-  LIBSWARM_LA=libswarm.la
-  SWARM_DLL=
-  LIBJAVASWARM_LA=lib${JAVASWARM_LIB_NAME}.la
-  JAVASWARM_DLL=
-  inst_LIBS='lib$(MODULE).la' 
-  inst_LDFLAGS='-rpath $(DESTDIR)$(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
+  if test  x$ONELIB = xyes; then
+	  LIBSWARM_LA=libswarm.la
+	  SWARM_DLL=
+	  LIBJAVASWARM_LA=lib${JAVASWARM_LIB_NAME}.la
+	  JAVASWARM_DLL=
+	  noinst_LIBS='lib$(MODULE).la' 
+	  inst_LDFLAGS=
+  else
+	  LIBSWARM_LA=libswarm.la
+	  SWARM_DLL=
+	  LIBJAVASWARM_LA=lib${JAVASWARM_LIB_NAME}.la
+	  JAVASWARM_DLL=
+	  inst_LIBS='lib$(MODULE).la' 
+      inst_LDFLAGS='-rpath $(DESTDIR)$(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
+  fi
 fi
 AC_SUBST(SWARM_DLL)
 AC_SUBST(LIBSWARM_LA)
@@ -309,6 +327,7 @@ AC_SUBST(JAVASWARM_DLL)
 AC_SUBST(noinst_LIBS)
 AC_SUBST(inst_LIBS)
 AC_SUBST(inst_LDFLAGS)
+AC_SUBST(ONELIB)
 
 AC_PATH_PROG(EMACS, emacs, missing)
 
@@ -323,7 +342,7 @@ AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/
 abs_srcdir=`cd $srcdir; pwd`
 
 test -d libobjc || mkdir libobjc
-(cd libobjc ; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/libobjc/configure --srcdir=$abs_srcdir/libobjc --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static --host=$host --target=$target --build=$build)
+(cd libobjc ; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/libobjc/configure --srcdir=$abs_srcdir/libobjc --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static --enable-onelib=$enable_onelib --host=$host --target=$target --build=$build)
 
 if test -n "$AVCALLDIR"; then
   test -d avcall || mkdir avcall
