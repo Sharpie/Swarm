@@ -1728,7 +1728,9 @@ mframe_decode_return (const char *type, void* buffer, void* retframe)
 	{
 	  __builtin_return (rframe);
 	}
+#if 0
 	*(block*)buffer = retframe_block(retframe);
+#endif
 	break;
       }
 

@@ -1,3 +1,7 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acconfig.h: Add EXPORT_EXTERN, EXPORT_EXTERNDEF, and IMPORT_EXTERN.
+
 1999-06-19  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
 
 	* ltconfig: Don't use +I for hpux9.  Use hpux9 code for hpux10,
