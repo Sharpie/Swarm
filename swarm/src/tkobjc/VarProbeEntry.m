@@ -19,7 +19,7 @@ tkobjc_bindReturnToSetValue (id widget, id self)
     eval:
       "bind %s <Return> {%s configure -highlightcolor red ;"
     "update ;"
-    "%s setValue}",
+    "%s setVariableValue: %%W}",
     widgetName, widgetName,
     [self getObjectName]];
 }

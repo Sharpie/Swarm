@@ -1,3 +1,23 @@
+1998-07-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtools.tcl (do_package): Pass window to package:.
+	(do_package_arg): Pass window to package:arg:.
+
+	* common.m (oldSetupDragAndDrop, newSetupDragAndDrop): 
+	 Pass %%W to do_package.
+	 (oldSetupDragAndDropArg, newSetupDragAndDropArg): Pass %%W
+	to do_package_arg.
+	(tkobjc_bindButton3ToSpawn): Pass widgetName to Spawn:.
+	(tkobjc_bindButton3ToArgSpawn): Pass widgetName to argSpawn:arg:.
+	Focus on widget, not self.
+
+	* VarProbeEntry.m (tkobjc_bindReturnToSetValue): Use setVariableValue:
+	instead of setValue: (to discriminate different semantics of the
+	two calls).
+
+	* Entry.m ([Entry -setValue:]): Reset xview to 0 after inserting
+	replacement value.
+
 1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (TCLFILES): Name the Tcl files here, use in EXTRADIST.

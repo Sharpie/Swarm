@@ -38,7 +38,7 @@ oldSetupDragAndDrop (id source, id object)
   const char *sourceWidgetName = [source getWidgetName];
   
   [globalTkInterp
-    eval: "drag&drop source %s config -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
+    eval: "drag&drop source %s config -packagecmd {do_package %s %%W} -sitecmd sitecmd -button 1", 
     sourceWidgetName,
     objectName];
 }
@@ -50,7 +50,7 @@ newSetupDragAndDrop (id source, id object)
   const char *objectName = [object getObjectName];
 
   [globalTkInterp
-    eval: "drag&drop source %s -packagecmd {do_package %s %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
+    eval: "drag&drop source %s -packagecmd {do_package %s %%W %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
     sourceWidgetName,
     objectName];
 }
@@ -71,7 +71,7 @@ oldSetupDragAndDropArg (id source, id object, int arg)
   const char *objectName = [object getObjectName];
 
   [globalTkInterp
-    eval: "drag&drop source %s config -packagecmd {do_package_arg %s %d} -sitecmd sitecmd -button 1",
+    eval: "drag&drop source %s config -packagecmd {do_package_arg %s %%W %d} -sitecmd sitecmd -button 1",
     sourceWidgetName,
     objectName,
     arg];
@@ -84,7 +84,7 @@ newSetupDragAndDropArg (id source, id object, int arg)
   const char *objectName = [object getObjectName];
 
   [globalTkInterp
-    eval: "drag&drop source %s -packagecmd {do_package_arg %s %d %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
+    eval: "drag&drop source %s -packagecmd {do_package_arg %s %%W %d %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
     sourceWidgetName,
     objectName,
     arg];
@@ -166,51 +166,52 @@ tkobjc_bindButton3ToSpawn (id widget, id self, int focusFlag)
   const char *widgetName = [widget getWidgetName];
 
   if (focusFlag)
-    {
-      [globalTkInterp
-        eval:
-          "bind %s <Button-3> {focus %s ; %s configure -highlightcolor red ;"
-        "update ; %s Spawn ; %s configure -highlightcolor black ;"
-        "update ; focus %s ; update } ;",
-        widgetName,
-        widgetName,
-        widgetName,
-        [self getObjectName],
-        widgetName,
-        widgetName];
-    }
+    [globalTkInterp
+      eval:
+        "bind %s <Button-3> {focus %s ; %s configure -highlightcolor red ;"
+      "update ; %s Spawn: %s; %s configure -highlightcolor black ;"
+      "update ; focus %s ; update } ;",
+      widgetName,
+      widgetName,
+      widgetName,
+      [self getObjectName],
+      widgetName,
+      widgetName,
+      widgetName];
   else
-    {
-      [globalTkInterp
-        eval:
-          "bind %s <Button-3> {focus %s; %s configure -highlightcolor red;"
-        "update;"
-        "%s Spawn;"
-        "%s configure -highlightcolor black;"
-        "update};",
-        widgetName,
-        widgetName,
-        widgetName,
-        [self getObjectName],
-        widgetName];
-    }
+    [globalTkInterp
+      eval:
+        "bind %s <Button-3> {focus %s; %s configure -highlightcolor red;"
+      "update;"
+      "%s Spawn: %s;"
+      "%s configure -highlightcolor black;"
+      "update};",
+      widgetName,
+      widgetName,
+      widgetName,
+      [self getObjectName],
+      widgetName,
+      widgetName];
 }
 
 void
 tkobjc_bindButton3ToArgSpawn (id widget, id self, int which)
 {
+  const char *widgetName = [widget getWidgetName];
+
   [globalTkInterp
     eval:
       "bind %s <Button-3> {focus %s ; %s configure -highlightcolor red ;"
-    "update ; %s argSpawn: %d ; %s configure -highlightcolor black ;"
+    "update ; %s argSpawn: %s arg: %d ; %s configure -highlightcolor black ;"
     "update ; focus %s ; update } ;",
-    [widget getWidgetName],
-    [widget getWidgetName],
-    [widget getWidgetName], 
+    widgetName,
+    widgetName,
+    widgetName,
     [self getObjectName],
+    widgetName,
     which,
-    [widget getWidgetName],
-    [self getWidgetName]];
+    widgetName,
+    widgetName];
 }
 
 void
