@@ -181,7 +181,7 @@
   Class aClass ;
   Class class ;
 	
-  if([aProbe isMemberOf: [VarProbe class]])
+  if([aProbe isKindOf: [VarProbe class]])
     roger_string = [String create: [self getZone]
                     setC: [aProbe getProbedVariable]] ;
   else	
@@ -218,7 +218,7 @@
 
   id roger_string ;
 
-  if([aProbe isMemberOf: [VarProbe class]])
+  if([aProbe isKindOf: [VarProbe class]])
     roger_string = [String create: [self getZone]
                      setC: [aProbe getProbedVariable]] ;
   else
@@ -252,7 +252,7 @@
   index = [aProbeMap begin: globalZone] ;
 
   while( (a_probe = [index next]) != nil )
-    if([a_probe isMemberOf: [VarProbe class]])
+    if([a_probe isKindOf: [VarProbe class]])
       [self dropProbeForVariable: [a_probe getProbedVariable]] ;
     else
       [self dropProbeForMessage: strdup([a_probe getProbedMessage])] ;
