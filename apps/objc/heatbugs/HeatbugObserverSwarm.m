@@ -178,7 +178,7 @@
              setTitle: "Unhappiness of bugs vs. time"
              setAxisLabelsX: "time" Y: "unhappiness"
              setWindowGeometryRecordName: "unhappyGraph"];
-
+  
   [unhappyGraph enableDestroyNotification: self
                 notificationMethod: @selector (_unhappyGraphDeath_:)];
 
