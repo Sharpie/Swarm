@@ -1865,6 +1865,7 @@ hdf5_store_attribute (hid_t did,
 
 - (void)flushVector
 {
+#ifdef HAVE_HDF5
   double *buf = (double *) vector_buf;
   hsize_t size[1];
   hsize_t maxsize[1];
@@ -1915,6 +1916,9 @@ hdf5_store_attribute (hid_t did,
 #endif
   if (H5Dwrite (loc_id, H5T_NATIVE_DOUBLE, bsid, c_sid, H5P_DEFAULT, buf) < 0)
     raiseEvent (InvalidArgument, "unable to write to vector");
+#else
+  hdf5_not_available ();
+#endif
 }
 
 - (void)addDoubleToVector: (double)val

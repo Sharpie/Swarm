@@ -1,3 +1,8 @@
+2001-10-07  Alex Lancaster  <alex@swarm.org>
+
+	* HDF5Object.m ([HDF_c -flushVector]): Use HAVE_HDF5 conditional
+	to disable in case HDF5 is not installed.
+
 2001-09-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* DefObject.m ([Object_s -getDisplayName]): Cache results of 
