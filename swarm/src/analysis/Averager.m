@@ -12,8 +12,8 @@
 // Averager: averages together data, gives the data to whomever asks.
 @implementation Averager
 
-//* The setCollection method sets the collection of objects that will be 
-//* probed.
+//M: The setCollection method sets the collection of objects that will be 
+//M: probed.
 - setCollection: l
 {
   collection = l;
@@ -28,8 +28,8 @@
   return [super createEnd];
 }
 
-//* The update method runs through the collection calling the selector on 
-//* each object.
+//M: The update method runs through the collection calling the selector on 
+//M: each object.
 - update
 {
   id iter, obj;
@@ -71,8 +71,8 @@
   return self;
 }
 
-//* The getAverage method averages the values the averager collects. The total
-//* and count are read out of the object to compute the average.
+//M: The getAverage method averages the values the averager collects. The total
+//M: and count are read out of the object to compute the average.
 - (double)getAverage
 {
   if (count)
@@ -81,28 +81,28 @@
     return 0.0;
 } 
 
-//* The getTotal method sums the values the averager collects. The value is 
-//* read out of the object, not computed everytime it is asked for.
+//M: The getTotal method sums the values the averager collects. The value is 
+//M: read out of the object, not computed everytime it is asked for.
 - (double)getTotal
 {
   return total;
 }
 
-//* The getMax method returns the maximum value the averager collects. The 
-//* value is read out of the object, not computed everytime it is asked for.
+//M: The getMax method returns the maximum value the averager collects. The 
+//M: value is read out of the object, not computed everytime it is asked for.
 - (double)getMax
 {
   return max;
 }
 
-//* The getMin method returns the minimum value the averager collects. The 
-//* value is read out of the object, not computed everytime it is asked for.
+//M: The getMin method returns the minimum value the averager collects. The 
+//M: value is read out of the object, not computed everytime it is asked for.
 - (double)getMin
 {
   return min;
 }
 
-//* The getCount method returns the number of values the averager collects. 
+//M: The getCount method returns the number of values the averager collects. 
 - (int)getCount 
 {
   return count;

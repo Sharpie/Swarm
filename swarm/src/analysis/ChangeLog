@@ -1,3 +1,8 @@
+1998-04-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Averager.m, EZBin.m, EZDistribution.m, EZGraph.m, Entropy.m:
+        Change method documentation sentinel from "//*" to "//M:".
+
 1998-04-09  Irene Lee  <lee@wijiji.santafe.edu>
 
 	* Averager.m, EZBin.m, EZDistribution.m, EZGraph.m, Entropy.m:

@@ -28,36 +28,36 @@
   return anObj;
 }
 
-//* The setGraphics method sets the state of the display. Set the state to 0 
-//* if a graphical display of the graph is not required. The default state is 1
-//* meaning that by default the data appears graphically in a window. 
+//M: The setGraphics method sets the state of the display. Set the state to 0 
+//M: if a graphical display of the graph is not required. The default state is 1
+//M: meaning that by default the data appears graphically in a window. 
 - setGraphics: (int)state
 {
   graphics = state;
   return self;
 }
 
-//* The setFileOutput method sets the state of file I/O.  Set the state to 1 
-//* if data for the sequences is to be sent to a file.  The default state is 0
-//* meaning that by default no file I/O is carried out by the EZBIN class.
+//M: The setFileOutput method sets the state of file I/O.  Set the state to 1 
+//M: if data for the sequences is to be sent to a file.  The default state is 0
+//M: meaning that by default no file I/O is carried out by the EZBIN class.
 - setFileOutput: (int)state
 {
   fileOutput = state;
   return self;
 }
 
-//* The setTitle method uses a title string to label a graph window in the 
-//* graphical version of EZBIN.  The label appears at the top of the graph 
-//* window. (Only relevant if the state of setGraphics is set to 1.)
+//M: The setTitle method uses a title string to label a graph window in the 
+//M: graphical version of EZBIN.  The label appears at the top of the graph 
+//M: window. (Only relevant if the state of setGraphics is set to 1.)
 - setTitle: (const char *)aTitle
 {
   theTitle = aTitle;
   return self;
 }
 
-//* The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
-//* the histogram in the graphical version of EZBIN. (Only relevant if the 
-//* state of setGraphics is set to 1.)
+//M: The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
+//M: the histogram in the graphical version of EZBIN. (Only relevant if the 
+//M: state of setGraphics is set to 1.)
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
   xLabel = xl;
@@ -65,38 +65,38 @@
   return self;
 }
 
-//* The setBinNum method sets the number of bins the histogram will have.
+//M: The setBinNum method sets the number of bins the histogram will have.
 - setBinNum: (int)theBinNum
 {
   binNum = theBinNum;
   return self;
 }
 
-//* The setLowerBound method sets the lower bound on the histogram range.
+//M: The setLowerBound method sets the lower bound on the histogram range.
 - setLowerBound: (double)theMin
 {
   min = theMin;
   return self;
 }
 
-//* The setUpperBound method sets the upper bound on the histogram range.
+//M: The setUpperBound method sets the upper bound on the histogram range.
 - setUpperBound: (double) theMax
 {
   max = theMax;
   return self;
 }
 
-//* The setCollection method sets the collection of target objects which will 
-//* be requested to generate the dataset for the histogram.
+//M: The setCollection method sets the collection of target objects which will 
+//M: be requested to generate the dataset for the histogram.
 - setCollection: aCollection
 {
   collection = aCollection;
   return self;
 }
 
-//* The setProbedSelector method sets the selector that will be applied to the 
-//* objects in the specified collection in order to generate the dataset 
-//* (inherited from MessageProbe.)
+//M: The setProbedSelector method sets the selector that will be applied to the 
+//M: objects in the specified collection in order to generate the dataset 
+//M: (inherited from MessageProbe.)
 - setProbedSelector: (SEL) aSel
 {
   probedSelector = aSel;
@@ -165,7 +165,7 @@
   return self;
 }
 
-//* The reset method resets the histogram.
+//M: The reset method resets the histogram.
 - reset
 {
   int i;
@@ -180,10 +180,10 @@
   return self;
 }
 
-//* The update method polls the collection of objects and adds the data to the
-//* final data set. It is possible to poll the same collection of objects 
-//* repeatedly, thus increasing the amount of data included in the final 
-//* dataset, before generating output.
+//M: The update method polls the collection of objects and adds the data to the
+//M: final data set. It is possible to poll the same collection of objects 
+//M: repeatedly, thus increasing the amount of data included in the final 
+//M: dataset, before generating output.
 - update
 {
   id iter, obj;
@@ -251,11 +251,11 @@
   return self;
 }
 
-//* The output method causes the graphical display to be updated with the 
-//* information extracted by the previous call to update.  When file I/O is 
-//* enabled (the state of setFileOutput is set to 1), the number of entries
-//* per bin is sent to the output file. When the graphical display is enabled
-//* (the state of setGraphics is set to 1), the histogram will be drawn.
+//M: The output method causes the graphical display to be updated with the 
+//M: information extracted by the previous call to update.  When file I/O is 
+//M: enabled (the state of setFileOutput is set to 1), the number of entries
+//M: per bin is sent to the output file. When the graphical display is enabled
+//M: (the state of setGraphics is set to 1), the histogram will be drawn.
 - output
 {
   int i;
@@ -279,48 +279,48 @@
   return self;
 }
 
-//* The getDistribution method returns an array of integers containing the 
-//* number of entries which landed in each bin of the histogram.
+//M: The getDistribution method returns an array of integers containing the 
+//M: number of entries which landed in each bin of the histogram.
 - (int *)getDistribution
 {
   return distribution;
 }
 
-//* The getCount method gets the number of entries which landed within the 
-//* bounds of the histogram.
+//M: The getCount method gets the number of entries which landed within the 
+//M: bounds of the histogram.
 - (int)getCount
 {
   return count;
 }
 
-//* The getOutliers method gets the number of entries which landed out of the 
-//* bounds of the histogram.  Pressing the "o" key on the graphical 
-//* representation of the histogram will display this value both as an integer
-//* and as a percentage of the total number of attempted entries.
+//M: The getOutliers method gets the number of entries which landed out of the 
+//M: bounds of the histogram.  Pressing the "o" key on the graphical 
+//M: representation of the histogram will display this value both as an integer
+//M: and as a percentage of the total number of attempted entries.
 - (int)getOutliers
 {
   return outliers;
 }
 
-//* The getBinNum method gets the number of bins in the histogram.
+//M: The getBinNum method gets the number of bins in the histogram.
 - (int)getBinNum
 {
   return binNum;
 }
 
-//* The getLowerBound method gets the lower bound on the histogram range.
+//M: The getLowerBound method gets the lower bound on the histogram range.
 - (double)getLowerBound
 {
   return min;
 }
 
-//* The getUpperBound method gets the upper bound on the histogram range.
+//M: The getUpperBound method gets the upper bound on the histogram range.
 - (double)getUpperBound
 {
   return max;
 }
 
-//* The getMin method gets the minimum value in the dataset.
+//M: The getMin method gets the minimum value in the dataset.
 - (double)getMin
 {
   if (clean)
@@ -332,7 +332,7 @@
   return minval;
 }
 
-//* The getMax method gets the maximum value in the dataset.
+//M: The getMax method gets the maximum value in the dataset.
 - (double)getMax
 {
   if (clean)
@@ -345,8 +345,8 @@
   return maxval;
 }
 
-//* The getAverage method gets the average value in the dataset. The 
-//* value is read out of the object, not computed everytime it is asked for.
+//M: The getAverage method gets the average value in the dataset. The 
+//M: value is read out of the object, not computed everytime it is asked for.
 - (double)getAverage
 {
   if (clean)
@@ -358,8 +358,8 @@
   return average;
 }
 
-//* The getStd method gets the standard deviation in the dataset. The 
-//* value is read out of the object, not computed everytime it is asked for.
+//M: The getStd method gets the standard deviation in the dataset. The 
+//M: value is read out of the object, not computed everytime it is asked for.
 - (double)getStd
 {
   if (clean)
