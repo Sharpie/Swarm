@@ -171,18 +171,44 @@ dib_fill (dib_t *dib,
 	  unsigned width, unsigned height,
 	  unsigned char color)
 {
-  int frameWidth = dib->dibInfo->bmiHead.biWidth;
+  unsigned frameWidth = dib->dibInfo->bmiHead.biWidth;
+  unsigned frameHeight = dib->dibInfo->bmiHead.biHeight;
   BYTE *base;
   int yoff;
-  int diff;
+  int wdiff, hdiff;
 
-  diff = x + width - frameWidth;
+  if (x < 0)
+    {
+      if (-x > width)
+        return;
+      width -= (-x);
+      x = 0;
+    }
+  else if (x > frameWidth)
+    return;
 
-  if (diff > 0)
-    width -= diff;
+  if (y < 0)
+    {
+      if (-y > height)
+        return;
+      height -= (-y);
+      y = 0;
+    }
+  else if (y > frameHeight)
+    return;
 
+  wdiff = x + width - frameWidth;
+
+  if (wdiff > 0)
+    width -= wdiff;
+
+  hdiff = y + height - frameHeight;
+
+  if (hdiff > 0)
+    height -= hdiff;
+  
   base = (BYTE *)dib->bits + (y * frameWidth);
-
+  
   for (yoff = 0; yoff < height; yoff++)
     {
       int xoff;

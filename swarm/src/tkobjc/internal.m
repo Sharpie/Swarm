@@ -251,7 +251,9 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
   dib_t *dib = (dib_t *)raster->pm;
   int frameWidth = dib->dibInfo->bmiHead.biWidth;
 
-  ((BYTE *)dib->bits)[x + y * frameWidth] = map[c];
+  if (x >= 0 && x < frameWidth
+      && y >= 0 && y < dib->dibInfo->bmiHead.biHeight)
+    ((BYTE *)dib->bits)[x + y * frameWidth] = map[c];
 #endif
 }
 

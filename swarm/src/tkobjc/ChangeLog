@@ -1,3 +1,10 @@
+1998-04-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_raster_drawPoint): Don't assign to bit map
+	unless point within range.
+
+	* win32dib.c (dib_fill): Add more clipping checking.
+
 1998-04-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ZoomRaster.m ([ZoomRaster ellipseX0:Y0:X1:Y1:Width:Color:],
