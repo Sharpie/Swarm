@@ -39,7 +39,7 @@ COMPILERINFOHEADER = @COMPILERINFOHEADER@
 compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
-DLLOBJS = $(addsuffix .o,$(basename $(libobjc__la_SOURCES)))
+DLLOBJS = $(addsuffix .lo,$(basename $(libobjc__la_SOURCES)))
 
 empty.c:
 	echo > empty.c
