@@ -15,7 +15,6 @@
 
 - setX: (int)x Y: (int)y;
 - setText: (const char *)text;
-- setText: (const char *)text usingFont: (const char *)font;
 - setFont: (const char *)font;
 - createItem;
 @end

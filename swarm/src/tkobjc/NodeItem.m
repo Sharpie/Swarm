@@ -58,14 +58,6 @@
   return self;
 }
 
-- setString: (const char *)the_text usingFont: (const char *)the_font
-{
-  string = the_text;
-  font = the_font;
-
-  return self;
-}
-
 - createBindings
 {
   const char *canvasName = [canvas getWidgetName];

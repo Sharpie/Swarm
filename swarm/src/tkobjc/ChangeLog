@@ -1,5 +1,8 @@
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* NodeItem.[hm], TextItem.[hm]: Remove gratuitous usingFont
+	convenience setter methods.
+
 	* common.[hm] (tkobjc_createText): New function.
 
 	* TextItem.m ([TextItem -createItem]): Use tkobjc_createText.

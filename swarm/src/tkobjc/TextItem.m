@@ -32,14 +32,6 @@
   return self;
 }
  
-- setText: (const char *)the_text usingFont: (const char *)the_font
-{
-  text = the_text;
-  font = the_font;
-
-  return self;
-}
-
 - createItem
 {
   item = tkobjc_createText (self, x, y, text, font);
