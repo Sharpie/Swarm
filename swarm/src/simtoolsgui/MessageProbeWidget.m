@@ -48,7 +48,18 @@ printVal (val_t val)
       break;
     case _C_UCHR:
       // character return is broken in libffi-1.18
-      sprintf (buf, "%c", (unsigned char)val.val._uint);
+      switch (val.val._uint)
+        {
+        case NO:       
+          sprintf (buf, "%o (NO)", (unsigned char)val.val._uint);
+          break;
+        case YES:       
+          sprintf (buf, "%o (YES)", (unsigned char)val.val._uint);
+          break;  
+        default:
+          sprintf (buf, "%o", (unsigned char)val.val._uint);
+          break;
+        }
       break;
     case _C_SHT:
       // short return is broken in libffi-1.18
