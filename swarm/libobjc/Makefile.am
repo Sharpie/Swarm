@@ -47,10 +47,10 @@ DLLOBJS = $(addsuffix .o,$(basename $(libobjc__la_SOURCES)))
 empty.c:
 	echo > empty.c
 
-objc.dll: libobjc_.la
-	$(CC) -c $(srcdir)/dllinit.c
+objc.dll: libobjc_.la dllinit.c
 	$(srcdir)/genctors $(CTOR) $(DLLOBJS)
 	$(CC) -c $(CTOR).c
+	$(CC) -c -Dconstructor_func=$(CTOR) $(srcdir)/dllinit.c
 	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o objc.dll dllinit.o $(CTOR).o $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
 install-data-local: 
