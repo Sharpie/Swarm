@@ -25,9 +25,9 @@
 #endif
   id modelSwarm;			// our modelSwarm
 @private
-  id <UniformDouble> uniform0to1;
-  id <UniformInteger> uniformRadius;
-  id <UniformUnsigned> uniformTrigTime;
+  id <UniformDoubleDist> uniform0to1;
+  id <UniformIntegerDist> uniformRadius;
+  id <UniformUnsignedDist> uniformTrigTime;
 }
 
   // Methods that a mousetrap responds to

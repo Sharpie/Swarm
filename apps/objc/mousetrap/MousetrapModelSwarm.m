@@ -157,12 +157,12 @@
   
   tempObj = [super createEnd];
   
-  randomGenerator = [PMMLCG1 create: [self getZone]
-			     setStateFromSeed: 1234567890];
-  uniform0to1 = [UniformDouble create: [self getZone]
-			       setGenerator: randomGenerator
-			       setDoubleMin: 0.0L
-			       setMax: 1.0L];
+  randomGenerator = [PMMLCG1gen create: [self getZone]
+                                setStateFromSeed: 1234567890];
+  uniform0to1 = [UniformDoubleDist create: [self getZone]
+                                   setGenerator: randomGenerator
+                                   setDoubleMin: 0.0L
+                                   setMax: 1.0L];
   return tempObj;
 }
 

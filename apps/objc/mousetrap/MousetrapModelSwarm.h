@@ -54,8 +54,8 @@
   id <ActivityControl> modelActCont;
 
 @private
-  id <PMMLCG1> randomGenerator;
-  id <UniformDouble> uniform0to1;
+  id <PMMLCG1gen> randomGenerator;
+  id <UniformDoubleDist> uniform0to1;
 }
 
 // Methods for the MousetrapModelSwarm

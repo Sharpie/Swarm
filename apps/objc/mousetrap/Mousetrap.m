@@ -37,22 +37,22 @@
   // create the distributions to be used
   maxD = [newTrap->modelSwarm getMaxTriggerDistance];
   newTrap->uniform0to1 =
-    [UniformDouble create: [newTrap->modelSwarm getZone]
-		   setGenerator: randGen
-		   setDoubleMin: (double) 0.0L
-		   setMax: (double) 1.0L];
+    [UniformDoubleDist create: [newTrap->modelSwarm getZone]
+                       setGenerator: randGen
+                       setDoubleMin: (double) 0.0L
+                       setMax: (double) 1.0L];
   newTrap->uniformRadius =
-    [UniformInteger create: [newTrap->modelSwarm getZone]
-		    setGenerator: randGen
-		    setIntegerMin: -maxD
-		    setMax: maxD];
+    [UniformIntegerDist create: [newTrap->modelSwarm getZone]
+                        setGenerator: randGen
+                        setIntegerMin: -maxD
+                        setMax: maxD];
 
   newTrap->uniformTrigTime =
-    [UniformUnsigned create: [newTrap->modelSwarm getZone]
-		     setGenerator: randGen
-		     setUnsignedMin: 1L
-		     setMax: [newTrap->modelSwarm getMaxTriggerTime]];
-
+    [UniformUnsignedDist create: [newTrap->modelSwarm getZone]
+                         setGenerator: randGen
+                         setUnsignedMin: 1L
+                         setMax: [newTrap->modelSwarm getMaxTriggerTime]];
+  
   return newTrap;
 }
 

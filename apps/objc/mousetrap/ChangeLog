@@ -1,3 +1,21 @@
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Makefile (BUGADDRESS): Update to SDG.
+	(SWARMHOME, APPVERSION): Update to 2.1.
+
+	* Mousetrap.h (Mousetrap): Change Uniform{Double,Integer} to
+	Uniform{Double,Integer}Dist.
+
+	* Mousetrap.m ([Mousetrap
+	+create:setModelSwarm:setXCoord:setYCoord:setGenerator:]):
+	Likewise.
+
+	* MousetrapModelSwarm (MousetrapModelSwarm): Change
+	PMMLCG1 to PMMLCG1gen anmd UniformDouble to UniformDoubleDist.
+
+	* MousetrapModelSwarm.m ([MousetrapModelSwarm -createEnd]): 
+	Likewise.
+
 2000-01-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MousetrapBatchSwarm.m ([MousetrapBatchSwarm -buildObjects]): 

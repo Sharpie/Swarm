@@ -1,9 +1,9 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-2.0.1
+SWARMHOME=../swarm-2.1
 endif
 APPLICATION=mousetrap
-APPVERSION=2.0.1
-BUGADDRESS=bug-swarm@santafe.edu
+APPVERSION=2.1
+BUGADDRESS=bug-swarm@swarm.org
 OBJECTS=main.o Mousetrap.o MousetrapModelSwarm.o MousetrapObserverSwarm.o MousetrapBatchSwarm.o
 DATAFILES = batch.scm
 
