@@ -1,8 +1,5 @@
 1998-07-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.am (libmisc.la): Depend on libmisc_la_LIBADD (dependency
-	not generated due to not using LIBOBJS).
-
 	* realpath.c (realpath): Renamed from myrealpath.
 
 	* misc.h: Include string.h stdlib.h, and config.h.
