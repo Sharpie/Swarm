@@ -1,3 +1,16 @@
+2003-09-07  Alex Lancaster  <alex@swarm.org>
+
+	* history.el (process-changelog): module-sym 'src' -> 'refbook'.
+
+	* Makefile.rules (RUNXSLTPROC): New variable for running xsltproc,
+	use XSLTPROC.
+	(%.html): Use RUNXSLTPROC.  Comment-out JADE rule.  Working on
+	other rules.
+
+	* configure.in (catalog_file): Extract.
+	(JADE): Comment-out, don't check for JADE.
+	(XSLTPROC): Check for xsltproc.
+
 2003-09-08  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* macosx: added subdirectory and MacOS X project

@@ -14,6 +14,8 @@ XML_DECL = $(top_srcdir)/xml.dcl
 RUNJADE = $(JADE) $(JADEFLAGS)
 CATOPTS = -c $(top_builddir)/catalog @catopts@
 
+RUNXSLTPROC = SGML_CATALOG_FILES="$(top_builddir)/catalog @catalog_file@" $(XSLTPROC) --nonet --catalogs
+
 FIGS = figs/swarm.eps # for the timestamp
 
 GENERAL = $(XML_FILES) $(COMMON_XML_FILES) $(top_srcdir)/common.dsl $(FIGS)
@@ -27,7 +29,7 @@ DISTNAME=$(NAME)-@VERSION@
 htmldir = $(prefix)/html/$(NAME)
 nodist_html_DATA = $(NAME).html
 
-nstall-data-local:
+install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
 install-data-hook:
 	(cd $(htmldir) && $(LN_S) -f $(prefix)/figs figs)
@@ -103,7 +105,9 @@ _%.tex: %.xml
 	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
 
 %.html: %.xml
-	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d '$(HTML)' $(XML_DECL) @DOSIFYEXPR@
+	$(RUNXSLTPROC) http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl @DOSIFYEXPR@
+#%.html: %.xml
+#	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d '$(HTML)' $(XML_DECL) @DOSIFYEXPR@
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
