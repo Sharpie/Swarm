@@ -425,12 +425,13 @@ PHASE(Using)
        anEntry = (mapentry_t) [index next])       
     if ((result = compare (anEntry->key, aKey)) == 0)
       {
+        [getZone (self) freeBlock: newEntry blockSize: sizeof *newEntry];
         [index drop];
         return NO;
       }
     else if (result > 0)
       break;
-  [index addBefore: (id)newEntry];
+  [index addBefore: (id) newEntry];
   [index drop];
   count++;
   return YES;
