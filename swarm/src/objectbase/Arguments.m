@@ -30,6 +30,7 @@ static struct argp_option base_options[] = {
   {"varyseed", 's', 0, 0, "Run with a random seed", 0},
   {"batch", 'b', 0, 0, "Run in batch mode", 1},
   {"mode", 'm', "MODE", 0, "Specify mode of use (for archiving)", 2},
+  {"show-current-time", 't', 0, 0, "Show current time in control panel", 3},
   { 0 }
 };
 
@@ -67,24 +68,9 @@ getApplicationValue (const char *val)
   }
 }
 
-- (int)parseKey: (int)key arg: (const char *)arg
-{
-  switch (key)
-    {
-    case 's':
-      [self setVarySeedFlag: YES];
-      break;
-    case 'b':
-      [self setBatchModeFlag: YES];
-      break;
-    case 'a':
-      [self setAppModeString: getApplicationValue (arg)];
-      break;
-    default:
-      return ARGP_ERR_UNKNOWN;
-    }
-  return 0;
-}
+PHASE(Creating)
+
+static struct argp *argp;
 
 static error_t
 parse_opt (int key, const char *arg, struct argp_state *state)
@@ -94,77 +80,39 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   return [arguments parseKey: key arg: arg];
 }
 
-- setArgc: (int)theArgc Argv: (const char **)theArgv
++ createBegin: aZone
 {
-  argc = theArgc;
-  argv = theArgv;
+  Arguments *obj = [super createBegin: aZone];
+  
+  argp = xmalloc (sizeof (struct argp));
+  argp->options = NULL;
+  argp->options = [obj addOptions: base_options];
+  argp->parser = parse_opt;
+  argp->args_doc = NULL;
+  argp->doc = NULL;
+  argp->children = NULL;
+  argp->help_filter = NULL;
 
-  return self;
+  return obj;
 }
 
-- setAppName: (const char *)theApplicationName;
++ createArgc: (int)theArgc
+        Argv: (const char **)theArgv
 {
-  applicationName = theApplicationName;
+  id arguments = [self createBegin: globalZone];
+  
+  [arguments setArgc: theArgc Argv: theArgv];
+  program_invocation_name = (char *)find_executable (theArgv[0]);
+#ifndef __GLIBC__
+  program_invocation_short_name = getApplicationValue (theArgv[0]);
+#endif  
+  [arguments setAppName: program_invocation_short_name];
+  [arguments setAppModeString: "default"];
 
-  return self;
+  argp_parse (argp, theArgc, theArgv, 0, 0, arguments);
+  
+  return [arguments createEnd];
 }
-
-- setAppModeString: (const char *)theAppModeString
-{
-  appModeString = theAppModeString;
-
-  return self;
-}
-
-- setBatchModeFlag: (BOOL)theBatchModeFlag
-{
-  batchModeFlag = theBatchModeFlag;
-
-  return self;
-}
-
-- setVarySeedFlag: (BOOL)theVarySeedFlag
-{
-  varySeedFlag = theVarySeedFlag;
-  return self;
-}
-
-- (BOOL)getBatchModeFlag
-{
-  return batchModeFlag;
-}
-
-- (BOOL)getVarySeedFlag
-{
-  return varySeedFlag;
-}
-
-- (const char *)getAppName
-{
-  return applicationName;
-}
-
-- (const char *)getExecutablePath
-{
-  return program_invocation_name;
-}
-
-- (const char *)getAppModeString
-{
-  return appModeString;
-}
-
-- (int)getArgc
-{
-  return argc;
-}
-
-- (const char **)getArgv
-{
-  return argv;
-}
-
-static struct argp *argp;
 
 - (struct argp_option *)addOptions: (struct argp_option *)newoptions
 {
@@ -207,38 +155,113 @@ static struct argp *argp;
   return options;
 }
 
-+ createBegin: aZone
+- (int)parseKey: (int)key arg: (const char *)arg
 {
-  Arguments *obj = [super createBegin: aZone];
-  
-  argp = xmalloc (sizeof (struct argp));
-  argp->options = NULL;
-  argp->options = [obj addOptions: base_options];
-  argp->parser = parse_opt;
-  argp->args_doc = NULL;
-  argp->doc = NULL;
-  argp->children = NULL;
-  argp->help_filter = NULL;
-
-  return obj;
+  switch (key)
+    {
+    case 's':
+      [self setVarySeedFlag: YES];
+      break;
+    case 'b':
+      [self setBatchModeFlag: YES];
+      break;
+    case 'a':
+      [self setAppModeString: getApplicationValue (arg)];
+      break;
+    case 't':
+      [self setShowCurrentTimeFlag: YES];
+      break;
+    default:
+      return ARGP_ERR_UNKNOWN;
+    }
+  return 0;
 }
 
-+ createArgc: (int)theArgc
-        Argv: (const char **)theArgv
-{
-  id arguments = [self createBegin: globalZone];
-  
-  [arguments setArgc: theArgc Argv: theArgv];
-  program_invocation_name = (char *)find_executable (theArgv[0]);
-#ifndef __GLIBC__
-  program_invocation_short_name = getApplicationValue (theArgv[0]);
-#endif  
-  [arguments setAppName: program_invocation_short_name];
-  [arguments setAppModeString: "default"];
+PHASE(Setting)
 
-  argp_parse (argp, theArgc, theArgv, 0, 0, arguments);
+- setArgc: (int)theArgc Argv: (const char **)theArgv
+{
+  argc = theArgc;
+  argv = theArgv;
+
+  return self;
+}
+
+- setAppName: (const char *)theApplicationName;
+{
+  applicationName = theApplicationName;
+
+  return self;
+}
+
+- setAppModeString: (const char *)theAppModeString
+{
+  appModeString = theAppModeString;
+
+  return self;
+}
+
+- setBatchModeFlag: (BOOL)theBatchModeFlag
+{
+  batchModeFlag = theBatchModeFlag;
+
+  return self;
+}
+
+- setVarySeedFlag: (BOOL)theVarySeedFlag
+{
+  varySeedFlag = theVarySeedFlag;
+
+  return self;
+}
+
+- setShowCurrentTimeFlag: (BOOL)theShowCurrentTimeFlag
+{
+  showCurrentTimeFlag = theShowCurrentTimeFlag;
   
-  return [arguments createEnd];
+  return self;
+}
+
+PHASE(Using)
+
+- (BOOL)getBatchModeFlag
+{
+  return batchModeFlag;
+}
+
+- (BOOL)getVarySeedFlag
+{
+  return varySeedFlag;
+}
+
+- (BOOL)getShowCurrentTimeFlag
+{
+  return showCurrentTimeFlag;
+}
+
+- (const char *)getAppName
+{
+  return applicationName;
+}
+
+- (const char *)getExecutablePath
+{
+  return program_invocation_name;
+}
+
+- (const char *)getAppModeString
+{
+  return appModeString;
+}
+
+- (int)getArgc
+{
+  return argc;
+}
+
+- (const char **)getArgv
+{
+  return argv;
 }
 
 static char *

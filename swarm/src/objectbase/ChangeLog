@@ -1,3 +1,14 @@
+1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* objectbase.h: 
+
+	* Arguments.m: Add show-current-time option.
+
+	* Arguments.m, objectbase.h: Put addOptions: and parseKey:arg: in
+	create phase.  Add setting phase.
+
+	* Arguments.[hm]: Add showCurrentTimeFlag accessors.
+
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): New functions (one for libffi

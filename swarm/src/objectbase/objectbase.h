@@ -700,21 +700,6 @@ USING
 CREATING
 + createArgc: (int)argc Argv: (const char **)argv;
 
-USING
-- setArgc: (int)theArgc Argv: (const char **)theArgv;
-- setAppName: (const char *)appName;
-- setAppModeString: (const char *)appModeString;
-- setBatchModeFlag: (BOOL)batchModeFlag;
-- setVarySeedFlag: (BOOL)varySeedFlag;
-- (BOOL)getBatchModeFlag;
-- (BOOL)getVarySeedFlag;
-- (const char *)getAppName;
-- (const char *)getAppModeString;
-- (int)getArgc;
-- (const char **)getArgv;
-- (const char *)getExecutablePath;
-- (const char *)getSwarmHome;
-
 //M: Takes an option specification that includes the following information:
 
 //M: - The name of the option specification
@@ -737,6 +722,23 @@ USING
 
 //M: This method is called for each option that occurs.
 - (int)parseKey: (int)key arg: (const char *)arg;
+
+SETTING
+- setArgc: (int)theArgc Argv: (const char **)theArgv;
+- setAppName: (const char *)appName;
+- setAppModeString: (const char *)appModeString;
+- setBatchModeFlag: (BOOL)batchModeFlag;
+- setVarySeedFlag: (BOOL)varySeedFlag;
+
+USING
+- (BOOL)getBatchModeFlag;
+- (BOOL)getVarySeedFlag;
+- (const char *)getAppName;
+- (const char *)getAppModeString;
+- (int)getArgc;
+- (const char **)getArgv;
+- (const char *)getExecutablePath;
+- (const char *)getSwarmHome;
 
 @end
 

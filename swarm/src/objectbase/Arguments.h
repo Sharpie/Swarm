@@ -16,25 +16,29 @@ extern id arguments;
   const char *appModeString;
   BOOL batchModeFlag;
   BOOL varySeedFlag;
+  BOOL showCurrentTimeFlag;
   const char *swarmHome;
 }
++ createArgc: (int)argc Argv: (const char **)argv;
+- (struct argp_option *)addOptions: (struct argp_option *)options;
+- (int)parseKey: (int)key arg: (const char *)arg;
 
 - setArgc: (int)theArgc Argv: (const char **)theArgv;
 - setAppName: (const char *)appName;
 - setAppModeString: (const char *)appModeString;
 - setBatchModeFlag: (BOOL)batchModeFlag;
+- setShowCurrentTimeFlag: (BOOL)timeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
+
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;
+- (BOOL)getShowCurrentTimeFlag;
 - (const char *)getAppName;
 - (const char *)getAppModeString;
 - (int)getArgc;
 - (const char **)getArgv;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
-+ createArgc: (int)argc Argv: (const char **)argv;
-- (struct argp_option *)addOptions: (struct argp_option *)options;
-- (int)parseKey: (int)key arg: (const char *)arg;
 
 @end
 
