@@ -17,6 +17,10 @@
 
 #include <swarmconfig.h>
 
+#ifdef __jmalloc_h
+#error
+#endif
+
 #ifndef HAVE_REALPATH
 /* Conflicts can occur when Checker fails to find stub, but it library
    routine does exist. */
