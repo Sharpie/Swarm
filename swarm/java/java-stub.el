@@ -528,7 +528,13 @@
           (insert (caddr (cdr name.argument))))
     (insert "); }\n")))
 
+(defun java-print-basic-class-constructor (protocol)
+  (insert "public ")
+  (insert (java-class-name protocol :using))
+  (insert " () { super (); }\n"))
+
 (defun java-print-class-constructors (protocol)
+  (java-print-basic-class-constructor protocol)
   (loop for method in (collect-convenience-create-methods protocol)
         do (java-print-class-constructor-method protocol method)))
 

@@ -1,3 +1,8 @@
+1999-06-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-basic-class-constructor): New function.
+	(java-print-class-constructors): Call it.
+
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-methods*): Exclude
