@@ -31,6 +31,7 @@ PNGLDFLAGS = @PNGLDFLAGS@
 ZLIBLDFLAGS = @ZLIBLDFLAGS@
 EXTRALDFLAGS = @EXTRALDFLAGS@
 
+builddir = $(shell pwd)/../../
 
 SWARMBUILDLDFLAGS = -L$(builddir)/src/activity  -L$(builddir)/src/analysis -L$(builddir)/src/collections -L$(builddir)/src/defobj -L$(builddir)/gui -L$(builddir)/misc -L$(builddir)/objectbase -L$(builddir)/random -L$(builddir)/simtools -L$(builddir)/simtoolsgui -L$(builddir)/space -L$(builddir)/tclobjc -L$(builddir)/tkobjc
 
