@@ -1,3 +1,9 @@
+2001-09-25  Marcus G. Daniels  <mgd@condor>
+
+	* Averager.m ([Averager -getVariance]): Handle count less than two.
+	([Averager -getMovingVariance]): Likewise. Use actualCount in
+	denominator.
+
 2001-07-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* EZGraph.m ([EZGraph

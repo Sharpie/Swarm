@@ -164,19 +164,31 @@ PHASE(Using)
 
 - (double)getVariance
 {
-  double mean = total / (double) count;
 
-  return (((double) count / ((double) (count - 1))) * 
-          (totalSquared / (double) count - mean * mean));
+  if (count > 1)
+    {
+      double mean = total / (double) count;
+      
+      return (((double) count / ((double) (count - 1))) * 
+              (totalSquared / (double) count - mean * mean));
+    }
+  else
+    return 0.0;
 }
 
 - (double)getMovingVariance
 {
-  double movingMean = [self getMovingAverage];
   double actualCount = (totalCount < maWidth) ? totalCount : maWidth;
 
-  return (((double) actualCount / ((double) (actualCount - 1))) * 
-          (maTotalSquared / (double) totalCount - movingMean * movingMean));
+  if (actualCount > 1)
+    {
+      double movingMean = [self getMovingAverage];
+      
+      return (((double) actualCount / ((double) (actualCount - 1))) * 
+              (maTotalSquared / (double) actualCount - movingMean * movingMean));
+    }
+  else
+    return 0.0;
 }
 
 - (double)getStdDev
