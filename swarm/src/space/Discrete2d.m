@@ -165,7 +165,8 @@ PHASE(Using)
   if (![a conformsTo: @protocol (_Discrete2d)])
     [ProtocolViolation
       raiseEvent:
-        "Object `%s' does not comply to Discrete2d protocol\n"];
+        "Object `%s' does not comply to Discrete2d protocol\n",
+      [a name]];
 
   // open the file
   f = [InFile create: [self getZone] withName: filename];
