@@ -1,8 +1,7 @@
 2000-06-26  Marcus G. Daniels  <mgd@nest.swarm.org>
 
-	* Zone.m ([Zone_c -allocIVars:]): Move zeroing memset
-	before addLast, so that mlinks are clear (so that additions
-	can be detected).
+	* Zone.m ([Zone_c -allocIVars:,copyIVars:]): Move zeroing memset
+	before addLast, so that mlinks are clear.
 
 2000-06-22  Marcus G. Daniels  <mgd@nest.swarm.org>
 
