@@ -27,7 +27,7 @@
   hid_t tid;
   hid_t did;
 #endif
-  id <Map> stringMap;
+  id <Map> stringMaps;
 }
 - setClass: class;
 - setName: (const char *)name;
@@ -36,7 +36,10 @@
 - (hid_t)getTid;
 - setDataset: (hid_t)did;
 #endif
-- pack: (void *)buf to: obj;
+- packObj: (void *)buf to: obj;
+- packBuf: obj to: (void *)buf;
+- writeLevel: (const char *)varName;
+- writeLevels;
 - getClass;
 - (void)drop;
 @end
@@ -107,6 +110,7 @@
 
 - (const char **)readRowNames;
 - writeRowNames;
+- writeLevels;
 
 - (void)drop;
 @end

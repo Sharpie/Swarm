@@ -1,3 +1,24 @@
+1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HDF5Object.m: Include limits.h.
+	(create_compound_type_from_class): Handle const char * -> int.
+	Add insertFlag to allow presizing.
+	([HDF5CompoundType_c -createEnd]): Create string map for
+	each ivar.
+	([HDF5CompoundType -drop]): Delete maps in stringMaps and drop
+	toplevel Map.
+	([HDF5_c -shallowStoreObject:]): Call packBuf:to: to a scratch
+	buffer for writing.
+
+	* HDF5Object.[hm] ([HDF5CompoundType_c -packBuf:to:], 
+	[HDF5CompoundType_c -writeLevel:], [HDF5CompoundType_c -writeLevels],
+	[HDF5_c -writeLevels]): New methods.
+	([HDF5_c -setDataset:]): Move to setting phase (called from
+	HDF5_c's writeLevels).
+
+	* HDF5Object.h (HDF5CompoundType_c): Rename stringMap to stringMaps,
+	since it now made of up Maps, not just arrays.
+
 1999-02-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.m (LEVELSPREFIX): New macro.
@@ -16,10 +37,8 @@
 	([HDF5_c -shallowLoadObject:]): Load to scratch buffer and
 	then call pack:to: to install in object.
 
-	* HDF5Object.[hm] ([HDF5CompoundType_c -setDataset:]): New method.
-
-	* HDF5Object.[hm], defobj.h ([HDF5CompoundType_c -pack:to:]): New
-	method.
+	* HDF5Object.[hm] ([HDF5CompoundType_c -setDataset:]): 
+	[HDF5CompoundType_c -packObj:to:]): New methods.
 
 	* HDF5Object.h (HDF5CompoundType_c): Add ivar did.
 	Declare setDataset: setter for above. 

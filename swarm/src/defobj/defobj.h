@@ -1006,6 +1006,7 @@ USING
 
 - (const char **)readRowNames;
 - writeRowNames;
+- writeLevels;
 
 - storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
@@ -1023,7 +1024,6 @@ CREATING
 - createEnd;
 USING
 - getClass;
-- pack: (void *)buf to: obj;
 @end
 
 //G: The singleton Arguments object.

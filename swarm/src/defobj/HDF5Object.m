@@ -5,15 +5,14 @@
 
 #include <swarmconfig.h> // HAVE_HDF5
 
-
 #import <defobj/HDF5Object.h>
 
 #ifdef HAVE_HDF5
 #import <defobj/internal.h> // map_ivars
 
 #include <hdf5.h>
-#include <misc.h> // strncpy, XFREE
-#include <math.h> // log10
+#include <misc.h> // strncpy, XFREE, log10
+#include <limits.h> // INT_MIN
 
 #define REF2STRING_CONV "ref->string"
 #define STRING2REF_CONV "string->ref"
@@ -346,18 +345,13 @@ PHASE(Creating)
   return self;
 }
 
-- setDataset: (hid_t)loc_id
-{
-  did = loc_id;
-  return self;
-}
-
 static hid_t
 create_compound_type_from_class (Class class)
 {
   hid_t tid;
-  size_t min_offset;
   size_t size;
+  size_t offset;
+  BOOL insertFlag;
 
   void insert_var (struct objc_ivar *ivar)
     {
@@ -368,20 +362,33 @@ create_compound_type_from_class (Class class)
       else if (*type == _C_ID)
         raiseEvent (SaveError, "cannot store objects in compound types");
       else if (*type == _C_CHARPTR)
-        raiseEvent (SaveError, "cannot store strings in compound types");
-      if (H5Tinsert (tid, ivar->ivar_name, ivar->ivar_offset - min_offset,
-                     tid_for_objc_type (type)) < 0)
-        raiseEvent (SaveError, "unable to insert to compound type");
+        type = @encode (int);
+
+      offset = alignto (offset, alignment_for_objc_type (type));
+      
+      if (insertFlag)
+        {
+          if (H5Tinsert (tid, ivar->ivar_name, offset,
+                         tid_for_objc_type (type)) < 0)
+            raiseEvent (SaveError, "unable to insert to compound type");
+        }
+
+      offset += size_for_objc_type (type);
     }
 
   check_for_empty_class (class);
-  min_offset = class->ivars->ivar_list[0].ivar_offset;
-  size = class->instance_size - min_offset;
-  
+  offset = 0;
+  insertFlag = NO;
+  map_ivars (class->ivars, insert_var);
+  size = offset;
+
   if ((tid = H5Tcreate (H5T_COMPOUND, size)) < 0)
     raiseEvent (SaveError, "unable to create compound type");
   
+  offset = 0;
+  insertFlag = YES;
   map_ivars (class->ivars, insert_var);
+  
   return tid;
 }
 
@@ -574,17 +581,19 @@ create_class_from_compound_type (id aZone,
 - createEnd
 {
 #ifdef HAVE_HDF5
+  id aZone = [self getZone];
+
   [super createEnd];
   
-  stringMap = [[[Map createBegin: [self getZone]]
-                 setCompareFunction: compareCStrings]
-                createEnd];
-
+  stringMaps = [[[Map createBegin: aZone]
+                  setCompareFunction: compareCStrings]
+                 createEnd];
+  
   if (class != Nil)
     tid = create_compound_type_from_class (class);
   else if (tid)
     {
-      create_class_from_compound_type ([self getZone],
+      create_class_from_compound_type (aZone,
                                        tid, did,
                                        name, &class);
       
@@ -604,8 +613,19 @@ create_class_from_compound_type (id aZone,
                     raiseEvent (LoadError,
                                 "ivar `%s' has %u strings, but not a char *",
                                 ivar->ivar_name, count);
-                  
-                  [stringMap at: (id) ivar->ivar_name insert: (id) strings];
+
+                  {
+                    id <Map> stringMap =
+                      [[[Map createBegin: aZone]
+                         setCompareFunction: compareCStrings]
+                        createEnd];
+                    unsigned i;
+
+                    for (i = 0; i < count; i++)
+                      [stringMap at: (id) strings[i] insert: (id) (i + 1)];
+                    
+                    [stringMaps at: (id) ivar->ivar_name insert: stringMap];
+                  }
                 }
             }
           map_ivars (class->ivars, process_ivar);
@@ -616,6 +636,13 @@ create_class_from_compound_type (id aZone,
 #else
   hdf5_not_available ();
 #endif
+  return self;
+}
+
+PHASE(Setting)
+- setDataset: (hid_t)loc_id
+{
+  did = loc_id;
   return self;
 }
 
@@ -634,7 +661,7 @@ PHASE(Using)
   return class;
 }
 
-- pack: (void *)buf to: obj
+- packObj: (void *)buf to: obj
 {
   unsigned inum = 0;
 
@@ -642,14 +669,13 @@ PHASE(Using)
     {
       hid_t mtid;
       const char *type;
-      size_t size, hoffset;
+      size_t hoffset;
       
       if ((mtid = H5Tget_member_type (tid, inum)) < 0)
         raiseEvent (LoadError,
                     "unable to get compound type member type #%u",
                     inum);
       type = objc_type_for_tid (mtid);
-      size = size_for_objc_type (type);
 
       if ((hoffset = H5Tget_member_offset (tid, inum)) < 0)
         raiseEvent (LoadError,
@@ -659,28 +685,39 @@ PHASE(Using)
       if (*type == _C_INT && 
           *ivar->ivar_type == _C_CHARPTR)
         {
-          const char **strings =
-            (const char **) [stringMap at: (id) ivar->ivar_name];
+          id <Map> stringMap = [stringMaps at: (id) ivar->ivar_name];
           
-          if (strings == NULL)
+          if (!stringMap)
             raiseEvent (LoadError,
                         "expecting string table for int -> char * conversion");
           {
             void *ptr = obj;
             void *ivarptr = ptr + ivar->ivar_offset;
             int offset = *(int *) (buf + hoffset);
+            id <MapIndex> mi = [stringMap begin: scratchZone];
+            const char *key;
 
-            *(const char **) ivarptr = (offset > 0
-                                        ? strings[offset - 1]
-                                        : NULL);
+            if (offset > 0)
+              {
+                if ([mi findNext: (id) offset])
+                  key = (const char *) [mi getKey];
+                else
+                  abort ();
+              }
+            else
+              key = NULL;
+            
+            *(const char **) ivarptr = key;
+            [mi drop];
           }
         }
       else
         {
           if (*type != *ivar->ivar_type)
             raiseEvent (LoadError, "differing source and target types");
-          
-          memcpy ((void *) obj + ivar->ivar_offset, buf + hoffset, size);
+          memcpy ((void *) obj + ivar->ivar_offset,
+                  buf + hoffset,
+                  size_for_objc_type (type));
         }
       inum++;
     }
@@ -689,11 +726,177 @@ PHASE(Using)
   return self;
 }
 
+- packBuf: obj to: (void *)buf
+{
+  unsigned inum = 0;
+
+  void process_ivar (struct objc_ivar *ivar)
+    {
+      hid_t mtid;
+      const char *type;
+      size_t hoffset;
+      
+      if ((mtid = H5Tget_member_type (tid, inum)) < 0)
+        raiseEvent (LoadError,
+                    "unable to get compound type member type #%u",
+                    inum);
+      type = objc_type_for_tid (mtid);
+
+      if ((hoffset = H5Tget_member_offset (tid, inum)) < 0)
+        raiseEvent (LoadError,
+                    "unable to get compound type offset #%u",
+                    inum);
+      
+      if (*type == _C_INT && 
+          *ivar->ivar_type == _C_CHARPTR)
+        {
+          id <Map> stringMap = [stringMaps at: (id) ivar->ivar_name];
+          
+          if (!stringMap)
+            {
+              stringMap = [[[Map createBegin: [self getZone]]
+                             setCompareFunction: compareCStrings]
+                            createEnd];
+
+              [stringMaps at: (id) ivar->ivar_name insert: stringMap];
+            }
+          {
+            void *ivarptr = (void *)obj + ivar->ivar_offset;
+            const char *key = * (const char **)ivarptr;
+            int *ptr = (int *) (buf + hoffset);
+            unsigned offset = INT_MIN;
+
+            if (key)
+              {
+                offset = (unsigned) [stringMap at: (id) key];
+                
+                if (offset == 0)
+                  {
+                    offset = [stringMap getCount] + 1;
+                    
+                    [stringMap at: (id) key insert: (id) offset];
+                  }
+              }
+            *ptr = offset;
+          }
+        }
+      else
+        {
+          if (*type != *ivar->ivar_type)
+            raiseEvent (LoadError, "differing source and target types");
+          memcpy (buf + hoffset,
+                  (void *) obj + ivar->ivar_offset,
+                  size_for_objc_type (type));
+        }
+      inum++;
+    }
+  
+  map_ivars (getClass (obj)->ivars, process_ivar);
+  return self;
+
+}
+
+- writeLevel: (const char *)varName
+{
+#ifdef HAVE_HDF5
+  hsize_t dims[1];
+  hid_t memtid = make_string_ref_type ();
+  hid_t stringtid, sid, aid;
+  id <Map> stringMap = [stringMaps at: (id) varName];
+  size_t count = [stringMap getCount];
+  
+  dims[0] = count;
+  if ((sid = H5Screate_simple (1, dims, NULL)) < 0)
+    raiseEvent (SaveError, "unable to create row names data space");
+
+  if ((stringtid = H5Tcopy (H5T_C_S1)) < 0)
+    raiseEvent (SaveError, "unable to copy string type");
+
+  {
+    id <MapIndex> mi = [stringMap begin: scratchZone];
+    const char *key;
+    size_t maxlen = 0;
+
+    for ([mi next: (id *) &key];
+         [mi getLoc] == (id) Member;
+         [mi next: (id *) &key])
+      {
+        size_t len;
+
+        len = strlen (key);
+        if (len > maxlen)
+          maxlen = len;
+      }
+
+    if ((H5Tset_size (stringtid, maxlen + 1)) < 0)
+      raiseEvent (SaveError, "unable to set string size");
+    [mi drop];
+  }
+
+  {
+    char levelAttrName[strlen (LEVELSPREFIX) + strlen (varName) + 1];
+    char *p;
+
+    p = stpcpy (levelAttrName, LEVELSPREFIX);
+    stpcpy (p, varName);
+
+    if ((aid = H5Acreate (did, levelAttrName, stringtid,
+                          sid, H5P_DEFAULT)) < 0)
+      raiseEvent (SaveError, "unable to create levels attribute dataset");
+  }
+  
+  {
+    const char *buf[count];
+    unsigned i;
+    id mi = [stringMap begin: scratchZone];
+    const char *key;
+    int offset;
+
+    for (i = 0, offset = (int) [mi next: (id *) &key];
+         [mi getLoc] == (id) Member;
+         offset = (int) [mi next: (id *) &key], i++)
+      buf[offset - 1] = key;
+    
+    if (H5Awrite (aid, memtid, buf) < 0)
+      raiseEvent (SaveError, "unable to write levels dataset");
+    [mi drop];
+  }
+  
+  if (H5Tclose (stringtid) < 0)
+    raiseEvent (SaveError, "unable to close levels string type");
+  if (H5Aclose (aid) < 0)
+    raiseEvent (SaveError, "unable to close levels dataset");
+  if (H5Sclose (sid) < 0)
+    raiseEvent (SaveError, "unable to close levels dataspace");
+  if (H5Tclose (memtid) < 0)
+    raiseEvent (SaveError, "unable to close levels reference type");
+#else
+  hdf5_not_available ();
+#endif
+  return self;
+}
+
+- writeLevels
+{
+  void store_level (struct objc_ivar *ivar)
+    {
+      if (*ivar->ivar_type == _C_CHARPTR)
+        [self writeLevel: ivar->ivar_name];
+    }
+  map_ivars (class->ivars, store_level);
+  return self;
+}
+
 - (void)drop
 {
 #ifdef HAVE_HDF5
   if (H5Tclose (tid) < 0)
     raiseEvent (SaveError, "unable to close compound type");
+
+  // Need to keep the keys of the sub-Maps, since they are either
+  // original object state, or new object state.
+  [stringMaps deleteAll];
+  [stringMaps drop];
   [super drop];
 #else
   hdf5_not_available ();
@@ -1398,7 +1601,7 @@ hdf5_store_attribute (hid_t did,
   return self;
 }
 
-#ifdef HAVE_HDF5
+#if defined(HAVE_HDF5) && 0
 static void *
 check_alignment (id obj, id compoundType)
 {
@@ -1443,7 +1646,7 @@ check_alignment (id obj, id compoundType)
                    psid, c_sid, H5P_DEFAULT, buf) < 0)
         raiseEvent (LoadError, "unable to load record");
       
-      [compoundType pack: buf to: obj];
+      [compoundType packObj: buf to: obj];
     }
   }
 #else
@@ -1455,17 +1658,28 @@ check_alignment (id obj, id compoundType)
 - shallowStoreObject: obj
 {
 #ifdef HAVE_HDF5
-  void *ptr;
-
+    
   if (compoundType == nil)
     raiseEvent (SaveError,
                 "shallow datasets are expected to have compound type");
   
-  ptr = check_alignment (obj, compoundType);
-  
-  if (H5Dwrite (loc_id, [compoundType getTid],
-                psid, c_sid, H5P_DEFAULT, ptr) < 0)
-    raiseEvent (SaveError, "unable to store record");
+  {
+    hid_t tid = [compoundType getTid];
+    size_t tid_size;
+    
+    if ((tid_size = H5Tget_size (tid)) < 0)
+      raiseEvent (LoadError,
+                  "unable to get compound type size");
+    
+    {
+      unsigned char buf[tid_size];
+
+      [compoundType packBuf: obj to: buf];
+      
+      if (H5Dwrite (loc_id, tid, psid, c_sid, H5P_DEFAULT, buf) < 0)
+      raiseEvent (SaveError, "unable to store record");
+    }
+  }
 #else
   hdf5_not_available ();
 #endif
@@ -1559,6 +1773,13 @@ check_alignment (id obj, id compoundType)
 #else
   hdf5_not_available ();
 #endif
+  return self;
+}
+
+- writeLevels
+{
+  [compoundType setDataset: loc_id];
+  [compoundType writeLevels];
   return self;
 }
 
