@@ -8,6 +8,10 @@ dib_create (void)
   dib_t *dib = xmalloc (sizeof (dib_t));
   
   dib->window = NULL;
+  dib->colorMapBlocks = 0;
+  dib->colorMapSize = 0;
+  memset (dib->colorMapOffsets, 0, sizeof (dib->colorMapOffsets));
+  memset (dib->colorMapObjects, 0, sizeof (dib->colorMapObjects));
   dib->sourceDC = NULL;
   dib->destDC = NULL;
   dib->dibInfo = xmalloc (sizeof (CDIB_BITMAP));
@@ -29,10 +33,22 @@ dib_destroy (dib_t *dib)
   dib->dibInfo = NULL;
   if (dib->bitmap)
     {
-      HDC hdc = GetDC(dib->window);
-      SelectObject (hdc, dib->oldBitmap);
-      DeleteObject(dib->bitmap);
-      ReleaseDC (dib->window, hdc);
+      if (dib->window)
+        {
+          HDC hdc = GetDC (dib->window);
+
+          SelectObject (hdc, dib->oldBitmap);
+          DeleteObject (dib->bitmap);
+          ReleaseDC (dib->window, hdc);
+        }
+      else
+        {
+          HDC hdc = CreateCompatibleDC (NULL);
+
+          SelectObject (hdc, dib->oldBitmap);
+          DeleteObject (dib->bitmap);
+          DeleteDC (hdc);
+        }
     }
   dib->bitmap = NULL;
   dib->oldBitmap = NULL;
@@ -44,7 +60,6 @@ dib_destroy (dib_t *dib)
       dib->palette = NULL;
     }
   dib->oldPalette = NULL;
-  dib->window = NULL;
   if (dib->sourceDC)
     {
       DeleteDC (dib->sourceDC);
@@ -52,18 +67,27 @@ dib_destroy (dib_t *dib)
     }
   if (dib->destDC)
     {
-      /* Shouldn't this be before the dib->window is NULLed? */
-      ReleaseDC (dib->window, dib->destDC);
+      if (dib->window)
+        ReleaseDC (dib->window, dib->destDC);
+      else
+        DeleteDC (dib->destDC);
       dib->destDC = NULL;
     }
+  dib->window = NULL;
   dib->xBitmapOffset = 0;
   dib->yBitmapOffset = 0;
 }
 
 void
-dib_createBitmap (dib_t *dib, HWND window, int width, int height)
+dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
 {
-  HDC hdc = GetDC (window);
+  HDC hdc;
+
+  if (window)
+    hdc = GetDC (window);
+  else
+    hdc = CreateCompatibleDC (NULL);
+  
   dib->window = window;
 
   if (width & 3)
@@ -74,7 +98,10 @@ dib_createBitmap (dib_t *dib, HWND window, int width, int height)
       xfree (dib->dibInfo);
       SelectObject (hdc, dib->oldBitmap);
       DeleteObject (dib->bitmap);
-      ReleaseDC (window, hdc);
+      if (window)
+        ReleaseDC (window, hdc);
+      else
+        DeleteDC (hdc);
       dib->bitmap = NULL;
       dib->oldBitmap = NULL;
       dib->bits = NULL;
@@ -98,81 +125,44 @@ dib_createBitmap (dib_t *dib, HWND window, int width, int height)
 				  &dib->bits,
 				  NULL,
 				  0 /* ignored if above is NULL */ );
-  ReleaseDC (window, hdc);
+  if (window)
+    ReleaseDC (window, hdc);
+  else
+    DeleteDC (hdc);
 }
 
 void
-dib_setPalette (dib_t *dib, HPALETTE handle, unsigned long *map)
+dib_augmentPalette (dib_t *dib,
+		    void *object,
+		    unsigned newColorMapSize, unsigned long *newColorMap)
 {
-  if (dib->bitmap == NULL)
-    return;
+  unsigned lastSize = dib->colorMapSize;
   
-  if (dib->palette != NULL)
-    {
-      DeleteObject (dib->palette);
-      dib->palette = NULL;
-    }
-  dib->palette = handle;
+  dib->colorMapObjects[dib->colorMapBlocks] = object;
+  dib->colorMapOffsets[dib->colorMapBlocks] = lastSize;
+  dib->colorMapSize += newColorMapSize;
+  dib->colorMapBlocks++;
   
-  if (map)
-    {
-      int i;
-      HDC shdc = CreateCompatibleDC (NULL);
-      
-      for (i = 0; i < 256; i++)
-	{
-	  dib->dibInfo->rgb[i].rgbRed = map[i] & 0xff;
-	  dib->dibInfo->rgb[i].rgbGreen = map[i] >> 8 & 0xff;
-	  dib->dibInfo->rgb[i].rgbBlue = map[i] >> 16;
-	}
-      dib->oldBitmap = SelectObject (shdc, dib->bitmap);
-      SetDIBColorTable (shdc, 0, 256, dib->dibInfo->rgb);
-      SelectObject (shdc, dib->oldBitmap);
-      DeleteDC (shdc);
-    }
-}
-
-void
-dib_realizePalette (dib_t *dib)
-{
-  if (dib->palette != NULL)
-    {
-      HDC hdc = GetDC (dib->window);
-      
-      SelectPalette (hdc, dib->palette, FALSE);
-      RealizePalette (hdc);
-      ReleaseDC (dib->window, hdc);
-      
-      InvalidateRect (dib->window, NULL, TRUE);
-    }
-}
-
-BOOL
-dib_blit (dib_t *dib,
-	  int destX, int destY,
-	  int sourceX, int sourceY,
-	  int sourceWidth, int sourceHeight)
-{
-  if (dib->bitmap)
-    {
-      BOOL result;
-      int diff = destX + sourceWidth - dib->dibInfo->bmiHead.biWidth;
-
-      if (diff > 0)
-	sourceWidth -= diff;
-
-      SelectPalette (dib->destDC, dib->palette, FALSE);
-      RealizePalette (dib->destDC);
-      result = BitBlt (dib->destDC,
-		       destX, destY,
-		       sourceWidth, sourceHeight,
-		       dib->sourceDC,
-		       sourceX, sourceY,
-		       SRCCOPY);
-
-      return result;
-    }
-  return FALSE;
+  {
+    unsigned i;
+    RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
+    
+    for (i = 0; i < newColorMapSize; i++)
+      {
+	rgb[i].rgbRed = newColorMap[i] & 0xff;
+	rgb[i].rgbGreen = (newColorMap[i] >> 8) & 0xff;
+	rgb[i].rgbBlue = newColorMap[i] >> 16;
+      }
+  }
+  
+  {
+    HDC shdc = CreateCompatibleDC (NULL);
+    
+    dib->oldBitmap = SelectObject (shdc, dib->bitmap);
+    SetDIBColorTable (shdc, 0, dib->colorMapSize, dib->dibInfo->rgb);
+    SelectObject (shdc, dib->oldBitmap);
+    DeleteDC (shdc);
+  }
 }
 
 void
@@ -237,18 +227,15 @@ dib_paintBlit (dib_t *dib,
 	       HDC destDC,
 	       int destX, int destY,
 	       int sourceX, int sourceY,
-	       int sourceWidth, int sourceHeight)
+	       unsigned sourceWidth, unsigned sourceHeight)
 {
-  int frameWidth = dib->dibInfo->bmiHead.biWidth;
+  unsigned frameWidth = dib->dibInfo->bmiHead.biWidth;
   int diff;
 
   diff = (destX + sourceWidth) - frameWidth;
 
   if (diff > 0)
     sourceWidth -= diff;
-
-  if (dib->bitmap == NULL)
-    return FALSE;
 
   GdiFlush ();
 
@@ -282,7 +269,9 @@ dib_paintBlit (dib_t *dib,
 }
 
 BOOL
-dib_copy (dib_t *source, dib_t *dest, int width, int height)
+dib_copy (dib_t *source, dib_t *dest,
+          int destx, int desty,
+          unsigned width, unsigned height)
 {
   BOOL result;
 
@@ -290,7 +279,7 @@ dib_copy (dib_t *source, dib_t *dest, int width, int height)
     return FALSE;
   if (dib_lock (source) == NULL)
     return FALSE;
-  result = BitBlt (dest->sourceDC, 0, 0,
+  result = BitBlt (dest->sourceDC, destx, desty,
 		   width, height,
 		   source->sourceDC, 0, 0,
 		   SRCCOPY);
@@ -302,9 +291,6 @@ dib_copy (dib_t *source, dib_t *dest, int width, int height)
 BYTE *
 dib_lock (dib_t *dib)
 {
-  if (dib->bitmap == NULL)
-    return NULL;
-  
   GdiFlush ();
   
   if (!dib->destDC)
@@ -321,15 +307,12 @@ dib_lock (dib_t *dib)
 void
 dib_unlock (dib_t *dib)
 {
-  if (dib->bitmap)
-    {
-      SelectObject (dib->sourceDC, dib->oldBitmap);
-      
-      DeleteDC (dib->sourceDC);
-      dib->sourceDC = NULL;
-      ReleaseDC (dib->window, dib->destDC);
-      dib->destDC = NULL;
-    }
+  SelectObject (dib->sourceDC, dib->oldBitmap);
+  
+  DeleteDC (dib->sourceDC);
+  dib->sourceDC = NULL;
+  ReleaseDC (dib->window, dib->destDC);
+  dib->destDC = NULL;
 }
 
 #if 0
@@ -371,4 +354,26 @@ dib_getHeight (dib_t *dib)
     return height < 0 ? -height : height;
   }
 }
+
+BOOL
+dib_blit (dib_t *dib,
+	  int destX, int destY,
+	  int sourceX, int sourceY,
+	  unsigned sourceWidth, unsigned sourceHeight)
+{
+  int diff = destX + sourceWidth - dib->dibInfo->bmiHead.biWidth;
+  
+  if (diff > 0)
+    sourceWidth -= diff;
+
+  SelectPalette (dib->destDC, dib->palette, FALSE);
+  RealizePalette (dib->destDC);
+  return BitBlt (dib->destDC,
+                 destX, destY,
+                 sourceWidth, sourceHeight,
+                 dib->sourceDC,
+                 sourceX, sourceY,
+                 SRCCOPY);
+}
+
 #endif

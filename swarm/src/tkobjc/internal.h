@@ -6,19 +6,26 @@
 #import <gui.h>
 
 #define Colormap X11Colormap
+#define Pixmap X11Pixmap
 #include <tk.h>
 #include <X11/Xlib.h>    // XColormap
 #include <X11/Xutil.h>  // ZoomRaster
 #ifndef __WIN32__
 #include <X11/xpm.h>
 #endif
+#undef Pixmap
 #undef Colormap
+
+#include <png.h>
 
 #import <tkobjc/Raster.h>
 @class Raster;
 
 #import <tkobjc/Colormap.h>
 @class Colormap;
+
+#import <tkobjc/Pixmap.h>
+@class Pixmap;
 
 Tk_Window tkobjc_nameToWindow (const char *widgetName);
 
@@ -45,7 +52,13 @@ void tkobjc_raster_ellipse (Raster *raster,
 
 void tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color color);
 void tkobjc_raster_createContext (Raster *raster);
-void tkobjc_raster_createPixmap (Raster *raster);
 void tkobjc_raster_setBackground (Raster *raster, PixelValue c);
-void tkobjc_raster_copy (Raster *raster, Pixmap opm, unsigned ow, unsigned oh);
+void tkobjc_raster_createPixmap (Raster *raster);
+void tkobjc_raster_savePixmap (Raster *raster);
+void tkobjc_raster_copy (Raster *raster, unsigned ow, unsigned oh);
 void tkobjc_raster_flush (Raster *raster);
+void tkobjc_pixmap_create (Pixmap *pixmap, png_bytep *row_pointers, 
+                           unsigned bit_depth, 
+                           png_colorp palette, unsigned palette_size,
+			   Raster *raster);
+void tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster);

@@ -28,6 +28,7 @@ initTkObjc (id arguments)
     {
       deferror (WindowCreation, NULL);
       deferror (WindowUsage, NULL);
+      deferror (MissingFiles, NULL);
       
       tkobjc_initTkInterp (arguments);
       

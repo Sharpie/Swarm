@@ -1,13 +1,79 @@
+1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tk/tkInt.h (TkpClipMask, TkpCreateNativePixmap,
+	TkpGetNativeAppBitmap, TkSetPixmapColormap): Use X11Pixmap instead
+	of Pixmap.
+
+	* win32dib.h (dib): New members colorMapOffsets, colorMapObjects,
+	colorMapBlocks and colorMapSize.
+	(dib_setPalette, dib_realizePalette): Remove declarations.
+	(dib_copy): Add x, y target offset.
+
+	* win32dib.c (dib_create): Initialize colorMapBlocks,
+	colorMapSize, colorMapOffsets, and colorMapObjects to zero.
+	(dib_destroy, dib_createBitmap): Handle case that there is no
+	window context.
+	(dib_augmentPalette): Replaces dib_setPalette.
+	(dib_realizePalette): Removed.
+	(dib_copy): Add x,y target offset.
+
+	* tkobjc.m (initTkObjc): Set up MissingFiles as an error type.
+
+	* tkobjc.h: Include Pixmap.h.  Never include XDrawer.h or XPixmap.h.
+
+	* internal.m: Include global.h.
+	(Xfill, tkobjc_raster_drawPoint): Use X11Pixmap instead of Pixmap
+	when appropriate.
+	(tkobjc_raster_erase): Allocate erase color using nextFreeColor
+	instead of fixing it at 255.  Use fillRectangeX0:Y0:X1:Y1:Color:
+	to do erase (for ZoomRaster).
+	(tkobjc_raster_setColormap): Use dib_augmentPalette instead of
+	bothering with the colormap Tk setup; we're using DIBs anyway.
+	(tkobjc_raster_createPixmap): Remove casting between dib and pm.
+	(tkobjc_raster_savePixmap): New function.
+	(tkobjc_raster_copy): dib_copy now has x, y offset.
+	(offset_for_object, tkobjc_pixmap_create, tkobjc_pixmap_draw): New
+	functions.
+
+	* internal.h: Define Pixmap as X11Pixmap for duration of
+	tk and X11 includes.  Include png.h.  Include tkobjc/Pixmap.h
+	and make class object. Declare new functions tkobjc_raster_savePixmap,
+	tkobjc_pixmap_create, and tkobjc_pixmap_draw.
+
+	* global.h: Declare MissingFiles as an tkobjc error type.
+
+	* ZoomRaster.m: Don't include Drawer.h, include gui.h
+	instead.
+
+	* ZoomRaster.h: Include gui.h to get Drawer protocol.
+
+	* Raster.m ([Raster +createBegin:]): Initialize eraseColor to -1.
+	Don't erase; there's not yet a colormap for win32 background.
+	([Raster -setWidth:Height:]): Use new function
+	tkobjc_raster_savePixmap.  tkobjc_raster_copy usage is modifed
+	to get oldPm from object.
+
+	* Raster.h: Don't include tkobjc/Drawer.h; it's in the gui
+	protocol now.
+	(Raster): New instance variable oldpm.  Declare pm and oldpm
+	as X11Pixmap and void * for Unix and Win32, respectively.
+	Add instance variable eraseColor.
+
+	* Makefile (OBJECTS,HEADERS): Add Pixmap.
+
+	* Colormap.[hm] (nextFreeColor): New method.
+
+	* OvalNodeItem.m, TextItem.m (-createItem): Mention that new font
+	variable is used here too.
+
+	* RectangleNodeItem.m (-createItem): Use font variable here as well.
+
 Thu Apr 09 21:56:00 1998    <gepr@swarm.com>
 
-	* TextItem.[hm]: New methods setText:usingFont: and setFont:
-	allow one to specify font to be used.  Added corresponding
-	IVar const char *font.
+	* NodeItem.[hm], TextItem.[hm]: New methods setText:usingFont: and
+	setFont: allow one to specify font to be used.  Added
+	corresponding IVar const char *font.
 
-	* NodeItem.[hm]: New methods setText:usingFont: and setFont:
-	allow one to specify font to be used.  Added corresponding
-	IVAR const char *font.
-	
 1998-04-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ZoomRaster.m ([ZoomRaster -handleConfigureWidth:Height:]): 

@@ -135,6 +135,17 @@
   return isSet[c];
 }
 
+- (Color)nextFreeColor
+{
+  Color i;
+
+  for (i = MAXCOLORS - 1; i > 0; i--)
+    if (isSet[i - 1])
+      return i;
+  [ResourceAvailability raiseEvent: "No free colors"];
+  return 0;
+}
+
 @end
 
 

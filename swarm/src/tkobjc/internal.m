@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import "internal.h"
+#import "global.h"
 
 #include <tk.h>
 
@@ -113,7 +114,7 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
 
 
 static void
-Xfill (Display *display, GC gc, Pixmap pm,
+Xfill (Display *display, GC gc, X11Pixmap pm,
        int x, int y,
        unsigned width, unsigned height,
        PixelValue pixel)
@@ -141,13 +142,20 @@ tkobjc_raster_erase (Raster *raster)
          0, 0, raster->width, raster->height,
          BlackPixel (display, DefaultScreen (display)));
 #else
-  id colorMap = raster->colormap;
+  Colormap *colormap = raster->colormap;
 
-  if (![colorMap colorIsSet: 255])
-    [colorMap setColor: 255 ToName: "black"];
-  tkobjc_raster_fillRectangle (raster, 0, 0, 
-                               raster->width, raster->height,
-                               255);
+  if (colormap)
+    {
+      if (raster->eraseColor == -1)
+	{
+	  raster->eraseColor = [colormap nextFreeColor];
+
+	  [colormap setColor: raster->eraseColor ToName: "black"];
+	}
+      [raster fillRectangleX0: 0 Y0: 0
+	      X1: [raster getWidth] Y1: [raster getHeight]
+	      Color: raster->eraseColor];
+    }
 #endif
 }
 
@@ -190,9 +198,9 @@ tkobjc_raster_ellipse (Raster *raster,
 void
 tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 {
-  Pixmap pm = raster->pm;
   PixelValue *map = ((Colormap *)raster->colormap)->map;
 #ifndef _WIN32
+  X11Pixmap pm = raster->pm;
   Display *display = Tk_Display (raster->tkwin);
   GC gc = raster->gc;
 
@@ -200,7 +208,7 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 
   XDrawPoint (display, pm, gc, x, y);
 #else
-  dib_t *dib = (dib_t *)pm;
+  dib_t *dib = (dib_t *)raster->pm;
   int frameWidth = dib->dibInfo->bmiHead.biWidth;
 
   ((BYTE *)dib->bits)[x + y * frameWidth] = map[c];
@@ -232,19 +240,10 @@ tkobjc_raster_setColormap (Raster *raster)
   dib_t *dib = (dib_t *)raster->pm;
   
   if (colormap)
-    {
-      TkWinColormap *wColormap = (TkWinColormap *)colormap->cmap;
-      dib_setPalette (dib, wColormap, colormap->map);
-    }
-  else
-    {
-      Display *display = Tk_Display (raster->tkwin);      
-      TkWinColormap *wColormap =
-	(TkWinColormap *)DefaultColormap (display, DefaultScreen (display));
-      
-      dib_setPalette (dib, wColormap, NULL);
-    }
-  dib_realizePalette (dib);
+    dib_augmentPalette (dib,
+			raster,
+			[colormap nextFreeColor],
+			colormap->map);
 #endif
 }
 
@@ -253,7 +252,6 @@ tkobjc_raster_createPixmap (Raster *raster)
 {
   Tk_Window tkwin = raster->tkwin;
 #ifndef _WIN32
-
   // and create a local Pixmap for drawing
   raster->pm = XCreatePixmap (Tk_Display (tkwin),
                               Tk_WindowId (tkwin),
@@ -263,7 +261,7 @@ tkobjc_raster_createPixmap (Raster *raster)
 #else
   dib_t *dib = dib_create ();
   
-  raster->pm = (Pixmap)dib;
+  raster->pm = dib;
 
   dib_createBitmap (dib, TkWinGetHWND (Tk_WindowId (tkwin)),
 		    raster->width, raster->height);
@@ -347,19 +345,222 @@ tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight)
 }
 
 void
-tkobjc_raster_copy (Raster *raster, Pixmap oldpm,
-                    unsigned oldWidth, unsigned oldHeight)
+tkobjc_raster_savePixmap (Raster *raster)
+{
+  raster->oldpm = raster->pm;
+}
+
+void
+tkobjc_raster_copy (Raster *raster, unsigned oldWidth, unsigned oldHeight)
 {
   unsigned minWidth = raster->width < oldWidth ? raster->width : oldWidth;
   unsigned minHeight = raster->height < oldHeight ? raster->height : oldHeight;
 #ifndef _WIN32
   Display *display = Tk_Display (raster->tkwin);
 
-  XCopyArea (display, oldpm, raster->pm, raster->gc,
+  XCopyArea (display, raster->oldpm, raster->pm, raster->gc,
              0, 0, minWidth, minHeight, 0, 0);
-  XFreePixmap (display, oldpm);
+  XFreePixmap (display, raster->oldpm);
 #else
-  if (!dib_copy ((dib_t *)oldpm, (dib_t *)raster->pm, minWidth, minHeight))
+  if (!dib_copy ((dib_t *)raster->oldpm, (dib_t *)raster->pm,
+                 0, 0,
+                 minWidth, minHeight))
     abort ();
 #endif
 }
+
+#ifdef _WIN32
+static unsigned
+offset_for_object (dib_t *raster_dib, void *object)
+{
+  unsigned i;
+  
+  for (i = 0; i < raster_dib->colorMapBlocks; i++)
+    if (raster_dib->colorMapObjects[i] == object)
+      return raster_dib->colorMapOffsets[i];
+  abort ();
+}
+#endif
+
+void
+tkobjc_pixmap_create (Pixmap *pixmap,
+                      png_bytep *row_pointers,
+                      unsigned bit_depth,
+                      png_colorp palette, unsigned palette_size,
+		      Raster *raster)
+{
+#ifndef _WIN32
+  XpmColor *colors = xmalloc (sizeof (XpmColor) * palette_size);
+  XpmImage image;
+  
+  image.width = pixmap->width;
+  image.height = pixmap->height;
+  image.cpp = 7;
+  {
+    int i;
+    
+    for (i = 0; i < palette_size; i++)
+      {
+        XpmColor *color = &colors[i];
+        char *str = xmalloc (1 + 2 * 3 + 1);
+        
+        sprintf (str, "#%02x%02x%02x",
+                 palette[i].red, palette[i].green, palette[i].blue);
+        color->string = NULL;
+        color->symbolic = str;
+        color->m_color = NULL;
+        color->g4_color = NULL;
+        color->g_color = NULL;
+        color->c_color = str;
+      }
+    image.ncolors = palette_size;
+    image.colorTable = colors;
+  }
+  {
+    unsigned *data = xmalloc (sizeof (int) * image.width * image.height);
+    unsigned *out_pos = data;
+    unsigned ri;
+    
+    
+    for (ri = 0; ri < image.height; ri++)
+      {
+        unsigned ci;
+        png_bytep in_row = row_pointers[ri];
+        
+        for (ci = 0; ci < image.width; ci++)
+          {
+            int bit_pos = bit_depth * ci;
+            int byte_offset = bit_pos >> 3;
+            int bit_shift = bit_pos & 0x7;
+            int bit_mask = ((1 << bit_depth) - 1);
+            
+            *out_pos++ = (in_row[byte_offset] >> bit_shift) & bit_mask;
+          }
+      }
+    image.data = data;
+  }
+  {
+    XpmAttributes xpmattrs;
+    Tk_Window tkwin = tkobjc_nameToWindow (".");
+    Display *display = Tk_Display (tkwin);
+    int rc;
+    
+    xpmattrs.valuemask = 0;
+    
+    rc = XpmCreatePixmapFromXpmImage (display,
+                                      XDefaultRootWindow (display),
+                                      &image,
+                                      &pixmap->pixmap,
+                                      &pixmap->mask,
+                                      &xpmattrs);
+    if (rc != 0)
+      {
+        const char *error = NULL;
+        const char *warning = NULL;
+        
+        switch (rc)
+          {
+          case XpmSuccess:
+            break;
+          case XpmColorError:
+            warning = "Could not parse or alloc requested color";
+            break;
+          case XpmOpenFailed:
+            error = "Cannot open file";
+            break;
+          case XpmFileInvalid:
+            error = "Invalid XPM file";
+            break;
+          case XpmNoMemory:
+            error = "Not enough memory";
+            break;
+          case XpmColorFailed:
+            error = "Failed to parse or alloc some color";
+            break;
+          }
+        if (warning)
+          [Warning raiseEvent: "Creating pixmap: %s\n", warning];
+        if (error)
+          [WindowCreation raiseEvent: "Creating pixmap: %s\n", error];
+      }
+  }
+#else
+  {
+    dib_t *dib = dib_create ();
+
+    dib_createBitmap (dib, NULL, pixmap->width, pixmap->height);
+    {
+      unsigned long map[palette_size];
+      int i;
+      
+      for (i = 0; i < palette_size; i++)
+        map[i] = palette[i].red
+          | (palette[i].green << 8)
+          | (palette[i].blue << 16);
+      
+      {
+        // (Apparently, there isn't a need to merge the pixmap and raster
+        // pixmaps by hand, but without doing so, somehow the black
+        // gets lost. -mgd)
+        dib_t *raster_dib = raster->pm;
+
+        dib_augmentPalette (raster_dib, pixmap, palette_size, map);
+      }
+
+      dib_augmentPalette (dib, pixmap, palette_size, map);
+      {
+        unsigned ri;
+        BYTE *out_pos = dib_lock (dib);
+        
+        for (ri = 0; ri < pixmap->height; ri++)
+          {
+            unsigned ci;
+            png_bytep in_row = row_pointers[ri];
+            
+            for (ci = 0; ci < pixmap->width; ci++)
+              {
+                int bit_pos = bit_depth * ci;
+                int byte_offset = bit_pos >> 3;
+                int bit_shift = bit_pos & 0x7;
+                int bit_mask = ((1 << bit_depth) - 1);
+		BYTE val = ((in_row[byte_offset] >> bit_shift) & bit_mask);
+                
+                *out_pos++ = val;
+                
+              }
+          }
+        dib_unlock (dib);
+      }
+    }
+    pixmap->pixmap = dib;
+  }
+#endif
+}
+
+void
+tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster)
+{
+#ifndef _WIN32
+  Tk_Window tkwin = tkobjc_nameToWindow (".");
+  Display *display = Tk_Display (tkwin);
+  GC gc = raster->gc;
+  Drawable w = raster->pm;
+  X11Pixmap mask = pixmap->mask;
+  
+  if (mask == 0)
+    XCopyArea (display, pixmap->pixmap, w, gc, 0, 0,
+               pixmap->width, pixmap->height,
+               x, y);
+  else
+    {
+      XSetClipMask (display, gc, mask);
+      XCopyArea (display, pixmap->pixmap, w, gc, 0, 0,
+                 pixmap->width, pixmap->height,
+                 x, y);
+      XSetClipMask (display, gc, None);
+    }
+#else
+  dib_copy (pixmap->pixmap, raster->pm, x, y, pixmap->width, pixmap->height);
+#endif
+}
+

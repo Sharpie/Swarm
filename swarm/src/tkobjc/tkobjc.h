@@ -22,10 +22,7 @@
 #import <tkobjc/TkExtra.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/Colormap.h>
-#ifndef _WIN32
-#import <tkobjc/XDrawer.h>
-#import <tkobjc/XPixmap.h>
-#endif
+#import <tkobjc/Pixmap.h>
 #import <tkobjc/ZoomRaster.h>
 #import <tkobjc/Canvas.h>
 #import <tkobjc/ProbeCanvas.h>

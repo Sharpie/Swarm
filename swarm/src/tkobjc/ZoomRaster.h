@@ -7,6 +7,7 @@
 
 #import <tkobjc/Raster.h>
 #import <tkobjc/Frame.h>
+#import <gui.h>
 
 @interface ZoomRaster: Raster
 {
@@ -20,5 +21,5 @@
 - setZoomFactor: (unsigned)z;
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 - handleExposeWidth: (unsigned)newWidth Height: (unsigned)newHeight;
-
+- draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
 @end

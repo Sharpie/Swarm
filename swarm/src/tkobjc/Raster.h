@@ -6,7 +6,6 @@
 // Objective C interface to Raster, for use with tclobjc.
 
 #import <tkobjc/ArchivedGeometryWidget.h>
-#import <tkobjc/Drawer.h>
 #import <gui.h>
 #import "internal.h"
 
@@ -20,7 +19,15 @@
   id <Colormap> colormap;
   Tk_Window tkwin;
   GC gc;
-  Pixmap pm;
+  // oldpm is included to hide X11Pixmap/dib_t from the interfaces
+#ifndef _WIN32
+  X11Pixmap pm;
+  X11Pixmap oldpm;
+#else
+  void *pm;
+  void *oldpm;
+#endif
+  int eraseColor;
   unsigned width, height;
 }
 
@@ -31,7 +38,7 @@
 - drawPointX: (int)x Y: (int)y Color: (Color)c;
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
 - ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Width: (unsigned)width Color: (Color)c;
-- draw: (id <Drawer>)xd X: (int)x Y: (int)y;
+- draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
 - drawSelf;
 - erase;
 - handleButton: (int)n X: (int)x Y: (int)y;

@@ -43,5 +43,6 @@
 - (PixelValue)white;
 - (PixelValue)black;
 - (BOOL)colorIsSet: (Color)c;
+- (Color)nextFreeColor;
 
 @end

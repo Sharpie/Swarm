@@ -6,8 +6,8 @@
 #include "internal.h"
 
 #import <tkobjc/global.h>
+#import <gui.h>
 #import <tkobjc/ZoomRaster.h>
-#import <tkobjc/Drawer.h>
 
 @implementation ZoomRaster
 
@@ -178,9 +178,9 @@
   return self;
 }
 
-- draw: (id <Drawer>)xd X: (int)x Y: (int)y
+- draw: (id <Drawer>)drawer X:(int)x Y: (int)y
 {
-  return [super draw: xd X: x * zoomFactor Y: y * zoomFactor];
+  return [drawer drawX: x * zoomFactor Y: y * zoomFactor];
 }
 
 - increaseZoom

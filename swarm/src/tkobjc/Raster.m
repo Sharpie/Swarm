@@ -23,6 +23,7 @@
   
   obj->width = 100U;
   obj->height = 100U;
+  obj->eraseColor = -1;
 
   return obj;
 }
@@ -59,7 +60,9 @@
   
   tkobjc_raster_createContext (self);
   tkobjc_raster_createPixmap (self);
-  [self erase];
+
+  // The colormap doesn't exist yet, so don't. -mgd
+  // [self erase];
   
   return self;
 }
@@ -85,10 +88,10 @@
 // one to it and redraw ourselves.
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
-  Pixmap oldpm = pm;
-
   int oldWidth = width;
   int oldHeight = height;
+
+  tkobjc_raster_savePixmap (self);
 
   width = newWidth;
   height = newHeight;
@@ -97,7 +100,7 @@
   [super setWidth: width Height: height];
   [self erase];
 
-  tkobjc_raster_copy (self, oldpm, oldWidth, oldHeight);
+  tkobjc_raster_copy (self, oldWidth, oldHeight);
 
   return [self drawSelf];
 }
@@ -119,9 +122,9 @@
 
 // draw an arbitrary object: we just call the "drawOn" method in
 // the object we're given.
-- draw: (id <Drawer>)xd X: (int)x Y: (int)y
+- draw: (id <Drawer>)drawer X: (int)x Y: (int)y
 {
-  [xd drawX: x Y: y raster: self];
+  [drawer drawX: x Y: y];
   return self;
 }
 

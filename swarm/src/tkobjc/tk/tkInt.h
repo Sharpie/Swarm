@@ -639,7 +639,7 @@ typedef struct TkStateMap {
 typedef struct TkpClipMask {
     int type;			/* One of TKP_CLIP_PIXMAP or TKP_CLIP_REGION */
     union {
-	Pixmap pixmap;
+        X11Pixmap pixmap;
 	TkRegion region;
     } value;
 } TkpClipMask;
@@ -859,7 +859,7 @@ EXTERN int		TkpCmapStressed _ANSI_ARGS_((Tk_Window tkwin,
 			    X11Colormap colormap));
 #endif
 #ifndef TkpCreateNativeBitmap
-EXTERN Pixmap		TkpCreateNativeBitmap _ANSI_ARGS_((Display *display,
+EXTERN X11Pixmap	TkpCreateNativeBitmap _ANSI_ARGS_((Display *display,
 			    char * source));
 #endif
 #ifndef TkpDefineNativeBitmaps
@@ -871,7 +871,7 @@ EXTERN void		TkpGetAppName _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_DString *name));
 EXTERN unsigned long	TkpGetMS _ANSI_ARGS_((void));
 #ifndef TkpGetNativeAppBitmap
-EXTERN Pixmap		TkpGetNativeAppBitmap _ANSI_ARGS_((Display *display,
+EXTERN X11Pixmap	TkpGetNativeAppBitmap _ANSI_ARGS_((Display *display,
 			    char *name, int *width, int *height));
 #endif
 EXTERN TkWindow *	TkpGetOtherWindow _ANSI_ARGS_((TkWindow *winPtr));
@@ -946,7 +946,7 @@ EXTERN void		TkSelPropProc _ANSI_ARGS_((XEvent *eventPtr));
 EXTERN void		TkSetClassProcs _ANSI_ARGS_((Tk_Window tkwin,
 			    TkClassProcs *procs, ClientData instanceData));
 #ifndef TkSetPixmapColormap
-EXTERN void		TkSetPixmapColormap _ANSI_ARGS_((Pixmap pixmap,
+EXTERN void		TkSetPixmapColormap _ANSI_ARGS_((X11Pixmap pixmap,
 			    Colormap colormap));
 #endif
 #ifndef TkSetRegion
