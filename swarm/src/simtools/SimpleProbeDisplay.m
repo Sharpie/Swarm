@@ -88,15 +88,7 @@
   [globalTkInterp
     eval: "%s configure -anchor w -foreground blue", [myTitle getWidgetName]] ;
 
-  [globalTkInterp 
-        eval: "drag&drop source %s config -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
-        [myTitle getWidgetName],
-        tclObjc_objectToName(self)] ;
-  [globalTkInterp
-        eval: "drag&drop source %s handler id send_id", 
-        [myTitle getWidgetName],
-        tclObjc_objectToName(self)] ;
-
+  dragAndDrop (myTitle, self);
   {
     // have to make a private copy of the return for objectToName.
     char pdmName[512];
@@ -153,7 +145,7 @@
   i = 0 ;
   while( (probe = [index next]) != nil ){
 
-    if([probe isMemberOf: [VarProbe class]]){
+    if([probe isKindOf: [VarProbe class]]){
       widgets[i] =	
         [[VarProbeWidget createBegin: [self getZone]] setParent: topFrame] ;
       [widgets[i]  setProbe: probe] ;
@@ -173,7 +165,7 @@
   //When I figure out how to 'rewind' I'll do just that...
   while( (probe = [index next]) != nil ){
 
-    if([probe isMemberOf: [MessageProbe class]]){
+    if([probe isKindOf: [MessageProbe class]]){
       widgets[i] =	
         [[MessageProbeWidget createBegin: [self getZone]] 
                             setParent: bottomFrame] ;
