@@ -1,3 +1,9 @@
+2000-07-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* defobj.h (Arguments): Fix declaration of
+	setInhibitExecutableSearchFlag:.
+	Move getReclaimPolicy and getStackedSubzones to design document.
+
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* HDF5Archiver.m ([HDFArchiver_c -sync]): Take care not

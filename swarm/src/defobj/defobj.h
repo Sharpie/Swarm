@@ -409,8 +409,6 @@ CREATING
 - (void)setPageSize: (size_t)pageSize;
 
 USING
-- getReclaimPolicy;
-- (BOOL)getStackedSubzones;
 - (size_t)getPageSize;
 
 //M: allocIVars: allocates the instance variable structure for a new
@@ -853,7 +851,7 @@ CREATING
 - (int)parseKey: (int)key arg: (const char *)arg;
 SETTING
 - setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
-- setInhibitExecutableSearch: (BOOL)theInhibitExecutableSearchFlag;
+- setInhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
 //M: Specify a default path to use for configuration files when
