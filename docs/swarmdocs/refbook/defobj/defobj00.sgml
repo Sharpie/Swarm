@@ -9,11 +9,11 @@
       handling, and debugging support.</PARA>
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SRC.DEFOBJ.DEPEND">
+  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
 
     <PARA>The defobj library is defined and documented using the <LINK
-      LINKEND="SWARM.SRC.LIBRARY.APP">library interface conventions</LINK>
+      LINKEND="SWARM.LIBRARY.SGML.APPENDIX">library interface conventions</LINK>
       established by the defobj library. It imports the Object
       superclass and other standard type definitions of the GNU
       Objective C runtime system.</PARA>
@@ -26,7 +26,7 @@
       automatically initializes the defobj library as well.</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.DEFOBJ.COMPAT">
+  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions
@@ -34,7 +34,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.DEFOBJ.USAGE">
+  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <SECT2>
@@ -123,13 +123,16 @@
         parallel GNUStep project, also help assure that Objective C is a
         living language.</PARA>
 
-      <PARA>There are even more powerful aspects of Objective C that Swarm
-        takes advantage of. Some of these are described in the <LINK LINKEND="SWARM.SRC.DEFOBJ.ADVUSAGE">Advanced Usage Guide</LINK> of the defobj
-        library. But many others are at the heart of how Swarm uses Objective
-        C, and so are dealt with in the rest of this Usage Guide. The entire
-        purpose of the defobj library is to define a standard style for the
-        use of Objective C in Swarm. This style is backed up by a library of
-        foundation classes that Swarm provides to support this style.</PARA><PARA></PARA>
+      <PARA>There are even more powerful aspects of Objective C that
+        Swarm takes advantage of. Some of these are described in the
+        <LINK LINKEND="SWARM.DEFOBJ.SGML.SECT1.ADVUSAGE">Advanced Usage
+        Guide</LINK> of the defobj library. But many others are at the
+        heart of how Swarm uses Objective C, and so are dealt with in
+        the rest of this Usage Guide. The entire purpose of the defobj
+        library is to define a standard style for the use of Objective
+        C in Swarm. This style is backed up by a library of foundation
+        classes that Swarm provides to support this
+        style.</PARA><PARA></PARA>
 
       <PARA>Swarm provides its own foundation classes even for such basic
         operations as creating an object, and other support that user classes
@@ -143,10 +146,12 @@
         OpenStep foundation libraries (and the OpenStep language definition)
         come very close to this status.</PARA>
 
-      <PARA>For a variety of reasons explained here and in the <LINK LINKEND="SWARM.SRC.DEFOBJ.ADVUSAGE">Advanced Usage Guide</LINK>, Swarm doesn't
-        use a standard library based on the NextStep foundation interface. You
-        can still learn the Objective C language from other available sources,
-        but you have to be careful to sort out the language level from the
+      <PARA>For a variety of reasons explained here and in the <LINK
+        LINKEND="SWARM.DEFOBJ.SGML.SECT1.ADVUSAGE">Advanced Usage
+        Guide</LINK>, Swarm doesn't use a standard library based on
+        the NextStep foundation interface. You can still learn the
+        Objective C language from other available sources, but you
+        have to be careful to sort out the language level from the
         standard object and library support they also discuss.</PARA>
 
       <PARA>The index page of the Swarm documentation provides a variety of
@@ -184,20 +189,21 @@
         following sections discuss aspects of Swarm Objective C style that
         depend on specific software support.</PARA>
 
-      <PARA>More to come... For now, see <LINK LINKEND="SWARM.SRC.LIBRARY.APP">Library
-          Interface Conventions</LINK> for some of this information, and Swarm
-        tutorials for much of the rest.</PARA>
+      <PARA>More to come... For now, see <LINK
+          LINKEND="SWARM.LIBRARY.SGML.APPENDIX">Library Interface
+          Conventions</LINK> for some of this information, and Swarm
+          tutorials for much of the rest.</PARA>
 
     </SECT2>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.DEFOBJ.ADVUSAGE">
+  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
     <PARA>Empty</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.DEFOBJ.SUBCLASS">
+  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>The defobj library currently includes the CreateDrop and
@@ -221,12 +227,12 @@
       to subclass from, along all the rules that a user subclass must follow
       when implementing new behavior.</PARA></SECT1>
 
-  <SECT1 ID="SWARM.SRC.DEFOBJ.DESIGN">
+  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
     <PARA>Nothing</PARA>
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.DEFOBJ.IMPL">
+  <SECT1 ID="SWARM.DEFOBJ.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
     <PARA>Nothing</PARA>
   </SECT1>
