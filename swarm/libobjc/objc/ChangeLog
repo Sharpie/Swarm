@@ -1,6 +1,6 @@
 2000-09-22  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* hash.h: Include stdlib.h for strcmp.
+	* hash.h: Include string.h for strcmp.
 
 2000-09-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 

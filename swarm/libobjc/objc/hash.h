@@ -31,7 +31,7 @@ Boston, MA 02111-1307, USA.  */
 #include <stddef.h>
 #include <objc/objc.h>
 #include <objc/externvar.h>
-#include <stdlib.h> // strcmp
+#include <string.h> // strcmp
 
 /*
  * This data structure is used to hold items
