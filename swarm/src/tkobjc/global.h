@@ -21,7 +21,9 @@ extern id <Error>
   WindowCreation,		// error while creating a window
   WindowUsage,                  // error while a window was being used
   PaletteError,
-  MissingFiles;
+  MissingFiles,
+  PixmapError,
+  WindowGeometryRecordError;
 
 void initTkObjc (id arguments);
 

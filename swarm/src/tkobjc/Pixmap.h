@@ -7,8 +7,6 @@
 #import <defobj/Create.h>
 #import <gui.h>
 
-extern id <Error> PixmapError;
-
 @interface Pixmap: CreateDrop <_Pixmap, Drawer>
 {
   id <Raster> raster;

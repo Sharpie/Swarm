@@ -19,9 +19,6 @@ id <TkExtra> globalTkInterp;
 #import "tkbusy_tcl.x"
 #endif
 
-#import "Pixmap.h"
-#import "WindowGeometryRecord.h"
-
 id <Error> WindowCreation, WindowUsage, MissingFiles,
   PaletteError, PixmapError,
   WindowGeometryRecordError;
