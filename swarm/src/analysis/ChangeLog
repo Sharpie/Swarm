@@ -1,3 +1,10 @@
+1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Averager.m: Reformatting throughout.
+	([Averager -update]): Don't call updateMethodCache:.
+
+	* Entropy.m: Likewise.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZGraph.m ([EZGraph -createEnd]): Use Graph instead of BLTGraph.

@@ -12,12 +12,14 @@
 // Averager: averages together data, gives the data to whomever asks.
 @implementation Averager
 
--setCollection: (id) l {
+- setCollection: l
+{
   collection = l;
   return self;
 }
 
--createEnd {
+- createEnd
+{
   if (collection == nil)
     [InvalidCombination raiseEvent: "Averager created without a collection\n"];
 
@@ -27,22 +29,23 @@
 // Update: run through the collection calling the selector on each object,
 // average the results. Could easily be extended to collect other
 // statistics: variance, max, min, etc.
--update {
+- update
+{
   id iter, obj;
 
   total = 0.0;
   count = 0;
 
   // special case empty collection.
-  if ([collection getCount] == 0) {
-    min = 0;
-    max = 0;
-    return self;
-  }
+  if ([collection getCount] == 0)
+    {
+      min = 0;
+      max = 0;
+      return self;
+    }
   
   obj = [collection getFirst];
-  [self updateMethodCache: obj];
-
+  
   max = [self doubleDynamicCallOn: obj];
   min = max;
   
@@ -50,42 +53,48 @@
   // note that we don't do lookup for each step: this code only works
   // if the collection is homogeneous.
   iter = [collection begin: [self getZone]];
-  while ((obj = [iter next]) != nil) {
-    double v = [self doubleDynamicCallOn: obj];
-    
-    total += v;
-    if (v > max)
-      max = v;
-    if (v < min)
-      min = v;
-    count++;
-  }
-
-  [iter drop] ;
-
+  while ((obj = [iter next]) != nil)
+    {
+      double v = [self doubleDynamicCallOn: obj];
+      
+      total += v;
+      if (v > max)
+        max = v;
+      if (v < min)
+        min = v;
+      count++;
+    }
+  
+  [iter drop];
+  
   return self;
 }
 
--(double) getAverage {
+- (double)getAverage
+{
   if(count)
     return total/count;
   else 
-    return 0 ;
+    return 0;
 } 
 
--(double) getTotal {
+- (double)getTotal
+{
   return total;
 }
 
--(double) getMax {
+- (double)getMax
+{
   return max;
 }
 
--(double) getMin {
+- (double)getMin
+{
   return min;
 }
 
--(int) getCount {
+- (int)getCount 
+{
   return count;
 }
 

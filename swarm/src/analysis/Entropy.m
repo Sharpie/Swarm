@@ -11,52 +11,58 @@
 
 @implementation Entropy
 
--setCollection: (id) aCollection {
+- setCollection: aCollection
+{
   collection = aCollection;
   return self;
 }
 
--createEnd {
+- createEnd 
+{
   if (collection == nil)
     [InvalidCombination raiseEvent: "Entropy created without a collection\n"];
 
   return [super createEnd];
 }
 
--update {
-  id iter, obj ;
-  double maximum ;
-  int count ;
+- update
+{
+  id iter, obj;
+  double maximum;
+  int count;
 
   entropy = 0.0;
 
-  count = [collection getCount] ;   
+  count = [collection getCount];   
 
   if(!count)
     return self;
   
-  maximum = log( 1.0 / ((double) count)) ;
+  maximum = log( 1.0 / ((double) count));
 
   obj = [collection getFirst];
-  [self updateMethodCache: obj];
+  // [self updateMethodCache: obj];
   
   // Ok, we have cached our function to call on each object - do it.
   // note that we don't do lookup for each step: this code only works
   // if the collection is homogeneous.
   iter = [collection begin: [self getZone]];
-  while ((obj = [iter next]) != nil) {
-    double v = [self doubleDynamicCallOn: obj];
-    if(v > 0.0)
-      entropy += v * log(v) ;
-  }
-  [iter drop] ;
-
-  entropy /= maximum ;
-
+  while ((obj = [iter next]) != nil)
+    {
+      double v = [self doubleDynamicCallOn: obj];
+      
+      if(v > 0.0)
+        entropy += v * log(v);
+    }
+  [iter drop];
+  
+  entropy /= maximum;
+  
   return self;
 }
 
--(double) getEntropy {
+- (double)getEntropy
+{
   return entropy;
 } 
 
