@@ -1,3 +1,7 @@
+1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* NEWS: Note support for private colormaps in display Pixmaps.
+
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Remove tests.

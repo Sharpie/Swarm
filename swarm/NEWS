@@ -70,6 +70,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** gui (tkobjc)
 **** Pixmap
 ***** Support for bitmaps of depth less than 8.
+***** Colormap stays in sync with display raster for when raster uses 
+      private colormap.
 **** ScheduleItem
 ***** Handle self-destruct during an update.
 **** Widget
