@@ -65,6 +65,8 @@ char objc_types[FCALL_TYPE_COUNT] = {
   '\002'
 };
 
+#define ALLOCTYPE(type) [[self getZone] allocBlock: fcall_type_size (type)]
+
 static size_t
 fcall_type_size (fcall_type_t type)
 {
@@ -178,7 +180,7 @@ PHASE(Creating)
 #endif
     size = fcall_type_size (type);
   argTypes[offset] = type;
-  argValues[offset] = [[self getZone] allocBlock: size];
+  argValues[offset] = ALLOCTYPE (type);
   memcpy (argValues[offset], value, size);
   javaSignatureLength += strlen (java_type_signature[type]);
   assignedArgumentCount++;
@@ -204,7 +206,7 @@ get_fcall_type_for_objc_type (char objcType)
                ofType: get_fcall_type_for_objc_type (objcType)];
 }
 
-#define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_type_signature[fcall_type]); argValues[MAX_HIDDEN + assignedArgumentCount] = [[self getZone] allocBlock: fcall_type_size (fcall_type)]; argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount++] = value; }
+#define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_type_signature[fcall_type]); argValues[MAX_HIDDEN + assignedArgumentCount] = ALLOCTYPE (fcall_type); argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount] = value; assignedArgumentCount++; }
 
 - addChar: (char)value
 {
@@ -328,11 +330,11 @@ get_fcall_type_for_objc_type (char objcType)
     case fcall_type_slong:
       result = &resultVal.slong;
       break;
-    case fcall_type_slonglong:
-      result = &resultVal.slonglong;
-      break;
     case fcall_type_ulonglong:
       result = &resultVal.ulonglong;
+      break;
+    case fcall_type_slonglong:
+      result = &resultVal.slonglong;
       break;
     case fcall_type_float:
       result = &resultVal._float;

@@ -1,3 +1,8 @@
+1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FArguments.m (ALLOCTYPE): New macro.
+	([FArguments_c -_addArgument_:ofType:], ADD_PRIMITIVE): Use it.
+
 1999-06-29  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* directory.m (java_ensure_class): If corresponding objc class
