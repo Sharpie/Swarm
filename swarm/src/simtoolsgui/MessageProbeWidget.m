@@ -127,6 +127,7 @@ PHASE(Creating)
 - createEnd
 {
   int i, which_arg;
+  id aZone = [self getZone];
 
 #ifndef USE_FRAME
   widgetName = [parent makeWidgetNameFor: self];
@@ -136,7 +137,7 @@ PHASE(Creating)
 
   if (![myProbe getHideResult])
     {
-      resultMessageProbeEntry = [MessageProbeEntry createBegin: [self getZone]];
+      resultMessageProbeEntry = [MessageProbeEntry createBegin: aZone];
       [resultMessageProbeEntry setParent: self];
       [resultMessageProbeEntry setIdFlag: [myProbe isResultId]];
       resultMessageProbeEntry = [resultMessageProbeEntry createEnd];
@@ -149,12 +150,13 @@ PHASE(Creating)
   
   if (argCount)
     {
-      objWindows = (BOOL *)xmalloc (sizeof (BOOL) * argCount);
+      objWindows = (BOOL *) [aZone alloc: sizeof (BOOL) * argCount];
       argCount *= 2; 
-      myWidgets = (id <Widget> *)xmalloc (sizeof (id <Widget>) * argCount);
+      myWidgets = 
+        (id <Widget> *) [aZone alloc: sizeof (id <Widget>) * argCount];
     }
   else
-    myWidgets = (id <Widget> *)xmalloc (sizeof (id <Widget>));
+    myWidgets = (id <Widget> *) [aZone alloc: sizeof (id <Widget>)];
   
   myWidgets[0] = [Button createParent: self];
   [(id <Button>)myWidgets[0] setButtonTarget: self
@@ -169,7 +171,7 @@ PHASE(Creating)
       if (i % 2)
         {
           objWindows[which_arg] = [myProbe isArgumentId: which_arg];
-          myWidgets[i] = [MessageProbeEntry createBegin: [self getZone]];
+          myWidgets[i] = [MessageProbeEntry createBegin: aZone];
           [myWidgets[i] setParent: self];
           [myWidgets[i] setIdFlag: [myProbe isArgumentId: which_arg]];
           [myWidgets[i] setArg: which_arg];
@@ -303,7 +305,7 @@ PHASE(Using)
   which += 1;
 
   [myWidgets[which] setActiveFlag: YES];
-  [((id <Entry>)myWidgets[which]) setValue: [resObj getDisplayName]];
+  [((id <Entry>) myWidgets[which]) setValue: [resObj getDisplayName]];
   [myWidgets[which] setActiveFlag: NO];
 
   GUI_UPDATE ();

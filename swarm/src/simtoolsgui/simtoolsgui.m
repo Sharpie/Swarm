@@ -7,7 +7,7 @@
 #import <gui.h>
 
 #import <defobj.h> // arguments
-#include <misc.h> // xmalloc, stpcpy
+#include <misc.h> // stpcpy
 
 externvardef id <ProbeDisplayManager> probeDisplayManager;
 
@@ -31,8 +31,9 @@ buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
 {
   if (baseWindowGeometryRecordName)
     {
-      char *buf = xmalloc (strlen (baseWindowGeometryRecordName)
-                           + 1 + strlen (componentName) + 1);
+      char *buf = [scratchZone alloc:
+                                 (strlen (baseWindowGeometryRecordName)
+                                  + 1 + strlen (componentName) + 1)];
       
       stpcpy (stpcpy (stpcpy (buf, baseWindowGeometryRecordName), "-"), 
               componentName);

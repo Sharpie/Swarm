@@ -1,3 +1,11 @@
+1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* simtoolsgui.m (buildWindowGeometryRecordName): Do alloc:
+	in scratchZone instead of xmalloc.
+
+	* MessageProbeWidget.m ([MessageProbeWidget -createEnd]): Use alloc:
+	instead of xmalloc.
+
 1999-09-07  Alex Lancaster  <alex@santafe.edu>
 
 	* MultiVarProbeWidget.m ([MultiVarProbeWidget -createEnd]): Call
