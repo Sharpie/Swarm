@@ -31,7 +31,7 @@ void updateTarget (id self, id target);
 void updateJavaTarget (id self, JOBJECT target);
 #endif
 
-@interface FCall_c: CreateDrop_s
+@interface FCall_c: CreateDrop_s <FCall>
 {
 @public
    call_t callType;

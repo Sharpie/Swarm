@@ -1,3 +1,8 @@
+2001-08-01  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* FCall.h, FArguments.h (FArguments, FCall): Implement respective
+	protocol.
+
 2001-07-29  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
 	* java.h, internal.h (_obj_GCFixedRootZone): Moved to internal.h.

@@ -23,7 +23,7 @@ Library:      defobj
 #define MAX_HIDDEN 3
 #define MAX_TOTAL (MAX_HIDDEN + MAX_ARGS)
 
-@interface FArguments_c: CreateDrop_s
+@interface FArguments_c: CreateDrop_s <FArguments>
 {
 @public
    unsigned assignedArgumentCount;
