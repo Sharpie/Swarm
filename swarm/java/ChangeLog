@@ -13,6 +13,9 @@
 	(java-print-native-method): Handle static method arguments
 	and +create* methods in particular.
 	(java-print-native-class): Don't check methods with included-method-p.
+	(java-argument-print-conversion, java-print-method-invocation): 
+	Pass JNIEnv to JFINDOBJC.
+	(java-print-native-method): Pass JNIEnv to JUPDATE and JSWITCHUPDATE.
 
 1999-03-19  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
 
