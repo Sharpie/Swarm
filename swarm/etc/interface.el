@@ -10,6 +10,8 @@
 
 (defvar *extra-unwanted-create-method-signatures* nil)
 
+(defvar *java-flag* nil)
+
 (defconst *removed-protocols* 
     '(
       "CREATABLE"
@@ -425,7 +427,11 @@
 (defun unwanted-create-method-p (protocol method)
   (let ((signature (get-method-signature method)))
     (or
-     (and (string= signature "+create:")
+     (and (and *java-flag*
+               ;; results in constructor conflict for Java because create
+               ;; name is dropped, however COM needs to implement
+               ;; all the claimed interfaces
+               (string= signature "+create:"))
           (find (protocol-name protocol)
                 '("UniformUnsignedDist"
                   "PMMLCG1gen"
@@ -463,11 +469,18 @@
   (or (match-signature signature "+createParent:") ; gui
       (match-signature signature "+createWithDefaults:"); random
       (match-signature signature "+create:")
-      (match-signature signature "+initSwarm:version:bugAddress:args:")))
+      (match-signature signature "+initSwarm:version:bugAddress:argCount:args:")))
 
 (defun convenience-create-method-p (protocol method)
   (unless (unwanted-create-method-p protocol method)
     (create-signature-p (get-method-signature method))))
+
+(defun creating-phase-method-p (method)
+  "for use when moving convenience create methods entirely into using phase"
+  (let ((sig (get-method-signature method)))
+    (or (string= sig "+createBegin:")
+        (string= sig "+customizeBegin:")
+        (not (method-factory-flag method)))))
   
 (defun collect-convenience-create-methods (protocol)
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
@@ -531,18 +544,6 @@
           (augment-type-hash-table ht method))
     ht))
     
-(defun create-hash-table-for-initialization-parameters (protocol)
-  (let ((ht (make-hash-table :test #'equal)))
-    (loop for method in (collect-convenience-create-methods protocol)
-          do
-          (when (has-arguments-p method)
-            (loop for argument in (method-arguments method)
-                  for pos from 0
-                  do
-                  (setf (gethash (argument-name argument) ht)
-                        (cons pos (argument-type argument))))))
-    ht))
-
 (defun print-argument (argument
                        convert-type-func
                        convert-name-func)
