@@ -1,5 +1,12 @@
 1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -drop]): Don't
+	call disableDestroyNotification for topLevel.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -drop]): Likewise.
+
+	* CommonProbeDisplay.m ([CommonProbeDisplay -markForDrop]): Likewise.
+
 	* Makefile:  New file.
 
 	* ActionCache.[hm], ActionHolder.[hm], ActiveGraph.[hm],
