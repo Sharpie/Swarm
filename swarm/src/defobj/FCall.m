@@ -83,7 +83,9 @@ defobj_init_java_call_tables (void *jEnv)
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticFloatMethod);
   java_static_call_functions[fcall_type_double] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticDoubleMethod);
+  java_static_call_functions[fcall_type_long_double] = NULL;
   java_static_call_functions[fcall_type_object] = NULL;
+  java_static_call_functions[fcall_type_class] = NULL;
   java_static_call_functions[fcall_type_string] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_selector] = 
@@ -115,7 +117,9 @@ defobj_init_java_call_tables (void *jEnv)
       FUNCPTR ((*(JNIEnv *) jEnv)->CallFloatMethod);
   java_call_functions[fcall_type_double] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallDoubleMethod);
+  java_call_functions[fcall_type_long_double] = NULL;
   java_call_functions[fcall_type_object] = NULL;
+  java_call_functions[fcall_type_class] = NULL;
   java_call_functions[fcall_type_string] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_selector] = 
@@ -417,8 +421,14 @@ PHASE(Using)
       case fcall_type_double:
         fargs->resultVal._double = ret._double;
         break;
+      case fcall_type_long_double:
+        fargs->resultVal._long_double = ret._long_double;
+        break;
       case fcall_type_object:
         fargs->resultVal.object = VAL(id, ret);
+        break;
+      case fcall_type_class:
+        fargs->resultVal.class = VAL(Class, ret);
         break;
       case fcall_type_selector:
         fargs->resultVal.selector = VAL(SEL, ret);
@@ -488,7 +498,9 @@ PHASE(Using)
     const char *return_string (void) { return buf->string; }
     float return_float (void) { return buf->_float; }
     double return_double (void) { return buf->_double; }
+    long double return_long_double (void) { return buf->_long_double; }
     id return_object (void) { return buf->object; }
+    Class return_class (void) { return buf->class; }
     void return_void (void) { return; }
     void apply (apply_t func)
       {
@@ -539,11 +551,17 @@ PHASE(Using)
       case fcall_type_double:
         APPLY (return_double);
         break;
+      case fcall_type_long_double:
+        APPLY (return_long_double);
+        break;
       case fcall_type_string:
         APPLY (return_string);
         break;
       case fcall_type_object:
         APPLY (return_object);
+        break;
+      case fcall_type_class:
+        APPLY (return_class);
         break;
 #ifdef HAVE_JDK
       case fcall_type_jobject:
@@ -629,8 +647,17 @@ PHASE(Using)
         ptr -= 8;
 #endif
         break;
+      case fcall_type_double:
+        ptr = &buf->_long_double;
+#ifdef __sparc__
+        ptr -= 8;
+#endif
+        break;
       case fcall_type_object:
         ptr = &buf->object;
+        break;
+      case fcall_type_class:
+        ptr = &buf->class;
         break;
       case fcall_type_string:
         ptr = &buf->string;

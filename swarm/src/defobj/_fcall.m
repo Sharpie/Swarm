@@ -47,11 +47,20 @@ ADD_PRIMITIVE (FArguments_c *fa, fcall_type_t type, void *val)
     case fcall_type_ulong:
       av_ulong (AVALIST (fa), *(unsigned long *) val);
       break;
+    case fcall_type_slonglong:
+      av_longlong (AVALIST (fa), *(long long *) val);
+      break;
+    case fcall_type_ulonglong:
+      av_ulonglong (AVALIST (fa), *(unsigned long long *) val);
+      break;
     case fcall_type_float:
       av_float (AVALIST (fa), *(float *) val);
       break;
     case fcall_type_double:
       av_double (AVALIST (fa), *(double *) val);
+      break;
+    case fcall_type_long_double:
+      abort ();
       break;
     case fcall_type_string:
       av_ptr (AVALIST (fa), const char *, *(const char **) val);
@@ -120,6 +129,9 @@ SET_RETURN_TYPE (FCall_c *fc, FArguments_c *fa)
       break;
     case fcall_type_double:
       av_start_double (AVALIST (fa), func, &fa->resultVal._double);
+      break;
+    case fcall_type_long_double:
+      abort ();
       break;
     case fcall_type_object:
       av_start_ptr (AVALIST (fa), func, id, &fa->resultVal.object);

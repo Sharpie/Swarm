@@ -1,6 +1,10 @@
 1999-08-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m (ffi_types): Add entries for long double and Class.
+	([FCall_c -performCall], [FCall_c -getRetVal:buf:]): Add
+	support for long double.
+	(defobj_init_java_call_tables): Set fcall_type_{class,long_double}
+	cases to NULL.
 
 1999-08-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
