@@ -1,5 +1,8 @@
 2000-02-15  Alex Lancaster  <alex@santafe.edu>
 
+	* ref00.sgml: Update Acknowledgment section and remove
+	swarm@santafe.edu mailto link.
+
 	* refcont.sgml: Comment-out random-app.sgml, probes-app.sgml,
 	techcont.sgml APPENDIXes.  All material either outdated or
 	relocated to the Swarm User Guide.
