@@ -94,6 +94,16 @@ PHASE(Creating)
   
   if (swarmGUIMode)
     initSimtoolsGUI ();
+
+#ifdef HAVE_JDK
+  {
+    jobject nextPhase = SD_JAVA_NEXTPHASE (SD_JAVA_FIND_OBJECT_JAVA (self));
+    
+    swarm_directory_java_associate_objects (nextPhase);
+    (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);
+  }
+#endif
+
   return self;
 }
 
@@ -134,8 +144,8 @@ PHASE(Setting)
   [self createEnd];
 }
 
-PHASE(Using)
-
+// It is declare in Using phase (so that it shows up in Globals.env),
+// but technically will run from the Java stub in Create phase.
 - (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
 {
   unsigned argc = 0;
@@ -144,6 +154,8 @@ PHASE(Using)
 
   [self _init_: appName version: version bugAddress: bugAddress argCount: argc args: args];
 }
+
+PHASE(Using)
 
 - (timeval_t)getCurrentTime
 {
