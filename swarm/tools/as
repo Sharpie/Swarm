@@ -1,0 +1,10 @@
+#!/bin/sh
+args=''
+for i in $*; do
+  if expr $i : '.*\.s$' >/dev/null; then
+    infile=$i
+  else
+    args="$args $i"
+  fi
+done
+sed -e 's/\.section __OBJC, __cstring_object/.section __GNUOBJC, __cstring_object/' -e 's/\.section __OBJC, __sel_fixup/.section __GNUOBJC, __sel_fixup/'  -e 's/^\.objc_/.section __GNUOBJC, __/' $infile | /usr/bin/as $args --
