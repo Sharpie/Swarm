@@ -1,5 +1,7 @@
 SUBDIRS = src installing overview set
 
+all-recursive-am: versions.ent
+
 noinst_DATA = versions.ent
 
 versions.ent:

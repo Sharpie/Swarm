@@ -1,5 +1,7 @@
 1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.am (all-recursive-am): Depend on versions.ent.
+
 	* global.ent: Remove swarm-release-number,
 	swarm-doc-release-number, and pubdate.
 
