@@ -1,3 +1,7 @@
+1999-04-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m (jniEnv): Make extern.
+
 1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.h (types_t): New typedef.
