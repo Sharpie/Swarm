@@ -190,6 +190,23 @@ withdrawWindow (id topLevel)
   [globalTkInterp eval: "wm withdraw %s", [topLevel getWidgetName]];
 }
 
+void
+releaseAndUpdate (void)
+{
+  [globalTkInterp
+    eval: 
+      "foreach w [busy isbusy] {busy release $w} ; update"];
+}
+
+void
+updateIdleTasksAndHold (void)
+{
+  [globalTkInterp
+    eval: 
+      "update idletasks ; foreach w [winfo children .] {busy hold $w} ; update"] ;
+}
+
+
 const char *
 packageName (id probedObject)
 {
