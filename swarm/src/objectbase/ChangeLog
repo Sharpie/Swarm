@@ -1,3 +1,12 @@
+1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* objectbase.h (Arguments): Remove (moved to defobj.h).
+
+	* Makefile.am (SRC, objectbase_HEADERS): Remove Arguments.[mh] (moved
+	to defobj).
+	(version.h): Remove (now in defobj).
+	(install-data-local): Remove.
+
 1998-10-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Arguments.m (VARCHAR): Cast argument to int before passing
