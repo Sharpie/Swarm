@@ -1,3 +1,7 @@
+1998-12-31  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* NEWS: Note added drop support in ActionCache, GUISwarm, and Widget.
+
 1998-12-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* NEWS: Note addition of randomized indicies and randomized

@@ -45,6 +45,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** New function initSwarmAppOptions, for adding options without subclassing
      from Arguments.
 
+*** simtoolsgui
+**** ActionCache and GUISwarm now have drop methods.
+
 ** Autoconfiguration
 *** Support for Cygwin B20.
 *** Build with -Wall -Werror.
@@ -65,6 +68,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** Support for bitmaps of depth less than 8.
 **** ScheduleItem
 ***** Handle self-destruct during an update.
+**** Widget
+***** Toplevel self-wrapping widgets now drop their wrapper Frame.
 
 ** Other changes
 *** defobj, objectbase, simtools
