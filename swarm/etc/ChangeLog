@@ -1,3 +1,9 @@
+1999-06-28  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.appl.in (CPPFLAGS): Specify `override' append in macro
+	to ensure that command-line macro arguments are included as well
+	as internal Swarm macros.
+
 1999-06-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* protocol.el (methodinfo): New structure.
