@@ -4,7 +4,9 @@
 	"refbook", "overbook", "installbook".
 
 	* global.ent: Bump GFDL version to 1.2.  Don't exercise options,
-	i.e. "no Invariant Sections, Back or Front Cover Texts".
+	i.e. "no Invariant Sections, Back or Front Cover Texts".  Updates
+	for new SDG addreses, copyright dates and other boilerplate, make
+	e-mail addresses more spam-resistant.
 
 	* configure.in: Bump version date to 2003-09-08.
 
