@@ -74,6 +74,8 @@ all: $(PRECLASSESFILES) modules $(POSTCLASSESFILES)
 
 Selector.class: NonUniqueMethodSignatureException.class SignatureNotFoundException.class
 
+Globals.class: SwarmEnvironment.class
+
 
 $(POSTCLASSESFILES): $(PRECLASSESFILES) modules
 

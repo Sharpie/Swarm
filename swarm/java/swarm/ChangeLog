@@ -1,3 +1,7 @@
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (Globals.class): Depend on SwarmEnvironment.class.
+
 1999-08-05  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.in (POSTCLASSES): Add Globals.
