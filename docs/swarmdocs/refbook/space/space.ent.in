@@ -1,4 +1,5 @@
 <!entity spacecont.sgml system "@srcdir@/spacecont.sgml">
+<!entity spacerevhistory.sgml system "@srcdir@/spacerevhistory.sgml">
 <!entity spacemeta.sgml system "@srcdir@/spacemeta.sgml">
 <!entity space00.sgml system "@srcdir@/space00.sgml">
 <!entity spacepages.sgml system "spacepages.sgml">

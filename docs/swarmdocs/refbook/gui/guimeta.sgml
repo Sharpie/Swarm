@@ -10,20 +10,8 @@
       DOCINFO section.</PARA>
     
   </ABSTRACT>
-  
-  <REVHISTORY>
 
-    <REVISION>
-      <REVNUMBER>1.1</REVNUMBER>
-      <DATE>1998-05-05</DATE>
-      <AUTHORINITIALS>AKL</AUTHORINITIALS>
-
-      <REVREMARK>First creation of documentation version of the Swarm
-       library "Gui".  Replaces the old "tkobjc" Library</REVREMARK>
-
-    </REVISION>
-
-  </REVHISTORY>
+&guirevhistory.sgml;  
   
 </DOCINFO>
 

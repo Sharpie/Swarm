@@ -50,20 +50,8 @@
     </PARA>
 
   </ABSTRACT>
-  
-  <REVHISTORY>
 
-    <REVISION>
-      <REVNUMBER>1.1</REVNUMBER>
-      <DATE>1998-05-05</DATE>
-      <AUTHORINITIALS>AKL</AUTHORINITIALS>
-
-      <REVREMARK>Created the updated SGML documentation version of the
-        Swarm library Activity.</REVREMARK>
-
-    </REVISION>
-
-  </REVHISTORY>
+  &activityrevhistory.sgml;
   
 </DOCINFO>
 

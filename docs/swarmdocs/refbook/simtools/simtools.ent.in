@@ -1,4 +1,5 @@
 <!entity simtoolscont.sgml system "@srcdir@/simtoolscont.sgml">
+<!entity simtoolsrevhistory.sgml system "@srcdir@/simtoolsrevhistory.sgml">
 <!entity simtoolsmeta.sgml system "@srcdir@/simtoolsmeta.sgml">
 <!entity simtools00.sgml system "@srcdir@/simtools00.sgml">
 <!entity simtoolspages.sgml system "simtoolspages.sgml">

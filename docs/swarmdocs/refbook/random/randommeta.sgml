@@ -121,19 +121,7 @@ is, of course, living in a state of sin. - </I>Jon von Neuman
 
 -->
 
-  <REVHISTORY>
-
-    <REVISION>
-      <REVNUMBER>0.7</REVNUMBER>
-      <DATE>1998-05-20</DATE>
-      <AUTHORINITIALS>sthomme, alex, lee</AUTHORINITIALS>
-
-      <REVREMARK>Created the updated SGML documentation version of the 
-       Swarm library "Random" from Sven T.'s original.</REVREMARK>
-
-    </REVISION>
-
-  </REVHISTORY>
+&randomrevhistory.sgml;
   
 </DOCINFO>
 

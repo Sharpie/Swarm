@@ -82,21 +82,7 @@
 
   </ABSTRACT>
 
-
-  <REVHISTORY>
-    
-    <REVISION>
-      <REVNUMBER>1.1</REVNUMBER>
-      <DATE>1998-05-05</DATE>
-      <AUTHORINITIALS>AKL</AUTHORINITIALS>
-
-      <REVREMARK>Created the the updated SGML version of the collections
-        library.
-      </REVREMARK>
-
-    </REVISION>
-
-  </REVHISTORY>
+  &collectionsrevhistory.sgml;
 
 </DOCINFO>
 

@@ -14,19 +14,7 @@
  
   </ABSTRACT>
   
-  <REVHISTORY>
-
-    <REVISION>
-      <REVNUMBER>1.1</REVNUMBER>
-      <DATE>1998-05-06</DATE>
-      <AUTHORINITIALS>AKL</AUTHORINITIALS>
-
-      <REVREMARK>Created the updated SGML documentation version of the 
-       Swarm library "Simtools".</REVREMARK>
-
-    </REVISION>
-
-  </REVHISTORY>
+&simtoolsrevhistory.sgml;
   
 </DOCINFO>
 
