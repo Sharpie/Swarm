@@ -1039,6 +1039,10 @@ extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 //F: (Up to 78 characters of the supplied buffer argument could be filled.)
 extern void _obj_formatIDString (char *buffer, id anObject);
 
+//F: Declaration to enable use of @class declaration for message
+//F: receiver without compile error.
+extern Class objc_get_class (const char *name);  // for class id lookup 
+
 //F: Lookup a defobj type object by name.
 extern id defobj_lookup_type (const char *name);
 
