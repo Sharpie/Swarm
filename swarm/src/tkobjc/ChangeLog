@@ -1,5 +1,8 @@
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Makefile.am: Use OBJCFLAGS instead of CFLAGS, and add
+	-Wno-implicit-int to OBJCFLAGS instead of CPPFLAGS.
+
 	* Colormap.m ([Colormap -setColor:ToName:]): Switch to virtual
 	colormap and retry if XAllocColor fails -- don't revert to white.
 
