@@ -64,6 +64,8 @@
         a_probe = [VarProbe createBegin: [self getZone]];
         [a_probe setProbedClass: a_class];
         [a_probe setProbedVariable: name];
+	if (objectToNotify != nil) 
+	  [a_probe setObjectToNotify: objectToNotify];
         a_probe = [a_probe createEnd];
 
         [probes at: [String create: [self getZone] setC: name]
@@ -78,6 +80,8 @@
         a_probe = [MessageProbe createBegin: [self getZone]];
         [a_probe setProbedClass: probedClass];
         [a_probe setProbedSelector: methodList->method_list[i].method_name];
+	if (objectToNotify != nil) 
+	  [a_probe setObjectToNotify: objectToNotify];
         a_probe = [a_probe createEnd];
 
         if(a_probe)

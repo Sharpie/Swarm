@@ -46,6 +46,8 @@
       a_probe = [VarProbe createBegin: [self getZone]];
       [a_probe setProbedClass: probedClass];
       [a_probe setProbedVariable: name];
+      if (objectToNotify != nil) 
+	[a_probe setObjectToNotify: objectToNotify];
       a_probe = [a_probe createEnd];
 
       [probes at: [String create: [self getZone] setC: name] insert: a_probe] ;

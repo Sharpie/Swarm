@@ -103,6 +103,8 @@
   new_probe = [VarProbe createBegin: aZone] ;
   [new_probe setProbedClass: probedClass] ;
   [new_probe setProbedVariable: probedVariable] ;
+  if (objectToNotify != nil) 
+    [new_probe setObjectToNotify: objectToNotify];
   new_probe = [new_probe createEnd] ;
 
   [new_probe setStringReturnType: stringReturnType] ;
@@ -323,6 +325,30 @@
 	fprintf(stderr, "Invalid type %s to set\n", probedType);
       break;
   }
+
+  if (objectToNotify != nil) {
+    if ([objectToNotify respondsTo: M(forEach:)]) {
+      id index, tempObj;
+      index = [objectToNotify begin: scratchZone];
+      while ( (tempObj = [index next]) != nil) {
+	[tempObj eventOccurredOn: anObject
+		 via: self
+		 withProbeType: "VarProbe"
+		 on: probedVariable
+		 ofType: probedType[0]
+		 withData: newValue];
+      }
+      [index drop];
+    }
+    else 
+      [objectToNotify eventOccurredOn: anObject
+		      via: self
+		      withProbeType: "VarProbe"
+		      on: probedVariable
+		      ofType: probedType[0]
+		      withData: newValue];
+  }
+
   return self;
 }
 
@@ -406,6 +432,28 @@
     return 0 ;
   }
 
+  if (objectToNotify != nil) {
+    if ([objectToNotify respondsTo: M(forEach:)]) {
+      id index, tempObj;
+      index = [objectToNotify begin: scratchZone];
+      while ( (tempObj = [index next]) != nil) {
+	[tempObj eventOccurredOn: anObject
+		 via: self
+		 withProbeType: "VarProbe"
+		 on: probedVariable
+		 ofType: probedType[0]
+		 withData: s];
+      }
+      [index drop];
+    }
+    else 
+      [objectToNotify eventOccurredOn: anObject
+		      via: self
+		      withProbeType: "VarProbe"
+		      on: probedVariable
+		      ofType: probedType[0]
+		      withData: s];
+  }
   return 1 ;
 }
 

@@ -12,9 +12,34 @@
 
 @implementation ProbeLibrary
 
++createBegin: (id) aZone {
+  ProbeLibrary * tempObj;
+  tempObj = [super createBegin: aZone];
+  tempObj->objectToNotify = nil;  // paranoia
+  return tempObj;
+}
+
 -createEnd {
 	classMap = [[Map createBegin: [self getZone]] createEnd] ;
 	return self ;
+}
+
+-setObjectToNotify: (id) anObject {
+
+  if ((anObject != nil) &&
+      ([anObject respondsTo: 
+		   M(eventOccurredOn:via:withProbeType:on:ofType:withData:)]) 
+      == NO)
+    raiseEvent(NotImplemented,
+	       "Object %0#p of class %s does not implement "
+	       "standard probe hook message.\n", 
+	       anObject, [[anObject class] name]);
+  
+  objectToNotify = anObject;
+  return self;
+}
+-getObjectToNotify {
+  return objectToNotify;
 }
 
 -(BOOL) isProbeMapDefinedFor: (Class) aClass {
@@ -26,8 +51,15 @@
   id ret_val ;
 
   if( (ret_val = [classMap at: aClass]) == nil){
-    [ classMap at: aClass insert: [[[ProbeMap createBegin: [self getZone]]
-				     setProbedClass: aClass] createEnd] ] ;
+    id <ProbeMap> temp;
+    temp = [ProbeMap createBegin: [self getZone]];
+    [temp setProbedClass: aClass];
+    if (objectToNotify != nil) {
+      [temp setObjectToNotify: objectToNotify];
+    }
+    temp = [temp createEnd];
+    [ classMap at: aClass insert: temp];
+
   } else {
     return ret_val ;
   }
@@ -38,19 +70,23 @@
 //making complete probemaps as well, even though they are not cached...
 
 -getCompleteProbeMapFor: (Class) aClass {
+  id <ProbeMap> temp;
 
-  return
-		[[[CompleteProbeMap createBegin: [self getZone]]
-			 setProbedClass: aClass]
-			 createEnd] ;
+  temp = [CompleteProbeMap createBegin: [self getZone]];
+  [temp setProbedClass: aClass];
+  if (objectToNotify != nil) [temp setObjectToNotify: objectToNotify];
+  return [temp createEnd];
+
 }
 
 -getCompleteVarMapFor: (Class) aClass {
+  id <ProbeMap> temp;
 
-  return
-		[[[CompleteVarMap createBegin: [self getZone]]
-			 setProbedClass: aClass]
-			 createEnd] ;
+  temp = [CompleteVarMap createBegin: [self getZone]];
+  [temp setProbedClass: aClass];
+  if (objectToNotify != nil) [temp setObjectToNotify: objectToNotify];
+  return [temp createEnd];
+
 }
 
 -getProbeForVariable: (char *) aVariable inClass: (Class) aClass {
@@ -63,6 +99,8 @@
 }
 
 -setProbeMap: aMap For: (Class) aClass {
+
+  if (objectToNotify != nil) [aMap setObjectToNotify: objectToNotify];
 
   if([classMap at: aClass])
     [classMap at: aClass replace: aMap] ;

@@ -31,8 +31,8 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 - getPanel
 {
-  [APIChange raiseEvent: "getPanel moved to ActionCache.\n"];
-  return nil;
+  [ObsoleteMessage raiseEvent: "getPanel moved to ActionCache.\n"];
+  return self;
 }
 
 - getState
@@ -72,8 +72,8 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 - doTkEvents
 {
-  [APIChange raiseEvent: "doTkEvents moved to ActionCache.\n"];
-  return nil;
+  [ObsoleteMessage raiseEvent: "doTkEvents moved to ActionCache.\n"];
+  return self;
 }
 
 // Run: just set our own state to running, let whatever object who

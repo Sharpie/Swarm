@@ -13,6 +13,105 @@
 
 @implementation ProbeMap
 
++createBegin: (id) aZone {
+  ProbeMap * tempObj;
+  tempObj = [super createBegin: aZone];
+  tempObj->objectToNotify = nil;
+  return tempObj;
+}
+
+-setObjectToNotify: (id) anObject {
+  id temp_otn;
+
+  if ((anObject != nil) &&
+      (([anObject 
+	  respondsTo:
+	    M(eventOccurredOn:via:withProbeType:on:ofType:withData:)]) == NO) &&
+      (![anObject respondsTo: M(forEach:)]))
+    raiseEvent(NotImplemented, "Object %0#p of class %s does not implement "
+	       "standard probe hook message.\n", 
+	       anObject, [[anObject class] name]);
+
+
+  // this is pretty ugly, if you set more than one thing to 
+  // notify, you'll be invoking this code more than once with
+  // possibly no effect.
+
+  // inherit the probeLibrary's otn, which should NOT be a list
+  if (objectToNotify != nil) {
+    if ((temp_otn = [probeLibrary getObjectToNotify]) != nil) {
+      if ([objectToNotify respondsTo: M(forEach:)]) {
+	if ([temp_otn respondsTo: M(forEach:)]) {
+	  // both exist and both are lists
+	  // add contents of temp_otn to otn
+	  id index, tempObj;
+	  index = [temp_otn begin: scratchZone];
+	  while ( (tempObj = [index next]) != nil) {
+	    if (([objectToNotify contains: tempObj]) == NO)
+	      [objectToNotify addLast: tempObj];
+	  }
+	  [index drop];
+	}
+	else {
+	  // both exist, otn is list temp_otn not list
+	  // add temp_otn to otn
+	  if (([objectToNotify contains: temp_otn]) == NO)
+	    [objectToNotify addLast: temp_otn];
+	}
+      }
+      else if ([temp_otn respondsTo: M(forEach:)]) {
+	// both exist, otn is not list temp_otn is list
+	// add otn to front of temp_otn and swap
+	id tempObj;
+	tempObj = objectToNotify;
+	objectToNotify = temp_otn;
+	if ([objectToNotify contains: tempObj] == NO)
+	  [objectToNotify addFirst: tempObj];
+      }
+    }
+    //else clause => otn exists, temp_otn does not, so do nothing
+  }
+  else if ((temp_otn = [probeLibrary getObjectToNotify]) != nil) {
+    objectToNotify = temp_otn;
+  }
+  //else clause => neither exist, so do nothing
+
+
+  if (objectToNotify != nil) {
+    if ([objectToNotify respondsTo: M(forEach:)]) {
+      if ([anObject respondsTo: M(forEach:)]) {
+	// put all the objects on the ProbeMap's list 
+	// at the time when we're created onto our list
+	id index, tempObj;
+	index = [anObject begin: scratchZone];
+	while ( (tempObj = [index next]) != nil ) {
+	  if (([objectToNotify contains: tempObj]) == NO)
+	    [objectToNotify addLast: tempObj];
+	}
+	[index drop];
+      }
+      else
+	if (([objectToNotify contains: anObject]) == NO)
+	  [objectToNotify addLast: anObject];
+    }
+    else {  // objectToNotify is not a list
+      id temp;
+      temp = objectToNotify;
+      objectToNotify = [List create: [self getZone]];
+      [objectToNotify addLast: temp];
+      if (([objectToNotify contains: anObject]) == NO) 
+	[objectToNotify addLast: anObject];
+    }
+  }
+  else
+    objectToNotify = anObject;
+
+  return self;
+}
+-getObjectToNotify {
+  return objectToNotify;
+}
+
 -setProbedClass: (Class) aClass {
   if (SAFEPROBES) {
     if (probedClass != 0) {
@@ -60,13 +159,15 @@
   int i;
   id a_probe ;
 
-
   if (SAFEPROBES) {
     if (probedClass == 0) {
       fprintf(stderr, "ProbeMap object was not properly initialized\n");
       return nil;
     }
   }
+
+  if (objectToNotify == nil) [self setObjectToNotify: 
+				     [probeLibrary getObjectToNotify]];
 
   probes = [Map createBegin: [self getZone]] ;
   [probes setCompareFunction: &p_compare] ;
@@ -88,6 +189,8 @@
       a_probe = [VarProbe createBegin: [self getZone]];
       [a_probe setProbedClass: probedClass];
       [a_probe setProbedVariable: name];
+      if (objectToNotify != nil) 
+	[a_probe setObjectToNotify: objectToNotify];
       a_probe = [a_probe createEnd];
 
       [probes at: [String create: [self getZone] setC: name] insert: a_probe] ;
@@ -103,6 +206,8 @@
       a_probe = [MessageProbe createBegin: [self getZone]];
       [a_probe setProbedClass: probedClass];
       [a_probe setProbedSelector: methodList->method_list[i].method_name];
+      if (objectToNotify != nil) 
+	[a_probe setObjectToNotify: objectToNotify];
       a_probe = [a_probe createEnd];
 
       if(a_probe)
@@ -199,6 +304,8 @@
     if (class==aClass){
       [probes at: roger_string insert: aProbe] ;
       numEntries++ ;
+      if (objectToNotify != nil) 
+	[aProbe setObjectToNotify: objectToNotify];
       return self ;
     }
 
@@ -233,6 +340,9 @@
 
   [probes at: roger_string insert: aProbe] ;
   numEntries++ ;
+
+  if (objectToNotify != nil) 
+    [aProbe setObjectToNotify: objectToNotify];
 
   return self ;
 }

@@ -52,7 +52,8 @@
 
   dragAndDrop (myTitle, self);
 
-  configureButton3ForCompleteProbeDisplay (myTitle, probedObject);
+  configureButton3ForCompleteProbeDisplay (myTitle, probedObject, 
+					   probeDisplayManager);
   configureWindowEntry (myTitle);
   configureWindowExit (myTitle);
   

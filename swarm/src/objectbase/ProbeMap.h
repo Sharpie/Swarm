@@ -16,7 +16,35 @@
   Class probedClass;
   int numEntries;
   id probes;
+  id objectToNotify;  //could be an object or a list
 }
++createBegin: (id) aZone;
+
+// This sets every member of *this* ProbeMap up so that it will
+// send this message to the designated object every time it's activated.
+// It can be overridden by unsetting a particular ProbeMap or by 
+// unsetting a particular Probe.  Or a given ProbeMap or Probe can be
+// individually given extra methods to perform.
+//
+// the receiver that gets set here must accept a message of the form:
+//    -eventOccurredOn: (id) probedObject 
+//                 via: (id) aProbe
+//       withProbeType: (const char *) aProbeType
+//                  on: (char *) probedElement
+//              ofType: (const char *) dataType
+//            withData: (void *) data;
+//
+//    VarProbe  => aProbeType = "VarProbe"
+//                 probedElement = variable name string
+//                 data = a pointer to either a new value or string
+//                        it's the user's responsibility to be able
+//                        to handle either strings or values
+// MessageProbe => aProbeType = "MessageProbe"
+//                 probedElement = selector name string
+//                 data = a pointer to a string of argument labels and
+//                        arguments separated by spaces
+-setObjectToNotify: (id) anObject;  //can be called multiple times
+-getObjectToNotify;
 
 -setProbedClass: (Class) class;
 -_copyCreateEnd_;

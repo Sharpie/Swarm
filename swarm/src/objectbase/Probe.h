@@ -16,7 +16,14 @@ extern id <Symbol> DefaultString, CharString, IntString ;
   char * probedType;
   int safety;
   id <Symbol> stringReturnType ;
+  id objectToNotify;  // could be an object or a list
 }
+
++createBegin: (id) aZone;
+-createEnd;
+
+-setObjectToNotify: (id) anObject;
+-getObjectToNotify;
 
 -setProbedClass: (Class) aClass;
 -createEnd;

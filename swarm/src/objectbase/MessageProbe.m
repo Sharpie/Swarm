@@ -48,9 +48,10 @@ char *copy_to_nth_colon(char *str,int n){
 @implementation MessageProbe
 
 +createBegin: aZone {
-  id obj ;
+  MessageProbe * obj ;
   obj = [super createBegin: aZone] ;
   [obj setHideResult: 0] ;
+  obj->objectToNotify = nil;
   return obj ;
 }
 
@@ -183,6 +184,8 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   [new_probe setProbedClass: probedClass] ;
   [new_probe setProbedSelector: probedSelector] ;
   [new_probe setHideResult: hr] ;
+  if (objectToNotify != nil) 
+    [new_probe setObjectToNotify: objectToNotify];
   new_probe = [new_probe createEnd] ;
 
   return new_probe ;
@@ -322,6 +325,32 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   [globalTkInterp eval: "%s", cmd] ;
   *result = strdup([globalTkInterp result]) ;
 
+  // since other routines call this so-called internal 
+  // method _trueDynamicCallOn_, I have to put this here.  If and when
+  // the probing is brought in line with our coding standards, this
+  // hook section should be moved.
+  if (objectToNotify != nil) {
+    if ([objectToNotify respondsTo: M(forEach:)]) {
+      id index, tempObj;
+      index = [objectToNotify begin: scratchZone];
+      while ( (tempObj = [index next]) != nil) {
+	[tempObj eventOccurredOn: target
+		 via: self
+		 withProbeType: "MessageProbe"
+		 on: probedMessage
+		 ofType: probedType[0]
+		 withData: cmd];
+      }
+      [index drop];
+    }
+    else 
+      [objectToNotify eventOccurredOn: target
+		      via: self
+		      withProbeType: "MessageProbe"
+		      on: probedMessage
+		      ofType: probedType[0]
+		      withData: cmd];
+  }
   return self ;
 }
 

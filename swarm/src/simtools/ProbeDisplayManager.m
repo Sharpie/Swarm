@@ -123,6 +123,7 @@
   
   tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
   [tempPM setProbedClass: [anObject class]];
+  [tempPM setObjectToNotify: [probeLibrary getObjectToNotify]];
   tempPM = [tempPM createEnd];
 
   [probeLibrary setProbeMap: tempPM For: [anObject class]];
