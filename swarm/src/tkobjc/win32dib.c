@@ -475,7 +475,7 @@ dib_rectangle (dib_t *dib,
   oldPen = SelectObject (dib->sourceDC, pen);
   oldBrush = SelectObject (dib->sourceDC, GetStockObject (NULL_BRUSH));
 
-  Rectangle (dib->sourceDC, x, y, x + width, y + width);
+  Rectangle (dib->sourceDC, x, y, x + width, y + height);
   
   DeleteObject (SelectObject (dib->sourceDC, oldPen));
   SelectObject (dib->sourceDC, oldBrush);

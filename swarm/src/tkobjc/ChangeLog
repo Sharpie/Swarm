@@ -1,3 +1,8 @@
+1999-02-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* win32dib.c (dib_rectangle): Compute ending y using height, not
+	width.  Thanks to Glen Ropella <gepr@swarm.com>.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (CURRENT): Bump.  Version 1.4.1.
