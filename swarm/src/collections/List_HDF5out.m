@@ -9,19 +9,22 @@
        [li getLoc] == Member;
        member = [li next], rn++)
     {
-      id itemGroup;
-      char buf[DSIZE (unsigned) + 1];
-      
-      sprintf (buf, "%u", rn);
-      
-      itemGroup = [[[[[HDF5 createBegin: getCZone (getZone (self))]
-                       setParent: hdf5Obj]
-                      setWriteFlag: YES]
-                     setName: buf]
-                    createEnd];
-      
-      [member hdf5OutDeep: itemGroup];
-      [itemGroup drop];
+      if (member)
+	{
+	  id itemGroup;
+	  char buf[DSIZE (unsigned) + 1];
+	  
+	  sprintf (buf, "%u", rn);
+	  
+	  itemGroup = [[[[[HDF5 createBegin: getCZone (getZone (self))]
+			   setParent: hdf5Obj]
+			  setWriteFlag: YES]
+			 setName: buf]
+			createEnd];
+	  
+	  [member hdf5OutDeep: itemGroup];
+	  [itemGroup drop];
+	}
     }
   [li drop];
 }
@@ -57,10 +60,10 @@
         for (member = [li next], rn = 0;
              [li getLoc] == Member;
              member = [li next], rn++)
-          {
-            [hdf5ObjDataset numberRecord: rn];
-            [hdf5ObjDataset selectRecord: rn];
-            [member hdf5OutShallow: hdf5ObjDataset];
+	  {
+	    [hdf5ObjDataset numberRecord: rn];
+	    [hdf5ObjDataset selectRecord: rn];
+	    [member hdf5OutShallow: hdf5ObjDataset];
           }
         [li drop];
       }

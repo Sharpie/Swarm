@@ -24,8 +24,9 @@ Library:      collections
 */
 
 #import <collections/Collection.h>
+#import <defobj.h> // Serialization
 
-@interface Array_c: Collection_any <Array>
+@interface Array_c: Collection_any <Array, Serialization>
 {
 @public
   id *block; // block of id values
@@ -51,6 +52,15 @@ Library:      collections
 - copy: aZone;
 - (void)describe: outputCharStream;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
+- lispInCreate: expr;
+- lispIn: expr;
+- hdf5InCreate: hdf5Obj;
+- hdf5In: hdf5Obj;
+- (void)lispOutShallow: stream;
+- (void)lispOutDeep: stream;
+- (void)hdf5OutShallow: hdf5Obj;
+- (void)hdf5OutDeep: hdf5Obj;
+
 @end
 
 @interface ArrayIndex_c: Index_any <Index>

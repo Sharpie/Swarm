@@ -29,6 +29,13 @@ Library:      collections
 
 #include <misc.h> // memcpy
 
+#include <collections/predicates.h> // keywordp 
+
+#ifdef HAVE_JDK
+#import <defobj/java.h> // SD_JAVA_{INSTANTIATE,FINDJAVACLASS} (in HDF5in)
+#endif
+
+
 static void initArray (Array_c *self);
 
 @implementation Array_c
@@ -166,6 +173,33 @@ initArray (Array_c  *self)
   else
     memset (newBlock, 0, (self->count - copyCount) * sizeof (id));
 }
+
+
+- lispInCreate: expr
+{
+  id index;
+  id member;
+ 
+  index = [expr begin: scratchZone];
+  for (member = [index next]; 
+       [index getLoc] == Member;
+       member = [index next])
+    {
+      if (keywordp (member))
+        {
+          const char *name = [member getKeywordName];
+	  
+          if (strcmp (name, "default-value-set") == 0)
+            [self setDefaultMember: lispIn ([self getZone],[index next])];
+	  else if (![self _lispInAttr_: index])
+            raiseEvent (InvalidArgument, "unknown keyword `%s'", name);
+        }
+    }
+  [index drop];
+  return self;
+}
+
+
 
 PHASE(Setting)
 
@@ -405,8 +439,96 @@ PHASE(Using)
   mapAlloc (mapalloc, block);
 }
 
-@end
 
+
+- lispIn: expr
+{
+  unsigned c_count;
+  id index, member;
+
+  index = [expr begin: scratchZone];
+  c_count = 0;
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (!keywordp (member))
+      c_count++;
+  [index drop];
+
+  [self setCount: c_count];
+  
+  index = [expr begin: scratchZone];
+  c_count = 0;
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    if (!keywordp (member))
+      {
+        block[c_count] =  lispIn ([self getZone], member);
+	c_count++; 
+      }
+  [index drop];
+
+  return self;
+}
+
+
+- (void)_lispOut_: outputCharStream deep: (BOOL)deepFlag
+{
+  int i;
+  id member;
+
+  [outputCharStream catStartMakeInstance: [self getTypeName]];
+  [outputCharStream catSeparator];
+
+  if (bits & Bit_DefaultMember)
+    {
+      [outputCharStream catKeyword: "default-value-set"];
+      [outputCharStream catSeparator];
+      if (deepFlag)
+ 	[block[count] lispOutDeep: outputCharStream];
+      else
+	[block[count] lispOutShallow: outputCharStream]; 
+    }
+  [outputCharStream catSeparator];
+
+  if (deepFlag)
+    {
+      for (i = 0; i < count; i++)
+	if ((member = block[i]))
+	  [member lispOutDeep: outputCharStream];
+    }
+  else
+    {
+      for (i = 0; i < count; i++)
+	if ((member = block[i]))
+	  [member lispOutShallow: outputCharStream];
+    }
+ 
+  [self _lispOutAttr_: outputCharStream];
+  
+  [outputCharStream catEndExpr];
+}
+
+- (void)lispOutDeep: stream
+{
+  [self _lispOut_: stream deep: YES];
+}
+
+- (void)lispOutShallow: stream
+{
+  [self _lispOut_: stream deep: NO];
+}
+
+
+- hdf5InCreate: hdf5Obj
+{
+  return self;
+}
+
+
+#include "List_HDF5in.m"
+
+#include "List_HDF5out.m"
+
+
+@end
 
 // ArrayIndex_c: index for Array_c
 

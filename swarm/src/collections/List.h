@@ -24,6 +24,7 @@ Library:      collections
 */
 
 #import <collections/Collection.h>
+#import <defobj.h> // Serialization
 
 typedef struct link *link_t;
 

@@ -25,7 +25,6 @@ Library:      collections
 
 #import <defobj/Create.h>
 #import <collections.h>
-#import <defobj.h> // Serialization
 
 @interface Collection_any: CreateDrop_s <Collection>
 {

@@ -1,3 +1,12 @@
+2002-04-23  Marcus G. Daniels  <mgd@condor>
+
+	* Array.m ([Array_c -lispInCreate:,-lispIn:]): Implement.
+
+	* List_HDF5out.m: Don't do anything with nil.
+
+	* List.h, Array.h, Map.h, Collection.h: Explicit includes of
+	defobj.h for Serialization protocol.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* Array.h, Array.m, Collection.h, Collection.m, InputStream.h,
