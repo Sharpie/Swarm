@@ -1,5 +1,8 @@
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.m (initDefobj): Don't create hdf5Archiver if HAVE_HDF5
+	isn't set, set hdf5Archiver to nil.
+
 	* Makefile.am (CURRENT): Bump.  Version 1.4.1.
 
 	* HDF5Object.[hm]: Only include pack{Obj,Buf}to: when HAVE_HDF5

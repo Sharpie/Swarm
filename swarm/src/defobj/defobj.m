@@ -144,10 +144,14 @@ initDefobj (int argc, const char **argv,
       ([arguments getInhibitArchiverLoadFlag] |
        (getenv ("SWARM_INHIBIT_ARCHIVER_LOAD") != NULL));
 
+#ifdef HAVE_HDF5
     hdf5Archiver = [[[[Archiver createBegin: globalZone]
                        setDefaultHDF5Path]
                       setInhibitLoadFlag: inhibitLoadFlag]
                      createEnd];
+#else
+    hdf5Archiver = nil;
+#endif
     lispArchiver = [[[[Archiver createBegin: globalZone]
                        setDefaultLispPath]
                       setInhibitLoadFlag: inhibitLoadFlag]
