@@ -1,3 +1,24 @@
+1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkobjc.m (initTkObjc): Update to renamed tkobjc_registerCommand.
+
+	* simtools.tcl: Add `super' bitmap.
+
+	* control.[hm]: Prefix everybody with "tkobjc_".  Add
+	tkobjc_configureHideBitmap, tkobjc_configureSpecialBitmap,
+	tkobjc_configureSuperBitmap, tkobjc_configureWidgetToBeep,
+	tkobjc_configureWidgetToDrop,
+	tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize,
+	tkobjc_bindButton3ToSpawn, tkobjc_bindButton3ToArgSpawn,
+	tkobjc_bindButton3ToBeUnhelpful, tkobjc_bindReturnToSetValue,
+	tkobjc_bindKeyReleaseReturnToResetColorAndUpdate,
+	tkobjc_bindFocusInToSetSelection,
+	tkobjc_bindFocusOutToClearSelection, and tkobjc_gimme_ddobj.
+	Renamed tkobjc_bindButton3ForCompleteProbeDisplay from
+	configureButton3ForCompleteProbeDisplay, tkobjc_bindWindowEntry
+	from configureWindowEntry, tkobjc_bindWindowExit from
+	configureWindowExit.
+	
 1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* control.m (dynamicEval): Add.

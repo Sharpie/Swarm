@@ -10,25 +10,25 @@
 #import <string.h>
 
 int
-doOneEventSync (void)
+tkobjc_doOneEventSync (void)
 {
   return Tk_DoOneEvent (TK_ALL_EVENTS);
 }
 
 int
-doOneEventAsync (void)
+tkobjc_doOneEventAsync (void)
 {
   return Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT);
 }
 
 void
-registerCommand (id self, const char *name)
+tkobjc_registerCommand (id self, const char *name)
 {
   [globalTkInterp registerObject: self withName: name];
 }
 
 void
-createWindow (id topFrame)
+tkobjc_createWindow (id topFrame)
 {
   [globalTkInterp eval: "%s create window 0 0 -anchor nw -window %s",
                   [[topFrame getParent] getWidgetName],
@@ -36,7 +36,7 @@ createWindow (id topFrame)
 }
 
 void
-configureProbeCanvas (id canvas)
+tkobjc_configureProbeCanvas (id canvas)
 {
   id c_Frame = [canvas getParent];
 
@@ -54,16 +54,41 @@ configureProbeCanvas (id canvas)
 }
 
 void
-configureHideButton (id owner, id hideB, id raisedFrame)
+tkobjc_configureHideBitmap (id widget)
+{
+  [globalTkInterp
+    eval: "%s configure -bitmap special -activeforeground red -foreground red", 
+    [widget getWidgetName]];
+}
+
+void
+tkobjc_configureSpecialBitmap (id widget)
+{
+  [globalTkInterp
+    eval: 
+      "%s configure -bitmap special -activeforeground red -foreground red",
+    [widget getWidgetName]];
+}
+
+void
+tkobjc_configureSuperBitmap (id widget)
+{
+  [globalTkInterp
+    eval:
+      "%s configure -bitmap super -activeforeground forestgreen -foreground forestgreen", 
+    [widget getWidgetName]];
+}
+
+void
+tkobjc_configureHideButton (id owner, id hideB, id raisedFrame)
 {
   [globalTkInterp 
     eval: "%s configure -command {%s markForDrop}",
     [hideB getWidgetName],
     tclObjc_objectToName (owner)];
-  [globalTkInterp
-    eval: "%s configure -bitmap special -activeforeground red -foreground red", 
-    [hideB getWidgetName]];
-  
+
+  tkobjc_configureHideBitmap (hideB);
+ 
   [globalTkInterp eval: "pack %s -side right -fill both -expand 0",
 		  [hideB getWidgetName]];
   
@@ -73,9 +98,171 @@ configureHideButton (id owner, id hideB, id raisedFrame)
 }
 
 void
-configureButton3ForCompleteProbeDisplay (id widget,
-                                         id probedObject,
-                                         id theProbeDisplayManager)
+tkobjc_configureWidgetToBeep (id widget)
+{
+  [globalTkInterp
+    eval: 
+      "%s configure -command { bell }",
+    [widget getWidgetName]];
+}
+
+void
+tkobjc_configureWidgetToDrop (id widget, id owner)
+{
+  [globalTkInterp 
+    eval:
+      "%s configure -command {%s drop}",
+    [widget getWidgetName],
+    tclObjc_objectToName (owner)];
+}
+
+void
+tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize
+(id superB,
+ id superClass,
+ id self,
+ id owner)
+{
+  [globalTkInterp 
+    eval:
+      "%s configure -command { pack %s -before %s -fill both -expand 1; %s configure -state disabled; %s do_resize}",
+    [superB getWidgetName],
+    [superClass getWidgetName],
+    [self getWidgetName],
+    [superB getWidgetName],
+    tclObjc_objectToName (owner)];
+}
+
+
+void
+tkobjc_bindButton3ToSpawn (id widget, id self, int focusFlag)
+{
+  const char *widgetName = [widget getWidgetName];
+
+  if (focusFlag)
+    {
+      [globalTkInterp
+        eval:
+          "bind %s <Button-3> {focus %s ; %s configure -highlightcolor red ;"
+        "update ; %s Spawn ; %s configure -highlightcolor black ;"
+        "update ; focus %s ; update } ;",
+        widgetName,
+        widgetName,
+        widgetName,
+        tclObjc_objectToName (self),
+        widgetName,
+        widgetName];
+    }
+  else
+    {
+      [globalTkInterp
+        eval:
+          "bind %s <Button-3> {focus %s; %s configure -highlightcolor red;"
+        "update;"
+        "%s Spawn;"
+        "%s configure -highlightcolor black;"
+        "update};",
+        widgetName,
+        widgetName,
+        widgetName,
+        tclObjc_objectToName (self),
+        widgetName];
+    }
+}
+
+void
+tkobjc_bindButton3ToArgSpawn (id widget, id self, int which)
+{
+  [globalTkInterp
+    eval:
+      "bind %s <Button-3> {focus %s ; %s configure -highlightcolor red ;"
+    "update ; %s argSpawn: %d ; %s configure -highlightcolor black ;"
+    "update ; focus %s ; update } ;",
+    [widget getWidgetName],
+    [widget getWidgetName],
+    [widget getWidgetName], 
+    tclObjc_objectToName (self),
+    which,
+    [widget getWidgetName],
+    [self getWidgetName]];
+}
+
+
+void
+tkobjc_bindButton3ToBeUnhelpful (id widget, id self)
+{
+  const char *widgetName = [widget getWidgetName];
+
+  if (self != nil)
+    [globalTkInterp
+      eval:
+        "bind %s <Button-3> {focus %s; %s configure -highlightcolor red ;"
+      "update ; bell ; update ; %s configure -highlightcolor black ;"
+      "update ; focus %s ; update} ;",
+      widgetName, widgetName, widgetName, widgetName,
+      [self getWidgetName]];
+  else
+    [globalTkInterp
+      eval:
+        "bind %s <Button-3> {focus %s; %s configure -highlightcolor red ;"
+      "update ;"
+      "bell ; update ; "
+      "%s configure -highlightcolor black ;"
+      "update} ;",
+      widgetName, widgetName, widgetName, widgetName];
+}
+
+void
+tkobjc_bindReturnToSetValue (id widget, id self)
+{
+  const char *widgetName = [widget getWidgetName];
+
+  [globalTkInterp
+    eval:
+      "bind %s <Return> {%s configure -highlightcolor red ;"
+    "update ;"
+    "%s setValue}",
+    widgetName, widgetName,
+    tclObjc_objectToName (self)];
+}
+
+void
+tkobjc_bindKeyReleaseReturnToResetColorAndUpdate (id widget)
+{
+  const char *widgetName = [widget getWidgetName];
+
+  [globalTkInterp
+    eval: "bind %s <KeyRelease-Return> {%s configure -highlightcolor black ;"
+    "update };", 
+    widgetName,
+    widgetName];
+}
+
+void
+tkobjc_bindFocusInToSetSelection (id widget)
+{
+  const char *widgetName = [widget getWidgetName];
+
+  [globalTkInterp
+    eval: "bind %s <FocusIn> {%s selection range 0 end}",
+    widgetName,
+    widgetName];
+}
+
+void
+tkobjc_bindFocusOutToClearSelection (id widget)
+{
+  const char *widgetName = [widget getWidgetName];
+  [globalTkInterp
+    eval: "bind %s <FocusOut> {%s selection clear}",
+    widgetName,
+    widgetName];
+}
+ 
+void
+tkobjc_bindButton3ForCompleteProbeDisplay (id widget,
+                                           id probedObject,
+                                           id theProbeDisplayManager)
 {
   // have to make a private copy of the return for objectToName.
   const char *pdmName = tclObjc_objectToName (theProbeDisplayManager);
@@ -92,7 +279,7 @@ configureButton3ForCompleteProbeDisplay (id widget,
 }
 
 void
-configureWindowEntry (id widget)
+tkobjc_bindWindowEntry (id widget)
 {
   [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
                   [widget getWidgetName],
@@ -101,7 +288,7 @@ configureWindowEntry (id widget)
 
 
 void
-configureWindowExit (id widget)
+tkobjc_bindWindowExit (id widget)
 {
   [globalTkInterp eval: "bind %s <Leave> {%s configure -fg blue}",
                   [widget getWidgetName],
@@ -109,7 +296,7 @@ configureWindowExit (id widget)
 }
 
 void
-setBorderWidth (id frame, int width)
+tkobjc_setBorderWidth (id frame, int width)
 {
   [globalTkInterp eval: "%s configure -bd %d", 
                   [frame getWidgetName],
@@ -117,35 +304,35 @@ setBorderWidth (id frame, int width)
 }
 
 void
-setRelief (id raisedFrame)
+tkobjc_setRelief (id raisedFrame)
 {
   [globalTkInterp eval: "%s configure -relief ridge -borderwidth 3",
     [raisedFrame getWidgetName]] ;
 }
 
 void
-setAnchorWest (id widget)
+tkobjc_setAnchorWest (id widget)
 {
   [globalTkInterp eval: "%s configure -anchor w",
                   [widget getWidgetName]];
 }
 
 void
-setAnchorEast (id widget)
+tkobjc_setAnchorEast (id widget)
 {
   [globalTkInterp eval: "%s configure -anchor e",
                   [widget getWidgetName]];
 }
 
 void
-setColorBlue (id widget)
+tkobjc_setColorBlue (id widget)
 {
   [globalTkInterp eval: "%s configure -foreground blue",
                   [widget getWidgetName]];
 }
 
 void
-setWidth (id widget, int width)
+tkobjc_setWidth (id widget, int width)
 {
   [globalTkInterp eval: "%s configure -width %d",
                   [widget getWidgetName],
@@ -153,7 +340,7 @@ setWidth (id widget, int width)
 }
 
 void
-setText (id widget, const char *str)
+tkobjc_setText (id widget, const char *str)
 {
   [globalTkInterp eval: "%s configure -text %s",
                   [widget getWidgetName],
@@ -161,33 +348,69 @@ setText (id widget, const char *str)
 }
 
 void
-packFill (id frame)
+tkobjc_packToRight (id widget1, id widget2)
 {
-  [globalTkInterp eval: "pack %s -fill both -expand 0",
-		  [frame getWidgetName]];
+  [globalTkInterp eval: "pack %s %s -side right",
+                  [widget1 getWidgetName],
+                  [widget2 getWidgetName]];
 }
 
 void
-packFillLeft (id frame, int expandFlag)
+tkobjc_packBeforeAndFillLeft (id widget1, id widget2, int expandFlag)
 {
-  [globalTkInterp eval: "pack %s -side left -fill both -expand %d",
-		  [frame getWidgetName],
+  [globalTkInterp eval: "pack %s -before %s -side left -fill both -expand %d",
+		  [widget1 getWidgetName],
+		  [widget2 getWidgetName],
                   expandFlag];
 }
 
 void
-packForget (id widget)
+tkobjc_packFill (id widget)
 {
-  [globalTkInterp eval:  "pack forget %s ; pack %s -expand true -fill both",
-                  [widget getWidgetName],      
+  [globalTkInterp eval: "pack %s -fill both -expand 0",
+		  [widget getWidgetName]];
+}
+
+void
+tkobjc_packFillLeft (id widget, int expandFlag)
+{
+  [globalTkInterp eval: "pack %s -side left -fill both -expand %d",
+		  [widget getWidgetName],
+                  expandFlag];
+}
+
+void
+tkobjc_packForget (id widget)
+{
+  [globalTkInterp eval: "pack forget %s",
                   [widget getWidgetName]];
 }
 
 void
-assertGeometry (id topFrame)
+tkobjc_packForgetAndExpand (id widget)
+{
+  tkobjc_packForget (widget);
+  [globalTkInterp eval:  "pack %s -expand true -fill both",
+                  [widget getWidgetName]];
+}
+
+void
+tkobjc_packForgetArmSuperAndResize (id hideB, id self, id mySubClass, id owner)
+{
+  [globalTkInterp 
+    eval: 
+      "%s configure -command {pack forget %s; %s armSuperButton; %s do_resize}",
+    [hideB getWidgetName],
+    [self getWidgetName],
+    tclObjc_objectToName (mySubClass),
+    tclObjc_objectToName (owner)];
+}
+
+void
+tkobjc_assertGeometry (id topFrame)
 {
   id canvas = [topFrame getParent];
-
+  
   [globalTkInterp eval:
                     "tkwait visibility %s ;"
                   "set width [winfo width %s] ;"
@@ -203,27 +426,27 @@ assertGeometry (id topFrame)
 }
 
 void
-deiconify (id frame)
+tkobjc_deiconify (id frame)
 {
   [globalTkInterp eval: "wm deiconify %s",
                   [frame getWidgetName]];
 }
 
 void
-withdrawWindow (id topLevel)
+tkobjc_withdrawWindow (id topLevel)
 {
   [globalTkInterp eval: "wm withdraw %s",
                   [topLevel getWidgetName]];
 }
 
 void
-releaseAndUpdate (void)
+tkobjc_releaseAndUpdate (void)
 {
   [globalTkInterp eval: "foreach w [busy isbusy] {busy release $w} ; update"];
 }
 
 void
-updateIdleTasksAndHold (void)
+tkobjc_updateIdleTasksAndHold (void)
 {
   [globalTkInterp eval: 
                     "update idletasks ;"
@@ -232,55 +455,61 @@ updateIdleTasksAndHold (void)
 }
 
 void
-ringBell (void)
+tkobjc_ringBell (void)
 {
   [globalTkInterp eval: "bell"] ;
 }
 
 void
-normalState (id widget)
+tkobjc_normalState (id widget)
 {
   [globalTkInterp eval: "%s configure -state normal",
                   [widget getWidgetName]];
 }
 
 void
-disabledState (id widget)
+tkobjc_disabledState (id widget)
 {
   [globalTkInterp eval: "%s configure -state disabled",
                   [widget getWidgetName]];
 }
 
 void
-update ()
+tkobjc_update ()
 {
   [globalTkInterp eval: "update"];
 }
 
 void
-focus (id widget)
+tkobjc_focus (id widget)
 {
   [globalTkInterp eval: "focus %s",
                   [widget getWidgetName]];
 }
 
 const char *
-dynamicEval (const char *cmd)
+tkobjc_dynamicEval (const char *cmd)
 {
   [globalTkInterp eval: "%s", cmd];
   return strdup ([globalTkInterp result]);
 }
 
+id
+tkobjc_gimme_ddobj (void)
+{
+  return tclObjc_nameToObject ([[globalTkInterp eval: "gimme $DDOBJ"] result]);
+}
+
 const char *
-packageName (id probedObject)
+tkobjc_packageName (id probedObject)
 {
   return tclObjc_objectToName (probedObject);
 }
 
 const char *
-getId (id probedObject)
+tkobjc_getId (id probedObject)
 {
-  if ([probedObject respondsTo: @selector(getInstanceName)])
+  if ([probedObject respondsTo: @selector (getInstanceName)])
     return [probedObject getInstanceName];
   else
     return [probedObject name];

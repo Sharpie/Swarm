@@ -25,7 +25,7 @@ initTkObjc (int argc, char ** argv)
         {
           globalTkInterp = [Tcl alloc];		  // misnomer
           [globalTkInterp initWithArgc: 1 argv: argv];
-          registerCommand (globalTkInterp, "globalTkInterp");          
+          tkobjc_registerCommand (globalTkInterp, "globalTkInterp");          
           return;
         }
     }
