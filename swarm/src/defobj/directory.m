@@ -89,11 +89,11 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
   char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
   char *p;
 
-  p = stpcpy (javaClassName, "swarm.");
+  p = stpcpy (javaClassName, "swarm/");
   if (module)
     {
       p = stpcpy (p, module);
-      p = stpcpy (p, ".");
+      p = stpcpy (p, "/");
     }
   p = stpcpy (p, typeName);
   if (!usingFlag)
@@ -375,26 +375,23 @@ fill_signature (char *buf, const char *className)
 }
 
 static const char *
-create_signature_from_object (JNIEnv *env, jobject jobj)
+create_signature_from_class_name (JNIEnv *env, const char *className)
 {
-  const char *className =
-    java_copy_string (env, get_class_name_from_object (env, jobj));
   char buf[1 + strlen (className) + 1 + 1];
 
   fill_signature (buf, className);
-  XFREE (className);
   return strdup (buf);
 }
 
 static const char *
-create_signature (JNIEnv *env, jclass class)
+create_signature_from_object (JNIEnv *env, jobject jobj)
 {
-  const char *className = java_copy_string (env, get_class_name (env, class));
-  char buf[1 + strlen (className) + 1 + 1];
+  const char *className =
+    java_copy_string (env, get_class_name_from_object (env, jobj));
+  const char *ret = create_signature_from_class_name (env, className);
 
-  fill_signature (buf, className);
   XFREE (className);
-  return strdup (buf);
+  return ret;
 }
 
 jobject
@@ -402,8 +399,9 @@ java_next_phase (JNIEnv *env, jobject jobj)
 {
   jclass class = java_class_for_typename (env, "Phase", NO);
   jfieldID fid;
-  const char *sig = create_signature (env, class);
-  
+  const char *sig =
+    create_signature_from_class_name (env, "java.lang.Object");
+
   if (!(fid = (*env)->GetFieldID (env, class, "nextPhase", sig)))
     abort ();
   XFREE (sig);

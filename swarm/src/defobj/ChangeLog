@@ -1,5 +1,10 @@
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (create_signature_from_class_name): New function.
+	(java_next_phase): Use it.  nextPhase is of type Object.
+	(create_signature_from_object): Use it.
+	(create_signature): Remove.
+
 	* DefObject.m ([Object_s -lispIn:]): Accept _C_LNG as an array
 	value type.
 
