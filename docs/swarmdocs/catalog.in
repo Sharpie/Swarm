@@ -112,10 +112,26 @@ PUBLIC "-//SFI Hive//ENTITIES Tech List//EN" @top_srcdir@/src/tech/tech.ent
 PUBLIC "-//SFI Hive//ENTITIES Figure List//EN" @top_srcdir@/figs/figs.ent
 
 PUBLIC "-//SFI Hive//ENTITIES Src List//EN" @top_srcdir@/src/src.ent
+PUBLIC "-//SFI Hive//ENTITIES Overview List//EN" @top_srcdir@/over/over.ent
+PUBLIC "-//SFI Hive//ENTITIES Install List//EN" @top_srcdir@/install/install.ent
 
-PUBLIC "-//SFI Hive//ENTITIES Overview List//EN" @top_srcdir@/overview/over.ent
-PUBLIC "-//SFI Hive//ENTITIES Install List//EN" @top_srcdir@/installing/install.ent
+PUBLIC "-//SFI Hive//ENTITIES Overview Metadata//EN" @top_srcdir@/over/overmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Overview Content//EN" @top_srcdir@/over/overcont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 1//EN" @top_srcdir@/over/over01.sgml
+PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 2//EN" @top_srcdir@/over/over02.sgml
+PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 3//EN" @top_srcdir@/over/over03.sgml
+PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 4//EN" @top_srcdir@/over/over04.sgml
+PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 5//EN" @top_srcdir@/over/over05.sgml
+PUBLIC "-//SFI Hive//ENTITIES Overview Revision History//EN" over/overrevhistory.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Installing Metadata//EN" @top_srcdir@/install/installmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Installing Content//EN" @top_srcdir@/install/installcont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Installing Preface//EN" @top_srcdir@/install/install00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Installing Article 1//EN" @top_srcdir@/install/install01.sgml
+PUBLIC "-//SFI Hive//ENTITIES Installing Article 2//EN" @top_srcdir@/install/install02.sgml
+PUBLIC "-//SFI Hive//ENTITIES Installing Revision History//EN" install/installrevhistory.sgml
 
 PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN" @top_srcdir@/set/setmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Set Revision History//EN" set/setrevhistory.sgml
 
 SGMLDECL "@top_srcdir@/docbook.dcl"
