@@ -607,7 +607,7 @@ pixmap_create_from_root_window (Pixmap *pixmap)
 }
 
 void
-tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id widget)
+tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
 {
 
   if (widget == nil)

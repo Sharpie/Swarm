@@ -76,6 +76,6 @@ void tkobjc_pixmap_create (Pixmap *pixmap, png_bytep *row_pointers,
                            png_colorp palette, unsigned palette_size,
 			   Raster *raster);
 void tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster);
-void tkobjc_pixmap_create_from_root_window (Pixmap *pixmap);
+void tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget);
 void tkobjc_pixmap_save (Pixmap *pixmap, const char *filename);
 void tkobjc_pixmap_drop (Pixmap *pixmap);
