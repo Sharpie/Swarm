@@ -1,3 +1,10 @@
+1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* internal.m: Use raiseEvent macro instead of method throughout.
+	(tkobjc_pixmap_update_raster): Move call to XpmCreatePixmapFromXpmImage
+	from tkobjc_pixmap_create.  Set colormap in xpmattrs.  If need be
+	create a private colormap and retry.
+
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* internal.m (tkobjc_raster_setColormap): Loop until

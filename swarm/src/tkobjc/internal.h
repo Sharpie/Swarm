@@ -7,6 +7,10 @@
 
 #define Colormap X11Colormap
 #define Pixmap X11Pixmap
+#define String X11String
+#define Widget X11Widget
+#define Object X11Object
+
 #include <tk.h>
 #include <X11/Xlib.h>    // XColormap
 #include <X11/Xutil.h>  // ZoomRaster
@@ -15,6 +19,9 @@
 #endif
 #undef Pixmap
 #undef Colormap
+#undef String
+#undef Widget
+#undef Object
 
 #include <png.h>
 

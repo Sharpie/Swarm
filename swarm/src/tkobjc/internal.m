@@ -389,8 +389,8 @@ tkobjc_raster_create (Raster *raster)
   Tk_Window tkwin = tkobjc_nameToWindow ([raster getWidgetName]);
 
   if (tkwin == NULL)
-    [WindowCreation raiseEvent: "Error creating tkwin!\n%s",
-                    [globalTkInterp result]];
+    raiseEvent (WindowCreation, "Error creating tkwin!\n%s",
+                [globalTkInterp result]);
   else
     {
       raster_private_t *private = xmalloc (sizeof (raster_private_t));
@@ -477,7 +477,7 @@ tkobjc_raster_line (Raster *raster,
 {
   raster_private_t *private = raster->private;
 #ifndef _WIN32
-  PixelValue *map = ((Colormap *)raster->colormap)->map;
+  PixelValue *map = ((Colormap *) raster->colormap)->map;
   Display *display = Tk_Display (private->tkwin);
   GC gc = private->gc;
 
@@ -498,7 +498,7 @@ tkobjc_raster_rectangle (Raster *raster,
 {
   raster_private_t *private = raster->private;
 #ifndef _WIN32
-  PixelValue *map = ((Colormap *)raster->colormap)->map;
+  PixelValue *map = ((Colormap *) raster->colormap)->map;
   Display *display = Tk_Display (private->tkwin);
   GC gc = private->gc;
 
@@ -584,10 +584,9 @@ tkobjc_setColor (Colormap *colormap, const char *colorName, PixelValue *pvptr)
 #endif
   if (!rc)
     {
-      [ResourceAvailability
-        raiseEvent:
-          "Problem locating color %s. Substituting white.\n",
-        colorName];
+      raiseEvent (ResourceAvailability, 
+                  "Problem locating color %s. Substituting white.\n",
+                  colorName);
       *pvptr = WhitePixel (display, screen);
       return NO;
     }
@@ -597,16 +596,14 @@ tkobjc_setColor (Colormap *colormap, const char *colorName, PixelValue *pvptr)
       if (rc)
         break;
 #ifndef _WIN32
-      [ResourceAvailability
-            raiseEvent:
-          "Problem allocating color %s.  Switching to virtual colormap.\n",
-        colorName];
+      raiseEvent (ResourceAvailability, 
+                  "Problem allocating color %s.  Switching to virtual colormap.\n",
+                  colorName);
       colormap->cmap = XCopyColormapAndFree (display, colormap->cmap);
 #else
-      [ResourceAvailability
-            raiseEvent:
-          "Problem allocating color %s.  Substituting white.\n",
-        colorName];
+      raiseEvent (ResourceAvailability, 
+                  "Problem allocating color %s.  Substituting white.\n",
+                  colorName);
       *pvptr = WhitePixel (display, screen);
       return NO;
 #endif
@@ -674,6 +671,8 @@ x_set_private_colormap (Display *display, Window window, X11Colormap cmap)
       if (cnt > 0)
         XFree (colormapWindows);
     }
+  else
+    raiseEvent (Warning, "Could not get top window");
 }
 
 #endif
@@ -713,10 +712,10 @@ tkobjc_raster_createPixmap (Raster *raster)
 #ifndef _WIN32
   // and create a local Pixmap for drawing
   private->pm = XCreatePixmap (Tk_Display (tkwin),
-                              Tk_WindowId (tkwin),
-                              raster->width,
-                              raster->height,
-                              Tk_Depth (tkwin));
+                               Tk_WindowId (tkwin),
+                               raster->width,
+                               raster->height,
+                               Tk_Depth (tkwin));
 #else
   dib_t *dib = dib_create ();
   
@@ -863,9 +862,9 @@ xpmerrcheck (int xpmerr, const char *what)
       break;
     }
   if (warning)
-    [Warning raiseEvent: "Creating pixmap: %s (%s)\n", warning, what];
+    raiseEvent  (Warning, "Creating pixmap: %s (%s)\n", warning, what);
   if (error)
-    [PixmapError raiseEvent: "Creating pixmap: %s (%s)\n", error, what];
+    raiseEvent (Error, "Creating pixmap: %s (%s)\n", error, what);
 }
 #endif
 
@@ -881,12 +880,12 @@ x_pixmap_create_from_window (Pixmap *pixmap, Window window)
   if (!XGetGeometry (pixmap->display, window, &root,
                      &x, &y, &w, &h,
                      &bw, &depth))
-    [PixmapError raiseEvent: "Cannot get geometry for root window"];
+    raiseEvent (PixmapError, "Cannot get geometry for root window");
   pixmap->height = h;
   pixmap->width = w;
   ximage = XGetImage (pixmap->display, window, 0, 0, w, h, AllPlanes, ZPixmap);
   if (ximage == NULL)
-    [PixmapError raiseEvent: "Cannot get XImage of window"];
+    raiseEvent (PixmapError, "Cannot get XImage of window");
   
   xpmerrcheck (XpmCreateXpmImageFromImage (pixmap->display, ximage, NULL,
                                            &pixmap->xpmimage, 
@@ -958,12 +957,12 @@ keep_inside_screen (Tk_Window tkwin, Window window)
   if (!XGetGeometry (display, window, &root,
                      &x, &y, &w, &h,
                      &bw, &depth))
-    [PixmapError raiseEvent: "Cannot get geometry for window"];
+    raiseEvent (PixmapError, "Cannot get geometry for window");
 
   if (!XGetGeometry (display, root, &root,
                      &rx, &ry, &rw, &rh,
                      &rbw, &rdepth))
-    [PixmapError raiseEvent: "Cannot get geometry for root window"];
+    raiseEvent (PixmapError, "Cannot get geometry for root window");
   if (Tk_WindowId (tkwin) != window)
     {
       w += bw * 2;
@@ -977,14 +976,14 @@ keep_inside_screen (Tk_Window tkwin, Window window)
 	       : (HWND)window);
   
   if (GetWindowRect (hwnd, &rect) == FALSE)
-    [PixmapError raiseEvent: "Cannot get geometry for window"];
+    raiseEvent (PixmapError, "Cannot get geometry for window");
   h = rect.bottom - rect.top;
   w = rect.right - rect.left;
   x = rect.left;
   y = rect.top;
 
   if (GetWindowRect (HWND_DESKTOP, &rootrect) == FALSE)
-    [PixmapError raiseEvent: "Cannot get geometry for desktop"];
+    raiseEvent (PixmapError, "Cannot get geometry for desktop");
 
   rx = rootrect.left;
   ry = rootrect.top;
@@ -1218,13 +1217,13 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
 void
 tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
 {
-#ifdef _WIN32
   raster_private_t *private = raster->private;
+#ifdef _WIN32
   // (Apparently, there isn't a need to merge the pixmap and raster
   // pixmaps by hand, but without doing so, somehow the black
   // gets lost. -mgd)
   dib_t *raster_dib = private->pm;
-
+  
   if (dib_paletteIndexForObject (raster_dib, pixmap) == -1)
     {
       unsigned palette_size = pixmap->palette_size;
@@ -1239,6 +1238,43 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
       
       dib_augmentPalette (raster_dib, pixmap, palette_size, map);
     }
+#else
+  {
+    Tk_Window tkwin = private->tkwin;
+    Display *display = Tk_Display (tkwin);
+    Window window = Tk_WindowId (tkwin);
+    Colormap *colormap = raster->colormap;
+    BOOL retryFlag = NO;
+    
+    while (1)
+      {
+        XpmAttributes xpmattrs;
+        int err;
+        
+        xpmattrs.valuemask = XpmColormap;
+        xpmattrs.colormap = colormap->cmap;
+        if ((err = XpmCreatePixmapFromXpmImage (display,
+                                                window,
+                                                &pixmap->xpmimage,
+                                                &pixmap->pixmap,
+                                                &pixmap->mask,
+                                                &xpmattrs)) != XpmSuccess)
+          {
+            if (retryFlag == YES)
+              {
+                xpmerrcheck (err, __FUNCTION__);
+                break;
+              }
+            raiseEvent (ResourceAvailability, 
+                        "Switching to virtual colormap.\n");
+            colormap->cmap = XCopyColormapAndFree (display, colormap->cmap);
+            tkobjc_raster_setColormap (raster);
+            retryFlag = YES;
+          }
+        else
+          break;
+      }
+  }
 #endif
 }
 
@@ -1304,21 +1340,6 @@ tkobjc_pixmap_create (Pixmap *pixmap,
           }
       }
     pixmap->xpmimage.data = data;
-  }
-  {
-    XpmAttributes xpmattrs;
-    Tk_Window tkwin = tkobjc_nameToWindow (".");
-    Display *display = Tk_Display (tkwin);
-    
-    xpmattrs.valuemask = 0;
-    
-    xpmerrcheck (XpmCreatePixmapFromXpmImage (display,
-                                              XDefaultRootWindow (display),
-                                              &pixmap->xpmimage,
-                                              &pixmap->pixmap,
-                                              &pixmap->mask,
-                                              &xpmattrs),
-                 "tkobjc_pixmap_create");
   }
 #else
   {
@@ -1414,13 +1435,13 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 #endif
   
   if (fp == NULL)
-    [PixmapError raiseEvent: "Cannot open output pixmap file: %s\n", filename];
+    raiseEvent (PixmapError, "Cannot open output pixmap file: %s\n", filename);
   
   png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   if (png_ptr == NULL)
     {
       fclose (fp);
-      [PixmapError raiseEvent: "Could not create PNG write struct\n"];
+      raiseEvent (PixmapError, "Could not create PNG write struct\n");
     }
   
   info_ptr = png_create_info_struct (png_ptr);
@@ -1428,14 +1449,14 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
     {
       png_destroy_write_struct (&png_ptr, (png_infopp)NULL);
       fclose (fp);
-      [PixmapError raiseEvent: "Could not create PNG info struct\n"];
+      raiseEvent (PixmapError, "Could not create PNG info struct\n");
     }
   
   if (setjmp (png_ptr->jmpbuf))
     {
       png_destroy_write_struct (&png_ptr, &info_ptr);
       fclose (fp);
-      [PixmapError raiseEvent: "Error during PNG write of %s\n", filename];
+      raiseEvent (PixmapError, "Error during PNG write of %s\n", filename);
     }
   
   png_init_io (png_ptr, fp);
