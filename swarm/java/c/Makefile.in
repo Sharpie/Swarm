@@ -43,7 +43,7 @@ LIBJAVASWARM_LA = @LIBJAVASWARM_LA@
 
 all: $(JAVASWARM_DLL) $(LIBJAVASWARM_LA)
 
-$(libjavaswarmstubs_la_OBJECTS): $(top_srcdir)/src/defobj/directory.h $(top_srcdir)/src/defobj/defobj.h
+$(libjavaswarmstubs_la_OBJECTS): $(top_srcdir)/src/defobj/directory.h
 
 USEDLL = @USEDLL@
 ifeq ($(USEDLL),no)
