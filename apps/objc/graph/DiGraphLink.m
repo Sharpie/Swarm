@@ -35,16 +35,10 @@
 - createEnd
 {  
    if (canvas)
-     {
-       if (linkItem)
-         {
-         }
-       else 
-         linkItem = [[[[[LinkItem createBegin: [self getZone]] 
-                         setFrom: [from getNodeItem]] setTo: [to getNodeItem]] 
-                       setCanvas: canvas] createEnd];
-     }
-   
+     if (!linkItem)
+       linkItem = [[[[[LinkItem createBegin: [self getZone]] 
+                       setFrom: [from getNodeItem]] setTo: [to getNodeItem]] 
+                     setCanvas: canvas] createEnd];
    [from addTo: self];
    [to addFrom: self];
   
@@ -68,14 +62,16 @@
 
 - update
 {
-  [linkItem update];
+  if (linkItem)
+    [linkItem update];
   return self;
 }
 
 - hideLink
 {
   canvas = nil;
-  [linkItem drop];
+  if (linkItem)
+    [linkItem drop];
   return self;
 }
 

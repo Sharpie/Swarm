@@ -1,7 +1,7 @@
 // Copyright (C) 1995-1998 The Santa Fe Institute.
 // No warranty implied, see LICENSE for terms.
 
-#import <objectbase.h>
+#import <objectbase/SwarmObject.h>
 #import <gui.h>
 
 @interface DiGraph: SwarmObject
@@ -18,7 +18,6 @@
 - setRandPosSeed: (int)seed;
 - setCanvas: aCanvas;
 - setCanvas: aCanvas withRandPosSeed: (int)seed;
-- createEnd;
 - showCanvas: aCanvas;
 - hideCanvas;
 - getCanvas;

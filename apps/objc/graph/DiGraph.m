@@ -23,6 +23,7 @@
   obj = [super createBegin: aZone];
   obj->springLength = DEFAULT_SPRING_LENGTH;
   obj->randPosSeed = DEFAULT_RANDOM_SEED;
+  obj->nodeList = [List create: aZone];
 
   return obj;
 }
@@ -61,12 +62,6 @@
 - setSpringLength: (float)aLength
 {
   springLength = aLength;
-  return self;
-}
-
-- createEnd
-{
-  nodeList = [List create: [self getZone]];
   return self;
 }
 
