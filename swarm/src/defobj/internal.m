@@ -9,10 +9,88 @@
 #include <misc.h> // strtoul
 #include <objc/objc-api.h>
 
-struct array_element {
-  unsigned count;
-  struct array_element *prev;
-};
+size_t
+alignment_for_objc_type (const char *varType)
+{
+  size_t alignment = 0;
+
+  switch (*varType)
+    {
+    case _C_SHT: case _C_USHT:
+      alignment = __alignof__ (short);
+      break;
+    case _C_LNG: case _C_ULNG:
+      alignment = __alignof__ (long);
+      break;
+    case _C_INT: case _C_UINT:
+      alignment = __alignof__ (int);
+      break;
+    case _C_FLT:
+      alignment = __alignof__ (float);
+      break;
+    case _C_DBL:
+      alignment = __alignof__ (double);
+      break;
+    case _C_CHARPTR:
+      alignment = __alignof__ (const char *);
+      break;
+    case _C_ID:
+      alignment = __alignof__ (id);
+      break;
+    case _C_ARY_B:
+      varType++;
+      while (isdigit ((int) *varType))
+        varType++;
+      
+      alignment = alignment_for_objc_type (varType);
+      break;
+    default:
+      abort ();
+    }
+  return alignment;
+}
+
+size_t
+size_for_objc_type (const char *varType)
+{
+  size_t size;
+
+  switch (*varType)
+    {
+    case _C_SHT: case _C_USHT:
+      size = sizeof (short);
+      break;
+    case _C_LNG: case _C_ULNG:
+      size = sizeof (long);
+      break;
+    case _C_INT: case _C_UINT:
+      size = sizeof (int);
+      break;
+    case _C_FLT:
+      size = sizeof (float);
+      break;
+    case _C_DBL:
+      size = sizeof (double);
+      break;
+    case _C_CHARPTR:
+      size = sizeof (const char *);
+      break;
+    case _C_ID:
+      size = sizeof (id);
+      break;
+    case _C_ARY_B:
+      {
+        char *tail;
+        unsigned count = strtoul (varType + 1, &tail, 10);
+       
+        size = count * size_for_objc_type (tail);
+      }
+      break;
+    default:
+      abort ();
+    }
+  return size;
+}
 
 void
 process_array (const char *type,

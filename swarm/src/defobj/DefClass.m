@@ -15,6 +15,7 @@ Library:      defobj
 #import <objc/sarray.h>
 #import <collections.h> // catC:
 #import <collections/predicates.h> // keywordp
+#import <defobj/internal.h> // {alignment,size}_for_objc_type
 
 #include <misc.h> // strncmp, isdigit
 
@@ -171,89 +172,6 @@ align (size_t pos, size_t alignment)
     return (pos + alignment) & ~mask;
 }
 
-static size_t
-type_size (const char *varType)
-{
-  size_t size;
-
-  switch (*varType)
-    {
-    case _C_SHT: case _C_USHT:
-      size = sizeof (short);
-      break;
-    case _C_LNG: case _C_ULNG:
-      size = sizeof (long);
-      break;
-    case _C_INT: case _C_UINT:
-      size = sizeof (int);
-      break;
-    case _C_FLT:
-      size = sizeof (float);
-      break;
-    case _C_DBL:
-      size = sizeof (double);
-      break;
-    case _C_CHARPTR:
-      size = sizeof (const char *);
-      break;
-    case _C_ID:
-      size = sizeof (id);
-      break;
-    case _C_ARY_B:
-      {
-        char *tail;
-        unsigned count = strtoul (varType + 1, &tail, 10);
-       
-        size = count * type_size (tail);
-      }
-      break;
-    default:
-      abort ();
-    }
-  return size;
-}
-
-static size_t
-type_alignment (const char *varType)
-{
-  size_t alignment = 0;
-
-  switch (*varType)
-    {
-    case _C_SHT: case _C_USHT:
-      alignment = __alignof__ (short);
-      break;
-    case _C_LNG: case _C_ULNG:
-      alignment = __alignof__ (long);
-      break;
-    case _C_INT: case _C_UINT:
-      alignment = __alignof__ (int);
-      break;
-    case _C_FLT:
-      alignment = __alignof__ (float);
-      break;
-    case _C_DBL:
-      alignment = __alignof__ (double);
-      break;
-    case _C_CHARPTR:
-      alignment = __alignof__ (const char *);
-      break;
-    case _C_ID:
-      alignment = __alignof__ (id);
-      break;
-    case _C_ARY_B:
-      varType++;
-      while (isdigit ((int) *varType))
-        varType++;
-      
-      alignment = type_alignment (varType);
-      break;
-    default:
-      abort ();
-    }
-  return alignment;
-}
-
 void
 addVariable (Class class, const char *varName, const char *varType)
 {
@@ -262,10 +180,11 @@ addVariable (Class class, const char *varName, const char *varType)
   class->ivars = extend_ivar_list (class->ivars, 1);
   il = &class->ivars->ivar_list[class->ivars->ivar_count];
   
-  il->ivar_offset = align (class->instance_size, type_alignment (varType));
+  il->ivar_offset = align (class->instance_size,
+                           alignment_for_objc_type (varType));
   il->ivar_type = varType;
   il->ivar_name = varName;
-  class->instance_size = il->ivar_offset + type_size (varType);
+  class->instance_size = il->ivar_offset + size_for_objc_type (varType);
   class->ivars->ivar_count++; 
 }
 

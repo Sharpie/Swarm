@@ -1080,7 +1080,7 @@ map_ivars (struct objc_ivar_list *ivars,
             }
         }
       else
-        [hdf5Obj store: name type: type ptr: ptr];
+        [hdf5Obj storeAsDataset: name type: type ptr: ptr];
     }
 
   map_ivars (getClass (self)->ivars, store_object);

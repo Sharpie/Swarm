@@ -1,5 +1,11 @@
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* internal.[hm] (alignment_for_objc_type, size_for_objc_type): 
+	Moved from DefClass.m (formerly type_alignment and type_size).
+
+	* DefClass.m: Include internal.h.
+	(addVariable): Use alignment_for_objc_type and size_for_objc_type.
+
 	* HDF5Object.m (ref_string): Handler for const char * -> HDF5 string
 	conversion.
 	([HDF -createEnd]): Ensure that ref_string is installed.
@@ -26,7 +32,7 @@
 
 	* Archiver.m: Include internal.h.
 	(hdf5_tid_for_objc_type): New function.
-	([HDF -store:type:ptr:]): Add support for strings and arrays.
+	([HDF -storeAsDataset:type:ptr:]): Add support for strings and arrays.
 
 	* Makefile.am (SRC): Add internal.m.
 	(EXTRA_DIST): Add internal.h.
@@ -45,10 +51,10 @@
 	([Object_s -lispOut:deep:]): Use it.
 	([Object_s -hdf5Out:deep:]): New method (also use map_ivars).
 
-	* Archiver.m ([HDF -setName:], [HDF -store:type:ptr:], [HDF -drop]): 
-	New methods.
-	([HDF -createEnd]): Create groups if parent exists, other
-	create file.
+	* Archiver.m ([HDF -setName:], [HDF -storeAsDataset:type:ptr:],
+	[HDF -drop]): New methods.
+	([HDF -createEnd]): Create groups if parent exists, other create
+	file.
 	(defaultPath): New function.
 	(lispDefaultPath, hdf5DefaultPath): Use it.
 	(hdf5ArchiverPut, hdf5ArchiverGet): New functions.
@@ -56,7 +62,7 @@
 	(hdf5_create_app_group, hdf5_output_objects): New functions.
 	([Archiver_c -hdf5Out:]): New method, use above.
 	([Archiver_c -countHDF5Objects:]): New method.
-	([Archiver_c -save]): Call hdf5Out: with new HDF5 toplevel object 
+	([Archiver_c -save]): Call hdf5Out: with new HDF5 toplevel object
 	if there are any HDF5 objects stored.
 
 	* Archiver.h: Include swarmconfig.h.

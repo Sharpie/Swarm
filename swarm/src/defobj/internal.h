@@ -3,6 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#include <misc.h> // size_t
+
+extern size_t size_for_objc_type (const char *varType);
+extern size_t alignment_for_objc_type (const char *varType);
+
 extern void
 process_array (const char *type,
                void (*setup_array) (unsigned rank, unsigned *dims,
@@ -16,3 +21,4 @@ process_array (const char *type,
                                     void *data),
                const void *ptr,
                void *data);
+
