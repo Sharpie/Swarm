@@ -572,11 +572,12 @@ BOOL
 tkobjc_setColor (Colormap *colormap, const char *colorName, PixelValue *pvptr)
 {
   int rc;
-  XColor exc, sxc;
+  XColor sxc;
   Display *display = Tk_Display (colormap->tkwin);
   int screen = DefaultScreen (display);
 
 #ifndef _WIN32
+  XColor exc;
   rc = XLookupColor (display, colormap->cmap, colorName, &exc, &sxc);
 #else
   rc = XParseColor (display, colormap->cmap, colorName, &sxc);
