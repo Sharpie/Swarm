@@ -1,5 +1,8 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Select per
+	USEDLL automake conditional.
+
 	* include.dists.creating.m: Reformatting throughout.
 	Use of raiseEvent macro instead of raiseEvent: method.
 

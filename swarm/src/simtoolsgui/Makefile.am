@@ -8,7 +8,13 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../gui -I$(srcdir)/../simtools -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
+if USEDLL
 noinst_LTLIBRARIES = libsimtoolsgui.la
+lib_LTLIBRARIES =
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libsimtoolsgui.la
+endif
 
 SRC = ActionCache.m ActionHolder.m \
 	ClassDisplayWidget.m CommonProbeDisplay.m CompleteProbeDisplay.m \

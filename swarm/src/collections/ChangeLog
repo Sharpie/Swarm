@@ -1,6 +1,8 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (module_headers): Use $(TYPEINFO).
+	(noinst_LTLIBRARIES, lib_LTLIBRARIES): Set per USEDLL automake
+	conditional.
 
 	* Collection.m, List.m: Include misc.h.
 

@@ -22,7 +22,13 @@ INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../coll
 
 override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@
 
+if USEDLL
 noinst_LTLIBRARIES = libtkobjc.la
+lib_LTLIBRARIES =
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libtkobjc.la
+endif
 
 SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
 	Canvas.m CanvasAbstractItem.m CanvasItem.m CheckButton.m Circle.m \

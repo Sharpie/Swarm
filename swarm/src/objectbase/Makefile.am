@@ -6,7 +6,13 @@ objectbasedir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
+if USEDLL
 noinst_LTLIBRARIES = libobjectbase.la
+lib_LTLIBRARIES =
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libobjectbase.la
+endif
 
 JAVAINCLUDES = -I$(top_srcdir)/java/c @JAVAINCLUDES@
 

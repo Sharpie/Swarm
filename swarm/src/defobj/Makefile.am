@@ -12,7 +12,13 @@ EXTRA_DIST = make-h2x m2h internal.h
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
 
+if USEDLL
 noinst_LTLIBRARIES = libdefobj.la
+lib_LTLIBRARIES = 
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libdefobj.la
+endif
 
 module_headers = $(TYPEINFO)
 

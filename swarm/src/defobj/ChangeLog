@@ -1,5 +1,8 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Set per USEDLL
+	automake conditional.
+
 	* Arguments.m ([Arguments_c -createEnd]): For glibc, don't
 	assign to program_invocation_short_name and don't use it.
 

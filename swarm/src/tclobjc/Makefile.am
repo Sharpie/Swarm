@@ -20,7 +20,13 @@ INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../misc
 override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@
 override CPPFLAGS += -DList=TclObjcList -DTCL_LIBRARY=\"$(TCL_LIBRARY)\" -DTK_LIBRARY=\"$(TK_LIBRARY)\"
 
+if USEDLL
 noinst_LTLIBRARIES = libtclobjc.la
+lib_LTLIBRARIES =
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libtclobjc.la
+endif
 
 SRC = TclInterp.m TkInterp.m tclObjc.m
 EXTRA_libtclobjc_la_SOURCES = HashTable.m List.m objc-malloc.m

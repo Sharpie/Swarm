@@ -8,7 +8,13 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(srcdir)/..
 
+if USEDLL
 noinst_LTLIBRARIES = libmisc.la
+lib_LTLIBRARIES =
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libmisc.la
+endif
 
 ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
 	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c getopt1.c \

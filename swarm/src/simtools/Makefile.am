@@ -8,7 +8,13 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../random -I$(srcdir)/../simtoolsgui -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
+if USEDLL
 noinst_LTLIBRARIES = libsimtools.la
+lib_LTLIBRARIES =
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libsimtools.la
+endif
 
 SRC = InFile.m OutFile.m AppendFile.m \
 	ObjectLoader.m ObjectSaver.m \

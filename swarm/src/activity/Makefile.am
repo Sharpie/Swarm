@@ -8,7 +8,13 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc
 
+if USEDLL
 noinst_LTLIBRARIES = libactivity.la
+lib_LTLIBRARIES =
+else
+noinst_LTLIBRARIES =
+lib_LTLIBRARIES = libactivity.la
+endif
 
 module_headers = $(TYPEINFO)
 
