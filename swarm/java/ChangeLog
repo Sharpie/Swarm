@@ -1,3 +1,9 @@
+1999-08-08  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-print-native-method): Reverse order of
+	multiple string argument generation, order was being reversed
+	relative to the documented interface for that native method.
+
 1999-08-03  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (java-print-class-constructor-method): Don't
