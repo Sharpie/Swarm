@@ -1525,9 +1525,6 @@ swarm_directory_java_ensure_objc (jobject javaObject)
     {
       ObjectEntry *result; 
       
-      if (!javaObject)
-        return nil;
-  
       result = swarm_directory_java_find (javaObject);
       
       if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_String))
