@@ -170,25 +170,33 @@ objc_type_for_tid (hid_t tid)
           raiseEvent (LoadError, "cannot get sign type of tid");
         
         if (tid_size == sizeof (char))
-          if (tid_sign == H5T_SGN_2)
-            type = @encode (char);
-          else
-            type = @encode (unsigned char);
+          {
+            if (tid_sign == H5T_SGN_2)
+              type = @encode (char);
+            else
+              type = @encode (unsigned char);
+          }
         else if (tid_size == sizeof (short))
-          if (tid_sign == H5T_SGN_2)
-            type = @encode (short);
-          else
-            type = @encode (unsigned short);
+          {
+            if (tid_sign == H5T_SGN_2)
+              type = @encode (short);
+            else
+              type = @encode (unsigned short);
+          }
         else if (tid_size == sizeof (int))
-          if (tid_sign == H5T_SGN_2)
-            type = @encode (int);
-          else
-            type = @encode (unsigned);
+          {
+            if (tid_sign == H5T_SGN_2)
+              type = @encode (int);
+            else
+              type = @encode (unsigned);
+          }
         else if (tid_size == sizeof (long))
-          if (tid_sign == H5T_SGN_2)
+          {
+            if (tid_sign == H5T_SGN_2)
             type = @encode (long);
-          else
-            type = @encode (unsigned long);
+            else
+              type = @encode (unsigned long);
+          }
         else
           abort ();
       }
