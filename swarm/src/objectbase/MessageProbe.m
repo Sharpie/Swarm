@@ -417,7 +417,7 @@ dynamicCallOn (const char *probedType,
     [fc setMethod: probedSelector inObject: target];
   fc = [fc createEnd];
   [fc performCall];
-  retVal->val = *(types_t *) [fc getResult]
+  retVal->val = *(types_t *) [fc getResult];
   [fc drop];
   [fa drop];
 }
