@@ -1,5 +1,14 @@
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.m (lispInInteger): Don't do type check here (it's now
+	in getInteger).
+
+	* DefObject.m ([Object_s -lispIn:]): Handle long double and
+	long long. 
+
+	* DefClass.m ([CreatedClass_s -lispInCreate:]): Use getUnsigned
+	instead of getInteger.
+
 	* directory.m (swarm_directory_get_language_independent_class_name): 
 	Referenced object needn't be a proxy.
 

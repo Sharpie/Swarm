@@ -118,24 +118,26 @@ PHASE(Setting)
             case _C_ID:
               *((id *) ptr) = [val getObject];
               break;
+            case _C_LNG_DBL:
+              *((long double *) ptr) = [val getLongDouble];
+              break;
             case _C_DBL:
               *((double *) ptr) = [val getDouble];
               break;
             case _C_FLT:
               *((float *) ptr) = [val getFloat];
               break;
-            case _C_LNG:
-            case _C_INT:
+            case _C_LNG_LNG:
               {
                 char itype = *ivar->ivar_type;
-                int ival = [val getInteger];
+                long long ival = [val getLongLong];
 
                 if (itype == _C_INT || itype == _C_UINT)
-                  *((int *) ptr) = ival;
+                  *((int *) ptr) = (int) ival;
                 else if (itype == _C_SHT || itype == _C_USHT)
-                  *((short *) ptr) = ival;
+                  *((short *) ptr) = (short) ival;
                 else if (itype == _C_LNG || itype == _C_ULNG)
-                  *((long *) ptr) = ival;
+                  *((long *) ptr) = (long) ival;
                 else if (itype == _C_LNG_LNG || itype == _C_ULNG_LNG)
                   *((long long *) ptr) = ival;
                 else

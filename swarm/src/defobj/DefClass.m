@@ -322,10 +322,11 @@ objc_type_for_lisp_type (const char *lispTypeString)
             while ((dimCountValue = [index next]))
               {
                 char numbuf[DSIZE (unsigned) + 1];
+
                 if (!valuep (dimCountValue))
                   raiseEvent (InvalidArgument,
                               "array dimension count should be a value");
-                sprintf (numbuf, "%u", [dimCountValue getInteger]);
+                sprintf (numbuf, "%u", [dimCountValue getUnsigned]);
                 p = stpcpy (p, "[");
                 p = stpcpy (p, numbuf);
               }

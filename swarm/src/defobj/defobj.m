@@ -215,9 +215,6 @@ lispInInteger (id index)
   if (!valuep (val))
     raiseEvent (InvalidArgument, "expected ArchiverValue");
   
-  if ([val getValueType] != _C_INT)
-    raiseEvent (InvalidArgument, "expected integer ArchiverValue");
-  
   return [val getInteger];
 }
 
