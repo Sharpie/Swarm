@@ -556,7 +556,7 @@ create_method_refs (JNIEnv *env)
 {
   jmethodID findMethodID (const char *name, jclass clazz)
     {
-      char sig[31 + strlen (name) + 2];
+      char sig[31 + strlen (name) + 1 + 1];
       char *p;
 
       jmethodID res;
@@ -755,7 +755,7 @@ objc_class_for_classname (const char * classname)
 {
   int len = strlen (classname);
   int end, beg;
-  char typename[len];
+  char typename[len + 1];
   
   if (!strcmp ("Impl", classname + len - 4))
     {

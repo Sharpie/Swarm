@@ -1,3 +1,12 @@
+1999-08-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (objc_class_for_classname): Reserve extra byte for 
+	typename terminator.
+
+	* FArguments.m (ALLOCTYPE): Use alloc: instead of allocBlock:.
+	([FArguments_c +createBegin:]): Likewise
+	(createJavaSignature): Likewise.
+
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.m (tid_for_objc_type): Add support for [unsigned] 
