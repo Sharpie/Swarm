@@ -1,3 +1,9 @@
+2000-07-06    <mgd@DRONE>
+
+	* Makefile.protocol: Use OSTYPE instead of host_triplet
+	to select DOS pathname transformations (remove
+	specific reference to a processor type).
+
 2000-05-19  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* interface.el (print-implemented-interfaces-list): Put

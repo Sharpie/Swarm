@@ -4,7 +4,7 @@ endif
 
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
 abs_builddir := $(shell pwd)
-ifeq ($(host_triplet),i686-pc-cygwin)
+ifeq ($(OSTYPE),cygwin32)
   dos_abs_top_builddir := $(shell cygpath -w $(abs_top_builddir))
   dos_abs_builddir := $(shell cygpath -w $(abs_builddir))
   dos_swarm_srcdir = $(shell cygpath -w $(swarm_srcdir))
