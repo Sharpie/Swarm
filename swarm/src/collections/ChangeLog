@@ -5,6 +5,8 @@
 
 	* collections.h: Change all count arguments to unsigned.
 	(PermutedIndex): Remove generatePermutation.
+	(ArchiverKeyword, ArchiverArray, ArchiverValue,
+	ArchiverPair): Add protocol summary and description strings.
 
 	* Permutation.m ([Permutation_c -createEnd]): Check for a 
 	collection and generatePermutation when finished.

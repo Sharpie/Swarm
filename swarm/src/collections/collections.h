@@ -960,6 +960,8 @@ USING
 extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 
 @protocol ArchiverKeyword <Create, Drop, CREATABLE>
+//S: Keyword encapsulation for serialization.
+//D: Keyword encapsulation for serialization.
 CREATING
 - setKeywordName: (const char *)name;
 USING
@@ -967,6 +969,8 @@ USING
 @end
 
 @protocol ArchiverArray <Create, Drop, CREATABLE>
+//S: Array encapsulation for serialization.
+//D: Array encapsulation for serialization.
 CREATING
 - setArray: array;
 USING
@@ -978,6 +982,8 @@ USING
 @end
 
 @protocol ArchiverValue <Create, Drop, CREATABLE>
+//S: Value encapsulation for serialization.
+//D: Value encapsulation for serialization.
 CREATING
 - setDouble: (double)val;
 - setFloat: (float)val;
@@ -995,6 +1001,8 @@ USING
 @end
 
 @protocol ArchiverPair <Create, Drop, CREATABLE>
+//S: List pair encapsulation for serialization.
+//D: List pair encapsulation for serialization.
 CREATING
 - setCar: car;
 - setCdr: cdr;
