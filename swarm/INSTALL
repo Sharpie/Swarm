@@ -30,7 +30,7 @@ least one additional option that the `configure' script cannot guess.
 default, this is /usr/local/bin, /usr/local/lib etc.
 
 `--enable-shared[=PKGS]' ---  build shared libraries [default=yes]  
-`--disable-shared' --- same as --enable-shared=yes
+`--disable-shared' --- same as --enable-shared=no
 
 This version of Swarm can build `shared' libraries (sometimes called
 dynamic libraries), which significantly reduce the size of resulting
