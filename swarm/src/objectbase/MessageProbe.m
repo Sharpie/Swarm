@@ -189,32 +189,47 @@ nth_type (const char *type, int which)
 static const char *
 copy_to_nth_colon (const char *str, int n)
 {
-  int count = -1;
+  int count = 0;
   int beginning,end,i;
   char *new_str;
 
   for (i = 0; i < n; i++)
-    while (str[++count] != ':');
+    {
+      while (str[count] && str[count] != ':')
+        count++;
+      if (!str[count])
+        break;
+    }
 
-  count++;
+  if (i == n)
+    {
+      if (str[count] == ':')
+        count++;
 
-  beginning = count;
-
-  while (str[count] != ':')
-    count++;
-
-  count++;
-
-  end = count;
-
-  new_str = xmalloc ((end - beginning) + 1);
-
-  count = 0;
-  for (i = beginning; i < end; i++)
-    new_str[count++] = str[i];
-  new_str[count] = '\0';
-
-  return new_str;
+      if (str[count])
+        {
+          beginning = count;
+          
+          while (str[count] && str[count] != ':')
+            count++;
+          
+          count++;
+          
+          end = count;
+          
+          new_str = xmalloc ((end - beginning) + 1);
+          
+          count = 0;
+          for (i = beginning; i < end; i++)
+            new_str[count++] = str[i];
+          new_str[count] = '\0';
+          
+          return new_str;
+        }
+      else
+        return NULL;
+    }
+  return NULL;
 } 
 
 - (const char *)getArgName: (int)which

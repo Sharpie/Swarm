@@ -89,7 +89,7 @@ PHASE(Creating)
       // double types - defaults are set in the probeLibrary instance
       if  (type == _C_FLT || type == _C_DBL)
         {
-          char *buf = xmalloc (7);
+          char *buf = xmalloc (16);
           sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
           floatFormat = buf; // allocate memory for string
         }

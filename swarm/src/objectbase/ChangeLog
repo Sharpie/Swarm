@@ -1,3 +1,11 @@
+1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbe.m ([VarProbe -createEnd]): Make floatFormat string
+	larger than necessary to avoid false positive from Checker.
+
+	* MessageProbe.m (copy_to_nth_colon): Avoid running over end
+	of string in some corner cases.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute
