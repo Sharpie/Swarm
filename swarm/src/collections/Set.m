@@ -47,14 +47,9 @@ PHASE(Using)
   return newSet;
 }
 
-- (int)count
-{
-  return [list count];
-}
-
 - (unsigned)getCount
 {
-  return [list count];
+  return [list getCount];
 }
 
 - (BOOL)add: anObject

@@ -96,11 +96,6 @@ PHASE(Using)
   return count;
 }
 
-- (unsigned)count
-{
-  return count;
-}
-
 static id
 indexAtOffset (Collection_any *self, unsigned offset)
 {
@@ -138,17 +133,7 @@ indexAtOffset (Collection_any *self, unsigned offset)
   return [self atOffset: 0];
 }
 
-- first
-{
-  return [self atOffset: 0];
-}
-
 - getLast
-{
-  return [self atOffset: count - 1];
-}
-
-- last
 {
   return [self atOffset: count - 1];
 }

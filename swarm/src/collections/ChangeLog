@@ -1,3 +1,10 @@
+2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Collection.[hm] ([Collection_any -{count,first,last}]): Remove.
+
+	* Set.[hm] ([Set_c -count]): Remove. 
+	([Set_c -getCount]): Call List's getCount.
+
 2000-07-26    <mgd@DRONE>
 
 	* List_HDF5in.m: Change SD_JAVA_FINDJAVACLASS to

@@ -20,7 +20,6 @@ Library:      collections
 + createBegin: aZone;
 - createEnd;
 - copy: aZone;
-- (int)count;
 - (unsigned)getCount;
 - (BOOL)add: anObject;
 - replace: anObject;
