@@ -174,6 +174,7 @@ fillHiddenArguments (FCall * self)
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
+#ifdef HAVE_JDK
     case javacall:
       ((FArguments *)self->args)->hiddenArguments = 3;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
@@ -192,6 +193,7 @@ fillHiddenArguments (FCall * self)
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
+#endif
     }
 }
 

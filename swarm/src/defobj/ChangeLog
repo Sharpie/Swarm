@@ -1,8 +1,10 @@
 1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* FCall.m (fillHiddenArguments): Hide java dependent code.
+
 	* FCall.h (init_javacall_tables): jniEnv is passed as VOID * 
 	argument.
-
+	
 	* FCall.m ([FCall -createEnd]): Pass correct number of arguments.
 	([FCall -_performAction_:]): Pass correct offset of argument 
 	values array.
