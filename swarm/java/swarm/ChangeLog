@@ -1,3 +1,10 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in: Use $(module_creatable_PROTOCOLS) for classes,
+	$(module_[non]creatable_PROTOCOLS) for interfaces.
+
+	* Makefile.rules.in (INTERFACES, _CLASSES): Likewise.
+
 1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* PhaseCImpl.java: New file.
