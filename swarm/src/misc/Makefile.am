@@ -12,14 +12,9 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libmisc.la
 
-ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
-	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c getopt1.c \
-	getopt.c
+ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c getopt1.c getopt.c
 
-EXTRA_DIST = memchr.c memcpy.c memset.c \
-	realpath.c \
-	stpcpy.c strchr.c strcmp.c strlen.c strncmp.c \
-	strndup.c strnlen.c strpbrk.c strsep.c strtoll.c argp.h $(ARGP_SRC)
+EXTRA_DIST = memchr.c memcpy.c memset.c realpath.c stpcpy.c strchr.c strcmp.c strlen.c strncmp.c strndup.c strnlen.c strpbrk.c strsep.c strtoll.c argp.h $(ARGP_SRC)
 
 EXTRA_HEADERS = argp.h
 

@@ -12,12 +12,10 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libanalysis.la
 
-SRC = ActiveGraph.m ActiveOutFile.m Averager.m EZBin.m EZDistribution.m \
-	EZGraph.m Entropy.m FunctionGraph.m
+SRC = ActiveGraph.m ActiveOutFile.m Averager.m EZBin.m EZDistribution.m EZGraph.m Entropy.m FunctionGraph.m
 
 libanalysis_la_SOURCES = $(SRC)
 libanalysis_la_LDFLAGS = @inst_LDFLAGS@
 
-analysis_HEADERS =  ActiveOutFile.h ActiveGraph.h Averager.h EZBin.h \
-	EZDistribution.h EZGraph.h Entropy.h FunctionGraph.h
+analysis_HEADERS =  ActiveOutFile.h ActiveGraph.h Averager.h EZBin.h EZDistribution.h EZGraph.h Entropy.h FunctionGraph.h
 

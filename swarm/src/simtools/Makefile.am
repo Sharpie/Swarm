@@ -12,15 +12,9 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libsimtools.la
 
-SRC = InFile.m OutFile.m AppendFile.m \
-	ObjectLoader.m ObjectSaver.m \
-	NSelect.m QSort.m \
-	UName.m
+SRC = InFile.m OutFile.m AppendFile.m ObjectLoader.m ObjectSaver.m NSelect.m QSort.m UName.m
 
 libsimtools_la_SOURCES = $(SRC)
 libsimtools_la_LDFLAGS = @inst_LDFLAGS@
 
-simtools_HEADERS = InFile.h OutFile.h AppendFile.h \
-	ObjectLoader.h ObjectSaver.h \
-	NSelect.h QSort.h \
-	UName.h initSwarm.h
+simtools_HEADERS = InFile.h OutFile.h AppendFile.h ObjectLoader.h ObjectSaver.h NSelect.h QSort.h UName.h initSwarm.h

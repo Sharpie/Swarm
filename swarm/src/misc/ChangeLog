@@ -1,3 +1,8 @@
+2001-11-04    <mgd@HELEN>
+
+	* Makefile.am: Avoid multi-line values as they confused Cygwin
+	automake.
+
 2001-09-07  Marcus G. Daniels  <mgd@condor>
 
 	* Makefile.am (EXTRA_DIST): Add argp.h.
