@@ -459,11 +459,13 @@ USING
 //D: InputWidgets get their input in one of two ways: by being readable, or
 //D: by being linked to a C variable.
 CREATING
-- createEnd;
-
 USING
 //M: Get the string value of the widget.
 - (const char *)getValue;
+
+//M: Set the string value of the widget. 
+//M: This must be implemented by a subclass.
+- setValue: (const char *)v;
 
 //M: Attach the widget value to an integer.
 - linkVariableInt: (int *)p;
@@ -473,10 +475,6 @@ USING
 
 //M: Attach the widget value to a boolean.
 - linkVariableBoolean: (BOOL *)p;
-
-//M: Set the string value of the widget. 
-//M: This must be implemented by a subclass.
-- setValue: (const char *)v;
 @end
 
 @protocol Entry <InputWidget, CREATABLE>
@@ -484,12 +482,7 @@ USING
 
 //D: Handles text-field input.
 CREATING
-- createEnd;
-
 USING
-//M: Set the value of the widget, replacing the visible text in the widget.
-- setValue: (const char *)value;
-
 //M: This method aborts
 - setHeight: (unsigned)h; // since this isn't possible with Tk, it will abort.
 @end
@@ -570,8 +563,6 @@ USING
 
 //D: A check box on/off selection widget.
 CREATING
-- createEnd;
-
 USING
 //M: Get on/off status.
 - (BOOL)getBoolValue;
