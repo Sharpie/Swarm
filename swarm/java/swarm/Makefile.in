@@ -6,10 +6,10 @@ jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
 JAR=@JAR@
 JAVAC=@JAVAC@
-JAVACLASSES=@JAVACLASSES@
+JAVACLASSESARG=@JAVACLASSESARG@
 srcdir=@srcdir@
 VPATH=$(srcdir)
-JAVACOMPILE = $(JAVAC) -classpath '..@PATHSEP@$(JAVACLASSES)'
+JAVACOMPILE = $(JAVAC) -classpath '..@PATHSEP@$(JAVACLASSESARG)'
 
 include ../Makefile.common
 

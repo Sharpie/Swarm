@@ -1,3 +1,11 @@
+1999-09-03    <mgd@HELEN>
+
+	* Makefile.in (JAVACOMPILE): Use JAVACLASSESARG instead of JAVACLASSES.
+
+	* Makefile.rules.in (JAVACOMPILE): Likewise.
+	(.deps): Use JAVACLASSESARG for classpatha rg.
+	(JAVALIBSARG): New substitution (for use in JAVA).
+	
 1999-09-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.java: Switch from variables with Impl typing

@@ -1,13 +1,13 @@
 prefix=@prefix@
 jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
-JAVALIBS=@JAVALIBS@
 JAVACMD=@JAVACMD@
 JAVAENV=@JAVAENV@
+JAVALIBSARG=@JAVALIBSARG@
 JAVA=@JAVA@
-JAVACLASSES=@JAVACLASSES@
+JAVACLASSESARG=@JAVACLASSESARG@
 JAVAC=@JAVAC@
-JAVACOMPILE=$(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSES)'
+JAVACOMPILE=$(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSESARG)'
 top_dossrcdir=@top_dossrcdir@
 ifneq ($(top_dossrcdir),.)
 JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@JavaDeps.jar
@@ -34,5 +34,5 @@ all: all-classes
 all-classes: $(CLASSES)
 
 .deps: $(JAVAFILES)
-	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) | tr -d '\015' > .deps
+	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSESARG)' smr.JavaDeps.JavaDeps $(JAVAFILES) | tr -d '\015' > .deps
 
