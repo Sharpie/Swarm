@@ -112,14 +112,14 @@ argp_default_parser (int key, const char *arg, struct argp_state *state)
       break;
 
     case OPT_PROGNAME:		/* Set the program name.  */
-      program_invocation_name = arg;
+      program_invocation_name = (char *)arg;
 
       /* [Note that some systems only have PROGRAM_INVOCATION_SHORT_NAME (aka
 	 __PROGNAME), in which case, PROGRAM_INVOCATION_NAME is just defined
 	 to be that, so we have to be a bit careful here.]  */
       arg = strrchr (arg, '/');
       if (arg)
-	program_invocation_short_name = arg + 1;
+	program_invocation_short_name = (char *)arg + 1;
       else
 	program_invocation_short_name = program_invocation_name;
 

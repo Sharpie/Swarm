@@ -1,3 +1,12 @@
+1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* argp.h: Only define program_invocation_name and
+	program_invocation_short_name in the absence of glibc.
+
+	* argp-parse.c (argp_default_parser): Cast arg as (char *) for
+	assignment to program_invocation_name and
+	program_invocation_short_name.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* misc.h: Note expectation of atoi, getenv, and qsort getting

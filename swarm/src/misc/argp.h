@@ -27,7 +27,9 @@
 #include <getopt.h>
 #else
 #include "getopt.h"
+#ifndef __GLIBC__
 extern const char *program_invocation_name, *program_invocation_short_name;
+#endif
 #define __argp_parse argp_parse
 #endif
 
