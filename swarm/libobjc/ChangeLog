@@ -1,11 +1,15 @@
+1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* configure.in (AC_OUTPUT): Extract objc/externvar.h.
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.c (_objc_malloc, _objc_atomic_malloc, _objc_valloc,
-	_objc_realloc, _objc_callc, _objc_free): Add externvardef.
+	_objc_realloc, _objc_callc, _objc_free): Add externobjcvardef.
 
-	* class.c: (_objc_lookup_class): Add externvardef.
+	* class.c: (_objc_lookup_class): Add externobjcvardef.
 
-	* init.c (_objc_load_callback): Add externvardef.
+	* init.c (_objc_load_callback): Add externobjcvardef.
 
 	* configure.in: Use md_CHECK_DLLEXTERN.
 

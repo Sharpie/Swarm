@@ -68,4 +68,4 @@ fi)
 md_CREATE_LIBOBJC_HEADERS
 md_CHECK_DLLEXTERN
 AC_CHECK_HEADERS(sys/sigevent.h)
-AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile])
+AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile objc/externvar.h])

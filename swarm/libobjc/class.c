@@ -32,7 +32,7 @@ static cache_ptr __objc_class_hash = 0;                 /* !T:MUTEX */
 /* This is a hook which is called by objc_get_class and 
    objc_lookup_class if the runtime is not able to find the class.
    This may e.g. try to load in the class using dynamic loading */
-externvardef Class (*_objc_lookup_class) (const char* name) = 0; /* !T:SAFE */
+externobjcvardef Class (*_objc_lookup_class) (const char* name) = 0; /* !T:SAFE */
 
 
 /* True when class links has been resolved */     
