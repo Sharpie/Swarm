@@ -290,7 +290,7 @@ USING
 - disableDestroyNotification;
 @end
 
-@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName, CREATABLE>
+@protocol GUISwarm <Swarm, SwarmProcess, WindowGeometryRecordName, CREATABLE>
 //S: A version of the Swarm class which is graphics aware. 
 
 //D: GUISwarm is a subclass of Swarm that is used as a toplevel Swarm for

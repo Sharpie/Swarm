@@ -1,3 +1,7 @@
+1999-04-01  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* simtoolsgui.h: Protocol GUISwarm inherits protocol Swarm. 
+
 1999-03-31  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* simtoolsgui.h: Add methods getActionCache and getControlPanel
