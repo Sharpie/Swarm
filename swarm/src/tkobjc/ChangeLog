@@ -3,6 +3,8 @@
 	* internal.m (setSecondaryPath): Use share/ instead of ../library.
 	Swarm 1.4 Win32 layout will follow GNU conventions.
 
+	* TkExtra.m (ensureBltSupportFiles): Likewise (share/blt8.0).
+
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (CURRENT): Bump.

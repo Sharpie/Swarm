@@ -18,7 +18,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
 {
   const char *fileName = "bltGraph.tcl";
   const char *basePath = [globalTkInterp globalVariableValue: "blt_library"];
-  int retry = 0;
+  BOOL retry = NO;
   
   do { 
     char buf[strlen (basePath) + 1 + strlen (fileName) + 1];
@@ -36,7 +36,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
 
             if (swarmHome)
               {
-                const char *libdir = "../BLT/library";
+                const char *libdir = "share/blt8.0";
                 char libPath[strlen (swarmHome) + strlen (libdir) + 1];
                 char *p;
                 
@@ -53,7 +53,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
                 [globalTkInterp globalEval: "set blt_library \"%s\"",
 				basePath];
               }
-            retry = 1;
+            retry = YES;
             continue;
           }
         else
