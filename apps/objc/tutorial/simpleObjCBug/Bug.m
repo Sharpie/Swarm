@@ -1,25 +1,27 @@
 // Bug.m
 
 #import "Bug.h"
-#import <simtools.h>
+#import <random.h>
 
 @implementation Bug
 
--setX: (int) x Y: (int) y {
+- setX: (int)x Y: (int)y
+{
   xPos = x;
   yPos = y;
   printf("I started at X = %d Y = %d \n\n", xPos, yPos);
   return self;
 }
 
--setWorldSizeX: (int) xSize Y: (int) ySize {
+- setWorldSizeX: (int)xSize Y: (int)ySize
+{
   worldXSize = xSize;
   worldYSize = ySize;
   return self;
 }
 
--step {
-
+- step
+{
   xPos = xPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
   yPos = yPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
 

@@ -1,3 +1,8 @@
+1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Bug.m: Include random.h instead of simtools.h.
+	Reformatting throughout.
+
 1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Bug.h: Include objectbase.h instead of swarmobject.h.
