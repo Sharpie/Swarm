@@ -1,3 +1,7 @@
+ifndef swarm_srcdir
+swarm_srcdir = $(top_srcdir)
+endif
+
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
 abs_builddir := $(shell pwd)
 
