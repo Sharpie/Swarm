@@ -412,12 +412,8 @@ PHASE(Using)
 - (BOOL)at: aKey insert: anObject
 {
   id index;
-  mapentry_t newEntry, anEntry;
+  mapentry_t anEntry;
   int result;
-
-  newEntry = [getZone (self) allocBlock: sizeof *newEntry];
-  newEntry->key = aKey;
-  newEntry->member = anObject;
 
   index = [list begin: scratchZone];
   for (anEntry = (mapentry_t) [index next];
@@ -425,13 +421,21 @@ PHASE(Using)
        anEntry = (mapentry_t) [index next])       
     if ((result = compare (anEntry->key, aKey)) == 0)
       {
-        [getZone (self) freeBlock: newEntry blockSize: sizeof *newEntry];
         [index drop];
         return NO;
       }
     else if (result > 0)
       break;
-  [index addBefore: (id) newEntry];
+  
+  {
+    mapentry_t newEntry;
+    
+    newEntry = [getZone (self) allocBlock: sizeof *newEntry];
+    newEntry->key = aKey;
+    newEntry->member = anObject;
+    
+    [index addBefore: (id) newEntry];
+  }
   [index drop];
   count++;
   return YES;

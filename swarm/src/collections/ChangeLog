@@ -1,7 +1,7 @@
 1999-08-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Map.m ([Map_c -at:insert:]): Drop newEntry if key already exists.
-	Thanks to Ken Cline.
+	* Map.m ([Map_c -at:insert:]): Don't allocate newEntry unless
+	key is new.  Thanks to Ken Cline.
 
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
