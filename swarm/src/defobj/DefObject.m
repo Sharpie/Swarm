@@ -93,7 +93,7 @@ PHASE(Setting)
         raiseEvent (InvalidArgument, "missing value");
       
       ivarname = [key getKeywordName];
-      object_setVariable (self, ivarname, val);
+      object_setVariableFromExpr (self, ivarname, val);
     }
   return self;
 }
@@ -865,7 +865,9 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 {
   id type = [self getType];
   
-  return type ? [type getName] : [self name];
+  return (type
+          ? [type getName]
+          : swarm_directory_language_independent_class_name (self));
 }
 
 //

@@ -287,11 +287,201 @@ map_objc_ivars (id obj,
   map_class_ivars (getClass (obj));
 }
 
+
+static const char *java_type_signature[FCALL_TYPE_COUNT] = {
+  "V", "C", "C", "C", "S", "S",
+  "I", "I", "J", "J", 
+
+  /* bogus */
+  "J", "J",
+
+  "F", "D",
+  "D", // long double
+  "X", // Object
+  "X", // Class
+  "Ljava/lang/String;", 
+  "Lswarm/Selector;",
+  "Ljava/lang/Object;",
+  "Ljava/lang/String;"
+};
+
+static BOOL
+fcall_type_for_java_signature (const char *signature, fcall_type_t *typeptr)
+{
+  unsigned i;
+
+  for (i = 0; i < FCALL_TYPE_COUNT; i++)
+    if (strcmp (signature, java_type_signature[i]) == 0)
+      {
+        *typeptr = i;
+        return YES;
+      }
+  return NO;
+}
+
+const char *
+java_signature_for_fcall_type (fcall_type_t type)
+{
+  return java_type_signature[type];
+}
+
+static fcall_type_t
+java_getTypeInfo (jobject javaObj, unsigned *rankptr, unsigned *dims)
+{
+  unsigned rank = 0;
+  fcall_type_t elementType;
+  void checkArray (jobject obj)
+    {
+      jclass class = (*jniEnv)->GetObjectClass (jniEnv, obj);
+      jboolean isArray =
+        (*jniEnv)->CallBooleanMethod (jniEnv, class, m_ClassIsArray);
+      unsigned len;
+      
+      if (isArray)
+        {
+          if ((len = (*jniEnv)->GetArrayLength (jniEnv, obj)) > 0)
+            {
+              const char *sig =
+                swarm_directory_signature_for_class (jniEnv, class);
+
+              if (dims)
+                dims[rank] = len;
+              rank++;
+              
+              if (sig[1] == '[')
+                {
+                  jobject subobj =
+                    (*jniEnv)->GetObjectArrayElement (jniEnv, obj, 0);
+                  
+                  checkArray (subobj);
+                  (*jniEnv)->DeleteLocalRef (jniEnv, subobj);
+                }
+              else if (!fcall_type_for_java_signature (&sig[1], &elementType))
+                abort ();
+              SFREEBLOCK (sig);
+            }
+        }
+      else
+        elementType =
+          swarm_directory_fcall_type_for_java_class (jniEnv, class);
+          
+      (*jniEnv)->DeleteLocalRef (jniEnv, class);
+    }
+  checkArray (javaObj);
+  *rankptr = rank;
+  
+  return elementType;
+}
+
+static void
+java_expandArray (jobject fullary, void *inbuf)
+{
+  unsigned char *buf = inbuf;
+  unsigned offset = 0;
+  
+  void permute (jobject obj)
+    {
+      jclass lref = (*jniEnv)->GetObjectClass (jniEnv, obj);
+      const char *sig =
+        swarm_directory_signature_for_class (jniEnv, lref);
+      jsize len = (*jniEnv)->GetArrayLength (jniEnv, obj);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+      
+      if (sig[1] == '[')
+        {
+          unsigned i;
+
+          for (i = 0; i < len; i++)
+            {
+              jobject subobj =
+                (*jniEnv)->GetObjectArrayElement (jniEnv, obj, i);
+
+              permute (subobj);
+              (*jniEnv)->DeleteLocalRef (jniEnv, subobj);
+            }
+        }
+      else if (sig[1] == 'L')
+        {
+          *((id *) &buf[offset]) = SD_ENSUREOBJC (jniEnv, obj);
+          offset += sizeof (id);
+        }
+      else
+        {
+          fcall_type_t type;
+
+          jboolean isCopy;
+          size_t size;
+          void *ptr;
+
+          if (!fcall_type_for_java_signature (&sig[1], &type))
+            abort ();
+
+          size = fcall_type_size (type) * len;
+
+          switch (type)
+            {
+            case fcall_type_boolean:
+              ptr = (*jniEnv)->GetBooleanArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseBooleanArrayElements (jniEnv, obj, ptr,
+                                                      JNI_ABORT);
+              break;
+            case fcall_type_uchar:
+              ptr = (*jniEnv)->GetByteArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseByteArrayElements (jniEnv, obj, ptr,
+                                                   JNI_ABORT);
+              break;
+            case fcall_type_schar:
+              ptr = (*jniEnv)->GetCharArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseCharArrayElements (jniEnv, obj, ptr,
+                                                   JNI_ABORT);
+              break;
+            case fcall_type_sshort:
+              ptr = (*jniEnv)->GetShortArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseShortArrayElements (jniEnv, obj, ptr,
+                                                    JNI_ABORT);
+              break;
+            case fcall_type_sint:
+              ptr = (*jniEnv)->GetIntArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseIntArrayElements (jniEnv, obj, ptr,
+                                                  JNI_ABORT);
+              break;
+            case fcall_type_slonglong:
+              ptr = (*jniEnv)->GetLongArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseLongArrayElements (jniEnv, obj, ptr,
+                                                   JNI_ABORT);
+              break;
+            case fcall_type_float:
+              ptr = (*jniEnv)->GetFloatArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseFloatArrayElements (jniEnv, obj, ptr,
+                                                    JNI_ABORT);
+              break;
+            case fcall_type_double:
+              ptr = (*jniEnv)->GetDoubleArrayElements (jniEnv, obj, &isCopy);
+              memcpy (&buf[offset], ptr, size);
+              (*jniEnv)->ReleaseDoubleArrayElements (jniEnv, obj, ptr,
+                                                     JNI_ABORT);
+              break;
+            default:
+              abort ();
+            }
+          offset += size;
+        }
+      SFREEBLOCK (sig);
+    }
+  permute (fullary);
+}
+
 #define _GETVALUE(uptype) \
-    (*jniEnv)->Call##uptype##Method (jniEnv, \
-                                     field, \
-                                     m_FieldGet##uptype, \
-                                     javaObject)
+    (*jniEnv)->Get##uptype##Field (jniEnv, \
+                                   javaObject, \
+                                   fid)
 #define GETVALUE(uptype) _GETVALUE(uptype)
 
 void
@@ -302,99 +492,146 @@ map_java_ivars (jobject javaObject,
                                         unsigned rank,
                                         unsigned *dims))
 {
-  void map_class_ivars (jclass class)
+  jarray fields;
+  jsize count;
+  unsigned fi;
+  jclass class = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
+      
+  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
+                                              class,
+                                              m_ClassGetFields)))
+    abort();
+      
+  count = (*jniEnv)->GetArrayLength (jniEnv, fields);
+      
+  for (fi = 0; fi < count; fi++)
     {
-      jclass superClass = 0;
-      
-      if ((superClass = (*jniEnv)->GetSuperclass (jniEnv, class)))
-        map_class_ivars (superClass);
-      
-      {
-        jarray fields;
-        jsize count;
-        unsigned i;
-        jclass javaClass;
-        
-        if (!(javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject)))
-          abort ();
-        
-        if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
-                                                    javaClass,
-                                                    m_ClassGetDeclaredFields)))
-          abort();
-      
-        count = (*jniEnv)->GetArrayLength (jniEnv, fields);
-      
-        for (i = 0; i < count; i++)
-          {
-            jobject name, field;
-            jboolean isCopy;
-            const char *namestr;
+      jobject name, field;
+      jboolean isCopy;
+      const char *namestr;
           
-            field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
-            if (!field)
-              raiseEvent (SourceMessage, "field %u unavailable", i);
-            name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
-            namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, fi);
+      if (!field)
+        raiseEvent (SourceMessage, "field %u unavailable", fi);
+      name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+      namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+      {
+        jobject lref =
+          (*jniEnv)->CallObjectMethod (jniEnv,
+                                       field,
+                                       m_FieldGetType);
+        fcall_type_t type = 
+          swarm_directory_fcall_type_for_java_class (jniEnv, lref);
+        const char *sig =
+          swarm_directory_signature_for_class (jniEnv, lref);
+        jboolean isArray = 
+          (*jniEnv)->CallBooleanMethod (jniEnv, lref, m_ClassIsArray);
+        jfieldID fid =
+          (*jniEnv)->GetFieldID (jniEnv, class, namestr, sig);
+            
+        (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+        if (!fid)
+          abort ();
+            
+        SFREEBLOCK (sig);
+        if (isArray)
+          {
+            jobject obj = GETVALUE (Object);
+            fcall_type_t type;
+            unsigned rank;
+                
+            java_getTypeInfo (obj, &rank, NULL);
             {
-              types_t val;
-              jobject lref = (*jniEnv)->CallObjectMethod (jniEnv,
-                                                          field,
-                                                          m_FieldGetType);
-              fcall_type_t type = 
-                swarm_directory_fcall_type_for_java_class (jniEnv, lref);
-            
-              (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-            
-              switch (type)
-                {
-                case fcall_type_boolean:
-                  val.boolean = GETVALUE (Boolean);
-                  break;
-                case fcall_type_schar:
-                  val.schar = GETVALUE (Char);
-                  break;
-                case fcall_type_sshort:
-                  val.sshort = GETVALUE (Short);
-                  break;
-                case fcall_type_sint:
-                  val.sint = GETVALUE (Int);
-                  break;
-                case fcall_type_slonglong:
-                  val.slonglong = GETVALUE (Long);
-                  break;
-                case fcall_type_float:
-                  val._float = GETVALUE (Float);
-                  break;
-                case fcall_type_double:
-                  val._double = GETVALUE (Double);
-                  break;
-                case fcall_type_object:
-                case fcall_type_string:
-                case fcall_type_selector:
-                  val.object = (id) GETVALUE (Object);
-                  break;
-                default:
-                  abort ();
-                }
-              process_object (namestr, type, &val, 0, NULL);
-              if (type == fcall_type_object 
-                  || type == fcall_type_string
-                  || type == fcall_type_selector)
-                (*jniEnv)->DeleteLocalRef (jniEnv, (jobject) val.object);
+              unsigned dims[rank], i;
+              unsigned count = 1;
+                  
+              type = java_getTypeInfo (obj, &rank, dims);
+                  
+              for (i = 0; i < rank; i++)
+                count *= dims[i];
+              {
+                unsigned buf[fcall_type_size (type) * count];
+                    
+                java_expandArray (obj, buf);
+                process_object (namestr, type, buf, rank, dims);
+              }
             }
-            (*jniEnv)->DeleteLocalRef (jniEnv, field);
-            if (isCopy)
-              (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
-            (*jniEnv)->DeleteLocalRef (jniEnv, name);
+            (*jniEnv)->DeleteLocalRef (jniEnv, obj);
           }
-        (*jniEnv)->DeleteLocalRef (jniEnv, fields);
+        else
+          {
+            types_t val;
+                
+            switch (type)
+              {
+              case fcall_type_boolean:
+                val.boolean = GETVALUE (Boolean);
+                break;
+              case fcall_type_schar:
+                val.schar = GETVALUE (Char);
+                break;
+              case fcall_type_sshort:
+                val.sshort = GETVALUE (Short);
+                break;
+              case fcall_type_sint:
+                val.sint = GETVALUE (Int);
+                break;
+              case fcall_type_slonglong:
+                val.slonglong = GETVALUE (Long);
+                break;
+              case fcall_type_float:
+                val._float = GETVALUE (Float);
+                break;
+              case fcall_type_double:
+                val._double = GETVALUE (Double);
+                break;
+              case fcall_type_object:
+                {
+                  jobject obj = GETVALUE (Object);
+                      
+                  val.object = SD_ENSUREOBJC (jniEnv, obj);
+                  (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+                }
+                break;
+              case fcall_type_string:
+                {
+                  BOOL isCopy;
+                  jobject string = GETVALUE (Object);
+                  const char *utf =
+                    (*jniEnv)->GetStringUTFChars (jniEnv, string, &isCopy);
+                      
+                  val.string = SSTRDUP (utf);
+                  if (isCopy)
+                    (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, utf);
+                  (*jniEnv)->DeleteLocalRef (jniEnv, string);
+                }
+                break;
+              case fcall_type_selector:
+                {
+                  jobject sel = GETVALUE (Object);
+                      
+                  val.object = SD_FINDOBJC (jniEnv, sel);
+                  (*jniEnv)->DeleteLocalRef (jniEnv, sel);
+                }
+                break;
+              default:
+                abort ();
+              }
+            process_object (namestr, type, &val, 0, NULL);
+            if (type == fcall_type_object 
+                || type == fcall_type_string
+                || type == fcall_type_selector)
+              (*jniEnv)->DeleteLocalRef (jniEnv, (jobject) val.object);
+          }
+        (*jniEnv)->DeleteLocalRef (jniEnv, field);
+        if (isCopy)
+          (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
+        (*jniEnv)->DeleteLocalRef (jniEnv, name);
       }
     }
-  map_class_ivars ((*jniEnv)->GetObjectClass (jniEnv, javaObject));
+  (*jniEnv)->DeleteLocalRef (jniEnv, fields);
+  (*jniEnv)->DeleteLocalRef (jniEnv, class);
 }
-#undef GETVALUE
-#undef _GETVALUE
 
 void
 map_object_ivars (id object,
@@ -897,108 +1134,480 @@ class_generate_name (void)
   return SSTRDUP (buf);
 }
 
-void
-object_setVariable (id obj, const char *ivarname, id expr)
+static jfieldID
+class_java_find_field (jclass javaClass, const char *fieldName, fcall_type_t *typeptr)
 {
-  struct objc_ivar *ivar = find_ivar (getClass (obj), ivarname);
-  void *ptr;
+  jarray fields;
+  jsize count;
+  unsigned i;
+  BOOL match = NO;
+  jobject field = NULL;
+  jobject name;
+  const char *namestr;
+  jboolean isCopy;
+
+  void release (void)
+    {
+      if (isCopy)
+        (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
+      (*jniEnv)->DeleteLocalRef (jniEnv, name);
+      (*jniEnv)->DeleteLocalRef (jniEnv, field);
+    }
+
+  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
+                                              javaClass,
+                                              m_ClassGetFields)))
+    abort();
   
-  if (ivar == NULL)
-    raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);
+  count = (*jniEnv)->GetArrayLength (jniEnv, fields);
+
+  for (i = 0; i < count; i++)
+    {
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
+      if (!field)
+        raiseEvent (SourceMessage, "field %u unavailable", i);
+      name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+      namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+      match = (strcmp (namestr, fieldName) == 0);
+      if (match)
+        break;
+      else
+        release ();
+    }
+  (*jniEnv)->DeleteLocalRef (jniEnv, fields);
+  if (match)
+    {
+      jobject lref = (*jniEnv)->CallObjectMethod (jniEnv,
+                                                  field,
+                                                  m_FieldGetType);
+      const char *sig = swarm_directory_signature_for_class (jniEnv, lref);
+      fcall_type_t type =
+        swarm_directory_fcall_type_for_java_class (jniEnv, lref);
+      jfieldID fid;
+      
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+
+      fid = (*jniEnv)->GetFieldID (jniEnv, javaClass, namestr, sig);
+      if (!fid)
+        abort ();
+      SFREEBLOCK (sig);
+      release ();
+      if (typeptr)
+        *typeptr = type;
+      return fid;
+    }
+  else
+    return NULL;
+}
+
+static fcall_type_t
+object_ivar_type (id obj, const char *ivarName)
+{
+  if ([obj respondsTo: M(isJavaProxy)])
+    {
+      jobject javaObject = SD_FINDJAVA (jniEnv, obj);
+      jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
+      fcall_type_t type;
+      
+      if (!class_java_find_field (javaClass, ivarName, &type))
+        abort ();
+      return type;
+    }
+  else
+    {
+      struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
+      
+      return fcall_type_for_objc_type (*ivar->ivar_type);
+    }
+}
+
+#define _SETVALUE(uptype,value) \
+    (*jniEnv)->Set##uptype##Field (jniEnv, javaObject, fid, value)
+#define SETVALUE(uptype, value) _SETVALUE(uptype, value)
+
+void
+object_setVariableFromPtr (id obj, const char *ivarname, types_t *buf)
+{
+  if ([obj respondsTo: M(isJavaProxy)])
+    {
+      jobject javaObject = SD_FINDJAVA (jniEnv, obj);
+
+      if (!javaObject)
+        abort ();
+      {
+        jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
+        jfieldID fid;
+        fcall_type_t type;
+        
+        if (!javaClass)
+          abort ();
+        fid = class_java_find_field (javaClass, ivarname, &type);      
+        if (!fid)
+          abort ();
+        
+        switch (type)
+          {
+          case fcall_type_object:
+            SETVALUE (Object, SD_FINDJAVA (jniEnv, buf->object));
+            break;
+          case fcall_type_class:
+            SETVALUE (Object, SD_FINDJAVACLASS (jniEnv, buf->class));
+            break;
+          case fcall_type_string:
+            SETVALUE (Object, (*jniEnv)->NewStringUTF (jniEnv, buf->string));
+            break;
+          case fcall_type_long_double:
+            abort ();
+          case fcall_type_double:
+            SETVALUE (Double, buf->_double);
+            break;
+          case fcall_type_float:
+            SETVALUE (Float, buf->_float);
+            break;
+          case fcall_type_boolean:
+            SETVALUE (Boolean, buf->boolean);
+            break;
+          case fcall_type_sint:
+            SETVALUE (Int, buf->sint);
+            break;
+          case fcall_type_sshort:
+            SETVALUE (Short, buf->sshort);
+            break;
+          case fcall_type_slonglong:
+            SETVALUE (Long, buf->slonglong);
+            break;
+          case fcall_type_uchar:
+            SETVALUE (Byte, buf->uchar);
+            break;
+          case fcall_type_schar:
+            SETVALUE (Char, buf->schar);
+          default:
+            raiseEvent (InvalidArgument, "Unhandled fcall type `%d'", type);
+            break;
+          }
+        (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
+      }
+    }
+  else
+    {
+      struct objc_ivar *ivar = find_ivar (getClass (obj), ivarname);
+      void *ptr;
+      fcall_type_t type = fcall_type_for_objc_type (*ivar->ivar_type);
+      if (ivar == NULL)
+        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);
+      
+      ptr = (void *) obj + ivar->ivar_offset;
+      switch (type)
+        {
+        case fcall_type_object:
+          *((id *) ptr) = buf->object;
+          break;
+        case fcall_type_class:
+          *((Class *) ptr) = buf->class;
+          break;
+        case fcall_type_string:
+          *((const char **) ptr) = buf->string;
+          break;
+        case fcall_type_long_double:
+          *((long double *) ptr) = buf->_long_double;
+          break;
+        case fcall_type_double:
+          *((double *) ptr) = buf->_double;
+          break;
+        case fcall_type_float:
+          *((float *) ptr) = buf->_float;
+          break;
+        case fcall_type_boolean:
+          *((BOOL *) ptr) = buf->boolean;
+          break;
+        case fcall_type_sint:
+          *((int *) ptr) = buf->sint;
+          break;
+        case fcall_type_uint:
+          *((unsigned *) ptr) = buf->uint;
+          break;
+        case fcall_type_sshort:
+          *((short *) ptr) = buf->sshort;
+          break;
+        case fcall_type_ushort:
+          *((unsigned short *) ptr) = buf->ushort;
+          break;
+        case fcall_type_slong:
+          *((long *) ptr) = buf->slong;
+          break;
+        case fcall_type_ulong:
+          *((unsigned long *) ptr) = buf->ulong;
+          break;
+        case fcall_type_slonglong:
+          *((long long *) ptr) = buf->slonglong;
+          break;
+        case fcall_type_ulonglong:
+          *((unsigned long long *) ptr) = buf->ulonglong;
+          break;
+        case fcall_type_uchar:
+          *((unsigned char *) ptr) = buf->uchar;
+          break;
+        case fcall_type_schar:
+          *((char *) ptr) = buf->schar;
+          break;
+        default:
+          raiseEvent (InvalidArgument, "Unhandled fcall type `%d'", type);
+          break;
+        }
+    }
+}
+#undef SETVALUE
+#undef _SETVALUE
+
+static void
+java_storeArray (jobject javaObject,
+                 fcall_type_t type, unsigned rank, unsigned *dims, void *buf)
+{
+  jobject values[rank];
+  unsigned vec[rank];
+  unsigned di;
+    
+  void start_dim (unsigned dimnum)
+    {
+      di = dimnum;
+      vec[di] = 0;
+      if (dimnum > 0)
+        values[di] =
+          (*jniEnv)->GetObjectArrayElement (jniEnv,
+                                            values[di - 1],
+                                            vec[di - 1]);
+    }
+  void end_dim (void)
+    {
+      if (di == rank - 1)
+        {
+          unsigned len = vec[di] + 1;
+          switch (type)
+            {
+            case fcall_type_boolean:
+              (*jniEnv)->SetBooleanArrayRegion (jniEnv,
+                                                values[di],
+                                                0, len,
+                                                (jboolean *) buf);
+              break;
+            case fcall_type_uchar:
+              (*jniEnv)->SetByteArrayRegion (jniEnv,
+                                             values[di],
+                                             0, len,
+                                             (jbyte *) buf);
+              break;
+            case fcall_type_schar:
+              (*jniEnv)->SetCharArrayRegion (jniEnv,
+                                             values[di],
+                                             0, len,
+                                             (jchar *) buf);
+              break;
+            case fcall_type_sshort:
+              (*jniEnv)->SetShortArrayRegion (jniEnv,
+                                              values[di],
+                                              0, len,
+                                              (jshort *) buf);
+              break;
+            case fcall_type_sint:
+              (*jniEnv)->SetIntArrayRegion (jniEnv,
+                                            values[di],
+                                            0, len,
+                                            (jint *) buf);
+              break;
+            case fcall_type_slonglong:
+              (*jniEnv)->SetLongArrayRegion (jniEnv,
+                                             values[di],
+                                             0, len,
+                                             (jlong *) buf);
+              break;
+            case fcall_type_float:
+              (*jniEnv)->SetFloatArrayRegion (jniEnv,
+                                              values[di],
+                                              0, len,
+                                              (jfloat *) buf);
+              break;
+            case fcall_type_double:
+              (*jniEnv)->SetDoubleArrayRegion (jniEnv,
+                                               values[di],
+                                               0, len,
+                                               (jdouble *) buf);
+              break;
+            default:
+              abort ();
+            }
+        }
+    }
+  void end_element (void)
+    {
+      vec[di]++;
+    }
+    
+  values[0] = javaObject;
+  process_array (rank, dims, type,
+                 start_dim, end_dim, NULL, end_element, NULL,
+                 buf, NULL);
+}
+
+void
+object_setVariableFromExpr (id obj, const char *ivarname, id expr)
+{
+   types_t buf;
   
-  ptr = (void *) obj + ivar->ivar_offset;
+  if (quotedp (expr))
+     expr = [expr getQuotedObject];
   
- retry:
   if (arrayp (expr))
     {
-      const char *atype = ivar->ivar_type;
-      
-      while (isDigit (*atype) || *atype == _C_ARY_B)
-        atype++;
-      [expr convertToType: fcall_type_for_objc_type (*atype) dest: ptr];
+      if ([obj respondsTo: M(isJavaProxy)])
+        {
+          jobject javaObject = SD_FINDJAVA (jniEnv, obj);
+
+          if (!javaObject)
+            abort ();
+          {
+            jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
+            jfieldID fid = class_java_find_field (javaClass,
+                                                  ivarname,
+                                                  NULL);
+            if (!fid)
+              abort ();
+            (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
+            {
+              jobject ary = GETVALUE (Object);
+              unsigned rank;
+              unsigned erank = [expr getRank];
+              fcall_type_t etype = [expr getArrayType];
+              fcall_type_t type = java_getTypeInfo (ary, &rank, NULL);
+              
+              if (rank != erank)
+                raiseEvent (SourceMessage, "array rank mismatch %u != %u\n",
+                            rank, erank);
+              if (type != etype)
+                raiseEvent (SourceMessage, "array type mismatch %u != %u\n",
+                            type, etype);
+              {
+                unsigned dims[rank];
+                unsigned i;
+                unsigned count = 1;
+                
+                java_getTypeInfo (ary, &rank, dims);
+                for (i = 0; i < rank; i++)
+                  count *= dims[i];
+                {
+                  unsigned char buf[fcall_type_size (type) * count];
+                  
+                  [expr convertToType: type dest: buf];
+                  java_storeArray (ary, type, rank, dims, buf);
+                }
+              }
+            }
+          }
+        }
+      else
+        {
+          struct objc_ivar *ivar = find_ivar (getClass (obj), ivarname);
+          void *ptr = (void *) obj + ivar->ivar_offset;
+          const char *atype = ivar->ivar_type;
+          
+          while (isDigit (*atype) || *atype == _C_ARY_B)
+            atype++;
+          [expr convertToType: fcall_type_for_objc_type (*atype) dest: ptr];
+        }
     }
   else if (valuep (expr))
     {
       fcall_type_t ntype = [expr getValueType];
-
+      
       switch (ntype)
         {
         case fcall_type_object:
-          *((id *) ptr) = [expr getObject];
+          buf.object = [expr getObject];
           break;
         case fcall_type_class:
-          *((Class *) ptr) = [expr getClass];
+          buf.class = [expr getClass];
           break;
         case fcall_type_long_double:
-          *((long double *) ptr) = [expr getLongDouble];
+          buf._long_double = [expr getLongDouble];
           break;
         case fcall_type_double:
-          *((double *) ptr) = [expr getDouble];
+          buf._double = [expr getDouble];
           break;
         case fcall_type_float:
-          *((float *) ptr) = [expr getFloat];
+          buf._float = [expr getFloat];
           break;
         case fcall_type_boolean:
-          *((BOOL *) ptr) = [expr getBoolean];
+          buf.boolean = [expr getBoolean];
           break;
         case fcall_type_slonglong:
           {
-            char itype = *ivar->ivar_type;
-            long long iexpr = [expr getLongLong];
-
-            if (itype == _C_INT)
-              *((int *) ptr) = (int) iexpr;
-            else if (itype == _C_UINT)
-              *((unsigned *) ptr) = (unsigned) iexpr;
-            else if (itype == _C_SHT)
-              *((short *) ptr) = (short) iexpr;
-            else if (itype == _C_USHT)
-              *((unsigned short *) ptr) = (unsigned short) iexpr;
-            else if (itype == _C_LNG)
-              *((long *) ptr) = (long) iexpr;
-            else if (itype == _C_ULNG)
-              *((unsigned long *) ptr) = (unsigned long) iexpr;
-            else if (itype == _C_LNG_LNG)
-              *((long long *) ptr) = iexpr;
-            else if (itype == _C_ULNG_LNG)
-              *((unsigned long long *) ptr) = (unsigned long long) iexpr;
-            else
-              abort ();
+            long long val = [expr getLongLong];
+            fcall_type_t type = object_ivar_type (obj, ivarname);
+            
+            switch (type)
+              {
+              case fcall_type_sint:
+                buf.sint = (int) val;
+                break;
+              case fcall_type_uint:
+                buf.uint = (unsigned) val;
+                break;
+              case fcall_type_sshort:
+                buf.sshort = (short) val;
+                break;
+              case fcall_type_ushort:
+                buf.ushort = (unsigned short) val;
+                break;
+              case fcall_type_slong:
+                buf.slong = (long) val;
+                break;
+              case fcall_type_ulong:
+                buf.ulong = (unsigned long) val;
+                break;
+              case fcall_type_slonglong:
+                buf.slonglong = val;
+                break;
+              case fcall_type_ulonglong:
+                buf.ulonglong = (unsigned long long) val;
+                break;
+              default:
+                abort ();
+              }
           }
         case fcall_type_uchar:
-          *((unsigned char *) ptr) = [expr getChar];
+          buf.uchar = [expr getChar];
           break;
         default:
-          raiseEvent (InvalidArgument, "Unknown exprue type `%c'", ntype);
+          raiseEvent (InvalidArgument, "Unknown value type `%d'", ntype);
           break;
         }
+      object_setVariableFromPtr (obj, ivarname, &buf);
     }
   else if (stringp (expr))
-    *((const char **) ptr) = OSTRDUP (obj, [expr getC]);
+    {
+      buf.string = OSTRDUP (obj, [expr getC]);
+      object_setVariableFromPtr (obj, ivarname, &buf);
+    }
   else if (archiver_list_p (expr))
     {
       id first = [expr getFirst];
-
+      
       if (stringp (first))
         {
           const char *funcName = [first getC];
-
-          if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
-              || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
-            *((id *) ptr) = lispIn ([obj getZone], expr);
+          
+          if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0)
+            buf.object = lispIn ([obj getZone], expr);
+          else if (strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0)
+            buf.class = lispIn ([obj getZone], expr);
           else if (strcmp (funcName, PARSE_FUNCTION_NAME) != 0)
             raiseEvent (InvalidArgument, "function not %s",
                         MAKE_INSTANCE_FUNCTION_NAME
                         " or "
                         MAKE_CLASS_FUNCTION_NAME);
+          object_setVariableFromPtr (obj, ivarname, &buf);
         }
       else
         raiseEvent (InvalidArgument, "argument not a string");
-    }
-  else if (quotedp (expr))
-    {
-      expr = [expr getQuotedObject];
-      goto retry;
     }
   else
     raiseEvent (InvalidArgument, "Unknown type `%s'", [expr name]);

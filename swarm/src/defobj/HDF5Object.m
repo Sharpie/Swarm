@@ -659,7 +659,7 @@ PHASE(Using)
 }
 
 #ifdef HAVE_HDF5
-- packObj: (void *)buf to: obj
+- (void)packObj: (void *)buf to: obj
 {
   unsigned inum = 0;
 
@@ -702,8 +702,13 @@ PHASE(Using)
               }
             else
               key = NULL;
-            
-            *(const char **) ivar_ptr = key;
+
+            if ([obj respondsTo: M(isJavaProxy)])
+              {
+                
+              }
+            else
+              *(const char **) ivar_ptr = key;
             [mi drop];
           }
         }
@@ -720,10 +725,9 @@ PHASE(Using)
       inum++;
     }
   map_object_ivars (obj, process_ivar);
-  return self;
 }
 
-- packBuf: obj to: (void *)buf
+- (void)packBuf: obj to: (void *)buf
 {
   unsigned inum = 0;
 
@@ -788,8 +792,6 @@ PHASE(Using)
       inum++;
     }
   map_object_ivars (obj, process_ivar);
-  return self;
-
 }
 
 static void
@@ -800,7 +802,7 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
 }
 #endif
 
-- writeLevel: (const char *)varName
+- (void)writeLevel: (const char *)varName
 {
 #ifdef HAVE_HDF5
   hsize_t dims[1];
@@ -878,10 +880,9 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- writeLevels
+- (void)writeLevels
 {
   void store_level (const char *ivar_name, fcall_type_t type,
                     void *ivar_ptr, unsigned rank, unsigned *dims)
@@ -890,7 +891,6 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
         [self writeLevel: ivar_name];
     }
   map_object_ivars (prototype, store_level);
-  return self;
 }
 
 - (void)drop
@@ -1422,7 +1422,7 @@ PHASE(Using)
 }
 
 
-- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
+- (void)iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
 {
 #ifdef HAVE_HDF5
 
@@ -1446,7 +1446,6 @@ PHASE(Using)
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
 - (const char *)getAttribute: (const char *)attrName
@@ -1553,40 +1552,43 @@ PHASE(Using)
 #endif
 }
 
-- assignIvar: obj
+- (void)assignIvar: obj
 {
-  const char *ivarName = [self getName];
-  void *ptr = ivar_ptr_for_name (obj, ivarName);
-  
-  if (ptr == NULL)
-    raiseEvent (InvalidArgument,
-                "could not find ivar `%s'", ivarName);
-  
-  if ([self getDatasetFlag])
-    [self loadDataset: ptr];
+  if ([obj respondsTo: M(isJavaProxy)])
+    {
+    }
   else
-    *(id *) ptr = hdf5In ([obj getZone], self);
-  return self;
+    {
+      const char *ivarName = [self getName];
+      void *ptr = ivar_ptr_for_name (obj, ivarName);
+      
+      if (ptr == NULL)
+        raiseEvent (InvalidArgument,
+                    "could not find ivar `%s'", ivarName);
+      
+      if ([self getDatasetFlag])
+        [self loadDataset: ptr];
+      else
+        *(id *) ptr = hdf5In ([obj getZone], self);
+    }
 }
 
-- storeTypeName: (const char *)typeName
+- (void)storeTypeName: (const char *)typeName
 {
 #ifdef HAVE_HDF5
   [self storeAttribute: ATTRIB_TYPE_NAME value: typeName];
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- storeComponentTypeName: (const char *)typeName
+- (void)storeComponentTypeName: (const char *)typeName
 {
 #ifdef HAVE_HDF5
   [self storeAttribute: ATTRIB_COMPONENT_TYPE_NAME value: typeName];
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
 #ifdef HAVE_HDF5
@@ -1628,22 +1630,21 @@ hdf5_store_attribute (hid_t did,
 }
 #endif
 
-- storeAttribute: (const char *)attributeName value: (const char *)valueString
+- (void)storeAttribute: (const char *)attributeName value: (const char *)valueString
 {
 #ifdef HAVE_HDF5
   hdf5_store_attribute (loc_id, attributeName, valueString);
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- storeAsDataset: (const char *)datasetName
-        typeName: (const char *)typeName
-            type: (fcall_type_t)type
-            rank: (unsigned)rank
-            dims: (unsigned *)dims
-             ptr: (void *)ptr
+- (void)storeAsDataset: (const char *)datasetName
+              typeName: (const char *)typeName
+                  type: (fcall_type_t)type
+                  rank: (unsigned)rank
+                  dims: (unsigned *)dims
+                   ptr: (void *)ptr
 {
 #ifdef HAVE_HDF5
   void store (hid_t sid, hid_t memtid, hid_t tid)
@@ -1718,10 +1719,9 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- loadDataset: (void *)ptr
+- (void)loadDataset: (void *)ptr
 {
 #ifdef HAVE_HDF5
   hid_t sid, tid, memtid;
@@ -1759,10 +1759,9 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- selectRecord: (unsigned)recordNumber
+- (void)selectRecord: (unsigned)recordNumber
 {
 #ifdef HAVE_HDF5
   hssize_t coord[1][1];
@@ -1774,10 +1773,9 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- nameRecord: (unsigned)recordNumber name: (const char *)recordName
+- (void)nameRecord: (unsigned)recordNumber name: (const char *)recordName
 {
 #ifdef HAVE_HDF5
   size_t len = strlen (recordName);
@@ -1788,10 +1786,9 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- numberRecord: (unsigned)recordNumber
+- (void)numberRecord: (unsigned)recordNumber
 {
 #ifdef HAVE_HDF5
   char fmt[2 + c_rnnlen + 1 + 1];
@@ -1804,10 +1801,9 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- shallowLoadObject: obj
+- (void)shallowLoadObject: obj
 {
 #ifdef HAVE_HDF5
   if (compoundType == nil)
@@ -1834,10 +1830,9 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- shallowStoreObject: obj
+- (void)shallowStoreObject: obj
 {
 #ifdef HAVE_HDF5
     
@@ -1865,7 +1860,6 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
 - (const char **)readRowNames
@@ -1916,7 +1910,7 @@ hdf5_store_attribute (hid_t did,
 #endif
 }
 
-- writeRowNames
+- (void)writeRowNames
 {
 #ifdef HAVE_HDF5
   hsize_t dims[1];
@@ -1956,10 +1950,9 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
-- writeLevels
+- (void)writeLevels
 {
 #ifdef HAVE_HDF5
   [compoundType setDataset: loc_id];
@@ -1967,7 +1960,6 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
-  return self;
 }
 
 - (void)drop

@@ -36,11 +36,11 @@
 #ifdef HAVE_HDF5
 - (hid_t)getTid;
 - setDataset: (hid_t)did;
-- packObj: (void *)buf to: obj;
-- packBuf: obj to: (void *)buf;
+- (void)packObj: (void *)buf to: obj;
+- (void)packBuf: obj to: (void *)buf;
 #endif
-- writeLevel: (const char *)varName;
-- writeLevels;
+- (void)writeLevel: (const char *)varName;
+- (void)writeLevels;
 - getPrototype;
 - (void)drop;
 @end
@@ -94,31 +94,31 @@
 - (const char *)getName;
 - getClass;
 
-- assignIvar: obj;
+- (void)assignIvar: obj;
 
-- nameRecord: (unsigned)recordNumber name: (const char *)recordName;
-- numberRecord: (unsigned)recordNumber;
-- selectRecord: (unsigned)recordNumber;
+- (void)nameRecord: (unsigned)recordNumber name: (const char *)recordName;
+- (void)numberRecord: (unsigned)recordNumber;
+- (void)selectRecord: (unsigned)recordNumber;
 
-- storeTypeName: (const char *)typeName;
-- storeComponentTypeName: (const char *)typeName;
+- (void)storeTypeName: (const char *)typeName;
+- (void)storeComponentTypeName: (const char *)typeName;
 
-- shallowLoadObject: obj;
-- shallowStoreObject: obj;
+- (void)shallowLoadObject: obj;
+- (void)shallowStoreObject: obj;
 
-- loadDataset: (void *)ptr;
-- storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
+- (void)loadDataset: (void *)ptr;
+- (void)storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
 
 - (void)iterate: (int (*) (id hdf5Obj))iterateFunc drop: (BOOL)dropFlag;
 - (void)iterate: (int (*) (id hdf5Obj))iterateFunc;
 
-- storeAttribute: (const char *)attributeName value: (const char *)valueString;
+- (void)storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - (const char *)getAttribute: (const char *)attrName;
-- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
+- (void)iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 
 - (const char **)readRowNames;
-- writeRowNames;
-- writeLevels;
+- (void)writeRowNames;
+- (void)writeLevels;
 
 - (void)drop;
 @end

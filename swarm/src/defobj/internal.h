@@ -74,6 +74,7 @@ extern size_t fcall_type_size (fcall_type_t type);
 extern fcall_type_t fcall_type_for_objc_type (char objcType);
 
 extern const char *objc_type_for_fcall_type (fcall_type_t type);
+extern const char *java_signature_for_fcall_type (fcall_type_t type);
 
 extern id type_create (id aZone, const char *typeName);
 
@@ -83,5 +84,6 @@ extern const char *class_generate_name (void);
 
 extern struct objc_ivar_list *ivar_extend_list (struct objc_ivar_list *ivars, unsigned additional);
 
-extern void object_setVariable (id obj, const char *ivarname, id expr);
+extern void object_setVariableFromExpr (id obj, const char *ivarname, id expr);
+extern void object_setVariableFromPtr (id, const char *ivarname, types_t *ptr);
 

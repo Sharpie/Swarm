@@ -833,8 +833,17 @@ create_method_refs (JNIEnv *env)
   		     "()[Ljava/lang/reflect/Method;")))
     abort();
 
+  if (!(m_ClassGetFields =
+  	(*env)->GetMethodID (env, c_Class, "getFields",
+			     "()[Ljava/lang/reflect/Field;")))
+    abort();
+  
   if (!(m_ClassGetName = 
 	(*env)->GetMethodID (env, c_Class, "getName", "()Ljava/lang/String;")))
+    abort();
+
+  if (!(m_ClassIsArray =
+	(*env)->GetMethodID (env, c_Class, "isArray", "()Z")))
     abort();
 
   if (!(m_FieldGetName = 
@@ -1304,9 +1313,10 @@ swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass)
       
       if (objcClass == nil)
         objcClass = [JavaProxy create: globalZone];
-
       SD_ADD (env, (jobject) javaClass, (id) objcClass);
     }
+  if ([objcClass isInstance])
+    objcClass = [JavaProxy self];
   return objcClass;
 }
 
@@ -1469,6 +1479,8 @@ swarm_directory_signature_for_class (JNIEnv *env, jclass class)
     type = "D";
   else if (exactclassp (env, class, c_void))
     type = "V";
+  else if ((*jniEnv)->CallBooleanMethod (jniEnv, class, m_ClassIsArray))
+    type = get_class_name (env, class);
   else
     {
       const char *name = get_class_name (env, class);

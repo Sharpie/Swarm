@@ -31,23 +31,6 @@ Library:      defobj
 #import <defobj/javavars.h> // f_retTypeFid, c_boolean
 #endif
 
-static const char *java_type_signature[FCALL_TYPE_COUNT] = {
-  "V", "C", "C", "C", "S", "S",
-  "I", "I", "J", "J", 
-
-  /* bogus */
-  "J", "J",
-
-  "F", "D",
-  "D", // long double
-  "X", // Object
-  "X", // Class
-  "Ljava/lang/String;", 
-  "Lswarm/Selector;",
-  "Ljava/lang/Object;",
-  "Ljava/lang/String;"
-};
-
 #define ZALLOCBLOCK(aZone, size) [aZone allocBlock: size]
 #define ALLOCBLOCK(size) ZALLOCBLOCK([self getZone], size)
 #define ALLOCTYPE(type) ALLOCBLOCK (fcall_type_size (type))
@@ -161,7 +144,7 @@ PHASE(Creating)
       argTypes[offset] = type;
       argValues[offset] = ALLOCBLOCK (size);
       memcpy (argValues[offset], value, size);
-      javaSignatureLength += strlen (java_type_signature[type]);
+      javaSignatureLength += strlen (java_signature_for_fcall_type (type));
       assignedArgumentCount++;
     }
   return self;
@@ -173,7 +156,7 @@ PHASE(Creating)
                ofType: fcall_type_for_objc_type (objcType)];
 }
 
-#define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_type_signature[fcall_type]); argValues[MAX_HIDDEN + assignedArgumentCount] = ALLOCTYPE (fcall_type); argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount] = value; assignedArgumentCount++; }
+#define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_signature_for_fcall_type (fcall_type)); argValues[MAX_HIDDEN + assignedArgumentCount] = ALLOCTYPE (fcall_type); argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount] = value; assignedArgumentCount++; }
 
 - addBoolean: (BOOL)value
 {
@@ -279,7 +262,7 @@ PHASE(Creating)
       argTypes[offset] = fcall_type_jstring;
       argValues[offset] = ALLOCBLOCK (size);
       memcpy (argValues[offset], ptr, size);
-      javaSignatureLength += strlen (java_type_signature[fcall_type_jstring]);
+      javaSignatureLength += strlen (java_signature_for_fcall_type (fcall_type_jstring));
       assignedArgumentCount++;
     }
   else
@@ -301,7 +284,7 @@ PHASE(Creating)
   argTypes[offset] = fcall_type_jobject;
   argValues[offset] = ALLOCBLOCK (size);
   memcpy (argValues[offset], ptr, size);
-  javaSignatureLength += strlen (java_type_signature[fcall_type_jobject]);
+  javaSignatureLength += strlen (java_signature_for_fcall_type (fcall_type_jobject));
   assignedArgumentCount++;
 #else
   abort ();
@@ -329,7 +312,7 @@ PHASE(Creating)
       else if (type == fcall_type_string)
         type = fcall_type_jstring;
     }
-  javaSignatureLength += strlen (java_type_signature[type]);
+  javaSignatureLength += strlen (java_signature_for_fcall_type (type));
 
   switch (type)
     {
@@ -422,10 +405,10 @@ createJavaSignature (FArguments_c *self)
   str = ALLOCBLOCK (self->javaSignatureLength + 1);
   p = stpcpy (str, "(");
   for (i = 0; i < self->assignedArgumentCount; i++)
-    p = stpcpy (p, java_type_signature [self->argTypes[i + MAX_HIDDEN]]);
+    p = stpcpy (p, java_signature_for_fcall_type (self->argTypes[i + MAX_HIDDEN]));
   
   p = stpcpy (p, ")");
-  p = stpcpy (p, java_type_signature [self->returnType]);
+  p = stpcpy (p, java_signature_for_fcall_type (self->returnType));
   return str;
 }
 

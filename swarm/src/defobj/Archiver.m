@@ -68,7 +68,7 @@ PHASE(Creating)
 + create: aZone setPath: (const char *)thePath
 {
   Archiver_c *obj = [self createBegin: aZone];
-  obj->path = thePath;
+  [self setPath: thePath];
   return [obj createEnd];
 }
 
@@ -80,7 +80,7 @@ PHASE(Creating)
 
 - setPath: (const char *)thePath
 {
-  path = thePath;
+  path = STRDUP (thePath);
   return self;
 }
 
@@ -189,6 +189,8 @@ PHASE(Using)
 
 - (void)drop
 {
+  if (path)
+    FREEBLOCK (path);
   [applicationMap deleteAll];
   [applicationMap drop];
   [classes drop];

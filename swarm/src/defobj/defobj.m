@@ -304,8 +304,37 @@ lispIn (id aZone, id expr)
                           typeName);
 
             obj = [typeObject createBegin: aZone];
-            obj = [obj lispInCreate: argexpr];
-            obj = [obj createEnd];
+            if ([obj respondsTo: M(isJavaProxy)])
+              {
+                obj = [obj createEnd];
+                {
+                  jclass class = (*jniEnv)->FindClass (jniEnv, typeName);
+                  
+                  if (!class)
+                    raiseEvent (SourceMessage,
+                                "Could not find Java class `%s'\n", 
+                                typeName);
+                  {
+                    jmethodID method =
+                      (*jniEnv)->GetMethodID (jniEnv, class, "<init>", "()V");
+                    
+                    jobject jobj = 
+                      (*jniEnv)->NewObject (jniEnv, class, method);
+
+                    if (!jobj)
+                      abort ();
+                    SD_ADD (jniEnv, jobj, obj);
+                    
+                    (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
+                    (*jniEnv)->DeleteLocalRef (jniEnv, class);
+                  }
+                }
+              }
+            else
+              {
+                obj = [obj lispInCreate: argexpr];
+                obj = [obj createEnd];
+              }
             [obj lispIn: argexpr];
           }
         [argexpr drop];

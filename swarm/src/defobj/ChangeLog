@@ -1,3 +1,49 @@
+2000-01-22    <mgd@nest.swarm.org>
+
+	* internal.[hm] (object_setVariableFromExpr): Renamed from
+	object_setVariable.  Add java support.
+	(object_setVariableFromptr, java_signature_for_fcall_type):
+	New functions.
+	(map_java_ivars): Use getFields instead of recursing.
+
+	* internal.m (fcall_type_for_java_signature, java_getTypeInfo,
+	java_expandArray, class_java_find_field, object_ivar_type,
+	java_storeArray): New static functions.
+	(object_setVariableFromExpr): 
+
+	* directory.m, javavars.h (create_method_refs): Add
+	m_ClassGetFields and m_ClassIsArray.
+	(swarm_directory_signature_for_class): Handle arrays.
+	(swarm_directory_java_ensure_class): Return a JavaProxy class,
+	but still record a JavaProxy instance (for independence).
+
+	* defobj.m (lispIn): Add special handling for Java.
+
+	* defobj.h (Zone): Remove containsAlloc:.
+
+	* HDF5Object.[hm], defobj.h ([HDF5CompoundType_c
+	-pack{Obj,Buf}:to:, -writeLevel:, -writeLevels]): Return void.
+	([HDF5_c -assignIvar:, -nameRecord:name:, -numberRecord:
+	-selectRecord:, -storeTypeName:, -storeComponentTypeName:,
+	-shallowLoadObject:, -shallowStoreObject:, -loadDataset:,
+	storeAsDataset:typeName:type:rank:dims:ptr:, -iterate:drop:,
+	-iterate:, -storeAttribute:value:, -iterateAttributes:,
+	-writeRowNames, -writeLevels:): Likewise.
+
+	* FArguments.m: Move java_type_signature to internal.m.
+	([FArguments_c -_addArgument_:ofType:], ADD_PRIMITIVE,
+	[FArguments_c -addString:], [FArguments_c -addJavaObject:],
+	[FArguments_c -_setReturnType_:], createJavaSignature): 
+	Use java_signature_for_fcall_type function instead.
+
+	* DefObject.m ([Object_s -getTypeName]): Use
+	swarm_directory_language_independent_class_name when
+	there is no type.
+
+	* Archiver.m ([Archiver_c +create:setPath:]): Use setPath.
+	([Archiver_c -setPath:]): Copy path string.
+	([Archiver_c -drop]): And drop it.
+
 2000-01-19    <mgd@nest.swarm.org>
 
 	* HDF5Object.m (create_compound_type_from_prototype): Use pointer

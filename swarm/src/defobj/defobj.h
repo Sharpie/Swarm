@@ -475,13 +475,6 @@ USING
 //M: removed directly within the collection.
 - getPopulation;
 
-//M: containsAlloc: tests if a particular allocation was made by the local
-//M: zone, or any zone which obtains storage from that zone.  The pointer
-//M: argument must point to an allocation previously made by any zone.  The
-//M: message returns true if the allocation was made by either the local
-//M: zone or any of its subzones.
-- (BOOL)containsAlloc: (void *)alloc;
-
 //M: Generate debug description for each member of the zone population.
 - (void)describeForEach: outputCharStream;
 
@@ -1006,27 +999,27 @@ USING
 - (unsigned)getCount;
 - getCompoundType;
 - getClass;
-- assignIvar: obj;
+- (void)assignIvar: obj;
 
 - (BOOL)checkName: (const char *)name;
 - (BOOL)checkDatasetName: (const char *)datasetName;
 
-- loadDataset: (void *)ptr;
-- storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
-- storeTypeName: (const char *)typeName;
-- storeComponentTypeName: (const char *)typeName;
-- shallowLoadObject: obj;
-- shallowStoreObject: obj;
-- nameRecord: (unsigned)recordNumber name: (const char *)recordName;
-- numberRecord: (unsigned)recordNumber;
-- selectRecord: (unsigned)recordNumber;
+- (void)loadDataset: (void *)ptr;
+- (void)storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
+- (void)storeTypeName: (const char *)typeName;
+- (void)storeComponentTypeName: (const char *)typeName;
+- (void)shallowLoadObject: obj;
+- (void)shallowStoreObject: obj;
+- (void)nameRecord: (unsigned)recordNumber name: (const char *)recordName;
+- (void)numberRecord: (unsigned)recordNumber;
+- (void)selectRecord: (unsigned)recordNumber;
 
 - (const char **)readRowNames;
-- writeRowNames;
-- writeLevels;
+- (void)writeRowNames;
+- (void)writeLevels;
 
-- storeAttribute: (const char *)attributeName value: (const char *)valueString;
-- iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
+- (void)storeAttribute: (const char *)attributeName value: (const char *)valueString;
+- (void)iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 - (const char *)getAttribute: (const char *)attributeName;
 
 - (void)drop;
