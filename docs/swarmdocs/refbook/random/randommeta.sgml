@@ -1,0 +1,31 @@
+<DOCINFO>
+
+  <TITLE>Random Library</TITLE>
+
+  <ABSTRACT>
+    <TITLE>Documentation and Implementation Status</TITLE>
+    
+    
+  </ABSTRACT>
+  
+  <REVHISTORY>
+
+    <REVISION>
+      <REVNUMBER>0.7</REVNUMBER>
+      <DATE>1998-14-06</DATE>
+      <AUTHORINITIALS>sthomme, alex, lee</AUTHORINITIALS>
+
+      <REVREMARK>Created the updated SGML documentation version of the 
+       Swarm library "Random" from Sven T.'s original.</REVREMARK>
+
+    </REVISION>
+
+  </REVHISTORY>
+  
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("randomcont.sgml" "DOCINFO")
+End:
+-->

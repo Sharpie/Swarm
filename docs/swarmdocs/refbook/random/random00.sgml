@@ -1,0 +1,61 @@
+<PARTINTRO>
+
+  <SIDEBAR>
+    <TITLE>Overview</TITLE>
+    <PARA>Description of purpose of library</PARA>
+  </SIDEBAR>
+
+  <SECT1 ID="RANDOM.DEPEND">
+    <TITLE>Dependencies</TITLE> 
+    <PARA>No other library dependences</PARA>
+  </SECT1>
+
+  <SECT1 ID="RANDOM.COMPAT">
+    <TITLE>Compatibility</TITLE>
+
+    <PARA>No explicit compatibility issues for particular versions of
+    Swarm</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="RANDOM.USAGE">
+    <TITLE>Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="RANDOM.ADVUSAGE">
+    <TITLE>Advanced Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="RANDOM.SUBCLASS">
+    <TITLE>Subclassing Reference</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="RANDOM.DESIGN">
+    <TITLE>Interface Design Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="RANDOM.IMPL">
+    <TITLE>Implementation Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+  </SECT1>
+
+</PARTINTRO>
+
+<!--
+Local Variables:
+sgml-parent-document:("randcont.sgml" "PARTINTRO")
+End:
+-->

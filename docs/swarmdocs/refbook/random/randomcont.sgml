@@ -1,0 +1,19 @@
+<REFERENCE ID="RANDOM.REF">
+  &randommeta.sgml;
+  
+  <TITLE>Random Library</TITLE>
+  <TITLEABBREV>Random</TITLEABBREV>
+  
+  <!-- partintro -->
+  &random00.sgml;
+  
+  <!-- actual reference content -->
+  &randompages.sgml;
+
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->
