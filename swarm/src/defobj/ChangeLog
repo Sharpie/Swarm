@@ -1,3 +1,10 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* deftype.h (RETURNABLE): New protocol.
+
+	* Program.m (_obj_initModule): Check for "RETURNABLE" as synonym
+	to "CREATABLE".
+
 1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (swarm_directory_objc_type_for_java_class): New function.

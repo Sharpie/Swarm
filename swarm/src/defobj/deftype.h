@@ -24,17 +24,13 @@ Library:      defobj
 #import <stdio.h>
 #endif
 
-//
-// macro to label an Objective C protocol as a definition of an object type 
-//
-#define deftype protocol
-
-//
 // protocol used to declare that a defined type supports creation
-//
 @protocol CREATABLE
 @end
 
+// protocol used to declare that a defined type may be indirectly created
+@protocol RETURNABLE
+@end
 //
 // markers to define interfaces for the life cycle phases of a type
 //

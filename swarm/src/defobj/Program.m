@@ -277,7 +277,8 @@ _obj_initModule (void *module)
                proto < (proto_t *) (protoList->list + protoList->count);
                proto++)
             {
-              if (strcmp ((*proto)->name, "CREATABLE") == 0)
+              if ((strcmp ((*proto)->name, "CREATABLE") == 0)
+                  || strcmp ((*proto)->name, "RETURNABLE") == 0)
                 type->implementation = Creating;
             }
         }

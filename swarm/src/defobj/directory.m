@@ -884,7 +884,7 @@ swarm_directory_java_instantiate (JNIEnv *env, jclass clazz)
 {
   jmethodID mid;
 
-  if (!(mid = (*env)->GetMethodID (env, clazz, "<init>","()V")))
+  if (!(mid = (*env)->GetMethodID (env, clazz, "<init>", "()V")))
     abort ();
   return (*env)->NewObject (env, clazz, mid);
 }
