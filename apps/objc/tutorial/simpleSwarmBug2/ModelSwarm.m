@@ -34,7 +34,7 @@
   
   // First, create the foodWorld and initialize it
 
-  food = [FoodSpace createBegin: [self getZone]];
+  food = [FoodSpace createBegin: self];
   [food setSizeX: worldXSize Y: worldYSize];
   food = [food createEnd];
   
@@ -42,7 +42,7 @@
 
   // Now set up the grid used to represent agent position
 
-  world = [Grid2d createBegin: [self getZone]];
+  world = [Grid2d createBegin: self];
   [world setSizeX: worldXSize Y: worldYSize];
   world = [world createEnd];
   [world fillWithObject: nil];
@@ -52,7 +52,7 @@
   // First, we create a List object to manage the bugs
   // for us.
 
-  bugList = [List create: [self getZone]];
+  bugList = [List create: self];
 
   // Then, we iterate over the possible sites in the world,
   // with a certain probability of creating a bug at 
@@ -62,7 +62,7 @@
     for (x = 0; x < worldXSize; x++) 
       if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity) {
 
-         aBug = [Bug createBegin: [self getZone]];
+         aBug = [Bug createBegin: self];
          [aBug setWorld: world Food: food];
          aBug = [aBug createEnd];
          [aBug setX: x Y: y];
@@ -84,13 +84,13 @@
 
   // Create an ActionGroup to hold the messages over the bugs
 
-  modelActions = [ActionGroup create: [self getZone]];
+  modelActions = [ActionGroup create: self];
   [modelActions createActionForEach: bugList    message: M(step)];
   [modelActions createActionTo:      reportBug 	message: M(report)];
 
   // Make a schedule and insert the ActionGroup as the only action
 
-  modelSchedule = [Schedule createBegin: [self getZone]];
+  modelSchedule = [Schedule createBegin: self];
   [modelSchedule setRepeatInterval: 1];
   modelSchedule = [modelSchedule createEnd];
   [modelSchedule at: 0 createAction: modelActions]; 
