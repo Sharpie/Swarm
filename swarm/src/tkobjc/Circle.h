@@ -12,6 +12,6 @@
 }
 
 - setX: (int)x Y: (int)y;
-- setRadius: (int)r;
+- setRadius: (unsigned)r;
 - createItem;
 @end

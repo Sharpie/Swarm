@@ -1,3 +1,7 @@
+1998-09-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Circle.[hm]: Change argument type of setRadius: to unsigned.
+
 1998-09-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (keep_inside_screen):  Account for border width in

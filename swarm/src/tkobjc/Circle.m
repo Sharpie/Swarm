@@ -20,7 +20,7 @@ PHASE(Creating)
   return self;
 }
  
-- setRadius: (int)the_radius
+- setRadius: (unsigned)the_radius
 {
   r = the_radius;
 
