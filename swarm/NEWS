@@ -24,6 +24,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** Support for RGB PNG files 
       (for writing PNG files with more than 256 colors)
 ***** Support for 24 bit screenshots under Windows
+***** New method -setParentFlag: for selecting inclusion of window manager
+      decorations in a widget snapshot.
 
 *** objectbase
 **** Arguments
