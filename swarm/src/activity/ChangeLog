@@ -1,3 +1,7 @@
+1998-06-21  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am: New file.
+
 1998-06-15  Alex Lancaster  <alex@santafe.edu>
 
 	* Action.m (describeFunctionCall): Removed cast of pointer to

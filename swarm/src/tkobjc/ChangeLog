@@ -1,3 +1,7 @@
+1998-06-21  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am: New file.
+
 1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* win32dib.[ch]: Include contents only if _WIN32.

@@ -1,0 +1,106 @@
+AC_INIT(Makefile.rules)
+
+VERSION=`head -1 $srcdir/VERSION`
+AM_INIT_AUTOMAKE(Swarm, $VERSION)
+
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+AC_PROG_RANLIB
+
+AC_PATH_XTRA
+
+AC_ARG_WITH(tcldir,
+[  --with-tcldir=DIR                Use DIR/include and DIR/lib for Tcl],
+  tclincludedir=$withval/include
+  tcllibdir=$withval/lib)
+
+AC_ARG_WITH(tclincludedir,
+[  --with-tclincludedir=DIR         Use DIR for Tcl header files],
+  tclincludedir=$withval)
+
+if test -z "$tclincludedir" ; then
+  md_FIND_TCL_HEADERS
+  if test -z "$tclincludedir" ; then
+    AC_MSG_ERROR(Please specify Tcl header path using --with-tcldir or --with-tclincludedir)
+  fi
+fi
+
+if test -z "$tcllibdir" ; then
+  md_FIND_TCL_LIBRARIES
+  if test -z "$tcllibdir" ; then
+    AC_MSG_ERROR(Please specify Tcl library path using --with-tcldir)
+  fi
+fi
+
+AC_ARG_WITH(tkdir,
+[  --with-tkdir=TKDIR               Use DIR/include and DIR/lib for Tk],
+  tkincludedir=$withval/include
+  tklibdir=$withval)
+
+AC_ARG_WITH(tkincludedir,
+[  --with-tkincludedir=DIR          Use DIR for Tk header files],
+  tkincludedir=$withval/include)
+
+if test -z "$tkincludedir" ; then
+  md_FIND_TK_HEADERS
+  if test -z "$tkincludedir" ; then
+    AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
+  fi
+fi
+
+if test -z "$tklibdir" ; then
+  md_FIND_TK_LIBRARIES
+  if test -z "$tklibdir" ; then
+    AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
+  fi
+fi
+
+if test $prefix = NONE ; then
+  prefix=/usr/local
+fi
+
+
+AC_ARG_WITH(tclobjcdir,
+[  --with-tclobjc=DIR               Use DIR/include and DIR/lib for tclobjc],
+  tclobjcdir=$withval)
+
+AC_ARG_WITH(tclobjcincludedir,
+[  --with-tclobjcincludedir=DIR     Use DIR for tclobjc headers],
+  tclobjcincludedir=$withval)
+
+md_FIND_TCLOBJC_HEADERS
+md_FIND_TCLOBJC_LIBRARIES
+
+AC_ARG_WITH(bltdir,
+[  --with-bltdir=DIR                Use DIR/include and DIR/lib for BLT],
+  bltdir=$withval)
+
+md_FIND_BLT
+
+AC_ARG_WITH(ffidir,
+[  --with-ffidir=DIR                Use DIR/include and DIR/lib for libffi],
+  ffidir=$withval)
+
+AC_ARG_WITH(ffcalldir,
+[  --with-ffidir=DIR                Use DIR/include and DIR/lib
+                                     for ffcall (alternative to libffi)])
+
+md_FIND_FFI
+
+AC_ARG_WITH(zlibdir,
+[  --with-zlibdir=DIR               Use DIR/include and DIR/lib for zlib],
+  zlibdir=$withval)
+
+md_FIND_ZLIB
+
+AC_ARG_WITH(pngdir,
+[  --with-pngdir=DIR                Use DIR/include and DIR/lib for png],
+  pngdir=$withval
+  AC_MSG_ERROR(--with-pngdir is a required option))
+
+md_FIND_PNG
+
+CFLAGS="$CFLAGS -Wno-import"
+
+AC_OUTPUT([Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile])
