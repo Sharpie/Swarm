@@ -67,6 +67,33 @@
         </printhistory>
       </bookbiblio>
     </biblioentry>
+
+    <biblioentry>
+      <abbrev>Van der Linden, 1994</abbrev>
+      <bookbiblio>
+        <title>Expert C Programming</title>
+        <subtitle>Deep C Secrets</subtitle>
+        <author>
+          <firstname>Peter</firstname>
+          <surname>van der Linden</surname>
+        </author>
+        <isbn>0-13-177429-8</isbn>
+        <pubdate>1994</pubdate>
+        <publisher>
+          <publishername>SunSoft Press: Prentice Hall</publishername>
+        </publisher>
+        <abstract>
+          <formalpara>
+            <title>Abstract</title> <para>A book for more advanced
+            Swarm users: excellent for information on more abstruse
+            matters of memory-management, linker issues and pointers.
+            Covers much UNIX and C arcana which is difficult to find
+            documented anywhere else (obscure man pages
+            notwithstanding) in an engaging and humourous style.</para>
+          </formalpara>
+        </abstract>
+      </bookbiblio>
+    </biblioentry>
   </bibliodiv>
 
 <!-- Comment next section out, but leave in, as a usage guide for 
