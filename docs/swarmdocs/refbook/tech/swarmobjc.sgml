@@ -91,7 +91,11 @@
       the Activity library). Here is a schematic of what sometimes
       occurs in these libraries:</PARA>
 
-    <GRAPHIC ENTITYREF="switcheroo"></GRAPHIC>
+    <FIGURE>
+      <TITLE>Schematic of proto-object creation</TITLE>
+      <GRAPHIC align=center ENTITYREF="switcheroo" format=tiff></GRAPHIC>
+    </FIGURE>
+
 
   </SECT2>
 
