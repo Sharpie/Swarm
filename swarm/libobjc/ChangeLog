@@ -1,3 +1,17 @@
+1999-05-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/unknown/compiler-info-generic.h,
+	config/i386/compiler-info-linux-gnu.h,
+	config/sparc/compiler-info-solaris2.h,
+	config/hppa/compiler-info-generic.h:  Remove INVISIBLE_STRUCT_RETURN,
+	it is redundant with mframe's MFRAME_STACK_STRUCT.
+
+	* config/mips/compiler-info-irix6.5.h,
+	config/mips/mframe-irix6.5.h: New files.
+
+	* sendmsg.c: Use MFRAME_STACK_STRUCT from mframe.h instead of
+	INVISIBLE_STRUCT_RETURN from compiler-info.h.
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe.m: Declare alloca.

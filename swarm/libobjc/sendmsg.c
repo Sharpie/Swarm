@@ -28,8 +28,10 @@ Boston, MA 02111-1307, USA.  */
 #include "sarray.h"
 #include "encoding.h"
 #include "compiler-info.h"
-#ifndef INVISIBLE_STRUCT_RETURN
-#error cc1obj -print-runtime-info must report INVISIBLE_STRUCT_RETURN
+#include <objc/mframe.h>
+
+#ifndef MFRAME_STACK_STRUCT
+#error cc1obj -print-runtime-info must report MFRAME_STACK_STRUCT
 #endif
 
 /* The uninstalled dispatch table */
@@ -52,7 +54,7 @@ static void __objc_init_install_dtable(id, SEL);
 static double __objc_double_forward(id, SEL, ...);
 static id __objc_word_forward(id, SEL, ...);
 typedef struct { id many[8]; } __big;
-#if INVISIBLE_STRUCT_RETURN 
+#if MFRAME_STACK_STRUCT
 static __big 
 #else
 static id
@@ -70,10 +72,7 @@ __objc_get_forward_imp (SEL sel)
   const char *t = sel->sel_types;
 
   if (t && (*t == '[' || *t == '(' || *t == '{')
-#ifdef OBJC_MAX_STRUCT_BY_VALUE
-    && objc_sizeof_type(t) > OBJC_MAX_STRUCT_BY_VALUE
-#endif
-      )
+      && objc_sizeof_type(t) > MFRAME_SMALL_STRUCT)
     return (IMP)__objc_block_forward;
   else if (t && (*t == 'f' || *t == 'd'))
     return (IMP)__objc_double_forward;
@@ -519,7 +518,7 @@ __objc_double_forward (id rcv, SEL op, ...)
   __builtin_return (res);
 }
 
-#if INVISIBLE_STRUCT_RETURN
+#if MFRAME_STACK_STRUCT
 static __big
 #else
 static id
@@ -533,7 +532,7 @@ __objc_block_forward (id rcv, SEL op, ...)
   if (res)
     __builtin_return (res);
   else
-#if INVISIBLE_STRUCT_RETURN
+#if MFRAME_STACK_STRUCT
     return (__big) {{0, 0, 0, 0, 0, 0, 0, 0}};
 #else
     return nil;
