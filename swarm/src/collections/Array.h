@@ -22,13 +22,10 @@ Library:      collections
 - createEnd;
 + create: aZone setCount: (int)memberCount;;
 + create: aZone setMemberBlock: (id *)members setCount: (int)memberCount;;
-+ create: aZone setMemberAlloc: (id *)members setCount: (int)memberCount;;
 - (void)setMemberBlock: (id *)members setCount: (int)memberCount;
-- (void)setMemberAlloc: (id *)members setCount: (int)memberCount;
 - (void)setDefaultMember: memberValue;
 - (void)setCount: (int)memberCount;
 - (void *)getMemberBlock;
-- (void *)getMemberAlloc;
 - getDefaultMember;
 - (int) getCount;
 - (int) count;

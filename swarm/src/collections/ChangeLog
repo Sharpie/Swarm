@@ -1,3 +1,12 @@
+1998-11-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Array.[hm] ([Array_c +create:setMemberAlloc:setCount:],
+	[Array_c -getMemberAlloc]
+	[Array_c -setMemberAlloc:setCount:]): Remove.
+
+	* collections.h: Remove creating -setDefaultMember:; there is
+	already a setting method.
+
 1998-11-02  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* collections.h (Collection): Note that copies are shallow.

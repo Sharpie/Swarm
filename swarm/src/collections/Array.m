@@ -88,12 +88,6 @@ PHASE(Creating)
   return newArray;
 }
 
-+ create: aZone setMemberAlloc: (id *)members setCount: (int)memberCount;
-{
-  return [self create: aZone setMemberBlock: (id *)members
-               setCount: (int)memberCount];
-}
-
 static void
 initArray (Array_c  *self)
 {
@@ -200,11 +194,6 @@ PHASE(Setting)
     }
 }
 
-- (void)setMemberAlloc: (id *)members setCount: (int)memberCount
-{
-  [self setMemberBlock: (id *)members setCount: (int)memberCount];
-}
-
 - (void)setDefaultMember: memberValue
 {
   if (getNextPhase (getClass (self)))
@@ -294,11 +283,6 @@ PHASE(Setting)
 PHASE(Using)
      
 - (void *)getMemberBlock
-{
-  return block;
-}
-
-- (void *)getMemberAlloc
 {
   return block;
 }

@@ -450,9 +450,6 @@ extern id <Error> OffsetOutOfRange, NoMembers,
 //D: option always retrieves the current setting, but this value has no
 //D: effect except when the count of an array is increased, so that new
 //D: members need to be initialized.
-CREATING
-- (void)setDefaultMember: memberValue;
-
 SETTING
 - (void)setDefaultMember: memberValue;
 
@@ -507,11 +504,9 @@ CREATING
 
 SETTING
 - (void)setMemberBlock: (id *)members setCount: (int)count;
-- (void)setMemberAlloc: (id *)members setCount: (int)count;
 
 USING
 - (void *)getMemberBlock;
-- (void *)getMemberAlloc;
 @end
 
 @protocol Array <Collection, CREATABLE, DefaultMember, MemberBlock>
