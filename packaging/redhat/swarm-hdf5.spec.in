@@ -5,13 +5,21 @@ Release: @release@
 Copyright: @copyright@
 Group: Development/Libraries
 Source: @ftproot@/swarm-@version@.tar.gz 
+%ifarch ppc
+Patch: 2.0.1-ppc.patch
+%endif 
 %define prefix      /usr
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
 BuildPrereq: hdf5 > @hdf5_version@
+%ifarch ppc
+BuildPrereq: libffi >= 1.20
+#BuildPrereq: kaffe = 1.0b4
+%else
 BuildPrereq: kaffe = @kaffe_version@
 BuildPrereq: jikes = @jikes_version@
-Icon: swarm.xpm
+%endif
+#Icon: swarm.xpm
 Packager: @packager@
 Distribution: @distribution@
 Vendor: @vendor@
@@ -25,6 +33,9 @@ Requires: xpm-devel
 Requires: blt
 Requires: tcl >= 8.0.4 
 Requires: tk >= 8.0.4 
+%ifarch ppc
+Requires: libffi >= 1.20
+%endif
 Provides: swarm-base
 Requires: hdf5 > @hdf5_version@
 Conflicts: swarm
@@ -38,6 +49,11 @@ or better, and the blt library package.  This version enables hdf5.
 @macros@
 
 %changelog
+* Fri Oct 01 1999 Alex Lancaster <alex@santafe.edu>
+
+- Use new common configure macros.  Enable macros for variant-ppc
+  build/install requirements as per swarm.spec.
+
 * Tue Sep 28 1999 Alex Lancaster <alex@santafe.edu>
 
 - Rework spec file macros more consistently.
@@ -57,7 +73,7 @@ or better, and the blt library package.  This version enables hdf5.
 
 %makebuilddir =with-hdf
 
-%{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --with-hdf5dir=/usr --disable-jar
+%{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-hdf5dir=/usr %ffiflag %jdkflag
 make JAVAC=/usr/bin/jikes 
                             
 %install
