@@ -1,3 +1,7 @@
+2004-02-02  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* configure.in:fix problems with external avcall
+	
 2004-01-21  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* configure.in: remove obsolete attempt to AC_SUBST

@@ -45,6 +45,15 @@ if test -z "$defaultdir" ; then
   defaultdir='${prefix}'
 fi
 
+AC_ARG_ENABLE(onelib,
+[  --enable-onelib                        build as a single library],
+        , enable_onelib=no)
+if test x$enable_onelib = xyes; then
+	ONELIB=yes
+else
+	ONELIB=no
+fi
+
 AC_ARG_WITH(xpmdir,
 [  --with-xpmdir=DIR                Use DIR/include and DIR/lib for XPM],
   xpmincludedir=$withval/include
@@ -202,15 +211,6 @@ if test $prefix = /usr || test $enable_subdirs = yes; then
    includesubdir=swarm
    includedir=${includedir}/${includesubdir}
    libdir=${libdir}/swarm
-fi
-
-AC_ARG_ENABLE(onelib,
-[  --enable-onelib                        build as a single library],
-        , enable_onelib=no)
-if test x$enable_onelib = xyes; then
-	ONELIB=yes
-else
-	ONELIB=no
 fi
 
 md_CHECK_LINKFLAGS

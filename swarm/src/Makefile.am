@@ -48,11 +48,12 @@ $(abs_top_builddir)/interface.elc: $(abs_top_builddir)/protocol.elc
 $(srcdir)/SwarmEnvironment_getters.m: swarm.h getters.elc
 	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@getters.elc' -f generate-SwarmEnvironment-getters
 
-LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lswarmobjc $(SYSLIBS)
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(FFILDFLAGS) $(SUPPORTLDFLAGS) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
+libswarm_la_LIBADD = $(SWFFILIB)
+
+LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(libswarm_la_LIBADD) -lswarmobjc $(SYSLIBS)
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools -I$(srcdir)/gui -I$(srcdir)/simtoolsgui -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES)
-
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(SUPPORTLDFLAGS) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 
 DLLWRAP = @DLLWRAP@
 if USEDLL
