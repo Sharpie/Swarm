@@ -740,9 +740,6 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
       *p = '\0';
     }
 
-  sel = sel_get_any_typed_uid (name);
-
-  if (!sel)
     {
       jsize ti;
       char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
@@ -795,8 +792,16 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
 
       for (ti = 0; ti < argCount; ti++)
         add ((*env)->GetObjectArrayElement (env, argTypes, ti));
+      
+      sel = sel_get_any_typed_uid (name);
 
-      sel = sel_register_typed_name (name, signatureBuf);
+      if (sel)
+	{
+	  if (!(sel_get_typed_uid (name, signatureBuf)))
+	    raiseEvent (SourceMessage, "Method '%s' has different type from the Swarm library method with the same \n  name! Adjust type to match Swarm method's type or use different method name!\n", name);
+	}
+      else
+	sel = sel_register_typed_name (name, signatureBuf);
     }
 
   java_directory_update (env, (*env)->NewGlobalRef(env, jsel), (id) sel);
