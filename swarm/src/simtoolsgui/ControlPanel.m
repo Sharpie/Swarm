@@ -5,7 +5,7 @@
 
 #import <activity.h>
 #import <simtools.h>
-#import <simtools/Archiver.h>
+#import <defobj.h> // archiverSave
 
 #import <simtoolsgui/ControlPanel.h>
 #import <simtoolsgui/global.h>

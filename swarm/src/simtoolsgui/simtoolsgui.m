@@ -6,7 +6,7 @@
 #import <simtoolsgui.h>
 #import <gui.h>
 
-#import <objectbase/Arguments.h> // arguments object
+#import <defobj.h> // arguments
 #include <misc.h> // xmalloc, stpcpy
 
 #import "ControlPanel.h" //ControlState{Running,Stopped,Stepping,Quit,NextTime}

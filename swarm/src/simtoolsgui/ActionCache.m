@@ -15,8 +15,7 @@
 #import <awtobjc/JavaInput.h>
 #endif
 
-#import <objectbase/Arguments.h>
-#import <simtools/Archiver.h>
+#import <defobj.h> // Arguments
 
 // Type Symbols
 id <Symbol> Control, Probing, Spatial;
