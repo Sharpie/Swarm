@@ -228,7 +228,10 @@ findSwarm (id arguments)
   swarmPath = findDirectory (arguments, swarmVersionPathBuf);
   if (swarmPath == NULL)
     swarmPath = findDirectory (arguments, "swarm/VERSION");
-  return dropDirectory (swarmPath);
+  if (swarmPath)
+    return dropDirectory (swarmPath);
+  else
+    return NULL;
 }
 
 - (const char *)getSwarmHome
