@@ -257,10 +257,9 @@ indexAtOffset (Collection_any *self, int offset)
   return ret;
 }  
 
-#ifdef HAVE_HDF5
-
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
+#ifdef HAVE_HDF5
   if (deepFlag)
     abort ();
   else
@@ -301,9 +300,11 @@ indexAtOffset (Collection_any *self, int offset)
           [hdf5CompoundType drop];
         }
     }
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
-#endif
 
 //
 // describe: -- standard method to generate debug description object

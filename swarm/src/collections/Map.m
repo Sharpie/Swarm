@@ -479,9 +479,9 @@ PHASE(Using)
   return self;
 }
 
-#ifdef HAVE_HDF5
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
+#ifdef HAVE_HDF5
   if (deepFlag)
     abort ();
   else
@@ -559,9 +559,11 @@ PHASE(Using)
           [hdf5CompoundType drop];
         }
     }
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
-#endif
 
 @end
 

@@ -10,7 +10,6 @@ Library:      collections
 */
 
 #import <collections/Collection.h>
-#include <swarmconfig.h> // HAVE_HDF5
 //
 // struct mapentry, mapentry_t -- internal node containing key-member pair
 //
@@ -45,9 +44,7 @@ typedef struct mapentry {
 - (BOOL)allSameClass;
 - lispIn: expr;
 - lispOut: stream deep: (BOOL)deepFlag;
-#ifdef HAVE_HDF5
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag;
-#endif
 @end
 
 @interface MapIndex_c: Index_any <MapIndex>

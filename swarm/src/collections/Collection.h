@@ -53,9 +53,7 @@ Library:      collections
 - (void)forEach: (SEL)aSelector : arg1 : arg2;
 - (void)forEach: (SEL)aSelector : arg1 : arg2 : arg3;
 - (BOOL)allSameClass;
-#ifdef HAVE_HDF5
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag;
-#endif
 - (void)describe: outputCharStream;
 - (void)describeForEach: outputCharStream;
 - (void)describeForEachID: outputCharStream;
