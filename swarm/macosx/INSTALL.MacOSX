@@ -1,23 +1,25 @@
-If you are reading this, you got the code already.  Hopefully from the cvs.  If not, you would be better to use cvs code at this time of rapid development.
-See the README.MacOSX for how to get it.
+If you are reading this, you got the code already.    
 
-If you have the cvs sources, you will need to
-
-Edit $SRCROOT/configure.in:26 and $SRCROOT/libobjc/configure.in:18
-to change the OBJCFLAGS thus
-Remove -Werror
+If you have a source tarball
+see the README.MacOSX for how to get cvs code.
 
 In your BLT install, ensure you have a symlink bltGraph.tcl linked to graph.tcl.
 i.e. do this
 cd 'your BLT library directory'/lib/blt2.4
 ln -s graph.tcl bltGraph.tcl
 
-
 Project Builder build
-Edit $SRCROOT/macosx/swarmx/configure.sh and $SRCROOT/macosx/swarmx/buildlibs.shto reflect appropriate paths on your system.
-Open the PB project and build the targets autogen, config and swarmlibmake in that order.  The target Swarm builds all three subtargets
+Edit $SRCROOT/macosx/swarmx/configure.sh
+to reflect appropriate paths on your system.
+Open the PB project and build the targets:
+	If you have cvs sources you will need to build autogen first then 
+	config and swarmlibmake in that  order.  
+	
+	If you started from a source tarball or have built autogen in the cvs
+	sources then build Swarm, which build config and swarmlibmake. 
 
-To start over delete everything in $SRCROOT/macosx/swarmx/build
+To start over delete everything in $SRCROOT/macosx/swarmx/build.  You will save time
+by not deleting the swarmx.build folder which contains indexes.
 
 To install do make install in the build directory.  You may need sudo according to your prefix.
 
@@ -26,17 +28,17 @@ If you think IDEs are for wimps, try:
 cd $SRCROOT/macosx/swarmx/build
 
 setenv MACOSX_DEPLOYMENT_TARGET 10.2
- /yourgnused
 
 ../../../autogen.sh
 
 ../../../configure \
-CC='your GNU gcc' \
---prefix=$SRCROOT/macosx/swarmx/build/dst/usr \  (or some other install path
+CC=cc \
+CFLAGS="-O2 -Wno-long-double" \  (plus any optimisation or debug flags)
+--prefix=/usr/local/Swarm2.2p \  (or some other install path)
 --with-tcldir='your tcl path' \
 --with-tkdir='your tk path \
 --with-bltdir='your BLT path' \
---without-jdkdir \
+--with-jdkdir=/System/Library/Frameworks/JavaVM.framework \ (for Apple's JDK)
 --with-hdf5dir='your HDF5 path'\
 --with-png='your libpng path'    
 
@@ -46,14 +48,16 @@ make install    (sudo may be needed if installing outside your home directory)
 
 That's it.
 
-You may need to fix up DYLD_LIBRARY_PATH to get the run time linking to work.
+You will need to fix up DYLD_LIBRARY_PATH to get the run time linking to work.
 
 Start fixing bugs where it crashes.
 
-If you have any fixes please let me know, and regularly update from the cvs so that you get other developers fixes.  There is no kudos reinventing the wheel.
+If you have any fixes please let me know, and regularly update from the cvs so 
+that you get other developers fixes.  There is no kudos reinventing the wheel.
 
-NB. If you need to compile any GNU utilities ensure you have -no-cpp-precomp as an option for any Apple compiler.
+NB. If you need to compile any GNU utilities ensure you have -no-cpp-precomp 
+as an option for any Apple compiler.
 
 Bill Northcott
 w.northcott@unsw.edu.au
-26 Feb 2003
+15 Sep 2003

@@ -1,3 +1,7 @@
+2003-09-15  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* INSTALL.MacOSX README.MacOSX: updated docs
+
 2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* swarmx/buildlibs.sh: no more continue through build errors
