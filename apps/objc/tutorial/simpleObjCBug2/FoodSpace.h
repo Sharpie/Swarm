@@ -1,12 +1,12 @@
 // FoodSpace.h
 
-#import <space.h>
-#import <simtools.h>
+#import <space/Discrete2d.h>
 
-@interface FoodSpace : Discrete2d {
+@interface FoodSpace: Discrete2d
+{
 }
 
--seedFoodWithProb: (float) s;
+- seedFoodWithProb: (float)s;
 
 @end
 

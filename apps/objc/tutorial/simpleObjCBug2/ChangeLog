@@ -1,3 +1,8 @@
+1998-04-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* FoodSpace.h: Include space/Discrete2d.h instead of space.h
+	Don't include simtools.h.
+
 1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Bug.m:  Include random.h instead of simtools.h.
