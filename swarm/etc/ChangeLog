@@ -5,7 +5,6 @@
 	count-included-methodinfo-entries, count-method-examples,
 	compare-methodinfo): Use methodinfo structure instead
 	of ad-hoc list.
-	(setter-method-p, collect-setter-methods): New functions.
 
 1999-06-21  Alex Lancaster  <alex@santafe.edu>
 
