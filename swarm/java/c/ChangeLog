@@ -3,7 +3,7 @@
 	* directory.h (JINSTANTIATE, JSWITCHUPDATE): New macros.
 
 	* directory.[hm] (java_directory_switchupdate,
-	java_directory_switchupdate_java): New functions.
+	java_directory_switchupdate_java, java_instantiate): New functions.
 
 1999-03-18  Vladimir Jojic  <vjojic@chama.santafe.edu>
 

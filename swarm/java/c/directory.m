@@ -183,6 +183,17 @@ java_directory_switchupdate_java (jobject old_java_object,
 }
 
 
+jobject
+java_instantiate (JNIEnv *env, const char *className)
+{
+  jclass clazz = (*env)->FindClass (env, className);
+  
+  if (!clazz)
+    abort ();
+  
+  return (*env)->AllocObject (env, clazz);
+}
+
 void
 java_directory_init (JNIEnv *env)
 {
