@@ -12,7 +12,7 @@ $pnglibdir
 $zliblibdir
 $JAVALIBS
 EOF`$LD_LIBRARY_PATH
-if test $JAVA_CLASSES_INSTALLED_AS = jar; then
+if test x$JAVA_CLASSES_INSTALLED_AS = xjar; then
   classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH"
 else
   classpath=".:${swarm_datadir}:${JAVACLASSES}:$CLASSPATH"
