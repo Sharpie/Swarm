@@ -401,16 +401,12 @@ lisp_output_type (const char *type,
     case _C_ULNG:
       [stream catUnsignedLong: ((unsigned long *) ptr)[offset]];
       break;
-#if 0
     case _C_LNG_LNG:
-      sprintf (buf, "%lld", ((long long *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catLongLong: ((long long *) ptr)[offset]];
       break;
     case _C_ULNG_LNG:
-      sprintf (buf, "%llu", ((unsigned long long *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catUnsignedLongLong: ((unsigned long long *) ptr)[offset]];
       break;
-#endif
     case _C_FLT:
       [stream catFloat:((float *) ptr)[offset]];
       break;

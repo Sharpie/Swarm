@@ -1,5 +1,8 @@
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* internal.m (lisp_output_type): Renable long long handling,
+	using -cat[Unsigned]LongLong.
+
 	* Archiver.m ([Archiver_c -drop]): Don't drop inStreamZone.
 
 	* Archiver.h (Archiver_c): Remove ivar inStreamZone.
