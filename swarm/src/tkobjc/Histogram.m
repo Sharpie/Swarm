@@ -141,10 +141,11 @@ PHASE(Using)
 }
 
 // this code is in common with BLTGraph
-- (void)setTitle: (const char *)t
+- setTitle: (const char *)t
 {
   [globalTkInterp eval: "%s configure -title {%s};", widgetName, t];
   [self setWindowTitle: t];
+  return self;
 }
 
 - (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl

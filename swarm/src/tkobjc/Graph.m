@@ -83,6 +83,7 @@ PHASE(Using)
 {
   [globalTkInterp eval: "%s configure -title {%s};", widgetName, title];
   [self setWindowTitle: title];
+  return self;
 }
 
 - (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl

@@ -18,7 +18,7 @@
 
 - (id <GraphElement>)createElement;		   // create dataset to draw
 - (void)destroyElement: (id <GraphElement>)g;      // remove element, free it
-- (void)setTitle: (const char *)title;             // title the graph
+- setTitle: (const char *)title;             // title the graph
 - (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;  // change labels here
 - (void)setScaleModeX: (BOOL)xs Y: (BOOL)ys;               // 0 smooth, 1 jump
 // bltgraph will autoscale, but you can also fix scale.

@@ -27,7 +27,7 @@
 - (void)drawHistogramWithInt: (int *)points atLocations: (double *)locations;
 - (void)drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
 
-- (void)setTitle: (const char *)t;
+- setTitle: (const char *)t;
 - (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 - (void)setBarWidth: (double)step;
 - (void)setXaxisMin: (double)min max: (double)max step: (double)step;
