@@ -1,3 +1,9 @@
+1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* WindowGeometryRecord.m ([WindowGeometryRecord
+	-setWindowGeometry:]): Don't use LiteralString, just tweak
+	literal flag.
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* internal.m: Make private_raster_t access visible for

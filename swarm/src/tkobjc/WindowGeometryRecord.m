@@ -15,8 +15,12 @@ PHASE(Creating)
 - setWindowGeometry: (const char *)theWindowGeometryString;
 {
   if (theWindowGeometryString)
-    windowGeometryString = [(id)LiteralString create: [self getZone]
-                                          setC: theWindowGeometryString];
+    {
+      windowGeometryString = [[[String createBegin: [self getZone]]
+                                setLiteralFlag: YES]
+                               createEnd];
+      [windowGeometryString setC: theWindowGeometryString];
+    }
   else
     windowGeometryString = nil;
 
