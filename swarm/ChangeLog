@@ -2,6 +2,11 @@
 
 	* Makefile.conf: Rename mgdSFI to mgd-SFI-Solaris and add
 	mgd-SFI-GNU/Linux configuration. 
+	(TCLLIB,TKLIB): Insert "tcl" and "tk" before TCLVERS and TKVERS
+	in computed paths for configs above.
+	(XPREFIX): Add variable for base of XINC and -L options for configs
+	above.  Use /usr/X11R6 on GNU/Linux config.
+	(SYSDEPLIBS): Add SYSDEPLIBS=-dl for GNU/Linux.
 
 Thu Nov 20 10:24:01 1997  glen e. p. ropella  <gepr@grasshopper.santafe.edu>
 
