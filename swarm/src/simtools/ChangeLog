@@ -2,6 +2,7 @@
 
 	* simtools.h: Remove inclusion of externvar.h and declaration
 	of swarmGUIMode (moved to swarm.h).
+	Include swarm.h.
 
 	* Makefile.am (INCLUDES): Move parent directories to front
 	(to prefer swarm.h over objectbase/Swarm.h).
