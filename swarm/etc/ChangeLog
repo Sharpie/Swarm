@@ -2,6 +2,9 @@
 
 	* Makefile.lib.in (INCLUDES): Add -I.
 
+	* Makefile.appl.in (LINK): Use libtool. 
+	(LDFLAGS): Remove RPATH substitution.
+
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (install-data-local): Use INSTALL_DATA instead.
