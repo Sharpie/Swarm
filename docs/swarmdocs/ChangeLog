@@ -1,5 +1,15 @@
 1999-09-03  Alex Lancaster  <alex@santafe.edu>
 
+	* configure.in: Don't extract TOPSUBDIRS, extract JAVADOCDIR only,
+	naming it only in the case that --with-javadoc has been invoked.
+
+	* Makefile.am (BOOKS): New directory variable, with only the names
+	of the documentation to be built, use the extracted @JAVADOCDIR@,
+	so that Java documentation is only built conditionally.
+	(SUBDIRS): Use it.
+	(html dvi rtf fot ps htmldist dvidist rtfdist psdist): Use a for
+	loop on the $(BOOKS) list to invoke the submakes.
+
 	* configure.in (AC_PROG_LN_S): Call macro to extract link command
 	appropriate to system.
 	(AM_INIT_AUTOMAKE):  Bump version to 2.0.1.

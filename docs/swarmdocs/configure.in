@@ -49,13 +49,15 @@ test -z "$javadoc" && javadoc=no
 if test $javadoc = no; then
   AC_MSG_RESULT(no)
   JAVADOC=
-  TOPSUBDIRS="figs refbook installbook overbook set m4 tex"
+  JAVADOCDIR=
+#  TOPSUBDIRS="figs refbook installbook overbook set m4 tex"
 else
   AC_MSG_RESULT(yes)
   AC_PATH_PROG(JAVADOC, javadoc, missing, $javadoc/bin)
   if test $JAVADOC != missing; then
     AC_MSG_RESULT(yes)
-    TOPSUBDIRS="figs refbook installbook overbook set m4 tex javadoc"
+#    TOPSUBDIRS="figs refbook installbook overbook set m4 tex javadoc"
+    JAVADOCDIR="javadoc"
   else
     AC_MSG_ERROR([Please specify a correct location for the JDK])
   fi
@@ -65,7 +67,8 @@ else
   fi
 fi
 AC_SUBST(JAVADOC)
-AC_SUBST(TOPSUBDIRS)
+AC_SUBST(JAVADOCDIR)
+#AC_SUBST(TOPSUBDIRS)
 
 AM_CONFIG_HEADER(config.h)
 
