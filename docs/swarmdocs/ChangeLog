@@ -1,3 +1,11 @@
+1998-06-16  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* acprogs.m4: New file.
+
+	* configure.in: Check for dvips, pngtopnm, pnmtops, and cjpeg.
+	Iterate over emacs, jade, jadetex, dvips, pngtopnm, pnmtops, and cjpeg
+	ensuring there are not missing.  Call md_PROG_GS.
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* configure.in: Check for emacs, jade, jadetex, and dvips.

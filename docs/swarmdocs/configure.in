@@ -41,23 +41,17 @@ AC_CHECK_PROG(EMACS, emacs, emacs, missing)
 AC_CHECK_PROG(JADE, jade, jade, missing)
 AC_CHECK_PROG(JADETEX, jadetex, jadetex, missing)
 AC_CHECK_PROG(DVIPS, dvips, dvips, missing)
+AC_CHECK_PROG(PNGTOPNM, pngtopnm, pngtopnm, missing)
+AC_CHECK_PROG(PNMTOPS, pnmtops, pnmtops, missing)
+AC_CHECK_PROG(CJPEG, cjpeg, cjpeg, missing)
 
-if test "$ac_cv_prog_EMACS" = missing ; then
-AC_MSG_ERROR(Failed to find emacs)
+for i in EMACS JADE JADETEX DVIPS PNGTOPNM PNMTOPS CJPEG ; do
+if eval test '$ac_cv_prog_'$i = missing ; then
+AC_MSG_ERROR(Failed to find $i)
 fi
+done
 
-if test "$ac_cv_prog_JADE" = missing ; then
-AC_MSG_ERROR(Failed to find jade)
-fi
-
-if test "$ac_cv_prog_JADETEX" = missing ; then
-AC_MSG_ERROR(Failed to find jadetex)
-fi
-
-if test "$ac_cv_prog_DVIPS" = missing ; then
-AC_MSG_ERROR(Failed to find dvips)
-fi
-
+md_PROG_GS
 
 AC_OUTPUT([catalog Makefile figs/Makefile src/Makefile install/Makefile over/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tech/Makefile src/refbook.tex over/overbook.tex install/installbook.tex set/set.tex])
 
