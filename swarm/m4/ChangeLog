@@ -1,3 +1,7 @@
+2001-11-08  Marcus G. Daniels  <mgd@condor>
+
+	* acjdk.m4 (vj_FIND_JDK): Add check for jre/lib/sparc/native_threads.
+
 2001-11-04    <mgd@HELEN>
 
 	* acdll.m4 (SWARMLIBS): New substitution variable.

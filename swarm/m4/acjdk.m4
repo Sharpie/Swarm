@@ -53,6 +53,9 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
       if test -d ${jdkdir}/bin/sparc/native_threads; then
 	threads=native
+      # no more bin/sparc as of 1.4.3
+      elif test -d ${jdkdir}/jre/lib/sparc/native_threads; then 
+        threads=native
       elif test -d ${jdkdir}/bin/sparc/green_threads; then
         threads=green
       else
