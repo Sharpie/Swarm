@@ -48,6 +48,9 @@ startup (void)
 {
   initialized = 1;
 }
+
+#define STRINGIFYSYM(sym) STRINGIFY(sym)
+#define STRINGIFY(sym) #sym
 /*
  *----------------------------------------------------------------------
  *
@@ -79,7 +82,7 @@ DllMain (
 	
 	if (!initialized)
 	  {
-	    printf ("Calling constructors for swarm.dll\n");
+	    printf ("Calling `%s'\n", STRINGIFYSYM (constructor_func));
 	    constructor_func ();
 	  }
       }
