@@ -1,3 +1,8 @@
+1999-09-13    <mgd@HELEN>
+
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-setWindowGeometryRecordName:]): Only duplicate if non-NULL.
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
