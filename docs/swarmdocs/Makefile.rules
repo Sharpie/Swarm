@@ -3,9 +3,11 @@ JADETEX = jadetex
 DVIPS = dvips
 EMACS = emacs
 
+SWARMBOOK = $(top_builddir)/swarmbook.dsl
+
 .PHONY: fot tex dvi ps rtf html
 
-$(addprefix $(NAME),.fot .htm .tex .dvi .ps .rtf): $(SGML_FILES) $(top_srcdir)/common.dsl $(top_srcdir)/swarmbook.dsl
+$(addprefix $(NAME),.fot .htm .tex .dvi .ps .rtf): $(SGML_FILES) $(top_srcdir)/common.dsl $(SWARMBOOK)
 
 fot: all $(NAME).fot
 
@@ -20,13 +22,13 @@ rtf: all $(NAME).rtf
 html: all $(NAME).htm
 
 %.fot: %.sgml
-	 $(JADE) -t fot -d $(top_srcdir)/swarmbook.dsl\#print -o $@ $< 
+	 $(JADE) -t fot -d $(SWARMBOOK)\#print -o $@ $< 
 
 _%.tex: %.sgml
-	- $(JADE) -t tex -d $(top_srcdir)/swarmbook.dsl\#print -o $@ $<
+	- $(JADE) -t tex -d $(SWARMBOOK)\#print -o $@ $<
 
 %.rtf: %.sgml
-	 $(JADE) -t rtf -d $(top_srcdir)/swarmbook.dsl\#print -o $@ $<
+	 $(JADE) -t rtf -d $(SWARMBOOK)\#print -o $@ $<
 
 %.dvi: %.tex _%.tex
 	$(JADETEX) $< ; $(JADETEX) $< 
@@ -35,7 +37,7 @@ _%.tex: %.sgml
 	$(DVIPS) -o $@ $<
 
 %.htm: %.sgml
-	- $(JADE) -t sgml -ihtml -d $(top_srcdir)/swarmbook.dsl\#html $<
+	- $(JADE) -t sgml -ihtml -d $(SWARMBOOK)\#html $<
 
 %revhistory.sgml: ChangeLog $(SWARMHOME)/src/%/ChangeLog $(top_srcdir)/history.el $(top_srcdir)/common.el
 	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/history.el -f process-changelog $*

@@ -134,18 +134,18 @@
     (kill-buffer (current-buffer))))
 
 (defun process-changelog (&optional module-arg)
-  (let* ((module (if module-arg
-                     module-arg
-                     (intern (car (last command-line-args)))))
+  (let* ((module-sym (if module-arg
+                         module-arg
+                         (intern (car (last command-line-args)))))
          (swarmhome-changelog-list
-          (parse-changelog (pathname-for-module module "ChangeLog")
-                           (header-filename-for-module module)))
+          (parse-changelog (pathname-for-module-sym module-sym "ChangeLog")
+                           (header-filename-for-module-sym module-sym)))
          (swarmdocs-changelog-list
-          (parse-changelog (pathname-for-swarmdocs module "ChangeLog")))
+          (parse-changelog (pathname-for-swarmdocs module-sym "ChangeLog")))
          (combined-changelog-list (append
                                    swarmdocs-changelog-list
                                    swarmhome-changelog-list)))
-    (with-temp-file (pathname-for-swarmdocs-revision-output module)
+    (with-temp-file (pathname-for-swarmdocs-revision-output module-sym)
       (insert "<REVHISTORY>\n")
       (loop for changelog in combined-changelog-list
             for date-string = (format-time-string 

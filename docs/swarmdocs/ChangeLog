@@ -1,3 +1,126 @@
+1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* protocol.el (module): Rename slot module to sym.  New slots
+	function-list and line.  Remove scratch-doc-list; item-doc-list is
+	now used for globals, macros, and typedefs as well.
+	(*macro-name-hash-table*): New hash table (used to detect multiple
+	macro definitions).
+	(*doc-types*): Add :function-doc and :typedef-doc.
+	(*funcptr-regexp*): New constant.
+	(skip-whitespace-backward): Revert last change.
+	(parse-function): Before leaving, search to ending semicolon.
+	(test-parse-function): Fix typo.
+	(handle-function): Return output of parse-function.
+	(parse-global-using-parse-state): Return output of make-global.
+	(immediate-global-tag-processed): Don't clear doc-list here as
+	parse-global-using-parse-state does it.
+	(extract-doc-string): Move definition up above first use in
+	parse-global-using-parse-state.
+	(set-buf, append-buf): Line is now in parse-state.
+	(extract-funcptr-name, extract-funcptr-name, globaldocp,
+	parse-define, lookup-module, lookup-protocol, ensure-module,
+	skip-backward-to-nonwhite, sgml-module-id, object-type,
+	generic-module, generic-summary, generic-description-list,
+	generic-protocol, generic-name, generic-macro-list,
+	generic-typedef-list, generic-function-list, generic-global-list,
+	sgml-id, name<, module-name, collect-objects-of-type, sgml-indexentry,
+	sgml-generate-index-of-type): New functions.
+	(update-global-state): Replaces update-global-name, checks for new
+	type as well (e.g. in function pointers).
+	(check-global-doc-post): Use update-global-state, not
+	update-global-name.
+	(check-global): Rewrite to handle function pointers.
+	(check-common-tags): Check for //F:, //T:.  Move global-variable
+	checks together.  Add a case for non-parameterized macros
+	(:define) Remove whitespace from function-return-type.
+	(check-protocol-tags): Remove //F.
+	(protocol-tag-change): Don't handle :function-doc here.
+	(common-tag-change): Handle :function-doc, :macro-doc,
+	:global-doc, and :typedef-doc identically.  Don't handle :global.
+	(parse-typedef): Rewrite to handle function pointers.
+	(handle-typedef, parse-macro, handle-macro, handle-define,
+	handle-global): Use item-doc-list instead of scratch-doc-list.
+	(parse-macro): Use skip-backward-to-nonwhite, not
+	skip-whitespace-backward.
+	(test-parse-function, test-parse-typedef, test-parse-method):
+	Remove.
+	(parse-function, parse-method, parse-typedef): Take parse-state as
+	an argument instead of function-name, item-list, and example-list.
+	(handle-global): Strip space from name.
+	(handle-protocol-tag): Pass module (determined from protocol), not
+	nil.
+	(handle-common-tag): Handle :define.
+	(process-header-file): Set parse-state-line.  Pass parse-state,
+	not line to immediate-global-tag-processed.
+	(load-module): Rewrite to create partial module first, so that
+	object can be used during component generation.
+	(CREATABLE-protocol): Use lookup-module to get defobj module
+	object; don't pass 'defobj.
+	(add-protocol): Rename module to module-sym.
+	(module-sym-from-spec): Was get-module.
+	(load-all-modules): Add CREATABLE protocol after others, so that
+	defobj module will be sure to exist.  Renames for routines in
+	common.el.  Use ensure-module to avoid multiple instances of same
+	module (e.g. random).
+	(sgml-object-id): type argument is now a symbol, not a string.
+	(sgml-protocol-id, sgml-method-signature-id): Modify per previous.
+	(sgml-refentry-start): Different id syntax for modules and
+	protocols.
+	(sgml-refmeta): Set title and module per protocol vs module.
+	(sgml-namediv): Use generic-{name,summary} instead of
+	protocol-{name,summary}.
+	(sgml-refsect1-description): Use generic-description-list.
+	(sgml-method-funcsynopsis): Type may be nil (an id).
+	(sgml-macro): Rewrite to handle the :no-arguments case.
+	(sgml-function): Use sgml-id.  Arguments don't need a name.
+	(sgml-typedef): Use sgml-id.
+	(sgml-refsect1-object-list): Sort items by name.
+	(sgml-refsect1-macro-list, sgml-refsect1-typedef-list,
+	sgml-refsect1-function-list): Take object; use generic-* to get
+	relevant list.
+	(sgml-refsect1-global-list): Take object; use generic-global-list.
+	Use sgml-id.  Handle absence of description list.
+	(sgml-examples, sgml-method-examples): Use module-name instead of
+	symbol-name.
+	(generate-refentry): Don't include
+	refsect1-{protocol,method,examples} if not protocol.
+	(sgml-generate-refentries-for-module, build-protocol-vector): Sort
+	per name<.
+	(sgml-create-refentries-for-module): Use module-sym, not module.
+	(sgml-generate-indices): Generate indicies for functions, globals,
+	macros and typedefs.
+
+	* history.el (process-changelog): Rename module to module-sym.
+
+	* common.el (swarm-modules, pathname-for-swarmdocs,
+	pathname-for-swarmdocs-pages-output,
+	pathname-for-swarmdocs-revision-output): Rename module to
+	module-sym.
+	(header-filename-for-module-sym, pathname-for-module-sym): Append
+	-sym to name.
+	(insert-text): Don't allow nil.
+
+	* swarmbook.dsl.in: common.dsl and figures-html.ent are in top_srcdir.
+	(PRIMARYIE): Make a list in method case, otherwise assume
+	single entry and print with line break.
+	(type): Use a preformatted element.
+	Don't use Lispy comments, use SGML comments to contain DSSSL
+	mode clue to Emacs.
+
+	* common.dsl (immediate-data, reference-id-p, type-id-p,
+	title-for-refentry, typedef-title-for-id, function-title-for-id,
+	macro-title-for-id, global-title-for-id): New functions.
+	(has-phase-p): Remove.
+	(PARAMDEF): Don't append semicolon.
+	(protocol-title-for-id): Update for modified ID format.  Use
+	title-for-refentry to get title.
+	(id-to-description): New function.
+	(id-to-indexitem): Use new *-title-for-id functions per type-id-p.
+	(term): Append a space.
+
+	* Makefile.rules (SWARMBOOK): Define as $(top_builddir)/swarmbook.dsl
+	and replace $(top_srcdir)/swarmbook.dsl with SWARMBOOK.
+
 1998-06-02  Alex Lancaster  <alex@santafe.edu>
 	
 	* swarmbook.dsl.in: Added file.  

@@ -1,10 +1,10 @@
 <!DOCTYPE style-sheet PUBLIC "-//James Clark//DTD DSSSL Style Sheet//EN" [
-<!ENTITY common.dsl SYSTEM "common.dsl" CDATA DSSSL>
+<!ENTITY common.dsl SYSTEM "@top_srcdir@/common.dsl" CDATA DSSSL>
 <!ENTITY % html "IGNORE">
 <![%html;[
 <!ENTITY % print "IGNORE">
 <!ENTITY docbook.dsl SYSTEM "@stylesheets_srcdir@/html/docbook.dsl" CDATA DSSSL>
-<!ENTITY % figures.entities SYSTEM "../figures-html.ent">
+<!ENTITY % figures.entities SYSTEM "@top_srcdir@/figures-html.ent">
 ]]>
 <!ENTITY % print "INCLUDE">
 <![%print;[
@@ -439,26 +439,43 @@
    (make empty-element gi: "BR"))
 
 (element PRIMARYIE
-         (sosofo-append
-          (process-children)
-          (make element gi: "UL"
-                (let* ((linkends-string (attribute-string "LINKENDS")))
-                  (let loop ((linkends (split-string linkends-string #\space)))
-                       (if (null? linkends)
-                           (empty-sosofo)
+         (let* ((linkends-string (attribute-string "LINKENDS"))
+                (linkends (split-string linkends-string #\space)))
+           (if (type-id-p (car linkends) "METHOD")
+               (sosofo-append
+                (process-children)
+                (make element gi: "UL"
+                      (let loop ((linkends linkends))
+                           (if (null? linkends)
+                               (empty-sosofo)
+                               (sosofo-append
+                                (make element gi: "LI"
+                                      (let ((id (car linkends)))
+                                        (make element gi: "A"
+                                              attributes:
+                                              (list
+                                               (list "HREF"
+                                                     (href-to
+                                                      (element-with-id id))))
+                                              (literal
+                                               (id-to-indexitem id)))))
+                                (loop (cdr linkends)))))))
+               (let loop ((linkends linkends))
+                    (if (null? linkends)
+                        (empty-sosofo)
+                        (sosofo-append
+                         (let ((id (car linkends)))
                            (sosofo-append
-                            (make element gi: "LI"
-                                  (let ((id (car linkends)))
-                                    (make element gi: "A"
-                                          attributes:
-                                          (list
-                                           (list "HREF"
-                                                 (href-to
-                                                  (element-with-id id))))
-                                          (literal
-                                           (id-to-indexitem id)))))
-                            (loop (cdr linkends)))))))))
-
+                            (make element gi: "A"
+                                  attributes:
+                                  (list
+                                   (list "HREF"
+                                         (href-to
+                                          (element-with-id id))))
+                                  (literal
+                                   (id-to-indexitem id)))
+                            (make-linebreak)))
+                         (loop (cdr linkends))))))))
 
 (element (example title)
          (let ((example-node (parent (current-node))))
@@ -479,6 +496,10 @@
                       (with-mode kr-funcsynopsis-mode
                         (process-node-list paramdefs))
                       (empty-sosofo)))))))
+
+(element type
+         (make element gi: "PRE"
+               (process-children)))
                                                                                         
 </style-specification-body>
 </style-specification>
@@ -487,6 +508,8 @@
 <external-specification id="docbook" document="docbook.dsl">
 </style-sheet>
 
-;; Local variables:
-;; mode: DSSSL
-;; end:
+<!--
+Local variables:
+mode: DSSSL
+end:
+-->

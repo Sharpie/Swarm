@@ -12,9 +12,9 @@
                             space))
 
 (defun swarm-modules ()
-  (loop for module in *swarm-modules*
-        unless (consp module)
-        collect module))
+  (loop for module-sym in *swarm-modules*
+        unless (consp module-sym)
+        collect module-sym))
 
 (defun get-swarmhome ()
   (concat
@@ -32,25 +32,25 @@
         swarmdocs-env
         (concat (get-swarmhome) "../swarmdocs"))))
 
-(defun header-filename-for-module (module)
-  (concat (symbol-name module) ".h"))
+(defun header-filename-for-module-sym (module-sym)
+  (concat (symbol-name module-sym) ".h"))
 
-(defun pathname-for-module (module &optional filename)
-  (let ((module-name (symbol-name module)))
+(defun pathname-for-module-sym (module-sym &optional filename)
+  (let ((module-name (symbol-name module-sym)))
     (concat (get-swarmhome) "src/" module-name "/" 
             (if filename
                 filename
-                (header-filename-for-module module)))))
+                (header-filename-for-module-sym module-sym)))))
 
-(defun pathname-for-swarmdocs (module filename)
-  (let ((module-name (symbol-name module)))
+(defun pathname-for-swarmdocs (module-sym filename)
+  (let ((module-name (symbol-name module-sym)))
     (concat (get-swarmdocs) "src/" module-name "/" filename)))
 
 (defun get-swarmdocs-build-area ()
     (getenv "SWARMDOCS_BUILD_AREA"))
 
-(defun pathname-for-swarmdocs-pages-output (module)
-  (let ((module-name (symbol-name module)))
+(defun pathname-for-swarmdocs-pages-output (module-sym)
+  (let ((module-name (symbol-name module-sym)))
     (concat (get-swarmdocs-build-area)
             "src/"
             module-name
@@ -58,8 +58,8 @@
             module-name
             "pages.sgml")))
 
-(defun pathname-for-swarmdocs-revision-output (module)
-  (let ((module-name (symbol-name module)))
+(defun pathname-for-swarmdocs-revision-output (module-sym)
+  (let ((module-name (symbol-name module-sym)))
     (concat (get-swarmdocs-build-area)
             "src/"
             module-name
@@ -68,20 +68,19 @@
             "revhistory.sgml")))
   
 (defun insert-text (text)
-  (when text
-    (let ((beg (point)))
-      (insert text)
-      (let ((end (point)))
-        (save-excursion
-          (save-restriction
-            (narrow-to-region beg end)
-            (goto-char (point-min))
-            (save-excursion
-              (while (search-forward "<" nil t)
-                (replace-match "&lt;")))
-            (save-excursion
-              (while (search-forward ">" nil t)
-                (replace-match "&gt;")))))))))
+  (let ((beg (point)))
+    (insert text)
+    (let ((end (point)))
+      (save-excursion
+        (save-restriction
+          (narrow-to-region beg end)
+          (goto-char (point-min))
+          (save-excursion
+            (while (search-forward "<" nil t)
+              (replace-match "&lt;")))
+          (save-excursion
+            (while (search-forward ">" nil t)
+              (replace-match "&gt;"))))))))
 
 (defun strip-regexp (str strip-str)
   (with-output-to-string

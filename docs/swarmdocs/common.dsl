@@ -78,6 +78,18 @@
                     (empty-node-list)))
               (loop (node-list-rest nl))))))
 
+(define (immediate-data nl)
+    (let* ((l
+            (let loop ((nl nl))
+                 (if (node-list-empty? nl)
+                     '()
+                     (let* ((c (node-list-first nl))
+                            (ch (node-property 'char c default: #f)))
+                       (if ch
+                           (cons ch (loop (node-list-rest nl)))
+                           (loop (node-list-rest nl))))))))
+      (list->string l)))
+
 (define (get-classname funcsynopsis-node)
   (data (select-elements
          (children
@@ -111,9 +123,7 @@
            (cond ((string=? classname "(MACRO)")
                   (paramdef))
                  ((string=? classname "(FUNCTION)")
-                  (sosofo-append
-                   (paramdef)
-                   ";"))
+                  (paramdef))
                  (#t
                   (sosofo-append
                    (literal " ")
@@ -184,11 +194,15 @@
                       (flatten-arg (cdr l) '()))
                      (flatten-arg (cdr l) (cons item out-l))))))))
 
-(define (has-phase-p id)
+(define (reference-id-p id)
     (let* ((id-split-list (split-string id #\.)))
-      (if (string=? (car (cdr id-split-list)) "SRC")
-          #f
-          (not (null? (cdr (cdr (cdr (cdr id-split-list)))))))))
+      (not (string=? (car (cdr id-split-list)) "SRC"))))
+
+(define (type-id-p id type)
+    (if (reference-id-p id)
+        (let* ((id-split-list (split-string id #\.)))
+          (string=? (car (cdr (cdr (cdr id-split-list)))) type))
+        #f))
 
 (define (char-change-case ch upcase)
     (let loop ((lc-pos
@@ -219,6 +233,12 @@
     (let* ((id-elements (split-string id #\.)))
       (string-change-case (car (cdr id-elements)) #f)))
 
+(define (title-for-refentry refentry)
+    (data
+     (select-elements
+      (children (select-elements (children refentry) "REFMETA"))
+      "REFENTRYTITLE")))
+
 (define (protocol-title-for-id id)
     (let* ((id-elements (split-string id #\.))
            (module-name (car (cdr id-elements)))
@@ -228,19 +248,14 @@
                        "SWARM."
                        module-name
                        "."
-                       protocol-name))))
-      (data
-       (select-elements
-        (children (select-elements (children refentry) "REFMETA"))
-        "REFENTRYTITLE"))))
-          
-(define (protocol-id-to-description protocol-id)
-    (string-append
-     (module-for-id protocol-id)
-     "/"
-     (protocol-title-for-id protocol-id)))
+                       protocol-name
+                       ".PROTOCOL"))))
+      (title-for-refentry refentry)))
+
+(define (refentry-title-for-description id)
+    (title-for-refentry (element-with-id id)))
              
-(define (method-signature-id-to-description method-signature-id)
+(define (method-signature-title-for-id method-signature-id)
     (let* ((id-elements (split-string method-signature-id #\.))
            (phase-abbrev (car (cdr (cdr (cdr (cdr id-elements)))))))
       (string-append 
@@ -252,13 +267,39 @@
              ((string=? phase-abbrev "PS") "Setting")
              ((string=? phase-abbrev "PU") "Using")))))
 
+(define (typedef-title-for-id id)
+    (immediate-data (children (element-with-id id))))
+
+(define (function-title-for-id id)
+    (data 
+     (select-elements
+      (children
+       (select-elements
+        (children 
+         (select-elements (children (element-with-id id)) "FUNCPROTOTYPE"))
+        "FUNCDEF"))
+      "FUNCTION")))
+
+(define (macro-title-for-id id)
+    (let ((node (element-with-id id)))
+      (if (string=? (gi node) "FUNCSYNOPSIS")
+          (function-title-for-id id)
+          (data node))))
+
+(define (global-title-for-id id)
+    (data (node-list-last (select-elements (children (element-with-id id)) "TERM"))))
+
 (define (id-to-indexitem id)
     (let ((id-split-list (split-string id #\.)))
       (if (string=? (car (cdr id-split-list)) "SRC")
           (data (select-elements (children (element-with-id id)) "TITLE"))
-          (if (has-phase-p id)
-              (method-signature-id-to-description id)
-              (protocol-id-to-description id)))))
+          (cond ((type-id-p id "METHOD") (method-signature-title-for-id id))
+                ((type-id-p id "PROTOCOL") (refentry-title-for-description id))
+                ((type-id-p id "MODULE") (refentry-title-for-description id))
+                ((type-id-p id "TYPEDEF") (typedef-title-for-id id))
+                ((type-id-p id "FUNCTION") (function-title-for-id id))
+                ((type-id-p id "MACRO") (macro-title-for-id id))
+                ((type-id-p id "GLOBAL") (global-title-for-id id))))))
 
 (define (block-element-list)
   (list (normalize "example")
@@ -388,7 +429,9 @@
                                      (apply loop rest (accum-lot node last-node sosofos))))))))))))
 
 (element (varlistentry term) 
-         (process-children))
+         (sosofo-append
+          (process-children)
+          (literal " ")))
 
 </style-specification-body>
 </style-specification>
