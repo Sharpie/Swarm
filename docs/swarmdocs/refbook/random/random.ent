@@ -3,3 +3,5 @@
 <!entity randommeta.sgml PUBLIC "-//SFI Hive//ENTITIES Random Metadata//EN">
 <!entity random00.sgml PUBLIC "-//SFI Hive//ENTITIES Random Introduction//EN">
 <!entity randompages.sgml PUBLIC "-//SFI Hive//ENTITIES Random Generated Content//EN">
+<!entity README.Generators.v075 PUBLIC "-//SFI Hive//ENTITIES Random README For Generators//EN">
+<!entity README.Distributions.v07 PUBLIC "-//SFI Hive//ENTITIES Random README For Distributions//EN">

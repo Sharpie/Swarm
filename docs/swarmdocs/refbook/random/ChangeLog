@@ -1,5 +1,16 @@
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
+	* random00.sgml: Make all references to
+	$(SWARMHOME)/src/random/docs be to
+	$(SWARMDOCS)/refbook/random/extra.
+
+	* random.ent: Add references to new text file entitites
+	README.Generators.v075 and README.Distributions.v07.
+
+	* random00.sgml: Use new entities in place of text in NOTE markup.
+	
+	* Makefile.am (SUBDIRS): Add `extra' subdirectory. 
+
 	* random00.sgml: Change outdated references of the command line
 	`-varySeed' to `--varyseed'.
 
