@@ -42,7 +42,7 @@ OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
 swarm.dll: swarm.dll.c $(OBJS)
 	$(CC) -c $(srcdir)/swarm.dll.c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) -L../libobjc $(_SUPPORTLDFLAGS) $(_SYSLIBS) $(OBJCLIBS)
+	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) $(top_builddir)/libobjc/*.o $(_SUPPORTLDFLAGS) $(_SYSLIBS)
 
 install-data-local: 
 	$(INSTALL) libswarmdll.a $(libdir)
