@@ -200,6 +200,9 @@ avcall_add_primitive (FArguments_c *fa, fcall_type_t type, void *val)
     case fcall_type_sint:
       av_int (fa->avalist, *(int *) val);
       break;
+    case fcall_type_slong:
+      av_long (fa->avalist, *(long *) val);
+      break;
     case fcall_type_ulong:
       av_ulong (fa->avalist, *(unsigned long *) val);
       break;
