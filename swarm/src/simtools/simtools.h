@@ -9,6 +9,7 @@
 //D: the class hierarchy is virtually flat.
 
 #import <objectbase.h>
+#include <externvar.h>
 
 @protocol UName <SwarmObject, CREATABLE>
 //S: A class used to generate unique names (e.g. "critter1", "critter2" etc.)
