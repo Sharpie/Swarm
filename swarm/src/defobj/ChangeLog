@@ -1,3 +1,8 @@
+1998-03-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.m ([CreateDrop_s -getObjectName]): In cygwin B19 case,
+	don't prefix %p with 0x (it does it).
+
 1998-02-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Create.m: Add PHASE(Using) before getIdName and getObjectName.

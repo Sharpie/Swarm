@@ -61,7 +61,11 @@ PHASE(Using)
   
   if (self)
     {
+#ifdef __CYGWIN32__
+      sprintf (name, "%s@%p", [self name], self);
+#else
       sprintf (name, "%s@0x%p", [self name], self);
+#endif
       return name;
     }
   return "nil"; 
