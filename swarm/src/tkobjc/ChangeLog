@@ -4,6 +4,7 @@
 	(lib_LIBRARIES, libtkobjc_a_SOURCES): Remove.
 	(%_tcl.x): New rule.
 	(SUBDIRS): Add tk.
+	(PNGINCLUDES, ZLIBINCLUDES): Add (substitutions).
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord
 	-setWindowGeometry:]): Use create:setC: instead of two calls.

@@ -11,8 +11,10 @@ EXTRA_DIST = analysis.tcl comm.tcl simtools.tcl tkbusy.tcl
 
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
+ZLIBINCLUDES = @ZLIBINCLUDES@
+PNGINCLUDES = @PNGINCLUDES@
 
-INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity $(TKINCLUDES) $(TCLINCLUDES) -I$(pngdir)/include -I$(zlibdir)/include
+INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity -I$(tclobjcincludedir) $(TKINCLUDES) $(TCLINCLUDES) $(PNGINCLUDES) $(ZLIBINCLUDES)
 
 CFLAGS += $(X_CFLAGS)
 
