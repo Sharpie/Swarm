@@ -36,6 +36,4 @@ Ensure that javaswarm and javacswarm get installed with execute permissions
 
 Handle long PATHs in InstallSheild (PathSet error)
 
-Check tclConfig against library version (suggestion from Benedikt)
-
 Support hdf5-1.2.0
