@@ -59,9 +59,13 @@ USING
 @protocol InFile <SwarmObject>
 //S: Class to perform file input.
 
-//D: This class is intended to simplify the input file-I/O in Swarm. It
+//D: This class is (was) intended to simplify the input file-I/O in Swarm. It
 //D: essentially deals with the detailed file opening and closing routines
 //D: thus alleviating the need for C file I/O procedure calls.
+
+//D: Warning: the error return behavior of these methods is fragile, only
+//D: end of file is reported as an error.  It is probably not wise to use
+//D: use this inteface unless your text processing needs are very simple.
 
 CREATING
 //M: This is the create method for InFiles, where theName is, of course the
