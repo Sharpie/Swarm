@@ -8,7 +8,8 @@
 
 	* userapp-rand3.sgml: Update RandomTests-0.81.tgz URL to SDG.
 
-	* Makefile.rules (htmldist): Force the symlink.
+	* Makefile.rules (userbookdir): Add. Action moved from htmldist.
+	(htmldist, dvidist, psdist, rtfdist): Depend on it.
 
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
