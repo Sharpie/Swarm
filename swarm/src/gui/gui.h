@@ -409,9 +409,9 @@
 @protocol _InputWidget
 //M: Get the value
 - (const char *)getValue;
-- linkVariableInt: (void *)p;
-- linkVariableDouble: (void *)p;
-- linkVariableBoolean: (void *)p;
+- linkVariableInt: (int *)p;
+- linkVariableDouble: (double *)p;
+- linkVariableBoolean: (BOOL *)p;
 - setValue: (const char *)v;
 @end
 
@@ -455,7 +455,9 @@
 
 @protocol _Form
 - setEntryWidth: (int) ew;
-- addLineName: (const char *)n Variable: (void *)p Type: (int)type;
+- addLineName: (const char *)n Boolean: (BOOL *)p;
+- addLineName: (const char *)n Int: (int *)p;
+- addLineName: (const char *)n Double: (double *)p;
 @end
 
 @protocol Form <_Form, Widget>
