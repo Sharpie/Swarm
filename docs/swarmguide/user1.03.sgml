@@ -1,99 +1,229 @@
 <sect1 id="swarm.user.user1.03.sect1">
-  <title>The notion of a Swarm</title>
-
+  <title>Nuts and bolts of Objective-C</title>
+<para>Objective-C was created by Brad Cox. The aim was to create an elegant, object-oriented extension of C in the style of the Smalltalk language. (need reference here).  Objective-C was used most intensively in the design of the NeXT computer operating system, which is now owned by Apple and is basis of the Rhapsody OS.</para>
 <sect2>
- <title>The (Swarm) OOP way</title> 
+ <title>Why does Swarm use Objective-C?</title> 
 
-    <para>Each agent saves his own behavior and state and acts when called upon by 
-      scheduler or other agents.
-    </para>
-    <para>The event loop is now embedded in an object that sends messages to agents 
-      and objects</para>
-</sect2>
-
-<sect2>
- <title>The Swarms</title> 
-
-    <formalpara><title>A Swarm is an object that implements</title>
-      <para>
-        <itemizedlist>
-          <listitem>memory allocation</listitem>            
-          <listitem>management of scheduling mechanism</listitem>
-        </itemizedlist>
+ <para>Since C++ is more widely used than Objective-C, it is natural to ask why the Swarm project chose Objective-C. There are a number of reasons.
+<itemizedlist>
+       <listitem><formalpara><title>Objective C is easier to learn</title></formalpara><para>Objective-C takes the familiar C language and adds a few simple elements. Objective-C does not allow overloading or multiple inheritance of classes (although the use of protocols enables this, to an extent)</para></listitem>
+	<listitem><formalpara><title>Objective C allows run-time binding</title></formalpara><para>Objective-C leaves open the possibility that ???. 
+   At the time the Swarm project began, C++ did not allow this</para></listitem> </itemizedlist>
       </para>
-    </formalpara>
+</sect2>
 
-    <formalpara><title>A basic Swarm simulation consists of</title>
-      <para>
-        <itemizedlist>
-          <listitem>Observer Swarm</listitem>
-          <listitem>Model Swarm</listitem>
-          <listitem>Agents</listitem>
-          <listitem>Inanimate objects</listitem>
-          <listitem>Widgets</listitem>
-          <listitem>Probes</listitem>
-          <listitem>Observer</listitem>
-          <listitem>Model</listitem>
-        </itemizedlist>
-    </para></formalpara> 
 
+<sect2>
+ <title>The id variable type</title> 
+<para>The variable type that is added by Objective-C is <symbol>id</symbol>.  It is the default type for objects in Objective-C. Think of this as a special variable type (which is actually a  pointer to a special data structure - namely the object)</para>
+
+    <para>All objects can refer to themselves by using the label "self".  This is necessary if, in the code that defines the object, the programmer wants to make the object execute one of its methods.  For example, suppose an object has a method called "updateRecords".  If a command
+        <programlisting>[self updateRecords];</programlisting>
+is received, then the updateRecords command will be executed, presumably to cause the updating of instance variables. </para>
+    <para>All objects can refer to superclass by the name "super". For example,
+<programlisting>[super updateRecords]</programlisting>
+      </para>
+</sect2>
+<sect2>
+ <title>Interface file: declaration of a class</title> 
+
+<para>If you look in a directory where some Swarm code resides, you will see files in pairs, such as ObserverSwarm.h and ObserverSwarm.m, ModelSwarm.h and ModelSwarm.m, and so forth.  The "h" files are the interface files (commonly called "header files"), while the "m" files are the implementation files</para>
+ <para>As illustrated in figure xxx (Benedikt "A few Objective-C basics), the interface declares the name of the class and the name of its superclass.  Then it gives a list of variable types and names enclosed by braces ({}), and then the names of the methods that the class can implement are listed. The variables defined in this list can be used by any of the methods defined for the class.  (These are often called "ivars", short for instance variables.)(Benedikt "Declaring a Class")</para>
 </sect2>
 
 <sect2>
- <title>The recursive structure of Swarms</title> 
+ <title>Implementation File: Defining a class</title> 
 
-    <itemizedlist>
-      <listitem>Swarm </listitem>
-      <listitem>Sub-Swarm    </listitem>
-      <listitem>Agent        </listitem>
-      <listitem>Schedule     </listitem>
-      <listitem>The Interface</listitem>
-      <listitem>The Model    </listitem>
-      <listitem>Probes       </listitem>
-      <listitem>Sub-sub-Swarm</listitem>
-    </itemizedlist>
+  Each implementation file--the "m" that parallels the "h"-- must import its header file.  If the header file is called Puppy.h, for example, the implementation look like</para>
+
+    <programlisting>
+#import "Puppy.h"
+@implementation  Puppy
+- (vartype)eatFood 
+{
+ (body)
+ return returnval;
+}
+- playOutside: (vartype)arg 
+{
+ (body)
+ return self;
+}
+</programlisting>
+
+<para>This example shows a number of important features.  First, note that the method "eatfood" specifies a return type, (vartype).  When that method is called, the receiving code must be able to accept a return of that type.  In contrast, the method "playOutside" does not specify a return type.  That means the default type, "id", is returned.  The code that calls this method must be consistent with that return type.</para>
+
+    <para>The "return self" command is used for two types of situations.  Suppose the method is not intended to create any output, but rather it changes some instance variables. For example, suppose there is some program that creates an instance of Puppy called "spot". Then that object is sent this message:
+<programlisting>[spot playOutside: theYard]
+</programlisting>
+In such a case, the code that calls that method does not expect anything back from it.  Rather than fuss with (void) as the return type, as one might in C, one can simply include "return self".</para>
+
+<para>In another case, one might actually intend to return the object to a list or another object. In such a case, return self will also be appropriate. If one is making a list of puppies that have indeed played in the yard, for example, then the usage of "return self" in that method will give back spot's id to the calling program.</para>
+</sect2>
+<sect2>
+ <title>C Functions vs. Objective-C methods </title> 
+
+For readers who are already familiar with C, perhaps a comparison of C functions against Objective-C methods is in order.
+
+<para>Objective-C method:</para>
+    <programlisting>
+- (type)name: (type)arg1 argName2: (type)arg2 
+{
+ (body)
+ return returnval;
+}
+</programlisting>
+
+    <para>C function:</para>
+
+    <programlisting>
+(type)name((type) arg1,(type) arg2)) 
+{
+ (body)
+ return returnval;
+}
+</programlisting>
+
+    <para>Code in body could look exactly the same in C and Objective-C.  The two languages are compared side-by-side in figure (Benedikt "An example of C vs ObjC")</para>
 
 </sect2>
 
-<sect2>
- <title>A Swarm as a virtual computer</title> 
+<sect2><title>Giving life to classes: instantiation</title>
+    <para>After the code is written for the interface and implementation, there is still work to be done. Instances of the class must be created. The creation of instances of a class is one of the specialized features of Swarm. Since the instantiation process is different from the that described in the Objective-C literature, it is worth some special attention.</para>
+    <para>Object creation is often handeled in the model swarm, where specialized memory management and object creation code in the Swarm library is taken advantage of. The objects that represent the actors in a simulation--the substantively important entities--are usually subclassed from the Swarm class.  Because objects are subclassed from Swarm, that means they have access to all the methods that are defined for Swarm objects in the library.  The "inheritance hierarchy" that leads to the Swarm object starts with the superclass of all superclasses, Object, and subclasses from that through classes called "Object_s","Customize_s","CreateDrop_s","CSwarmProcess", and finally "Swarm".  Here is a list of all of these objects and their methods:
 
-    <para> Operating System
-      Swarm kernel
-      GUI
-      Model
-    </para>
+      <itemizedlist><listitem><title>Object_s</title></listitem>
+	<listitem> - addRef:withArgument:</listitem>
+	 <listitem>+ alloc</listitem>
+	 <listitem>- compare:</listitem>
+	 <listitem>- copy</listitem>
+	 <listitem> - describe:</listitem>
+	 <listitem> - describeID:</listitem>
+	 <listitem> - drop</listitem>
+	 <listitem> - dropAllocations:</listitem>
+	 <listitem> - free</listitem>
+	 <listitem> - getClass</listitem>
+	 <listitem> + getClass</listitem>
+	 <listitem>+ getDefiningClass</listitem>
+	 <listitem> - getDisplayName</listitem>
+	 <listitem> - getIdName</listitem>
+	 <listitem> + getMethodFor:</listitem>
+	 <listitem>+ getName</listitem>
+	 <listitem>+ getNextPhase</listitem>
+	 <listitem> - getObjectName</listitem>
+	 <listitem> + getOwner</listitem>
+	 <listitem>+ getSuperclass</listitem>
+	 <listitem> - getType</listitem>
+	 <listitem> + getTypeImplemented</listitem>
+	 <listitem> - getZone</listitem>
+	 <listitem> + isSubclass:</listitem>
+	 <listitem> - perform:</listitem>
+	 <listitem> - perform:with:</listitem>
+	 <listitem> - perform:with:with:</listitem>
+	 <listitem> - perform:with:with:with:</listitem>
+	 <listitem> - removeRef:</listitem>
+	 <listitem> - respondsTo:</listitem>
+	 <listitem> + respondsTo:</listitem>
+	 <listitem> + self</listitem>
+	 <listitem> - setDisplayName:</listitem>
+	 <listitem> + setTypeImplemented:</listitem>
+	 <listitem> - shallowCopy</listitem>
+	 <listitem> - xfprint</listitem>
+	 <listitem>- xfprintid</listitem>
+	 <listitem>- xprint</listitem>
+	 <listitem> - xprintid</listitem></itemizedlist>
+<itemizedlist>
+  <listitem><title>Customize_s</title>
+	 <listitem>- _setCreateByCopy_</listitem>
+	 <listitem>- _setCreateByMessage_:to:</listitem>
+ 	 <listitem>- _setCreateByMessage_:toCopy:</listitem>
+	 <listitem>- _setCreateBy_:message:to:</listitem>
+	 <listitem>- _setRecustomize_:</listitem>
+	 <listitem>+ customizeBegin:</listitem>
+	 <listitem>+ customizeBeginEnd:</listitem>
+	 <listitem>- customizeCopy:</listitem>
+	 <listitem>- customizeEnd</listitem>
+	 <listitem>+ setTypeImplemented:</listitem>
+<itemizedlist>      
+   <listitem><title>CreateDrop_s</title>
+      <listitem>+ create:</listitem>
+      <listitem>+ createBegin</listitem>:
+      <listitem>- createEnd</listitem>
+ <itemizedlist> 
+ <listitem> <title>CSwarmProcess</title>
+     <listitem>- _performPlan_</listitem>
+    <listitem>- activate</listitem>
+    <listitem>- activate:</listitem>
+   <listitem> - activateIn:</listitem>
+    <listitem>- at::activate:</listitem>
+    <listitem>- at:activate:</listitem>
+    <listitem>+ createBegin:</listitem>
+    <listitem>- createEnd</listitem>
+    <listitem>- getActivity</listitem>
+    <listitem>- getInternalTimeMultiplier</listitem>
+    <listitem>- getInternalZone</listitem>
+    <listitem>- getSwarmActivity</listitem>
+    <listitem>- mapAllocations:</listitem>
+    <listitem>- setInternalTimeMultiplier:</listitem>
+    <listitem>- setInternalZoneType:</listitem>
+    <listitem>- setSynchronizationType:</listitem>
+<itemizedlist>
+<listitem><title>Swarm</title>
+  <listitem>- activateIn:</listitem>
+  <listitem>- buildActions</listitem>
+  <listitem>- buildObjects</listitem>
+ <listitem> - getCompleteProbeMap</listitem>
+  <listitem>- getProbeForVariable:</listitem>
+ <listitem> - getProbeMap</listitem></listitem>
+</itemizedlist></listitem>
+</itemizedlist></listitem>
+</itemizedlist></listitem>
+</itemizedlist>
+</itemizedlist>
+</itemizedlist>
+ </itemizedlist>
+</para>
+    <para>The long list of features here is included to emphasize the point that programs that subclass from Swarm inherit a great deal of power.</para>  
 
-<formalpara><title>A computer's CPU executes program instructions</title>
-              <para></para></formalpara>
-
-    <formalpara><title>Swarm kernel is sort of virtual CPU 
-        running model and GUI events</title><para>
-      </para></formalpara>
-
-    <formalpara><title>Nested Swarms merge schedules into one</title><para>
-        CPU</para></formalpara>
-
+    <para>In Swarm models, objects are often created by a pair of "bookend" commands, createBegin and createEnd. This is not part of the Objective-C syntax.  Rather, it is unique to Swarm. </para>
+    <para>Suppose the Puppy.h and Puppy.m files exist, and one wants to create an instance of that class.  In a file ModelSwarm.m, one would typically have a method called "buildObjects", which is usually a method that houses all object creation. For example:
+<programlisting>
+//Excerpt from ModelSwarm.m that creates a puppy instance
+     #import "Puppy.h"
+     {other imports and code that defines agents, schedules, etc}
+-buildObjects {    
+       Puppy * puppy;
+       puppy = [Puppy createBegin: [self getZone]];
+       {commands that set permanent features of the puppy can apppear here}
+       puppy = [puppy createEnd];
+}
+</programlisting>
+The class's "factory object", Puppy, is told to create an object in a memory zone that is provided by ModelSwarm (ModelSwarm is the "self" in [self getZone]). Then the object "puppy" is instructed to finish the creation process, after optional commands are added to define the features of the object (typically, to set values of the object's instance variables). Many of these subtleties are explained in depth in later sections.</para>
+    <para>Not all object instances are created by the createBegin/createEnd pair. Some of the built-in objects can be created by a simple create command.  For example, the Swarm collections library includes a class called "List".  If one needs to create an object from that class, a command like this will work in ModelSwarm.m:
+<programlisting>
+id listOfPuppies;
+listOfPuppies=[List create: [self getZone]];
+</programlisting></para>
 </sect2>
 
-<sect2>
- <title>The Activity framework</title> 
+<sect2><title>A brief clarification: Classes versus Protocols</title>
+<para>There is one additional complication that readers should be aware of.  Objective-C allows the creation of objects by subclassing from protocols as well as classes.   A protocol, as readers will recall from their study of Objective-C, is a set of methods that an object can execute when it is subclassed from that protocol. </para>
 
-
-    <formalpara><title>Provides abstractions that allow programmer to treat event scheduling in the artificial world as objects, separate from elements of model
-</title><para></para>
-    </formalpara>
-
-    <formalpara><title>Provide some useful shorthands to group actions and sort according to the desired order of events
-</title>
-      <para></para>
-    </formalpara>
-
-    <formalpara><title>Since schedules are objects, all agents in simulation can communicate with them, to schedule future events or cause actions to be dropped based on specified contingencies</title><para>
-</para></formalpara> 
-
+<para>To the user, it often makes little difference whether Swarm.h refers to a class or a protocol because the methods are available, just the same. In version 1 of Swarm, many of the library entities were written as classes.  More recent versions have been redesigned so that the major libraries are written as protocols.  This changeover has some implications for notation and terminology, but at the user-level these are easily accommodated.  Here is one example of the difference. When the ability to create lists was offered by a class, then the notation to create an instance of such a list would have been:
+<programlisting>
+List * listOfPuppies;
+listOfPuppies=[List create: [self getZone]];
+</programlisting>
+In contrast, when the collections library is written as a protocol, the notation to define the type is different.  If one needs to define a variable listOfPuppies that is "statically typed" as a list, the command changes to:
+<programlisting>
+id &lt; List &gt;  listOfPuppies;
+listOfPuppies=[List create: [self getZone]];
+</programlisting>
+</para>
+<para>Since the Swarm library is now written in the protocol format, these slight wrinkles arise, but they do not significantly change the way applications are designed.</para>
 </sect2>
 </sect1>
+
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

@@ -1,178 +1,131 @@
-<sect1><title>Overview of features</title>
+<sect1 id="swarm.user.user1.04.sect1">
+  <title>The notion of a Swarm</title>
+<para>As explained in an earlier section, Swarm is designed for hierarchical creation of computer objects.  The observer swarm object is created first, and it creates a user interface and it also instantiates the model swarm, and the model swarm then creates levels below and schedules their activities.  </para>
+
+<para>These objects are created by programs that create their objects as subclasses of entities in the Swarm library.</para> 
+<sect2>
+ <title>The (Swarm) OOP way</title> 
+
+    <para>Swarm models follow a common syntax that helps users to understand the way their parts interact. Methods that will appear in many classess, for example, include:
+<programlisting>
+-createBegin;
+-createEnd;
+-buildObjects;
+-buildActions;
+</programlisting>
+There are also methods that allow the input and output of information from the object. By custom, these are usually prefaced by the words "get" and "set". For example:
+<programlisting>
+-setParameterValue: (int) value;
+-(int) getParameterValue;
+</programlisting>
+These methods can be written to so that setParameterValue causes an object to set some internal parameter equal to a value, and getParameterValue will cause the agent to report back the value. </para>
+ 
+<para>In addition,there will be methods that carry out the specialized actions dictated by the substance of the research problem.</para></sect2>
 
 <sect2>
- <title>Elements of Activity library</title> 
+<title> The Swarm Hierarchy </title>
 
-<formalpara><title>ActivityGroup</title>
-
-      <para>
-        Unordered set of "simultaneous" events 
-      </para>
-
-    <formalpara><title>Schedules</title>
-
-      <para>Ordered set of events or groups of events</para>
-    </formalpara>
-
-    <formalpara><title>SwarmActivity</title>
-      <para>
-        Underlying VM executing schedules.
-        Milk cows
-        Clean barn
-        Save whales</para>
-    </formalpara>
-
-</sect2>
-
-<sect2>
- <title>Merging schedules in Swarms</title> 
-
-
-    <formalpara><title>The schedules of each sub Swarm are merged into the schedule of 
-        next level Swarm</title>
-      <para></para>
-    </formalpara>
-
-    <formalpara><title>Finally all schedules are merged in the top level Swarm</title>
-      <para></para></formalpara>
-
-    <formalpara><title>Allows you to treat the model as a nested 
-        hierarchy of models</title>
+    <para>In the simulation model, each agent saves his own behavior and state and acts when called upon by the scheduler or other agents. While the model thus allows a "bottom-up" development, it is still managed from the top-down.  The Swarm library creates a sequence of classes that accumulate and refine the ability to create simulation objects, manage memory for them, and schedule their activities.</para> 
+    <para>A basic Swarm simulation consists of</para>
       <para>
         <itemizedlist>
-          <listitem>Agent          </listitem>
-          <listitem>Schedule       </listitem>
-          <listitem>Top level Swarm</listitem>
-          <listitem>Sub Swarm      </listitem>
-          <listitem>               </listitem>
-        </itemizedlist>
-      </para></formalpara> 
+          <listitem>Observer Swarm</listitem>
+          <listitem>Model Swarm</listitem>
+          <listitem>Agents</listitem>
+          </itemizedlist>
+    </para></para> 
 
 </sect2>
 
 <sect2>
  <title>Managing memory in Swarms</title> 
 
-    <formalpara><title>The allocation and deallocation of memory is a necessary 
-        feature in an OO system</title>
-      <para></para>
-    </formalpara>
+    <para>The allocation and deallocation of memory is a necessary 
+        feature in an OO system</para>
+    <para>Swarm provides libraries for this purpose which 
+        make the process transparent to user. 
+      </para>
 
-    <formalpara><title>Swarm provides libraries for this purpose which 
-        make the process transparent to user</title>
-      <para></para></formalpara>
+    <para>In Swarm, objects are created and dropped using a notion 
+        of memory zones, and the "dirty work" of allocating memory is handled inside the libraries.
+      </para>
 
-    <formalpara><title>Basic feature: Objects are created and dropped using a notion 
-        of memory zones</title>
-      <para></para></formalpara>
-
-    <formalpara><title>By extension of same principle can also drop entire 
-        collections or sub Swarms</title>
-      <para></para></formalpara> 
+    <para>By extension of same principle, programs can also drop entire 
+        collections or sub Swarms, thus freeing memory for other uses.</para>
+    
 
 </sect2>
 
 <sect2>
- <title>The Probes</title> 
+<title>What goes on in the "buildObjects" method?</title>
+<para>If the reader inspects just a few of the sample Swarm programs, the importance of the building objects should become apparent.  Objects are named and memory is set aside for them in this stage. In the buildObjects method, one typically finds commands that not only create the objects being used in the current class, but there will also be a command which instructs the next-lower level of agent to be created.</para>
 
-    <para>All agents and objects in Swarm can be probed</PARA>
+<para>Consider the rich example provided by the code from the Arborgames model. In the buildObjects method of the observer swarm, one finds a large number of commands that create graphical display objects (objects subclassed from the graph library).  One also finds commands that create the simulation control panel, which will appear on the screen and offer the user the ability to start and stop the simulation.</para>
 
-    <para>Probe attaches itself to an agent, can send a message, change a variable 
-      or retrieve values by calling agent or reading variable directly</para>
-
-    <para>
-      Probe
-      var=10.2
-    </PARA>
-
+<para>It is vital to note also that the buildObjects method triggers the creation of the next lower level of agents.  It creates a memory zone and creates a model swarm in that memory zone.
+<programlisting>
+  modelZone = [Zone create: [self getZone]];
+  forestModelSwarm = [ForestModelSwarm create: modelZone];  
+  [forestModelSwarm buildObjects];
+</programlisting>
+Note the importance of the third line of this excerpt. The first two lines create the model swarm object (in this case, it is called forestModelSwarm), but the third tells that object to create its own objects by telling the forestModelSwarm to execute its own buildObjects method.  To find out what that implies, one must go look in the implementation file for the ForestModelSwarm to see what objects it creates. </para>
 </sect2>
 
 <sect2>
- <title>Probes and the GUI</title> 
+<title>What goes on in the "buildActions" method?</title>
 
-    <formalpara><title>A probe can be used to communicate with objects in real time 
-        through a graphical widget</title><para></para></formalpara>
+<para> In the standard case, the buildActions method has two important components.  It creates objects of these two classes.
+<itemizedlist><listitem>ActionGroup: an unordered set of "simultaneous" events </listitem></itemizedlist>
+and
+<listitem>Schedule: controls how often the elements in the action group are executed</listitem></para>
+<para>In the buildActions methods of the Arborgames model, there are plenty of interesting examples.  In the observer swarm, for example, there are commands that schedule the updating of the graphical display and also there are commands that instruct the lower level classes to execute their own buildActions methods.</para>
 
-    <formalpara><title>A default probe map of agent shows all variables and 
-        functions - can also customize display</title>
-      <para>
-
-        <itemizedlist>
-          <listitem>Probe                   </listitem>
-          <listitem>Executes method         </listitem>
-          <listitem>Input value for variable</listitem>
-          <listitem>Open probe for class    </listitem>
-          <listitem>Close probe             </listitem>
-          <listitem>                        </listitem>
-        </itemizedlist>
-
-      </para></formalpara> 
-
+<para> In the model swarm's buildActions method, one typically finds the heart of the substantive action of the simulation.  Commands tell agents, or lists of agents, that they should carry out their methods.  These commands are placed into instances of the ActionGroup class, which means that they will all be repeated whenever the group is repeated. The repetition is controlled by commands that create schedules and indicate how often those schedules will be repeated.</para><para></para>  
 </sect2>
 
 <sect2>
- <title>Probes without a GUI</title> 
+ <title>A Swarm as a virtual computer</title> 
+<para>At an abstract level, the Swarm libraries cam be thought of as a layer on top of the operating system's kernel. 
 
-    <formalpara><title>Probes are also used to gather information dynamically 
-        from single agents or collection of agents</title><para></para></formalpara>
+    <itemizedlist><listitem> Operating System</listitem>
+     <listitem> Swarm kernel</listitem>
+     <listitem> GUI</listitem>
+     <listitem> Model</listitem></itemizedlist>
+    </para>
 
-    <formalpara><title>Among other features is the ability to define and execute 
-        method calls on the fly at runtime
-      <para>
-        Agents
-        A collection object
-        Object that analyzes data
-        Object that 
-        acts on data
-        Probe
-      </para></formalpara> 
-</sect2>
+<para>A computer's CPU executes program instructions  </para>
 
-<sect2>
- <title>The Graphical User Interface</title> 
-
-    <formalpara><title>Objects provided to create and manage</title>
-
-<para>
-        <itemizedlist>
-          <listitem>Line graphs   </listitem>
-          <listitem>Histograms    </listitem>
-          <listitem>Raster images </listitem>
-          <listitem>Digraphs      </listitem> 
-        </itemizedlist>
-
-    <formalpara><title>Data collection, calculation and updating is provided 
-        through support objects to the GUI widgets</title><para></para></formalpara>
-
-</sect2>
-
-<sect2>
- <title>Feeding data to the GUI widgets</title> 
-
-    <para>
-      <literallayout>      
-      Averager
+    <para><swarm></swarm></para>
       
-      for price
-      Averager
-      
-      for cost
-      Probe
-      Probe
-      Agent
-      Collection
-      Graph 
-      
-      widget
-</literallayout>    </para>
 
-    <formalpara><title>Output on graphs or other widgets relies heavily on the probes 
-        and dynamic access to agent's data</title><para></para></formalpara>
-
-    <formalpara><title>Swarm collection objects also facilitate process</title><para>
-      </para></formalpara>
+    <formalpara><title>Nested Swarms merge schedules into one</title><para>
+        CPU</para></formalpara>
 
 </sect2>
+
+<sect2>
+<title>The Activity framework</title> 
+
+
+    <para>Provides abstractions that allow programmer to treat event scheduling in the artificial world as objects, separate from elements of model
+    </para>
+
+    <para>Provide some useful shorthands to group actions and sort according to the desired order of events</para>
+ 
+ <para>Since schedules are objects, all agents in simulation can communicate with them, to schedule future events or cause actions to be dropped based on specified contingencies
+</para> 
+
+</sect2>
+
+<sect2>
+ <title>Merging schedules in Swarms</title> 
+
+<para>As mentioned above, there can be "buildActions" methods in many different classes.  Since each one can create action groups and schedules, it is important that all of these activities are coordinated in a logical way.  One of the sstrengths of the Swarm toolkit is that it maintains a coherent, master schedule. The schedules of each sub Swarm are merged into the schedule of next higher level. Finally all schedules are merged in the top level Swarm</para>
+
+    <para>This multi-level integration of swarm schedules means that the model can indeed be thought of as a nested hierarchy of models.</para>
+</sect2>
+
+
 </sect1>
 <!--
 Local Variables:

@@ -1,115 +1,64 @@
 <sect1 id="swarm.user.user1.02.sect1">
   <title>Programming and simulation</title>
+   <para>Swarm is designed to help researchers build models in which low-level actors interact (often called "complex systems"). The researcher has to give content to "agents," possibly by thinking of them as honey bees, investors, trees, or (the ubiquitous) "bugs."  One research goal is to discern overall patterns that emerge from these detailed behaviors at the individual level. </para>
+    <para>Object oriented programming is ideally suited to represent models of this sort. As we shall see, the objects are self-contained.  Objects may be designed to convey information (answer questions) from other objects and also they can retain, categorize, and summarize information.</para>
 
 <sect2>
- <title>Object Oriented Programming</title> 
+ <title>What is an Object? </title> 
+<para>A careful study of the Objective-C language is required before any significant progress can be made in building a Swarm model. The material presented here is intended as a summary or reminder of such a study, rather than a substitute.</para>
 
-    <itemizedlist>
-
-      <listitem>
-      Variables</listitem>
-      <listitem>
-      Methods</listitem>
-      <listitem>
-      State</listitem>
-      <listitem>
-      Behavior</listitem>
-      <listitem>
-      An object</listitem>
-      <listitem>
-      A program</listitem>
-      <listitem>
-      Message</listitem>
-    </itemizedlist>
-
+    An object consists of 2 kinds of information<itemizedlist>
+     <listitem>
+      Variables</listitem><para>The list of variables summarizes the "state" of the agent--its age, wealth, its ability, and so forth.  These variables may be of any type that is allowed in C, such as integer (int), floating-point number (float), an array, a pointer, and so forth.  These variables might also be of type "id", which means they might also be instances of classes.
+     <para> and </para> <listitem>
+      Methods</listitem><para> Methods determine what the object can do. Typically, there will be methods that receive information from the "outside world", methods that send messages to the outside, and methods that process information.</para>
+        </itemizedlist>
+    <para>Variables and methods are given meaningful names, so code is easier to read. The custom is to run words together to make meaningful tags, such as goToStore or goHome.</para>
+<para>Objects are created through a process called "instantiation."  Put tersely, code is written in "classes" and then objects are created as instances of their classes. The varibles that an instance, or object, keeps inside itself are called "instance variables".  The information contained inside instance variables is available to all methods inside that object. If one of the methods in an object needs to have "private" information that is not available to other methods in the object, then "method variables" can be created to hold that information.
+ 
+    <para>In Objective-C, the term "message" is used to refer to an instruction that tells an object to carry out one of its methods.  Here is an example of a message that tells an object known as "bobDole" to execute its method "runForPresident".</para>
+   
+    <programlisting> [bobDole runForPresident];</programlisting>
+<para>Some methods have parameters that specify details and they are added with colons after the name of the method to be executed.  For example, if the method "runForPresident" required additional parameters, such as the year and the name of the runningmate, then the message might look like so:</para>
+    <programlisting> [bobDole runForPresident:2000 with: RossPerot];</programlisting>
+    <para>We will have plenty of additional examples in the rest of the Guide.</para>
 </sect2>
 
 <sect2>
- <title>Interface vs. implementation</title> 
+ <title>The Variety of Objects</title>
 
-    <para>User only has to be familiar with the interface of an object, not it's 
-      implementation</para>
+    <para>In a Swarm model, there can be many types of agents. (see figure "Bottom Up Modeling from Benedikt) Obviously, if a model is going to describe honey bees, it has to have honey bee agents. It will also have objects that represent other actors in the model, and not all other actors are animate.  There might be other insects and bears, but there will also be objects that represent the environment (trees, rainstorms, etc).  The model will typically also have objects that facilitate the modeling process and collect information about the simulation and relay it to the researcher. </para>
+<para></para>
 
-    <para>Objects hide their functions and data</para>
-</sect2>
+  </sect2>
+
 
 <sect2>
- <title>The three principles of OOP</title> 
+ <title>The Advantages of Object Oriented Programming</title> 
+    <para>Object oriented programming (<acronym>OOP</acronym>)is well suited to describe autonomous agents,so it should have appeal to scientists and modelers on that basis alone. That is not the end of the subject, however.  OOP it has virtues that are equally important to computer programmers. OOP, as it is found in Objective-C, is not exactly the same as OOP in C++ or Java, but these languages have some significant features in common.  The features we emphasize here are encapsulation and inheritance. (Question: this downplays polymorphism because Objective-C does not allow operator overloading. Do you think that is a good idea?)</para>
+<itemizedlist>
+<listitem>
+<formalpara><title>Encapsulation</title>:<para> The values of the variables inside an object are private, unless methods are written to pass that information outside of the object.</para></listitem> 
+    <para>This has both substantive and practical implications. The substantive importance is that the representation of an individual actor now presumes that the actor is a self-contained entity and that other actors do not automatically have access to all information inside that actor. Like humans, objects have to take effort to convey information to each other about their internal states. The practical advantages of encapsulation, however, are just as important.  Computer projects can be broken down into separable components (code for the classeses) and when the code is finished, the details of what goes on inside each object may not be important to the programmer.  For example, if an object "groceryStore" can respond to an message "takeMoney," and it gets the job done, we might not care how it does it.</para>
+ 
+<para>This is commonly referred to as the separation of "interface" from "implementation." While the interface declares what methods the object can execute, the implementation may remain hidden. (see figure "Interface vs Implementation")User only has to be familiar with the interface of an object, not it's implementation</para>
 
-    <formalpara><title>Encapsulation</title><para>
-        Objects hide their functions (methods) and data (instance variables and 
-        method variables).</para>
-    </formalpara>
-    
-    <formalpara><title>Inheritance</title>
-      <para>Each subclass inherits all variables of it's superclass</para>
-    </formalpara>
-    
-    <para>Super class</para>
-    <para>Sub classes</para>
-    
-    <formalpara><title>Polymorphism</title>
-      <para>Multiple instances of same class, sharing behavior but not state or 
-        memory</para>
-    </formalpara>
-    </para></formalpara> 
-
+<listitem> 
+ <formalpara><title>Inheritance</title>:<para> Each subclass inherits all variables and methods of its superclass.</para></listitem>   
+    <para>Inheritance works because code for each class designates that class as a subclass of a superclass.  For example, in the GNU Objective-C compiler used in the Swarm project, there is a most basic class, "object".  From the object class, the Swarm libraries create subclasses, and subclasses are created from them, and so forth until the programmer in a swarm project wants to create a new class of actors that is subclassed from "Swarmobject."  And if the programmer needs to create several varieties of that class, there is no need to totally rewrite each one. Subclasses can be created that have as a base all variables and methods of the class but then new methods and variables can be added as well.</para>
+    <para>When a method, say "takeMoney", exists in a class "Store," and then a subclass is created, say"groceryStore," then all objects instantiated from the subclass will respond to "takeMoney".  If the programmer wants to rewrite the "takeMoney" method for groceryStores, however, then the method can be revised inside the code for the subclass and then all instances of the groceryStore class will respond to "takeMoney" in that specialized way.  The method inside the groceryStore subclass will override the super-class's definition of the method.</para>
 </sect2>
 
 <sect2>
  <title>Discrete event simulation</title> 
 
-    <formalpara><title>Simulation proceeds in discrete time steps</title>
-      <para></para></formalpara>
 
-    <formalpara><title>Interaction between agents or procedures within 
-        simulation may have own event schedule</title>
-      <para></para></formalpara> 
+    <para>A Swarm simulation proceeds in discrete time steps. Objects are created and then interact according to a scheduling mechanism.  As the simulation proceeds, the agents update their instance variables and they may be asked to report their state to the observer swarm layer of the simulation.</para>
+    <para>The modeling process in Swarm, then, is quite different from simulation modeling in a non-object oriented language, such as Fortran or Pascal.  These so-called "procedural languages" do not allow the modeler to take advantage of reusable classes through inheritance or the preservation of data allowed by encapsulation.  (See Benedikt's figure "Simulation in a Procedural Language").</para>
+ 
 
-</sect2>
-
-<sect2>
-    <title>Simulation in procedural language</title> 
-
-    <procedure>
-      <title>Procedural language pseudo-code</title>
-
-      <step>
-        <command>get parameters</command>
-      </step>
-      <step>
-        <command>initialize</command>
-      </step>
-
-      <step>
-        <command>for 1 to timesteps do:</command>
-        <substeps>
-          <step>
-            <command>for 1 to num_agents do:</command>
-            <substeps>
-              <step>
-                <command>agent-i-do-something</command>
-              </step>
-            </substeps>
-          </step>
-          <step>
-            <command>show state</command>
-          </step>
-        </substeps>
-      </step>
-      <step>
-        <command>quit</command>
-      </step>
-    </procedure>
-
-    <para>
-      Here must provide data structure to save agent's state and implement behavior
-      Generally set's up data structures and support for output.
-      Implementation of output often left to the programmer
-    </para>
-
-</sect2>
-</sect1>
+ 
+</sect2></sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")
