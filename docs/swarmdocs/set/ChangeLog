@@ -1,5 +1,8 @@
 1998-06-11  Alex Lancaster  <alex@santafe.edu>
 
+	* setmeta.sgml: Removed BIBLIOSET element - moved TITLE,
+	CORPAUTHOR, bibliodata up to under the SETINFO element.
+
 	* Makefile.am (GENERATED_SGML): Added for revhistory.
         (noinst_DATA): Added.
         (SGML, SGML_FILES): Separated out generated/non-gen files.

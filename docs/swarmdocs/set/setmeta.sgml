@@ -2,14 +2,13 @@
 
   <GRAPHIC ENTITYREF="settitlelogo" ALIGN="CENTER"></GRAPHIC>
 
-  <BIBLIOSET>
-    <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
-
-    <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
-    
-    &bibliodata;
-
-  </BIBLIOSET>
+  <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
+  
+  <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
+  
+  &bibliodata;
+  
+  <!--  <BIBLIOSET></BIBLIOSET> -->
 
   <ABSTRACT>
     <TITLE>Overview</TITLE>
