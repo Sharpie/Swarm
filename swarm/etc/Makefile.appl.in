@@ -8,6 +8,10 @@ swarmdatadir = $(datadir)/swarm
 sysconfdir = @sysconfdir@
 swarmsysconfdir = $(sysconfdir)/swarm
 
+swarm_prefix=@swarm_prefix@
+swarm_exec_prefix=@swarm_exec_prefix@
+swarm_libdir=@swarm_libdir@
+
 tcllibdir = @tcllibdir@
 tklibdir = @tklibdir@
 bltlibdir = @bltlibdir@
