@@ -1,3 +1,8 @@
+1999-09-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (Makefile.common): Use quoted top_dossrcdir instead of
+	top_srcdir for SWARMSRCDIR.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.
