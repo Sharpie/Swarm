@@ -56,6 +56,7 @@ BOOL sel_types_match (const char* t1, const char* t2);
 
 void *alloca (size_t);
 
+#define inline
 
 /* For encoding and decoding the method arguments, we have to know where
    to find things in the "argframe" as returned by __builtin_apply_args.
@@ -1686,6 +1687,7 @@ mframe_decode_return (const char *type, void* buffer, void* retframe)
 	  __builtin_return (rframe);
 	}
 	*(float*)buffer = retframe_float(retframe);
+printf ("%f\n", *(float *) buffer);
 	break;
       }
 
@@ -1696,6 +1698,7 @@ mframe_decode_return (const char *type, void* buffer, void* retframe)
 	  __builtin_return (rframe);
 	}
 	*(double*)buffer = retframe_double(retframe);
+printf ("%f\n", *(double *) buffer);
 	break;
       }
 

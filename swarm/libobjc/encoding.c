@@ -296,7 +296,11 @@ objc_alignof_type(const char* type)
     break;
 
   case _C_DBL:
+#if 0
     return __alignof__(double);
+#else
+    return 4;
+#endif
     break;
 
   case _C_PTR:
