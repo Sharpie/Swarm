@@ -1,3 +1,9 @@
+2000-07-26  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.common.in (SWARMMODULES): Use it.
+
+	* modules: New file.
+
 2000-07-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* protocol.el (argument-name): Append rather than

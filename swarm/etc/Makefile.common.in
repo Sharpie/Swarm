@@ -71,9 +71,7 @@ SUPPORTLDFLAGS = $(HDF5LDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(BLT
 
 SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(DLLIB)
 
-SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
-	objectbase activity defobj collections misc
-
+SWARMMODULES = $(shell cat $(top_srcdir)/etc/modules)
 
 USEDLL=@USEDLL@
 
