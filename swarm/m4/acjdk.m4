@@ -22,7 +22,7 @@ else
   else
     jdkdosdir=$jdkdir
   fi
-  if $jdkdir = /usr; then
+  if test $jdkdir = /usr; then
     jdkincludedir=$jdkdir/include/java
   else
     jdkincludedir=$jdkdir/include
