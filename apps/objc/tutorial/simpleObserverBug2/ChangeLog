@@ -1,3 +1,10 @@
+1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile (SWARMHOME): Update to 1999-01-16.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildActions]): Add
+	probeDisplay update to displayActions.
+
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (SWARMHOME): Default to 1998-08-17.

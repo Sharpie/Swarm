@@ -151,6 +151,7 @@
   [displayActions createActionTo: worldRaster         message: M(drawSelf)];
 
   [displayActions createActionTo: actionCache         message: M(doTkEvents)];
+  [displayActions createActionTo: probeDisplayManager message: M(update)];     
 
   // And the display schedule. Note the repeat interval is set from our
   // own Swarm data structure. Display is frequently the slowest part of a
