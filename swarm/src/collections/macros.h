@@ -4,6 +4,7 @@ struct ListIndex_mlinks;
 struct List_mlinks;
 struct MapIndex_c;
 struct Map_c;
+struct OrderedSet_c;
 
 extern id _i_ListIndex_linked__next (id, SEL);
 extern id _i_ListIndex_linked__prev (id, SEL);
