@@ -24,13 +24,14 @@
 {
   // state for the Object
   PixelValue white, black;
-  PixelValue map[MAXCOLORS];
-  BOOL isSet[MAXCOLORS];
   
   // data necessary for Xlib.
   Tk_Window tkwin;
   Display *display;
   Window xwin;
+@public
+  PixelValue map[MAXCOLORS];
+  BOOL isSet[MAXCOLORS];
   X11Colormap cmap;
 }
 

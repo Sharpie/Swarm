@@ -67,6 +67,7 @@
   colormap = c;
   map = [colormap map];				  // cache this, fast access.
   tkobjc_raster_setBackground (self, [colormap black]);
+  tkobjc_setColormap (self);
   return self;
 }
 
@@ -97,11 +98,7 @@
 // erase the pixmap - can't use XClearArea, sadly.
 - erase
 {
-  Display *display = Tk_Display (tkwin);
-
-  tkobjc_raster_fillRectangle (self,
-                               0, 0, width, height, 
-                               BlackPixel (display, DefaultScreen (display)));
+  tkobjc_erase (self);
   return self;
 }
 
@@ -123,17 +120,13 @@
 // draw a rectangle.
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
 {
-  tkobjc_raster_fillRectangle (self, x0, y0, x1 - x0, y1 - y0, map[c]);
+  tkobjc_raster_fillRectangle (self, x0, y0, x1 - x0, y1 - y0, c);
   return self;
 }
 
 // copy the pixmap onto the X window.
 - drawSelf
 {
-#ifdef DEBUG
-  printf("Redrawing %s\nPixmap: %x Window: %x Width: %d Height: %d\n",
-	 [self getObjcName], pm, xwin, width, height);
-#endif
   tkobjc_raster_flush (self);
   return self;
 }

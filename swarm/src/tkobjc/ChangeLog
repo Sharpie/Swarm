@@ -1,3 +1,36 @@
+1998-03-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m: Include win32dib.h and Tk internal header files only
+	if _WIN32.  Include <misc.h>.
+	(Xfill): New function.
+	(tkobjc_raster_fillRectangle}): Use dib_fill in Win32 case and
+	Xfill in X case.
+	(tkobjc_raster_erase): Setup a temporary colormap and use
+	tkobjc_raster_fillRectangle with index of 0 to erase.
+	(tkobjc_raster_drawPoint,tkobjc_setColormap): New functions.
+	(tkobjc_raster_createPixmap, tkobjc_raster_flush): Handle Win32
+	case.
+	(tkobjc_raster_copy): Disabled in Win32 case.
+	(XDrawPoint, XCreatePixmap, XFreePixmap): Remove.	
+
+	* internal.h: Include <tkobjc/Colormap.h> and make a @class.
+	(tkobjc_raster_{fillRectangle,drawPoint}): Takes a colormap index
+	not a PixelValue.
+	(tkobjc_raster_{erase,setColormap}): Declare.
+
+	* Raster.m ([Raster -setColormap:]): Call tkobjc_setColormap.
+	([Raster -erase]): Call tkobjc_raster_erase instead of
+	tkobjc_raster_fillRectangle.
+	([Raster fillRectangleX0:Y0:X1:Y1:Color:]): Color is now a colormap
+	index, not a PixelValue.
+	([Raster -drawSelf]): Remove debug message.
+
+	* Raster.h (Raster): Make colormap public.
+
+	* Colormap.h (Colormap): Make map, isSet, and cmap public.
+
+	* win32dib.[hc]: New files.
+
 1998-03-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* common.m (tkobjc_updateIdleTasks, tkobjc_releaseAndUpdate):
@@ -893,7 +926,7 @@ Fri Nov 28 16:26:44 1997  glen e. p. ropella  <gepr@swarm.com>
 	logic previously found in various classes in simtools/.  These
 	functions serve to dynamically adjust to the version of BLT being
 	used.
-
+  
 1997-11-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* BLTGraph.m ([GraphElement -createEnd]): In BLT 2.3, the default

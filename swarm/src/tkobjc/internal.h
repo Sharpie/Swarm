@@ -7,6 +7,8 @@
 
 #import <tkobjc/Raster.h>
 @class Raster;
+#import <tkobjc/Colormap.h>
+@class Colormap;
 
 #define Colormap X11Colormap
 #include <tk.h>
@@ -26,12 +28,15 @@ void tkobjc_initTkInterp (id arguments);
 void tkobjc_createEventHandler (id widget, Tk_EventProc proc);
 void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc);
 
+void tkobjc_raster_erase (Raster *raster);
+void tkobjc_raster_setColormap (Raster *raster);
+
 void tkobjc_raster_fillRectangle (Raster *raster,
                                   int x, int y, 
                                   unsigned width, unsigned height, 
-                                  PixelValue c);
+				  Color color);
 
-void tkobjc_raster_drawPoint (Raster *raster, int x, int y, PixelValue c);
+void tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color color);
 void tkobjc_raster_createContext (Raster *raster);
 void tkobjc_raster_createPixmap (Raster *raster);
 void tkobjc_raster_setBackground (Raster *raster, PixelValue c);

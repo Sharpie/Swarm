@@ -13,11 +13,11 @@
 // This could include a list of environments (graphics contexts).
 @interface Raster: ArchivedGeometryWidget
 {
-  id <Colormap> colormap;
   id button1Client, button2Client, button3Client;
   SEL button1Sel, button2Sel, button3Sel;
   PixelValue *map;
 @public
+  id <Colormap> colormap;
   Tk_Window tkwin;
   GC gc;
   Pixmap pm;
