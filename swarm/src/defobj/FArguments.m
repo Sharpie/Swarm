@@ -69,7 +69,7 @@ PHASE(Creating)
       type = sel_get_type (selector);
     }
 #ifdef HAVE_JDK
-  if (swarmDirectory && javaFlag)
+  if (swarmDirectory && language == LanguageJava)
     {
       jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (selector);
       
@@ -93,7 +93,7 @@ PHASE(Creating)
         }
       else
         {
-          javaFlag = NO;
+          language = LanguageObjc;
           [self setObjCReturnType: *type];
         }
     }
@@ -103,10 +103,10 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)theJavaFlag
++ create: aZone setSelector: (SEL)aSel setLanguage: (id <Symbol>)theLanguage
 {
   return [[[[self createBegin: aZone]
-             setJavaFlag: theJavaFlag]
+             setLanguage: theLanguage]
             setSelector: aSel]
            createEnd];
 }
@@ -118,13 +118,13 @@ PHASE(Creating)
 
   strcpy (buf, theJavaSignature);
   javaSignature = buf;
-  javaFlag = YES;
+  language = LanguageJava;
   return self;
 }
 
-- setJavaFlag: (BOOL)theJavaFlag
+- setLanguage: (id <Symbol>)theLanguage
 {
-  javaFlag = theJavaFlag;
+  language = theLanguage;
   return self;
 }
 
@@ -256,7 +256,7 @@ PHASE(Creating)
 - addString: (const char *)str
 {
 #ifdef HAVE_JDK
-  if (javaFlag)
+  if (language == LanguageJava)
     {
       unsigned offset = MAX_HIDDEN + assignedArgumentCount;
       jstring string;
@@ -306,7 +306,7 @@ PHASE(Creating)
 - addObject: value
 {
 #ifdef HAVE_JDK
-  if (javaFlag)
+  if (language == LanguageJava)
     [self addJavaObject: SD_JAVA_FIND_OBJECT_JAVA (value)];
   else
 #endif
@@ -316,7 +316,7 @@ PHASE(Creating)
 
 - _setReturnType_: (fcall_type_t)type
 {
-  if (javaFlag)
+  if (language == LanguageJava)
     {
       if (type == fcall_type_object)
         type = fcall_type_jobject;
@@ -447,9 +447,9 @@ PHASE(Using)
   return result;
 }
 
-- (BOOL)getJavaFlag
+- (id <Symbol>)getLanguage
 {
-  return javaFlag;
+  return language;
 }
 
 - (void)dropAllocations: (BOOL)componentAlloc

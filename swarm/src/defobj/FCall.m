@@ -410,7 +410,7 @@ PHASE(Creating)
 
   [fc setArguments: fa];
 #ifdef HAVE_JDK
-  if ([fa getJavaFlag])
+  if ([fa getLanguage] == LanguageJava)
     {
       jstring string;
       const char *javaMethodName;

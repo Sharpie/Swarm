@@ -28,9 +28,12 @@ Library:      defobj
 #ifdef HAVE_JDK
 #include <objc/mframe.h>
 #include "java.h"
+#endif
+
+#import "COM.h"
 
 #import <defobj.h> // FCall, FArguments
-#endif
+
 
 #include <defobj/directory.h>
 
@@ -606,18 +609,16 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
 {
-#ifdef HAVE_JDK
   NSArgumentInfo info;
   id <FArguments> fa;
   id <FCall> fc;
   types_t val;
   const char *type = sel_get_type (aSel);
-  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
-  jobject jsel;
+#ifdef HAVE_JDK
+  jobject jObj;
+#endif
+  COMobject cObj;
 
-  if (jobj == NULL)
-    [self doesNotRecognize: aSel];
-  
   if (!type)
     {
       aSel = sel_get_any_typed_uid (sel_get_name (aSel));
@@ -625,23 +626,51 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       if (!type)
         abort ();
     }
-  jsel = SD_JAVA_FIND_SELECTOR_JAVA (aSel);
-  if (!jsel)
-    raiseEvent (InvalidArgument,
-                "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",
-                sel_get_name (aSel),
-                [self name],
-                self,
-                jobj,
-                swarm_directory_java_hash_code (jobj));
-  
-  fa = [FArguments createBegin: getCZone (getZone (self))];
-  {
-    const char *sig = java_ensure_selector_type_signature (jsel);
 
-    [fa setJavaSignature: sig];
-    [scratchZone free: (void *) sig];
-  }
+  fa = [FArguments createBegin: getCZone (getZone (self))];
+
+  if ((cObj = SD_COM_FIND_OBJECT_COM (self)))
+    {
+      if (!SD_COM_FIND_SELECTOR_COM (aSel))
+        raiseEvent (InvalidArgument,
+                    "unable to find COM selector `%s' in objc:`%s' %p\n",
+                    sel_get_name (aSel),
+                    [self name],
+                    self,
+                    cObj);
+      [fa setLanguage: LanguageCOM];
+    }
+#ifdef HAVE_JDK
+  else if ((jObj = SD_JAVA_FIND_OBJECT_JAVA (self)))
+    {
+      {
+        jobject jSel = SD_JAVA_FIND_SELECTOR_JAVA (aSel);
+        
+        if (!jSel)
+          raiseEvent (InvalidArgument,
+                      "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",
+                      sel_get_name (aSel),
+                      [self name],
+                      self,
+                      jObj,
+                      swarm_directory_java_hash_code (jObj));
+        
+        {
+          const char *sig = java_ensure_selector_type_signature (jSel);
+          
+          [fa setJavaSignature: sig];
+          [scratchZone free: (void *) sig];
+        }
+      }
+    }
+#endif
+  else if (!cObj && !jObj)
+    {
+      [self doesNotRecognize: aSel];
+      [fa drop];
+      return NULL;
+    }
+  
   type = mframe_next_arg (type, &info);
   mframe_get_arg (argFrame, &info, &val);
   [fa setObjCReturnType: *info.type];
@@ -654,7 +683,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       [fa addArgument: &val ofObjCType: *info.type];
     }
   fa = [fa createEnd];
-
+  
   fc = [FCall create: getCZone (getZone (self))
               target: self
               selector: aSel
@@ -672,10 +701,6 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     [fa drop];
     return retVal;
   }
-#else
-  [self doesNotRecognize: aSel];
-  return NULL;
-#endif
 }
 
 //

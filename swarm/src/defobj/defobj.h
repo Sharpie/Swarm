@@ -1054,10 +1054,10 @@ typedef void *COMOBJECT;
 //S: A language independent interface to dynamic call argument construction.
 //D: A language independent interface to dynamic call argument construction.
 CREATING
-- setJavaFlag: (BOOL)javaFlag;
+- setLanguage: (id <Symbol>)languageType;
 - setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
-+ create: (id <Zone>)aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
++ create: (id <Zone>)aZone setSelector: (SEL)aSel setLanguage: (id <Symbol>)language;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addBoolean: (BOOL)value;
@@ -1079,7 +1079,7 @@ CREATING
 - setObjCReturnType: (char)type;
 - setBooleanReturnType;
 USING
-- (BOOL)getJavaFlag;
+- (id <Symbol>)getLanguage;
 - (void *)getResult;
 @end
 
@@ -1169,7 +1169,7 @@ extern id lispInKeyword (id index);
 @end
 
 //G: The singleton Arguments object.
-externvar id arguments;
+externvar id <Arguments> arguments;
 
 //G: The singleton HDF5 system Archiver object.
 externvar id <HDF5Archiver> hdf5Archiver;
@@ -1185,6 +1185,9 @@ externvar id <LispArchiver> lispAppArchiver;
 
 //G: Predefined type descriptors for allocated blocks.
 externvar id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
+
+//G: Language tags (e.g. for use in FArguments)
+externvar id <Symbol> LanguageCOM, LanguageJava, LanguageObjc;
 
 //#: Abbreviation for @selector().
 #define M(messageName) @selector (messageName)

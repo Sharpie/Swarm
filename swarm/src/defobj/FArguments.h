@@ -45,12 +45,12 @@ Library:      defobj
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;
-   BOOL javaFlag;
+   id <Symbol> language;
 }
 + createBegin: aZone;
-- setJavaFlag: (BOOL)javaFlag;
+- setLanguage: (id <Symbol>)languageType;
 - setSelector: (SEL)aSel;
-+ create: aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)theJavaFlag;
++ create: aZone setSelector: (SEL)aSel setLanguage: (id <Symbol>)language;
 - setJavaSignature: (const char *)javaSignature;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addBoolean: (BOOL)value;
@@ -74,7 +74,7 @@ Library:      defobj
 - setObjCReturnType: (char)type;
 - setBooleanReturnType;
 - createEnd;
-- (BOOL)getJavaFlag;
+- (id <Symbol>)getLanguage;
 - (void *)getResult;
 - (void)dropAllocations: (BOOL)componentAlloc;
 - (void)mapAllocations: (mapalloc_t)mapalloc;

@@ -1,3 +1,26 @@
+2000-09-13  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* defobj.h (arguments): Add <Arguments> qualifier.
+
+	* defobj.h (LanguageCOM, LanguageJava, LanguageObjc): Add.
+
+	* java.m (swarm_directory_java_associate_objects): Associate them.
+
+	* FArguments.[hm], defobj.h: Change {get,set}JavaFlag methods and
+	conditionals to {get,set}Language:.
+
+	* FCall.m ([FCall_c +create:target:selector:arguments:]): Likewise.
+
+	* DefObject.m: Include COM.h.
+	([Object_s -forward::]): Add checks for COM objects.
+
+	* COM.m (swarm_directory_objc_find_object_COM): Don't abort if 
+	found, but not COM type.
+
+	* COM.[hm] (swarm_directory_objc_find_selector_COM): Add.
+
+	* COM.h (SD_COM_FIND_SELECTOR_COM): Add.
+
 2000-09-12    <mgd@DRONE>
 
 	* directory.[hm] ([-setCOMObject:]): Make argument of type COMOBJECT.

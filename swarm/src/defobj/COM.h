@@ -36,6 +36,7 @@ extern COMobject swarm_directory_COM_add_object_COM (COMobject cObject, id oObje
 extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *COM_copy_string (const char *str);
 extern const char *COM_class_name (COMobject cobj);
+extern COMobject swarm_directory_objc_find_selector_COM (SEL sel);
 
 #ifdef __cplusplus
 }
@@ -45,6 +46,9 @@ extern const char *COM_class_name (COMobject cobj);
 #define SD_COM_FIND_CLASS_COM_CAST(type,oClass) NS_STATIC_CAST(type, SD_COM_FIND_CLASS_COM (oClass))
 
 #define SD_COM_FIND_OBJECT_COM(oObject) swarm_directory_objc_find_object_COM (oObject)
+
+#define SD_COM_FIND_SELECTOR_COM(objc) swarm_directory_objc_find_selector_COM (objc)
+
 #define SD_COM_ENSURE_OBJECT_COM(oObject) swarm_directory_objc_ensure_COM (oObject)
 #define SD_COM_ENSURE_OBJECT_COM_CAST(type,oObject) NS_STATIC_CAST(type,SD_COM_ENSURE_OBJECT_COM (oObject))
 
@@ -105,8 +109,6 @@ extern DirectoryEntry *swarm_directory_COM_add_selector (SEL sel, COMobject cobj
 extern void swarm_directory_COM_switch_phase (id nextPhase, COMobject currentPhase);
 extern void swarm_directory_COM_switch_objc (id object, COMobject cobj);
 extern COMobject swarm_directory_COM_next_phase (COMobject cobj);
-#define SD_COM_FIND_SELECTOR_COM(objc) swarm_directory_objc_find_selector_COM (objc)
-extern COMobject swarm_directory_objc_find_selector_COM (SEL sel);
 extern Class swarm_directory_COM_find_class_named (const char *className);
 #define SD_COM_FINDOBJC(cobj)  swarm_directory_COM_find_objc (cobj)
 #define SD_COM_SWITCHPHASE(cobj, objc) swarm_directory_COM_switch_phase (objc, cobj)

@@ -35,9 +35,21 @@ swarm_directory_objc_find_object_COM (id oObject)
 
   if (entry)
     {
-      if (entry->type != foreign_COM)
-        abort ();
-      return entry->foreignObject.COM;
+      if (entry->type == foreign_COM)
+        return entry->foreignObject.COM;
+    }
+  return NULL;
+}
+
+COMobject
+swarm_directory_objc_find_selector_COM (SEL sel)
+{
+  SelectorEntry *entry = swarm_directory_objc_find_selector (sel);
+
+  if (entry)
+    {
+      if (entry->type == foreign_COM)
+        return entry->foreignObject.COM;
     }
   return NULL;
 }

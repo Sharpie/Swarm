@@ -1427,6 +1427,14 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
   ASSOCIATE (lispAppArchiver);
 
   {
+    extern id <Symbol> LanguageCOM, LanguageJava, LanguageObjc;
+
+    ASSOCIATE (LanguageCOM);
+    ASSOCIATE (LanguageJava);
+    ASSOCIATE (LanguageObjc);
+  }
+
+  {
     extern id <Symbol> Start, Member, End;
 
     ASSOCIATE (Start);
