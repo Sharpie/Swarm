@@ -163,7 +163,7 @@ strip_quotes (const char *argv0)
   else
     {
       program_invocation_short_name = applicationName;
-      program_invocation_name = applicationName;
+      program_invocation_name = (char *) find_executable (argv0);
     }
 #else
   if (applicationName == NULL)
@@ -171,7 +171,7 @@ strip_quotes (const char *argv0)
   else
     {
       program_invocation_short_name = (char *) applicationName;
-      program_invocation_name = (char *) applicationName;
+      program_invocation_name = (char *) find_executable (argv0);
     }
 #endif
 
@@ -619,10 +619,12 @@ prefix (const char *prefixstring)
               char *p;
               
               p = stpcpy (sigPathBuf, swarmHome);
+              p = stpcpy (p, "/");
               p = stpcpy (p, SIGNATURE_PATH);
               
               if (access (sigPathBuf, F_OK) == -1)
                 swarmHome = NULL;
+
             }
           if (swarmHome == NULL)
             swarmHome = findSwarm (self);
@@ -674,14 +676,16 @@ prefix (const char *prefixstring)
 
 - (BOOL)_runningFromInstall_
 {
-  char *executablePath = strdup ([self getExecutablePath]);
-  const char *possibleHomeSrc = dropdir (dropdir (executablePath));
+  char *executablePath =  strdup ([self getExecutablePath]);
+  const char *possibleHomeSrc = 
+    dropdir (dropdir (dropdir (executablePath)));
   const char *homeSrc;
   BOOL ret = NO;
 
   ignoringEnvFlag = NO;
  retry:
   homeSrc = [self _getSwarmHome_: ignoringEnvFlag];
+
   if (homeSrc && possibleHomeSrc)
     {
       struct stat possibleHomeStatBuf, homeStatBuf;
