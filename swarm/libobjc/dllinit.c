@@ -40,17 +40,6 @@
 BOOL APIENTRY DllMain (HINSTANCE hInst, DWORD reason, 
                        LPVOID reserved /* Not used. */ );
 
-static void startup (void) __attribute ((constructor));
-static int initialized = 0;
-
-static void
-startup (void)
-{
-  initialized = 1;
-}
-
-#define STRINGIFYSYM(sym) STRINGIFY(sym)
-#define STRINGIFY(sym) #sym
 /*
  *----------------------------------------------------------------------
  *
@@ -77,15 +66,6 @@ DllMain (
   switch (reason)
     {
     case DLL_PROCESS_ATTACH:
-      {
-        extern void constructor_func ();
-	
-	if (!initialized)
-	  {
-	    printf ("Calling `%s'\n", STRINGIFYSYM (constructor_func));
-	    constructor_func ();
-	  }
-      }
       break;
 
     case DLL_PROCESS_DETACH:
