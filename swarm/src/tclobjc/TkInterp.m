@@ -137,7 +137,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
   }
 
   Tcl_SetVar (interp, "tclobjc_newTk", "0", TCL_GLOBAL_ONLY);
-  [self eval: "proc tkInit {} { global tclobjc_newTk; puts \"in TkInit\" ; set tclobjc_newTk 1 }"];
+  [self eval: "proc tkInit {} { global tclobjc_newTk; set tclobjc_newTk 1 }"];
   
   /*
    * Initialize the Tk application and arrange to map the main window
