@@ -748,4 +748,10 @@ PHASE(Using)
     xprint (member);
   [index drop];
 }
+
+- (void)drop
+{
+  [probes drop];
+  [super drop];
+}
 @end

@@ -1,3 +1,7 @@
+2001-09-05  Marcus G. Daniels  <mgd@condor>
+
+	* ProbeMap.m ([ProbeMap -drop]): Drop probes Map.
+
 2001-08-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m ([VarProbe -_setupJavaVarProbe_]): Use
