@@ -29,8 +29,12 @@
 
   // create a frame widget, set its height
   width = 100; height = 100;
-  [globalTkInterp eval: "frame %s -bg black -relief flat -width %d -height %d",
-		  widgetName, width, height];
+  // BMcM - 12-FEB-97: force widget to have *no* background;
+  //   fixes problem with newer tcl/tk (7.5/4.1 up?) whereby raster
+  //   was being erased, *after* our -drawself, on all <Expose>
+  //   events...
+  [globalTkInterp eval: "frame %s -background \"\" -width %d -height %d",
+  	  widgetName, width, height];
 
   tkwin = Tk_NameToWindow([globalTkInterp interp], widgetName,
 			  [globalTkInterp mainWindow]);
