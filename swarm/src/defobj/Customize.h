@@ -47,32 +47,33 @@ extern id Creating, Setting, Using, CreatingOnly, UsingOnly;
 // extended class info bits (bit masks for class->info) used by cust. wrapper
 
 #define _CLS_CUSTOMIZEWRAPPER  0x200  // class created by customizeBegin
-#define _CLS_RETAINSELF        0x300  // retain self even if unref by createBy
+#define _CLS_RETAINSELF 0x300         // retain self even if unref by createBy
 
 //
 // _obj_customize() -- return true if customization in progress
 //
-extern inline BOOL _obj_customize( id anObject )
+extern inline BOOL
+_obj_customize (id anObject)
 {
-  return ( getClass( anObject )->info & _CLS_CUSTOMIZEWRAPPER ) != 0;
+  return (getClass (anObject)->info & _CLS_CUSTOMIZEWRAPPER) != 0;
 }
 
 #define createByCopy() \
-(_obj_customize(self) ? ([(id)self _setCreateByCopy_], 1) : 0)
+(_obj_customize (self) ? ([(id) self _setCreateByCopy_], 1) : 0)
 
-#define createByMessageTo( anObject, messageName ) \
-(_obj_customize(self) ? \
- ([(id)self _setCreateByMessage_:@selector(messageName) to:(anObject)],1):0)
+#define createByMessageTo(anObject, messageName) \
+(_obj_customize (self) ? \
+ ([(id) self _setCreateByMessage_: @selector(messageName) to: (anObject)],1):0)
 
-#define createByMessageToCopy( anObject, messageName ) \
-(_obj_customize(self) ? \
+#define createByMessageToCopy(anObject, messageName) \
+(_obj_customize (self) ? \
 ([(id)self _setCreateByMessage_:@selector(messageName) toCopy:(anObject)],1):0)
 
-#define setRetainSelf( ) \
-if ( _obj_customize( self ) ) self->class_pointer->info |= _CLS_RETAINSELF
+#define setRetainSelf() \
+if (_obj_customize (self)) self->class_pointer->info |= _CLS_RETAINSELF
 
-#define setRecustomize( recustomizeReceiver ) \
-if ( _obj_customize( self ) ) [self _setRecustomize_: recustomizeReceiver]
+#define setRecustomize(recustomizeReceiver) \
+if (_obj_customize(self)) [self _setRecustomize_: recustomizeReceiver]
 
 //
 // objects to save createBy actions generated customizeBegin/End
@@ -113,15 +114,17 @@ if ( _obj_customize( self ) ) [self _setRecustomize_: recustomizeReceiver]
 //
 // getNextPhase() -- return class which implements next phase of object
 //
-extern inline Class getNextPhase( id aClass )
+extern inline Class
+getNextPhase (id aClass)
 {
-  return ((Class *)aClass)[_obj_NEXTCLASS];
+  return ((Class *) aClass)[_obj_NEXTCLASS];
 }
 
 //
 // setNextPhase() -- change behavior of object to next defined phase
 //
-extern inline void setNextPhase( id anObject )
+extern inline void
+setNextPhase (id anObject)
 {
-  *(Class *)anObject = (*(Class **)anObject)[_obj_NEXTCLASS];
+  *(Class *) anObject = (*(Class **) anObject)[_obj_NEXTCLASS];
 }
