@@ -278,21 +278,26 @@ dynamicCallOn (const char *probedType,
   id fa = [FArguments createBegin: aZone];
   id <FCall> fc;
 #ifdef HAVE_JDK  
-  jobject javaObj = SD_FINDJAVA (jniEnv, target);
+  jobject javaObj = 0;
 
-  if (javaObj)
+  if (swarmDirectory)
     {
-      jobject jsel = SD_FINDJAVA (jniEnv, (id) probedSelector);
-
-      if (!jsel)
-        abort ();
-      {
-        const char *sig =
-          swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
-        
-        [fa setJavaSignature: sig];
-        [scratchZone free: (void *) sig];
-      }
+      javaObj = SD_FINDJAVA (jniEnv, target);
+      
+      if (javaObj)
+        {
+          jobject jsel = SD_FINDJAVA (jniEnv, (id) probedSelector);
+          
+          if (!jsel)
+            abort ();
+          {
+            const char *sig =
+              swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+            
+            [fa setJavaSignature: sig];
+            [scratchZone free: (void *) sig];
+          }
+        }
     }
 #endif
   retVal->type = *type;
