@@ -1,6 +1,7 @@
 1998-03-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Arguments.m (getApplicationValue): Truncate return at `.'.
+	* Arguments.m:  Include misc.h for strdup.
+	(getApplicationValue): Truncate return at `.'.
 
 1998-03-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

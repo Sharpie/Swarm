@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/Arguments.h>
+#include <misc.h> // strdup
 #include <misc/argp.h>
 
 #ifndef __GLIBC__
@@ -24,28 +25,37 @@ static struct argp_option options[] = {
 };
 
 static const char *
-getApplicationValue (const char *ptr)
+getApplicationValue (const char *val)
 {
-  const char *appStr = ptr;
-  
-  while (*ptr)
-    {
-      if (*ptr == '/')
-        appStr = ptr + 1;
-      ptr++;
-    }
-  ptr = strdup (appStr);
-  appStr = ptr;
-  while (*ptr)
-    {
-      if (*ptr == '.')
-        {
-          *ptr = '\0';
-          break;
-        }
-      ptr++;
-    }
-  return appStr;
+  const char *appStr;
+  {
+    const char *ptr;
+    
+    appStr = val;
+    ptr = (char *)appStr;
+    while (*ptr)
+      {
+        if (*ptr == '/')
+          appStr = ptr + 1;
+        ptr++;
+      }
+  }
+  {
+    char *newStr = strdup (appStr);
+    char *ptr = newStr;
+    
+    ptr = newStr;
+    while (*ptr)
+      {
+        if (*ptr == '.')
+          {
+            *ptr = '\0';
+            break;
+          }
+        ptr++;
+      }
+    return (const char *)newStr;
+  }
 }
 
 static error_t
