@@ -1,5 +1,8 @@
 include $(top_builddir)/etc/Makefile.common
 
+SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
+	objectbase activity defobj collections misc
+
 INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(top_builddir)/src/$(module)) -I$(top_srcdir)/src/gui/ -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc
 
 builddir = $(shell cd ../../src; pwd)
@@ -8,7 +11,7 @@ javaswarmdir = $(shell cd ../../java/c; pwd)
 
 JAVASWARMLIBS = @JAVASWARMLIBS@
 
-SWARMBUILDLDFLAGS = -L$(javaswarmdir) -R $(javaswarmdir) $(foreach module,$(SWARMMODULES),-L$(builddir)/$(module) -R $(builddir)/$(module)) -L$(libobjcdir) -R $(libobjcdir) 
+SWARMBUILDLDFLAGS = -L$(javaswarmdir) -R $(javaswarmdir) -L$(builddir) -R $(builddir) -L$(libobjcdir) -R $(libobjcdir) 
 
 LDFLAGS = $(SWARMBUILDLDFLAGS) $(SUPPORTLDFLAGS)
 

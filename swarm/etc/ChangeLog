@@ -1,3 +1,12 @@
+1999-06-03  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.tests.in (SWARMMODULES): New variable to generate list
+	of module names (since it is now removed from Makefile.common.in).
+	(INCLUDES): Use it.
+	(SWARMBUILDLDFLAGS): New flag to point to new libswarm.la
+	convenience library, located in $(top_builddir)/src.  Remove flags
+	to point to individual module libraries.
+
 1999-06-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config.swarm.in (jdkdosdir): Remove.
