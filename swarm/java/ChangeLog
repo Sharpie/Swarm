@@ -1,3 +1,12 @@
+2000-07-26    <mgd@DRONE>
+
+	* java-stub.el: Change SD_JAVA_ENSUREOBJCMETHOD to
+	SD_JAVA_ENSURE_SELECTOR_OBJC,
+	SD_JAVA_ENSUREOBJCCLASS and SD_JAVA_ENSURE_CLASS_OBJC,
+	SD_JAVA_ENSUREOBJC to SD_JAVA_ENSURE_OBJECT_OBJC,
+	SD_JAVA_FINDJAVACLASS to SD_JAVA_FIND_CLASS_JAVA, and
+	SD_ENSURE_JAVA to SD_JAVA_ENSURE_OBJECT_JAVA.
+
 2000-07-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java-stub.el (java-print-method-name): Convert initSwarmUsing
