@@ -1,3 +1,7 @@
+2000-03-17    <mgd@nest.swarm.org>
+
+	* actcltk.m4: Recognize Tcl/Tk 8.3.
+
 2000-02-23    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.

@@ -11,19 +11,24 @@ AC_DEFUN(md_FIND_TCL,dnl
 if test -n "$with_tcldir" ; then               
   PATH=${with_tcldir}/bin:$PATH
 fi
-AC_CHECK_PROG(tclsh82_found, tclsh8.2, yes, no)
-if test $tclsh82_found = no ; then
-  AC_CHECK_PROG(tclsh81_found, tclsh8.1, yes, no)
-  if test $tclsh81_found = no ; then
-    AC_CHECK_PROG(tclsh80_found, tclsh8.0, yes, no)
-    if test $tclsh80_found = no ; then
-      AC_CHECK_PROG(tclsh_found, tclsh, yes, no)
+AC_CHECK_PROG(tclsh83_found, tclsh8.3, yes, no)
+if test $tclsh83_found = no ; then
+  AC_CHECK_PROG(tclsh82_found, tclsh8.2, yes, no)
+  if test $tclsh82_found = no ; then
+    AC_CHECK_PROG(tclsh81_found, tclsh8.1, yes, no)
+    if test $tclsh81_found = no ; then
+      AC_CHECK_PROG(tclsh80_found, tclsh8.0, yes, no)
+      if test $tclsh80_found = no ; then
+        AC_CHECK_PROG(tclsh_found, tclsh, yes, no)
+      fi
     fi
   fi
 fi
 changequote(<,>)dnl
 tclLibrary=''
-if test $tclsh82_found = yes; then
+if test $tclsh83_found = yes; then
+  tclLibrary=`echo "puts [info library]" | tclsh8.3`
+elif test $tclsh82_found = yes; then
   tclLibrary=`echo "puts [info library]" | tclsh8.2`
 elif test $tclsh81_found = yes; then
   tclLibrary=`echo "puts [info library]" | tclsh8.1`
@@ -131,7 +136,7 @@ for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
         break
       fi
     else
-      for version in 82 8.2 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
+      for version in 83 8.3 82 8.2 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
         if test -r $expand_dir/libtcl${version}${suffix}; then
           tcllibdir=$dir  
           tcllibname=tcl$version
@@ -227,7 +232,7 @@ for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
         break
       fi
     else
-      for version in 82 8.2 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
+      for version in 83 8.3 82 8.2 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
         if test -r $expand_dir/libtk${version}${suffix}; then
           tklibdir=$dir
           tklibname=tk${version}
