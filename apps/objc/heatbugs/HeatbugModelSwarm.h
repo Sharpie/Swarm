@@ -21,6 +21,7 @@
   int minOutputHeat, maxOutputHeat;
   double randomMoveProbability;
 
+  BOOL randomizeHeatbugUpdateOrder;
   id modelActions;				  // scheduling data structures
   id modelSchedule;
 

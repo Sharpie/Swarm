@@ -61,6 +61,7 @@
   obj->maxIdealTemp = 31000;
   obj->minOutputHeat = 3000;
   obj->maxOutputHeat = 10000;
+  obj->randomizeHeatbugUpdateOrder = NO;
   obj->randomMoveProbability = 0.0;
 
   // And build a customized probe map. Without a probe map, the default
@@ -91,6 +92,9 @@
 				    inClass: [self class]]]; 
   [probeMap addProbe: [probeLibrary getProbeForVariable: "evaporationRate"
 				    inClass: [self class]]];
+  [probeMap addProbe: [probeLibrary getProbeForVariable: 
+                                      "randomizeHeatbugUpdateOrder" 
+                                    inClass: [self class]]];
   [probeMap addProbe: [probeLibrary getProbeForVariable: "randomMoveProbability"
 				    inClass: [self class]]];
 
@@ -220,9 +224,24 @@
   // then run "updateWorld" to actually enact the changes the heatbugs
   // have made. The ordering here is significant!
 
+  // Note also, that with the additional `randomizeHeatbugUpdateOrder'
+  // Boolean flag we can randomize the order in which the bugs
+  // actually run their step rule.  This has the effect of removing
+  // any systematic bias in the iteration throught the heatbug list
+  // from timestep to timestep
+
+  // By default, all `createActionForEach' modelActions have a default
+  // order of `Sequential', which means that the order of iteration
+  // through the `heatbugList' will be identical (assuming the list
+  // order is not changed indirectly by some other process).
+
   modelActions = [ActionGroup create: self];
   [modelActions createActionTo:      heat        message: M(stepRule)];
-  [modelActions createActionForEach: heatbugList message: M(step)];  
+  if (randomizeHeatbugUpdateOrder == YES)
+    [[modelActions createActionForEach: heatbugList message: M(step)] 
+      setDefaultOrder: Randomized];
+  else
+    [modelActions createActionForEach: heatbugList message: M(step)];  
   [modelActions createActionTo:      heat        message: M(updateLattice)];
 
   // Then we create a schedule that executes the modelActions. modelActions

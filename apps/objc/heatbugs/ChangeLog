@@ -1,3 +1,19 @@
+1999-01-13  Alex Lancaster  <alex@santafe.edu>
+
+	* README: Add notes regarding new randomization feature.
+
+	* HeatbugModelSwarm.h (@interface): Add new BOOL iVar
+	`randomizeHeatbugUpdateOrder' to class.
+
+	* HeatbugModelSwarm.m ([HeatbugModelSwarm -buildActions]): Add a
+	conditional test to set the defaultOrder of the
+	`createActionForEach' action to `Randomize' if the
+	`randomizeHeatbugUpdateOrder' flag is set.  Add comments in the
+	code to explain the purpose and implementation of this feature.
+	([HeatbugModelSwarm +createBegin:]): Set the
+	`randomizeHeatbugUpdateOrder' flag to `NO' by default.
+	Add a probe in the probeMap for this new flag.
+
 1998-11-04  Alex Lancaster  <alex@santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects:]):
