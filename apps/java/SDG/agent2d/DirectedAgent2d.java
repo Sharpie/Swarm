@@ -116,7 +116,7 @@ abstract class DirectedAgent2d extends Agent2d {
     return resisting;
   }
 
-  public void clearStatus () {
+  public void clearFrobStatus () {
     resisting = false;
     frobbed = false;
   }

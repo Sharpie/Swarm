@@ -65,6 +65,6 @@ public class User2d extends DirectedAgent2d {
       newEffort ();
     else
       energy--;
-    clearStatus ();
+    clearFrobStatus ();
   }
 }

@@ -133,7 +133,7 @@ public class Marcus2d extends DirectedAgent2d {
                                           this,
                                           incubateSelector);
     }
-    clearStatus ();
+    clearFrobStatus ();
   }
 
   public void checkWork () {
