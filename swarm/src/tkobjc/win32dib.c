@@ -66,6 +66,9 @@ dib_createBitmap (dib_t *dib, HWND window, int width, int height)
   HDC hdc = GetDC (window);
   dib->window = window;
 
+  if (width & 3)
+    width += 4 - (width & 3);
+
   if (dib->bitmap)
     {
       xfree (dib->dibInfo);
@@ -153,7 +156,11 @@ dib_blit (dib_t *dib,
   if (dib->bitmap)
     {
       BOOL result;
-      
+      int diff = destX + sourceWidth - dib->dibInfo->bmiHead.biWidth;
+
+      if (diff > 0)
+	sourceWidth -= diff;
+
       SelectPalette (dib->destDC, dib->palette, FALSE);
       RealizePalette (dib->destDC);
       result = BitBlt (dib->destDC,
@@ -177,12 +184,15 @@ dib_fill (dib_t *dib,
   int frameWidth = dib->dibInfo->bmiHead.biWidth;
   BYTE *base;
   int yoff;
+  int diff;
 
-  /* GDI raster lines are even length. */
-  if (frameWidth & 1)
-    frameWidth++;
+  diff = x + width - frameWidth;
+
+  if (diff > 0)
+    width -= diff;
 
   base = (BYTE *)dib->bits + (y * frameWidth);
+
   for (yoff = 0; yoff < height; yoff++)
     {
       int xoff;
@@ -200,9 +210,17 @@ dib_paintBlit (dib_t *dib,
 	       int sourceX, int sourceY,
 	       int sourceWidth, int sourceHeight)
 {
+  int frameWidth = dib->dibInfo->bmiHead.biWidth;
+  int diff;
+
+  diff = (destX + sourceWidth) - frameWidth;
+
+  if (diff > 0)
+    sourceWidth -= diff;
+
   if (dib->bitmap == NULL)
     return FALSE;
-  
+
   GdiFlush ();
 
   {

@@ -1,5 +1,9 @@
 1998-03-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* win32dib.c (dib_createBitmap): Round frameWidth up to 4.
+	(dib_blit, dib_paintBlit): Round down in case width + x exceeds
+	frameWidth.
+
 	* internal.m (tkobjc_raster_clear): New function.
 
 	* internal.h: Declare tkobjc_raster_clear.
