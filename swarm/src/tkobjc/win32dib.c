@@ -142,9 +142,10 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   HPALETTE holdPal = NULL;
   unsigned pixelCount, bufsize;
   LPBYTE bits;
-  WORD depth = 24;
+  WORD depth;
   LPBITMAPINFOHEADER pbmp = &dib->dibInfo->bmiHead;
 
+  depth = (GetDeviceCaps (hdc, BITSPIXEL) <= 8) ? 8 : 24;
   GetWindowRect (dib->window, &rect);
   dib->bitmap = NULL;
 
@@ -188,13 +189,15 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   if (depth == 8)
     {
       if (GetDIBits (hmemdc, hbmmem, 0, height,
-		     bits, (LPBITMAPINFO)pbmp, DIB_PAL_COLORS) != (int)height)
+		     bits,
+                     (LPBITMAPINFO) pbmp,
+                     DIB_PAL_COLORS) != (int) height)
 	abort ();
       
       {
 	unsigned i;
 	BYTE max = 0;
-	RGBQUAD *colors = (PVOID)pbmp + sizeof (BITMAPINFOHEADER);
+	RGBQUAD *colors = (PVOID) pbmp + sizeof (BITMAPINFOHEADER);
 	LPBYTE pixels = bits;
 	
 	for (i = 0; i < pixelCount; i++)
@@ -216,7 +219,9 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   else if (depth == 24)
     {
       if (GetDIBits (hmemdc, hbmmem, 0, height,
-		     bits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != (int)height)
+		     bits,
+                     (LPBITMAPINFO) pbmp,
+                     DIB_RGB_COLORS) != (int) height)
 	abort ();
     }
   else

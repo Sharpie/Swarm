@@ -1,5 +1,8 @@
 1999-05-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* win32dib.c (dib_snapshot): Select depth from device context
+	depth (BITSPIXEL).
+
 	* internal.m (keep_inside_screen): For Windows, use GetDeviceCaps
 	instead of GetWindowRect for determining desktop pixel size.
 
