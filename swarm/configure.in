@@ -160,7 +160,7 @@ if test $exec_prefix = NONE; then
 else
   swarm_exec_prefix=$exec_prefix
 fi
-swarm_libdir="`echo $libdir | sed 's/{/{swarm_/'"
+swarm_libdir="`echo $libdir | sed 's/{/{swarm_/'`"
 AC_SUBST(swarm_prefix)
 AC_SUBST(swarm_exec_prefix)
 AC_SUBST(swarm_libdir)
