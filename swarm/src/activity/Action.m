@@ -50,7 +50,7 @@ PHASE(Using)
 
 - (void)_performAction_: anActivity
 {
-  [call _performAction_: anActivity];
+  [call performCall];
 }
 
 - (void)describe: outputCharStream

@@ -1,3 +1,11 @@
+1999-03-17  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* Action.h: Include defobj.h instead of FCall.h for protocol FCall.
+	(FAction): Change call field type from FCall * to  id <FCall>. 
+
+	* Action.m ([FAction -_performAction_:]): Call performCall on FCall
+	instead of _performAction_:
+
 1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* Schedule.h: New method at:createFAction: which creates a FAction

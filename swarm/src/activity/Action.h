@@ -9,7 +9,7 @@ Description:  action included in an activity plan
 Library:      activity
 */
 
-#import <defobj/FCall.h>
+#import <defobj.h>
 #import <activity/CompoundAction.h>
 #import <activity.h>
 
@@ -28,7 +28,7 @@ Library:      activity
 @interface FAction: CAction 
 {
 @public
-   FCall *call;
+   id <FCall> call;
 }
 - setCall: fcall;
 - setArguments: args;
