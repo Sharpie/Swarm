@@ -59,6 +59,7 @@ static struct argp_option base_options[] = {
   {"mode", 'm', "MODE", 0, "Specify mode of use (for archiving)", 2},
   {"show-current-time", 't', 0, 0, "Show current time in control panel", 3},
   {"no-init-file", OPT_INHIBIT_ARCHIVER_LOAD, 0, 0, "Inhibit loading of ~/.swarmArchiver", 4},
+  {"verbose", 'v', 0, 0, "Activate verbose messages", 5},
   { 0 }
 };
 
@@ -152,6 +153,7 @@ PHASE(Creating)
   obj->argp->doc = NULL;
   obj->argp->children = NULL;
   obj->argp->help_filter = NULL;
+  obj->appModeString = "default";
 
   obj->defaultAppConfigPath = "./";
   obj->defaultAppDataPath = "./";
@@ -223,6 +225,9 @@ strip_quotes (const char *argv0)
     case 't':
       [self setShowCurrentTimeFlag: YES];
       break;
+    case 'v':
+      [self setVerboseFlag: YES];
+      break;
     case OPT_INHIBIT_ARCHIVER_LOAD:
       [self setInhibitArchiverLoadFlag: YES];
       break;
@@ -238,9 +243,9 @@ strip_quotes (const char *argv0)
 
   options[0].name = SSTRDUP (name);
   options[0].key = key;
-  options[0].arg = SSTRDUP (arg);
+  options[0].arg = arg ? SSTRDUP (arg) : NULL;
   options[0].flags = flags;
-  options[0].doc = SSTRDUP (doc);
+  options[0].doc = doc ? SSTRDUP (doc) : "[none]";
   options[0].group = group;
   options[1].name = NULL;
   [self addOptions: options];
@@ -357,7 +362,6 @@ inhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
   if (options)
     [argobj addOptions: options];
   [argobj setOptionFunc: anOptionFunc];
-  [argobj setAppModeString: "default"];
   [argobj setBugAddress: theBugAddress];
   [argobj setVersion: theVersion];
   [argobj setAppName: theAppName];
@@ -413,6 +417,13 @@ PHASE(Setting)
   return self;
 }
 
+- setVerboseFlag: (BOOL)theVerboseFlag
+{
+  verboseFlag = theVerboseFlag;
+  
+  return self;
+}
+
 - setShowCurrentTimeFlag: (BOOL)theShowCurrentTimeFlag
 {
   showCurrentTimeFlag = theShowCurrentTimeFlag;
@@ -461,6 +472,11 @@ PHASE(Using)
 - (BOOL)getVarySeedFlag
 {
   return varySeedFlag;
+}
+
+- (BOOL)getVerboseFlag
+{
+  return verboseFlag;
 }
 
 - (BOOL)getShowCurrentTimeFlag

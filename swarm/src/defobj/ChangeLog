@@ -1,3 +1,12 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Arguments.m ([Arguments_c -addOption:key:arg:flags:doc:group:]): 
+	Copy arg and doc only if set.
+	([Arguments_c +createBegin:]): Set default for appModeString.
+
+	* Arguments.[hm], defobj.h: Add verboseFlag with setter and getter,
+	and command line option.
+
 2001-03-18  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* HDF5Object.[hm], defobj.h ([HDF5_c -setExtensibleVectorType:],

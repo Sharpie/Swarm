@@ -910,6 +910,7 @@ SETTING
 - setInhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
+- setVerboseFlag: (BOOL)verboseFlag;
 //M: Specify a default path to use for configuration files when
 //M: installed location of Swarm cannot be determined. 
 //M: Defaults to current directory.
@@ -921,6 +922,7 @@ SETTING
 USING
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;
+- (BOOL)getVerboseFlag;
 - (const char *)getAppName;
 - (const char *)getAppModeString;
 - (int)getArgc;

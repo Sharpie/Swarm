@@ -25,6 +25,7 @@
   BOOL inhibitExecutableSearchFlag;
   BOOL batchModeFlag;
   BOOL varySeedFlag;
+  BOOL verboseFlag;
   BOOL showCurrentTimeFlag;
   const char *swarmHome;
   const char *defaultAppConfigPath;
@@ -51,11 +52,13 @@
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setShowCurrentTimeFlag: (BOOL)timeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
+- setVerboseFlag: (BOOL)verboseFlag;
 - setDefaultAppConfigPath: (const char *)path;
 - setDefaultAppDataPath: (const char *)path;
 - setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
 - setInhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag;
 
+- (BOOL)getVerboseFlag;
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;
 - (BOOL)getShowCurrentTimeFlag;
