@@ -19,10 +19,10 @@ figs_DATA = $(GENERATED_FIGS) $(EPS)
 CLEANFILES = $(GENERATED_FIGS)
 
 %.png: $(srcdir)/%.eps
-	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=png256 -sOutputFile=$@ - < $< -c quit
+	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=png256 -sOutputFile=$@ - < $< -c showpage -c quit
 
 %.jpeg: $(srcdir)/%.eps
-	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm - < $< -c quit
+	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm - < $< -c showpage -c quit
 	CYGWIN=binmode; export CYGWIN; $(PNMCROP) $*.ppm | tee $*-crop.ppm > /dev/null
 	CYGWIN=binmode; export CYGWIN; $(CJPEG) $*-crop.ppm | tee $@ > /dev/null
 	$(RM) $*.ppm $*-crop.ppm
