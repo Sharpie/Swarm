@@ -701,7 +701,7 @@
           (print-return-argument nil))))
     (insert ")\n")
     (insert "{\n")
-    (insert "  id COMswarm_target = SD_COM_FINDOBJC (this);\n")
+    (insert "  id COMswarm_target = SD_COM_ENSURE_OBJECT_OBJC (this);\n")
     (insert "  SEL COMswarm_sel = sel_get_uid (\"")
     (insert (substring (get-method-signature method) 1))
     (insert "\");\n")
