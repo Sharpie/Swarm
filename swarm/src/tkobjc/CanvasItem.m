@@ -50,5 +50,10 @@ PHASE(Using)
   return self;
 }
 
+- (void)drop
+{
+  [globalTkInterp eval: "%s delete %s", [canvas getWidgetName], item];  
+}
+
 @end
 

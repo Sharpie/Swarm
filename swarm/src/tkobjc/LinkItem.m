@@ -100,7 +100,7 @@ PHASE(Using)
 - (void)drop
 {
   [globalTkInterp eval: "%s delete %s %s",
-                  [canvas getWidgetName],line1,line2];  
+                  [canvas getWidgetName], line1, line2];  
   [super drop];
 }
 

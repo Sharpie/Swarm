@@ -3,16 +3,24 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/CanvasAbstractItem.h>
+#import <tkobjc/CompositeItem.h>
 #import <gui.h>
+#import <collections.h>
 
-@interface CanvasItem: CanvasAbstractItem <_CanvasItem>
+@interface ScheduleItem: CompositeItem
 {
-  const char *item;
+  id <Schedule> schedule;
+  unsigned step;
+  id <Zone> zone;
+  int x, y;
 }
 
+- _createItem_;
 - createBindings;
-- initiateMoveX: (long)delta_x Y: (long)delta_y;
+- setSchedule: schedule;
+- setStep: (unsigned)step;
+- setX: (int)x Y: (int)y;
+- createItem;
+- update;
+- (void)drop;
 @end
-
-

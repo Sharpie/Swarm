@@ -1,5 +1,29 @@
 1998-09-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ScheduleItem.[hm]: New files.
+
+	* TextItem.h (TextItem): Add centeredFlag ivar.
+
+	* TextItem.[hm]: New methods +createBegin: and -setCenterFlag:.
+
+	* NodeItem.m ([NodeItem -createText],
+	[NodeItem -createPaddedText]): Pass YES for centerFlag to
+	tkobjc_createText.
+
+	* Makefile.am (SRC, tkobjc_HEADERS): Add ScheduleItem.
+
+	* CanvasItem.m ([CanvasItem -drop]): New method.
+
+	* CanvasAbstractItem.h (CanvasAbstractItem): Remove item ivar.
+
+	* CanvasItem.h, NodeItem.h: Add item var.
+
+	* common.[hm] (tkobjc_createText): Add centerFlag for switching
+	between centered and left justified.
+
+	* TextItem.m ([TextItem -createItem]): Pass canvas as first
+	argument to tkobjc_createText.
+
 	* Circle.[hm]: Change argument type of setRadius: to unsigned.
 
 1998-09-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>

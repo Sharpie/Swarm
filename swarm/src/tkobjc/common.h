@@ -32,4 +32,4 @@ void tkobjc_focus (id widget);
 void tkobjc_makeFrame (id widget);
 void tkobjc_pack (id widget);
 
-const char *tkobjc_createText (id widget, int x, int y, const char *text, const char *font);
+const char *tkobjc_createText (id widget, int x, int y, const char *text, const char *font, BOOL centerFlag);

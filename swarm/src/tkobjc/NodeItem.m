@@ -140,7 +140,7 @@ PHASE(Using)
 
 - createText
 {
-  text = tkobjc_createText (canvas, x, y, string, font);
+  text = tkobjc_createText (canvas, x, y, string, font, YES);
 
   return self;
 }
@@ -153,7 +153,7 @@ PHASE(Using)
   stpcpy (ptr, "xx");
   
   // font and size independence means I have to make a fake label first...
-  text = tkobjc_createText (canvas, x, y, stringpad, font);
+  text = tkobjc_createText (canvas, x, y, stringpad, font, YES);
 
   return self;
 }

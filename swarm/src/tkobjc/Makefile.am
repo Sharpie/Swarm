@@ -29,7 +29,8 @@ SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
 	Graph.m Histogram.m InputWidget.m Label.m Line.m LinkItem.m \
 	MessageProbeEntry.m NodeItem.m OvalNodeItem.m Pixmap.m ProbeCanvas.m \
 	Raster.m Rectangle.m RectangleNodeItem.m \
-	SimpleProbeDisplayHideButton.m SuperButton.m TextItem.m TkExtra.m \
+	ScheduleItem.m SimpleProbeDisplayHideButton.m SuperButton.m \
+	TextItem.m TkExtra.m \
 	VarProbeEntry.m VarProbeLabel.m Widget.m WindowGeometryRecord.m \
 	ZoomRaster.m common.m internal.m tkobjc.m win32dib.c
 
@@ -41,9 +42,11 @@ tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	ClassDisplayHideButton.h ClassDisplayLabel.h Colormap.h \
 	CompleteProbeDisplayLabel.h CompositeItem.h Entry.h Form.h Frame.h \
 	Graph.h Histogram.h InputWidget.h Label.h Line.h LinkItem.h \
-	NodeItem.h OvalNodeItem.h Pixmap.h ProbeCanvas.h Raster.h \
-	Rectangle.h RectangleNodeItem.h SimpleProbeDisplayHideButton.h \
-	SuperButton.h MessageProbeEntry.h TextItem.h TkExtra.h \
+	MessageProbeEntry.h NodeItem.h OvalNodeItem.h \
+	Pixmap.h ProbeCanvas.h \
+	Raster.h Rectangle.h RectangleNodeItem.h \
+	ScheduleItem.h SimpleProbeDisplayHideButton.h SuperButton.h
+	TextItem.h TkExtra.h \
 	VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h \
 	ZoomRaster.h common.h global.h internal.h win32dib.h
 

@@ -12,6 +12,15 @@
 
 PHASE(Creating)
 
++ createBegin: aZone
+{
+  TextItem *obj = [super createBegin: aZone];
+  
+  obj->centerFlag = YES;
+  
+  return obj;
+}
+
 - setX: (int)the_x Y: (int)the_y
 {
   x = the_x;
@@ -33,10 +42,17 @@ PHASE(Creating)
 
   return self;
 }
+
+- setCenterFlag: (BOOL)theCenterFlag
+{
+  centerFlag = theCenterFlag;
+
+  return self;
+}
  
 - createItem
 {
-  item = tkobjc_createText (self, x, y, text, font);
+  item = tkobjc_createText (canvas, x, y, text, font, centerFlag);
 
   return self;
 }

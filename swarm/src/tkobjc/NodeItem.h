@@ -9,6 +9,7 @@
 @interface NodeItem: CompositeItem <_NodeItem>
 {
   int x, y;
+  const char *item;
   const char *text;
   const char *string;
   const char *font;
