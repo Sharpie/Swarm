@@ -49,6 +49,7 @@ Library:      activity
 - getArg2;
 - getArg3;
 - (void)_performAction_: activity;
+- (void)dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface FAction_c: CAction <Action>

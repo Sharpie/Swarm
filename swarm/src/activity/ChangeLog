@@ -3,6 +3,8 @@
 	* Action.m ([ActionTo_c -_performAction_:]): Drop arguments in
 	addition to call when constructing an FCall on the fly.
 
+	* Action.[hm] ([CFAction -dropAllocations:]): New method.
+
 1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Action.h (CAction): Move call and target here.  target is

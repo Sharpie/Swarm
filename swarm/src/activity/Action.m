@@ -106,14 +106,14 @@ PHASE(Using)
   return arg3;
 }
 
-- (void)drop
+- (void)dropAllocations: (BOOL)componentAlloc
 {
   if (call)
     {
       [[call getArguments] drop];
       [call drop];
     }
-  [super drop];
+  [super dropAllocations: componentAlloc];
 }
 @end
 
@@ -153,13 +153,13 @@ PHASE(Creating)
 
   [super createEnd];
 
-  arguments = [FArguments createBegin: getZone (self)];
+  arguments = [FArguments createBegin: getCZone (getZone (self))];
 
   [arguments setObjCReturnType: _C_VOID];
   [self _addArguments_: arguments];
   arguments = [arguments createEnd];
 
-  call = [FCall createBegin: getZone (self)];
+  call = [FCall createBegin: getCZone (getZone (self))];
   [call setFunctionPointer: funcPtr];
   [call setArguments: arguments];
   call = [call createEnd];
@@ -231,8 +231,9 @@ PHASE(Creating)
 PHASE(Using)
 - _createCall_: theTarget
 {
-  id <FArguments> arguments = [FArguments createBegin: getZone (self)];
-  id <FCall> fc = [FCall createBegin: getZone (self)];
+  id <FArguments> arguments =
+    [FArguments createBegin: getCZone (getZone (self))];
+  id <FCall> fc = [FCall createBegin: getCZone (getZone (self))];
   
 #ifdef HAVE_JDK
   if ([theTarget respondsTo: M(isJavaProxy)])
