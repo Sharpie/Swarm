@@ -1,3 +1,7 @@
+1998-05-29  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* probes-app.sgml: Update LINKENDs per new ID conventions.
+
 1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (refindex.sgml $(PAGES)): Add $(top_srcdir)/protocol.el

@@ -144,7 +144,7 @@
       <SIMPLESECT><TITLE>Global setting of precision</TITLE>
 
         <PARA>There are two types of global precision setting via
-          <LINK LINKEND="SWARM.OBJECTBASE.PROBELIBRARY">ProbeLibrary</LINK>:
+          <LINK LINKEND="SWARM.OBJECTBASE.PROBELIBRARY.PROTOCOL">ProbeLibrary</LINK>:
         </PARA>
 
         <ITEMIZEDLIST>
@@ -237,7 +237,7 @@
           created in the <LITERAL>+ createBegin</LITERAL> factory
           method for a Swarm or a SwarmObject. To set the formatting
           for a floating point probe, the method from <LITERAL><LINK
-          LINKEND="SWARM.OBJECTBASE.VARPROBE">VarProbe</LINK></LITERAL>
+          LINKEND="SWARM.OBJECTBASE.VARPROBE.PROTOCOL">VarProbe</LINK></LITERAL>
           is used:
         </PARA>
 
@@ -326,7 +326,7 @@
       Probes/ProbeMaps. By default, they achieve this by "checking
       out" the appropriate references from the probeLibrary.
     
-    <LINK LINKEND="SWARM.OBJECTBASE.SWARMOBJECT">Interface
+    <LINK LINKEND="SWARM.OBJECTBASE.SWARMOBJECT.PROTOCOL">Interface
         definition</LINK> from <LINK LINKEND="SWARM.SRC.OBJECTBASE.REF">objectbase</LINK> library.
     </PARA>
 
@@ -494,7 +494,7 @@
       </ITEMIZEDLIST>
 
       <PARA>
-        <LINK LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAY">Interface
+        <LINK LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAY.PROTOCOL">Interface
           definition</LINK> from <LINK LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK> library.
       </PARA>
       
@@ -521,7 +521,7 @@
     
     <PARA>
       <LINK
-        LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAYMANAGER">Interface
+        LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAYMANAGER.PROTOCOL">Interface
         definition</LINK> from <LINK
         LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK>
         library.</PARA>
