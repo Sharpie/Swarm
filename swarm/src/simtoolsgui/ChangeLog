@@ -1,3 +1,8 @@
+1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtoolsgui.m: Include objectbase/Arguments.h instead of
+	simtools/global.h.
+
 1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CompleteProbeDisplay.m ([CompleteProbeDisplay -drop]): Don't

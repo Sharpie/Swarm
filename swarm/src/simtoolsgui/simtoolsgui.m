@@ -6,7 +6,7 @@
 #import <simtoolsgui.h>
 #import <gui.h>
 
-#import <simtools/global.h> // arguments
+#import <objectbase/Arguments.h> // arguments object
 #include <misc.h> // xmalloc, stpcpy
 
 id <ProbeDisplayManager> probeDisplayManager;
