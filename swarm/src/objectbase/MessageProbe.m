@@ -126,13 +126,21 @@ nth_type (const char *type, int which)
       arguments[which].type = _C_ID;
       arguments[which].val.object = nameToObject (what);
       break;
+    case _C_CHR:
+      arguments[which].type = _C_CHR;
+      arguments[which].val._char = (char) atoi (what);
+      break;
+    case _C_UCHR:
+      arguments[which].type = _C_UCHR;
+      arguments[which].val._uchar = (unsigned char) strtoul (what, NULL, 10);
+      break;
     case _C_SHT:
       arguments[which].type = _C_SHT;
       arguments[which].val._short = atoi (what);
       break;
     case _C_USHT:
       arguments[which].type = _C_USHT;
-      arguments[which].val._ushort = (unsigned short)strtoul (what, NULL, 10);
+      arguments[which].val._ushort = (unsigned short) strtoul (what, NULL, 10);
       break;
     case _C_INT:
       arguments[which].type = _C_INT;
@@ -140,7 +148,7 @@ nth_type (const char *type, int which)
       break;
     case _C_UINT:
       arguments[which].type = _C_UINT;
-      arguments[which].val._uint = (unsigned int)strtoul (what, NULL, 10);
+      arguments[which].val._uint = (unsigned int) strtoul (what, NULL, 10);
       break;
     case _C_LNG:
       arguments[which].type = _C_LNG;
@@ -601,9 +609,9 @@ dynamicCallOn (const char *probedType,
   val_t val = [self dynamicCallOn: target];
   
   if (val.type == _C_SHT)
-    return (double)val.val._short;
+    return (double)val.val._int; // short return is broken in libffi-1.18
   else if (val.type == _C_USHT)
-    return (double)val.val._ushort;
+    return (double)val.val._uint; // short return is broken in libffi-1.18
   else if (val.type == _C_INT)
     return (double)val.val._int;
   else if (val.type == _C_UINT)
