@@ -16,7 +16,7 @@ include ../Makefile.common
 CLASSPHASES := C __u
 INTERFACEPHASES := $(CLASSPHASES) S
 
-PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector PhaseCImpl
+PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector PhaseCImpl Primitives
 POSTCLASSES = SwarmEnvironment Globals
 
 define class-protocols
