@@ -1,3 +1,7 @@
+1999-08-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.java (SwarmEnvironment): New variable guiFlag.
+
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (Globals.class): Depend on SwarmEnvironment.class.
