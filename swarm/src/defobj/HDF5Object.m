@@ -310,6 +310,7 @@ PHASE(Using)
 
 - iterate: (void (*) (id hdf5obj))iterateFunc
 {
+#ifdef HAVE_HDF5
   herr_t process_object (hid_t oid, const char *memberName, void *client)
     {
       H5G_stat_t statbuf;
@@ -352,7 +353,9 @@ PHASE(Using)
     }
   if (H5Giterate (loc_id, ".", NULL, process_object, self) < 0)
     raiseEvent (LoadError, "cannot iterate over HDF5 objects");
-  
+#else
+  hdf5_not_available ();
+#endif  
   return self;
 }
 
