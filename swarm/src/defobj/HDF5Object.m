@@ -2026,6 +2026,16 @@ hdf5_store_attribute (hid_t did,
 #endif
 }
 
+- (void)flush
+{
+#ifdef HAVE_HDF5
+  if (H5Fflush (loc_id, H5F_SCOPE_GLOBAL) <0)
+    raiseEvent (SaveError, "Failed to flush HDF5 file");
+#else
+  hdf5_not_available ();
+#endif
+}
+
 - (void)drop
 {
 #ifdef HAVE_HDF5

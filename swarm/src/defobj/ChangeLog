@@ -1,3 +1,10 @@
+2000-06-28  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* HDF5Archiver.m ([HDF5Archiver -sync]): Call flush after
+	updateArchiver.
+
+	* HDF5Object.[hm], defobj.h ([HDF5 -flush]): New method.
+
 2000-06-27  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* JavaCollection.m ([JavaCollection -forEach::]): Put FArguments/FCall

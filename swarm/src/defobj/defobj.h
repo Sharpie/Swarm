@@ -1016,6 +1016,7 @@ USING
 - (void)storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - (void)iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 - (const char *)getAttribute: (const char *)attributeName;
+- (void)flush;
 @end
 
 @protocol HDF5CompoundType <Create, Drop, CREATABLE>

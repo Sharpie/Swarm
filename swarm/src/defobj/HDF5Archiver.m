@@ -72,11 +72,9 @@ PHASE(Creating)
 
 - createEnd
 {
-  id aZone = getZone (self);
-
   [super createEnd];
   [self ensureApp: 
-          [[[[[HDF5 createBegin: aZone]
+          [[[[[HDF5 createBegin: getZone (self)]
                setWriteFlag: NO]
               setParent: nil]
              setName: path]
@@ -198,6 +196,7 @@ PHASE(Using)
 - (void)sync
 {
   [self updateArchiver];
+  [[self getApplication] flush];
 }
 
 @end

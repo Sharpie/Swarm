@@ -121,6 +121,7 @@
 - (void)writeRowNames;
 - (void)writeLevels;
 
+- (void)flush;
 - (void)drop;
 @end
 
