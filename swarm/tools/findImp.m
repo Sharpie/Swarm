@@ -44,7 +44,7 @@ main (int argc, const char **argv)
 
   impClass = objc_lookup_class (argv[1]);
   if (!impClass)
-    abort ();
+    exit (1);
 
   for (argn = 2; argn <  argc; argn++)
     {
@@ -55,11 +55,11 @@ main (int argc, const char **argv)
       
       sel = sel_get_any_uid (&argv[argn][1]);
       if (!sel)
-        abort ();
+        exit (1);
       
       imp = get_imp (impClass, sel);
       if (!imp)
-        abort ();
+        exit (1);
       
       factoryFlag = argv[argn][0] == '+';
       
