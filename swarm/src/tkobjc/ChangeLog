@@ -1,5 +1,9 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.am (EXTRA_DIST): Include tcl files.
+	(lib_LIBRARIES, libtkobjc_a_SOURCES): Remove.
+	(%_tcl.x): New rule.
+
 	* WindowGeometryRecord.m ([WindowGeometryRecord
 	-setWindowGeometry:]): Use create:setC: instead of two calls.
 

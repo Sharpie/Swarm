@@ -6,6 +6,8 @@ tkobjcdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
+EXTRA_DIST = analysis.tcl comm.tcl simtools.tcl tkbusy.tcl
+
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
 
@@ -13,7 +15,6 @@ INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objec
 
 CFLAGS += $(X_CFLAGS)
 
-lib_LIBRARIES = libtkobjc.a
 lib_LTLIBRARIES = libtkobjc.la
 
 SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
@@ -27,7 +28,6 @@ SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m \
 	VarProbeEntry.m VarProbeLabel.m Widget.m WindowGeometryRecord.m \
 	ZoomRaster.m common.m internal.m tkobjc.m win32dib.c
 
-libtkobjc_a_SOURCES = $(SRC)
 libtkobjc_la_SOURCES = $(SRC)
 libtkobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
@@ -41,3 +41,7 @@ tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	SuperButton.h MessageProbeEntry.h TextItem.h TkExtra.h \
 	VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h \
 	ZoomRaster.h common.h global.h internal.h win32dib.h
+
+%_tcl.x: %.tcl
+	(echo 'const char *$(notdir $(basename $<))_tcl = "' ; cat $< | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' ; echo '";' ) > $@ 
+
