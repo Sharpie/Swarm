@@ -5,8 +5,9 @@
 
 #import <objectbase/SwarmObject.h>
 #import <gui.h>
+#import <defobj.h> // Serialization
 
-@interface WindowGeometryRecord: SwarmObject <_WindowGeometryRecord>
+@interface WindowGeometryRecord: SwarmObject <_WindowGeometryRecord, Serialization>
 {
   BOOL positionFlag, sizeFlag;
   unsigned width, height;
@@ -21,6 +22,7 @@
 - (unsigned)getWidth;
 - (unsigned)getHeight;
 
-- lispin: expr;
-- lispout: outputCharStream;
+- lispInCreate: expr;
+- lispIn: expr;
+- lispOut: outputCharStream;
 @end

@@ -1,3 +1,11 @@
+1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* WindowGeometryRecord.h (WindowGeometryRecord): Conform to
+	Serialization protocol.  
+
+	* WindowGeometryRecord.[hm]: Handle renames of lisp{in,out} to
+	lisp{In,Out}.
+
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Widget.m (get_geometry_element): Don't count `-' as a separator.

@@ -33,6 +33,11 @@ PHASE(Creating)
   return self;
 }
 
+- lispInCreate: expr
+{
+  return self;
+}
+
 PHASE(Using)
 
 static int
@@ -59,7 +64,7 @@ getValueList (id index)
   return [l getLast];
 }
 
-- lispin: expr
+- lispIn: expr
 {
   id index = [expr begin: scratchZone];
   id obj;
@@ -98,7 +103,7 @@ getValueList (id index)
   return self;
 }
 
-- lispout: stream
+- lispOut: stream
 {
   char buf[20];
 
