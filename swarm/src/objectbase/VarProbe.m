@@ -358,7 +358,7 @@ PHASE(Using)
                   [probedClass name],
                   [anObject name]);
   
-  p = ((char *) anObject) + dataOffset;
+  p = ((void *) anObject) + dataOffset;
 
   switch (probedType[0])
     {
@@ -486,7 +486,7 @@ objc_probe_as_int (const char *probedType, const types_t *p)
                               SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif
   else if (language == LanguageObjc)
-    return objc_probe_as_int (probedType, (types_t *) ((void *) anObject) + dataOffset);
+    return objc_probe_as_int (probedType, (types_t *) (((void *) anObject) + dataOffset));
   else
     abort ();
 }
@@ -583,7 +583,7 @@ objc_probe_as_double (const char *probedType, const types_t *p)
   else if (language == LanguageObjc)
     return objc_probe_as_double (probedType,
                                  (const types_t *)
-                                 ((const void *) anObject) + dataOffset);
+                                 (((const void *) anObject) + dataOffset));
   else
     abort ();
 }

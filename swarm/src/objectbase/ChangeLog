@@ -1,3 +1,10 @@
+2001-01-31  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m ([VarProbe -probeAsPointer:]): Use void * instead of
+	char *.
+	([VarProbe -probeAs{Int,Double}:]): Need extra parens before
+	casting to types_t.
+
 2001-01-30  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m (COM_probe_as_{int,double,object,string}): Use
