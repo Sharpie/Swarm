@@ -54,7 +54,7 @@ Objective C and not in Java]:
 
 * swarm-kaffe-@version@-@release@.i386.rpm
 
-  which requires @kaffe_version@ 
+  which requires kaffe-@kaffe_version@ 
 
   available from the official kaffe.org ftp site:
 
