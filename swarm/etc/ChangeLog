@@ -1,3 +1,10 @@
+1999-01-04  Alex Lancaster  <alex@santafe.edu>
+
+	* config.swarm.in: (CFLAGS): Add extracted variable to
+	configuration.
+	(OBJC): Likewise
+	(OBJCFLAGS): Likewise.
+
 1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.common.in (hdf5libdir, HDF5LIB): New substitutions.

@@ -1,6 +1,9 @@
 ## Config file for applications - this is processed by `configure'
 ## at `installation-time' to generate a Swarm configuration file.
 CC="@CC@"
+CFLAGS="@CFLAGS@"
+OBJC="@OBJC@"
+OBJCFLAGS="@OBJCFLAGS@"
 
 ## Anciliary variables that need to be set in order for the final
 ## (substituted) SWARM_LD{FLAGS,ADD} variable to be set correctly
