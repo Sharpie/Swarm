@@ -518,15 +518,15 @@
         
 (define (common-titlepage-verso-elements)
  (list (normalize "copyright")
-       (normalize "legalnotice")
        (normalize "pubdate")         
        (normalize "releaseinfo")
        (normalize "authorgroup")
+       (normalize "legalnotice")
        (normalize "bibliomisc")
        (normalize "biblioset")
        (normalize "bookbiblio")
-       (normalize "revhistory") 
-       (normalize "abstract")))
+       (normalize "abstract")
+       (normalize "revhistory")))
 
 ; Every module {article,book,set,reference} has the same recto and
 ; verso mode elements and hence its own revision history.
@@ -566,6 +566,9 @@
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
       (element releaseinfo (releaseinfo))
+      (element (set book bookinfo bookbiblio copyright) (empty-sosofo))
+      (element (set book bookinfo bookbiblio pubdate) (empty-sosofo))
+      (element (set book bookinfo bookbiblio releaseinfo) (empty-sosofo))
       (element (set book bookinfo legalnotice) (empty-sosofo)))
 (mode reference-titlepage-verso-mode
       (element revhistory (revhistory))

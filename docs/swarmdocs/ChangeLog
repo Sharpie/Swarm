@@ -1,3 +1,14 @@
+1999-01-14  Alex Lancaster  <alex@santafe.edu>
+
+	* common.dsl (common-titlepage-verso-elements): Re-order elements
+	slightly for a cleaner layout.
+	(book-titlepage-verso-mode): Make RELEASEINFO, COPYRIGHT and
+	PUBDATE all empty in SET context.
+
+	* configure.in: Bump version to 1.4.
+
+	* global.ent (doc-legalnotice): Reword text.
+
 1999-01-13  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.rules (RUNJADE): Add new $(JADEFLAGS) that can be set
