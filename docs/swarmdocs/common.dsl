@@ -387,6 +387,9 @@
                                                  (sosofo-append sosofos ($lot-entry$ node)))))
                                      (apply loop rest (accum-lot node last-node sosofos))))))))))))
 
+(element (varlistentry term) 
+         (process-children))
+
 </style-specification-body>
 </style-specification>
 </style-sheet>

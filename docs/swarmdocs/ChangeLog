@@ -1,5 +1,7 @@
 1998-05-29  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* common.dsl (term): Disable printing of commas in a variablelist.
+
 	* protocol.el (protocol): Add function-list slot.
 	(global, macro, typedef, function): Add module and protocol slots.
 	(parse-state): Add global-names, function-return-type, and
