@@ -2,6 +2,8 @@
 	
 	* configure.in (PREFIX, DATADIR, SYSCONFDIR, INCLUDEDIR, INCLUDESUBDIR):
 	Add documenting third argument to these AC_DEFINEs.
+	Modify previous Darwin change to use $(top_srcdir).
+	Otherwise separate build directories don't work.
 
 	* acconfig.h: Removed.
 
