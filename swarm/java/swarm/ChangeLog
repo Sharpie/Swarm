@@ -1,5 +1,9 @@
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in ($(POSTCLASSESFILES)): Depend on modules instead
+	of $(GENFILES).
+	(all): Add $(PRECLASSESFILES).
+
 	* Makefile.rules.in (all-classes): New rule, depend on CLASSES.
 	(all): Depend on all-classes.
 
