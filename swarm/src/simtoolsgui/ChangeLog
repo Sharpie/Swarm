@@ -1,3 +1,12 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* simtoolsgui.h
+	([{ControlPanel,ActionCache,SingleProbeDisplay,SimpleProbeDisplay,
+	ProbeDisplay} -createEnd]): Remove.
+	([ControlPanel -drop]): Remove.
+	([{MultiVarProbeDisplay,MessageProbeWidget}
+	+createBegin:,-createEnd,-drop): Remove.
+	
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

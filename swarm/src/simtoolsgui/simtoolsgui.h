@@ -53,7 +53,6 @@ CREATING
 //D: time step the simulation. It cooperates with the GUISwarm to control
 //D: the execution of activities in Swarm.
 CREATING
-- createEnd;
 
 USING
 //M: Get the current button state of the controlpanel.  Is one of
@@ -96,7 +95,6 @@ USING
 //D: it's Swarm's schedule.
 CREATING
 - setControlPanel: (id <ControlPanel>)cp;
-- createEnd;
 - createProcCtrl;
 
 USING
@@ -114,7 +112,6 @@ USING
 - getPanel;
 - doTkEvents;  // should change to pollGUI or something
 - waitForControlEvent;
-- (void)drop;
 @end
 
 //G: Type Symbols for ActionCache
@@ -150,7 +147,6 @@ CREATING
 //M: This method must be called.
 - setProbedObject: anObject;
 
-- createEnd;
 USING
 //M: Gets the probed object.
 - getProbedObject;
@@ -163,7 +159,6 @@ USING
 CREATING
 //M: 
 - setProbeMap: probeMap;
-- createEnd;
 USING
 //M: 
 - getProbeMap;
@@ -182,8 +177,6 @@ CREATING
 //M: method will be to return the probeLibrary's copy of the probeMap for
 //M: the class of the target object.
 - setProbeMap: (id <ProbeMap>)probeMap;
-
-- createEnd;
 
 USING
 //M: Gets the probedMap.
@@ -215,10 +208,7 @@ CREATING
 //M: Sets the selector to send for labeling the object.
 - setObjectNameSelector: (SEL)objectNameSelector;
 
-+ createBegin: aZone;
-- createEnd;
 USING
-- (void)drop;
 @end
 
 
@@ -325,7 +315,6 @@ USING
 - go;
 - (id <ActionCache>)getActionCache;
 - (id <ControlPanel>)getControlPanel;
-- (void)drop;
 @end
 
 @protocol MessageProbeWidget <CREATABLE>
@@ -333,10 +322,8 @@ USING
 
 //D: A widget for editing the arguments of a MessageProbe.
 CREATING
-+ createBegin: aZone;
 - setParent: parent;
 - setObject: object;
-- createEnd;
 - setProbe: probe;
 
 USING
@@ -348,8 +335,6 @@ USING
 
 //D: A widget for displaying multiple objects across multiple fields.
 CREATING
-+ createBegin: aZone;
-- createEnd;
 - setParent: parent;
 
 //M: Determines if the fields (probes) are labeled (horizontal).
@@ -364,7 +349,6 @@ CREATING
 USING
 - update;
 - pack;
-- (void)drop;
 @end
 
 //G: Manager that keeps track of active probes to be updated
