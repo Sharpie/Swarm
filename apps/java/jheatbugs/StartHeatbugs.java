@@ -33,7 +33,8 @@ public class StartHeatbugs {
         }
         else {
             HeatbugBatchSwarm topLevelSwarm =
-                new HeatbugBatchSwarm (Globals.env.globalZone);
+                (HeatbugBatchSwarm) Globals.env.lispAppArchiver.getWithZone$key
+                (Globals.env.globalZone, "batchSwarm");
             topLevelSwarm.buildObjects ();
             topLevelSwarm.buildActions ();
             topLevelSwarm.activateIn (null);

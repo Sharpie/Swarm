@@ -41,16 +41,11 @@ public class HeatbugBatchSwarm extends SwarmImpl {
 
     public HeatbugBatchSwarm (Zone aZone) {
         super (aZone);
-        
-        // Fill in the relevant parameters.
-        loggingFrequency = 1;
-        experimentDuration = 250;
     }
     
     public Object buildObjects () {
         super.buildObjects();
         
-        /*
         // But since we don't have any graphics, we load the
         // object from the global `lispAppArchiver' instance which
         // is created automatically from the file called
@@ -62,11 +57,8 @@ public class HeatbugBatchSwarm extends SwarmImpl {
 
         heatbugModelSwarm =
           (HeatbugModelSwarm)
-          Globals.env.lispAppArchiver.getWithZone$object (getZone (),
-                                                          "modelSwarm");
-        */
-
-        heatbugModelSwarm = new HeatbugModelSwarm (getZone ());
+          Globals.env.lispAppArchiver.getWithZone$key (getZone (),
+                                                       "modelSwarm");
 
         // Now, let the model swarm build its objects.
         heatbugModelSwarm.buildObjects ();

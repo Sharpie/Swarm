@@ -1,3 +1,12 @@
+2000-01-24    <mgd@nest.swarm.org>
+
+	* jheatbugs.scm: New file.
+
+	* HeatbugBatchSwarm.java: Remove parameter settings in constructor.
+	(buildObjects): Use lispAppArchiver to create HeatbugModelSwarm.
+
+	* StartHeatbugs.java: Use lispAppArchiver to create HeatbugBatchSwarm.
+
 1999-12-27    <mgd@DRONE>
 
 	* Heatbug.java (Heatbug): Change x, y, idealTemperature,
