@@ -1,3 +1,7 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-protocols*): Add ArchiverQuoted.
+
 1999-09-08  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (java-print-javadoc-protocol): Add optional

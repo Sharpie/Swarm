@@ -86,6 +86,7 @@
       "ArchiverValue"
       "ArchiverPair"
       "ArchiverList"
+      "ArchiverQuoted"
       "InputStream"
       "OutputStream"
 
