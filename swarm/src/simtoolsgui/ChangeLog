@@ -1,3 +1,10 @@
+1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Use STRDUP
+	instead of strdup.
+
+	* MultiVarProbeWidget.m ([MultiProbe -update]): Likewise.
+
 1999-07-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ProbeDisplayManager.m: Import directory.h instead of declaring

@@ -5,12 +5,12 @@
 
 #import <simtoolsgui/MessageProbeWidget.h>
 #import <simtoolsgui.h>
-#import <defobj.h> // nameToObject
+#import <defobj.h> // nameToObject, STRDUP
 #import <gui.h>
 #import <objectbase.h> // val_t
 #import <objc/objc-api.h>
 
-#include <misc.h> // strlen, strdup, isspace
+#include <misc.h> // strlen, isspace
 
 // Avoid using chars as an index to ctype table.
 #define isSpace(ch) isspace((int)ch)
@@ -197,7 +197,7 @@ PHASE(Using)
   for (i = 0; i < (argCount / 2); i++)
     {
       id <MessageProbeEntry> entryWidget = myWidgets[2 * i + 1];
-      const char *test = strdup ([entryWidget getValue]);
+      const char *test = STRDUP ([entryWidget getValue]);
       
       if (empty (test))
         {

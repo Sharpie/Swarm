@@ -150,9 +150,9 @@ findObject (id entryMap, const char *windowName,
 
   while ((entry = [emi next: &obj]) != nil)
     {
-      const char *originalValue = strdup ([entry getValue]);
+      const char *originalValue = STRDUP ([entry getValue]);
       const char *newValue =
-        strdup ([varProbe probeAsString: obj Buffer: buffer]);
+        STRDUP ([varProbe probeAsString: obj Buffer: buffer]);
 
       if (strcmp (newValue, originalValue) != 0)
         {
