@@ -7,12 +7,12 @@
 #import <objc/objc-api.h>
 #import <defobj.h> // Warning, STRDUP
 #import <defobj/defalloc.h> // getZone
-#include <swarmconfig.h> // HAVE_JDK
 
 #import "local.h"
 
+#include <swarmconfig.h> // HAVE_JDK
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // swarm_directory_ensure_selector, JNI
+#import <defobj/directory.h> // SD_JAVA_FINDJAVA, swarm_directory_ensure_selector, JNI
 #import <defobj/javavars.h>
 #endif
 
@@ -343,7 +343,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
-      classObject = SD_FINDJAVA (jniEnv, probedClass);
+      classObject = SD_JAVA_FINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      

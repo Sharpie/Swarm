@@ -1,3 +1,9 @@
+2000-04-28    <mgd@nest.swarm.org>
+
+	* CompleteProbeMap.m, CompleteVarMap.m, DefaultProbeMap.m,
+	MessageProbe.m, ProbeMap.m, VarProbe.m: Accomodate SD_* renames.
+	Ensure that swarmconfig.h is included before HAVE_JDK checks.
+
 2000-04-27    <mgd@nest.swarm.org>
 
 	* objectbase.h ([VarProbe -createEnd]): Remove.

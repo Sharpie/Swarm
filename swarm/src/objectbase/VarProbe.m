@@ -6,19 +6,20 @@
 #import <objectbase/VarProbe.h>
 #import <defobj.h> // raiseEvent, WarningMessage, STRDUP, FREEBLOCK
 #import <defobj/defalloc.h> // getZone
-#import "local.h"
 
 #include <objc/objc-api.h>
 #include <misc.h> // strcmp, strcpy, sprintf, sscanf
 
-#include "../defobj/internal.h" // objc_process_array
+#include <defobj/internal.h> // objc_process_array
+
+#include <swarmconfig.h> // HAVE_JDK, PTRUINT
 
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // SD_FINDJAVA, JNI
+#import <defobj/directory.h> // SD_JAVA_FINDJAVA, JNI
 #include <defobj/javavars.h>
 #endif
 
-#include <swarmconfig.h> // PTRUINT
+#import "local.h"
 
 @implementation VarProbe
 
@@ -57,7 +58,7 @@ PHASE(Creating)
     {
       jobject lref;
 
-      classObject = SD_FINDJAVA (jniEnv, probedClass);
+      classObject = SD_JAVA_FINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed cannot be found.\n");      
@@ -404,7 +405,7 @@ probe_as_int (const char *probedType, const void *p)
   if (isJavaProxy)
     return java_probe_as_int (fieldType,
                               fieldObject,
-                              SD_FINDJAVA (jniEnv, anObject));
+                              SD_JAVA_FINDJAVA (jniEnv, anObject));
 #endif
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -490,7 +491,7 @@ probe_as_double (const char *probedType, const void *p)
   if (isJavaProxy)
     return java_probe_as_double (fieldType,
                                  fieldObject,
-                                 SD_FINDJAVA (jniEnv, anObject));
+                                 SD_JAVA_FINDJAVA (jniEnv, anObject));
 #endif  
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -571,7 +572,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   if (isJavaProxy)
     return java_probe_as_string (fieldType,
                                  fieldObject, 
-                                 SD_FINDJAVA (jniEnv, anObject), 
+                                 SD_JAVA_FINDJAVA (jniEnv, anObject), 
                                  buf,
                                  precision);
 #endif
@@ -702,7 +703,7 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
                 type);
 
   jobj = GETVALUE (Object);
-  ret = SD_FINDOBJC (jniEnv, jobj);
+  ret = SD_JAVA_FINDOBJC (jniEnv, jobj);
   (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
   return ret;
 }
@@ -720,7 +721,7 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
     {
       return java_probe_as_object (fieldType,
                                    fieldObject,
-                                   SD_FINDJAVA (jniEnv, anObject));
+                                   SD_JAVA_FINDJAVA (jniEnv, anObject));
     }
 #endif
   return *(id *) [self probeRaw: anObject];
@@ -891,7 +892,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_BooleanValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 boolObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, boolObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -901,7 +902,7 @@ setFieldFromString (id anObject, jobject field,
       jchar javaChar = value[0];
       
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSetChar, 
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 javaChar);
     }
   else if (classcmp (fieldType, c_byte))
@@ -915,7 +916,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_ByteValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 byteObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, byteObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -932,7 +933,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_IntegerValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 intObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, intObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -948,7 +949,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_ShortValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 shortObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, shortObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -964,7 +965,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_LongValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 longObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, longObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -980,7 +981,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_FloatValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 floatObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, floatObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -997,7 +998,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_DoubleValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 doubleObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, doubleObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -1009,7 +1010,7 @@ setFieldFromString (id anObject, jobject field,
       javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
       
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_FINDJAVA (jniEnv, anObject),
+				 SD_JAVA_FINDJAVA (jniEnv, anObject),
 				 javaString);      
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }

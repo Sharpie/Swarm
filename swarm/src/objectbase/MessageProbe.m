@@ -12,6 +12,7 @@
 #import <defobj.h> // FCall, FArguments, STRDUP, ZSTRDUP
 #import <defobj/defalloc.h> // getZone
 
+#include <swarmconfig.h>
 #ifdef HAVE_JDK
 #import <defobj/directory.h>
 #import <defobj/javavars.h>
@@ -307,7 +308,8 @@ dynamicCallOn (const char *probedType,
           swarm_directory_copy_java_string (jniEnv, 
                                             (jstring) retVal->val.object);
       else if (retVal->type == _C_ID)
-        retVal->val.object = SD_FINDOBJC (jniEnv, (jobject) retVal->val.object);
+        retVal->val.object = SD_JAVA_FINDOBJC (jniEnv,
+                                               (jobject) retVal->val.object);
     }
 #endif
   [fc drop];
