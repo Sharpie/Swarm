@@ -1,3 +1,17 @@
+1999-05-20  Alex Lancaster  <alex@santafe.edu>
+
+	* user2.04.sgml: Reformatting throughout.
+
+	* user3.05.sgml: Removed entirely old section on probes (material
+	shuffled into earlier sections).  Completely new section on
+	`Serialization', including INDEXTERMs.
+
+	* user2.07.sgml: Updated content significantly.
+	(simplebug-probes{1,2}):  Added two new FIGUREs.
+
+	* common.dsl (type): Make Mono type.
+	(application): Make Bold Mono type.
+
 1999-05-19  Alex Lancaster  <alex@santafe.edu>
 
 	* userbook.sgml: Change TITLE of CHAPTER 3 to `Advanced Topics'.

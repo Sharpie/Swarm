@@ -14,8 +14,10 @@
   #t)
 
 (element classname ($mono-seq$))
+(element type ($mono-seq$))
 (element function ($bold-mono-seq$))
 (element varname ($italic-mono-seq$))
+(element application ($bold-mono-seq$))
 
 </style-specification-body>
 </style-specification>

@@ -1,133 +1,222 @@
 <sect1 id="swarm.user.user3.05.sect1">
-  <title>Probes</title>
+  <title>Serialization</title>
 
-<sect2>
- <title>Major Probe classes</title> 
+  <indexterm>
+    <primary>serialization</primary>
+  </indexterm>
 
-    <literallayout>Probe
-ProbeMap
-CompleteProbeMap
-CompleteVarMap
-CustomProbeMap
-MessageProbe
-VarProbe
-ObjectBase
-ProbeLibrary
-</literallayout>
+  <para>The term <wordasword>serialization</wordasword> refers to the
+    ability to save more than one related object to either persistent data
+    storage (such as a file) or to send an object over a network stream,
+    such as TCP/IP.  When an object is saved to disk (or sent over a
+    `wire') we record a reference to the saved object, so that the
+    original object can be restored at a later date.  This reference is
+    referred to as a `serial number', hence the term `serialization'.
+  </para>
 
-</sect2>
+  <para>Swarm has two forms of support for serialization:
 
-<sect2>
- <title>Using probes</title> 
+    <itemizedlist>
+      <listitem>
+        <indexterm significance="preferred">
+          <primary>Lisp</primary>
+        </indexterm>
+        <formalpara><title>Lisp</title><para>Lisp
+            serialization reads and generates human readable text-file
+            in Lisp format.  This form of serialization is well-suited
+            to applications that require either a human generated text
+            file to create object parameters (such as simulation
+            parameter files), or require a human-readable
+            output.</para></formalpara>
+      </listitem>
 
-    <formalpara><title>Two major uses for probes</title>
-      <para>
-        <itemizedlist>
-          <listitem>
-            <para>        To interface with an object</para> </listitem>
-          <listitem>
-            <para>        To create a GUI to an object</para></listitem>
-        </itemizedlist>
-      </para>
-    </formalpara>
+      <listitem>
+        <indexterm significance="preferred">
+          <primary>HDF5</primary>
+        </indexterm>
+        <formalpara><title>HDF5</title><para><ulink
+            url="http://hdf.ncsa.uiuc.edu/HDF5/">HDF5</ulink> is high
+            density binary data storage format created by <ulink
+            url="http://www.ncsa.uiuc.edu/">NSCA</ulink>.  HDF5
+            serialization is well-suited to applications that involve
+            reading and/or saving large data sets.  It is a
+            database-oriented format which a number of third-party
+            tools (such as the <application><ulink
+            url="http://www.ci.tuwien.ac.at/R/">R</ulink></application>
+            statistical package which is a freely-available clone of
+            <application><ulink
+            url="http://www.mathsoft.com/splus/">SPlus</ulink></application>)
+            can read.</para></formalpara>
+      </listitem>
+    </itemizedlist>
+  </para>
 
-    <formalpara><title>Interface with an object of two types</title>
-      <para>
+  <sect2>
+    <title>Parameter files using the Lisp archiver</title>
+    <indexterm>
+      <primary>parameter files</primary>
+    </indexterm>
+    <caution><para>Earlier versions of Swarm used the protocols
+        <classname>ObjectSaver</classname> and
+        <classname>ObjectLoader</classname> to read/write object state to disk
+        using an ad-hoc file format.  These protocols only partially
+        implemented the saving of certain types and the continued use of these
+        protocols is now officially deprecated and may go away in future
+        releases.</para></caution>
 
-        <literallayout>    
-    VarProbe: 	   Probes an instance variable
-    MessageProbe:    Probes a method
-</literallayout>
-      </para>
-    </formalpara>
+    <example>
+      <title>Creating a list parameter file</title>
 
-    <formalpara><title>GUI utilities:</title>
-      <para>
+      <para>Here is a sample Lisp input parameter for the
+        <application>AlChemy</application> simulation,
+        <filename>alchemy.scm</filename>
+        <footnote><para><filename>.scm</filename> is the standard
+        suffix for Scheme (a dialect of Lisp) files</para></footnote>:
 
-        <literallayout>        ProbeMap: Collection of Var and MessageProbes
-</literallayout>
-
-      </para>
-    </formalpara> 
-</sect2>
-
-<sect2>
- <title>Graphical probes to agents</title> 
-
-    <formalpara><title>Check out instance of EmptyProbeMap </title>
-      <para></para></formalpara>
-
-    <formalpara><title>Attach VarProbe or MessageProbe to each
-        variable or message to appear on GUI</title><para></para></formalpara>
-
-    <formalpara><title>Put each probe on the EmptyProbeMap</title>
-      <para></para></formalpara>
-
-    <formalpara><title>ProbeDisplayManager  asked to create widget
-      </title><para>
-
-        <literallayout>
-Agent
-VarProbes
-MessageProbe
-ProbeMap
-        </literallayout>
-        
-      </para>
-    </formalpara> 
-</sect2>
-
-<sect2>
- <title>Code for previous example</title> 
-
-    <programlisting>probeMap=[EmptyProbeMap createBegin: aZone];
-
-[probeMap setProbedClass: [self class]];
-
-probeMap=[probeMap createEnd];
-
-[probeMap addProbe: [probeLibrary getProbeForVariable: "someVar"          
-
-             inClass: [agent class]]];
-
-				...
-
-[probeMap addProbe: [probeLibrary getProbeForMessage: "someMessage" inClass: [agent class]] setHideResult: 1]];
-
-[probeLibrary setProbeMap: probeMap For: [self class]];
-
-[probeDisplayManager createProbeDisplayFor: modelSwarm];
-</programlisting>
-
-</sect2>
-
-<sect2>
- <title>Other uses for probes</title> 
-
-
-    <formalpara><title>Example of dynamic message calling where
-        message is chosen at runtime: </title>
-      <para>
         <programlisting>
-theProbe = [MessageProbe createBegin: zone];
-[theProbe setProbedSelector: theSelector];
-theProbe = [theProbe createEnd];
+(list
+(cons 'observerSwarmParams
+(make-instance 'AlChemyObserverSwarm 
+#:displayFrequency 1))
+(cons 'modelSwarmParams
+(make-instance 'AlChemyModelSwarm
+#:objectsPerSite 50
+#:latticeFile "test.scm" ; this is a string
+#:collisions 100000
+#:reactPerDiffusion 10
+#:probOneReactThreshold 1000
+#:diffusionON #\001  ; these are Boolean variables
+#:reactionsON #\001  
+#:randomExprON #\000
+#:snapshot 5000    
+#:seed 80800       
+#:worldXSize 20
+#:worldYSize 20
+#:minDiffusion 1  
+#:diffusionConstant 0.25 ; this is a double
+#:diffusionSeed 532535
+))))</programlisting>
 
-anIndex = [aCollection begin: zone];
-while ( (aMember = [anIndex next]) ) 
-{
-   theData = [theProbe doubleDynamicCallOn: aMember]];
-   [self doSomething: theData];
-}
-[anIndex drop];
-</programlisting>
+        The Lisp file consists of two `keys' or `serial' numbers
+        <literal>observerSwarmParams</literal> and
+        <literal>modelSwarmParams</literal> for the parameters for two
+        different objects.  These keys are completely at the discretion of the
+        user to choose.  (Note also that the file syntax allows Lisp-style
+        comments: a `;' colon followed by any text).
       </para>
-    </formalpara>
 
-</sect2>
+      <para>This input file would correspond with the following interface
+        files, for the <classname>AlchemyObserverSwarm</classname> class we have:
+
+        <programlisting>
+<![ CDATA [
+// AlChemyObserverSwarm.h
+
+#import <simtoolsgui/GUISwarm.h>
+#import <analysis.h>
+#import "AlChemyModelSwarm.h"
+
+@interface AlChemyObserverSwarm: GUISwarm
+{
+  int displayFrequency; // one parameter: update freq
+  
+  id <ActionGroup> displayActions;      // schedule data structs
+  id <Schedule> displaySchedule;
+  
+  AlChemyModelSwarm *alchemyModelSwarm; // the Swarm we're observing
+  // Lots of display objects. First, widgets
+  id <ZoomRaster> worldRaster;			// 2d display widget
+  id <ZoomRaster> shadowRaster;			// 2d display widget
+  id <Colormap> colormap;			// allocate colours
+  
+  id <EZGraph> diversityGraph;	  
+  id <EZGraph> reductionsGraph;	
+  id <EZBin> lambdaHistogram;	
+  
+  // Now, higher order display and data objects
+  id <Object2dDisplay> lambdaDisplay;	        // display the lambda expr
+  id <FunctionGraph> lengthVsPosGraph;
+  id <FunctionGraph> concVsPosGraph;
+}
+
+// Methods not shown
+[...]
+@end]]></programlisting>
+
+        For the <classname>AlchemyModelSwarm</classname> class:
+
+        <programlisting>
+<![ CDATA [
+#import <objectbase/Swarm.h>
+#import "LambdaWrapper.h"
+#import "AgentDiffuse2d.h"
+#import "Reactor.h"
+
+@interface AlChemyModelSwarm: Swarm
+{
+  // model parameters
+  unsigned objectsPerSite;	  // max number of objects in reactor 
+  unsigned collisions;	          // number of collisions to perform 
+  unsigned probOneReactThreshold; // number of expressions at which
+  // the probability of a reaction at each 
+  // timestep becomes 1.0
+  unsigned reactPerDiffusion;     // number of possible reaction events for 
+  // each diffusion step
+
+  BOOL diffusionON;           // when set, diffusion is ON
+  BOOL reactionsON;           // when set, reactions are ON
+
+  BOOL randomExprON;          // flag for whether expr are read from
+  // file or generated randomly 
+
+  unsigned snapshot;	      // interval between reactor dumps 
+  int Reaction;		      // specifies reaction type  
+  int seed;	              // random seed 
+  
+  // input filename for expressions
+  const char *latticeFile;
+
+  // diffusion lattice parameters
+  unsigned worldXSize, worldYSize;
+  unsigned diffusionSeed;
+  unsigned minDiffusion;
+  double diffusionConstant;
+  
+  // elements of model
+  LambdaWrapper *lambdaInterpreter; // Lambda interpreter - wraps WF's code
+
+  Reactor *reactor;               // Reactor of lambda expressions
+  AgentDiffuse2d *lambdaLattice;  // Lattice for lambda expressions
+
+  // Swarm scheduling data structures
+  id <Schedule>reactionSchedule;
+  id <Schedule>diffusionSchedule;
+  id <Schedule>checkSchedule;
+}
+// Methods not shown...
+@end]]></programlisting>
+      </para>
+
+      <para>Note that for each instance variable name of the form
+        <literal>#:ivarname somevalue</literal> in the Lisp parameter
+        file there exists a corresponding instance variable in the
+        class header file. <emphasis>However, not</emphasis> all
+        instance variables in the header file have corresponding
+        entries in the Lisp parameter file.  This is because the other
+        instance variables are either unimportant as parameters
+        (i.e. they can be regenerated by other parameters), or they
+        are instance variables that pertain to the running model
+        itself (such as <varname>reactionSchedule</varname>, which is
+        a <classname>Schedule</classname> instance).</para>
+
+    </example>
+
+  </sect2>
+
 </sect1>
-<!--
-Local Variables:
+
+<!-- 
+Local Variables: 
 sgml-parent-document:("userbook.sgml" "SECT1")
-End:
+End: 
 -->
