@@ -15,9 +15,9 @@
   int fileOutput;
   id anOutFile;
 
-  char *theTitle;
-  char *xLabel;
-  char *yLabel;
+  const char *theTitle;
+  const char *xLabel;
+  const char *yLabel;
 
   int *distribution;
   double *locations;

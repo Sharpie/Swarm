@@ -20,7 +20,8 @@
 	([EZBin -setAxisLabelsX:Y:]): Constify arguments.
 
 	* EZBin.h: Constify argument to setTitle.  Constify arguments
-	to setAxisLabelsX:Y:.
+	to setAxisLabelsX:Y:. Constify theTitle, xLabel, and yLabel.
+
 	Reformatting throughout.
 
 Mon Dec  8 22:28:28 1997  glen e. p. ropella  <gepr@swarm.com>
