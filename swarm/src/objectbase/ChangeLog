@@ -1,3 +1,9 @@
+1998-10-28  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* Arguments.m (prefix): New function.
+	([Arguments -_getSwarmHome_:]): Use it to transform
+	SWARMHOME and PREFIX.
+
 1998-10-27  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Add case for void return

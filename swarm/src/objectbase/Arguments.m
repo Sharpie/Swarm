@@ -7,7 +7,7 @@
 #import <objectbase.h> // arguments
 #include <misc.h> // strdup, getenv, access, stpcpy, stat, dropdir
 #include <misc/argp.h>
-#include <swarmconfig.h> // CONFPATH
+#include <swarmconfig.h> // SYSCONFDIR
 
 #ifndef __GLIBC__
 const char *program_invocation_name;
@@ -16,6 +16,11 @@ const char *program_invocation_short_name;
 
 #define SIGNATURE_FILE "swarmconfig.h"
 #define SIGNATURE_SUBPATH "include/"
+
+#define VARCHAR(ch) (isalnum (ch) || ((ch) == '_'))
+
+/* A subpath of --includedir would be arbitrary, and since this
+   is for when prefix and SWARMHOME are absent, it's just a guess anyway. */
 #define SIGNATURE_PATH "include/" SIGNATURE_FILE
 
 #include "version.h"
@@ -392,6 +397,96 @@ findSwarm (id arguments)
     return NULL;
 }
 
+static const char *
+getnenv (const char *strptr, size_t len)
+{
+  char buf[len + 1];
+
+  strncpy (buf, strptr, len);
+  buf[len] = '\0';
+  printf ("[%s]\n", buf);
+  return getenv (buf);
+}
+
+static const char *
+prefix (const char *prefixstring)
+{
+  const char *p = prefixstring;
+  size_t len = 0;
+  
+  if (prefixstring == NULL)
+    return NULL;
+
+  while (*p)
+    {
+      if (*p == '$')
+        {
+          p++;
+          if (*p == '{')
+            p++;
+          {
+            const char *varname = p;
+            unsigned varlen = 0;
+            
+            while (VARCHAR (*p))
+              {
+                varlen++;
+                p++;
+              }
+            {
+              const char *ptr = getnenv (varname, varlen);
+
+              len += strlen (ptr ? ptr : "");
+            }
+          }
+          if (*p == '}')
+            p++;
+        }
+      else
+        {
+          len++;
+          p++;
+        }
+    } 
+  p = prefixstring;
+  {
+    char *ep, *expanded_prefix;
+
+    printf ("len: %d\n", len);
+    ep = expanded_prefix = xmalloc (len + 1);
+    while (*p)
+      {
+        if (*p == '$')
+          {
+            p++;
+            if (*p == '{')
+              p++;
+            {
+              const char *varname = p;
+              unsigned varlen = 0;
+              
+              while (VARCHAR (*p))
+                {
+                  varlen++;
+                  p++;
+                }
+              {
+                const char *ptr = getnenv (varname, varlen);
+                
+                if (ptr)
+                  ep = stpcpy (ep, ptr);
+              }
+            }
+            if (*p == '}')
+              p++;
+          }
+        else
+          *ep++ = *p++;
+      }
+    return expanded_prefix;
+  }
+}
+
 - (const char *)_getSwarmHome_: (BOOL)ignoreEnvFlag
 {
   if (ignoreEnvFlag)
@@ -400,32 +495,40 @@ findSwarm (id arguments)
     {
       if (swarmHome == NULL)
 	{
-	  if ((swarmHome = getenv ("SWARMHOME")) == NULL)
-	    swarmHome = findSwarm (self);
-	  else
-	    {
-	      unsigned len = strlen (swarmHome);
-	      
-	      if (swarmHome[len - 1] != '/')
-		{
-		  char *home = xmalloc (len + 2), *p;
-		  
-		  p = stpcpy (home, swarmHome);
-		  p = stpcpy (p, "/");
-		  swarmHome = home;
-		}
-	    }
-	  {
-	    char sigPathBuf[strlen (swarmHome) + strlen (SIGNATURE_PATH) + 1];
-	    char *p;
-	    
-	    p = stpcpy (sigPathBuf, swarmHome);
-	    p = stpcpy (p, SIGNATURE_PATH);
-
-	    if (access (sigPathBuf, F_OK) == -1)
-	      swarmHome = findSwarm (self);
-	  }
-	}
+          if ((swarmHome = prefix (getenv ("SWARMHOME"))) == NULL)
+            {
+              const char *expanded_prefix = prefix (PREFIX);
+              
+              if (access (expanded_prefix, F_OK) == -1)
+                swarmHome = findSwarm (self);
+              else
+                swarmHome = expanded_prefix;
+            }
+          else
+            { 
+              unsigned len = strlen (swarmHome);
+              
+              if (swarmHome[len - 1] != '/')
+                {
+                  char *home = xmalloc (len + 2), *p;
+                  
+                  p = stpcpy (home, swarmHome);
+                  p = stpcpy (p, "/");
+                  swarmHome = home;
+                }
+            }
+          {
+            char sigPathBuf[(strlen (swarmHome) +
+                             strlen (SIGNATURE_PATH) + 1)];
+            char *p;
+            
+            p = stpcpy (sigPathBuf, swarmHome);
+            p = stpcpy (p, SIGNATURE_PATH);
+            
+            if (access (sigPathBuf, F_OK) == -1)
+              swarmHome = findSwarm (self);
+          }
+        }
       return swarmHome;
     }
 }
