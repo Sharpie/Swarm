@@ -1,3 +1,7 @@
+1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* random.h: Add summary and description tags for module.
+
 1998-05-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* random.h, distributions.h, generators.h:  Add documentation tags.

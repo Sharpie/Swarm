@@ -14,6 +14,12 @@ Modified:	 1997-09-01 (v. 0.7)  by Sven Thommesen
 Modified:	 1997-12-08 (v. 0.75) by Sven Thommesen
 */
 
+//S: Module for random number generation
+
+//D: This module consists of a set of random number generation classes
+//D: and a set of distribution classes for transforming random number
+//D: sequences into various simulated probability distributions.
+
 #import <defobj.h>
 
 @deftype InternalState
