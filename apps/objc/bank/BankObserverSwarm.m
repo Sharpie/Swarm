@@ -6,7 +6,8 @@
 @implementation BankObserverSwarm
 
 // createBegin: here we set up the default observation parameters.
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   BankObserverSwarm * obj;
   id <ProbeMap> probeMap;
   
@@ -21,63 +22,83 @@
 
   [probeMap addProbe: [probeLibrary getProbeForVariable: "displayFrequency"
 				    inClass: [self class]]];
-
+  
   [probeMap addProbe: [probeLibrary getProbeForVariable: "interactiveGraph"
 				    inClass: [self class]]];
-
+  
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "redistribute"
-			     inClass: [self class]]
+                                     inClass: [self class]]
 			setHideResult: 1]];
-
+  
   [probeLibrary setProbeMap: probeMap For: [self class]];
 
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--buildObjects {
+- buildObjects
+{
   id modelZone;	
-
+  
+#if 1
+  controlPanel = [ControlPanel create: [self getZone]];
+  actionCache = [ActionCache createBegin: [self getZone]];
+  [actionCache setControlPanel: controlPanel];
+  [actionCache setControlPanelGeometryRecordName: "controlPanel"];
+  actionCache = [actionCache createEnd]; 
+#else
   [super buildObjects];
+#endif
   
   modelZone = [Zone create: [self getZone]];
   bankModelSwarm = [BankModelSwarm create: modelZone];
   
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
-  [probeDisplayManager createProbeDisplayFor: bankModelSwarm];
-  [probeDisplayManager createProbeDisplayFor: self];
-
-
+  [probeDisplayManager createProbeDisplayFor: bankModelSwarm
+                       setWindowGeometryRecordName: "bankModelSwarm"];
+  [probeDisplayManager createProbeDisplayFor: self
+                       setWindowGeometryRecordName: "bankObserverSwarm"];
+  
+  
   [controlPanel waitForControlEvent];
   if ([controlPanel getState] == ControlStateQuit)
     return self;
 
-  if(interactiveGraph){
-    graphCanvas = [Canvas create: [self getZone]] ;
-    [[graphCanvas setHeight: 500] setWidth: 500] ;
-    [graphCanvas setWindowTitle: "The Emergence Of Banking"] ;
-    [globalTkInterp eval: 
-      "pack %s -expand 1 -fill both ; update idletasks", 
-      [graphCanvas getWidgetName]] ;
-  }
- 
-  [bankModelSwarm setGraphCanvas: graphCanvas] ;
+  if (interactiveGraph)
+    {
+      graphCanvas = [Canvas createBegin: [self getZone]];
+      [graphCanvas setWindowGeometryRecordName: "graphCanvas"];
+      graphCanvas = [graphCanvas createEnd];
+
+      [[graphCanvas setHeight: 500] setWidth: 500];
+      [graphCanvas setWindowTitle: "The Emergence Of Banking"];
+      [globalTkInterp eval: 
+                        "pack %s -expand 1 -fill both; update idletasks", 
+                      [graphCanvas getWidgetName]];
+    }
+  
+  [bankModelSwarm setGraphCanvas: graphCanvas];
   [bankModelSwarm buildObjects];
 
-  activeBanks = [EZGraph createBegin: [self getZone]] ;
-  [activeBanks setTitle: "Active Banks"] ;
-  [activeBanks setAxisLabelsX: "Time" Y: "Banks"] ;
-  activeBanks = [activeBanks createEnd] ;
+  activeBanks = [EZGraph createBegin: [self getZone]];
+  [activeBanks setGraphWindowGeometryRecordName: "activeBanks"];
+  [activeBanks setTitle: "Active Banks"];
+  [activeBanks setAxisLabelsX: "Time" Y: "Banks"];
+  activeBanks = [activeBanks createEnd];
 
   [activeBanks createTotalSequence: "Survivors" 
                       withFeedFrom: [bankModelSwarm getEntityList]
-                       andSelector: M(incident)] ;
+                       andSelector: M(incident)];
 
-  investorGraph = [BLTGraph create: [self getZone]];
+  investorGraph = [BLTGraph createBegin: [self getZone]];
+  [investorGraph setWindowGeometryRecordName: "investorGraph"];
+  investorGraph = [investorGraph createEnd];
+
   [investorGraph title: "Entropy of investor link distribution"];
   [investorGraph axisLabelsX: "time" Y: "prop. of Max. Entropy"];
   [investorGraph pack];
@@ -165,12 +186,14 @@
   return self;
 }  
 
--redistribute {
-  [[bankModelSwarm getTheFNet] redistribute] ;
-  return self ;
+- redistribute
+{
+  [[bankModelSwarm getTheFNet] redistribute];
+  return self;
 }
 
--buildActions {
+- buildActions
+{
   [super buildActions];
   
   [bankModelSwarm buildActions];
@@ -200,7 +223,8 @@
   return self;
 }  
 
--activateIn: (id) swarmContext {
+- activateIn: swarmContext
+{
 
   [super activateIn: swarmContext];
 

@@ -1,3 +1,13 @@
+1998-01-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Create
+	controlPanel and actionCache so that the archive name can be set.
+	Use the	setWindowGeometryRecordName version of createProbeDisplayFor
+	for BankModelSwarm and BankObserverSwarm.
+	Call setWindowGeometryRecordName for graphCanvas, investorGraph.
+	Call setGraphWindowGeometryRecordName for activeBanks.
+	Reformatting throughout.
+
 1997-12-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile: Don't define SWARMHOME if it already exists.
