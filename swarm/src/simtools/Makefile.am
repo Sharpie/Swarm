@@ -12,7 +12,7 @@ lib_LTLIBRARIES = libsimtools.la
 
 SRC = InFile.m OutFile.m AppendFile.m \
 	ObjectLoader.m ObjectSaver.m \
-	ListShuffler.m NSelect.m QSort.m \
+	NSelect.m QSort.m \
 	UName.m simtools.m
 
 libsimtools_la_SOURCES = $(SRC)
@@ -20,5 +20,5 @@ libsimtools_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
 simtools_HEADERS = InFile.h OutFile.h AppendFile.h \
 	ObjectLoader.h ObjectSaver.h \
-	ListShuffler.h NSelect.h QSort.h \
+	NSelect.h QSort.h \
 	UName.h
