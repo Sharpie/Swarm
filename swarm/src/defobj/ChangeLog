@@ -1,5 +1,20 @@
 1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.h (Arguments): Declare +createBegin:, -createEnd,
+	-setArgc:Argv:, -setAppModeString:, -setOptionFunc:, -setBugAddress:,
+	and -setVersion:.  Move addOptions: to creating phase.
+
+	* Arguments.m
+	(+createArgc:Argv:version:bugAddress:options:optionFunc:): Split
+	to use createEnd.
+
+	* Arguments.[hm] ([Arguments_c -setVersion:], 
+	[Arguments_c -setBugAddress:], [Arguments_c -createEnd]): New 
+	methods.
+
+	* Arguments.h (Arguments): Add version and bugAddress ivars.
+	Declare +createBegin:. 
+
 	* defobj.h (DefinedClass): Declare addVariable.
 	(Serialization): Declare updateArchiver.
 

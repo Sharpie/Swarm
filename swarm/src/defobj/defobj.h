@@ -864,7 +864,15 @@ USING
 //E: }
 
 CREATING
-+ createArgc: (int)argc Argv: (const char **)argv;
++ createBegin: aZone;
+- createEnd;
+
+- setArgc: (int)argc Argv: (const char **)argv;
+- setAppModeString: (const char *)appModeString;
+- setOptionFunc: (int (*) (int, const char *))optionFunc;
+- setBugAddress: (const char *)bugAddress;
+- setVersion: (const char *)version;
+- addOptions: (struct argp_option *)options;
 
 + createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
 
@@ -886,7 +894,6 @@ CREATING
 
 //M: - A sorting integer; relative placement of the option in the help
 //M:   screen.
-- addOptions: (struct argp_option *)options;
 
 //M: This method is called for each option that occurs.
 - (int)parseKey: (int)key arg: (const char *)arg;

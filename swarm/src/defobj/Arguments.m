@@ -104,36 +104,36 @@ PHASE(Creating)
   return obj;
 }
 
-+ createArgc: (int)theArgc
-        Argv: (const char **)theArgv
-     version: (const char *)version
-  bugAddress: (const char *)bugAddress
-     options: (struct argp_option *)options
-  optionFunc: (int (*) (int key, const char *arg))anOptionFunc
+
+- setBugAddress: (const char *)theBugAddress
 {
-  Arguments_c *argobj = [self createBegin: globalZone];
-  
-  [argobj setArgc: theArgc Argv: theArgv];
-  program_invocation_name = (char *)find_executable (theArgv[0]);
+  bugAddress = theBugAddress;
+  return self;
+}
+
+- setVersion: (const char *)theVersion
+{
+  version = theVersion;
+  return self;
+}
+
+- createEnd
+{
+  program_invocation_name = (char *)find_executable (argv[0]);
 #ifndef __GLIBC__
-  program_invocation_short_name = getApplicationValue (theArgv[0]);
+  program_invocation_short_name = getApplicationValue (argv[0]);
 #endif  
-  if (options)
-    [argobj addOptions: options];
-  [argobj setOptionFunc: anOptionFunc];
-  [argobj setAppName: program_invocation_short_name];
-  [argobj setAppModeString: "default"];
+  [self setAppName: program_invocation_short_name];
   if (version == NULL)
     version = "[no application version]";
   {
-    const char *appName = argobj->applicationName;
     const char *swarmstr = " (Swarm ";
-    char *buf = xmalloc (strlen (appName) + 1 + 
+    char *buf = xmalloc (strlen (applicationName) + 1 + 
                          strlen (version) + strlen (swarmstr) +
                          strlen (swarm_version) + 1 + 1);
     char *p;
 
-    p = stpcpy (buf, appName);
+    p = stpcpy (buf, applicationName);
     p = stpcpy (p, " ");
     p = stpcpy (p, version);
     p = stpcpy (p, swarmstr);
@@ -143,23 +143,40 @@ PHASE(Creating)
   }
   if (bugAddress == NULL)
     {
-      const char *appName = argobj->applicationName;
       const char *bugstr = "bug-";
       const char *address = "@[none set]";
-      char *buf = xmalloc (strlen (bugstr) + strlen (appName) + 
+      char *buf = xmalloc (strlen (bugstr) + strlen (applicationName) + 
                            strlen (address) + 1);
       char *p;
       
       p = stpcpy (buf, bugstr);
-      p = stpcpy (p, appName);
+      p = stpcpy (p, applicationName);
       p = stpcpy (p, address);
       argp_program_bug_address = buf;
     }
   else
     argp_program_bug_address = bugAddress;
 
-  argp_parse (argobj->argp, theArgc, theArgv, 0, 0, argobj);
+  argp_parse (argp, argc, argv, 0, 0, self);
+  return self;
+}
+
++ createArgc: (int)theArgc
+        Argv: (const char **)theArgv
+     version: (const char *)theVersion
+  bugAddress: (const char *)theBugAddress
+     options: (struct argp_option *)options
+  optionFunc: (int (*) (int key, const char *arg))anOptionFunc
+{
+  Arguments_c *argobj = [self createBegin: globalZone];
   
+  [argobj setArgc: theArgc Argv: theArgv];
+  if (options)
+    [argobj addOptions: options];
+  [argobj setOptionFunc: anOptionFunc];
+  [argobj setAppModeString: "default"];
+  [argobj setBugAddress: theBugAddress];
+  [argobj setVersion: theVersion];
   return [argobj createEnd];
 }
 

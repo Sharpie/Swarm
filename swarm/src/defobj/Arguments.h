@@ -12,6 +12,8 @@
   const char **argv;
   const char *applicationName;
   const char *appModeString;
+  const char *version;
+  const char *bugAddress;
   BOOL batchModeFlag;
   BOOL varySeedFlag;
   BOOL showCurrentTimeFlag;
@@ -22,6 +24,8 @@
   int (*optionFunc) (int key, const char *arg);
   struct argp *argp;
 }
++ createBegin: aZone;
+- createEnd;
 + createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
 - addOptions: (struct argp_option *)options;
 - (int)parseKey: (int)key arg: (const char *)arg;
@@ -29,6 +33,8 @@
 - setArgc: (int)theArgc Argv: (const char **)theArgv;
 - setAppName: (const char *)appName;
 - setAppModeString: (const char *)appModeString;
+- setVersion: (const char *)version;
+- setBugAddress: (const char *)bugAddress;
 - setOptionFunc: (int (*) (int key, const char *arg))optionFunc;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setShowCurrentTimeFlag: (BOOL)timeFlag;
