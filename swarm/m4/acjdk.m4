@@ -111,6 +111,7 @@ else
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
     fi
+    AC_DEFINE(HAVE_KAFFE)
     JAVACLASSES="$jdkdatadir${PATHDELIM}Klasses.jar${PATHSEP}$jdkdatadir${PATHDELIM}pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
 
