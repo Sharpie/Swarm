@@ -28,6 +28,7 @@
 
 (defstruct method
   phase
+  factory-flag
   return-type
   arguments
   description-list
@@ -90,7 +91,11 @@
         (buffer-substring beg end)
       (skip-whitespace))))
 
-(defun parse-method (protocol-name phase method-description-list method-example-list)
+(defun parse-method (protocol-name
+                     phase
+                     factory-flag
+                     method-description-list
+                     method-example-list)
   (forward-char)
   (skip-whitespace)
   (let* ((return-type (next-paren-expr))
@@ -115,6 +120,7 @@
       (error "No phase in protocol: " protocol-name))
     (make-method
      :phase phase
+     :factory-flag factory-flag
      :arguments (reverse arguments)
      :return-type return-type
      :description-list method-description-list
@@ -164,8 +170,10 @@
              (setq phase :using)
              (setq tag :using))
             ((looking-at "^[ \t]*$") (setq tag :newline))
-            ((looking-at "^[-+]")
+            ((looking-at "^-")
              (setq tag :method))
+            ((looking-at "^+")
+             (setq tag :factory-method))
             ((looking-at "^//M:") 
              (setq tag :method-doc))
             ((looking-at "^//S:") (setq tag :summary-doc))
@@ -207,8 +215,10 @@
                 (:description-doc (push buf description-doc-list)))
               (when is-doc-type
                 (setq buf (extract-doc-string line)))))))
-      (when (eq tag :method)
-        (push (parse-method name phase
+      (when (member tag '(:method :factory-method))
+        (push (parse-method name
+                            phase
+                            (eq tag :factory-method)
                             (reverse method-doc-list)
                             (reverse example-list))
               method-list)
@@ -435,6 +445,9 @@
     (insert "</FUNCSYNOPSISINFO>\n")))
 
 (defun print-method-signature (method &optional stream)
+  (if (method-factory-flag method)
+      (princ "+" stream)
+      (princ "-" stream))
   (loop for arguments in (method-arguments method)
         for key = (first arguments)
         when key 
@@ -510,8 +523,6 @@
     (if (string= protocol-name-a protocol-name-b)
         (compare-method-signatures (third a) (third b))
         (string< protocol-name-a protocol-name-b))))
-
-(protocol-expanded-method-list (get-protocol "Line"))
 
 (defun sgml-method-examples (protocol)
   (when (> (count-method-examples protocol) 0)
