@@ -1,3 +1,13 @@
+1999-06-23  Alex Lancaster  <alex@santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Call the
+	`lispAppArchiver' inside `self' to instantiate the `modelSwarm'
+	object rather than instantiating directly.
+
+	* bug.scm: New file.
+
+	* model.setup: Remove file.
+
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile (SWARMHOME): Update to 1999-01-16.

@@ -54,10 +54,14 @@
   // First, we create the model that we're actually observing. The
   // model is a subswarm of the observer. 
 
-  // We create in the modelSwarm in "self" which creates a modelSwarm
-  // in it's *own* Zone within the observerSwarm.
+  // Make the bug model swarm, creating the object from the default
+  // `lispAppArchiver' instance which looks for the `bug.scm'
+  // datafile.
 
-  modelSwarm = [ModelSwarm create: self];
+  if ((modelSwarm = 
+       [lispAppArchiver getWithZone: self object: "modelSwarm"]) == nil)
+    raiseEvent(InvalidOperation,
+               "Can't find the modelSwarm parameters");
 
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
