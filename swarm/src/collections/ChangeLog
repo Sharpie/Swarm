@@ -1,3 +1,12 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* OutputStream.m: Include defobj/internal.h
+	([OutputStream_c -catChar:]): Use isPrint instead of isprint.
+
+	* InputStream.m	(readString, [InputStream_c -getExpr]): Use isSpace
+	instead of isspace.
+	([InputStream_c -getExpr]): Use isDigit instead of isdigit.
+
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* collections.h (ArchiverKeyword, ArchiverArray, ArchiverValue,

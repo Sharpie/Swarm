@@ -14,6 +14,7 @@ Library:      collections
 #import <collections/predicates.h>
 #include <misc.h> // FILE, fputs
 #include <swarmconfig.h> // PRINTF_LL_FMT, PTRUINT, PTRUINTFMT
+#import "../defobj/internal.h"
 
 @implementation OutputStream_c
 
@@ -65,9 +66,9 @@ PHASE(Using)
   char buf[DSIZE(char) + 1];
   [self catC: "#\\"];
   {
-    if (isprint ((unsigned char)ch))
+    if (isPrint ((unsigned char) ch))
       {
-        buf[0] = (unsigned char)ch;
+        buf[0] = (unsigned char) ch;
         buf[1] = '\0';
       }
     else

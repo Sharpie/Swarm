@@ -15,9 +15,9 @@ Library:      collections
 #import <collections/InputStream.h>
 #import <defobj/defalloc.h> // getZone
 #include <objc/objc-api.h> // type definitions
-#include <misc.h> // errno, fputs, isspace, isdigit
+#include <misc.h> // errno, fputs
 #include <collections/predicates.h>
-#include <defobj/internal.h>  // lisp_process_array, size_for_objc_type
+#import "../defobj/internal.h" // lisp_process_array, size_for_objc_type, ctype
 
 @implementation InputStream_c
 
@@ -74,7 +74,7 @@ readString (id inStream, BOOL literalFlag)
   while ((c = fgetc (fp)) != EOF
          && !(literalFlag 
               ? c == '"'
-              : (isspace (c) || c == '(' || c == ')')))
+              : (isSpace (c) || c == '(' || c == ')')))
     {
       buf[0] = c;
       [string catC: buf];
@@ -104,7 +104,7 @@ readString (id inStream, BOOL literalFlag)
   int c;
   id aZone = getZone (self);
   
-  while (((c = fgetc (fileStream)) != EOF) && isspace (c));
+  while (((c = fgetc (fileStream)) != EOF) && isSpace (c));
   if (c == EOF)
     return nil;
   else if (c == '\'')
@@ -276,7 +276,7 @@ readString (id inStream, BOOL literalFlag)
             
             if (ch == '.')
               type = _C_DBL;
-            else if (!isdigit ((int) ch) && !(pos == 0 && ch == '-'))
+            else if (!isDigit (ch) && !(pos == 0 && ch == '-'))
               {
                 if (pos == len - 2)
                   {
