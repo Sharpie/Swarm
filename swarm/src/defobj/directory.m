@@ -22,6 +22,10 @@
 
 extern void *alloca (size_t);
 
+static jclass c_SwarmEnvironment;
+static jobject swarmEnvironment;
+
+
 #define internalimplementation implementation // defeat make-h2x
 
 #ifdef HAVE_JDK
@@ -517,7 +521,7 @@ get_type_field_for_class (JNIEnv *env, jclass clazz)
 #endif   
 
 static void
-create_class_refs (JNIEnv *env, jobject swarmEnvironment)
+create_class_refs (JNIEnv *env)
 {
   jclass get_primitive (const char *name)
     {
@@ -544,6 +548,7 @@ create_class_refs (JNIEnv *env, jobject swarmEnvironment)
     }
   if (!initFlag)
    {
+#if 0
       c_char = get_primitive ("Character");
       c_byte = get_primitive ("Byte");
       c_int = get_primitive ("Integer");
@@ -553,6 +558,7 @@ create_class_refs (JNIEnv *env, jobject swarmEnvironment)
       c_double = get_primitive ("Double");
       c_void = get_primitive ("Void");
       c_boolean = get_primitive ("Boolean");
+#endif
 
       c_Boolean = get_java_class (env, "Boolean");
       c_Char = get_java_class (env, "Character");
@@ -884,9 +890,8 @@ swarm_directory_next_phase (JNIEnv *env, jobject jobj)
 }
 
 void
-swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
+swarm_directory_init (JNIEnv *env, jobject _swarmEnvironment)
 {
-  jclass c_SwarmEnvironment;
   void setFieldInSwarm (const char *className,
                         const char *fieldName,
                         id objcObject)
@@ -906,9 +911,10 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
       SD_ADD (env, value, objcObject);
     }
   jniEnv = env;
+  swarmEnvironment = _swarmEnvironment;
   swarmDirectory = [Directory create: globalZone];
   
-  create_class_refs (env, swarmEnvironment);
+  create_class_refs (env);
   create_method_refs (env);
   create_field_refs (env);
 
@@ -1001,6 +1007,114 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               {
                 return (*env)->IsSameObject (env, class, matchClass);
               }
+            BOOL booleanp ()
+              {
+                jmethodID mid;
+      
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "booleanp",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
+            BOOL characterp ()
+              {
+                jmethodID mid;
+      
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "characterp",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              } 
+           BOOL bytep ()
+              {
+                jmethodID mid;
+      
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "bytep",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
+            BOOL integerp ()
+              {
+                jmethodID mid;
+                
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "integerp",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
+            BOOL shortp ()
+              {
+                jmethodID mid;
+                
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "shortp",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
+            BOOL longp ()
+              {
+                jmethodID mid;
+                
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "longp",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
+            BOOL floatp ()
+              {
+                jmethodID mid;
+                
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "floatp",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
+            BOOL doublep ()
+              {
+                jmethodID mid;
+                
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "doublep",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
+            BOOL voidp ()
+              {
+                jmethodID mid;
+                
+                if (!(mid = (*env)->GetMethodID (env,
+                                                 c_SwarmEnvironment,
+                                                 "voidp",
+                                                 "(Ljava/lang/Class;)Z")))
+                  abort ();
+                return (*env)->CallBooleanMethod (env, swarmEnvironment,
+                                                  mid, class);
+              }
             BOOL classp (jclass matchClass)
               {
                 jobject clazz;
@@ -1018,23 +1132,23 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               type = _C_CHARPTR;
             else if (classp (c_Class))
               type = _C_CLASS;
-            else if (exactclassp (c_int))
+            else if (integerp ())
               type = _C_INT;
-            else if (exactclassp (c_short))
+            else if (shortp ())
               type = _C_SHT;
-            else if (exactclassp (c_long))
+            else if (longp ())
               type = _C_LNG;
-            else if (exactclassp (c_boolean))
+            else if (booleanp ())
               type = _C_UCHR;
-            else if (exactclassp (c_byte))
+            else if (bytep ())
               type = _C_UCHR;
-            else if (exactclassp (c_char))
+            else if (characterp ())
               type = _C_CHR;
-            else if (exactclassp (c_float))
+            else if (floatp ())
               type = _C_FLT;
-            else if (exactclassp (c_double))
+            else if (doublep ())
               type = _C_DBL;
-            else if (exactclassp (c_void))
+            else if (voidp ())
               type = _C_VOID;
             else
               type = _C_ID;
