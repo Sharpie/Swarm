@@ -7,6 +7,7 @@
 
 #import <objectbase.h>
 #import <activity.h> // SwarmProcess
+#include <externvar.h>
 
 @protocol WindowGeometryRecordName
 //S: Protocol for archiving window geometry.
