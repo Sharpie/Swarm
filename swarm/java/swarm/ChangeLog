@@ -1,3 +1,13 @@
+1999-08-05  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.in (POSTCLASSES): Add Globals.
+
+	* Globals.java: New class.  Make `env' a public static variable of
+	type `SwarmEnvironment'.
+
+	* SwarmEnvironment.java: Move the static initialization of the
+	javaswarm library to new Globals class.
+
 1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* PhaseCImpl.java: Don't print ivars as they're copied.

@@ -17,7 +17,7 @@ CLASSPHASES := C __u
 INTERFACEPHASES := $(CLASSPHASES) S
 
 PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector PhaseCImpl
-POSTCLASSES = SwarmEnvironment
+POSTCLASSES = SwarmEnvironment Globals
 
 define class-protocols
 $($(module)_creatable_PROTOCOLS)
