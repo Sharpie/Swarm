@@ -14,7 +14,7 @@
 // main Swarm programmer interface:
 //   setColor:To: declare that Color c looks like the provide colorname.
 
-#import "internal.h"
+#include "internal.h"
 #import <defobj/Create.h>
 #import <gui.h>
 

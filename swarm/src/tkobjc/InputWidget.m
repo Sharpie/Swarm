@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/InputWidget.h>
-#import "internal.h"
+#include "internal.h"
 #import <tkobjc/global.h> // globalTkInterp
 #include <misc.h> // strlen
 

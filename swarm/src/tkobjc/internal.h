@@ -3,7 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <gui.h>
+#ifndef _TKOBJC_INTERNAL_H
+#define _TKOBJC_INTERNAL_H
+#include <gui.h>
 
 #define Colormap X11Colormap
 #define Pixmap X11Pixmap
@@ -33,7 +35,21 @@
 #undef Object
 
 #include <misc.h> // header problems might occur unprotected in png.h
+#ifdef HAVE_PNG
 #include <png.h>
+#else
+typedef unsigned char png_byte;
+typedef png_byte * png_bytep;
+
+typedef struct png_color_struct
+{
+   png_byte red;
+   png_byte green;
+   png_byte blue;
+} png_color;
+
+typedef png_color *png_colorp;
+#endif
 
 #import <tkobjc/Raster.h>
 @class Raster;
@@ -98,3 +114,4 @@ void tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster);
 void tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget, BOOL parentFlag);
 void tkobjc_pixmap_save (Pixmap *pixmap, const char *filename);
 void tkobjc_pixmap_drop (Pixmap *pixmap);
+#endif

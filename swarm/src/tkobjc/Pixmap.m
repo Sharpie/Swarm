@@ -5,11 +5,11 @@
 
 #import <tkobjc/Pixmap.h>
 #import <defobj.h> // zones
-#import "internal.h"
+#include "internal.h"
 #import <tkobjc/global.h>
-#include <png.h>
 #include <swarmconfig.h> // PTRUINT
 
+#ifdef HAVE_PNG
 static int
 compareRGB (id aobj, id bobj)
 {
@@ -38,6 +38,7 @@ compareRGB (id aobj, id bobj)
   else
     return red_diff;
 }
+#endif
 
 @implementation Pixmap
 
@@ -45,6 +46,7 @@ PHASE(Creating)
 
 - _loadPNG_
 {
+#ifdef HAVE_PNG
   FILE *fp;
   char header[8];
   png_structp read_ptr;
@@ -210,6 +212,10 @@ PHASE(Creating)
       tkobjc_pixmap_create (self, row_pointers, bit_depth);
     }
   }
+#else
+  raiseEvent (NotImplemented,
+              "PNG inoput not available on this configuration");
+#endif
   return self;
 }
 

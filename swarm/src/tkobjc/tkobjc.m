@@ -5,7 +5,7 @@
 
 #import <defobj.h>
 
-#import "internal.h"
+#include "internal.h"
 #import <gui.h>
 #import <tkobjc/global.h>
 #import <defobj.h> // Arguments

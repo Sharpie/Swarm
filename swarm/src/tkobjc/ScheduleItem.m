@@ -8,7 +8,7 @@
 
 #import <defobj/Create.h>
 #import <activity/Schedule.h>
-#import "internal.h"
+#include "internal.h"
 
 #include <objc/objc-api.h>
 #include <misc.h>

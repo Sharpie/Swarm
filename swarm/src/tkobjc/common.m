@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.   
 
-#import "internal.h"
+#include "internal.h"
 #import <defobj.h> // nameToObject, OSTRDUP, SSTRDUP
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>

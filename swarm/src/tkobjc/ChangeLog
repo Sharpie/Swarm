@@ -1,3 +1,18 @@
+1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ArchivedGeometryWidget.m, Colormap.[hm], Form.m, InputWidget.m,
+	Pixmap.m, ScheduleItem.m, common.m, internal.m, tkobjc.m: Use
+	include not import of internal.h.
+
+	* Pixmap.m: Don't include png.h.
+	(compareRGB): Only define if HAVE_PNG.
+	([Pixmap -_loadPNG_]): Raise an error if not HAVE_PNG.
+
+	* internal.m (tkobjc_pixmap_create): Likewise.
+
+	* internal.h:  Add minimal png types if not HAVE_PNG.
+	Add multiple include protection.
+
 1999-10-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget

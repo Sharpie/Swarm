@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import "internal.h"
+#include "internal.h"
 #import "global.h"
 
 #include <tk.h>
@@ -1580,6 +1580,7 @@ tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster)
 void
 tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 {
+#ifdef HAVE_PNG
   FILE *fp = fopen (filename, "wb");
   png_structp png_ptr;
   png_infop info_ptr;
@@ -1743,6 +1744,10 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
   png_write_end (png_ptr, info_ptr);
   png_destroy_write_struct (&png_ptr, &info_ptr);
   fclose (fp);
+#else
+  raiseEvent (NotImplemented,
+              "PNG output not available in this configuration");
+#endif
 }
 
 
