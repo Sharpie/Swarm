@@ -423,12 +423,6 @@
 ;; so it is not duplicated.
 (element docinfo (empty-sosofo))
 
-; override the `default' block processing of abstract in reference
-; titlepages by switching context to book mode
-(mode reference-titlepage-verso-mode
-  (element abstract 
-    (with-mode book-titlepage-verso-mode ($semiformal-object$))))
-
 ; use local definitions of copyright, legalnotice and pubdate to
 ; generate links to legalnotices properly.
 (mode book-titlepage-verso-mode
@@ -440,11 +434,8 @@
   (element (set book bookinfo releaseinfo) (empty-sosofo))
   (element (set book bookinfo legalnotice) (empty-sosofo)))
 
-; likewise for sets, likewise override `default' block processing for
-; set titlepages
+; likewise for sets
 (mode set-titlepage-verso-mode
-  (element abstract 
-    (with-mode book-titlepage-verso-mode ($semiformal-object$)))
   (element copyright (copyright))
   (element legalnotice (legalnotice))
   (element pubdate (pubdate)))

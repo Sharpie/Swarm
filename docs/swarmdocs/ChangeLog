@@ -1,3 +1,9 @@
+1999-03-01  Alex Lancaster  <alex@santafe.edu>
+
+	* html.dsl (reference-titlepage-verso-mode): Remove override
+	needed due to bug in stylesheets - fixed as of DocBook 1.36.
+	(book-titlepage-verso-mode): Likewise.
+
 1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common (elcrule): Update to use intermediate files.
