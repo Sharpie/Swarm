@@ -874,7 +874,7 @@
   (loop for module-sym being each hash-key of *module-hash-table*
         using (hash-value protocol-list)
         for module = (lookup-module module-sym)
-        for dir = (module-path module)
+        for dir = (concat "swarm/" (module-path module))
         do
         (ensure-directory dir)
         (with-temp-file (concat dir "Makefile")
