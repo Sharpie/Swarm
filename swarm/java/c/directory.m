@@ -26,6 +26,14 @@ static jobject o_globalZone, o_uniformIntRand, o_uniformDblRand;
 
 JNIEnv *jenv;
 
+static void 
+dump_node (void * node, void * param)
+{
+  fprintf (stderr, "node: %p %p!\n", ((jobject_id *)node)->java_object,
+	   ((jobject_id *)node)->objc_object);
+  fflush (stderr);
+}
+
 static void
 create_class_refs (JNIEnv *env)
 {
@@ -88,14 +96,19 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
   jobject_id *result; 
   jobject newRef;
 
+ 
   newRef = (*env)->NewGlobalRef (env, java_object);
-
+  
   pattern.java_object = newRef;
   result = avl_find (java_tree, &pattern);
+  (*env)->DeleteGlobalRef(env, newRef);
   if (!result) 
-    result = java_directory_update (env,
-                                    newRef,
-                                    [JavaProxy create: globalZone]);
+      {
+	  result = java_directory_update (env,
+					  java_object,
+					  [JavaProxy create: globalZone]);
+	
+      }
   return result;
 }
 
@@ -119,18 +132,20 @@ java_directory_update (JNIEnv *env, jobject java_object, id objc_object)
   jobject_id **foundptr;
   
   data = xmalloc (sizeof (jobject_id));
-  data->java_object = java_object;
+  data->java_object = (*env)->NewGlobalRef(env, java_object);
   data->objc_object = objc_object;
   
   foundptr = (jobject_id **) avl_probe (java_tree, data);
   (*foundptr)->objc_object = objc_object;
 
   foundptr = (jobject_id **) avl_probe (objc_tree, data);
-  (*foundptr)->java_object = java_object;
+  (*foundptr)->java_object = data->java_object;
 
   if (*foundptr != data)
-      XFREE (data);
-
+      {
+	  (*env)->DeleteGlobalRef (env, data->java_object);
+	  XFREE (data);
+      }
   return *foundptr;
 }
 
@@ -182,7 +197,7 @@ java_directory_switchupdate_java (JNIEnv *env,
 jobject
 java_instantiate (JNIEnv *env, jclass clazz)
 {
-  return (*env)->NewGlobalRef (env, (*env)->AllocObject (env, clazz));
+  return (*env)->AllocObject (env, clazz);
 }
 
 jobject
@@ -256,10 +271,12 @@ java_instantiate_using (JNIEnv *env, jobject jobj)
 
 int compare_java_objects (const void *A, const void *B, void *PARAM)
 {
-  return ((*jenv)->IsSameObject (jenv,
-				((jobject_id *) A)->java_object,
-				((jobject_id *) B)->java_object) ==
-	  JNI_FALSE);
+   if (((jobject_id *) A)->java_object <
+      ((jobject_id *) B)->java_object)
+    return -1;
+
+  return (((jobject_id *) A)->java_object >
+	  ((jobject_id *) B)->java_object);
 }
 
 int compare_objc_objects (const void *A, const void *B, void *PARAM)
@@ -288,6 +305,7 @@ java_directory_init (JNIEnv *env,
   o_globalZone = (*env)->NewGlobalRef (env, jglobalZone);
   o_uniformIntRand = (*env)->NewGlobalRef (env, juniformIntRand);
   o_uniformDblRand = (*env)->NewGlobalRef (env, juniformDblRand);
+
   java_directory_update (env, o_globalZone, globalZone);
   java_directory_update (env, o_uniformIntRand, uniformIntRand);
   java_directory_update (env, o_uniformDblRand, uniformDblRand);
@@ -493,4 +511,3 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
     XFREE (name);
   return sel;
 }
-
