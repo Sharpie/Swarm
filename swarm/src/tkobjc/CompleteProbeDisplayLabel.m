@@ -7,17 +7,18 @@
 #import <tkobjc/common.h>
 #import <tkobjc/global.h>
 
+#include <misc.h> // strcpy
+
 extern id probeDisplayManager;
 
 static void
 tkobjc_bindButton3ForCompleteProbeDisplay (id widget,
                                            id probedObject)
 {
-  // have to make a private copy of the return for objectToName.
   const char *pdmName = [probeDisplayManager getObjectName];
   char pdmNameCopy[strlen (pdmName) + 1];
 
-  strcpy (pdmNameCopy, pdmName);
+  strcpy (pdmNameCopy, pdmName);    
   
   [globalTkInterp 
     eval: 
@@ -49,7 +50,7 @@ PHASE(Creating)
   
   if (probedObject != nil)
     {
-      tkobjc_dragAndDrop (self, probeDisplay);
+      tkobjc_dragAndDrop (self, targetWidget);
       tkobjc_bindButton3ForCompleteProbeDisplay (self,
                                                  probedObject);
     }

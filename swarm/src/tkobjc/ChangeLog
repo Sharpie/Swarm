@@ -1,5 +1,9 @@
 1998-09-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* CompleteProbeDisplayLabel.m: Include misc.h
+	([CompleteProbeDisplayLabel -createEnd]): Use targetWidget instead
+	of probeDisplay.
+
 	* CompleteProbeDisplayLabel.[hm] (CompleteProbeDisplayLabel): Remove
 	probeDisplayManager and setter.  Use an extern to the singleton global
 	object.
