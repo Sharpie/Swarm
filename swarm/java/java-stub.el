@@ -570,12 +570,16 @@
       "swarm_target"
       (concat "swarm_arg" (prin1-to-string num))))
 
+(defun java-print-class-target (protocol)
+  (let ((name (protocol-name protocol)))
+    
+    (insert "  Class swarm_target = objc_lookup_class (\"")
+    (insert (if (string= name "Arguments") "Arguments_c" name))
+    (insert "\");\n")))
+
 (defun java-print-method-invocation-arguments (protocol method)
   (if (method-factory-flag method)
-      (let ((name (protocol-name protocol)))
-        (insert "  Class swarm_target = objc_lookup_class (\"")
-        (if (string= name "Arguments") "Arguments_c" name)
-        (insert "\");\n"))
+      (java-print-class-target protocol)
     (progn
       (insert "  id ")
       (insert (argname-number -1))
@@ -628,23 +632,28 @@
         ((local-ref-p argument) (argname-number arg-pos))
         (t (argument-name argument))))
 
-(defun java-objc-type (type)
-  (if type type "id"))
-
-(defun java-print-method-invocation (protocol method)
-  (insert "(*swarm_imp) (swarm_target, swarm_sel")
-  (let ((arguments (method-arguments method))
-        (string-pos 0)
-        (module (protocol-module protocol)))
-    (when (has-arguments-p method)
-      (loop for argument in arguments
-            for arg-pos from 0
-            do
-            (insert ", ")
-            (insert (java-argument-ref argument arg-pos string-pos))
-            (when (java-argument-string-p argument)
-              (incf string-pos)))))
-  (insert ")"))
+(defun java-print-method-invocation (protocol method dht)
+  (let* ((signature (get-method-signature method))
+         (funcsym (gethash method dht)))
+    (if funcsym
+        (progn
+          (insert funcsym)
+          (insert "(swarm_target, M(")
+          (insert (substring signature 1))
+          (insert ")"))
+      (insert "(*swarm_imp) (swarm_target, swarm_sel"))
+    (let ((arguments (method-arguments method))
+          (string-pos 0)
+          (module (protocol-module protocol)))
+      (when (has-arguments-p method)
+        (loop for argument in arguments
+              for arg-pos from 0
+              do
+              (insert ", ")
+              (insert (java-argument-ref argument arg-pos string-pos))
+              (when (java-argument-string-p argument)
+                (incf string-pos)))))
+    (insert ")")))
 
 (defun java-print-native-method-name (arguments)
   (insert (argument-key (first arguments)))
@@ -655,10 +664,10 @@
         (insert *dollar-sign*) 
         (insert nameKey)))
 
-(defun java-print-native-method (method protocol phase)
+(defun java-print-native-method (method protocol phase dht)
   (flet ((insert-arg (arg)
-           (insert-char ?\  30)
-           (insert arg)))
+                     (insert-char ?\  30)
+                     (insert arg)))
     (let* ((arguments (method-arguments method))
            (first-argument (first arguments))
            (strings nil)
@@ -727,35 +736,29 @@
           (insert "};\n")))
       (when (convenience-create-method-p protocol method)
         (insert "  jobject nextPhase = SD_JAVA_NEXTPHASE (jobj);\n"))
-      (java-print-method-invocation-arguments protocol method)
-      ;; (java-print-method-invocation-arguments-lref-deletion protocol method)
-
+      
       (let ((signature (get-method-signature method)))
         (if (string= signature "+createBegin")
+            (progn
+              (insert "  extern id java_swarmEnvironmentCreating;\n")
+              (insert "  extern void swarm_java_constructors ();\n")
+              (insert "  extern void swarm_directory_associate_objects_startup (jobject swarmEnvironment);\n")
+              (insert "  jobject nextPhase;\n\n")
+              (insert "  jniEnv = env;\n")
+              (insert "  swarm_java_constructors ();\n")
+              (insert "  java_create_refs ();\n")
+              (insert "  defobj_init_java_call_tables ((void *) env);\n")
+              (insert "  java_swarmEnvironmentCreating = [SwarmEnvironment createBegin];\n")
+              (insert "  swarmDirectory = [Directory create: globalZone];\n")
+              (insert "  ret = SD_JAVA_ADD_OBJECT_JAVA (jobj, java_swarmEnvironmentCreating);\n")
+              (insert "  nextPhase = SD_JAVA_NEXTPHASE (jobj);\n")
+              (insert "  swarm_directory_java_associate_objects_startup (nextPhase);\n")
+              (insert "  (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);\n")
+              (insert "  return ret;\n"))
+          
           (progn
-            (insert "  extern id java_swarmEnvironmentCreating;\n")
-            (insert "  extern void swarm_java_constructors ();\n")
-            (insert "  extern void swarm_directory_associate_objects_startup (jobject swarmEnvironment);\n")
-            (insert "  jobject nextPhase;\n\n")
-            (insert "  jniEnv = env;\n")
-            (insert "  swarm_java_constructors ();\n")
-            (insert "  java_create_refs ();\n")
-            (insert "  defobj_init_java_call_tables ((void *) env);\n")
-            (insert "  java_swarmEnvironmentCreating = [SwarmEnvironment createBegin];\n")
-            (insert "  swarmDirectory = [Directory create: globalZone];\n")
-            (insert "  ret = SD_JAVA_ADD_OBJECT_JAVA (jobj, java_swarmEnvironmentCreating);\n")
-            (insert "  nextPhase = SD_JAVA_NEXTPHASE (jobj);\n")
-            (insert "  swarm_directory_java_associate_objects_startup (nextPhase);\n")
-            (insert "  (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);\n")
-            (insert "  return ret;\n"))
-          (progn
-            (impl-print-get-sel method)
-            (impl-print-get-imp-pointer
-             method
-             #'(lambda (method)
-                 (insert (java-objc-type (method-return-type method))))
-             #'(lambda (argument)
-                 (print-argument argument #'java-objc-type #'identity)))
+            (java-print-method-invocation-arguments protocol method)
+            (impl-print-method-setup method dht #'c-objc-type nil t)
 
             (unless (or (string= ret-type "void")
                         (if (or strings (create-method-p method))
@@ -793,7 +796,7 @@
                            (insert "SD_JAVA_ENSURE_OBJECT_JAVA (")
                            t)
                           (t nil))))
-              (java-print-method-invocation protocol method )
+              (java-print-method-invocation protocol method dht)
               (when wrapped-flag (insert ")")))
             (insert ";\n")
             (when strings
@@ -828,17 +831,19 @@
         (insert ".h>\n")
         (insert "\n"))
       (loop for phase in '(:creating :using)
+            for dht = (create-dispatch-hash-table protocol phase)
             do
             (loop for method in (expanded-method-list protocol phase)
                   unless (unwanted-create-method-p protocol method)
                   do
-                  (java-print-native-method method protocol phase)
+                  (java-print-native-method method protocol phase dht)
                   (insert "\n")))
       (loop for method in (expanded-method-list protocol :setting)
+            for dht = (create-dispatch-hash-table protocol :setting)
 	    do 
-	    (java-print-native-method method protocol :creating)
+	    (java-print-native-method method protocol :creating dht)
 	    (insert "\n")
-	    (java-print-native-method method protocol :using)))))
+	    (java-print-native-method method protocol :using dht)))))
 
 (defun java-print-javadoc-module-summary ()
   (loop for module-sym being each hash-key of *module-hash-table*

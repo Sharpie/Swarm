@@ -1,3 +1,11 @@
+2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (java-print-class-target): New function.
+	(java-print-method-invocation-arguments): use it.
+	(java-objc-type): Moved to interface.el as c-objc-type.
+	(java-print-method-invocation, java-print-native-method,
+	java-print-native-class): Add support for pre-dispatched methods.
+
 2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java-stub.el (java-print-method-invocation): Re-implement for
