@@ -185,10 +185,8 @@
 
   // Next, create a 2d window to display the mousetrap world
   // and  set its size, zoom factor, title.
-
-  displayWindow = [ZoomRaster createBegin: self];
-  SET_WINDOW_GEOMETRY_RECORD_NAME (displayWindow);
-  displayWindow = [displayWindow createEnd];
+  displayWindow = [ZoomRaster create: self 
+                              setWindowGeometryRecordName: "displayWindow"];
   [displayWindow enableDestroyNotification: self
                  notificationMethod: @selector (_displayWindowDeath_:)];
   [displayWindow setColormap: colormap];

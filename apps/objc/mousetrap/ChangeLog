@@ -1,3 +1,9 @@
+1999-09-14  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-buildObjects]): Add setWindowGeometryRecordName: argument to
+	ZoomRaster creation.
+	
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
