@@ -1,3 +1,8 @@
+1999-05-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (_SWARMLIBS, JAVASWARMLIBS): Remove.
+	(SWARMLIBS): Don't include JAVASWARMLIBS.
+
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config.swarm.in (jdkdosdir): Substitute.
