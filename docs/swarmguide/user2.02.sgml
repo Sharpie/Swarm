@@ -1,225 +1,171 @@
-<SECT1 id="SWARM.USER.USER2.02.SECT1">
-  <TITLE>From C to Objective C</TITLE>
+<sect1 id="swarm.user.user2.02.sect1">
+  <title>From C to Objective C</title>
 
-<SECT2>
- <TITLE>Bug in C</TITLE> 
+<sect2>
+ <title>Bug in C</title> 
 
+    <programlisting>#import &lt;simtools.h&gt;
 
-
-
-
-<BR></UL><UL>
-#import &#060simtools.h&#062
-</UL><UL>
-
-</UL><UL>
 void main (int argc, const char **argv) 
-</UL><UL>
+
 {
-</UL><UL>
   int worldXSize = 80;			// Maximum X value
-</UL><UL>
   int worldYSize = 80;			// Maximum Y value
-</UL><UL>
   int xPos = 40;			// Bug's starting position
-</UL><UL>
   int yPos = 40;
-</UL><UL>
   int i;
-</UL><UL>
 
-</UL><UL>
   initSwarm(argc,argv);
-</UL><UL>
 
-</UL><UL>
   printf("I started at X = %d Y = %d \n\n", xPos, yPos);
-</UL><UL>
 
-</UL><UL>
   for(i = 0; i &#060 100; i++) {
-</UL><UL>
+
     // Random movement in X and Y (possibly 0)
-</UL><UL>
-
-</UL><UL>
     xPos = xPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
-</UL><UL>
     yPos = yPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
-</UL><UL>
 
-</UL><UL>
     // Take move modulo maximum coordinate values
-</UL><UL>
-
-</UL><UL>
     xPos = (xPos+ worldXSize) % worldXSize;
-</UL><UL>
     yPos = (yPos + worldYSize) % worldYSize;
-</UL><UL>
 
-</UL><UL>
     printf( "I moved to X = %d Y = %d \n", xPos, yPos);
-</UL><UL>
-
-</UL><UL>
   }
-</UL><UL>
   return 0;
-</UL><UL>
 }
-</UL><UL>
+</programlisting>
  
-</UL><UL>
- </UL></P>
-1<BR></UL></P>
-2<BR></UL></P>
-3<BR></UL></P>
-4<BR></UL></P>
-</PARA></FORMALPARA> 
+
+</sect2>
+
+<sect2>
+ <title>Bug in C - explanations</title> 
 
 
+    <formalpara><title>Importing header file gives us access 
+        to random number obj.</title>
+      <para></para></formalpara>
 
+    <formalpara><title>Each C program must have main function, which can 
+        take 2 args:</title><para>
 
-</SECT2>
+        <itemizedlist>
+        <listitem>argc : # of command line args   </listitem>
+        <listitem>argv: value of command line args</listitem>
+        </itemizedlist>
+      </para></formalpara>
 
-<SECT2>
- <TITLE>Bug in C - explanations</TITLE> 
+    <formalpara><title>initSwarm() function checks command line args 
+        and revs up Swarm engine</title>
 
+      <para>
+      </para></formalpara>
 
+    <formalpara><title>The program uses default random number distributions to 
+        choose new location for bug</title><para>
+      </para></formalpara> 
 
+</sect2>
 
-<FORMALPARA><TITLE>Importing header file gives us access to random number obj.
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Each C program must have main function, which can take 2 args:
-</TITLE><PARA>
-<UL>
-argc : # of command line args
-argv: value of command line args
-</UL></UL></P>
-<FORMALPARA><TITLE>initSwarm() function checks command line args and revs up Swarm engine
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>The program uses default random number distributions to choose new location for bug</TITLE><PARA>
-1<BR></UL></P>
-2<BR></UL></P>
-3<BR></UL></P>
-4<BR></UL></P>
-</PARA></FORMALPARA> 
+<sect2>
+ <title>What the C program does</title> 
 
+    <procedure>
+      <step>
+        <para>Print "I started at X=$1 Y = $2ö, $1=xPos, $2=yPos"</para>
+      </step>
+      <step>
+        <para>For i=0 To i=100</para>
+        <substeps>
 
+          <step><para>Select Random x in {-1,0,1}</para></step>
+            
+          <step><para>Select Random y in {-1,0,1}</para></step>
+          
+          <step><para>xPos =xPos +x</para></step>
+          
+          <step>
+            <para>If xPos  &lt; worldSizeX Then xPos =0</para>
+            <substeps>
+              <step><para>yPos =yPos +y</para></step>
+            </substeps>
+          </step>
 
+          <step>
+            <para>If yPos  &#062 worldSizeY Then yPos =0</para>
+            <substeps>
+              <step><para>yPos =yPos +y</para></step>
+            </substeps>
+          </step>
+          
+          <step><para>Print "I moved to X=$1  Y=$2ö, $1=xPos, $2=yPos"</para></step>
+          
+        </substeps>
+      </step>
+    </procedure>
 
-</SECT2>
+</sect2>
 
-<SECT2>
- <TITLE>What the C program does</TITLE> 
+<sect2>
+ <title>Bug in ObjC</title> 
 
+    <formalpara><title>The simplest version of an Objective-C program</title>
+      <para>
+        <itemizedlist>
+          <listitem>A main( ) function             </listitem>
+          <listitem>One class and one instance: Bug</listitem>
+        </itemizedlist>
+        </para>
+    </formalpara>
 
+    <formalpara><title>main( ) imports base library of Swarm and fires up 
+        initSwarm( ) which gives us libraries for memory allocation etc.</title>
 
+      <para>
+        <itemizedlist>
+          <listitem>
+            xPos, yPos, worldXSize, worldYSize - Instance variables</listitem>
+          <listitem>
+            -setX: Y:
+            -setWorldSizeX: Y:
+            -step
+            Methods
+          </listitem>
 
-<H2>Print ôI started at X=$1 Y = $2ö, $1=xPos, $2=yPos
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>For i=0 To i=100 
-</TITLE><PARA>
-</UL><UL>
-<H2>	Select Random x in {-1,0,1} 
-</TITLE><PARA>
-</UL><UL>
-<H2>    Select Random y in {-1,0,1}
-</TITLE><PARA>
-</UL><UL>
-<H2>    xPos =xPos +x
-</TITLE><PARA>
-</UL><UL>
-<H2>	   If xPos  &#062worldSizeX Then xPos =0
-</TITLE><PARA>
-</UL><UL>
-<H2>	yPos =yPos +y
-</TITLE><PARA>
-</UL><UL>
-<H2>       If yPos  &#062 worldSizeY Then yPos =0
-</TITLE><PARA>
-</UL><UL>
-<H2>    Print ôI moved to X=$1  Y=$2ö, $1=xPos, $2=yPos
-</TITLE><PARA>
-</UL><UL>
-<H2>End For
-</TITLE><PARA>
-</UL><UL>
-<H2>
-</TITLE><PARA>
-</PARA></FORMALPARA> 
+        </itemizedlist>
+        
 
+      </para>
 
+    </formalpara>
 
+</sect2>
 
-</SECT2>
+<sect2>
+ <title>Bug in ObjC: The bug as object</title> 
 
-<SECT2>
- <TITLE>Bug in ObjC</TITLE> 
+    <para>Inheriting from the ObjectBase class Bug knows these tricks:
 
+      <itemizedlist>
+        <listitem>create: Allocate memory</listitem>        
+        <listitem>drop: Deallocate and die</listitem>
+      </itemizedlist>
+      
+    <para>
+      First instruct class to create instance of itself. 
+      Associate instance with aBug</para>
 
+    <para>aBug=[Bug create:globalZone];</para>
 
+    <para>Then set parameters in the instance, aBug</para>
+    
+    <literallayout><literal>
+        [aBug setX: xPos Y: yPos];
+        [aBug setWorldXSize: worldXSize Y: worldYSize];
+      </literal></literallayout>
 
-<FORMALPARA><TITLE>The simplest version of an Objective-C program
-</TITLE><PARA>
-<UL>
-A main( ) function
-One class and one instance: Bug
-</UL></UL><UL>
-<FORMALPARA><TITLE>main( ) imports base library of Swarm and fires up initSwarm( ) which gives us libraries for memory allocation etc.
-</TITLE><PARA>
-xPos,yPos
-<BR></UL><UL>
-worldXSize,
-</UL><UL>
-worldYSize</UL></P>
--setX: Y:
-<BR></UL><UL>
--setWorldSizeX: Y:
-</UL><UL>
--step</UL></P>
-Instance
-<BR></UL><UL>
-vars</UL></P>
-Methods<BR></UL></P>
-main<BR></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>Bug in ObjC: The bug as object</TITLE> 
-
-
-
-
-Inheriting from the ObjectBase class Bug knows these tricks:
-<UL>
-create: Allocate memory
-drop: Deallocate and die</UL></UL></P>
-First instruct class to create instance of itself. Associate instance with aBug
-</UL><UL>
-aBug=[Bug create:globalZone];
-</PARA></FORMALPARA>
-Then set parameters in the instance, aBug
-</UL><UL>
-[aBug setX: xPos Y: yPos];
-</UL><UL>
-[aBug setWorldXSize: worldXSize Y: worldYSize];</UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

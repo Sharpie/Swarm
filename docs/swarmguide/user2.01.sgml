@@ -1,69 +1,66 @@
-<SECT1 id="SWARM.USER.USER2.01.SECT1">
-  <TITLE>Simplebug</TITLE>
+<sect1 id="swarm.user.user2.01.sect1">
+  <title>Simplebug</title>
 
-<SECT2>
- <TITLE>Second session</TITLE> 
+<sect2>
+ <title>Second session</title> 
 
+    <formalpara><title>Tutorial: Simplebug</title>
+      <para>
 
+        <itemizedlist>
+          <listitem>Start: From C to Objective-C to Swarm       </listitem>
+          <listitem>Adding GUI: Probes, raster image, graphs    </listitem>
+          <listitem>Creating and controlling full experiment run</listitem>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
 
+    <formalpara><title>Topics covered:</title>
+      <para>
+        <itemizedlist>
+          <listitem>Managing objects                     </listitem>
+          <listitem>Swarms, activity library, probes, GUI</listitem>
+        </itemizedlist>
+      </para></formalpara> 
 
-<FORMALPARA><TITLE>Tutorial: Simplebug
-</TITLE><PARA>
-<UL>
-Start: From C to Objective-C to Swarm
-Adding GUI: Probes, raster image, graphs
-Creating and controlling full experiment run
-</UL></UL><UL>
-<FORMALPARA><TITLE>Topics covered:
-</TITLE><PARA>
-<UL>
-Managing objects
-Swarms, activity library, probes, GUI</UL></UL></P>
-</PARA></FORMALPARA> 
+</sect2>
 
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>Chapters in Simplebug tutorial</TITLE> 
-
-
+<sect2>
+ <title>Chapters in Simplebug tutorial</title> 
 
 
-<FORMALPARA><TITLE>simpleCBug		Simple C code
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleObjCBug		Bug is now Objective-C class
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleObjCBug2		Adds FoodSpace object
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleSwarmBug		Adds a ModelSwarm
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleSwarmBug2		Many bugs...
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleSwarmBug3		Reads parameters from file
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleObserverBug	Adds ObserverSwarm & GUI
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleObserverBug2	Adds more sophisticated GUI
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>simpleExperBug		Runs multiple experiments</TITLE><PARA>
-</PARA></FORMALPARA> 
+    <formalpara><title>simpleCBug</title>		
+      <para>Simple C code</para>
+    </formalpara>
 
+    <formalpara><title>simpleObjCBug</title>		
+      <para>Bug is now Objective-C class</para>
+    </formalpara>
 
+    <formalpara><title>simpleObjCBug2</title>		
+      <para>Adds FoodSpace object</para></formalpara>
 
+    <formalpara><title>simpleSwarmBug</title>		
+      <para>Adds a ModelSwarm</para></formalpara>
 
-</SECT2>
-</SECT1>
+    <formalpara><title>simpleSwarmBug2</title>		
+      <para>Many bugs...</para></formalpara>
+
+    <formalpara><title>simpleSwarmBug3</title>		
+      <para>Reads parameters from file</para></formalpara>
+
+    <formalpara><title>simpleObserverBug</title>	
+      <para>Adds ObserverSwarm & GUI</para></formalpara>
+
+    <formalpara><title>simpleObserverBug2</title>	
+      <para>Adds more sophisticated GUI</para></formalpara>
+
+    <formalpara><title>simpleExperBug</title>		
+      <para>Runs multiple experiments</para></formalpara> 
+
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

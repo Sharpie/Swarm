@@ -129,6 +129,10 @@ else
   <action2>
 ]]>
     </programlisting>
+    <figure>
+      <title>Agent-based modelling</title>
+      <graphic fileref="figs/modeling.gif" align="center"></graphic>
+    </figure>
 
 </sect2>
 </sect1>
