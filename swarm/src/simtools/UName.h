@@ -6,7 +6,7 @@
 // Unique Name Generator -> used to create names (using a base string "critter"
 //                          it generates "critter1", "critter2", etc. etc.
 
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 
 @interface UName : SwarmObject {
   int counter ;

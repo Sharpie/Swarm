@@ -6,7 +6,7 @@
 // List of display probes that are in the system, used to update
 // them in the schedule.
 
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 
 @interface ProbeDisplayManager : SwarmObject
 {

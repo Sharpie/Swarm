@@ -10,7 +10,7 @@ Changes:
                  Installed in Swarm distrib.  Added ActionCache.
 */
 
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <random.h>      // for global RNGs...
 #import <tkobjc.h>	// some methods return graphics stuff...
 //

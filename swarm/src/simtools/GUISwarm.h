@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools.h>
-#import <swarmobject/Swarm.h>
+#import <objectbase/Swarm.h>
 
 // a GUISwarm is a Swarm with some support for graphical interface. In
 // particular, it creates a control panel for you and also provides a

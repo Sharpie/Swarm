@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/ProbeDisplayManager.h>
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 #import <random.h>
 
 // Manager that keeps track of active probes to be updated

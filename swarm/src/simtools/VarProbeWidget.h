@@ -4,8 +4,8 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc.h>
-#import <swarmobject/SwarmObject.h>
-#import <swarmobject/VarProbe.h>
+#import <objectbase/SwarmObject.h>
+#import <objectbase/VarProbe.h>
 
 @interface VarProbeWidget : Widget
 {

@@ -6,7 +6,7 @@
 #import <collections.h>
 #import <activity.h>
 #import <tkobjc.h>
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 
 @interface ActionCache : SwarmObject
 {

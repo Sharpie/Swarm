@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject/MessageProbe.h>
+#import <objectbase/MessageProbe.h>
 #import <tkobjc.h>
 
 // A graph that fetches its data, draws it on a GraphElement

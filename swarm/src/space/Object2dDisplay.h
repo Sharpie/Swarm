@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <space.h>
 
 // generic object to handle display 2d objects

@@ -5,7 +5,7 @@
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #import <stdio.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools/ObjectLoader.h>
 #import <simtools/InFile.h>
 

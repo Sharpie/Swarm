@@ -8,7 +8,7 @@
 // The values will appear in ascending order by default.
 // Reverse order can be obtained by calling reverseOrderOf
 
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 
 @interface QSort : SwarmObject {
 }

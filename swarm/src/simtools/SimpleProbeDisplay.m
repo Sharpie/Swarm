@@ -6,7 +6,7 @@
 #import <string.h>
 
 #import <simtools/SimpleProbeDisplay.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools/VarProbeWidget.h>
 #import <simtools/MessageProbeWidget.h>
 #import <simtools/global.h>

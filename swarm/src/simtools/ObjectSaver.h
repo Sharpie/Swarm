@@ -3,8 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject/SwarmObject.h>
-#import <swarmobject/VarProbe.h>
+#import <objectbase/SwarmObject.h>
+#import <objectbase/VarProbe.h>
 
 @interface ObjectSaver : SwarmObject {
   id templateProbeMap ;  

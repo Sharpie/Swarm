@@ -16,7 +16,7 @@
 #import <simtools/ProbeDisplay.h>
 #import <collections.h>
 
-#import <swarmobject/DefaultProbeMap.h>
+#import <objectbase/DefaultProbeMap.h>
 #import <simtools/CommonProbeDisplay.h>
 
 @implementation ProbeDisplayManager

@@ -7,7 +7,7 @@
 #import <time.h>
 #import <string.h>
 
-#import <swarmobject/probing.h>
+#import <objectbase/probing.h>
 #import <simtools.h>
 #import <activity.h>
 #import <tkobjc.h>
