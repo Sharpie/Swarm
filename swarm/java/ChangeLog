@@ -1,6 +1,8 @@
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* javaswarm: Pass -classpath for swarm.jar.
+	* javaswarm: Pass -classpath for swarm.jar.  Use $jdkdir/bin/java;
+	don't home that the PATH has something reasonable.  Set JAVA_HOME
+	for java and pass $jdkdir/lib/classes.zip along with swarm.jar.
 
 	* java-stub.el (java-print-method): Denote factory methods with
 	static.
