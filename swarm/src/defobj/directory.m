@@ -14,6 +14,8 @@
 #import <defobj/Program.h> // Type_c
 #import <collections.h> // Map
 
+extern void *alloca (size_t);
+
 #define internalimplementation implementation // defeat make-h2x
 
 #ifdef HAVE_JDK

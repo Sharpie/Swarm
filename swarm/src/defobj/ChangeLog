@@ -1,3 +1,7 @@
+1999-08-08  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
+
+	* directory.m: Declare alloca.
+
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (lisp_output_type, alignment_for_objc_type,
