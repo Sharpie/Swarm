@@ -229,7 +229,7 @@ static struct argp *argp;
   id arguments = [self createBegin: globalZone];
   
   [arguments setArgc: theArgc Argv: theArgv];
-  program_invocation_name = find_executable (theArgv[0]);
+  program_invocation_name = (char *)find_executable (theArgv[0]);
 #ifndef __GLIBC__
   program_invocation_short_name = getApplicationValue (theArgv[0]);
 #endif  
