@@ -720,7 +720,10 @@ typedef int (*compare_t) (id, id);
 
 CREATING
 - setCompareFunction: (compare_t)aFunction;
-
+- setCompareCStrings;
+- setCompareIDs;
+- setCompareIntegers;
+- setCompareUnsignedIntegers;
 USING
 - (compare_t)getCompareFunction;
 @end

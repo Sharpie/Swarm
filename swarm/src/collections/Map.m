@@ -31,6 +31,11 @@ Library:      collections
 #define GROUP_KEYS "keys"
 #define GROUP_VALUES "values"
 
+compare_t compareFuncs[] = { compareIntegers,
+                             compareUnsignedIntegers,
+                             compareCStrings,
+                             compareIDs };
+
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
@@ -110,6 +115,30 @@ PHASE(Creating)
   return self;
 }
 
+- setCompareCStrings
+{
+  compareFunc = compareCStrings;
+  return self;
+}
+
+- setCompareIntegers
+{
+  compareFunc = compareIntegers;
+  return self;
+}
+
+- setCompareUnsignedIntegers
+{
+  compareFunc = compareUnsignedIntegers;
+  return self;
+}
+
+- setCompareIDs
+{
+  compareFunc = compareIDs;
+  return self;
+}
+
 - createEnd
 {
   if (createByMessageToCopy (self, createEnd))
@@ -124,13 +153,13 @@ static void
 setCompareFunctionByName (id self, const char *funcName)
 {
   if (strcmp (funcName, COMPARE_INT) == 0)
-    [self setCompareFunction: compareIntegers];
+    [self setCompareIntegers];
   else if (strcmp (funcName, COMPARE_UNSIGNED) == 0)
-    [self setCompareFunction: compareUnsignedIntegers];
+    [self setCompareUnsignedIntegers];
   else if (strcmp (funcName, COMPARE_CSTRING) == 0)
-    [self setCompareFunction: compareCStrings];
+    [self setCompareCStrings];
   else if (strcmp (funcName, COMPARE_ID) == 0)
-    [self setCompareFunction: compareIDs];
+    [self setCompareIDs];
   else
     raiseEvent (InvalidArgument, "Unknown compare function: %s",
                 funcName);
