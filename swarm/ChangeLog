@@ -1,3 +1,8 @@
+1999-08-01  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note new `ForEachKey' protocol in collections.  Thanks to
+	Alan Liu.
+
 1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acconfig.h: Add LLFMT.
