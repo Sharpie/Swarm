@@ -1,0 +1,5 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (mframe.h): Depend on mframe-preface.h and prepend it.
+	(This is to eliminate the need to install it.)
+

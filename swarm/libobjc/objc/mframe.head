@@ -24,8 +24,6 @@
 #ifndef __mframe_h_GNUSTEP_BASE_INCLUDE
 #define __mframe_h_GNUSTEP_BASE_INCLUDE
 
-#include "mframe-preface.h"
-
 #if NeXT_runtime
 typedef union {
   char *arg_ptr;
