@@ -54,11 +54,11 @@ struct message {
   char  *types;
 };
 
-
 //
 // _obj_initAlloc() -- allocate memory during initial module definition
 //
-void *_obj_initAlloc (size_t size)
+void *
+_obj_initAlloc (size_t size)
 {
   void  *newAlloc;
 
