@@ -40,6 +40,14 @@
 BOOL APIENTRY DllMain (HINSTANCE hInst, DWORD reason, 
                        LPVOID reserved /* Not used. */ );
 
+static void startup (void) __attribute ((constructor));
+static int initialized = 0;
+
+static void
+startup (void)
+{
+  initialized = 1;
+}
 /*
  *----------------------------------------------------------------------
  *
@@ -63,15 +71,17 @@ DllMain (
 	 DWORD reason /* Reason this function is being called. */ ,
 	 LPVOID reserved /* Not used. */ )
 {
-
   switch (reason)
     {
     case DLL_PROCESS_ATTACH:
       {
-#if 0
         extern void constructor_func ();
-        constructor_func ();
-#endif
+	
+	if (!initialized)
+	  {
+	    printf ("Calling constructors for swarm.dll\n");
+	    constructor_func ();
+	  }
       }
       break;
 

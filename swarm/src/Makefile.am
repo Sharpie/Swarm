@@ -39,10 +39,10 @@ libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLA
 CTOR = swarm_constructors
 OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.o)
 
-swarm.dll:
-	$(CC) -c $(srcdir)/dllinit.c
+swarm.dll: dllinit.c
 	$(srcdir)/genctors $(CTOR) $(OBJS)
 	$(CC) -c $(CTOR).c
+	$(CC) -c -Dconstructor_func=$(CTOR) $(srcdir)/dllinit.c
 	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 swarm_dll_SOURCES = dllinit.c

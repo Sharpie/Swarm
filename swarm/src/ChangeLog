@@ -1,3 +1,8 @@
+1999-05-31    <mgd@HELEN>
+
+	* Makefile.am (swarm.dll): Depend on dllinit.c.  Define
+	constructor_func for dllinit.c.
+
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* genctors: Redirect into $1.c.  Use $1 as the function name.
