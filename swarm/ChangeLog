@@ -1,5 +1,12 @@
 1997-12-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile (dist): Don't match SETUP to the $(SWARMSETUP) case.
+
+	* Makefile.conf (TCLVERS): Upgrade mgd-SFI-Solaris to Tcl 7.6.
+	(TKVERS): Upgrade mgd-SFI-Solaris to Tk 4.2.
+	(OPTFLAGS): Disable -mv8 in mgd-SFI-Solaris/generic gcc config
+	so it can be used for making distributions.
+
 	* Makefile (SWARMDIST): Set to swarm-1.0.4.
 
 1997-12-16  Marcus G. Daniels  <mgd@swarm.santafe.edu>
