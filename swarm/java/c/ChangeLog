@@ -4,6 +4,8 @@
 	instead of dllinit.o.
 	(javaswarm.dll): Use local dllinit file.  Remove -L to libobjc.
 	(libjavaswarm.la): Use 
+	(SWARMLIBSLDFLAGS): Set per USEDLL.
+	(libjavaswarm.la): Use it.
 
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -70,8 +70,14 @@ libjavaswarm_.la: $(libjavaswarm__la_OBJECTS)
 libjavaswarmstubs.la: libjavaswarmstubs_.la
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir) libjavaswarmstubs_.la
 
+ifeq ($(USEDLL),no)
+SWARMLIBSLDFLAGS = $(foreach module,$(SWARMMODULES),-L$(abs_top_builddir)/src/$(module))
+else
+SWARMLIBSLDFLAGS = -L$(abs_top_builddir)/src
+endif
+
 libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L../libobjc -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBS) -lobjc
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L../libobjc -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBSLDFLAGS) $(SWARMLIBS) -lobjc
 
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la javaswarm.dll.c
 	$(CC) -c $(srcdir)/javaswarm.dll.c
