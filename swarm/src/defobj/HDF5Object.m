@@ -1232,7 +1232,7 @@ PHASE(Using)
 #else
   hdf5_not_available ();
 #endif
-  return self;
+  return 0;
 }
 
 - (size_t)getDatasetDimension: (unsigned)dimNumber
@@ -1264,7 +1264,7 @@ PHASE(Using)
 #else
   hdf5_not_available  ();
 #endif
-  return self;
+  return 0;
 }
 
 - getCompoundType
