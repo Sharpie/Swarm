@@ -94,8 +94,10 @@
 
 - (int)getChar: (char *)aChar
 {
-  *aChar = fgetc(theFile);
-  return ((*aChar) != EOF);
+  int c = fgetc (theFile);
+
+  *aChar = c;
+  return c != EOF;
 }
 
 - (int)unGetChar: (char)aChar
@@ -105,15 +107,15 @@
 
 - (int)skipLine
 {
-  char aChar;
+  int c;
   
   while (1)
     {
-      aChar = fgetc(theFile);
-
-      if(aChar == EOF)
+      c = fgetc (theFile);
+      
+      if (c == EOF)
         return 0;
-      if(aChar == '\n')
+      if (c == '\n')
         return 1;
     }
 }
