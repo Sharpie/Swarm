@@ -1,3 +1,8 @@
+1999-05-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ltconfig: For HPUX, scan for constructors and pass them as
+	+I symbol pairs via the -c option of ld.
+
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ltconfig (deplibs_check_method): Set as pass_all for HPUX.
