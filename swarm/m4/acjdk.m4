@@ -56,6 +56,7 @@ else
       # no more bin/sparc as of 1.4.3
       elif test -d ${jdkdir}/jre/lib/sparc/native_threads; then 
         threads=native
+        JAVACMD="\${jdkdir}/jre/bin/java"
       elif test -d ${jdkdir}/bin/sparc/green_threads; then
         threads=green
       else
