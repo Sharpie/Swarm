@@ -18,7 +18,10 @@ AC_MSG_RESULT(using dllimport and dllexport)
 AC_DEFINE_UNQUOTED(EXPORT_EXTERN,$EXPORT_EXTERN)
 AC_DEFINE_UNQUOTED(EXPORT_EXTERNDEF,$EXPORT_EXTERNDEF)
 AC_DEFINE_UNQUOTED(IMPORT_EXTERN,$IMPORT_EXTERN)
-AC_PATH_PROG(DLLWRAP, dllwrap -Wl,-e,__cygwin_noncygwin_dll_entry@12,missing)
+AC_PATH_PROG(DLLWRAP, dllwrap)
+if test "$dllwrap" != missing; then
+  DLLWRAP="${DLLWRAP} -Wl,-e,__cygwin_noncygwin_dll_entry@12,missing"
+fi
 AC_SUBST(USEDLL)
 AM_CONDITIONAL(USEDLL, test $USEDLL = yes)
 ])
