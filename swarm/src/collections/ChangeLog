@@ -1,3 +1,7 @@
+1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (module_headers): Add collections.xm.
+
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Permutation.[hm]: New files.

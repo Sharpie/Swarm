@@ -10,7 +10,7 @@ INCLUDES = -I. -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$
 
 lib_LTLIBRARIES = libcollections.la
 
-module_headers = classes.h types.h
+module_headers = classes.h types.h collections.xm
 
 BUILT_SOURCES = $(module_headers)
 
