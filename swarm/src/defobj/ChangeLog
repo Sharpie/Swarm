@@ -1,3 +1,9 @@
+1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* FCall.m ([FCall -getArguments]): New method.
+
+	* FCall.h: Add getArguments method.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (OBJCFLAGS): Append @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@.

@@ -112,7 +112,12 @@ init_javacall_tables (void)
   self->args = arguments;
   return self;
 }
-    
+
+- getArguments
+{
+  return args;
+}
+
 - setFunction: (void (*)())fn
 {
   callType = ccall;
