@@ -24,7 +24,7 @@ pnglibdir="@pnglibdir@"
 jdkdir="@jdkdir@"
 JAVACLASSES="@JAVACLASSES@"
 JAVALIBS="@JAVALIBS@"
-JAVACMD='@JAVACMD@' # avoid variable expansions, e.g. jdkdir
+JAVACMD="@JAVACMD@"
 JAVAENV='@JAVAENV@' # avoid variable expansions
 JAVA='@JAVA@' # avoid ${LD_LIBRARY_PATH} expansion
 
