@@ -273,6 +273,19 @@
           (insert (com-objc-to-idl-type objc-type))
           (insert ";\n"))
     (insert "\n")
+    (when (inclusive-phase-p phase :using)
+      (let ((cht (create-type-hash-table-for-convenience-create-methods protocol)))
+        (loop for objc-type being each hash-key of cht
+              unless (gethash objc-type ht)
+              do
+              (insert "interface ")
+              (insert (com-objc-to-idl-type objc-type))
+              (insert ";\n"))
+        (insert "\n")
+        (loop for objc-type being each hash-key of cht
+              unless (gethash objc-type ht)
+              do (com-idl-print-include (com-objc-to-idl-type objc-type)))
+        (insert "\n")))
     (loop for objc-type being each hash-key of ht
           do (com-idl-print-include (com-objc-to-idl-type objc-type)))))
 
@@ -283,7 +296,15 @@
 
 (defun com-idl-print-methods-in-phase (protocol phase)
   (loop for method in (method-list-for-phase protocol phase)
-        unless (eq (method-phase method) :getters)
+        for sig = (get-method-signature method)
+        when (and (not (eq (method-phase method) :getters))
+                  (creating-phase-method-p method))
+	do
+        (com-idl-print-method-declaration method)))
+
+(defun com-idl-print-create-methods (protocol)
+  (loop for method in (method-list-for-phase protocol :creating)
+        when (convenience-create-method-p protocol method)
 	do
         (com-idl-print-method-declaration method)))
 
@@ -323,7 +344,8 @@
                 (setq *last-protocol* protocol)
                 (com-start-idl protocol phase)
                 (when (inclusive-phase-p phase :using)
-                  (com-idl-print-attributes protocol))
+                  (com-idl-print-attributes protocol)
+                  (com-idl-print-create-methods protocol))
                 (com-idl-print-methods-in-phase protocol phase)
                 (com-end-idl interface-name)
                 ))))
@@ -602,8 +624,16 @@
 (defun com-impl-print-method-definitions (protocol actual-phase phase)
   (loop for method in (expanded-method-list protocol phase)
         do
-        (com-impl-print-method-definition protocol actual-phase method)
-        (insert "\n")))
+        (when (creating-phase-method-p method)
+          (com-impl-print-method-definition protocol actual-phase method)
+          (insert "\n"))))
+
+(defun com-impl-print-create-method-definitions (protocol)
+  (loop for method in (expanded-method-list protocol :creating)
+        do
+        (when (convenience-create-method-p protocol method)
+          (com-impl-print-method-definition protocol :using method)
+          (insert "\n"))))
 
 (defun com-impl-print-impl-include (protocol phase)
   (insert "#include \"")
@@ -674,16 +704,6 @@
     (insert "#include <defobj/COM.h>\n")
     (insert "#include \"COMsupport.h\"\n")
 
-    (when (and (inclusive-phase-p phase :using) nil)
-      (insert "#include <nsCOMPtr.h>\n")
-      (insert "#include <nsIComponentManager.h>\n")
-      (insert "#include \"componentIDs.h\"\n")
-      (insert "\n")
-      (insert "static NS_DEFINE_CID (")
-      (insert (com-cid protocol :creating))
-      (insert ", ")
-      (insert (com-protocol-sym protocol :creating "CID"))
-      (insert ");\n"))
     (insert "\n")
     (com-impl-generate-supports protocol phase)
     (com-impl-print-basic-constructor protocol phase)
@@ -693,7 +713,9 @@
       (com-impl-print-startup-init-method))
     (com-impl-print-typedefs)
     (com-impl-print-method-definitions protocol phase :setting)
-    (com-impl-print-method-definitions protocol phase phase)))
+    (com-impl-print-method-definitions protocol phase phase)
+    (when (inclusive-phase-p phase :using)
+      (com-impl-print-create-method-definitions protocol))))
 
 (defun com-protocol-sym (protocol phase suffix)
   (concat
