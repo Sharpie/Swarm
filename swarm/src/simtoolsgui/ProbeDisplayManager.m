@@ -29,7 +29,7 @@ PHASE(Creating)
 
 - createEnd
 {
-  probeList = [List create: [self getZone]];
+  probeList = [List create: getZone (self)];
   dropImmediatelyFlag = YES;
 
   return self;
@@ -53,15 +53,15 @@ PHASE(Using)
   // on a given object... Also, the object will [removeProbeDisplay: self]
   // when asked to -drop.
   
-  reaperQ = [List create: [self getZone]];
+  reaperQ = [List create: getZone (self)];
 
-  index = [probeList begin: [self getZone]];
+  index = [probeList begin: getZone (self)];
   while ((aProbeDisplay = [index next]))
     if([aProbeDisplay getProbedObject] == anObject)
       [reaperQ addLast: aProbeDisplay];
   [index drop];
 
-  index = [reaperQ begin: [self getZone]];
+  index = [reaperQ begin: getZone (self)];
   while ((aProbeDisplay = [index next]))
     {
       [index remove];
@@ -105,7 +105,7 @@ PHASE(Using)
 
 - (const char *)_computeProbeDisplayKeyFor_: (const char *)variableName
 {
-  id key = [String create: [self getZone] setC: "ProbeDisplay-"];
+  id key = [String create: getZone (self) setC: "ProbeDisplay-"];
   
   [key catC: variableName];
   return [key getC];
@@ -177,7 +177,7 @@ PHASE(Using)
 - (id <CompleteProbeDisplay>)createArchivedCompleteProbeDisplayFor: anObject
                                                       variableName: (const char *)variableName
 {
-  return [[[[ProbeDisplay createBegin: [self getZone]]
+  return [[[[ProbeDisplay createBegin: getZone (self)]
              setProbedObject: anObject]
             setWindowGeometryRecordName: 
               [self _computeProbeDisplayKeyFor_: variableName]]
@@ -186,7 +186,7 @@ PHASE(Using)
 
 - (id <CompleteProbeDisplay>)createCompleteProbeDisplayFor: anObject
 {
-  return [[[ProbeDisplay createBegin: [self getZone]]
+  return [[[ProbeDisplay createBegin: getZone (self)]
             setProbedObject: anObject]
            createEnd];
 }

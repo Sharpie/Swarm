@@ -107,12 +107,16 @@ PHASE(Creating)
         }
       previous = classWidget;
     }
-  [previous setMySubclass: nil];
-  [previous setOwner: self];
-  previous = [previous createEnd];
-  [widgets addLast: previous];
-
-  [previous pack];
+  if (previous)
+    {
+      [previous setMySubclass: nil];
+      [previous setOwner: self];
+      previous = [previous createEnd];
+      [widgets addLast: previous];
+      [previous pack];
+    }
+  else
+    abort ();
   [index drop];
 
   [classList drop];

@@ -44,7 +44,7 @@ PHASE(Creating)
   return self;
 }
 
-- setProbedObject: (id) anObject
+- setProbedObject: anObject
 {
   if (SAFEPROBES)
     {
@@ -91,10 +91,10 @@ PHASE(Creating)
   GUI_UPDATE_IDLE_TASKS_AND_HOLD ();
   
   if (probeMap == nil)
-    probeDisplay = [CompleteProbeDisplay createBegin: [self getZone]];
+    probeDisplay = [CompleteProbeDisplay createBegin: getZone (self)];
   else
     {
-      probeDisplay = [SimpleProbeDisplay createBegin: [self getZone]];
+      probeDisplay = [SimpleProbeDisplay createBegin: getZone (self)];
       [probeDisplay setProbeMap: probeMap];
     }
   [probeDisplay setWindowGeometryRecordName: windowGeometryRecordName];
@@ -104,8 +104,8 @@ PHASE(Creating)
   // Probe notification mechanism added to handle automatic removal
   // of probe displays when an probed object is dropped.  --gepr
   [probeDisplay setObjectRef: [probedObject 
-				addRef: (notify_t)notifyObjectDropped 
-                                withArgument: (void *)probeDisplay ]];
+				addRef: (notify_t) notifyObjectDropped 
+                                withArgument: (void *) probeDisplay ]];
   [probeDisplay setRemoveRef: 1];  // set this every time a reference is added
 
   GUI_RELEASE_AND_UPDATE ();

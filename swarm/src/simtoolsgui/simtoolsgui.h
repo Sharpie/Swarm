@@ -317,6 +317,7 @@ USING
 //M: requested to terminate) or ControlStateQuit (the user pressed
 //M: the quit button).
 - go;
+GETTERS
 - (id <ActionCache>)getActionCache;
 - (id <ControlPanel>)getControlPanel;
 @end

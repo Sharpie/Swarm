@@ -1,3 +1,19 @@
+2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* simtoolsgui.h (GUISwarm): Add GETTERS section.
+
+	* ProbeDisplay.m ([ProbeDisplay -createEnd]): Switch to getZone (self);
+
+	* ProbeDisplayManager.m ([ProbeDisplayManager -createEnd],
+	[ProbeDisplayManager -dropProbeDisplaysFor:],
+	[ProbeDisplayManager -_computeProbeDisplayKeyFor_:],
+	[ProbeDisplayManager 
+	-createArchivedCompleteProbeDisplayFor:variableName:],
+	[ProbeDisplayManager -createCompleteProbeDisplayFor:]): Likewise.
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -createEnd]): 
+	abort if classWidget isn't made.
+
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeDisplayManager.m: Use ForObject methods throughout.
