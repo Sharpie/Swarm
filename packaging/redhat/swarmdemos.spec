@@ -1,16 +1,12 @@
-%define swarm_version 2.0.1
-%define swarmapps_version 2.0.1
-%define prefix   /usr
-
 Summary: Swarm demonstration applications.
 Name: swarmdemos
-Version: %{swarm_version}
-Release: 2
+Version: 2.0.1
+Release: 3.rh6
 Copyright: GPL
 Group: Applications/Engineering
-Source0: ftp://ftp.santafe.edu/pub/swarm/swarmapps-%{swarmapps_version}.tar.gz
+Source0: ftp://ftp.santafe.edu/pub/swarm/swarmapps-%{version}.tar.gz
 BuildRoot: /tmp/swarmdemos-root
-Prefix: %prefix
+Prefix: /usr
 Icon: swarm.xpm
 Packager: Red Hat Contrib|Net <rhcn-bugs@redhat.com>
 Distribution: Red Hat Contrib|Net
@@ -20,6 +16,10 @@ BuildPrereq: swarm-static blt tcl tk zlib libpng xpm
 Requires: blt tcl tk zlib libpng xpm
 
 %changelog
+* Sat Oct 23 1999 Alex Lancaster <alex@santafe.edu>
+
+- Rework spec file slightly. 
+
 * Tue Sep 28 1999 Alex Lancaster <alex@santafe.edu>
 
 - Leave binaries unstripped.
@@ -42,13 +42,13 @@ of Swarm.
 
 %prep
 
-%setup -T -b 0 -n swarmapps-%swarmapps_version
+%setup -T -b 0 -n swarmapps-%version
 
 %build
 
 # compile and link all apps against swarm-static package using the
 # `-static' LDFLAG which is passed to libtool
-cd  $RPM_BUILD_DIR/swarmapps-%{swarmapps_version}
+cd  $RPM_BUILD_DIR/swarmapps-%{version}
 
 for i in heatbugs market template mousetrap 
 do
@@ -73,7 +73,7 @@ mkdir $RPM_BUILD_ROOT%{prefix}/share/swarm
 # able to install the app binaries properly
 cp /usr/bin/libtool-swarm $RPM_BUILD_ROOT%{prefix}/bin
 
-cd $RPM_BUILD_DIR/swarmapps-%{swarmapps_version}
+cd $RPM_BUILD_DIR/swarmapps-%{version}
 
 # install all the applications in the BuildRoot
 for i in heatbugs market mousetrap 
@@ -81,7 +81,7 @@ do
 	cd $i
 	SWARMHOME=/usr make prefix=$RPM_BUILD_ROOT%{prefix} \
 		bindir=$RPM_BUILD_ROOT%{prefix}/bin install
-	cd $RPM_BUILD_DIR/swarmapps-%{swarmapps_version}
+	cd $RPM_BUILD_DIR/swarmapps-%{version}
 done
 
 # don't want to package libtool-swarm!
@@ -93,9 +93,9 @@ rm $RPM_BUILD_ROOT%{prefix}/bin/libtool-swarm
 # create doc directories for each app
 # and prepare documentation for packaging
 mkdir $RPM_BUILD_ROOT%{prefix}/doc
-mkdir $RPM_BUILD_ROOT%{prefix}/doc/$RPM_PACKAGE_NAME-%{swarmapps_version}
+mkdir $RPM_BUILD_ROOT%{prefix}/doc/$RPM_PACKAGE_NAME-%{version}
 
-%define install_doc() cd %1; mkdir $RPM_BUILD_ROOT%{prefix}/doc/$RPM_PACKAGE_NAME-%{swarmapps_version}/%1; cp %2 $RPM_BUILD_ROOT%{prefix}/doc/$RPM_PACKAGE_NAME-%{swarmapps_version}/%1; cd -
+%define install_doc() cd %1; mkdir $RPM_BUILD_ROOT%{prefix}/doc/$RPM_PACKAGE_NAME-%{version}/%1; cp %2 $RPM_BUILD_ROOT%{prefix}/doc/$RPM_PACKAGE_NAME-%{version}/%1; cd -
 
 %define docheatbugs README ChangeLog COPYING
 %install_doc heatbugs %docheatbugs
@@ -114,7 +114,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{prefix}
-%docdir %{prefix}/doc/$RPM_PACKAGE_NAME-%{swarmapps_version}/heatbugs
-%docdir %{prefix}/doc/$RPM_PACKAGE_NAME-%{swarmapps_version}/mousetrap
-%docdir %{prefix}/doc/$RPM_PACKAGE_NAME-%{swarmapps_version}/market
+%docdir %{prefix}/doc/$RPM_PACKAGE_NAME-%{version}/heatbugs
+%docdir %{prefix}/doc/$RPM_PACKAGE_NAME-%{version}/mousetrap
+%docdir %{prefix}/doc/$RPM_PACKAGE_NAME-%{version}/market
 
+
+# Local variables:
+# mode: shell-script
+# sh-shell: rpm
+# end:

@@ -4,6 +4,7 @@ AM_INIT_AUTOMAKE(swarmspecs, 2.0.1)
 
 version=2.0.1
 release=3.rh6
+demo_release=3.rh6
 hdf5_version=1.2
 kaffe_version=1.0.5
 jikes_version=0.47
@@ -22,6 +23,7 @@ macros=$srcdir/swarm.macros
 
 AC_SUBST(version)
 AC_SUBST(release)
+AC_SUBST(demo_release)
 AC_SUBST(hdf5_version)
 AC_SUBST(jikes_version)
 AC_SUBST(kaffe_version)
@@ -34,7 +36,7 @@ AC_SUBST(vendor)
 AC_SUBST(url)
 AC_SUBST(ftproot)
 
-AC_OUTPUT([Makefile README.i386 README.ppc swarm.spec swarm-hdf5.spec])
+AC_OUTPUT([Makefile README.i386 README.ppc swarm.spec swarm-hdf5.spec swarmdemos.spec])
 
 # Local variables:
 # mode: m4

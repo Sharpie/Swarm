@@ -29,7 +29,7 @@ requires only the following packages: "blt, tcl, tk, zlib, libpng,
 xpm" and does not require a Swarm installation.  It's ideal for
 `test-driving' a Swarm application.
 
-* swarmdemos-@version@-@release@.i386.rpm
+* swarmdemos-@version@-@demo_release@.i386.rpm
 
 Basic Swarm packages:
 ====================
