@@ -1,3 +1,13 @@
+1998-02-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf (SYSLIBS): Make SYSLIBS conditional on SWARMBACKEND.
+	Remove dependence on tclobjc in Java config.
+
+1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf (mgd-SFI-Solaris): Add FF{PREFIX,INC,LIB} and use in
+	OTHERINCDIRS, OTHERLIBDIRS.  Add -lavcall to OTHERLIBS.
+
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (SWARMLIBS): Change from -ljavaobjc to -lawtobjc in
