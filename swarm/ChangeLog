@@ -5,7 +5,6 @@
 	(alex-SFI-Solaris): [PNGPREFIX,ZPREFIX]: Changed to /usr/local as
 	per mgd-SFI-Solaris.
 
-
 1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.conf: Use system versions of egcs-1.0.2 and gcc-2.8
