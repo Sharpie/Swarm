@@ -1,6 +1,10 @@
 2000-07-05  Marcus G. Daniels  <mgd@nest.swarm.org>
 
-	* configure.in (AC_OUTPUT): Extract tools/{Makefile,print-{hdf5,lisp}}.
+	* VERSION: Bump.
+
+	* NEWS: Note addition of print-hdf5.
+
+	* configure.in (AC_OUTPUT): Extract tools/{Makefile,print-hdf5}.
 
 	* Makefile.am (SUBDIRS): Add tools.
 
