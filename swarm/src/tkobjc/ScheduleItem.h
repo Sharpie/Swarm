@@ -19,6 +19,8 @@
   id <TextItem> minTextItem;
   id <TextItem> maxTextItem;
   unsigned sleepTime;
+  BOOL processingUpdate;
+  BOOL pendingDrop;
 }
 
 + createBegin: aZone;

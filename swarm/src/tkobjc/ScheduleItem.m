@@ -162,6 +162,8 @@ PHASE(Using)
 
 - update
 {
+  processingUpdate = YES;
+
   if (zone)
     {
       [line drop];
@@ -169,12 +171,29 @@ PHASE(Using)
       [maxTextItem drop];
       [zone drop];
     }
-
+  
   [self _createItem_];
   while (GUI_EVENT_ASYNC ()) {}  
-  [pendingEvents forEach: M(showEvent)];
-  [pendingEvents deleteAll];
+  {
+    id <Index> li = [pendingEvents begin: [self getZone]];
+    id event;
 
+    while ((event = [li next]) != nil)
+      {
+        if (pendingDrop)
+          break;
+        [event showEvent];
+        [event drop];
+        [li remove];
+      }
+    [li drop];
+  }
+  processingUpdate = NO;
+  if (pendingDrop)
+    {
+      [self _drop_];
+      return nil;
+    }
   return self;
 }
 
@@ -348,12 +367,21 @@ PHASE(Using)
   return sleepTime;
 }
 
-- (void)drop
+- (void)_drop_
 {
   [zone drop];
   [pendingEvents deleteAll];
   [pendingEvents drop];
+  pendingEvents = nil;
   [super drop];
+}
+
+- (void)drop
+{
+  if (processingUpdate)
+    pendingDrop = YES;
+  else
+    [self _drop_];
 }
 @end
 
