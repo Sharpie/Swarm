@@ -1,46 +1,41 @@
-<BOOKINFO>
+<bookinfo>
+  <title>Getting Started with Swarm</title>
 
-  <TITLE>Getting Started with Swarm</TITLE>
+  <mediaobject>
+    <imageobject>
+      <imagedata entityref="booktitlelogo" align="center" scale="98"/>
+    </imageobject>
+  </mediaobject>
 
-  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER" SCALE="98">
-
-  <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
+  <corpauthor>&corpauthor;</corpauthor>
    
   &bibliodata;
   &doc-legalnotice;
   &swarm-legalnotice;
 
-  <ABSTRACT><TITLE>Overview</TITLE> 
-    <PARA>
-<!--
+  <abstract><title>Overview</title> 
+    <para><!--
     A full-fledged "User Guide" is forthcoming, but incomplete
     as of writing. 
--->
-    Learning to program with Swarm will require
+-->    Learning to program with Swarm will require
     reading example applications, studying the technical
     reference material and sometimes even getting down to the level of
     reviewing the header files in libraries.  It does currently
     require a good hands-on knowledge of object-oriented programming
-    and software development processes in general.</PARA>
+    and software development processes in general.</para>
 
-    <PARA>Swarm is not yet a `shrink-wrapped' simulation toolkit.
+    <para>Swarm is not yet a `shrink-wrapped' simulation toolkit.
     There are many of those kind of products on the market.  However,
     with these packages, the ease of use comes at a price - you are
     locked into the that vendor's particular modelling paradigm.
     Swarm was intended to embrace many different types of modelling -
     consequently, it can be more difficult for a novice user - but
     more powerful in the long-run.
-    </PARA>
-  </ABSTRACT>
-<!--  &installbookrevhistory.sgml; -->
-  
-</BOOKINFO>
-
+    </para>
+  </abstract><!--  &installbookrevhistory.sgml; -->
+  </bookinfo>
 <!--
 Local Variables:
-sgml-parent-document:("installbook.sgml" "BOOKINFO")
+sgml-parent-document:("installbook.xml" "bookinfo")
 End: 
 -->
-
-
-

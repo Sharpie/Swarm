@@ -1,0 +1,309 @@
+<article id="SWARM.INSTALLBOOK.INSTALL.ARTICLE">  <title>Installing Swarm</title>
+  
+  <sidebar><para>Unless you are using a Windows or a Unix system with
+pre-built package manager support (Debian GNU/Linux 2.2, Redhat 6.1,
+Solaris 2.7), installing Swarm will take some time: various external
+libraries need to be acquired, compiled, and installed, and then Swarm
+itself needs to be compiled.  Please report any problems during
+installation back so that we can try to fix them in the
+future. </para>
+
+<para>If you are using a Unix system with binary package manager support,
+please read the manual appropriate to the manager.  Respectively,
+these are `dpkg', `rpm', and `pkgadd'.</para>
+
+
+    <para>Swarm uses quite a few libraries and is intended to run
+      under all major flavors of Unix. This presents the unpleasant
+      but largely unavoidable side-effect of making Swarm hard to
+      install. Ideally, you should get the sys-admin for your site to
+      do the job. In any event, the new online <emphasis>Swarm
+        FAQ</emphasis> where we've tried to compile some of the common
+      obstacles to installation, may be useful.
+    </para>
+
+    <itemizedlist>      <listitem>        <formalpara><title> <ulink url="http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/SwarmOnlineFaq.html">Online
+              FAQ</ulink></title><para>Paul Johnson's active Swarm
+            FAQ.  <emphasis>Share your wisdom!</emphasis></para></formalpara>
+      </listitem>
+    </itemizedlist>
+    
+  </sidebar>
+
+  <simplesect>    <title>Supported Systems</title> 
+
+    <itemizedlist>
+      <listitem>        <formalpara>          <title>Unix</title>
+          
+          <para>Our intention is that Swarm will run on any modern
+            Unix system. Ideally, Swarm itself should be 100%
+            portable. Swarm has been known to run on SunOS 4.1.3,
+            Solaris 2.[567], GNU/Linux systems for Intel, Sparc, and
+            PPC, FreeBSD, HPUX 9, 10, and 11, IRIX 5.3 &amp; 6.5, Digital
+            Unix for Alpha and MachTen/68k.
+            </para>
+        </formalpara>
+      </listitem>
+
+      <listitem>        <formalpara>          <title>Windows NT</title>
+          
+          <para>Swarm can be used on Windows.  Installation on Windows
+            is a simple matter of running the InstallShield package.
+            Please see the <ulink url="http://www.swarm.org/release-swarm.html">release
+            page</ulink>, for more details.</para>
+
+        </formalpara>      
+        
+      </listitem>
+
+    </itemizedlist>
+
+    <para>See the <ulink url="http://www.swarm.org/release-platforms.html">Platform
+        News</ulink> web page for the most up-to-date
+        information.</para>
+
+  </simplesect>
+  
+  <simplesect>    <title>Prerequisite Programs</title>
+    
+    <para>We assume you already have Unix and X Windows on your
+      system: the rest of this software is freely available. Expect to
+      spend some time compiling and installing these packages. URLs on
+      this page are to the home distribution site: as a convenience,
+      the Swarm ftp site contains copies of the necessary packages in <ulink url="ftp://ftp.swarm.org/pub/swarm/needed-software">needed-software</ulink>.
+    </para>
+    
+    <para>      <itemizedlist>        
+        <listitem>          <formalpara><title>GNU gcc</title> 
+            
+            <para>gcc is the FSF's GNU Compiler Collection.
+              You need gcc 2.95.2 or greater installed on
+              your system, including the Objective C support.
+              The latest version is available from <ulink url="ftp://ftp.gnu.org/pub/gnu">ftp://ftp.gnu.org/pub/gnu/gcc</ulink>. </para>
+
+          </formalpara>
+        </listitem>
+        
+        <listitem>          
+          <formalpara><title>GNU make</title>
+            
+            <para>Make is used to automate building programs:
+              every OS ships their own version of make with some
+              random set of features. The Swarm makefiles
+              currently use features that are not supported by all
+              makes: GNU make is the only one guaranteed to
+              work. Linux systems probably use GNU make
+              already. The latest version of GNU make is
+              available <ulink url="ftp://ftp.gnu.org/pub/gnu/make">here</ulink>.</para>
+          </formalpara></listitem>
+
+        <listitem>          <formalpara><title>GNU gdb</title>
+            
+            <para>gdb is the GNU debugger: Swarm doesn't require
+              this, but you will probably want gdb on your system
+              to
+
+              <!-- <LINK LINKEND="SWARM.TECH.SGML.SECT1.DEBUG"></LINK> -->
+
+              debug programs.  gdb is available <ulink url="ftp://ftp.gnu.org/pub/gnu/gdb">here</ulink>.</para>
+            
+          </formalpara>
+        </listitem>
+
+        <listitem>          
+          <formalpara><title>GNU Emacs</title> <para>Emacs is a
+          programmable text processing system and editor.  Emacs is
+          needed if you want to build Swarm for Java from source code.
+          Emacs is also a good program for editing Objective C and Java
+          code.  Emacs is available <ulink url="ftp://ftp.gnu.org/pub/gnu/emacs/">here</ulink>.</para>
+          </formalpara>
+          </listitem>
+          
+
+      </itemizedlist></para>
+    
+  </simplesect>
+  
+  <simplesect>    <title>Prerequisite Libraries</title>
+    
+    
+    <para>Swarm uses a variety of freely available software
+      libraries. All of these libraries need to be configured and
+      installed independently of Swarm.  When you configure Swarm itself,
+      take a look at the output of "configure --help" to see what 
+      "--with-*dir" options are available for locating the installations
+      of these libraries.
+      </para>
+
+    <itemizedlist>      <listitem>        
+        <formalpara><title><ulink url="http://www.inria.fr/koala/lehors/xpm.html">XPM Library</ulink></title> 
+
+          <para>The XPM library adds pixmap (coloured bitmap) support to
+            X11. XPM is a common X library, many systems already have
+            it installed. A reasonably modern version is needed: we've
+            used version 3.4f. If you get complaints about "Object"
+            being multiply defined, your version of libXpm is too
+            old. The library is available from <ulink url="ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz">ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz</ulink>.</para>
+        </formalpara>
+      </listitem>
+
+      <listitem>        <formalpara>          <title><ulink url="http://www.scriptics.com">Tcl/Tk</ulink></title> 
+
+          <para>Swarm works with Tcl/Tk versions
+            <ulink url="ftp://ftp.scriptics.com/pub/tcl/tcl8_2/tcl8.2.3.tar.gz">8.2.3</ulink>/<ulink url="ftp://ftp.scriptics.com/pub/tcl/tcl8_2/tk8.2.3.tar.gz">8.2.3</ulink> and later.</para>
+        </formalpara>
+      </listitem>
+
+      <listitem>          <formalpara>            <title><ulink url="http://www.tcltk.com/blt/index.html">BLT</ulink></title>
+
+            <para>BLT is an add-on to Tk that provides more widgets.  
+<ulink url="http://ftp.tcltk.com/pub/blt/BLT2.4o.tar.gz">BLT 2.4o</ulink>
+is the current version. 
+          </para>
+          </formalpara>
+        </listitem>
+        
+      <listitem>        <formalpara>            <title><ulink url="http://clisp.cons.org/~haible/packages-ffcall.html">ffcall</ulink> / <ulink url="http://www.cygnus.com/~green/libffi.html">libffi</ulink></title> 
+            
+            <para>Either ffcall or libffi can be used in Swarm to
+              provide the underlying support for message probing.
+              ffcall is provided with Swarm and works for most platforms.
+              Both libraries provide a portable, high level
+              programming interface to various platform calling
+              conventions. This allows a programmer to call any
+              function specified by a call interface description at
+              run time.  ffi stands for Foreign Function Interface. A
+              foreign function interface is the popular name for the
+              interface that allows code written in one language to
+              call code written in another language.
+            </para>
+          </formalpara>
+          
+          <para>The latest version of ffcall is
+            <ulink url="ftp://ftp.swarm.org/pub/gnu/ffcall-1.6.tar.gz">1.6</ulink>
+          </para>
+          <para>The latest version of libffi is:
+            <ulink url="ftp://ftp.cygnus.com:/pub/green/libffi-1.20.tar.gz">1.20</ulink>
+          </para>
+        </listitem>
+        
+        <listitem>          <formalpara>            <title><ulink url="http://www.cdrom.com/pub/png">libpng</ulink></title> 
+            <para>              Swarm requires support for pixmap images - `png' 
+              provides that support.
+            </para>
+          </formalpara>
+          <para>The current version is 
+            <ulink url="ftp://swrinde.nde.swri.edu/pub/png/src/libpng-1.0.5.tar.gz">1.0.5</ulink>
+          </para>
+          <formalpara>            <title><ulink url="http://www.cdrom.com/pub/infozip/zlib">zlib</ulink></title>
+            <para>              png requires data compression which zlib, a general data
+              compression library, provides.
+            </para>
+          </formalpara>
+          <para>            The current version is <ulink url="ftp://ftp.cdrom.com/pub/infozip/zlib/zlib.tar.gz">1.1.3</ulink>.
+          </para>
+        </listitem>
+      </itemizedlist>
+  </simplesect>
+  
+  <simplesect>    <title>Configuring and Installing Swarm</title>
+    
+    <para>Once you have all of the above software installed, the next
+      step is to configure Swarm. First unpack the Swarm .tar.gz file
+      into a convenient place <literal>(via gzip -dc swarm-xx.yy.zz.tar.gz
+        | tar xf -)</literal>.
+    </para>
+
+    <para>As of the Swarm 1.2 release, the compilation and
+      installation of Swarm is handled by a GNU
+      <command>configure</command> script.  This removes a large
+      burden from the user, as <command>configure</command> has some
+      intelligence which automatically sets many common options.
+    </para>
+
+    <para>You first need to read the file <filename>INSTALL</filename>
+      with the release of Swarm, in the top-level source directory, to
+      determine the appropriate and recent options to give to the
+      <command>configure</command> script (this is analogous to what
+      you needed to do when editing the *INCDIR macros in the obsolete
+      <filename>Makefile.conf</filename> in earlier releases).
+    </para>
+
+  </simplesect>
+
+  <simplesect>
+    <title>Compiling Swarm Libraries -- (not required for binary
+      distributions)</title> 
+
+    <para>You've done the hard part, now type <command>make</command>,
+      as in earlier releases from the top of the source directory, and
+      watch the fun!  If running <command>make</command> in the root
+      Swarm directory does nothing, you probably aren't running GNU
+      Make.</para>
+
+    <para>There is now an explicit "installation" step to install
+      Swarm -- <command>make install</command> so that binaries and
+      libraries can be installed cleanly to a specified location.  On
+      many Unix systems this likely to somewhere like
+      <filename>/usr/local/</filename>.
+    </para>
+ 
+    <para>The Makefiles included by user-created libraries, and
+      user-created applications are <filename>Makefile.lib</filename>,
+      and <filename>Makefile.appl</filename>, respectively.  These
+      distributed with earlier versions are now generated by
+      <command>configure</command> .  If you run into problems, the
+      right thing to do is to re-run <command>configure</command>, and
+      re-install Swarm, tinkering with these generated Makefiles
+      directly is not recommended.
+    </para>
+
+   </simplesect>
+
+  <simplesect>
+    <title>Compiling and Running Swarm Applications</title>
+    
+    <para>Swarm applications are distributed separately: you will need
+      to download and unpack applications independently. After the
+      application is unpacked, you will have to set the
+      <literal>SWARMHOME</literal> environment variable to where you
+      installed Swarm.
+
+      All you need to do now, to compile an application is type
+      <command>make</command>.</para>
+
+    <para>Once the application is compiled, just run it out of its own
+      directory.  A control panel and a couple of parameter windows
+      should pop up; press the "Go" button to watch it
+      run. Congratulations!</para>
+
+  </simplesect>
+
+  <simplesect>    <title>Post-compile cleanup</title>
+
+    <para>After you've tried out the Swarm libraries for awhile you
+      may want to clean up the intermediate .o files, and other
+      generated files, in the original source directory. Once you have
+      done the <command>make install</command> you can remove the
+      entire source directory, or if you might want to re-install
+      later with different option, just type <command>make
+      clean</command> to clean-up all files generated by the original
+      make.  See your the file <filename>INSTALL</filename> in the
+      Swarm distribution, for more details.
+    </para>
+
+    <para>      Just remember to set <literal>$(SWARMHOME)</literal> to the
+      right directory in your application's makefile. If you have
+      installed Swarm, but for some reason, need to recompile the
+      library and want to start from a completely clean source
+      directory, you can run <command>make uninstall</command> and
+      then <command>make clean</command>- see 
+      <filename>INSTALL</filename> file again here.</para>
+
+  </simplesect>
+</article>
+<!--
+Local Variables:
+sgml-parent-document:("installbook.xml" "article")
+End:
+-->

@@ -1,0 +1,28 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd" [
+
+<!ENTITY % global.entities PUBLIC "-//SFI Hive//ENTITIES Globals//EN"
+"ignore.sysid">
+%global.entities;
+
+<!ENTITY % versions.entities PUBLIC "-//SFI Hive//ENTITIES Versions//EN"
+"ignore.sysid">
+%versions.entities;
+
+<!ENTITY % install.entities PUBLIC "-//SFI Hive//ENTITIES Install List//EN"
+"ignore.sysid">
+%install.entities;
+
+<!ENTITY % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN"
+"ignore.sysid">
+%figures.entities;
+
+]>
+
+<book id="installbook">
+
+<title>Getting Started with Swarm</title>
+
+&installcont.xml;
+
+</book>

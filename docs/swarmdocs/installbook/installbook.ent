@@ -1,5 +1,10 @@
-<!entity installmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Metadata//EN">
-<!entity installcont.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Content//EN">
-<!entity install01.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Article 1//EN"> 
-<!entity install02.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Article 2//EN">
-<!entity installbookrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Revision History//EN">
+<!ENTITY installmeta.xml PUBLIC "-//SFI Hive//ENTITIES Installing Metadata//EN"
+"ignore.sysid">
+<!ENTITY installcont.xml PUBLIC "-//SFI Hive//ENTITIES Installing Content//EN"
+"ignore.sysid">
+<!ENTITY install01.xml PUBLIC "-//SFI Hive//ENTITIES Installing Article 1//EN"
+"ignore.sysid"> 
+<!ENTITY install02.xml PUBLIC "-//SFI Hive//ENTITIES Installing Article 2//EN"
+"ignore.sysid">
+<!ENTITY installbookrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Installing Revision History//EN"
+"ignore.sysid">

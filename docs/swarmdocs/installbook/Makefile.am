@@ -1,12 +1,12 @@
 NAME = installbook
 
-SGML = install01.sgml install02.sgml installbook.sgml installcont.sgml installmeta.sgml   
+XML = install01.xml install02.xml installbook.xml installcont.xml installmeta.xml   
 
-GENERATED_SGML = $(NAME)revhistory.sgml
+GENERATED_XML = $(NAME)revhistory.xml
 
-SGML_FILES = $(SGML) $(GENERATED_SGML)
+XML_FILES = $(XML) $(GENERATED_XML)
 
-EXTRA_DIST = installbook.ent $(SGML)
+EXTRA_DIST = installbook.ent $(XML)
 
 include $(top_srcdir)/Makefile.common
 include $(top_srcdir)/Makefile.rules

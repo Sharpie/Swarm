@@ -1,3 +1,13 @@
+2001-11-25  Alex Lancaster  <alex@swarm.org>
+
+	* Makefile.am: SGML,sgml -> XML,xml throughout.
+
+	* installbook.ent: Make entities conform with strict XML.
+
+	* installbook.xml: Update DOCTYPE to DocBook XML DTD V4.1.2.
+
+	* *.sgml: Converted to strict XML and renamed with .xml extension.
+
 2000-05-30  Alex Lancaster  <alex@santafe.edu>
 
 	* installbook.sgml: Update DOCTYPE to DocBook DTD V4.0.
