@@ -1,3 +1,19 @@
+1999-06-08  Alex Lancaster  <alex@santafe.edu>
+
+	* defobj.h (Archiver): Add ([Archiver_c
+	+create:from{Lisp,HDF5}Path:]) method to protocol.
+
+	* Archiver.m (lisp_output_objects): Serialize the ArchiverList
+	instance directly using lispOutDeep:, don't pass the list to the
+	obsolete [OutputStream_C -catExpr:].  
+
+	* Archiver.[hm] ([Archiver_c +create:fromLispPath:]): New
+	convenience method to generate Lisp Archiver.
+	([Archiver_c +create:fromHDF5Path:]): Likewise for HDF5.
+
+	* internal.m (lisp_output_type): Use OutputStream
+	-cat{Float,Integer...}: calls to hide the sprintf calls.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute

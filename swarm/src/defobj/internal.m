@@ -361,8 +361,6 @@ lisp_output_type (const char *type,
                   id <OutputStream> stream,
                   BOOL deepFlag)
 {
-  char buf[50];
-
   switch (*type)
     {
     case _C_ID:
@@ -383,43 +381,25 @@ lisp_output_type (const char *type,
       break;
     case _C_CHR: 
     case _C_UCHR: 
-      [stream catC: "#\\"];
-      {
-        unsigned char ch = ((unsigned char *) ptr)[offset];
-        
-        if (isprint (ch))
-          {
-            buf[0] = ch;
-            buf[1] = '\0';
-          }
-        else
-          sprintf (buf, "%03o", (unsigned) ch);
-      }
-      [stream catC: buf];
+      [stream catChar: ((unsigned char *) ptr)[offset]];
       break;
     case _C_SHT: 
-      sprintf (buf, "%hd", ((short *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catShort: ((short *) ptr)[offset]];
       break;
     case _C_USHT: 
-      sprintf (buf, "%hu", ((unsigned short *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catUnsignedShort: ((unsigned short *) ptr)[offset]];
       break;
     case _C_INT:
-      sprintf (buf, "%d", ((int *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catInt: ((int *) ptr)[offset]];
       break;
     case _C_UINT:
-      sprintf (buf, "%u", ((unsigned *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catUnsigned: ((unsigned *) ptr)[offset]];
       break;
     case _C_LNG:
-      sprintf (buf, "%ld", ((long *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catLong: ((long *) ptr)[offset]];
       break;
     case _C_ULNG:
-      sprintf (buf, "%lu", ((unsigned long *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catUnsignedLong: ((unsigned long *) ptr)[offset]];
       break;
 #if 0
     case _C_LNG_LNG:
@@ -432,12 +412,10 @@ lisp_output_type (const char *type,
       break;
 #endif
     case _C_FLT:
-      sprintf (buf, "%fF0", ((float *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catFloat:((float *) ptr)[offset]];
       break;
     case _C_DBL:
-      sprintf (buf, "%fD0", ((double *) ptr)[offset]);
-      [stream catC: buf];
+      [stream catDouble: ((double *) ptr)[offset]];
       break;
     case _C_BFLD:
       raiseEvent (NotImplemented, "Bit fields not supported [%s]", type);

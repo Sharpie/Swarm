@@ -276,6 +276,22 @@ PHASE(Creating)
   return newArchiver;
 }
 
++ create: aZone fromLispPath: (const char *)thePath
+{
+  id obj = [self createBegin: aZone];
+  [obj setHDF5Flag: NO];
+  [obj setPath: thePath];
+  return [obj createEnd];
+}
+
++ create: aZone fromHDF5Path: (const char *)thePath
+{
+  id obj = [self createBegin: aZone];
+  [obj setHDF5Flag: YES];
+  [obj setPath: thePath];
+  return [obj createEnd];
+}
+
 - setInhibitLoadFlag: (BOOL)theInhibitLoadFlag
 {
   inhibitLoadFlag = theInhibitLoadFlag;
@@ -577,14 +593,14 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
               else
                 {
                   // if we're not storing an object, we must be
-                  // writing out the unchanged contents of the
-                  // expression
-                  id valexpr = [member getExpr];
-                  if (valexpr)
-                    [outputCharStream catExpr: valexpr];
+                  // serialize the unchanged contents of the parsed
+                  // ArchiverList instance
+                  id listexpr = [member getExpr];
+                  if (listp (listexpr))
+                    [listexpr lispOutDeep: outputCharStream];
                   else
                     raiseEvent(InvalidOperation,
-                               "parsed Lisp expression expected");
+                               "parsed ArchiverList instance expected");
                 }
             }
           [outputCharStream catC: ")"];
