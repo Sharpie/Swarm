@@ -2,6 +2,7 @@ prefix = @prefix@
 includedir = @includedir@
 exec_prefix = @exec_prefix@
 libdir = @libdir@
+bindir = @bindir@
 
 tcllibdir = @tcllibdir@
 tklibdir = @tklibdir@
@@ -21,6 +22,7 @@ BLTLDFLAGS = @BLTLDFLAGS@
 FFILDFLAGS = @FFILDFLAGS@
 PNGLDFLAGS = @PNGLDFLAGS@
 ZLIBLDFLAGS = @ZLIBLDFLAGS@
+INSTALL_PROGRAM = @SWARM_INSTALL_PROGRAM@
 
 TCLLIB = @TCLLIB@
 TKLIB = @TKLIB@
@@ -48,6 +50,9 @@ all: $(APPLICATION)
 
 clean:
 	-rm -f $(OBJECTS) $(APPLICATION) $(OTHERCLEAN) core gmon.out
+
+install: $(APPLICATION)
+	$(INSTALL_PROGRAM) $(APPLICATION) $(bindir)
 
 $(APPLICATION): $(OBJECTS)
 	$(LINK) $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)

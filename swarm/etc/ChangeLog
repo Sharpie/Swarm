@@ -1,3 +1,8 @@
+1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.appl.in (INSTALL_PROGRAM): Set INSTALL_PROGRAM to
+	@SWARM_INSTALL_PROGRAM@.
+
 1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* config.swarm.in (swarm_prefix, swarm_exec_prefix, swarm_libdir):
