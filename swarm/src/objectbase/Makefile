@@ -13,9 +13,6 @@ HEADERS=SwarmObject.h Swarm.h Probe.h VarProbe.h MessageProbe.h \
 
 include $(SWARMHOME)/Makefile.lib
 
-install-headers:
-	cd $(INCLIB)/..; rm -f swarmobject swarmobject.h ; ln -s objectbase swarmobject ; ln -s objectbase.h swarmobject.h
-
 SwarmObject.o: SwarmObject.m SwarmObject.h
 Swarm.o: Swarm.m Swarm.h
 ProbeLibrary.o:	ProbeLibrary.m ProbeLibrary.h

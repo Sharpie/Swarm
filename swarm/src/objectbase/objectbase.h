@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 /*
-Name:            swarmobject.h
+Name:            objectbase.h
 Description:     support for swarmobjects and probing   
 Library:         swarmobject
 Authors:         Manor Askenazi
@@ -260,5 +260,5 @@ USING
 // The general rule is that you must #import the header file of any
 // class you intend to subclass from.
 //
-#import <swarmobject/SwarmObject.h>
-#import <swarmobject/Swarm.h>
+#import <objectbase/SwarmObject.h>
+#import <objectbase/Swarm.h>
