@@ -41,16 +41,22 @@ LIBJAVASWARMSTUBS_LA = @LIBJAVASWARMSTUBS_LA@
 
 all: $(JAVASWARM_DLL) $(LIBJAVASWARM_LA) $(LIBJAVASWARMSTUBS_LA)
 
-install: all
-	if test -z "$(JAVASWARM_DLL)"; then \
-	  $(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir) \
-	  $(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir) \
-	  $(LIBTOOL) --mode=finish $(libdir) \
-	else \
-	  $(INSTALL) javaswarm.dll $(bindir) \
-	  $(INSTALL) libjavaswarm.a $(libdir) \
-	  $(RANLIB) $(libdir)/libjavaswarm.a \
-	fi
+USEDLL = @USEDLL@
+ifeq ($(USEDLL),no)
+install: install-la
+else
+install: install-dll
+endif
+
+install-la:
+	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
+	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir)
+	$(LIBTOOL) --mode=finish $(libdir)
+
+install-dll:
+	$(INSTALL) javaswarm.dll $(bindir)
+	$(INSTALL) libjavaswarm.a $(libdir)
+	$(RANLIB) $(libdir)/libjavaswarm.a
 
 libjavaswarmstubs_.la: $(libjavaswarmstubs__la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs__la_LDFLAGS) $(libjavaswarmstubs__la_OBJECTS)
@@ -62,7 +68,7 @@ libjavaswarmstubs.la: libjavaswarmstubs_.la
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir) libjavaswarmstubs_.la
 
 libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L../libobjc -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBS) -lobjc
 
 ALLOBJECTS = $(patsubst %.lo,%.o,$(libjavaswarm__la_OBJECTS) $(libjavaswarmstubs__la_OBJECTS))
 
