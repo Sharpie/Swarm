@@ -35,7 +35,7 @@ else
       JAVACMD='"${jdkdosdir}\bin\java"'
       JAVACLASSES='${jdkdosdir}\lib\classes.zip'
       JAVAENV='JAVA_HOME="${jdkdosdir}"'
-      JAVAC='JAVA_HOME=${jdkdosdir} ${jdkdosdir}\bin\javac'
+      JAVAC='JAVA_HOME="${jdkdosdir}" "${jdkdosdir}\bin\javac"'
     else
       JAVACMD='${jdkdir}/bin/java'
       JAVACLASSES='${jdkdir}/lib/classes.zip'
