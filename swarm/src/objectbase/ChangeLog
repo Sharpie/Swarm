@@ -1,5 +1,9 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Arguments.m (swarm_version): Add externvardef.
+
+	* probing.m (probeLibrary): Add externvardef.
+
 	* objectbase.h: Use `externvar' for external variables.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

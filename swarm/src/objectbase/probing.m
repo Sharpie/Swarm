@@ -8,24 +8,29 @@
 
 #import "local.h"
 
-id probeLibrary;
+externvardef id probeLibrary;
 
-void initProbing() {
-  static BOOL  already_initialized = 0;
+void
+initProbing ()
+{
+  static BOOL already_initialized = 0;
 
-  if ( already_initialized ) return;
+  if (already_initialized)
+    return;
   already_initialized = 1;
-
-  defsymbol( DefaultString );
-  defsymbol( CharString );
-  defsymbol( IntString );  
+  
+  defsymbol (DefaultString);
+  defsymbol (CharString);
+  defsymbol (IntString);  
 
   probeLibrary = [ProbeLibrary create: globalZone];
 }
 
-int p_compare(id a, id b){
-  if(!([a compare: b]))
-    return 0 ;
+int
+p_compare (id a, id b)
+{
+  if (!([a compare: b]))
+    return 0;
   else
-    return -1 ;
+    return -1;
 }

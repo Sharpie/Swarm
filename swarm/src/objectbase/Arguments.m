@@ -25,7 +25,7 @@ const char *program_invocation_short_name;
 
 #include "version.h"
 
-const char *swarm_version = SWARM_VERSION;
+externvardef const char *swarm_version = SWARM_VERSION;
 
 id arguments;
 
