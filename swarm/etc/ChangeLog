@@ -1,3 +1,17 @@
+2003-05-12  Marcus Daniels  <mgd@mac>
+
+	* interface.el (*removed-methods*): Add
+	-lispStoreBooleanArray:Keyword:Rank:Dims:Stream:
+	-lispStoreCharArray:Keyword:Rank:Dims:Stream:
+	-lispStoreShortArray:Keyword:Rank:Dims:Stream:
+	-lispStoreUnsignedArray:Keyword:Rank:Dims:Stream:
+	-lispStoreLongArray:Keyword:Rank:Dims:Stream:
+	-lispStoreUnsignedLongArray:Keyword:Rank:Dims:Stream:
+	-lispStoreLongLongArray:Keyword:Rank:Dims:Stream:
+	-lispStoreUnsignedLongLongArray:Keyword:Rank:Dims:Stream:
+	-lispStoreFloatArray:Keyword:Rank:Dims:Stream:
+	for the sake of methods just added by Paul Johnson.
+
 2003-05-10  Marcus Daniels  <mgd@mac>
 
 	* Makefile.common.in (OBJCLIBS): Use -lswarmobjc instead of -lobjc.
