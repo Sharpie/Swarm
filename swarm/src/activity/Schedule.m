@@ -288,11 +288,11 @@ ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
     {
       id indexrefs;
       ScheduleActivity_c *activity;
-      
+
       indexrefs = [self->activityRefs begin: scratchZone];
       [indexrefs setLoc: Start];
       activity = [indexrefs next];
-		  
+      
       while (activity)
         {
           ScheduleIndex_c *scheduleIndex, *mergeScheduleIndex;
@@ -348,8 +348,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   // if no previous action at key, then return unless singleton group required 
   if (newKey) 
     {
-      // if _activity_current is not NULL, simulation is running
-      if (_activity_current && getCurrentTime () <= tVal) 
+      if (self->activityRefs
+          && _activity_current && getCurrentTime () <= tVal) 
 	{
           id index = [self createIndex: scratchZone fromMember: anAction];
           id successor_action;

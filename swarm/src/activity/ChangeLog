@@ -1,3 +1,8 @@
+2000-02-08    <mgd@nest.swarm.org>
+
+	* Schedule.m (_activity_insertAction): Don't scrutinize 
+	Schedules's activities if it's not activated yet.
+
 2000-01-22    <mgd@nest.swarm.org>
 
 	* SwarmProcess.[hm] (CSwarmProcess): Remove -containsAlloc: stub
