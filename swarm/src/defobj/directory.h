@@ -39,7 +39,6 @@ unsigned swarm_directory_java_hash_code (jobject javaObject);
 - (int)compare: obj;
 - (const char *)getObjcName;
 - (unsigned)getHashCode;
-- (void)findDrop;
 - (void)drop;
 - (void)describe: outputCharStream;
 @end
