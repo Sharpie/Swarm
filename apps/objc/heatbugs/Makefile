@@ -7,7 +7,7 @@ OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
 APPLIBS=-lspace
 OTHERCLEAN=unhappiness.output
 
-include $(SWARMHOME)/Makefile.appl
+include $(SWARMHOME)/etc/swarm/Makefile.appl
 
 
 main.o: main.m Heatbug.h HeatSpace.h HeatbugObserverSwarm.h HeatbugBatchSwarm.h

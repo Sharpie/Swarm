@@ -1,3 +1,8 @@
+1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (SWARMHOME): Bump default to 1998-08-17.
+	Include Makefile.appl from $(SWARMHOME)/etc/swarm.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (SWARMHOME): Bump default to 1.2.
