@@ -2,7 +2,7 @@ include @swarm_prefix@/etc/swarm/Makefile.common
 include @swarm_prefix@/etc/swarm/Makefile.rules
 
 APPEXE = $(APPLICATION)@EXESUFFIX@
-LDFLAGS = $(SWARMLDFLAGS)
+LDFLAGS = $(SWARMLDFLAGS) $(EXTRALDFLAGS)
 
 .PHONY: install-config install-data
 

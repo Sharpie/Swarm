@@ -1,9 +1,13 @@
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.appl.in (LDFLAGS): Move EXTRALDFLAGS here (from
+	SUPPORTLDFLAGS).
+
+	* Makefile.rules (.m.o): Add EXTRACPPFLAGS and CPPFLAGS.
+
 	* Makefile.common.in (OBJCLIBS): Append -DDLL flag in the case
 	of DLLs sans static.
-
-	* Makefile.rules (.m.o): Add CPPFLAGS.
+	(EXTRACPPFLAGS): New variable.
 
 	* Makefile.tests.in (SWARMBUILDLDFLAGS): Revert last change.
 
