@@ -1,3 +1,11 @@
+1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* COPYING, Makefile.devel, Makefile.in, Makefile.msvc, PLATFORMS
+	asmi386.h, asmi386.sh, avcall-i386-msvc.c, avcall-i386.S,
+	avcall-rs6000.c, avcall-sparc.S, avcall.h.in, avcall.h.msvc,
+	configure.in, tests.c, tests.output/rs6000-ibm-aix3.2.5-gcc: Update
+	to ffcall-1.6.
+
 1999-07-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (avcall-hppa2.0w.o): New rule.
