@@ -1,3 +1,11 @@
+1998-05-28  Alex Lancaster  <alex@santafe.edu>
+
+	* swarmbook.dsl (html): overwrite (revision
+	{revnumber,date,authorinitials,revremark}) in
+	(reference-titlepage-verso-mode) to make revision history more
+	readable.
+
+
 1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* protocol.el (parse-state): Remove global-doc-list, macro-doc-list,
