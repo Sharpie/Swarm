@@ -616,12 +616,12 @@ tkobjc_setColor (Colormap *colormap, const char *colorName, PixelValue *pvptr)
 }
   
 #ifndef _WIN32
-  static Window
+static Window
 x_get_managed_toplevel_window (Display *display, Window window)
 {
   Window parent, w;
   int cnt = 0;
-  
+
   for (w = window; cnt == 0; w = parent)
     {
       Window root;
@@ -648,6 +648,7 @@ x_set_private_colormap (Display *display, Window window, X11Colormap cmap)
   Window topWindow;
   
   topWindow = x_get_managed_toplevel_window (display, window);
+
   if (topWindow)
     {
       int cnt;
@@ -698,7 +699,7 @@ tkobjc_raster_setColormap (Raster *raster)
 
   if (cmap != DefaultColormap (display, DefaultScreen (display)))
     {
-      Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT);
+      while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
       x_set_private_colormap (display, window, colormap->cmap);
     }
 #endif
