@@ -1,4 +1,6 @@
 <PARTINTRO>
+  <title>Space Introduction</title>
+
   <SIDEBAR>
     <TITLE>Overview</TITLE>
 
@@ -21,8 +23,8 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SPACE.SGML.SECT1.DEPEND">
-    <TITLE>Dependencies</TITLE> 
+  <SECT1 xreflabel="Space Dependencies" ID="SWARM.SPACE.SGML.SECT1.DEPEND">
+        <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
     &lt;space.h&gt;:
@@ -36,8 +38,8 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SPACE.SGML.SECT1.COMPAT">
-    <TITLE>Compatibility</TITLE>
+  <SECT1 xreflabel="Space Compatibility" ID="SWARM.SPACE.SGML.SECT1.COMPAT">
+        <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions of
     Swarm</PARA>
@@ -45,36 +47,36 @@
   </SECT1>
 
 <!--
-  <SECT1 ID="SWARM.SPACE.SGML.SECT1.USAGE">
-    <TITLE>Usage Guide</TITLE>
+  <SECT1 xreflabel="Space Usage Guide" ID="SWARM.SPACE.SGML.SECT1.USAGE">
+        <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SPACE.SGML.SECT1.ADVUSAGE">
-    <TITLE>Advanced Usage Guide</TITLE>
+  <SECT1 xreflabel="Space Advanced Usage Guide" ID="SWARM.SPACE.SGML.SECT1.ADVUSAGE">
+        <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SPACE.SGML.SECT1.SUBCLASS">
-    <TITLE>Subclassing Reference</TITLE>
+  <SECT1 xreflabel="Space Subclassing Reference" ID="SWARM.SPACE.SGML.SECT1.SUBCLASS">
+        <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SPACE.SGML.SECT1.DESIGN">
-    <TITLE>Interface Design Notes</TITLE>
+  <SECT1 xreflabel="Space Interface Design Notes" ID="SWARM.SPACE.SGML.SECT1.DESIGN">
+        <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SPACE.SGML.SECT1.IMPL">
-    <TITLE>Implementation Notes</TITLE>
+  <SECT1 xreflabel="Space Implementation Notes" ID="SWARM.SPACE.SGML.SECT1.IMPL">
+        <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
   </SECT1>
