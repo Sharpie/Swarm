@@ -2,6 +2,4 @@ Call cleanup (e.g. String conversions)
   - stubs
   - do something with Java allocated things in FArguments (string conversions)
 
-Why does [fa drop] crash?
-
 Java-side (return) proxies
