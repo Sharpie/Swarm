@@ -1,3 +1,8 @@
+1999-07-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-native-method): Accomodate more
+	renames.  Use new SD_NEXTPHASE for -createEnd.
+
 1999-07-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-argument-print-conversion,
