@@ -162,15 +162,10 @@
 // drawing is just like before, only magnified.
 - drawPointX: (int)x Y: (int)y Color: (Color)c
 {
-#if 0
   [super fillRectangleX0: x * zoomFactor Y0: y * zoomFactor
          X1: (x + 1) * zoomFactor Y1: (y + 1) * zoomFactor
 	 Color: c];
-#else
-  [super rectangleX0: x * zoomFactor Y0: y * zoomFactor
-         X1: (x + 1) * zoomFactor Y1: (y + 1) * zoomFactor
-         Width: 1 Color: c];
-#endif
+
   return self;
 }
 
