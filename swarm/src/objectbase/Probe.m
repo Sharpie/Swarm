@@ -8,6 +8,9 @@
 #import <defobj.h> // Warning
 #import "local.h"
 
+#include <defobj/directory.h>
+#include "../defobj/COM.h"
+
 @implementation Probe
 PHASE(Creating)
 
@@ -115,6 +118,23 @@ PHASE(Using)
   probedClass = aClass;
   return self;
 }
+
+- setProbedObject: anObject
+{
+  COMobject cObj = SD_COM_FIND_OBJECT_COM (anObject);
+
+  probedObject = anObject;
+  
+  if (cObj && COM_is_javascript (cObj))
+    {
+      probedClass = Nil;
+      language = LanguageJS;
+    }
+  else
+    [self setProbedClass: SD_GETCLASS (anObject)];
+  return self;
+}
+
 
 - (Class)getProbedClass
 {

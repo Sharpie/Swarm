@@ -82,6 +82,8 @@ CREATING
 //M: The setProbedClass: method sets the class of the object the probe
 //M: points at and must be called at create time.
 - setProbedClass: (Class)class;
+
+- setProbedObject: object;
 SETTING
 //M: The setSafety method turns on the option of checking the
 //M: compatibility of the class of the object before any actions are
@@ -223,11 +225,6 @@ USING
 externvar id <Symbol> DefaultString, CharString, IntString;
 @end
 
-typedef struct val {
-  fcall_type_t type;
-  types_t val;
-} val_t;
-
 @protocol MessageProbe <Probe, CREATABLE>
 //S: A class that allows the user to call a given message on any
 //S: candidate that is an instance of, or inherits from, a given class.
@@ -327,6 +324,7 @@ CREATING
 //M: before createEnd. 
 - setProbedClass: (Class)class;
 
+- setProbedObject: object;
 USING
 //M: The getCount method returns the number of probes in the ProbeMap.
 - (unsigned)getCount;

@@ -1,15 +1,37 @@
 2001-01-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* objectbase.h (val_t): Remove.  (Moved to defobj.h.)
+	(ProbeMap): Add setProbedObject:.
+
+	* VarProbe.m ([VarProbe -_setupJSVarProbe_]): New method.
+	([VarProbe -createEnd]): Use it.
+	([VarProbe -probeAsPointer:], [VarProbe -probeAsInt:],
+	[VarProbe -probeAsDouble:],
+	[VarProbe -probeAsString:Buffer:withFullPrecision:],
+	[VarProbe -probeObject:]): Handle JavaScript.
+	(JS_probe_as_{int,double,object,string}): New functions.
+
+	* Probe.[hm] (Probe): Add probedObject and setter.
+
 	* VarProbe.m ([VarProbe -_typeSetup_]): Handle fcall_type_iid.
 	(CONVERT): Likewise.
 
 	* ProbeMap.h: Include COM.h when BUILDING_SWARM is set.
 
-	* ProbeMap.[hm]: Change argument type of addCOM{Fields,Methods}:
-	to COMclass.  Change internal indirections as needed.
-
 	* ProbeMap.m ([ProbeMap -_addVarProbe_:getter:setter:]): Change
 	class argument type to COMclass.
+	([ProbeMap -createEnd]): Handle JavaScript.
+	(CONVERT): Add pointer argument.
+	({COM,OBJC}_CONVERT): Accomodate.
+	(JS_CONVERT): New macro.
+	([ProbeMap -_finishVarProbe_:]): New method.
+
+	* ProbeMap.[hm]: Change argument type of addCOM{Fields,Methods}:
+	to COMclass.  Change internal indirections as needed.
+	(ProbeMap): Add probedObject and setter.
+	([-_addVarProbeFor{Class,Object}_:variableName:],
+	[ProbeMap -addJSFields:], [ProbeMap -addJSMethods:]): New methods,
+	first is a rename.  Use _finishVarProbe_: to simplify add methods.
 
 2001-01-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 

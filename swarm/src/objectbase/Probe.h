@@ -12,6 +12,7 @@
 @interface Probe: SwarmObject <Probe>
 {
   Class probedClass;
+  id probedObject;
   const char *probedType;
   BOOL safety;
   id <Symbol> language;
@@ -26,6 +27,7 @@
 - getObjectToNotify;
 
 - setProbedClass: (Class)aClass;
+- setProbedObject: object;
 - createEnd;
 
 - clone: aZone;

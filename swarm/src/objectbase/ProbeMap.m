@@ -11,12 +11,12 @@
 #import "local.h"
 
 #include <swarmconfig.h> // HAVE_JDK
-#import <defobj/directory.h> // SD_SUPERCLASS
+#import <defobj/directory.h> // SD_SUPERCLASS, SD_GETCLASS
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // SD_JAVA_ENSURE_SELECTOR_OBJC, SD_JAVA_FIND_OBJECT_JAVA, java_field_usable_p
 #import "../defobj/javavars.h" // m_*, c_*
 #endif
-#import "../defobj/COM.h" // SD_COM_FIND_CLASS_COM, COM_collect_methods
+#import "../defobj/COM.h" // SD_COM_ENSURE_CLASS_COM, COM_collect_methods
 
 @implementation ProbeMap
 PHASE(Creating)
@@ -148,6 +148,19 @@ PHASE(Creating)
   return self;
 }
 
+- setProbedObject: anObject
+{
+  COMobject cObj = SD_COM_FIND_OBJECT_COM (anObject);
+
+  probedObject = anObject;
+  
+  if (cObj && COM_is_javascript (cObj))
+    probedClass = Nil;
+  else
+    [self setProbedClass: SD_GETCLASS (anObject)];
+  return self;
+}
+
 - (Class)getProbedClass
 {
   return probedClass;
@@ -174,26 +187,45 @@ PHASE(Creating)
   return self;
 }
 
-- (void)_addVarProbe_: (Class)aClass variableName: (const char *)name
+- (void)_finishVarProbe_: (id <VarProbe>)varProbe
+{
+  if (objectToNotify != nil) 
+    [varProbe setObjectToNotify: objectToNotify];
+
+  varProbe = [varProbe createEnd];
+  if (varProbe)
+    {
+      id <String> key = [String create: getZone (self) setC: 
+                                  [varProbe getProbedVariable]];
+      
+      if (![probes at: key insert: varProbe])
+        {
+          [varProbe drop];
+          [key drop];
+        }
+      else
+        count++;
+    }
+}
+
+- (void)_addVarProbeForClass_: (Class)aClass variableName: (const char *)name
 {
   id <VarProbe> varProbe = [VarProbe createBegin: getZone (self)];
-  id <String> key = [String create: getZone (self) setC: name];
 
   [varProbe setProbedClass: aClass];
   [varProbe setProbedVariable: name];
-	  
-  if (objectToNotify != nil) 
-    [varProbe setObjectToNotify: objectToNotify];
-  varProbe = [varProbe createEnd];
 
-  if (!varProbe || ![probes at: key insert: varProbe])
-    {
-      if (varProbe)
-        [varProbe drop];
-      [key drop];
-    }
-  else
-    count++;
+  [self _finishVarProbe_: varProbe];
+}
+
+- (void)_addVarProbeForObject_: object variableName: (const char *)name
+{
+  id <VarProbe> varProbe = [VarProbe createBegin: getZone (self)];
+
+  [varProbe setProbedObject: object];
+  [varProbe setProbedVariable: name];
+	  
+  [self _finishVarProbe_: varProbe];
 }
 
 - (void)_addVarProbe_: (COMclass)cClass
@@ -201,24 +233,12 @@ PHASE(Creating)
                setter: (COMmethod)setter
 {
   VarProbe *varProbe = [VarProbe createBegin: getZone (self)];
-  id <String> key = [String create: getZone (self)
-                            setC: COM_method_name (getter)];
-
+  
+  [varProbe setProbedVariable: COM_method_name (getter)];
   [varProbe setProbedClass: SD_COM_ENSURE_CLASS_OBJC (cClass)];
   [varProbe setProbedCOMgetter: getter setter: setter];
-	  
-  if (objectToNotify != nil) 
-    [varProbe setObjectToNotify: objectToNotify];
-  varProbe = [varProbe createEnd];
 
-  if (!varProbe || ![probes at: key insert: varProbe])
-    {
-      if (varProbe)
-        [varProbe drop];
-      [key drop];
-    }
-  else
-    count++;
+  [self _finishVarProbe_: varProbe];
 }
 
 - (void)_addMessageProbe_: (Class)aClass selector: (SEL)aSel
@@ -273,7 +293,7 @@ PHASE(Creating)
 
           name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
 	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-          [self _addVarProbe_: probedClass variableName: buf];
+          [self _addVarProbeForClass_: probedClass variableName: buf];
 	  
 	  if (isCopy)
 	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
@@ -347,7 +367,7 @@ PHASE(Creating)
       unsigned i;
       
       for (i = 0; i < ivarList->ivar_count; i++)
-          [self _addVarProbe_: aClass
+          [self _addVarProbeForClass_: aClass
                 variableName: ivarList->ivar_list[i].ivar_name];
     }
 }
@@ -397,11 +417,29 @@ PHASE(Creating)
   COM_collect_methods (cClass, collect_method);
 }
 
+- (void)addJSFields: (COMobject)cObj
+{
+  void collect (const char *variableName)
+    {
+      [self _addVarProbeForObject_: SD_COM_ENSURE_OBJECT_OBJC (cObj)
+            variableName: variableName];
+    }
+  JS_collect_variables (cObj, collect);
+}
+
+- (void)addJSMethods: (COMobject)cObj
+{
+  void collect (const char *funcName)
+    {
+      printf ("JS function:`%s'\n", funcName);
+    }
+  JS_collect_methods (cObj, collect);
+}
   
 - createEnd
 {
   if (SAFEPROBES)
-    if (!probedClass)
+    if (!probedClass && !probedObject)
       {
         raiseEvent (WarningMessage,
                     "ProbeMap object was not properly initialized\n");
@@ -418,13 +456,34 @@ PHASE(Creating)
 
   if (COM_init_p ())
     {
-      COMclass cClass = SD_COM_FIND_CLASS_COM (probedClass);
-      
-      if (cClass)
+      if (probedClass)
         {
-          [self addCOMFields: cClass];
-          [self addCOMMethods: cClass];
-          return self;
+          COMclass cClass = SD_COM_FIND_CLASS_COM (probedClass);
+          
+          if (cClass)
+            {
+              [self addCOMFields: cClass];
+              [self addCOMMethods: cClass];
+              return self;
+            }
+        }
+      else if (probedObject)
+        {
+          COMobject cObj = SD_COM_FIND_OBJECT_COM (probedObject);
+
+          if (cObj)
+            {
+              if (COM_is_javascript (cObj))
+                {
+                  [self addJSFields: cObj];
+                  [self addJSMethods: cObj];
+                  return self;
+                }
+              else
+                abort ();
+            }
+          else
+            abort ();
         }
     }
   // note need for drop-thru above

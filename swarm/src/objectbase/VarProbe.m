@@ -142,6 +142,13 @@ PHASE(Creating)
   return self;
 }
 
+- _setupJSVarProbe_
+{
+  probedType = NULL;
+  interactiveFlag = NO;
+  return self;
+}
+
 - _setupObjcVarProbe_
 {
   IvarList_t ivarList;
@@ -214,19 +221,22 @@ PHASE(Creating)
   [super createEnd];
 
   if (SAFEPROBES)
-    if (!(probedVariable || (getterMethod && setterMethod)) || !probedClass)
+    if (!(probedVariable || (getterMethod && setterMethod))
+        || !(probedClass || probedObject))
       raiseEvent (WarningMessage, 
                   "VarProbe object was not properly initialized.\n");
 
   if (language == LanguageCOM)
     return [self _setupCOMVarProbe_];
+  else if (language == LanguageJS)
+    return [self _setupJSVarProbe_];
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
     return [self _setupJavaVarProbe_];
 #endif   
   else if (language == LanguageObjc)
     return [self _setupObjcVarProbe_];
-    abort ();
+  abort ();
 }
 
 PHASE(Setting)
@@ -329,7 +339,9 @@ PHASE(Using)
   void *q = NULL;
   
 #ifdef HAVE_JDK
-  if (language == LanguageJava || language == LanguageCOM)
+  if (language == LanguageJava
+      || language == LanguageCOM
+      || language == LanguageJS)
     raiseEvent (SourceMessage, 
 		"COM & Java objects do not permit probing with pointers.\n");
 #endif
@@ -406,7 +418,7 @@ java_probe_as_int (jobject fieldType, jobject field, jobject object)
 
 #endif
 
-#define CONVERT(ftype, type)                              \
+#define CONVERT(ftype, type, p)                           \
   switch (ftype)                                          \
     {                                                     \
     case fcall_type_void:                                 \
@@ -462,11 +474,13 @@ java_probe_as_int (jobject fieldType, jobject field, jobject object)
       break;                                              \
     }
 
-#define COM_CONVERT(type) CONVERT (COM_method_param_fcall_type (getterMethod, 0), type)
-#define OBJC_CONVERT(type) CONVERT (fcall_type_for_objc_type (probedType[0]), type)
+#define COM_CONVERT(type) CONVERT (COM_method_param_fcall_type (getterMethod, 0), type, p)
+#define OBJC_CONVERT(type) CONVERT (fcall_type_for_objc_type (probedType[0]), type, p)
+#define JS_CONVERT(casttype) CONVERT (val.type, casttype, (&val.val))
 
 static int
-COM_probe_as_int (COMmethod getterMethod, COMobject cObj)
+COM_probe_as_int (COMobject cObj,
+                  COMmethod getterMethod)
 {
   void *params = COM_create_params (1);
   types_t retBuf;
@@ -480,6 +494,18 @@ COM_probe_as_int (COMmethod getterMethod, COMobject cObj)
   
   COM_free_params (params);
   return retBuf.sint;
+}
+
+static int
+JS_probe_as_int (COMobject cObj, const char *variableName)
+{
+  val_t val;
+  int ret = 0;
+
+  JS_probe_variable (cObj, variableName, &val);
+  
+  JS_CONVERT (int);
+  return ret;
 }
 
 static int
@@ -500,7 +526,11 @@ objc_probe_as_int (const char *probedType, const types_t *p)
                   "VarProbe for class %s tried on class %s\n",
                   [probedClass name], [anObject name]);
   if (language == LanguageCOM)
-    return COM_probe_as_int (getterMethod, SD_COM_FIND_OBJECT_COM (anObject));
+    return COM_probe_as_int (SD_COM_FIND_OBJECT_COM (anObject),
+                             getterMethod);
+  else if (language == LanguageJS)
+    return JS_probe_as_int (SD_COM_FIND_OBJECT_COM (anObject),
+                             probedVariable);
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
     return java_probe_as_int (fieldType,
@@ -544,7 +574,7 @@ java_probe_as_double (jobject fieldType, jobject field, jobject object)
 
 
 static double
-COM_probe_as_double (COMmethod getterMethod, COMobject cObj)
+COM_probe_as_double (COMobject cObj, COMmethod getterMethod)
 {
   void *params = COM_create_params (1);
   types_t retBuf;
@@ -557,6 +587,18 @@ COM_probe_as_double (COMmethod getterMethod, COMobject cObj)
   COM_CONVERT (double);
 
   COM_free_params (params);
+  return ret;
+}
+
+static double
+JS_probe_as_double (COMobject cObj, const char *variableName)
+{
+  val_t val;
+  double ret = 0.0;
+
+  JS_probe_variable (cObj, variableName, &val);
+
+  JS_CONVERT (double);
   return ret;
 }
 
@@ -580,8 +622,11 @@ objc_probe_as_double (const char *probedType, const types_t *p)
                   [anObject name]);
   
   if (language == LanguageCOM)
-    return COM_probe_as_double (getterMethod,
-                                SD_COM_FIND_OBJECT_COM (anObject));
+    return COM_probe_as_double (SD_COM_FIND_OBJECT_COM (anObject),
+                                getterMethod);
+  else if (language == LanguageJS)
+    return JS_probe_as_double (SD_COM_FIND_OBJECT_COM (anObject),
+                               probedVariable);
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
     return java_probe_as_double (fieldType,
@@ -832,8 +877,8 @@ string_convert (fcall_type_t type, const types_t *p,
 }
 
 static void
-COM_probe_as_string (COMmethod getterMethod,
-                     COMobject cObj,
+COM_probe_as_string (COMobject cObj,
+                     COMmethod getterMethod,
                      const char *fmt, unsigned precision,
                      id <Symbol> stringReturnType,
                      char *buf)
@@ -853,6 +898,23 @@ COM_probe_as_string (COMmethod getterMethod,
   COM_free_params (params);
 }
 
+static void
+JS_probe_as_string (COMobject cObj, const char *variableName,
+                    const char *fmt, unsigned precision,
+                    id <Symbol> stringReturnType,
+                    char *buf)
+{
+  val_t val;
+
+  JS_probe_variable (cObj, variableName, &val);
+  
+  string_convert (val.type,
+                  &val.val,
+                  fmt, precision,
+                  stringReturnType,
+                  buf);
+}
+
 - (const char *)probeAsString: anObject
                        Buffer: (char *)buf 
             withFullPrecision: (BOOL)fullPrecisionFlag
@@ -866,11 +928,17 @@ COM_probe_as_string (COMmethod getterMethod,
                [probedClass name], [anObject name]);
   
   if (language == LanguageCOM)
-    COM_probe_as_string (getterMethod,
-                         SD_COM_FIND_OBJECT_COM (anObject),
+    COM_probe_as_string (SD_COM_FIND_OBJECT_COM (anObject),
+                         getterMethod,
                          fmt, precision,
                          stringReturnType,
                          buf);
+  else if (language == LanguageJS)
+    JS_probe_as_string (SD_COM_FIND_OBJECT_COM (anObject),
+                        probedVariable,
+                        fmt, precision,
+                        stringReturnType,
+                        buf);
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
     java_probe_as_string (fieldType,
@@ -912,7 +980,8 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
 
 
 static id
-COM_probe_as_object (COMmethod getterMethod, COMobject cObj)
+COM_probe_as_object (COMobject cObj,
+                     COMmethod getterMethod)
 {
   void *params = COM_create_params (1);
   types_t retBuf;
@@ -921,10 +990,20 @@ COM_probe_as_object (COMmethod getterMethod, COMobject cObj)
   COM_method_set_return (getterMethod, params, &retBuf);
   COM_method_invoke (getterMethod, cObj, params);
 
-  ret = SD_COM_FIND_OBJECT_OBJC (retBuf.object);  // a pointer, anyway
+  ret = SD_COM_ENSURE_OBJECT_OBJC (retBuf.object);
   
   COM_free_params (params);
   return ret;
+}
+
+static id
+JS_probe_as_object (COMobject cObj, const char *variableName)
+{
+  val_t val;
+
+  JS_probe_variable (cObj, variableName, &val);
+
+  return SD_COM_ENSURE_OBJECT_OBJC (val.val.object);
 }
 
 
@@ -935,14 +1014,18 @@ COM_probe_as_object (COMmethod getterMethod, COMobject cObj)
                 "Invalid type `%s' to retrieve as an object",
                 probedType);
 
+  if (language == LanguageCOM)
+    return COM_probe_as_object (SD_COM_FIND_OBJECT_COM (anObject),
+                                getterMethod);
+  else if (language == LanguageJS)
+    return JS_probe_as_object (SD_COM_FIND_OBJECT_COM (anObject),
+                               probedVariable);
 #ifdef HAVE_JDK
-  if (language == LanguageJava)
+  else if (language == LanguageJava)
     return java_probe_as_object (fieldType,
                                  fieldObject,
                                  SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif
-  if (language == LanguageCOM)
-    return COM_probe_as_object (getterMethod, SD_COM_FIND_OBJECT_COM (anObject));
   else if (language == LanguageObjc)
     return *(id *) [self probeRaw: anObject];
   else

@@ -23,6 +23,7 @@
 @interface ProbeMap: SwarmObject <ProbeMap>
 {
   Class probedClass;
+  id probedObject;
   unsigned count;
   id probes;
   id objectToNotify;  //could be an object or a list
@@ -57,6 +58,7 @@
 - getObjectToNotify;
 
 - setProbedClass: (Class)class;
+- setProbedObject: object;
 - _copyCreateEnd_;
 - createEnd;
 - clone: aZone;
@@ -72,16 +74,19 @@
 - (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
 - begin: aZone;
 
-- (void)_addVarProbe_: (Class)aClass variableName: (const char *)aName;
-- (void)_addMessageProbe_: (Class)aClass selector: (SEL)aSel;
-
 #ifdef BUILDING_SWARM
 #ifdef HAVE_JDK
 - (void)addJavaFields: (jclass)javaClass;
 - (void)addJavaMethods: (jclass)javaClass;
 #endif
+- (void)_addVarProbeForClass_: (Class)aClass variableName: (const char *)aName;
+- (void)_addVarProbeForObject_: anObject variableName: (const char *)aName;
+- (void)_addVarProbe_: (COMclass)cClass getter: (COMmethod)getter setter: (COMmethod)setter;
+- (void)_addMessageProbe_: (Class)aClass selector: (SEL)aSel;
 - (void)addCOMFields: (COMclass)cClass;
 - (void)addCOMMethods: (COMclass)cClass;
+- (void)addJSFields: (COMobject)cObj;
+- (void)addJSMethods: (COMobject)cObj;
 #endif
 
 - (void)addObjcFields: (Class)oClass;
