@@ -1,5 +1,5 @@
 DIRS=defobj collections activity random tkobjc swarmobject simtools analysis \
-     space
+     space graph
 
 all:    headers libs
 clean:
