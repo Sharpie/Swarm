@@ -1,3 +1,12 @@
+2003-02-14  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* ltmain.sh and libtool/ltmain.sh: from libtool 1.4.3 needed on MacOS X.  
+	  needs SED environment var pointing to gnu sed.  
+
+2003-02-14  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* configure.in and libtool/configure: Update update Objective-C flags for recent compilers
+
 2003-01-13  Alex Lancaster  <alexl@users.sourceforge.net>
 
 	* AUTHORS: Update information, and add Bill Northcott as lead on
