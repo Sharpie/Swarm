@@ -1,141 +1,371 @@
 <sect1 id="swarm.user.user3.01.sect1">
-  <title>Introduction to the Libraries</title>
+  <title>Anything C can do, Swarm can do better</title>
+ <para>
+ Any programming statements that will work in C can also be used in a Swarm program.  Hence, if one needs access to a programming library that can be used in C, one can also access that library in Swarm.  Furthermore, functions written for C programs can be integrated into Swarm code.
+</para>
+<sect2>
+<title>Managing command line parameters</title>
+<para>
+One of the obscure and difficult parts of C programming is designing a
+program to handle command line arguments.  The argc and argv[]
+approach is difficult to understand and manage.  Swarm has built-in
+tools to handle this problem.
+</para>
+
+<para>
+If you compile a Swarm program, you "automatically" get some built-in
+command line parameters.  You can see what they are when you type the
+program's name, followed by --help.  Here is some output from the
+heatbugs program:
+
+<programlisting>
+$ ./heatbugs --help
+Usage: lt-heatbugs [OPTION...]
+
+  -s, --varyseed             Run with a random seed
+  -b, --batch                Run in batch mode
+  -m, --mode=MODE            Specify mode of use (for archiving)
+  -t, --show-current-time    Show current time in control panel
+      --no-init-file         Inhibit loading of ~/.swarmArchiver
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+  -V, --version              Print program version
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+</programlisting>
+
+If you type a command line like
+
+<programlisting>
+$ ./heatbugs -s -t
+</programlisting>
+then swarm will use a random number seed that is based on the system's
+clock and the display of the control panel will show the time. As a
+result, the random number stream used in the program will be different
+each time you run the program.
+</para>
+
+<para> A person might want to add command line parameters to their
+Swarm code if they want to automate the processing of many simulation
+runs.  For example, if one wanted to make a simulation run 50 times
+for each setting of a particular parameter value, then one would need
+to design a way to pass that particular parameter value from the
+command line.  The repetition of the program can be managed by a
+user-created script (written in some language like Perl, for example),
+or with a simulation tool like Drone, which is available from the web
+sites of the Center for the Study of Complex Systems at the University
+of Michigan (http://aaron.physics.lsa.umich.edu:80/Software/Drone/).
+</para>
+
+<para> If the user wants to pass additional parameters in the command
+line, Swarm has built in procedures that make argument processing a
+bit easier than using the command line processing available in C.
+This functionality is found in Swarm's Arguments protocol.  The
+details of the usage of Arguments are explained quite well in the
+Swarmdocs.  Rather than explain every detail, we choose here to
+explain one worked example. This example is available in full at
+http://lark.cc.ukans.edu/~pauljohn/Swarm/MySwarmCode/ParameterHeatbugs.tar.gz. All
+of the changes described here begin with the Heatbugs application
+distributed in the package swarmapps-2.0.tar.gz.
+</para>
+<para>
+The first step is to edit the main.m.  Add an import command for our
+object that will manage the parameters:
+<programlisting>
+#import "MyParameters.h"
+</programListing>
+and then change the initSwarm command to this:
+
+<programlisting> 
+initSwarmArguments (argc, argv, [MyParameters class]);
+</programListing>
+
+This change tells the swarm kernel to look in your class called
+MyParameters for information about how to process the command line
+arguments.
+</para>
+
+<para>
+Next, write the files MyParameters.h and MyParameters.m.  Here they are:
+
+<programlisting>
+//Parameters.h
+#import &lt;defobj/Arguments.h&gt;
+
+@interface MyParameters: Arguments_c
+ {
+   int numBugs;
+ }
+
+
+- (int) getBugArg;
+@end
+
+//Parameters.m
+
+#import "MyParameters.h"
+#import &lt;stdlib.h&gt;
+
+
+@implementation MyParameters
+
++ createBegin: aZone
+ {
+   static struct argp_option options[] = {
+     {"numBugs",'n',"N", 0, "Set numBugs", 5},
+     { 0 }
+   };
+
+   MyParameters *obj = [super createBegin: aZone];
+
+   [obj addOptions: options];
+
+   return obj;
+ }
+
+
+- (int)parseKey: (int) key arg: (const char*) arg
+ {
+   if (key == 'n')
+     {
+       numBugs = atoi(arg);
+       return 0;
+     }
+   else
+     return [super parseKey: key arg: arg];
+ }
+
+- (int) getBugArg
+ {
+    if (numBugs)
+    return numBugs;
+
+    else 
+      return -1;
+ }
+
+@end
+</programlisting>
+The parseKey:arg: method indicates that when the key is 'n', meaning the command line passed "-n" after the program name, then it the corresponding argument is taken and converted to an integer (by the atoi function, the reason for which the include of stdlib.h is needed).  When another class tells our parameter manager class to <function>getBugArg</function>, then the command line argument will be returned if there was one, otherwise it will return -1.
+</para>
+<para>
+The only interesting wrinkle arises when it is necessary to retrieve the value of numBugs from the parameter class.  When the Swarm kernel is initialized, it creates an object called "arguments".  Any commands that one wants to address to the MyParameters class are instead addressed to "arguments".  For example, when we want the HeatbugModelSwarm.m class to set the intial values, we add an import statement for "MyParameters.h" and then we make calls against the arguments class.  The syntax is like this:
+
+<programlisting>
+ + createBegin: aZone
+{
+  HeatbugModelSwarm *obj;
+  id &lt;CustomProbeMap&gt; probeMap;
+  obj = [super createBegin: aZone];
+
+  // Now fill in various simulation parameters with default values or grab values from MyParameters.
+
+  obj->numBugs = 10;
+  if ( ([arguments getBugArg] != -1) )obj-> numBugs=[arguments getBugArg];
+  [and so forth]
+</programlisting>
+This example sets the number of bugs equal to 10, but if the value is included in a command line option, then that value is incorporated.
+</para>
+<para>
+Once the Makefile is touched up to include references to MyParameters, then the program compiles and hthe output from the help command indicates the new parameter is recognized:
+
+<programlisting>
+$ ./heatbugs --help
+Usage: lt-heatbugs [OPTION...]
+
+  -s, --varyseed             Run with a random seed
+  -b, --batch                Run in batch mode
+  -m, --mode=MODE            Specify mode of use (for archiving)
+  -t, --show-current-time    Show current time in control panel
+      --no-init-file         Inhibit loading of ~/.swarmArchiver
+  -n, --numBugs=N            Set numBugs
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+  -V, --version              Print program version
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+
+Report bugs to bug-swarm@santafe.edu.
+</programlisting>
+</para>
+<para>
+It does not make any difference whether the user starts the program with the command
+<programlisting>
+$ ./heatbugs -n 444
+or
+$ ./heatbugs --numBugs=444.
+</programlisting>
+
+In either case, the probe map will indicate the initial number of bugs is 444.
+</para>
+</sect2>
 
 <sect2>
- <title>Swarm Libraries</title> 
-
-    <formalpara><title>More on Swarm libraries</title><para>
+ <title>Using C functions in Swarm </title> 
+<para>
+The fundamental rules of C programming apply in Swarm. Perhaps most importantly,
 
         <itemizedlist>
 
           <listitem>
-            <formalpara><title>Collection</title>
-              <para>Lists, Arrays, Sorted lists</para>
+            <formalpara><title>Use prototypes for functions used in many files</title>
+              <para>
+       If a function is defined in one file, and it is to be used in
+       another, then there must be a prototype in the header file and
+       that header must be included in each file that makes calls on
+       the function.
+            </para>
             </formalpara></listitem> 
 
           <listitem>
-            <formalpara><title>Random</title>
-              <para>Random numbers</para></formalpara></listitem>
-
-          <listitem><formalpara><title>Analysis</title>
-              <para>Graphs,Histograms and data filters</para>
-            </formalpara></listitem>
-
-          <listitem><formalpara><title>Space</title>
-              <para>Latticeclasses</para>
-            </formalpara></listitem>
-
-          <listitem><formalpara><title>Activity</title>
-              <para>Schedulesand ActivityGroups</para>
-            </formalpara></listitem>
+            <formalpara><title>Type functions as "static" if they are
+            used only in one file</title> <para>When a function's use
+            is confined to the file in which it is called, use static
+            to type it in order to reduce the danger of confusion that
+            might result if other files use functions of the same
+            name.</para></formalpara></listitem>
         </itemizedlist>
+</para>
 
-      </para></formalpara> 
+<para>
+If a function is defined at the top of a source code file--after the
+includes and imports but before the implemenation line, then that
+function can be called anywhere in that file. If the function is not
+used in any other files, then there is no need to put a prototype for
+it in the header file and the declaration of the function should start
+with "static".
+</para>
 
-</sect2>
+<para> A function can also be defined <emphasis>inside a
+method!</emphasis>.  It looks a bit peculiar when functions crop up
+inside Objective-C methods, but there is nothing wrong with doing so.
+Of course, when a function is defined inside a method, then its scope
+is sharply restricted. That function can be called only inside that
+method.
+</para>
 
-<sect2>
- <title>PPT Slide</title> 
+<para> There are some occasions in which is is extremely handy to
+define functions inside methods.  Two particulary useful aspects of
+this practice are as follows. First, Objective-C calls to "self" can
+be made in such functions. If a function needs some value, and it
+intends to get it by calling a get method such as <literal>[self
+getThatNumber]</literal> it will work as long as the function is
+defined inside a legitimate Objective-C method.  If the function is
+located at the top of the file, before the implementation statement,
+then the term "self" will have no meaning and the program will not
+compile.
+</para>
 
-    <para>The libraries</para>
+<para>
+The second useful aspect is of this practice is that one can have
+several different functions with the same name if those functions are
+set inside Objective-C methods. It may seem hard to imagine situations
+in which this would be useful, but they do arise.  
+</para>
 
-    <para>Note: It is actually impossible to draw the class hierarchy
-      because some of the lib directories contain classes from
-      different branches</para>
-    <literallayout>
-Defobj
-Simtools
-Analysis
-Collection
-Probe
-Swarm
-Random
-ObjectBase
-Activity
-Gui
-Space
-TkObjC
-AwtObjC
-</literallayout>
+<para>
+Suppose inside a
+class there are two methods and each makes use of a function from the
+standard C libraries.  If the function expects to have some other
+user-defined function available when it is run, then the user can
+customize that user-defined function inside each method.  To be a bit
+more concrete, consider the GNU C library's binary search tree defined
+in the header file search.h. The function tsearch (version 2.1) has
+this prototype:
+<programlisting>
+        void *tsearch (const void *key, void **rootp,
+                       int (*compar)(const void *, const void *));
+</programlisting>
 
-</sect2>
+The tsearch function checks to see if a node already exists by using a comparison function. If an equal node exists, then tsearch returns that node. If no such node exists, tsearch adds the node to the tree. Note that the comparision function used in the tsearch must be included as the last argument.
+</para>
 
-<sect2>
- <title>PPT Slide</title> 
-
-    <para>What these classes do</para>
-
-    <itemizedlist>
-      
-      <listitem><formalpara><title>Activity</title><para> Schedules,
-        ActivityGroups and Swarms</para> </formalpara></listitem>
-
-      <listitem><formalpara><title>Probe </title><para> Probing
-            object∆s state and behavior</para> </formalpara></listitem>
-
-      <listitem><formalpara><title>Random </title><para> Random number
-            generators and distributions</para> </formalpara></listitem>
-
-      <listitem><formalpara><title>Simtools</title><para> Grab bag of
-            various tools</para> </formalpara></listitem>
-
-      <listitem<formalpara><title>Collection </title><para>Arrays,
-            Lists and ordered Lists of objects</para>
-        </formalpara>
-      </listitem>
-
-      <listitem><formalpara><title>GUI </title><para>Graphical
-            interface objects</para>
-        </formalpara>
-      </listitem>
-
-      <listitem><formalpara><title>Space </title><para>Manages
-            information for 2D lattice or grids</para>
-        </formalpara>
-      </listitem>
-
-      <listitem><formalpara><title>Analysis </title><para>Easier
-            interface to graphs, calculate statistics</para>
-        </formalpara>
-      </listitem>
-    </itemizedlist>
+<para>
+The problem may arise that one wants to use different comparison functions when working with a single tree. Once a tree is created with a comparison function called "compare_node", then all calls on the tree must use a comparison function with the same name.  Perhaps there is some slight wrinkle to be introduced when deciding whether one node is equal to another when they are being inserted and when they are being printed out or removed.  By defining several compare functions, one inside each method that makes use of the tree, one can acheive the desired level of specialization.
+</para>
 
 </sect2>
 
-<sect2>
- <title>Collection</title> 
+<sect2><title>Examples of useful functions: getInt and getDouble</title>
+<para> Functions can come in handy in many cases, but let's begin with
+a particularly useful example that continues with the project of
+managing parameters.  Suppose you have a Swarm file MyParameters.m
+that sets the values of many parameters.  Suppose there are 50 ints
+and 40 doubles.  You may go insane writing methods to get each
+parameter specifically by name.  </para>
 
-    <formalpara><title>List</title><para>A flat list of objects with
-        random access </para>
-    </formalpara>
+<para> There is no need to write specific get methods for each
+variable because a combination of methods from Swarm and C can be used
+to create "generic" get functions that will retrieve the values.  In
+the top part of the MyParameters.m file, between the include
+statements and the implementation statement, the functions are defined
+thus:
 
-    <formalpara><title>KeyedCollection</title><para>
-        <itemizedlist>
-          <listitem>
-            <formalpara><title>Map </title><para>Key  is independent object</para>
-            </formalpara>
-          </listitem>
+<programlisting>
+//MyParameters.m
+[import statements here]
 
-          <listitem>
-            <formalpara><title>Set </title><para>Key is the member itself </para>
-            </formalpara>
-          </listitem>
-        </itemizedlist>
-      </para></formalpara>
+id
+makeProbe (id obj, const char *ivarName)
+{
+  id probe = [VarProbe createBegin: [obj getZone]];
 
-    <formalpara><title>Array</title><para>
-        Collection with fixed size</para></formalpara>
+  [probe setProbedClass: [obj getClass]];
+  [probe setProbedVariable: ivarName];
+  return [probe createEnd];
+}
 
-    <literallayout>Collection
-List
-Keyed
-Collection
-Array
-Map
-Set
-</literallayout>
+double
+getDouble (id obj, const char *ivarName)
+{
+  id probe = makeProbe (obj, ivarName);
+  double ret = [probe probeAsDouble: obj];
+  [probe drop];
+  return ret;
+}
 
+int
+getInt (id obj, const char *ivarName)
+{
+  id probe = makeProbe (obj, ivarName);
+  int ret = [probe probeAsInt: obj];
+  [probe drop];
+  return ret;
+}
+
+
+@implementation MyParameters
+[and so forth...]
+</programlisting>
+
+These functions are made available to calls in other files by declaring them in the header file, MyParameters.h.  The declarations are inserted between the import statements and before the interface declaration.  
+
+<programlisting>
+//MyParameters.h
+[import statements here]
+id
+makeProbe (id obj, const char *ivarName);
+
+double
+getDouble (id obj, const char *ivarName);
+
+int
+getInt (id obj, const char *ivarName);
+
+@interface MyArguments: Arguments_c
+[And so forth...]
+</programlisting>
+
+In any file that includes MyParameters.h, one can retrieve the value of a parameter by using the getInt and getDouble functions.  For example, if there is an instance variable defined in MyParameters called "maxHeat", it can be retrieved by the function:
+<programlisting>
+ getInt(arguments, "maxHeat");
+</programlisting>
+This call is made against the object called "arguments" because, as mentioned in the previous section, the instantiation of MyParameters is named "arguments" inside the Swarm kernel.
+</para>
 </sect2>
+
 </sect1>
 <!--
 Local Variables:

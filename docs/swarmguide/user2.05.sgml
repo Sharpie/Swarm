@@ -151,6 +151,7 @@ nameOfSomeList = [List create: self];
       <programlisting>
 @implementation PplModelSwarm
 
+-buildObjects
 { 
   //...
   // build the list to keep track of the ppl
@@ -451,9 +452,6 @@ while ((element = [pplIndex next]) != nil)
       the program exits the while loop at that point.
     </para>
 
-
-
-
     <para>
       If one inspects a number of Swarm examples, one will find the
       while loop is constructed in slightly different ways, but the
@@ -471,13 +469,13 @@ id <Index> pplIndex    = nil;
 int numberOfFriends;
 
 pplIndex = [pplPresent begin: [self getZone]];
-while ((element = [pplIndex next]) != nil ) 
+while ([pplIndex next])) 
 {
   numberOfFriends = [[pplIndex get] getNumFriends];
   if (numberOfFriends > 3) 
     [popularPeople addLast: [pplIndex get]];
 }
-[index drop];
+[pplIndex drop];
 ]]>
       </programlisting>
 
@@ -503,7 +501,7 @@ while ((element = [pplIndex next]) != nil )
 
     <para>One final note: it is important to drop the index object
       when its use is completed.  That's accomplished by the
-      <literal>[index drop];</literal> command in the last example.
+      <literal>[pplIndex drop];</literal> command in the last example.
       If this is forgotten, the index will continue to occupy memory
       and waste resources.
     </para>
