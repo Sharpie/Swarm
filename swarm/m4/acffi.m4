@@ -10,9 +10,7 @@ else
 fi
 
 if test $USE_FFCALL = 0 ; then
-  if test -z "$ffidir" ; then 
-    ffidir=$defaultdir
-  fi
+  test -n "$ffidir" || ffidir=$defaultdir
   FFILDFLAGS=''
   AC_MSG_CHECKING(directory of libffi)
   for dir in $ffidir /usr ; do
@@ -31,24 +29,20 @@ if test $USE_FFCALL = 0 ; then
   done
   if test -z "$FFILDFLAGS" ; then
     AC_MSG_RESULT(no)    
-    AC_MSG_ERROR(Please use --with-ffidir to specify location of libffi library.)
   else
     ffidir=$dir
+    AC_MSG_CHECKING(directory of libffi include)
+    if test -f $ffidir_expand/include/ffi.h ; then
+      AC_MSG_RESULT($ffidir/include)
+      FFILIB=-lffi
+    else
+      AC_MSG_RESULT(no)
+    fi
   fi
-  AC_MSG_CHECKING(directory of libffi include)
-  if test -f $ffidir_expand/include/ffi.h ; then
-    AC_MSG_RESULT($ffidir/include)
-  else
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR(Please use --with-ffidir to specify locatin of libffi header file.) 
-  fi
-  FFILIB=-lffi
 else
   AC_DEFINE(USE_AVCALL)
   FFILIB=-lavcall
-  if test -z "$ffidir" ; then 
-    ffidir=$defaultdir
-  fi
+  test -n "$ffidir" || ffidir=$defaultdir
   ffidir_expand=`eval echo $ffidir`
   AC_MSG_CHECKING(directory of libavcall.a)
   if test -f $ffidir_expand/lib/libavcall.a ; then
@@ -66,15 +60,23 @@ else
     AC_MSG_ERROR(Please use --with-ffcalldir to specify locatin of avcall header file.) 
   fi
 fi
-AC_SUBST(ffidir)
-ffilibdir=$ffidir/lib
-AC_SUBST(ffilibdir)
-
-if test $ffidir_expand = /usr; then
-  FFIINCLUDES=''
+if test -n "$FFILIB"; then
+  ffilibdir=$ffidir/lib
+  if test $ffidir_expand = /usr; then
+    FFIINCLUDES=''
+  else
+    FFIINCLUDES='-I${ffidir}/include'
+  fi
 else
-  FFIINCLUDES='-I${ffidir}/include'
+  AC_DEFINE(USE_AVCALL)
+  ffidir=
+  ffilibdir=
+  FFIINCLUDES='-I$(top_builddir)/avcall'
+  FFILDFLAGS=
+  FFILIB="\$(top_builddir)/avcall/avcall-${target_cpu}.o"
 fi
+AC_SUBST(ffidir)
+AC_SUBST(ffilibdir)
 AC_SUBST(FFIINCLUDES)
 AC_SUBST(FFILDFLAGS)
 AC_SUBST(FFILIB)
