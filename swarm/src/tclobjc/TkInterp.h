@@ -34,8 +34,9 @@
   Tcl_DString command;
 }
 
+- (const char *)checkTkLibrary;
 - stop;
-- (Tk_Window) mainWindow;
+- (Tk_Window)mainWindow;
 
 @end
 

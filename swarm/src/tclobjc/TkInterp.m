@@ -33,6 +33,7 @@
 #include <tk.h>
 #include "tclObjc.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 #define DEFAULT_PROMPT "Tk% "
 #define DEFAULT_PARTIAL_PROMPT "Tk> "
@@ -88,22 +89,53 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
 
 @implementation TkInterp
 
+- (const char *)checkTkLibrary
+{
+  const char *originalPath = TK_LIBRARY;
+
+  if (![self checkPath: originalPath file: "tk.tcl"])
+    {
+      if (secondaryPath && [self checkPath: secondaryPath file: "tk.tcl"])
+        return secondaryPath;
+      else
+        return NULL;
+    }
+  else
+    {
+      char *buf = malloc (strlen (originalPath) + 1);
+
+      if (buf == NULL)
+        abort ();
+      strcpy (buf, originalPath);
+      return buf;
+    }
+}
+
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv
 {
   const char *fileName;
-  const char *tclPath = NULL;
-  const char *tkPath = NULL;
-  
- retry:
+
+
   fileName = [super preInitWithArgc:argc argv:argv];
 
   Tcl_SetVar (interp, "tkObjc", "1", TCL_GLOBAL_ONLY);
+  {
+    const char *tclPath = [self checkTclLibrary];
 
-  if (tclPath)
-    Tcl_SetVar (interp, "tcl_library", (char *)tclPath, TCL_GLOBAL_ONLY);
-  
-  if (tkPath)
-    Tcl_SetVar (interp, "tk_library", (char *)tkPath, TCL_GLOBAL_ONLY);
+    if (tclPath)
+      Tcl_SetVar (interp, "tcl_library", (char *) tclPath, TCL_GLOBAL_ONLY);
+    else
+      abort ();
+  }
+  {
+    const char *tkPath = [self checkTkLibrary];
+
+    if (tkPath)
+      Tcl_SetVar (interp, "tk_library", (char *) tkPath, TCL_GLOBAL_ONLY);
+    else
+      abort ();
+  }
+  [self eval: "proc tkInit {} {}"];
   
   /*
    * Initialize the Tk application and arrange to map the main window
@@ -127,36 +159,17 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
   }
   Tk_GeometryRequest(w, 200, 200);
 #endif
-
+  
   if (Tk_Init (interp) == TCL_ERROR)
     {
-      if (tclPath == NULL)
-        {
-          if ((tclPath = [self checkTclLibrary]) != NULL)
-            {
-              Tcl_DeleteInterp (interp);
-              goto retry;
-            }
-        }
-      else if (tkPath == NULL)
-        {
-          if (secondaryPath && [self checkPath: secondaryPath file: "tk.tcl"])
-            {
-              Tcl_DeleteInterp (interp);
-              tkPath = secondaryPath;
-              goto retry;
-            }
-        }
-      {
-        const char *msg = 
-          Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
-        
-        if (msg == NULL)
-          msg = interp->result;
-        [self error:msg];
-        return NULL;		/* shouldn't get here anyway */
-      }
+      const char *msg = Tcl_GetVar (interp, "errorInfo", TCL_GLOBAL_ONLY);
+      
+      if (msg == NULL)
+        msg = interp->result;
+      [self error:msg];
+      abort ();
     }
+
 #if (TK_MAJOR_VERSION > 4 || (TK_MAJOR_VERSION == 4 && TK_MINOR_VERSION >= 1))
   w = Tk_MainWindow(interp);
   if (w == NULL) {

@@ -6,13 +6,16 @@ tclobjcdir = $(includedir)/tclobjc
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
 FFIINCLUDES = @FFIINCLUDES@
+tklibdir = @tklibdir@
+TK_VERSION = $(shell sed -n "s/^TK_VERSION='\(.*\)'/\1/p" $(tklibdir)/tkConfig.sh)
+TK_LIBRARY = $(tklibdir)/tk$(TK_VERSION)
 
 SUFFIXES = .m
 
 INCLUDES = -I$(srcdir)/../misc $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
 
 override OBJCFLAGS += $(X_CFLAGS) -Wno-implicit-int
-override CPPFLAGS += -DList=TclObjcList
+override CPPFLAGS += -DList=TclObjcList -DTK_LIBRARY=\"$(TK_LIBRARY)\"
 
 lib_LTLIBRARIES = libtclobjc.la
 

@@ -127,13 +127,7 @@ List* tclList;
   if (![self checkPath: originalPath file: "init.tcl"])
     {
       if (secondaryPath && [self checkPath: secondaryPath file: "init.tcl"])
-        {
-          Tcl_SetVar (interp,
-                      "tcl_library",
-                      (char *)secondaryPath,
-                      TCL_GLOBAL_ONLY);
-          return secondaryPath;
-        }
+        return secondaryPath;
       else
         return NULL;
     }
@@ -166,8 +160,21 @@ List* tclList;
 
   interp = Tcl_CreateInterp ();
 
-  [self checkTclLibrary];
-  
+  {
+    const char *path = [self checkTclLibrary];
+    
+    if (path)
+      Tcl_SetVar (interp, "tcl_library", (char *) path, TCL_GLOBAL_ONLY);
+    else
+      {
+        char *msg = Tcl_GetVar (interp, "errorInfo", TCL_GLOBAL_ONLY);
+        if (msg == NULL)
+          msg = interp->result;
+        [self error:msg];
+        abort ();
+      }
+  }
+
   /*
    * Make command-line arguments available in the Tcl variables "argc"
    * and "argv".

@@ -1,3 +1,22 @@
+1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* TkInterp.m: Include stdlib.h.
+	([TkInterp -checkTkLibrary]): Use TK_LIBRARY as base path for tk.tcl
+	then try secondaryPath.
+	([TkInterp -preInitWithArgc:argv:]): Don't retry.  Set them from
+	check{Tcl,Tk} or fail.
+
+	* TkInterp.h: Declare checkTkLibrary.
+
+	* TclInterp.m ([TclInterp -preInitWithArgc:argv:]): Set tcl_library
+	if path is set, else raise error.
+	([TclInterp -checkTclLibrary]): Don't set tcl_library here.
+
+	* Makefile.am (tklibdir): Substitute.
+	(TK_VERSION): Extract from tkConfig.sh.
+	(TK_LIBRARY): Set to $(tklibdir)/tk$(TK_VERSION).
+	(CPPFLAGS): Define TK_LIBRARY.
+
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am: Add -Wno-implicit-int to OBJCFLAGS instead of
