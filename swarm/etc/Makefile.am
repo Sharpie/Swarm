@@ -1,3 +1,5 @@
+EXTRA_DIST = config.swarm.in Makefile.common.in Makefile.appl.in Makefile.lib.in 
+
 install-data-local:
 	$(mkinstalldirs) $(sysconfdir)/swarm
 	$(INSTALL_DATA) config.swarm $(sysconfdir)/swarm

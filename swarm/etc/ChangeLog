@@ -1,3 +1,8 @@
+1998-12-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Set to config.swarm.in,
+	Makefile.{common.appl,lib}.in.
+
 1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.common.in (.m.o): Add -Wno-protocol.
