@@ -50,6 +50,7 @@ jmethodID m_BooleanValueOf,
   m_MethodGetName,
   m_SelectorConstructor,
   m_HashCode,
+  m_Equals,
   m_PhaseCImpl_copy_creating_phase_to_using_phase;
 
 jfieldID f_nameFid, f_retTypeFid, f_argTypesFid, f_objcFlagFid, f_nextPhase;
@@ -125,11 +126,11 @@ get_class_name (JNIEnv *env, jclass class)
                                 swarm_directory_java_instantiate (env, class));
 }
 
-int
+unsigned
 swarm_directory_java_hash_code (jobject javaObject)
 {
-  return 
-    (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode) % DIRECTORY_SIZE;
+  int hashCode = (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode);
+  return (hashCode < 0 ? - hashCode : hashCode) % DIRECTORY_SIZE;
 }
 
 @internalimplementation DirectoryEntry
@@ -150,7 +151,7 @@ swarm_directory_java_hash_code (jobject javaObject)
   return getObjcName (javaObject, object);
 }
 
-- (int)getHashCode
+- (unsigned)getHashCode
 {
   return swarm_directory_java_hash_code (javaObject);
 }
@@ -165,9 +166,10 @@ swarm_directory_java_hash_code (jobject javaObject)
           ((DirectoryEntry *) obj)->javaObject);
 #endif
 
-  return (int) !(*jniEnv)->IsSameObject (jniEnv,
-                                         ((DirectoryEntry *) obj)->javaObject,
-                                         javaObject);
+  return (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
+                                              javaObject,
+                                              m_Equals,
+                                              ((DirectoryEntry *) obj)->javaObject);
 }
 
 - (void)drop
@@ -647,6 +649,10 @@ create_method_refs (JNIEnv *env)
   if (!(m_HashCode =
         (*env)->GetMethodID (env, c_object, "hashCode", "()I")))
     abort ();
+
+  if (!(m_Equals =
+        (*env)->GetMethodID (env, c_object, "equals", "(Ljava/lang/Object;)Z")))
+    abort ();
   
   if (!(m_PhaseCImpl_copy_creating_phase_to_using_phase = 
         (*env)->GetMethodID (env,
@@ -942,7 +948,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
         else
           sel = sel_register_typed_name (name, signatureBuf);
       }
-      
+
       SD_ADD (env, jsel, (id) sel);
 
       if (copyFlag)

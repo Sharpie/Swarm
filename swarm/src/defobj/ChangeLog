@@ -1,3 +1,12 @@
+1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.[mh] ([-getHashCode], swarm_directory_java_hash_code):
+	Make return unsigned.
+
+	* directory.m ([-compare:]): Call `equals' instead of using
+	IsSameObject.
+	(create_method_refs): New methodId `m_Equals'.
+
 1999-08-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (internalimplementation): New macro.

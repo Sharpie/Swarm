@@ -26,7 +26,7 @@ void swarm_directory_init (JNIEnv *jniEnv,
 
 jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
-int swarm_directory_java_hash_code (jobject javaObject);
+unsigned swarm_directory_java_hash_code (jobject javaObject);
 
 @interface DirectoryEntry: CreateDrop
 {
@@ -38,7 +38,7 @@ int swarm_directory_java_hash_code (jobject javaObject);
 - setObject: object;
 - (int)compare: obj;
 - (const char *)getObjcName;
-- (int)getHashCode;
+- (unsigned)getHashCode;
 - (void)drop;
 @end
 
