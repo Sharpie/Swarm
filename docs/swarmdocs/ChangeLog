@@ -1,3 +1,12 @@
+1998-05-27  Alex Lancaster  <alex@santafe.edu>
+
+	* swarmbook.dsl (html): for REFERENCEs, made REVHISTORY be a
+	'verso' element and make PARTINTRO appear on 'recto' page - puts
+	revhistory after partintro 
+
+	* swarmbook.dsl (print): as per html, effect is to put ABSTRACT
+	and REVHISTORY on separate page after PARTINTRO
+
 1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* history.el (process-changelog): Use insert-text instead of insert
