@@ -36,6 +36,7 @@
 <!entity ref00.sgml system "ref00.sgml">
 <!entity ref00a.sgml system "ref00a.sgml">
 <!entity refindex.sgml system "refindex.sgml">
+<!entity probes-app.sgml system "probes-app.sgml">
 <!entity conventions-app.sgml system "conventions-app.sgml">
 <!entity lgpl-app.sgml system "lgpl-app.sgml">
 <!entity gpl-app.sgml system "gpl-app.sgml">

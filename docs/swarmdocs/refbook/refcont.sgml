@@ -20,6 +20,9 @@
 
 <!-- appendices -->
 
+<!-- probes -->
+&probes-app.sgml;
+
 <!-- technical tips appendix -->
 &techcont.sgml;
 
