@@ -1,5 +1,16 @@
 2003-09-08  Alex Lancaster  <alex@swarm.org>
 
+	* history.el (process-changelog): Use correct module-sym values:
+	"refbook", "overbook", "installbook".
+
+	* global.ent: Bump GFDL version to 1.2.  Don't exercise options,
+	i.e. "no Invariant Sections, Back or Front Cover Texts".
+
+	* configure.in: Bump version date to 2003-09-08.
+
+	* gfdl.xml: Update to use GFDL 1.2 from the FSF:
+	http://www.gnu.org/licenses/fdl.xml.
+
 	* html.xsl, fo.xsl: New files for HTML and print output,
 	respectively.  Starting porting DSSSL customizations to XSL.
 

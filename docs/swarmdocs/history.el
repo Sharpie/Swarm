@@ -155,7 +155,7 @@
                          module-arg
                          (intern (car (last command-line-args)))))
          (swarmsrcdir-changelog-list
-          (if (member module-sym '(refbook tech set over install))
+          (if (member module-sym '(refbook tech set overbook installbook))
               nil
               (parse-changelog (pathname-for-module-sym module-sym "ChangeLog")
                                (header-filename-for-module-sym module-sym))))

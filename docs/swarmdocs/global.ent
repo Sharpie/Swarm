@@ -27,10 +27,9 @@ mailing lists page</ulink>'>
 
     <para>Permission is granted to copy, distribute and/or modify this
       document under the terms of the GNU Free Documentation License,
-      Version 1.1 or any later version published by the Free Software
-      Foundation; with the Invariant Sections being LIST THEIR TITLES,
-      with the Front-Cover Texts being LIST, and with the Back-Cover
-      Texts being LIST.  A copy of the license is included in the
+      Version 1.2 or any later version published by the Free Software
+      Foundation; with no Invariant Sections no Front-Cover Texts and
+      no Back-Cover Texts.  A copy of the license is included in the
       section entitled <link linkend="SWARM.GFDL.SGML.APPENDIX">"GNU
       Free Documentation License"</link>.</para>
 
@@ -55,15 +54,15 @@ mailing lists page</ulink>'>
 
 <!ENTITY address 
 "<address>
-<street>114 West Lupita Road</street>
-<city>Santa Fe</city> <state>NM</state> <postcode>87505-4718</postcode> 
+<street>PO Box 31278</street>
+<city>Santa Fe</city> <state>NM</state> <postcode>87594-1278</postcode> 
 <country>USA</country>
-<email>swarm@swarm.org</email>
+<email>swarm at swarm dot org</email>
 </address>">
 
-<!ENTITY mgd '<literallayout>Marcus G. Daniels <email>mgd@swarm.org</email></literallayout>'>
+<!ENTITY mgd '<literallayout>Marcus G. Daniels <email>mgd at swarm dot org</email></literallayout>'>
 
-<!ENTITY alex '<literallayout>Alex Lancaster <email>alex@swarm.org</email></literallayout>'>
+<!ENTITY alex '<literallayout>Alex Lancaster <email>alex at swarm dot org</email></literallayout>'>
 
 <!ENTITY swarm-program 
  '<literallayout>&orgname;</literallayout>&address;'>
@@ -71,7 +70,7 @@ mailing lists page</ulink>'>
 <!ENTITY bibliodata  "<releaseinfo>&swarm-doc-release-number;</releaseinfo>
     <pubdate>&pubdate;</pubdate>
     <copyright>
-      <year>1996-2001</year>
+      <year>1996-2003</year>
       <holder>&orgname;</holder>
     </copyright>">
 
