@@ -12,7 +12,7 @@ noinst_HEADERS =  include.dists.creating.m include.dists.setting.m \
         include.xgens.creating.m include.xgens.setting.m \
         include.xgens.using.m
 
-INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I.. -I$(srcdir)/../activity -I$(srcdir)/..
+INCLUDES = -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I.. -I$(srcdir)/../activity -I$(srcdir)/..
 
 lib_LTLIBRARIES = librandom.la
 
