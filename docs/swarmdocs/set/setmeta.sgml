@@ -1,44 +1,47 @@
 <SETINFO>
 
-<BIBLIOSET>
-<TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
+  <BIBLIOSET>
+    <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
 
-<ABSTRACT>
-<TITLE>Overview</TITLE>
+    <ABSTRACT>
+      <TITLE>Overview</TITLE>
 
-<PARA>The Swarm home page (&swarm-webpage;) provides a good introduction
-to Swarm (what it does and what it aims to be). On the other hand, the
-The Overview to Swarm aims to give you a more detailed overview of the
-sorts of things a user needs to do in order to get a simulation up and
-running in Swarm. The combination of these two documents should help
-you decide whether Swarm would be a useful tool in the context of your
-research.</PARA>
+      <PARA>The Swarm home page (&swarm-webpage;) provides a good
+        introduction to Swarm (what it does and what it aims to
+        be). On the other hand, the The Overview to Swarm aims to give
+        you a more detailed overview of the sorts of things a user
+        needs to do in order to get a simulation up and running in
+        Swarm. The combination of these two documents should help you
+        decide whether Swarm would be a useful tool in the context of
+        your research.</PARA>
 
-</ABSTRACT>
+    </ABSTRACT>
 
-<!-- <authorgroup>
-<orgname>Santa Fe Institute</orgname>
-</authorgroup>
--->
-<RELEASEINFO>&swarm-release-number;</RELEASEINFO>
-<PUBDATE>May 1998</PUBDATE>
-<COPYRIGHT>
-<YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
-<HOLDER>the Santa Fe Institute</HOLDER></COPYRIGHT>
-</BIBLIOSET>
-<LEGALNOTICE>&permission;</LEGALNOTICE>
-<LEGALNOTICE>
-<PARA>The copyright holders make no representation about the suitability of
-Swarm for any purpose. It is provided <QUOTE>as is</QUOTE> without expressed
-or implied warranty. Please refer to the GNU Library Public Licence.</PARA>
-</LEGALNOTICE>
-<LEGALNOTICE>
+    <!-- <authorgroup>
+  <orgname>Santa Fe Institute</orgname>
+  </authorgroup>
+    -->
+    <RELEASEINFO>&swarm-release-number;</RELEASEINFO>
+    <PUBDATE>May 1998</PUBDATE>
+    <COPYRIGHT>
+      <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
+      <HOLDER>the Santa Fe Institute</HOLDER></COPYRIGHT>
+  </BIBLIOSET>
+  <LEGALNOTICE>&permission;</LEGALNOTICE>
+  <LEGALNOTICE>
+    <PARA>The copyright holders make no representation about the
+      suitability of Swarm for any purpose. It is provided <QUOTE>as
+      is</QUOTE> without expressed or implied warranty. Please refer
+      to the GNU Library Public Licence.</PARA>
+  </LEGALNOTICE>
+  <LEGALNOTICE>
 
-<PARA>Please direct all questions, bug reports, or suggestions for
-changes to Swarm developers <LITERAL><ULINK URL="mailto:swarm@santafe.edu">swarm@santafe.edu</ULINK></LITERAL> or to one of
-the maintainers: &mgd; &alex;See &swarm-webpage; for more
-information.</PARA>
-</LEGALNOTICE>
+    <PARA>Please direct all questions, bug reports, or suggestions for
+      changes to Swarm developers <LITERAL><ULINK
+      URL="mailto:swarm@santafe.edu">swarm@santafe.edu</ULINK></LITERAL>
+      or to one of the maintainers: &mgd; &alex;See &swarm-webpage;
+      for more information.</PARA>
+  </LEGALNOTICE>
 
 </SETINFO>
 
