@@ -17,7 +17,7 @@ else
   fi
 fi
 
-if test "$ffidir" ; then
+if test -n "$ffidir" ; then
   if test $USE_FFCALL = 0; then
     if test "$with_ffidir" != no ; then
       test -n "$ffidir" || ffidir=$defaultdir
