@@ -91,9 +91,9 @@ _obj_initMethodInterfaces (Class_s *class)
                   mdefs->interfaceID = interfaceID;
                   mdefs->firstEntry = mnext + 1;
                   mdefs->count = count;
-                  if (mnext < methods->method_list)
-                    break;
                 }
+              if (mnext < methods->method_list)
+                break;
               interfaceID = mnext->method_imp (nil, (SEL)0);
               count = 0;
             }

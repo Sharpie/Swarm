@@ -1,3 +1,8 @@
+1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefClass.m (_obj_initMethodInterfaces): Don't crash when
+	there are no methods to be split.
+
 1999-11-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m ([FCall_c -setJavaMethod:inObject:]): Set
