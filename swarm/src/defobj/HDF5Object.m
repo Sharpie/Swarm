@@ -12,7 +12,7 @@
 #import <defobj/internal.h> // map_ivars
 
 #include <hdf5.h>
-#include <misc.h> // strncpy
+#include <misc.h> // strncpy, XFREE
 #include <math.h> // log10
 
 #define REF2STRING_CONV "ref->string"
@@ -212,6 +212,14 @@ objc_type_for_tid (hid_t tid)
 
 #endif
 
+static void
+check_for_empty_class (Class class)
+{
+  if (class->ivars == NULL || class->ivars->ivar_count == 0)
+    raiseEvent (InvalidArgument, "attempt to create empty compound type");
+}
+
+
 @implementation HDF5CompoundType_c
 PHASE(Creating)
 - setClass: theClass
@@ -239,14 +247,29 @@ static hid_t
 create_compound_type_from_class (Class class)
 {
   hid_t tid;
+  size_t min_offset;
+  size_t size;
+
   void insert_var (struct objc_ivar *ivar)
     {
-      if (H5Tinsert (tid, ivar->ivar_name, ivar->ivar_offset,
-                     tid_for_objc_type (ivar->ivar_type)) < 0)
+      const char *type = ivar->ivar_type;
+
+      if (*type == _C_ARY_B)
+        raiseEvent (SaveError, "cannot store arrays in compound types");
+      else if (*type == _C_ID)
+        raiseEvent (SaveError, "cannot store objects in compound types");
+      else if (*type == _C_CHARPTR)
+        raiseEvent (SaveError, "cannot store strings in compound types");
+      if (H5Tinsert (tid, ivar->ivar_name, ivar->ivar_offset - min_offset,
+                     tid_for_objc_type (type)) < 0)
         raiseEvent (SaveError, "unable to insert to compound type");
     }
+
+  check_for_empty_class (class);
+  min_offset = class->ivars->ivar_list[0].ivar_offset;
+  size = class->instance_size - min_offset;
   
-  if ((tid = H5Tcreate (H5T_COMPOUND, class->instance_size)) < 0)
+  if ((tid = H5Tcreate (H5T_COMPOUND, size)) < 0)
     raiseEvent (SaveError, "unable to create compound type");
   
   map_ivars (class->ivars, insert_var);
@@ -275,13 +298,22 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
   
   if ((class = objc_lookup_class (typeName)))
     {
-      struct objc_ivar *ivar_list = class->ivars->ivar_list;
+      size_t min_offset; 
+      size_t size;
+      struct objc_ivar *ivar_list;
+      
+      check_for_empty_class (class);
+      
+      ivar_list = class->ivars->ivar_list;
+      min_offset = ivar_list[0].ivar_offset;
+      size = class->instance_size - min_offset;
+      
       if (class->ivars->ivar_count != count)
         raiseEvent (LoadError,
                     "differing ivar count in compound type and class `%s'",
                     [class name]);
       
-      if (tid_size != class->instance_size)
+      if (tid_size != size)
         raiseEvent (LoadError,
                     "differing compound type and instance size `%s'",
                     [class name]);
@@ -321,10 +353,10 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
              raiseEvent (LoadError,
                           "unable to get compound type offset #%u",
                           i);
-            if (offset != ivar_list[i].ivar_offset)
+            if (offset != ivar_list[i].ivar_offset - min_offset)
               raiseEvent (LoadError,
                           "compound type member pos != ivar pos `%u' != `%u'",
-                          offset, ivar_list[i].ivar_offset);
+                          offset, ivar_list[i].ivar_offset - min_offset);
           }
         }
       return class;
@@ -337,19 +369,15 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
         xmalloc (sizeof (struct objc_ivar_list) +
                  (count - 1) * sizeof (struct objc_ivar));
       struct objc_ivar *ivar_list = ivars->ivar_list;
+      size_t min_offset;
 
-      [classObj setName: strdup (typeName)];
-      [classObj setClass: getClass (newClass)];
-      [classObj setDefiningClass: newClass];
-      [classObj setSuperclass: newClass];
-
-      ((Class) classObj)->instance_size = tid_size;
-
-      for (i = 0; i < count; i++)
+      size_t set_ivar (size_t base, unsigned i)
         {
+          size_t offset;
           hid_t mtid;
-
-          if ((ivar_list[i].ivar_name = H5Tget_member_name (tid, i)) < 0)
+          const char *type, *name;
+          
+          if ((name = H5Tget_member_name (tid, i)) < 0)
             raiseEvent (LoadError,
                         "unable to get compound type member name #%u",
                         i);
@@ -357,27 +385,61 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
             raiseEvent (LoadError,
                         "unable to get compound type member type #%u",
                         i);
-          ivar_list[i].ivar_type = objc_type_for_tid (mtid);
-          if ((ivar_list[i].ivar_offset = H5Tget_member_offset (tid, i)) < 0)
+          type = objc_type_for_tid (mtid);
+          if ((offset = H5Tget_member_offset (tid, i)) < 0)
             raiseEvent (LoadError,
                         "unable to get compound type offset #%u",
                         i);
+          if (H5Tclose (mtid) < 0)
+            raiseEvent (LoadError, "unable to close member type");
+          
+          if (base == 0)
+            {
+              size_t new_offset = alignto (offset,
+                                           alignment_for_objc_type (type));
+              
+              if (new_offset != offset)
+                raiseEvent (InternalError, "alignment deviation (%x vs %x)",
+                            new_offset, offset);
+              
+              ivar_list[i].ivar_type = strdup (type);
+              ivar_list[i].ivar_name = name;
+              return new_offset;
+            }
+          else
+            return alignto (base + offset, alignment_for_objc_type (type));
         }
+      
+      [classObj setName: strdup (typeName)];
+      [classObj setClass: getClass (newClass)];
+      [classObj setDefiningClass: newClass];
+      [classObj setSuperclass: newClass];
+      
+      min_offset = set_ivar (([Object_s class])->instance_size, 0);
+      
+      for (i = 0; i < count; i++)
+        ivar_list[i].ivar_offset = set_ivar (0, i) + min_offset;
+      
+      ivars->ivar_count = count;
       ((Class) classObj)->ivars = ivars;
+      {
+        struct objc_ivar *ivar = &ivar_list[count - 1];
+        size_t size = ivar->ivar_offset + size_for_objc_type (ivar->ivar_type);
+        
+        ((Class) classObj)->instance_size = size;
+      }
       return classObj;
     }
-
 }
 #endif
 
 - createEnd
 {
 #ifdef HAVE_HDF5
-  
   [super createEnd];
   if (class != Nil)
     tid = create_compound_type_from_class (class);
-  else if (tid != 0)
+  else if (tid)
     class = create_class_from_compound_type ([self getZone], tid, name);
   else
     abort();
@@ -531,7 +593,14 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 - createEnd
 {
 #ifdef HAVE_HDF5
+  hsize_t pdims[1];
+
   [super createEnd];
+  
+  pdims[0] = 1;
+  if ((psid = H5Screate_simple (1, pdims, NULL)) < 0)
+    raiseEvent (SaveError, "unable to create point space");
+
   if (createFlag)
     {
       if (parent == nil)
@@ -540,41 +609,37 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                                    H5P_DEFAULT, H5P_DEFAULT))  < 0)
             raiseEvent (SaveError, "Failed to create HDF5 file `%s'", name);
         }
-      else if (compoundType)
+      else 
         {
-          hsize_t dims[1];
-          hsize_t mdims[1];
-          
-          dims[0] = c_count;
-          if ((c_sid = H5Screate_simple (1, dims, NULL)) < 0)
-            raiseEvent (SaveError, "unable to create (compound) space");
-          
-          mdims[0] = 1;
-          if ((c_msid = H5Screate_simple (1, mdims, NULL)) < 0)
-            raiseEvent (SaveError, "unable to create (compound) point space");
-          
-          if ((loc_id = H5Dcreate (((HDF5_c *) parent)->loc_id,
-                                   name,
-                                   [compoundType getTid],
-                                   c_sid,
-                                   H5P_DEFAULT)) < 0)
-            raiseEvent (SaveError, "unable to create (compound) dataset");
-          
-          {
-            c_rnbuf = xcalloc (c_count, sizeof (const char *));
-          }
-        }
-      else
-        {
-          if (!datasetFlag)
+          if (compoundType)
             {
-              if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0))
-                  < 0)
-                raiseEvent (SaveError, "Failed to create HDF5 group `%s'",
-                            name);
+              hsize_t dims[1];
+              
+              dims[0] = c_count;
+              if ((c_sid = H5Screate_simple (1, dims, NULL)) < 0)
+                raiseEvent (SaveError, "unable to create (compound) space");
+              
+              if ((loc_id = H5Dcreate (((HDF5_c *) parent)->loc_id,
+                                       name,
+                                       [compoundType getTid],
+                                       c_sid,
+                                       H5P_DEFAULT)) < 0)
+                raiseEvent (SaveError, "unable to create (compound) dataset");
+              
+              c_rnbuf = xcalloc (c_count, sizeof (const char *));
             }
           else
-            loc_id = ((HDF5_c *) parent)->loc_id;
+            {
+              if (!datasetFlag)
+                {
+                  if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0))
+                      < 0)
+                    raiseEvent (SaveError, "Failed to create HDF5 group `%s'",
+                                name);
+                }
+              else
+                loc_id = ((HDF5_c *) parent)->loc_id;
+            }
         }
     }
   else
@@ -593,22 +658,40 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
             }
           if (datasetFlag)
             {
-              const char *typeName = get_attribute (loc_id, ATTRIB_TYPE_NAME);
               hid_t tid;
+              H5T_class_t class;
 
               if ((tid = H5Dget_type (loc_id)) < 0)
                 raiseEvent (LoadError, "Failed to get type of dataset");
 
-              if (typeName
-                  && strcmp (typeName, "String") != 0)
-                compoundType = [[[[HDF5CompoundType createBegin: 
-                                                      [self getZone]]
-                                   setTid: tid]
-                                  setName: typeName]
-                                 createEnd];
-              else
+              if ((class = H5Tget_class (tid)) < 0)
+                raiseEvent (LoadError, "Failed to get class of dataset type");
+
+              if (class == H5T_COMPOUND)
                 {
+                  id aZone = [self getZone];
+                  const char *componentTypeName =
+                    get_attribute (loc_id, ATTRIB_COMPONENT_TYPE_NAME);
                   
+                  compoundType = [[HDF5CompoundType createBegin: aZone]
+                                   setTid: tid];
+                                    
+                  if (componentTypeName)
+                    {
+                      [compoundType setName: componentTypeName];
+                      if ((c_sid = H5Dget_space (loc_id)) < 0)
+                        raiseEvent (LoadError,
+                                    "Failed to get space of dataset");
+                    }
+                  else
+                    {
+                      const char *typeName =
+                        get_attribute (loc_id, ATTRIB_TYPE_NAME);
+                      
+                      [compoundType setName: typeName];
+                      c_sid = psid;
+                    }
+                  compoundType = [compoundType createEnd];
                 }
             }
         }
@@ -739,7 +822,12 @@ PHASE(Using)
 - getClass
 {
   if (datasetFlag)
-    return [compoundType getClass];
+    {
+      if (compoundType)
+        return [compoundType getClass];
+      else
+        abort ();
+    }
   else
     {
       const char *typeName = get_attribute (loc_id, ATTRIB_TYPE_NAME);
@@ -748,11 +836,10 @@ PHASE(Using)
         {
           Class class = objc_lookup_class (typeName);
  
+          XFREE (typeName);
+
           if (class != Nil)
-            {
-              printf ("got class `%s'\n", typeName);
-              return class;
-            }
+            return class;
           else
             {
               id typeObject = baseTypeObject;
@@ -779,9 +866,6 @@ PHASE(Using)
                   addVariable (typeObject,
                                [hdf5Obj getName],
                                type);
-                  printf ("component `%s' type: `%s'\n",
-                          [hdf5Obj getName],
-                          type);
                   return 0;
                 }
               [self iterate: process_object];
@@ -797,6 +881,16 @@ PHASE(Using)
 {
 #ifdef HAVE_HDF5
   [self storeAttribute: ATTRIB_TYPE_NAME value: typeName];
+#else
+  hdf5_not_available ();
+#endif
+  return self;
+}
+
+- storeComponentTypeName: (const char *)typeName
+{
+#ifdef HAVE_HDF5
+  [self storeAttribute: ATTRIB_COMPONENT_TYPE_NAME value: typeName];
 #else
   hdf5_not_available ();
 #endif
@@ -856,17 +950,6 @@ hdf5_store_attribute (hid_t did,
              ptr: (void *)ptr
 {
 #ifdef HAVE_HDF5
-  hid_t scalar_space (void)
-    {
-      hid_t space;
-      hsize_t dims[1];
-      
-      dims[0] = 1;
-      if ((space = H5Screate_simple (1, dims, NULL)) == -1)
-        raiseEvent (SaveError, "unable to create dataspace");
-      return space;
-    }
-
   void store (hid_t sid, hid_t memtid, hid_t tid)
     {
       hid_t did;
@@ -884,8 +967,6 @@ hdf5_store_attribute (hid_t did,
       
       if (H5Dclose (did) < 0)
         raiseEvent (SaveError, "unable to close dataset `%s'", datasetName);
-      if (H5Sclose (sid) < 0)
-        raiseEvent (SaveError, "unable to close dataspace");
     }
   void store_string (hid_t sid)
     {
@@ -934,6 +1015,8 @@ hdf5_store_attribute (hid_t did,
 
               store (sid, tid, tid);
             }
+          if (H5Sclose (sid) < 0)
+            raiseEvent (SaveError, "unable to close array dataspace");
         }
       process_array (type,
                      hdf5_setup_array,
@@ -944,12 +1027,12 @@ hdf5_store_attribute (hid_t did,
                      NULL);
     }
   else if (*type == _C_CHARPTR)
-    store_string (scalar_space ());
+    store_string (psid);
   else
     {
       hid_t tid = tid_for_objc_type (type);
 
-      store (scalar_space (), tid, tid);
+      store (psid, tid, tid);
     }
 #else
   hdf5_not_available ();
@@ -965,7 +1048,7 @@ hdf5_store_attribute (hid_t did,
   coord[0][0] = recordNumber;
   if (H5Sselect_elements (c_sid, H5S_SELECT_SET, 1,
                           (const hssize_t **) coord) < 0)
-    raiseEvent (SaveError, "unable to select record: %u", recordNumber);
+    raiseEvent (InvalidArgument, "unable to select record: %u", recordNumber);
 #else
   hdf5_not_available ();
 #endif
@@ -998,12 +1081,48 @@ hdf5_store_attribute (hid_t did,
   return self;
 }
 
-- storeObject: obj
+static void *
+check_alignment (id obj, id compoundType)
+{
+  Class class = [obj class];
+  size_t offset, tid_size;
+  hid_t ctid = [compoundType getTid];
+
+  check_for_empty_class (class);
+  
+  offset = class->ivars->ivar_list[0].ivar_offset;
+  if ((tid_size = H5Tget_size (ctid)) < 0)
+    raiseEvent (SaveError, "cannot get size of compound type");
+  
+  if (tid_size + offset != class->instance_size)
+    raiseEvent (InternalError,
+                "tid_size + offset != instance_size (%x + %x != %x)",
+                tid_size, offset, class->instance_size);
+  return (void *) obj + offset;
+}
+
+- shallowLoadObject: obj
 {
 #ifdef HAVE_HDF5
+  void *ptr = check_alignment (obj, compoundType);
+  
+  if (H5Dread (loc_id, [compoundType getTid],
+               psid, c_sid, H5P_DEFAULT, ptr) < 0)
+    raiseEvent (LoadError, "unable to load record");
+#else
+  hdf5_not_available ();
+#endif
+  return self;
+}
+
+- shallowStoreObject: obj
+{
+#ifdef HAVE_HDF5
+  void *ptr = check_alignment (obj, compoundType);
+  
   if (H5Dwrite (loc_id, [compoundType getTid],
-                c_msid, c_sid, H5P_DEFAULT, obj) < 0)
-    raiseEvent (SaveError, "unable to store object");
+                psid, c_sid, H5P_DEFAULT, ptr) < 0)
+    raiseEvent (SaveError, "unable to store record");
 #else
   hdf5_not_available ();
 #endif
@@ -1056,29 +1175,35 @@ hdf5_store_attribute (hid_t did,
       if (H5Fclose (loc_id) < 0)
         raiseEvent (SaveError, "Failed to close HDF5 file");
     }
-  else if (compoundType)
-    {
-      if (createFlag)
-        {
-          unsigned ri;
-          if (H5Sclose (c_sid) < 0)
-            raiseEvent (SaveError, "Failed to close (compound) space");
-          if (H5Sclose (c_msid) < 0)
-            raiseEvent (SaveError, "Failed to close (compound) point space");
-
-          for (ri = 0; ri < c_count; ri++)
-            if (c_rnbuf[ri])
-              XFREE (c_rnbuf[ri]);
-          XFREE (c_rnbuf);
-        }
-      if (H5Dclose (loc_id) < 0)
-        raiseEvent (SaveError, "Failed to close (compound) dataset");
-    }
   else
     {
-      if (!datasetFlag)
-        if (H5Gclose (loc_id) < 0)
-          raiseEvent (SaveError, "Failed to close HDF5 group");
+      if (compoundType)
+        {
+          if (c_sid != psid)
+            if (H5Sclose (c_sid) < 0)
+              raiseEvent (InvalidArgument, "Failed to close (compound) space");
+
+          if (H5Dclose (loc_id) < 0)
+            raiseEvent (SaveError, "Failed to close (compound) dataset");
+          
+          if (createFlag)
+            {
+              unsigned ri;
+
+              for (ri = 0; ri < c_count; ri++)
+                if (c_rnbuf[ri])
+                  XFREE (c_rnbuf[ri]);
+              XFREE (c_rnbuf);
+            }
+        }
+      else
+        {
+          if (!datasetFlag)
+            if (H5Gclose (loc_id) < 0)
+              raiseEvent (SaveError, "Failed to close HDF5 group");
+        }
+      if (H5Sclose (psid) < 0)
+        raiseEvent (SaveError, "Failed to close point space");
     }
   hdf5InstanceCount--;
   if (hdf5InstanceCount == 0)

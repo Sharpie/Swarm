@@ -1060,14 +1060,14 @@ lisp_output_type (const char *type,
               
               if (obj != nil && deepFlag)
                 {
-                  id hdf5ObjGroup = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                                         setCreateFlag: YES]
-                                        setParent: hdf5Obj]
-                                       setName: name]
-                                      createEnd];
-
-                  [obj hdf5Out: hdf5ObjGroup deep: YES];
-                  [hdf5ObjGroup drop];
+                  id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                  setCreateFlag: YES]
+                                 setParent: hdf5Obj]
+                                setName: name]
+                               createEnd];
+                  
+                  [obj hdf5Out: group deep: YES];
+                  [group drop];
                 }
             }
           else
@@ -1076,8 +1076,28 @@ lisp_output_type (const char *type,
       [hdf5Obj storeTypeName: [self getTypeName]];
       map_ivars (getClass (self)->ivars, store_object);
     }
+  else if ([hdf5Obj getCompoundType])
+    [hdf5Obj shallowStoreObject: self];
   else
-    [hdf5Obj storeObject: self];
+    {
+      id aZone = [self getZone];
+      id cType = [[[HDF5CompoundType createBegin: aZone]
+                    setClass: [self class]]
+                   createEnd];
+      
+      id cDataset = [[[[[[HDF5 createBegin: aZone]
+                          setName: [hdf5Obj getName]]
+                         setCreateFlag: YES]
+                        setParent: hdf5Obj]
+                       setCompoundType: cType count: 1]
+                      createEnd];
+      
+      [cDataset storeTypeName: [self getTypeName]];
+      [cDataset shallowStoreObject: self];
+      
+      [cDataset drop];
+      [cType drop];
+    }
 #else
   hdf5_not_available ();
 #endif
@@ -1173,6 +1193,7 @@ find_ivar (id obj, const char *name)
           if (stringp (first))
             {
               const char *funcName = [first getC];
+
               if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
                   || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
                 *((id *) ptr) = lispIn ([self getZone], val);
@@ -1191,10 +1212,40 @@ find_ivar (id obj, const char *name)
   return self;
 }
 
-- hdf5In: expr
+- hdf5In: hdf5Obj
 {
 #ifdef HAVE_HDF5
-  
+  if ([hdf5Obj getDatasetFlag])
+    {
+      if ([hdf5Obj getCompoundType] == nil)
+        raiseEvent (LoadError,
+                    "all shallow datasets are expected to have compound type");
+
+      [hdf5Obj shallowLoadObject: self];
+    }
+  else
+    {
+      int process_object (id component)
+        {
+          if ([component getDatasetFlag])
+            {
+              printf ("%s got primitive [%s]\n",
+                      [self getTypeName],
+                      [component getName]);
+            }
+          else
+            {
+              id obj;
+              
+              obj = hdf5In ([self getZone], component);
+              printf ("%s got object [%s]\n",
+                      [self getTypeName],
+                      [component getName]);
+            }
+          return 0;
+        }
+      [hdf5Obj iterate: process_object];
+    }
 #else
   hdf5_not_available ();
 #endif

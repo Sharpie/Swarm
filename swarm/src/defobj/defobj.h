@@ -990,8 +990,10 @@ USING
 
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;
+- storeComponentTypeName: (const char *)typeName;
 - storeAttribute: (const char *)attributeName value: (const char *)valueString;
-- storeObject: obj;
+- shallowLoadObject: obj;
+- shallowStoreObject: obj;
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;

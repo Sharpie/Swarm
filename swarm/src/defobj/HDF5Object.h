@@ -15,6 +15,8 @@
 #import <collections.h> // Map
 
 #define ATTRIB_TYPE_NAME "type"
+#define ATTRIB_COMPONENT_TYPE_NAME "component-type"
+
 
 @interface HDF5CompoundType_c: CreateDrop_s
 {
@@ -43,6 +45,7 @@
   BOOL datasetFlag;
 #ifdef HAVE_HDF5
   hid_t loc_id;
+  hid_t psid;
 #endif
 
   id baseTypeObject;
@@ -51,7 +54,6 @@
   unsigned c_count;
 #ifdef HAVE_HDF5
   hid_t c_sid;
-  hid_t c_msid;
   hsize_t c_rnlen;
 #endif
   const char **c_rnbuf;
@@ -79,8 +81,12 @@
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
 - storeTypeName: (const char *)typeName;
+- storeComponentTypeName: (const char *)typeName;
 - storeAttribute: (const char *)attributeName value: (const char *)valueString;
-- storeObject: obj;
+
+- shallowLoadObject: obj;
+- shallowStoreObject: obj;
+
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 
 - iterate: (int (*) (id hdf5Obj))iterateFunc;

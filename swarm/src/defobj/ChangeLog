@@ -1,5 +1,36 @@
 1999-01-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.[hm], defobj.h ([HDF5_c -storeComponentTypeName:]):
+	New method.
+	([HDF5_c -shallowStoreObject:]): Rename of storeObject:.
+
+	* HDF5Object.m (check_for_empty_class, check_align): New static
+	functions.
+	(create_compound_type_from_class): Use it.
+	(insert_var): Check for arrays, objects, and strings, which cannot
+	be handled here.
+	(create_class_from_compound_type): Adjust for object header size
+	in comparision of tid size and instance size.  Likewise for offset
+	checks, and then check for alignment deviations.
+	([HDF5_c -createEnd]): Initialize psid (was c_sid) to be available
+	all the time.  Create a compoundType for simple shallow object,
+	too.
+	([HDF5_c -storeAsDataset:typeName:type:ptr:]): Remove scalar_space
+	internal function, use psid.
+	([HDF5_c -drop]): Accomodate different scopes.
+
+	* HDF5Object.h (ATTRIB_COMPONENT_TYPE_NAME): New constant.
+	(HDF5CompoundType_c): Rename c_msid to psid.
+
+	* DefObject.m ([Object_s hdf5Out:deep:]): Handle compoundType
+	and simple shallow store separately (the latter with a wrapper).
+
+	* Archiver.m (compareStrings): Remove.
+	([Application +createBegin:], [Archiver_c +createBegin:]): Remove
+	usage of compareStrings.
+	(hdf5LoadArchiver): Only make one app.
+	(hdf5_output_objects): Don't support clases here.
+
 	* DefClass.[hm]: Remove lispIn: and hdf5In:.
 
 	* DefClass.[hm], defobj.h ([CreatedClass_s -setBaseTypeObject:]):

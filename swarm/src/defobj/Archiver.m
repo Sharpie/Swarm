@@ -24,12 +24,6 @@
 
 Archiver_c *archiver;
 
-static int
-compareStrings (id val1, id val2)
-{
-  return [val1 compare: val2];
-}
-
 @interface Application: CreateDrop
 {
   const char *name;
@@ -55,15 +49,11 @@ compareStrings (id val1, id val2)
 {
   Application *obj = [super createBegin: aZone];
 
-  obj->lispDeepMap =
-    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
-  obj->lispShallowMap =
-    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+  obj->lispDeepMap = [Map create: aZone];
+  obj->lispShallowMap = [Map create: aZone];
 #ifdef HAVE_HDF5
-  obj->hdf5DeepMap =
-    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
-  obj->hdf5ShallowMap =
-    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+  obj->hdf5DeepMap = [Map create: aZone];
+  obj->hdf5ShallowMap = [Map create: aZone];
 #endif
   obj->name = "EMPTY";
 
@@ -263,12 +253,14 @@ lispLoadArchiver (id applicationMap, id expr)
 static void
 hdf5LoadArchiver (id applicationMap, id hdf5file)
 {
+  id aZone = [applicationMap getZone];
+
   int appIterateFunc (id appHDF5Obj)
     {
       int modeIterateFunc (id modeHDF5Obj)
         {
-          id appKey, app;
-          id aZone = [hdf5file getZone];
+          id app;
+          id appKey;
 
           int objIterateFunc (id hdf5Obj)
             {
@@ -282,18 +274,23 @@ hdf5LoadArchiver (id applicationMap, id hdf5file)
                 [objectMap at: key replace: value];
               else
                 [objectMap at: key insert: value];
+              
               return 0;
             }
-
+          
           appKey = [String create: aZone setC: [appHDF5Obj getName]];
           [appKey catC: "/"];
           [appKey catC: [modeHDF5Obj getName]];
           
-          app = [[[Application createBegin: aZone]
-                   setName: [appKey getC]]
-                    createEnd];
-          
-          [applicationMap at: appKey insert: app];
+          if ((app = [applicationMap at: appKey]) == nil)
+            {
+              app = [[[Application createBegin: aZone]
+                       setName: [appKey getC]]
+                      createEnd];
+              
+              [applicationMap at: appKey insert: app];
+            }
+          [appKey drop];
           
           [modeHDF5Obj iterate: objIterateFunc];
           return 0;
@@ -398,7 +395,7 @@ hdf5ArchiverGet (const char *key)
   id string = [String create: [archiver getZone] setC: key];
   id app = [archiver getApplication];
   id result;
-  
+
   result = [[app getHDF5DeepMap] at: string];
   if (result == nil)
     result = [[app getHDF5ShallowMap] at: string];
@@ -424,8 +421,7 @@ PHASE(Creating)
 {
   Archiver_c *newArchiver = [super createBegin: aZone];
 
-  newArchiver->applicationMap = 
-    [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
+  newArchiver->applicationMap = [Map create: aZone];
   newArchiver->classes = [List create: aZone];
   newArchiver->instances = [List create: aZone];
   newArchiver->lispPath = lispDefaultPath ();
@@ -450,8 +446,8 @@ PHASE(Creating)
   id aZone = [self getZone];
 
   [super createEnd];
-  currentApplicationKey = [String create: aZone setC: appName];
-  
+
+  currentApplicationKey = [String create: aZone setC: appName];  
   [currentApplicationKey catC: "/"];
   [currentApplicationKey catC: appModeString];
 
@@ -645,15 +641,8 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
                        setName: [key getC]]
                       createEnd];
       
-      if (![member isClass])
-        [member hdf5Out: memberGroup deep: deepFlag];
-      else
-        {
-          SEL sel = M(hdf5Out:deep:);
-          IMP func = get_imp (id_CreatedClass_s, sel);
-          
-          func (member, sel, memberGroup, NO);
-        }
+      // instance support only; classes are handled indirectly
+      [member hdf5Out: memberGroup deep: deepFlag];
       [memberGroup drop];
     }
 }

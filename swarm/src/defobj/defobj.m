@@ -316,7 +316,7 @@ hdf5In (id aZone, id hdf5Obj)
   
   [obj hdf5In: hdf5Obj];
 
-  return nil;
+  return obj;
 }
 
 id
