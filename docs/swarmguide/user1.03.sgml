@@ -30,7 +30,8 @@
 	<listitem>
           <formalpara><title>Objective C allows run-time binding</title> 
 
-            <para>Objective-C leaves open the possibility that ???.
+            <para><comment>Objective-C leaves open the possibility that 
+              ???</comment>.
               At the time the Swarm project began, C++ did not allow
               this</para>
           </formalpara>
