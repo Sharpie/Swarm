@@ -1,3 +1,9 @@
+2001-03-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* VERSION: Bump.
+
+	* NEWS: Note addition of -setSymbolSize: to GraphElement.
+
 2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* VERSION: Bump.

@@ -242,6 +242,9 @@ USING
 //M: Set the symbol for the element.
 - (void)setSymbol: (const char *)symbol;
 
+//M: Set the symbol size in pixels.
+- (void)setSymbolSize: (unsigned)size;
+
 //M: Add a new data point.
 - (void)addX: (double)x Y: (double)y;
 
