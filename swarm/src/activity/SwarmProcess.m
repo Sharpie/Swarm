@@ -267,7 +267,6 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
                                      ZMSG_V(describeForEach: outputCharStream)
 - (void)describeForEachID: outputCharStream 
                                      ZMSG_V(describeForEachID: outputCharStream)
-- (BOOL)containsAlloc: (void *)alloc ZMSG_R(containsAlloc: alloc)
 - getReclaimPolicy                   ZMSG_R(getReclaimPolicy)
 - (BOOL)getStackedSubzones           ZMSG_R(getStackedSubzones)
 

@@ -36,7 +36,6 @@ Library:      activity
 - getPopulation;
 - (void) describeForEachID: (id) outputCharStream;
 - (void) describeForEach: (id)  outputCharStream;
-- (BOOL)containsAlloc:(void *) alloc;
 - (BOOL)getStackedSubzones;
 - getReclaimPolicy;
 

@@ -1,3 +1,8 @@
+2000-01-22    <mgd@nest.swarm.org>
+
+	* SwarmProcess.[hm] (CSwarmProcess): Remove -containsAlloc: stub
+	(to nothing).
+
 2000-01-16    <mgd@nest.swarm.org>
 
 	* Schedule.[mh] ([ActionChanged_c -mapAllocations:]): Add.
