@@ -32,6 +32,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** Archiver{Keyword,Value,Array,Pair,List}
 ***** These classes respond to serialization. ArchiverList serializes parsed 
       Lisp-like expressions directly.
+**** Collection, List, Map, OrderedSet, Set
+***** Lookup methods no longer terminate on a null member.
+      Thanks to Glen Ropella for suggesting this.
 
 **** InputStream
 ***** InputStream now parses Lisp comments, Archiver instances will 
