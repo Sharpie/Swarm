@@ -1,3 +1,14 @@
+1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* space.h: Merge _Discrete2d with Discrete2d.  Add CREATABLE
+	tags for all non-abstract protocols.
+
+	* Discrete2d.m ([Discrete2d setDiscrete2d:toFile:], 
+	[Discrete2d copyDiscrete2d:toDiscrete2d:]): Check for Discrete2d
+	instead of _Discrete2d.
+
+	* Discrete2d.h (Discrete2d): Implement Discrete2d protocol.
+
 1999-02-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.[hm], space.h ([Discrete -setLattice:]): New method.

@@ -170,7 +170,7 @@ PHASE(Using)
   unsigned x, y;
   unsigned fileXSize, fileYSize;
   
-  if (![a conformsTo: @protocol (_Discrete2d)])
+  if (![a conformsTo: @protocol (Discrete2d)])
     [ProtocolViolation
       raiseEvent:
         "Object `%s' does not comply to Discrete2d protocol\n",
@@ -226,13 +226,13 @@ PHASE(Using)
 {
   unsigned x, y;
 
-  if (![a conformsTo: @protocol (_Discrete2d)])
+  if (![a conformsTo: @protocol (Discrete2d)])
     [ProtocolViolation
       raiseEvent:
         "Object a `%s' does not comply to Discrete2d protocol\n",
       [a name]];
 
-  if (![b conformsTo: @protocol (_Discrete2d)])
+  if (![b conformsTo: @protocol (Discrete2d)])
     [ProtocolViolation
       raiseEvent:
         "Object b `%s' does not comply to Discrete2d protocol\n",

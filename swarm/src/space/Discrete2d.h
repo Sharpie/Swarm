@@ -13,7 +13,7 @@
 #import <objectbase/SwarmObject.h>
 #import <space.h>
 
-@interface Discrete2d: SwarmObject <_Discrete2d>
+@interface Discrete2d: SwarmObject <Discrete2d>
 {
 @public
   unsigned xsize, ysize;

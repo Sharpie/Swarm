@@ -23,7 +23,13 @@
 #import <objectbase.h>
 #import <gui.h> // Raster, Colormap
 
-@protocol _Discrete2d
+@protocol Discrete2d <SwarmObject, CREATABLE>
+//S: Root class of all 2d discrete spaces.
+
+//D: A Discrete2d is basically a 2d array of ids.  
+//D: Subclasses add particular space semantics onto this.
+//D: Currently Discrete2d grids are accessed by integer pairs
+//D: of X and Y coordinates. 
 CREATING
 //M: Set the world size.
 - setSizeX: (unsigned)x Y: (unsigned)y;
@@ -86,16 +92,7 @@ USING
 - (long *)getOffsets;
 @end
 
-@protocol Discrete2d <_Discrete2d, SwarmObject>
-//S: Root class of all 2d discrete spaces.
-
-//D: A Discrete2d is basically a 2d array of ids.  
-//D: Subclasses add particular space semantics onto this.
-//D: Currently Discrete2d grids are accessed by integer pairs
-//D: of X and Y coordinates. 
-@end
-
-@protocol DblBuffer2d <Discrete2d>
+@protocol DblBuffer2d <Discrete2d, CREATABLE>
 //S: A double buffered space.
 
 //D: DblBuffer2d augments Discrete2d to provide a form of double buffered
@@ -126,7 +123,7 @@ USING
 - putValue: (long)v atX: (unsigned)x Y: (unsigned)y;
 @end
 
-@protocol Ca2d <DblBuffer2d>
+@protocol Ca2d <DblBuffer2d, CREATABLE>
 //S: Defines abstract protocol for cellular automata.
 
 //D: Inherits from DblBuffer2d, defines abstract protocol
@@ -149,7 +146,7 @@ USING
 - stepRule;
 @end
 
-@protocol Value2dDisplay <SwarmObject>
+@protocol Value2dDisplay <SwarmObject, CREATABLE>
 //S: Value2dDisplay displays 2d arrays of values.
 
 //D: Value2dDisplay helps display 2d arrays of values.
@@ -180,7 +177,7 @@ USING
 - display;
 @end
 
-@protocol ConwayLife2d <Ca2d>
+@protocol ConwayLife2d <Ca2d, CREATABLE>
 //S: Classic 2d Conway's Life CA.
 
 //D: Classic 2d Conway's Life CA.
@@ -197,7 +194,7 @@ USING
 - stepRule;
 @end
 
-@protocol Diffuse2d <Ca2d>
+@protocol Diffuse2d <Ca2d, CREATABLE>
 //S: 2d difussion with evaporation.
 
 //D: Discrete 2nd order approximation to 2d diffusion with evaporation. 
@@ -223,7 +220,7 @@ USING
 - stepRule;
 @end
 
-@protocol Grid2d <Discrete2d>
+@protocol Grid2d <Discrete2d, CREATABLE>
 //S: A 2d container class for agents.
 
 //D: Grid2d is a generic container class to represent agent position on
@@ -249,7 +246,7 @@ USING
 - setOverwriteWarnings: (BOOL)b;
 @end
 
-@protocol Object2dDisplay <SwarmObject>
+@protocol Object2dDisplay <SwarmObject, CREATABLE>
 //S: Object2dDisplay displays 2d arrays of objects.
 
 //D: Object2dDisplay helps display 2d arrays of objects. 
@@ -286,7 +283,7 @@ USING
 
 @end
 
-@protocol Int2dFiler <SwarmObject>
+@protocol Int2dFiler <SwarmObject, CREATABLE>
 //S: Saves the state of a Discrete2d object.
 
 //D: The Int2dFiler class is used to save the state of any Discrete2d
