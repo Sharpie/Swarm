@@ -1,3 +1,8 @@
+1998-06-18  Alex Lancaster  <alex@santafe.edu>
+
+	* defobj00.sgml: Put CITETITLE tag around reference to the
+	`Object-Oriented Programming and the Objective C Language' volume.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include from refbook/ instead of src/.

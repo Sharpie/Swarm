@@ -160,8 +160,8 @@
         defined by OpenStep (formerly NextStep) and implemented by the GNU C
         compiler. None of the Swarm documentation attempts to duplicate this
         coverage of the basic language; Swarm assumes that you learn Objective
-        C from other available sources. The Objective C reference (<ULINK URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html">Object-Oriented
-          Programming and the Objective C Language</ULINK>) is the single best
+        C from other available sources. The Objective C reference (<ULINK URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html"><CITETITLE>Object-Oriented
+          Programming and the Objective C Language</CITETITLE></ULINK>) is the single best
         available source, and it can also be ordered as a hardcopy book from
         the <ULINK URL="http://devworld.apple.com/techpubs/rhapsody/rhapsody.html">Rhapsody
           Developer Documentation site</ULINK> . Don't try to program in
