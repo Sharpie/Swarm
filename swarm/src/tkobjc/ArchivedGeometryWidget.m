@@ -24,7 +24,7 @@ PHASE(Creating)
 
 - setWindowGeometryRecordName: (const char *)name
 {
-  windowGeometryRecordName = name;
+  windowGeometryRecordName = STRDUP (name);
   return self;
 }
 
@@ -96,6 +96,9 @@ PHASE(Using)
 
 - (void)drop
 { 
+  if (windowGeometryRecordName)
+    FREEBLOCK (windowGeometryRecordName);
+
   [lispArchiver unregisterClient: self];
 
   [super drop];

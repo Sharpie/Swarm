@@ -1,5 +1,9 @@
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-setWindowGeometryRecordName:]): Copy argument.
+	([ArchivedGeometryWidget -drop]): Drop it if set.
+
 	* WindowGeometryRecord.m ([WindowGeometryRecord -lispIn:]): Use
 	getQuotedObject for position/size arguments.
 
