@@ -226,7 +226,7 @@ CREATING
 - allocVectors;
 + createBegin: aZone;
 - createEnd;
-- setA: (unsigned) A setv: (unsigned) v setw: (unsigned) w;
+- setA: (unsigned)A setV: (unsigned)v setW: (unsigned)w;
 
 // @protocol Split
 + createWithDefaults: aZone;
@@ -234,15 +234,15 @@ CREATING
 // @protocol SplitSingleSeed
 + create          : aZone
               setA: (unsigned)A 	// # of virtual generators
-              setv: (unsigned)v 	// log2(#segments/generator)
-              setw: (unsigned)w		// log2(segment length)
+              setV: (unsigned)v 	// log2(#segments/generator)
+              setW: (unsigned)w		// log2(segment length)
   setStateFromSeed: (unsigned)seed;
 
 // @protocol SplitMultiSeed
 + create          : aZone
               setA: (unsigned)A         // # of virtual generators
-              setv: (unsigned)v         // log2(#segments/generator)
-              setw: (unsigned)w	        // log2(segment length)
+              setV: (unsigned)v         // log2(#segments/generator)
+              setW: (unsigned)w	        // log2(segment length)
  setStateFromSeeds: (unsigned *)seeds;
 
 SETTING

@@ -1,3 +1,11 @@
+1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* C2LCGXgen.[hm]: Change setA:setv:setw: to setA:setV:setW:.
+
+	* C4LCGXgen.[hm]: Likewise.
+
+	* generators.h: Reflect these changes.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES, lib_LTLIBRARIES): Substitute

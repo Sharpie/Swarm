@@ -129,8 +129,8 @@ USING
 CREATING
 + create          : aZone
               setA: (unsigned)A 	// # of virtual generators
-              setv: (unsigned)v 	// log2(#segments/generator)
-              setw: (unsigned)w		// log2(segment length)
+              setV: (unsigned)v 	// log2(#segments/generator)
+              setW: (unsigned)w		// log2(segment length)
   setStateFromSeed: (unsigned)seed;
 
 SETTING
@@ -152,8 +152,8 @@ USING
 CREATING
 + create          : aZone
               setA: (unsigned)A         // # of virtual generators
-              setv: (unsigned)v         // log2(#segments/generator)
-              setw: (unsigned)w	        // log2(segment length)
+              setV: (unsigned)v         // log2(#segments/generator)
+              setW: (unsigned)w	        // log2(segment length)
  setStateFromSeeds: (unsigned *)seeds;
 
 SETTING

@@ -1322,26 +1322,26 @@ printf("%s Setting state from seed %u\n\n", [myGenerator getName], startSeed);
 */
 // -----
   myGen = [C2LCGXgen create: [self getZone] 
-		setA: 32 setv: 20 setw: 30
+		setA: 32 setV: 20 setW: 30
 		setStateFromSeed: 1];
   // myGen = [C2LCGXgen create: [self getZone] 
-  // 		setA: 32 setv: 20 setw: 30
+  // 		setA: 32 setV: 20 setW: 30
   // 		setStateFromSeed: RANDOMSEED];
   // myGen = [C2LCGXgen create: [self getZone] 
-  // 		setA: 32 setv: 20 setw: 30
+  // 		setA: 32 setV: 20 setW: 30
   // 		setStateFromSeeds: mySeeds];
   // myGen = [C2LCGXgen createWithDefaults: [self getZone]];
 
   [self generatorTest0split: myGen tVal: 386822811u detail: NO];
 // -----
   myGen = [C4LCGXgen create: [self getZone] 
-		setA: 128 setv: 31 setw: 41
+		setA: 128 setV: 31 setW: 41
 		setStateFromSeed: 1];
   // myGen = [C4LCGXgen create: [self getZone] 
-  // 		setA: 128 setv: 31 setw: 41
+  // 		setA: 128 setV: 31 setW: 41
   // 		setStateFromSeed: RANDOMSEED];
   // myGen = [C4LCGXgen create: [self getZone] 
-  // 		setA: 128 setv: 31 setw: 41
+  // 		setA: 128 setV: 31 setW: 41
   // 		setStateFromSeeds: mySeeds];
   // myGen = [C4LCGXgen createWithDefaults: [self getZone]];
 

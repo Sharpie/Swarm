@@ -17,7 +17,7 @@ Date:		 1998-10-08   (v. 0.8)
 123456789|123456789|123456789|123456789|123456789|123456789|123456789|123456789|
 */
 
-#import <misc.h> // for setA:setv:setw: (LONG_MAX)
+#import <misc.h> // for setA:setV:setW: (LONG_MAX)
 
 #import <collections.h>	// for outStream in -describe
 
@@ -55,7 +55,7 @@ PHASE(Creating)
   unsigned i, j;
   unsigned arrSize;
   
-  // This method is called from create after setA:setv:setw: .
+  // This method is called from create after setA:setV:setW: .
   
   // Set the 'personality' of this generator:
   strncpy(genName,"C2LCGX",sizeof(genName));
@@ -104,7 +104,7 @@ PHASE(Creating)
   // countMax = (m[0]-1) * (m[1]-1) / 2 ~= 2^61;
   // so we limit single segments to be <= 2^60
   // and set countMax = segmentLength.
-  // (See method -setA:setv:setw: above.)
+  // (See method -setA:setV:setW: above.)
   
   // ----------
   
@@ -129,7 +129,7 @@ PHASE(Creating)
 }
 
 
-- setA: (unsigned)A setv: (unsigned)v setw: (unsigned)w
+- setA: (unsigned)A setV: (unsigned)v setW: (unsigned)w
 {
   unsigned log2A;
   int i;
@@ -212,7 +212,7 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
   
   // set characteristic parameters:
   
-  [aGenerator setA: 32 setv: 20 setw: 30];
+  [aGenerator setA: 32 setV: 20 setW: 30];
   [aGenerator initState];
   
   // initialize seed dependent part of state:
@@ -241,8 +241,8 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
 
 + create: aZone 
     setA: (unsigned)A
-    setv: (unsigned)v
-    setw: (unsigned)w setStateFromSeed: (unsigned)seed
+    setV: (unsigned)v
+    setW: (unsigned)w setStateFromSeed: (unsigned)seed
 {
   C2LCGXgen *aGenerator;
   
@@ -252,7 +252,7 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
   
   // Set characteristic parameters:
   
-  [aGenerator setA: A setv: v setw: w];
+  [aGenerator setA: A setV: v setW: w];
   [aGenerator initState];
   
   // initialize seed dependent part of state:
@@ -264,8 +264,8 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
 
 + create: aZone
     setA: (unsigned)A
-    setv: (unsigned)v
-    setw: (unsigned)w setStateFromSeeds: (unsigned *)seeds
+    setV: (unsigned)v
+    setW: (unsigned)w setStateFromSeeds: (unsigned *)seeds
 {
   
   C2LCGXgen *aGenerator;
@@ -276,7 +276,7 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
   
   // Set characteristic parameters:
   
-  [aGenerator setA: A setv: v setw: w];
+  [aGenerator setA: A setV: v setW: w];
   [aGenerator initState];
   
   // Initialize seed dependent part of the state:
