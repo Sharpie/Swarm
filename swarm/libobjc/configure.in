@@ -22,7 +22,7 @@ AC_PROG_LIBTOOL
 test -n "$OBJC" || OBJC="$CC"
 AC_SUBST(OBJC)
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
-OBJCFLAGS="$OBJCFLAGS -Wall -Werror"
+OBJCFLAGS="-Wall -Werror $OBJCFLAGS"
 AC_SUBST(OBJCFLAGS)   
 
 # Pass with no value to take the default
