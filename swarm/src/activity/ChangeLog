@@ -1,3 +1,8 @@
+1998-12-22  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* CompoundAction.m ([CompoundAction_c -_createActivity_:::]): 
+	Use conformsTo: instead of isKindOf:.
+
 1998-12-21  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* SwarmProcess.h: Declare setPageSize:, describeForEach:, 

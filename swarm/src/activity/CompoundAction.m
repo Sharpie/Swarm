@@ -176,7 +176,7 @@ Library:      activity
   
   // create index on the plan actions for traversal by the activity
   if ([self getDefaultOrder] == (id) Randomized && 
-      [self isKindOf: [ActionGroup_c class]])
+      [self conformsTo: @protocol(ActionGroup)])
     {
       newIndex = [(ActionGroup_c *) self _createPermutedIndex_: 
 				      getCZone (activityZone)];
