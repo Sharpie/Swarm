@@ -852,6 +852,7 @@ USING
 //D: value is part of the key value, by determining which key values will
 //D: compare equal to any member.
 
+USING
 //M: The replace: message replaces a member stored at a given key with
 //M: another member value that matches the same key.  The new value to
 //M: replace the existing one is passed as the argument.  replace: returns
