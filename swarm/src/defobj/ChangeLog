@@ -1,3 +1,8 @@
+2004-11-25  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Fcall.m: update ffitypes and ffiReturnType to 
+	    work with current libffi.
+
 2004-11-22  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Don't use BUGGY_BUILTIN_APPLY except for i386.

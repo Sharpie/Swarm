@@ -250,8 +250,9 @@ static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_pointer, 
   &ffi_type_pointer,
   &ffi_type_pointer,
-  &ffi_type_pointer
-  &ffi_type_pointer
+  &ffi_type_pointer,
+  &ffi_type_pointer,
+  &ffi_type_pointer 
 };
 #endif
 
@@ -291,7 +292,7 @@ add_ffi_types (FCall_c *fc)
   else
     {
 #ifndef USE_AVCALL
-      fa->ffiReturnType = ffi_types[fa->returnType];
+      fa->ffiReturnType = ffi_types[fa->retVal.type];
       fillHiddenArguments (fc);
       for (i = 0; i < fa->assignedArgumentCount; i++)
         {
@@ -673,7 +674,7 @@ PHASE(Using)
 #define VAL(type, var) (*((type *)&var))
 #endif
       
-      switch (fargs->returnType)
+      switch (fargs->retVal.type)
         {
         case fcall_type_void:
           break;
