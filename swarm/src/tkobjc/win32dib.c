@@ -172,47 +172,52 @@ dib_fill (dib_t *dib,
 	  unsigned char color)
 {
   unsigned frameWidth = dib->dibInfo->bmiHead.biWidth;
-  unsigned frameHeight = dib->dibInfo->bmiHead.biHeight;
+  unsigned frameHeight = (dib->dibInfo->bmiHead.biHeight < 0
+			  ? -dib->dibInfo->bmiHead.biHeight
+			  : dib->dibInfo->bmiHead.biHeight);
   BYTE *base;
   int yoff;
   int wdiff, hdiff;
+  int clipx, clipy;
 
   if (x < 0)
     {
       if (-x > width)
         return;
       width -= (-x);
-      x = 0;
+      clipx = 0;
     }
   else if (x > frameWidth)
     return;
+  else clipx = x;
 
   if (y < 0)
     {
       if (-y > height)
         return;
       height -= (-y);
-      y = 0;
+      clipy = 0;
     }
   else if (y > frameHeight)
     return;
+  else clipy = y;
 
-  wdiff = x + width - frameWidth;
+  wdiff = clipx + width - frameWidth;
 
   if (wdiff > 0)
     width -= wdiff;
 
-  hdiff = y + height - frameHeight;
+  hdiff = clipy + height - frameHeight;
 
   if (hdiff > 0)
     height -= hdiff;
   
-  base = (BYTE *)dib->bits + (y * frameWidth);
+  base = (BYTE *)dib->bits + (clipy * frameWidth);
   
   for (yoff = 0; yoff < height; yoff++)
     {
       int xoff;
-      BYTE *ybase = &base[yoff * frameWidth + x];
+      BYTE *ybase = &base[yoff * frameWidth + clipx];
       
       for (xoff = 0; xoff < width; xoff++)
 	ybase[xoff] = color;
