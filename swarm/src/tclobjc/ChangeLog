@@ -1,14 +1,19 @@
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* tclObjc.m (tclObjc_msgSendToClientData): Add support for 
+	* tclObjc.m: Include avcall.h or ffi.h per BUGGY_BUILTIN_APPLY
+	and USE_AVCALL.
+	(tclObjc_msgSendToClientData): Add support for 
 	(getObjectReturn, getPointerReturn, getIntegerReturn, 
 	getUIntegerReturn, getShortReturn, getUShortReturn, getLongReturn,
 	getULongReturn, getCharReturn, getUCharReturn, getStringReturn, 
-	getFloatReturn, getDoubleReturn): Add support for libffi, for
+	getFloatReturn, getDoubleReturn): Add support for libffi and avcall for
 	when __builtin_apply is buggy.
 	(getPointerReturn): Return void * instead of unsigned.
 	(tclObjc_msgSendToClientData): Use %p instead of %x for pointer,
 	per POINTER_FMT_HEX_PREFIX.
+
+	* Makefile.am (FFIINCLUDES): New substituted variable.
+	(INCLUDES): Add FFIINCLUDES.
 
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 

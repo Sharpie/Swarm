@@ -40,13 +40,17 @@
 #include <swarmconfig.h>
 
 #ifdef BUGGY_BUILTIN_APPLY
-#define USE_LIBFFI
+#define USE_FFI
 #endif
 
-#ifdef USE_LIBFFI
+#ifdef USE_FFI
+#ifdef USE_AVCALL
+#include <avcall.h>
+#else
 #undef PACKAGE
 #undef VERSION
 #include <ffi.h>
+#endif
 #endif
 
 #include "tclObjc.h"
@@ -274,7 +278,7 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     arglist_t argframe = __builtin_apply_args();
 # endif
     char *datum;
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
     void *retframe = NULL ;
 #else
     long long ret;
@@ -556,17 +560,11 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
           break ;
       }
     } else {
-#ifndef USE_LIBFFI
-      retframe = __builtin_apply ((apply_t)method->method_imp, 
-                                  (void*)argframe, 
-                                  argsize);
+      IMP imp = method->method_imp;
+#ifndef USE_FFI
+      retframe = __builtin_apply ((apply_t)imp, (void*)argframe, argsize);
 #else
-      struct alist
-        {
-          ffi_type **type_pos;
-          void **value_pos;
-        };
-      
+#ifndef USE_AVCALL
       typedef struct alist *av_alist;
       struct alist alist_buf;
       av_alist alist = &alist_buf;   
@@ -575,10 +573,15 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       void *values_buf[acnt];
       ffi_cif cif;
       ffi_type *fret; 
-
-      void push_argument (const char *typestr, void *obj)
+      struct alist
         {
-          char type = *typestr;
+          ffi_type **type_pos;
+          void **value_pos;
+        };
+
+      void push_argument (const char *typespec, void *obj)
+        {
+          char type = *typespec;
 
           switch (type)
             {
@@ -621,17 +624,8 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
           *alist->value_pos = obj;
           alist->value_pos++; 
         }
-     
       alist->type_pos = types_buf; 
       alist->value_pos = values_buf; 
-      for (argnum = 0,
-	 datum = method_get_first_argument (method, argframe, &type);
-	 datum;
-	 datum = method_get_next_argument (argframe, &type),
-	 ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
-      {
-        push_argument (type, datum);
-      }
 
       switch (*(method->method_types))
         {
@@ -661,7 +655,93 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
         }
       if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
         abort ();  
-      ffi_call (&cif, (void *)method->method_imp, retframe, values_buf);  
+
+#else
+      av_alist alist;
+
+      void push_argument (const char *typespec, void *obj)
+        {
+          char type = *typespec;
+
+          switch (type)
+            {
+            case _C_ID:
+              av_ptr (alist, id, *(id *)obj);
+              break;
+
+            case _C_SEL:
+              av_ptr (alist, SEL, (SEL *)obj);
+              break;
+
+            case _C_UCHR:
+              av_uchar (alist, *(unsigned char *)obj);
+              break;
+              
+            case _C_INT:
+              av_int (alist, *(int *)obj);
+              break;
+              
+            case _C_FLT:
+              av_float (alist, *(float *)obj);
+              break;
+
+            case _C_DBL:
+              av_double (alist, *(double *)obj);
+              break;
+              
+            case _C_LNG:
+              av_long (alist, *(long *)obj);
+              break;
+              
+            case _C_CHARPTR:
+              av_ptr (alist, const char *, *(const char **)obj);
+              break;
+              
+            default:
+              abort ();
+            }
+        }
+      switch (*(method->method_types))
+        {
+        case _C_ID:
+          av_start_ptr (alist, imp, id, retframe);
+          break;
+        case _C_SEL:
+          av_start_ptr (alist, imp, SEL, retframe);
+          break;
+        case _C_UCHR:
+          av_start_uchar (alist, imp, retframe);
+          break;
+        case _C_INT:
+          av_start_int (alist, imp, retframe);
+          break;
+        case _C_FLT:
+          av_start_float (alist, imp, retframe);
+          break;
+        case _C_DBL:
+          av_start_double (alist, imp, retframe);
+          break;
+        case _C_CHARPTR:
+          av_start_ptr (alist, imp, const char *, retframe);
+          break;
+        default:
+          abort ();
+        }              
+#endif
+      for (argnum = 0,
+	 datum = method_get_first_argument (method, argframe, &type);
+	 datum;
+	 datum = method_get_next_argument (argframe, &type),
+	 ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
+      {
+        push_argument (type, datum);
+      }
+
+#ifndef USE_AVCALL
+      ffi_call (&cif, imp, retframe, values_buf);  
+#else
+      av_call (alist);
+#endif
 #endif
     }
 
@@ -780,7 +860,7 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 static id
 getObjectReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(id *)p;
@@ -790,7 +870,7 @@ getObjectReturn (void *p)
 static void *
 getPointerReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(void **)p;
@@ -800,7 +880,7 @@ getPointerReturn (void *p)
 static int
 getIntegerReturn (void * p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(int *)p;
@@ -810,7 +890,7 @@ getIntegerReturn (void * p)
 static unsigned
 getUIntegerReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(unsigned *)p;
@@ -820,7 +900,7 @@ getUIntegerReturn (void *p)
 static short
 getShortReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(short *)p;
@@ -830,7 +910,7 @@ getShortReturn (void *p)
 static unsigned short
 getUShortReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(unsigned short *)p;
@@ -840,7 +920,7 @@ getUShortReturn (void *p)
 static long
 getLongReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(long *)p;
@@ -850,7 +930,7 @@ getLongReturn (void *p)
 static unsigned long
 getULongReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(unsigned long *)p;
@@ -860,7 +940,7 @@ getULongReturn (void *p)
 static char
 getCharReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(char *)p;
@@ -870,7 +950,7 @@ getCharReturn (void *p)
 static unsigned char
 getUCharReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return (p);
 #else
   return *(unsigned char *)p;
@@ -880,7 +960,7 @@ getUCharReturn (void *p)
 static char *
 getStringReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return(p);
 #else
   return *(unsigned char **)p;
@@ -890,7 +970,7 @@ getStringReturn (void *p)
 static float
 getFloatReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return(p);
 #else
   return *(float *)p;
@@ -900,7 +980,7 @@ getFloatReturn (void *p)
 static double
 getDoubleReturn (void *p)
 {
-#ifndef USE_LIBFFI
+#ifndef USE_FFI
   __builtin_return(p);
 #else
   return *(double *)p;
