@@ -32,6 +32,7 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 
 #define MAX_ARGS 10
 #define MAX_HIDDEN 3
+#define MAX_TOTAL (MAX_HIDDEN + MAX_ARGS)
 
 @interface FArguments_c: CreateDrop_s
 {
@@ -40,10 +41,10 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
    unsigned hiddenArgumentCount;
    fcall_type_t returnType;
    types_t resultVal;
-   fcall_type_t *argTypes;
-   void **argValues;
+   fcall_type_t argTypes[MAX_TOTAL];
+   void *argValues[MAX_TOTAL];
 #ifndef USE_AVCALL
-   void **ffiArgTypes;
+   void *ffiArgTypes[MAX_TOTAL];
    void *ffiReturnType;
 #else
    av_alist java_avalist;

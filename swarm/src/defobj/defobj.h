@@ -1097,6 +1097,7 @@ USING
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
 - (func_t)getFunctionPointer;
 extern void defobj_init_java_call_tables (void *jniEnv);
+extern void updateTarget (id call, id target);
 @end
 
 @protocol Serialization

@@ -256,64 +256,10 @@ PHASE(Creating)
   return newCall;
 }
 
-
-- createEnd
-{
-  if (_obj_debug && (callType == ccall || callType == objccall) && !ffunction)
-    raiseEvent (SourceMessage, "Function to be called not set!\n");
-  if (_obj_debug && !fargs)
-    raiseEvent (SourceMessage, "Arguments and return type not specified!\n");
-#ifdef HAVE_JDK
-  if (callType == javacall || callType == javastaticcall)
-      {
-        ffunction = (callType == javacall ? 
-                     java_call_functions[fargs->returnType] :
-                     java_static_call_functions[fargs->returnType]);
-        
-        (jmethodID) fmethod =
-          (callType == javacall ?
-           (*jniEnv)->GetMethodID (jniEnv, fclass, 
-                                   methodName, 
-                                   fargs->javaSignature) :
-           (*jniEnv)->GetStaticMethodID (jniEnv, fclass, 
-                                         methodName, 
-                                         fargs->javaSignature)); 
-        if (!fmethod)
-          raiseEvent (SourceMessage, "Could not find Java method: `%s' (%s)\n",
-                      methodName, fargs->javaSignature);
-      }
-#endif
-  add_ffi_types (self);
-#ifndef USE_AVCALL
-  {
-    unsigned res;
-    
-    res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
-                        (fargs->hiddenArgumentCount +
-                         fargs->assignedArgumentCount),
-                        (ffi_type *) fargs->ffiReturnType, 
-                        (ffi_type **) fargs->ffiArgTypes + MAX_HIDDEN - 
-                        fargs->hiddenArgumentCount);
-    if (_obj_debug && res != FFI_OK)
-      raiseEvent (SourceMessage,
-                  "Failed while preparing foreign function call closure!\n"); 
-  }
-#endif
-  setNextPhase (self);
-  return self;
-}
-
-PHASE(Setting)
-
 - setArguments: arguments
 {
   fargs = arguments;
   return self;
-}
-
-- getArguments
-{
-  return fargs;
 }
 
 - setFunctionPointer: (func_t)fn
@@ -361,8 +307,68 @@ PHASE(Setting)
   return self;
 }
 
+- createEnd
+{
+  if (_obj_debug && (callType == ccall || callType == objccall) && !ffunction)
+    raiseEvent (SourceMessage, "Function to be called not set!\n");
+  if (_obj_debug && !fargs)
+    raiseEvent (SourceMessage, "Arguments and return type not specified!\n");
+#ifdef HAVE_JDK
+  if (callType == javacall || callType == javastaticcall)
+      {
+        ffunction = (callType == javacall ? 
+                     java_call_functions[fargs->returnType] :
+                     java_static_call_functions[fargs->returnType]);
+        
+        (jmethodID) fmethod =
+          (callType == javacall ?
+           (*jniEnv)->GetMethodID (jniEnv, fclass, 
+                                   methodName, 
+                                   fargs->javaSignature) :
+           (*jniEnv)->GetStaticMethodID (jniEnv, fclass, 
+                                         methodName, 
+                                         fargs->javaSignature)); 
+        if (!fmethod)
+          raiseEvent (SourceMessage, "Could not find Java method: `%s' (%s)\n",
+                      methodName, fargs->javaSignature);
+      }
+#endif
+  add_ffi_types (self);
+#ifndef USE_AVCALL
+  {
+    unsigned res;
+    
+    res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
+                        (fargs->hiddenArgumentCount +
+                         fargs->assignedArgumentCount),
+                        (ffi_type *) fargs->ffiReturnType, 
+                        (ffi_type **) fargs->ffiArgTypes + MAX_HIDDEN - 
+                        fargs->hiddenArgumentCount);
+    if (_obj_debug && res != FFI_OK)
+      raiseEvent (SourceMessage,
+                  "Failed while preparing foreign function call closure!\n"); 
+  }
+#endif
+  setNextPhase (self);
+  return self;
+}
+
+void
+updateTarget (FCall_c *self, id target)
+{
+  if ([target respondsTo: M(isJavaProxy)])
+    self->fobject = SD_FINDJAVA (jniEnv, target);
+  else
+    self->fobject = target;
+  add_ffi_types (self);
+}
 
 PHASE(Using)
+
+- getArguments
+{
+  return fargs;
+}
 
 - (void)performCall
 {
@@ -681,6 +687,14 @@ PHASE(Using)
     return ptr;
   }
 #endif
+}
+
+- (func_t)getFunctionPointer
+{
+  if (callType == ccall)
+    return ffunction;
+  else
+    abort ();
 }
 
 - (void)drop

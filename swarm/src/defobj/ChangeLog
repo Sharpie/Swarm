@@ -1,3 +1,15 @@
+1999-10-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.[hm], defobj.h (updateTarget, getFunctionPointer): New
+	functions.
+
+	* FArguments.m ([FArguments_c +createBegin:]): Don't allocate
+	space for argTypes and argValues.
+	([FArguments_c -mapAllocations:]): Likewise, don't map them.
+
+	* FArguments.h (FArguments_c): Use arrays for argTypes and
+	argValues instead of pointers.
+
 1999-10-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.h: Documentation updates.

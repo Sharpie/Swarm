@@ -26,6 +26,8 @@ void defobj_init_java_call_tables (void *jEnv);
 
 #define JOBJECT void *
 
+void updateTarget (id self, id target);
+
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 
 @interface FCall_c: CreateDrop_s
@@ -53,4 +55,5 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - (void)performCall;
 - (void *)getResult;
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
+- (func_t)getFunctionPointer;
 @end

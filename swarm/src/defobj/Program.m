@@ -314,30 +314,30 @@ _obj_initModule (void *module)
       type = classData->typeImplemented;
       if (type && type->implementation)
         {
-        if (type->implementation == Creating)
-          {
-            if (classData->initialPhase &&
-                classData->initialPhase->nextPhase != UsingOnly)
-              {
-                type->implementation = classData->initialPhase;
-                *type->typeID = type->implementation;
-                //!! later -- use customizeBeginEnd if no extra class messages
-              }
-          }
-        else if (classData->initialPhase->nextPhase != UsingOnly)
-          {
-            raiseEvent (SourceMessage,
-                        "initModule(): more than one class specified as implementation\n"
-                        "for Creating phase of type %s\n"
-                        "(classes include %s and %s)\n",
-                        [type getName], [type->implementation getName],
-                        [**class getName] );
-          }
+          if (type->implementation == Creating)
+            {
+              if (classData->initialPhase &&
+                  classData->initialPhase->nextPhase != UsingOnly)
+                {
+                  type->implementation = classData->initialPhase;
+                  *type->typeID = type->implementation;
+                  //!! later -- use customizeBeginEnd if no extra class messages
+                }
+            }
+          else if (classData->initialPhase->nextPhase != UsingOnly)
+            {
+              raiseEvent (SourceMessage,
+                          "initModule(): more than one class specified as implementation\n"
+                          "for Creating phase of type %s\n"
+                          "(classes include %s and %s)\n",
+                          [type getName], [type->implementation getName],
+                          [**class getName] );
+            }
         }
     }
   
   // audit that implementation provided for each creatable type interface
-  /*
+#if 0
   for (typeID = (Type_c ***) moduleObject->types; *typeID; typeID++)
     if ((**typeID)->implementation == Creating)
       {
@@ -346,7 +346,7 @@ _obj_initModule (void *module)
                     [(id)**typeID getName]);
         type->implementation = nil;
       }
-  */
+#endif
   // call initialize function to complete initialization of module
   
   (*initFunction) ();

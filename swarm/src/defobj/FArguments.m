@@ -135,16 +135,7 @@ PHASE(Creating)
   newArguments = [aZone allocIVars: self];
   newArguments->assignedArgumentCount = 0;
   newArguments->hiddenArgumentCount = 0;
-  newArguments->argTypes = ZALLOCBLOCK (aZone, 
-                                        (sizeof (fcall_type_t) * 
-                                         (MAX_ARGS + MAX_HIDDEN)));
-  newArguments->argValues = ZALLOCBLOCK (aZone, 
-                                         (sizeof (void *) * 
-                                          (MAX_ARGS + MAX_HIDDEN)));
 #ifndef USE_AVCALL
-  newArguments->ffiArgTypes = ZALLOCBLOCK (aZone,
-                                           (sizeof (ffi_type *) * 
-                                            (MAX_ARGS + MAX_HIDDEN)));
   newArguments->ffiReturnType = &ffi_type_void;
 #endif
   newArguments->returnType = 0;
@@ -480,7 +471,6 @@ PHASE(Using)
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
   unsigned i;
-#define MAX_TOTAL (MAX_HIDDEN + MAX_ARGS)
 
   if (!includeBlocks (mapalloc))
     return;
@@ -493,18 +483,6 @@ PHASE(Using)
       mapalloc->size = fcall_type_size (type);
       mapAlloc (mapalloc, argValues[offset]);
     }
-
-  mapalloc->size = sizeof (void *) * MAX_TOTAL;
-  mapAlloc (mapalloc, argValues);
-  
-  mapalloc->size = sizeof (fcall_type_t) * MAX_TOTAL;
-  mapAlloc (mapalloc, argTypes);
-
-#ifndef USE_AVCALL  
-  mapalloc->size = sizeof (ffi_type *) * MAX_TOTAL;
-  mapAlloc (mapalloc, ffiArgTypes);
-#endif
-
   mapalloc->size = javaSignatureLength + 1;
   mapAlloc (mapalloc, (char *) javaSignature);
 }
