@@ -44,17 +44,18 @@
       implemented has been exercised very heavily.  The interfaces to
       Set and Map structures will remain the same even as their
       underlying implementations improve, so there is no harm in using
-      them.  See the <LINK LINKEND="SWARM.SRC.GRID.APP">GridTurtle
+      them.  See the <LINK LINKEND="SWARM.GRID.SGML.APPENDIX">GridTurtle
       test programs</LINK> for the most complete examples of
       collections usage.</PARA>
 
     <PARA>The collections library follows the documentation structure
-      suggested by the <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">library interface
-        conventions</LINK> of the defobj library.  There are placeholders at
-      least for each section of documentation (some of which merely indicate
-      that the section is not available yet) so that all links should at
-      least link up with something, whether or not there's anything
-      there.</PARA>
+      suggested by the <LINK
+      LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">library interface
+      conventions</LINK> of the defobj library.  There are
+      placeholders at least for each section of documentation (some of
+      which merely indicate that the section is not available yet) so
+      that all links should at least link up with something, whether
+      or not there's anything there.</PARA>
 
     <PARA>Throughout the documentation, a parenthesized comment that
       starts with (..  indicates an editorial comment on the current status
@@ -72,13 +73,13 @@
 
     <PARA>The Usage Guide code examples have not yet been developed.
       For the time being, a directory of test programs (<LINK
-      LINKEND="SWARM.SRC.GRID.APP">GridTurtle test programs</LINK>, contained
-      within the documentation release directory) provides code
-      examples of many of the basic features of the defobj,
-      collections, and activity libraries.  These code examples also
-      help indicate the portions of the libraries which are fully
-      implemented and working, since they are run on each new release
-      of these libraries.</PARA>
+      LINKEND="SWARM.GRID.SGML.APPENDIX">GridTurtle test
+      programs</LINK>, contained within the documentation release
+      directory) provides code examples of many of the basic features
+      of the defobj, collections, and activity libraries.  These code
+      examples also help indicate the portions of the libraries which
+      are fully implemented and working, since they are run on each
+      new release of these libraries.</PARA>
 
   </ABSTRACT>
 

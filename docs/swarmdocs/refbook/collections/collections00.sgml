@@ -15,7 +15,7 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SRC.COLLECTIONS.DEPEND">
+  <SECT1 ID="SWARM.COLLECTIONS.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE>
 
     <PARA>Following are the other header files imported by
@@ -26,8 +26,9 @@
 </PROGRAMLISTING>
 
     <PARA>The collections library follows the <LINK
-      LINKEND="SWARM.SRC.LIBRARY.APP">library interface conventions</LINK> of
-      the <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj library</LINK>.  It also
+      LINKEND="SWARM.LIBRARY.SGML.APPENDIX">library interface
+      conventions</LINK> of the <LINK
+      LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj library</LINK>.  It also
       depends on standard supertypes and classes defined by this
       library.  Initialization of the collections library
       automatically initializes the defobj library as well.  Since
@@ -36,18 +37,18 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.COLLECTIONS.COMPAT">
+  <SECT1 ID="SWARM.COLLECTIONS.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
     
     <PARA>No explicit incompatibilites for particular versions of Swarm</PARA>
 
   </SECT1>
   
-  <SECT1 ID="SWARM.SRC.COLLECTIONS.USAGE">
+  <SECT1 ID="SWARM.COLLECTIONS.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
     
     <PARA>This section of documentation is not yet available.  In the
-      meantime, see the <LINK LINKEND="SWARM.SRC.GRID.APP">GridTurtle test
+      meantime, see the <LINK LINKEND="SWARM.GRID.SGML.APPENDIX">GridTurtle test
         programs</LINK> for the most complete examples of collections
       library usage.  If you can't find an example there that
       exercises a message or option that you want to use, chances are
@@ -55,12 +56,12 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.COLLECTIONS.ADVUSAGE">
+  <SECT1 ID="SWARM.COLLECTIONS.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
     <PARA>Unavailable</PARA>
   </SECT1>
   
-  <SECT1 ID="SWARM.SRC.COLLECTIONS.SUBCLASS">
+  <SECT1 ID="SWARM.COLLECTIONS.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Until the collections library has been fully implemented,
@@ -68,20 +69,21 @@
       are still in flux.  In general, these classes will be among the
       most complex uses of multiple classes selected to implement an
       independent object type. (See <LINK
-      LINKEND="SWARM.SRC.LIBRARY.APP">library definition conventions</LINK> for
-      a summary of the distinction between types and classes.)  New
-      methods are being developed to simplify subclassing from such
-      implementations.  In the meantime, if you need to use to a
-      collection within the implementation of your own class, just put
-      an instance variable in your class and put the collection in
-      that, and pass through the messages of the collection you want
-      to have available on your class to this variable.  In many if
-      not most cases, this is better design anyway, because you
-      control all use of the underlying structure.</PARA>
+      LINKEND="SWARM.LIBRARY.SGML.APPENDIX">library definition
+      conventions</LINK> for a summary of the distinction between
+      types and classes.)  New methods are being developed to simplify
+      subclassing from such implementations.  In the meantime, if you
+      need to use to a collection within the implementation of your
+      own class, just put an instance variable in your class and put
+      the collection in that, and pass through the messages of the
+      collection you want to have available on your class to this
+      variable.  In many if not most cases, this is better design
+      anyway, because you control all use of the underlying
+      structure.</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.COLLECTIONS.DESIGN">
+  <SECT1 ID="SWARM.COLLECTIONS.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>A collections library is one of the most important
@@ -99,7 +101,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.COLLECTIONS.IMPL">
+  <SECT1 ID="SWARM.COLLECTIONS.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
