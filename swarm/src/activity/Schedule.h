@@ -99,7 +99,7 @@ aSel:arg1:arg2:arg3;
 
 extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 
-@interface ActionConcurrent_c: CAction <Action>
+@interface ActionConcurrent_c: CAction <ActionConcurrent>
 {
 @public
   ActionGroup_c *concurrentGroup;  // concurrent group to be executed

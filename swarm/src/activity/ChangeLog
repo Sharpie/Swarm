@@ -1,3 +1,7 @@
+2000-12-03  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* Schedule.h (ActionConcurrent_c): Implement ActionConcurrent.
+
 2000-11-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Schedule.[hm] ([ActionConcurrent_c -getConcurrentGroup]): New
