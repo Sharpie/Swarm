@@ -6,6 +6,7 @@
 #include <swarmISelector.h>
 #include "xptinfo.h"
 #include "xptcall.h"
+#include "jsapi.h"
 
 class swarmSelectorImpl: public swarmISelector, public swarmITyping
 {
@@ -13,9 +14,17 @@ public:
   swarmSelectorImpl ();
   virtual ~swarmSelectorImpl ();
 
+  unsigned argCount;
+  const char *methodName;
+
   nsISupports *methodInterface;
   PRUint16 methodIndex;
   const nsXPTMethodInfo *methodInfo;
+
+  JSObject *jsObj;
+  JSFunction *jsFunc;
+  unsigned *jsArgTypes;
+  unsigned jsReturnType;
   
   NS_DECL_ISUPPORTS
   NS_DECL_SWARMITYPING

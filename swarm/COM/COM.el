@@ -22,6 +22,7 @@
       ("const char \\*\\*" . "string-array")
       
       ("nsXPTCVariantPtr" . "nsXPTCVariantPtr") ; pass-thru, not scriptable
+      ("jsvalPtr" . "jsvalPtr") ; pass-thru, not scriptable
 
       ("char" . "char")
       
@@ -107,6 +108,7 @@
     ("wstring" . "PRUnichar*")
     ("nsCIDPtr" . "const nsCID*")
     ("nsXPTCVariantPtr" . "nsXPTCVariant*")
+    ("jsvalPtr" . "jsval*")
     ))
 
 (defvar *com-uuid-hash-table* (make-hash-table :test #'equal))
@@ -279,8 +281,11 @@
     (string-match (concat "^" *com-interface-prefix*) type)))
 
 (defun com-idl-noscript-method-p (protocol method)
-  (and (string= (protocol-name protocol) "Selector")
-       (string= (get-method-signature method) "-invoke:")))
+    (and (string= (protocol-name protocol) "Selector")
+         (let ((signature (get-method-signature method)))
+           (or
+            (string= signature "-COMinvoke:")
+            (string= signature "-JSinvoke:")))))
 
 (defun com-idl-print-method-declaration (protocol phase method)
   (let* ((arguments (method-arguments method))
@@ -363,8 +368,10 @@
   (when (string= (protocol-name protocol) "Selector")
     (insert "%{C++\n")
     (insert "#include \"xptcall.h\"\n")
+    (insert "#include \"jsapi.h\"\n")
     (insert "%}\n")
-    (insert "[ptr] native nsXPTCVariantPtr(nsXPTCVariant);\n")))
+    (insert "[ptr] native nsXPTCVariantPtr(nsXPTCVariant);\n")
+    (insert "[ptr] native jsvalPtr(jsval);\n")))
 
 (defun com-start-idl (protocol phase)
   (let* ((interface-name (com-interface-name protocol phase))
@@ -462,6 +469,56 @@
                   :arguments (list (list "create" "id" "obj")
                                    (list nil "const char *" "methodName"))
                   :return-type "id <Selector>")
+
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setObjectArg" "unsigned" "index"))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setIntArg" "unsigned" "index"))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setDoubleArg" "unsigned" "index"))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setStringArg" "unsigned" "index"))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setBooleanArg" "unsigned" "index"))
+                  :return-type "void")
+
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setObjectReturn" nil nil))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setIntReturn" nil nil))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setDoubleReturn" nil nil))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setStringReturn" nil nil))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setBooleanReturn" nil nil))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "setVoidReturn" nil nil))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "isJavaScript" nil nil))
+                  :return-type "BOOL")
                  (make-method
                   :phase :using
                   :arguments (list (list "isVoidReturn" nil nil))
@@ -470,6 +527,7 @@
                   :phase :using
                   :arguments (list (list "isBooleanReturn" nil nil))
                   :return-type "BOOL")
+
                  (make-method
                   :phase :using
                   :arguments (list (list "getName" nil nil))
@@ -484,8 +542,14 @@
                   :return-type "fcall_type_t")
                  (make-method
                   :phase :using
-                  :arguments (list (list "invoke" "nsXPTCVariantPtr" "params"))
-                  :return-type "void"))))
+                  :arguments (list (list "COMinvoke" "nsXPTCVariantPtr" "params"))
+                  :return-type "void")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "JSinvoke" "jsvalPtr" "params"))
+                  :return-type "void")
+                 )))
+                 
                  
 (defun com-complete-protocols ()
   (cons (selector-protocol) (com-wrapped-protocols)))
@@ -583,7 +647,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, normalize, selectorQuery, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorInvoke, createArgVector, setArg, setReturn, freeArgVector };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, normalize, selectorQuery, selectorIsJavaScript, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorCOMInvoke, selectorJSInvoke, COMcreateArgVector, COMsetArg, COMsetReturn, COMfreeArgVector, JScreateArgVector, JSsetArg, JSsetReturn, JSfreeArgVector };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))

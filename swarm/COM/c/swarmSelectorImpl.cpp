@@ -6,7 +6,13 @@
 #include "xptcall.h"
 #include "xpt_struct.h"
 
+#include "nsCOMPtr.h"
+#include "nsIXPConnect.h"
+#include "jsapi.h"
+#define VOID_TYPE 7
+
 #include <defobj.h> // fcall_type_t
+
 
 NS_IMPL_ISUPPORTS2(swarmSelectorImpl, swarmISelector, swarmITyping)
 
@@ -37,62 +43,95 @@ swarmSelectorImpl::GetCid (nsCID **acid)
 NS_IMETHODIMP
 swarmSelectorImpl::IsBooleanReturn (PRBool *ret)
 {
-  PRUint16 count = methodInfo->GetParamCount ();
-
-  if (count > 0)
+  if (methodInfo)
     {
-      PRUint16 i = count - 1;
-      const nsXPTParamInfo param = methodInfo->GetParam (i);
+      PRUint16 count = methodInfo->GetParamCount ();
       
-      if (param.IsRetval ())
-        *ret = param.GetType () == nsXPTType::T_BOOL;
+      if (count > 0)
+        {
+          PRUint16 i = count - 1;
+          const nsXPTParamInfo param = methodInfo->GetParam (i);
+          
+          if (param.IsRetval ())
+            *ret = param.GetType () == nsXPTType::T_BOOL;
+          else
+            *ret = PR_FALSE;
+        }
       else
         *ret = PR_FALSE;
     }
   else
-    *ret = PR_FALSE;
-
+    *ret = jsReturnType == JSVAL_BOOLEAN;
   return NS_OK;
 }
 
 NS_IMETHODIMP
 swarmSelectorImpl::IsVoidReturn (PRBool *ret)
 {
-  PRUint16 count = methodInfo->GetParamCount ();
-
-  if (count > 0)
+  if (methodInfo)
     {
-      PRUint16 i = count - 1;
-      const nsXPTParamInfo param = methodInfo->GetParam (i);
-      *ret = !param.IsRetval ();
+      PRUint16 count = methodInfo->GetParamCount ();
+      
+      if (count > 0)
+        {
+          PRUint16 i = count - 1;
+          const nsXPTParamInfo param = methodInfo->GetParam (i);
+          *ret = !param.IsRetval ();
+        }
+      else
+        *ret = PR_TRUE;
     }
   else
-    *ret = PR_TRUE;
+    *ret = jsReturnType == VOID_TYPE;
   return NS_OK;
 }
 
 NS_IMETHODIMP
 swarmSelectorImpl::GetName (char **ret)
 {
-  *ret = (char *) methodInfo->GetName ();
+  *ret = (char *) methodName;
   return NS_OK;
 }
 
 NS_IMETHODIMP
 swarmSelectorImpl::GetArgCount (unsigned *ret)
-{
-  *ret = (unsigned) methodInfo->GetParamCount ();
+{  
+  *ret = argCount;
   return NS_OK;
 }
 
 NS_IMETHODIMP
 swarmSelectorImpl::GetArgFcallType (unsigned argIndex, unsigned short *retPtr)
 {
-  fcall_type_t ret;
-
-  if (methodInfo->GetParamCount () == 0)
-    ret = fcall_type_void;
-  else
+  fcall_type_t ret = fcall_type_void;
+  
+  if (jsArgTypes)
+    {
+      unsigned type = (argIndex == argCount
+                       ? jsReturnType
+                       : jsArgTypes[argIndex]);
+      switch (type)
+        {
+        case JSVAL_OBJECT:
+          ret = fcall_type_object;
+          break;
+        case JSVAL_INT:
+          ret = fcall_type_sint;
+          break;
+        case JSVAL_DOUBLE:
+          ret = fcall_type_double;
+          break;
+        case JSVAL_STRING:
+          ret = fcall_type_string;
+          break;
+        case JSVAL_BOOLEAN:
+          ret = fcall_type_boolean;
+          break;
+        default:
+          abort ();
+        }
+    }
+  else if (methodInfo)
     {
       const nsXPTParamInfo& param = methodInfo->GetParam (argIndex);
       const nsXPTType& type = param.GetType ();
@@ -161,24 +200,162 @@ swarmSelectorImpl::GetArgFcallType (unsigned argIndex, unsigned short *retPtr)
   return NS_OK;
 }
   
+NS_IMETHODIMP
+swarmSelectorImpl::SetObjectArg (unsigned argIndex)
+{
+  jsArgTypes[argIndex] = JSVAL_OBJECT;
+  return NS_OK;
+}
 
 NS_IMETHODIMP
-swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, swarmISelector **ret)
+swarmSelectorImpl::SetIntArg (unsigned argIndex)
 {
-  if (!findMethod (obj, methodName,
-                   &methodInterface, &methodIndex, &methodInfo))
-    return NS_ERROR_NOT_IMPLEMENTED;
-  
+  jsArgTypes[argIndex] = JSVAL_INT;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetDoubleArg (unsigned argIndex)
+{
+  jsArgTypes[argIndex] = JSVAL_DOUBLE;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetStringArg (unsigned argIndex)
+{
+  jsArgTypes[argIndex] = JSVAL_STRING;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetBooleanArg (unsigned argIndex)
+{
+  jsArgTypes[argIndex] = JSVAL_BOOLEAN;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetObjectReturn ()
+{
+  jsReturnType = JSVAL_OBJECT;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetIntReturn ()
+{
+  jsReturnType = JSVAL_INT;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetDoubleReturn ()
+{
+  jsReturnType = JSVAL_DOUBLE;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetStringReturn ()
+{
+  jsReturnType = JSVAL_STRING;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetBooleanReturn ()
+{
+  jsReturnType = JSVAL_BOOLEAN;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::SetVoidReturn ()
+{
+  jsReturnType = VOID_TYPE;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::IsJavaScript (PRBool *ret)
+{
+  *ret = methodInfo == NULL;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::Create (nsISupports *obj,
+                           const char *wantedMethodName,
+                           swarmISelector **ret)
+{
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (obj));
+
+  jsArgTypes = NULL;
+ 
+  if (jobj)
+    {
+      if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+        abort ();
+
+      JSContext *cx = currentJSContext ();
+      JS_AddRoot (cx, &jsObj);
+      jsval funcVal;
+
+      if (!JS_GetProperty (cx, jsObj, wantedMethodName, &funcVal))
+        return NS_ERROR_NOT_IMPLEMENTED;
+
+      jsFunc = JS_ValueToFunction (cx, funcVal);
+
+      jsval arityVal;
+
+      if (!JS_GetProperty (cx, JSVAL_TO_OBJECT (funcVal), "arity", &arityVal))
+        abort ();
+
+      argCount = JSVAL_TO_INT (arityVal);
+      methodName = JS_strdup (cx, wantedMethodName);
+      if (argCount > 0)
+        jsArgTypes = (unsigned *) JS_malloc (cx, sizeof (unsigned) * argCount);
+      methodInfo = NULL;
+    }
+  else
+    {
+      if (!findMethod (obj, wantedMethodName,
+                       &methodInterface, &methodIndex, &methodInfo))
+        return NS_ERROR_NOT_IMPLEMENTED;
+      
+      uint8 paramCount = methodInfo->GetParamCount ();
+      PRBool voidReturn;
+      
+      if (!NS_SUCCEEDED (IsVoidReturn (&voidReturn)))
+        abort ();
+      
+      argCount = (unsigned) paramCount;
+      if (!voidReturn)
+        argCount--;
+      methodName = (char *) methodInfo->GetName ();
+    }
+
   NS_ADDREF (*ret = NS_STATIC_CAST (swarmISelector*, this));
   return NS_OK;
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::Invoke (nsXPTCVariant *params)
+swarmSelectorImpl::COMinvoke (nsXPTCVariant *params)
 {
+  if (!methodInfo)
+    abort ();
+
   return XPTC_InvokeByIndex (methodInterface,
                              methodIndex,
                              methodInfo->GetParamCount (),
                              params);
 }
 
+NS_IMETHODIMP
+swarmSelectorImpl::JSinvoke (jsval *args)
+{
+  JS_CallFunction (currentJSContext (), jsObj, jsFunc,
+                   argCount, args, &args[argCount]);
+  return NS_OK;
+}

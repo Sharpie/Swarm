@@ -2,6 +2,8 @@
 #include "nsIInterfaceInfo.h"
 #include "nsIInterfaceInfoManager.h"
 #include "nsIComponentManager.h"
+#include "nsIServiceManager.h"
+#include "nsIXPConnect.h"
 #include "nsIEnumerator.h"
 #include "nsMemory.h"
 #include "xptinfo.h"
@@ -304,6 +306,18 @@ selectorQuery (COMobject cObj)
 }
 
 BOOL
+selectorIsJavaScript (COMselector cSel)
+{
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+  PRBool ret;
+  
+  if (!NS_SUCCEEDED (sel->IsJavaScript (&ret)))
+    abort ();
+  
+  return ret;
+}
+
+BOOL
 selectorIsVoidReturn (COMselector cSel)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
@@ -364,11 +378,20 @@ selectorArgFcallType (COMselector cSel, unsigned argIndex)
 }
 
 void
-selectorInvoke (COMselector cSel, void *args)
+selectorCOMInvoke (COMselector cSel, void *args)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   
-  if (!NS_SUCCEEDED (sel->Invoke ((nsXPTCVariant *) args)))
+  if (!NS_SUCCEEDED (sel->COMinvoke ((nsXPTCVariant *) args)))
+    abort ();
+}
+
+void
+selectorJSInvoke (COMselector cSel, void *args)
+{
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+ 
+  if (!NS_SUCCEEDED (sel->JSinvoke ((jsval *) args)))
     abort ();
 }
 
@@ -390,12 +413,13 @@ findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, P
 }
 
 void *
-createArgVector (unsigned size)
+COMcreateArgVector (unsigned size)
 {
   nsXPTCVariant *argVec = new nsXPTCVariant[size];
 
   return (void *) argVec;
 }
+
 
 static nsXPTType types[FCALL_TYPE_COUNT] = {
   nsXPTType::T_VOID,
@@ -422,7 +446,7 @@ static nsXPTType types[FCALL_TYPE_COUNT] = {
 };
 
 void
-setArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
+COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 {
   nsXPTCVariant *arg = &((nsXPTCVariant *) args)[pos];
 
@@ -486,7 +510,7 @@ setArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
       abort ();
     case fcall_type_object:
       arg->type = nsXPTType::T_INTERFACE;
-      arg->val.p = SD_COM_ENSURE_OBJECT_COM (value->object);
+      arg->val.p = (void *) SD_COM_ENSURE_OBJECT_COM (value->object);
       break;
     case fcall_type_string:
       arg->type = nsXPTType::T_CHAR_STR;
@@ -501,7 +525,7 @@ setArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 }
 
 void
-setReturn (void *args, unsigned pos, fcall_type_t type, void *value)
+COMsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value)
 {
   nsXPTCVariant *retArg = &((nsXPTCVariant *) args)[pos];
 
@@ -511,9 +535,138 @@ setReturn (void *args, unsigned pos, fcall_type_t type, void *value)
 }
 
 void
-freeArgVector (void *args)
+COMfreeArgVector (void *args)
 {
   nsXPTCVariant *argVec = (nsXPTCVariant *) args;
 
   delete argVec;
+}
+
+JSContext *
+currentJSContext ()
+{
+  nsresult rv;
+  
+  NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+  if (!NS_SUCCEEDED (rv))
+    abort ();
+  
+  nsCOMPtr <nsIXPCNativeCallContext> callContext;
+  xpc->GetCurrentNativeCallContext (getter_AddRefs (callContext));
+  if (!callContext)
+    abort ();
+  
+  JSContext *cx;
+  rv = callContext->GetJSContext (&cx);
+
+  if (!NS_SUCCEEDED (rv))
+    abort ();
+  
+  return cx;
+}
+
+void *
+JScreateArgVector (unsigned size)
+{
+  jsval *argVec =
+    (jsval *) JS_malloc (currentJSContext (), sizeof (jsval) * size);
+  
+  return (void *) argVec;
+}
+
+void
+JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
+{
+  jsval *jsargs = (jsval *) args;
+
+  switch (type)
+    {
+    case fcall_type_void:
+      abort ();
+    case fcall_type_boolean:
+      jsargs[pos] = BOOLEAN_TO_JSVAL (value->boolean);
+      break;
+    case fcall_type_uchar:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->uchar);
+      break;
+    case fcall_type_schar:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->schar);
+      break;
+    case fcall_type_ushort:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->ushort);
+      break;
+    case fcall_type_sshort:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->sshort);
+      break;
+    case fcall_type_uint:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->uint);
+      break;
+    case fcall_type_sint:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->sint);
+      break;
+    case fcall_type_ulong:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->ulong);
+      break;
+    case fcall_type_slong:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->slong);
+      break;
+    case fcall_type_ulonglong:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->ulonglong);
+      break;
+    case fcall_type_slonglong:
+      jsargs[pos] = INT_TO_JSVAL ((int) value->slonglong);
+      break;
+    case fcall_type_float:
+      jsargs[pos] = DOUBLE_TO_JSVAL ((double) value->_float);
+      break;
+    case fcall_type_double:
+      jsargs[pos] = DOUBLE_TO_JSVAL (value->_double);
+      break;
+    case fcall_type_long_double:
+      jsargs[pos] = DOUBLE_TO_JSVAL ((double) value->_long_double);
+      break;
+    case fcall_type_object:
+      {
+        nsCOMPtr <swarmITyping> cObject = NS_STATIC_CAST (swarmITyping *, SD_COM_ENSURE_OBJECT_COM (value->object));
+        nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (cObject));
+        JSObject *jsObj;
+        if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+          abort ();
+        jsargs[pos] = OBJECT_TO_JSVAL (jsObj);
+      }
+      break;
+    case fcall_type_selector:
+      {
+        nsCOMPtr <swarmITyping> cSel = NS_STATIC_CAST (swarmITyping *, SD_COM_FIND_SELECTOR_COM (value->selector));
+        nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (cSel));
+        JSObject *jsObj;
+        if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+          abort ();
+        jsargs[pos] = OBJECT_TO_JSVAL (jsObj);
+      }
+      break;
+    case fcall_type_class:
+      abort ();
+      break;
+    case fcall_type_string:
+      jsargs[pos] = STRING_TO_JSVAL (JS_NewStringCopyZ (currentJSContext (),
+                                                        value->string));
+      break;
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+      abort ();
+    }
+}
+
+void
+JSsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value)
+{
+  if (type != fcall_type_void)
+    JSsetArg (args, pos, type, value);
+}
+
+void
+JSfreeArgVector (void *args)
+{
+  JS_free (currentJSContext (), args);
 }
