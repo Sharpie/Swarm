@@ -2,13 +2,14 @@
   <TITLE>Emacs and Objective C</TITLE>
 
   <PARA>Emacs is the world's best editor, infinitely configurable and
-    powerful and free. If you're not used to a Unix text editor and want
-    to write programs, emacs is probably best to learn. The information
-    here will show you how to set up emacs to use an Objective C specific
-    mode for editing source code and how to get emacs to colour your
-    source code for you nicely. Emacs can also help you find compilation
-    errors, run a debugger, and even act like a class browser. Docs for
-    those things are not here, see the Emacs documentation itself.</PARA>
+    powerful and free. If you're not used to a Unix text editor and
+    want to write programs, emacs is probably best to learn. The
+    information here will show you how to set up emacs to use an
+    Objective C specific mode for editing source code and how to get
+    emacs to colour your source code for you nicely. Emacs can also
+    help you find compilation errors, run a debugger, and even act
+    like a class browser. Documentation for those things are not here,
+    see the Emacs documentation itself.</PARA>
   
   <FORMALPARA>
     <TITLE>objc-mode</TITLE>
@@ -33,14 +34,28 @@
 (append '(("\\.h$" . objc-mode)
 ("\\.m$" . objc-mode))))
   </PROGRAMLISTING>
-  
+
+  <FORMALPARA><TITLE>Highlighting code</TITLE> <PARA>Emacs running
+      under X has the ability to colour your source code according to
+      syntax. There are two packages to do this:
+      <LITERAL>font-lock</LITERAL> and
+      <LITERAL>hilit19</LITERAL>.<PARA>
+  </FORMALPARA>
+
+  <FORMALPARA><TITLE>font-lock</TITLE> <PARA> emacs-20.1 and later
+     also has a font-lock mode for Objective-C that supports the
+     method syntax unique to Objective-C. See the emacs manual for how
+     to turn on this feature to highlight .h and .m files
+     automatically.</PARA>
+  </FORMALPARA>
+    
   <FORMALPARA><TITLE>hilit19</TITLE>
     
-    <PARA>Emacs running under X has the ability to colour your source code
-      according to syntax. There are two packages to do this: font-lock and
-      hilit19. I'm told font-lock is better, but I still use hilit19. Once
-      you have hilit19 running in your emacs, you need to teach it how to
-      highlight Objective C code. Here's what I use (cut and paste):
+    <PARA>font-lock is probably better, but you can still use
+      hilit19. Once you have hilit19 running in your emacs (see your
+      emacs manual for how to do this), you need to teach it how to
+      highlight Objective C code. Here's what Nelson Minar contributed
+      to do this (cut and paste):
       
 <PROGRAMLISTING>
 ;; modified objective c - get defuns, id.
