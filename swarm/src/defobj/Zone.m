@@ -330,7 +330,7 @@ PHASE(Using)
     {
       allocCount++;
       allocTotal += size;
-      memset (newBlock, _obj_fillalloc, size);
+      memset (aptr, _obj_fillalloc, size);
     }
   return aptr;
 }
@@ -344,11 +344,11 @@ PHASE(Using)
 
   if (_obj_debug)
     {
-      allocTotal -= *(size_t *) (aBlock - sizeof (ptrdiff_t) - sizeof (size_t));
+      size_t size = *(size_t *) (aBlock - sizeof (ptrdiff_t) - sizeof (size_t));
+      allocTotal -= size;
       allocCount--;
     }
-  aBlock -= offset;
-  XFREE (aBlock);
+  XFREE (aBlock - offset);
 }
 
 //
