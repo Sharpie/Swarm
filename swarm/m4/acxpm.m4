@@ -41,7 +41,7 @@ AC_SUBST(XPMINCLUDES)
 if test "$gnuwin32" = no; then
 
 last_cppflags=$CPPFLAGS
-test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir $CPPFLAGS"
+test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir -I$x_includes $CPPFLAGS"
 AC_MSG_CHECKING(for X11/xpm.h)
 AC_TRY_COMPILE([#include <X11/xpm.h>],[],have_x11_xpm_h=yes,have_x11_xpm_h=no)
 if test $have_x11_xpm_h = yes; then
@@ -65,7 +65,7 @@ fi
 
 AC_DEFUN(md_STRUCT_XPM_ALLOCPIXELS,
 [last_cppflags=$CPPFLAGS
-test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir $CPPFLAGS"
+test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir -I$x_includes $CPPFLAGS"
 AC_MSG_CHECKING(for nalloc_pixels in XpmAttributes)
 AC_TRY_COMPILE([#ifdef HAVE_X11_XPM_H 
 #include <X11/xpm.h>

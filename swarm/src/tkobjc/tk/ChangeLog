@@ -1,3 +1,7 @@
+2002-01-14    <mgd@SFI-984289>
+
+	* tkWinPort.h (OPEN_MAX): Comment out.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

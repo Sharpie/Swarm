@@ -10,7 +10,7 @@ findImp__EXEEXT__SOURCES = findImp.m
 # force use of libtool to work around dependency generation bug
 OBJEXT = lo
 # force use of special symbols because execute will work from .o
-CPPFLAGS = @CPPFLAGS@ -DDLL
+CPPFLAGS = @CPPFLAGS@ -DDLL_EXPORT
 
 swarm_srcdir = $(top_srcdir)/src
 

@@ -43,7 +43,9 @@
 
 #define NBBY 8
 
+#if 0
 #define OPEN_MAX 32
+#endif
 
 /*
  * The following define causes Tk to use its internal keysym hash table

@@ -1,3 +1,7 @@
+2002-01-14    <mgd@SFI-984289>
+
+	* acxpm.m4: Add x_includes before xpmincludedir in test programs.
+
 2001-11-09  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* acjdk.m4 (vj_FIND_JDK): Likewise for i386 Linux-based systems.
