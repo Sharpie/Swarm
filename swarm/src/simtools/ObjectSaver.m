@@ -46,7 +46,7 @@ PHASE(Creating)
 {
   id anObj, aFileObject;
 
-  aFileObject = [OutFile create: [anObject getZone] withName: aFileName];
+  aFileObject = [OutFile create: [anObject getZone] setName: aFileName];
 
   if (!aFileObject)
     [self _crash_: aFileObject];
@@ -66,7 +66,7 @@ PHASE(Creating)
   id anObj;
   id aFileObject;
 
-  aFileObject = [OutFile create: [anObject getZone] withName: aFileName];
+  aFileObject = [OutFile create: [anObject getZone] setName: aFileName];
 
   if(!aFileObject)
     [self _crash_: aFileObject];

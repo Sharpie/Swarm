@@ -9,6 +9,9 @@
 
 	* simtools.h: Reflect these changes.
 
+	* ObjectSaver.m ([ObjectSaver +save:toFileNamed:],
+	[ObjectSaver +save:toFileNamed:withTemplate:]): Likewise.
+
 1999-06-21  Alex Lancaster  <alex@santafe.edu>
 
 	* simtools.h (InFile, OutFile, AppendFile, ObjectSaver,

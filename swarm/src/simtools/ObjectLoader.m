@@ -38,7 +38,7 @@ PHASE(Creating)
 {
   id anObj, aFileObject;
 
-  aFileObject = [InFile create: [anObject getZone] withName: aFileName];
+  aFileObject = [InFile create: [anObject getZone] setName: aFileName];
 
   if(!aFileObject)
     [self _crash_: anObject];
