@@ -5,20 +5,21 @@
 
 #import <objectbase/SwarmObject.h>
 #import <objectbase/VarProbe.h>
+#import <simtools.h>
 
 @interface ObjectSaver: SwarmObject
 {
-  id templateProbeMap;  
+  id <ProbeMap> templateProbeMap;  
   id theFileObject;    
 }
 
 + save: anObject to: aFileObject;
-+ save: anObject to: aFileObject withTemplate: aProbeMap;
++ save: anObject to: aFileObject withTemplate: (id <ProbeMap>)aProbeMap;
 + save: anObject toFileNamed: (const char *)aFileName;
-+ save: anObject toFileNamed: (const char *)aFileName withTemplate: aProbeMap;
++ save: anObject toFileNamed: (const char *)aFileName withTemplate: (id <ProbeMap>)aProbeMap;
 
 - setFileObject: aFileObject;
-- setTemplateProbeMap: aProbeMap;
+- setTemplateProbeMap: (id <ProbeMap>)aProbeMap;
 - saveObject: anObject;
 
 - (void)_crash_: anObject;

@@ -240,7 +240,7 @@ USING
 //M: The setTemplateProbeMap: method is used to specify which variables of the
 //M: target object(s) should be loaded by the ObjectLoader instance to which
 //M: this message was sent.
-- setTemplateProbeMap: probeMap;
+- setTemplateProbeMap: (id <ProbeMap>)probeMap;
 @end
 
 @protocol ObjectSaver <SwarmObject, CREATABLE>
@@ -259,7 +259,7 @@ USING
 //M: The save:to:withTemplate: method saves the subset of target object 
 //M: variables specified in a template from anObject without actually 
 //M: returning an instance of ObjectSaver to the user.
-+ save: anObject to: aFileObject withTemplate: aProbeMap;
++ save: anObject to: aFileObject withTemplate: (id <ProbeMap>)aProbeMap;
 
 //M: The save:toFileNamed: method saves the entire target object to the file
 //M: aFileName.
@@ -269,7 +269,7 @@ USING
 //M: specified in a template from the target object to the file
 //M: aFileName.
 + save: anObject toFileNamed: (const char *)aFileName 
-                withTemplate: (ProbeMap *)aProbeMap;
+                withTemplate: (id <ProbeMap>)aProbeMap;
 
 //M: The setFileObject: method sets the target fileObject which the instance 
 //M: of the ObjectSaver class should use.
@@ -278,7 +278,7 @@ USING
 //M: The setTemplateProbeMap: method is used to specify which variables of the
 //M: source object(s) should be saved by the ObjectSaver instance to which this
 //M: message was sent.
-- setTemplateProbeMap: aProbeMap;
+- setTemplateProbeMap: (id <ProbeMap>)aProbeMap;
 
 //M: The saveObject: message tells an instance of the ObjectSaver class to 
 //M: save the state of the target object into the requested file.

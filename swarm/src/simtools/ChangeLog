@@ -1,3 +1,20 @@
+1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ObjectSaver.[hm], simtools.h ([ObjectSaver
+	+save:to:withTemplate:]): Make template probemap conform to
+	ProbeMap protocol.
+	([ObjectSaver +save:toFileNamed:withTemplate:]): Likewise.
+	([ObjectSaver -setTemplateProbeMap:]): Likewise.
+
+	* ObjectLoader.m ([ObjectLoader -setTemplateProbeMap:]),
+	simtools.h: Likewise.
+
+	* ObjectSaver.h (ObjectSaver): Declare templateProbeMap as conforming
+	to ProbeMap protocol.
+
+	* ObjectLoader.h (ObjectLoader): Declare probeMapCache as conforming
+	to ProbeMap protocol.
+
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtools.h: Add CREATABLE tags to all non-abstract protocols.

@@ -4,10 +4,11 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
+#import <simtools.h>
 
 @interface ObjectLoader: SwarmObject
 {
-  id probeMapCache;
+  id <ProbeMap> probeMapCache;
   id theFileObject; 
 }
 
@@ -19,7 +20,7 @@
 - setFileObject: aFileObject;
 - loadObject: anObject;
 
-- setTemplateProbeMap : probeMap;
+- setTemplateProbeMap: (id <ProbeMap>)probeMap;
 - updateCache: exampleTarget;
 
 - (void)_crash_: anObject;

@@ -28,7 +28,7 @@
   return self;
 }
 
-+ save: anObject to: aFileObject withTemplate: aProbeMap
++ save: anObject to: aFileObject withTemplate: (id <ProbeMap>)aProbeMap
 {
   id anObj;
 
@@ -59,7 +59,8 @@
   return self;
 }
 
-+ save: anObject toFileNamed: (const char *)aFileName withTemplate: aProbeMap
++ save: anObject toFileNamed: (const char *)aFileName
+                withTemplate: (id <ProbeMap>)aProbeMap
 {
   id anObj;
   id aFileObject;
@@ -102,7 +103,8 @@
 
 - saveObject: anObject
 {
-  id aProbeMap, aProbe, anIndex;
+  id <ProbeMap> aProbeMap;
+  id aProbe, anIndex;
   char aBuffer[2000];
 
   if (templateProbeMap)
@@ -135,7 +137,7 @@
   return self;  
 }
 
-- setTemplateProbeMap: aProbeMap
+- setTemplateProbeMap: (id <ProbeMap>)aProbeMap
 {
   templateProbeMap = aProbeMap;
   return self;

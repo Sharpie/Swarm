@@ -97,7 +97,8 @@
 
 - loadObject: anObject
 {
-  id aProbeMap, aProbe;
+  id <ProbeMap> aProbeMap;
+  id aProbe;
   char aString[200], aChar;
 
   if(probeMapCache)
@@ -206,7 +207,7 @@
   return self;  
 }
 
-- setTemplateProbeMap: probeMap
+- setTemplateProbeMap: (id <ProbeMap>)probeMap
 {
   probeMapCache = probeMap;
   return self;
