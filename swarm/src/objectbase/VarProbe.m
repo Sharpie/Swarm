@@ -3,7 +3,6 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <stdlib.h>
 #include <stdio.h> // sprintf, sscanf
 
 #import <objc/objc.h>
@@ -12,7 +11,7 @@
 #import <defobj.h> // Warning
 #import "local.h"
 
-#include <misc.h> // strdup, strcmp
+#include <misc.h> // strdup, strcmp, xmalloc, xfree
 
 @implementation VarProbe
 
@@ -28,7 +27,7 @@ PHASE(Creating)
           return nil;
         }
       else 
-        free ((void *)probedVariable);     // memory allocation?
+        xfree ((void *)probedVariable);     // memory allocation?
     }
   probedVariable = strdup (aVariable);	   // make a local copy
   return self;
@@ -84,7 +83,7 @@ PHASE(Creating)
       // double types - defaults are set in the probeLibrary instance
       if  (probedType[0] == _C_FLT || probedType[0] == _C_DBL)
         {
-          char *buf = malloc (7);
+          char *buf = xmalloc (7);
           sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
           floatFormat = buf; // allocate memory for string
         }
@@ -137,7 +136,7 @@ PHASE(Using)
 - free
 {
   if (probedVariable)
-    free ((void *)probedVariable);
+    xfree ((void *)probedVariable);
   return [super free];
 }
 

@@ -3,18 +3,19 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdlib.h> // atoi, strtod
+#import "MessageProbe.h"
 
 #ifdef USE_AVCALL
 #include <avcall.h>
 #else
 #include <ffi.h>
+#undef PACKAGE
+#undef VERSION
 #endif
 
-#import "MessageProbe.h"
 #import "swarm_rts_routines.h"
 #import <objectbase.h> // val_t
-#import <misc.h>  // xmalloc, strdup
+#import <misc.h>  // xmalloc, strdup, atoi, strtod
 
 @implementation MessageProbe
 

@@ -5,9 +5,8 @@
 
 #import <objectbase/Arguments.h>
 #include <unistd.h> // access
-#include <stdlib.h> // getenv
 
-#include <misc.h> // strdup
+#include <misc.h> // strdup, getenv
 #include <misc/argp.h>
 
 #ifndef __GLIBC__

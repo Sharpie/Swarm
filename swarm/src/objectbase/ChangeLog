@@ -1,3 +1,15 @@
+1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VarProbe.m ([VarProbe -setProbedVariable:]): Use xfree instead
+	of free.
+	([VarProbe -createEnd]): Use xmalloc instead of malloc.
+	([VarProbe -free]): Use xfree instead of free.
+
+	* Arguments.m, MessageProbe.m, VarProbe.m: Don't include stdlib.h.
+
+	* MessageProbe.m: Undef PACKAGE and VERSION after including
+	ffi.h.
+
 1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* objectbase.h: Split VarProbe into new features vs. user
