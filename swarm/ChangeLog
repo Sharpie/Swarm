@@ -1,3 +1,9 @@
+2001-03-11  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VERSION: Bump.
+
+	* NEWS: Note support for HDF5 1.4.0.
+
 2001-03-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VERSION: Bump.
