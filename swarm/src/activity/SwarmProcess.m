@@ -400,10 +400,13 @@ PHASE(Using)
 {
   char buffer[100];
 
-  [outputCharStream catC: "["];
+  [outputCharStream catC: "[ActionMerge: "];
+  _obj_formatIDString (buffer, self);
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: " in schedule: "];
   _obj_formatIDString (buffer, collectionOfActions);
   [outputCharStream catC: buffer];
-  [outputCharStream catC: " (merge into swarm)]\n"];
+  [outputCharStream catC: "]\n"];
 }
 
 @end

@@ -874,10 +874,13 @@ PHASE(Using)
 {
   char buffer[100];
 
-  [outputCharStream catC: "["];
+  [outputCharStream catC: "[ActionConcurrent_c "];
+  _obj_formatIDString (buffer, self);
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: " concurrentGroup:"];
   _obj_formatIDString (buffer, concurrentGroup);
   [outputCharStream catC: buffer];
-  [outputCharStream catC: " (concurrent group)]\n"];
+  [outputCharStream catC: "]\n"];
 }
 
 @end
@@ -1316,10 +1319,14 @@ PHASE(Using)
 - (void) describe: outputCharStream
 {
   char buffer[100];
-  
+
+  [outputCharStream catC: "[ActionChanged: "];
+  _obj_formatIDString (buffer, self);
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: " actionAtIndex: "];
   _obj_formatIDString (buffer, actionAtIndex);
   [outputCharStream catC: buffer];
-  [outputCharStream catC: " "];
+  [outputCharStream catC: "]\n"];
 }
 
 @end

@@ -1,3 +1,10 @@
+1999-11-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Schedule.m ([ActionConcurrent_c -describe:]): Add more info.
+	([ActionChanged_c -describe:]): 
+
+	* SwarmProcess.m ([ActionMerge_c -describe:]): Likewise.
+
 1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmProcess.[hm]: Add protocol-conformance information for
