@@ -15,14 +15,16 @@ FIGS = figs/swarm.eps # for the timestamp
 
 GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl $(FIGS)
 
-.PHONY: fot tex dvi ps rtf html htmldist dvidist psdist rtfdist
+.PHONY: fot tex dvi ps rtf html htmldist dvidist psdist rtfdist alldist
+
+alldist: htmldist dvidist rtfdist psdist
 
 COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
 
 DISTNAME=$(NAME)-@VERSION@
 
 htmldir = $(prefix)/html/$(NAME)
-html_DATA = $(NAME).html
+nodist_html_DATA = $(wildcard *.html) 
 
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
@@ -33,27 +35,27 @@ uninstall-local:
 	- (cd $(htmldir); rm -rf *)	
 
 htmldist: html
-	cd .. ; tar cf - $(addprefix $(NAME)/,$(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz
+	$(LN_S) `pwd` ../$(NAME); cd ..; tar cf -  $(addprefix $(NAME)/, $(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz
 
 dvidir = $(prefix)/dvi
-dvi_DATA = $(NAME).dvi
+nodist_dvi_DATA = $(NAME).dvi
 
 dvidist: dvi
 	cd .. ; tar cf - $(NAME)/$(NAME).dvi $(NAME)/figs | $(GZIP) > $(DISTNAME)-dvi.tar.gz
 
 psdir = $(prefix)/ps
-ps_DATA = $(NAME).ps
+nodist_ps_DATA = $(NAME).ps
 
 psdist: ps
 	$(GZIP) < $(NAME).ps > ../$(DISTNAME).ps.gz
 
 rtfdir = $(prefix)/rtf
-rtf_DATA = $(NAME).rtf
+nodist_rtf_DATA = $(NAME).rtf
 
 rtfdist: rtf
 	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(DISTNAME)-rtf.tar.gz 
 
-CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(dvi_DATA) $(ps_DATA) $(rtf_DATA)
+CLEANFILES = $(NAME).tex _$(NAME).tex $(nodist_html_DATA) $(nodist_dvi_DATA) $(nodist_ps_DATA) $(nodist_rtf_DATA)
 
 $(FIGS):
 	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs

@@ -1,6 +1,8 @@
 AC_INIT(userbook.sgml)
 
-AM_INIT_AUTOMAKE(swarmguide, 0.9)
+AC_PROG_LN_S
+
+AM_INIT_AUTOMAKE(userbook, 0.9)
 
 if test "x$ACLOCAL" = xaclocal; then
   ACLOCAL="aclocal -I m4"
@@ -30,19 +32,19 @@ changequote([,])dnl
   docbookstyle_srcdir=$withval,dnl
   docbookstyle_srcdir=${DOCBOOKSTYLEDIR:-/DocBookStyleSheets})
 
-
 AM_CONFIG_HEADER(config.h)
 
-AC_SUBST(swarm_srcdir)
-
 dnl Change to the directory, since the text may be symbolic or a relative path
-changequote(<,>)dnl
-top_dossrcdir=`cd $srcdir; pwd | sed 's,//\([A-Za-z]\),\1:,'`
-dnl Eval command, since default is symbolic SWARMSRCDIR
-swarm_dossrcdir=`eval cd $swarm_srcdir ; pwd | sed 's,//\([A-Za-z]\),\1:,'`
-changequote([,])dnl
+if "$host_os" = cygwin; then
+  top_dossrcdir=`cygpath -w $srcdir`
+  DOSIFYEXPR='`cygpath -w $<`'
+else
+  top_dossrcdir=$srcdir
+  DOSIFYEXPR='$<'
+fi
+AC_SUBST(DOSIFYEXPR)
+
 AC_SUBST(top_dossrcdir)
-AC_SUBST(swarm_dossrcdir)
 
 if test -z "$catalog_file" ; then
   test -n "$commondtd_srcdir" && catopts="-c $commondtd_srcdir/catalog"
@@ -91,3 +93,7 @@ AC_SUBST(SGML_CATALOG_FILES)
 md_PROG_GS
 
 AC_OUTPUT([Makefile catalog userbook.tex figs/Makefile])
+
+# Local variables:
+# mode: m4
+# End:

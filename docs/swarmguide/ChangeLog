@@ -1,3 +1,32 @@
+2000-03-01  Alex Lancaster  <alex@santafe.edu>
+
+	* global.ent: Use new `swarm-guide-package-name' SGML ENTITY.
+
+	* configure.in (AM_INIT_AUTOMAKE): Change package name to
+	`userbook' for consistency and so that dist and install targets
+	work as expected.
+	(AC_PROG_LN_S): Include macro for creating symlinks.
+	(AC_SUBST) Don't extract swarm_srcdir or swarm_dossrcdir: Not
+	used.  Use cygnus variables rather than sed expansion as per
+	swarmdocs.
+
+	* Makefile.am (EXTRA_DIST): New variable, enumerate independent of
+	other variables.
+	(nodist_data_DATA): Make a nodist_ variable rather than a noinst_
+	variable.
+	(versions.ent): Create an entity for the name of the swarm guide
+	packag.e
+
+	* Makefile.rules (nodist_html_DATA): Append `nodist_' prefix.
+	(nodist_dvi_DATA): Likewise.
+	(nodist_ps_DATA): Likewise.
+	(nodist_rtf_DATA): Likewise.
+	(CLEANFILES): Use them.
+	(htmldist): Make symbolic link to the $(NAME) variable, to make
+	CVS module name independent of the package name.
+	(alldist): Add new target.
+	(.PHONY): Add `alldist'.
+
 2000-02-29  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Start noting user-visible changes.

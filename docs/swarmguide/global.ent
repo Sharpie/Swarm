@@ -24,7 +24,7 @@ mailing lists page</ulink>'>
     profit, is not permitted.  The SGML source and associated utilites
     needed to generate this documentation can be found in the package:
     <ULINK
-    url="ftp://ftp.santafe.edu/pub/swarm/swarmguide-&swarm-guide-release-number;.tar.gz">swarmguide-&swarm-guide-release-number;.tar.gz</ULINK>.
+    url="ftp://ftp.santafe.edu/pub/swarm/&swarm-guide-package-name;-&swarm-guide-release-number;.tar.gz">&swarm-guide-package-name;-&swarm-guide-release-number;.tar.gz</ULINK>.
     Permission to use, copy, modify and distribute both the swarmdocs
     package <EMPHASIS>and</EMPHASIS> the documentation it generates
     (that is the HTML, TeX, dvi, PostScript and RTF output), must be

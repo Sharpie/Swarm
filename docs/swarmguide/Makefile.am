@@ -7,13 +7,13 @@ SGML_FILES = $(SGML) $(GENERATED_SGML)
 
 all-recursive-am: versions.ent
 
-noinst_DATA = versions.ent
+nodist_data_DATA = versions.ent
 
 .PHONY: FORCE
 
 include $(top_srcdir)/Makefile.rules
 
-EXTRA_DIST= $(SGML) $(HTML) $(PRINT) common.dsl global.ent collateindex.pl docbook.dcl Makefile.rules
+EXTRA_DIST= $(SGML) html.dsl print.dsl common.dsl global.ent collateindex.pl docbook.dcl Makefile.rules
 
 ## ensure citations are links
 JADEFLAGS = -V biblio-citation-check 
@@ -26,6 +26,7 @@ genindex.sgml: $(SGML) @COLLATEINDEX@
 
 versions.ent: FORCE
 	echo '<!ENTITY swarm-guide-release-number "@VERSION@">' > versions.ent.new
+	echo '<!ENTITY swarm-guide-package-name "@PACKAGE@">' >> versions.ent.new
 	((echo '<!ENTITY pubdate "' ; date +'%d %B %Y' ; echo '">') | tr -d '\n' ; echo) >> versions.ent.new
 	@if test -f versions.ent; then \
 	if cmp versions.ent versions.ent.new; then \
