@@ -11,7 +11,7 @@ MAKEH2X = $(top_srcdir)/src/defobj/make-h2x
 TYPEINFO = $(MODULE).xm types.h classes.h
 
 xm_file = $(firstword $(BUILT_SOURCES))
-$(filter-out $(xmfile),$(BUILT_SOURCES)): $(xm_file)
+$(filter-out $(xm_file),$(BUILT_SOURCES)): $(xm_file)
 
 headers: $(xm_file)
 
