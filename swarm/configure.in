@@ -467,7 +467,7 @@ tests/simtools/Makefile tests/space/Makefile tools/Makefile
 tools/print-hdf5 java/Makefile java/javaswarm java/javacswarm
 java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules
 COM/Makefile COM/c/Makefile
-src/gui/Makefile src/simtoolsgui/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile src/swarmgstep/Makefile
+src/gui/Makefile src/simtoolsgui/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile src/tkobjc/tk/X11/Makefile src/swarmgstep/Makefile
 ])
 
 # abs_srcdir=`cd $srcdir; pwd`

@@ -1,3 +1,9 @@
+2004-11-14  Marcus G. Daniels
+	
+	* configure.in: Extract src/swarmgstep/Makefile.
+
+	* VERSION: Bump.
+
 2004-08-12  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* config.sub, config.guess, ltmainsh: update to
