@@ -13,39 +13,11 @@
 #include "../defobj/internal.h" // process_array
 
 #ifdef HAVE_JDK
-#include "../defobj/directory.h" // directory services for Java Proxy lookup
+#include <defobj/directory.h> // directory services for Java Proxy lookup
+#include <defobj/javavars.h>
 #endif
 
 #include <swarmconfig.h> // PTRUINT
-
-#ifdef HAVE_JDK
-extern jclass c_boolean,
-  c_char, c_byte,
-  c_int, 
-  c_short, c_long,
-  c_float, c_double,
-  c_void;
-
-extern jclass c_Boolean, 
-  c_Object, c_String, 
-  c_Char, c_Byte, 
-  c_Integer, c_Short,
-  c_Long, c_Float,
-  c_Double;
-  
-extern jmethodID m_BooleanValueOf,
-  m_ByteValueOf, 
-  m_IntegerValueOf, 
-  m_ShortValueOf, m_LongValueOf,   
-  m_FloatValueOf, m_DoubleValueOf, 
-  m_StringValueOf, 
-  m_FieldSet, m_FieldSetChar,
-  m_ClassGetDeclaredField,
-  m_FieldGetType,
-  m_FieldGetInt,
-  m_FieldGetDouble,
-  m_FieldGet;
-#endif
 
 @implementation VarProbe
 
@@ -97,7 +69,8 @@ PHASE(Creating)
 		    "Can not find field to be probed in the Java class !\n"); 
       fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, fieldObject);
 
-      fieldType = (*jniEnv)->CallObjectMethod(jniEnv, fieldObject, 
+      fieldType = (*jniEnv)->CallObjectMethod(jniEnv,
+                                              fieldObject, 
 					      m_FieldGetType);      
       if (!fieldType)
 	raiseEvent (SourceMessage,
@@ -356,11 +329,39 @@ PHASE(Using)
 }
 
 #ifdef HAVE_JDK
+#define _TYPEP(type) ((*jniEnv)->IsSameObject (jniEnv, fieldType, c_##type))
+#define _GETVALUE(type,uptype) \
+    (*jniEnv)->Call##uptype##Method (jniEnv, \
+                                     field, \
+                                     m_FieldGet##uptype, \
+                                     object)
+#define TYPEP(type) _TYPEP(type)
+#define GETVALUE(type, uptype) _GETVALUE(type, uptype)
+
 int
-java_probe_as_int (jobject field, jobject object)
+java_probe_as_int (jobject fieldType, jobject field, jobject object)
 {
   int res;
-  res = (*jniEnv)->CallIntMethod (jniEnv, field, m_FieldGetInt, object);
+
+  if (TYPEP (boolean))
+    res = (int) GETVALUE (boolean, Boolean);
+  else if (TYPEP (char))
+    res = (int) GETVALUE (char, Char);
+  else if (TYPEP (short))
+    abort ();
+  else if (TYPEP (int))
+    res = (int) GETVALUE (int, Int);
+  else if (TYPEP (long))
+    res = (int) GETVALUE (long, Long);
+  else if (TYPEP (float))
+    res = (int) GETVALUE (float, Float);
+  else if (TYPEP (double))
+    res = (int) GETVALUE (double, Double);
+  else if (TYPEP (Object))
+    abort ();
+  else
+    abort ();
+
   return res;
 }
 
@@ -412,7 +413,9 @@ probe_as_int (const char *probedType, const void *p)
 
 #ifdef HAVE_JDK
   if (isJavaProxy)
-    return java_probe_as_int (fieldObject, SD_FINDJAVA (jniEnv, anObject));
+    return java_probe_as_int (fieldType,
+                              fieldObject,
+                              SD_FINDJAVA (jniEnv, anObject));
 #endif
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -427,10 +430,29 @@ probe_as_int (const char *probedType, const void *p)
 
 #ifdef HAVE_JDK
 double
-java_probe_as_double (jobject field, jobject object)
+java_probe_as_double (jobject fieldType, jobject field, jobject object)
 {
   double res;
-  res = (*jniEnv)->CallDoubleMethod (jniEnv, field, m_FieldGetDouble, object);
+
+  if (TYPEP (boolean))
+    res = (double) GETVALUE (boolean, Boolean);
+  else if (TYPEP (char))
+    res = (double) GETVALUE (char, Char);
+  else if (TYPEP (short))
+    abort ();
+  else if (TYPEP (int))
+    res = (double) GETVALUE (int, Int);
+  else if (TYPEP (long))
+    res = (double) GETVALUE (long, Long);
+  else if (TYPEP (float))
+    res = (double) GETVALUE (float, Float);
+  else if (TYPEP (double))
+    res = (double) GETVALUE (double, Double);
+  else if (TYPEP (Object))
+    abort ();
+  else
+    abort ();
+
   return res;
 }
 #endif
@@ -477,7 +499,9 @@ probe_as_double (const char *probedType, const void *p)
 
 #ifdef HAVE_JDK
   if (isJavaProxy)
-    return java_probe_as_double (fieldObject, SD_FINDJAVA (jniEnv, anObject));
+    return java_probe_as_double (fieldType,
+                                 fieldObject,
+                                 SD_FINDJAVA (jniEnv, anObject));
 #endif  
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -500,24 +524,43 @@ probe_as_double (const char *probedType, const void *p)
 }
 
 #ifdef HAVE_JDK
+#define _GETSTROBJECT(type, uptype) \
+  (*jniEnv)->CallStaticObjectMethod (jniEnv, \
+                                     c_String, \
+                                     m_StringValueOf##uptype,  \
+                                     GETVALUE (type, uptype))
+#define GETSTROBJECT(type, uptype) _GETSTROBJECT(type, uptype)
+
 const char *
 java_probe_as_string (jclass fieldType, jobject field, jobject object,
 		      char *buf, int precision)
 {
-  jobject value;
   jobject str;
   jboolean isCopy;
   const char *result;
-  value = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGet, object);
-  str = (*jniEnv)->CallStaticObjectMethod (jniEnv, c_String, m_StringValueOf, 
-					   value);
+  
+  if (TYPEP (boolean))
+    str = GETSTROBJECT (boolean, Boolean);
+  else if (TYPEP (char))
+    str = GETSTROBJECT (char, Char);
+  else if (TYPEP (short))
+    abort ();
+  else if (TYPEP (int))
+    str = GETSTROBJECT (int, Int);
+  else if (TYPEP (long))
+    str = GETSTROBJECT (long, Long);
+  else if (TYPEP (float))
+    str = GETSTROBJECT (float, Float);
+  else if (TYPEP (double))
+    str = GETSTROBJECT (double, Double);
+  else
+    str = GETSTROBJECT (object, Object);
   
   result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
   strcpy (buf, result);
   if (isCopy)
     (*jniEnv)->ReleaseStringUTFChars (jniEnv, str, result);
   return buf;
-
 }
 
 #endif
