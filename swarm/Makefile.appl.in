@@ -58,7 +58,7 @@ $(APPLICATION): $(OBJECTS)
 .SUFFIXES: .m .xm
 
 .m.o:
-	$(CC) -c -Wno-import $(CFLAGS) $(INCLUDES) $<   
+	$(CC) -c -Wno-import $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $<   
 
 # Local variables:
 # mode: makefile

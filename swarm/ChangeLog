@@ -1,3 +1,9 @@
+1998-08-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VERSION: Bump.
+
+	* Makefile.appl.in (.m.o): Add CPPFLAGS.
+
 1998-08-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* NEWS: Review changes so far for 1.3.
