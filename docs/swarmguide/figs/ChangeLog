@@ -1,3 +1,8 @@
+2000-03-03  Alex Lancaster  <alex@santafe.edu>
+
+	* figs.ent (booktitlelogo): Add entity to PUBLIC id translations
+	for html and print backend.
+
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (nodist_figs_DATA): Append `nodist_' prefix, to

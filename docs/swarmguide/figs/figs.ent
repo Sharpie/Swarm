@@ -2,6 +2,8 @@
 <![%html;[
 <!entity % print "IGNORE">
 
+<!entity booktitlelogo PUBLIC "-//SFI Hive//ENTITIES Swarm Logo JPEG//EN" ndata jpeg>
+
 <!entity discrete-event-sim PUBLIC "-//SFI Hive//ENTITIES
 discrete-event-sim JPEG//EN" ndata jpeg>
 
@@ -111,6 +113,8 @@ JPEG//EN" ndata jpeg>
                               
 <!entity % print "INCLUDE">   
 <![%print;[                   
+
+<!entity booktitlelogo PUBLIC "-//SFI Hive//ENTITIES Swarm Logo EPS//EN" ndata eps>
  
 <!entity discrete-event-sim PUBLIC "-//SFI Hive//ENTITIES
 discrete-event-sim EPS//EN" ndata eps>
