@@ -1,3 +1,11 @@
+1999-07-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-argument-print-conversion,
+	java-print-method-invocation, java-print-native-method):
+	Accomodate J* to SD_* renames in directory.h.
+	(java-print-native-method): Use add for creates and switch for
+	createEnd.  Eliminate `update' distinction.
+
 1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*objc-to-java-type-alist*,
