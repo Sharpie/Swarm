@@ -1,7 +1,7 @@
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugBatchSwarm.m ([HeatbugBatchSwarm -buildObjects]): 
-	Use ObjectLoader's fromAppConfigFileNamed: instead of fromfileNamed:.
+	Use ObjectLoader's fromAppDataFileNamed: instead of fromfileNamed:.
 
 	* Makefile (APPLIBS): Remove.
 	(DATAFILES): For ant.png.
