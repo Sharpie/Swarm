@@ -275,6 +275,7 @@ dynamicCallOn (const char *probedType,
   id aZone = [target getZone];
   id fa = [FArguments createBegin: aZone];
   id <FCall> fc;
+  BOOL javaFlag = NO;
 
 #ifdef HAVE_JDK  
   if (SD_FINDJAVA (jniEnv, target) != NULL)
@@ -290,6 +291,7 @@ dynamicCallOn (const char *probedType,
         [fa setJavaSignature: sig];
         [scratchZone free: (void *) sig];
       }
+      javaFlag = YES;
     }
 #endif
   retVal->type = *type;
