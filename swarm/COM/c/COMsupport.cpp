@@ -143,7 +143,7 @@ return NULL;
 }
 
 static nsISupports *
-createComponentByName (const char *progID, const char *interfaceName)
+createComponentByName (const char *contractID, const char *interfaceName)
 {
   nsISupports *obj;
   nsresult rv;
@@ -156,7 +156,7 @@ createComponentByName (const char *progID, const char *interfaceName)
   if (!(iid = findIIDFromName (buf)))
     abort ();
 
-  rv = nsComponentManager::CreateInstance (progID, NULL, *iid, (void **) &obj);
+  rv = nsComponentManager::CreateInstance (contractID, NULL, *iid, (void **) &obj);
   if (NS_FAILED (rv))
     abort ();
   return obj;
@@ -172,7 +172,7 @@ findComponent (const char *className)
 
   PL_strcpy (buf, prefix);
   PL_strcat (buf, className);
-  rv = nsComponentManager::ProgIDToClassID (buf, cClass);
+  rv = nsComponentManager::ContractIDToClassID (buf, cClass);
 
   if (NS_FAILED (rv))
     abort ();
@@ -184,9 +184,9 @@ createComponent (COMclass cClass)
 {
   nsCID *cid = (nsCID *) cClass;
   char *className;
-  char *progID;
+  char *contractID;
   char *interfaceName = NULL;
-  nsresult rv = nsComponentManager::CLSIDToProgID (cid, &className, &progID);
+  nsresult rv = nsComponentManager::CLSIDToContractID (cid, &className, &contractID);
   size_t len;
   nsISupports *obj;
 
@@ -208,7 +208,7 @@ createComponent (COMclass cClass)
   else
     abort ();
 
-  obj = createComponentByName (progID, interfaceName);
+  obj = createComponentByName (contractID, interfaceName);
   
   if (interfaceName)
     PL_strfree (interfaceName);
@@ -231,7 +231,7 @@ const char *
 getName (COMobject cObj)
 {
   nsresult rv;
-  char *name, *progID;
+  char *name, *contractID;
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
   nsCID *cid;
   swarmITyping *typing;
@@ -244,7 +244,7 @@ getName (COMobject cObj)
   if (NS_FAILED (rv))
     abort ();
 
-  rv = nsComponentManager::CLSIDToProgID (cid, &name, &progID);
+  rv = nsComponentManager::CLSIDToContractID (cid, &name, &contractID);
   if (NS_FAILED (rv))
     abort ();
 
