@@ -217,6 +217,8 @@
 (mode set-titlepage-recto-mode
       (element graphic (empty-sosofo)))
 
+(element graphic (empty-sosofo))
+
 (define (skip-content)
     (make sequence
           (process-node-list (children (current-node)))))
