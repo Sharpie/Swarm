@@ -510,7 +510,6 @@ PHASE(Using)
 	}
     }
   abort ();
-  return nil;
 }
 
 - remove
@@ -531,11 +530,7 @@ PHASE(Using)
       return ret;
     }
   else
-    {
-      abort ();
-      return nil;
-    }
-  
+    abort ();
 }
 
 - (id <Symbol>)getLoc

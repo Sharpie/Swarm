@@ -113,7 +113,8 @@ const char *realpath (const char *path, char *resolved_path);
 
 const char *find_executable (const char *program_name);
 
-void debugabort (const char *filename, unsigned lineno, const char *function);
+void debugabort (const char *filename, unsigned lineno, const char *function) __attribute__ ((noreturn));
+
 #define abort() debugabort(__FILE__,__LINE__, __PRETTY_FUNCTION__)
 
 #endif

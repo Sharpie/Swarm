@@ -2,11 +2,6 @@
 
 	* Collection.m, List.m: Include misc.h.
 
-	* List.m ([PermutedIndex_c -put:], [PermutedIndex_c -remove]):
-	Return unused nil to avoid warning.
-
-	* List.m ([List_any -getCountPerBlock]): Return 0 to avoid warning.
-
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
 
 	* InputStream.h: Declare all missing methods.

@@ -1,7 +1,7 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.h (abort): #define to debugabort with file, line, and
-	function name arguments.  Declare debugabort.
+	function name arguments.  Declare debugabort as nonreturning.
 
 	* debugabort.c: New file.
 
