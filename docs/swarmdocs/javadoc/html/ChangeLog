@@ -1,3 +1,14 @@
+1999-07-13  Alex Lancaster  <alex@santafe.edu>
+
+	* swarm-doclet.jar: Regenerated.
+
+	* ClassWriter.java (printAllMembers()): Add conditional to use
+	non-standard, Swarm-specific doclet methods, only when we are at
+	least two-deep in the class hierarchy, i.e. `swarm.Selector', will
+	be treated as per the standard, but
+	`swarm.defobj.LispArchiverImpl' will use the Swarm-specific
+	formatting.
+
 1999-07-10  Alex Lancaster  <alex@santafe.edu>
 
 	* swarm-doclet.jar: Regenerated.

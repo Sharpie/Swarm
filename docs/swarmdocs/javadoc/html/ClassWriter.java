@@ -229,11 +229,30 @@ public class ClassWriter extends SubWriterHolderWriter {
         println(); 
         println("<!-- ========== METHOD SUMMARY =========== -->"); println();
 
+
+        /* 
+         * count the `level' of the class or interface, only the
+         * stub-generated Swarm classes and interfaces in the form:
+         * swarm.<libraryname>.<classname>, are treated differently 
+         */
+        StringTokenizer st = new StringTokenizer(classdoc.qualifiedName(), 
+                                                 ".");
+        /* 
+         * if true, print the class/interface according to standard 
+         * Sun JDK doclet, otherwise override to use the Swarm view
+         * (to reduce the redundancy in the docs 
+         */
+        boolean standardView = 
+            !Standard.configuration().noclassdetail || 
+            classdoc.isInterface() || 
+            (st.countTokens() <= 2);
+        
         /* Swarm addition! */
-        if (classdoc.isInterface())
+        if (standardView)
             methodSubWriter.printMembersSummary(classdoc);
-        else
+        else 
             methodSubWriter.printImplementedMembersSummary(classdoc);
+        
         
         methodSubWriter.printInheritedMembersSummary(classdoc);
 
@@ -248,8 +267,7 @@ public class ClassWriter extends SubWriterHolderWriter {
         println();
         constrSubWriter.printMembers(classdoc);
 
-        if (!Standard.configuration().noclassdetail || 
-            classdoc.isInterface() ) {
+        if (standardView) {
             
             println(); 
             println("<!-- ============ METHOD DETAIL ========== -->"); 
