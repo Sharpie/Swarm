@@ -243,29 +243,47 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
   const char *utf;
   char *name, *p;
   SEL sel;
+  unsigned i;
   jboolean copyFlag;
-
+  jfieldID retTypeFid = 
+    (*env)->GetFieldID (env, clazz, "retType", "Ljava/lang/Class;");
+  jfieldID argTypesFid =
+    (*env)->GetFieldID (env, clazz, "argTypes", "[Ljava/lang/Class;");
+  jfieldID objcFlagFid =
+      (*env)->GetFieldID (env, clazz, "objcFlag", "Z");
+  jclass retType = (*env)->GetObjectField (env, jsel, retTypeFid);
+  jboolean objcFlag = (*env)->GetBooleanField (env, jsel, objcFlagFid);
+  jarray argTypes = (*env)->GetObjectField (env, jsel, argTypesFid);
+  jsize argCount = (*env)->GetArrayLength (env, argTypes);
+  
   string = (*env)->GetObjectField (env, jsel, nameFid);
   utf = (*env)->GetStringUTFChars (env, string, &copyFlag);
-  name = copyFlag ? (char *) utf : strdup (utf);
   
-  for (p = name; *p; p++)
-    if (*p == '$')
-      *p = ':';
-
+  if (objcFlag)
+    {
+      p = name = (copyFlag ? (char *) utf : strdup (utf));
+      while (*p)
+        {
+          if (*p == '$')
+            *p = ':';
+          p++;
+        }
+    }
+  else
+    {
+      name = xmalloc (strlen (utf) + argCount + 1);
+      p = stpcpy (name, utf);
+      for (i = 0; i < argCount; i++)
+        *p++ = ':';
+      *p = '\0';
+    }
+  
   sel = sel_get_any_typed_uid (name);
 
   if (!sel)
     {
-      jfieldID retTypeFid = 
-        (*env)->GetFieldID (env, clazz, "retType", "Ljava/lang/Class;");
-      jfieldID argTypesFid =
-        (*env)->GetFieldID (env, clazz, "types", "[Ljava/lang/Class;");
-      jclass retType = (*env)->GetObjectField (env, jsel, retTypeFid);
-      jarray argTypes = (*env)->GetObjectField (env, jsel, argTypesFid);
-      jsize tc = (*env)->GetArrayLength (env, argTypes);
       jsize ti;
-      char signatureBuf[tc * 6], *p = signatureBuf;
+      char signatureBuf[argCount * 6], *p = signatureBuf;
       size_t pos = 0;
 
       size_t alignto (size_t pos, size_t alignment)
@@ -336,7 +354,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
         }
       
       add (retType, NO);
-      for (ti = 0; ti < tc; ti++)
+      for (ti = 0; ti < argCount; ti++)
         add ((*env)->GetObjectArrayElement (env, argTypes, ti), YES);
 
       printf ("[%s][%s]\n", name, signatureBuf);
