@@ -1,3 +1,8 @@
+1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (refindex.sgml $(PAGES)): Add $(top_srcdir)/protocol.el
+	as a dependent.
+
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* refbook.sgml.in: New file.
