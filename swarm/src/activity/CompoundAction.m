@@ -165,20 +165,12 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 }
 
 static void
-notifyActivityDrop (id anObject, id realloc, id activitySet)
-{
-  [activitySet remove: anObject];
-}
-
-static void
 registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
 {
   if (!owner->activitySet)
     owner->activitySet = 
       [_activity_activitySetRefsType create: getCZone (zone)];
   [owner->activitySet add: newActivity];
-  [newActivity addRef: (notify_t) notifyActivityDrop 
-               withArgument: owner->activitySet];
   newActivity->ownerActivity  = owner;
 }
 

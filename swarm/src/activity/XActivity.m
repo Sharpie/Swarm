@@ -593,6 +593,8 @@ installStep (id activity)
 
 - (void)dropAllocations: (BOOL)components
 {
+  if (ownerActivity)
+    [ownerActivity->activitySet remove: self];
   if (activitySet)
     {
       Activity_c *activity;

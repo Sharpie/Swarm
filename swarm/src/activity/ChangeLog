@@ -4,7 +4,7 @@
 	notification to maintain activitySet.
 
 	* XActivity.m ([Activity_c -dropAllocations:]): If there's an
-	owner, remove self from parent activitySet
+	owner, remove self from parent activitySet.
 
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
