@@ -17,6 +17,13 @@ changequote([,])dnl
   swarm_srcdir=$withval,dnl
   swarm_srcdir='${SWARMSRCDIR}')
 
+AC_ARG_WITH(catalog,dnl
+changequote(<,>)dnl
+  --with-catalog=FILE     Use catalog at FILE [${CATALOGFILE:-/CATALOGFILE}],dnl
+changequote([,])dnl
+  catalog_file=$withval,dnl
+  catalog_file=${CATALOGFILE:-/CATALOGFILE})
+
 AC_ARG_WITH(dtd,dnl
 changequote(<,>)dnl
   --with-dtd=DIR          DocBook DTD in DIR [${DOCBOOKDTDDIR:-/DocBookDTD}],dnl
@@ -80,10 +87,14 @@ changequote([,])dnl
 AC_SUBST(top_dossrcdir)
 AC_SUBST(swarm_dossrcdir)
 
-AC_SUBST(docbookdtd_srcdir)
-AC_SUBST(docbookstyle_srcdir)
-AC_SUBST(gridturtle_srcdir)
+if test -z $catalog_file ; then
+  catopts="-c $docbookdtd_srcdir/docbook.cat -c $docbookstyle_srcdir/catalog"
+else
+  catopts="-c $catalog_file"
+fi
+AC_SUBST(catopts)
 
+AC_SUBST(gridturtle_srcdir)
 
 AC_PATH_PROG(EMACS, emacs, missing)
 AC_PATH_PROG(JADE, jade, missing)

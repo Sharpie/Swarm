@@ -1,3 +1,16 @@
+1999-10-06  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in: New `--with-catalog' file option, overwrites
+	`--with-{dtd,stylesheet}' options if set, to allow use of
+	Cygnus-style docbook-tools which munge CATALOG entries for dtd and
+	stylesheets into one file.  
+	Extract new `catopts' variable and set based on the combination of
+	`--with-{catalog,dtd,stylesheet}' give.  Don't extract
+	docbook{style,dtd}_srcdir.
+
+	* Makefile.rules (CATOPTS): Use extracted catopts, not
+	docbook{style,dtd}_srcdir.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarmdocs 2.0.1 released.
