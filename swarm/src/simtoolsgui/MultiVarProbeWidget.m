@@ -303,7 +303,7 @@ PHASE(Creating)
       id <ListIndex> li;
       id lobj;
       
-      li = [l begin: aZone];
+      li = [l listBegin: aZone];
 
       while ((lobj = [li next]) != nil)
         if (lobj == obj)
