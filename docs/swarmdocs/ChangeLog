@@ -1,5 +1,7 @@
 1998-06-09  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.am (versions.ent): Force recreation.
+
 	* swarmbook.dsl (%generate-reference-toc%): True in HTML, false in
 	printed backend.
 	(toc-depth): Book has depth of 1 in HTML, 2 in DVI.  Don't define
