@@ -46,14 +46,13 @@ PHASE(Using)
 @end
 
 @implementation Permutation_c
-
 PHASE(Creating)
 
 + createBegin: aZone
 {
-  Permutation_c *obj = [aZone allocIVars: [self getClass]];
-  setClass (obj, self);
-  obj->shuffler = [ListShuffler createBegin: getCZone(aZone)];
+  Permutation_c *obj = [super createBegin: aZone];
+
+  obj->shuffler = [ListShuffler createBegin: getCZone (aZone)];
   return obj;
 }
 
