@@ -1,3 +1,7 @@
+1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (swarm_ChangeLog): Add.
+
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: New file.

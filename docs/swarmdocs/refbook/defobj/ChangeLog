@@ -1,3 +1,7 @@
+1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (swarm_ChangeLog): Add.
+
 1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* defobj.ent.in: Make defobjrevhistory be a build-directory path.
