@@ -696,7 +696,8 @@ externvar id <Warning>
   LibraryUsage,           //G: invalid usage of library interface
   DefaultAssumed,         //G: non-silent use of default
   ObsoleteFeature,        //G: using feature which could be removed in future
-  ObsoleteMessage;        //G: using message which could be removed in future
+  ObsoleteMessage,        //G: using message which could be removed in future
+  SaveWarning;            //G: non-fatal problem saving a resource  
 
 //#: macro used to create and initialize an Error symbol
 #define defwarning(name, message) \

@@ -366,22 +366,26 @@ create_compound_type_from_prototype (id prototype)
                    unsigned rank, unsigned *dims)
     {
       if (rank > 0)
-        raiseEvent (SaveError, "cannot store arrays in compound types");
+        raiseEvent (SaveError, "cannot store arrays in compound types\n");
       else if (type == fcall_type_object)
-        raiseEvent (SaveError, "cannot store objects in compound types");
-      else if (type == fcall_type_string)
-        type = fcall_type_sint;
-
-      offset = alignsizeto (offset, fcall_type_alignment (type));
-      
-      if (insertFlag)
+        raiseEvent (SaveWarning,
+                    "cannot store objects in compound types -- skipping\n");
+      else
         {
-          if (H5Tinsert (tid, name, offset,
-                         tid_for_fcall_type (type)) < 0)
-            raiseEvent (SaveError, "unable to insert to compound type");
+          if (type == fcall_type_string)
+            type = fcall_type_sint;
+          
+          offset = alignsizeto (offset, fcall_type_alignment (type));
+          
+          if (insertFlag)
+            {
+              if (H5Tinsert (tid, name, offset,
+                             tid_for_fcall_type (type)) < 0)
+                raiseEvent (SaveError, "unable to insert to compound type\n");
+            }
+          
+          offset += fcall_type_size (type);
         }
-
-      offset += fcall_type_size (type);
     }
 
   offset = 0;
@@ -738,11 +742,17 @@ PHASE(Using)
             *ptr = offset;
           }
         }
+      else if (ivarType == fcall_type_object)
+        {
+          raiseEvent (SaveWarning, "skipping `%s'\n", ivarName);
+          return;
+        }
       else
         {
           if (!compare_types (ivarType, type))
-            raiseEvent (LoadError, "differing source and target types %d/%d",
-                        ivarType, type);
+            raiseEvent (SaveError,
+                        "differing source and target types %d/%d (%s)\n",
+                        ivarType, type, ivarName);
           memcpy (buf + hoffset,
                   val_ptr,
                   fcall_type_size (type));
