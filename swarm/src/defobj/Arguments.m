@@ -419,6 +419,9 @@ PHASE(Setting)
 {
   varySeedFlag = theVarySeedFlag;
 
+  if (varySeedFlag)
+    fixedSeedFlag = NO;
+
   return self;
 }
 
@@ -471,6 +474,7 @@ ensureEndingSlash (const char *path)
 {
   fixedSeed = theFixedSeed;
   fixedSeedFlag = YES;
+  varySeedFlag = NO;
 
   return self;
 }

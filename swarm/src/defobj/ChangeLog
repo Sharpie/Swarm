@@ -2,6 +2,8 @@
 
 	* Arguments.m ([Arguments_c -parseKey:arg:]): Use strtoul instead
 	of atoi.
+	([Arguments_c -setFixedSeed:]): Disable varySeedFlag.
+	([Arguments_c -setVarySeedFlag:]): Disable fixedSeedFlag if true.
 
 	* Arguments.[hm], defobj.h: Change setFixedSeed to used an
 	unsigned argument.
