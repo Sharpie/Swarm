@@ -36,6 +36,7 @@ void tkobjc_initTkInterp (id arguments);
 void tkobjc_createEventHandler (id widget, Tk_EventProc proc);
 void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc);
 
+void tkobjc_raster_create (Raster *raster);
 void tkobjc_raster_erase (Raster *raster);
 void tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight);
 void tkobjc_raster_setColormap (Raster *raster);

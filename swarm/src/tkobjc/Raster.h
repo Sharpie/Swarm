@@ -7,7 +7,6 @@
 
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <gui.h>
-#import "internal.h"
 
 // This could include a list of environments (graphics contexts).
 @interface Raster: ArchivedGeometryWidget <_Raster>
@@ -17,16 +16,7 @@
   PixelValue *map;
 @public
   id <Colormap> colormap;
-  Tk_Window tkwin;
-  GC gc;
-  // oldpm is included to hide X11Pixmap/dib_t from the interfaces
-#ifndef _WIN32
-  X11Pixmap pm;
-  X11Pixmap oldpm;
-#else
-  void *pm;
-  void *oldpm;
-#endif
+  void *private;
   int eraseColor;
   unsigned width, height;
 }

@@ -31,6 +31,18 @@
 #import <objectbase/Arguments.h>
 #include <misc.h>
 
+typedef struct raster_private {
+  GC gc;
+  Tk_Window tkwin;
+#ifndef _WIN32
+  X11Pixmap pm;
+  X11Pixmap oldpm;
+#else
+  dib_t oldpm;
+  dib_t pm;
+#endif
+} raster_private_t;
+
 extern TkExtra *globalTkInterp;
 
 Tk_Window 
@@ -133,12 +145,31 @@ Xfill (Display *display, GC gc, X11Pixmap pm,
 }
 
 void
+tkobjc_raster_create (Raster *raster)
+{
+  Tk_Window tkwin = tkobjc_nameToWindow ([raster getWidgetName]);
+
+  if (tkwin == NULL)
+    [WindowCreation raiseEvent: "Error creating tkwin!\n%s",
+                    [globalTkInterp result]];
+  else
+    {
+      raster_private_t *private = xmalloc (sizeof (raster_private_t));
+
+      Tk_MakeWindowExist (tkwin);
+      private->tkwin = tkwin;
+      raster->private = private;
+    }
+}
+
+void
 tkobjc_raster_erase (Raster *raster)
 {
+  raster_private_t *private = raster->private;
 #ifndef _WIN32
-  Display *display = Tk_Display (raster->tkwin);
+  Display *display = Tk_Display (private->tkwin);
   
-  Xfill (display, raster->gc, raster->pm,
+  Xfill (display, private->gc, private->pm,
          0, 0, raster->width, raster->height,
          BlackPixel (display, DefaultScreen (display)));
 #else
@@ -165,14 +196,16 @@ tkobjc_raster_fillRectangle (Raster *raster,
                              unsigned width, unsigned height,
 			     Color color)
 {
+  raster_private_t *private = raster->private;
+
 #ifndef _WIN32
   PixelValue *map = ((Colormap *)raster->colormap)->map;
   
-  Xfill (Tk_Display (raster->tkwin), raster->gc, raster->pm,
+  Xfill (Tk_Display (private->tkwin), private->gc, private->pm,
          x, y, width, height,
          map[color]);
 #else
-  dib_fill ((dib_t *)raster->pm, x, y, width, height, color);
+  dib_fill (private->pm, x, y, width, height, color);
 #endif
 }
 
@@ -183,15 +216,16 @@ tkobjc_raster_ellipse (Raster *raster,
 		       unsigned pixels,
 		       Color color)
 {
+  raster_private_t *private = raster->private;
 #ifndef _WIN32
   PixelValue *map = ((Colormap *)raster->colormap)->map;
-  Display *display = Tk_Display (raster->tkwin);
-  GC gc = raster->gc;
+  Display *display = Tk_Display (private->tkwin);
+  GC gc = private->gc;
 
   XSetForeground (display, gc, map[color]);
-  XDrawArc (display, raster->pm, gc, x, y, width, height, 0, 23040);
+  XDrawArc (display, private->pm, gc, x, y, width, height, 0, 23040);
 #else
-  dib_ellipse ((dib_t *)raster->pm, x, y, width, height, pixels, color);
+  dib_ellipse (private->pm, x, y, width, height, pixels, color);
 #endif
 }
 
@@ -203,15 +237,16 @@ tkobjc_raster_line (Raster *raster,
                     Color color)
 {
 #ifndef _WIN32
+  raster_private_t *private = raster->private;
   PixelValue *map = ((Colormap *)raster->colormap)->map;
-  Display *display = Tk_Display (raster->tkwin);
-  GC gc = raster->gc;
+  Display *display = Tk_Display (private->tkwin);
+  GC gc = private->gc;
 
   XSetForeground (display, gc, map[color]);
   XSetLineAttributes (display, gc, pixels, LineSolid, CapButt, JoinRound);
-  XDrawLine (display, raster->pm, gc, x0, y0, x1, y1);
+  XDrawLine (display, private->pm, gc, x0, y0, x1, y1);
 #else
-  dib_line ((dib_t *)raster->pm, x0, y0, x1, y1, pixels, color);
+  dib_line (private->pm, x0, y0, x1, y1, pixels, color);
 #endif
 }
 
@@ -222,33 +257,35 @@ tkobjc_raster_rectangle (Raster *raster,
                          unsigned pixels,
                          Color color)
 {
+  raster_private_t *private = raster->private;
 #ifndef _WIN32
   PixelValue *map = ((Colormap *)raster->colormap)->map;
-  Display *display = Tk_Display (raster->tkwin);
-  GC gc = raster->gc;
+  Display *display = Tk_Display (private->tkwin);
+  GC gc = private->gc;
 
   XSetForeground (display, gc, map[color]);
   XSetLineAttributes (display, gc, pixels, LineSolid, CapButt, JoinRound);
-  XDrawRectangle (display, raster->pm, gc, x, y, width, height);
+  XDrawRectangle (display, private->pm, gc, x, y, width, height);
 #else
-  dib_rectangle ((dib_t *)raster->pm, x, y, width, height, pixels, color);
+  dib_rectangle (private->pm, x, y, width, height, pixels, color);
 #endif
 }
 
 void
 tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 {
+  raster_private_t *private = raster->private;
 #ifndef _WIN32
   PixelValue *map = ((Colormap *)raster->colormap)->map;
-  X11Pixmap pm = raster->pm;
-  Display *display = Tk_Display (raster->tkwin);
-  GC gc = raster->gc;
+  X11Pixmap pm = private->pm;
+  Display *display = Tk_Display (private->tkwin);
+  GC gc = private->gc;
 
   XSetForeground (display, gc, map[c]);    // no checking on map.
 
   XDrawPoint (display, pm, gc, x, y);
 #else
-  dib_t *dib = (dib_t *)raster->pm;
+  dib_t *dib = private->pm;
   int frameWidth = dib->dibInfo->bmiHead.biWidth;
   int frameHeight = (dib->dibInfo->bmiHead.biHeight < 0
 		     ? -dib->dibInfo->bmiHead.biHeight
@@ -263,9 +300,10 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 void
 tkobjc_raster_createContext (Raster *raster)
 {
+  raster_private_t *private = raster->private;
   XGCValues gcv;
-  Display *display = Tk_Display (raster->tkwin);
-  Window xwin = Tk_WindowId (raster->tkwin);
+  Display *display = Tk_Display (private->tkwin);
+  Window xwin = Tk_WindowId (private->tkwin);
   GC gc;
 
   // now create a GC
@@ -274,15 +312,16 @@ tkobjc_raster_createContext (Raster *raster)
   gc = XCreateGC (display, xwin, GCBackground | GCGraphicsExposures, &gcv);
   XSetFillStyle (display, gc, FillSolid);
   XSetClipOrigin (display, gc, 0, 0);
-  raster->gc = gc;
+  private->gc = gc;
 }
 
 void
 tkobjc_raster_setColormap (Raster *raster)
 {
+  raster_private_t *private = raster->private;
 #ifdef _WIN32
   Colormap *colormap = raster->colormap;
-  dib_t *dib = (dib_t *)raster->pm;
+  dib_t *dib = private->pm;
   
   if (colormap)
     dib_augmentPalette (dib,
@@ -295,10 +334,11 @@ tkobjc_raster_setColormap (Raster *raster)
 void
 tkobjc_raster_createPixmap (Raster *raster)
 {
-  Tk_Window tkwin = raster->tkwin;
+  raster_private_t *private = raster->private;
+  Tk_Window tkwin = private->tkwin;
 #ifndef _WIN32
   // and create a local Pixmap for drawing
-  raster->pm = XCreatePixmap (Tk_Display (tkwin),
+  private->pm = XCreatePixmap (Tk_Display (tkwin),
                               Tk_WindowId (tkwin),
                               raster->width,
                               raster->height,
@@ -318,24 +358,26 @@ void
 tkobjc_raster_setBackground (Raster *raster, PixelValue color)
 {
   XGCValues gcv;
+  raster_private_t *private = raster->private;
 
   gcv.background = color;
-  XChangeGC (Tk_Display (raster->tkwin), raster->gc, GCBackground, &gcv);
+  XChangeGC (Tk_Display (private->tkwin), private->gc, GCBackground, &gcv);
 }
 
 void
 tkobjc_raster_flush (Raster *raster)
 {
-  Tk_Window tkwin = raster->tkwin;
+  raster_private_t *private = raster->private;
+  Tk_Window tkwin = private->tkwin;
 #ifndef _WIN32
   Display *display = Tk_Display (tkwin);
 
-  XCopyArea (display, raster->pm, Tk_WindowId (tkwin), raster->gc,
+  XCopyArea (display, private->pm, Tk_WindowId (tkwin), private->gc,
              0, 0, raster->width, raster->height, 0, 0);
   XFlush (display); 
 #else
   TkWinDrawable *twdPtr = (TkWinDrawable *)Tk_WindowId (tkwin);
-  dib_t *dib = (dib_t *)raster->pm;
+  dib_t *dib = (dib_t *)private->pm;
   
   dib_paintBlit (dib, GetDC (twdPtr->window.handle),
 		 0, 0, 0, 0, raster->width, raster->height);
@@ -392,22 +434,26 @@ tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight)
 void
 tkobjc_raster_savePixmap (Raster *raster)
 {
-  raster->oldpm = raster->pm;
+  raster_private_t *private = raster->private;
+
+  private->oldpm = private->pm;
 }
 
 void
 tkobjc_raster_copy (Raster *raster, unsigned oldWidth, unsigned oldHeight)
 {
+  raster_private_t *private = raster->private;
   unsigned minWidth = raster->width < oldWidth ? raster->width : oldWidth;
   unsigned minHeight = raster->height < oldHeight ? raster->height : oldHeight;
-#ifndef _WIN32
-  Display *display = Tk_Display (raster->tkwin);
 
-  XCopyArea (display, raster->oldpm, raster->pm, raster->gc,
+#ifndef _WIN32
+  Display *display = Tk_Display (private->tkwin);
+
+  XCopyArea (display, private->oldpm, private->pm, private->gc,
              0, 0, minWidth, minHeight, 0, 0);
-  XFreePixmap (display, raster->oldpm);
+  XFreePixmap (display, private->oldpm);
 #else
-  if (!dib_copy ((dib_t *)raster->oldpm, (dib_t *)raster->pm,
+  if (!dib_copy (private->oldpm, private->pm,
                  0, 0,
                  minWidth, minHeight))
     abort ();
@@ -434,6 +480,8 @@ tkobjc_pixmap_create (Pixmap *pixmap,
                       png_colorp palette, unsigned palette_size,
 		      Raster *raster)
 {
+  raster_private_t *private = raster->private;
+
 #ifndef _WIN32
   XpmColor *colors = xmalloc (sizeof (XpmColor) * palette_size);
   XpmImage image;
@@ -547,7 +595,7 @@ tkobjc_pixmap_create (Pixmap *pixmap,
         // (Apparently, there isn't a need to merge the pixmap and raster
         // pixmaps by hand, but without doing so, somehow the black
         // gets lost. -mgd)
-        dib_t *raster_dib = raster->pm;
+        dib_t *raster_dib = private->pm;
 
         dib_augmentPalette (raster_dib, pixmap, palette_size, map);
       }
@@ -588,8 +636,9 @@ tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster)
 #ifndef _WIN32
   Tk_Window tkwin = tkobjc_nameToWindow (".");
   Display *display = Tk_Display (tkwin);
-  GC gc = raster->gc;
-  Drawable w = raster->pm;
+  raster_private_t *private = raster->private;
+  GC gc = private->gc;
+  Drawable w = private->pm;
   X11Pixmap mask = pixmap->mask;
   
   if (mask == 0)
@@ -605,7 +654,7 @@ tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster)
       XSetClipMask (display, gc, None);
     }
 #else
-  dib_copy (pixmap->pixmap, raster->pm, x, y, pixmap->width, pixmap->height);
+  dib_copy (pixmap->pixmap, private->pm, x, y, pixmap->width, pixmap->height);
 #endif
 }
 

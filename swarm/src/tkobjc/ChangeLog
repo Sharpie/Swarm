@@ -1,3 +1,24 @@
+1998-06-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* internal.m: Declare raster_private_t.
+	(tkobjc_raster_create): New function.
+	(tkobjc_raster_erase, tkobjc_raster_fillRectangle,
+	tkobjc_raster_ellipse, tkobjc_raster_line,
+	tkobjc_raster_rectangle, tkobjc_raster_drawPoint,
+	tkobjc_raster_createContext, tkobjc_raster_setColormap,
+	tkobjc_raster_createPixmap, tkobjc_raster_setBackground,
+	tkobjc_raster_flush, tkobjc_raster_savePixmap, tkobjc_raster_copy,
+	tkobjc_pixmap_create, tkobjc_pixmap_draw): Indirect gc, pm, oldpm,
+	tkwin through private.
+
+	* internal.h: Declare tkobjc_raster_create.
+
+	* Raster.h: Don't include internal.h.
+	(Raster): Declare only private (not pm, oldpm, tkwin and gc).
+
+	* Raster.m ([Raster -createEnd]): Use tkobjc_raster_create,
+	instead of using Tk functions directly.
+
 1998-06-21  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: New file.

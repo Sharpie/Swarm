@@ -42,15 +42,7 @@ PHASE(Creating)
   [globalTkInterp eval: "frame %s -background \"\" -width %u -height %u",
   	  widgetName, width, height];
 
-  tkwin = tkobjc_nameToWindow (widgetName);
-  if (tkwin == NULL)
-    {
-      [WindowCreation raiseEvent: "Error creating tkwin!\n%s",
-                      [globalTkInterp result]];
-      return nil;
-    }
-
-  Tk_MakeWindowExist (tkwin);
+  tkobjc_raster_create (self);
   
   // now arrange for expose events to call our redraw procedure.
   [globalTkInterp eval: "bind %s <Expose> {%s drawSelf}",
