@@ -947,16 +947,18 @@ swarm_directory_get_class_from_objc_object (id object)
   else
     return [object getClass];
 }
+#endif
 
 Class 
 swarm_directory_get_swarm_class (id object)
 {
+#ifdef HAVE_JDK
   jobject jobj;
   jclass jcls;
   Class result;
   id proxy;
   jboolean isCopy;
-  const char * classname;
+  const char *classname;
   
   if ((jobj = SD_FINDJAVA (env, object)))
     {
@@ -976,7 +978,6 @@ swarm_directory_get_swarm_class (id object)
         return swarm_directory_ensure_class (jniEnv, jcls);
     }
   else
+#endif
     return [object getClass];
 }
-
-#endif

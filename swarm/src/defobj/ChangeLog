@@ -1,3 +1,8 @@
+1999-07-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.[hm] (swarm_directory_get_swarm_class): Always
+	define (revert to getClass when no JDK).
+
 1999-07-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m ([FCall_c -getRetVal:buf:]): Use SD_SWITCHOBJC instead

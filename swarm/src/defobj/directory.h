@@ -8,6 +8,8 @@
 #define _REENTRANT
 #endif
 
+Class swarm_directory_get_swarm_class (id object);
+
 #ifdef HAVE_JDK
 #undef SIZEOF_LONG /* Kaffe can define this (it's from swarmconfig.h) */
 #include <jni.h>
@@ -24,7 +26,6 @@ void swarm_directory_init (JNIEnv *jniEnv,
 
 jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
-
 
 @interface DirectoryEntry: CreateDrop
 {
