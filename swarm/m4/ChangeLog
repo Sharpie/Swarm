@@ -1,3 +1,8 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Don't use Sun JDK wrapper script.  Add info
+	for proc, threads type, and LD_LIBRARY_PATH variable name.
+
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acffi.m4: Ignore libffi on Sparc and ix86.

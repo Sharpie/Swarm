@@ -26,20 +26,34 @@ else
     JAVAINCLUDES="-I$jdkincludedir"
     if test -f $jdkincludedir/solaris/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
-      JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
+      threads=green
+      proc=sparc
     elif test -f $jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
       JAVALIBS='${jkddir}/shlib'
+      threads=native
+      proc=alpha
+      LD_LIBRARY_PATH_VARNAME=SHLIB_PATH
     elif test -f $jdkincludedir/hp-ux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/hp-ux"
-      JAVALIBS='${jdkdir}/lib/PA_RISC'
-    elif test -f $jdkincludedir/winnt/jni_md.h; then  # WebObjects
+      proc=green
+      threads=PA_RISC
+    elif test -f $jdkincludedir/winnt/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
-      JAVALIBS=
+      JAVALIBS=no
+      JAVACMD='${jdkdir}/bin/java'
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/genunix"
+      JAVACMD='${jdkdir}/bin/java'
+      threads=green
+      proc=$target_cpu
     fi
-    JAVACMD='${jdkdir}/bin/java'
+    if test "$JAVALIBS" = no; then
+      JAVALIBS=
+    else
+      test -n "$JAVALIBS" || JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads/lib"
+    fi
+    test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/$proc/native_threads/java"
     if test "$host_os" = cygwin; then
       JAVACLASSES="`cygpath -w ${jdkdir}/lib/classes.zip`"
       JAVAENV=
@@ -47,7 +61,8 @@ else
       USEDOSCLASSPATH=yes
     else
       JAVACLASSES="${jdkdir}/lib/classes.zip"
-      JAVAENV='JAVA_HOME=${jdkdir}'
+      test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
+      JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\$LD_LIBRARY_PATH"
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
     JAVA='${JAVAENV} ${JAVACMD}'
