@@ -739,7 +739,7 @@
 
 (defun java-print-makefiles ()
   (ensure-directory (c-path))
-  (with-temp-file (c-path "Makefile.common")
+  (with-temp-file (concat (get-builddir) "Makefile.common")
     (loop for module-sym being each hash-key of *module-hash-table* 
           using (hash-value protocol-list)
           for dir = (module-path module-sym)
