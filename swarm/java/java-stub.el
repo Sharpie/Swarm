@@ -40,6 +40,8 @@
 
       ("notify_t" . freaky)
       ("unsigned long long int" . freaky)
+      ("unsigned long long" . freaky)
+      ("long long" . freaky)
       
       ("const char \\* const \\*" . freaky)
       ("int \\*" . freaky)
@@ -122,6 +124,8 @@
 
       ;; FArguments
       "-addArgument:ofObjCType:" ; void* parameter
+      "-addLongLong:" ; long long parameter
+      "-addUnsignedLongLong:" ; unsigned long long parameter
 
       ;; FCall, FArguments
       "-getResult"; void* return

@@ -1,3 +1,8 @@
+1999-06-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-methods*): Add -addLongLong: and
+	-addUnsignedLongLong:.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (C_EXTRA_DIST): Remove setup.c.
