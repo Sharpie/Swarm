@@ -132,22 +132,25 @@ else
     kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $expand_jdkdir/bin/kaffe`
     kaffe_datadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $expand_jdkdir/bin/kaffe`
     jdkdatadir=`eval echo \`echo $kaffe_datadir | sed  's/\${prefix}/$kaffe_prefix/'\``
+    JAVACLASSES="${jdkdatadir}/Klasses.jar:${jdkdatadir}/pizza.jar"
 
     if test "$host_os" = cygwin; then
+      JAVACLASSESARG="`cygpath -w ${jdkdatadir}/Klasses.jar`;`cygpath -w ${jdkdatadir}/pizza.jar`"
       # we can assume SWARMROOT will be set in Windows environment --
       # recover the symbolic path representation from datadir.
       jdkdatadir=`echo $jdkdatadir | sed "s,$SWARMROOT,\\${SWARMROOT},g"`
       USEDOSCLASSPATH=yes
       # ${jdkdir}/lib/kaffe is included so that .la file can be found
       JAVALIBS="${jdkdir}/bin:${jdkdir}/lib/kaffe"
+      JAVALIBSARG="`cygpath -w ${expand_jdkdir}/bin`;`cygpath -w ${expand_jdkdir}/lib/kaffe`"
       JAVASWARM_DLL_NAME=libkaffeswarm
       JAVASWARM_DLL_LOADNAME=kaffeswarm
       JAVASWARM_DLL_ENTRY='__cygwin_dll_entry@12'
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
+      JAVALIBSARG=$JAVALIBS
     fi
     AC_DEFINE(HAVE_KAFFE)
-    JAVACLASSES="${jdkdatadir}/Klasses.jar:${jdkdatadir}/pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
     if test -x "${expand_jdkdir}/libexec/Kaffe"; then
       JAVACMD='${jdkdir}/libexec/Kaffe'
@@ -159,7 +162,7 @@ else
       AC_MSG_ERROR([Cannot find Kaffe executable])
     fi
     JAVAENV=''
-    JAVA='KAFFELIBRARYPATH="${JAVALIBS}" ${JAVACMD}'
+    JAVA='KAFFELIBRARYPATH="${JAVALIBSARG}" ${JAVACMD}'
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=
     JAVALIBPATH_VAR=KAFFELIBRARYPATH
@@ -182,11 +185,15 @@ AC_SUBST(JAVASWARMLIBS)
 AC_SUBST(JAVASTUBS_FUNCTION)
 AC_SUBST(JAVAINCLUDES)
 AC_SUBST(JAVALIBS)
+test -n "$JAVALIBSARG" || JAVALIBSARG=$JAVALIBS
+AC_SUBST(JAVALIBSARG)
 AC_SUBST(JAVALIBPREFIX)
 test -n "$JAVALIBPATH_VAR" || JAVALIBPATH_VAR="_JAVASWARM_LIBPATH"
 AC_SUBST(JAVALIBPATH_VAR)
 AC_SUBST(JAVASWARMSCRIPTS)
 AC_SUBST(JAVACLASSES)
+test -n "$JAVACLASSESARG" || JAVACLASSESARG=$JAVACLASSES
+AC_SUBST(JAVACLASSESARG)
 AC_SUBST(USEDOSCLASSPATH)
 AC_SUBST(JAVACMD)
 AC_SUBST(JAVAENV)

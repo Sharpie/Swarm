@@ -2,9 +2,11 @@
 
 	* acjdk.m4: Evaluate jdkdir for embedded variables.  Use expanded
 	variables for tests, and unexpanded variables for substitutions.
-	Don't do cygpath expansions here, do them in the wrapper scripts.
-	(So that no physical paths get hardcoded in scripts.)
-
+	Rename cygpath expansions here to JAVALIBSARG and JAVACLASSESARG
+	for use in java dependency gen. and compile.  Leave JAVALIBS and
+	JAVACLASSES unexpanded for use in javacswarm and javaswarm
+	scripts. (So that no physical paths get hardcoded in scripts.)
+	
 1999-09-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* actcltk.m4: Handle Tcl/Tk 8.2.
