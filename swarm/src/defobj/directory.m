@@ -889,14 +889,16 @@ get_swarmEnvironment_field (JNIEnv *env,
 			    const char *fieldName)
 {
   jobject fieldObject, ret;
-  
+  jstring str = (*env)->NewStringUTF (env, fieldName);
+
   if (!(fieldObject =
 	(*env)->CallObjectMethod (env,
 				  c_SwarmEnvironment, 
 				  m_ClassGetDeclaredField,
-				  (*env)->NewStringUTF (env, fieldName))))
+                                  str)))
     abort ();
-
+  (*env)->DeleteLocalRef (env, str);
+  
   ret = (*env)->CallObjectMethod (env,
                                   fieldObject,
                                   m_FieldGetObject,
