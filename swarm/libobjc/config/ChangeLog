@@ -1,3 +1,7 @@
+1999-09-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* i386/Makefile.am (EXTRA_DIST): Add compiler-info-generic.h.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Use isDigit instead of isdigit throughout.
