@@ -5,6 +5,8 @@
 	* configure.in (OBJCDEPMODE): Add substitution for sake of new
 	automake.
 
+ 	* depcomp: New file.
+
 	* missing: Update.
 
 2001-10-27  Marcus G. Daniels  <mgd@helen.swarm.org>
