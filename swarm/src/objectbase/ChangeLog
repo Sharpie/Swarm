@@ -1,3 +1,11 @@
+1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ActivityControl.m, CustomProbeMap.m: Reformatting throughout.
+
+	* ActivityControl.m, CompleteProbeMap.m, CustomProbeMap.m,
+	MessageProbe.m, Probe.m, ProbeMap.m, Swarm.m, VarProbe.m move
+	documentation tags to objectbase.h.
+
 1998-04-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbe.m ([MessageProbe -doubleDynamicCallOn:]): Convert

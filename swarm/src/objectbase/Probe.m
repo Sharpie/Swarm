@@ -11,14 +11,6 @@
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
 
-//S: An abstract superclass of both VarProbe and MessageProbe.
-//D: A Probe is simply an object that contains pointers to an element 
-//D: (instance variable or message description) of another object. The Probe
-//D: contains instance variables that describe the referent's class and type. 
-//D: It's actually an abstract class that is further subdivided into
-//D: VarProbe and MessageProbe, which represent the two basic types of 
-//D: elements of any object. The Probes are collected into a ProbeMap and
-//D: subsequently installed in the ProbeLibrary. 
 @implementation Probe
 +  createBegin: aZone 
 {
@@ -92,8 +84,6 @@
   return objectToNotify;
 }
 
-//M: The setProbedClass: method sets the class of the object the probe points
-//M: at and must be called at create time.
 - setProbedClass: (Class)aClass
 {
   if (SAFEPROBES)
@@ -108,16 +98,11 @@
   return self;
 }
 
-//M: The getProbedClass method returns the class of the object the probe points
-//M: at as a Class pointer.
 - (Class)getProbedClass
 {
   return probedClass;
 }
 
-//M: The getProbedType method returns the typing of the probed variable or 
-//M: message. The typing is represented using the string-format provided by 
-//M: the Objective-C runtime system.
 - (const char *)getProbedType
 {
   return probedType;
@@ -136,27 +121,18 @@
   return self;
 }
 
-//M: The setSafety method turns on the option of checking the compatibility of 
-//M: the class of the object before any actions are performed on the object. 
 - setSafety
 {
   safety = 1;
   return self;
 }
 
-//M: The unsetSafety method turns off the option of checking the compatibility 
-//M: of the class of the object before any actions are performed on the object.
 - unsetSafety
 {
   safety = 0;
   return self;
 }
 
-//M: The clone: method returns a clone of the probe. If the initial probe was
-//M: created by Library Generation or by the default version of Object 
-//M: generation, the probe should be cloned prior to making changes to it 
-//M: to avoid having the changes affect the other potential users of the 
-//M: probe.
 - clone: aZone
 {
   [self subclassResponsibility: @selector(clone)];

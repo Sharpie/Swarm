@@ -15,17 +15,8 @@
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
 
-//S: A class that allows the user to inspect a given variable in any candidate
-//S: that is an instance of, or inherits from, a given class.
-//D: This is a specialized subclass of the abstract class Probe. It completes 
-//D: the specification of a probe that refers to an instance variable
-//D: element of an object. 
 @implementation VarProbe
 
-//M: The setProbedVariable: sets the variable being probed. The aVariable 
-//M: identifier is simply a character string consisting of the identifier 
-//M: of the variable referent.  This method must be called during the create 
-//M: phase. 
 - setProbedVariable: (const char *)aVariable
 {
   if (probedVariable)
@@ -42,8 +33,6 @@
   return self;
 }
 
-//M: The getProbedVariable method returns a string matching the identifier of 
-//M: variable being probed.
 - (const char *)getProbedVariable
 {
   return probedVariable;
@@ -108,26 +97,17 @@
     }
 }
 
-//M: The setNonInteractive method sets a VarProbe to be non-interactive. This
-//M: ensures that the user will not be able to change the value of a probe,
-//M: only observe it.  Setting the VarProbe to be non-interactive will not
-//M: interfere with the drag & drop capability of the objects into the VarProbe
-//M: field.
 - setNonInteractive
 {
   interactive = 0;
   return self;
 }
 
-//M: The isInteractive method returns the interactivity state of the VarProbe.
 - (int)isInteractive
 {
   return interactive;
 }
 
-//M: The getDataOffset method returns the offset used to extract the variable
-//M: from the target object.  This method is used exclusively by the Swarm
-//M: kernel.
 - (int)getDataOffset
 {
   return dataOffset;
@@ -159,7 +139,6 @@
 }
 
 // no guarantees about alignment here.
-//M: The probeRaw: method returns a pointer to the probed variable.
 - (void *)probeRaw: anObject
 {
   if (safety)
@@ -169,8 +148,6 @@
   return (char *)anObject+dataOffset;
 }
 
-//M: The probeAsPointer: method returns a pointer to the probed variable based
-//M: on the ProbeType.
 - (void *)probeAsPointer: anObject
 {
   void *p;
@@ -201,8 +178,6 @@
   return q;
 }
 
-//M: The probeAsInt: method returns a pointer to the probed variable as an 
-//M: integer.
 - (int)probeAsInt: anObject
 {
   const void *p;
@@ -236,8 +211,6 @@
   return i;
 }
 
-//M: The probeAsDoube: method returns a pointer to the probed variable as a
-//M: double.
 - (double)probeAsDouble: anObject
 {
   const void *p;
@@ -270,19 +243,12 @@
   return d;
 }
 
-//M: The setStringReturnType: method sets the format that will be used to print
-//M: the variable. When the probedVariable is of type unsigned char or char,
-//M: the method probeAsString will, by default, return a string of the format:
-//M: "'%c' %d". This is meant to reflect the commonplace use of an unsigned
-//M: char as a small int.
 - setStringReturnType: returnType
 {
   stringReturnType = returnType;
   return self;
 }
 
-//M: The setFloatFormat: method sets the floating-point format of a GUI display
-//M: widget when given a sprintf-style formatting string.
 - setFloatFormat: (const char *)format
 {
   if (probedType[0] == _C_FLT || probedType[0] == _C_DBL) 
@@ -292,8 +258,6 @@
   return self;
 }
 
-//M: The probeAsString:Buffer: method prints the value of the variable into 
-//M: the buffer. The buffer should be pre-allocated.
 - (const char *)probeAsString: anObject Buffer: (char *) buf
 {
   // by default - use precision set by -setFormatFloat 
@@ -302,11 +266,6 @@
   return buf;
 }
 
-//M: The probeAsString:Buffer:withFullPrecision: method prints the value of 
-//M: the variable into the buffer. The buffer should be pre-allocated. 
-//M: This version of probeAsString is used internally by ObjectSaver to use 
-//M: the "saved as" precision form which may differ from the "displayed" 
-//M: precision.
 - (const char *) probeAsString: anObject Buffer: (char *)buf 
              withFullPrecision: (int)precision
 {
@@ -398,8 +357,6 @@
 
 // sets the probed to whatever is pointed to by newValue. Use the
 // type information to try to do this intelligently.
-//M: The setData:To: method sets the probedVariable using the pointer to the
-//M: new value.
 - setData: anObject To: (void *)newValue
 {
   const void *p;
@@ -463,11 +420,6 @@
 // setData:To:, but it's not too bad. Note we don't allow setting
 // pointers here, because textual representations of pointers are
 // strange. That's probably not a good idea.
-//M: The setData:ToString: sets the probedVariable using a string which the 
-//M: probe reads and converts appropriately. When setting the value of an 
-//M: unsigned char or a char using this method, the expected format of the
-//M: string is always "%i" unless CharString was chosen (in which case the 
-//M: format should be "'%c'").
 - (int)setData: anObject ToString: (const char *)s
 {
   union {

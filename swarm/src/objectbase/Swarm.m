@@ -6,16 +6,6 @@
 #import <objectbase/Swarm.h>
 #import <objectbase.h>
 
-//S: The Swarm class encapsulates all of the abstract execution machinery in 
-//S: the activity library, as well as the notion of a group of related
-//S: objects. Metaphorically, a "Swarm" is a combination of a collection of 
-//S: objects and a schedule of activity over those objects. Hence, the
-//S: Swarm class provides the behavior necessary for creating such an object 
-//S: and starting up the schedule. 
-//D: Swarm is the base class for users to build their own Swarms. Most
-//D: of the real work here is scheduling, that is done in activity. The
-//D: "Swarm" class here adds some useful object functionality: a couple
-//D: of standard methods for building a swarm, and an example of activateIn.
 @implementation Swarm
 
 // Override this to let your Swarm create the objects that it contains.

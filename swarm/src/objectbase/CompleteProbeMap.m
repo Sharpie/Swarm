@@ -10,12 +10,7 @@
 #import <objc/objc-api.h>
 
 #import "local.h"
-//S: A subclass of ProbeMap whose initial state contains the VarProbes and
-//S: MessageProbes of the requested target class but also those of all its
-//S: subclasses.
-//D: Upon creation, this subclass of the ProbeMap will contain all the 
-//D: variables and all the messages of a given class (including the inherited
-//D: ones). 
+
 @implementation CompleteProbeMap
 
 - createEnd
@@ -31,13 +26,12 @@
 	
 
   if (SAFEPROBES)
-    {
-      if (probedClass == 0)
-        {
-          fprintf(stderr, "CompleteProbeMap object was not properly initialized\n");
-          return nil;
-        }
-    }
+    if (probedClass == 0)
+      {
+        fprintf(stderr, "CompleteProbeMap object was not properly initialized\n");
+        return nil;
+      }
+}
   
   probes = [Map createBegin: [self getZone]];
   [probes setCompareFunction: &p_compare];
