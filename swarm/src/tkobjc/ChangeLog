@@ -1,3 +1,7 @@
+2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
+
+	* TkExtra.m: Add an ifdef for what BLT we expect for __WIN32__.
+
 2004-07-20  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.am (INCLUDES): Reorder so that X headers and Xpm are

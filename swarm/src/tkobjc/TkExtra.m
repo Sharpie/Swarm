@@ -62,7 +62,11 @@ ensureBltSupportFiles (id arguments, id interp)
 
             if (swarmHome)
               {
+#ifdef __WIN32__
+                const char *libdir = "lib/blt3.0";
+#else
                 const char *libdir = "share/blt2.4";
+#endif
                 char libPath[strlen (swarmHome) + strlen (libdir) + 1];
                 char *p;
                 
