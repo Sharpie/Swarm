@@ -382,15 +382,7 @@
 
 (defun included-method-p (protocol method phase)
   (and (not (removed-method-p method))
-       (eq phase (method-phase method))
-       (if (and (create-method-p method)
-                (not (creatable-p protocol)))
-           (progn
-             (message "Skipping method `%s' in non-creatable protocol `%s'"
-                      (get-method-signature method)
-                      (protocol-name protocol))
-             nil)
-         t)))
+       (eq phase (method-phase method))))
 
 (defun expanded-method-list (protocol phase)
   (remove-if-not #'(lambda (method) (included-method-p protocol method phase))
@@ -570,9 +562,9 @@
     (insert ", "))
   (insert (java-interface-name protocol :setting))
   (insert " {\n")
-  (java-print-class-methods-in-phase protocol phase)
-  (java-print-class-methods-in-phase protocol :setting)
   (when (creatable-p protocol)
+    (java-print-class-methods-in-phase protocol phase)
+    (java-print-class-methods-in-phase protocol :setting)
     (cond ((eq phase :using)
            (java-print-class-constructors protocol))
           ((eq phase :creating)

@@ -1,3 +1,9 @@
+1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-class-phase): Don't print Impl classes
+	when protocol is not creatable.
+	(included-method-p): Remove exclusion for non-creatable protocols.
+
 1999-06-29  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* java-stub.el (*removed-methods*): Add VarProbe methods for array

@@ -20,10 +20,8 @@ Installshield [mgd]
   - add new BLT
   - add Swarm DLL  
  
-libffi / Bank [mgd]
-
 make check [mgd]
-  - Alpha serialization
+  - Find out why Discrete2d and QSortTest fail on Alpha
   - hppa avcall
 
 make --with-package flags should reject bad arguments [mgd]
@@ -34,3 +32,4 @@ Probes on Java objects (by serialization) [vjojic]
 
 Add either stubbing for string array conversions (e.g. Histogram) or
 add alternative interfaces that use objects.
+
