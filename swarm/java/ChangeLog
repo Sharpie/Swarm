@@ -1,21 +1,26 @@
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* java-stub.el (java-print-method): Denote factory methods
-	with static.
+	* java-stub.el (java-print-method): Denote factory methods with
+	static.
 	(create-method-p): New method.
 	(included-method-p): Use it; exclude +create* methods when
 	protocol is not creatable.  Add protocol argument.
 	(java-print-interface-methods-in-phase): Exclude factory methods
 	as interfaces don't allow static modifier.
 	(creatable-p): Renamed from CREATABLE-p.
-	(java-print-method-invocation): Take protocol and method
-	as arguments.  Handle factory methods.
-	(java-print-native-method): Handle static method arguments
-	and +create* methods in particular.
-	(java-print-native-class): Don't check methods with included-method-p.
-	(java-argument-print-conversion, java-print-method-invocation): 
+	(java-print-method-invocation): Take protocol and method as
+	arguments.  Handle factory methods.
+	(java-print-native-method): Handle static method arguments and
+	+create* methods in particular.
+	(java-print-native-class): Don't check methods with
+	included-method-p.
+	(java-argument-print-conversion, java-print-method-invocation):
 	Pass JNIEnv to JFINDOBJC.
-	(java-print-native-method): Pass JNIEnv to JUPDATE and JSWITCHUPDATE.
+	(java-print-native-method): Pass JNIEnv to JUPDATE and
+	JSWITCHUPDATE.
+	(java-print-makefiles): Print simply the module name; don't use
+	computed variable name to get modulePROTOCOLS; it is now done in
+	Makefile.rules.
 
 1999-03-19  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
 

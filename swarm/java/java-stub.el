@@ -685,10 +685,9 @@
         (ensure-directory dir)
         (with-temp-file (concat dir "Makefile")
           (insert "include ../../Makefile.common\n")
-          (insert "modulePROTOCOLS = $(")
+          (insert "module = ")
           (insert (symbol-name module-sym))
-          (insert "PROTOCOLS")
-          (insert ")\n")
+          (insert "\n")
           (insert "include ../Makefile.rules\n"))))
 
 (defun java-print-classes ()
