@@ -1,3 +1,21 @@
+2000-07-04  Alex Lancaster  <alex@santafe.edu>
+
+	* docbook2texi: Add file.
+
+	* Makefile.am (EXTRA_DIST): Add docbook2texi.
+
+	* configure.in: Extract `sx', SGML to XML conversion script.
+
+	* Makefile.rules (%.info): New rule to generate info files from
+	texinfo files.
+	(%.texi): New rule, generate texinfo from XML.
+	(%.xml): New rule, generate XML from the SGML.
+	(info): New rule.
+	($(NAME).xml, $(NAME).texi,$(NAME).info): New dependencies.
+	(infodist, infodir, nodist_info_DATA): New targets.
+	(.PHONY): Add info, infodist.
+	(SX): Extract from autoconf variable.o
+
 2000-06-13  Alex Lancaster  <alex@santafe.edu>
 
 	* global.ent (docs-urlroot, userbook-urlroot, userbook-randomapp):

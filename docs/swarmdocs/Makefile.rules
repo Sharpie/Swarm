@@ -1,4 +1,5 @@
 JADE = @JADE@
+SX = @SX@
 SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
 JADETEX = @JADETEX@
 DVIPS = @DVIPS@
@@ -16,7 +17,7 @@ FIGS = figs/swarm.eps # for the timestamp
 
 GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl $(FIGS)
 
-.PHONY: fot tex dvi ps rtf html htmldist dvidist psdist rtfdist
+.PHONY: fot tex dvi ps rtf html info htmldist dvidist psdist rtfdist infodist
 
 COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
 
@@ -54,7 +55,13 @@ nodist_rtf_DATA = $(NAME).rtf
 rtfdist: rtf
 	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(DISTNAME)-rtf.tar.gz 
 
-CLEANFILES = $(NAME).tex _$(NAME).tex $(nodist_html_DATA) $(nodist_dvi_DATA) $(nodist_ps_DATA) $(nodist_rtf_DATA)
+infodir = $(prefix)/$(NAME)/info
+nodist_info_DATA = $(wildcard *.info*)
+
+infodist: info
+	cd ..; tar cf - $(addprefix $(NAME)/, $(wildcard *.info*)) | $(GZIP) > $(DISTNAME)-info.tar.gz
+
+CLEANFILES = $(NAME).tex _$(NAME).tex $(nodist_html_DATA) $(nodist_dvi_DATA) $(nodist_ps_DATA) $(nodist_rtf_DATA) $(NAME).texi $(NAME).xml $(nodist_info_DATA) 
 
 $(FIGS):
 	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
@@ -64,6 +71,12 @@ _$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) # $(PRINT)
 $(NAME).html: $(GENERAL) # $(HTML)
 
 $(NAME).dvi: $(top_srcdir)/tex/macros.tex
+
+$(NAME).info: $(GENERAL)
+
+$(NAME).texi: $(GENERAL) $(top_srcdir)/docbook2texi
+
+$(NAME).xml: $(GENERAL) 
 
 all-recursive: # when no SUBDIRS
 
@@ -78,6 +91,8 @@ ps: all-recursive $(NAME).ps
 rtf: all-recursive $(NAME).rtf
 
 html: all-recursive $(NAME).html
+
+info: all-recursive $(NAME).info
 
 %.fot: %.sgml
 	$(RUNJADE) $(CATOPTS) -t fot -iprint -d '$(PRINT)' -o $@ @DOSIFYEXPR@
@@ -96,6 +111,15 @@ _%.tex: %.sgml
 
 %.ps: %.dvi
 	- $(DVIPS) -o $@ $<
+
+%.xml: %.sgml
+	- $(SX) $(CATOPTS) -x lower $< > $@
+
+%.texi: %.xml
+	- perl $(top_srcdir)/docbook2texi $< > $@
+
+%.info: %.texi
+	- makeinfo --force $<
 
 # Local variables:
 # mode: makefile

@@ -1,0 +1,1689 @@
+# vim:sw=4 sta showmatch
+
+=head1 NAME
+
+docbook2texi - convert DocBook documents to Texinfo documents
+
+=head1 SYNOPSIS
+
+docbook2texi [xml-document...]
+
+=head1 DESCRIPTION
+
+This Perl script converts DocBk XML documents to GNU Texinfo format.
+The result is written to standard output.  If no files are specified, 
+docbook2texi reads from standard input.
+
+See accompanying DocBook documentation for more details.
+
+=head1 LIMITATIONS
+
+Trying docbook2texi on non-DocBook-conformant XML results in
+undefined behavior. :-)
+
+=head1 COPYRIGHT
+
+Copyright (C) 1999 Steve Cheng <steve@ggi-project.org>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+$Id: docbook2texi,v 1.1 2000-07-04 08:20:17 alex Exp $
+
+=cut
+
+
+package docbook2texi;
+
+use strict;
+
+use XML::DOM;
+use XML::DOM::Map;
+
+
+
+sub unexpected_node {
+    my $node = shift;
+    node_warn $node, "Unexpected node encountered";
+}
+sub unimplemented_node {
+    my $node = shift;
+    node_warn $node, "Tranformation unimplemented";
+}
+
+
+##################################################
+#
+# Escape/collapse strings for Texinfo.
+#
+##################################################
+
+sub fold_string {
+	local $_ =  shift;
+	
+	tr/ \t/ /s;
+
+	# Kill spaces at beginning of lines
+	s/^ +//mg;
+	
+	tr/\n/\n/s;
+	
+	# Trim newlines at beginning and end
+	s/^\n+//;
+	s/\n+$//;
+
+	return $_;
+}
+
+sub tr_escape_string {
+	local $_ = shift;
+	s/\@/\@\@/g;
+	s/\{/\@\{/g;
+	s/\}/\@\}/g;
+	return $_;
+}
+
+
+
+
+##################################################
+#
+# Handle inline elements/mixed content, 
+# and transform to Texinfo @-commands.
+#
+##################################################
+
+#FIXME
+#When you have markup like this:
+#<link blah><citerefentry><refentrytitle><manvolnum> ...
+#Inner elements are handled as tr_cdata.
+#
+local $docbook2texi::inline_inline_map = {
+	'elem:citetitle' => sub { return '_' . &tr_inline_inline },
+	'elem:emphasis' => sub { return '*' . &tr_inline_inline . '*' },
+	'elem:quote' => sub { return '``' . &tr_inline_inline . "''" },
+	'elem:citerefentry' => \&db_citerefentry,
+	'elem' => \&tr_inline_inline,
+	'text' => \&tr_cdata,
+	'' => sub {}
+};
+
+local $docbook2texi::inline_map = {
+	'elem:classname' => \&tr_inline_code,
+	'elem:command' => \&tr_inline_code,
+	'elem:envar' => \&tr_inline_code,
+	'elem:function' => \&tr_inline_code,
+	'elem:parameter' => \&tr_inline_code,
+	'elem:returnvalue' => \&tr_inline_code,
+	'elem:structfield' => \&tr_inline_code,
+	'elem:structname' => \&tr_inline_code,
+	'elem:symbol' => \&tr_inline_code,
+	'elem:type' => \&tr_inline_code,
+	
+	'elem:literal' => \&tr_inline_samp,
+	'elem:markup' => \&tr_inline_samp,
+	'elem:sgmltag' => \&tr_inline_samp,
+	'elem:token' => \&tr_inline_samp,
+
+	'elem:option' => \&tr_inline_samp,
+	'elem:prompt' => \&tr_inline_samp,
+
+	'elem:replaceable' => \&tr_inline_var,
+
+	'elem:citation' => \&tr_inline_cite,
+	'elem:citetitle' => \&tr_inline_cite,
+	
+	'elem:email' => \&tr_inline_email,
+	
+	'elem:firstterm' => \&tr_inline_dfn,
+
+	'elem:filename' => \&tr_inline_file,
+
+	'elem:foreignphrase' => \&tr_inline_i,
+
+	'elem:acronym' => \&tr_inline_acronym,
+	'elem:emphasis' => \&tr_inline_emph,
+
+	'elem:accel' => \&tr_inline_key,
+	'elem:keycap' => \&tr_inline_key,
+	'elem:keysym' => \&tr_inline_key,
+
+	'elem:keycombo' => sub {
+	    my $data;
+	    
+	    foreach(shift->getChildNodes()) {
+		if($_->getNodeType == ELEMENT_NODE) {
+		    if(defined $data) {
+			$data .= '+';
+		    } else {
+			$data = '@kbd{';
+		    }
+		    $data .= tr_cdata($_);
+		}
+	    }
+	
+	    return $data . '}';
+	    },
+	
+	'elem:inlinegraphic' => sub {
+	    my $node = shift;
+	    return ' [Graphic: ' . 
+			tr_escape_string($node->getAttribute('fileref')) .
+    			"] ";
+	},
+	
+	'elem:userinput' => \&tr_inline_kbd,
+
+	'elem:citerefentry' => \&db_citerefentry,
+
+	# Suppress in final version
+	'elem:comment' => sub { },
+
+	'elem:author' => \&db_author,
+
+	'elem:ulink' => \&db_ulink,
+	'elem:link' => \&db_link,
+	'elem:xref' => \&db_xref,
+
+	'elem:quote' => sub { return '``' . &tr_inline_container . "''" },
+
+	'elem:anchor' => sub { return '@anchor{' . texinode_get(shift) . '}' },
+
+	'text' => \&tr_cdata,
+
+	# Catch-all for unknown elements
+	'elem' => \&tr_inline_container,
+	'' => sub {}
+};
+
+sub tr_inline_code { return '@code{' . &tr_cdata . '}' }
+sub tr_inline_samp { return '@samp{' . &tr_cdata . '}' }
+sub tr_inline_cite { return '@cite{' . &tr_cdata . '}' }
+sub tr_inline_email { return '@email{' . &tr_cdata . '}' }
+sub tr_inline_dfn { return '@dfn{' . &tr_cdata . '}' }
+sub tr_inline_file { return '@file{' . &tr_cdata . '}' }
+sub tr_inline_acronym { return '@sc{' . &tr_cdata . '}' }
+sub tr_inline_emph { return '@emph{' . &tr_cdata . '}' }
+sub tr_inline_key { return '@key{' . &tr_cdata . '}' }
+sub tr_inline_kbd { return '@kbd{' . &tr_cdata . '}' }
+sub tr_inline_var { return '@var{' . &tr_cdata . '}' }
+
+sub tr_inline_i { return '@i{' . &tr_cdata . '}' }
+
+sub db_ulink { 
+	return '@uref{' . tr_escape_string($_[0]->getAttribute('url')) . ', '
+		. &tr_cdata . '}';
+}
+
+sub db_link {
+    my $node = shift;
+
+    my $xrefnode = getElementByID($node->getAttribute('linkend'));
+
+    my $text = tr_cdata($node);
+    $text =~ tr/',:/".;/;
+
+    return '@ref{' . texinode_get($xrefnode) .
+	    ', ' . $text . '}. ';
+}
+
+sub db_xref {
+    my $node = shift;
+
+    my $xrefnode = getElementByID($node->getAttribute('linkend'));
+
+    if($node->getAttribute('endterm')) {
+	# Get text from element pointed by endterm
+    	my $endterm = getElementByID($node->getAttribute('endterm'));
+	my $text = tr_cdata($endterm);
+
+	# Avoid clash with argument separators
+	$text =~ tr/',:/".;/;
+	return '@ref{' . texinode_get($xrefnode) . 
+		    ', ' . $text . '}. ';
+
+    } else {
+	return '@ref{' . texinode_get($xrefnode) . '}';
+    }
+}
+
+sub db_citerefentry {
+    my $node = shift;
+    my $cdata = '';
+
+    foreach($node->getChildNodes())
+    {
+	$cdata .= node_map($_,
+	    { 
+	    	'elem:refentrytitle' => \&tr_inline_container,
+		'elem:manvolnum' => sub {
+		    return '(' . &tr_inline_container . ')'; },
+		'whitespace' => sub {},
+		'elem' => \&unexpected_node,
+		'text' => \&unexpected_node,
+		'' => sub {},
+	    });
+    }
+
+    return $cdata;
+}
+
+# Space between elements and 
+
+sub db_author {
+    my $cdata = '';
+    
+    foreach(shift->getChildNodes) {
+	$cdata .= node_map($_, {
+	    'elem:affiliation' => sub { return '(' . 
+		    tr_inline_container(shift) . ') ' },
+	    'elem:authorblurb' => sub { },
+	    'elem:contrib' => sub { return '(' .
+		    tr_inline_container(shift) . ') ' },
+	    'elem' => sub {
+		    tr_inline_container(shift) . ' ' },
+	    'whitespace' => sub {},
+	    'text' => \&unexpected_node,
+	    '' => sub {},
+	});
+    }
+
+    return $cdata;
+}
+	
+# Return all character data (and only character data)
+# from specified node and below.
+#
+sub tr_cdata {
+	my $node = shift;
+	# We can ignore node_map spec here.
+	
+	if($node->getNodeType == TEXT_NODE) {
+		return tr_escape_string($node->getData());
+		
+	} elsif($node->getNodeType == ELEMENT_NODE) {
+		my $cdata = '';
+		
+		# Inlines always contain character data
+		# or inline, so we're ok.
+		# And Texinfo cannot nest @commands{}
+		foreach($node->getChildNodes()) {
+			$cdata .= tr_cdata($_);
+		}
+	
+		return $cdata;
+	} else {
+		return '';
+	}
+}
+
+
+# Handles inline elements, and squeeze into one line.
+# The difference from tr_para is that it ignores block elements.
+#
+sub tr_inline_container {
+	my $node = shift;
+	my $text = '';
+	
+	foreach($node->getChildNodes()) {
+		$text .= node_map($_, $docbook2texi::inline_map);
+	}
+
+	return $text;
+}
+
+sub tr_inline_container_fold {
+    my $cdata = &tr_inline_container;
+    return fold_string($cdata);
+}
+
+sub tr_inline_inline {
+    my $node = shift;
+    my $text = '';
+
+    foreach($node->getChildNodes()) {
+	$text .= node_map($_, $docbook2texi::inline_inline_map);
+    }
+}
+
+	
+##################################################
+#
+# Handle block-oriented elements.
+#
+##################################################
+
+local $docbook2texi::block_map = {
+	'elem:para' => \&db_para,
+	'elem:formalpara' => \&db_formalpara,
+	'elem:simpara' => \&db_para,
+	
+	'elem:blockquote' => \&db_blockquote,
+	
+	'elem:example' => \&tr_block_container_with_title,
+	'elem:informalexample' => \&tr_block_container,
+
+	'elem:address' => \&tr_display,	# FIXME
+	
+	'elem:itemizedlist' => \&db_itemizedlist,
+	'elem:variablelist' => \&db_variablelist,
+	'elem:orderedlist' => \&db_orderedlist,
+	'elem:simplelist' => \&db_simplelist,
+
+	'elem:programlisting' => \&tr_example,
+	'elem:screen' => \&tr_example,
+	'elem:literallayout' => \&tr_format,
+
+	'elem:caution' => sub { 
+	    tr_block_container_with_title(shift, "Caution") },
+	'elem:important' => sub { 
+	    tr_block_container_with_title(shift, "Important") },
+	'elem:note' => sub { 
+	    tr_block_container_with_title(shift, "Note") },
+	'elem:tip' => sub { 
+	    tr_block_container_with_title(shift, "Tip") },
+	'elem:warning' => sub { 
+	    tr_block_container_with_title(shift, "Warning") },
+
+	'elem:funcsynopsis' => \&db_funcsynopsis,
+
+	'elem:graphic' => sub {
+	    my $node = shift;
+	    print '[Graphic: ', 
+		fold_string(tr_escape_string($node->getAttribute('fileref'))),
+		    "]\n\n";
+	},
+	
+	'elem:anchor' => sub { return '@anchor{' . texinode_get(shift) . '}' },
+
+	'whitespace' => sub {},
+	'elem' => sub { die NMOC_NEXTSPEC_REDO },
+	'text' => \&unexpected_node,
+	'' => sub {},
+};
+
+sub is_block {
+    my $node = shift;
+
+    return ($node->getNodeType == ELEMENT_NODE and
+	    exists $docbook2texi::block_map->{'elem:' . $node->getTagName()});
+}
+
+# FIXME: Use @subheading?
+sub tr_block_container_with_title {
+    my $node = shift;
+    my $title = shift;
+
+    my $numblocks = 0;
+    foreach($node->getChildNodes()) {
+	$numblocks++ if is_block($_);
+    };
+
+    # If one block only, looks nicer if title is inline with it.
+    if($numblocks==1) {
+	node_map_ordered_children($node,
+	    {
+    	    'elem:title' => sub { 
+    		    print tr_inline_container_fold(shift), ": \n";
+    		    die NMOC_NEXTSPEC; },
+
+	    'whitespace' => sub {},
+
+	    'elem' => sub { 
+		print "$title: \n" if defined $title;
+		die NMOC_NEXTSPEC_REDO },
+    	    
+	    '' => sub {}
+    	    },
+	    $docbook2texi::block_map);
+    }
+    else {
+    	node_map_ordered_children($node,
+    	    {
+	    'elem:title' => sub { 
+	    	    print tr_inline_container_fold(shift), "\n\@sp 1\n";
+	    	    die NMOC_NEXTSPEC; },
+
+    	    'whitespace' => sub {},
+	    
+	    'elem' => sub { 
+		    print "$title\n\@sp 1\n" if defined $title;
+		    die NMOC_NEXTSPEC_REDO },
+    	    
+	    '' => sub {}
+    	    },
+	    $docbook2texi::block_map);
+    }
+}
+
+sub tr_block_container {
+    my $node = shift;
+
+    foreach($node->getChildNodes()) {
+	if(is_block($_)) {
+	    node_map($_, $docbook2texi::block_map);
+	} else {
+	    # FIXME !is_block is not necessarily an error.
+	    #unexpected_node($_);
+	}
+    }
+}
+
+
+
+sub db_blockquote {
+    my $node = shift;
+    
+    print "\@quotation\n";
+    
+    tr_block_container_with_title($node);
+    
+    # Print attribution.
+    node_map_ordered_children($node,
+	{
+	    'elem:attribution' => sub {
+		print "\@flushright\n";
+		print &tr_inline_container_fold;
+		print "\n\@end flushright\n" },
+	    '' => sub {}
+	});
+
+    print "\@end quotation\n\n";
+}
+
+# Para allows mixed in-line and block elements, so if we encounter
+# a nested block, we must start a 'new paragraph' and @noindent the
+# in-line stuff after it.
+#
+sub db_para {
+    my $node = shift;
+    my $text = '';
+    my $noindent = 0;
+
+    foreach($node->getChildNodes()) {
+	if(is_block($_)) {
+	    $text = fold_string($text);
+	    if($text ne '') {
+		print "\@noindent\n" if $noindent;
+		print $text, "\n\n";
+		$text = '';
+	    }
+
+	    $noindent = 1;
+	    node_map($_, $docbook2texi::block_map);
+
+	} else {
+	    $text .= node_map($_, $docbook2texi::inline_map);
+	}
+    }
+
+    $text = fold_string($text);
+    if($text ne '') {
+	print "\@noindent\n" if $noindent;
+	print $text, "\n\n";
+    }
+}
+
+sub db_formalpara {
+    node_map_ordered_children(shift,
+	{
+	    'elem:title' => sub { 
+	    	    print tr_inline_container_fold(shift), "\n\@sp 1\n"; },
+
+	    'elem:para' => \&db_para,
+	    'whitespace' => sub {},
+    	    'elem' => \&unexpected_node,
+	    'text' => \&unexpected_node,
+	    '' => sub {},
+	});
+}
+
+sub db_simplelist {
+
+    my $node = shift;
+
+    # FIXME This should be part of the enclosing paragraph;
+    # thus both a 'block' and 'inline' element.
+    if($node->getAttribute('type') eq 'inline') {
+	node_map_ordered_children($node,
+	    {
+		'elem:member' => sub {
+		    print &tr_inline_container_fold;
+		    die NMOC_NEXTSPEC;
+		},
+		'whitespace' => sub {},
+		'elem' => \&unexpected_node,
+    		'text' => \&unexpected_node,
+		'' => sub {},
+	    },
+	    {
+		'elem:member' => sub {
+		    print ', ', &tr_inline_container_fold; },
+
+		'whitespace' => sub {},
+		'elem' => \&unexpected_node,
+    		'text' => \&unexpected_node,
+		'' => sub {},
+	    });
+
+	print "\n\n";
+
+    } else {
+	# FIXME: type=horiz/vert, columns=x
+	
+	print "\@itemize \@asis\n";
+    
+    	node_map_ordered_children($node,
+    	    {
+    		'elem:member' => sub { 
+			print "\@item\n", 
+			    &tr_inline_container_fold, "\n\n"; },
+
+    		'whitespace' => sub {},
+		'elem' => \&unexpected_node,
+    		'text' => \&unexpected_node,
+		'' => sub {},
+    	    });
+	
+	print "\@end itemize\n\n";
+    }
+}
+
+sub db_itemizedlist
+{
+    my $node = shift;
+
+    # FIXME Allow other mark. DocBook says there's no fixed 
+    # list of these.
+    print "\@itemize \@bullet\n";
+
+    node_map_ordered_children($node, 
+	{ 
+	    'elem:listitem' => sub {
+		print "\@item\n";
+    		&tr_block_container; },
+	    'whitespace' => sub {},
+	    'elem' => \&unexpected_node,
+	    'text' => \&unexpected_node,
+	    '' => sub {},
+	});
+
+    print "\@end itemize\n\n";
+}
+
+sub db_orderedlist
+{
+    my $node = shift;
+
+    # FIXME: Different enumerate styles
+    print "\@enumerate\n";
+
+    node_map_ordered_children($node, 
+	{ 
+	    'elem:listitem' => sub {
+		print "\@item\n";
+    		&tr_block_container; },
+	    'whitespace' => sub {},
+	    'elem' => \&unexpected_node,
+	    'text' => \&unexpected_node,
+	    '' => sub {},
+	});
+
+    print "\@end enumerate\n\n";
+}
+
+sub db_variablelist
+{
+    my $node = shift;
+
+    print "\@table \@asis\n";
+
+    node_map_ordered_children($node, 
+    	{
+	    'elem:varlistentry' => sub {
+		node_map_ordered_children(shift, 
+		    {
+			'elem:term' => sub {
+			    my $term = &tr_inline_container_fold;
+			    $term =~ tr/\n/ /;
+			    print "\@item $term\n"; 
+			    die NMOC_NEXTSPEC; },
+
+			'whitespace' => sub {},
+			'elem' => \&unexpected_node,
+	    		'text' => \&unexpected_node,
+			'' => sub {},
+		    },
+		    {
+			'elem:term' => sub {
+			    my $term = &tr_inline_container_fold;
+			    $term =~ tr/\n/ /;
+			    print "\@itemx $term\n"; 
+			    die NMOC_NEXTSPEC; },
+
+			'elem:listitem' => \&tr_block_container,
+			'whitespace' => sub {},
+			'elem' => \&unexpected_node,
+	    		'text' => \&unexpected_node,
+			'' => sub {},
+		    })
+		},
+    	    'whitespace' => sub {},
+    	    'elem' => \&unexpected_node,
+	    'text' => \&unexpected_node,
+	    '' => sub {},
+	});
+
+    print "\@end table\n\n";
+}
+
+
+sub tr_example
+{
+    print "\@example\n";
+    foreach(shift->getChildNodes) {
+	print node_map($_, $docbook2texi::inline_map);
+    }
+    print "\n\@end example\n\n";
+}
+sub tr_format
+{
+    print "\@format\n";
+    foreach(shift->getChildNodes) {
+	print node_map($_, $docbook2texi::inline_map);
+    }
+    print "\n\@end format\n\n";
+}
+sub tr_display
+{
+    print "\@display\n";
+    foreach(shift->getChildNodes) {
+	print node_map($_, $docbook2texi::inline_map);
+    }
+    print "\n\@end display\n\n";
+}
+
+
+
+
+##################################################
+#
+# Synopses.
+#
+##################################################
+
+sub db_funcsynopsis {
+    print "\@example\n";	# FIXME This does't fill text,
+				# but fold_string is perhaps sufficient.
+    
+    node_map_ordered_children(shift,
+	{
+	    'elem:funcsynopsisinfo' => sub { 
+		my $node = shift;
+		if($node->getAttribute('format') eq 'linespecific')
+		{
+		    foreach($node->getChildNodes) {
+			print node_map($_, $docbook2texi::inline_map);
+		    }
+		} else {
+		    print tr_inline_container($node);
+		}
+		print "\n\n";
+		},
+
+
+	    # Both the specification and the implementation
+	    # for FuncSynopsis sucks.
+	    'elem:funcprototype' => sub {
+		node_map_ordered_children(shift,
+		    {
+			'elem:funcdef' => sub {
+			    print fold_string(&tr_cdata), '(' ; },
+			'elem:void' => sub { print 'void' },
+			'elem:varargs' => sub { print '...'; },
+			'elem:paramdef' => sub { 
+			    print fold_string(&tr_cdata); },
+			'whitespace' => sub {},
+			'elem' => \&unexpected_node,
+	    		'text' => \&unexpected_node,
+	    		'' => sub {},
+		    });
+		print ");\n\n";
+	    },
+
+	    'whitespace' => sub {},
+	    'elem' => \&unexpected_node,
+	    'text' => \&unexpected_node,
+	    '' => sub {},
+	});
+
+    print "\@end example\n\n";
+}		    
+
+#sub db_cmdsynopsis
+#{
+#    my $node = shift;
+#    my $text = '';
+#    
+#    print "\@example\n";
+#    
+#    foreach($node->getChildNodes()) {
+#	$text .= node_map($_, {
+#		    'elem:command' => \&tr_cdata,
+#
+#	'elem:arg' => sub { print fold_string(&tr_cdata), ' '; 
+#    
+
+
+##################################################
+#
+# General sections.
+#
+##################################################
+
+local $docbook2texi::sect_map = { 
+    'elem:preface' => \&tr_section,
+    'elem:chapter' => \&tr_section,
+    'elem:reference' => \&tr_section,
+    'elem:appendix' => \&tr_section,
+    'elem:glossary' => \&tr_section,
+    'elem:bibliography' => \&tr_section,
+    
+    'elem:sect1' => \&tr_section,
+    'elem:sect2' => \&tr_section,
+    'elem:sect3' => \&tr_section,
+    'elem:sect4' => \&tr_section,
+    'elem:sect5' => \&tr_section,
+
+    'elem:simplesect' => \&tr_heading,
+
+    'elem:article' => \&tr_section,
+
+    'elem:refentry' => \&tr_section,
+    'elem:refnamediv' => \&db_refnamediv,
+    'elem:refsynopsisdiv' => \&db_refsynopsisdiv,
+    'elem:refsect1' => \&tr_heading,
+    'elem:refsect2' => \&tr_heading,
+    'elem:refsect3' => \&tr_heading,
+
+    'elem:reference' => \&tr_section,
+
+    'elem:partintro' => \&tr_section,
+    'elem:important' => \&tr_heading,
+
+#FIXME handle part element, abstract, sidebar, bridgehead
+
+    '' => sub {}
+};
+
+local $docbook2texi::sect_top_map = { 
+    'elem:preface' => \&tr_section_top,
+    'elem:chapter' => \&tr_section_top,
+    'elem:reference' => \&tr_section_top,
+    'elem:appendix' => \&tr_section_top,
+    'elem:glossary' => \&tr_section_top,
+    'elem:bibliography' => \&tr_section_top,
+ 
+    'elem:sect1' => \&tr_section_top,
+    'elem:sect2' => \&tr_section_top,
+    'elem:sect3' => \&tr_section_top,
+    'elem:sect4' => \&tr_section_top,
+    'elem:sect5' => \&tr_section_top,
+    
+    'elem:simplesect' => \&tr_section_top,
+    
+    'elem:article' => \&tr_section_top,
+    'elem:book' => \&tr_section_top,
+
+    'elem:refentry' => \&tr_section_top,
+    'elem:refsect1' => \&tr_section_top,
+    'elem:refsect2' => \&tr_section_top,
+    'elem:refsect3' => \&tr_section_top,
+
+    'elem:partintro' => \&tr_section_top,
+    'elem:important' => \&tr_section_top,
+
+    '' => sub {}
+};
+
+sub is_section {
+    my $node = shift;
+    return ($node->getNodeType == ELEMENT_NODE and
+	    exists $docbook2texi::sect_map->{'elem:' . $node->getTagName()});
+}
+
+$docbook2texi::section_counter = 0;
+# Values:
+# 1 - Book
+#   - Part - This is just a collection of chapter,refentry,article,etc.
+#            not really a new level, and Texinfo does not have anything
+#            in between.
+# 2 - Chapter, Reference, Preface, Article
+#     (variable: Bibliography, Glossary)
+# 3 - Sect1
+# 4 - Sect2
+# 5 - Sect3
+# 6 - Sect4
+# 7 - Sect5
+
+sub tr_heading
+{
+    my $node = shift;
+    my $section;
+    
+    if(++$docbook2texi::section_counter==2) { $section = '@majorheading '; }
+    elsif($docbook2texi::section_counter==3) { $section = '@heading '; }
+    elsif($docbook2texi::section_counter==4) { $section = '@subheading '; }
+    elsif($docbook2texi::section_counter==5) { $section = '@subsubheading '; }
+    else { 
+    	node_warn $node, "Section too deep, mapped to lowest.\n";
+	$section = '@subsubheading ';
+    }
+
+    my $title = tr_inline_container_fold(node_title($node));
+    $title =~ tr/\n/ /;
+    print $section, $title, "\n";
+
+    node_map_ordered_children($node,
+	$docbook2texi::docinfo_map,
+	$docbook2texi::secttoc_map,
+	$docbook2texi::block_map,
+	{
+	    '' => sub { 
+		    toc_make_menu(gen_tocchap(shift->getParentNode()));
+		    die NMOC_NEXTSPEC_REDO;   }
+	},
+	$docbook2texi::sect_map);
+
+    $docbook2texi::section_counter--;
+}
+    
+
+sub tr_section_top
+{
+    my $node = shift;
+    
+    $docbook2texi::section_counter = 1;
+    
+    print "\@node top\n";
+
+    my $title = tr_inline_container_fold(node_title($node));
+    $title =~ tr/\n/ /;
+    print "\@top $title\n";
+
+    node_map_ordered_children($node,
+	$docbook2texi::docinfo_map,
+	$docbook2texi::secttoc_map,
+	$docbook2texi::block_map,
+	{
+	    '' => sub { 
+		    toc_make_menu(gen_tocchap(shift->getParentNode()));
+		    die NMOC_NEXTSPEC_REDO;   }
+	},
+	$docbook2texi::sect_map);
+}
+	
+
+sub tr_section
+{
+    my $node = shift;
+    my $section;
+    
+    if(++$docbook2texi::section_counter==2) { $section = '@chapter '; }
+    elsif($docbook2texi::section_counter==3) { $section = '@section '; }
+    elsif($docbook2texi::section_counter==4) { $section = '@subsection '; }
+    elsif($docbook2texi::section_counter==5) { $section = '@subsubsection '; }
+    else { 
+    	node_warn $node, "Section too deep, mapped to lowest.\n";
+	$section = '@subsubsection ';
+    }
+
+    print '@node ', texinode_get($node), "\n";
+
+    my $title = tr_inline_container_fold(node_title($node));
+
+    $title =~ tr/\n/ /;
+    print $section, $title, "\n";
+    
+    node_map_ordered_children($node,
+	$docbook2texi::docinfo_map,
+	$docbook2texi::secttoc_map,
+	$docbook2texi::block_map,
+	{
+	    '' => sub { 
+		    toc_make_menu(gen_tocchap(shift->getParentNode()));
+		    die NMOC_NEXTSPEC_REDO;   }
+	},
+	$docbook2texi::sect_map);
+
+    $docbook2texi::section_counter--;
+}
+
+	
+
+
+
+
+
+sub tr_document_element
+{
+    my $node = shift;
+
+    texinode_create_all();
+
+    print "\\input texinfo\n";
+    print <<_END_BANNER;
+\@c This Texinfo document has been automatically generated by
+\@c docbook2texi from a DocBook documentation.  The tool used
+\@c can be found at:
+\@c <URL:http://shell.ipoline.com/~elmert/hacks/docbook2X/>
+\@c Please send any bug reports, improvements, comments, 
+\@c patches, etc. to Steve Cheng <steve\@ggi-project.org>.
+
+_END_BANNER
+    
+    # FIXME May want to change depending on document element
+    $docbook2texi::section_counter = 1;
+
+    node_map_ordered_children($node, 
+    	{
+	    'elem:artheader' => \&tr_docinfo_titlepage,
+	    'elem:bookinfo' => \&tr_docinfo_titlepage,
+	    'elem:docinfo' => \&tr_docinfo_titlepage,
+	    'elem:refsect1info' => \&tr_docinfo_titlepage,
+	    'elem:refsect2info' => \&tr_docinfo_titlepage,
+	    'elem:refsect3info' => \&tr_docinfo_titlepage,
+	    'elem:refsynopsisdivinfo' => \&tr_docinfo_titlepage,
+	    'elem:sect1info' => \&tr_docinfo_titlepage,
+	    'elem:sect2info' => \&tr_docinfo_titlepage,
+	    'elem:sect3info' => \&tr_docinfo_titlepage,
+	    'elem:sect4info' => \&tr_docinfo_titlepage,
+	    'elem:sect5info' => \&tr_docinfo_titlepage,
+	    'whitespace' => sub {},
+	    'elem' => sub { die NMOC_NEXTSPEC_REDO },
+	    '' => sub {}
+    	});
+
+    my $r;
+    $r = eval { node_map($node, $docbook2texi::block_map, 'top') };
+    if(!defined $r and $@) {
+	$r = node_map($node, $docbook2texi::sect_top_map, 'top');
+	# FIXME More elements...
+    }
+
+    print "\@bye\n";
+}
+
+
+
+
+
+##################################################
+#
+# Reference pages.
+#
+##################################################
+
+sub db_refnamediv {
+    my $node = shift;
+    
+    if(++$docbook2texi::section_counter==2) {
+	print "\@majorheading Name\n"; }
+    elsif($docbook2texi::section_counter==3) {
+	print "\@heading Name\n"; }
+    elsif($docbook2texi::section_counter==4) {
+	print "\@subheading Name\n"; }
+    elsif($docbook2texi::section_counter==5) { 
+	print "\@subsubheading Name\n"; }
+    else { 
+    	node_warn $node, "Section too deep, mapped to lowest.\n";
+	print "\@subsubheading Name\n";
+    }
+
+    node_map_ordered_children($node,
+	{
+	    'elem:refdescriptor' => sub {}, # FIXME
+	    
+	    'elem:refname' => sub { 
+		print &tr_inline_container_fold;
+		die NMOC_NEXTSPEC; },
+
+	    'whitespace' => sub {},
+	    '' => sub { &unexpected_node; die NMOC_NEXTSPEC_REDO; }
+	},
+	{
+	    'elem:refname' => sub {
+		print ', ', &tr_inline_container_fold; },
+	    'elem:refpurpose' => sub {
+		print ' --- ', &tr_inline_container_fold; },
+
+	    '' => sub {}
+	});
+
+    print "\n\n";
+
+    $docbook2texi::section_counter--;
+}
+    
+
+sub db_refsynopsisdiv {
+    my $node = shift;
+    my $section;
+    if(++$docbook2texi::section_counter==2) { $section = '@majorheading '; }
+    elsif($docbook2texi::section_counter==3) { $section = '@heading '; }
+    elsif($docbook2texi::section_counter==4) { $section = '@subheading '; }
+    elsif($docbook2texi::section_counter==5) { $section = '@subsubheading '; }
+    else { 
+    	node_warn $node, "Section too deep, mapped to lowest.\n";
+	$section = '@subsubheading ';
+    }
+
+    node_map_ordered_children($node,
+    	{
+	    'elem:refsynopsisinfo' => \&tr_docinfo,
+	    'elem:title' => sub {
+		my $title = &tr_inline_container_fold;
+		$title =~ tr/\n/ /;
+		print "$section $title\n\n";
+		die NMOC_NEXTSPEC },
+
+	    'whitespace' => sub {},
+	    'text' => \&unexpected_node,
+	    'elem' => sub { 
+		print $section, "Synopsis\n\n";
+		die NMOC_NEXTSPEC_REDO;
+	    },
+	    '' => sub {},
+	},
+	$docbook2texi::block_map);
+    
+    $docbook2texi::section_counter--;
+}
+
+
+
+
+    
+##################################################
+#
+# Texinfo nodes, cross references, IDs
+#
+##################################################
+
+sub texinode_get
+{
+    my $node = shift;
+    my $name = $node->getAttribute('docbook2texi-node');
+    return $1 if $name =~ /^\(.+\)(.+)$/;
+}
+
+@docbook2texi::node_elements = qw(
+    book article refentry reference partintro
+    preface chapter appendix glossary bibliography 
+    sect1 sect2 sect3 sect4 sect5
+);
+
+sub is_texinode
+{
+    my $node = shift;
+
+    foreach my $tag (@docbook2texi::node_elements)
+    {
+        if($node->getTagName() eq $tag) {
+		return 1;
+	}
+    }
+
+    return 0;
+}
+
+
+# Make all the Texinfo nodes necessary
+sub texinode_create_all
+{
+    my $nodename;
+
+    # Things that we need an anchor or node for
+    my @linkfromnodes = (
+	$docbook2texi::dom->getElementsByTagName('link'),
+	$docbook2texi::dom->getElementsByTagName('xref'));
+
+    foreach my $linkfrom (@linkfromnodes)
+    {
+	my $node = getElementByID($linkfrom->getAttribute('linkend'));
+
+	if(texinode_get($node) eq '') {
+		texinode_create($node);
+    
+		if(!is_texinode($node)) {
+		    # use anchor, otherwise tr_section will take care of it
+		    my $anchor = $docbook2texi::dom->createElement('anchor');
+		    $anchor->setAttribute('docbook2texi-node', texinode_get($node));
+		    $node->getParentNode()->insertBefore($anchor, $node);
+		}
+	}
+    }
+
+    # We need to take care of elements that are mapped to nodes
+    # for which the user has not given IDs.
+    foreach my $tag (@docbook2texi::node_elements)
+    {
+	foreach my $node($docbook2texi::dom->getElementsByTagName($tag)) {	
+	    # Generate ID
+	    if($node->getAttribute('id') eq '') {
+		my $id = 'r' . $docbook2texi::id_counter++;
+		$node->setAttribute('id', $id);
+		$docbook2texi::id->{$id} = $node;
+	    }
+	    
+	    if(texinode_get($node) eq '') {
+		texinode_create($node);
+	    }
+	}
+    }
+}
+
+$docbook2texi::id_counter = 0;
+@docbook2texi::global_nodenames = ( '' => 0,
+				    'Top' => undef );
+sub texinode_create
+{
+    my $node = shift;
+
+    # Get the file that this node belongs to
+    my $file = texinode_get_file($node);
+    my $nodename;
+    
+    if($docbook2texi::dom->getDocumentElement() eq $node
+	and is_section($node))
+    {
+	$node->setAttribute('docbook2texi-node', "($file)top");
+	return;
+    }
+    
+    # First try xreflabel
+    my $xreflabel = $node->getAttribute('xreflabel');
+    if($xreflabel ne '') {
+	$xreflabel = "($file)" . texinode_escape($xreflabel);
+
+	if(exists $docbook2texi::global_nodenames{$xreflabel}) {
+	    # Conflict with another one.  
+	    # Even for renditions where the xreflabel text
+	    # doesn't affect the linkage, it's a bad idea,
+	    # so warn the user ...
+	    node_warn $node, "xreflabel conflict\n";
+
+	    # and this hack is probably acceptable.
+	    $nodename = $xreflabel . 
+		'!' . 
+		++$docbook2texi::global_nodenames{$xreflabel};
+	}
+	else {
+	    # We are ok.
+	    $nodename = $xreflabel;
+	}
+    }
+
+    # Okay, try the title.
+    else {
+	my $titleelem = node_title($node);
+
+	if(defined $titleelem) {
+	    my $title = "($file)" . 
+		texinode_escape(tr_cdata($titleelem));
+
+	    if(exists $docbook2texi::global_nodenames{$title}) {
+		# Title conflict
+		# Do same hack as above.
+		node_warn $node, 
+		    "title $title conflict (suggest to write unique xreflabel)\n";
+
+		$nodename = $title .
+		    '!' .
+		    ++$docbook2texi::global_nodenames{$title};
+	    }
+	    else {
+		# This is ok too.
+		$nodename = $title;
+	    }
+	}
+
+	else {
+	    # Even the Modular stylesheets are not comprehensive
+	    # in this area ...
+	    $nodename = "($file)unknown-node-" . 
+		++$docbook2texi::global_nodenames{''};
+	}
+    }
+
+    # Store reference
+    $docbook2texi::global_nodenames{$nodename}++;
+    $node->setAttribute('docbook2texi-node', $nodename);
+}
+
+sub texinode_get_file
+{
+    return 'dummy';
+}
+   
+   
+# Escapes/transliterates characters not allowed in node names
+# in Texinfo.  Unfortunately this is not documented very well.
+# Input string should already have escaped @@, @{, @}.
+#
+sub texinode_escape
+{
+    local $_ = shift;
+
+    # Parentheses used for referring to other files.
+    tr/()/[]/;
+
+    # "you cannot use periods, commas, colons or
+    # apostrophes within a node name; these confuse
+    # TeX or the Info formatters."  -- Texinfo
+    #
+    # "You'd never think the people who wrote
+    # the GNU coding standards would allow this
+    # misfeature." -- Me
+    #
+    tr/.,:'/_/;
+
+    tr/ \t\n/ /s;
+    
+    # Kill spaces at beginning of lines
+    s/^ +//mg;
+
+    return $_;
+}
+
+
+# Make Texinfo @menu from ToC
+sub toc_make_menu
+{
+    my $node = shift;
+    
+    # Prevent recursive invocations from printing this again
+    my $no_header = shift;
+    print "\@menu\n" unless $no_header;
+
+    foreach($node->getChildNodes) {
+	if($_->getNodeType == ELEMENT_NODE and
+	    $_->getTagName() eq 'tocentry')
+	{
+	    my $menuname = texinode_escape(tr_inline_container_fold($_));
+	    my $xrefnode = getElementByID($_->getAttribute('linkend'));
+	    
+	    if($menuname eq texinode_get($xrefnode)) {
+		# One argument version is less clutter.
+		# Why Texinfo doesn't just use default arguments
+		# is a mystery...
+		print '* ', $menuname, "::\t"
+	    } else {
+		print '* ', $menuname, ': ', 
+		    texinode_get($xrefnode), ".\t";
+	    }
+
+	    print "\n";
+	}
+
+	elsif($_->getNodeType == ELEMENT_NODE and
+		$_->getTagName() =~ /^toclevel/)
+	{
+	    print "\@detailmenu\n" unless $no_header;
+	    print " --- ", $_->getTagName(), " ---\n\n";
+	    toc_make_menu($node, 'no header');
+	    print "\@end detailmenu\n" unless $no_header;
+	}
+    }
+
+    print "\@end menu\n\n" unless $no_header;
+}
+	
+
+
+# Note: this is shallow.
+# The DocBook documentation isn't very clear on the semantics of ToC.
+# I think ToCchap can stand for chapter table of contents as well
+# as any other section (sect*).
+sub gen_tocchap
+{
+    my $node = shift;
+
+    my $tocchap = $docbook2texi::dom->createElement('tocchap');
+    
+    foreach($node->getChildNodes()) {
+	if(is_texinode($_)) {
+	    my $tocentry = node_title($_)->cloneNode('deep');
+	    $tocentry->setTagName('tocentry');
+	    $tocentry->setAttribute('linkend', $_->getAttribute('id'));
+
+	    $tocchap->appendChild($tocentry);
+	}
+    }
+
+    return $tocchap;
+}
+
+
+
+
+
+##################################################
+#
+# Handle metadata.
+#
+##################################################
+
+local $docbook2texi::docinfo_map = {
+    'elem:artheader' => \&tr_docinfo,
+    'elem:bookinfo' => \&tr_docinfo,
+    'elem:docinfo' => \&tr_docinfo,
+    'elem:refsect1info' => \&tr_docinfo,
+    'elem:refsect2info' => \&tr_docinfo,
+    'elem:refsect3info' => \&tr_docinfo,
+    'elem:refsynopsisdivinfo' => \&tr_docinfo,
+    'elem:sect1info' => \&tr_docinfo,
+    'elem:sect2info' => \&tr_docinfo,
+    'elem:sect3info' => \&tr_docinfo,
+    'elem:sect4info' => \&tr_docinfo,
+    'elem:sect5info' => \&tr_docinfo,
+    
+    # We use node_title for displaying the section title,
+    # so we ignore these here.
+    'elem:title' => sub {},
+    'elem:titleabbrev' => sub {},
+    
+    'whitespace' => sub {},
+    'text' => \&unexpected_node,
+    'elem' => sub { die NMOC_NEXTSPEC_REDO },
+    '' => sub {}
+};
+local $docbook2texi::secttoc_map = {
+    '' => sub { die NMOC_NEXTSPEC_REDO }
+};
+
+# From given DocInfo/BookInfo/etc. node, print a Texinfo
+# @titlepage.
+# FIXME: this is not very clean.  
+# We can also do page layout ourselves, but this makes everything
+# harder.
+#
+sub tr_docinfo_titlepage {
+    my $node = shift;
+
+    print "\@titlepage\n";
+
+    # Texinfo wants things in order.
+
+    # Do title.
+    my $title;
+    foreach($node->getChildNodes) {
+	if($_->getNodeType == ELEMENT_NODE and
+	    $_->getTagName() eq 'title')
+	{
+	    $title = tr_inline_container_fold($_);
+	    $title =~ tr/\n/ /;
+	    print "\@title $title\n";
+	}
+    }
+    # If no title in docinfo, get normal title.
+    if(!defined $title) {
+	if($title = node_title($node->getParentNode())) {
+	    $title = tr_inline_container_fold($title);
+	    $title =~ tr/\n/ /;
+	    print "\@title $title\n";
+	}
+    }
+    
+    # Do subtitles.
+    node_map_ordered_children($node, {
+    	'elem:subtitle' => 
+    	    sub { print '@subtitle ', &tr_inline_container, "\n"; },
+
+	# This is stupid, I know.
+	'elem:abbrev' => 
+    	    sub { print '@subtitle ', &tr_inline_container, "\n"; },
+	'elem:contractnum' =>
+    	    sub { print '@subtitle Contract #', &tr_inline_container, "\n"; },
+	'elem:contractnum' =>
+    	    sub { print '@subtitle Contract sponsor', &tr_inline_container, "\n"; },
+	'elem:date' =>
+    	    sub { print '@subtitle ', &tr_inline_container, "\n"; },
+	'elem:edition' =>
+    	    sub { print '@subtitle ', &tr_inline_container, "\n"; },
+	'elem:invpartnumber' =>
+    	    sub { print '@subtitle Invoice part#', &tr_inline_container, "\n"; },
+	'elem:issuenum' =>
+    	    sub { print '@subtitle Issue #', &tr_inline_container, "\n"; },
+	'elem:volumenum' =>
+    	    sub { print '@subtitle Volume #', &tr_inline_container, "\n"; },
+	'elem:productname' =>
+    	    sub { print '@subtitle ', &tr_inline_container, "\n"; },
+	'elem:productnumber' =>
+    	    sub { print '@subtitle #', &tr_inline_container, "\n"; },
+	'elem:releaseinfo' =>
+    	    sub { print '@subtitle ', &tr_inline_container, "\n"; },
+
+	'' => sub {}
+    });
+
+    node_map_ordered_children($node, {
+	'elem:author' => sub { print '@author ', fold_string(&db_author), "\n" },
+	'elem:editor' => sub { print '@author ', fold_string(&db_author), "\n" },
+	'elem:collab' => sub { print '@author ', fold_string(&db_author), "\n" },
+	'elem:corpauthor' => sub { print '@author ', fold_string(&db_author), "\n" },
+	'elem:othercredit' => sub { print '@author ', fold_string(&db_author), "\n" },
+	
+	'elem:authorgroup' => sub {
+    	    node_map_ordered_children(shift,
+    		{
+		    'elem' => sub {
+	    		print '@author ', fold_string(&db_author), "\n"; 
+		    },
+		    '' => sub {}
+		});
+	    },
+	'' => sub {}
+    });
+
+    my $has_legalese = 0;
+    foreach($node->getChildNodes) {
+	if($_->getNodeType == ELEMENT_NODE and
+	    $_->getTagName() eq 'legalnotice')
+	{
+    	    if(!$has_legalese++) {
+    		# Stolen from somewhere, maynot be optimal.
+    		print "\@page\n\@vskip 0pt plus 1fill\n";
+    	    }
+    	    tr_block_container($_);
+	}
+    }
+    
+    print "\@end titlepage\n\n";
+}
+
+
+sub tr_docinfo
+{
+    my $node = shift;
+			    
+    # FIXME More information may need to be printed.!
+    node_map_ordered_children($node,
+	{
+	    # Treat bookinfo-bookbiblio the same.
+	    'elem:bookbiblio' => sub { &node_map_ordered_children },
+	    
+	    'elem:abstract' => sub {
+		    tr_block_container_with_title(shift, 'Abstract'); },
+	    'elem:legalnotice' => \&tr_block_container,
+	    '' => sub {}
+	});
+}
+
+
+
+##################################################
+#
+# Other utility functions
+#
+##################################################
+
+$docbook2texi::id = undef;
+# Cache results
+sub getElementByID
+{
+    if(!defined $docbook2texi::id) {
+	$docbook2texi::id = getElementsByID($docbook2texi::dom);
+    }
+
+    return $docbook2texi::id->{(shift)}
+}
+
+# Returns title (as element) of given node.
+#
+sub node_title
+{
+    my $node = shift;
+    my $use_abbrev = shift;
+    
+    my $title;		# Current title
+    
+    my $title_map = {
+	'elem:title' => sub { return shift; },
+    	'elem:titleabbrev' => sub { return shift if $use_abbrev; },
+    
+	# Particularly annoying because article and book may not have a
+	# title.
+	'elem:artheader' => sub {
+	    	my ($node, $map) = @_;
+		my $title;
+    		foreach($node->getChildNodes) {
+		    my $x = node_map($_, $map);
+	    	    $title = $x if defined $x;
+		}
+    		return $title;
+    	    },
+	'elem:bookinfo' => sub {
+	    	my ($node, $map) = @_;
+		my $title;
+    		foreach($node->getChildNodes) {
+		    my $x = node_map($_, $map);
+	    	    $title = $x if defined $x;
+		}
+    		return $title;
+	    },
+	'elem:bookbiblio' => sub {
+	    	my ($node, $map) = @_;
+		my $title;
+    		foreach($node->getChildNodes) {
+		    my $x = node_map($_, $map);
+	    	    $title = $x if defined $x;
+		}
+    		return $title;
+	    },
+	'elem:docinfo' => sub {
+	    	my ($node, $map) = @_;
+		my $title;
+    		foreach($node->getChildNodes) {
+		    my $x = node_map($_, $map);
+	    	    $title = $x if defined $x;
+		}
+    		return $title;
+	    },
+
+    
+	'elem:refmeta' => sub {
+	    	my ($node, $map) = @_;
+		my $title;
+    		foreach($node->getChildNodes) {
+		    my $x = node_map($_, $map);
+	    	    $title = $x if defined $x;
+		}
+    		return $title;
+    	    },
+	'elem:refentrytitle' => sub { return shift; },
+
+    	'elem:refnamediv' => sub {
+    		# Don't override real title.
+		# FIXME This should be customizable.
+    		return if defined $title;
+
+    		my $title = $docbook2texi::dom->createElement('title');
+	    
+    		# Put all RefNames together.
+    		foreach($node->getChildNodes) {
+    		    if($_->getNodeType == ELEMENT_NODE and
+    			$_->getTagName() eq 'refname')
+    		    {
+    			if($title->getChildNodes() > 0) {
+    			    $title->addText(', ');
+    			}
+		    
+    			foreach($_->cloneNode('deep')->getChildNodes()) {
+    			    $title->appendChild($_);
+    			}
+    		    }
+    		}
+
+    		$title->normalize();
+    		return $title;
+    	    },
+    	'' => sub {}
+    };
+
+    foreach($node->getChildNodes()) {
+	my $x = node_map($_, $title_map);
+	$title = $x if defined $x;
+    }
+
+    return $title;
+}
+
+
+	    
+	
+
+	
+			    
+
+
+
+
+##################################################
+#
+# Start conversion.
+#
+##################################################
+
+$docbook2texi::dom;
+
+sub convert 
+{
+    $docbook2texi::dom = shift;
+    tr_document_element($docbook2texi::dom->getDocumentElement());
+}
+
+unshift(@ARGV, '-') unless @ARGV;
+while(defined(my $f = shift)) {
+    my $parser = new XML::DOM::Parser;
+    my $doc = $parser->parsefile($f);
+    convert($doc);
+}
+
+# Local variables:
+# mode: Perl
+# End:
+
+
