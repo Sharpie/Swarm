@@ -1,3 +1,8 @@
+1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.lib, Makefile.appl (nameswap): Remove nameswap targets.
+	Symlinks in include/ take care of it.
+
 Tue Dec  9 08:06:53 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* Makefile.lib (nameswap): Added temporary nameswap target 

@@ -23,12 +23,6 @@ all: $(APPLICATION)
 clean:
 	-rm -f $(OBJECTS) $(APPLICATION) $(OTHERCLEAN) core gmon.out
 
-nameswap: 
-	@if [ ! -x $(SWARMHOME)/bin/nameswap.sh ]; \
-	   then cp $(SWARMHOME)/src/objectbase/nameswap.sh $(SWARMHOME)/bin/; \
-	fi
-	@$(SWARMHOME)/bin/nameswap.sh
-
 $(APPLICATION): $(OBJECTS) $(APPLIBS) $(SWARMLIBS)
 	$(LINKER) $(LDFLAGS) -o $(APPLICATION) $(OBJECTS) $(LIBS)
 

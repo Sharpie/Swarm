@@ -36,12 +36,6 @@ realclean: clean
 clean:
 	-rm -f core $(OBJECTS) $(OTHERCLEAN)
 
-nameswap: 
-	@if [ ! -x $(SWARMHOME)/bin/nameswap.sh ]; \
-	   then cp $(SWARMHOME)/src/objectbase/nameswap.sh $(SWARMHOME)/bin/; \
-	fi
-	@$(SWARMHOME)/bin/nameswap.sh
-
 $(INCFILE): $(LIBNAME).h
 	$(INSTALLHEADERS) $(LIBNAME).h $(INCFILE)
 
