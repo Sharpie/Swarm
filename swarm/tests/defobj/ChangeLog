@@ -1,3 +1,8 @@
+1999-06-28  Alex Lancaster  <alex@santafe.edu>
+
+	* archiver.m (createArchiver): Conditionally create instances of
+	LispArchiver or HDF5Archiver, as protocols are now separate.
+
 1999-06-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* forwarding.m ([BaseObject -forward::]): Declare alloca.

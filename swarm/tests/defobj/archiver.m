@@ -202,13 +202,20 @@
 static id
 createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag, BOOL deepFlag)
 {
-  return [[[[[Archiver createBegin: aZone]
-              setPath: (hdf5Flag
-                        ? (deepFlag ? "deep.hdf" : "shallow.hdf")
-                        : (deepFlag ? "deep.scm" : "shallow.scm"))]
-             setHDF5Flag: hdf5Flag]
-            setInhibitLoadFlag: inhibitLoadFlag]
-           createEnd];
+  if (hdf5Flag)
+    {
+      return [[[[HDF5Archiver createBegin: aZone]
+                 setPath: (deepFlag ? "deep.hdf" : "shallow.hdf")]
+                setInhibitLoadFlag: inhibitLoadFlag]
+               createEnd];             
+    }
+  else
+    {
+      return [[[[LispArchiver createBegin: aZone]
+                 setPath: (deepFlag ? "deep.scm" : "shallow.scm")]
+                setInhibitLoadFlag: inhibitLoadFlag]
+               createEnd];
+    }
 }
 
 static BOOL
