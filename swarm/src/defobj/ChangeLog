@@ -1,5 +1,8 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.m ([HDF5_c -writeRowNames]): Prefer c_rnmlen to c_rnnlen
+	(the latter has a default).
+
 	* HDF5Object.[hm], defobj.h ([HDF5_c -checkName:]): New method.
 
 	* Archiver.m (hdf5_output_objects): Split deep / shallow handling

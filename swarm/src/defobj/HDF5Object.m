@@ -1340,7 +1340,7 @@ check_alignment (id obj, id compoundType)
     raiseEvent (SaveError, "unable to copy string type");
 
   {
-    hsize_t len = c_rnnlen ?: c_rnmlen;
+    hsize_t len = c_rnmlen ?: c_rnnlen;
     
     if ((H5Tset_size (rntid, len + 1)) < 0)
       raiseEvent (SaveError, "unable to set string size");
