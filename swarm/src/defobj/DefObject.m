@@ -81,6 +81,7 @@ PHASE(Using)
 {
   return getClass (self);
 }
+
 - getClass
 {
   return getClass (self);
@@ -119,7 +120,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
   else if (mapalloc->descriptor == t_LeafObject)
     {
-      unsetMappedAlloc( (Object_s *)mapalloc->alloc );
+      unsetMappedAlloc ((Object_s *)mapalloc->alloc);
       [(id)mapalloc->alloc dropAllocations: 1];
       
     }
@@ -170,7 +171,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       while ((suballocEntry = (suballocEntry_t)[index prev])
              && suballocEntry->notifyFunction)
         {
-          suballocEntry->notifyFunction( self, nil, suballocEntry->argument );
+          suballocEntry->notifyFunction (self, nil, suballocEntry->argument);
           [index remove];
           [zone freeBlock: suballocEntry blockSize: sizeof *suballocEntry];
         }
@@ -179,7 +180,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
           [index drop];
           setBit (zbits, BitSuballocList, 0);
           [zone freeBlock: suballocList
-                blockSize: getClass( suballocList )->instance_size];
+                blockSize: getClass (suballocList)->instance_size];
           suballocList = nil;
         }
     }
@@ -216,12 +217,12 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
         }
       [index drop];
       [zone freeBlock: suballocList
-            blockSize: getClass( suballocList )->instance_size];
+            blockSize: getClass (suballocList)->instance_size];
     }
   
   // free the local instance variables for the object
   
-  if ( getBit( zbits, BitComponentAlloc ) )
+  if (getBit (zbits, BitComponentAlloc))
     [zone freeIVarsComponent: self];
   else
     [zone freeIVars: self];
@@ -235,12 +236,12 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - (void) dropAllocations: (BOOL)componentAlloc
 {
-  if (getBit( zbits, BitComponentAlloc) && !componentAlloc)
+  if (getBit (zbits, BitComponentAlloc) && !componentAlloc)
     raiseEvent (InvalidOperation,
                 "object was allocated as a component allocation but dropAllocations: "
                 "requested drop as a free-standing object\n");
   
-  else if (!getBit( zbits, BitComponentAlloc ) && componentAlloc)
+  else if (!getBit (zbits, BitComponentAlloc) && componentAlloc)
     raiseEvent (InvalidOperation,
                 "object was allocated as a free-standing object but dropAllocations: "
                 "requested drop as a component allocation\n");
@@ -268,7 +269,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     {
       suballocPrototype = [OrderedSet createBegin: globalZone];
       [suballocPrototype
-        setIndexFromMemberLoc: offsetof( struct suballocEntry, links )];
+        setIndexFromMemberLoc: offsetof (struct suballocEntry, links)];
       suballocPrototype = [suballocPrototype createEnd];
     }
   
@@ -278,7 +279,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     {
       zone = getZone (self);
       suballocList =
-        [zone allocBlock: getClass( suballocPrototype )->instance_size];
+        [zone allocBlock: getClass (suballocPrototype)->instance_size];
       memcpy (suballocList,
               suballocPrototype,
               getClass (suballocPrototype)->instance_size);
@@ -289,13 +290,13 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     }
   else
     {
-      suballocList = getSuballocList( self );
-      zone = getZone( (Object_s *)suballocList );
+      suballocList = getSuballocList (self);
+      zone = getZone ((Object_s *)suballocList);
     }
 
   // initialize new entry for suballocations list
 
-  suballocEntry = [zone allocBlock: sizeof( *suballocEntry )];
+  suballocEntry = [zone allocBlock: sizeof (*suballocEntry)];
   suballocEntry->notifyFunction = notifyFunction;
   suballocEntry->argument = arg;
 
@@ -331,9 +332,9 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   
   suballocList = getSuballocList (self);
   
-  if ( _obj_debug && ! suballocList )
-    raiseEvent( InvalidOperation,
-                "> object from which reference to be removed does not have any references");
+  if (_obj_debug && ! suballocList)
+    raiseEvent(InvalidOperation,
+               "> object from which reference to be removed does not have any references");
   
   index = [suballocList createIndex: scratchZone fromMember: (id)refVal];
   [index remove];
@@ -374,9 +375,9 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   classData_t  classData;
   
   if (_obj_implModule == nil)
-    raiseEvent( SourceMessage,
+    raiseEvent (SourceMessage,
                 "> setTypeImplemented: implementating classes for types can only be declared\n"
-                "> from a module \"_implement\" function\n" );
+                "> from a module \"_implement\" function\n");
   
   if (! aType)
     raiseEvent (InvalidArgument,
@@ -498,7 +499,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   
   mptr = objc_msg_lookup (self, aSel);
   if (! mptr)
-    raiseEvent( InvalidArgument, "> message selector not valid\n" );
+    raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1);
 }
 
@@ -652,7 +653,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   if (!aName)
     {
       sprintf (buffer, PTRFMT ": %.64s",
-               self, getClass( self )->name);
+               self, getClass (self)->name);
       aName = buffer;
     }
   
@@ -719,8 +720,8 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 void
 _obj_formatIDString (char *buffer, id anObject)
 {
-  sprintf( buffer, PTRFMT ": %.64s",
-           anObject, ((Class)[anObject getClass])->name );
+  sprintf (buffer, PTRFMT ": %.64s",
+           anObject, ((Class)[anObject getClass])->name);
 }
 
 //
@@ -906,7 +907,7 @@ xfprint (id anObject)
   if (anObject)
     [anObject xfprint];
   else
-    fprintf( _obj_xdebug, "xfprint: object is nil\n" );
+    fprintf (_obj_xdebug, "xfprint: object is nil\n");
 }
 
 //
@@ -960,7 +961,7 @@ xfexec (id anObject, const char *msgName)
   
   if (anObject)
     {
-      if (!respondsTo( anObject, M(begin:)))
+      if (!respondsTo (anObject, M(begin:)))
         fprintf (_obj_xdebug,
                  "object " PTRFMT ": %s does not respond to begin:\n"
                  "(begin: is required by xfexec to enumerate the members of a collection)\n",
@@ -978,6 +979,6 @@ xfexec (id anObject, const char *msgName)
         }
     }
   else
-    fprintf( _obj_xdebug, "object is nil" );
+    fprintf (_obj_xdebug, "object is nil");
 }
 

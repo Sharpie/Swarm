@@ -16,71 +16,69 @@ Library:      defobj
 @interface Object_s: Object <DefinedClass>
 {
 @public
-  unsigned long zbits;  // word that contains zone in which object allocated, plus
-                    // additional bits about the memory allocations for the
-                    // object
+  // Word that contains zone in which object allocated, plus
+  // additional bits about the memory allocations for the object.
+  unsigned long zbits;  
 }
 #else
 @interface Object_s
 {
 @public
-  Class     isa;    // class that implements the behavior of an object
-  unsigned long zbits;  // word that contains zone in which object allocated, plus
-                    // additional bits about the object
+   // Class that implements the behavior of an object
+   Class isa;           
+   // Word that contains zone in which object allocated, plus
+   // additional bits about the object.
+   unsigned long zbits; 
 }
 #endif
 /*** methods in Object_s (inserted from .m file by m2h) ***/
 + (const char *)getName;
-+ (BOOL) respondsTo: (SEL)aSel;
-- (BOOL) respondsTo: (SEL)aSel;
++ (BOOL)respondsTo: (SEL)aSel;
+- (BOOL)respondsTo: (SEL)aSel;
 + getClass;
 - getClass;
 - getZone;
-- (void) dropAllocations: (BOOL)componentAlloc;
-- (void) drop;
-- (ref_t) addRef: (notify_t)notifyFunction withArgument: (void *)arg;;
-- (void) removeRef: (ref_t)refVal;
+- (void)dropAllocations: (BOOL)componentAlloc;
+- (void)drop;
+- (ref_t)addRef: (notify_t)notifyFunction withArgument: (void *)arg;;
+- (void)removeRef: (ref_t)refVal;
 + getSuperclass;
-+ (BOOL) isSubclass: aClass;
-+ (void) setTypeImplemented: aType;
++ (BOOL)isSubclass: aClass;
++ (void)setTypeImplemented: aType;
 + getTypeImplemented;
 + getOwner;
-+ (IMP) getMethodFor: (SEL)aSel;
++ (IMP)getMethodFor: (SEL)aSel;
 + getDefiningClass;
 + getNextPhase;
 + self;
 - getType;
-- (int) compare: anObject;
+- (int)compare: anObject;
 - perform: (SEL)aSel;
 - perform: (SEL)aSel with: anObject1;
 - perform: (SEL)aSel with: anObject1 with: anObject2;
 - perform: (SEL)aSel with: anObject1 with: anObject2 with: anObject3;
-- (void) setDisplayName: (const char *)aName;
+- (void)setDisplayName: (const char *)aName;
 - (const char *)getDisplayName;
 - (const char *)getObjectName;
 - (const char *)getIdName;
-- (void) describe: outputCharStream;
-- (void) describeID: outputCharStream;
-- (void) xprint;
-- (void) xprintid;
-- (void) xfprint;
-- (void) xfprintid;
+- (void)describe: outputCharStream;
+- (void)describeID: outputCharStream;
+- (void)xprint;
+- (void)xprintid;
+- (void)xfprint;
+- (void)xfprintid;
 @end
 
 //
 // macros for accessing bits at defined locations inside instance variables
 //
 
-#define getBit( word, bit ) \
-  ( (word) & bit )
-#define setBit( word, bit, value ) \
-  ( (value) ? ((word) |= bit) : ((word) &= ~bit) )
+#define getBit(word, bit) ((word) & bit)
+#define setBit(word, bit, value) ((value) ? ((word) |= bit) : ((word) &= ~bit))
 
-#define setField( word, shift, value ) \
-(word) |= ((value) << shift)
+#define setField(word, shift, value) (word) |= ((value) << shift)
 
-#define getField( word, shift, mask ) \
-((unsigned)((word) & mask) >> shift)
+#define getField(word, shift, mask) ((unsigned)((word) & mask) >> shift)
 
 //
 // callMethodInClass() -- macro for method lookup in an alternate superclass
@@ -88,33 +86,32 @@ Library:      defobj
 // This macro is similar to the macro CALL_METHOD_IN_CLASS in
 // GNU libobjects-0.1.19/src/behavior.h, by Andrew McCallum.
 //
-#define callMethodInClass( aClass, aMessage, args... ) \
-({ SEL _sel_ = (aMessage); \
-get_imp( (aClass), _sel_ )( self, _sel_ , ## args ); })
-extern IMP get_imp( Class class, SEL sel );  // function used by macro
+#define callMethodInClass(aClass, aMessage, args...) \
+  ({ SEL _sel_ = (aMessage); \
+     get_imp ((aClass), _sel_) (self, _sel_ , ## args); })
+
+extern IMP get_imp (Class class, SEL sel);  // function used by macro
 
 //
 // respondsTo() -- function to test if object responds to message  
 //
-extern BOOL respondsTo( id anObject, SEL aSel );
+extern BOOL respondsTo (id anObject, SEL aSel);
 
 //
 // getMethodFor() --
 //   function to look up the method that implements a message for an object
 //
-extern IMP getMethodFor( id anObject, SEL aSel );
+extern IMP getMethodFor (id anObject, SEL aSel);
 
 //
 // getClass() -- macro to get class of instance
 //
-#define getClass( anObject ) \
-( *(Class *)(anObject) )
+#define getClass(anObject) (*(Class *)(anObject))
 
 //
 // setClass() -- macro to set behavior of instance to compatible class
 //
-#define setClass( anObject, aClass ) \
-( *(Class *)(anObject) = (Class)(aClass) )
+#define setClass(anObject, aClass) (*(Class *)(anObject) = (Class)(aClass))
 
 //
 // struct mapalloc, mapalloc_t --
@@ -130,8 +127,8 @@ typedef struct mapalloc *mapalloc_t;
 
 struct mapalloc {
   void (*mappingFunction) (mapalloc_t mapalloc, BOOL objectAllocation);
-  void *alloc;           // allocated object or block
+  void *alloc;            // allocated object or block
   id <Symbol> descriptor; // descriptor for contents of allocated block, if any
-  id zone;             // zone of allocated block, as used by descriptor
-  int size;             // size of allocated block, as used by descriptor
+  id zone;                // zone of allocated block, as used by descriptor
+  int size;               // size of allocated block, as used by descriptor
 };
