@@ -1,3 +1,27 @@
+1999-05-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am: Include tests/Makefile.rules.
+	(type_SOURCES): New variable.
+	(ForEachRandomized_SOURCES, ForEach_SOURCES,
+	ActionGroupRandomized_SOURCES, ActionGroup_SOURCES,
+	ConcurrentGroupRandomized_SOURCES, ConcurrentGroup_SOURCES): Use it.
+
+	* ActionGroup_test.m, ConcurrentGroup_test.m: Add phase info, using
+	MIXIN_CREATE for dual include of Holder.m.
+
+	* Holder.m: Add #ifdef on MIXIN_CREATE for including methods
+	per phase.
+
+	* ActionGroup_test.h (ActionGroup_test_c): Renamed from
+	ActionGroup_test.
+
+	* tactivity.h: New file.
+
+	* ActionGroup.m, ActionGroupRandomized.m, ConcurrentGroup.m,
+	ConcurrentGroupRandomized.m, ForEach.m, ForEachRandomized.m:
+	Include tactivity.h instead of ActionGroup_test.h or
+	ConcurrentGroup_test.h.
+	
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ESSwarm.m ([ESSwarm -buildActions]): Use setKeepEmptyFlag: 

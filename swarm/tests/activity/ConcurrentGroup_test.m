@@ -8,9 +8,15 @@ Test suite:   activity
 #import "ConcurrentGroup_test.h"
 #import <defobj.h>
 
-@implementation ConcurrentGroup_test
+@implementation ConcurrentGroup_test_c
+#define CLASS_NAME ConcurrentGroup_test_c
 
-#define CLASS_NAME ConcurrentGroup_test
+PHASE(Creating)
+#define MIXIN_CREATE
+#include "Holder.m"
+
+PHASE(Using)
+#undef MIXIN_CREATE
 #include "Holder.m"
 
 - (void)describe: outputCharStream

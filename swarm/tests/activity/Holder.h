@@ -14,7 +14,6 @@ Test suite:   activity
 
 + createBegin: aZone numberOfObjects: (int)num;
 - addObject: obj;
-- createEnd;
 - getObjectAt: (int)offset;
 
 

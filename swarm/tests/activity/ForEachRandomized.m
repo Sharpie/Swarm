@@ -5,10 +5,9 @@ Description:  Tests ForEachAction performed in Randomized order. It also
 Test suite:   activity
 */
 
-
-#import "ActionGroup_test.h"
-#import "Responder.h"
 #import <simtools.h>
+#import "Responder.h"
+#import "tactivity.h"
 
 int 
 main (int argc, const char ** argv)
@@ -20,6 +19,8 @@ main (int argc, const char ** argv)
   id forEachAction;
   
   initSwarmBatch (argc, argv);
+  initModule (tactivity);
+
   init_tables ();
   
   actionGroupTest = [ActionGroup_test createBegin: globalZone 

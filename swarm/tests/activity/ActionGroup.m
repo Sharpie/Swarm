@@ -5,9 +5,9 @@ Test suite:   activity
 */ 
 
 
-#import "ActionGroup_test.h"
-#import "Responder.h"
 #import <simtools.h>
+#import "tactivity.h"
+#import "Responder.h"
 
 int 
 main (int argc, const char ** argv)
@@ -17,6 +17,7 @@ main (int argc, const char ** argv)
   int i, ok;
   
   initSwarmBatch (argc, argv);
+  initModule (tactivity);
   init_tables ();
   
   actionGroupTest = [ActionGroup_test createBegin: globalZone 

@@ -4,11 +4,9 @@ Description:  ConcurrentGroup with Randomized order of execution.
 Test suite:   activity
 */ 
 
-
-
-#import "ConcurrentGroup_test.h"
-#import "Responder.h"
 #import <simtools.h>
+#import "tactivity.h"
+#import "Responder.h"
 
 int 
 main (int argc, const char ** argv)
@@ -18,6 +16,7 @@ main (int argc, const char ** argv)
   int i, ok;
   
   initSwarmBatch (argc, argv);
+  initModule (tactivity);
   init_tables ();
   
   concGroupTest = [ConcurrentGroup_test createBegin: globalZone 

@@ -14,9 +14,10 @@ Library:      activity
 
 #ifdef CLASS_NAME
 
+#ifdef MIXIN_CREATE
 + createBegin: aZone numberOfObjects: (int)num
 {
-  CLASS_NAME *obj = [aZone allocIVars: self];
+  CLASS_NAME *obj = [super createBegin: aZone];
   obj->numberOfObjects = num;
   obj->objects = [aZone alloc: num * sizeof (id)];
   obj->counter = 0;
@@ -30,11 +31,7 @@ Library:      activity
   return self;
 }
 
-- createEnd
-{
-  return self;
-}
-
+#else
 - getObjectAt: (int)offset
 {
   if (offset < counter)
@@ -42,6 +39,5 @@ Library:      activity
   else
     return NULL;
 }
-
 #endif
-
+#endif

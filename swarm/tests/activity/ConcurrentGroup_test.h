@@ -9,7 +9,7 @@ Test suite:   activity
 
 #import <activity/ActionGroup.h>
 
-@interface ConcurrentGroup_test: ConcurrentGroup_c
+@interface ConcurrentGroup_test_c: ConcurrentGroup_c
 {
   id *objects;         // storage for objects that are recieving action
 		       // from ConcurrentGroup

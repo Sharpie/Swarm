@@ -8,11 +8,16 @@ Test suite:   activity
 #import "ActionGroup_test.h"
 #import <defobj.h>
 
-@implementation ActionGroup_test
+@implementation ActionGroup_test_c
 
-#define CLASS_NAME ActionGroup_test
+#define CLASS_NAME ActionGroup_test_c
+PHASE(Creating)
+#define MIXIN_CREATE
 #include "Holder.m"
 
+PHASE(Using)
+#undef MIXIN_CREATE
+#include "Holder.m"
 - (void)describe: outputCharStream
 {
   char description[100];

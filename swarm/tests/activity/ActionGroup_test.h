@@ -10,7 +10,7 @@ Test suite:   activity
 
 #import <activity/ActionGroup.h>
 
-@interface ActionGroup_test: ActionGroup_c
+@interface ActionGroup_test_c: ActionGroup_c
 {
   id *objects;         // storage for objects that are recieving action
 		       // from ActionGroup
