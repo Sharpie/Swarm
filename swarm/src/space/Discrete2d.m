@@ -84,7 +84,7 @@ PHASE(Creating)
     {
       id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
                                 setParent: hdf5Obj]
-                               setCreateFlag: NO]
+                               setWriteFlag: NO]
                               setDatasetFlag: YES]
                              setName: "lattice"]
                             createEnd];
@@ -163,7 +163,7 @@ PHASE(Setting)
       {
         id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
                                   setParent: hdf5Obj]
-                                 setCreateFlag: NO]
+                                 setWriteFlag: NO]
                                 setDatasetFlag: YES]
                                setName: "lattice"]
                               createEnd];
@@ -173,7 +173,7 @@ PHASE(Setting)
       {
         id ivarsDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
                                 setParent: hdf5Obj]
-                               setCreateFlag: NO]
+                               setWriteFlag: NO]
                               setDatasetFlag: YES]
                              setName: "ivars"]
                             createEnd];
@@ -485,7 +485,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
 {
   id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
                   setParent: hdf5Obj]
-                 setCreateFlag: YES]
+                 setWriteFlag: YES]
                 setName: [hdf5Obj getName]]
                createEnd];
 
@@ -519,7 +519,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
 
   latticeHdf5Group = [[[[[HDF5 createBegin: hdf5Zone]
                           setParent: hdf5Obj]
-                         setCreateFlag: YES]
+                         setWriteFlag: YES]
                         setName: "lattice"]
                        createEnd];
   
@@ -535,7 +535,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
 
             sprintf (buf, "%u,%u", x, y);
             group = [[[[[HDF5 createBegin: hdf5Zone]
-                         setCreateFlag: YES]
+                         setWriteFlag: YES]
                         setParent: latticeHdf5Group]
                        setName: buf]
                       createEnd];

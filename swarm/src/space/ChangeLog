@@ -1,6 +1,12 @@
+1999-12-29    <mgd@drone.swarm.org>
+
+	* Discrete2d.m ([Discrete2d -hdf5InCreate:, -hdf5In:,
+	-hdf5OutShallow:, -hdf5OutDeep:]): Use setWriteFlag: instead of
+	setCreateFlag:.
+	
 1999-11-16    <mgd@VAIO>
 
-	* Discrete2d.m ([Discrete -lispIn:]): Use archiver_list_p instead
+	* Discrete2d.m ([Discrete2d -lispIn:]): Use archiver_list_p instead
 	of listp (simple rename).
 
 1999-10-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
