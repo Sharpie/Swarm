@@ -13,8 +13,6 @@ import swarm.gui.ColormapImpl;
 import swarm.defobj.Zone;
 import swarm.Selector;
 
-import ObserverSwarm;
-
 import java.util.List;
 import java.util.LinkedList;
 
