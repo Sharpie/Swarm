@@ -1,5 +1,7 @@
 1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* JavaCollection.[hm]: New files.
+
 	* javavars.h: Add c_Collection.
 
 	* directory.m: Include JavaCollection.h.
