@@ -1,3 +1,9 @@
+1999-06-15  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-run-all-javadoc): New function, suppress
+	generation of Makefiles and generation of native class stubs,
+	which are not required for javadoc.
+
 1999-06-14  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (java-print-javadoc-method): New function.  Print

@@ -835,6 +835,18 @@
   (load-and-process-modules :uniquify-method-lists t)
   (java-print-classes))
 
+(defun java-run-all-javadoc ()
+  (set-dollar-sign t)
+  (load-and-process-modules :uniquify-method-lists t)
+  (ensure-directory (java-path))
+  (java-print-javadoc-module-summary)
+  (loop for protocol being each hash-value of *protocol-hash-table* 
+        unless (removed-protocol-p protocol)
+        do
+        (setq *last-protocol* protocol)
+        (java-print-interface protocol)
+        (java-print-class protocol)))
+
 (defun java-run-all-unicode ()
   (java-run-all :unicode t))
 
