@@ -975,11 +975,14 @@ USING
 //M: Writes a character to stream in Lisp archiver format
 - (void)catChar: (char)ch;
 
+//M: Writes a float to stream in Lisp archiver format
+- (void)catFloat: (float)flt;
+
 //M: Writes a double to stream in Lisp archiver format
 - (void)catDouble: (double)dbl;
 
-//M: Writes a float to stream in Lisp archiver format
-- (void)catFloat: (float)flt;
+//M: Writes a double to stream in Lisp archiver format
+- (void)catLongDouble: (long double)dbl;
 
 //M: Writes an integer to stream in Lisp archiver format
 - (void)catInt: (int)i;

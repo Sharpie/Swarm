@@ -1,3 +1,8 @@
+1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* OutputStream.[hm], collections.h ([OutputStream_c
+	-catLongDouble:]): New method.
+
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* OutputStream.m ([OutputStream_c -catLongLong:]): 

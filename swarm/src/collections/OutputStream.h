@@ -25,8 +25,9 @@ Library:     collections
 - (FILE *)getFileStream;
 - (void)catC: (const char *)cstring;
 - (void)catChar: (char)ch;
-- (void)catDouble: (double)dbl;
 - (void)catFloat: (float)flt;
+- (void)catDouble: (double)dbl;
+- (void)catLongDouble: (long double)ldbl;
 - (void)catInt: (int)i;
 - (void)catUnsigned: (unsigned)un;
 - (void)catShort: (short)sht;

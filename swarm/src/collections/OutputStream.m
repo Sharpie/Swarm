@@ -76,17 +76,24 @@ PHASE(Using)
   [self catC: buf];
 }
 
+- (void)catFloat: (float)flt
+{
+  char buf[20 + 1];
+  sprintf (buf, "%fF0", flt);
+  [self catC: buf];
+}
+
 - (void)catDouble: (double)dbl
 {
-  char buf[DSIZE (double) + 1];
+  char buf[30 + 1];
   sprintf (buf, "%fD0", dbl);
   [self catC: buf];
 }
 
-- (void)catFloat: (float)flt
+- (void)catLongDouble: (long double)ldbl
 {
-  char buf[DSIZE (float) + 1];
-  sprintf (buf, "%fF0", flt);
+  char buf[30 + 1];
+  sprintf (buf, "%fD0", (double) ldbl);
   [self catC: buf];
 }
 
