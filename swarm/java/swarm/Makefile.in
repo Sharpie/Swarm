@@ -44,6 +44,9 @@ POSTCLASSESFILES = $(addsuffix .class,$(POSTCLASSES))
 
 all: $(PRECLASSESFILES) modules $(POSTCLASSESFILES)
 
+Selector.class: NonUniqueMethodSignatureException.class SignatureNotFoundException.class
+
+
 $(POSTCLASSESFILES): $(PRECLASSESFILES) modules
 
 deps: 

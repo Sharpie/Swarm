@@ -1,3 +1,9 @@
+1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (Selector.class): Depend on
+	NonUniqueMethodSignatureException.class and
+	SignatureNotFoundException.class.
+
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in: Use $(module_creatable_PROTOCOLS) for classes,
