@@ -1,11 +1,14 @@
+#ifndef __defobj_COM_h
+#define __defobj_COM_h
+
 #include <objc/objc.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void *COMclass;
-typedef void *COMobject;
+typedef const void *COMclass;
+typedef const void *COMobject;
 
 struct COMInterface;
 
@@ -113,4 +116,5 @@ extern Class swarm_directory_COM_find_class_named (const char *className);
 extern void COM_drop (COMobject cobj);
 
 extern Class swarm_directory_COM_class_for_object (COMobject cobj);
+#endif
 #endif

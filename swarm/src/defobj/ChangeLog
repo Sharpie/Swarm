@@ -1,3 +1,8 @@
+2000-09-12  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.h: Protect from multiple inclusion. 
+	(COMclass, COMobject): Constify.
+
 2000-09-09    <mgd@DRONE>
 
 	* directory.m: Initialize swarmDirectory to nil.
