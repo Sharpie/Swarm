@@ -73,13 +73,13 @@ getApplicationValue (const char *val)
   switch (key)
     {
     case 's':
-      [arguments setVarySeedFlag: YES];
+      [self setVarySeedFlag: YES];
       break;
     case 'b':
-      [arguments setBatchModeFlag: YES];
+      [self setBatchModeFlag: YES];
       break;
     case 'a':
-      [arguments setAppModeString: getApplicationValue (arg)];
+      [self setAppModeString: getApplicationValue (arg)];
       break;
     default:
       return ARGP_ERR_UNKNOWN;
@@ -99,24 +99,28 @@ parse_opt (int key, const char *arg, struct argp_state *state)
 {
   argc = theArgc;
   argv = theArgv;
+
   return self;
 }
 
 - setAppName: (const char *)theApplicationName;
 {
   applicationName = theApplicationName;
+
   return self;
 }
 
 - setAppModeString: (const char *)theAppModeString
 {
   appModeString = theAppModeString;
+
   return self;
 }
 
 - setBatchModeFlag: (BOOL)theBatchModeFlag
 {
   batchModeFlag = theBatchModeFlag;
+
   return self;
 }
 
@@ -232,8 +236,9 @@ static struct argp *argp;
 #endif  
   [arguments setAppName: program_invocation_short_name];
   [arguments setAppModeString: "default"];
-  argp_parse (argp, theArgc, theArgv, 0, 0, arguments);
 
+  argp_parse (argp, theArgc, theArgv, 0, 0, arguments);
+  
   return [arguments createEnd];
 }
 
