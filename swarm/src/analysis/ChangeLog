@@ -1,3 +1,19 @@
+Mon Dec  8 22:28:28 1997  glen e. p. ropella  <gepr@swarm.com>
+
+	* Averager.h: changed swarmobject to objectbase
+
+Mon Dec  8 22:27:57 1997  glen e. p. ropella  <gepr@swarm.com>
+
+	* EZBin.h: changed swarmobject to objectbase
+
+Mon Dec  8 22:27:30 1997  glen e. p. ropella  <gepr@swarm.com>
+
+	* Entropy.h ([-getEntropy]): changed swarmobject to objectbase
+
+Mon Dec  8 22:26:53 1997  glen e. p. ropella  <gepr@swarm.com>
+
+	* EZGraph.h: changed swarmobject.h to objectbase.h
+
 1997-11-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZGraph.m ([EZGraph -setGraphWindowGeometryRecordName:]): Add.
