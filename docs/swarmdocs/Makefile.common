@@ -1,7 +1,19 @@
-EMACS = @EMACS@
+abs_top_builddir := $(shell cd $(top_builddir); pwd)
+EMACS = SWARMDOCS_BUILD_AREA=$(abs_top_builddir)/ @EMACS@
 top_dossrcdir = @top_dossrcdir@
 swarm_dossrcdir = @swarm_dossrcdir@
 
-%revhistory.sgml: ChangeLog $(swarm_ChangeLog) $(top_srcdir)/history.el $(swarm_srcdir)/etc/common.el
-	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_dossrcdir)/history.el -f process-changelog $*
+$(top_builddir)/common.elc: $(swarm_srcdir)/etc/common.el
+	cp -f $(swarm_srcdir)/etc/common.el $(top_builddir)
+	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/common.el
 
+$(top_builddir)/history.elc: $(top_srcdir)/history.el $(top_builddir)/common.elc
+	-cp -f $(top_srcdir)/history.el $(top_builddir)
+	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/history.el
+
+%revhistory.sgml: ChangeLog $(swarm_ChangeLog) $(top_builddir)/history.elc $(top_builddir)/common.elc
+	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l $(top_builddir)/history.elc -f process-changelog $*
+
+# Local variables:
+# mode: makefile
+# End:

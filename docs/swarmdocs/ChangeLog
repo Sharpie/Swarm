@@ -1,3 +1,21 @@
+1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* history.el, sgml.el: Add SWARMDOCS_BUILD_AREA to load-path for
+	both compilation and loading. 
+
+	* history.el: Require common.
+
+	* sgml.el: Require protocol.
+
+	* Makefile.common: Add Emacs makefile-mode clue.
+	(abs_top_builddir): New variable, the absolute
+	path of top_builddir.
+	(EMACS): Always pass SWARMDOCS_BUILD_AREA with abs_top_builddir
+	to emacs.  Depending on whether we are loading or compiling we
+	can get different default-directory values.
+	($(top_builddir)/common.elc,$(top_builddir)/history.elc): New rules.
+	(%revhistory.sgml): Depend on local elc files.
+
 1999-02-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* history.el: Load $SWARMSRCDIR/etc/common.el instead of common.el.

@@ -1,7 +1,8 @@
 (require 'cl)
 (require 'gnus)
-
-(load (concat (getenv "SWARMSRCDIR") "/etc/common.el"))
+(eval-and-compile
+ (push (getenv "SWARMDOCS_BUILD_AREA") load-path))
+(require 'common)
 
 (defstruct changelog-item
   filename

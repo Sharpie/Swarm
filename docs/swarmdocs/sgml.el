@@ -1,4 +1,9 @@
-(load (concat (getenv "SWARMSRCDIR") "/etc/protocol.el"))
+(require 'cl)
+
+(eval-and-compile
+ (push (getenv "SWARMDOCS_BUILD_AREA") load-path))
+
+(require 'protocol)
 
 (defun sgml-protocol-indexentry (protocol)
   (insert "<INDEXENTRY>\n")
