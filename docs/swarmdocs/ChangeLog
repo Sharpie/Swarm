@@ -1,3 +1,34 @@
+2001-11-26  Alex Lancaster  <alex@swarm.org>
+
+	* print.dsl (appendix): Redefine to process <appendix> in a mode
+	to reduce font size.
+	(appendix-mode): New mode. Override blockquote and sect1 elements
+	to reduce font size systematically.
+	(%appendix-font-factor%, %appendix-block-factor%): New scaling
+	functions.
+	(appendix-text-style): Set style of appendix by scaling inherited
+	attributes by factors defined above.
+	($appendix-section$): New rule for sections in appendices only.
+	Use factors and appendix-text-style defined above.
+	($appendix$): New rule for appendix itself.  Likewise.
+	(%visual-acuity%, %bottom-margin%, %top-margin%, %left-margin%)
+	(%right-margin%, %body-start-indent%, %header-margin%)
+	(%footer-margin%, %default-quadding%): Override with sensible
+	paper-saving defaults.
+	(generic-list-item): Brought up to date with current version,
+	whilst retaining the addition of funcsynopsis in verbatim style.
+
+	* gfdl.xml: Make all <sect1> entities "renderas" attribute to
+	"sect4" so that license appendix is compact.
+
+	* global.ent: Remove gfdl.xml entity, now included directly in the
+	<book>s themselves to avoid duplicate definitions in the set
+	context.
+
+	* configure.in: Remove obsolete refbook/tech/Makefile extraction.
+
+	* Makefile.rules (COMMON_XML_FILES): Add gfdl.xml.
+
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
 	* NEWS, README: Update.  Note conversion from SGML to XML and

@@ -6,6 +6,17 @@
 <style-specification id="print" use="common docbook">
 <style-specification-body> 
 
+(define %visual-acuity% "tiny")
+
+(define %bottom-margin% 4pi)
+(define %top-margin% 5pi)
+(define %left-margin% 4pi)
+(define %right-margin% 4pi)
+(define %body-start-indent% 1pi)
+(define %header-margin% 1pi)
+(define %footer-margin% 1pi)
+(define %default-quadding% 'justify)
+
 (define %generate-reference-toc% 
   ;; Should a Table of Contents be produced for References?
   #f)
@@ -110,35 +121,36 @@
 
 (define (generic-list-item indent-step line-field)
   (let* ((itemcontent (children (current-node)))
-         (first-child (node-list-first itemcontent))
-         (spacing (inherited-attribute-string (normalize "spacing"))))
-    (make sequence
-      start-indent: (+ (inherited-start-indent) indent-step)
-      (make paragraph
-        use: (cond
-              ((equal? (gi first-child) (normalize "programlisting"))
-               verbatim-style)
-              ((equal? (gi first-child) (normalize "screen"))
-               verbatim-style)
-              ((equal? (gi first-child) (normalize "synopsis"))
-               verbatim-style)
-              ((equal? (gi first-child) (normalize "funcsynopsis"))
-               verbatim-style)
-              ((equal? (gi first-child) (normalize "literallayout"))
-               linespecific-style)
-              ((equal? (gi first-child) (normalize "address"))
-               linespecific-style)
-              (else
-               default-text-style))
-        space-before: (if (equal? (normalize "compact") spacing)
-                          0pt
-                          %para-sep%)
-        first-line-start-indent: (- indent-step)
-        (make sequence
-          use: default-text-style
-          line-field)
-        (process-node-list first-child))
-      (process-node-list (node-list-rest itemcontent))))) 
+          (first-child (node-list-first itemcontent))
+          (spacing (inherited-attribute-string (normalize "spacing"))))
+     (make display-group
+       start-indent: (+ (inherited-start-indent) indent-step)
+       (make paragraph
+         use: (cond
+               ((equal? (gi first-child) (normalize "programlisting"))
+                verbatim-style)
+               ((equal? (gi first-child) (normalize "screen"))
+                verbatim-style)
+               ((equal? (gi first-child) (normalize "synopsis"))
+                verbatim-style)
+               ((equal? (gi first-child) (normalize "funcsynopsis"))
+                verbatim-style)
+               ((equal? (gi first-child) (normalize "literallayout"))
+                linespecific-style)
+               ((equal? (gi first-child) (normalize "address"))
+                linespecific-style)
+               (else
+                nop-style))
+         space-before: (if (equal? (normalize "compact") spacing)
+                           0pt
+                           %para-sep%)
+         first-line-start-indent: (- indent-step)
+         (make sequence
+           
+           line-field)
+         (with-mode listitem-content-mode
+	  (process-node-list first-child)))
+       (process-node-list (node-list-rest itemcontent))))) 
 
 (define (funcprototype)
     (let ((paramdefs (select-elements (children (current-node)) (normalize "paramdef"))))
@@ -311,6 +323,85 @@
                                (gentext-label-title-sep (gi division))))
                   (process-children)))))
   )
+
+(define %appendix-font-factor% 0.6)
+(define %appendix-block-factor% 0.1)
+(define appendix-text-style
+  (style
+      font-size: (* (inherited-font-size) %appendix-font-factor%)
+      font-weight: (inherited-font-weight)
+      font-posture: (inherited-font-posture)
+      font-family-name: (inherited-font-family-name)
+      line-spacing: (* (inherited-line-spacing) %appendix-font-factor%)
+      ))
+
+(element appendix
+  (with-mode appendix-mode
+    ($appendix$)))
+
+(mode appendix-mode
+  (element sect1 ($appendix-section$))
+  (element blockquote
+    (make paragraph
+      font-size: (* (inherited-font-size) %smaller-size-factor%)
+      line-spacing: (* (inherited-font-size) %line-spacing-factor%
+		       %smaller-size-factor%)
+      space-before: (* %para-sep% %appendix-block-factor%)
+      start-indent: (+ (inherited-start-indent) 1em)
+      end-indent: 1em
+      (process-children)))
+)
+
+(define ($appendix-section$)
+  (if (node-list=? (current-node) (sgml-root-element))
+      (make simple-page-sequence
+	page-n-columns: %page-n-columns%
+	page-number-restart?: (or %page-number-restart% 
+				  (book-start?) 
+				  (first-chapter?))
+	page-number-format: ($page-number-format$)
+	use: default-text-style
+	left-header:   ($left-header$)
+	center-header: ($center-header$)
+	right-header:  ($right-header$)
+	left-footer:   ($left-footer$)
+	center-footer: ($center-footer$)
+	right-footer:  ($right-footer$)
+	start-indent: %body-start-indent%
+	input-whitespace-treatment: 'collapse
+	quadding: %default-quadding%
+	(make sequence
+	  ($section-title$)
+	  (process-children)))
+      (make display-group
+	space-before: (* %block-sep% %appendix-block-factor%)
+	space-after: (* %block-sep% %appendix-block-factor%)
+	start-indent: %body-start-indent%
+	(make sequence
+	  ($section-title$)
+	  (process-children)))))
+
+(define ($appendix$)
+  (make simple-page-sequence
+    page-n-columns:  %page-n-columns%
+    page-number-restart?: (or %page-number-restart% 
+			      (book-start?) 
+			      (first-chapter?))
+    page-number-format: ($page-number-format$)
+    use: appendix-text-style
+    left-header:   ($left-header$)
+    center-header: ($center-header$)
+    right-header:  ($right-header$)
+    left-footer:   ($left-footer$)
+    center-footer: ($center-footer$)
+    right-footer:  ($right-footer$)
+    start-indent:  %body-start-indent%
+    input-whitespace-treatment: 'collapse
+    quadding: %default-quadding%
+    (make sequence
+      ($component-title$)
+      (process-children))
+    (make-endnotes)))
 
 </style-specification-body>
 </style-specification>

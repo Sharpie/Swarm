@@ -20,7 +20,7 @@ GENERAL = $(XML_FILES) $(COMMON_XML_FILES) $(top_srcdir)/common.dsl $(FIGS)
 
 .PHONY: fot tex dvi ps rtf html info htmldist dvidist psdist rtfdist infodist
 
-COMMON_XML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
+COMMON_XML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent $(top_srcdir)/gfdl.xml
 
 DISTNAME=$(NAME)-@VERSION@
 
