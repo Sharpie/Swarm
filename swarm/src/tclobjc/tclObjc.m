@@ -47,6 +47,8 @@
 #else
 #include "objc-malloc.h"
 #endif
+#include <stdlib.h>
+#include <string.h>
 
 #define ATDELIMCHAR '@'
 

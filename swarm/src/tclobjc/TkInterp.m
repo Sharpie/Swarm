@@ -32,6 +32,7 @@
 #endif
 #include <tk.h>
 #include "tclObjc.h"
+#include <unistd.h>
 
 #define DEFAULT_PROMPT "Tk% "
 #define DEFAULT_PARTIAL_PROMPT "Tk> "
