@@ -8,6 +8,7 @@
 #import <collections.h>
 #import <swarmobject.h>
 #import <analysis.h>
+#import <gui.h>
 
 // The MousetrapObserverSwarm is the top-level swarm that
 // watches and reports on what's happening in the 
@@ -125,7 +126,7 @@
   // chance to fill in parameters before the simulation runs
   // If the user hit the quit button here, we quit.
 
-  [controlPanel waitForControlEvent];
+  [actionCache waitForControlEvent];
   if ([controlPanel getState] == ControlStateQuit)
     return self;
 
@@ -202,7 +203,7 @@
   // And tell the displayWindow to send mouse clicks to the mousetrapDisplay
   // this allows the user to right-click on the display to probe the traps.
 
-  [displayWindow setButton: ButtonRight 
+  [displayWindow setButton: GUI_ButtonRight 
 		 Client:    mousetrapDisplay
                  Message:   M(makeProbeAtX:Y:)];
 

@@ -1,3 +1,19 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MousetrapObserverSwarm.m:  Include gui.h.
+	([MousetrapObserverSwarm -buildObjects]): Send waitForControlEvent
+	to actionCache. Use GUI_ButtonRight instead of ButtonRight.
+
+	* MousetrapObserverSwarm.h (MousetrapObserverSwarm): Make
+	colormap conform to Colormap protocol instead of being statically
+	typed to XColormap.  Make displayWindow conform to the ZoomRaster
+	protocol instead of being statically typed.
+
+	* MousetrapObserverSwarm.h: Include gui.h instead of tkobjc.h.
+
+	* Mousetrap.m: Don't include tkobjc.h.
+	Reformatting throughout.
+
 1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm

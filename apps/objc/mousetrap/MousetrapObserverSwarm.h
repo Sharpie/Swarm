@@ -11,7 +11,7 @@
 #import <swarmobject.h>
 #import <space.h>
 #import <activity.h>
-#import <tkobjc.h>
+#import <gui.h>
 #import <collections.h>
 #import <simtools.h>
 #import <analysis.h>
@@ -28,11 +28,11 @@
 
  // Display objects, widgets, etc.
 
-  XColormap *colormap;			// allocate colors
-  ZoomRaster *displayWindow;		// 2d display widget
-  EZGraph *triggerGraph;		// graphing widget
+  id <Colormap> colormap;             // allocate colors
+  id <ZoomRaster> displayWindow;      // 2d display widget
+  EZGraph *triggerGraph;	      // graphing widget
 
-  Object2dDisplay *mousetrapDisplay;    // to Probe mousetraps
+  Object2dDisplay *mousetrapDisplay;  // to Probe mousetraps
 
   // declare the activity controller, which provides an interface 
   //   to the observerSwarm activity.

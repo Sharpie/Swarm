@@ -15,7 +15,6 @@
 // The discrete event model is implemented via *dynamic scheduling*
 
 #import "Mousetrap.h"
-#import <tkobjc.h>
 #import <simtools.h>
 #import "MousetrapModelSwarm.h"
 
@@ -25,7 +24,8 @@
   // the more general createBegin/createEnd pair.
   // During create, we initialize a mousetraps crucial state
 
-+create: aZone setModelSwarm:  s setXCoord: (int)x setYCoord: (int)y setGenerator: (id) randGen {
++ create: aZone setModelSwarm: s setXCoord: (int)x setYCoord: (int)y setGenerator: randGen
+{
   Mousetrap *newTrap;
   int maxD;
 
@@ -61,19 +61,21 @@
 
 // Here we record who to display ourselves on.
 
--setDisplayWidget: w {
+- setDisplayWidget: w
+{
   displayWidget = w;
   return self;
 }
 
  // The crucial step for a Mousetrap (equivalent to "step" for a Heatbug)
 
--trigger {
+- trigger
+{
   int n, xTrigger, yTrigger;
   unsigned triggerTick;
-
+  
   // We've been "hit" by a trigger message (ping-pong ball)
-
+  
   // First, take this ball out of the air for stats reporting
 
   [[modelSwarm getStats] removeOneBall];
@@ -81,75 +83,78 @@
   // If we have not already been triggered (i.e., if triggered = 0)
   // calculate whether we actually fire in response to the event.
 
-  if (!triggered &&
-      ([modelSwarm getTriggerLikelihood] >= 1.0 ||
-       (float)[uniform0to1 getDoubleSample] < 
-       [modelSwarm getTriggerLikelihood])) {
-
-    int size;
-
-    // mark ourselves as triggered, do book-keeping, and draw 
-    // ourselves as triggered on the display widget
-
-    triggered = 1;
-
-    [[modelSwarm getStats] addOneTriggered];
-
-    if (displayWidget)
-      [displayWidget drawPointX: xCoord Y: yCoord Color: 2];
-
-    // now schedule trigger events for neighbours.
-    // We have n ping-pong balls to toss into the air, so we
-    // need to pick n other mousetraps "nearby" and arrange for
-    // them to be sent trigger messages in the "near" future.
-    // "near" in both cases is set by parameters.
-
-    size = [modelSwarm getGridSize];
-    for ( n = [modelSwarm getNumberOutputTriggers]; n > 0; n-- ) {
-      Mousetrap * trap;
-
-      // This is where *dynamic scheduling* of actions is prepared for
-
-      // First, find a nearby trap - done by picking a random X,Y location near us
-      // Note how wraparound is handled by adding "size" and then taking
-      // the result modulo "size".
-
-      xTrigger =
-	(xCoord + size + [uniformRadius getIntegerSample]) % size;
-      yTrigger =
-	(yCoord + size + [uniformRadius getIntegerSample]) % size;
-
-      // Then, decide on a "nearby" time in the future to fire the selected trap
-
-      triggerTick = getCurrentTime() + [uniformTrigTime getUnsignedSample];
-
-      // Now, we get the id of the trap at our randomly chosen X,Y position
-
-      trap = [modelSwarm getMousetrapAtX: xTrigger Y: yTrigger];
-
-      if (trap) {
-
-        // If there was a trap at those X,Y coordinates:
-	// First, we add a new "ball" in the air, for statistics purposes
-        // Then, we tell our modelSwarm to schedule a trigger message
-        // to be sent to that mousetrap at the selected time.
-        // This is where *dynamic scheduling* is actually accomplished
-
-	[[modelSwarm getStats] addOneBall];
-	[modelSwarm scheduleTriggerAt: triggerTick For: trap];
-      }
+  if (!triggered
+      && ([modelSwarm getTriggerLikelihood] >= 1.0 ||
+          (float)[uniform0to1 getDoubleSample] < 
+          [modelSwarm getTriggerLikelihood]))
+    {
+      
+      int size;
+      
+      // mark ourselves as triggered, do book-keeping, and draw 
+      // ourselves as triggered on the display widget
+      
+      triggered = 1;
+      
+      [[modelSwarm getStats] addOneTriggered];
+      
+      if (displayWidget)
+        [displayWidget drawPointX: xCoord Y: yCoord Color: 2];
+      
+      // now schedule trigger events for neighbours.
+      // We have n ping-pong balls to toss into the air, so we
+      // need to pick n other mousetraps "nearby" and arrange for
+      // them to be sent trigger messages in the "near" future.
+      // "near" in both cases is set by parameters.
+      
+      size = [modelSwarm getGridSize];
+      for (n = [modelSwarm getNumberOutputTriggers]; n > 0; n--)
+        {
+          Mousetrap *trap;
+          
+          // This is where *dynamic scheduling* of actions is prepared for
+          
+          // First, find a nearby trap - done by picking a random X,Y location near us
+          // Note how wraparound is handled by adding "size" and then taking
+          // the result modulo "size".
+          
+          xTrigger =
+            (xCoord + size + [uniformRadius getIntegerSample]) % size;
+          yTrigger =
+            (yCoord + size + [uniformRadius getIntegerSample]) % size;
+          
+          // Then, decide on a "nearby" time in the future to fire the selected trap
+          
+          triggerTick = getCurrentTime() + [uniformTrigTime getUnsignedSample];
+          
+          // Now, we get the id of the trap at our randomly chosen X,Y position
+          
+          trap = [modelSwarm getMousetrapAtX: xTrigger Y: yTrigger];
+          
+          if (trap)
+            {
+              
+              // If there was a trap at those X,Y coordinates:
+              // First, we add a new "ball" in the air, for statistics purposes
+              // Then, we tell our modelSwarm to schedule a trigger message
+              // to be sent to that mousetrap at the selected time.
+              // This is where *dynamic scheduling* is actually accomplished
+              
+              [[modelSwarm getStats] addOneBall];
+              [modelSwarm scheduleTriggerAt: triggerTick For: trap];
+            }
+        }
     }
-  }
-
+  
   // That's all!
-
+  
   // If we were triggered already, or if there was no mousetrap at the
   // randomly selected positions, we simply return without doing
   // anything except for statistics bookeeping (we "absorb" a ball
   // that landed on us, and, if we were not already triggered, we
   // "toss" N balls into the "air"  - we did all this in the code
   // above.) 
-
+  
   return self;
 }
 
