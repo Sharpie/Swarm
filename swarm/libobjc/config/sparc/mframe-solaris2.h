@@ -57,10 +57,12 @@ struct sparc_args {
       (CUM).offsets[locn] += sizeof (int) - ROUND (size, align); \
     } \
   (TYPE) = objc_skip_typespec (type); \
+  typelen = (TYPE) - type; \
   if (*(TYPE) == '+') \
     (TYPE)++; \
-  typelen = (TYPE) - type; \
-  sprintf ((DEST), "%.*s%d", typelen, type, (CUM).offsets[locn]); \
+  sprintf ((DEST), "%.*s%s%d", typelen, type, \
+    (locn == ON_STACK) ? "" : "+", \
+    (CUM).offsets[locn]); \
   while (isdigit ((int) *(TYPE))) \
     { \
       (TYPE)++; \

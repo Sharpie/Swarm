@@ -1,5 +1,8 @@
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Ensure
+	that register items get tagged with `+'.
+
 	* configure.in: Use AM_CONFIG_HEADER to extract externvar.h,
 	not an AC_OUTPUT entry.
 
