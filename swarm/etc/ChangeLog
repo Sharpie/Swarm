@@ -1,3 +1,7 @@
+2004-12-11  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add swarm.make.
+
 2004-11-30  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.am swarmrc.in swarmtrc.in: new files
