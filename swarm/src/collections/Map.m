@@ -478,7 +478,8 @@ PHASE(Using)
 {
   id index, member, key;
 
-  [outputCharStream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " 'Map"];
+  [outputCharStream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
+  [outputCharStream catC: [self getTypeName]];
 
   index = [(id) self begin: scratchZone];
   while ((member = [index next: &key]))
@@ -543,7 +544,7 @@ PHASE(Using)
       id aZone = [hdf5Obj getZone];
       id key, value;
 
-      [hdf5Obj storeTypeName: [self name]];
+      [hdf5Obj storeTypeName: [self getTypeName]];
       if (compareFunc == NULL || compareFunc == compareIDs)
         {
           id keyGroup = [[[[[HDF5 createBegin: aZone]
@@ -693,7 +694,7 @@ PHASE(Using)
                 createEnd];
             id member;
 
-            [hdf5ObjDataset storeTypeName: [self name]];
+            [hdf5ObjDataset storeTypeName: [self getTypeName]];
             [mi setLoc: Start];
             while ((member = [mi next: &key]))
               {

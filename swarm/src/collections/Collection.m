@@ -267,7 +267,7 @@ indexAtOffset (Collection_any *self, int offset)
       id <Index> li = [self begin: scratchZone];
       id member;
 
-      [hdf5Obj storeTypeName: [self name]];
+      [hdf5Obj storeTypeName: [self getTypeName]];
       while ((member = [li next]))
         {
           id itemGroup;
@@ -305,7 +305,7 @@ indexAtOffset (Collection_any *self, int offset)
                setRecordType: hdf5CompoundType count: [self getCount]]
               createEnd];
           
-          [hdf5ObjDataset storeTypeName: [self name]];
+          [hdf5ObjDataset storeTypeName: [self getTypeName]];
           {
             id <Index> li = [self begin: scratchZone];
             id member;

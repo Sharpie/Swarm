@@ -132,7 +132,8 @@ PHASE(Using)
 {
   id index, member;
 
-  [outputCharStream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " 'List"];
+  [outputCharStream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
+  [outputCharStream catC: [self getTypeName]];
 
   index = [(id) self begin: scratchZone];
   while ((member = [index next]))
