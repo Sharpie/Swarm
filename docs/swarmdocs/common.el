@@ -46,8 +46,8 @@
   (let ((module-name (symbol-name module-sym)))
     (concat (get-swarmdocs) 
             (case module-sym
-              ((src set install over) (concat module-name "/" filename))
-              (otherwise (concat "src/" module-name "/" filename))))))
+              ((refbook set installbook overbook) (concat module-name "/" filename))
+              (otherwise (concat "refbook/" module-name "/" filename))))))
 
 (defun get-swarmdocs-build-area ()
     (getenv "SWARMDOCS_BUILD_AREA"))
@@ -55,7 +55,7 @@
 (defun pathname-for-swarmdocs-pages-output (module-sym)
   (let ((module-name (symbol-name module-sym)))
     (concat (get-swarmdocs-build-area)
-            "src/"
+            "refbook/"
             module-name
             "/"
             module-name
@@ -64,11 +64,11 @@
 (defun pathname-for-swarmdocs-revision-output (module-sym)
   (let ((module-name (symbol-name module-sym)))
     (case module-sym
-      ((src set install over) 
+      ((refbook set installbook overbook) 
        (concat (get-swarmdocs-build-area)
                module-name "/" module-name "revhistory.sgml"))
       (otherwise (concat (get-swarmdocs-build-area)
-                         "src/"
+                         "refbook/"
                          module-name
                          "/"
                          module-name

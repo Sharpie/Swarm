@@ -1,10 +1,34 @@
-1998-06-17  Alex Lancaster  <alex@santafe.edu>
-
-	* README: Add text briefly describing the purpose and contents of
-	the swarmdocs package, and a list of required packages.
-
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* protocol.el (sgml-generate-indices): Rename src to refbook.
+
+	* configure.in (AC_OUTPUT): Rename src to refbook, over to 
+	overbook and install to installbook.
+
+	* common.el (pathname-for-swarmdocs): Handle rename of
+	src->refbook over->overbook and install->installbook.
+	(pathname-for-swarmdocs-pages-output,
+	pathname-for-swarmdocs-revision-output): Handle rename of
+	src->refbook.
+
+	* catalog.in: Replace src/ with refbook/, over/ with overbook/
+	and install/ with installbook/ throughout.   Rename .ent files
+	similarly.
+
+	* Makefile.rules (GZIP): New variable.
+	(.PHONY): Add dist targets.
+	(htmldist, dvidist, psdist, rtfdist, figs): New targets.  Remove
+	all as a dependency for fot, tex, dvi, ps, rtf, and html rules.
+
+	* Makefile.am (SUBDIRS): Rename src to refbook, install to
+	installbook, and over to overbook.
+	(.PHONY): Add html, dvi, rtf, fot, ps, htmldist, dvidist, rtfdist,
+	psdist, and alldist.  Add dist targets for modules.
+
+	* html.dsl ($img$): Change ../figs to figs.
+
+	* print.dsl ($img$): Change absolute path to figs.
+	
 	* Makefile.rules (htmldir, html_DATA, dvidir, dvi_DATA, psdir, ps_DATA,
 	rtfdir, rtf_DATA): New variables (handle installation).
 	(install-data-local): New target.
@@ -12,6 +36,12 @@
 
 	* html.dsl (set-html-base, html-file): New files.
 	(Support naming of HTML file by ID for sets.)
+
+1998-06-17  Alex Lancaster  <alex@santafe.edu>
+
+	* README: Add text briefly describing the purpose and contents of
+	the swarmdocs package, and a list of required packages.
+
 
 1998-06-16  Marcus G. Daniels  <mgd@lucero.santafe.edu>
 

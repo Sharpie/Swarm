@@ -1,13 +1,14 @@
 JADE = @JADE@
 JADETEX = @JADETEX@
 DVIPS = @DVIPS@
+GZIP = gzip --best
 
 HTML = $(top_srcdir)/html.dsl
 PRINT = $(top_srcdir)/print.dsl
 CATOPTS = -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/CATALOG
 GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl
 
-.PHONY: fot tex dvi ps rtf html
+.PHONY: fot tex dvi ps rtf html figs htmldist dvidist psdist rtfdist
 
 COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
 
@@ -17,34 +18,49 @@ html_DATA = $(NAME).html
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
 
+htmldist: html
+	cd .. ; tar cf - $(addprefix $(NAME)/,$(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(NAME)-html.tar.gz
+
 dvidir = $(prefix)/dvi
 dvi_DATA = $(NAME).dvi
+
+dvidist: dvi
+	cd .. ; tar cf - $(NAME)/$(NAME).dvi $(NAME)/figs | $(GZIP) > $(NAME)-dvi.tar.gz
 
 psdir = $(prefix)/ps
 ps_DATA = $(NAME).ps
 
+psdist: ps
+	$(GZIP) < $(NAME).ps > $(NAME).ps.gz
+
 rtfdir = $(prefix)/rtf
 rtf_DATA = $(NAME).rtf
 
+rtfdist: rtf
+	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(NAME)-rtf.tar.gz 
+
 CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(ps_DATA) $(rtf_DATA) $(NAME).dvi
 
-_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)
+figs:
+	make -C $(top_builddir)/figs install figsdir=`pwd`/figs
 
-$(NAME).html: $(GENERAL) $(HTML)
+_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT) figs
 
-$(NAME).dvi: $(top_srcdir)/macros.tex
+$(NAME).html: $(GENERAL) $(HTML) figs
 
-fot: all $(NAME).fot
+$(NAME).dvi: $(top_srcdir)/macros.tex figs
 
-tex: all _$(NAME).tex
+fot: $(NAME).fot
 
-dvi: all $(NAME).dvi
+tex: _$(NAME).tex
 
-ps: all $(NAME).ps
+dvi: $(NAME).dvi
 
-rtf: all $(NAME).rtf
+ps: $(NAME).ps
 
-html: all $(NAME).html
+rtf: $(NAME).rtf
+
+html: $(NAME).html
 
 %.fot: %.sgml
 	$(JADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 

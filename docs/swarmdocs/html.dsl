@@ -227,7 +227,7 @@
            (entattr (attribute-string (normalize "entityref") nd))
            (gensysid (entity-generated-system-id entattr))
            (entityref (if entattr
-                          (string-append "../figs/"
+                          (string-append "figs/"
                                          (car (reverse (split-string gensysid #\/))))
                           #f))
            (format  (attribute-string (normalize "format")))

@@ -1737,7 +1737,7 @@
   (insert "</INDEX>\n"))
 
 (defun sgml-generate-indices ()
-  (with-temp-file (concat (get-swarmdocs-build-area) "src/refindex.sgml")
+  (with-temp-file (concat (get-swarmdocs-build-area) "refbook/refindex.sgml")
     (sgml-generate-protocol-index)
     (sgml-generate-method-signature-index)
     (loop for type in '(function global macro typedef)

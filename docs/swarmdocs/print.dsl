@@ -167,20 +167,26 @@
   (let* ((fileref (attribute-string (normalize "fileref") nd))
          (entattr (attribute-string (normalize "entityref") nd))
          (gensysid (entity-generated-system-id entattr))
-         (entityfilename (if entattr
+         (entitypathname (if entattr
                              (car (cdr (split-string gensysid #\>)))
                              #f))
+         (entityshortpathname
+          (if entitypathname
+              (string-append
+               "figs/"
+               (car (reverse (split-string entitypathname #\/))))
+              #f))
          (format (attribute-string (normalize "format") nd))
          (align (attribute-string (normalize "align") nd))
          (scale (attribute-string (normalize "scale") nd)))
-    (if (or fileref entityfilename)
+    (if (or fileref entityshortpathname)
         (let ((scale-val (if scale (/ (string->number scale) 100) 1.0)))
           (make external-graphic
                 notation-system-id: (if format format "")
                 entity-system-id: (if fileref
                                       (graphic-file fileref)
-                                      (if entityfilename
-                                          (graphic-file entityfilename)
+                                      (if entityshortpathname
+                                          (graphic-file entityshortpathname)
                                           ""))
                 space-before: 36pt
                 keep-with-previous?: #t

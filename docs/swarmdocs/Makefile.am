@@ -1,16 +1,18 @@
-SUBDIRS = figs src install over set
+SUBDIRS = figs refbook installbook overbook set
 EXTRA_DIST = Makefile.common Makefile.rules common.el history.el protocol.el common.dsl html.dsl print.dsl global.ent docbook.dcl
 
 all-recursive-am: versions.ent
 
 noinst_DATA = versions.ent
 
-.PHONY: FORCE
+.PHONY: FORCE html dvi rtf fot ps htmldist dvidist rtfdist psdist alldist
 
-html dvi rtf fot ps: all
-	- make -C install $@
-	- make -C over $@
-	- make -C src $@
+alldist: htmldist dvidist rtfdist psdist
+
+html dvi rtf fot ps htmldist dvidist rtfdist psdist: all
+	- make -C installbook $@
+	- make -C overbook $@
+	- make -C refbook $@
 	- make -C set $@
 
 versions.ent: FORCE

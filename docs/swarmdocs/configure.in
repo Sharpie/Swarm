@@ -53,5 +53,5 @@ done
 
 md_PROG_GS
 
-AC_OUTPUT([catalog Makefile figs/Makefile src/Makefile install/Makefile over/Makefile set/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tech/Makefile src/refbook.tex over/overbook.tex install/installbook.tex set/set.tex])
+AC_OUTPUT([catalog Makefile figs/Makefile refbook/Makefile installbook/Makefile overbook/Makefile set/Makefile refbook/activity/Makefile refbook/analysis/Makefile refbook/collections/Makefile refbook/defobj/Makefile refbook/gui/Makefile refbook/objectbase/Makefile refbook/random/Makefile refbook/simtools/Makefile refbook/simtoolsgui/Makefile refbook/space/Makefile refbook/tech/Makefile refbook/refbook.tex overbook/overbook.tex installbook/installbook.tex set/set.tex])
 
