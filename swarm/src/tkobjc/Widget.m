@@ -130,7 +130,7 @@ get_geometry_element (id widget, unsigned offset)
 
   for (i = 0; i < offset; i++)
     {
-      while (!(*p == '+' || *p == '-' || *p == 'x'))
+      while (!(*p == '+' || *p == 'x'))
         p++;
       p++;
     }

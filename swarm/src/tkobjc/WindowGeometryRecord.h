@@ -22,6 +22,5 @@
 - (unsigned)getHeight;
 
 - lispin: expr;
-+ lispin: aZone expr: expr;
 - lispout: outputCharStream;
 @end

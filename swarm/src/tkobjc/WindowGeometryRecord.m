@@ -9,7 +9,7 @@
 #import <collections/predicates.h> // for stringp
 #import "global.h"
 
-#include <misc.h> // atoi
+#include <objc/objc-api.h> // _C_INT
 
 @implementation WindowGeometryRecord
 
@@ -38,10 +38,14 @@ PHASE(Using)
 static int
 getVal (id obj)
 {
-  if (!stringp (obj))
-    [WindowGeometryRecordError raiseEvent: "Object is not a string (%s)",
-                               [obj name]];
-  return atoi ([obj getC]);
+  if (!valuep (obj))
+    [WindowGeometryRecordError
+      raiseEvent: "Object is not a ArchiverValue (%s)", [obj name]];
+  if ([obj getValueType] != _C_INT)
+    [WindowGeometryRecordError
+      raiseEvent: "Object is not an integer (%s)", [obj name]];
+    
+  return [obj getInteger];
 }
 
 static id
@@ -62,36 +66,29 @@ getValueList (id index)
       
   while ((obj = [index next]))
     {
-      if (stringp (obj))
+      if (keywordp (obj))
         {
-          const char *str = [obj getC];
+          const char *str = [obj getKeywordName];
 
-          if (str[0] == '#' && str[1] == ':')
-            str++;
-          if (str[0] == ':')
+          if (strcmp (str, "position") == 0)
             {
-              str++;
-                  
-              if (strcmp (str, "position") == 0)
-                {
-                  id l = getValueList (index);
-                      
-                  positionFlag = YES;
-                  x = getVal ([l getFirst]);
-                  y = getVal ([l getLast]);
-                }
-              else if (strcmp (str, "size") == 0)
-                {
-                  id l = getValueList (index);
-                      
-                  sizeFlag = YES;
-                  width = getVal ([l getFirst]);
-                  height = getVal ([l getLast]);
-                }
-              else
-                [WindowGeometryRecordError
-                  raiseEvent: "Unknown keyword: `%s'\n", str];
+              id l = getValueList (index);
+              
+              positionFlag = YES;
+              x = getVal ([l getFirst]);
+              y = getVal ([l getLast]);
             }
+          else if (strcmp (str, "size") == 0)
+            {
+              id l = getValueList (index);
+              
+              sizeFlag = YES;
+              width = getVal ([l getFirst]);
+              height = getVal ([l getLast]);
+            }
+          else
+            [WindowGeometryRecordError
+              raiseEvent: "Unknown keyword: `%s'\n", str];
         }
       else
         [WindowGeometryRecordError raiseEvent: "String expected (%s)\n",

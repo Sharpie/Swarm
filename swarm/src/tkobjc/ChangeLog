@@ -1,5 +1,14 @@
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Widget.m (get_geometry_element): Don't count `-' as a separator.
+
+	* WindowGeometryRecord.m: Don't include misc.h.  Include
+	objc/objc-api.h.
+	(getVal): Expect ArchiverValue instead of String.
+	([WindowGeometryRecord -lispin:]): Expect keyword instead of String.
+
+	* WindowGeometryRecord.h: Don't declare +lispin:expr.
+
 	* tkobjc.m: Include defobj.h instead of objectbase/Arguments.h.
 
 1998-11-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
