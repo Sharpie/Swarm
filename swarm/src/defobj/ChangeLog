@@ -1,5 +1,9 @@
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Archiver.m ([Archiver +createBegin:]): Set inhibitLoadFlag
+	to YES if the environment variable SWARM_INHIBIT_ARCHIVER_LOAD
+	exists.
+
 	* defobj.m (initDefobj): Call setInhibitLoadFlag on Archiver with
 	Arguments' inhibitArchiverLoadFlag value.
 

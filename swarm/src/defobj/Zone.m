@@ -22,8 +22,8 @@ Library:      defobj
 static inline void *
 dalloc (size_t blockSize)
 {
-  static BOOL  notAligned = 0;
-  void         *block;
+  static BOOL notAligned = NO;
+  void *block;
 
   block = xmalloc (blockSize);
 
@@ -35,12 +35,12 @@ dalloc (size_t blockSize)
     return block;
 #endif
 
-  if (((unsigned long)block & ~0x7) == (unsigned long)block)
+  if (((unsigned long) block & ~0x7) == (unsigned long) block)
     return block;
   
-  if (! notAligned)
+  if (!notAligned)
     {
-      notAligned = 1;
+      notAligned = YES;
       fprintf (stderr,
                "Double word alignment of malloc allocations not guaranteed\n"
                "on local machine architecture.\n"
@@ -66,7 +66,7 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  Zone_c  *newZone;
+  Zone_c *newZone;
 
   // the very first zone is created externally by explicit initialization
 
@@ -216,7 +216,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *) dalloc (((Class)aClass)->instance_size);
+  newObject = (Object_s *) dalloc (((Class) aClass)->instance_size);
 
   if (_obj_debug)
     {
@@ -226,9 +226,9 @@ PHASE(Using)
   
   // initialize and return the new object, without adding to population list
 
-  memset (newObject, 0, ((Class)aClass)->instance_size);
+  memset (newObject, 0, ((Class) aClass)->instance_size);
   setClass (newObject, aClass);   
-  newObject->zbits = (unsigned long)self;
+  newObject->zbits = (unsigned long) self;
   setBit (newObject->zbits, BitComponentAlloc, 1); 
   return newObject;
 }
@@ -268,7 +268,7 @@ PHASE(Using)
 {
   if (_obj_debug)
     {
-      if (!getBit (((Object_s *)anObject)->zbits, BitComponentAlloc))
+      if (!getBit (((Object_s *) anObject)->zbits, BitComponentAlloc))
         raiseEvent( InvalidOperation,
                     "> object being freed by freeIVarsComponent: (%0#8x: %s)\n"
                     "> was not allocated by allocIVarsComponent:\n"

@@ -350,6 +350,8 @@ PHASE(Creating)
 #ifdef HAVE_HDF5
   newArchiver->hdf5Path = hdf5DefaultPath ();
 #endif
+  newArchiver->inhibitLoadFlag =
+    (getenv ("SWARM_INHIBIT_ARCHIVER_LOAD") != NULL);
   return newArchiver;
 }
 
