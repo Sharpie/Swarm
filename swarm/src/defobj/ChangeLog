@@ -1,6 +1,6 @@
 1999-05-09  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
-	* FCall.[hm], defobj.h ([FCall_c -setRetVal:buf:]): Replaces 
+	* FCall.[hm], defobj.h ([FCall_c -getRetVal:buf:]): Replaces 
 	getRetVal:.
 
 	* DefObject.m ([Object_s -forward::]): Use it, pre-allocating

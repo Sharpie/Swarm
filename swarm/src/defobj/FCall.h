@@ -52,5 +52,5 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - createEnd;
 - (void)performCall;
 - (void *)getResult;
-- (void)setRetVal: (retval_t)retVal buf: (types_t *)buf;
+- (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
 @end

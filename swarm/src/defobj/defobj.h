@@ -1096,7 +1096,7 @@ SETTING
 USING
 - (void) performCall;
 - (void *)getResult;
-- (void)setRetVal: (retval_t)retVal buf: (types_t *)buf;
+- (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
 
 extern void defobj_init_java_call_tables (void *jniEnv);
 @end

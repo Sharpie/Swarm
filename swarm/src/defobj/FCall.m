@@ -532,11 +532,27 @@ PHASE(Using)
   return [fargs getResult];
 }
 
-- (void)setRetVal: (retval_t)retVal buf: (types_t *)buf
+- (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf
 {
   types_t *res = &((FArguments_c *) fargs)->resultVal;
 
+#ifdef HAVE_JDK
+  id return_jobject (void)
+    {
+      return JFINDOBJC (jniEnv, (jobject) buf->object);
+    }
+  const char *return_jstring (void)
+    {
+      const char *newString =
+        java_copy_string (jniEnv, (jstring) buf->object);
+      
+      JUPDATE (jniEnv, (jstring) buf->object, (id) newString);
+      return newString;
+    }
+#endif
+
   *buf = *res;
+
 #ifndef BUGGY_BUILTIN_APPLY
   {
     char return_schar (void) { return buf->schar; }
@@ -551,16 +567,6 @@ PHASE(Using)
     float return_float (void) { return buf->_float; }
     double return_double (void) { return buf->_double; }
     id return_object (void) { return buf->object; }
-#ifdef HAVE_JDK
-    id return_jobject (void)
-      {
-        return JFINDOBJC (jniEnv, (jobject) buf->object);
-      }
-    const char *return_jstring (void)
-      {
-        return java_copy_string (jniEnv, (jstring) buf->object);
-      }
-#endif
     void return_void (void) { return; }
     void apply (apply_t func)
       {
@@ -622,71 +628,68 @@ PHASE(Using)
       default:
         abort ();
       }
+    return retVal;
   }
 #else
-  void *ptr;
-
-  switch (fargs->returnType)
-    {
-    case fcall_type_void:
-      ptr = NULL;
-      break;
-    case fcall_type_uchar:
-      ptr = &buf->uchar;
-      break;
-    case fcall_type_schar:
-      ptr = &buf->schar;
-      break;
-    case fcall_type_ushort:
-      ptr = &buf->ushort;
-      break;
-    case fcall_type_sint:
-      ptr = &buf->sshort;
-      break;
-    case fcall_type_ulong:
-      ptr = &buf->ulong;
-      break;
-    case fcall_type_slong:
-      ptr = &buf->slong;
-      break;
-    case fcall_type_float:
-      ptr = &buf->_float;
-#ifdef __sparc__
-      ptr -= 8;
-#endif
-      break;
-    case fcall_type_double:
-      ptr = &buf->_double;
-#ifdef __sparc__
-      ptr -= 8;
-#endif
-      break;
-    case fcall_type_object:
-      ptr = &buf->object;
-      break;
-    case fcall_type_string:
-      ptr = &buf->string;
-      break;
-#ifdef HAVE_JDK
-    case fcall_type_jobject:
-      buf->object = JFINDOBJC (jniEnv, (jobject) buf->object);
-      ptr = &buf->object;
-      break;
-    case fcall_type_jstring:
+  {
+    void *ptr;
+    
+    switch (fargs->returnType)
       {
-        const char *newString =
-          java_copy_string (jniEnv, (jstring) buf->object);
-        
-        JUPDATE (jniEnv, (jstring) buf->object, (id) newString);
-        buf->string = newString;
-      }
-      ptr = &buf->string;
-      break;
+      case fcall_type_void:
+        ptr = NULL;
+        break;
+      case fcall_type_uchar:
+        ptr = &buf->uchar;
+        break;
+      case fcall_type_schar:
+        ptr = &buf->schar;
+        break;
+      case fcall_type_ushort:
+        ptr = &buf->ushort;
+        break;
+      case fcall_type_sint:
+        ptr = &buf->sshort;
+        break;
+      case fcall_type_ulong:
+        ptr = &buf->ulong;
+        break;
+      case fcall_type_slong:
+        ptr = &buf->slong;
+        break;
+      case fcall_type_float:
+        ptr = &buf->_float;
+#ifdef __sparc__
+        ptr -= 8;
 #endif
-    default:
-      abort ();
-    }
-  return ptr;
+        break;
+      case fcall_type_double:
+        ptr = &buf->_double;
+#ifdef __sparc__
+        ptr -= 8;
+#endif
+        break;
+      case fcall_type_object:
+        ptr = &buf->object;
+        break;
+      case fcall_type_string:
+        ptr = &buf->string;
+        break;
+#ifdef HAVE_JDK
+      case fcall_type_jobject:
+        buf->object = return_jobject ();
+        ptr = &buf->object;
+        break;
+      case fcall_type_jstring:
+        buf->string = return_jstring ();
+        ptr = &buf->string;
+        break;
+#endif
+      default:
+        abort ();
+      }
+    return ptr;
+  }
 #endif
 }
 
