@@ -31,22 +31,21 @@
 
 <!entity usermeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
 <!entity userbiblio.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Bibliography//EN">
-
-<!entity genindex.sgml SYSTEM "/opt/src/alex/build/swarmguide/genindex.sgml">
+<!entity genindex.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Index//EN">
 
 <!entity % local.notation.class "| JPEG">
 <!notation JPEG system>
 
 ]>
 
-<BOOK ID="userbook">
+<book id="userbook">
 
-<TITLE>Swarm User Guide</TITLE>
+<title>Swarm User Guide</title>
   &usermeta.sgml;
 
-<CHAPTER ID="SWARM.USER.USER1.CHAPTER">
+<chapter id="swarm.user.user1.chapter">
 
-<TITLE>Basic Concepts</TITLE>
+<title>Basic Concepts</title>
 
 
   &user1.01.sgml;
@@ -55,11 +54,11 @@
   &user1.04.sgml;
   &user1.05.sgml;
 
-</CHAPTER>
+</chapter>
 
-<CHAPTER ID="SWARM.USER.USER2.CHAPTER">
+<chapter id="swarm.user.user2.chapter">
 
-<TITLE>Swarm Applications: Examples and Illustrations</TITLE>
+<title>Swarm Applications: Examples and Illustrations</title>
 
 
   &user2.01.sgml;
@@ -74,11 +73,11 @@
   &user2.10.sgml;
   &user2.11.sgml;
 
-</CHAPTER>
+</chapter>
 
-<CHAPTER ID="SWARM.USER.USER3.CHAPTER">
+<chapter id="swarm.user.user3.chapter">
 
-<TITLE>Swarm Libraries</TITLE>
+<title>Swarm Libraries</title>
 
 
   &user3.01.sgml;
@@ -89,12 +88,12 @@
   &user3.06.sgml;
   &user3.07.sgml;
 
-  </CHAPTER>
+  </chapter>
 
   &userbiblio.sgml;
   &genindex.sgml; 
 
-</BOOK>
+</book>
 
 <!--
 Local Variables:
@@ -104,3 +103,4 @@ End:
   
 
 
+ 

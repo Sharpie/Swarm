@@ -1,0 +1,11 @@
+1999-03-01  Alex Lancaster  <alex@santafe.edu>
+
+	* user1.01.sgml: Minor text modifications.
+
+	* catalog.in: Add PUBLIC ENTITY for genindex.sgml - the
+	automatically generated index.
+
+	* userbook.sgml: Use ENTITY.
+
+	* Begin revision log.
+
