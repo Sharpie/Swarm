@@ -1,5 +1,8 @@
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* InputStream.m ([ArchiverPair_c -lispOutDeep:]): Don't quote
+	(x . y) cons format here.
+
 	* predicates.[hm] (quotedp): New predicate.
 
 	* InputStream.m ([InputStream_c -getExpr]): Create ArchiverQuoted

@@ -797,7 +797,7 @@ PHASE(Using)
 
 - lispOutDeep: (id <OutputStream>)stream
 {
-  [stream catC: (consFormatFlag ? "(cons " : "'(")];
+  [stream catC: (consFormatFlag ? "(cons " : "(")];
   [car lispOutDeep: stream];
   [stream catC: (consFormatFlag ? " ": " . ")];
   [cdr lispOutDeep: stream];
