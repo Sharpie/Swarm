@@ -41,7 +41,7 @@ swarmSelectorImpl::GetCID (nsCID **acid)
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::GetMethod (COMmethod *ret)
+swarmSelectorImpl::GetMethod (const void **ret)
 
 {
   *ret = &method;
@@ -226,7 +226,7 @@ swarmSelectorImpl::setupCOMselector ()
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::CreateFromMethod (COMmethod inmethod,
+swarmSelectorImpl::CreateFromMethod (const void *inmethod,
                                      swarmISelector **ret)
 {
   struct method_value *value = (struct method_value *) inmethod;

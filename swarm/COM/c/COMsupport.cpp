@@ -375,13 +375,13 @@ selectorCreate (COMmethod cMethod)
 COMmethod
 selectorMethod (COMselector cSel)
 {
-  COMmethod cMethod;
+  const void *cMethod;
   swarmISelector *_cSel = NS_STATIC_CAST (swarmISelector *, cSel);
 
   if (!NS_SUCCEEDED (_cSel->GetMethod (&cMethod)))
     abort ();
   
-  return cMethod;
+  return (COMmethod) cMethod;
 }
 
 
@@ -952,7 +952,7 @@ currentJSContext ()
 {
   nsresult rv;
   
-  NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+  nsCOMPtr<nsIXPConnect> xpc(do_GetService (nsIXPConnect::GetCID (), &rv));
   if (!NS_SUCCEEDED (rv))
     abort ();
   
@@ -975,7 +975,7 @@ currentJSObject ()
 {
   nsresult rv;
   
-  NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+  nsCOMPtr<nsIXPConnect> xpc(do_GetService (nsIXPConnect::GetCID (), &rv));
   if (!NS_SUCCEEDED (rv))
     abort ();
   
@@ -1127,7 +1127,7 @@ jsSetReturn (jsval inval, val_t *ret)
   if (JSVAL_IS_OBJECT (inval))
     {
       nsresult rv;
-      NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+      nsCOMPtr<nsIXPConnect> xpc(do_GetService (nsIXPConnect::GetCID (), &rv));
       if (!NS_SUCCEEDED (rv))
         abort ();
 
@@ -1280,7 +1280,7 @@ swarmITyping *
 COM_add_object_COM (swarmITyping *cObject, id oObject)
 {
   nsresult rv;
-  NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+  nsCOMPtr<nsIXPConnect> xpc(do_GetService (nsIXPConnect::GetCID (), &rv));
   if (!NS_SUCCEEDED (rv))
     abort ();
   

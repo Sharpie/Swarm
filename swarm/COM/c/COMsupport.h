@@ -26,7 +26,7 @@ extern "C" {
 fcall_type_t methodParamFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 paramIndex);
 
 COMobject COMcreateComponent (COMclass cClass);
-COMobject COMfindComponent (const char *className);
+COMclass COMfindComponent (const char *className);
 const char *COMcopyString (const char *str);
 const char *COMgetName (COMobject cObj);
 const char *COMgetComponentName (COMclass cClass);
