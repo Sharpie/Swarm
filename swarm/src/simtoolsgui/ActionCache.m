@@ -18,9 +18,9 @@
 #import <defobj.h> // Arguments
 
 // Type Symbols
-id <Symbol> Control, Probing, Spatial;
+externvardef id <Symbol> Control, Probing, Spatial;
 // Error symbols
-id <Symbol> InvalidActionType, ActionTypeNotImplemented;
+externvardef id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 @implementation ActionCache
 

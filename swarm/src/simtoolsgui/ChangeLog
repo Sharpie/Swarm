@@ -1,5 +1,14 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* simtoolsgui.m (probeDisplayManager): Add externvardef.
+
+	* ActionCache.m (Control, Probing, Spatial, InvalidActionType,
+	ActionTypeNotImplemented): Add externvardef.
+
+	* ControlPanel.m (ControlStateRunning, ControlStateStopped,
+	ControlStateStepping, ControlStateNextTime, ControlStateQuit): Add
+	externvardef.
+
 	* simtoolsgui.h: Use `externvar' for external variables.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

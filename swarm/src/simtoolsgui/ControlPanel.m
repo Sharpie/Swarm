@@ -19,8 +19,8 @@
 // falls on the shoulders of the controller that's using us, typically
 // an observer swarm.
 
-id <Symbol> ControlStateRunning, ControlStateStopped;
-id <Symbol> ControlStateStepping, ControlStateNextTime, ControlStateQuit;
+externvardef id <Symbol> ControlStateRunning, ControlStateStopped;
+externvardef id <Symbol> ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 @implementation ControlPanel
 

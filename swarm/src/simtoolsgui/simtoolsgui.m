@@ -11,7 +11,7 @@
 
 #import "ControlPanel.h" //ControlState{Running,Stopped,Stepping,Quit,NextTime}
 
-id <ProbeDisplayManager> probeDisplayManager;
+externvardef id <ProbeDisplayManager> probeDisplayManager;
 
 void
 initSimtoolsGUI (void)
