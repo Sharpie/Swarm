@@ -56,11 +56,12 @@ in duration starting the date of subscription</title><para></para></note>'>
  
  <homepage id="index">
   <config class="html" param="desc" value="www.swarm.org"/>  
-  <config class="html" param="rcsdate" value="$Date: 2003-06-05 12:41:46 $"/>
+  <config class="html" param="rcsdate" value="$Date: 2004-03-06 11:31:55 $"/>
   <config class="html" param="author" value="$Author: alexl $"/>
   <config class="html" param="footer" value="about.html" altval="About..."/>
   <config class="html" param="homebanner" value="graphics/sdg.jpeg" altval="SDG Home"/>
-  <config class="html" param="banner" value="graphics/sdg-small.png" altval="SDG Home"/>
+<!--  <config class="html" param="banner" value="graphics/sdg-small.png" altval="SDG Home"/> -->
+  <config class="html" param="banner" value="" altval="Outdated page, see wiki.swarm.org for updated information"/> 
   <config class="html" param="homerule" value="yes"/>
   <config class="html" param="dynamic-html" value="yes"/>
   
@@ -78,13 +79,9 @@ in duration starting the date of subscription</title><para></para></note>'>
      Swarm Simulation System and support of the Swarm user community.
     </para>
    </abstract>
-   <copyright><year>1999</year>
-    <year>2000</year>
-    <year>2001</year>
-    <year>2002</year>
-    <year>2003</year>
-    <holder role="http://www.swarm.org">
-     Swarm Development Group</holder></copyright>
+   <copyright>
+    <year>1999-2004</year>
+    <holder role="http://wiki.swarm.org">Swarm Development Group</holder></copyright>
    
    <style class="global" src="swarm.css"></style>
    
@@ -95,7 +92,25 @@ in duration starting the date of subscription</title><para></para></note>'>
   </head>
   
   <sect1 role="nongraphical.admonition">
-   <title>Welcome to <literal>www.swarm.org</literal>!</title> 
+    <title>swarm.org is migrating to a wiki</title>
+
+   <para><emphasis role="bold">This is an unmaintained
+     site!</emphasis></para>
+
+    <para>2004-03-06: This site is only for archival purposes, as we
+    transition our material to our new wiki site at:</para>
+
+    <para>
+     <emphasis role="strong"><ulink
+       url="http://wiki.swarm.org/">http://wiki.swarm.org/</ulink></emphasis>
+    </para>
+
+    <para>Since the merge with the new site is not yet complete, the
+    old site is still accessible from the table at the left.
+    (Eventually, wiki.swarm.org will become the new www.swarm.org, in
+    the meantime, please look at wiki.swarm.org for all updates).</para>
+
+<!--
    
    <para>Swarm is a software package for multi-agent simulation of
     complex systems. Swarm is intended to be a useful tool for
@@ -115,7 +130,7 @@ in duration starting the date of subscription</title><para></para></note>'>
      simulation through the continued advancement of the Swarm
      Simulation System and support of the Swarm user community.</para>
    </sidebar>
-   
+
    <sect2>
     <title>Latest news</title>
     <note revision="2003-06-05">
@@ -123,8 +138,11 @@ in duration starting the date of subscription</title><para></para></note>'>
     <para>News items older than 2003-06-05 are in an <link linkend="news-archive">archive.</link></para>
     </note>
    </sect2>
+-->
+
   </sect1>
 
+<!--
   <sect1>
    <title></title>
    <sidebar>
@@ -139,7 +157,8 @@ in duration starting the date of subscription</title><para></para></note>'>
     </para>
    </sidebar>
   </sect1>
-  
+-->
+
   &about;
   
  </homepage>
@@ -152,7 +171,7 @@ in duration starting the date of subscription</title><para></para></note>'>
  &contact;
 
  <webpage id="news-archive">
-  <config class="html" param="rcsdate" value="$Date: 2003-06-05 12:41:46 $"/>
+  <config class="html" param="rcsdate" value="$Date: 2004-03-06 11:31:55 $"/>
   <config class="html" param="author" value="$Author: alexl $"/>
   <head>
    <title>Archive (old news)</title>
