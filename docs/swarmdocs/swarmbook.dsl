@@ -103,6 +103,7 @@
                            (empty-sosofo)
                            (sosofo-append
                             (make paragraph
+                                  start-indent: 72pt
                                   (let* ((id (car linkends))
                                          (nl (element-with-id id)))
                                     (sosofo-append
