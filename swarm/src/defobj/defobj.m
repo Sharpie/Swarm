@@ -305,7 +305,8 @@ lispIn (id aZone, id expr)
               raiseEvent (InvalidArgument, "> type `%s' not found",
                           typeName);
 
-            if ([typeObject respondsTo: M(isJavaProxy)])
+            if (!object_is_class (typeObject)
+                && [typeObject respondsTo: M(isJavaProxy)])
               {
                 obj = [JavaProxy createBegin: aZone];
                 obj = [obj createJavaCounterpart: typeName];
@@ -319,7 +320,7 @@ lispIn (id aZone, id expr)
           }
         [argexpr drop];
       }
-      [makeExprIndex drop];
+    [makeExprIndex drop];
       return obj;
     }
   }
@@ -331,7 +332,7 @@ hdf5In (id aZone, id hdf5Obj)
   id obj;
   id typeObject;
   const char *typeName = [hdf5Obj getAttribute: ATTRIB_TYPE_NAME];
-    
+  
   if (typeName)
     {
       if (!(typeObject = swarm_directory_ensure_class_named (jniEnv, typeName)))
@@ -347,7 +348,7 @@ hdf5In (id aZone, id hdf5Obj)
   else
     {
       if ([hdf5Obj getDatasetFlag] && [hdf5Obj getCount] > 1)
-        typeObject = objc_lookup_class ("List");
+        typeObject = [List self];
       else
         {
           id typeObj;
@@ -368,7 +369,8 @@ hdf5In (id aZone, id hdf5Obj)
                 "Failed to find or create class for HDF5 object `%s'",
                 [hdf5Obj getName]);
   
-  if ([typeObject respondsTo: M(isJavaProxy)])
+  if (!object_is_class (typeObject)
+      && [typeObject respondsTo: M(isJavaProxy)])
     {
       obj = [JavaProxy createBegin: aZone];
       obj = [obj createJavaCounterpart: typeName];

@@ -708,7 +708,7 @@ PHASE(Using)
                 types_t val;
 
                 val.string = key;
-                object_setVariableFromPtr (obj, ivarName, &val);
+                object_setVariable (obj, ivarName, &val);
               }
             else
               *(const char **) val_ptr = key;
@@ -723,7 +723,7 @@ PHASE(Using)
                         ivarType, type);
           
           if ([obj respondsTo: M(isJavaProxy)])
-            object_setVariableFromPtr (obj, ivarName, buf + hoffset);
+            object_setVariable (obj, ivarName, buf + hoffset);
           else
             {
               unsigned i;
@@ -1606,7 +1606,7 @@ PHASE(Using)
                              fcall_type_size (type)];
             
             [self loadDataset: buf];
-            object_setVariableFromPtr (obj, ivarName, buf);
+            object_setVariable (obj, ivarName, buf);
           }
         }
       else
@@ -1614,7 +1614,7 @@ PHASE(Using)
           types_t buf;
 
           buf.object = hdf5In ([obj getZone], self);
-          object_setVariableFromPtr (obj, ivarName, &buf);
+          object_setVariable (obj, ivarName, &buf);
         }
     }
   else

@@ -262,23 +262,23 @@ map_objc_ivars (id obj,
                 continue;
               else if (*ivar_list[i].ivar_type == _C_PTR)
                 continue;
-               else if (*ivar_list[i].ivar_type == _C_ARY_B)
-                 {
-                   unsigned rank = get_rank (ivar_list[i].ivar_type);
-                   unsigned dims[rank];
-                   const char *baseType;
-                   
-                   baseType = fill_dims (ivar_list[i].ivar_type, dims);
-                   process_object (ivar_list[i].ivar_name,
-                                   fcall_type_for_objc_type (*baseType),
-                                   ivar_list[i].ivar_offset + obj,
-                                   rank,
-                                   dims);
-                 }
+              else if (*ivar_list[i].ivar_type == _C_ARY_B)
+                {
+                  unsigned rank = get_rank (ivar_list[i].ivar_type);
+                  unsigned dims[rank];
+                  const char *baseType;
+                  
+                  baseType = fill_dims (ivar_list[i].ivar_type, dims);
+                  process_object (ivar_list[i].ivar_name,
+                                  fcall_type_for_objc_type (*baseType),
+                                  ivar_list[i].ivar_offset + (void *) obj,
+                                  rank,
+                                  dims);
+                }
               else
                 process_object (ivar_list[i].ivar_name,
                                 fcall_type_for_objc_type (*ivar_list[i].ivar_type),
-                                ivar_list[i].ivar_offset + obj,
+                                ivar_list[i].ivar_offset + (void *) obj,
                                 0,
                                 NULL);
             }
@@ -1324,7 +1324,8 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
         }
       else
         {
-          *isArrayPtr = NO;
+          if (isArrayPtr)
+            *isArrayPtr = NO;
           return fcall_type_for_objc_type (*ivar->ivar_type);
         }
     }
@@ -1424,7 +1425,7 @@ java_storeArray (jobject javaObject,
 }
 
 void
-object_setVariableFromPtr (id obj, const char *ivarName, void *inbuf)
+object_setVariable (id obj, const char *ivarName, void *inbuf)
 {
   if ([obj respondsTo: M(isJavaProxy)])
     {
@@ -1529,6 +1530,8 @@ object_setVariableFromPtr (id obj, const char *ivarName, void *inbuf)
           for (i = 0; i < rank; i++)
             count *= dims[i];
         }
+      else if (*ivar->ivar_type == _C_PTR)
+        return;
       else
         type = fcall_type_for_objc_type (*ivar->ivar_type);
       
@@ -1618,7 +1621,7 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
             unsigned char buf[fcall_type_size (type) * count];
 
             [expr convertToType: type dest: buf];
-            object_setVariableFromPtr (obj, ivarName, buf);
+            object_setVariable (obj, ivarName, buf);
           }
         }
       else
@@ -1698,12 +1701,12 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
           raiseEvent (InvalidArgument, "Unknown value type `%d'", ntype);
           break;
         }
-      object_setVariableFromPtr (obj, ivarName, &buf);
+      object_setVariable (obj, ivarName, &buf);
     }
   else if (stringp (expr))
     {
       buf.string = OSTRDUP (obj, [expr getC]);
-      object_setVariableFromPtr (obj, ivarName, &buf);
+      object_setVariable (obj, ivarName, &buf);
     }
   else if (archiver_list_p (expr))
     {
@@ -1722,7 +1725,7 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
                         MAKE_INSTANCE_FUNCTION_NAME
                         " or "
                         MAKE_CLASS_FUNCTION_NAME);
-          object_setVariableFromPtr (obj, ivarName, &buf);
+          object_setVariable (obj, ivarName, &buf);
         }
       else
         raiseEvent (InvalidArgument, "argument not a string");

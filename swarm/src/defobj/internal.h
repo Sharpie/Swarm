@@ -92,7 +92,7 @@ extern const char *class_generate_name (void);
 extern struct objc_ivar_list *ivar_extend_list (struct objc_ivar_list *ivars, unsigned additional);
 
 extern void object_setVariableFromExpr (id obj, const char *ivarname, id expr);
-extern void object_setVariableFromPtr (id, const char *ivarname, void *ptr);
+extern void object_setVariable (id, const char *ivarname, void *ptr);
 
 extern unsigned object_getVariableElementCount (id obj,
                                                 const char *ivarName,

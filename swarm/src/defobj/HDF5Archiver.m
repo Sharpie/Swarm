@@ -77,9 +77,9 @@ PHASE(Creating)
   [super createEnd];
   [self ensureApp: 
           [[[[[HDF5 createBegin: aZone]
-               setWriteFlag: YES]
-                        setParent: nil]
-                       setName: path]
+               setWriteFlag: NO]
+              setParent: nil]
+             setName: path]
             createEnd]];
   return self;
 }
@@ -120,19 +120,18 @@ PHASE(Using)
     {
       if ([hdf5Obj getWriteFlag])
         return hdf5Obj;
-  else
+      else
         [hdf5Obj drop];
-}
-
+    }
   hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
                  setWriteFlag: YES]
                 setParent: nil]
                setName: path]
-                             createEnd];
-              
+              createEnd];
+  
   if (systemArchiverFlag)
     hdf5Obj = hdf5_create_app_group ([currentApplicationKey getC], hdf5Obj);
-
+  
   [applicationMap at: currentApplicationKey replace: hdf5Obj];
   return hdf5Obj;
 }
@@ -171,7 +170,7 @@ PHASE(Using)
   id parent = [self getApplication];
   
   if (parent)
-{
+    {
       id hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
                         setParent: parent]
                        setDatasetFlag: [parent checkDatasetName: key]]
@@ -185,17 +184,17 @@ PHASE(Using)
         }
       else
         result = nil;
-        }
+    }
   else
     result = nil;
   return result;
 }
 
 - getObject: (const char *)key
-    {
+{
   return [self getWithZone: getZone (self) key: key];
-    }
-  
+}
+
 - (void)sync
 {
   [self updateArchiver];

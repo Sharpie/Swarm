@@ -17,9 +17,9 @@
 
 	* internal.m (map_java_ivars): Don't drop localrefs for objects
 	(which are proxies).
-	(object_setVariableFromPtr): Add support for arrays.
+	(object_setVariable): Add support for arrays.
 	(object_setVariableFromExpr): Simplify using
-	object_setVariableFromPtr and object_getVariableElementCount.
+	object_setVariable and object_getVariableElementCount.
 
 	* JavaProxy.[hm] ([JavaProxy -createJavaCounterpart:]): New method.
 
@@ -30,11 +30,11 @@
 	offset, just start from zero.  Disable check for empty class.
 	([HDF5CompoundType_c -createEnd]): Copy ivarName for stringMap
 	entry.
-	([HDF5CompoundType_c -packObj:to:]): Use object_setVariableFromPtr
+	([HDF5CompoundType_c -packObj:to:]): Use object_setVariable
 	for Java assignments.
 	([HDF5_c -assignIvar:]): For Java, use
 	object_getVariableElementCount to get buffer size and
-	object_setVariableFromPtr to assign.
+	object_setVariable to assign.
 
 	* HDF5Archiver.m ([HDFArchiver_c -createEnd]): Always set write flag.
 
@@ -42,7 +42,7 @@
 
 	* internal.[hm] (object_setVariableFromExpr): Renamed from
 	object_setVariable.  Add java support.
-	(object_setVariableFromptr, java_signature_for_fcall_type):
+	(object_setVariable, java_signature_for_fcall_type):
 	New functions.
 	(map_java_ivars): Use getFields instead of recursing.
 

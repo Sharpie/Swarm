@@ -1247,17 +1247,20 @@ swarm_directory_cleanup_strings (JNIEnv *env,
 Class
 swarm_directory_ensure_class_named (JNIEnv *env, const char *className)
 {
+  Class objcClass = nil;
 #ifdef HAVE_JDK
-  jclass javaClass = java_find_class (env, className, NO);
-  Class objcClass;
-
-  if (javaClass)
+  if (swarmDirectory)
     {
-      objcClass = swarm_directory_java_ensure_class (env, javaClass);
-      (*env)->DeleteLocalRef (env, javaClass);
+      jclass javaClass = java_find_class (env, className, NO);
+      
+      if (javaClass)
+        {
+          objcClass = swarm_directory_java_ensure_class (env, javaClass);
+          (*env)->DeleteLocalRef (env, javaClass);
+        }
     }
-  else
 #endif
+  if (!objcClass)
     objcClass = objc_lookup_class (className);
   return objcClass;
 }
