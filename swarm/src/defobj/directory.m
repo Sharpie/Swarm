@@ -531,6 +531,7 @@ get_java_class (JNIEnv *env, const char *name)
   return ret;
 }
 
+#if 0
 static jclass
 get_type_field_for_class (JNIEnv *env, jclass clazz)
 {
@@ -549,18 +550,67 @@ get_type_field_for_class (JNIEnv *env, jclass clazz)
   (*env)->DeleteLocalRef (env, lref);
   return ret;
 }
+#endif
+
+static void
+create_bootstrap_refs (JNIEnv *env)
+{
+  jclass lref;
+
+  if (!(lref = (*env)->FindClass (env, "swarm/Primitives")))
+    abort ();
+  c_Primitives = (*env)->NewGlobalRef (env, lref);
+  (*env)->DeleteLocalRef (env, lref);
+  
+  if (!(m_PrimitivesGetTypeMethod =
+        (*env)->GetStaticMethodID (env, c_Primitives, "getTypeMethod",
+                                   "(Ljava/lang/String;)Ljava/lang/reflect/Method;")))
+    abort ();
+  
+  if (!(lref = (*env)->FindClass (env, "java/lang/reflect/Method")))
+    abort ();
+  c_Method = (*env)->NewGlobalRef (env, lref);
+  (*env)->DeleteLocalRef (env, lref);
+
+  if (!(m_MethodGetReturnType =
+        (*env)->GetMethodID (env, c_Method, "getReturnType",
+                             "()Ljava/lang/Class;")))
+    abort();
+}
 
 static void
 create_class_refs (JNIEnv *env)
 {
-  jclass lref;
+  jobject lref;
 
   jclass get_primitive (const char *name)
     {
+#if 0
       return get_type_field_for_class (env, get_java_class (env, name));
+#else
+      jobject nameString = (*env)->NewStringUTF (env, name);
+      jobject method;
+      jclass lref, returnType;
+      
+      if (!(method = (*env)->CallStaticObjectMethod (env,
+                                                     c_Primitives,
+                                                     m_PrimitivesGetTypeMethod,
+                                                     nameString)))
+        abort ();
+      (*env)->DeleteLocalRef (env, nameString);
+      if (!(lref = (*env)->CallObjectMethod (env,
+                                             method,
+                                             m_MethodGetReturnType,
+                                             method)))
+        abort ();
+      returnType = (*env)->NewGlobalRef (env, lref);
+      (*env)->DeleteLocalRef (env, lref);
+      return returnType;
+#endif
     }
   if (!initFlag)
    {
+
       c_char = get_primitive ("Character");
       c_byte = get_primitive ("Byte");
       c_int = get_primitive ("Integer");
@@ -587,11 +637,6 @@ create_class_refs (JNIEnv *env)
       if (!(lref = (*env)->FindClass (env, "java/lang/reflect/Field")))
         abort ();
       c_Field = (*env)->NewGlobalRef (env, lref);
-      (*env)->DeleteLocalRef (env, lref);
-
-      if (!(lref = (*env)->FindClass (env, "java/lang/reflect/Method")))
-        abort ();
-      c_Method = (*env)->NewGlobalRef (env, lref);
       (*env)->DeleteLocalRef (env, lref);
 
       if (!(lref = (*env)->FindClass (env, "swarm/Selector")))
@@ -758,7 +803,7 @@ create_method_refs (JNIEnv *env)
 	(*env)->GetMethodID (env, c_Method, "getName",
 			     "()Ljava/lang/String;")))
     abort();
-  
+
   if (!(m_SelectorConstructor =
 	(*env)->GetMethodID (env, c_Selector, "<init>", 
 			     "(Ljava/lang/Class;Ljava/lang/String;Z)V")))
@@ -906,6 +951,7 @@ get_swarmEnvironment_field (JNIEnv *env,
 void
 swarm_directory_create_refs (JNIEnv *env)
 {
+  create_bootstrap_refs (env);
   create_class_refs (env);
   create_method_refs (env);
   create_field_refs (env);

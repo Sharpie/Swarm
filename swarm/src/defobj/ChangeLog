@@ -1,3 +1,14 @@
+1999-09-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javavars.h: Add c_Primitives, m_PrimitivesGetTypeMethod,
+	and m_MethodGetReturnType.
+
+	* directory.m (get_type_field_for_class): Disable.
+	(create_bootstrap_refs): New function.
+	(swarm_directory_create_refs): Call it.
+	(get_primitive): Use call to getReturnType via method of 
+	getTypeMethod to get primitive return types.
+
 1999-09-19    <mgd@HELEN>
 
 	* Arguments.m (getSwarmPrefix): Ensure path ends in slash.

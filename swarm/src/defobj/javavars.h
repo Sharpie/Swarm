@@ -13,7 +13,7 @@ extern jclass c_Boolean,
   c_Long, c_Float,
   c_Class, c_Field, c_Method, c_Selector,
   c_Object, c_String, 
-  c_Double, c_PhaseCImpl,
+  c_Double, c_PhaseCImpl, c_Primitives,
   c_SwarmEnvironment;
 
 extern jmethodID m_BooleanValueOf,
@@ -43,10 +43,12 @@ extern jmethodID m_BooleanValueOf,
   m_FieldGetObject,
   m_FieldGetName,
   m_MethodGetName,
+  m_MethodGetReturnType,
   m_SelectorConstructor,
   m_HashCode,
   m_Equals,
-  m_PhaseCImpl_copy_creating_phase_to_using_phase;
+  m_PhaseCImpl_copy_creating_phase_to_using_phase,
+  m_PrimitivesGetTypeMethod;
 
 extern jfieldID f_nameFid,
   f_retTypeFid,
