@@ -553,7 +553,7 @@
         (save-excursion
           (save-restriction
             (narrow-to-region beg end)
-            (beginning-of-line)
+            (goto-char (point-min))
             (save-excursion
               (while (search-forward "<" nil t)
                 (replace-match "&lt;")))
@@ -565,7 +565,7 @@
   (when text-list
     (insert "<REFSECT1>\n")
     (insert "<TITLE>")
-    (insert title)
+    (insert-text title)
     (insert "</TITLE>\n")
     (loop for text in text-list
           do 
@@ -718,19 +718,19 @@
   (when named-object-list
     (insert "<REFSECT1>\n")
     (insert "<TITLE>")
-    (insert title)
+    (insert-text title)
     (insert "</TITLE>\n")
     (insert "<ITEMIZEDLIST>\n")
     (loop for object in named-object-list
           do
           (insert "<LISTITEM>\n")
           (insert "<PARA>")
-          (insert (named-object-name object))
+          (insert-text (named-object-name object))
           (insert "</PARA>\n")
           (loop for text in (named-object-description-list object)
                 do
                 (insert "<PARA>")
-                (insert text)
+                (insert-text text)
                 (insert "</PARA>\n"))
           (insert "</LISTITEM>\n"))
     (insert "</ITEMIZEDLIST>\n")))

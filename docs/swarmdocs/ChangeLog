@@ -1,6 +1,18 @@
 1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* protocol.el: Support externs and macros.
+	* protocol.el (named-object): New structure.
+	(*doc-types*): New types :global-doc, :global-begin, :global-end,
+	:global-break.
+	(sgml-refsect1-named-object-list, sgml-refsect1-text-list): New
+	functions.
+	(sgml-refsect1-macro-list, sgml-refsect1-global-list): New
+	functions
+	(use sgml-refsect1-named-object-list).
+	(sgml-refsect1-description-list): Use sgml-refsect1-text-list.
+	(load-protocol): Parse //# (traditional) and //G (traditional and
+	same-line).
+	(insert-text): Reset to start of accessible region, not start
+	of line.
 
 	* Makefile.rules: Add $(top_srcdir)/history.el and
 	$(top_srcdir)/common.el as a dependents of %revhistory.sgml.  Set
