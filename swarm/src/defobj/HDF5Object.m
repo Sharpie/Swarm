@@ -1261,6 +1261,7 @@ check_alignment (id obj, id compoundType)
 
 - (const char **)readRowNames
 {
+#ifdef HAVE_HDF5
   hid_t aid, sid;
   hid_t memtid = make_string_ref_type ();
   int rank;
@@ -1300,6 +1301,10 @@ check_alignment (id obj, id compoundType)
     raiseEvent (LoadError, "could not close reference type");
 
   return buf;
+#else
+  hdf5_not_available ();
+  return NULL;
+#endif
 }
 
 - writeRowNames
