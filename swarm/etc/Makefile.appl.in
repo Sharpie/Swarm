@@ -52,15 +52,17 @@ SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lact
 
 LIBS = @LIBS@
 
+APPEXE = $(APPLICATION)@EXESUFFIX@
+
 .PHONY: install-config install-data
 
-all: $(APPLICATION)
+all: $(APPEXE)
 
 clean:
-	-rm -f $(OBJECTS) $(APPLICATION) $(OTHERCLEAN) core gmon.out
+	-rm -f $(OBJECTS) $(APPEXE) $(OTHERCLEAN) core gmon.out
 
-install: $(APPLICATION) install-config install-data
-	$(INSTALL_PROGRAM) $(APPLICATION) $(bindir)
+install: $(APPEXE) install-config install-data
+	$(INSTALL_PROGRAM) $(APPEXE) $(bindir)
 
 install-config:
 	if test -n "$(CONFIGFILES)" ; then \
@@ -76,7 +78,7 @@ install-data:
 	  $(INSTALL_DATA) $(DATAFILES) $(swarmdatadir)/$(APPLICATION) ; \
         fi
 
-$(APPLICATION): $(OBJECTS)
+$(APPEXE): $(OBJECTS)
 	$(LINK) $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
 
 .SUFFIXES: .m .xm
