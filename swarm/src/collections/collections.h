@@ -46,7 +46,7 @@ Library:      collections
 // (.. This option is not currently implemented for any collection types.)
 
 //M: The MemberType option may be used to declare the type of member which
-//M a collection contains.  Its value must be an objec having one of the
+//M: a collection contains.  Its value must be an objec having one of the
 //M: ValueType types defined in defobj.  (..Currently no ValueType objects
 //M: are implemented, so MemberType is not supported.)
 
@@ -320,7 +320,7 @@ USING
 id <Symbol>  Unsafe, UnsafeAtMember, SafeAlways;
 
 
-@deftype Index <DefinedObject, Copy, Drop, NextPrev>
+@deftype Index <DefinedObject, Copy, Drop>
 //S: Reference into the enumeration sequence for a collection.
 
 //D: An index is a reference into an enumeration sequence of a collection.
@@ -1161,7 +1161,7 @@ typedef struct { void *memberData[2]; id owner; } dupmember_t;
 ///M: index positioned to the new member is needed anyway, setting the index
 ///M: in the same operation avoids repeating a search for the position at
 ///M: which the member key belongs.
-/// - (BOOL)add: anObject setIndex: anIndex;
+// - (BOOL)add: anObject setIndex: anIndex;
 
 //M: The replace: message replaces a member stored at a given key with
 //M: another member value that matches the same key.  The new value to

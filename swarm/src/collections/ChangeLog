@@ -1,3 +1,8 @@
+1998-05-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* collections.h: Remove NextPrev from Index protocol.  Tweak
+	comments for the sake of documentation processing.
+
 1998-04-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Set.[hm] ([Set_c -createIndex:fromMember:]): Rename from
