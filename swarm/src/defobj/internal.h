@@ -13,6 +13,14 @@ extern size_t alignsizeto (size_t pos, size_t alignment);
 extern void *alignptrto (void *ptr, size_t alignment);
 
 extern size_t fcall_type_alignment (fcall_type_t varType);
+
+extern void map_objc_class_ivars (Class class,
+                                  void (*process_ivar) (const char *name,
+                                                        fcall_type_t type,
+                                                        unsigned offset,
+                                                        unsigned rank,
+                                                        unsigned *dims));
+
 extern void map_object_ivars (id object,
                               void (*process_object) (const char *name,
                                                       fcall_type_t type,

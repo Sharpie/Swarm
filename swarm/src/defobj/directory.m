@@ -303,7 +303,7 @@ swarm_directory_superclass (Class class)
 {
   if ([class respondsTo: M(isJavaProxy)])
     {
-      jclass clazz = SD_JAVA_FINDJAVACLASS (class);
+      jclass clazz = SD_JAVA_FIND_OBJECT_JAVA (class);
       
       return SD_JAVA_ENSUREOBJCCLASS ((*jniEnv)->GetSuperclass (jniEnv,
 								clazz));

@@ -14,7 +14,7 @@
 
 #import <swarmconfig.h>
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // SD_JAVA_FIND_OBJECT_JAVA, SD_JAVA_FINDJAVACLASS
+#import <defobj/directory.h> // SD_JAVA_FIND_OBJECT_JAVA
 #import "java.h" // map_java_ivars, GETVALUE
 #endif
 
@@ -233,6 +233,59 @@ objc_process_array (const char *type,
                  data);
 }
 
+
+void map_objc_class_ivars (Class class,
+                           void (*process_ivar) (const char *name,
+                                                 fcall_type_t type,
+                                                 unsigned offset,
+                                                 unsigned rank,
+                                                 unsigned *dims))
+{
+  struct objc_ivar_list *ivars = class->ivars;
+  
+  if (class->super_class)
+    {
+      if (strcmp (class->super_class->name, "Object_s") != 0)
+        map_objc_class_ivars (class->super_class, process_ivar);
+    }
+  
+  if (ivars)
+    {
+      unsigned i, ivar_count = ivars->ivar_count;
+      struct objc_ivar *ivar_list = ivars->ivar_list;
+      
+      for (i = 0; i < ivar_count; i++)
+        {
+          // Special case to allow member_t for setIndexFromMemberLoc:
+          // lists.
+          if (strcmp (ivar_list[i].ivar_type,
+                      "{?=\"memberData\"[2^v]}") == 0)
+            continue;
+          else if (*ivar_list[i].ivar_type == _C_PTR)
+            continue;
+          else if (*ivar_list[i].ivar_type == _C_ARY_B)
+            {
+              unsigned rank = get_rank (ivar_list[i].ivar_type);
+              unsigned dims[rank];
+              const char *baseType;
+              
+              baseType = objc_array_subtype (ivar_list[i].ivar_type, dims);
+              process_ivar (ivar_list[i].ivar_name,
+                            fcall_type_for_objc_type (*baseType),
+                            ivar_list[i].ivar_offset,
+                            rank,
+                            dims);
+            }
+          else
+            process_ivar (ivar_list[i].ivar_name,
+                          fcall_type_for_objc_type (*ivar_list[i].ivar_type),
+                          ivar_list[i].ivar_offset,
+                          0,
+                          NULL);
+        }
+    }
+}
+
 static void
 map_objc_ivars (id obj,
                 void (*process_object) (const char *name,
@@ -241,53 +294,16 @@ map_objc_ivars (id obj,
                                         unsigned rank,
                                         unsigned *dims))
 {
-  void map_class_ivars (Class class)
+  void process_ivar (const char *name,
+                     fcall_type_t type,
+                     unsigned offset,
+                     unsigned rank,
+                     unsigned *dims)
     {
-      struct objc_ivar_list *ivars = class->ivars;
-  
-      if (class->super_class)
-        {
-          if (strcmp (class->super_class->name, "Object_s") != 0)
-            map_class_ivars (class->super_class);
-        }
-  
-      if (ivars)
-        {
-          unsigned i, ivar_count = ivars->ivar_count;
-          struct objc_ivar *ivar_list = ivars->ivar_list;
-          
-          for (i = 0; i < ivar_count; i++)
-            {
-              // Special case to allow member_t for setIndexFromMemberLoc:
-              // lists.
-              if (strcmp (ivar_list[i].ivar_type,
-                          "{?=\"memberData\"[2^v]}") == 0)
-                continue;
-              else if (*ivar_list[i].ivar_type == _C_PTR)
-                continue;
-              else if (*ivar_list[i].ivar_type == _C_ARY_B)
-                {
-                  unsigned rank = get_rank (ivar_list[i].ivar_type);
-                  unsigned dims[rank];
-                  const char *baseType;
-                  
-                  baseType = objc_array_subtype (ivar_list[i].ivar_type, dims);
-                  process_object (ivar_list[i].ivar_name,
-                                  fcall_type_for_objc_type (*baseType),
-                                  ivar_list[i].ivar_offset + (void *) obj,
-                                  rank,
-                                  dims);
-                }
-              else
-                process_object (ivar_list[i].ivar_name,
-                                fcall_type_for_objc_type (*ivar_list[i].ivar_type),
-                                ivar_list[i].ivar_offset + (void *) obj,
-                                0,
-                                NULL);
-            }
-        }
+      process_object (name, type, (void *) obj + offset, rank, dims);
     }
-  map_class_ivars (getClass (obj));
+
+  map_objc_class_ivars (getClass (obj), process_ivar);
 }
 
 void

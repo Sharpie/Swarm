@@ -333,19 +333,15 @@ java_method_usable_p (jobject method)
                                    fid)
 #define GETVALUE(uptype) _GETVALUE(uptype)
 
-void
-map_java_ivars (jobject javaObject,
-                void (*process_object) (const char *name,
-                                        fcall_type_t type,
-                                        void *ptr,
-                                        unsigned rank,
-                                        unsigned *dims))
+static void
+map_java_class_ivars_internal (jclass class,
+                               void (*process_array_ivar) (const char *name, jfieldID fid),
+                               void (*process_ivar) (const char *name, jfieldID fid, fcall_type_t type))
 {
   jarray fields;
   jsize count;
   unsigned fi;
-  jclass class = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
-      
+  
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               class,
                                               m_ClassGetDeclaredFields)))
@@ -384,90 +380,9 @@ map_java_ivars (jobject javaObject,
             
 	    SFREEBLOCK (sig);
 	    if (isArray)
-	      {
-		jobject obj = GETVALUE (Object);
-		fcall_type_t type;
-		unsigned rank;
-                
-		java_getTypeInfo (obj, &rank, NULL);
-		{
-		  unsigned dims[rank], i;
-		  unsigned count = 1;
-                  
-		  type = java_getTypeInfo (obj, &rank, dims);
-                  
-		  for (i = 0; i < rank; i++)
-		    count *= dims[i];
-		  {
-		    unsigned buf[fcall_type_size (type) * count];
-                    
-		    java_expandArray (obj, buf);
-		    process_object (namestr, type, buf, rank, dims);
-		  }
-		}
-		(*jniEnv)->DeleteLocalRef (jniEnv, obj);
-	      }
+              process_array_ivar (namestr, fid);
 	    else
-	      {
-		types_t val;
-                
-		switch (type)
-		  {
-		  case fcall_type_boolean:
-		    val.boolean = GETVALUE (Boolean);
-		    break;
-		  case fcall_type_schar:
-		    val.schar = GETVALUE (Char);
-		    break;
-		  case fcall_type_sshort:
-		    val.sshort = GETVALUE (Short);
-		    break;
-		  case fcall_type_sint:
-		    val.sint = GETVALUE (Int);
-		    break;
-		  case fcall_type_slonglong:
-		    val.slonglong = GETVALUE (Long);
-		    break;
-		  case fcall_type_float:
-		    val._float = GETVALUE (Float);
-		    break;
-		  case fcall_type_double:
-		    val._double = GETVALUE (Double);
-		    break;
-		  case fcall_type_object:
-		    {
-		      jobject obj = GETVALUE (Object);
-                      
-		      val.object = SD_JAVA_ENSUREOBJC (obj);
-		      (*jniEnv)->DeleteLocalRef (jniEnv, obj);
-		    }
-		    break;
-		  case fcall_type_string:
-		    {
-		      BOOL isCopy;
-		      jobject string = GETVALUE (Object);
-		      const char *utf =
-			(*jniEnv)->GetStringUTFChars (jniEnv, string, &isCopy);
-                      
-		      val.string = SSTRDUP (utf);
-		      if (isCopy)
-			(*jniEnv)->ReleaseStringUTFChars (jniEnv, string, utf);
-		      (*jniEnv)->DeleteLocalRef (jniEnv, string);
-		    }
-		    break;
-		  case fcall_type_selector:
-		    {
-		      jobject sel = GETVALUE (Object);
-                      
-		      val.object = SD_JAVA_FINDOBJC (sel);
-		      (*jniEnv)->DeleteLocalRef (jniEnv, sel);
-		    }
-		    break;
-		  default:
-		    abort ();
-		  }
-		process_object (namestr, type, &val, 0, NULL);
-	      }
+              process_ivar (namestr, fid, type);
 	    if (isCopy)
 	      (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
 	    (*jniEnv)->DeleteLocalRef (jniEnv, name);
@@ -479,6 +394,125 @@ map_java_ivars (jobject javaObject,
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
 }
 
+void
+map_java_class_ivars (jclass class,
+                      void (*process_ivar) (const char *name,
+                                            fcall_type_t type))
+{
+  void process_array_ivar (const char *name, jfieldID fid)
+    {
+      // skip (unknown until there is an object)
+    }
+  void process_simple_ivar (const char *name, jfieldID fid, fcall_type_t type)
+    {
+      process_ivar (name, type);
+    }
+  map_java_class_ivars_internal (class,
+                                 process_array_ivar,
+                                 process_simple_ivar);
+}
+
+void
+map_java_ivars (jobject javaObject,
+                void (*process_object) (const char *name,
+                                        fcall_type_t type,
+                                        void *ptr,
+                                        unsigned rank,
+                                        unsigned *dims))
+{
+  void process_array_ivar (const char *name, jfieldID fid)
+    {
+      jobject obj = GETVALUE (Object);
+      fcall_type_t type;
+      unsigned rank;
+      
+      java_getTypeInfo (obj, &rank, NULL);
+      {
+        unsigned dims[rank], i;
+        unsigned count = 1;
+        
+        type = java_getTypeInfo (obj, &rank, dims);
+        
+        for (i = 0; i < rank; i++)
+          count *= dims[i];
+        {
+          unsigned buf[fcall_type_size (type) * count];
+          
+          java_expandArray (obj, buf);
+          process_object (name, type, buf, rank, dims);
+        }
+      }
+      (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+    }
+  
+  void process_simple_ivar (const char *name, jfieldID fid, fcall_type_t type)
+    {
+      types_t val;
+      
+      switch (type)
+        {
+        case fcall_type_boolean:
+          val.boolean = GETVALUE (Boolean);
+          break;
+        case fcall_type_schar:
+          val.schar = GETVALUE (Char);
+          break;
+        case fcall_type_sshort:
+          val.sshort = GETVALUE (Short);
+          break;
+        case fcall_type_sint:
+          val.sint = GETVALUE (Int);
+          break;
+        case fcall_type_slonglong:
+          val.slonglong = GETVALUE (Long);
+          break;
+        case fcall_type_float:
+          val._float = GETVALUE (Float);
+          break;
+        case fcall_type_double:
+          val._double = GETVALUE (Double);
+          break;
+        case fcall_type_object:
+          {
+            jobject obj = GETVALUE (Object);
+            
+            val.object = SD_JAVA_ENSUREOBJC (obj);
+            (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+          }
+          break;
+        case fcall_type_string:
+          {
+            BOOL isCopy;
+            jobject string = GETVALUE (Object);
+            const char *utf =
+              (*jniEnv)->GetStringUTFChars (jniEnv, string, &isCopy);
+            
+            val.string = SSTRDUP (utf);
+            if (isCopy)
+              (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, utf);
+            (*jniEnv)->DeleteLocalRef (jniEnv, string);
+          }
+          break;
+        case fcall_type_selector:
+          {
+            jobject sel = GETVALUE (Object);
+            
+            val.object = SD_JAVA_FINDOBJC (sel);
+            (*jniEnv)->DeleteLocalRef (jniEnv, sel);
+          }
+          break;
+        default:
+          abort ();
+        }
+      process_object (name, type, &val, 0, NULL);
+    }
+  jclass class = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
+  map_java_class_ivars_internal (class,
+                                 process_array_ivar,
+                                 process_simple_ivar);
+  (*jniEnv)->DeleteLocalRef (jniEnv, class);
+}
+                        
 static jfieldID
 class_java_find_field (jclass javaClass, const char *fieldName,
                        fcall_type_t *typePtr, BOOL *isArrayPtr)
@@ -812,7 +846,7 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
         switch (type)
           {
           case fcall_type_object:
-            SETVALUE (Object, SD_JAVA_FIND_OBJECT_JAVA (buf->object));
+            SETVALUE (Object, SD_JAVA_ENSUREJAVA (buf->object));
             break;
           case fcall_type_class:
             SETVALUE (Object, SD_JAVA_FINDJAVACLASS (buf->class));
@@ -1460,6 +1494,94 @@ java_instantiate (jclass clazz)
   return (*jniEnv)->NewObject (jniEnv, clazz, mid);
 }
 
+static const char *
+java_class_name_for_typename (const char *typeName, BOOL usingFlag)
+{
+  if (strcmp (typeName, "Create_byboth") == 0)
+    return DUPCLASSNAME ("swarm/CustomizedType");
+  else
+    {
+      extern const char *swarm_lookup_module (const char *name);
+      const char *module = swarm_lookup_module (typeName);
+      size_t modulelen = module ? strlen (module) + 1 : 0;
+      char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
+      char *p;
+      
+      p = stpcpy (javaClassName, "swarm/");
+      if (module)
+        {
+          p = stpcpy (p, module);
+          p = stpcpy (p, "/");
+        }
+      p = stpcpy (p, typeName);
+      if (!usingFlag)
+        p = stpcpy (p, "C");
+      p = stpcpy (p, "Impl");
+      return DUPCLASSNAME (javaClassName);
+    }
+}
+
+static const char *
+java_class_name_for_objc_class (Class class)
+{
+  const char *javaClassName;
+  
+  if (getBit (class->info, _CLS_DEFINEDCLASS))
+    {
+      Type_c *typeImpl;
+      Class_s *nextPhase;
+
+      nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
+      typeImpl = [class getTypeImplemented];
+      javaClassName = java_class_name_for_typename (typeImpl->name,
+						   nextPhase == NULL); 
+    }
+  else
+    {
+      Type_c *typeImpl;
+      typeImpl = [class getTypeImplemented];
+
+      if (typeImpl)
+        javaClassName =
+	  java_class_name_for_typename (typeImpl->name, YES);
+      else 
+        javaClassName =
+	  java_class_name_for_typename (class->name, YES);
+    }
+  return javaClassName;
+}
+
+static jclass
+java_find_class (const char *javaClassName, BOOL failFlag)
+{
+  jobject ret;
+  jobject throwable;
+  
+  (*jniEnv)->ExceptionClear (jniEnv);
+  ret = (*jniEnv)->FindClass (jniEnv, javaClassName);
+  
+  if (failFlag)
+    {
+      if ((throwable = (*jniEnv)->ExceptionOccurred (jniEnv)) != NULL)
+        (*jniEnv)->ExceptionDescribe (jniEnv);
+    }
+  else
+    (*jniEnv)->ExceptionClear (jniEnv);
+  return ret;
+}
+
+static jclass
+find_java_wrapper_class (Class class)
+{
+  jclass ret;
+  const char *name = java_class_name_for_objc_class (class);
+
+  ret = java_find_class (name, YES);
+  FREECLASSNAME (name);
+  return ret;
+}
+
+
 jobject
 swarm_directory_objc_ensure_java (id object)
 {
@@ -1473,7 +1595,7 @@ swarm_directory_objc_ensure_java (id object)
   if (!result)
     {
       Class class = getClass (object);
-      jclass javaClass = swarm_directory_objc_find_java_class (class);
+      jclass javaClass = find_java_wrapper_class (class);
       jobject lref = java_instantiate (javaClass);
       
       result = SD_JAVA_ADD (lref, object);
@@ -1721,6 +1843,14 @@ swarm_directory_java_ensure_selector (jobject jsel)
   return sel;
 }
 
+jclass
+swarm_directory_objc_find_java_class (Class class)
+{
+  return ([class respondsTo: M(isJavaProxy)]
+          ? SD_JAVA_FIND_OBJECT_JAVA (class)
+          : find_java_wrapper_class (class));
+}
+
 Class
 swarm_directory_java_ensure_class (jclass javaClass)
 {
@@ -1846,93 +1976,6 @@ swarm_directory_java_switch_objc (id object, jobject javaObject)
       abort ();
   }
   return entry;
-}
-
-static const char *
-java_classname_for_typename (const char *typeName, BOOL usingFlag)
-{
-  if (strcmp (typeName, "Create_byboth") == 0)
-    return DUPCLASSNAME ("swarm/CustomizedType");
-  else
-    {
-      extern const char *swarm_lookup_module (const char *name);
-      const char *module = swarm_lookup_module (typeName);
-      size_t modulelen = module ? strlen (module) + 1 : 0;
-      char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
-      char *p;
-      
-      p = stpcpy (javaClassName, "swarm/");
-      if (module)
-        {
-          p = stpcpy (p, module);
-          p = stpcpy (p, "/");
-        }
-      p = stpcpy (p, typeName);
-      if (!usingFlag)
-        p = stpcpy (p, "C");
-      p = stpcpy (p, "Impl");
-      return DUPCLASSNAME (javaClassName);
-    }
-}
-
-static const char *
-objcFindJavaClassName (Class class)
-{
-  const char *javaClassName;
-  
-  if (getBit (class->info, _CLS_DEFINEDCLASS))
-    {
-      Type_c *typeImpl;
-      Class_s *nextPhase;
-
-      nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
-      typeImpl = [class getTypeImplemented];
-      javaClassName = java_classname_for_typename (typeImpl->name,
-						   nextPhase == NULL); 
-    }
-  else
-    {
-      Type_c *typeImpl;
-      typeImpl = [class getTypeImplemented];
-
-      if (typeImpl)
-        javaClassName =
-	  java_classname_for_typename (typeImpl->name, YES);
-      else 
-        javaClassName =
-	  java_classname_for_typename (class->name, YES);
-    }
-  return javaClassName;
-}
-
-static jclass
-java_find_class (const char *javaClassName, BOOL failFlag)
-{
-  jobject ret;
-  jobject throwable;
-  
-  (*jniEnv)->ExceptionClear (jniEnv);
-  ret = (*jniEnv)->FindClass (jniEnv, javaClassName);
-  
-  if (failFlag)
-    {
-      if ((throwable = (*jniEnv)->ExceptionOccurred (jniEnv)) != NULL)
-        (*jniEnv)->ExceptionDescribe (jniEnv);
-    }
-  else
-    (*jniEnv)->ExceptionClear (jniEnv);
-  return ret;
-}
-
-jclass
-swarm_directory_objc_find_java_class (Class class)
-{
-  jclass ret;
-  const char *javaClassName = objcFindJavaClassName (class);
-
-  ret = java_find_class (javaClassName, YES);
-  FREECLASSNAME (javaClassName);
-  return ret;
 }
 
 Class

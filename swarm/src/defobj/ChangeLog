@@ -1,3 +1,28 @@
+2000-06-19  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* java.m (find_java_wrapper_class): Renamed from
+	swarm_directory_objc_find_java_class and made static.
+	(swarm_directory_objc_find_java_class): Now checks for proxy
+	and calls find_java_wrapper_class as fallback.
+	(swarm_directory_objc_ensure_java,
+	swarm_directory_objc_find_java_class): Accomodate.
+
+	* java.[hm] (map_java_class_ivars): New function.
+
+	* java.m (map_java_class_ivars_internal): New function.
+	(map_java_ivars): Use it.
+
+	* internal.[hm] (map_objc_class_ivars): New function.
+
+	* internal.m (map_objc_class_ivars): Use it.
+
+	* directory.m (swarm_directory_superclass): Use 
+	SD_JAVA_FIND_OBJECT_JAVA instead of SD_FINDJAVACLASS.
+
+	* DefObject.m ([Object_s -getClass]): Check to see if there
+	is a Java counterpart, and then check for a possible proxy
+	class.
+
 2000-06-18    <mgd@DRONE>
 
 	* directory.h (SD_SUPERCLASS): New macro.

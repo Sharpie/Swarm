@@ -24,6 +24,11 @@ extern void map_java_ivars (jobject javaObject,
                                                     void *ptr,
                                                     unsigned rank,
                                                     unsigned *dims));
+
+extern void map_java_class_ivars (jclass class,
+                                  void (*process_ivar) (const char *name,
+                                                        fcall_type_t type));
+
 extern fcall_type_t java_object_ivar_type (jobject javaObject, const char *ivarName, BOOL *isArrayPtr);
 extern unsigned java_object_getVariableElementCount (jobject javaObject,
                                                      const char *ivarName,
