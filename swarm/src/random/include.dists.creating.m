@@ -116,7 +116,7 @@
                 distName, [randomGenerator getName]);
   
   if (virtualGenerator != MAXVGEN) 
-    raiseEvent (InvalidCombination
+    raiseEvent (InvalidCombination,
                 "%s setVirtualGenerator: already set\n",
                 distName);
   
@@ -125,7 +125,7 @@
   if (vGen >= k)
     raiseEvent (InvalidCombination,
                 "%s setVirtualGenerator: vGen=%d > generator allows (%d)\n", 
-                vGen, k - 1];
+                vGen, k - 1);
   
   virtualGenerator = vGen;
   
