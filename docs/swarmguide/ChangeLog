@@ -1,5 +1,9 @@
 1999-05-21  Alex Lancaster  <alex@santafe.edu>
 
+	* user1.01.sgml: Add description for all NOTE, TIP, IMPORTANT,
+	CAUTION and WARNING admonition elements in the `About this Guide'
+	section.
+
 	* userbook.sgml: Add COLOPHON describing the book production.
 
 	* user1.04.sgml (system-diagram, recursive-swarm): Scale GRAPHICs

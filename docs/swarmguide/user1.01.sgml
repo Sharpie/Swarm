@@ -160,6 +160,7 @@
 
  <title>About This Guide</title> 
 
+
     <para> This Guide presents an overview of the Swarm simulation
       toolkit. It is intended to be used in conjunction with other
       materials, which include the sample programs and tutorials
@@ -178,7 +179,40 @@
         for this Guide. He has also provided help in the form of
         sample code and advice about many topics.</para>
 
-</sect2>
+    <para>Conventions used in this document:</para>
+
+    <note>
+      <title>Note</title>
+      <para>Interesting fact(s), not necessarily of vital
+        significance to the user.</para>
+    </note>
+
+    <tip>
+      <title>Tip</title>
+      <para>A coding tip, a suggested convention to adopt or
+        suggested usage.</para>
+    </tip>
+
+    <important>
+      <title>Important</title>
+      <para>Important fact(s) you should know before proceeding
+        to the next section.</para>
+    </important>
+
+    <caution>
+      <title>Caution</title>
+      <para>A note of caution, generally regarding a changed
+        usage, deprecated functionality or other compatibility
+        issue.</para>
+    </caution>
+
+    <warning>
+      <title>Warning</title> <para>Vital information that a user needs
+      to be aware of before proceeding.</para>
+    </warning>
+
+  </sect2>
+
 </sect1>
 <!--
 Local Variables:
