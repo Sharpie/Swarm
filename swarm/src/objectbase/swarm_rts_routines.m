@@ -104,7 +104,7 @@ my_objc_skip_offset (const char* type)
 {
   if (*type == '+')
     type++;
-  while (_isdigit (*++type));
+  while (isDigit (*++type));
   return type;
 }
 

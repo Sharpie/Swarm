@@ -3,7 +3,7 @@
 	* swarm_rts_routines.m (isDigit): Add macro to cast isdigit 
 	argument char to int (to avoid array index using char compiler 
 	warning). Reformatting throughout.
-	(my_objc_skip_typespec): Use new macro isDigit. 
+	(my_objc_skip_typespec, my_objc_skip_offset): Use new macro isDigit. 
 
 	* VarProbe.m ([VarProbe -probeAsPointer:]): Initialize q to NULL
 	to prevent warning.
