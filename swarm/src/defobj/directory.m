@@ -15,7 +15,9 @@
 #import <collections.h> // Map
 
 #define extern
+#ifdef HAVE_JDK
 #import "javavars.h"
+#endif
 #undef extern
 
 extern void *alloca (size_t);

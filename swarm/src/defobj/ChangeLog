@@ -1,3 +1,13 @@
+1999-08-12  Alex Lancaster  <alex@santafe.edu>
+
+	* DefObject.m: Move include of directory.h, outside HAVE_JDK,
+	require swarm_directory_get_language_independent_class_name
+	function in non-Java context.
+
+	* directory.h: Likewise.
+
+	* directory.m: Protect include of javavars.h with HAVE_JDK.
+
 1999-08-11  Alex Lancaster  <alex@santafe.edu>
 
 	* directory.[hm]

@@ -30,8 +30,9 @@ Library:      defobj
 #include "javavars.h"
 
 #import <defobj.h> // FCall, FArguments
-#include <defobj/directory.h>
 #endif
+
+#include <defobj/directory.h>
 
 extern id _obj_implModule;  // defined in Program.m
 
