@@ -1,3 +1,11 @@
+1999-11-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m ([FCall_c -setJavaMethod:inObject:], 
+	[FCall_c -setJavaMethod:inClass:]): Copy value for methodName.
+	([FCall_c -drop]): Free methodName if set.
+
+	* FCall.h (FCall_c): Constify methodName.
+
 1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.[hm]: Include defobj.h.  Use JOBJECT for

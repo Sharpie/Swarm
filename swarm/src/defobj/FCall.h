@@ -43,7 +43,7 @@ void updateJavaTarget (id self, JOBJECT target);
    void *fobject;
    void *fclass;
    void *fmethod;
-   char *methodName;
+   const char *methodName;
 }
 + createBegin: aZone;
 - setArguments: args;

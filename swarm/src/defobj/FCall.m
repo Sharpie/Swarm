@@ -298,7 +298,7 @@ PHASE(Creating)
   lref = (*jniEnv)->GetObjectClass (jniEnv, (jobject) obj);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  methodName = (char *) mtdName;
+  methodName = STRDUP (mtdName);
   (jobject) fobject = (jobject) obj;
 #else
   java_not_available ();
@@ -317,7 +317,7 @@ PHASE(Creating)
   lref = (*jniEnv)->FindClass (jniEnv, className);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  methodName = (char *) mtdName;
+  methodName = STRDUP (mtdName);
 #else
   java_not_available();
 #endif
@@ -756,6 +756,8 @@ PHASE(Using)
   if (callType == javacall || callType == javastaticcall)
     (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
 #endif
+  if (methodName)
+    FREEBLOCK (methodName);
   [super drop];
 }
 
