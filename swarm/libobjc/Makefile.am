@@ -52,7 +52,7 @@ objc.dll: libobjc_.la dllinit.c
 
 install-data-local: 
 	if test $(USEDLL) = yes; then \
-	  $(INSTALL) libobjc.a $(libdir) && ranlib $(libdir)/libobjc.a ; \
+	  $(INSTALL) libobjcdll.a $(libdir) && ranlib $(libdir)/libobjcdll.a ; \
 	fi
 
 #CC1OBJ = @gccdir@/cc1obj
