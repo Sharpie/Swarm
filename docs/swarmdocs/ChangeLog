@@ -2,6 +2,8 @@
 
 	* configure.in: Don't fail if jadetex or dvips are missing,
 	but do issue a warning.  Add m4/Makefile to the AC_OUTPUT.
+	Use AC_PATH_PROG instead of AC_CHECK_PROG throughout, and
+	ac_cv_path_* instead of ac_cv_prog_*.
 
 	* acprogs.m4: Moved to m4/.
 
