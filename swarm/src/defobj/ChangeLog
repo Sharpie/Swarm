@@ -1,3 +1,15 @@
+1999-12-15    <mgd@nest.swarm.org>
+
+	* FCall.[hm], defobj.h ([FCall_c
+	+create:withTarget:withSelector:withArguments:]): New method.
+
+	* FArguments.[hm], defobj.h ([FArguments_c -getJavaFlag]): New method.
+
+	* DefObject.m: Remove f_nameFid declaration.
+	([Object_s -forward::]): Replace objc->java selector name
+	conversion and FCall creation with call to new FCall
+	+create:withTarget:withSelector:withArguments:.
+
 1999-12-14    <mgd@nest.swarm.org>
 
 	* FCall.m ([FCall_c -performCall]): Add local scope around

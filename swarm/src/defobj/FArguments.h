@@ -79,6 +79,7 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - _setReturnType_: (fcall_type_t)type;
 - setObjCReturnType: (char)type;
 - createEnd;
+- (BOOL)getJavaFlag;
 - (void *)getResult;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

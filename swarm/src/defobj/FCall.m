@@ -32,6 +32,7 @@ Library:      defobj
 #ifdef HAVE_JDK
 #include <defobj/directory.h>
 JNIEnv *jniEnv;
+#include <javavars.h>
 #endif
 
 #ifdef HAVE_JDK
@@ -369,6 +370,37 @@ PHASE(Creating)
 #endif
   setNextPhase (self);
   return self;
+}
+
++ create: aZone withTarget: target
+                withSelector: (SEL)aSel
+                withArguments: (id <FArguments>)fa
+{
+  id <FCall> fc = [FCall createBegin: aZone];
+
+  [fc setArguments: fa];
+#ifdef HAVE_JDK
+  if ([fa getJavaFlag])
+    {
+      jstring string;
+      const char *javaMethodName;
+      jboolean copy;
+      jobject jsel = SD_FINDJAVA (jniEnv, (id) aSel);
+      jobject jobj = SD_FINDJAVA (jniEnv, target);
+      
+      string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
+      javaMethodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
+
+      [fc setJavaMethod: javaMethodName inObject: jobj];
+      if (copy)
+        (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, javaMethodName);
+      (*jniEnv)->DeleteLocalRef (jniEnv, string);
+    }
+  else
+#endif
+    [fc setMethod: aSel inObject: target];
+
+  return [fc createEnd];
 }
 
 void

@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 /*
-Name':         DefObject.m
+Name:         DefObject.m
 Description:  top-level superclass to provide standard services
 Library:      defobj
 */
@@ -61,10 +61,6 @@ static id suballocPrototype;
 //   output file stream on which describe messages to be printed
 //
 static id describeStream;
-
-#ifdef HAVE_JDK
-extern jfieldID f_nameFid;
-#endif
 
 @implementation Object_s
 
@@ -749,20 +745,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     }
   fa = [fa createEnd];
 
-  {
-    jstring string;
-    const char *methodName;
-    jboolean copyFlag;
-    
-    string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
-    methodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copyFlag);
-   
-    fc = [[[[FCall createBegin: getZone (self)] setArguments: fa]
-            setJavaMethod: methodName inObject: jobj] createEnd];
-    if (copyFlag)
-      (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, methodName);
-    (*jniEnv)->DeleteLocalRef (jniEnv, string);
-  }
+  fc = [FCall create: getZone (self)
+              withTarget: self
+              withSelector: aSel
+              withArguments: fa];
+
   [fc performCall];
   {
     types_t typebuf;

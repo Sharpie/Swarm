@@ -1076,6 +1076,7 @@ CREATING
 - setObjCReturnType: (char)type;
 - createEnd;
 USING
+- (BOOL)getJavaFlag;
 - (void *)getResult;
 @end
 
@@ -1089,6 +1090,9 @@ typedef void *JOBJECT;
 CREATING
 + createBegin: (id <Zone>)aZone;
 - createEnd;
++ create: aZone withTarget: obj
+                withSelector: (SEL)aSel
+                withArguments: (id <FArguments>)fa;
 - setArguments: args;
 - setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;

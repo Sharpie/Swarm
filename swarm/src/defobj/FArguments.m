@@ -458,6 +458,11 @@ PHASE(Using)
   return result;
 }
 
+- (BOOL)getJavaFlag
+{
+  return javaFlag;
+}
+
 - (void)drop
 {
 #ifdef HAVE_JDK  
