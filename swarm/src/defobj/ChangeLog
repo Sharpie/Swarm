@@ -1,3 +1,9 @@
+2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Arguments.m (parse_opt): Use FCall to make the parseKey:arg:
+	call.  Automatic Objective C dispatch through a custom objc_msg_lookup
+	provided too slow and complex.
+
 2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* _fcall.m (ADD_PRIMITIVE, SET_RETURN_TYPE): Handle

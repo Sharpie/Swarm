@@ -15,6 +15,10 @@
 #include <misc/argp.h>
 #endif
 
+#ifdef HAVE_JDK
+#include "java.h"
+#endif
+
 #ifndef __GLIBC__
 const char *program_invocation_name;
 const char *program_invocation_short_name;
@@ -97,7 +101,35 @@ parse_opt (int key, const char *arg, struct argp_state *state)
 {
   id arguments = state->input;
 
-  return [arguments parseKey: key arg: arg];
+  // This is here because objc_lookup_class doesn't check for
+  // foreign targets.  It is one of the few cases where Swarm
+  // sends a message outside of the Action framework.
+
+  id fa = [[[[[[FArguments createBegin: getCZone (scratchZone)]
+                 setLanguage: LanguageJava]
+               addInt: key]
+              addString: arg]
+             setObjCReturnType: _C_INT]
+            createEnd];
+  id fc;
+  error_t ret;
+  jobject jobj = 0;
+
+  fc = [FCall createBegin: getCZone (scratchZone)];
+  [fc setArguments: fa];
+  if (swarmDirectory)
+    jobj = SD_JAVA_FIND_OBJECT_JAVA (arguments);
+  if (jobj)
+    [fc setJavaMethod: "parseKey$arg" inObject: jobj];
+  else
+    [fc setMethod: M(parseKey:arg:) inObject: arguments];
+  fc = [fc createEnd];
+
+  [fc performCall];
+  ret = ((types_t *) [fc getResult])->sint;
+  [fc drop];
+  [fa drop];
+  return ret;
 }
 
 @implementation Arguments_c
