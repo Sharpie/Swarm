@@ -1,3 +1,15 @@
+1999-03-31  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.h (java_directory_init): Remove globalZone, 
+	uniformIntRand and uniformDblRand from the list of arguments.
+
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): 
+	Pass just SwarmEnvironment instance to java_directory_init.
+
+	* directory.m (java_directory_init): Instead of getting globalZone, 
+	uniformIntRand and uniformDblRand as arguments extract them from
+	the SwarmEnvironment instance that is pased to java_directory_init.
+
 1999-03-25  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
 
 	* directory.m (java_directory_switchupdate): Use global references

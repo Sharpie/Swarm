@@ -22,8 +22,6 @@ static jclass c_boolean,
   c_object, c_string, 
   c_void;
 
-static jobject o_globalZone, o_uniformIntRand, o_uniformDblRand;
-
 JNIEnv *jenv;
 
 static void
@@ -290,21 +288,43 @@ int compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 void
 java_directory_init (JNIEnv *env,
-                     jobject swarmEnvironment,
-                     jobject jglobalZone,
-		     jobject juniformIntRand,
-		     jobject juniformDblRand)
+                     jobject swarmEnvironment)
+
 {
+  jobject o_globalZone, o_uniformIntRand, o_uniformDblRand;
+  jfieldID globalZoneFid, uniformIntRandFid, uniformDblRandFid;
+  jclass class;
+
+  
   jenv = env;
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
   
   create_class_refs (env);
 
-  o_globalZone = (*env)->NewGlobalRef (env, jglobalZone);
-  o_uniformIntRand = (*env)->NewGlobalRef (env, juniformIntRand);
-  o_uniformDblRand = (*env)->NewGlobalRef (env, juniformDblRand);
+  if (!(class = (*env)->GetObjectClass (env, swarmEnvironment)))
+    abort ();
+  
+  globalZoneFid = (*env)->GetFieldID (env, class, "globalZone", 
+				      "Lswarm/defobj/ZoneU;");
+  uniformIntRandFid = 
+      (*env)->GetFieldID (env, class, "uniformIntRand",
+			  "Lswarm/random/UniformIntegerDistU;");  
+  uniformDblRandFid =
+      (*env)->GetFieldID (env, class, "uniformDblRand",
+			  "Lswarm/random/UniformDoubleDistU;");
+  
+  o_globalZone = (*env)->GetObjectField (env, swarmEnvironment, globalZoneFid);
 
+  o_uniformIntRand = (*env)->GetObjectField (env, swarmEnvironment, 
+					     uniformIntRandFid);
+  o_uniformDblRand = (*env)->GetObjectField (env, swarmEnvironment, 
+					     uniformDblRandFid);    
+ 
+  o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
+  o_uniformIntRand = (*env)->NewGlobalRef (env, o_uniformIntRand);
+  o_uniformDblRand = (*env)->NewGlobalRef (env, o_uniformDblRand);
+ 
   java_directory_update (env, o_globalZone, globalZone);
   java_directory_update (env, o_uniformIntRand, uniformIntRand);
   java_directory_update (env, o_uniformDblRand, uniformDblRand);

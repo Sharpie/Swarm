@@ -8,9 +8,6 @@
 void 
 Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
                                        jobject obj,
-                                       jobject jglobalZone,
-				       jobject juniformIntRand,
-				       jobject juniformDblRand,
                                        jobjectArray args)
 {
   int i = 0;
@@ -30,9 +27,9 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
       utf = (const char *) (*env)->GetStringUTFChars (env, jstr, &isCopy);
       argv[i + 1] = isCopy ? (const char *) utf : strdup (utf);
     }
+
   defobj_init_java_call_tables ((void *) env);
   initSwarmApp (argc, argv, VERSION, "bug-swarm@santafe.edu");
-  java_directory_init (env, obj, jglobalZone, juniformIntRand, 
-		       juniformDblRand);
+  java_directory_init (env, obj);
 }
 
