@@ -76,7 +76,7 @@ void _obj_initMethodInterfaces (Class_s *class);
 /*** methods in CreatedClass_s (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - setName: (const char *)className;
-- setClass: aClass;
+- setClass: (Class)aClass;
 - setSuperclass: aClass;
 - setDefiningClass: aClass;
 - at: (SEL)aSel addMethod: (IMP)aMethod;
