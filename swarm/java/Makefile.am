@@ -1,7 +1,7 @@
 C_EXTRA_DIST = c/Makefile.in c/SwarmEnvironment.m c/ChangeLog c/javaswarm.dll.c
 SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swarm/Selector.java swarm/NonUniqueMethodSignatureException.java swarm/SignatureNotFoundException.java swarm/PhaseCImpl.java swarm/Primitives.java swarm/SwarmEnvironment.java swarm/Globals.java JavaDeps.jar
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
-EXTRA_SCRIPTS = javacswarm.in javaswarm.in
+EXTRA_SCRIPTS = javacswarm.in javaswarm.in jdkcswarm jdkswarm
 EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS)
 EMACS = @EMACS@
 

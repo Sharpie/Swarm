@@ -1,6 +1,12 @@
-2000-02-12    <mgd@HELEN>
+2000-02-14    <mgd@HELEN>
 
 	* Swarm 2.1 frozen.
+
+	* Makefile.am (EXTRA_SCRIPTS): Add jdkcswarm and jdkswarm.
+
+	* jdkcswarm, jdkswarm: New files.
+
+2000-02-12    <mgd@HELEN>
 
 	* Makefile.am (Makefile.common): Don't pass SWARMSRCDIR here. 
 	Use dos_abs_builddir for java-stub.elc.

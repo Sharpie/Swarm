@@ -1,0 +1,6 @@
+#!/bin/sh
+JDKPATH=`regtool get 'HKLM\SOFTWARE\JavaSoft\Java Development Kit\1.2\JavaHome'`
+PATH=`cygpath -u $JDKPATH`/bin:$PATH
+export PATH
+
+CLASSPATH=".;${SWARMDIR}"'\share\swarm\swarm.jar' javac $*
