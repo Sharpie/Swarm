@@ -15,14 +15,9 @@
 
 @implementation SwarmObject
 
-- (const char *)getInstanceName
-{
-  return [self name];
-}
-
 - (const char *)getIdName
 {
-  return [self getInstanceName];
+  return [self name];
 }
 
 - getProbeMap

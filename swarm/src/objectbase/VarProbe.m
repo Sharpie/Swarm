@@ -593,10 +593,16 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
       if (!(*(id *)p))
         sprintf (buf, "nil");
       else 
-        if ([*(id *)p respondsTo: @selector (getInstanceName)])
-          sprintf (buf, "%s", [*(id *) p getInstanceName]);
-        else
-          sprintf (buf, "%s", [*(id *) p name]);
+        {
+          const char *name = NULL;
+          
+          if ([*(id *)p respondsTo: @selector (getDisplayName)])
+            name = [*(id *) p getDisplayName];
+
+          if (!name)
+            name = [*(id *) p name];
+          strcpy (buf, name);
+        }
       break;
     case _C_CLASS:
       if (!(*(Class *) p))

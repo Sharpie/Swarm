@@ -1,5 +1,14 @@
 1999-08-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* VarProbe.m ([VarProbe -probeAsString:Buffer:withFullPrecision:]): 
+	Use a display name if available.  Don't use getInstanceName.
+
+	* SwarmObject.[hm], objectbase.h ([SwarmObject -getInstanceName]): 
+	Remove.
+
+	* ActivityControl.[hm], objectbase.h ([ActivityControl
+	-getInstanceName]): Remove.
+
 	* VarProbe.m ([VarProbe -setProbedVariable:]): Include javavars.h.
 	(java_probe_as_string): 
 	(_TYPEP, TYPEP, _GETSTROBJECT, GETSTROBJECT, _GETVALUE, GETVALUE): 

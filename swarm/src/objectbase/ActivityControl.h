@@ -45,7 +45,6 @@
 - attachToActivity: (id) anActivity;
 - updateStateVar;
 - getStatus;
-- (const char *) getInstanceName;
 - _setup_ProbeMap;
 @end
 

@@ -42,11 +42,6 @@ Date:            1996-12-12
 //D: and Drop object types defined in the defobj library. 
 
 USING
-//M: The getInstanceName method returns a meaningful word or phrase
-//M: to indicate the object being probed (and in the case of a
-//M: probe display, place it in a widget on the screen).
-- (const char *)getInstanceName;
-
 //M: The getProbeMap method returns a pointer to the ProbeMap for
 //M: the object if there has been one creaded for that object's class.
 //M: If it hasn't been created, then it creates a default ProbeMap.
@@ -648,10 +643,6 @@ USING
 
 //M: The getStatus method returns the status of the activity.
 - getStatus;
-
-//M: The getInstanceName method returns the displayName from the object name
-//M: database. 
-- (const char *)getInstanceName;
 
 @end
 

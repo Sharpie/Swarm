@@ -182,15 +182,6 @@
 }
 
 //
-// getInstanceName -- This returns the Display name to the probe
-//                    When probes are fixed to read this string directly
-//                    this method will be obsolete.
-- (const char *) getInstanceName
-{
-   return [self getDisplayName];
-}
-
-//
 // _setup_ProbeMap -- Designs a probe map that dictates the default
 //                    probe for this class.
 - _setup_ProbeMap
