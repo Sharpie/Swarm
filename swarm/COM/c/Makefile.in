@@ -1,0 +1,28 @@
+include ../Makefile.common
+
+_creatable_PROTOCOLS = $(foreach module,$(MODULES),$($(module)_creatable_PROTOCOLS))
+_noncreatable_PROTOCOLS = $(foreach module,$(MODULES),$($(module)_noncreatable_PROTOCOLS))
+
+_PROTOCOLS = $(_creatable_PROTOCOLS) $(_noncreatable_PROTOCOLS)
+PROTOCOLS = $(foreach phase,C S,$(addsuffix $(phase),$(_PROTOCOLS))) $(_PROTOCOLS)
+
+creatable_PROTOCOLS = $(foreach phase,C S,$(addsuffix $(phase),$(_creatable_PROTOCOLS))) $(_creatable_PROTOCOLS)
+
+IDL = $(addsuffix .idl,$(addprefix swarmI,$(PROTOCOLS)))
+
+IDLHEADERS = $(patsubst %.idl,%.h,$(IDL))
+
+SOURCES = $(addsuffix Impl.cpp,$(addprefix swarm,$(creatable_PROTOCOLS)))
+
+OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
+
+CXX = c++
+CPPFLAGS = -I. -I/build/mozilla/dist/include
+
+swarmI%.h: swarmI%.idl
+	/build/mozilla/dist/bin/xpidl -I/build/mozilla/dist/idl -m header $<
+
+all: $(OBJECTS)
+
+$(OBJECTS): $(IDLHEADERS)
+

@@ -1,0 +1,305 @@
+# Makefile.in generated automatically by automake 1.4a from Makefile.am
+
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+
+DESTDIR =
+
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+
+top_builddir = ..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_STRIP_FLAG =
+transform = @program_transform_name@
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+build_alias = @build_alias@
+build_triplet = @build@
+host_alias = @host_alias@
+host_triplet = @host@
+target_alias = @target_alias@
+target_triplet = @target@
+AMTAR = @AMTAR@
+AMTARFLAGS = @AMTARFLAGS@
+ARGP_H = @ARGP_H@
+AS = @AS@
+AVCALLDIR = @AVCALLDIR@
+AWK = @AWK@
+BLTLDFLAGS = @BLTLDFLAGS@
+BLTLIB = @BLTLIB@
+CC = @CC@
+CFLAGS_NOWARN_IMPLICIT_INT = @CFLAGS_NOWARN_IMPLICIT_INT@
+CFLAGS_NOWARN_UNKNOWN_PRAGMAS = @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+DLLIB = @DLLIB@
+DLLTOOL = @DLLTOOL@
+DLLWRAP = @DLLWRAP@
+EMACS = @EMACS@
+EXESUFFIX = @EXESUFFIX@
+EXTRALDFLAGS = @EXTRALDFLAGS@
+FFIINCLUDES = @FFIINCLUDES@
+FFILDFLAGS = @FFILDFLAGS@
+FFILIB = @FFILIB@
+GUILIBS = @GUILIBS@
+HDF5INCLUDES = @HDF5INCLUDES@
+HDF5LDFLAGS = @HDF5LDFLAGS@
+HDF5LIB = @HDF5LIB@
+JAR = @JAR@
+JAVA = @JAVA@
+JAVAC = @JAVAC@
+JAVACLASSES = @JAVACLASSES@
+JAVACLASSESARG = @JAVACLASSESARG@
+JAVACMD = @JAVACMD@
+JAVAENV = @JAVAENV@
+JAVAINCLUDES = @JAVAINCLUDES@
+JAVALIBPATH_VAR = @JAVALIBPATH_VAR@
+JAVALIBPREFIX = @JAVALIBPREFIX@
+JAVALIBS = @JAVALIBS@
+JAVALIBSARG = @JAVALIBSARG@
+JAVASTUBS = @JAVASTUBS@
+JAVASTUBS_FUNCTION = @JAVASTUBS_FUNCTION@
+JAVASWARMSCRIPTS = @JAVASWARMSCRIPTS@
+JAVASWARM_DLL = @JAVASWARM_DLL@
+JAVASWARM_DLL_ENTRY = @JAVASWARM_DLL_ENTRY@
+JAVASWARM_LIB_NAME = @JAVASWARM_LIB_NAME@
+JAVA_CLASSES_INSTALLED_AS = @JAVA_CLASSES_INSTALLED_AS@
+LD = @LD@
+LIBJAVASWARM_LA = @LIBJAVASWARM_LA@
+LIBSWARM_LA = @LIBSWARM_LA@
+LIBTOOL = @LIBTOOL@
+LN_S = @LN_S@
+MAKEINFO = @MAKEINFO@
+NM = @NM@
+NON_NeXT_EXTRA_OBJS = @NON_NeXT_EXTRA_OBJS@
+OBJC = @OBJC@
+OBJCFLAGS = @OBJCFLAGS@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
+PATHDELIM = @PATHDELIM@
+PATHEXPR = @PATHEXPR@
+PATHSEP = @PATHSEP@
+PNGINCLUDES = @PNGINCLUDES@
+PNGLDFLAGS = @PNGLDFLAGS@
+PNGLIB = @PNGLIB@
+RANLIB = @RANLIB@
+SHLIBPATH_VAR = @SHLIBPATH_VAR@
+SWARMLDFLAGS = @SWARMLDFLAGS@
+SWARM_DLL = @SWARM_DLL@
+SWARM_INSTALL = @SWARM_INSTALL@
+SWARM_INSTALL_DATA_ = @SWARM_INSTALL_DATA_@
+SWARM_INSTALL_PROGRAM = @SWARM_INSTALL_PROGRAM@
+TCLINCLUDES = @TCLINCLUDES@
+TCLLDFLAGS = @TCLLDFLAGS@
+TCLLIB = @TCLLIB@
+TKINCLUDES = @TKINCLUDES@
+TKLDFLAGS = @TKLDFLAGS@
+TKLIB = @TKLIB@
+USEDLL = @USEDLL@
+USEDOSCLASSPATH = @USEDOSCLASSPATH@
+VERSION = @VERSION@
+XPMINCLUDES = @XPMINCLUDES@
+XPMLDFLAGS = @XPMLDFLAGS@
+XPMLIB = @XPMLIB@
+ZLIBINCLUDES = @ZLIBINCLUDES@
+ZLIBLDFLAGS = @ZLIBLDFLAGS@
+ZLIBLIB = @ZLIBLIB@
+bltdir = @bltdir@
+bltlibdir = @bltlibdir@
+ffidir = @ffidir@
+ffilibdir = @ffilibdir@
+hdf5includedir = @hdf5includedir@
+hdf5libdir = @hdf5libdir@
+inst_LDFLAGS = @inst_LDFLAGS@
+inst_LIBS = @inst_LIBS@
+install_sh = @install_sh@
+jdkdir = @jdkdir@
+noinst_LIBS = @noinst_LIBS@
+pngincludedir = @pngincludedir@
+pnglibdir = @pnglibdir@
+swarm_bindir = @swarm_bindir@
+swarm_datadir = @swarm_datadir@
+swarm_exec_prefix = @swarm_exec_prefix@
+swarm_includedir = @swarm_includedir@
+swarm_libdir = @swarm_libdir@
+swarm_prefix = @swarm_prefix@
+tclincludedir = @tclincludedir@
+tcllibdir = @tcllibdir@
+tclscriptdir = @tclscriptdir@
+tclsh80_found = @tclsh80_found@
+tclsh81_found = @tclsh81_found@
+tclsh82_found = @tclsh82_found@
+tclsh83_found = @tclsh83_found@
+tclsh_found = @tclsh_found@
+tkincludedir = @tkincludedir@
+tklibdir = @tklibdir@
+tkscriptdir = @tkscriptdir@
+top_dossrcdir = @top_dossrcdir@
+xpmincludedir = @xpmincludedir@
+xpmlibdir = @xpmlibdir@
+zlibincludedir = @zlibincludedir@
+zliblibdir = @zliblibdir@
+
+
+EXTRA_DIST = COM.el
+EMACS = @EMACS@
+subdir = COM
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../swarmconfig.h ../externvar.h
+CONFIG_CLEAN_FILES = 
+DIST_SOURCES = 
+DIST_COMMON =  Makefile.am Makefile.in
+
+
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+
+GZIP_ENV = --best
+all: all-redirect
+.SUFFIXES:
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu COM/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+tags: TAGS
+TAGS:
+
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+distdir: $(DISTFILES)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(top_distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu COM/Makefile
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am:
+install-exec: install-exec-am
+
+install-data-am:
+install-data: install-data-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am:
+uninstall: uninstall-am
+all-am: Makefile
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
+installdirs:
+
+
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-generic mostlyclean-am
+
+clean: clean-am
+
+distclean-am:  distclean-generic clean-am
+	-rm -f libtool
+
+distclean: distclean-am
+
+maintainer-clean-am:  maintainer-clean-generic distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+
+.PHONY: tags distdir info-am info dvi-am dvi check check-am \
+installcheck-am installcheck install-exec-am install-exec \
+install-data-am install-data install-am install uninstall-am uninstall \
+all-redirect all-am all install-strip installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
+
+
+ include $(top_srcdir)/etc/Makefile.protocol
+
+interface.elc: $(abs_top_builddir)/protocol.elc
+
+COM.elc: $(abs_top_builddir)/protocol.elc $(abs_top_builddir)/interface.elc
+
+generate: COM.elc
+	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@COM.elc' -f run
+	$(srcdir)/move-if-change new-uuids.el $(srcdir)/uuids.el
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
