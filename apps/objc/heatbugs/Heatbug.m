@@ -23,7 +23,7 @@ static id <Pixmap> bugPixmap = nil;
 
 // Initialize crucial state for the heatbug.
 
-- setWorld: (Grid2d *)w Heat: (HeatSpace *)h
+- setWorld: (id <Grid2d>)w Heat: (HeatSpace *)h
 {
   // Strictly speaking, this check isn't necessary. But we intend these
   // parameters to be immutable once set, so to be extrasafe we check:

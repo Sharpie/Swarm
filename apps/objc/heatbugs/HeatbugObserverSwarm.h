@@ -27,12 +27,12 @@
 
   id <Colormap> colormap;			// allocate colours
   id <ZoomRaster> worldRaster;			// 2d display widget
-  EZGraph *unhappyGraph;			// graphing widget
+  id <EZGraph> unhappyGraph;			// graphing widget
   
   // Now, higher order display and data objects
 
-  Value2dDisplay *heatDisplay;			// display the heat
-  Object2dDisplay *heatbugDisplay;	        // display the heatbugs
+  id <Value2dDisplay> heatDisplay;		// display the heat
+  id <Object2dDisplay> heatbugDisplay;	        // display the heatbugs
 }
 
 // Methods overriden to make the Swarm.

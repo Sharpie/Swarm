@@ -9,10 +9,7 @@
 #import "Heatbug.h"
 #import "HeatSpace.h"
 #import <space.h>
-#import <activity.h>
-#import <collections.h>
 #import <objectbase/Swarm.h>
-#import <objectbase.h>
 
 @interface HeatbugModelSwarm: Swarm
 {
@@ -28,13 +25,13 @@
   id modelSchedule;
 
   id heatbugList;				  // list of all the heatbugs
-  Grid2d *world;				  // objects representing
-  HeatSpace *heat;				  // the world
+  id <Grid2d> world;				  // objects representing
+  id <HeatSpace> heat;				  // the world
 }
 
 - getHeatbugList;				  // access methods into the
-- (Grid2d *)getWorld;				  // model swarm. These methods
-- (HeatSpace *)getHeat;				  // allow the model swarm to
+- (id <Grid2d>)getWorld;			  // model swarm. These methods
+- (id <HeatSpace>)getHeat;                        // allow the model swarm to
 						  // be observed.
 
 - addHeatbug: (Heatbug *)bug;			  // special method for demo

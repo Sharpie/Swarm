@@ -22,7 +22,7 @@
   HeatValue outputHeat;				  // how much heat I put out
   float randomMoveProbability;			  // chance of moving randomly
   
-  Grid2d *world;				  // the world I live in
+  id <Grid2d> world;				  // the world I live in
   int worldXSize, worldYSize;			  // how big that world is
   HeatSpace *heat;				  // the heat for the world
   Color bugColor;				  // my colour (display)
@@ -31,7 +31,7 @@
 // these methods are used to initialize the object's state. First,
 // methods that have to be sent to create an object.
 
-- setWorld: (Grid2d *)w Heat: (HeatSpace *)h;	  // which world are we in?
+- setWorld: (id <Grid2d>)w Heat: (HeatSpace *)h;   // which world are we in?
 
 // As a convention, we put the -createEnd here to indicate that we're done
 // defining new methods that are required before createEnd.

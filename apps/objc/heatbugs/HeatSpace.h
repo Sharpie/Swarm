@@ -7,6 +7,7 @@
 // world: a spatial variable. HeatSpace inherits most of its behaviour
 // from the "Diffuse" space Object.
 
+#import <space/Diffuse2d.h>
 #import <space.h>
 
 // An abstract type for values of heat.
@@ -19,12 +20,19 @@ extern const HeatValue maxHeat;
 typedef enum { cold, hot } HeatExtremeType;
 
 // Class HeatSpace. Inherit from Diffuse, don't add any new variables
-@interface HeatSpace : Diffuse2d {
+@interface HeatSpace: Diffuse2d
+{
 }
 
+- addHeat: (HeatValue)moreHeat X: (int)x Y: (int)y;
+- (HeatValue)findExtremeType: (HeatExtremeType)heat X: (int *)x Y: (int *)y;
+@end
+
+@protocol HeatSpace <Diffuse2d>
 // New method: add heat to a specific square
--addHeat: (HeatValue) moreHeat X: (int) x Y: (int) y;
+- addHeat: (HeatValue)moreHeat X: (int)x Y: (int)y;
 
 // New method: search a neighbourhood for the requested extreme.
--(HeatValue) findExtremeType: (HeatExtremeType) heat X: (int *) x Y: (int *) y;
+- (HeatValue)findExtremeType: (HeatExtremeType)heat X: (int *)x Y: (int *)y;
 @end
+

@@ -4,8 +4,8 @@
 // See file LICENSE for details and terms of copying.
 
 #import "HeatbugModelSwarm.h"
-#import <simtools.h>
 #import <random.h>
+#import <space.h>
 
 @implementation HeatbugModelSwarm
 
@@ -19,12 +19,12 @@
   return heatbugList;
 }
 
-- getWorld
+- (id <Grid2d>)getWorld
 {
   return world;
 }
 
-- getHeat
+- (id <Diffuse2d>)getHeat
 {
   return heat;
 }

@@ -1,3 +1,30 @@
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugObserverSwarm.h (HeatbugObserverSwarm): Instead of being
+	statically typed, unhappyGraph conform to EZGraph protocol (in
+	analysis), heatDisplay conform to the HeatDisplay protocol
+	and heatbugDisplay conform to the Object2dDisplay protocol (both
+	in space).
+
+	* HeatbugModelSwarm.m: Include space.h.  Make getWorld and
+	getHeat return ids that conform to Grid2d and Diffuse2d protocols,
+	respectively.
+
+	* HeatbugModelSwarm.h: Don't include activity.h, collections.h,
+	or objectbase.h.
+	(HeatbugModel): Use id <Grid2d,HeatSpace> instead of statically
+	typing world and heat.  Same for get methods.
+
+	* Heatbug.h (Heatbug): Make world an object that conforms to
+	the Grid2d protocol, rather than being statically typed.
+
+	* Heatbug.[hm]: ([Heatbug setWorld:Heat:]): Make the world
+	argument (first) be an objec that conforms to the Grid2d protocol,
+	rather than being statically ttyped to Grid2d.
+
+	* HeatSpace.h: Include space/Diffuse2d.h.
+	Add HeatSpace protocol.
+
 1998-04-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m (main): Change comment that says batchmode is
