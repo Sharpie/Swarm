@@ -1,3 +1,7 @@
+1999-03-19  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.java: Declare globalZone public. 
+
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (all): Set JAVA_HOME in the context of jar.

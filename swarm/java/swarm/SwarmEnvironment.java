@@ -2,7 +2,7 @@ package swarm;
 
 public class SwarmEnvironment 
 {
-   static Class globalZone;
+   public static Class globalZone;
    static
     {
 	System.out.println("Trying to load lib!\n");
@@ -20,5 +20,5 @@ public class SwarmEnvironment
     {
 	initSwarm(args);
     }
-    native static void initSwarm(String args[]);
+    public native static void initSwarm(String args[]);
 }
