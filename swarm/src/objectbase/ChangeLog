@@ -1,3 +1,10 @@
+2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.h (VarProbe): Use const void * for {getter,setter}Method
+	instead of COMmethod.  (Don't want to include COM.h here.)
+
+	* VarProbe.m ([VarProbe -setProbedVariable:]): Include COM.h.
+
 2001-01-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m ([VarProbe -_typeSetup_]): New method.

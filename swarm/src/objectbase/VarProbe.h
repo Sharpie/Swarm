@@ -7,7 +7,6 @@
 #import <objectbase/Probe.h>
 
 #include <swarmconfig.h>
-#include "../defobj/COM.h"
 
 @interface VarProbe: Probe <VarProbe>
 {
@@ -21,16 +20,16 @@
   const char *baseType;
 
 #ifdef HAVE_JDK
-  void *fieldObject;
-  void *fieldType;
-  void *classObject;
+  JOBJECT fieldObject;
+  JOBJECT fieldType;
+  JOBJECT classObject;
 #endif
-  COMmethod getterMethod;
-  COMmethod setterMethod;
+  const void *getterMethod;
+  const void *setterMethod;
 }
 
 - setProbedVariable: (const char *)aVariable;
-- setProbedCOMgetter: (COMmethod)getter setter: (COMmethod)setter;
+- setProbedCOMgetter: (const void *)getter setter: (const void *)setter;
 - createEnd;
 
 - setNonInteractive;

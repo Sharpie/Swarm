@@ -19,6 +19,8 @@
 #import "../defobj/javavars.h" // c_*, m_*
 #endif
 
+#include "../defobj/COM.h"
+
 #import "local.h"
 
 @implementation VarProbe
