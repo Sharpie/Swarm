@@ -415,6 +415,16 @@ findSwarm (id arguments)
 		  swarmHome = home;
 		}
 	    }
+	  {
+	    char sigPathBuf[strlen (swarmHome) + strlen (SIGNATURE_PATH) + 1];
+	    char *p;
+	    
+	    p = stpcpy (sigPathBuf, swarmHome);
+	    p = stpcpy (p, SIGNATURE_PATH);
+
+	    if (access (sigPathBuf, F_OK) == -1)
+	      swarmHome = findSwarm (self);
+	  }
 	}
       return swarmHome;
     }

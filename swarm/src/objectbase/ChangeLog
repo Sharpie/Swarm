@@ -1,3 +1,11 @@
+1998-10-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (CURRENT, AGE): Increment. Swarm 1.3.1 released.
+
+	* Arguments.m ([Arguments -_getSwarmHome_:]): Do a search
+	for SWARMHOME if value in environment variable doesn't have
+	the signature file.
+
 1998-10-10  Marcus G. Daniels  <mgd@sangre.santafe.edu>
 
 	* Arguments.m (dropDirectory): Remove.
@@ -6,8 +14,6 @@
 	dropDirectory.
 
 1998-10-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
-
-	* Makefile.am (CURRENT, AGE): Increment. Swarm 1.3.1 released.
 
 	* Arguments.m ([Arguments -_getSwarmHome_:], [Arguments
 	-getSwarmHome]): New method takes code of getSwarmHome, except it
