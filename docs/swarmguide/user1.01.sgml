@@ -22,7 +22,7 @@
   <sect1 id="swarm.user.user1.01-facts.sect1">
     <title>Basic Facts About Swarm</title> 
 
-    <indexterm><primary>SwarmTopics</primary><secondary>described</secondary></indexterm>
+    <indexterm><primary>Swarm</primary><secondary>described</secondary></indexterm>
 
     <para>Swarm is a collection of software libraries which provide
       support for simulation programming. Among the most prominent

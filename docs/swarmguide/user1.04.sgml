@@ -64,7 +64,7 @@
   <sect1 id="swarm.user.user1.04-swarm.sect1">
     <title>The (Swarm) OOP way</title> 
 
-    <indexterm><primary>SwarmTopics</primary><secondary>common syntax</secondary></indexterm>
+    <indexterm><primary>Swarm</primary><secondary>common syntax</secondary></indexterm>
     
     <para>Swarm models follow a common syntax that helps users to
       understand the way their parts interact. The observer swarm and

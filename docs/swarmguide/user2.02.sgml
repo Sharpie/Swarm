@@ -400,7 +400,7 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
 
  </sect1>
 
- <indexterm><primary>SwarmTopics</primary>
+ <indexterm><primary>Swarm</primary>
  <secondary>using Swarm library objects </secondary>
 </indexterm>
 

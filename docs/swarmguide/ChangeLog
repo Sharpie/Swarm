@@ -1,3 +1,19 @@
+2000-02-29  Alex Lancaster  <alex@santafe.edu>
+
+	* user1.01.sgml, user1.04.sgml, user2.01.sgml, user2.03.sgml
+	(INDEXTERM): SwarmTopics -> Swarm.
+
+	* configure.in (COLLATEINDEX): Extract path to point to
+	`collateindex.pl' version with workaround, which is installed in
+	the source, not the version from the stylesheet distribution,
+	which is currently buggy (patch submitted to maintainer).
+
+	* collateindex.pl: New file, taken from Modular DocBook
+	distribution 1.53.
+	(print_term): Implement workaround for generating the "role"
+	attribute in INDEXENTRY which is parsed correctly by the print
+	backend.
+
 2000-02-26  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user2.05.sgml: Added some index terms. Need more time later on it.

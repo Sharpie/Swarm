@@ -52,12 +52,17 @@ else
 fi
 AC_SUBST(catopts)
 
-if test -f "$docbookstyle_srcdir/bin/collateindex.pl" ; then
-  COLLATEINDEX="$docbookstyle_srcdir/bin/collateindex.pl"
-  AC_SUBST(COLLATEINDEX)
-else
-  AC_PATH_PROG(COLLATEINDEX, collateindex.pl, missing)
-fi
+# as a workaround to a buggy index script, use the distributed version
+# of collateindex.pl which fixes the index generation
+COLLATEINDEX=$top_dossrcdir/collateindex.pl
+AC_SUBST(COLLATEINDEX)
+
+#if test -f "$docbookstyle_srcdir/bin/collateindex.pl" ; then
+#  COLLATEINDEX="$docbookstyle_srcdir/bin/collateindex.pl"
+#  AC_SUBST(COLLATEINDEX)
+#else
+#  AC_PATH_PROG(COLLATEINDEX, collateindex.pl, missing)
+#fi
 
 AC_PATH_PROG(EMACS, emacs, missing)
 AC_PATH_PROG(JADE, jade, missing)
