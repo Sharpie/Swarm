@@ -1,3 +1,9 @@
+1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf: Change default for mgd-SFI-Solaris to use
+	BLT8.0-unoff.  Temporarily change SFI configuration to use my
+	tclobjc-sfi and add TCLPREFIX and TKPREFIX variables.
+
 1998-01-26  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.conf (LIBS): Added $(APPLIBS) for the case an
