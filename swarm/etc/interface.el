@@ -598,26 +598,36 @@
     (cond ((string= "id <Symbol>" ret-type) name)
           (t (concat (downcase (substring name 0 1))
                      (substring name 1))))))
-                          
-(defun impl-print-get-imp-pointer (method
-                                   print-return-type
-                                   print-argument)
-  (insert "  ")
+
+(defun impl-print-imp-pointer (method print-return-type print-argument name-flag) 
   (funcall print-return-type method)
+  (insert " (*")
+  (when name-flag (insert "swarm_imp"))
+  (insert ") ")  
   (if (method-factory-flag method)
-      (insert " (*swarm_imp) (Class objcTarget, SEL objcSel")
-    (insert " (*swarm_imp) (id objcTarget, SEL objcSel"))
+      (insert "(Class objcTarget, SEL objcSel")
+      (insert "(id objcTarget, SEL objcSel"))
   (when (has-arguments-p method)
     (loop for argument in (method-arguments method)
           do
           (insert ", ")
           (funcall print-argument argument)))
-  (insert ");\n")
+  (insert ")"))
+
+(defun impl-print-get-imp-pointer (method print-return-type print-argument)
+  (insert "  ")
+  (impl-print-imp-pointer method print-return-type print-argument t)
+  (insert ";\n")
   (if (method-factory-flag method)
       (progn
         (insert "  MetaClass mClass = class_get_meta_class (swarm_target);\n")
-        (insert "  (IMP) swarm_imp = class_get_class_method (mClass, swarm_sel)->method_imp;\n"))
-    (insert "  (IMP) swarm_imp = objc_msg_lookup (swarm_target, swarm_sel);\n")))
+        (insert "  swarm_imp = (")
+        (impl-print-imp-pointer method print-return-type print-argument nil)
+        (insert ") class_get_class_method (mClass, swarm_sel)->method_imp;\n"))
+      (progn
+        (insert "  swarm_imp = (")
+        (impl-print-imp-pointer method print-return-type print-argument nil)
+        (insert ") objc_msg_lookup (swarm_target, swarm_sel);\n"))))
 
 (defun impl-print-get-sel (method)
   (insert "  SEL swarm_sel = sel_get_uid (\"")
