@@ -89,9 +89,12 @@ Library:     collections
 {
   id car;
   id cdr;
+  BOOL consFormatFlag;
 }
 - setCar: car;
 - setCdr: cdr;
+- setConsFormatFlag: (BOOL)theConsFormatFlag;
+- (BOOL)getConsFormatFlag;
 - getCar;
 - getCdr;
 - lispOutShallow: (id <OutputStream>)stream;

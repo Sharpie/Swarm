@@ -1,5 +1,21 @@
 1999-06-08  Alex Lancaster  <alex@santafe.edu>
 
+	* InputStream.m ([ArchiverList_c -lispOutDeep:]): Handle
+	cons_literal_p, list_literal_p cases.  Also handle the custom
+	PARSE_FUNCTION_NAME case in place of the usual
+	MAKE_{INSTANCE,CLASS}_FUNCTION_NAME.
+	(lisp_output_one_of_pair): Remove function, no longer required.
+	([ArchiverPair_c -lispOutDeep:]): Reorganize to use lispOutDeep
+	directly on {car,cdr} elements, use consFormatFlag to choose
+	between output formats.
+	([InputStream_c -getExpr]): When creating ArchiverPair instance,
+	set consFormatFlag based on the original text file format.
+	
+	* InputStream.[hm] ([ArchiverPair_c
+	-{set,get}ConsFormatFlag:]): New methods and instance variable for
+	saving the kind of output format for a pair: "'(car . cdr)" or
+	"(cons car cdr)" when file is parsed.
+
 	* collections.m (_collections_implement): Add setTypeImplemented
 	for ArchiverList_c to ArchiverList.
 

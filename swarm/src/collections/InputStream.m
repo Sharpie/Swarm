@@ -225,7 +225,7 @@ readString (id inStream, BOOL literalFlag)
 
           [pair setCar: [list getFirst]];
           [pair setCdr: [list getLast]];
-
+          [pair setConsFormatFlag: NO];
           pair = [pair createEnd];
           [list drop];
           return pair;
@@ -241,6 +241,7 @@ readString (id inStream, BOOL literalFlag)
           
           [pair setCar: [list atOffset: 1]];
           [pair setCdr: [list atOffset: 2]];
+          [pair setConsFormatFlag: YES];
           pair = [pair createEnd];
           [list drop];
           return pair;
@@ -681,6 +682,12 @@ PHASE(Creating)
   return self;
 }
 
+- setConsFormatFlag: (BOOL)theConsFormatFlag
+{
+  consFormatFlag = theConsFormatFlag;
+  return self;
+}
+
 PHASE(Using)
 - getCar
 {
@@ -692,15 +699,9 @@ PHASE(Using)
   return cdr;
 }
 
-static void
-lisp_output_one_of_pair (id obj, id stream)
+- (BOOL)getConsFormatFlag
 {
-  if (listp (obj))
-    [obj lispOutDeep: stream];
-  else if (stringp (obj) || valuep (obj) || arrayp (obj))
-    [obj lispOutDeep: stream];
-  else 
-    raiseEvent(InvalidArgument, "one of ArchiverPair_c can't be serialized");
+  return consFormatFlag;
 }
 
 - lispOutShallow: (id <OutputStream>)stream
@@ -710,10 +711,10 @@ lisp_output_one_of_pair (id obj, id stream)
 
 - lispOutDeep: (id <OutputStream>)stream
 {
-  [stream catC: "(cons "];
-  lisp_output_one_of_pair (car, stream);
-  [stream catC: " "];
-  lisp_output_one_of_pair (cdr, stream);
+  [stream catC: (consFormatFlag ? "(cons " : "'(")];
+  [car lispOutDeep: stream];
+  [stream catC: (consFormatFlag ? " ": " . ")];
+  [cdr lispOutDeep: stream];
   [stream catC: ")"];
   return self;
 }
@@ -737,21 +738,50 @@ PHASE(Using)
 
   // get the first member of the list
   member = [index next];
-  if (stringp (member))
-      [stream catC: [member getC]];
-  else
-    raiseEvent(InvalidArgument, "first argument must be a string!\n");
-  
-  // advance to the next element in list
-  member = [index next];
-  if (stringp (member))
+
+  if (list_literal_p (member))
     {
-      [stream catC: " '"];
       [stream catC: [member getC]];
     }
+  else if (cons_literal_p (member))
+    {
+      [stream catC: [member getC]];
+    }
+  else if (stringp (member))
+    {
+      const char *funcName = [member getC];
+      if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
+          || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
+         {
+           [stream catC: [member getC]];
+
+           // we expect a class name here advance to the next element
+           // in list, make literal with single quote '
+           member = [index next];
+           if (stringp (member))
+             {
+               [stream catC: " '"];
+               [stream catC: [member getC]];
+             }
+           else
+             raiseEvent(InvalidArgument, 
+                        "second argument after " MAKE_INSTANCE_FUNCTION_NAME
+                        " or " MAKE_CLASS_FUNCTION_NAME  
+                        " must be a string!\n");
+         }
+      else if (strcmp (funcName, PARSE_FUNCTION_NAME) == 0)
+        [stream catC: [member getC]];        
+      else
+        raiseEvent (InvalidArgument, "function not one of ",
+                    MAKE_INSTANCE_FUNCTION_NAME
+                    " or "
+                    MAKE_CLASS_FUNCTION_NAME
+                    " or "
+                    PARSE_FUNCTION_NAME);
+    }
   else
-    raiseEvent(InvalidArgument, "second argument must be a string!\n");
-  
+    raiseEvent(InvalidArgument, "first argument must be a string!\n");
+    
   while ((member = [index next]))
     {
       [stream catC: " "];
