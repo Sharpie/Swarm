@@ -1,7 +1,7 @@
 if USEBUILTINAVCALL
-SUBDIRS = libobjc avcall src java m4 etc tests
+SUBDIRS = libobjc avcall src java COM m4 etc tests
 else
-SUBDIRS = libobjc src java m4 etc tests
+SUBDIRS = libobjc src java COM m4 etc tests
 endif
 
 EXTRA_DIST = VERSION

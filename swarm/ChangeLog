@@ -1,3 +1,10 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* Makefile.am (SUBDIRS): Add COM.
+
+	* configure.in (AC_OUTPUT): Substitute COM/Makefile and
+	COM/c/Makefile.
+
 2000-04-23    <mgd@nest.swarm.org>
 
 	* NEWS: Add info about getVariance and getStdDev.
