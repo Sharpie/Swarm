@@ -78,7 +78,6 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
   }
   
   public Object _displayWindowDeath_ (Object caller) {
-    System.err.println ("displayWindowDeath");
     displayWindow.drop ();
     displayWindow = null;
     _setupMousetraps_ ();
@@ -261,7 +260,8 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
   }
 
   public void drop () {
-    displayWindow.disableDestroyNotification ();
+    if (displayWindow != null)
+      displayWindow.disableDestroyNotification ();
     super.drop ();
   }
 }
