@@ -3,6 +3,11 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 
 * Release Notes for Swarm 2.0
 ** New features
+*** Java layer
+**** Swarm models may now be written in Java.
+***** The scripts `javaswarm' and `javacswarm' are provided as
+      conveniences for running and compiling Java models.
+
 *** defobj
 **** Archiver
 ***** Objects can be created in specified Zones, using the new method:
