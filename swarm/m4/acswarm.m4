@@ -30,7 +30,7 @@ changequote([,])dnl
 
 al_SWARM_LOAD
 
-AC_PROG_LIBTOOL
+AM_PROG_LIBTOOL
 LIBTOOL='$(SHELL) $(swarm_bindir)/libtool-swarm'
 AC_SUBST(LIBTOOL)
 
