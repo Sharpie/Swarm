@@ -1,3 +1,10 @@
+1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* configure.in: Run libobjc's configure.
+	Don't call md_CHECK_OBJC_LIBS.
+
+	* Makefile.am (SUBDIRS): Add libobjc.
+
 1999-03-14  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note bug fix to Discrete2d.
