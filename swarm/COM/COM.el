@@ -41,6 +41,8 @@
       ("unsigned long long" . "unsigned long long")
       ("unsigned long long int" . "unsigned long long")
 
+      ("COMOBJECT" . "nsISupports")
+
       ("JOBJECT" . freaky)
 
       ("Color" . "octet")
