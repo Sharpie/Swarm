@@ -15,6 +15,8 @@
 #include <awtobjc/JavaControlPanel.h>
 #endif
 
+#include <swarmconfig.h> // HAVE_HDF5
+
 // Rudimentary control panel. A lot of the work for making this useful
 // falls on the shoulders of the controller that's using us, typically
 // an observer swarm.
@@ -145,8 +147,9 @@ PHASE(Using)
 - setStateSave
 {
   [lispArchiver sync];
+#ifdef HAVE_HDF5
   [hdf5Archiver sync];
-
+#endif
   return self;
 }
 

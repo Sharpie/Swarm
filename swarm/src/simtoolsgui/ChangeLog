@@ -1,6 +1,12 @@
-2000-02-22    <mgd@nest.swarm.org>
+2000-02-27    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT, AGE): Bump.  Version 2.1.
+
+	* ControlPanel.m ([ControlPanel -createEnd]): Include swarmconfig.h.
+	([ControlPanel -setStateSave]): Only call sync on hdf5Archiver when
+	HAVE_HDF5 is set.
+
+2000-02-22    <mgd@nest.swarm.org>
 
 	* VarProbeWidget.m ([VarProbeWidget -update]): Increase buffer size.
 
