@@ -14,6 +14,10 @@
   id <MultiVarProbeWidget> widget;
   SEL objectNameSelector;
   BOOL fieldLabelingFlag;
+
+  id <Frame> top_top_Frame, middleFrame, raisedFrame;
+  id <CompleteProbeDisplayLabel> title;
+  id <Button> hideB;
 }
 
 - setObjectList: (id <List>)objectList;
@@ -21,6 +25,9 @@
 - setObjectNameSelector: (SEL)aSel;
 - setFieldLabelingFlag: (BOOL)labelingFlag;
 - createEnd;
+- update;
 - (void)drop;
 
+- (const char *)package: (const char *)windowName;
+- (const char *)getId: (const char *)windowName;   
 @end

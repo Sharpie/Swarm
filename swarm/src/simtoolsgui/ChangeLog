@@ -1,5 +1,15 @@
 1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MultiVarProbeDisplay.m ([MultiVarProbeDisplay -createEnd]): 
+	Create extra frames to contain widget, hide button and title.
+	([MultiVarProbeDisplay -update]): New method.
+	([MultiVarProbeDisplay -drop]): Drop the new widgets.
+
+	* MultiVarProbeDisplay.h (MultiVarProbeDisplay): New ivars
+	top_top_Fram,e middleFrame, raisedFrame, title, and hideB.
+
+	* MultiVarProbeDisplay.[hm]: New methods package: getId:, and update.
+
 	* simtoolsgui.h (CommonProbeDisplay): Remove setProbedObject: and
 	getProbedObject from protocol (moved to SingleProbeDisplay).
 	(SingleProbeDisplay): New protocol.
