@@ -1,3 +1,8 @@
+1999-05-15  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
+
+	* config/alpha/mframe-generic.h (MFRAME_STACK_STRUCT): Add.
+	Add casts from pointer diff to ints for printf args.
+
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (libobjc_la_LIBADD): Add -lgcc.

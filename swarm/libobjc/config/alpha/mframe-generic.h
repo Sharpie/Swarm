@@ -7,6 +7,7 @@
  * first argument.
  */
 
+#define MFRAME_STACK_STRUCT 1
 #define MFRAME_STRUCT_BYREF     0
 #define MFRAME_SMALL_STRUCT     0
 #define MFRAME_ARGS_SIZE        104
@@ -66,13 +67,13 @@ typedef struct alpha_args {
   if ((CUM).reg_pos + size > ALPHAMAXR) (CUM).reg_pos = ALPHAMAXR; \
   if ((CUM).reg_pos == ALPHAMAXR) \
     { \
-      sprintf((DEST), "%.*s%d", (TYPE)-type, type, (CUM).stk_pos); \
+      sprintf((DEST), "%.*s%d", (int) ((TYPE)-type), type, (CUM).stk_pos); \
       (CUM).stk_pos += size; \
       (STACK) = (CUM).stk_pos; \
     } \
   else \
     { \
-      sprintf((DEST), "%.*s+%d", (TYPE)-type, type, (CUM).reg_pos); \
+      sprintf((DEST), "%.*s+%d", (int) ((TYPE)-type), type, (CUM).reg_pos); \
       (CUM).reg_pos += size; \
     } \
   (DEST)=&(DEST)[strlen(DEST)]; \
