@@ -1,12 +1,12 @@
 1998-03-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* common.m (tkobjc_updateIdleTasks, tkobjc_releaseAndUpdate):
-	Disable use of BLT busy.
+	Disable use of BLT busy in _WIN32 case.
 
 	* tkbusy.tcl: Note that isbusy isn't implemented.
 
 	* tkobjc.m (initTkObjc): Evaluate comm_tcl, create a comm channel,
-	and evaluate tkbusy_tcl.
+	and evaluate tkbusy_tcl in _WIN32 case.
 
 	* Makefile (%_tcl.x): Handle backslashes.
 	(tkobjc.o): Depend on comm_tcl.x, tkbusy_tcl.x as well.

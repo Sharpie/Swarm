@@ -26,8 +26,6 @@ initTkObjc (id arguments)
     tkobjc_initTclInterp (arguments);
   else
     {
-      const char *appName = [arguments getAppName];
-
       deferror (WindowCreation, NULL);
       deferror (WindowUsage, NULL);
       
@@ -35,9 +33,15 @@ initTkObjc (id arguments)
       
       [globalTkInterp eval: simtools_tcl];
       [globalTkInterp eval: analysis_tcl];
-      [globalTkInterp eval: comm_tcl];
-      [globalTkInterp eval: "set %s [comm new %s]", appName, appName];
-      [globalTkInterp eval: tkbusy_tcl];
+#ifdef _WIN32
+      {
+        const char *appName = [arguments getAppName];
+        
+        [globalTkInterp eval: comm_tcl];
+        [globalTkInterp eval: "set %s [comm new %s]", appName, appName];
+        [globalTkInterp eval: tkbusy_tcl];
+      }
+#endif
     }
 }
 
