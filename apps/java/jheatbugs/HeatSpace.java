@@ -3,8 +3,6 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-// All added comments copyright 2001 Timothy Howe. All rights reserved. 
-
 import swarm.Globals;
 
 import swarm.defobj.Zone;

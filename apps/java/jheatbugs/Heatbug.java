@@ -3,9 +3,6 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-// All added comments copyright 2001 Timothy Howe. All rights reserved. 
-
-// import diagnostic.*;
 import java.awt.*;
 
 import swarm.Globals;
@@ -160,12 +157,11 @@ public synchronized void heatbugStep ()
     int heatHere = _heatSpace.getValueAtX$Y (x, y);
 
     // Update my current unhappiness:
+    int step = _model.getActivity ().getScheduleActivity ().getCurrentTime ();
     unhappiness
-     = (double) Math.abs (idealTemperature - heatHere) 
-     / (_model.getActivity ().getScheduleActivity ().getCurrentTime () + 1);
+     = Math.abs (idealTemperature - heatHere) / (step > 0 ? step : 1);
      /* ... The divisor is an attempt to neutralize the effect of the 
-        increasing heat of the HeatSpace. (We add 1 just to avoid a 
-        divide-by-zero error at step 0.) Without the divisor, Heatbugs would 
+        increasing heat of the HeatSpace. Without the divisor, Heatbugs would 
         keep getting happier as the heat increases, even if they're immobile
         or they move only randomly. Our real interest is in the happiness of 
         Heatbugs that is due to their motion. 

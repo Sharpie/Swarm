@@ -8,8 +8,6 @@ StartHeatbugs.class
 
 all: executable
 
-# The default target is to run the program. Running the program from the
-# makefile ensures that we never run obsolete code unwittingly:
 run : executable runcurrent
 
 runbatch : executable runcurrentbatch

@@ -3,8 +3,6 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-// All added comments copyright 2001 Timothy Howe. All rights reserved. 
-
 import swarm.Globals;
 import swarm.Selector;
 
@@ -33,12 +31,12 @@ See HeatbugModelSwarm for an overview of the heatbugs application.
 public class HeatbugBatchSwarm extends SwarmImpl 
 {
 
-// Begin variables referenced by the SCM file -- they must be public:
+// Variables referenced by an SCM file or (after Swarm 2.1.1) by a ProbeMap
+// must be public:
 // This is the number of steps to run the simulation:
 public int experimentDuration;
 // This is the number of steps to run before writing to the log:
 public int loggingFrequency;
-// ... End variables referenced by the SCM file -- they must be public.
 
 private String _outputFilename = "unhappiness.output";
 private Schedule _displaySchedule;
@@ -47,9 +45,9 @@ private Schedule _stopSchedule;
 private HeatbugModelSwarm _heatbugModelSwarm;
     public HeatbugModelSwarm getHeatbugModelSwarm ()
     { return _heatbugModelSwarm; }
-
-// We will put the EZGraph in file mode rather than the usual graphics mode:
-private EZGraph unhappyGraph;
+// The graph of Heatbug unhappiness, in file mode rather than the usual 
+// graphics mode:
+private EZGraph _unhappyGraph;
 
 public HeatbugBatchSwarm (Zone aZone) {
     super (aZone);
@@ -92,7 +90,7 @@ displayActions                      ActionGroup
 |                                   |
 |                                   |
 Action                              Action
-unhappygraph                        this
+_unhappygraph                       this
 .step()                             .stopRunning()
 </xmp>
 
@@ -122,13 +120,13 @@ public Object buildActions ()
         try
         {
         displayActions.createActionTo$message
-         (unhappyGraph,
-          new Selector (unhappyGraph.getClass (), "step", true)
+         (_unhappyGraph,
+          new Selector (_unhappyGraph.getClass (), "step", true)
          );
         } catch (Exception e)
         {
             System.err.println
-             ("Exception batch unhappyGraph step: " + e.getMessage ());
+             ("Exception batch _unhappyGraph step: " + e.getMessage ());
         }
 
         // Insert the ActionGroup displayActions into the Schedule:
@@ -171,11 +169,11 @@ public Object buildObjects ()
     // A user who sets loggingFrequency to 0 is requesting no logging at all:
     if (loggingFrequency > 0) 
     {
-        unhappyGraph =  new EZGraphImpl (getZone (), true);
+        _unhappyGraph =  new EZGraphImpl (getZone (), true);
         try
         {
         // Create a time-series graph of average values:
-        unhappyGraph.createAverageSequence$withFeedFrom$andSelector
+        _unhappyGraph.createAverageSequence$withFeedFrom$andSelector
           // ... writing the output to a file:
          (_outputFilename,
           // ... averaging over all the Heatbugs:
@@ -211,7 +209,7 @@ public Object go ()
     if (loggingFrequency > 0)
 // todo: explain this:
         // Close the output file:
-        unhappyGraph.drop ();
+        _unhappyGraph.drop ();
 
     return getActivity ().getStatus ();
 }

@@ -3,8 +3,6 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-// All added comments copyright 2001 Timothy Howe. All rights reserved. 
-
 import java.util.ArrayList;
 
 import swarm.Globals;
@@ -69,7 +67,7 @@ private Colormap _colormap;
 private ZoomRaster _worldRaster;
 
 // This is the time-series graph we will use to display average
-// Heatbug unhappiness_:
+// Heatbug unhappiness:
 private EZGraph _unhappyGraph;
 
 // This is the 2-dimensional graph of the heat; we will display

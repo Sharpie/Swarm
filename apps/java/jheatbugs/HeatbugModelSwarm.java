@@ -3,8 +3,6 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-// All added comments copyright 2001 Timothy Howe. All rights reserved. 
-
 import swarm.Globals;
 import swarm.Selector;
 import swarm.defobj.Zone;
@@ -172,7 +170,8 @@ Heatbug simulation:
 public class HeatbugModelSwarm extends SwarmImpl
 {
 
-// Begin variables referenced by the SCM file -- they must be public:
+// Variables referenced by an SCM file or (after Swarm 2.1.1) by a ProbeMap
+// must be public:
 public int numBugs = 101;
     public void setNumBugs (int numBugs) 
     { if (numBugs != -1) this.numBugs = numBugs; }
@@ -187,10 +186,26 @@ public double randomMoveProbability = 0.4;
     { return randomMoveProbability; }
     public void setRandomMoveProbability (double randomMoveProbability)
     { this.randomMoveProbability = randomMoveProbability; }
-// ... End variables referenced by the SCM file -- they must be public.
-
 public int worldXSize = 80;
 public int worldYSize = 80;
+// Todo: diffusionConstant and some other variables are copies of
+// variables in Diffuse2d -- can we figure out a way to get rid of them?
+public double diffusionConstant = 1.0; 
+    // ... 0 = minimum, 1 = maximum diffusion of heat in _heatSpace.
+    public double getDiffusionConstant ()
+    { return diffusionConstant; }
+    public Object setDiffusionConstant (double diffusionConstant)
+    { this.diffusionConstant = diffusionConstant; return this; }
+public double evaporationRate = 0.99; 
+    // ... 0 = minimum, 1 = maximum retention of heat in _heatSpace.
+    public double getEvaporationRate ()
+    { return evaporationRate; }
+    public Object setEvaporationRate (double evaporationRate)
+    { this.evaporationRate = evaporationRate; return this; }
+// ... According to the documentation for Diffuse2d, newHeat = "evapRate * 
+// (self + diffusionConstant*(nbdavg - self)) where nbdavg is the weighted 
+// average of the 8 neighbours" -- but what does "weighted" mean?
+
 private Schedule _modelSchedule;
 private ArrayList _heatbugList;
     public ArrayList getHeatbugList ()
@@ -215,25 +230,6 @@ private boolean _startInOneCluster = false;
     public int printDiagnostics = 0;
     public void setPrintDiagnostics (int printDiagnostics) 
     { this.printDiagnostics = printDiagnostics; }
-
-    // Todo: diffusionConstant and some other variables are copies of
-    // variables in Diffuse2d -- can we figure out a way to get rid of them?
-
-    public double diffusionConstant = 1.0; 
-    // ... 0 = minimum, 1 = maximum diffusion of heat in _heatSpace.
-    public double getDiffusionConstant ()
-    { return diffusionConstant; }
-    public Object setDiffusionConstant (double diffusionConstant)
-    { this.diffusionConstant = diffusionConstant; return this; }
-    public double evaporationRate = 0.99; 
-    // ... 0 = minimum, 1 = maximum retention of heat in _heatSpace.
-    public double getEvaporationRate ()
-    { return evaporationRate; }
-    public Object setEvaporationRate (double evaporationRate)
-    { this.evaporationRate = evaporationRate; return this; }
-// ... According to the documentation for Diffuse2d, newHeat = "evapRate * 
-// (self + diffusionConstant*(nbdavg - self)) where nbdavg is the weighted 
-// average of the 8 neighbours" -- but what does "weighted" mean?
 
 /**
 The only task this constructor performs is to construct and install a ProbeMap. 
@@ -263,9 +259,9 @@ exactly match the variables and methods
 listed in addProbe() statements in this constructor.
 
 <p>
-Probes do not use getters and setters. The variables and methods in a 
-ProbeMap need not be public. (But variables
-referenced by the SCM file, which is used in batch mode, must be public.)  
+Probes do not use getters and setters. After Swarm 2.1.1, the variables and 
+methods in a ProbeMap need not be public (as must the variables
+referenced by the SCM file).  
 
 <p>
 Because Probes do not use getters and setters, you cannot use Probes to
