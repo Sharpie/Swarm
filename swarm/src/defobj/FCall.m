@@ -382,7 +382,6 @@ PHASE(Using)
 #else
   void *ptr;
 
-  printf ("%f\n", res._double);
   *buf = *res;
 
   switch (fargs->returnType)
