@@ -13,4 +13,4 @@ DiGraphLink.o: DiGraphLink.m DiGraphLink.h
 DiGraphNode.o: DiGraphNode.m DiGraphNode.h 
 
 dist:
-	cd ..; ln -s GraphLib $(TARDIR); tar zcvf $(TARDIR).tar.gz $(TARDIR)/DiGraph.m $(TARDIR)/DiGraph.h $(TARDIR)/DiGraphLink.m $(TARDIR)/DiGraphLink.h $(TARDIR)/DiGraphNode.m $(TARDIR)/DiGraphNode.h $(TARDIR)/Makefile $(TARDIR)/graph.m $(TARDIR)/graph.h $(TARDIR)/ChangeLog; mv $(TARDIR).tar.gz GraphLib; rm $(TARDIR); cd GraphLib
+	cd ..; ln -s GraphLib $(TARDIR); tar zcvf $(TARDIR).tar.gz $(TARDIR)/DiGraph.m $(TARDIR)/DiGraph.h $(TARDIR)/DiGraphLink.m $(TARDIR)/DiGraphLink.h $(TARDIR)/DiGraphNode.m $(TARDIR)/DiGraphNode.h $(TARDIR)/Makefile $(TARDIR)/graph.m $(TARDIR)/graph.h $(TARDIR)/graph.sym $(TARDIR)/ChangeLog; mv $(TARDIR).tar.gz GraphLib; rm $(TARDIR); cd GraphLib
