@@ -11,6 +11,8 @@
 @interface ConwayLife2d: Ca2d <ConwayLife2d>
 {
 }
-
++ createBegin: aZone;
+- initializeLattice;
+- stepRule;
 @end
 
