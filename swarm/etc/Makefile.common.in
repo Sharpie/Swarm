@@ -28,7 +28,7 @@ CPPFLAGS = @CPPFLAGS@
 OBJC=@OBJC@
 OBJCFLAGS=@OBJCFLAGS@
 
-INCLUDES = -I$(includedir)
+SWARMINCLUDES = -I$(includedir)
 
 SWARMLDFLAGS = @SWARMLDFLAGS@
 XPMLDFLAGS = @XPMLDFLAGS@
@@ -65,19 +65,14 @@ GUILIBS = @GUILIBS@
 DLLIB = @DLLIB@
 OBJCLIBS = @OBJCLIBS@
 
-LDFLAGS = $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(HDF5LDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
+SUPPORTLDFLAGS = $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(HDF5LDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS)
 
 SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
 
-SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
+SWARMMODULES = space analysis simtools simtoolsgui tkobjc tclobjc activity random objectbase collections defobj misc
 
-LIBS = @LIBS@
-
-.SUFFIXES: .m .xm
-
-.m.o:
-	$(CC) -c -Wno-import -Wno-protocol $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $<   
+SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module))
 
 # Local variables:
 # mode: makefile
-# end:
+# End:

@@ -1,6 +1,9 @@
 include @swarm_prefix@/etc/swarm/Makefile.common
+include @swarm_prefix@/etc/swarm/Makefile.rules
 
 APPEXE = $(APPLICATION)@EXESUFFIX@
+LIBS = @LIBS@
+LDFLAGS = $(SWARMLDFLAGS) $(SUPPORTLDFLAGS)
 
 .PHONY: install-config install-data
 
@@ -29,7 +32,6 @@ install-data:
 $(APPEXE): $(OBJECTS)
 	$(SHELL) $(bindir)/libtool-swarm --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
 
-
 # Local variables:
 # mode: makefile
-# end:
+# End:

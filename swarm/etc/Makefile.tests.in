@@ -1,67 +1,14 @@
-includedir = @includedir@
-libdir = @libdir@
-bindir = @bindir@
-datadir = @datadir@
-swarmdatadir = $(datadir)/swarm
-sysconfdir = @sysconfdir@
-swarmsysconfdir = $(sysconfdir)/swarm
+include $(top_builddir)/etc/Makefile.common
 
-xpmlibdir = @xpmlibdir@
-tcllibdir = @tcllibdir@
-tklibdir = @tklibdir@
-bltlibdir = @bltlibdir@
-ffidir = @ffidir@
-zliblibdir = @zliblibdir@
-pnglibdir = @pnglibdir@
-hdf5libdir = @hdf5libdir@
-
-CC = @CC@
-CFLAGS = @CFLAGS@
-CPPFLAGS = @CPPFLAGS@
-
-INCLUDES = -I../../src -I$(srcdir)/../../src/collections -I$(srcdir)/../../src/defobj -I$(srcdir) -I$(srcdir)/.. -I$(srcdir)/../../src/simtools -I$(srcdir)/../../src/objectbase  -I$(srcdir)/../../src/activity -I$(srcdir)/../../src/ 
+INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(top_builddir)/src/$(module))
 
 builddir = $(shell cd ../../src; pwd)
 
-XPMLDFLAGS = @XPMLDFLAGS@
-TCLLDFLAGS = @TCLLDFLAGS@
-TKLDFLAGS = @TKLDFLAGS@
-BLTLDFLAGS = @BLTLDFLAGS@
-FFILDFLAGS = @FFILDFLAGS@
-PNGLDFLAGS = @PNGLDFLAGS@
-ZLIBLDFLAGS = @ZLIBLDFLAGS@
-EXTRALDFLAGS = @EXTRALDFLAGS@
+SWARMBUILDLDFLAGS = $(foreach module,$(SWARMMODULES),-L$(builddir)/$(module)/.libs)
 
+LDFLAGS = $(SWARMBUILDLDFLAGS) $(SUPPORTLDFLAGS)
 
-SWARMBUILDLDFLAGS = -L$(builddir)/activity/.libs  -L$(builddir)/analysis/.libs  -L$(builddir)/collections/.libs  -L$(builddir)/defobj/.libs  -L$(builddir)/gui/.libs -L$(builddir)/misc/.libs  -L$(builddir)/objectbase/.libs  -L$(builddir)/random/.libs  -L$(builddir)/simtools/.libs  -L$(builddir)/simtoolsgui/.libs  -L$(builddir)/space/.libs  -L$(builddir)/tclobjc/.libs  -L$(builddir)/tkobjc/.libs 
-
-XPMLIB = @XPMLIB@
-TCLLIB = @TCLLIB@
-TKLIB = @TKLIB@
-BLTLIB = @BLTLIB@
-FFILIB = @FFILIB@
-HDF5LIB = @HDF5LIB@
-
-PNGLIB = -lpng
-ZLIBLIB = -lz
-
-X_LIBS = @X_LIBS@
-GUILIBS = @GUILIBS@
-
-DLLIB = @DLLIB@
-OBJCLIBS = @OBJCLIBS@
-
-LDFLAGS = $(SWARMBUILDLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(HDF5LDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
-
-SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
-
-SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
-
-LIBS = @LIBS@ $(SWARMLIBS) $(SYSLIBS)
-
-# Local variables:
-# mode: makefile
-# end:
+LIBS = $(SWARMLIBS) $(SYSLIBS) @LIBS@
 
 
 

@@ -1,4 +1,5 @@
 include @swarm_prefix@/etc/swarm/Makefile.common
+include @swarm_prefix@/etc/swarm/Makefile.rules
 
 LIBRARY = lib$(LIBNAME).a
 INCFILE = $(LIBNAME).h
@@ -32,6 +33,6 @@ $(LIBRARY): $(OBJECTS)
 	ar q $@ $(OBJECTS)
 	$(RANLIB) $(LIBRARY)  
 
-# Local variables:
+# Local Variables:
 # mode: makefile
-# end:
+# End:
