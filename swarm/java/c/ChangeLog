@@ -1,6 +1,11 @@
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (CPPFLAGS): Add -I for libobjc.
+	(abs_top_builddir): New variable.
+	(IMPMODULES): New variable.
+	(libjavaswarm_la_LDFLAGS): Use it to get .libs directories for -L.
+	Pass -L for libobjc/.libs.  Pass -rpath $(libdir).
+	(libjavaswarm.la): Expand list of -l for IMPMODULES.
 
 1999-03-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
