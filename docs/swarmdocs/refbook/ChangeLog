@@ -1,3 +1,9 @@
+1999-04-06  Alex Lancaster  <alex@santafe.edu>
+
+	* refbook.sgml: Update PUBLIC identifier for DTD to "-//OASIS//DTD
+	DocBook V3.1//EN" Remove JPEG notation class - now part of the 3.1
+	DTD.
+
 1999-02-28  Alex Lancaster  <alex@santafe.edu>
 
 	* sgml.el (run-all): Set uniquify-method-lists to `nil' when

@@ -1,4 +1,4 @@
-<!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!DOCTYPE BOOK PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
 <!entity % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
 %global.ent;
 
@@ -11,8 +11,6 @@
 <!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figs.ent;
 
-<!entity % local.notation.class "| JPEG">
-<!notation jpeg system>
 ]>
 
 <BOOK ID="refbook">
