@@ -1,3 +1,8 @@
+2001-08-01  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* ZoomRaster.m: Scale rectangle, ellipse, and line widths with 
+	zoom factor.
+ 
 2001-06-21  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Makefile.am (%_tcl.x): Don't use multi-line string literals.

@@ -194,7 +194,7 @@ PHASE(Using)
   tkobjc_raster_ellipse (self,
                          x0 * zoomFactor, y0 * zoomFactor,
                          (x1 - x0) * zoomFactor, (y1 - y0) * zoomFactor,
-                         penWidth, c);
+                         penWidth * zoomFactor, c);
 }
 
 - (void)lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
@@ -203,7 +203,7 @@ PHASE(Using)
   tkobjc_raster_line (self,
                       x0 * zoomFactor, y0 * zoomFactor,
                       x1 * zoomFactor, y1 * zoomFactor,
-                      penWidth, c);
+                      penWidth * zoomFactor, c);
 }
 
 - (void)rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
@@ -212,7 +212,7 @@ PHASE(Using)
   tkobjc_raster_rectangle (self,
                            x0 * zoomFactor, y0 * zoomFactor,
                            (x1 - x0) * zoomFactor, (y1 - y0) * zoomFactor,
-                           penWidth, c);
+                           penWidth * zoomFactor, c);
 }
 
 - (void)draw: (id <Drawer>)drawer X:(int)x Y: (int)y
