@@ -1,7 +1,8 @@
 bin_SCRIPTS = print-hdf5
-EXTRA_DIST = print-hdf5.in
+SCHEME = print-table.scm swarm.scm
+EXTRA_DIST = print-hdf5.in $(SCHEME)
 
-pkgdata_DATA = print-table.scm swarm.scm
+pkgdata_DATA = $(SCHEME)
 
 noinst_PROGRAMS = findImp
 

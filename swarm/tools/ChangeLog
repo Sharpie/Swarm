@@ -1,3 +1,9 @@
+2000-07-22  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Makefile.am (SCHEME): Add.
+
+	* EXTRADIST, pkgdata_DATA): Use it.
+
 2000-12-16    <mgd@HELEN>
 
 	* Makefile.am: Select -lswarm for Unix and -lswarmdll -lobjc for
