@@ -11,8 +11,8 @@
 }
 
 - createEnd;
-- setValue: (const char *)t;
+- (void)setValue: (const char *)t;
 - (const char *)getValue;
-- setHeight: (unsigned)h;
+- (void)setHeight: (unsigned)h;
 
 @end

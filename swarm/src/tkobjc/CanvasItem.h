@@ -13,8 +13,8 @@
 }
 
 - createEnd;
-- createBindings;
-- initiateMoveX: (long)delta_x Y: (long)delta_y;
+- (void)createBindings;
+- (void)initiateMoveX: (long)deltaX Y: (long)deltaY;
 @end
 
 

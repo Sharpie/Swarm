@@ -27,7 +27,7 @@ PHASE(Creating)
   return self;
 }
 
-- createItem
+- (void)createItem
 {
   int fx,fy,tx,ty,mx,my;
   
@@ -55,18 +55,15 @@ PHASE(Creating)
   [globalTkInterp eval: "%s lower %s; %s lower %s",
                   [canvas getWidgetName], line1,
                   [canvas getWidgetName], line2];
-  
-  return self;
 }
 
-- createBindings
+- (void)createBindings
 {
-  return self;
 }
 
 PHASE(Using)
 
-- update
+- (void)update
 {
   int fx, fy, tx, ty, mx, my;
   
@@ -84,19 +81,15 @@ PHASE(Using)
 
   [globalTkInterp eval: "%s coords %s %d %d %d %d",
     [canvas getWidgetName], line2, mx, my, tx, ty];
-
-  return self;
 }
 
-- setColor: (const char *)aColor
+- (void)setColor: (const char *)aColor
 {
   [globalTkInterp eval: "%s itemconfigure %s -fill %s",
                   [canvas getWidgetName], line1, aColor];  
   
   [globalTkInterp eval: "%s itemconfigure %s -fill %s",
                   [canvas getWidgetName], line2, aColor];  
-  
-  return self;
 }
 
 - (void)drop

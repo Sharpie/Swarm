@@ -187,7 +187,7 @@ PHASE(Using)
 
 // if a client is registered, then the specified selector is called with
 // the x and y coordinates of a button press.
-- setButton: (int)n Client: c Message: (SEL)sel
+- (void)setButton: (int)n Client: c Message: (SEL)sel
 {
   switch (n)
     {
@@ -198,11 +198,9 @@ PHASE(Using)
       raiseEvent (WarningMessage,
                   "Don't know how to handle button %d, ignoring.\n", n);
     }
-  
-  return self;
 }
 
-- handleButton: (int)n X: (int)x Y: (int)y
+- (void)handleButton: (int)n X: (int)x Y: (int)y
 {
   id c = 0;
   SEL sel = 0;
@@ -216,7 +214,6 @@ PHASE(Using)
   
   if (c && sel)
     [c perform: sel with: (void *) (PTRINT) x with: (void *) (PTRINT) y];
-  return self;
 }
 
 @end

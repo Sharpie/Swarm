@@ -10,6 +10,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Histogram.h>
 #import <defobj.h> // STRDUP
+#import <defobj/defalloc.h> // getZone
 
 @implementation Histogram
 
@@ -29,7 +30,7 @@ PHASE(Creating)
 - setBinCount: (unsigned)n 
 {
   binCount = n;
-  elements = [[self getZone] alloc: (sizeof (*elements) * n)];
+  elements = [getZone (self) alloc: (sizeof (*elements) * n)];
 
   return self;
 }
@@ -65,12 +66,12 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setLabels: (const char * const *)l count: (unsigned)labelCount
+- (void)setLabels: (const char * const *)l count: (unsigned)labelCount
 {
   unsigned i;
 
   if (l == NULL)
-    return self;	// nothing to be done
+    return;
 
   if (binCount < 1)
     raiseEvent (InvalidCombination,
@@ -80,16 +81,14 @@ PHASE(Using)
     for (i = 0; i < binCount; i++)
       [globalTkInterp eval: "%s element configure %s -label {%s}",
 		      widgetName, elements[i], l[i % labelCount]];
-  
-  return self;
 }
 
-- setColors: (const char * const *)c count: (unsigned)colorCount
+- (void)setColors: (const char * const *)c count: (unsigned)colorCount
 {
   unsigned i;
 
   if (c == NULL)
-    return self;	// nothing to be done
+    return;
 
   if (binCount < 1)
     raiseEvent (InvalidCombination,
@@ -102,84 +101,74 @@ PHASE(Using)
   
   // Note: caller needs to supply enough colors.
   // If not, excess bars remain colored blue.
-
-  return self;
 }
 
-- drawHistogramWithDouble: (double *)points
+- (void)drawHistogramWithDouble: (double *)points
 {
   unsigned i;
 
   for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %f }",
 		    widgetName, elements[i], i, points[i]];
-  return self;
 }
 
 // ick. How to do two data formats right?
-- drawHistogramWithInt: (int *)points
+- (void)drawHistogramWithInt: (int *)points
 {
   unsigned i;
 
   for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %d }",
 		    widgetName, elements[i], i, points[i]];
-  return self;
 }
 
-- drawHistogramWithInt: (int *)points atLocations: (double *)locations
+- (void)drawHistogramWithInt: (int *)points atLocations: (double *)locations
 {
   unsigned i;
 
   for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %d }",
 		    widgetName, elements[i], locations[i], points[i]];
-  return self;
 }
 
-- drawHistogramWithDouble: (double *)points atLocations: (double *)locations
+- (void)drawHistogramWithDouble: (double *)points atLocations: (double *)locations
 {
   unsigned i;
 
   for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %g }",
 		    widgetName, elements[i], locations[i], points[i]];
-  return self;
 }
 
 // this code is in common with BLTGraph
-- setTitle: (const char *)t
+- (void)setTitle: (const char *)t
 {
   [globalTkInterp eval: "%s configure -title {%s};", widgetName, t];
   [self setWindowTitle: t];
-  return self;
 }
 
-- setAxisLabelsX: (const char *)xl Y: (const char *)yl
+- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
   [globalTkInterp
     eval:
       "%s xaxis configure -title {%s}; %s yaxis configure -title {%s};",
     widgetName, xl, widgetName, yl];
-  return self;
 }
 
-- pack
+- (void)pack
 {
   [globalTkInterp eval: "pack %s -fill both -expand true;", widgetName];
-  return self;
 }
 
-- setBarWidth: (double)step
+- (void)setBarWidth: (double)step
 {
   [globalTkInterp eval: 
                     "%s configure -barwidth %g",
                   [self getWidgetName],
                   step];
-  return self;
 }
 
-- setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision
+- (void)setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision
 {
   [globalTkInterp eval: 
                     "%s xaxis configure -min %g -max %g -stepsize %g -command {fmtx %d}",
@@ -188,16 +177,14 @@ PHASE(Using)
                   max,
                   step,
                   precision];
-  return self;
 }
 
-- setXaxisMin: (double)min max: (double)max step: (double)step
+- (void)setXaxisMin: (double)min max: (double)max step: (double)step
 {
   [self setXaxisMin: min max: max step: step precision: 3];
-  return self;
 }
 
-- setActiveOutlierText: (unsigned)outliers count: (unsigned)count
+- (void)setActiveOutlierText: (unsigned)outliers count: (unsigned)count
 {
   [globalTkInterp
     eval: 
@@ -205,27 +192,21 @@ PHASE(Using)
     [self getWidgetName], 
     outliers, 
     ((double)outliers / ((double)outliers + (double)count))];
-
-  return self;
 }
 
-- hideLegend
+- (void)hideLegend
 {
   [globalTkInterp eval: "%s legend configure $hideOption $hideYes",
                   [self getWidgetName]];
-  
-  return self;
 }
 
-- setupActiveItemInfo
+- (void)setupActiveItemInfo
 {
   [globalTkInterp eval: "active_item_info %s",
                   [self getWidgetName]];
-
-  return self;
 }
 
-- setupActiveOutlierMarker
+- (void)setupActiveOutlierMarker
 {
   [globalTkInterp
     eval: 
@@ -234,16 +215,12 @@ PHASE(Using)
     "-anchor nw -justify right "
     "-bg {} $hideOption $hideNo",
     [self getWidgetName]];
-
-  return self;
 }
 
-- setupZoomStack
+- (void)setupZoomStack
 {
   [globalTkInterp eval: "Blt_ZoomStack %s",
                   [self getWidgetName]];
-  return self;
 }
 
 @end
-

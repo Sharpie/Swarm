@@ -13,7 +13,7 @@
 
 PHASE(Creating)
 
-- setBorderWidth: (int)theBorderWidth
+- setBorderWidth: (unsigned)theBorderWidth
 {
   borderWidth = borderWidth;
   return self;
@@ -55,16 +55,14 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- withdraw
+- (void)withdraw
 {
   [globalTkInterp eval: "wm withdraw %s", [self getWidgetName]];
-  return self;
 }
 
-- deiconify
+- (void)deiconify
 {
   [globalTkInterp eval: "wm deiconify %s", [self getWidgetName]];
-  return self;
 }
 
 @end

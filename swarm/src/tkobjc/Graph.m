@@ -11,7 +11,7 @@
 #import <tkobjc/global.h>
 #import <collections.h> // List
 #import <defobj.h> // STRDUP
-
+#import <defobj/defalloc.h> // getZone
 #include <misc.h> // atoi
 
 @implementation Graph
@@ -28,48 +28,40 @@ PHASE(Creating)
   [globalTkInterp eval: "Blt_ZoomStack %s; Blt_Crosshairs %s; Blt_ActiveLegend %s; Blt_ClosestPoint %s",
 		  widgetName, widgetName, widgetName, widgetName];
   [self updateSize];
-  elementList = [List create: [self getZone]];
+  elementList = [List create: getZone (self)];
   
   return self;
 }
 
 PHASE(Using)
 
-- setRangesXMin: (double)minx 
-            Max: (double)maxx
+- (void)setRangesXMin: (double)minx 
+                  Max: (double)maxx
 {
   [globalTkInterp 
     eval: "%s xaxis configure -min %f -max %f", widgetName, minx, maxx];
-  
-  return self;
 }
 
-- setRangesYMin: (double)miny
-            Max: (double)maxy 
+- (void)setRangesYMin: (double)miny
+                  Max: (double)maxy 
 {
   [globalTkInterp 
     eval: "%s yaxis configure -min %f -max %f", widgetName, miny, maxy];
-
-  return self;
 }
 
-- setRangesXMin: (double)minx Max: (double)maxx
-           YMin: (double)miny Max: (double)maxy
+- (void)setRangesXMin: (double)minx Max: (double)maxx
+                 YMin: (double)miny Max: (double)maxy
 {
   [self setRangesXMin: minx Max: maxx];
   [self setRangesYMin: miny Max: maxy];
-
-  return self;
 }
 
-- setScaleModeX: (BOOL)xs Y: (BOOL)ys
+- (void)setScaleModeX: (BOOL)xs Y: (BOOL)ys
 {
   [globalTkInterp
     eval:
       "%s xaxis configure -loose %d; %s yaxis configure -loose %d",
     widgetName, (int)xs, widgetName, (int)ys];
-
-  return self;
 }
 
 - (id <GraphElement>)createElement
@@ -81,35 +73,29 @@ PHASE(Using)
   return newElement;
 }
 
-- destroyElement: (id <GraphElement>)g
+- (void)destroyElement: (id <GraphElement>)g
 {
   [elementList remove: g];
   [g drop];
-
-  return self;
 }
 
-- setTitle: (const char *)title
+- (void)setTitle: (const char *)title
 {
   [globalTkInterp eval: "%s configure -title {%s};", widgetName, title];
   [self setWindowTitle: title];
-
-  return self;
 }
 
-- setAxisLabelsX: (const char *)xl Y: (const char *)yl
+- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
   [globalTkInterp
     eval:
       "%s xaxis configure -title {%s}; %s yaxis configure -title {%s};",
     widgetName, xl, widgetName, yl];
-  return self;
 }
 
-- pack
+- (void)pack
 {
   [globalTkInterp eval: "pack %s -fill both -expand true;", widgetName];
-  return self;
 }
 
 // first destroy all the elements, then ourselves.
@@ -141,8 +127,8 @@ PHASE(Creating)
   if (ownerGraph == nil)
     raiseEvent (InvalidCombination, "This element has no owner graph!\n");
   name = STRDUP ([self getObjectName]);
-  xData = [BLTVector create: [self getZone]];
-  yData = [BLTVector create: [self getZone]];
+  xData = [BLTVector create: getZone (self)];
+  yData = [BLTVector create: getZone (self)];
 
   if ([globalTkInterp newBLTp])
     {
@@ -215,30 +201,27 @@ PHASE(Using)
   return yData;
 }
 
-- addX: (double)x Y: (double)y
+- (void)addX: (double)x Y: (double)y
 {
   [xData append: x];
   [yData append: y];
-  return self;
 }
 
-- resetData
+- (void)resetData
 {
   [xData resetData];
   [yData resetData];
-  return self;
 }
 
-- setLabel: (const char *)label
+- (void)setLabel: (const char *)label
 {
   [globalTkInterp eval: "%s element configure %s -label {%s}",
                   [ownerGraph getWidgetName],
                   name,
                   label];
-  return self;
 }
 
-- setColor: (const char *)color
+- (void)setColor: (const char *)color
 {
   if ([globalTkInterp newBLTp])
     {
@@ -258,8 +241,6 @@ PHASE(Using)
       [ownerGraph getWidgetName],
       name,
       color, color];
-  
-  return self;
 }
 
 - setWidth: (unsigned)w
@@ -269,23 +250,21 @@ PHASE(Using)
   return self;
 }
 
-- setSymbol: (const char *)s
+- (void)setSymbol: (const char *)s
 {
   [globalTkInterp eval: "%s element configure %s -symbol %s",
 		  [ownerGraph getWidgetName],
                   name,
                   s];
-  return self;
 }
 
 // set the dash style - 0 means solid.
-- setDashes: (int)d
+- (void)setDashes: (int)d
 {
   [globalTkInterp eval: "%s element configure %s -dashes %d",
 		  [ownerGraph getWidgetName],
                   name,
                   d];
-  return self;
 }
 
 @end
@@ -313,30 +292,26 @@ PHASE(Using)
   return atoi ([globalTkInterp result]);
 }
 
-- setLength: (unsigned)n
+- (void)setLength: (unsigned)n
 {
   [globalTkInterp eval: "%s length %u", name, n];
-  return self;
 }
 
-- append: (double)v
+- (void)append: (double)v
 {
   [globalTkInterp eval: "%s append %g", name, v];
-  return self;
 }
 
 // vector ranges - ":" is like the range "5:7", but it assumes you
 // mean from min to max.
-- resetData
+- (void)resetData
 {
   [globalTkInterp eval: "%s delete :", name];
-  return self;
 }
 
-- delete: (int)n
+- (void)delete: (int)n
 {
   [globalTkInterp eval: "%s delete %d", name, n];
-  return self;
 }
 
 - (void)drop

@@ -12,7 +12,7 @@
 
 PHASE(Creating)
 
-- createBindings
+- (void)createBindings
 {
   const char *temp = [self getObjectName];
   const char *canvasName = [canvas getWidgetName];
@@ -29,8 +29,6 @@ PHASE(Creating)
                   item,
                   temp,
                   "%x", "%y", "%x", "%y"];
-
-  return self;
 }
 
 - createEnd
@@ -42,7 +40,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- initiateMoveX: (long)deltaX Y: (long)deltaY
+- (void)initiateMoveX: (long)deltaX Y: (long)deltaY
 {
   if (moveSel && target)
     if ([target perform: moveSel with: (id)deltaX with: (id)deltaY])
@@ -54,8 +52,6 @@ PHASE(Using)
   
   if (postMoveSel && target)
     [target perform: postMoveSel];
-  
-  return self;
 }
 
 - (void)mapAllocations: (mapalloc_t)mapalloc

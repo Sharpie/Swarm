@@ -7,6 +7,7 @@
 #import <defobj.h> // zones
 #include "internal.h"
 #import <tkobjc/global.h>
+#import <defobj/defalloc.h> // getZone
 #include <swarmconfig.h> // PTRUINT
 
 #ifdef HAVE_PNG
@@ -135,7 +136,7 @@ PHASE(Creating)
       png_bytep row_pointers_buffer[height];
       png_bytep new_row_pointers_buffer[height];
       png_bytep *row_pointers = row_pointers_buffer;
-      id aZone = [self getZone];
+      id aZone = getZone (self);
 
       for (ri = 0; ri < height; ri++)
         row_pointers[ri] = [aZone alloc: row_bytes];
@@ -147,7 +148,7 @@ PHASE(Creating)
       if (color_type != PNG_COLOR_TYPE_PALETTE)
         {
           unsigned ri;
-          id cMap = [Map createBegin: [self getZone]];
+          id cMap = [Map createBegin: getZone (self)];
           unsigned colorCount = 0;
 	  unsigned row_columns = row_bytes / 3;
           
@@ -167,7 +168,7 @@ PHASE(Creating)
                 }
             }
           {
-            id <MapIndex> mi = [cMap begin: [self getZone]];
+            id <MapIndex> mi = [cMap begin: getZone (self)];
             png_bytep rgb;
             id indexObj;
 
@@ -277,12 +278,10 @@ PHASE(Creating)
 
 PHASE(Using)               
 
-- setRaster: theRaster
+- (void)setRaster: theRaster
 {
   raster = theRaster;
   tkobjc_pixmap_update_raster (self, raster);
-
-  return self;
 }
 
 - (unsigned)getWidth
@@ -295,18 +294,14 @@ PHASE(Using)
   return height;
 }
 
-- drawX: (int)x Y: (int)y
+- (void)drawX: (int)x Y: (int)y
 {
   tkobjc_pixmap_draw (self, x, y, raster);
-  
-  return self;
 }
 
-- save: (const char *)path
+- (void)save: (const char *)path
 {
   tkobjc_pixmap_save (self, path);
-
-  return self;
 }
 
 - (void)drop

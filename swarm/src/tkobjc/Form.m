@@ -26,13 +26,12 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setEntryWidth: (unsigned)ew
+- (void)setEntryWidth: (unsigned)ew
 {
   entryWidth = ew;
-  return self;
 }
 
-- _addLineName_: (const char *)n Variable: (void *)p Type: (int)type
+- (void)_addLineName_: (const char *)n Variable: (void *)p Type: (int)type
 {
   Label *l;
   InputWidget *w;
@@ -72,23 +71,22 @@ PHASE(Using)
   [globalTkInterp eval: "table configure %s c0 -resize none",
 		  [parent getWidgetName]];
   entryCount++;
-  return self;
 }
 
 // this is atrocious - we should maintain a collection of the entries
-- addLineName: (const char *)n Boolean: (unsigned *)p
+- (void)addLineName: (const char *)n Boolean: (unsigned *)p
 {
-  return [self _addLineName_: n Variable: p Type: TCL_LINK_BOOLEAN];
+  [self _addLineName_: n Variable: p Type: TCL_LINK_BOOLEAN];
 }
 
-- addLineName: (const char *)n Int: (int *)p
+- (void)addLineName: (const char *)n Int: (int *)p
 {
-  return [self _addLineName_: n Variable: p Type: TCL_LINK_INT];
+  [self _addLineName_: n Variable: p Type: TCL_LINK_INT];
 }
 
-- addLineName: (const char *)n Double: (double *)p
+- (void)addLineName: (const char *)n Double: (double *)p
 {
-  return [self _addLineName_: n Variable: p Type: TCL_LINK_DOUBLE];
+  [self _addLineName_: n Variable: p Type: TCL_LINK_DOUBLE];
 }
 
 @end

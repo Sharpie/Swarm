@@ -9,24 +9,20 @@
 
 PHASE(Creating)
 
-- setCanvas: the_canvas
+- setCanvas: (id <Canvas>)theCanvas
 {
-  canvas = the_canvas;
+  canvas = theCanvas;
   return self;
 }
 
-- createItem
+- (void)createItem
 {
   [self subclassResponsibility: @selector (createItem)];
-
-  return self;
 }
 
-- createBindings
+- (void)createBindings
 {
   [self subclassResponsibility: @selector (createBindings)];
-
-  return self;
 }
 
 - createEnd 
@@ -38,45 +34,38 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setTargetId: the_target
+- (void)setTargetId: the_target
 {
   target = the_target;
-  return self;
 }    
 
-- setClickSel: (SEL)the_sel
+- (void)setClickSel: (SEL)the_sel
 {
   clickSel = the_sel;
-  return self;
 }
 
-- setMoveSel: (SEL)the_sel
+- (void)setMoveSel: (SEL)the_sel
 {
   moveSel = the_sel;
-  return self;
 }
 
-- setPostMoveSel: (SEL)the_sel
+- (void)setPostMoveSel: (SEL)the_sel
 {
   postMoveSel = the_sel;
-  return self;
 }
 
-- clicked
+- (void)clicked
 {
   if (clickSel && target)
     [target perform: clickSel];
-  return self ;
 }
 
-- initiateMoveX: (long)delta_x Y: (long)delta_y
+- (void)initiateMoveX: (long)delta_x Y: (long)delta_y
 {
   [self subclassResponsibility: @selector(initiateMoveX:Y:)];
-
-  return self;
 }
 
-- getCanvas
+- (id <Canvas>)getCanvas
 {
   return canvas;
 }

@@ -14,8 +14,8 @@
   unsigned entryWidth;
 }
 
-- setEntryWidth: (unsigned)ew;
-- addLineName: (const char *)n Boolean: (unsigned *)p;
-- addLineName: (const char *)n Int: (int *)p;
-- addLineName: (const char *)n Double: (double *)p;
+- (void)setEntryWidth: (unsigned)ew;
+- (void)addLineName: (const char *)n Boolean: (unsigned *)p;
+- (void)addLineName: (const char *)n Int: (int *)p;
+- (void)addLineName: (const char *)n Double: (double *)p;
 @end

@@ -18,9 +18,8 @@
 }
 
 - (const char *)getValue;
-- linkVariableInt: (int *)p;
-- linkVariableDouble: (double *)p;
-- linkVariableBoolean: (unsigned *)p;
-- setValue: (const char *)v;
-
+- (void)linkVariableInt: (int *)p;
+- (void)linkVariableDouble: (double *)p;
+- (void)linkVariableBoolean: (unsigned *)p;
+- (void)setValue: (const char *)v;
 @end

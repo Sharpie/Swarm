@@ -14,9 +14,9 @@
 
 - setFrom: from;
 - setTo: to;
-- createItem;
+- (void)createItem;
 
-- setColor: (const char *)aColor;
-- update;
+- (void)setColor: (const char *)aColor;
+- (void)update;
 
 @end

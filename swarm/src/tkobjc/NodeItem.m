@@ -49,7 +49,7 @@ createButton1MotionBinding (const char *canvasName,
 
 PHASE(Creating)
 
-- createBindings
+- (void)createBindings
 {
   const char *canvasName = [canvas getWidgetName];
   const char *objectName = [self getObjectName];
@@ -62,11 +62,7 @@ PHASE(Creating)
   
   createButton1MotionBinding (canvasName, item, objectName);
   createButton1MotionBinding (canvasName, text, objectName);
-
-  return self;
 }
-
-PHASE(Using)
 
 - setX: (int)the_x Y: (int)the_y
 {
@@ -76,44 +72,39 @@ PHASE(Using)
   return self;
 }
 
-- setColor: (const char *)aColor
-{
-  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
-                  [canvas getWidgetName], item, aColor];  
-
-  return self;
-}
-
-- setBorderColor: (const char *)aColor
-{
-  [globalTkInterp eval: "%s itemconfigure %s -outline %s",
-                  [canvas getWidgetName], item, aColor];  
-
-  return self;
-}
-
-- setBorderWidth: (int)aVal
-{
-  [globalTkInterp eval: "%s itemconfigure %s -width %d",
-                  [canvas getWidgetName],
-                  item,
-                  aVal];  
-
-  return self;
-}
-
 - setString: (const char *)the_text
 {
   string = STRDUP (the_text);
-
   return self;
 }
 
 - setFont: (const char *)the_font
 {
   font = STRDUP (the_font);
-
   return self;
+}
+
+
+PHASE(Using)
+
+- (void)setColor: (const char *)aColor
+{
+  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
+                  [canvas getWidgetName], item, aColor];  
+}
+
+- (void)setBorderColor: (const char *)aColor
+{
+  [globalTkInterp eval: "%s itemconfigure %s -outline %s",
+                  [canvas getWidgetName], item, aColor];  
+}
+
+- (void)setBorderWidth: (int)aVal
+{
+  [globalTkInterp eval: "%s itemconfigure %s -width %d",
+                  [canvas getWidgetName],
+                  item,
+                  aVal];
 }
 
 - (int)getX
@@ -126,7 +117,7 @@ PHASE(Using)
   return y;
 }
 
-- moveX: (long)the_x Y: (long)the_y
+- (void)moveX: (long)the_x Y: (long)the_y
 {
   const char *canvasName = [canvas getWidgetName];
   x += the_x;
@@ -135,18 +126,14 @@ PHASE(Using)
   [globalTkInterp eval: "%s move %s %ld %ld; %s move %s %ld %ld",
                   canvasName, text, the_x, the_y,
                   canvasName, item, the_x, the_y];
-  
-  return self;
 }
 
-- createText
+- (void)createText
 {
   text = tkobjc_createText (getZone (self), canvas, x, y, string, font, YES);
-
-  return self;
 }
 
-- createPaddedText
+- (void)createPaddedText
 {
   char stringpad[strlen (string) + 2], *ptr;
   
@@ -156,8 +143,6 @@ PHASE(Using)
   // font and size independence means I have to make a fake label first...
   text = tkobjc_createText (getZone (self), 
                             canvas, x, y, stringpad, font, YES);
-
-  return self;
 }
 
 - (void)drop

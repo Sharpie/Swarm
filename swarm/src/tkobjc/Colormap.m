@@ -133,10 +133,9 @@ PHASE(Using)
   return 0;
 }
 
-- unsetColor: (Color)c
+- (void)unsetColor: (Color)c
 {
   isSet[c] = NO;
-  return self;
 }
 
 @end

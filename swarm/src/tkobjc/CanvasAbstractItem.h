@@ -13,17 +13,17 @@
   SEL clickSel, moveSel, postMoveSel;
 }
 
-- setCanvas: canvas;
-- setTargetId: target;
-- setClickSel: (SEL)sel;
-- setMoveSel: (SEL)sel;
-- setPostMoveSel: (SEL)sel;
-- createItem;
-- createBindings;
+- (void)createItem;
+- (void)createBindings;
 - createEnd;
-- clicked;
-- initiateMoveX: (long)delta_x Y: (long)delta_y;
-- getCanvas;
+- setCanvas: (id <Canvas>)canvas;
+- (void)setTargetId: target;
+- (void)setClickSel: (SEL)sel;
+- (void)setMoveSel: (SEL)sel;
+- (void)setPostMoveSel: (SEL)sel;
+- (void)clicked;
+- (void)initiateMoveX: (long)delta_x Y: (long)delta_y;
+- (id <Canvas>)getCanvas;
 @end
 
 

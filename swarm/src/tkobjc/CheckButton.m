@@ -30,13 +30,12 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setBoolValue: (BOOL)v
+- (void)setBoolValue: (BOOL)v
 {
   if (v)
     [globalTkInterp eval: "%s select;", widgetName];
   else
     [globalTkInterp eval: "%s deselect;", widgetName];
-  return self;
 }
 
 - (const char *)getValue
@@ -44,9 +43,9 @@ PHASE(Using)
   return [globalTkInterp variableValue: variableName];
 }
 
-- setValue: (const char *)v
+- (void)setValue: (const char *)v
 {
-  return [self setBoolValue: stringIsFalse (v)];
+  [self setBoolValue: stringIsFalse (v)];
 }
 
 
@@ -60,6 +59,4 @@ PHASE(Using)
 {
   return !stringIsFalse ([self getValue]);
 }
-
-// could do setvalue with Tcl select/deselect
 @end

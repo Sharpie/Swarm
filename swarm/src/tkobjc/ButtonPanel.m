@@ -12,14 +12,13 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setButtonTarget: object
+- (void)setButtonTarget: object
 {
   target = object;
-  return self;
 }
 
 // this is atrocious - we should maintain a collection of the buttons.
-- addButtonName: (const char *)name target: theTarget method: (SEL)sel
+- (void)addButtonName: (const char *)name target: theTarget method: (SEL)sel
 {
   id <Button> b;
 
@@ -32,12 +31,10 @@ PHASE(Using)
 #endif
   [b pack];
   // now save b away in a list. (unimplemented)
-
-  return self;
 }
 
-- addButtonName: (const char *)name method: (SEL)sel
+- (void)addButtonName: (const char *)name method: (SEL)sel
 {
-  return [self addButtonName: name target: target method: sel];
+  [self addButtonName: name target: target method: sel];
 }
 @end

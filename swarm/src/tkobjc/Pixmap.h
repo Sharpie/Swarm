@@ -38,9 +38,9 @@
 - setDecorationsFlag: (BOOL)decorationsFlag;
 - createEnd;
 
-- setRaster: raster;
+- (void)setRaster: raster;
 - (unsigned)getWidth;
 - (unsigned)getHeight;
-- drawX: (int)x Y: (int)y;
-- save: (const char *)filename;
+- (void)drawX: (int)x Y: (int)y;
+- (void)save: (const char *)filename;
 @end

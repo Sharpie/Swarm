@@ -38,30 +38,30 @@
 - setWidth: (unsigned)w Height: (unsigned)h;	  // set size
 - setWidth: (unsigned)w;
 - setHeight: (unsigned)h;
-- setWindowGeometry: (const char *)s;             // set geometry as a string
-- setX: (int) x Y: (int) y;		  // set window position.
+- (void)setWindowGeometry: (const char *)s;       // set geometry as a string
+- setX: (int)x Y: (int)y;		          // set window position.
 
-- setWindowTitle: (const char *)s;		  // window manager title
+- (void)setWindowTitle: (const char *)s;	  // window manager title
 
-- pack;						  // display the widget
-- packWith: (const char *)c;			  // display, args.
-- unpack;					  // unmap the widget
+- (void)pack;					  // display the widget
+- (void)packWith: (const char *)c;		  // display, args.
+- (void)unpack;					  // unmap the widget
 
-- packToRight: widget;
-- packBeforeAndFillLeft: widget expand: (BOOL)expandFlag;
-- packFillLeft: (BOOL)expandFlag;
-- packFill;
-- packForgetAndExpand;
+- (void)packToRight: widget;
+- (void)packBeforeAndFillLeft: widget expand: (BOOL)expandFlag;
+- (void)packFillLeft: (BOOL)expandFlag;
+- (void)packFill;
+- (void)packForgetAndExpand;
 
-- setActiveFlag: (BOOL)activeFlag;
+- (void)setActiveFlag: (BOOL)activeFlag;
 
 - setWidgetNameFromParent: parent;
 - setWidgetNameFromParentName: (const char *)parentWidgetName;
 - (const char *)makeWidgetNameFor: widget;
 
-- enableDestroyNotification: notificationTarget
-         notificationMethod: (SEL)destroyNotificationMethod;
-- disableDestroyNotification;
+- (void)enableDestroyNotification: notificationTarget
+               notificationMethod: (SEL)destroyNotificationMethod;
+- (void)disableDestroyNotification;
 - (BOOL)getDestroyedFlag;
 
 - (void)drop;

@@ -11,14 +11,12 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- moveX: (long)deltaX Y: (long)deltaY
+- (void)moveX: (long)deltaX Y: (long)deltaY
 {
   [self subclassResponsibility: @selector (moveX:Y:)];
-
-  return self;
 }
 
-- initiateMoveX: (long)deltaX Y: (long)deltaY
+- (void)initiateMoveX: (long)deltaX Y: (long)deltaY
 {
   if (moveSel && target)
     {
@@ -28,8 +26,6 @@ PHASE(Using)
   
   if (postMoveSel && target)
     [target perform: postMoveSel];
-
-  return self;
 }
 
 @end

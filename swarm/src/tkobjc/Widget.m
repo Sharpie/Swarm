@@ -8,6 +8,7 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/Frame.h>
 #import <tkobjc/common.h>
+#import <defobj/defalloc.h> // getZone
 
 #include <swarmconfig.h> // PTRUINT
 #include <misc.h> // atoi
@@ -35,7 +36,7 @@ PHASE(Creating)
 {
   if (parent == nil)
     { 
-      [self setParent: [Frame create: [self getZone]]];
+      [self setParent: [Frame create: getZone (self)]];
       shellFrameFlag = YES;
     }
   [self setWidgetNameFromParent: parent];
@@ -156,12 +157,10 @@ get_geometry_element (id widget, unsigned offset)
   return get_geometry_element (self, 3);
 }
 
-- setWindowGeometry: (const char *)s
+- (void)setWindowGeometry: (const char *)s
 {
   [globalTkInterp eval: "wm geometry %s {%s}",
 		  [[self getTopLevel] getWidgetName], s];
-
-  return self;
 }
 
 - setWidth: (unsigned)w
@@ -169,7 +168,6 @@ get_geometry_element (id widget, unsigned offset)
   [globalTkInterp eval: "%s configure -width %u",
 		  [self getWidgetName],
 		  w];
-
   return self;
 }
 
@@ -206,87 +204,68 @@ get_geometry_element (id widget, unsigned offset)
 }
 
 
-- setWindowTitle: (const char *)s
+- (void)setWindowTitle: (const char *)s
 {
   [globalTkInterp eval: "wm title %s {%s}", 
                   [[self getTopLevel] getWidgetName], s];
-  return self;
 }
 
-- pack
+- (void)pack
 {
   tkobjc_pack (self);
-
-  return self;
 }
 
-- packWith: (const char *)c
+- (void)packWith: (const char *)c
 {
   [globalTkInterp eval: "pack %s %s;", widgetName, c];
-
-  return self;
 }
 
-- packToRight: widget
+- (void)packToRight: widget
 {
   [globalTkInterp eval: "pack %s %s -side right",
                   [self getWidgetName],
                   [widget getWidgetName]];
-
-  return self;
 }
 
-- packBeforeAndFillLeft: widget expand: (BOOL)expandFlag
+- (void)packBeforeAndFillLeft: widget expand: (BOOL)expandFlag
 {
   [globalTkInterp eval: "pack %s -before %s -side left -fill both -expand %d",
 		  [self getWidgetName],
 		  [widget getWidgetName],
-                  (int)expandFlag];
-
-  return self;
+                  (int) expandFlag];
 }
 
-- packFillLeft: (BOOL)expandFlag
+- (void)packFillLeft: (BOOL)expandFlag
 {
   [globalTkInterp eval: "pack %s -side left -fill both -expand %d",
 		  [self getWidgetName],
-                  (int)expandFlag];
-
-  return self;
+                  (int) expandFlag];
 }
 
-- packFill
+- (void)packFill
 {
   [globalTkInterp eval: "pack %s -fill both -expand 0",
 		  [self getWidgetName]];
-
-  return self;
 }
 
-- packForgetAndExpand
+- (void)packForgetAndExpand
 {
   [globalTkInterp eval: "pack forget %s",
                   [self getWidgetName]];
   [globalTkInterp eval:  "pack %s -expand true -fill both",
                   [self getWidgetName]];
-
-  return self;
 }
 
-- unpack
+- (void)unpack
 {
   [NotImplemented raiseEvent];
-
-  return self;
 }
 
-- setActiveFlag: (BOOL)activeFlag
+- (void)setActiveFlag: (BOOL)activeFlag
 {
   [globalTkInterp eval: "%s configure -state %s",
                   [self getWidgetName],
                   activeFlag ? "normal" : "disabled"];
-
-  return self;
 }
 
 - (void)drop
@@ -322,8 +301,8 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
     [(id)clientdata _notifyTarget_];
 }
 
-- enableDestroyNotification: theNotificationTarget
-         notificationMethod: (SEL)theNotificationMethod
+- (void)enableDestroyNotification: theNotificationTarget
+               notificationMethod: (SEL)theNotificationMethod
 {
   if (theNotificationTarget)
     {
@@ -332,17 +311,15 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
       destroyNotificationTarget = theNotificationTarget;
       destroyNotificationMethod = theNotificationMethod;
     }
-  return self;
 }
 
-- disableDestroyNotification
+- (void)disableDestroyNotification
 {
   if (destroyNotificationTarget != nil)
     {
       tkobjc_deleteEventHandler (self, structure_proc);
       destroyNotificationTarget = nil;
     }
-  return self;
 }
 
 

@@ -10,8 +10,8 @@
 {
 }
 
-- moveX: (long)delta_x Y: (long)delta_y;
-- initiateMoveX: (long)delta_x Y: (long)delta_y;
+- (void)moveX: (long)deltaX Y: (long)deltaY;
+- (void)initiateMoveX: (long)deltaX Y: (long)deltaY;
 @end
 
 

@@ -11,6 +11,7 @@
 #include "internal.h"
 
 #import <tkobjc/CanvasItem.h>
+#import <defobj/defalloc.h> // getZone
 
 #include <objc/objc-api.h>
 #include <misc.h>
@@ -54,7 +55,7 @@ canvasLabelDestroyNotify (id obj, id reallocAddress, void *canvas)
 - setWidget: widget;
 - setX: (int)x;
 - setY: (int)y;
-- showEvent;
+- (void)showEvent;
 @end
 
 @implementation PendingEvent
@@ -94,7 +95,7 @@ canvasLabelDestroyNotify (id obj, id reallocAddress, void *canvas)
   return self;
 }
 
-- showEvent
+- (void)showEvent
 {
   int wx, wy, bx, by;
   unsigned zoomFactor;
@@ -112,7 +113,6 @@ canvasLabelDestroyNotify (id obj, id reallocAddress, void *canvas)
 
   tkobjc_animate_message (widget, canvas, wx, wy, bx, by, NO,
 			  [scheduleItem getSleepTime]);
-  return self;
 }
 
 @end
@@ -139,14 +139,13 @@ PHASE(Creating)
   return self;
 }
 
-- createItem
+- (void)createItem
 {
-  return [self _createItem_];
+  [self _createItem_];
 }
 
-- createBindings
+- (void)createBindings
 {
-  return self;
 }
 
 - setX: (int)theX Y: (int)theY
@@ -168,7 +167,7 @@ PHASE(Setting)
 
 PHASE(Using)
 
-- update
+- (void)update
 {
   processingUpdate = YES;
 
@@ -178,7 +177,7 @@ PHASE(Using)
   [self _createItem_];
   while (GUI_EVENT_ASYNC ()) {}  
   {
-    id <Index> li = [pendingEvents begin: [self getZone]];
+    id <Index> li = [pendingEvents begin: getZone (self)];
     id event;
 
     while ((event = [li next]) != nil)
@@ -193,11 +192,7 @@ PHASE(Using)
   }
   processingUpdate = NO;
   if (pendingDrop)
-    {
-      [self _drop_];
-      return nil;
-    }
-  return self;
+    [self _drop_];
 }
 
 - (int)getXForBar
@@ -210,7 +205,7 @@ PHASE(Using)
   return yoffset + step * (tval - min);
 }
 
-- _createItem_
+- (void)_createItem_
 {
   id <MapIndex> mi;
   int xbarpos, ymaxpos;
@@ -218,10 +213,10 @@ PHASE(Using)
   timeval_t max = 0;
 
   if (schedule == nil)
-    return self;
+    return;
   
-  zone = [Zone create: [self getZone]];
-
+  zone = [Zone create: getZone (self)];
+  
   mi = [schedule mapBegin: zone];
   if ([mi next: (id *)&key])
     {
@@ -338,12 +333,11 @@ PHASE(Using)
      }
     [mi drop];
   }
-  return self;
 }
 
-- at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY
+- (void)at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY
 {
-  id pendingEvent = [PendingEvent createBegin: [self getZone]];
+  id pendingEvent = [PendingEvent createBegin: getZone (self)];
 
   [pendingEvent setScheduleItem: self];
   [pendingEvent setTime: tval];
@@ -353,19 +347,17 @@ PHASE(Using)
   [pendingEvent setY: sourceY];
 
   [pendingEvents addLast: [pendingEvent createEnd]];
-  return self;
 }
 
-- trigger: widget X: (int)x Y: (int)y
+- (void)trigger: widget X: (int)x Y: (int)y
 {
   int zoomFactor = ([widget respondsTo: @selector(getZoomFactor)]
                   ? [widget getZoomFactor]
-                  : 1);
+                    : 1);
   tkobjc_animate_message (canvas, widget,
                           [self getXForBar] + ANIMATEOFFSET,
                           [self getYForTime: getCurrentTime ()],
                           x * zoomFactor, y * zoomFactor, YES, sleepTime);
-  return self;
 }
 
 - (unsigned)getSleepTime

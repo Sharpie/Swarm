@@ -13,9 +13,7 @@
   id target;
 }
 
-- setButtonTarget: target;
-- addButtonName: (const char *)n target: target method: (SEL)sel;
-- addButtonName: (const char *)n
-         method: (SEL)sel;
-
+- (void)setButtonTarget: target;
+- (void)addButtonName: (const char *)n target: target method: (SEL)sel;
+- (void)addButtonName: (const char *)n method: (SEL)sel;
 @end

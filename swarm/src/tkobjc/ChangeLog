@@ -1,3 +1,13 @@
+2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* ArchivedGeometryWidget.m, Button.[hm], ButtonPanel.[hm],
+	CanvasAbstractItem.[hm], CanvasItem.[hm], CheckButton.[hm],
+	Colormap.[hm], CompositeItem.[hm], Entry.[hm], Form.[hm],
+	Frame.[hm], Graph.[hm], Histogram.[hm], InputWidget.[hm],
+	LinkItem.[hm], NodeItem.[hm], Pixmap.[hm], ScheduleItem.[hm],
+	Widget.[hm], ZoomRaster.[hm]: Eliminate gratuitous object returns
+	in most using-phase methods.  Use getZone () as appropriate.
+
 2001-03-03  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* NodeItem.m ([NodeItem -setString:], [NodeItem -setFont:]): Copy

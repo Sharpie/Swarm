@@ -17,26 +17,26 @@
 - setBinCount: (unsigned)n; // how many bins to use (bars to draw)
 - createEnd;
 
-- setLabels: (const char * const *)l count: (unsigned)labelCount;
-- setColors: (const char * const *)c count: (unsigned)colorCount;
+- (void)setLabels: (const char * const *)l count: (unsigned)labelCount;
+- (void)setColors: (const char * const *)c count: (unsigned)colorCount;
 
-- drawHistogramWithDouble: (double *)points;	  // data format hack
-- drawHistogramWithInt: (int *)points;
+- (void)drawHistogramWithDouble: (double *)points; // data format hack
+- (void)drawHistogramWithInt: (int *)points;
 
 // This is used by EZBin to avoid the usual integer tagging of elements...
-- drawHistogramWithInt: (int *)points atLocations: (double *)locations;
-- drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
+- (void)drawHistogramWithInt: (int *)points atLocations: (double *)locations;
+- (void)drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
 
-- setTitle: (const char *)t;                             // title the graph
-- setAxisLabelsX: (const char *)xl Y: (const char *)yl;  // change labels here.
-- setBarWidth: (double)step;
-- setXaxisMin: (double)min max: (double)max step: (double)step;
-- setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
-- setActiveOutlierText: (unsigned)outlierCount count: (unsigned)count;
+- (void)setTitle: (const char *)t;
+- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+- (void)setBarWidth: (double)step;
+- (void)setXaxisMin: (double)min max: (double)max step: (double)step;
+- (void)setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
+- (void)setActiveOutlierText: (unsigned)outlierCount count: (unsigned)count;
 
-- hideLegend;
+- (void)hideLegend;
 
-- setupActiveItemInfo;
-- setupActiveOutlierMarker;
-- setupZoomStack;
+- (void)setupActiveItemInfo;
+- (void)setupActiveOutlierMarker;
+- (void)setupZoomStack;
 @end

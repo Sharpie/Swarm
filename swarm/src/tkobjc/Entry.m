@@ -25,11 +25,10 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setValue: (const char *)t
+- (void)setValue: (const char *)t
 {
   [globalTkInterp eval: "%s delete 0 end; %s insert 0 {%s}; %s xview 0",
 		  widgetName, widgetName, t, widgetName];
-  return self;
 }
 
 - (const char *)getValue
@@ -39,7 +38,7 @@ PHASE(Using)
   return [globalTkInterp result];
 }
 
-- setHeight: (unsigned)h
+- (void)setHeight: (unsigned)h
 {
   abort ();
 }

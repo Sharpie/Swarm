@@ -49,11 +49,11 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- pack
+- (void)pack
 {
   while (GUI_EVENT_ASYNC ()) { };
   configureFlag = YES;
-  return [super pack];
+  [super pack];
 }
 
 - (unsigned)getWidth
@@ -130,7 +130,7 @@ PHASE(Using)
 
 // handler for tk4.0 <Configure> events - width and height is passed to us.
 // note that they are passed to us in absolute values, not gridded.
-- handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight
+- (void)handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
   if (configureFlag)
     {
@@ -143,19 +143,16 @@ PHASE(Using)
       
       [self setZoomFactor: newZoom];
     }
-  return self;
 }
 
-- handleExposeWidth: (unsigned)newWidth Height: (unsigned)newHeight
+- (void)handleExposeWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
   if (newWidth > width || newHeight > height)
     tkobjc_raster_clear (self, width, height);
-  
-  return self;
 }
   
 // override setWidth to set it for them according to zoom factor.
-- setWidth: (unsigned)newWidth Height: (unsigned)newHeight
+- (void)setWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
   logicalWidth = newWidth;
   logicalHeight = newHeight;
@@ -173,85 +170,72 @@ PHASE(Using)
                   logicalWidth, logicalHeight,
                   logicalWidth, logicalHeight];
 #endif
-  return self;
 }
 
 // drawing is just like before, only magnified.
-- drawPointX: (int)x Y: (int)y Color: (Color)c
+- (void)drawPointX: (int)x Y: (int)y Color: (Color)c
 {
   [super fillRectangleX0: x * zoomFactor Y0: y * zoomFactor
          X1: (x + 1) * zoomFactor Y1: (y + 1) * zoomFactor
 	 Color: c];
-
-  return self;
 }
 
-- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
+- (void)fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
 {
   [super fillRectangleX0: x0 * zoomFactor Y0: y0 * zoomFactor
          X1: x1 * zoomFactor Y1: y1 * zoomFactor
 	 Color: c];
-
-  return self;
 }
 
-- ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-      Width: (unsigned)penWidth Color: (Color)c
+- (void)ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+            Width: (unsigned)penWidth Color: (Color)c
 {
   tkobjc_raster_ellipse (self,
                          x0 * zoomFactor, y0 * zoomFactor,
                          (x1 - x0) * zoomFactor, (y1 - y0) * zoomFactor,
                          penWidth, c);
-
-  return self;
 }
 
-- lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-   Width: (unsigned)penWidth Color: (Color)c
+- (void)lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+         Width: (unsigned)penWidth Color: (Color)c
 {
   tkobjc_raster_line (self,
                       x0 * zoomFactor, y0 * zoomFactor,
                       x1 * zoomFactor, y1 * zoomFactor,
                       penWidth, c);
-
-  return self;
 }
 
-- rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-        Width: (unsigned)penWidth Color: (Color)c
+- (void)rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+              Width: (unsigned)penWidth Color: (Color)c
 {
   tkobjc_raster_rectangle (self,
                            x0 * zoomFactor, y0 * zoomFactor,
                            (x1 - x0) * zoomFactor, (y1 - y0) * zoomFactor,
                            penWidth, c);
-  
-  return self;
 }
 
-- draw: (id <Drawer>)drawer X:(int)x Y: (int)y
+- (void)draw: (id <Drawer>)drawer X:(int)x Y: (int)y
 {
-  return [drawer drawX: x * zoomFactor Y: y * zoomFactor];
+  [drawer drawX: x * zoomFactor Y: y * zoomFactor];
 }
 
-- increaseZoom
+- (void)increaseZoom
 {
-  return [self setZoomFactor: zoomFactor + 1U];
+  [self setZoomFactor: zoomFactor + 1U];
 }
 
-- decreaseZoom
+- (void)decreaseZoom
 {
   if (zoomFactor > 1U)
-    return [self setZoomFactor: zoomFactor - 1U];
-  else
-    return self;
+    [self setZoomFactor: zoomFactor - 1U];
 }
 
 // scale by zoom factor
-- handleButton: (int)n X: (int)x Y: (int)y
+- (void)handleButton: (int)n X: (int)x Y: (int)y
 {
-  return [super handleButton: n
-                X: (x / (int)zoomFactor)
-                Y: (y / (int)zoomFactor)];
+  [super handleButton: n
+         X: (x / (int) zoomFactor)
+         Y: (y / (int) zoomFactor)];
 }
 
 @end

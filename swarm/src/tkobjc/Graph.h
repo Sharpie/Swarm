@@ -17,19 +17,19 @@
 }
 
 - (id <GraphElement>)createElement;		   // create dataset to draw
-- destroyElement: (id <GraphElement>)g;            // remove element, free it
-- setTitle: (const char *)title;                   // title the graph
-- setAxisLabelsX: (const char *)xl Y: (const char *)yl;  // change labels here
-- setScaleModeX: (BOOL)xs Y: (BOOL)ys;               // 0 smooth, 1 jump
+- (void)destroyElement: (id <GraphElement>)g;      // remove element, free it
+- (void)setTitle: (const char *)title;             // title the graph
+- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;  // change labels here
+- (void)setScaleModeX: (BOOL)xs Y: (BOOL)ys;               // 0 smooth, 1 jump
 // bltgraph will autoscale, but you can also fix scale.
 
-- setRangesXMin: (double)minX
-            Max: (double)maxX
-           YMin: (double)minY
-            Max: (double)maxY;
+- (void)setRangesXMin: (double)minX
+                  Max: (double)maxX
+                 YMin: (double)minY
+                  Max: (double)maxY;
 
-- setRangesXMin: (double)minX Max: (double)maxX;
-- setRangesYMin: (double)minY Max: (double)maxY;
+- (void)setRangesXMin: (double)minX Max: (double)maxX;
+- (void)setRangesYMin: (double)minY Max: (double)maxY;
 - (void)drop;
 @end
 
@@ -49,17 +49,17 @@
 - (BLTVector *)getXData;
 - (BLTVector *)getYData;
 
-- addX: (double)x Y: (double)y;
-- resetData;
+- (void)addX: (double)x Y: (double)y;
+- (void)resetData;
 
 // user configurable options.
-- setLabel: (const char *)label;
-- setColor: (const char *)color;
+- (void)setLabel: (const char *)label;
+- (void)setColor: (const char *)color;
 - setWidth: (unsigned)w;
 // line square circle diamond plus cross splus scross
-- setSymbol: (const char *)s; 
+- (void)setSymbol: (const char *)s; 
 // only if we're a line.
-- setDashes: (int)i;
+- (void)setDashes: (int)i;
 @end
 
 // wrapper for BLT 2.x vectors, most important functions..
@@ -72,8 +72,8 @@
 - (const char *)getName;
 - (unsigned)getLength;
 
-- setLength: (unsigned)n;
-- append: (double)v;
-- resetData;
-- delete: (int)n;
+- (void)setLength: (unsigned)n;
+- (void)append: (double)v;
+- (void)resetData;
+- (void)delete: (int)n;
 @end

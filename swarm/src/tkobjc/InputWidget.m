@@ -36,25 +36,19 @@ relink (const char *variableName, void *p, int type)
 
 PHASE(Using)
 
-- linkVariableInt: (int *)p
+- (void)linkVariableInt: (int *)p
 {
   relink (variableName, p, TCL_LINK_INT);
-
-  return self;
 }
 
-- linkVariableDouble: (double *)p
+- (void)linkVariableDouble: (double *)p
 {
   relink (variableName, p, TCL_LINK_DOUBLE);
-
-  return self;
 }
 
-- linkVariableBoolean: (unsigned *)p
+- (void)linkVariableBoolean: (unsigned *)p
 {
   relink (variableName, p, TCL_LINK_BOOLEAN);
-
-  return self;
 }
 
 - (const char *)getValue
@@ -63,11 +57,9 @@ PHASE(Using)
   return NULL;
 }
 
-- setValue: (const char *)v
+- (void)setValue: (const char *)v
 {
   raiseEvent (SubclassMustImplement, "setValue:");
-
-  return nil;
 }
 
 @end

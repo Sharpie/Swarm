@@ -16,15 +16,16 @@
 }
 
 - setX: (int)x Y: (int)y;
-- (int)getX;
-- (int)getY;
 - setString: (const char *)string;
 - setFont: (const char *)the_font;
-- setColor: (const char *)aColor;
-- setBorderColor: (const char *)aColor;
-- setBorderWidth: (int)aVal;
-- createBindings;
-- createText;
-- createPaddedText;
+
+- (int)getX;
+- (int)getY;
+- (void)setColor: (const char *)aColor;
+- (void)setBorderColor: (const char *)aColor;
+- (void)setBorderWidth: (int)aVal;
+- (void)createBindings;
+- (void)createText;
+- (void)createPaddedText;
 @end
 

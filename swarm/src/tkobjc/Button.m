@@ -24,13 +24,12 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setText: (const char *)text
+- (void)setText: (const char *)text
 {
   [globalTkInterp eval: "%s configure -text {%s}", widgetName, text];
-  return self;
 }
 
-- setButtonTarget: target method: (SEL)sel
+- (void)setButtonTarget: target method: (SEL)sel
 {
   char bcmd[1024], *p;
   
@@ -38,8 +37,6 @@ PHASE(Using)
   p = stpcpy (p, " ");
   strcpy (p, sel_get_name (sel));
   [globalTkInterp eval: "%s configure -command {%s}", widgetName, bcmd];
-  
-  return self;
 }
 
 @end

@@ -35,6 +35,6 @@
 - draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
 - drawSelf;
 - erase;
-- handleButton: (int)n X: (int)x Y: (int)y;
-- setButton: (int)n Client: c Message: (SEL)s;
+- (void)handleButton: (int)n X: (int)x Y: (int)y;
+- (void)setButton: (int)n Client: c Message: (SEL)s;
 @end

@@ -7,6 +7,7 @@
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <tkobjc/WindowGeometryRecord.h>
 #import <tkobjc/global.h>
+#import <defobj/defalloc.h> // getZone
 #import <defobj.h> // Archiver methods
 
 @implementation ArchivedGeometryWidget
@@ -101,7 +102,7 @@ PHASE(Using)
         [archiver getObject: windowGeometryRecordName];
       
       if (windowGeometryRecord == nil)
-        windowGeometryRecord = [WindowGeometryRecord create: [self getZone]];
+        windowGeometryRecord = [WindowGeometryRecord create: getZone (self)];
 
       if (saveSizeFlag)
         [windowGeometryRecord setWidth: [self getWidth]

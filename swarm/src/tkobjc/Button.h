@@ -10,7 +10,7 @@
 {
 }
 
-- setText: (const char *)text;
-- setButtonTarget: target method: (SEL)sel;
+- (void)setText: (const char *)text;
+- (void)setButtonTarget: target method: (SEL)sel;
 
 @end

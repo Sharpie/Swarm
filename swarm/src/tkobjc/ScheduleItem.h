@@ -24,17 +24,18 @@
 }
 
 + createBegin: aZone;
-- _createItem_;
-- createBindings;
+- (void)_createItem_;
+- (void)createBindings;
 - setSchedule: schedule;
 - setStep: (unsigned)step;
 - setX: (int)x Y: (int)y;
-- at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY;
-- createItem;
-- update;
+- (void)createItem;
+
+- (void)at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY;
+- (void)update;
 - (int)getXForBar;
 - (int)getYForTime: (timeval_t)tval;
-- trigger: widget X: (int)x Y: (int)y;
+- (void)trigger: widget X: (int)x Y: (int)y;
 - (unsigned)getSleepTime;
 - (void)_drop_;
 - (void)drop;
