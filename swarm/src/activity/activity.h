@@ -90,8 +90,11 @@ USING
 //M: under a swarm turns over control to the swarm to execute the
 //M: subactivity as a more-or-less autonomous activity.
 - activateIn: swarmContext;
+
+#if 0
 //M: activate an action type to run as a subprocess controlled by the swarm
 - activate: anActionType;
+#endif
 
 @end
 
@@ -237,7 +240,7 @@ USING
 
 @end
 
-@protocol ActionGroup <CompoundAction, ActionCreating, OrderedSet, CREATABLE>
+@protocol ActionGroup <CompoundAction, ActionCreating, CREATABLE>
 //S: A collection of actions under total or partial order constraints.
 
 //D: An action group is an action plan whose basic representation is a
@@ -349,8 +352,6 @@ extern const timeval_t TimebaseMax;
 //D: are relative to the time when processing of the entire schedule
 //D: begins.  Otherwise, the times are assumed to be absolute times, with
 //D: their base in the starting time of the entire model.
-CREATING
-- create: aZone setRelativeTime: (BOOL)relativeTime;
 SETTING
 - (void)setRelativeTime: (BOOL)relativeTime;
 USING
@@ -372,9 +373,6 @@ USING
 //D: the interval value must always be greater than the scheduled times of
 //D: any actions which it contains.
 //D: (.. This option is currently supported only on schedule, not swarms.)
-
-CREATING
-- create: aZone setRepeatInterval: (timeval_t)repeatInterval;
 SETTING
 - (void)setRepeatInterval: (timeval_t)repeatInterval;
 USING
@@ -438,7 +436,7 @@ USING
 - (BOOL)getSingletonGroups;
 @end
 
-@protocol Schedule <CompoundAction, ActionCreating, Map, CREATABLE, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups>
+@protocol Schedule <CompoundAction, ActionCreating, CREATABLE, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups>
 //S: A collection of actions ordered by time values.
 
 //D: A schedule is compound action whose basic representation is a sorted
@@ -589,8 +587,10 @@ USING
 //D: the messages supported on Action types are finalized.
 
 USING
+#if 0
 //M: Get action type of action being performed by activity.
 - getActionType;
+#endif
 @end
 
 @protocol ActionArgs <Action>

@@ -13,7 +13,7 @@ Library:      activity
 #import <activity/XActivity.h>
 #import <collections/Map.h>
 
-@interface Schedule_c : Map_c
+@interface Schedule_c: Map_c <Schedule>
 {
 @public
   // variables for CompoundAction mixin inheritance

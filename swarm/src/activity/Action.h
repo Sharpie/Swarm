@@ -12,7 +12,7 @@ Library:      activity
 #import <activity/CompoundAction.h>
 #import <activity.h>
 
-@interface CAction: Object_s
+@interface CAction: Object_s <Action>
 {
 @public
   ActionType_c *owner;        // action type that binds action in its context

@@ -30,12 +30,12 @@ Library:      activity
 // mixin inheritance for create phase (provided by source inclusion)
 //
 
-- (void) setAutoDrop: (BOOL)autoDrop
+- (void)setAutoDrop: (BOOL)autoDrop
 {
   setBit (bits, BitAutoDrop, autoDrop);
 }
 
-- (void) setDefaultOrder: aSymbol
+- (void)setDefaultOrder: aSymbol
 {
   if (aSymbol == (id) Concurrent) 
     setBit (bits, BitConcurrent, 1); 

@@ -25,11 +25,12 @@ PHASE(Creating)
 
 - createEnd
 {
-  if ( createByMessageToCopy( self, createEnd ) ) return self;
+  if (createByMessageToCopy (self, createEnd))
+    return self;
 
-  [(id)self setIndexFromMemberLoc: offsetof( CAction, ownerActions )];
-  setNextPhase( self );
-  setMappedAlloc( self );
+  [(id)self setIndexFromMemberLoc: offsetof (CAction, ownerActions)];
+  setNextPhase (self);
+  setMappedAlloc (self);
   return self;
 }
 
@@ -71,17 +72,17 @@ PHASE(Using)
 
 - createAction: anActionType
 {
-  if ( ! respondsTo( anActionType, M(_performPlan_) ) )
-    raiseEvent( InvalidArgument, nil );
+  if (!respondsTo (anActionType, M(_performPlan_)))
+    raiseEvent (InvalidArgument, nil);
 
   return [self createActionTo: anActionType message: M(_performPlan_)];
 }
 
 - createActionCall: (func_t)fptr
 {
-  ActionCall_0  *newAction;
+  ActionCall_0 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_0];
+  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_0];
   newAction->funcPtr = fptr;
   [self addLast: newAction];
   return newAction;
@@ -91,9 +92,9 @@ PHASE(Using)
 {
   ActionCall_1  *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_1];
+  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_1];
   newAction->funcPtr = fptr;
-  newAction->arg1    = arg1;
+  newAction->arg1 = arg1;
   [self addLast: newAction];
   return newAction;
 }
@@ -102,33 +103,33 @@ PHASE(Using)
 {
   ActionCall_2  *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_2];
+  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_2];
   newAction->funcPtr = fptr;
-  newAction->arg1    = arg1;
-  newAction->arg2    = arg2;
+  newAction->arg1 = arg1;
+  newAction->arg2 = arg2;
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionCall: (func_t)fptr : arg1 : arg2 : arg3
 {
-  ActionCall_3  *newAction;
+  ActionCall_3 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionCall_3];
+  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_3];
   newAction->funcPtr = fptr;
-  newAction->arg1    = arg1;
-  newAction->arg2    = arg2;
-  newAction->arg3    = arg3;
+  newAction->arg1 = arg1;
+  newAction->arg2 = arg2;
+  newAction->arg3 = arg3;
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionTo: target message: (SEL)aSel
 {
-  ActionTo_0  *newAction;
+  ActionTo_0 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_0];
-  newAction->target   = target;
+  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_0];
+  newAction->target = target;
   newAction->selector = aSel;
   [self addLast: newAction];
   return newAction;
@@ -138,30 +139,30 @@ PHASE(Using)
 {
   ActionTo_1  *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_1];
-  newAction->target   = target;
+  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_1];
+  newAction->target = target;
   newAction->selector = aSel;
-  newAction->arg1     = arg1;
+  newAction->arg1 = arg1;
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionTo: target message: (SEL)aSel : arg1 : arg2
 {
-  ActionTo_2  *newAction;
+  ActionTo_2 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_2];
-  newAction->target   = target;
+  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_2];
+  newAction->target = target;
   newAction->selector = aSel;
-  newAction->arg1     = arg1;
-  newAction->arg2     = arg2;
+  newAction->arg1 = arg1;
+  newAction->arg2 = arg2;
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
-  ActionTo_3  *newAction;
+  ActionTo_3 *newAction;
 
   newAction = [getZone (self) allocIVarsComponent: id_ActionTo_3];
   newAction->target = target;
@@ -204,11 +205,11 @@ PHASE(Using)
 {
   ActionForEach_2 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_2];
-  newAction->target   = target;
+  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_2];
+  newAction->target = target;
   newAction->selector = aSel;
-  newAction->arg1     = arg1;
-  newAction->arg2     = arg2;
+  newAction->arg1 = arg1;
+  newAction->arg2 = arg2;
   if ([self getDefaultOrder] == (id) Randomized)
     setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];

@@ -1,3 +1,21 @@
+1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* activity.h (ActionGroup): Don't adopt OrderedSet.
+	(Schedule): Don't adopt Map.
+	(RelativeTime): Remove create:setRelativveTime:.
+	(RepeatInterval): Remove create:setRepeatInterval:.
+	(Action): Disable declaration of -getActionType.
+	(ActionType): Disable declaration of activate:.
+
+	* Schedule.h (Schedule): Implement Schedule protocol.
+
+	* ActionGroup.h (ActionGroup_c): Implement ActionGroup protocol.
+	(ConcurrentGroup_c): Implement ConcurrentGroup protocol.
+
+	* Action.m (CAction): Add Using phase tag.
+
+	* Action.h (CAction): Implement Action protocol.
+
 1998-12-16  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* ActionGroup.m ([GroupPermutedIndex_c -createEnd]): Use component 
