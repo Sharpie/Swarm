@@ -1,3 +1,7 @@
+1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* randomvars.h: Include externvar.h.
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* random.m: Use `externvardef' for definitions of external variables.
