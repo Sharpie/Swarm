@@ -746,7 +746,7 @@
             (insert "  java_create_refs ();\n")
             (insert "  swarmDirectory = [Directory create: globalZone];\n")
             (insert "  nextPhase = SD_JAVA_NEXTPHASE (jobj);\n")
-            (insert "  ret = SD_JAVA_ADDJAVA (nextPhase, obj);\n")
+            (insert "  ret = SD_JAVA_ADD_OBJECT_JAVA (nextPhase, obj);\n")
             (insert "  (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);\n")
             (insert "  return ret;\n"))
           (progn
@@ -764,10 +764,10 @@
                    (wrapped-flag 
                     (cond ((or (string= "+createBegin:" signature)
                                (string= "+customizeBegin:" signature))
-                           (insert "SD_JAVA_ADDJAVA (jobj, ")
+                           (insert "SD_JAVA_ADD_OBJECT_JAVA (jobj, ")
                            t)
                           ((create-method-p method)
-                           (insert "SD_JAVA_ADDJAVA (nextPhase, ")
+                           (insert "SD_JAVA_ADD_OBJECT_JAVA (nextPhase, ")
                            t)
                           ((or (string= "-createEnd" signature))
                            (insert "SD_JAVA_SWITCHPHASE (jobj, ")
