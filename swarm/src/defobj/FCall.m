@@ -308,7 +308,7 @@ PHASE(Using)
   return [fargs getResult];
 }
 
-- (retval_t)getRetVal: (arglist_t)argFrame buf: (types_t *)buf
+- (retval_t)getRetVal: (types_t *)buf
 {
   types_t *res = &((FArguments_c *) fargs)->resultVal;
 
@@ -421,7 +421,6 @@ PHASE(Using)
     }
 #else
   void *ptr;
-
   *buf = *res;
 
   switch (fargs->returnType)
@@ -449,9 +448,15 @@ PHASE(Using)
       break;
     case fcall_type_float:
       ptr = &buf->_float;
+#ifdef __sparc__
+      ptr -= 8;
+#endif
       break;
     case fcall_type_double:
       ptr = &buf->_double;
+#ifdef __sparc__
+      ptr -= 8;
+#endif
       break;
     case fcall_type_object:
       ptr = &buf->object;
@@ -476,8 +481,7 @@ PHASE(Using)
     default:
       abort ();
     }
-  argFrame[0].arg_ptr = ptr;
-  return argFrame[0].arg_ptr;
+  return ptr;
 #endif
 }
 

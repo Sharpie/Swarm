@@ -1,3 +1,11 @@
+1999-04-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m ([FCall_c -getRetVal:]): Decrement float and double
+	return pointers by 8 in the case of Sparc.  
+
+	* FCall.[mh], defobj.h ([FCall_c -getRetVal:]): Remove argFrame
+	argument.
+
 1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* FCall.m ([FCall_c -performCall]): Move double return to float
