@@ -1,17 +1,13 @@
 <!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 
-<!entity % global.entities system "global.ent">
-%global.entities;
-
-<!entity % tutorial.entities system "tutorial.ent">
-%tutorial.entities;
-
-<!entity % figures.entities system "figures.ent">
-%figures.entities;
+<!entity tutorialmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
+<!entity tutorialcont.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Content//EN">
+<!entity tutorial01.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Chapter 1//EN">
+<!entity tutorialbookrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Revision History//EN">
 
 ]>
 
-<BOOK ID="tutorial">
+<BOOK>
 
 &tutorialcont.sgml;
 

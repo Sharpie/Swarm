@@ -1,129 +1,144 @@
-<PART ID="SWARM.TUTORIAL.PART1">
-  <TITLE>Introduction to Swarm</TITLE>
+<CHAPTER>
+<TITLE>Introduction to Swarm</TITLE>
 
-  <PARTINTRO>
-   <ITEMIZEDLIST>
-    <LISTITEM>
+<SECT1>
+<TITLE>First generated SECT1</TITLE>
 
-      <PARA>In this introduction the following information will be
-      covered:</PARA>
-      <ITEMIZEDLIST>
-
-        <LISTITEM>
-          <PARA>An overview of Swarm</PARA>
-        </LISTITEM>
-
-        <LISTITEM>
-          <PARA>The history of the Swarm Program</PARA>
-        </LISTITEM>
-
-        <LISTITEM>
-          <PARA>The contributions of Swarm to modelling and simulation</PARA>
-        </LISTITEM>
-
-        <LISTITEM>
-          <PARA>The general structure of simulations in Swarm</PARA>
-
-        </LISTITEM>
-
-        <LISTITEM>
-          <PARA>A quick and dirty introduction to Objective C</PARA>
-        </LISTITEM>
-
-        <LISTITEM>
-          <PARA>Resources for learning more about Swarm</PARA>
-        </LISTITEM>
-
-      </ITEMIZEDLIST>
-    </LISTITEM>
-  </ITEMIZEDLIST>
-  </PARTINTRO>
-
-  <CHAPTER>
-    <TITLE>An Overview of Swarm</TITLE>
-
-    <PARA>Swarm is a collection of software libraries which provide
-      support for simulation programming.  Swarm users build
-      simulations by incorporating Swarm objects in their own
-      programs.
-    </PARA>
-
-    <PARA>The Swarm libraries are written in the Objective-C language.
-      The scripting language used to generated the graphical user
-      interface is Tcl/Tk.  This GUI may be substituted by the Java
-      AWT widget set in the future.  Swarm runs under X-Windows/Unix
-      and WindowsNT operating systems.
-    </PARA>
-  </CHAPTER>
+<SECT2>
+ <TITLE>Swarmfest æ98</TITLE> 
 
 
-  <CHAPTER>
 
-    <TITLE>The History of Swarm</TITLE>
 
-    <PARA>The Swarm Simulation System started in 1994 by Chris Langton
-      at the Santa Fe Institute in New Mexico.  The founding
-      developers were Chris Langton, Roger Burkhart, Nelson Minar,
-      Manor Ashkenazi and Glen Ropella.  The current members of the
-      Swarm Team are Marcus Daniels, Alex Lancaster and Irene Lee.
-      Many additional contributions were made by members of the Swarm
-      Community at large.
-    </PARA>
+<H2>Session I: Introduction
+</H2>
+<BR></UL><UL>
+<H2>Benedikt Stefansson
+</H2>
+<H2>&#060benedikt@ucla.edu&#062
+</H2></UL></BR>
 
-    <PARA>The objective of the Swarm Program was to create a common simulation
-     platform for Agent based Modelling. 
 
-      Add:
-      -unneccessary duplication of effort
-      -shared models and ideas
-      -repeatable experiments
-      -common simulation base
-      
-    </PARA>
 
-    <PARA>Swarm was first released in 1995 (Beta version). The 1.0
-      release occured in January 1997 followed by version 1.1 in April
-      of 1998.
-    </PARA>
 
-    <PARA>Future directions of Swarm development include:</PARA>
+</SECT2>
 
-  </CHAPTER>
+<SECT2>
+ <TITLE>First session</TITLE> 
 
-  <CHAPTER>
-    <TITLE>The Contributions of Swarm to Modelling and Simulation.</TITLE>
-     
-    <PARA>Event Management
-    </PARA>
 
-    <PARA>Information Management
-    </PARA>
 
-    <PARA>Graphical Input and Output
-    </PARA>
- 
-    <PARA>Memory Management
-    </PARA>
 
-  </CHAPTER>
+<FORMALPARA><TITLE>Background
+</H2>
+<FORMALPARA><TITLE>History and overview of Swarm project
+</H2>
+<FORMALPARA><TITLE>Contributions of Swarm
+</H2>
+<FORMALPARA><TITLE>General  structure of simulations in Swarm
+</H2>
+<FORMALPARA><TITLE>Quick and dirty introduction to Objective-C
+</H2>
+<FORMALPARA><TITLE>Documentation, resources, user community</H2></TITLE></FORMALPARA></TITLE></FORMALPARA></TITLE></FORMALPARA></TITLE></FORMALPARA></TITLE></FORMALPARA></TITLE></FORMALPARA>
 
-<CHAPTER><TITLE></TITLE>
-    <FIGURE>
-        <TITLE></TITLE>
-        <GRAPHIC></GRAPHIC>
-      </FIGURE>
-     <!-- one of (calloutlist glosslist itemizedlist orderedlist segmentedlist simplelist variablelist caution important note tip warning literallayout programlisting programlistingco screen screenco screenshot synopsis cmdsynopsis funcsynopsis formalpara para simpara address blockquote graphic graphicco informalequation informalexample informaltable equation example figure table msgset procedure sidebar anchor bridgehead comment highlights abstract authorblurb epigraph refentry sect3 simplesect) -->
 
-</CHAPTER> 
- 
 
-</PART>
 
+</SECT2>
+
+<SECT2>
+ <TITLE>Focus for the day</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>The general structure of a Swarm simulation
+</H2>
+<FORMALPARA><TITLE>Main contributions of the Swarm project:
+</H2>
+<UL>
+<LI>Event management: Swarms, Activity library
+<LI>Information mangement: Probes
+<LI>Graphical input and output: GUI objects
+<LI>Memory management</LI></LI></LI></LI></UL></UL></P></TITLE></FORMALPARA></TITLE></FORMALPARA>
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>History of Swarm</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Started in 1994 by Chris Langton at Santa Fe Institute in New Mexico (Contributors: Chris Langton, Roger Burkhart, Nelson Minar, Manor Askenazi, Glen Ropella, Sven Thommesen, Marcus Daniels, Alex Lancaster, Irene Lee)
+</H2>
+<FORMALPARA><TITLE>Objective: create a common simulation platform for ABM
+</H2>
+<FORMALPARA><TITLE>Relased in beta in 1995, 1.0 release in January 1997, 1.1 with Win95/NT support : April 1998 
+</H2>
+<FORMALPARA><TITLE>Next steps: Windows 95/NT version, (Rhapsody?), other GUI implementations, client-server approach, paralellization
+</H2></TITLE></FORMALPARA></TITLE></FORMALPARA></TITLE></FORMALPARA></TITLE></FORMALPARA>
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Basic facts</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Swarm is a collection of software libraries which provide support for simulation programming
+</H2>
+<FORMALPARA><TITLE>Users build simulations by incorporating Swarm objects in their own programs
+</H2>
+<FORMALPARA><TITLE>Libraries are written in 
+</H2>
+<UL>
+<LI>Objective-C : A superset of C
+<LI>Tk/Tcl: Scripting language and GUI widgets. GUI is now independent of this implementation and may be substituted by other widget sets in near future.</LI></LI> 
+</UL></UL><UL>
+<FORMALPARA><TITLE>Available for X-Windows/Unix and Windows 95/NT. </H2></TITLE></FORMALPARA></UL></TITLE></FORMALPARA></TITLE></FORMALPARA></TITLE></FORMALPARA>
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Bottom up modeling</TITLE> 
+
+
+
+
+Organizations of agents<BR></UL></P>
+Animate agents<BR></UL></P>
+Data<BR></UL></P>
+Artificial world<BR></UL></P>
+Observer<BR></UL></P>
+Inanimate agents<BR></UL></P>
+If 
+<BR></UL><UL>
+  &#060cond&#062 
+then
+  &#060action1&#062
+else
+  &#060action2&#062</UL></BR></BR></BR></BR></BR></BR></BR>
+
+
+
+
+</SECT2>
+</SECT1>
+</CHAPTER>
 <!--
 Local Variables:
-sgml-parent-document:("tutorialbook.sgml" "PART")
-End: 
+sgml-parent-document:("tutorialbook.sgml" "CHAPTER")
+End:
 -->
-
-
 
