@@ -1,8 +1,10 @@
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
-	* Graph.m ([Graph -setTitle:]): Make return type be an object.
+	* Graph.[hm] ([Graph -setTitle:], [Graph -setAxisLabelsX:Y:]): 
+	Make return type be an object.
 
-	* Histogram.m ([Histogram -setTitle:]): Likewise.
+	* Histogram.[hm] ([Histogram -setTitle:], [Histogram
+	-setAxisLabelsX:Y:]): Likewise.
 
 2001-03-14  Marcus G. Daniels  <mgd@maya.santafe.edu>
 

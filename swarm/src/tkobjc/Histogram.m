@@ -148,12 +148,13 @@ PHASE(Using)
   return self;
 }
 
-- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
   [globalTkInterp
     eval:
       "%s xaxis configure -title {%s}; %s yaxis configure -title {%s};",
     widgetName, xl, widgetName, yl];
+  return self;
 }
 
 - (void)pack
