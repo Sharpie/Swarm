@@ -23,6 +23,7 @@
 #undef Widget
 #undef Object
 
+#include <misc.h> // header problems might occur unprotected in png.h
 #include <png.h>
 
 #import <tkobjc/Raster.h>
