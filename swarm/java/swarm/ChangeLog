@@ -1,3 +1,10 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Globals.java: Set up for a phase switch to SwarmEnvironmentImpl.
+
+	* Makefile.in (SECLASSES): Add.
+	(POSTCLASSES): Include above.
+
 2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* ObjCProxy.java, ProxyClassLoader.java: New files.

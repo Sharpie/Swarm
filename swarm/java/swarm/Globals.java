@@ -4,10 +4,12 @@
 // See file LICENSE for details and terms of copying.
 
 package swarm;
-import swarm.*;
+import swarm.SwarmEnvironment;
+import swarm.SwarmEnvironmentC;
+import swarm.SwarmEnvironmentImpl;
 
 final public class Globals {
-  public static SwarmEnvironment env;
+  public static SwarmEnvironmentImpl env;
 
   static {
     try {
@@ -17,7 +19,8 @@ final public class Globals {
     } catch (UnsatisfiedLinkError e) {
       System.err.println ("Exception caught: " + e.getMessage ());
     } 
-    env = new SwarmEnvironment ();
+    env = new SwarmEnvironmentImpl ();
+    new SwarmEnvironmentCImpl (env).createBegin ();
   }
   
   private Globals () { /* not instantiatiable by user */ 

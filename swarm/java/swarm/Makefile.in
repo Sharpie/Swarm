@@ -21,7 +21,8 @@ CLASSPHASES := C __u
 INTERFACEPHASES := $(CLASSPHASES) S
 
 PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector PhaseCImpl Primitives ObjCProxy
-POSTCLASSES = CustomizedType ProxyClassLoader SwarmEnvironment Globals
+SECLASSES = SwarmEnvironment SwarmEnvironmentC SwarmEnvironmentS SwarmEnvironmentImpl SwarmEnvironmentCImpl
+POSTCLASSES = CustomizedType ProxyClassLoader $(SECLASSES) Globals
 
 define class-protocols
 $($(module)_creatable_PROTOCOLS)
