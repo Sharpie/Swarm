@@ -25,6 +25,7 @@ PNGLDFLAGS = @PNGLDFLAGS@
 ZLIBLDFLAGS = @ZLIBLDFLAGS@
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @SWARM_INSTALL_PROGRAM@
+INSTALL_DATA = @SWARM_INSTALL_DATA_@
 
 TCLLIB = @TCLLIB@
 TKLIB = @TKLIB@
@@ -48,6 +49,8 @@ SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lact
 
 LIBS = @LIBS@
 
+.PHONY: install-config
+
 all: $(APPLICATION)
 
 clean:
@@ -57,6 +60,11 @@ install: $(APPLICATION) install-config
 	$(INSTALL_PROGRAM) $(APPLICATION) $(bindir)
 
 install-config:
+	if test -n "$(DATAFILES)" ; then \
+	  test -d $(sysconfdir)/$(APPLICATION) \
+	    || mkdir $(sysconfdir)/$(APPLICATION) ; \
+	  $(INSTALL_DATA) $(DATAFILES) $(sysconfdir)/$(APPLICATION) ; \
+        fi
 
 $(APPLICATION): $(OBJECTS)
 	$(LINK) $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
