@@ -842,35 +842,15 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
 
         [globalTkInterp eval: "uplevel #0 {\n"
                         "set obscured no\n"
-                        "set visibility no\n"
-                        "set configured no\n"
                         "}\n"];
         
-        [globalTkInterp eval: "bind %s <Configure> {\n"
-                        "uplevel #0 {\n"
-                        "puts \"Configure %%W\"\n"
-                        // "set configured yes\n"
-                        "}\n}\n", widgetName, widgetName];
-
         [globalTkInterp eval: "bind %s <Expose> {\n"
                         "uplevel #0 {\n"
-                        "puts \"Expose %%W\"\n"
-                        "}\n}\n", widgetName, widgetName];
-
-        [globalTkInterp eval: "bind %s <Map> {\n"
-                        "uplevel #0 {\n"
-                        "puts \"Map %%W\"\n"
-                        "}\n}\n", widgetName, widgetName];
-
-        [globalTkInterp eval: "bind %s <Circulate> {\n"
-                        "uplevel #0 {\n"
-                        "puts \"Circulate %%W\"\n"
+                        "set obscured yes\n"
                         "}\n}\n", widgetName, widgetName];
 
         [globalTkInterp eval: "bind %s <Visibility> {\n"
                         "uplevel #0 {\n"
-                        "puts \"Visibility %%W %%s\"\n"
-                        "set visibility yes\n"
                         "if {\"%%s\" != \"VisibilityUnobscured\"} {\n"
                         "set obscured yes\n"
                         "}\n}\n}\n", widgetName, widgetName];
@@ -901,8 +881,8 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
 	if (keep_inside_screen (tkwin, window)) 
           if (!obscured) 
             {
-              obscured = YES;
-              goto retry;
+              // obscured = YES;
+              //goto retry;
             }
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         XFlush (display);
@@ -912,15 +892,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                        "yes") == 0)
           {
             obscured = YES;
-            goto retry;
-          }
-        else if (!configured
-                 && strcmp ([globalTkInterp
-                              globalVariableValue: "configured"],
-                            "yes") == 0)
-          {
-            obscured = YES;
-            configured = YES;
             goto retry;
           }
         x_pixmap_create_from_window (pixmap, window);
@@ -944,7 +915,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
           }
         xfree (overlapWindows);
         [globalTkInterp eval: "bind %s <Visibility> {}\n", widgetName];
-        [globalTkInterp eval: "bind %s <Configure> {}\n", widgetName];
+        [globalTkInterp eval: "bind %s <Expose> {}\n", widgetName];
       }
 #else
       keep_inside_screen (tkwin, window);
