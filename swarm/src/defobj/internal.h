@@ -13,6 +13,7 @@ extern void map_ivars (struct objc_ivar_list *ivars,
                        void (*process_object) (struct objc_ivar *ivar));
 extern struct objc_ivar *find_ivar (id obj, const char *name);
 extern void *ivar_ptr (id obj, const char *name);
+extern const char *objc_type_for_array (const char *baseType, unsigned rank, unsigned *dims);
 
 extern void
 process_array (const char *type,

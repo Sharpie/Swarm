@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/internal.h>
-#import <defobj.h> // raiseEvent
+#import <defobj.h> // raiseEvent, DSIZE
 
 #include <misc.h> // strtoul
 #include <objc/objc-api.h>
@@ -254,6 +254,26 @@ ivar_ptr (id obj, const char *name)
   if (ivar)
     return (void *) obj + ivar->ivar_offset;
   return NULL;
+}
+
+const char *
+objc_type_for_array (const char *baseType, unsigned rank, unsigned *dims)
+{
+  unsigned i;
+  char nbuf[DSIZE (unsigned) + 1];
+  char buf[rank * (2 + DSIZE (unsigned)) + strlen (baseType) + 1], *p = buf;
+
+  for (i = 0; i < rank ; i++)
+    {
+      *p++ = '[';
+      sprintf (nbuf, "%u", dims[i]);
+      p = stpcpy (p, nbuf);
+    }
+  p = stpcpy (p, baseType);
+  for (i = 0; i < rank ; i++)
+    *p++ = ']';
+  *p = '\0';
+  return strdup (buf);
 }
 
 #if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)

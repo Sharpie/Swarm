@@ -210,6 +210,50 @@ objc_type_for_tid (hid_t tid)
   return type;
 }
 
+const char *
+objc_type_for_did (hid_t did)
+{
+  hid_t tid, sid;
+  int rank;
+  const char *baseType, *type;
+  
+  if ((tid = H5Dget_type (did)) < 0)
+    raiseEvent (LoadError, "could not get dataset type");
+  
+  baseType = objc_type_for_tid (tid);
+  
+  if ((sid = H5Dget_space (did)) < 0)
+    raiseEvent (LoadError, "could not get dataset space");
+  
+  if ((rank = H5Sget_simple_extent_ndims (sid)) < 0)
+    raiseEvent  (LoadError,
+                 "could not get rank of data space");
+  {
+    hsize_t hdims[rank];
+    
+    if (H5Sget_simple_extent_dims (sid, hdims, NULL) < 0)
+      raiseEvent (LoadError,
+                  "could not get extent of data space");
+    if (hdims[0] > 1)
+      {
+        unsigned udims[rank], i;
+        
+        for (i = 0; i < rank; i++)
+          udims[i] = hdims[i];
+        
+        type = objc_type_for_array (baseType, rank, udims);
+      }
+    else
+      type = baseType;
+  }
+  if (H5Tclose (tid) < 0)
+    raiseEvent (LoadError, "could not close dataset tid");
+  if (H5Sclose (sid) < 0)
+    raiseEvent (LoadError, "could not close dataset sid");
+  
+  return type;
+}
+
 static void
 check_for_empty_class (Class class)
 {
@@ -819,6 +863,7 @@ PHASE(Using)
   return self;
 }
 
+
 - getClass
 {
 #ifdef HAVE_HDF5
@@ -850,17 +895,7 @@ PHASE(Using)
                   const char *type;
                   
                   if (((HDF5_c *) hdf5Obj)->datasetFlag)
-                    {
-                      hid_t tid;
-                      
-                      if ((tid = H5Dget_type (((HDF5_c *) hdf5Obj)->loc_id))
-                          < 0)
-                        raiseEvent (LoadError, "could not get dataset type");
-                      
-                      type = objc_type_for_tid (tid);
-                      if (H5Tclose (tid) < 0)
-                        raiseEvent (LoadError, "could not close dataset tid");
-                    }
+                    type = objc_type_for_did (((HDF5_c *) hdf5Obj)->loc_id);
                   else
                     type = @encode (id);
                   
@@ -1047,7 +1082,7 @@ hdf5_store_attribute (hid_t did,
 
 - loadDataset: (void *)ptr
 {
-  hid_t sid, tid;
+  hid_t sid, tid, memtid;
 
   if ((sid = H5Dget_space (loc_id)) < 0)
     raiseEvent (LoadError, "cannot get dataset space");
@@ -1055,15 +1090,31 @@ hdf5_store_attribute (hid_t did,
   if ((tid = H5Dget_type (loc_id)) < 0)
     raiseEvent (LoadError, "cannot get dataset type");
 
-  if (H5Dread (loc_id, tid, sid, sid, H5P_DEFAULT, ptr) < 0)
+  {
+    H5T_class_t class;
+
+    if ((class = H5Tget_class (tid)) < 0)
+      raiseEvent (LoadError, "cannot get class of type");
+    
+    if (class == H5T_STRING)
+      memtid = make_string_ref_type ();
+    else
+      memtid = tid;
+  }
+
+  if (H5Dread (loc_id, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
     raiseEvent (LoadError, "cannot read dataset");
+
+  if (memtid != tid)
+    if (H5Tclose (memtid) < 0)
+      raiseEvent (LoadError, "cannot close dataset mem type");
   
   if (H5Tclose (tid) < 0)
     raiseEvent (LoadError, "cannot close dataset type");
-
+  
   if (H5Sclose (sid) < 0)
     raiseEvent (LoadError, "cannot close dataset space");
-  
+
   return self;
 }
 
