@@ -56,7 +56,7 @@ PHASE(Creating)
   obj->colorCount = NUMCOLORS;
   obj->colorIdx = 0;
   [obj setWindowGeometryRecordName: windowGeometryRecordName];
-  obj->setSaveSizeFlag = theSaveSizeFlag;
+  obj->saveSizeFlag = theSaveSizeFlag;
 
   return [obj createEnd];
 }
