@@ -31,28 +31,31 @@ override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 
-libjavaswarmstubs_la_LDFLAGS = -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir)
+libjavaswarmstubs__la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
+libjavaswarm__la_OBJECTS = setup.lo SwarmEnvironment.lo
 
-libjavaswarmstubs_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
-
-libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir)
-
-libjavaswarm_la_OBJECTS = setup.lo SwarmEnvironment.lo
-
-all: libjavaswarm.la libjavaswarmstubs.la
+all: @JAVASWARM_DLL@ @JAVASWARMSTUBS_DLL@ @LIBJAVASWARM_LA@ @LIBJAVASWARMSTUBS_LA@
 
 install: all
 	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
 	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir)
 	$(LIBTOOL) --mode=finish $(libdir) 
 
-$(libjavaswarmstubs_la_OBJECTS): 
+libjavaswarmstubs_.la: $(libjavaswarmstubs__la_OBJECTS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs__la_LDFLAGS) $(libjavaswarmstubs__la_OBJECTS)
 
-libjavaswarmstubs.la: $(libjavaswarmstubs_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs_la_LDFLAGS) $(libjavaswarmstubs_la_OBJECTS)
+libjavaswarm_.la: $(libjavaswarm__la_OBJECTS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm__la_OBJECTS)
 
-libjavaswarm.la: $(libjavaswarm_la_OBJECTS) libjavaswarmstubs.la
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) -ljavaswarmstubs $(SWARMLIBS)
+libjavaswarmstubs.la: libjavaswarmstubs_.la
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir) libjavaswarmstubs_.la
+
+libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la $(SWARMLIBS)
+
+javaswarm.dll: libjavaswarm_.la
+
+javaswarmstubs.dll: libjavaswarmstubs_.la
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
