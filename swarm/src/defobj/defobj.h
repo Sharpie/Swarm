@@ -917,6 +917,7 @@ USING
 - (const char *)getAppName;
 - (const char *)getAppModeString;
 - (int)getArgc;
+- (int)getLastArgIndex;
 - (const char **)getArgv;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;

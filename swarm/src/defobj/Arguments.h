@@ -31,6 +31,7 @@
   const char *defaultAppDataPath;
   BOOL ignoringEnvFlag;
   int (*optionFunc) (int key, const char *arg);
+  int lastArgIndex;
   struct argp *argp;
 }
 + createBegin: aZone;
@@ -62,6 +63,7 @@
 - (const char *)getAppName;
 - (const char *)getAppModeString;
 - (int)getArgc;
+- (int)getLastArgIndex;
 - (const char **)getArgv;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;

@@ -335,7 +335,7 @@ strip_quotes (const char *argv0)
   else
     argp_program_bug_address = bugAddress;
 
-  argp_parse (argp, argc, argv, 0, 0, self);
+  argp_parse (argp, argc, argv, 0, &lastArgIndex, self);
   return [super createEnd];
 }
 
@@ -493,6 +493,11 @@ PHASE(Using)
 - (const char **)getArgv
 {
   return argv;
+}
+
+- (int)getLastArgIndex
+{
+  return lastArgIndex;
 }
 
 static char *

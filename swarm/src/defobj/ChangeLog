@@ -1,3 +1,12 @@
+2000-12-17  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* defobj.h: Add getLastArgIndex.
+
+	* Arguments.h (lastArgIndex): Add ivar and getter.
+	
+	* Arguments.m ([Arguments_c -createEnd]): Pass lastArgIndex 
+	to argp_parse.
+
 2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Arguments.m (parse_opt): Use FCall to make the parseKey:arg:
