@@ -35,6 +35,19 @@
 - (int)getDataOffset;
 - (BOOL)getInteractiveFlag;
 
+
+- setStringReturnType: returnType;
+- setFloatFormat: (const char *)format;
+
+- (void *)probeRaw: anObject;
+- probeObject: anObject;
+- (void *)probeAsPointer: anObject;
+- (int)probeAsInt: anObject;
+- (double)probeAsDouble: anObject;
+- (const char *)probeAsString: anObject Buffer: (char *)buffer;
+- (const char *)probeAsString: (id) anObject Buffer: (char *)buf 
+            withFullPrecision: (int) precision;
+
 - (unsigned)getRank;
 - (unsigned *)getDims;
 - (const char *)getBaseType;

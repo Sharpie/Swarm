@@ -34,16 +34,16 @@ PHASE(Creating)
           return nil;
         }
       else 
-        FREEBLOCK (probedVariable);     // memory allocation?
+        FREEBLOCK (probedVariable);
     }
-  probedVariable = STRDUP (aVariable);	   // make a local copy
+  probedVariable = STRDUP (aVariable);
   return self;
 }
 
 - createEnd
 {
   IvarList_t ivarList;
-  int i;
+  unsigned i;
   id aZone = [self getZone];
   
   [super createEnd];
@@ -51,29 +51,30 @@ PHASE(Creating)
   if (SAFEPROBES)
     if (probedVariable == 0 || probedClass == 0)
       raiseEvent (WarningMessage,
-                  "VarProbe object was not properly initialized\n");
+                  "VarProbe object was not properly initialized.\n");
 #ifdef HAVE_JDK
   if (isJavaProxy)
     {
       classObject = SD_FINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
-		    "Java class to be probed can not be found!\n");      
+		    "Java class to be probed cannot be found.\n");      
       fieldObject = 
-	(*jniEnv)->CallObjectMethod(jniEnv, classObject, 
+	(*jniEnv)->CallObjectMethod(jniEnv,
+                                    classObject, 
 				    m_ClassGetDeclaredField, 
-				    (*jniEnv)->NewStringUTF(jniEnv, 
-							    probedVariable));
+				    (*jniEnv)->NewStringUTF (jniEnv, 
+                                                             probedVariable));
       if (!fieldObject)
 	raiseEvent (SourceMessage,
-		    "Can not find field to be probed in the Java class!\n"); 
+		    "Cannot find field to be probed in the Java class.\n"); 
       fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, fieldObject);
 
       fieldType = (*jniEnv)->CallObjectMethod (jniEnv,
                                                fieldObject, 
                                                m_FieldGetType);      
       if (!fieldType)
-	raiseEvent (SourceMessage, "Unknown type of probed field!\n");
+	raiseEvent (SourceMessage, "Unknown type of probed field.\n");
 
       fieldType = (*jniEnv)->NewGlobalRef (jniEnv, fieldType);
       {
@@ -265,7 +266,7 @@ PHASE(Using)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     raiseEvent (SourceMessage, 
-		"Java objects do not permit probing with pointers!\n");
+		"Java objects do not permit probing with pointers.\n");
 #endif
 
   if (safety)
@@ -275,7 +276,7 @@ PHASE(Using)
                   [probedClass name],
                   [anObject name]);
   
-  p = ((char *)anObject) + dataOffset;
+  p = ((char *) anObject) + dataOffset;
 
   switch (probedType[0])
     {
@@ -294,7 +295,7 @@ PHASE(Using)
    default:
       if (SAFEPROBES)
         raiseEvent (WarningMessage,
-                    "Invalid type %s to retrieve as a pointer...\n",
+                    "Invalid type `%s' to retrieve as a pointer...\n",
                     probedType);
       break;
     }
@@ -303,13 +304,13 @@ PHASE(Using)
 
 #ifdef HAVE_JDK
 #define _TYPEP(type) ((*jniEnv)->IsSameObject (jniEnv, fieldType, c_##type))
-#define _GETVALUE(type,uptype) \
+#define _GETVALUE(uptype) \
     (*jniEnv)->Call##uptype##Method (jniEnv, \
                                      field, \
                                      m_FieldGet##uptype, \
                                      object)
 #define TYPEP(type) _TYPEP(type)
-#define GETVALUE(type, uptype) _GETVALUE(type, uptype)
+#define GETVALUE(uptype) _GETVALUE(uptype)
 
 int
 java_probe_as_int (jobject fieldType, jobject field, jobject object)
@@ -317,19 +318,19 @@ java_probe_as_int (jobject fieldType, jobject field, jobject object)
   int res;
 
   if (TYPEP (boolean))
-    res = (int) GETVALUE (boolean, Boolean);
+    res = (int) GETVALUE (Boolean);
   else if (TYPEP (char))
-    res = (int) GETVALUE (char, Char);
+    res = (int) GETVALUE (Char);
   else if (TYPEP (short))
     abort ();
   else if (TYPEP (int))
-    res = (int) GETVALUE (int, Int);
+    res = (int) GETVALUE (Int);
   else if (TYPEP (long))
-    res = (int) GETVALUE (long, Long);
+    res = (int) GETVALUE (Long);
   else if (TYPEP (float))
-    res = (int) GETVALUE (float, Float);
+    res = (int) GETVALUE (Float);
   else if (TYPEP (double))
-    res = (int) GETVALUE (double, Double);
+    res = (int) GETVALUE (Double);
   else if (TYPEP (Object))
     abort ();
   else
@@ -408,19 +409,19 @@ java_probe_as_double (jobject fieldType, jobject field, jobject object)
   double res;
 
   if (TYPEP (boolean))
-    res = (double) GETVALUE (boolean, Boolean);
+    res = (double) GETVALUE (Boolean);
   else if (TYPEP (char))
-    res = (double) GETVALUE (char, Char);
+    res = (double) GETVALUE (Char);
   else if (TYPEP (short))
     abort ();
   else if (TYPEP (int))
-    res = (double) GETVALUE (int, Int);
+    res = (double) GETVALUE (Int);
   else if (TYPEP (long))
-    res = (double) GETVALUE (long, Long);
+    res = (double) GETVALUE (Long);
   else if (TYPEP (float))
-    res = (double) GETVALUE (float, Float);
+    res = (double) GETVALUE (Float);
   else if (TYPEP (double))
-    res = (double) GETVALUE (double, Double);
+    res = (double) GETVALUE (Double);
   else if (TYPEP (Object))
     abort ();
   else
@@ -483,7 +484,7 @@ probe_as_double (const char *probedType, const void *p)
                   [probedClass name],
                   [anObject name]);
   
-  p = ((const void *)anObject) + dataOffset;
+  p = ((const void *) anObject) + dataOffset;
 
   return probe_as_double (probedType, p);
 }
@@ -501,7 +502,7 @@ probe_as_double (const char *probedType, const void *p)
   (*jniEnv)->CallStaticObjectMethod (jniEnv, \
                                      c_String, \
                                      m_StringValueOf##uptype,  \
-                                     GETVALUE (type, uptype))
+                                     GETVALUE (uptype))
 #define GETSTROBJECT(type, uptype) _GETSTROBJECT(type, uptype)
 
 const char *
@@ -668,6 +669,38 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
       break;
     }
   return buf;
+}
+
+#ifdef HAVE_JDK
+id
+java_probe_as_object (jclass fieldType, jobject field, jobject object)
+{
+  char type = swarm_directory_objc_type_for_java_class (jniEnv, fieldType);
+  if (type != _C_ID)
+    raiseEvent (WarningMessage,
+                "Invalid type `%c' to retrieve object from a Java object",
+                type);
+  
+  return SD_FINDOBJC (jniEnv, GETVALUE (Object));
+}
+#endif
+
+- probeObject: anObject
+{
+  if (probedType[0] != _C_ID)
+    raiseEvent (WarningMessage,
+                "Invalid type `%s' to retrieve as an object",
+                probedType);
+
+#ifdef HAVE_JDK
+  if (isJavaProxy)
+    {
+      return java_probe_as_object (fieldType,
+                                   fieldObject,
+                                   SD_FINDJAVA (jniEnv, anObject));
+    }
+#endif
+  return *(id *) [self probeRaw: anObject];
 }
 
 - iterateAsDouble: anObject using: (void (*) (unsigned rank, unsigned *vec, double val))func

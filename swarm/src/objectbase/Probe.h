@@ -35,16 +35,4 @@
 
 - setSafety;
 - unsetSafety;
-
-- setStringReturnType: returnType;
-- setFloatFormat: (const char *)format;
-
-- (void *)probeRaw: anObject;
-- (void *)probeAsPointer: anObject;
-- (int)   probeAsInt: anObject;
-- (double)probeAsDouble: anObject;
-- (const char *)probeAsString: anObject Buffer: (char *)buffer;
-- (const char *)probeAsString: (id) anObject Buffer: (char *)buf 
-            withFullPrecision: (int) precision;
-
 @end

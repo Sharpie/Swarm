@@ -147,17 +147,6 @@ USING
 //M: variable or message. The typing is represented using the
 //M: string-format provided by the Objective-C runtime system.
 - (const char *)getProbedType;
-
-#if 0
-   These are currently implemented here but belong in VarProbe...
-
-- setStringReturnType: returnType;      
-- (void *)probeRaw: anObject;
-- (void *)probeAsPointer: anObject;
-- (int)   probeAsInt: anObject;
-- (double)probeAsDouble: anObject;
-- (char *)probeAsString: anObject Buffer: (char *) buffer;
-#endif
 @end
 
 @protocol VarProbe <Probe, CREATABLE>
@@ -210,8 +199,11 @@ USING
 - (void *)probeRaw: anObject;
 
 //M: The probeAsPointer: method returns a pointer to the probed
-//M: variable based on the ProbeType.
+//M: variable based on the probeType.
 - (void *)probeAsPointer: anObject;
+
+//M: A field probed with probeAsObject: must be an object.
+- probeObject: anObject;
 
 //M: The probeAsInt: method returns a pointer to the probed variable as
 //M: an integer.

@@ -1,5 +1,15 @@
 1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* VarProbe.m (java_probe_as_object): New function.
+
+	* VarProbe.[hm], objectbase.h ([VarProbe -probeObject:]): New method.
+	Use function above.
+
+	* Probe.[mh], objectbase.h ([Probe -setStringReturnType:,
+	-setFloatFormat:, -probeRaw:, -probeAsPointer:, -probeAsInt:,
+	-probeAsDouble, -probeAsString:Buffer,
+	-probeAsString:Buffer:withFullPrecision:]): Remove placeholders.
+
 	* VarProbe.m ([VarProbe -createEnd]): Use
 	swarm_directory_objc_type_for_java_class instead of duplicate code.
 

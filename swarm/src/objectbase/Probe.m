@@ -111,19 +111,6 @@
   return probedType;
 }
 
-
-- setStringReturnType: returnType
-{
-  stringReturnType = returnType;
-  return self;
-}
-
-- setFloatFormat: (const char *)format
-{
-  [self subclassResponsibility: @selector (setFloatFormat)];
-  return self;
-}
-
 - setSafety
 {
   safety = 1;
@@ -140,43 +127,6 @@
 {
   [self subclassResponsibility: @selector(clone)];
   return self;
-}
-
-- (void *)probeRaw: anObject
-{
-  [self subclassResponsibility: @selector(probeRaw)];
-  return self;
-}
-
-- (void *)probeAsPointer: anObject
-{
-  [self subclassResponsibility: @selector(probeAsPointer)];
-  return self;
-}
-
-- (int)probeAsInt: anObject
-{
-  [self subclassResponsibility: @selector(probeAsInt)];
-  return 0;
-}
-
-- (double)probeAsDouble: anObject
-{
-  [self subclassResponsibility: @selector(probeAsDouble)];
-  return 0.0;
-}
-
-- (const char *)probeAsString: anObject Buffer: (char *)buf
-{
-  [self subclassResponsibility: @selector(probeAsString)];
-  return NULL;
-}
-
-- (const char *)probeAsString: anObject Buffer: (char *)buf
-            withFullPrecision: (int) precision
-{
-  [self subclassResponsibility: @selector(probeAsString)];
-  return NULL;
 }
 
 @end
