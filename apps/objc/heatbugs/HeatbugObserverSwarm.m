@@ -85,13 +85,8 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
 
-  // The setWindowGeometryRecordName argument enables Swarm to archive
-  // the positions and sizes of the windows for later use.
-
-  [probeDisplayManager createProbeDisplayFor: heatbugModelSwarm
-                       setWindowGeometryRecordName : "heatbugModelSwarm"];
-  [probeDisplayManager createProbeDisplayFor: self
-                       setWindowGeometryRecordName: "observerSwarm"];
+  createArchivedProbeDisplay (heatbugModelSwarm);
+  createArchivedProbeDisplay (self);
  
   // Instruct the control panel to wait for a button event: we halt here
   // until someone hits a control panel button so the user can get a

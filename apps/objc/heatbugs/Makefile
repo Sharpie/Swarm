@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm
+SWARMHOME=../swarm-1.0.5
 endif
 APPLICATION=heatbugs
 OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
