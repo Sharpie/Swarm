@@ -1,5 +1,7 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* argp-parse.c: Declare alloca.  Don't include limits.h.
+
 	* misc.h: For HPUX, include sys/sigevent.h before others.  This
 	avoids warning implicit structure declaration.  Include limits.h.
 

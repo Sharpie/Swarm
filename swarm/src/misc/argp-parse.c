@@ -25,10 +25,10 @@
 #include <swarmconfig.h>
 #endif
 
-#include <limits.h>
 #include <misc.h>
-
 #include <misc/getopt.h>
+
+void *alloca (size_t);
 
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.
