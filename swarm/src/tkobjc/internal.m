@@ -100,21 +100,19 @@ registerInterp (void)
 }
 
 static void
-setSecondaryPath (id arguments, const char *dirname)
+setSecondaryPath (id arguments)
 {
   const char *swarmHome = [arguments getSwarmHome];
   
   if (swarmHome)
     {
-      const char *secondarySubpath = "../library/";
+      const char *secondarySubpath = "share/";
       char *libraryPath = xmalloc (strlen (swarmHome) +
-                                   strlen (secondarySubpath) +
-                                   strlen (dirname) + 1);
+                                   strlen (secondarySubpath) + 1);
       char *p;
       
       p = stpcpy (libraryPath, swarmHome);
       p = stpcpy (p, secondarySubpath);
-      strcpy (p, dirname);
       [globalTkInterp setSecondaryLibraryPath: libraryPath];
     }
 }
@@ -123,7 +121,7 @@ void
 tkobjc_initTclInterp (id arguments)
 {
   globalTkInterp = [TclInterp alloc];  // misnomer
-  setSecondaryPath (arguments, "tcl8.0");
+  setSecondaryPath (arguments);
   [globalTkInterp initWithArgc: 1 /* [arguments getArgc] */
                   argv: [arguments getArgv]];
   registerInterp ();
@@ -133,7 +131,7 @@ void
 tkobjc_initTkInterp (id arguments)
 {
   globalTkInterp = [TkExtra alloc];
-  setSecondaryPath (arguments, "tk8.0");
+  setSecondaryPath (arguments);
 
   [globalTkInterp initWithArgc: 1 /* [arguments getArgc] */
                   argv: [arguments getArgv]];

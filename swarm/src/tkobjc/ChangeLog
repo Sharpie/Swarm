@@ -1,3 +1,8 @@
+1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (setSecondaryPath): Use share/ instead of ../library.
+	Swarm 1.4 Win32 layout will follow GNU conventions.
+
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (CURRENT): Bump.
