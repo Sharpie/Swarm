@@ -12,6 +12,12 @@
 	* print.dsl (printed-link): Run process-children when id-to-indexitem
 	returns #f.
 	
+	* history.el (changelog): Add position.
+	(parse-changelog-buffer): Count ChangeLog positions,
+	passing to parse-changel-entry.
+	(parse-changelog-entry): Store position.
+	(process-changelog): Use position to do sorting when dates are equal.
+
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: Remove LGPL, GPL entities, create new PUBLIC entity

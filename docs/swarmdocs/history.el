@@ -13,6 +13,7 @@
   name
   email
   timestamp
+  pos
   item-list)
 
 (defun find-next-changelog ()
@@ -92,11 +93,11 @@
          :filename nil
          :description (buffer-substring beg (point-max))))))
           
-(defun parse-changelog-entry (&optional filename-restriction)
+(defun parse-changelog-entry (pos &optional filename-restriction)
   (interactive)
   (when
       (re-search-forward
-       "^\\(.*[0-9]+\\)[ \\t]+\\([A-Za-z. ]+\\)[ \\t]+<\\(.*\\)>" nil t)
+       "^\\(.*[0-9]+\\)[ \\t]+\\([A-Za-z. ]+[ \\t]\\)*+<\\(.*\\)>" nil t)
     (let ((date (match-string 1))
           (name (match-string 2))
           (email (match-string 3)))
@@ -120,18 +121,20 @@
         (when changelog-item-list
           (make-changelog
            :name name
+           :pos pos
            :email email
            :timestamp encoded-time
            :item-list (reverse changelog-item-list)))))))
 
 (defun parse-changelog-buffer (&optional filename-restriction)
   (interactive)
-  (let (changelog-list)
+  (let (changelog-list (pos 0))
     (while (save-restriction
              (when (narrow-to-next-changelog)
-               (let ((changelog (parse-changelog-entry filename-restriction)))
+               (let ((changelog (parse-changelog-entry pos filename-restriction)))
                  (when changelog
-                   (push changelog changelog-list)))
+                   (push changelog changelog-list)
+                   (incf pos)))
                t)))
     (reverse changelog-list)))
 
@@ -160,8 +163,11 @@
                            (time-b (changelog-timestamp b))
                            (high (- (car time-a) (car time-b))))
                       (if (zerop high)
-                          (>= (cadr time-a) (cadr time-b))
-                          (>= high 0)))))))
+                          (let ((diff (- (cadr time-a) (cadr time-b))))
+                            (if (zerop diff)
+                                (not (>= (changelog-pos a) (changelog-pos b)))
+                              (>= diff 0)))
+                        (>= high 0)))))))
     (with-temp-file (pathname-for-swarmdocs-revision-output module-sym)
       (sgml-mode)
       (insert "<REVHISTORY ID=\"SWARM.")
