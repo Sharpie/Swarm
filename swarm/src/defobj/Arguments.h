@@ -22,6 +22,7 @@
   const char *version;
   const char *bugAddress;
   BOOL inhibitArchiverLoadFlag;
+  BOOL inhibitExecutableSearchFlag;
   BOOL batchModeFlag;
   BOOL varySeedFlag;
   BOOL showCurrentTimeFlag;
@@ -34,7 +35,7 @@
 }
 + createBegin: aZone;
 - createEnd;
-+ createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
++ createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc inhibitExecutableSearchFlag: (BOOL)inhibitExecutableSearchFlag;
 - addOptions: (struct argp_option *)options;
 - (int)parseKey: (int)key arg: (const char *)arg;
 
@@ -50,6 +51,7 @@
 - setDefaultAppConfigPath: (const char *)path;
 - setDefaultAppDataPath: (const char *)path;
 - setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
+- setInhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag;
 
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;

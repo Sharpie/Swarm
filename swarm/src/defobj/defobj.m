@@ -139,7 +139,8 @@ initDefobj (int argc, const char **argv,
             const char *bugAddress,
             Class argumentsClass,
             struct argp_option *options,
-            int (*optionFunc) (int key, const char *arg))
+            int (*optionFunc) (int key, const char *arg),
+            BOOL inhibitExecutableSearchFlag)
 {
   arguments = [argumentsClass ?: [Arguments_c class]
                               createArgc: argc
@@ -148,7 +149,9 @@ initDefobj (int argc, const char **argv,
                               version: version
                               bugAddress: bugAddress
                               options: options
-                              optionFunc: optionFunc];
+                              optionFunc: optionFunc
+                              inhibitExecutableSearchFlag:
+                                inhibitExecutableSearchFlag];
   _objc_lookup_class = findTypeOrLocalClass;
   {
     BOOL inhibitLoadFlag =

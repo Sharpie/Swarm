@@ -1,3 +1,16 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Arguments.[hm], defobj.h (Arguments): Add
+	inhibitExecutableSearchFlag, and setter.
+
+	* Arguments.m: Add above as +create argument.
+	([Arguments_c -createEnd]): Use it.
+
+	* defobj.m (initDefobj): Add above as argument.
+
+	* Arguments.m: Don't include defobj/directory.h.
+	(JAVA_APPNAME_STRING): Don't define.
+
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (swarm_directory_ensure_selector_type_signature):

@@ -27,7 +27,6 @@ const char *program_invocation_short_name;
 
 #undef __int64
 #undef interface
-#import <defobj/directory.h> // JAVA_APPNAME
 
 #define VARCHAR(ch) ({ char _ch = ch; (isAlnum (_ch) || (_ch == '_')); })
 
@@ -144,6 +143,12 @@ PHASE(Creating)
   return self;
 }
 
+- setInhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
+{
+  inhibitExecutableSearchFlag = theInhibitExecutableSearchFlag;
+  return self;
+}
+
 static const char *
 strip_quotes (const char *argv0)
 {
@@ -162,7 +167,6 @@ strip_quotes (const char *argv0)
 
 #define STRINGIFY(sym) #sym
 #define STRINGIFYSYM(sym) STRINGIFY(sym)
-#define JAVA_APPNAME_STRING STRINGIFYSYM(JAVA_APPNAME)
 - createEnd
 {
   const char *argv0 = strip_quotes (argv[0]);
@@ -175,7 +179,7 @@ strip_quotes (const char *argv0)
   program_invocation_name = argv0;
 #endif
 
-  executablePath = ((strcmp (applicationName, JAVA_APPNAME_STRING) == 0)
+  executablePath = (inhibitExecutableSearchFlag
                     ? NULL
                     : find_executable (argv0));
 
@@ -223,6 +227,7 @@ strip_quotes (const char *argv0)
   bugAddress: (const char *)theBugAddress
      options: (struct argp_option *)options
   optionFunc: (int (*) (int key, const char *arg))anOptionFunc
+inhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
 {
   Arguments_c *argobj = [self createBegin: globalZone];
   
@@ -234,6 +239,7 @@ strip_quotes (const char *argv0)
   [argobj setBugAddress: theBugAddress];
   [argobj setVersion: theVersion];
   [argobj setAppName: theAppName];
+  [argobj setInhibitExecutableSearchFlag: theInhibitExecutableSearchFlag];
   return [argobj createEnd];
 }
 

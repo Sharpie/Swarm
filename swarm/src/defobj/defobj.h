@@ -865,6 +865,7 @@ CREATING
 
 SETTING
 - setInhibitArchiverLoadFlag: (BOOL)inhibitArchiverLoadFlag;
+- setInhibitExecutableSearch: (BOOL)theInhibitExecutableSearchFlag;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
 //M: Specify a default path to use for configuration files when
@@ -1223,7 +1224,8 @@ extern void initDefobj (int argc,
                         const char *bugAddress,
                         Class argumentsClass,
                         struct argp_option *options,
-                        int (*optionFunc) (int key, const char *arg));
+                        int (*optionFunc) (int key, const char *arg),
+                        BOOL inhibitExecutableSearchFlag);
 
 //F: internal module initialization function
 extern void _obj_initModule (void *module);
