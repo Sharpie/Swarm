@@ -6,7 +6,9 @@
 // Objective C interface to Raster, for use with tclobjc.
 
 #import <tkobjc/ArchivedGeometryWidget.h>
+#ifndef _WIN32
 #import <tkobjc/XDrawer.h>
+#endif
 #import <gui.h>
 #import "internal.h"
 
@@ -28,7 +30,9 @@
 - setColormap: (id <Colormap>)colormap;
 - drawPointX: (int)x Y: (int)y Color: (Color)c;
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
+#ifndef _WIN32
 - draw: (id <XDrawer>)xd X: (int)x Y: (int)y;
+#endif
 - drawSelf;
 - erase;
 - handleButton: (int)n X: (int)x Y: (int)y;

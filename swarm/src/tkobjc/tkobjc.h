@@ -22,8 +22,8 @@
 #import <tkobjc/TkExtra.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/Colormap.h>
-#import <tkobjc/XDrawer.h>
 #ifndef _WIN32
+#import <tkobjc/XDrawer.h>
 #import <tkobjc/XPixmap.h>
 #endif
 #import <tkobjc/ZoomRaster.h>

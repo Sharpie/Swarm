@@ -4,14 +4,16 @@ LIBNAME=tkobjc
 ifeq ($(MACHTYPE),i386-pc-cygwin32)
 BACKEND_H=win32dib.h
 BACKEND_O=win32dib.o
+XDRAWER_H=
 else
-BACKEND_H=XPixmap.h
+XDRAWER_H=XDrawer.h
+BACKEND_H=XPixmap.h $(XDRAWER_H)
 BACKEND_O=XPixmap.o
 endif
 
 OBJECTS=Graph.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o Colormap.o Entry.o Label.o Form.o Histogram.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o WindowGeometryRecord.o ArchivedGeometryWidget.o ClassDisplayHideButton.o ClassDisplayLabel.o VarProbeLabel.o SimpleProbeDisplayHideButton.o SuperButton.o MessageProbeEntry.o VarProbeEntry.o CompleteProbeDisplayLabel.o ProbeCanvas.o common.o internal.o $(BACKEND_O)
 
-HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.h Raster.h TkExtra.h Widget.h Colormap.h XDrawer.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h ClassDisplayHideButton.h ClassDisplayLabel.h VarProbeLabel.h SimpleProbeDisplayHideButton.h SuperButton.h MessageProbeEntry.h VarProbeEntry.h CompleteProbeDisplayLabel.h ProbeCanvas.h common.h internal.h $(BACKEND_H)
+HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.h Raster.h TkExtra.h Widget.h Colormap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h ClassDisplayHideButton.h ClassDisplayLabel.h VarProbeLabel.h SimpleProbeDisplayHideButton.h SuperButton.h MessageProbeEntry.h VarProbeEntry.h CompleteProbeDisplayLabel.h ProbeCanvas.h common.h internal.h $(BACKEND_H)
 
 OTHERCLEAN=testFrame testGraph testHistogram testRaster testFrame.o testGraph.o testHistogram.o testRaster.o
 
@@ -32,13 +34,13 @@ Graph.o: Graph.m Graph.h global.h Widget.h
 Frame.o: Frame.m Frame.h global.h Widget.h
 Button.o: Button.m Button.h global.h Widget.h
 ButtonPanel.o: ButtonPanel.m ButtonPanel.h Frame.h global.h Widget.h
-Raster.o: Raster.m Raster.h global.h Widget.h Colormap.h XDrawer.h
-ZoomRaster.o: ZoomRaster.m ZoomRaster.h Raster.h global.h Widget.h XDrawer.h
+Raster.o: Raster.m Raster.h global.h Widget.h Colormap.h $(XDRAWER_H)
+ZoomRaster.o: ZoomRaster.m ZoomRaster.h Raster.h global.h Widget.h $(XDRAWER_H)
 Label.o: Widget.h global.h Label.m Label.h
 Form.o: Widget.h Label.h Entry.h Frame.h Form.h Form.m
 Histogram.o: Histogram.h Widget.h Histogram.m
 Colormap.o: Colormap.m Colormap.h
-XPixmap.o: XPixmap.m XPixmap.h XDrawer.h
+XPixmap.o: XPixmap.m XPixmap.h $(XDRAWER_H)
 Entry.o: Widget.h global.h Entry.m Entry.h InputWidget.h
 CheckButton.o: CheckButton.m CheckButton.h InputWidget.h global.h
 InputWidget.o: InputWidget.m InputWidget.h global.h Widget.h

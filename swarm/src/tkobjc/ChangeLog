@@ -1,3 +1,19 @@
+1998-03-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkobjc.h: Don't include XDrawer.h if Win32.
+
+	* ZoomRaster.m ([ZoomRaster -draw:X:Y:]): Don't define if
+	Win32.
+
+	* Raster.m ([Raster -draw:X:Y:]): Don't define if Win32.
+
+	* Raster.h: Don't include XDrawer.h if Win32.  Don't declare
+	- draw: (id <XDrawer):X:Y: in Win32.
+
+	* Makefile (XDRAWER_H): Define as XDrawer.h if not Win32. 
+	Put XDRAWER_H in BACKEND_H.  Replace XDrawer.h with XDRAWER_H 
+	throughout.
+
 1998-03-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m: Include stdlib.h (for getenv).
