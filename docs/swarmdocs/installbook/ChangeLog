@@ -1,3 +1,22 @@
+1998-06-15  Alex Lancaster  <alex@santafe.edu>
+
+	* install.ent: Removed install00.sgml from list of ENTITIES.
+	
+	* installbook.sgml: Added new JPEG notation class and notation.
+
+	* Makefile.am (SGML): Removed install00.sgml.
+
+	* installcont.sgml: Removed include of install00.sgml.
+
+	* install02.sgml: Removed links to 'reference book' elements -
+	made all linkends be FORMALPARAs.
+
+	* install01.sgml: Commented-out LINK to reference book 'debug'
+	section.  Moved original PREFACE material in install00.sgml into
+	new SIDEBAR.  
+
+	* install00.sgml: Removed.
+
 1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* installbook.sgml: Include versions and figures entities.

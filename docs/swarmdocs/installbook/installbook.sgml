@@ -12,6 +12,8 @@
 <!entity % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figures.entities;
 
+<!entity % local.notation.class "| JPEG">
+<!notation jpeg system>
 ]>
 
 <BOOK ID="installbook">

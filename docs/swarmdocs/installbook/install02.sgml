@@ -1,7 +1,6 @@
 <ARTICLE ID="SWARM.INSTALL.DISTRIB.ARTICLE">
-<ARTHEADER>
+  <ARTHEADER>
     <TITLE>Overview of the Swarm Distribution</TITLE>
-
   </ARTHEADER>
       
   <SIMPLESECT>
@@ -19,56 +18,49 @@
 
     <ITEMIZEDLIST>
 
-      <LISTITEM><PARA><LINK LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj</LINK> Support
-          of Swarm style Objective C programming</PARA>
+      <LISTITEM><FORMALPARA><TITLE>defobj</TITLE><PARA> Support
+          of Swarm style Objective C programming</PARA></FORMALPARA>
       </LISTITEM>
 
       <LISTITEM>
-        <PARA><LINK LINKEND="SWARM.COLLECTIONS.SGML.REFERENCE">collections</LINK> Collection
-          library -- various objects that "collect" other objects </PARA>
+        <FORMALPARA><TITLE>collections</TITLE><PARA> Collection
+          library -- various objects that "collect" other objects
+          </PARA></FORMALPARA>
       </LISTITEM>
       
       <LISTITEM>
-        <PARA><LINK
-          LINKEND="SWARM.ACTIVITY.SGML.REFERENCE">activity</LINK>
-          Schedule execution mechanism -- the "process"</PARA>
+        <FORMALPARA><TITLE>activity</TITLE><PARA>
+          Schedule execution mechanism -- the "process"</PARA></FORMALPARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK
-          LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</LINK>
-          Base class for simulated objects -- the "agents"</PARA>
+      <LISTITEM><FORMALPARA><TITLE>objectbase</TITLE><PARA>
+          Base class for simulated objects -- the "agents"</PARA></FORMALPARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK
-          LINKEND="SWARM.SPACE.SGML.REFERENCE">space</LINK> Spatial
+      <LISTITEM><FORMALPARA><TITLE>space</TITLE><PARA> Spatial
           environment library (currenly mostly 2D spaces are
-          supported).</PARA></LISTITEM>
+          supported).</PARA></FORMALPARA></LISTITEM>
 
-      <LISTITEM><PARA><LINK
-          LINKEND="SWARM.RANDOM.SGML.REFERENCE">random</LINK> Random
-          number library.</PARA>
+      <LISTITEM><FORMALPARA><TITLE>random</TITLE><PARA> Random
+          number library.</PARA></FORMALPARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK
-          LINKEND="SWARM.SIMTOOLS.SGML.REFERENCE">simtools</LINK>
+      <LISTITEM><FORMALPARA><TITLE>simtools</TITLE><PARA>
           Collected tools (non-GUI) useful for developing Swarm
-          simulations</PARA>
+          simulations</PARA></FORMALPARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK
-          LINKEND="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</LINK>
+      <LISTITEM><FORMALPARA><TITLE>simtoolsgui</TITLE><PARA>
           Further tools useful for interactive "GUI-oriented"
-          simulations</PARA>
+          simulations</PARA></FORMALPARA>
       </LISTITEM>
           
-      <LISTITEM><PARA><LINK
-          LINKEND="SWARM.GUI.SGML.REFERENCE">gui</LINK> Graphical
-          Interface library</PARA>
+      <LISTITEM><FORMALPARA><TITLE>gui</TITLE><PARA> Graphical
+          Interface library</PARA></FORMALPARA>
       </LISTITEM>
 
-      <LISTITEM><PARA><LINK
-          LINKEND="SWARM.ANALYSIS.SGML.REFERENCE">analysis</LINK>
-          Objects that help with data processing</PARA>
+      <LISTITEM><FORMALPARA><TITLE>analysis</TITLE><PARA>
+          Objects that help with data processing</PARA></FORMALPARA>
       </LISTITEM>
 
     </ITEMIZEDLIST>
