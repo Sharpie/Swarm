@@ -38,7 +38,7 @@
     { \
       (TYPE)++; \
     } \
-  while (isdigit((int) *(TYPE))) \
+  while (isDigit (*(TYPE))) \
     { \
       (TYPE)++; \
     } \

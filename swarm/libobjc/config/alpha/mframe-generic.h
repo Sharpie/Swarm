@@ -83,7 +83,7 @@ typedef struct alpha_args {
     { \
       (TYPE)++; \
     } \
-  while (isdigit ((int) *(TYPE))) \
+  while (isDigit (*(TYPE))) \
     { \
       (TYPE)++; \
     } \
@@ -131,7 +131,7 @@ struct alpha_args {
     register_flag ? "+" : "", offset); \
   if (*(TYPE) == '+') \
     (TYPE)++; \
-  while (isdigit ((int) *(TYPE))) \
+  while (isDigit (*(TYPE))) \
     { \
       (TYPE)++; \
     } \

@@ -63,7 +63,7 @@ struct sparc_args {
   sprintf ((DEST), "%.*s%s%d", typelen, type, \
     (locn == ON_STACK) ? "" : "+", \
     (CUM).offsets[locn]); \
-  while (isdigit ((int) *(TYPE))) \
+  while (isDigit (*(TYPE))) \
     { \
       (TYPE)++; \
     } \
@@ -102,7 +102,7 @@ struct sparc_args {
   (CUM).offsets[locn] = atoi (TYPE); \
   typelen = (TYPE) - type; \
   sprintf ((DEST), "%.*s%d", typelen, type, (CUM).offsets[locn]); \
-  while (isdigit ((int) *(TYPE))) \
+  while (isDigit (*(TYPE))) \
     { \
       (TYPE)++; \
     } \

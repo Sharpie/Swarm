@@ -86,7 +86,7 @@ struct mips_args {
     { \
       (TYPE)++; \
     } \
-  while (isdigit ((int) *(TYPE))) \
+  while (isDigit (*(TYPE))) \
     { \
       (TYPE)++; \
     } \

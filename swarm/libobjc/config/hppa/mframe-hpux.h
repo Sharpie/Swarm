@@ -46,7 +46,7 @@ struct hppa_args {
     register_flag ? "+" : "", offset); \
   if (*(TYPE) == '+') \
     (TYPE)++; \
-  while (isdigit ((int) *(TYPE))) \
+  while (isDigit (*(TYPE))) \
     { \
       (TYPE)++; \
     } \
