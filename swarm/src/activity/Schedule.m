@@ -1284,10 +1284,16 @@ PHASE(Using)
 {
   char buffer[200];
 
-  sprintf (buffer,"Current Time: %d \nStart Time: %d \n", 
-           (int) currentTime, (int) startTime);
+  [outputCharStream catC: "["];
+  _obj_formatIDString (buffer, self);
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: "\n"];
+  [[self getLoc] describe: outputCharStream];
+  sprintf (buffer,"  current time: %ld start time: %ld\n",
+           currentTime, startTime);
   [outputCharStream catC: buffer];
   [collection describeForEach: outputCharStream];
+  [outputCharStream catC: "]\n"];
 }
 
 @end
@@ -1316,7 +1322,7 @@ PHASE(Using)
   [self drop];
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   char buffer[100];
 

@@ -212,6 +212,7 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
   // arrange to drop activity on drop of swarm object
   
   [self addRef: (notify_t) dropSwarmActivity withArgument: nil];
+
   return activity;
 }
 
@@ -400,11 +401,14 @@ PHASE(Using)
 {
   char buffer[100];
 
-  [outputCharStream catC: "[ActionMerge: "];
+  [outputCharStream catC: "["];
   _obj_formatIDString (buffer, self);
   [outputCharStream catC: buffer];
   [outputCharStream catC: " in schedule: "];
   _obj_formatIDString (buffer, collectionOfActions);
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: " subactivity: "];
+  _obj_formatIDString (buffer, subactivity);
   [outputCharStream catC: buffer];
   [outputCharStream catC: "]\n"];
 }
