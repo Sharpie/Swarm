@@ -1,3 +1,8 @@
+1999-02-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note that Archiver no longer must be used with application
+	metadata.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VERSION: 1.4.1.
