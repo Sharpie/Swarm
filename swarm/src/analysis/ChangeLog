@@ -1,5 +1,11 @@
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* EZBin.m ([EZBin -createEnd]): Use SET_WINDOW_GEOMETRY_RECORD_NAME
+	to set archiving key.
+
+	* EZGraph.m ([EZGraph -createEnd]): Likewise.  Remove call to
+	enableDestroyNotification:notificationMethod.
+
 	* EZGraph.m ([EZGraph -createEnd]): Use GUIComposite's
 	windowGeometryRecordNameForComponent to derive archiving key.
 	([EZGraph -createEnd]): Add call to enableDestroyNotification.

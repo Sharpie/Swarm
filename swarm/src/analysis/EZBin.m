@@ -119,8 +119,7 @@
   if (graphics)
     {
       aHisto = [Histo createBegin: [self getZone]];
-      [aHisto setWindowGeometryRecordName: [self windowGeometryRecordName]];
-      aHisto = [aHisto createEnd];
+      SET_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
       [aHisto title: theTitle];
       if(xLabel && yLabel) 
         [aHisto axisLabelsX: xLabel Y: yLabel];

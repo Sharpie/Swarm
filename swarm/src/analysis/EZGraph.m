@@ -60,11 +60,8 @@ const char graphColors[NUMCOLORS][16] ={"Red", "Green", "Yellow",
   if (graphics)
     {
       theGraph = [BLTGraph createBegin: [self getZone]];
-      [theGraph setWindowGeometryRecordName: 
-                  [self windowGeometryRecordNameForComponent: "BLTGraph"]];
+      SET_WINDOW_GEOMETRY_RECORD_NAME (theGraph);
       theGraph = [theGraph createEnd];
-      [theGraph enableDestroyNotification: notificationTarget
-                notificationMethod: notificationMethod];
       [theGraph title: title];
       [theGraph axisLabelsX: xLabel Y: yLabel];
       [theGraph pack];

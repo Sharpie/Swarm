@@ -7,7 +7,7 @@
 
 // EZBin object: used to generate histograms.
 
-@interface EZBin : GUIComposite
+@interface EZBin: GUIComposite
 {
   int graphics;
   id aHisto;
