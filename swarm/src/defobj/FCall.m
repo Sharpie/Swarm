@@ -231,7 +231,9 @@ static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_ushort, &ffi_type_sshort, 
   &ffi_type_uint, &ffi_type_sint, 
   &ffi_type_ulong, &ffi_type_slong, 
-  &ffi_type_double, &ffi_type_double,
+  // Note that some compilers may want to use double here
+  &ffi_type_float, 
+  &ffi_type_double, 
   &ffi_type_pointer,
   &ffi_type_pointer, 
   &ffi_type_pointer, 
@@ -445,16 +447,6 @@ PHASE(Using)
 #ifndef USE_AVCALL
   ffi_call (&cif, ffunction, fargs->result, fargs->argValues + 
             MAX_HIDDEN - fargs->hiddenArgumentCount);  
-
-#ifdef __i386__
-  if (fargs->returnType == fcall_type_float)
-    {
-      double val = fargs->resultVal._double;
-      
-      fargs->resultVal._float = val;
-    }
-#endif
-
 #else
   av_call (fargs->avalist);
 #endif

@@ -1,3 +1,8 @@
+1999-04-26  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* FCall.m (ffi_types): Use float for float, not double.
+	([FCall_c -performCall]): Don't convert back from float to double.
+
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FArguments.m, FCall.m: Moved ffi_types to FCall.
