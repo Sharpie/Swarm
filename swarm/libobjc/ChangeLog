@@ -4,6 +4,8 @@
 
 	* config.sub, config.guess, ltmain.sh: Re-libtoolize.
 
+	* ltconfig: Remove.
+
 2001-11-04    <mgd@HELEN>
 
 	* Makefile.am: Avoid multi-line values.
