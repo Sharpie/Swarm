@@ -1,5 +1,8 @@
 1998-09-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* internal.m (tkobjc_pixmap_save): palbuf needs same scope as 
+	row_pointers.
+
 	* internal.[hm] (tkobjc_pixmap_create_from_widget): New argument
 	parentFlag.  When set, request the window's parent window, which
 	is decorated by the window manager.

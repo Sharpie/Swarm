@@ -950,7 +950,10 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
     RGBQUAD *rgb = dib->dibInfo->rgb;
 #endif
     unsigned ci;
+    // row_pointers will point to these
     png_byte rgbbuf[height][width][3];
+    png_byte palbuf[height][width]; 
+
     png_bytep row_pointers[height];
     
     if (ncolors != -1)
@@ -976,7 +979,6 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 	if (ncolors < 256)
 	  {
 	    unsigned xi, yi;
-	    png_byte palbuf[height][width];
 #ifndef _WIN32
 	    unsigned *data = pixmap->xpmimage.data;
 #else
