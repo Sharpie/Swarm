@@ -1,5 +1,12 @@
 1998-10-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.rules (_$(NAME).tex $(addprefix $(NAME),.fot .rtf), 
+	$(NAME).html, $(NAME).dvi): Don't depend on figs.
+	(fot, dvi, rtf, html): Depend on figs.
+
+	* Makefile.am (html dvi rtf fot ps htmldist dvidist rtfdist
+	psdist): Don't depend on all. 
+
 	* configure.in: Add tex/Makefile to AC_OUTPUT.  Don't use
 	AC_PATH_PROG for jadetex or dvips since they can't deal with Cygwin
 	paths.  Check using alternate cache varibles.

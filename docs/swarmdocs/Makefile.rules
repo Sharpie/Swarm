@@ -49,23 +49,23 @@ CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(ps_DATA) $(rtf_DATA) $(NAME
 figs:
 	make -C $(top_builddir)/figs install figsdir=`pwd`/figs
 
-_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT) figs
+_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)
 
-$(NAME).html: $(GENERAL) $(HTML) figs
+$(NAME).html: $(GENERAL) $(HTML)
 
-$(NAME).dvi: $(top_srcdir)/tex/macros.tex figs
+$(NAME).dvi: $(top_srcdir)/tex/macros.tex
 
-fot: $(NAME).fot
+fot: $(NAME).fot figs
 
 tex: _$(NAME).tex
 
-dvi: $(NAME).dvi
+dvi: $(NAME).dvi figs
 
 ps: $(NAME).ps
 
-rtf: $(NAME).rtf
+rtf: $(NAME).rtf figs
 
-html: $(NAME).html
+html: $(NAME).html figs
 
 %.fot: %.sgml
 	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
