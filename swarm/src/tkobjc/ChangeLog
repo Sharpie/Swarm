@@ -1,5 +1,7 @@
 1998-01-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Histo.h (Histo): Subclass from ArchivedGeometryWidget.
+
 	* BLTGraph.m ([GraphElement -createEnd]): Use different code
 	for setting active line width and symbol between BLT 2.1 and BLT 2.3.
 	([GraphElement -setColor:]): Set the active line color to be the
