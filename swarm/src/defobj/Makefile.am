@@ -8,7 +8,7 @@ FFIINCLUDES = @FFIINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
-EXTRA_DIST = make-h2x m2h internal.h
+EXTRA_DIST = make-h2x m2h internal.h modules.c
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
 
@@ -48,5 +48,8 @@ install-data-local:
 	$(INSTALL_DATA) types.h $(defobjdir)
 	$(INSTALL_DATA) version.h $(defobjdir)
 
+ include $(top_srcdir)/etc/Makefile.protocol
 
-
+modulemap.c: modulemap.elc
+	MODULES="$(MODULES)" SWARMSRCDIR=$(top_srcdir) $(ENVEMACS) -batch -l $(abs_builddir)/modulemap.elc -f generate-module-map
+	gperf -k \* -r -t modulemap > modulemap.c
