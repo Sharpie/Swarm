@@ -1,7 +1,7 @@
 //
 // NormalDistribution -- a well-known continuous probability distribution
 //
-@deftype NormalDist
+@protocol NormalDist
 CREATING
 +	create: aZone setGenerator: (id) generator;
 
