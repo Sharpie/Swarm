@@ -1,5 +1,11 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* VarProbe.m ([VarProbe -probeAsPointer:]): Initialize q to NULL
+	to prevent warning.
+	([VarProbe -probeAsInt:]): Initialize i to 0 to prevent warning.
+	([VarProbe -probeAsDouble:]): Initialize d to 0.0 to prevent warning.
+	([VarProbe -setData:ToString:]): Initialize rc to 0 to prevent warning.
+
 	* MessageProbe.m: Include tclObjc.h instead of tkobjc.h.
 	Minor reformatting. 
 	([MessageProbe -_trueDynamicCallOn_:resultStorage:result]): 

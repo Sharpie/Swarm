@@ -151,12 +151,13 @@
 - (void *)probeAsPointer: anObject
 {
   void *p;
-  void *q;
+  void *q = NULL;
   
   if (safety)
     if (![anObject isKindOf: probedClass])
       fprintf (stderr, "VarProbe for class %s tried on class %s\n",
-	      [probedClass name], [anObject name]);
+	      [probedClass name],
+               [anObject name]);
 
   p = ((char *)anObject) + dataOffset;
   
@@ -180,7 +181,7 @@
 - (int)probeAsInt: anObject
 {
   void *p;
-  int   i;
+  int i = 0;
   
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -213,7 +214,7 @@
 - (double)probeAsDouble: anObject
 {
   void *p;
-  double   d;
+  double d = 0.0;
   
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -427,7 +428,7 @@
     float f;
     double d;
   } value;
-  int rc;
+  int rc = 0;
   void *p;
   
   if (safety)
