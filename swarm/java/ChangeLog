@@ -2,6 +2,7 @@
 
 	* java-stub.el (java-run-all-javadoc): Only call java-print-class
 	if protocol is CREATABLE.
+	(java-run-all-javadoc): Make function interactive.
 
 1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

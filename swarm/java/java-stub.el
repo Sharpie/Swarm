@@ -962,6 +962,7 @@
   (java-print-classes))
 
 (defun java-run-all-javadoc ()
+  (interactive)
   (set-dollar-sign t)
   (load-and-process-modules :uniquify-method-lists t)
   (ensure-directory (java-path))
