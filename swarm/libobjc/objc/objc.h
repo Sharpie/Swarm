@@ -150,7 +150,6 @@ typedef union {
 
 
 IMP objc_msg_lookup (id receiver, SEL op);
-IMP objc_msg_lookup_objc (id receiver, SEL op);
 
 #ifdef __cplusplus
 }

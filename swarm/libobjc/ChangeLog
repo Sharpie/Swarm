@@ -1,11 +1,3 @@
-2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
-
-	* sendmsg.c (objc_msg_lookup): Replacement function.  If there is
-	a foreign-language counterpart and that is Arguments_c, forward
-	to it, otherwise call previous implementation, now
-	objc_msg_lookup_objc. 
-	(objc_msg_lookup_objc): Renamed from objc_msg_lookup.
-
 2000-08-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* hash.c (hash_new): Use cache_t instead of struct cache.
