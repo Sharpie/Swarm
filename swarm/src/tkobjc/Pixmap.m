@@ -107,8 +107,7 @@ PHASE(Creating)
                   &compression_type, &filter_type);
     width = pngwidth;
     height = pngheight;
-
-    if (color_type & PNG_COLOR_TYPE_RGB)
+    if (color_type != PNG_COLOR_TYPE_PALETTE)
       {
 	if (color_type & PNG_COLOR_MASK_ALPHA)
 	  png_set_strip_alpha (read_ptr);
@@ -119,15 +118,13 @@ PHASE(Creating)
         bit_depth = 8;
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
       }
-    else if (color_type == PNG_COLOR_TYPE_PALETTE)
+    else
       {
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
         if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, &palette_size))
           [PaletteError raiseEvent: "Cannot get palette from PNG file: %s\n",
                        filename];
       }
-    else
-      [PaletteError raiseEvent: "Wrong color type: %d\n", color_type];
     
     {
       unsigned ri;
@@ -142,7 +139,7 @@ PHASE(Creating)
       
       fclose (fp);
 
-      if (color_type & PNG_COLOR_TYPE_RGB)
+      if (color_type != PNG_COLOR_TYPE_PALETTE)
         {
           unsigned ri;
           id cMap = [Map createBegin: [self getZone]];
