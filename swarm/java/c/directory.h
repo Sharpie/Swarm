@@ -50,3 +50,5 @@ jobject java_instantiate_using (JNIEnv *jniEnv, jobject jobj);
 SEL java_ensure_selector (JNIEnv *env, jobject jsel);
 #define JFINDOBJCMETHOD(env, jobj) (java_ensure_selector (env, jobj))
 
+#define COPYSTRING(env, javaString)
+#define CLEANUPSTRINGS(env, stringArray)

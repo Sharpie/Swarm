@@ -1,3 +1,7 @@
+1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.h (COPYSTRING, CLEANUPSTRINGS): New macros.
+
 1999-04-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* JavaProxy.[hm] ([JavaProxy -forward::]): Moved to Object_s.
