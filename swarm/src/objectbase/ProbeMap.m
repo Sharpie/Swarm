@@ -14,9 +14,9 @@
 #import <defobj/directory.h> // SD_SUPERCLASS
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // SD_JAVA_ENSURE_SELECTOR_OBJC, SD_JAVA_FIND_OBJECT_JAVA, java_field_usable_p
-#import "../defobj/COM.h" // SD_COM_FIND_CLASS_COM, COM_collect_methods
 #import "../defobj/javavars.h" // m_*, c_*
 #endif
+#import "../defobj/COM.h" // SD_COM_FIND_CLASS_COM, COM_collect_methods
 
 @implementation ProbeMap
 PHASE(Creating)
