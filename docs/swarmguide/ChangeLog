@@ -1,3 +1,10 @@
+1999-05-18  Alex Lancaster  <alex@santafe.edu>
+
+	* catalog.in: Change catalog entries for gui-probemap-{complete,
+	customized, example}, gui-{graph, histogram, raster} EPS entities
+	to point to top_dossrcdir, since they are no longer generated
+	files.
+
 1999-05-17  Alex Lancaster  <alex@santafe.edu>
 
 	* user1.04.sgml: Remove `Activity Framework' section.  Re-order

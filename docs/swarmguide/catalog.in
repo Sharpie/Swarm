@@ -76,11 +76,11 @@ PUBLIC "-//SFI Hive//ENTITIES simplebug-schedules-group EPS//EN" @top_dossrcdir@
 PUBLIC "-//SFI Hive//ENTITIES swarm-discrete-event EPS//EN" @top_dossrcdir@/figs/swarm-discrete-event.eps
 PUBLIC "-//SFI Hive//ENTITIES swarm EPS//EN" @top_dossrcdir@/figs/swarm.eps
 PUBLIC "-//SFI Hive//ENTITIES system-diagram EPS//EN" @top_dossrcdir@/figs/system-diagram.eps
-PUBLIC "-//SFI Hive//ENTITIES gui-graph EPS//EN" figs/gui-graph.eps
-PUBLIC "-//SFI Hive//ENTITIES gui-histogram EPS//EN" figs/gui-histogram.eps
-PUBLIC "-//SFI Hive//ENTITIES gui-raster EPS//EN" figs/gui-raster.eps
-PUBLIC "-//SFI Hive//ENTITIES gui-probemap-customized EPS//EN" figs/gui-probemap-customized.eps
-PUBLIC "-//SFI Hive//ENTITIES gui-probemap-complete EPS//EN" figs/gui-probemap-complete.eps
-PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example EPS//EN" figs/gui-probemap-example.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-graph EPS//EN" @top_dossrcdir@/figs/gui-graph.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-histogram EPS//EN" @top_dossrcdir@/figs/gui-histogram.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-raster EPS//EN" @top_dossrcdir@/figs/gui-raster.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-customized EPS//EN" @top_dossrcdir@/figs/gui-probemap-customized.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-complete EPS//EN" @top_dossrcdir@/figs/gui-probemap-complete.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example EPS//EN" @top_dossrcdir@/figs/gui-probemap-example.eps
 
 SGMLDECL "@top_dossrcdir@/docbook.dcl"
