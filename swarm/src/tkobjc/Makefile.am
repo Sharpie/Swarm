@@ -45,7 +45,7 @@ tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	MessageProbeEntry.h NodeItem.h OvalNodeItem.h \
 	Pixmap.h ProbeCanvas.h \
 	Raster.h Rectangle.h RectangleNodeItem.h \
-	ScheduleItem.h SimpleProbeDisplayHideButton.h SuperButton.h
+	ScheduleItem.h SimpleProbeDisplayHideButton.h SuperButton.h \
 	TextItem.h TkExtra.h \
 	VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h \
 	ZoomRaster.h common.h global.h internal.h win32dib.h
