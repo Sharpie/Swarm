@@ -1,3 +1,21 @@
+1999-09-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-protocols*): Re-enable CustomProbeMap,
+	CompleteProbeMap, CompleteVarMap, Widget, and
+	ArchivedGeometryWidget.
+	(java-objc-to-java-type-category,
+	java-type-category-to-java-type): New functions.  Note the latter
+	now prints interface names not implementation names.
+	(java-objc-to-java-type, java-print-native-method): Use them.
+	(java-print-type, java-print-argument,
+	java-argument-print-conversion): Add current-module argument.
+	(java-qualified-name): Handle case of current-module of `t'.  This
+	means to force qualification.
+	(java-print-class-constructor-method): Use Zone interface instead
+	of implementation.
+	(java-argument-convert): Force package qualification of types --
+	this function is used for writing native types.
+
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0 released.

@@ -103,11 +103,6 @@
       "OrderedSet"
       "_Set"
 
-      ;; objectbase creatable
-      "CustomProbeMap"
-      "CompleteProbeMap"
-      "CompleteVarMap"
-
       ;; objectbase non-creatable
       "ProbeConfig"
 
@@ -145,9 +140,7 @@
       "Pixmap"
                                 
       ;; gui non-creatable
-      "Widget"
       "WindowGeometryRecord"
-      "ArchivedGeometryWidget"
       "GraphElement"
       "InputWidget"
       "CompositeItem"
@@ -408,32 +401,36 @@
          objc-type
          (protocol-name *last-protocol*)))
 
-(defun java-objc-to-java-type (objc-type)
+(defun java-objc-to-java-type-category (objc-type)
   (if objc-type
-      (let ((ret
-             (cdr (find objc-type *objc-to-java-type-alist*
-                        :key #'car
-                        :test #'(lambda (a b)
-                                  (let ((expr (concat (concat "^" b) "$")))
-                                    (string-match expr a)))))))
-        (cond ((eq ret 'freaky)
-               (freaky-message objc-type)
-               ret)
-              ((eq ret 'protocol)
-               (let* ((protocol-name (match-string 1 objc-type))
-                      (protocol (lookup-protocol protocol-name)))
-                 (if (real-class-p protocol)
-                     (concat "swarm."
-                             (module-name (protocol-module protocol))
-                             "."
-                             protocol-name
-                             "Impl")
-                     "Object")))
-              (t ret)))
+      (cdr (find objc-type *objc-to-java-type-alist*
+                 :key #'car
+                 :test #'(lambda (a b)
+                           (let ((expr (concat (concat "^" b) "$")))
+                             (string-match expr a)))))
       "Object"))
 
-(defun java-print-type (objc-type)
-  (let ((java-type (java-objc-to-java-type objc-type)))
+(defun java-type-category-to-java-type (current-module
+                                        objc-type 
+                                        java-type-category)
+  (cond ((eq java-type-category 'freaky)
+         (freaky-message objc-type)
+         java-type-category)
+        ((eq java-type-category 'protocol)
+         (let* ((protocol-name (match-string 1 objc-type))
+                (protocol (lookup-protocol protocol-name)))
+           (if (real-class-p protocol)
+               (java-qualified-name current-module protocol :using t)
+               "Object")))
+        (t java-type-category)))
+
+(defun java-objc-to-java-type (current-module objc-type)
+  (java-type-category-to-java-type current-module
+                                   objc-type
+                                   (java-objc-to-java-type-category objc-type)))
+
+(defun java-print-type (current-module objc-type)
+  (let ((java-type (java-objc-to-java-type current-module objc-type)))
     (unless java-type
       (error "No Java type for `%s'" objc-type))
     (if (eq java-type 'freaky)
@@ -442,12 +439,12 @@
           "Object")
         (insert java-type))))
 
-(defun java-print-argument (argument)
+(defun java-print-argument (current-module argument)
   (let* ((type-and-varname (cdr argument))
          (varname (cadr type-and-varname)))
     ;; the case of method with no arguments
     (when varname
-      (java-print-type (car type-and-varname))
+      (java-print-type current-module (car type-and-varname))
       (insert " ")
       (insert
        (if (string= varname "class")
@@ -476,16 +473,16 @@
               ((or (string= signature "-createEnd")
                    (create-method-p method))
                (insert (java-qualified-interface-name module protocol :using)))
-              (t (java-print-type (method-return-type method))))
-        (java-print-type (method-return-type method)))
+              (t (java-print-type module (method-return-type method))))
+        (java-print-type module (method-return-type method)))
     (insert " ")
     (java-print-method-name arguments nil)
     (insert " (")
-    (java-print-argument first-argument)
+    (java-print-argument module first-argument)
     (loop for argument in (cdr arguments)
           do
           (insert ", ")
-          (java-print-argument argument))
+          (java-print-argument module argument))
     (insert ");\n")))
   
 (defun removed-method-p (method)
@@ -561,7 +558,8 @@
   (let ((module-name (module-name (protocol-module protocol)))
         (name (java-name protocol phase interface-flag)))
     (if current-module
-        (if (string= module-name (module-name current-module))
+        (if (and (not (eq current-module t))
+                 (string= module-name (module-name current-module)))
             name
             (concat "swarm." module-name "." name))
         (concat "swarm/" module-name "/" name))))
@@ -653,8 +651,10 @@
 (defun java-print-class-constructor-method (protocol method)
   (let* ((name.arguments
           (collect-convenience-constructor-name.arguments method))
+         (module (protocol-module protocol))
          (zone-protocol (lookup-protocol "Zone"))
-         (zone-class-name (java-class-name zone-protocol :using))
+         (zone-class-name
+          (java-qualified-interface-name module zone-protocol :using))
          (creating-class-name (java-class-name protocol :creating))
          (using-class-name (java-class-name protocol :using)))
 
@@ -672,7 +672,7 @@
     (loop for name.argument in name.arguments
           do
           (insert ", ")
-          (java-print-argument (cdr name.argument)))
+          (java-print-argument module (cdr name.argument)))
     (insert ") { super (); ")
     (insert "new ")
     (insert creating-class-name)
@@ -873,16 +873,15 @@
          (varname (cadr type-and-varname)))
     ;; the case of method with no arguments
     (when varname
-      (funcall convert
-               (java-objc-to-java-type
-                (car type-and-varname))))))
+      (funcall convert (java-objc-to-java-type t (car type-and-varname))))))
 
 (defun java-argument-empty-p (argument)
   (null (third argument)))
 
-(defun java-argument-print-conversion (argument string-pos)
+(defun java-argument-print-conversion (current-module argument string-pos)
   (let ((type (cadr argument))
-        (jni-type (java-argument-convert argument #'java-type-to-native-type))
+        (jni-type (java-argument-convert argument
+                                         #'java-type-to-native-type))
         (argname (third argument)))
     (if jni-type
         (cond ((string= type "SEL")
@@ -924,11 +923,14 @@
       (insert "SD_ENSUREOBJC (env, jobj)"))
   (insert " ")
   (let ((arguments (method-arguments method))
-        (string-pos 0))
+        (string-pos 0)
+        (module (protocol-module protocol)))
     (insert (first (car arguments)))
     (unless (java-argument-empty-p (car arguments))
       (insert ": ")
-      (java-argument-print-conversion (car arguments) string-pos)
+      (java-argument-print-conversion (protocol-module protocol)
+                                      (car arguments)
+                                      string-pos)
       (when (java-argument-string-p (car arguments))
         (incf string-pos))
       (loop for argument in (cdr arguments)
@@ -939,7 +941,7 @@
             end
             do
             (insert ": ")
-            (java-argument-print-conversion argument string-pos)
+            (java-argument-print-conversion module argument string-pos)
             (when (java-argument-string-p argument)
               (incf string-pos)))))
   (insert "]"))
@@ -960,15 +962,17 @@
     (let* ((arguments (method-arguments method))
            (first-argument (car arguments))
            (strings nil)
+           (module (protocol-module protocol))
            (ret-type 
             (java-type-to-native-type (java-objc-to-java-type 
+                                       module
                                        (method-return-type method)))))
       (insert "JNIEXPORT ")
       (insert ret-type)
       (insert " JNICALL")
       (insert "\n")
       (insert "Java_swarm_")
-      (insert (module-name (protocol-module protocol)))
+      (insert (module-name module))
       (insert "_")
       (insert (java-class-name protocol phase))
       (insert "_")
@@ -987,7 +991,9 @@
         (loop for argument in arguments
               do
               (insert ",\n")
-              (let ((native-type (java-argument-convert argument #'java-type-to-native-type)))
+              (let ((native-type
+                     (java-argument-convert argument
+                                            #'java-type-to-native-type)))
                 (insert-arg native-type)
                 (when (string= native-type "jstring")
                   (push (third argument) strings)))
@@ -1015,7 +1021,11 @@
                 (insert " ret = "))))
         (insert "  return "))
       (let* ((signature (get-method-signature method))
-             (java-return (java-objc-to-java-type (method-return-type method)))
+             (objc-type (method-return-type method))
+             (java-type-category (java-objc-to-java-type-category objc-type))
+             (java-return (java-type-category-to-java-type module
+                                                           objc-type
+                                                           java-type-category))
              (wrapped-flag 
               (cond ((string= "+createBegin:" signature)
                      (insert "SD_ADDJAVA (env, jobj, ")
@@ -1029,13 +1039,12 @@
                     ((string= java-return "Class")
                      (insert "(jclass) SD_FINDJAVACLASS (env, ")
                      t)
-                    ((or (string= java-return "Object")
-                         (and (> (length java-return) 6)
-                              (string= (substring java-return 0 6) "swarm.")))
-                     (insert "SD_ENSUREJAVA (env, ")
-                     t)
                     ((string= java-return "java.lang.String")
                      (insert "(*env)->NewStringUTF (env, ")
+                     t)
+                    ((or (string= java-return "Object")
+                         (eq java-type-category 'protocol))
+                     (insert "SD_ENSUREJAVA (env, ")
                      t)
                     (t nil))))
         (java-print-method-invocation protocol method )
@@ -1051,7 +1060,8 @@
   (with-protocol-c-file protocol
     (insert "#import <defobj/directory.h>\n")
     (insert "#import <defobj.h>\n")
-    (let ((module-name (module-name (protocol-module protocol))))
+    (let* ((module (protocol-module protocol))
+           (module-name (module-name module)))
       (unless (string= module-name "defobj")
         (insert "#import <")
         (insert module-name)
