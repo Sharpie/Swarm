@@ -1,5 +1,7 @@
 1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* fcall_{objc,java}.[hm]: New files.
+
 	* Makefile.am (EXTRA_DIST): Add fcall_{objc,java}.h and _fcall.m.
 	(SRC): Add fcall_{objc,java}.m.
 
