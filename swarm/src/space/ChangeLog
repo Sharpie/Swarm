@@ -1,3 +1,13 @@
+1999-05-04  Alex Lancaster  <alex@santafe.edu>
+
+	* Discrete2d.m ([Discrete2d -_lispInLatticeObjects_:]): Use
+	putObject:atX:Y: method rather than discrete2dSiteAt macro, so can
+	be overriden in subclasses.
+	([Discrete2d -hdf5In:]): Likewise.
+	([Discrete2d -_lispOutLatticeObjects_:]): Use getObjectAtX:Y:
+	method rather than discrete2dSiteAt macro.
+	([Discrete2d -hdf5OutDeep:]): Likewise.
+	
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m ([Discrete2d -hdf5InCreate:]): Use

@@ -170,8 +170,7 @@ PHASE(Setting)
                   
                   sscanf (key, "%u,%u", &x, &y);
                   
-                  *discrete2dSiteAt (lattice, offsets, x, y) =
-                    hdf5In (aZone, latticeHdf5Obj);
+                  [self putObject: hdf5In (aZone, latticeHdf5Obj) atX: x Y: y];
                   return 0;
                 }
               [component iterate: process_lattice];
@@ -302,8 +301,7 @@ PHASE(Using)
           }
         else
           raiseEvent (InvalidArgument, "Expecting a pair of integers");
-        *discrete2dSiteAt (lattice, offsets, tempX, tempY) = 
-          lispIn (aZone, obj);
+        [self putObject: lispIn (aZone, obj) atX: tempX Y: tempY];
       }
     else
       raiseEvent (InvalidArgument, "Expecting either cons pair or an array");
@@ -369,7 +367,7 @@ PHASE(Using)
   for (x = 0; x < xsize; x++)
     for (y = 0; y < ysize; y++)
       {
-        id obj = *discrete2dSiteAt (lattice, offsets, x, y);
+        id obj = [self getObjectAtX: x Y: y];
 
         if (obj != nil)
           {
@@ -471,7 +469,7 @@ PHASE(Using)
   for (x = 0; x < xsize; x++)
     for (y = 0; y < ysize; y++)
       {
-        id obj = *discrete2dSiteAt (lattice, offsets, x, y);
+        id obj = [self getObjectAtX: x Y: y];
 
         if (obj != nil)
           {
