@@ -1,4 +1,4 @@
-EXTRA_DIST = COM.el
+EXTRA_DIST = COM.el move-if-change c/Makefile.in
 EMACS = @EMACS@
 
  include $(top_srcdir)/etc/Makefile.protocol
