@@ -1,3 +1,7 @@
+1999-10-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* EZGraph.m ([EZSequence -drop]): Only drop activeOutFile if non-nil.
+
 1999-10-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* EZBin.m ([EZBin -update]): Don't look for prototype in

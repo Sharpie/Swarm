@@ -523,7 +523,8 @@ PHASE(Using)
 - (void)drop
 {
   [activeGrapher drop];
-  [activeOutFile drop];
+  if (activeOutFile)
+    [activeOutFile drop];
   [super drop];
 }
 
