@@ -1,3 +1,8 @@
+1999-12-22    <mgd@nest.swarm.org>
+
+	* MessageProbe.m (dynamicCallOn): Use setJavaFlag: followed
+	by setSelector: instead of previous combination method.
+
 1999-12-21    <mgd@nest.swarm.org>
 
 	* MessageProbe.m (dynamicCallOn): Use setSelector:setJavaFlag:

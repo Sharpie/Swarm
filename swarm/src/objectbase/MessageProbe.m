@@ -284,8 +284,8 @@ dynamicCallOn (const char *probedType,
 
   retVal->type = *type;
 
-  [fa setSelector: probedSelector
-      setJavaFlag: [target respondsTo: M(isJavaProxy)]];
+  [fa setJavaFlag: [target respondsTo: M(isJavaProxy)]];
+  [fa setSelector: probedSelector];
   type = skip_argspec (type);
   type = skip_argspec (type);
   for (i = 0, type = skip_argspec (type);
