@@ -1,3 +1,15 @@
+1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* TclInterp.m (SUBDIR): Define per TCL_{MAJOR,MINOR}_VERSION.
+
+	* TkInterp.m (SUBDIR): Define per TK_{MAJOR_MINOR}_VERSION.
+
+	* TclInterp.m ([TclInterp -checkTclLibrary]): Check for SUBDIR
+	instead of tcl8.0.
+
+	* TkInterp.m ([TkInterp -checkTkLibrary]): Check for SUBDIR
+	instead of tk8.0.
+
 1999-07-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* TclInterp.m ([TclInterp -preInitWithArgc:argv:]): Handle

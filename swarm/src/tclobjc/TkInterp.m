@@ -37,6 +37,12 @@
 #define DEFAULT_PROMPT "Tk% "
 #define DEFAULT_PARTIAL_PROMPT "Tk> "
 
+#if (TK_MAJOR_VERSION >= 8) && (TK_MINOR_VERSION >= 1)
+#define SUBDIR "tk8.1"
+#else
+#define SUBDIR "tk8.0"
+#endif
+
 // Global variables used by the main program:
 static Tk_Window w;		/* The main window for the application.  If
 				 * NULL then the application no longer
@@ -93,9 +99,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
   if ([self checkPath: TK_LIBRARY subdirectory: NULL file: "tk.tcl"])
     return TK_LIBRARY;
   else
-    return [self checkPath: secondaryPath
-                 subdirectory: "tk8.0"
-                 file: "tk.tcl"];
+    return [self checkPath: secondaryPath subdirectory: SUBDIR file: "tk.tcl"];
 }
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv

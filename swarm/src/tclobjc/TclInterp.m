@@ -43,6 +43,12 @@
 #define DEFAULT_PROMPT "Tcl% "
 #define DEFAULT_PARTIAL_PROMPT "Tcl> "
 
+#if (TCL_MAJOR_VERSION >= 8) && (TCL_MINOR_VERSION >= 1)
+#define SUBDIR "tcl8.1"
+#else
+#define SUBDIR "tcl8.0"
+#endif
+
 /* If we're using tcl 7.4 or greater, must make tcl_RcFileName reference
  * be extern or else we get a linker conflict. In tcl 7.3, you must
  * declare it here or else it links in the wrong file.
@@ -147,7 +153,7 @@ List* tclList;
     return TCL_LIBRARY;
   else
     return
-      [self checkPath: secondaryPath subdirectory: "tcl8.0" file: "init.tcl"];
+      [self checkPath: secondaryPath subdirectory: SUBDIR file: "init.tcl"];
 }
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv
