@@ -51,12 +51,6 @@ PHASE(Creating)
   return newString;
 }
 
-- setLiteralFlag : (BOOL)theLiteralFlag
-{
-  literalFlag = theLiteralFlag;
-  return self;
-}
-
 + create: aZone setC: (const char *)cstring
 {
   String_c *newString;
@@ -75,6 +69,12 @@ PHASE(Creating)
     newString->string = "";
 
   return newString;
+}
+
+- setLiteralFlag : (BOOL)theLiteralFlag
+{
+  literalFlag = theLiteralFlag;
+  return self;
 }
 
 PHASE(Setting)

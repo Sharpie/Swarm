@@ -1060,8 +1060,5 @@ USING
 - (BOOL)getLiteralFlag;
 @end
 
-//G: This is a modified string class that prints with quotes
-extern id <String> LiteralString;
-
 
 #import <collections/types.h>

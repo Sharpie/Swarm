@@ -12,8 +12,6 @@ Library:      collections
 #include "collections.xm"
 #import <collections/Collection.h>
 
-id <String> LiteralString;
-
 //
 // _collections_implement() -- generate implementations for defobj module
 //
@@ -36,10 +34,6 @@ void _collections_implement( void )
 //
 void _collections_initialize (void)
 {
-  LiteralString = [String customizeBegin: globalZone];
-  [LiteralString setLiteralFlag: YES];
-  LiteralString = [LiteralString customizeEnd];
-
   defsymbol (ArchiverLiteral);
   defsymbol (ArchiverQuote);
   defsymbol (ArchiverEOL);

@@ -1,3 +1,7 @@
+1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* String.m, collections.[hm]: Remove LiteralString.
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (lib_LIBRARIES, libcollections_a_SOURCES): Remove.
