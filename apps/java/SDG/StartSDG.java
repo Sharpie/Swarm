@@ -41,7 +41,7 @@ public class StartSDG extends GUISwarmImpl {
 
     raster = new ZoomRasterImpl (getZone (), "raster");
     raster.setColormap (colormap);
-    raster.setZoomFactor (2);
+    raster.setZoomFactor (3);
     raster.setWidth$Height (model.getWorld ().getSizeX (),
                             model.getWorld ().getSizeY ());
     raster.setWindowTitle ("SDG World");
