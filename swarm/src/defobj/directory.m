@@ -522,20 +522,22 @@ create_class_refs (JNIEnv *env, jobject swarmEnvironment)
   jclass get_primitive (const char *name)
     {
 #if 1
-      char fieldName[9 + strlen (name) + 1];
+      char methodName[3 + 9 + strlen (name) + 1];
       char *p;
-      jfieldID fid;
-
-      p = stpcpy (fieldName, "Primitive");
+      jmethodID mid;
+      jclass class = (*env)->GetObjectClass (env, swarmEnvironment);
+      jobject obj;
+      
+      p = stpcpy (methodName, "getPrimitive");
       p = stpcpy (p, name);
       
-      if (!(fid =
-            (*env)->GetFieldID (env,
-                                (*env)->GetObjectClass (env, swarmEnvironment),
-                                fieldName,
-                                "Ljava/lang/Class;")))
-          abort ();
-      return (*env)->GetObjectField (env, swarmEnvironment, fid);
+      if (!(mid = (*env)->GetMethodID (env,
+                                       class,
+                                       methodName,
+                                       "()Ljava/lang/Class;")))
+        abort ();
+      obj = (*env)->CallObjectMethod (env, swarmEnvironment, mid);
+      return (*env)->NewGlobalRef (env, obj);
 #else
       return get_type_field_for_class (env, get_java_class (env, name));
 #endif
