@@ -311,7 +311,6 @@
      :method-list nil)))
 
 (defun add-protocol (module protocol)
-  (message (format "%s %s" module (protocol-name protocol)))
   (setf (gethash (protocol-name protocol) *protocol-hash-table*) protocol)
   (push protocol (gethash module *module-hash-table*)))
 
@@ -416,7 +415,6 @@
   (interactive)
   (loop for protocol being each hash-value of *protocol-hash-table*
         do
-        ; (message (concat "Processing: " (protocol-name protocol)))
         (expand-and-update-protocol protocol)))
 
 (defun external-protocol-name (protocol)
