@@ -1,7 +1,7 @@
 .SUFFIXES: .m .xm
 
 .m.o:
-	$(CC) -c -Wno-import -Wno-protocol $(CFLAGS) $(CPPFLAGS) $(SWARMINCLUDES) -Dexternvar=$(IMPORT_EXTERN) $< 
+	$(CC) -c -Wno-import -Wno-protocol $(CFLAGS) $(CPPFLAGS) $(SWARMINCLUDES) $< 
 
 # Local Variables:
 # mode: makefile
