@@ -22,7 +22,7 @@
   return obj;
 }
 
-- setDiscrete2dToFile: (Discrete2d *) aSpace 
+- setDiscrete2dToFile: (Discrete2d *)aSpace 
 {
   discrete2d = aSpace;
   return self;
@@ -43,8 +43,8 @@
 - fileTo: (const char *) aFileName
 {
   int x, y;
-  id * lattice;
-  long * offsets;
+  id *lattice;
+  long *offsets;
   int xsize, ysize;
   id outFile;
 
@@ -64,38 +64,47 @@
   xsize = [discrete2d getSizeX];
   ysize = [discrete2d getSizeY];
 
-  if(valueMessage){
-    for(y = 0; y < ysize; y++){
-      for(x = 0; x < xsize; x++){
-	id potentialObject;
-
-        if(x)
-          [outFile putString: " "];
-        
-	potentialObject = *discrete2dSiteAt(lattice, offsets, x, y);
-	if(potentialObject)
-          [outFile putLong: (long) [potentialObject perform: valueMessage]];
-        else 
-          [outFile putInt: background];          
-      }
-      
-      [outFile putNewLine];
+  if (valueMessage)
+    {
+      for (y = 0; y < ysize; y++)
+        {
+          for (x = 0; x < xsize; x++)
+            {
+              id potentialObject;
+              
+              if (x)
+                [outFile putString: " "];
+              
+              potentialObject = *discrete2dSiteAt (lattice, offsets, x, y);
+              if(potentialObject)
+                [outFile putLong: (long) [potentialObject perform: valueMessage]];
+              else 
+                [outFile putInt: background];          
+            }
+          
+          [outFile putNewLine];
+        }
     }
-  } else {
-    for(y = 0; y < ysize; y++){
-      for(x = 0; x < xsize; x++){
-        if(x)
-          [outFile putString: " "];
-
-        [outFile putLong: (long) *discrete2dSiteAt(lattice, offsets, x, y)];
-      }      
-      [outFile putNewLine];
+  else
+    {
+      for (y = 0; y < ysize; y++)
+        {
+          for (x = 0; x < xsize; x++)
+            {
+              if (x)
+                [outFile putString: " "];
+              
+              [outFile putLong: 
+                         (long)*discrete2dSiteAt(lattice, offsets, x, y)];
+            }      
+          [outFile putNewLine];
+        }
     }
-  }
-
+  
   [outFile drop];
 
   return self;
 }
 
 @end
+

@@ -8,15 +8,15 @@
 // the display widget.
 
 #import <space/Object2dDisplay.h>
-#import <simtools.h>
-#import <gui.h>
+#import <gui.h> // GUI_BEEP
+#import <simtoolsgui.h> // CREATE_PROBE_DISPLAY
 
 @implementation Object2dDisplay
 
 - createEnd
 {
   [super createEnd];
-  if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL) nil)
+  if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL)nil)
     [InvalidCombination raiseEvent: "Object display improperly initialized\n"];
   return self;
 }
@@ -63,16 +63,18 @@
   // if we have a collection to display, just use that. Otherwise scan
   // the entire 2d grid.
   if (objectCollection)
-    [objectCollection forEach: displayMessage : displayWidget];
+    [objectCollection forEach: displayMessage: displayWidget];
   else
     {
       for (y = 0; y < ysize; y++)
-        for (x = 0; x < xsize; x++) {
-          id potentialObject;
-          potentialObject = *discrete2dSiteAt(lattice, offsets, x, y);
-          if (potentialObject)
-            [potentialObject perform: displayMessage with: displayWidget];
-        }
+        for (x = 0; x < xsize; x++)
+          {
+            id potentialObject;
+
+            potentialObject = *discrete2dSiteAt(lattice, offsets, x, y);
+            if (potentialObject)
+              [potentialObject perform: displayMessage with: displayWidget];
+          }
     }
   
   return self;
@@ -84,14 +86,16 @@
 {
   id obj;
   
-  if (x >= 0 && x < [discrete2d getSizeX]
-      && y >= 0 && y < [discrete2d getSizeY])
+  if (x >= 0
+      && x < [discrete2d getSizeX]
+      && y >= 0
+      && y < [discrete2d getSizeY])
     {
       obj = [discrete2d getObjectAtX: x Y: y];
       if (obj)
         CREATE_PROBE_DISPLAY (obj);
       else
-        GUI_BEEP();
+        GUI_BEEP ();
     }
     else
       [WarningMessage

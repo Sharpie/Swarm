@@ -44,7 +44,7 @@
 - (long *)getOffsets;
 
 - copyDiscrete2d: (Discrete2d *)a toDiscrete2d: (Discrete2d *)b;
-- (int)setDiscrete2d: (Discrete2d *)a toFile: (const char *) filename;
+- (int)setDiscrete2d: (Discrete2d *)a toFile: (const char *)filename;
 @end
 
 // fast macro to access lattice array. Use this cautiously.

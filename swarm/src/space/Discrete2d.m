@@ -2,11 +2,11 @@
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 
 #import <stdlib.h>
 #import <space/Discrete2d.h>
 #import <string.h>
+#import <simtools.h> // InFile
 
 // Note - this code assumes that ints can be written in where ids have been
 // allocated. It uses casts to do this, and I think is portable to all
@@ -17,7 +17,8 @@
 - setSizeX: (int)x Y: (int)y
 {
   if (lattice)
-    [InvalidArgument raiseEvent: "You cannot reset the grid size after creation.\n"];
+    [InvalidArgument
+      raiseEvent: "You cannot reset the grid size after creation.\n"];
   xsize = x;
   ysize = y;
   return self;
@@ -36,8 +37,9 @@
 
 - (id *)allocLattice
 {
-  void * p;
-  p = [[self getZone] alloc: xsize * ysize * sizeof(id)];
+  void *p;
+
+  p = [[self getZone] alloc: xsize * ysize * sizeof (id)];
   memset(p, 0, xsize * ysize * sizeof (id));
   return p;
 }
@@ -144,7 +146,6 @@
   return offsets;
 }
 
-#import <simtools.h>
 // Utility methods - these should be in the Swarm libraries.
 // Read in a file in PGM format and load it into a discrete 2d.
 // PGM is a simple image format. It stores grey values for a 2d array.
@@ -176,16 +177,20 @@
 
   // Yay! Now we can read in a bunch of integers for the values themselves.
   // This code could be modified to read P5 type PGMs by reading raw bytes.
-  for (y = 0; y < ysize; y++) {
-    for (x = 0; x < xsize; x++) {
-      int v;
-      if ([f getInt: &v] != 1) {
-	[WarningMessage raiseEvent: "Ran out of data reading PGM file. Aborting.\n"];
-        goto finishReading;
-      }
-      [a putValue: v atX: x Y: y];
+  for (y = 0; y < ysize; y++)
+    {
+      for (x = 0; x < xsize; x++)
+        {
+          int v;
+          if ([f getInt: &v] != 1)
+            {
+            [WarningMessage
+              raiseEvent: "Ran out of data reading PGM file. Aborting.\n"];
+            goto finishReading;
+            }
+          [a putValue: v atX: x Y: y];
+        }
     }
-  }
   
  finishReading:
   [f drop];				  // close the file
@@ -199,7 +204,7 @@
 - copyDiscrete2d: (Discrete2d *)a toDiscrete2d: (Discrete2d *)b
 {
   int x, y;
-
+  
   if ([a getSizeX] != [b getSizeX] || [a getSizeY] != [b getSizeY])
     [InvalidArgument raiseEvent: "Two Discrete2ds aren't the same size."];
   for (x = 0; x < [a getSizeX]; x++)

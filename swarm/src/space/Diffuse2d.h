@@ -7,13 +7,14 @@
 
 #import <space/Ca2d.h>
 
-@interface Diffuse2d: Ca2d {
+@interface Diffuse2d: Ca2d
+{
   double diffusionConstant;
   double evaporationRate;
 }
 
--setDiffusionConstant: (double) d;
--setEvaporationRate: (double) e;
+- setDiffusionConstant: (double)d;
+- setEvaporationRate: (double)e;
 
 @end
 
