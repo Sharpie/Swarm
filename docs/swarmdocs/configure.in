@@ -18,11 +18,14 @@ changequote([,])dnl
   swarm_srcdir='${SWARMSRCDIR}')
 
 AC_ARG_WITH(catalog,dnl
-changequote(<,>)dnl
   --with-catalog=FILE     Use catalog at FILE,dnl
-changequote([,])dnl
   catalog_file=$withval,dnl
   catalog_file="")
+
+AC_ARG_WITH(dtd-common,dnl
+  --with-dtd-common=DIR   Common Declarations DTD in DIR,dnl
+  commondtd_srcdir=$withval,dnl
+  commondtd_srcdir="")
 
 AC_ARG_WITH(dtd,dnl
 changequote(<,>)dnl
@@ -79,16 +82,24 @@ AM_CONFIG_HEADER(config.h)
 AC_SUBST(swarm_srcdir)
 
 dnl Change to the directory, since the text may be symbolic or a relative path
-changequote(<,>)dnl
-top_dossrcdir=`cd $srcdir; pwd | sed 's,//\([A-Za-z]\),\1:,'`
-dnl Eval command, since default is symbolic SWARMSRCDIR
-swarm_dossrcdir=`eval cd $swarm_srcdir ; pwd | sed 's,//\([A-Za-z]\),\1:,'`
-changequote([,])dnl
+if "$host_os" = cygwin; then
+  top_dossrcdir=`cygpath -w $srcdir`
+  dnl Eval command, since default is symbolic SWARMSRCDIR
+  swarm_dossrcdir=`eval cygpath -w $swarm_srcdir`
+  DOSIFYEXPR='`cygpath -w $<`'
+else
+  top_dossrcdir=$srcdir
+  swarm_dossrcdir=$swarm_srcdir
+  DOSIFYEXPR='$<'
+fi
+AC_SUBST(DOSIFYEXPR)
+
 AC_SUBST(top_dossrcdir)
 AC_SUBST(swarm_dossrcdir)
 
 if test -z "$catalog_file" ; then
-  catopts="-c $docbookdtd_srcdir/docbook.cat -c $docbookstyle_srcdir/catalog"
+  test -n "$commondtd_srcdir" && catopts="-c $commondtd_srcdir/catalog"
+  catopts="$catopts -c $docbookdtd_srcdir/docbook.cat -c $docbookstyle_srcdir/catalog"
 else
   catopts="-c $catalog_file"
 fi
@@ -125,7 +136,3 @@ AC_SUBST(SGML_CATALOG_FILES)
 md_PROG_GS
 
 AC_OUTPUT([catalog Makefile figs/Makefile refbook/Makefile installbook/Makefile overbook/Makefile set/Makefile refbook/activity/Makefile refbook/analysis/Makefile refbook/collections/Makefile refbook/defobj/Makefile refbook/gui/Makefile refbook/objectbase/Makefile refbook/random/Makefile refbook/random/extra/Makefile refbook/simtools/Makefile refbook/simtoolsgui/Makefile refbook/space/Makefile refbook/tech/Makefile javadoc/Makefile javadoc/html/Makefile javadoc/latex/Makefile m4/Makefile tex/Makefile refbook/refbook.tex overbook/overbook.tex installbook/installbook.tex set/set.tex])
-
-
-
-

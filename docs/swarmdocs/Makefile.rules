@@ -9,8 +9,8 @@ HTML = $(top_dossrcdir)/html.dsl
 PRINT = $(top_dossrcdir)/print.dsl
 JADEFLAGS = -V biblio-citation-check
 
-RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE) $(JADEFLAGS)
-CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog @catopts@
+RUNJADE = $(JADE) $(JADEFLAGS)
+CATOPTS = -c $(top_builddir)/catalog @catopts@
 
 FIGS = figs/swarm.eps # for the timestamp
 
@@ -80,16 +80,16 @@ rtf: all-recursive $(NAME).rtf
 html: all-recursive $(NAME).html
 
 %.fot: %.sgml
-	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\1:,'`
+	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ @DOSIFYEXPR@
 
 _%.tex: %.sgml
-	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
+	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d $(PRINT) -o $@ @DOSIFYEXPR@
 
 %.rtf: %.sgml
-	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
+	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ @DOSIFYEXPR@
 
 %.html: %.sgml
-	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`
+	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) @DOSIFYEXPR@
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
