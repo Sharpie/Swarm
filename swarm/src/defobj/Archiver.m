@@ -75,10 +75,13 @@ defaultPath (const char *swarmArchiver)
 
   if (home)
     {
-      char *buf = xmalloc (strlen (home) + 1 + strlen (swarmArchiver) + 1), *p;
+      size_t homelen = strlen (home);
+      char *buf = xmalloc (homelen + 1 + strlen (swarmArchiver) + 1), *p;
 
       p = stpcpy (buf, home);
-      p = stpcpy (p, "/");
+      if (homelen == 0 || home[homelen - 1] != '/')
+        p = stpcpy (p, "/");
+
       p = stpcpy (p, swarmArchiver);
       
       return buf;
