@@ -1,8 +1,12 @@
-1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
+1998-06-25  Alex Lancaster  <alex@santafe.edu>
+
+	* INSTALL: Add generic configure instructions. 
+
+1998-06-25  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in: Update version to 1.2.
 
-1998-06-25  Alex Lancaster  <alexl@bigfoot.com>
+1998-06-25  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.conf:  Remove.
 
