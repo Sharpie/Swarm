@@ -1,3 +1,8 @@
+1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.java (globalZone): Pass null to as zone.
+	(uniformIntRand, uniformDblRand): Pass globalZone as zone.
+
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.java: Classes now end in "Impl".

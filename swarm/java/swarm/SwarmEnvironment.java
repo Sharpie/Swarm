@@ -20,9 +20,9 @@ public class SwarmEnvironment {
   public UniformDoubleDistUImpl uniformDblRand;
   public SwarmEnvironment (String args[]) {
     System.out.println ("Global zone!");
-    globalZone = new ZoneUImpl ();
-    uniformIntRand = new UniformIntegerDistUImpl ();
-    uniformDblRand = new UniformDoubleDistUImpl ();
+    globalZone = new ZoneUImpl (null);
+    uniformIntRand = new UniformIntegerDistUImpl (globalZone);
+    uniformDblRand = new UniformDoubleDistUImpl (globalZone);
     
     System.out.println ("Init Swarm!");
     initSwarm (args);
