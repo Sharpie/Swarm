@@ -34,7 +34,7 @@ EXAMPLES=GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
         strtest.m 
 
 gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
-	- (cd $(srcdir)/grid ; (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.SRC.GRID.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) ; cd ..) > $@
+	- (cd $(gridturtle_srcdir) ; (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.SRC.GRID.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) ; cd ..) > $@
 
 refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/analysis/analysis.h \
