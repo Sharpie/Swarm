@@ -123,7 +123,7 @@ PHASE(Creating)
 
       int process_object (id component)
         {
-          const char *name = [component getName];
+          const char *name = [component getHDF5Name];
 
           if (strcmp (name, "xsize") == 0)
             {
@@ -208,14 +208,14 @@ PHASE(Setting)
     {
       int process_ivar (id component)
         {
-          const char *name = [component getName];
+          const char *name = [component getHDF5Name];
           
           if (strcmp (name, "lattice") == 0)
             {
               int process_lattice (id latticeHdf5Obj)
                 {
                   unsigned x, y;
-                  const char *key = [latticeHdf5Obj getName];
+                  const char *key = [latticeHdf5Obj getHDF5Name];
                   
                   sscanf (key, "%u,%u", &x, &y);
                   
@@ -481,7 +481,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
                   setParent: hdf5Obj]
                  setWriteFlag: YES]
-                setName: [hdf5Obj getName]]
+                setName: [hdf5Obj getHDF5Name]]
                createEnd];
 
   [group storeTypeName: [self getTypeName]];
