@@ -20,128 +20,6 @@ Library:      collections
 //D: defobj also requires the collections library, both must always be
 //D: linked into an application together.
 
-@deftype MemberType
-//S: Accessors for member type.
-
-//D: The default member type of any collection is the id type defined by
-//D: Objective C.  All messages which add, remove, or access members
-//D: declare their member value with the id type.  None of the collection
-//D: types, however, requires that the member value actually point to a
-//D: valid object.  The member values of any collection may contain an
-//D: arbritrary bit pattern, provided these bits fit in the space available
-//D: within an id pointer.
-
-//D: In the few cases when default operations assume that a member points
-//D: to a valid object, there are alternate ways to avoid these defaults
-//D: and use an arbritrary bit pattern as a member value instead.  When
-//D: using an arbritrary bit pattern, the member value must be cast to or
-//D: from the id type when adding or retrieving it from the collection.  By
-//D: global portability assumptions, the number of bits in an id value
-//D: may be safely assumed to be at least as large as an int
-//D: (signed or unsigned), but not necessarily as large as a long.
-
-//D: There is also an option to override the default member type so that it
-//D: can be larger than a id pointer.  Use of this option, however, changes
-//D: the way member values must be passed to or from a collection.  More
-//D: information is given with the MemberType option below.
-
-// (.. This option is not currently implemented for any collection types.)
-
-//M: The MemberType option may be used to declare the type of member which
-//M: a collection contains.  Its value must be an objec having one of the
-//M: ValueType types defined in defobj.  (..Currently no ValueType objects
-//M: are implemented, so MemberType is not supported.)
-
-//M: The member type defaults to the Symbol value Unknown.  Specifying a
-//M: member type has no effect on the collection if the storage size of the
-//M: data type is no larger than a pointer of id type.  The member type,
-//M: however, may be helpful as documentation, and members can be checked
-//M: for conformance to the type as part of debug options.
-
-//M: If the data type has a size greater than id, the collection
-//M: automatically allocates and frees space for the member value whenever
-//M: member values are added or removed.  For such a collection, all member
-//M: values must be passed to the collection not as the value itself, but
-//M: as a pointer to the value (cast to id as necessary).  If a new member
-//M: is being added, the value will be copied to a new member location
-//M: contained within the collection.  Member values returned by the
-//M: collection will be returned as pointers to this internal value, not as
-//M: the value itself.  In the case of member values removed from the
-//M: collection, a nil pointer is returned.
-CREATING
-- (void)setMemberType: aDataType;
-USING
-- getMemberType;
-@end
-
-@deftype IndexSafety
-//S: Interface for defining the degree of Index safety desired.
-
-// (.. This option is not currently implemented for any collection types.)
-
-//D: If not specified, the default value depends on the specific collection
-//D: subtype.  In typical cases, the default value is Unsafe.  A non-default
-//D: value is required for indexes to have a guarantee of safety when
-//D: independent modifications to the underlying collection are also
-//D: performed.
-
-//D: Without a guarantee of index safety, the effect of any operation which
-//D: modifies the underlying collection (adding, removing, or replacing
-//D: members) could be to disrupt the position assumed by any existing
-//D: index.  The effect of such disruption is, in general, completely
-//D: unpredictable: it could be an immediate crash, a wrong sequence of
-//D: members, or other difficult-to-debug conditions.  To avoid such
-//D: unpredictability, several means for assuring the safety of indexes
-//D: under independent collection update are provided.
-
-//D: The simplest way to guarantee index safety is to set the IndexSafety
-//D: option to the value SafeAlways when a collection is created.  With the
-//D: value of SafeAlways, any active index on the collection will be
-//D: updated automatically to reflect any change to the underlying
-//D: collection whenever such a change occurs.  This automatic update
-//D: continues to occur throughout the lifetime of any index on the
-//D: collection; it ceases to occur only after an index is dropped.  This
-//D: is the easiest option to use, but consumes extra resources to
-//D: accomplish (both time and space within the collection), so is most
-//D: suitable when the extra resource usage deesn't matter or there's no
-//D: better way.
-
-//D: With an IndexSafety value of SafeAlways, there is also an additional
-//D: option to declare an external index update handler.  The handler is
-//D: specified using the setIndexUpdateHandler:: message.  If an
-//D: IndexUpdateHandler is specified, the value for IndexSafety is also
-//D: automatically set to SafeAlways.
-
-//D: The first argument of setIndexUpdateHandler:: specifies a function
-//D: which is called whenever a modification to the underlying collection
-//D: occurs which could require an update to existing indexes.  The second
-//D: argument establishes a pointer value which the handler function may
-//D: use to identify the indexes which need to be updated, or any other
-//D: information needed for the update.
-
-//D: (.. Exact call conventions for the IndexUpdateHandler are still being
-//D: established, but the activity library will soon be converted to use
-//D: this technique, so the conventions will be resolved during that
-//D: conversion.)
-
-//D: Besides the extreme values of Unsafe and SafeAlways, another valid
-//D: value for IndexSafety is UnsafeAtMember.  This value indicates that
-//D: the only modification of the collection which could disrupt existing
-//D: indexes is to remove the member contained at the current index
-//D: position, or to change the member on either side of an index
-//D: positioned between members.  For some collection subtypes, this level
-//D: of safety is automatically assured, and for others it can be requested
-//D: with less overall resource impact than SafeAlways.
-CREATING
-- (void)setIndexSafety: indexSafety;
-- (void)setIndexHandler: (fixup_t)fixupHandler
-           withArgument: (void *)arg;
-
-USING
-- getIndexSafety;
-- (fixup_t)getIndexHandler: (void **)arg;
-@end
-
 @deftype Offsets 
 //S: Methods for accessing collection members by position.
 
@@ -209,7 +87,7 @@ USING
 @end
 
 
-@deftype Collection <Create, SetInitialValue, Copy, Drop, MemberType, Offsets, ForEach>
+@deftype Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
 //S: A generic collection interface.
 
 //D: A collection is a grouping of object references or other data values which
@@ -324,11 +202,7 @@ USING
 //M: about indexes is documented under the Index type.
 - begin: aZone;
 @end
-
-//G: values for index safety
-extern id <Symbol> Unsafe, UnsafeAtMember, SafeAlways;
 
-
 @deftype Index <DefinedObject, Copy, Drop>
 //S: Reference into the enumeration sequence for a collection.
 
@@ -610,11 +484,6 @@ USING
 //D: Dropping the array only removes its reference to the external
 //D: allocation.
 
-//D: The pointer to allocated memory is given as a pointer to id type, but
-//D: if a data type given as MemberType has size greater than id, the
-//D: pointer must actually point to an array of slots each of which has the
-//D: size of the data type.
-
 //D: Since an array neither allocates nor frees an external member
 //D: allocation, the same region of allocated memory may be referenced by
 //D: multiple arrays, including overlapping member ranges each defined by
@@ -711,24 +580,7 @@ SETTING
 @end
 
 
-@deftype EndsOnly
-//S: Restricts a list so that members can be added or removed only
-//S: at either end.
-
-//D: The EndsOnly option restricts a list so that members can be added or
-//D: removed only at either end.  This restriction permits an alternate
-//D: implementation that both reduces memory usage and enables fast, direct
-//D: access to members by integer offset.  It obtains key performance
-//D: advantages of an array while preserving the dynamic extendability of a
-//D: list.
-CREATING
-- (void)setEndsOnly: (int)countPerBlock;
-
-USING
-- (int)getEndsOnly;
-@end
-
-@deftype List <Collection, CREATABLE, EndsOnly>
+@deftype List <Collection, CREATABLE>
 //S:  Collection of members in an externally assigned linear sequence.
 
 //D: A list is a collection of members that are all maintained at some
@@ -848,23 +700,6 @@ extern int compareIDs (id, id);
 //F: A routine for comparing integers.
 extern int compareIntegers (id, id);
 
-@deftype DupOption
-//S: An interface for defining how duplicates should be handled.
-//D: An interface for defining how duplicates should be handled.
-
-CREATING
-- (void)setDupOption: dupOption;
-- (void)setDupMembersType: aCollectionType;
-
-USING
-- getDupOption;
-- getDupMembersType;
-
-//G: values for DupOption
-extern id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
-
-@end
-
 @deftype Sorted
 //S: An option that determines if a keyed collection is kept in order.
 
@@ -921,118 +756,7 @@ USING
 - (compare_t)getCompareFunction;
 @end
 
-@deftype BucketFunction
-//S: The BucketFunction option specifies a function that is called whenever
-//S: a member of an unsorted collection is added or removed.
-
-//D: The BucketFunction option specifies a function that is called whenever
-//D: a member of an unsorted collection is added or removed.  It may also
-//D: be used for a sorted collection to provide faster insertion and
-//D: removal of members.
-
-//D: The responsibility of a "bucket function" is to assign the key value
-//D: to some integer in a range from zero up to some maximum value.  These
-//D: integers identify "buckets" to which the same key value will also be
-//D: assigned whenever passed to the function.  If the collection is
-//D: unsorted, these buckets represent hash buckets, and for speed should
-//D: be relatively sparse (few keys likely in any one bucket, given the
-//D: expected size of the collection).  If the collection is sorted, these
-//D: buckets represent ordered buckets to which the same range of key
-//D: values will always be assigned.  Such sorted buckets can speed up the
-//D: search for a key location within a sorted collection.  Sorted buckets
-//D: can also be sparse to minimize the need for further sorting within
-//D: each bucket.  If many keys end up in the same sorted bucket, the
-//D: sorting process normally used without buckets is still used, so there
-//D: is less performance impact than with hash keys of an unsorted
-//D: collection.
-
-//D: A new bucket function may be established any time during the lifetime
-//D: of a collection.  A new bucket function can ensure that keys remain
-//D: suitably distributed to buckets as the total number of keys in a
-//D: collection grows or shrinks.
-
-//T: A bucket function accepts a single key value as its argument, and
-//T: return an integer that identifies a bucket.  As with a compare
-//T: function, the key value is declared as an id pointer type, but may
-//T: actually contain whatever kind of value is used within the collection.
-typedef int (*bucket_t) (id);
-
-CREATING
-- (void)setBucketFunction: (bucket_t)aFunction setMaxBuckets: (int)max;
-USING
-- (bucket_t)getBucketFunction;
-
-//D: A value for MaxBuckets must be given in the same message that sets a
-//D: bucket function.  Its value specifies the number of buckets to which a
-//D: bucket function assigns its keys.  The maximum value returned by a
-//D: bucket function should be one less than this value.
-- (int)getMaxBuckets;
-@end
-
-@deftype PartiallyOrdered
-//S: Specifies that messages for maintaining a partial order are
-//S: enabled on the collection.
-
-//D: A partially ordered collection supports the maintenance of individual
-//D: ordering relations among its members.  Each such relation is an
-//D: assertion that one member should always precede another in the
-//D: enumeration sequence of the collection.  When an index traverses the
-//D: collection, it will guarantee that all the predecessors of a member
-//D: have already been visited before the member itself is reached.
-
-//D: If true, PartiallyOrdered specifies that messages for maintaining a
-//D: partial order are enabled on the collection.  An error will be raised
-//D: if individual members do not have a unique identity within the
-//D: innermost collection within which they are contained.  This means that
-//D: if duplicate keys are permitted by the collection, a collection type
-//D: must also be specified for GroupType which does not itself accept
-//D: duplicates.  Every member in a partial order must have a unique
-//D: identity so that the member itself is sufficient to identify it within
-//D: the network of partial orders.
-CREATING
-- (void)setPartiallyOrdered: (BOOL)partiallyOrdered;
-
-USING
-- (BOOL)getPartiallyOrdered;
-@end
-
-@deftype PartialOrderContext
-//S: Set the larger context of a partial order relationship.
-
-//D: Ordering relations may be maintained not only between members
-//D: belonging to the same collection, but between members and other
-//D: collections, as long as all participants in an ordering are contained
-//D: somewhere within a larger common collection.  An ordering relation
-//D: with a nested collection specifies that all members in the collection
-//D: are successors or predecessors of the other member.  Ordering
-//D: relations can also be established between members of a larger,
-//D: containing collection, and individual members of a nested collection.
-
-//D: The keyed collection specified as the value for PartialOrderContext
-//D: must specify another collection in which the local collection is
-//D: maintained.  It is an error if the PartialOrderContext collection does
-//D: not actually contain the local collection.
-CREATING
-- (void)setPartialOrderContext: aKeyedCollection;
-
-USING
-- getPartialOrderContext;
-@end
-
-@deftype PartialOrderRelations
-//S: These messages maintain the ordering relations within a partially
-//S: ordered collection.
-
-//D: These messages maintain the ordering relations within a partially
-//D: ordered collection.
-USING
-- (void)getPredecessors: aMember;
-- (void)getSuccessors: aMember;
-- (void)getCostarts: aMember;
-- (void)getCoends: aMember;
-@end
-
-@deftype KeyedCollection <Collection, DupOption, Sorted, CompareFunction, BucketFunction, PartiallyOrdered, PartialOrderContext, PartialOrderRelations>
+@deftype KeyedCollection <Collection, Sorted, CompareFunction>
 //S: Member identity definition shared by Set and Map types.
 
 //D: A keyed collection is a collection in which each member can be
@@ -1042,31 +766,13 @@ USING
 //D: association with the member when the member is first added, which
 //D: defines a Map.
 
-//D: The keyed collection type establishes the common behavior shared by
-//D: both Set and Map.  Standard options are provided to declare ordering
-//D: of members in the collection, which can be based either on an inherent
-//D: ordering of the key values (a sorted collection) or external
-//D: maintenance of a total or partial order.  Additionally, options are
-//D: provided to declare whether duplicate key values should be permitted,
-//D: and if so, how.
-
-//D: The options for handling of duplicate keys provide considerable
-//D: flexibility.  Entire structures of nested collections can be created
-//D: that subdivide the key space through progressive levels.  By accepting
-//D: duplicate keys, and organizing members of the same identity into
-//D: subgroups, keyed collections support the abstract data type known as a
-//D: bag or multiset.  The index on a keyed collection includes the ability
-//D: to traverse throughout the contents of any of these nested
-//D: collections.
-
 //D: The KeyedCollection type inherits all standard behavior of Collection.
 //D: The KeyedCollection type is not itself creatable; it only serves as a
 //D: common supertype for Set and Map collection types.
 
-//D: The default value of IndexSafety for a KeyedCollection is Unsafe, but
-//D: values of either UnsafeAtMember or SafeAlways can be requested to
-//D: guarantee a higher level of safety.
-
+//D: The keyed collection type establishes the common behavior shared by
+//D: both Set and Map.  Standard options are provided to declare ordering
+//D: of members in the collection. 
 CREATING
 // - (void)setIndexFromMember: (int)byteOffset;
 USING
@@ -1245,13 +951,10 @@ USING
 //D: operation which involves both.
 
 CREATING
-// - (void)setIndexFromKey: (int)byteOffset;
 - (void)setKeyType: aDataType;
 - (void)setKeySize: (size_t)size;
-USING
-// - (int)getIndexFromKey;
-// - (size_t)getKeyAllocSize;
 
+USING
 //M: at:insert: inserts an entry into a Map containing the key and member
 //M: values given as its arguments.  It returns true if the key was not
 //M: previously contained in the collection.  If the key was already
@@ -1260,14 +963,6 @@ USING
 //M: duplicate key is simply rejected and false is returned.
 - (BOOL)	at: aKey insert: anObject;
 
-///M: at:insert:setIndex: is similar to at:insert:, except that the index
-///M: passed as the final argument is repositioned to the member just
-///M: inserted.  If further operations are required on the entry in a map
-///M: that was just inserted, an index provides faster repeated access to
-///M: this entry than a message involving further key comparison, such as
-///M: at:, would require.  (..  This message is not currently implemented.)
-// - (BOOL)at: aKey insert: anObject setIndex: anIndex;
-
 //M: Replaces an existing member value associated with a key
 //M: value by a new value given as its final argument.  The message returns
 //M: the member value which was formerly associated with the key value.
@@ -1275,25 +970,7 @@ USING
 //M: same key.
 - at: aKey replace: anObject;
 
-// - insertGroup: aKey;
-
 - removeKey: aKey;
-// - removeKey: aKey getKey: (id *)oldKey;
-
-///M: Replaces a key value with another key value that still
-///M: compares equal to a key value already present.  It may be used to
-///M: replace an allocation of one object, already contained in a Map, by a
-///M: different object allocation.  replaceKey: returns nil if no existing
-///M: key value matches its key value argument; otherwise it returns the key
-///M: value which was replaced by its argument.
-// - replaceKey: aKey;
-
-///M: (.. This message is not currently implemented.  It will eventually give
-///M: a fast way to create an index already positioned at an entry with a
-///M: particular key value.)
-// - createIndex: aZone setKey: aKey;
-
-// - createIndex: aZone setMember: aMember;
 @end
 
 @deftype MapIndex <KeyedCollectionIndex>
@@ -1321,7 +998,6 @@ USING
 
 //M: Return the current item and it's key.
 - get:  (id *)key;
-
 @end
 
 

@@ -1,3 +1,16 @@
+1998-06-14  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* collections.h: Remove MemberType; don't adopt it in Collection.
+	Remove IndexSafety.  Remove mention of MemberType in Drop.  Remove
+	EndsOnly; don't adopt it in List.  Remove DupOption,
+	BucketFunction, PartiallyOrdered, PartialOrderContext, and
+	PartialOrderRelations; don't adopt in KeyedCollection.  Remove
+	mention of duplicate key, partial ordering, and index safety from
+	KeyedCollection.  Remove disabled -setIndexFromKey:,
+	-getIndexFromKey, -getKeyAllocSize, -at:insert:setIndex:,
+	-insertGroup, -removeKey:getKey:, -replaceKey:,
+	-createIndex:setKey:, -createIndex:setMember:.
+
 1998-06-05  Alex Lancaster  <alex@santafe.edu>
 
 	* collections.h (LiteralString): Made an extern id <String>,
