@@ -1,4 +1,4 @@
-// Copyright © 1996-1999 Santa Fe Institute.
+// Copyright © 1996-2000 Swarm Development Group.
 #import <objectbase/Swarm.h>
 #import "FEntity.h"
 #import "FNet.h"

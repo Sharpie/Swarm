@@ -1,4 +1,4 @@
-// Copyright © 1996-1999 Santa Fe Institute.
+// Copyright © 1996-2000 Swarm Development Group.
 #import "BankObserverSwarm.h"
 #import "BankModelSwarm.h"
 #import <simtoolsgui.h> // ActiveGraph
