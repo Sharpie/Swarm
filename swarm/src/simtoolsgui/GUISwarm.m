@@ -54,6 +54,16 @@ PHASE(Using)
   return [self getActivity];
 }
 
+- getActionCache
+{
+    return actionCache;
+}
+
+- getControlPanel
+{
+    return controlPanel;
+}
+
 - (void)drop
 {
   [actionCache drop];

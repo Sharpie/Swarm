@@ -1,3 +1,11 @@
+1999-03-31  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* simtoolsgui.h: Add methods getActionCache and getControlPanel
+	to GUISwarm.
+
+	* GUISwarm.m ([GUISwarm -getActionCache]): New method.
+	([GUISwarm -getControlPanel]): New method.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Revert last change.

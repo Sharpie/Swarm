@@ -316,6 +316,8 @@ USING
 //M: requested to terminate) or ControlStateQuit (the user pressed
 //M: the quit button).
 - go;
+- getActionCache;
+- getControlPanel;
 - (void)drop;
 @end
 
