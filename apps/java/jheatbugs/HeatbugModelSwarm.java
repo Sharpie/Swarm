@@ -295,7 +295,7 @@ public class HeatbugModelSwarm extends SwarmImpl
         modelActions.createFActionForEachHomogeneous$call
         (heatbugList,
          new FCallImpl (this, proto, sel,
-                        new FArgumentsImpl (this, sel, Globals.env.LanguageJava)));
+                        new FArgumentsImpl (this, sel)));
     } catch (Exception e) {
       e.printStackTrace (System.err);
     }

@@ -1,3 +1,8 @@
+2000-09-19  Alex Lancaster  <alex@allele2.biol.berkeley.edu>
+
+	* HeatbugModelSwarm.java: Removed language argument to
+	FArgumentsImpl.
+
 2000-09-14  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* HeatbugModelSwarm.java (buildActions): Use language symbol
