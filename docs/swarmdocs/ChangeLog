@@ -1,5 +1,10 @@
 1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* history.el (process-changelog): Use insert-text instead of insert
+	for REVREMARK data.
+
+	* common.el (insert-text): Moved from protocol.el.
+
 	* protocol.el (named-object): New structure.
 	(*doc-types*): New types :global-doc, :global-begin, :global-end,
 	:global-break.

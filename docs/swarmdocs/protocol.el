@@ -545,22 +545,6 @@
   (insert "\n</REFPURPOSE>\n")
   (insert "</REFNAMEDIV>\n"))
 
-(defun insert-text (text)
-  (when text
-    (let ((beg (point)))
-      (insert text)
-      (let ((end (point)))
-        (save-excursion
-          (save-restriction
-            (narrow-to-region beg end)
-            (goto-char (point-min))
-            (save-excursion
-              (while (search-forward "<" nil t)
-                (replace-match "&lt;")))
-            (save-excursion
-              (while (search-forward ">" nil t)
-                (replace-match "&gt;")))))))))
-
 (defun sgml-refsect1-text-list (title text-list)
   (when text-list
     (insert "<REFSECT1>\n")
