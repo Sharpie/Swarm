@@ -4,13 +4,11 @@
 // See file LICENSE for details and terms of copying.
 
 #include <swarmconfig.h>
-#ifdef HAVE_JDK
-#ifdef USE_AVCALL
+#if defned(HAVE_JDK) && defined(USE_AVCALL)
 
 #ifdef __CYGWIN__
 #ifndef HAVE_KAFFE
 #define MSVC
-#endif
 #endif
 
 #import "fcall_java.h"
