@@ -73,7 +73,7 @@ else
   ffilibdir=
   FFIINCLUDES='-I$(top_builddir)/avcall'
   FFILDFLAGS=
-  FFILIB="\$(top_builddir)/avcall/avcall-${target_cpu}.o"
+  FFILIB="\$(top_builddir)/avcall/avcall.lo"
 fi
 AC_SUBST(ffidir)
 AC_SUBST(ffilibdir)
