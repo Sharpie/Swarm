@@ -1,0 +1,10 @@
+#ifndef _EXTERNVAR_H
+#define _EXTERNVAR_H
+
+#ifndef externvar
+#define externvar @IMPORT_EXTERN@
+#endif
+
+#define externvardef @EXPORT_EXTERNDEF@
+
+#endif
