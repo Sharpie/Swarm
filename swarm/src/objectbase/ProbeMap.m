@@ -177,16 +177,17 @@
 - (void)addJavaFields: (jclass)javaClass
 {
   jarray fields;
-  jsize fieldCount;
-  unsigned i;
+  jsize count;
 
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               javaClass,
                                               m_ClassGetDeclaredFields)))
     abort();
 
-  fieldCount = (*jniEnv)->GetArrayLength (jniEnv, fields);
-  for (i = 0; i < fieldCount; i++)
+  count = (*jniEnv)->GetArrayLength (jniEnv, fields);
+  numEntries += count;
+
+  while (count > 0)
     {
       jobject field;
       jstring name;
@@ -194,7 +195,8 @@
       jboolean isCopy;
       id aProbe;
       
-      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
+      count--;
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
       name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
       buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
       
@@ -211,35 +213,34 @@
       if (isCopy)
         (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
     }
-  numEntries += fieldCount;
 }
 
 - (void)addJavaMethods: (jclass)javaClass
 {
   jarray methods;
-  jsize methodCount;
+  jsize count;
 
   if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv,
                                                javaClass,
                                                m_ClassGetDeclaredMethods)))
     abort();
   
-  methodCount = (*jniEnv)->GetArrayLength (jniEnv, methods);
+  count = (*jniEnv)->GetArrayLength (jniEnv, methods);
+  numEntries += count;
   
-  if (methodCount)
+  if (count)
     {
-      id inversionList = inversionList = [List create: [self getZone]];
-      unsigned i;
-      id aProbe;
-      
-      for (i = 0; i < methodCount; i++)
+      while (count > 0)
         {
           jobject method;
           jstring name;
           jobject selector;
           SEL sel;
+          id aProbe;
           
-          method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, i);
+          count--;
+          method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
+
           name = (*jniEnv)->CallObjectMethod (jniEnv,
                                               method, 
                                               m_MethodGetName);
@@ -258,27 +259,15 @@
             [aProbe setObjectToNotify: objectToNotify];
           
           aProbe = [aProbe createEnd];
-          
+
           if (!aProbe)
             abort ();
-          [inversionList addFirst: aProbe];
+          
+          [probes at: [String create: [self getZone] 
+                              setC: [aProbe getProbedMessage]]
+                  insert: aProbe];
         }
-      
-      {
-        id index = [inversionList begin: [self getZone]];
-        
-        while ((aProbe = [index next]))
-          {
-            [probes at: [String create: [self getZone] 
-                                setC: [aProbe getProbedMessage]]
-                    insert: aProbe];
-            [index remove];
-          }	
-        [index drop];
-      }
-      [inversionList drop];
     }
-  numEntries += methodCount;
 }
   
 - createEnd
