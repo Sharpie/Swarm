@@ -254,12 +254,35 @@ getName (COMobject cObj)
   return name;
 }
 
+COMobject
+normalize (COMobject cObj)
+{
+  nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
+  swarmITyping *typing;
+
+  if (!NS_SUCCEEDED (obj->QueryInterface (NS_GET_IID (swarmITyping), (void **) &typing)))
+    abort ();
+  
+  return typing;
+}
+
+COMselector
+selectorQuery (COMobject cObj)
+{
+  nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
+  swarmITyping *selector;
+
+  if (!NS_SUCCEEDED (obj->QueryInterface (NS_GET_IID (swarmISelector), (void **) &selector)))
+    abort ();
+  return selector;
+}
+
 BOOL
-selectorIsVoidReturn (COMobject cSel)
+selectorIsVoidReturn (COMselector cSel)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   PRBool ret;
-
+  
   if (!NS_SUCCEEDED (sel->IsVoidReturn (&ret)))
     abort ();
   
@@ -267,7 +290,7 @@ selectorIsVoidReturn (COMobject cSel)
 }
 
 BOOL
-selectorIsBooleanReturn (COMobject cSel)
+selectorIsBooleanReturn (COMselector cSel)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   PRBool ret;
@@ -279,7 +302,7 @@ selectorIsBooleanReturn (COMobject cSel)
 }
 
 const char *
-selectorName (COMobject cSel)
+selectorName (COMselector cSel)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   char *ret;
@@ -291,7 +314,7 @@ selectorName (COMobject cSel)
 }
 
 unsigned
-selectorArgCount (COMobject cSel)
+selectorArgCount (COMselector cSel)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   unsigned ret;
@@ -303,7 +326,7 @@ selectorArgCount (COMobject cSel)
 }
 
 fcall_type_t
-selectorArgFcallType (COMobject cSel, unsigned argIndex)
+selectorArgFcallType (COMselector cSel, unsigned argIndex)
 {
   swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
   unsigned short ret;
@@ -312,6 +335,15 @@ selectorArgFcallType (COMobject cSel, unsigned argIndex)
     abort ();
   
   return (fcall_type_t) ret;
+}
+
+void
+selectorInvoke (COMselector cSel, void *args)
+{
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+  
+  if (!NS_SUCCEEDED (sel->Invoke ((nsXPTCVariant *) args)))
+    abort ();
 }
 
 }
@@ -339,12 +371,44 @@ createArgVector (unsigned size)
   return (void *) argVec;
 }
 
+static nsXPTType types[FCALL_TYPE_COUNT] = {
+  nsXPTType::T_VOID,
+  nsXPTType::T_BOOL,
+  nsXPTType::T_U8,
+  nsXPTType::T_I8,
+  nsXPTType::T_U16,
+  nsXPTType::T_I16,
+  nsXPTType::T_U32,
+  nsXPTType::T_I32,
+  nsXPTType::T_U32,
+  nsXPTType::T_I32,
+  nsXPTType::T_U64,
+  nsXPTType::T_I64,
+  nsXPTType::T_FLOAT,
+  nsXPTType::T_DOUBLE,
+  nsXPTType::T_VOID, // long double
+  nsXPTType::T_INTERFACE,
+  nsXPTType::T_IID,
+  nsXPTType::T_CHAR_STR,
+  nsXPTType::T_INTERFACE,
+  nsXPTType::T_VOID, // jobject
+  nsXPTType::T_VOID // jstring
+};
+
 void
-addArg (fcall_type_t type, void *value)
+setArg (void *args, unsigned pos, fcall_type_t type, void *value)
 {
+  nsXPTCVariant *argVec = (nsXPTCVariant *) args;
+
+  argVec[pos].ptr = value;
+  argVec[pos].type = types[type];
+  argVec[pos].flags = nsXPTCVariant::PTR_IS_DATA;
 }
 
 void
-setReturn (fcall_type_t type, void *value)
+freeArgVector (void *args)
 {
+  nsXPTCVariant *argVec = (nsXPTCVariant *) args;
+
+  delete argVec;
 }
