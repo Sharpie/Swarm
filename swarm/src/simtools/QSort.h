@@ -10,14 +10,15 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface QSort : SwarmObject {
+@interface QSort: SwarmObject
+{
 }
 
-+(void) sortObjectsIn: aCollection ;
-+(void) sortObjectsIn: aCollection using: (SEL) aSelector ;
-+(void) sortNumbersIn: aCollection ;
-+(void) sortNumbersIn: aCollection
-                using: (int(*)(const void*,const void*)) comp_fun ;
-+(void) reverseOrderOf: aCollection ;
++ (void)sortObjectsIn: aCollection;
++ (void)sortObjectsIn: aCollection using: (SEL) aSelector;
++ (void)sortNumbersIn: aCollection;
++ (void)sortNumbersIn: aCollection
+                using: (int(*) (const void *, const void *)) comp_fun;
++ (void)reverseOrderOf: aCollection;
 
 @end
