@@ -10,5 +10,6 @@ LDFLAGS = $(SWARMBUILDLDFLAGS) $(SUPPORTLDFLAGS)
 
 LIBS = $(SWARMLIBS) $(SYSLIBS) @LIBS@
 
-
-
+# Local Variables:
+# mode: makefile
+# End:
