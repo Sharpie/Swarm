@@ -1,3 +1,11 @@
+1999-11-08  Paul Johnson  <pauljohn@ukans.edu>
+
+	* user3.04.sgml: Work on Random number write-up
+
+1999-11-08  Paul Johnson  <pauljohn@ukans.edu>
+
+	* user3.01.sgml: Wrote sections on dynamic memory allocation and Zones.
+
 1999-10-20  Alex Lancaster  <alex@santafe.edu>
 
 	* common.dsl (artheader citetitle): Make stylesheet Do The Right

@@ -466,6 +466,279 @@ getInt(arguments, "maxHeat");</programlisting>
     </para>
   </sect1>
 
+  <sect1>
+    <indexterm>
+      <primary>dynamic memory allocation</primary>
+      <secondary sortas="preferred">alloc</secondary>
+    </indexterm>
+    <title>Dynamic memory allocation and Swarm zones </title>
+
+    <para>
+      Veteran C programmers have no doubt tangled with the problem of
+      dynamic memory allocation using malloc or calloc.  In its Zone
+      protocol, Swarm has methods that can be used in place of these
+      functions.  While there is nothing inherently wrong with using
+      the built-in C functions to allocate memory, there are some
+      advantages in the Swarm methods that may reduce the danger of
+      memory leaks.
+    </para>
+      
+      <para>
+      Swarm users who are not familiar with dynamic memory allocation
+      may wish to consult a C manual.  In a nutshell, the problem is
+      this.  If one wants to create an array, the elementary way to do
+      so is to declare the array like so:
+
+      <programlisting>
+	int array[5];
+      </programlisting>
+      This creates an array of 5 integers.  When the program runs,
+      memory is set aside where values can be placed into and
+      retrieved from the array.
+    </para>
+    <para>
+      This standard approach only works when the user knows that there
+      will be exactly 5 elements in the array.  What if some
+      calculations are done during the run of the program and then it
+      is necessary to create an array that depends on that calculated
+      number?  This is the kind of case for which dynamic memory
+      allocation is needed.  If, during a run, some number N is
+      calculated, and then one needs to have an array of length N,
+      then the program can grab some of the system's physical memory
+      and use it.
+    </para>
+    <para>
+      Dynamic memory in Swarm can be accessed by the methods alloc:
+      and allocBlock: in Swarm's Zone protocol.  First, it is
+      necessary to declare a pointer that will serve as the address of
+      the dynamically allocated memory.  Second, the memory is
+      allocated to that pointer. Here is an example from a class
+      called Point, which is used to dynamically allocate space for
+      arrays of real numbers.
+    </para>
+
+      <programlisting>
+//Point.h
+
+@interface Point: SwarmObject {
+        double * position;
+        int spaceSize;
+ }
+
+
+-buildObjects;
+-(void) drop;
+-setSpaceSize:(int) size;
+
+
+
+//Point.m
+
+#import Point.h
+
+@implementation Point
+
+-buildObjects
+{
+  //position = xmalloc(spaceSize * sizeof(double));
+  //Test to make sure the memory was allocated. If not, exit immediately
+  //if(position==NULL) exit(8);
+   position = [[self getZone] allocBlock: spaceSize * sizeof(double)];
+   return self;
+}
+-(void) drop
+{
+  //free(position);
+  [[self getZone] freeBlock: position blockSize: spaceSize * sizeof(double)];
+  [super drop];
+}
+
+-setSpaceSize:(int) size
+{
+  spaceSize=size;
+  return self;
+}
+
+      </programlisting>
+      <para>
+      Note that for the C programmer's information there are
+      commented-out versions of <function>malloc</function> and
+      <function>free</function> calls.
+      </para>
+    <para>
+      When a user wants to use the Point class to create a new Point,
+      which has an array of doubles inside it, then an instance of the
+      Point class is created in the usual Swarm way.  Then the size is
+      set, and then the Point is told to build its objects, which
+      allocates the dynamic memory.  For example:
+    </para>
+      <programlisting>
+	id  newPoint;
+
+	newPoint=[Point createBegin: [self getZone];
+	newPoint= [newPoint createEnd:];
+	[newPoint setSize: N];
+	[newPoint buildObjects];
+      </programlisting>
+      <para>
+      After that space is allocated, then it can be used by methods in
+      the Point class as if it were an array. The reason that one can
+      treat the pointer to the dynamically allocated memory as if it
+      were an array is found in the fundamental similarity of pointers
+      and arrays in C.  Interested research should consult the C
+      manuals for a comparision of pointers and arrays.  To consider a
+      usage example, a method could be written to fill the array with
+      random numbers between 1 and 5. 
+    </para>
+    
+    <programlisting>
+      -fillRandomly
+      {
+      int i;
+
+      for(i=0, i &lt; spaceSize; i++)
+      {
+      position[i]=[uniformDblRand getDoubleWithMin: 1 withMax: 5];
+      return self;
+      }
+      }
+    </programlisting>
+
+    <para>
+      A memory leak is a flaw in a program which causes it to access
+      dynamic memory and then "waste" it by dropping all references to
+      it without letting the operating system know that the memory is
+      no longer needed.  In C, the <function>free()</function>
+      function tells the operating system that the memory can be
+      reallocated to other purposes.  If the programmer forgets to
+      free memory that is no longer needed, then the memory demands of
+      the program will expand with each new allocation, taking memory
+      that might be used by other applications and eventually causing
+      the program to crash.
+    </para>
+    <para>
+      In Swarm, memory allocated with <function>allocBlock:</function>
+      can be freed explicitly with the <function>freeBlock:</function>
+      method.  The usage of <function>freeBlock:</function> is
+      illustrated in the <function>drop</function> method of the
+      Point.m class.  This <function>drop</function> method is used
+      only to free the dynamic memory, but it would also explicitly
+      drop any Swarm objects that were created inside the object.  The
+      topic of designing programs to avoid memory leaks is discussed
+      further in the next section.
+    </para>
+       
+      
+    </sect1>
+
+<sect1>
+   <indexterm>
+      <primary>drop</primary>
+      <secondary sortas="preferred">allocFree</secondary>
+    </indexterm>
+    <title>Dropping unused objects</title>
+
+    <para>
+      Most Swarm objects will respond to the <function>drop</function>
+      message. This message causes them to execute whatever commands
+      are necessary to remove themselves from memory. When objects
+      created by user-created classes are no longer needed, they
+      should be dropped as well.  It is vital, therefore, to customize
+      the drop method of a user-defined class so that all objects
+      created within the object are explictly dropped.
+    </para>
+
+    <para>
+      In the Point class, the super class's 
+      <function>drop</function> method is inherited from
+      SwarmObject. However, if we were to tell a Point object to drop,
+      it would not automatically drop the dynamically allocated memory
+      referred to by the pointer <varname>position</varname>.
+      Similarly, any other Swarm objects allocated in the Point object
+      would not be dropped.  In order to be sure these are dropped,
+      the drop method should be overridden and customized.  When that
+      method is overridden, it is vital to make sure the super class's
+      drop method is executed.  That is the reason that the Point
+      class's drop method begins with [super drop].  Any objects that
+      have been allocated in Point.m, such as the memory devoted to
+      the variable <varname>position</varname>, should be taken care
+      of at that stage.  Any Swarm objects that have been created,
+      such as lists, list indexes, or other objects should be dropped
+      in the drop command.
+    </para>
+    <para>
+      Many users think that there ought to be an "automatic" way to
+      drop all objects that exist inside an object.  This would
+      certainly be convenient, since rewriting a drop method to make
+      sure all objects are correctly disposed of can be tedious and
+      possibly error-prone.  While there is no such automatic
+      object-dropping facility, there is a way to design Swarm code
+      that comes close.
+    </para>
+    <para>
+      To make sure that all objects inside another object are dropped,
+      users might consider a strategy that uses zones more carefully.
+      Instead of following the zone usage examples provided by most
+      Swarm applications, consider instead creating agents inside
+      separate memory zones.  When a zone gets the drop method,
+      <emphasis>it does drop all objects inside it!</emphasis>
+    </para>
+    <para>
+      Here is how such a program might be designed. Suppose that agents are to be created in the model swarm by a for loop.  The usual approach would create the objects in the model swarm itself, using the zone of the model swarm.
+      </para>
+      <programlisting>
+//in the buildObjects method of ModelSwarm.m
+	for(i=0;i &lt; numAgents;i++)
+	{
+	id agent;
+	agent=[Agent createBegin: self];
+	agent=[agent createEnd];
+	[agentList addLast: agent];
+	}
+      </programlisting>
+    <para>
+      Suppose that instead of creating the instances of the class Agent inside the model swarm itself, we create a Zone object each time through the loop, and then create the agent inside that zone.  For example,
+    </para>
+    <programlisting>
+//in the buildObjects method of ModelSwarm.m
+	for(i=0;i &lt; numAgents;i++)
+	{
+	id agent, newZone;
+	newZone=[Zone create: self];
+	agent=[Agent createBegin: newZone];
+	agent=[agent createEnd];
+	[agentList addLast: agent];
+	}
+      </programlisting>
+
+    <para>
+      The Agent class might create all kinds of objects, and we could
+      use the method described above to write a drop method for the
+      Agent class.  However, this second approach has simplicity on
+      its side.  If it is necessary to drop an agent, instead of using
+      the command [agent drop], we instead find out what the agent's
+      zone is, and drop that:
+    </para>
+<programlisting>
+      //first, suppose you want to remove an agent named "agent".  
+      //Remove references to agent from the list
+      [agentList remove: agent];
+      //Then drop that agent's zone
+      {
+      id agentZone;
+      agentZone=[agent getZone];
+      [agentZone drop];
+      }
+      //This could be achieved with a single line: [[agent getZone] drop];
+    </programlisting>
+    <para>
+      This zone-oriented approach might bring a bit of peace of mind
+      because it eliminates the danger of a memory leak that may
+      result when an agent is dropped but the objects inside it are
+      not.
+    </para>
+  </sect1>
+
 </chapter>
 <!--
 Local Variables:
