@@ -134,6 +134,15 @@ id tclObjc_nameToObject(const char *name)
   return TCLOBJC_NO_OBJ;
 }
 
+#ifndef USE_FFI
+/* Added this function to avoid crash during compilation by gcc-2.7.2. */
+static void *
+dynamic_call (apply_t imp, void *argframe, int argsize)
+{
+  return __builtin_apply ((apply_t)imp, (void*)argframe, argsize);
+}
+#endif
+
 int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 				int argc, char *argv[])
 {
@@ -562,7 +571,7 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     } else {
       IMP imp = method->method_imp;
 #ifndef USE_FFI
-      retframe = __builtin_apply ((apply_t)imp, (void*)argframe, argsize);
+      dynamic_call ((apply_t)imp, argframe, argsize);
 #else
 #ifndef USE_AVCALL
       typedef struct alist *av_alist;
