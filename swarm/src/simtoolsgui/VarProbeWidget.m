@@ -78,7 +78,7 @@
 
 - Spawn: (const char *)widgetName
 {
-  id target = (*(id *)[myProbe probeRaw: myObject]);
+  id target = [myProbe probeObject: myObject];
 
   if (target)
     CREATE_PROBE_DISPLAY (target);
@@ -151,15 +151,15 @@
 
 - (const char *)package: (const char *)windowName
 {
-  id *content = [myProbe probeRaw: myObject];
+  id content = [myProbe probeObject: myObject];
 
-  if (*content == nil)
+  if (content == nil)
     {
       GUI_BEEP ();
       GUI_UPDATE ();
       return "";
     }
-  return [*content getObjectName];
+  return [content getObjectName];
 }
 
 - (const char *)getId: (const char *)windowName

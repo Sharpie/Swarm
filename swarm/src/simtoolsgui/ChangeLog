@@ -1,3 +1,8 @@
+1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbeWidget.m ([VarProbeWidget -package:], [VarProbeWidget
+	-Spawn:]): Use probeObject: instead of probeRaw:
+
 1999-08-11  Alex Lancaster  <alex@santafe.edu>
 
 	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): When
