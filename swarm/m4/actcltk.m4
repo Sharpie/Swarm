@@ -144,7 +144,7 @@ for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
 		  for version in 84 8.4 83 8.3 82 8.2 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
 			if test -r $expand_dir/libtcl${version}${debug}${suffix}; then
 			  tcllibdir=$dir  
-			  tcllibname=tcl$version
+			  tcllibname=tcl${version}${debug}
 			  break
 			fi        
 		  done
@@ -243,7 +243,7 @@ for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
 		  for version in 84 8.4 83 8.3 82 8.2 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
 			if test -r $expand_dir/libtk${version}${debug}${suffix}; then
 			  tklibdir=$dir
-			  tklibname=tk${version}
+			  tklibname=tk${version}${debug}
 			  break
 			fi
 		  done
