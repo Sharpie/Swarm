@@ -1,6 +1,42 @@
 Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
 Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
+* Release Notes for Swarm 1.2
+
+**  A system for customizable command line argument parsing.
+
+**  More graphical widgets (lines, circles, rectangles, etc.).
+
+**  Portable pixmaps using PNG format.
+
+**  Simulation movies.
+
+**  Matrix probes; a way to see many object probes at once.
+
+**  Graph scaling improvments.
+
+**  Support for multiple-display simulations.
+
+**  Documentation overhaul
+
+*** Introduction of Literate programming (interface reference documentation 
+    is in the Swarm source code).  Markup system vastly improved:
+    DocBook SGML instead of HTML.  DocBook is a modern documentation system 
+    with rich markup oriented toward commercial software.
+*** Documentation system can output TeX, RTF, PostScript and HTML.
+*** Documentation system is *highly* extensible. Added support for Objective C.
+    Support for several types of indices. Numerous formatting changes
+
+**  Installation
+
+*** An autoconfiguration system for Swarm (and swarmdocs).
+*** InstallShield system for Windows-based installation.
+
+**  All Swarm functionality is now exported through a single, well-defined
+    interface: Objective C protocols.
+
+  ---------------------------
+
 * Release Notes for Swarm 1.1
 
 **  Command line arguments are now parsed into a single object by the
@@ -28,6 +64,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **  simtools is now split into two libraries:  simtools, the non-GUI pieces
     and simtoolsgui, the library that now contains classes like ControlPanel,
     and other graphical simulation features.
+
+  ---------------------------
 
 * Release Notes for Swarm 1.0.5
 
@@ -168,6 +206,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 **  ObjectLoader has a setTemplateProbeMap and getLine method.
 
+  ---------------------------
+
 * Release Notes for Swarm 1.0.3
 
 **  In the activity library, a bug in the internal scheduling of a swarm
@@ -249,6 +289,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
     invokes an application with the "-help" command line flag, this 
     help text will appear.
 
+  ---------------------------
+
 * Release Notes for Swarm 1.0.2
 
 **  Kernel was made compatible with DEC Unix on the Alpha.
@@ -260,6 +302,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **  Float and double format outputs in OutFile were changed to "%15.7e"
     "%24.16e", respectively.
 
+  ---------------------------
+
 * Release Notes for Swarm 1.0.1
 
 **  Added different colored lines in EZGraph
@@ -269,6 +313,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **  Added custom probemap create method
 **  Change in default probemap behavior
 **  Removed printfs from random
+
+  ---------------------------
 
 * Release Notes for Swarm  1.0.0
 
@@ -440,6 +486,8 @@ Following is a summary of new features in the Swarm 1.0.0 release:
 **  The ability to read and write unsigned types has been added to the
     InFile and OutFile classes of the simtools library.
 
+  ---------------------------
+
 * Swarm Beta Release Notes - Version 961002:
 
 ** Added Gaussian. Draws a uniform random number with a normal
@@ -486,6 +534,8 @@ Following is a summary of new features in the Swarm 1.0.0 release:
                   atLocation: (double *) locations
         -drawHistoWithInt: (int *) points 
                atLocation: (double *) locations 
+
+  ---------------------------
 
 Local variables:
 mode: outline
