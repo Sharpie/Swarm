@@ -1,3 +1,8 @@
+1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): Add
+	call to libjavaswarm[stubs]_constructor for hpux.
+
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in: Remove intermediate _.la libraries.
