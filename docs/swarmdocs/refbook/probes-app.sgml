@@ -1,4 +1,4 @@
-<APPENDIX ID="PROBING.APP">
+<APPENDIX ID="SWARM.SRC.PROBING.APP">
   
 <DOCINFO>
  <TITLE>Probes, ProbeMaps and ProbeDisplays</TITLE>
@@ -130,7 +130,7 @@
       
       <PARA>
 
-        Probe support resident in the <EMPHASIS><LINK LINKEND="OBJECTBASE.REF">objectbase</LINK></EMPHASIS> library
+        Probe support resident in the <EMPHASIS><LINK LINKEND="SWARM.SRC.OBJECTBASE.REF">objectbase</LINK></EMPHASIS> library
         is documented with that library. Extra description, above and
         beyond the bare interface description for precision probing
         and SwarmObject is below:</PARA>
@@ -236,7 +236,8 @@
           string. Typically, <LITERAL>customProbeMaps</LITERAL> are
           created in the <LITERAL>+ createBegin</LITERAL> factory
           method for a Swarm or a SwarmObject. To set the formatting
-          for a floating point probe, the method from <LITERAL><LINK LINKEND="SWARM.OBJECTBASE.VARPROBE">VarProbe</LINK></LITERAL>
+          for a floating point probe, the method from <LITERAL><LINK
+          LINKEND="SWARM.OBJECTBASE.VARPROBE">VarProbe</LINK></LITERAL>
           is used:
         </PARA>
 
@@ -326,7 +327,7 @@
       out" the appropriate references from the probeLibrary.
     
     <LINK LINKEND="SWARM.OBJECTBASE.SWARMOBJECT">Interface
-        definition</LINK> from <LINK LINKEND="OBJECTBASE.REF">objectbase</LINK> library.
+        definition</LINK> from <LINK LINKEND="SWARM.SRC.OBJECTBASE.REF">objectbase</LINK> library.
     </PARA>
 
     <ITEMIZEDLIST>
@@ -391,7 +392,7 @@
 
   <SECT1>
 
-    <TITLE>Probe support resident in the <EMPHASIS><LINK LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK></EMPHASIS>
+    <TITLE>Probe support resident in the <EMPHASIS><LINK LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK></EMPHASIS>
     library:</TITLE>
 
     <SECT2>
@@ -494,7 +495,7 @@
 
       <PARA>
         <LINK LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAY">Interface
-          definition</LINK> from <LINK LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> library.
+          definition</LINK> from <LINK LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK> library.
       </PARA>
       
     </SECT2>
@@ -519,8 +520,11 @@
     </PARA>
     
     <PARA>
-      <LINK LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAYMANAGER">Interface
-        definition</LINK> from <LINK LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> library.</PARA>
+      <LINK
+        LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAYMANAGER">Interface
+        definition</LINK> from <LINK
+        LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK>
+        library.</PARA>
 
   </SECT1>
 

@@ -21,12 +21,12 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SPACE.DEPEND">
+  <SECT1 ID="SWARM.SRC.SPACE.DEPEND">
     <TITLE>Dependencies</TITLE> 
     <PARA>No other library dependences</PARA>
   </SECT1>
 
-  <SECT1 ID="SPACE.COMPAT">
+  <SECT1 ID="SWARM.SRC.SPACE.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions of
@@ -34,35 +34,35 @@
 
   </SECT1>
 
-  <SECT1 ID="SPACE.USAGE">
+  <SECT1 ID="SWARM.SRC.SPACE.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SPACE.ADVUSAGE">
+  <SECT1 ID="SWARM.SRC.SPACE.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SPACE.SUBCLASS">
+  <SECT1 ID="SWARM.SRC.SPACE.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SPACE.DESIGN">
+  <SECT1 ID="SWARM.SRC.SPACE.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SPACE.IMPL">
+  <SECT1 ID="SWARM.SRC.SPACE.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>

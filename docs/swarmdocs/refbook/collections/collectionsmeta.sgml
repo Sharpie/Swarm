@@ -41,14 +41,15 @@
       data type facility to be supplied by defobj).</PARA>
 
     <PARA>Even though incomplete, the portion of capability that is
-      implemented has been exercised very heavily.  The interfaces to Set
-      and Map structures will remain the same even as their underlying
-      implementations improve, so there is no harm in using them.  See the
-      <LINK LINKEND="GRID.APP">GridTurtle test programs</LINK> for the most
-      complete examples of collections usage.</PARA>
+      implemented has been exercised very heavily.  The interfaces to
+      Set and Map structures will remain the same even as their
+      underlying implementations improve, so there is no harm in using
+      them.  See the <LINK LINKEND="SWARM.SRC.GRID.APP">GridTurtle
+      test programs</LINK> for the most complete examples of
+      collections usage.</PARA>
 
     <PARA>The collections library follows the documentation structure
-      suggested by the <LINK LINKEND="DEFOBJ.REF">library interface
+      suggested by the <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">library interface
         conventions</LINK> of the defobj library.  There are placeholders at
       least for each section of documentation (some of which merely indicate
       that the section is not available yet) so that all links should at
@@ -71,7 +72,7 @@
 
     <PARA>The Usage Guide code examples have not yet been developed.
       For the time being, a directory of test programs (<LINK
-      LINKEND="GRID.APP">GridTurtle test programs</LINK>, contained
+      LINKEND="SWARM.SRC.GRID.APP">GridTurtle test programs</LINK>, contained
       within the documentation release directory) provides code
       examples of many of the basic features of the defobj,
       collections, and activity libraries.  These code examples also

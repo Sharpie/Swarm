@@ -5,12 +5,12 @@
     <PARA>Description of purpose of library</PARA>
   </SIDEBAR>
 
-  <SECT1 ID="RANDOM.DEPEND">
+  <SECT1 ID="SWARM.SRC.RANDOM.DEPEND">
     <TITLE>Dependencies</TITLE> 
     <PARA>No other library dependences</PARA>
   </SECT1>
 
-  <SECT1 ID="RANDOM.COMPAT">
+  <SECT1 ID="SWARM.SRC.RANDOM.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <PARA>No explicit compatibility issues for particular versions of
@@ -18,35 +18,35 @@
 
   </SECT1>
 
-  <SECT1 ID="RANDOM.USAGE">
+  <SECT1 ID="SWARM.SRC.RANDOM.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="RANDOM.ADVUSAGE">
+  <SECT1 ID="SWARM.SRC.RANDOM.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="RANDOM.SUBCLASS">
+  <SECT1 ID="SWARM.SRC.RANDOM.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="RANDOM.DESIGN">
+  <SECT1 ID="SWARM.SRC.RANDOM.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="RANDOM.IMPL">
+  <SECT1 ID="SWARM.SRC.RANDOM.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>

@@ -1,4 +1,4 @@
-<PREFACE ID="COMPATIBILITY.PREFACE">
+<PREFACE ID="SWARM.SRC.SWARM.SRC.COMPATIBILITY.PREFACE">
   <TITLE>Swarm Changes and Compatibility</TITLE>
 
   <SECT1>
@@ -275,7 +275,7 @@ ProbeDisplayManager</PROGRAMLISTING>
         <LISTITEM><PARA>The biggest and most pervasive problems will
             be due to the new <EMPHASIS>random</EMPHASIS>
             library. Notes on how to deal with this problem are
-            provided in the <LINK LINKEND="RANDOM.REF">documentation
+            provided in the <LINK LINKEND="SWARM.SRC.RANDOM.REF">documentation
             for the <EMPHASIS>random</EMPHASIS>
             library</LINK>.</PARA></LISTITEM>
 
@@ -288,7 +288,7 @@ ProbeDisplayManager</PROGRAMLISTING>
             the errant libraries will follow in a later release.) The
             solutions to the problems associated with this interface
             change are detailed in the <LINK
-            LINKEND="OBJECTBASE.REF">documentation for the
+            LINKEND="SWARM.SRC.OBJECTBASE.REF">documentation for the
             <EMPHASIS>objectbase</EMPHASIS> library</LINK>.</PARA>
         </LISTITEM>
 
@@ -298,7 +298,7 @@ ProbeDisplayManager</PROGRAMLISTING>
             <EMPHASIS>activity</EMPHASIS> have changed.  But, for the
             most part, everything works exactly the same. For details
             on the incompatibilities please see the <LINK
-            LINKEND="ACTIVITY.REF">documentation for the
+            LINKEND="SWARM.SRC.ACTIVITY.REF">documentation for the
             <EMPHASIS>activity</EMPHASIS> library</LINK>. Briefly, the
             incompatibilities are:
 

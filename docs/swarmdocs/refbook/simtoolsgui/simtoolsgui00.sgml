@@ -6,13 +6,13 @@
     <PARA> Simtoolsgui contains all miscellaneous
       <EMPHASIS>GUI</EMPHASIS> classes.  It depends on a GUI toolkit
       being present at link-time, see the documentation for the <LINK
-      LINKEND="SIMTOOLSGUI.REF">simtools</LINK> library for non-GUI
+      LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtools</LINK> library for non-GUI
       classes.
     </PARA>
 
   </SIDEBAR>
 
-  <SECT1 ID="SIMTOOLSGUI.DEPEND">
+  <SECT1 ID="SWARM.SRC.SIMTOOLSGUI.DEPEND">
     <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
@@ -26,7 +26,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SIMTOOLSGUI.COMPAT">
+  <SECT1 ID="SWARM.SRC.SIMTOOLSGUI.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
@@ -45,35 +45,35 @@
 
 <!--
 
-  <SECT1 ID="SIMTOOLSGUI.USAGE">
+  <SECT1 ID="SWARM.SRC.SIMTOOLSGUI.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SIMTOOLSGUI.ADVUSAGE">
+  <SECT1 ID="SWARM.SRC.SIMTOOLSGUI.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SIMTOOLSGUI.SUBCLASS">
+  <SECT1 ID="SWARM.SRC.SIMTOOLSGUI.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SIMTOOLSGUI.DESIGN">
+  <SECT1 ID="SWARM.SRC.SIMTOOLSGUI.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SIMTOOLSGUI.IMPL">
+  <SECT1 ID="SWARM.SRC.SIMTOOLSGUI.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>

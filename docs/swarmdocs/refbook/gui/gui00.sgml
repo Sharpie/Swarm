@@ -11,13 +11,13 @@
 
 <!--
 
-  <SECT1 ID="GUI.DEPEND">
+  <SECT1 ID="SWARM.SRC.GUI.DEPEND">
     <TITLE>Dependencies</TITLE> 
     <PARA>No other library dependences</PARA>
   </SECT1>
 -->
 
-  <SECT1 ID="GUI.COMPAT">
+  <SECT1 ID="SWARM.SRC.GUI.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
@@ -39,35 +39,35 @@
 
 <!--
 
-  <SECT1 ID="GUI.USAGE">
+  <SECT1 ID="SWARM.SRC.GUI.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="GUI.ADVUSAGE">
+  <SECT1 ID="SWARM.SRC.GUI.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="GUI.SUBCLASS">
+  <SECT1 ID="SWARM.SRC.GUI.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="GUI.DESIGN">
+  <SECT1 ID="SWARM.SRC.GUI.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="GUI.IMPL">
+  <SECT1 ID="SWARM.SRC.GUI.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>

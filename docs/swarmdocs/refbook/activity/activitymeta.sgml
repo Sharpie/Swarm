@@ -14,7 +14,7 @@
     </PARA>
 
     <PARA>The activity library follows the documentation structure of
-      the Swarm <LINK LINKEND="DEFOBJ.REF">library interface
+      the Swarm <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">library interface
       conventions</LINK>.  There are placeholders for each section of
       documentation so that all links should at least link up with
       something, whether or not there's anything there.  The Interface
@@ -38,7 +38,7 @@
     </PARA>
 
     <PARA>There is also a directory of test programs (<LINK
-        LINKEND="GRID.APP">GridTurtle test programs</LINK>, contained
+        LINKEND="SWARM.SRC.GRID.APP">GridTurtle test programs</LINK>, contained
         within the documentation release directory) that provides
         additional code examples of many basic features of the defobj,
         collections, and activity libraries.  These code examples are
