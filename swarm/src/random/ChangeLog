@@ -1,3 +1,7 @@
+2000-07-15  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* generators.h (SimpleRandomGenerator): Adopt RETURNABLE.
+
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* random.h ([InternalState -describe:, -getName]): Remove.
