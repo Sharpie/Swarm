@@ -1,5 +1,7 @@
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* set.sgml: Make ID of set be "set".
+
 	* set.sgml.in, set.tex.in: New files.
 
 	* Makefile.am: New file.
