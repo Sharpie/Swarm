@@ -1,5 +1,15 @@
 1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* sgml.el (sgml-generate-indices): Use get-build-area instead of
+	get-swarmdocs-build-area.
+
+	* history.el, sgml.el: Get load-path from BUILD_AREA instead of
+	SWARMDOCS_BUILD_AREA.
+
+	* graph.el (vcg-output-protocols-graph,
+	dot-output-protocols-graph, dot-output-module-graph): Use
+	get-build-area instead of get-swarmdocs-build-area.
+
 	* history.el, sgml.el: Add SWARMDOCS_BUILD_AREA to load-path for
 	both compilation and loading. 
 

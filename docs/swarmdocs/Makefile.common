@@ -1,5 +1,5 @@
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
-EMACS = SWARMDOCS_BUILD_AREA=$(abs_top_builddir)/ @EMACS@
+EMACS = BUILD_AREA=$(abs_top_builddir)/ @EMACS@
 top_dossrcdir = @top_dossrcdir@
 swarm_dossrcdir = @swarm_dossrcdir@
 

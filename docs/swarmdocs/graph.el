@@ -34,7 +34,7 @@
 
 (defun vcg-output-protocols-graph ()
   (interactive)
-  (with-temp-file (concat (get-swarmdocs-build-area) "protocols.vcg")
+  (with-temp-file (concat (get-build-area) "protocols.vcg")
     (insert "graph: {\n")
     (insert "orientation: left_to_right\n")
     (vcg-graph-all-protocols)
@@ -72,7 +72,7 @@
 
 (defun dot-output-protocols-graph ()
   (interactive)
-  (with-temp-file (concat (get-swarmdocs-build-area) "protocols.dot")
+  (with-temp-file (concat (get-build-area) "protocols.dot")
     (insert "digraph \"Swarm Protocols\" {\n");
     (insert "page=\"10,7.5\"\n")
     (insert "ratio=auto\n")
@@ -130,7 +130,7 @@
 
 (defun dot-output-module-graph (module-sym &optional compress-flag)
   (let ((edge-hash-table (make-hash-table :test #'equal)))
-    (with-temp-file (concat (get-swarmdocs-build-area)
+    (with-temp-file (concat (get-build-area)
                             (symbol-name module-sym)
                             (if compress-flag "-singlepage" "")
                             ".dot")

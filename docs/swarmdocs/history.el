@@ -1,7 +1,7 @@
 (require 'cl)
 (require 'gnus)
 (eval-and-compile
- (push (getenv "SWARMDOCS_BUILD_AREA") load-path))
+ (push (getenv "BUILD_AREA") load-path))
 (require 'common)
 
 (defstruct changelog-item
