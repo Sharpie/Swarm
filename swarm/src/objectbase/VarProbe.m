@@ -4,11 +4,11 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/VarProbe.h>
-#import <defobj.h> // raiseEvent, WarningMessage
+#import <defobj.h> // raiseEvent, WarningMessage, STRDUP, FREEBLOCK
 #import "local.h"
 
 #include <objc/objc-api.h>
-#include <misc.h> // strdup, strcmp, xmalloc, XFREE, sprintf, sscanf
+#include <misc.h> // strcmp, sprintf, sscanf
 
 #include "../defobj/internal.h" // process_array
 
@@ -64,9 +64,9 @@ PHASE(Creating)
           return nil;
         }
       else 
-        XFREE (probedVariable);     // memory allocation?
+        FREEBLOCK (probedVariable);     // memory allocation?
     }
-  probedVariable = strdup (aVariable);	   // make a local copy
+  probedVariable = STRDUP (aVariable);	   // make a local copy
   return self;
 }
 
@@ -74,6 +74,7 @@ PHASE(Creating)
 {
   IvarList_t ivarList;
   int i;
+  id aZone = [self getZone];
   
   [super createEnd];
 
@@ -110,7 +111,7 @@ PHASE(Creating)
             {
               return (*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass);
             }
-          (char *) probedType = malloc (1);
+          (char *) probedType = [aZone alloc: 1];
           if (classp (c_object))
             ((char *) probedType)[0] = _C_ID;
           else if (classp (c_string))
@@ -186,7 +187,8 @@ PHASE(Creating)
       // double types - defaults are set in the probeLibrary instance
       if  (type == _C_FLT || type == _C_DBL)
         {
-          char *buf = xmalloc (16);
+          char *buf = [aZone alloc: 16];
+
           sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
           floatFormat = buf; // allocate memory for string
         }
@@ -199,7 +201,7 @@ PHASE(Creating)
               size_t size = sizeof (unsigned) * theRank;
               
               rank = theRank;
-              dims = xmalloc (size);
+              dims = [aZone alloc: size];
               memcpy (dims, theDims, size);
               baseType = theBaseType;
             }
@@ -233,7 +235,7 @@ PHASE(Setting)
 - setFloatFormat: (const char *)format
 {
   if (probedType[0] == _C_FLT || probedType[0] == _C_DBL) 
-    floatFormat = strdup (format);
+    floatFormat = STRDUP (format);
   else
     raiseEvent (WarningMessage, 
                 "%s is not a float or double\n",
@@ -917,7 +919,7 @@ setFieldFromString (id anObject, jobject field,
                   "VarProbe for class %s tried on class %s\n",
                   [probedClass name], [anObject name]);
 
-  p = (char *)anObject + dataOffset;		  // probeData
+  p = (char *) anObject + dataOffset;		  // probeData
 
   switch (probedType[0])
     {
@@ -925,12 +927,12 @@ setFieldFromString (id anObject, jobject field,
       if (stringReturnType == CharString)
         {
           if ((rc = sscanf (s, "'%c'", &value.c)) == 1)
-            *(char *)p = value.c;
+            *(char *) p = value.c;
 	} 
       else 
         {
 	  if ((rc = sscanf (s, "%d", &value.i)) == 1)
-	    *(char *)p = value.i;
+	    *(char *) p = value.i;
 	}
       break;
       
@@ -938,58 +940,58 @@ setFieldFromString (id anObject, jobject field,
       if (stringReturnType == CharString)
         {
           if ((rc = sscanf (s, "'%c'", &value.c)) == 1)
-            *(char *)p = value.c;
+            *(char *) p = value.c;
         }
       else 
         {
           if ((rc = sscanf (s, "%u", &value.i)) == 1)
-            *(unsigned char *)p = value.i;
+            *(unsigned char *) p = value.i;
 	}
       break;
       
   case _C_CHARPTR:
-      *(char **)p = strdup (s) ;
-      rc = (*(char **)p != NULL);
+      *(char **) p = STRDUP (s) ;
+      rc = (*(char **) p != NULL);
       break;
 
     case _C_SHT:
       if ((rc = sscanf (s, "%hd", &value.s)) == 1) 
-        *(short *)p = value.s; 
+        *(short *) p = value.s; 
       break;
       
     case _C_USHT:
       if ((rc = sscanf (s, "%hu", &value.us)) == 1) 
-        *(unsigned short *)p = value.us; 
+        *(unsigned short *) p = value.us; 
       break;
       
     case _C_INT:
       if ((rc = sscanf (s, "%d", &value.i)) == 1) 
-        *(int *)p = value.i; 
+        *(int *) p = value.i; 
       break;
       
     case _C_UINT:
       if ((rc = sscanf (s, "%u", &value.ui)) == 1) 
-        *(unsigned int *)p = value.ui; 
+        *(unsigned int *) p = value.ui; 
       break;
 
     case _C_LNG:
       if ((rc = sscanf (s, "%ld", &value.l)) == 1) 
-        *(long *)p = value.i; 
+        *(long *) p = value.i; 
       break;
       
     case _C_ULNG:
       if ((rc = sscanf (s, "%lu", &value.ul)) == 1) 
-        *(unsigned long *)p = value.ul; 
+        *(unsigned long *) p = value.ul; 
       break;
       
     case _C_FLT:
       if ((rc = sscanf (s, "%f", &value.f)) == 1) 
-        *(float *)p = value.f; 
+        *(float *) p = value.f; 
       break;
 
     case _C_DBL:
       if ((rc = sscanf (s, "%lf", &value.d)) == 1) 
-        *(double *)p = value.d; 
+        *(double *) p = value.d; 
       break;
       
     default:
@@ -1053,9 +1055,9 @@ setFieldFromString (id anObject, jobject field,
 #endif
 
   if (probedVariable)
-    XFREE (probedVariable);
+    FREEBLOCK (probedVariable);
   if (dims)
-    XFREE (dims);
+    FREEBLOCK (dims);
   [super drop];
 }
 

@@ -5,10 +5,9 @@
 
 #import <objectbase/ProbeMap.h>
 #import <objc/objc-api.h>
-#import <defobj.h> // Warning
+#import <defobj.h> // Warning, STRDUP
 
 #import "local.h"
-#include <misc.h> // strdup
 
 #ifdef HAVE_JDK
 #import "../defobj/directory.h" // swarm_directory_ensure_selector
@@ -444,7 +443,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
                            setC: [aProbe getProbedVariable]];
   else	
     string = [String create: [self getZone]
-                           setC: strdup ([aProbe getProbedMessage])];
+                           setC: STRDUP ([aProbe getProbedMessage])];
   
   if ([probes at: string] != nil)
     raiseEvent (WarningMessage,
@@ -490,7 +489,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
                      setC: [aProbe getProbedVariable]];
   else
     string = [String create: [self getZone]
-                     setC: strdup([aProbe getProbedMessage])];
+                     setC: STRDUP ([aProbe getProbedMessage])];
 
   if ([probes at: string] != nil)
     raiseEvent (WarningMessage,
@@ -525,7 +524,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
     if ([aProbe isKindOf: [VarProbe class]])
       [self dropProbeForVariable: [aProbe getProbedVariable]];
     else
-      [self dropProbeForMessage: strdup ([aProbe getProbedMessage])];
+      [self dropProbeForMessage: STRDUP ([aProbe getProbedMessage])];
   
   [index drop];
 	

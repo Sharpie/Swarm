@@ -1,3 +1,15 @@
+1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ProbeMap.m ([ProbeMap -addProbe:], [ProbeMap -_fastAddProbe_:]): 
+	([ProbeMap -dropProbeMap:aProbeMap]): Use STRDUP instead of strdup.
+
+	* VarProbe.m ([VarProbe -setProbedVariable:], [VarProbe
+	-setFloatFormat:], [VarProbe -setData:ToString:]): Likewise.
+
+	* MessageProbe.m ([MessageProbe -createEnd], [MessageProbe
+	-setArg:ToString:]): Use STRDUP instead of strdup.
+	(dynamicCallOn): Use ZSTRDUP instead of strdup.
+
 1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VarProbe.m ([VarProbe -probeAsString:Buffer:withFullPrecision:]): 

@@ -7,9 +7,9 @@
 
 #import "swarm_rts_routines.h"
 #import <objectbase.h> // val_t
-#include <misc.h>  // xmalloc, strdup, atoi, strtod
+#include <misc.h>  // xmalloc, atoi, strtod
 
-#import <defobj.h> // FCall, FArguments
+#import <defobj.h> // FCall, FArguments, STRDUP, ZSTRDUP
 
 #ifdef HAVE_JDK
 #include <directory.h>
@@ -53,7 +53,7 @@ PHASE(Creating)
       return nil;
     }
   
-  probedType = strdup (sel_get_type (probedSelector));
+  probedType = STRDUP (sel_get_type (probedSelector));
 
   {
     int argCount = [self getArgCount];
@@ -64,7 +64,7 @@ PHASE(Creating)
         int i;
         
         empty_val.type = '\0';
-        arguments = (val_t *)xmalloc (argCount * sizeof (val_t));
+        arguments = (val_t *) xmalloc (argCount * sizeof (val_t));
         
         for (i = 0; i < argCount; i++)
           arguments[i] = empty_val;
@@ -183,7 +183,7 @@ nth_type (const char *type, unsigned which)
       break;
     case _C_CHARPTR:
       arguments[which].type = _C_CHARPTR;
-      arguments[which].val.string = strdup (what);
+      arguments[which].val.string = STRDUP (what);
       break;
     default:
       abort ();
@@ -287,7 +287,7 @@ dynamicCallOn (const char *probedType,
 #ifdef HAVE_JDK
   if (javaFlag)
     {
-      char *selname = strdup (sel_get_name (probedSelector));
+      char *selname = ZSTRDUP (aZone, sel_get_name (probedSelector));
       char *p;
 
       p = strchr (selname, ':');
@@ -315,7 +315,7 @@ dynamicCallOn (const char *probedType,
     }
 #endif
   [fc drop];
-  [fa drop];
+  // [fa drop];
 }
 
 - (val_t)dynamicCallOn: target
