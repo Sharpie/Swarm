@@ -5,6 +5,8 @@ PUBLIC "-//SFI Hive//DOCUMENT DSSSL Common Definitions//EN" @top_dossrcdir@/comm
 
 PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN" @top_dossrcdir@/usermeta.sgml
 
+PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Bibliography//EN" @top_dossrcdir@/userbiblio.sgml
+
 PUBLIC "-//SFI Hive//ENTITIES Guide Figure List//EN" @top_dossrcdir@/figs/figs.ent
 
 PUBLIC "-//SFI Hive//ENTITIES discrete-event-sim JPEG//EN" figs/discrete-event-sim.jpeg
