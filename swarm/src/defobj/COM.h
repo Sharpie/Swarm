@@ -14,6 +14,7 @@ typedef const struct COMInterface COMEnv;
 struct COMInterface {
   void *(*createComponent) (COMclass cClass);
   void *(*findComponent) (const char *componentName);
+  const char *(*copyString) (const char *str);
 };
 
 extern void initCOM (COMEnv *env);
@@ -26,7 +27,8 @@ extern COMobject swarm_directory_objc_ensure_COM (id object);
 extern id swarm_directory_COM_ensure_objc (COMobject cObject);
 extern SEL swarm_directory_COM_ensure_selector (COMobject cSelector);
 extern Class swarm_directory_COM_ensure_class (COMclass cClass);
-extern COMobject swarm_directory_COM_add_COM (COMobject cObject, id oObject);
+extern COMobject swarm_directory_COM_add_object_COM (COMobject cObject, id oObject);
+extern const char *swarm_COM_copy_string (const char *str);
 #ifdef __cplusplus
 }
 #endif
@@ -39,8 +41,14 @@ extern COMobject swarm_directory_COM_add_COM (COMobject cObject, id oObject);
 #define SD_COM_ENSURE_OBJECT_OBJC(cObject) swarm_directory_COM_ensure_objc (cObject)
 #define SD_COM_ENSURE_SELECTOR_OBJC(cSelector) swarm_directory_COM_ensure_selector (cSelector)
 #define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class (cClass)
-#define SD_COM_ADD_OBJECT_COM(cObject, oObject) swarm_directory_COM_add_COM (cObject, oObject)
-#define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_COM ((COMobject) cClass, (id) cClass)
+#define SD_COM_ADD_OBJECT_COM(cObject, oObject) swarm_directory_COM_add_object_COM (cObject, oObject)
+#define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_object_COM ((COMobject) cClass, (id) cClass)
+#define SD_COM_COPY_STRING(str) swarm_COM_copy_string (str)
+
+#define COM_FIND_OBJECT_ENTRY(theCOMObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.COM = theCOMObject; _findEntry; })
+#define COM_OBJECT_ENTRY(theCOMObject, theObject) [[[[ObjectEntry createBegin: globalZone] setCOMObject: theCOMObject] setObject: theObject] createEnd]
+#define COM_SELECTOR_ENTRY(theCOMObject, theSelector) [[[[ObjectEntry createBegin: globalZone] setCOMObject: theCOMObject] setSelector: theSelector] createEnd]
+
 
 
 #if 0

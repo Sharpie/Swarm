@@ -24,6 +24,7 @@ SRC = Archiver.m LispArchiver.m HDF5Archiver.m Arguments.m Create.m	\
 	Customize.m DefClass.m DefObject.m HDF5Object.m Program.m	\
 	Symbol.m Zone.m FCall.m FArguments.m defobj.m internal.m java.m	\
 	directory.m JavaProxy.m	JavaCollection.m JavaCollectionIndex.m \
+	COMProxy.m \
 	fcall_objc.m fcall_java.m COM.m
 
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
@@ -37,7 +38,8 @@ defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h	  \
 	Create.h Customize.h						  \
 	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h	  \
 	FCall.h FArguments.h defalloc.h deftype.h directory.h \
-	JavaProxy.h JavaCollection.h JavaCollectionIndex.h javavars.h
+	JavaProxy.h JavaCollection.h JavaCollectionIndex.h javavars.h \
+	COMProxy.h
 
 $(OBJECTS): version.h
 

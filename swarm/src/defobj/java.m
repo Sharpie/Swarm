@@ -1403,8 +1403,8 @@ associate (jobject swarmEnvironment, const char *fieldName, id objcObject)
   if (!lref)
     raiseEvent (InternalError, "Could not find field name `%s'\n",
                 fieldName);
-  SD_JAVA_ADD (lref, objcObject);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+  SD_JAVA_ADD_OBJECT (lref, objcObject);
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 }
 
 #define ASSOCIATE(fieldName) associate (swarmEnvironment, #fieldName, fieldName)
@@ -1508,7 +1508,7 @@ swarm_directory_java_find (jobject javaObject)
     {
       id ret;
       unsigned index = swarm_directory_java_hash_code (javaObject);
-      id <Map> m = swarmDirectory->table[index];
+      id <Map> m = swarmDirectory->javaTable[index];
       ObjectEntry *findEntry = JAVA_FIND_OBJECT_ENTRY (javaObject);
       ret = m ? [m at: findEntry] : nil;
       return ret;
@@ -1545,14 +1545,14 @@ swarm_directory_java_ensure_objc (jobject javaObject)
 	      ZFREEBLOCK (getZone (swarmDirectory), (void *) last);
             }
           else
-            result = SD_JAVA_ADD (javaObject, (id) str);
+            result = SD_JAVA_ADD_STRING (javaObject, str);
         }
       else if (!result)
         result =
-          SD_JAVA_ADD (javaObject, 
-                       ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Collection)
-                        ? [JavaCollection create: globalZone]
-                        : [JavaProxy create: globalZone]));
+          SD_JAVA_ADD_OBJECT (javaObject, 
+                              ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Collection)
+                               ? [JavaCollection create: globalZone]
+                               : [JavaProxy create: globalZone]));
       
       return result->object;
     }
@@ -1576,7 +1576,7 @@ java_instantiate_pair (jclass clazz)
   jobject lref = java_instantiate (clazz);
   
   proxy = [JavaProxy create: globalZone];
-  entry = SD_JAVA_ADD (lref, proxy);
+  entry = SD_JAVA_ADD_OBJECT (lref, proxy);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   return entry;
 }
@@ -1696,20 +1696,20 @@ swarm_directory_switch_java_entry (ObjectEntry *entry, jobject javaObject)
 {
   unsigned index;
   id <Map> m;
-  id <Map> *table = swarmDirectory->table;
+  id <Map> *javaTable = swarmDirectory->javaTable;
   
   javaObject = (*jniEnv)->NewGlobalRef (jniEnv, javaObject);
   index = swarm_directory_java_hash_code (entry->foreignObject.java);
-  m = table[index];
+  m = javaTable[index];
   [m remove: entry];
   (*jniEnv)->DeleteGlobalRef (jniEnv, entry->foreignObject.java);
   
   index = swarm_directory_java_hash_code (javaObject);
   entry->foreignObject.java = javaObject;
-  if (!table[index])
-    table[index] = createDirectoryEntryMap ();
+  if (!javaTable[index])
+    javaTable[index] = createDirectoryEntryMap ();
 
-  [table[index] at: entry insert: entry];
+  [javaTable[index] at: entry insert: entry];
 }
 
 ObjectEntry *
@@ -1722,7 +1722,7 @@ swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
   
   if (currentPhase != nextPhase)
     {
-      id entry = JAVA_OBJECT_ENTRY (nextPhase, currentJavaPhase);
+      id entry = JAVA_OBJECT_ENTRY (currentJavaPhase, nextPhase);
 
       ObjectEntry **entryptr = 
         (ObjectEntry **) avl_probe (objc_tree, entry);
@@ -1962,22 +1962,22 @@ swarm_directory_objc_find_selector_java (SEL sel)
 
 
 ObjectEntry *
-swarm_directory_java_add (jobject lref, id object)
+swarm_directory_java_add_object (jobject lref, id object)
 {
   unsigned index;
   id <Map> m;
   ObjectEntry *entry;
   jobject javaObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-  id *table = swarmDirectory->table;
+  id *javaTable = swarmDirectory->javaTable;
   
-  entry = JAVA_OBJECT_ENTRY (object, javaObject);
+  entry = JAVA_OBJECT_ENTRY (javaObject, object);
   index = swarm_directory_java_hash_code (javaObject);
-  m = table[index];
+  m = javaTable[index];
 
   if (m == nil)
     {
       m = createDirectoryEntryMap ();
-      table[index] = m;
+      javaTable[index] = m;
     }
   [m at: entry insert: entry];
   avl_probe (swarmDirectory->object_tree, entry);
@@ -1985,22 +1985,22 @@ swarm_directory_java_add (jobject lref, id object)
 }
 
 SelectorEntry *
-swarm_directory_java_add_selector (SEL sel, jobject lref)
+swarm_directory_java_add_selector (jobject lref, SEL sel)
 {
   unsigned index;
   id <Map> m;
   SelectorEntry *entry;
   jobject javaObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-  id *table = swarmDirectory->table;
+  id *javaTable = swarmDirectory->javaTable;
   
-  entry = JAVA_SELECTOR_ENTRY (sel, javaObject);
+  entry = JAVA_SELECTOR_ENTRY (javaObject, sel);
   index = swarm_directory_java_hash_code (javaObject);
-  m = table[index];
+  m = javaTable[index];
 
   if (m == nil)
     {
       m = createDirectoryEntryMap ();
-      table[index] = m;
+      javaTable[index] = m;
     }
   [m at: entry insert: entry];
   avl_probe (swarmDirectory->selector_tree, entry);
@@ -2013,12 +2013,12 @@ swarm_directory_java_switch_objc (id object, jobject javaObject)
   ObjectEntry *entry;
   unsigned index;
   id <Map> m;
-  id *table = swarmDirectory->table;
+  id *javaTable = swarmDirectory->javaTable;
   avl_tree *objc_tree = swarmDirectory->object_tree;
   
   index = swarm_directory_java_hash_code (javaObject);
-  m = table[index];
-  entry = [table[index] at: JAVA_FIND_OBJECT_ENTRY (javaObject)];
+  m = javaTable[index];
+  entry = [javaTable[index] at: JAVA_FIND_OBJECT_ENTRY (javaObject)];
   if (!entry)
     abort ();
   

@@ -59,7 +59,7 @@ PHASE(Using)
       if ((*jniEnv)->IsInstanceOf (jniEnv, jobj, c_Collection))
         self->isa = [JavaCollection self];
 
-      SD_JAVA_ADD (jobj, self);
+      SD_JAVA_ADD_OBJECT (jobj, self);
       
       (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
       (*jniEnv)->DeleteLocalRef (jniEnv, class);

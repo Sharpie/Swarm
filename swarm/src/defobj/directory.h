@@ -52,7 +52,8 @@ void swarm_directory_entry_drop (DirectoryEntry *entry);
 @interface Directory: CreateDrop
 {
 @public
-  id *table;
+  id *javaTable;
+  avl_tree *COM_tree;
   avl_tree *object_tree;
   avl_tree *selector_tree;
 }

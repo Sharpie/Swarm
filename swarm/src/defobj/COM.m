@@ -1,5 +1,6 @@
 #import <defobj/COM.h>
 #import <defobj/directory.h>
+#import <defobj/COMProxy.h>
 
 static COMEnv *comEnv = 0;
 
@@ -13,6 +14,12 @@ BOOL
 COM_init_p ()
 {
   return comEnv != 0;
+}
+
+const char *
+swarm_COM_copy_string (const char *str)
+{
+  return comEnv->copyString (str);
 }
 
 COMobject 
@@ -72,10 +79,29 @@ swarm_directory_objc_ensure_COM (id oObject)
   return cObject;
 }
 
+static ObjectEntry *
+swarm_directory_COM_find (COMobject cObject)
+{
+  return (cObject
+          ? avl_find (swarmDirectory->COM_tree,
+                      COM_FIND_OBJECT_ENTRY (cObject))
+          : nil);
+}
+
 id
 swarm_directory_COM_ensure_objc (COMobject cObject)
 {
-  abort ();
+  if (!cObject)
+    return nil;
+  else
+    {
+      ObjectEntry *result = swarm_directory_COM_find (cObject);
+
+      return (result
+              ? result->object
+              : SD_COM_ADD_OBJECT_COM (cObject,
+                                       [COMProxy create: globalZone]));
+    }
 }
 
 SEL
@@ -91,7 +117,20 @@ swarm_directory_COM_ensure_class (COMclass cClass)
 }
 
 COMobject
-swarm_directory_COM_add_COM (COMobject cObject, id oObject)
+swarm_directory_COM_add_object_COM (COMobject cObject, id oObject)
 {
-  return 0;
+  ObjectEntry *entry = COM_OBJECT_ENTRY (cObject, oObject);
+
+  avl_probe (swarmDirectory->object_tree, entry);
+  return entry->foreignObject.COM;
 }
+
+SelectorEntry *
+swarm_directory_COM_add_selector (COMobject cSel, SEL sel)
+{
+  SelectorEntry *entry = COM_SELECTOR_ENTRY (cSel, sel);
+
+  avl_probe (swarmDirectory->selector_tree, entry);
+  return entry;
+}
+

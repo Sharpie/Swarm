@@ -132,16 +132,29 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return a->object > b->object;
 }
 
+static int
+compare_COM_objects (const void *A, const void *B, void *PARAM)
+{
+  ObjectEntry *a = (ObjectEntry *) A;
+  ObjectEntry *b = (ObjectEntry *) B;
+
+  if (a->foreignObject.COM < b->foreignObject.COM)
+    return -1;
+  
+  return a->foreignObject.COM > b->foreignObject.COM;
+}
+
 @internalimplementation Directory
 + createBegin: aZone
 {
   Directory *obj = [super createBegin: aZone];
   size_t size = sizeof (id) * DIRECTORY_SIZE;
 
-  obj->table = [aZone alloc: size];
-  memset (obj->table, 0, size);
+  obj->javaTable = [aZone alloc: size];
+  memset (obj->javaTable, 0, size);
   obj->object_tree = avl_create (compare_objc_objects, NULL);
   obj->selector_tree = avl_create (compare_objc_selectors, NULL);
+  obj->COM_tree = avl_create (compare_COM_objects, NULL);
   return obj;
 }
 
@@ -183,7 +196,7 @@ swarm_directory_objc_remove (id object)
           id <Map> m;
           
           index = swarm_directory_java_hash_code (entry->foreignObject.java);
-          m = swarmDirectory->table[index];
+          m = swarmDirectory->javaTable[index];
           if (!m)
             abort ();
           {
@@ -214,12 +227,12 @@ swarm_directory_objc_remove (id object)
 
   for (i = 0; i < DIRECTORY_SIZE; i++)
     {
-      if (table[i])
+      if (javaTable[i])
         {
           [outputCharStream catC: "["];
           [outputCharStream catUnsigned: i];
           [outputCharStream catC: "]:\n"];
-          xfprint (table[i]);
+          xfprint (javaTable[i]);
         }
     }
 }
