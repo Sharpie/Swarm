@@ -4,6 +4,7 @@
 	(distdir): New empty rule.
 	(avcall.o): Add link to .lo as well.
 	(avcall-alphaev56.o avcall-alpha.o): alphaev56 is like alpha.
+	(install): Make it a nop.
 
 	* aclocal.m4: Copy here (from parent ../autoconf in ffcall).
 

@@ -98,7 +98,9 @@ libavcall.a : $(OBJECTS)
 	$(AR) $(AR_FLAGS) libavcall.a $(OBJECTS)
 	$(RANLIB) libavcall.a
 
-install : all force
+install:
+
+install-orig : all force
 	if [ ! -d $(libdir) ] ; then mkdir $(libdir) ; fi
 	$(INSTALL_DATA) libavcall.a $(libdir)/libavcall.a
 	if [ ! -d $(includedir) ] ; then mkdir $(includedir) ; fi
