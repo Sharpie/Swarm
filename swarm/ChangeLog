@@ -1,5 +1,13 @@
 1998-06-23  Alex Lancaster  <alex@santafe.edu>
 
+	* NEWS (Release Notes for 1.2): Removed features not going into
+	the 1.2 release.
+
+	* README: Changed the installation instructions to reference the
+	new `configure' script, and point the user at the `INSTALL' file.
+	Removed all description of `binary distributions' for this
+	release, and removed obsolete `installation options' section.
+
 	* INSTALL: Added Swarm-specific installation description, and a
 	description for each group of options to `configure'.
 

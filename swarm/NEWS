@@ -9,14 +9,6 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 **  Portable pixmaps using PNG format.
 
-**  Simulation movies.
-
-**  Matrix probes; a way to see many object probes at once.
-
-**  Graph scaling improvments.
-
-**  Support for multiple-display simulations.
-
 **  Documentation overhaul
 
 *** Introduction of Literate programming (interface reference documentation 
@@ -30,6 +22,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **  Installation
 
 *** An autoconfiguration system for Swarm (and swarmdocs).
+*** Package now conforms with standard GNU conventions to make installation
+    simpler.
 *** InstallShield system for Windows-based installation.
 
 **  All Swarm functionality is now exported through a single, well-defined
