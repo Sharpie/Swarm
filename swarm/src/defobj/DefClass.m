@@ -449,7 +449,7 @@ process_type (const char *varType,
 
 - hdf5OutShallow: hdf5Obj
 {
-  raiseEvent (NotImplemented, "DefClass / hdf5Out:deep:");
+  raiseEvent (NotImplemented, "DefClass / hdf5OutShallow:");
   return nil;
 }
 
