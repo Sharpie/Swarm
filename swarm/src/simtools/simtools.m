@@ -19,12 +19,22 @@ int swarmGUIMode;
 void
 initSwarm (int argc, const char **argv)
 {
+  initSwarmArguments (argc, argv, NULL);
+}
+
+void
+initSwarmArguments (int argc, const char **argv, Class argumentsClass)
+{
   swarmGUIMode = 1;
 
   initModule (activity);
   initProbing ();
 
-  arguments = [Arguments createArgc: argc Argv: argv];
+  if (argumentsClass)
+    arguments = [argumentsClass createArgc: argc Argv: argv];
+  else
+    arguments = [Arguments createArgc: argc Argv: argv];
+  
   if ([arguments getBatchModeFlag])
     swarmGUIMode = 0;
 

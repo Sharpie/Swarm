@@ -162,6 +162,7 @@ USING
 @end
 
 void initSwarm (int argc, const char **argv);
+void initSwarmArguments (int argc, const char **argv, Class argumentsClass);
 
 // Flag for whether we're in graphics mode or not. Default is 1.
 extern int swarmGUIMode;
