@@ -357,7 +357,7 @@
 	((string= pname "SwarmActivity")
 	 (insert " extends swarm.activity.ScheduleActivityImpl"))))
 
-(defun inheritance-cases (pname))
+(defun inheritance-cases (pname) (insert " extends swarm.BaseImpl"))
 
 (defun java-print-class-getter-variables (protocol)
   (loop for method in (expanded-method-list protocol :getters)
@@ -584,7 +584,7 @@
     (progn
       (insert "  id ")
       (insert (argname-number -1))
-      (insert " = SD_JAVA_ENSURE_OBJECT_OBJC (jobj);\n")))
+      (insert " = SD_JAVA_FIND_OBJECT_SWARM_OBJC (jobj);\n")))
   (let ((arguments (method-arguments method))
         (string-pos 0)
         (module (protocol-module protocol)))

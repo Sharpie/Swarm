@@ -1,3 +1,11 @@
+2001-07-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* java-stub.el (inheritance-cases): Always inherit from BaseImpl.
+	(java-print-method-invocation-arguments): Use 
+	SD_JAVA_FIND_OBJECT_SWARM_OBJC for lookup of self.
+
+	* Makefile.am (SWARM_JAVA_BASIC): Add BaseImpl.
+
 2001-06-25  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Makefile.am (JAVA_SRC, JAVA_OBJS, libgcjswarm.la): New stuff.
