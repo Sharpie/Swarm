@@ -1,3 +1,7 @@
+2001-08-15  Marcus G. Daniels  <mgd@condor.santafe.edu>
+	
+	* HDF5Object.m (flushVector): Don't select or write if zero length.
+
 2001-08-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.[hm] (swarm_directory_java_add_class): New function.
