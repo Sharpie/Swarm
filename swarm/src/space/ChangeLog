@@ -1,3 +1,8 @@
+1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Object2dDisplay.m ([Object -makeProbeAtX:Y:]): Use createProbeDisplay
+	instead of calling createProbeDisplayFor method.
+
 1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Discrete2d.h: Constify toFile argument to setDiscrete2d.

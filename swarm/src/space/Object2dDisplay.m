@@ -82,7 +82,7 @@
       y >= 0 && y < [discrete2d getSizeY]) {
     obj = [discrete2d getObjectAtX: x Y: y];
     if (obj)
-      [probeDisplayManager createProbeDisplayFor: obj];
+      createProbeDisplay (obj);
     else
       tkobjc_ringBell();
   } else {
