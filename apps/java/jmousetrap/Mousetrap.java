@@ -9,7 +9,7 @@ import swarm.random.UniformUnsignedDist;
 import swarm.random.UniformUnsignedDistImpl;
 import swarm.random.UniformIntegerDist;
 import swarm.random.UniformIntegerDistImpl;
-import swarm.gui.ZoomRasterImpl;
+import swarm.gui.ZoomRaster;
 import swarm.Globals;
 
 /**
@@ -24,7 +24,7 @@ public class Mousetrap {
   public int xCoord;
   public int yCoord;
   public boolean triggered;
-  public ZoomRasterImpl displayWidget;
+  public ZoomRaster displayWidget;
   public MousetrapModelSwarm modelSwarm;
   public UniformDoubleDist uniform0to1;
   public UniformIntegerDist uniformRadius;
@@ -53,7 +53,7 @@ public class Mousetrap {
   /**
    * Here we record who to display ourselves on.
    */
-  public Object setDisplayWidget (ZoomRasterImpl w) {
+  public Object setDisplayWidget (ZoomRaster w) {
     displayWidget = w;
     return this;
   }

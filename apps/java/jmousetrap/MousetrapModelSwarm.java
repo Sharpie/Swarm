@@ -7,13 +7,14 @@ import swarm.objectbase.SwarmImpl;
 
 import swarm.Globals;
 import swarm.Selector;
-import swarm.defobj.ZoneImpl;
+import swarm.defobj.Zone;
 import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
-import swarm.activity.ActivityImpl;
+import swarm.activity.Activity;
 import swarm.objectbase.ActivityControl;
 import swarm.objectbase.ActivityControlImpl;
-import swarm.objectbase.VarProbeImpl;
+import swarm.objectbase.Swarm;
+import swarm.objectbase.VarProbe;
 import swarm.objectbase.EmptyProbeMapImpl;
 import swarm.random.PMMLCG1gen;
 import swarm.random.PMMLCG1genImpl;
@@ -46,7 +47,7 @@ public class MousetrapModelSwarm extends SwarmImpl
   public UniformDoubleDist uniform0to1;
 
   class MousetrapProbeMap extends EmptyProbeMapImpl {
-    private VarProbeImpl probeVariable (String name) {
+    private VarProbe probeVariable (String name) {
       return
         Globals.env.probeLibrary.getProbeForVariable$inClass
         (name, MousetrapModelSwarm.this.getClass ());
@@ -54,7 +55,7 @@ public class MousetrapModelSwarm extends SwarmImpl
     private void add (String name) {
       addProbe (probeVariable (name));
     }
-    public MousetrapProbeMap (ZoneImpl aZone, Class aClass) {
+    public MousetrapProbeMap (Zone aZone, Class aClass) {
       super (aZone, aClass);
       add ("triggerLikelihood");
       add ("numberOutputTriggers");
@@ -70,7 +71,7 @@ public class MousetrapModelSwarm extends SwarmImpl
    * does the work of the createBegin, createEnd methods in Objective
    * C */
 
-  public MousetrapModelSwarm (ZoneImpl aZone) {
+  public MousetrapModelSwarm (Zone aZone) {
     super (aZone);
     
     gridSize = 50;
@@ -188,7 +189,7 @@ public class MousetrapModelSwarm extends SwarmImpl
    * Now set up the model's activation. swarmContext indicates where
    * we're being started in - typically, this model is run as a
    * subswarm of an observer swarm.  */
-  public ActivityImpl activateIn (SwarmImpl swarmContext)
+  public Activity activateIn (Swarm swarmContext)
   {
     super.activateIn (swarmContext);
     modelSchedule.activateIn (this);

@@ -7,13 +7,14 @@ import swarm.simtoolsgui.GUISwarmImpl;
 
 import swarm.Globals;
 import swarm.Selector;
-import swarm.defobj.ZoneImpl;
+import swarm.defobj.Zone;
 
 import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
 import swarm.activity.ActionGroup;
 import swarm.activity.ActionGroupImpl;
 
+import swarm.objectbase.EmptyProbeMap;
 import swarm.objectbase.EmptyProbeMapImpl;
 
 import swarm.objectbase.ActivityControl;
@@ -21,7 +22,7 @@ import swarm.objectbase.ActivityControlImpl;
 import swarm.activity.Activity;
 import swarm.activity.ActivityImpl;
 
-import swarm.objectbase.SwarmImpl;
+import swarm.objectbase.Swarm;
 
 import swarm.analysis.EZGraph;
 import swarm.analysis.EZGraphImpl;
@@ -29,7 +30,9 @@ import swarm.analysis.EZGraphImpl;
 import swarm.space.Object2dDisplay;
 import swarm.space.Object2dDisplayImpl;
 
+import swarm.gui.Colormap;
 import swarm.gui.ColormapImpl;
+import swarm.gui.ZoomRaster;
 import swarm.gui.ZoomRasterImpl;
 
 
@@ -44,8 +47,8 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
   public Schedule displaySchedule;
   public MousetrapModelSwarm mousetrapModelSwarm;
   
-  public ColormapImpl colormap;
-  public ZoomRasterImpl displayWindow;
+  public Colormap colormap;
+  public ZoomRaster displayWindow;
 
   public EZGraph triggerGraph;
   public Object2dDisplay mousetrapDisplay;
@@ -56,10 +59,10 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
    * MousetrapObserverSwarm constructor: since we are only interested in
    * subclassing from the `USING' phase object, this constructor does
    * the work of the createBegin, createEnd methods in Objective C */
-  public MousetrapObserverSwarm (ZoneImpl aZone) {
+  public MousetrapObserverSwarm (Zone aZone) {
     super (aZone);
     
-    EmptyProbeMapImpl probeMap;
+    EmptyProbeMap probeMap;
     
     displayFrequency = 1;
     probeMap = new EmptyProbeMapImpl (aZone, getClass ());
@@ -243,7 +246,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
    * `nil'. But other Swarms and Schedules and such will be activated
    * inside of us.
    **/
-  public ActivityImpl activateIn (SwarmImpl swarmContext) {
+  public Activity activateIn (Swarm swarmContext) {
     super.activateIn (swarmContext);
     
     mousetrapModelSwarm.activateIn (this);

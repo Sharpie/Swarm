@@ -7,14 +7,15 @@ import swarm.objectbase.SwarmImpl;
 
 import swarm.Globals;
 import swarm.Selector;
-import swarm.defobj.ZoneImpl;
+import swarm.defobj.Zone;
 import swarm.activity.ActionGroup;
 import swarm.activity.ActionGroupImpl;
-import swarm.activity.ActivityImpl;
+import swarm.activity.Activity;
 import swarm.activity.Schedule;
+import swarm.objectbase.Swarm;
 import swarm.activity.ScheduleImpl;
-import swarm.activity.SwarmActivityImpl;
 
+import swarm.analysis.EZGraph;
 import swarm.analysis.EZGraphImpl;
 
 public class MousetrapBatchSwarm extends SwarmImpl {
@@ -25,9 +26,9 @@ public class MousetrapBatchSwarm extends SwarmImpl {
   
   MousetrapModelSwarm mousetrapModelSwarm;   // the Swarm we're observing
   
-  EZGraphImpl triggerGraph;
+  EZGraph triggerGraph;
 
-  public MousetrapBatchSwarm (ZoneImpl aZone) {
+  public MousetrapBatchSwarm (Zone aZone) {
     super (aZone);
   }
   
@@ -86,7 +87,7 @@ public class MousetrapBatchSwarm extends SwarmImpl {
     return this;
   }
 
-  public ActivityImpl activateIn (SwarmImpl swarmContext) {
+  public Activity activateIn (Swarm swarmContext) {
     super.activateIn (swarmContext);
     
     mousetrapModelSwarm.activateIn (this);

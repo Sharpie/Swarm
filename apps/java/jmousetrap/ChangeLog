@@ -1,3 +1,38 @@
+1999-09-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MousetrapObserverSwarm.java: Import Zone and Swarm interfaces
+	instead of implementations.  Import Colormap and ZoomRaster
+	interfaces.
+	(colormap): Type as Colormap interface.
+	(displayWindow): Type as ZoomRaster interface.
+	(MousetrapObserverSwarm): Type Zone argument as interface.
+	(probeMap): Type as EmptyProbeMap interface.
+	(activateIn): Type swarmContext as Swarm interface, not
+	implementation.
+
+	* MousetrapModelSwarm.java: Import Zone, Activity, VarProbe
+	interfaces instead of implementations.  Import Swarm interface.
+	(probeVariable): Return VarProbe interface type, not
+	implementation.
+	(MousetrapProbeMap, MousetrapModelSwarm): Use Zone interface type
+	as argument.
+	(activateIn): Type swarmContext as Swarm interface, not implementation.
+
+	* MousetrapBatchSwarm.java: Import Zone, Activity, Swarm
+	interfaces instead of implementations.  Import EZGraph interface.
+	(triggerGraph): Type as EZGraph interface instead of
+	implementation.
+	(MousetrapBatchSwarm): Type aZone argument as Zone interface, not
+	implementation.
+	(activateIn): Type swarmContext as Swarm interface, not
+	implementation.
+
+	* Mousetrap.java: Import ZoomRaster interface instead of
+	implementation.
+	(displayWidget): Type as a ZoomRaster interface.
+	(setDisplayWidget) Type argument to setDisplayWidget as a
+	ZoomRaster interface.
+
 1999-08-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MousetrapBatchSwarm.java: Import and use ActionGroup and
