@@ -12,7 +12,6 @@
 
 	* Permutation.m ([Permutation_c -mapAllocations:mapalloc]): 
 	Likewise.
-	
 
 1998-12-14  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
@@ -30,7 +29,6 @@
 
 	* Permutation.h: Add mapAllocations method.
 	
-
 1998-12-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* ListShuffler.[hm], collections.h ([ListShuffler_c
