@@ -252,9 +252,9 @@ get_color (dib_t *dib, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
     {
       unsigned colorValue = dib->colorMap[color];
 
-      *red = colorValue >> 16;
+      *blue = colorValue >> 16;
       *green = (colorValue >> 8) & 0xff;
-      *blue = colorValue & 0xff;
+      *red = colorValue & 0xff;
     }
   else
     abort ();
