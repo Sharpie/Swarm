@@ -1,3 +1,12 @@
+1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* overmeta.sgml: Use overbookrevhistory.sgml instead of
+	overrevhistory.sgml.
+
+	* Makefile.am (GENERATED_SGML): Use $(NAME)revhistory.sgml
+	instead of overrevhistory.sgml.
+	(EXTRA_DIST): over.ent renamed to overbook.ent.
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* overbook.sgml: Add JPEG notation.

@@ -2,7 +2,7 @@
 
   <TITLE>Brief Overview of Swarm</TITLE>
 
-  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER" SCALE=75></GRAPHIC>
+  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER" SCALE=70></GRAPHIC>
 
   <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
 
@@ -30,7 +30,7 @@
     
   </ABSTRACT>
   
-  &overrevhistory.sgml;
+  &overbookrevhistory.sgml;
   
 </BOOKINFO>
 
