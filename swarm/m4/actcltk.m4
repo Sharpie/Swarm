@@ -45,7 +45,7 @@ fi
 # are often installed in the same directory.
 
 INCPLACES=" \
-           $prefix/include $prefix/include/tcl $prefix/include/tk \
+           $defaultdir/include $defaultdir/include/tcl $defaultdir/include/tk \
            /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
            /usr/include /usr/include/tcl /usr/include/tk \
            $x_includes $x_includes/tcl $x_includes/tk \
@@ -81,7 +81,7 @@ AC_SUBST(TCLINCLUDES)
 
 AC_DEFUN(md_FIND_TCL_LIBRARIES,dnl
 [changequote(<,>)dnl
-LIBPLACES="$prefix/lib $prefix/lib/tcl $prefix/lib/tk \
+LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
 	/usr/local/lib /usr/local/lib/tcl /usr/local/lib/tk \
 	/usr/lib /usr/lib/tcl /usr/lib/tk \
 	$x_libraries $x_libraries/tcl $x_libraries/tk \
@@ -114,16 +114,23 @@ done
 if test -n "$tcllibdir" ; then
   AC_MSG_RESULT(<$tcllibdir, $TCLLIBNAME>)
   if test "$tcllibdir" = "/usr/lib" ; then
-    TCLLIBS="-l$TCLLIBNAME"
+    TCLLDFLAGS=''
+    TCLLIB="-l$TCLLIBNAME"
   else
-    TCLLIBS="-L$tcllibdir -l$TCLLIBNAME"
+    if test $suffix = .so ; then
+      TCLLDFLAGS="-L\$(tcllibdir) $RPATH\$(tcllibdir)"
+    else
+      TCLLDFLAGS='-L$(tcllibdir)'
+    fi
+    TCLLIB=-l$TCLLIBNAME
   fi
 else
   AC_MSG_RESULT(no)
 fi
-AC_SUBST(tcllibdir)
-
 changequote([,])dnl
+AC_SUBST(TCLLIB)
+AC_SUBST(TCLLDFLAGS)
+AC_SUBST(tcllibdir)
 ])dnl
 
 AC_DEFUN(md_FIND_TK_HEADERS,
@@ -188,20 +195,28 @@ done
 if test -n "$tklibdir" ; then
   AC_MSG_RESULT(<$tklibdir, $TKLIBNAME>)
   if test "$tklibdir" = "/usr/lib" ; then
-    TKLIBS="-l$TKLIBNAME"
+    TKLDFLAGS=''
+    TKLIB=-l$TKLIBNAME
   else
-    TKLIBS="-L$tklibdir -l$TKLIBNAME"
+    if test $suffix = .so ; then
+      TKLDFLAGS="-L\$(tklibdir) $RPATH\$(tklibdir)"
+    else
+      TKLDFLAGS='-L$(tklibdir)'
+    fi
+    TKLIB=-l$TKLIBNAME
   fi
 else
   AC_MSG_RESULT(no)
 fi
 changequote([,])dnl
+AC_SUBST(TKLDFLAGS)
+AC_SUBST(TKLIB)
 AC_SUBST(tklibdir)
 ])
 
 AC_DEFUN(md_FIND_TCLOBJC_HEADERS,
 [if test -z "$tclobjcdir" ; then 
-  tclobjcdir=$prefix
+  tclobjcdir=$defaultdir
 fi
 
 if test -z "$tclobjcincludedir" ; then
@@ -220,30 +235,47 @@ AC_SUBST(tclobjcincludedir)
 ])
 
 AC_DEFUN(md_FIND_TCLOBJC_LIBRARIES,
-[AC_MSG_CHECKING(directory of libtclobjc.a)
-if test -f $tclobjcdir/lib/libtclobjc.a ; then
+[if test -z "$tclobjclibname" ; then
+  tclobjclibname=tclobjc
+fi
+AC_MSG_CHECKING(directory of lib${tclobjclibname}.a)
+if test -f $tclobjcdir/lib/lib${tclobjclibname}.a ; then
   AC_MSG_RESULT($tclobjcdir/lib)
 else
   AC_MSG_RESULT(no)
   AC_MSG_ERROR(Please use --with-tclobjcdir to specify location of tclobjc package)
 fi
+TCLOBJCLDFLAGS='-L$(tclobjcdir)/lib'
+TCLOBJCLIB=-l$tclobjclibname
+AC_SUBST(TCLOBJCLDFLAGS)
+AC_SUBST(TCLOBJCLIB)
 ])
 
 AC_DEFUN(md_FIND_BLT,
 [if test -z "$bltdir" ; then
-  bltdir=$prefix
+  bltdir=$defaultdir
 fi
-AC_MSG_CHECKING(directory of libBLT)
-if test -f $bltdir/lib/libBLT.a ; then
+if test -z "$bltlibname" ; then
+  bltlibname=BLT
+fi
+AC_MSG_CHECKING(directory of lib${bltlibname}.so)
+if test -f $bltdir/lib/lib${bltlibname}.so ; then
+  BLTLDFLAGS="-L\$(bltdir)/lib $RPATH\$(bltdir)/lib"
   AC_MSG_RESULT($bltdir/lib)
 else
-  if test -f $bltdir/lib/libBLT.so ; then
+  AC_MSG_RESULT(no)
+  AC_MSG_CHECKING(directory of lib${bltlibname}.a)
+  if test -f $bltdir/lib/lib${bltlibname}.a ; then
+    BLTLDFLAGS='-L$(bltdir)/lib'
     AC_MSG_RESULT($bltdir/lib)
   else
     AC_MSG_RESULT(no)
     AC_MSG_ERROR(Please use --with-bltdir to specify location of BLT package)
   fi
 fi
+BLTLIB=-l${bltlibname}
 AC_SUBST(bltdir)
+AC_SUBST(BLTLDFLAGS)
+AC_SUBST(BLTLIB)
 ])
 

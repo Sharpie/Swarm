@@ -11,29 +11,40 @@ fi
 
 if test $USE_FFCALL = 0 ; then
   if test -z "$ffidir" ; then 
-    ffidir=$prefix
+    ffidir=$defaultdir
   fi
-  AC_MSG_CHECKING(directory of libffi library)
-  if test -f $ffidir/lib/libffi.a ; then
+  AC_MSG_CHECKING(directory of libffi.so)
+  if test -f $ffidir/lib/libffi.so ; then
+    FFILDFLAGS="-L\$(ffidir)/lib $RPATH\$(ffidir)/lib"
     AC_MSG_RESULT($ffidir/lib)
   else
-    AC_MSG_RESULT(no)    
-    AC_MSG_ERROR(Please use --with-ffi to specify location of libffi library.)
+    AC_MSG_RESULT(no)
+    AC_MSG_CHECKING(directory of libffi.a)
+    if test -f $ffidir/lib/libffi.a ; then
+      FFILDFLAGS='-L$(ffidir)/lib'
+      AC_MSG_RESULT($ffidir/lib)
+    else
+      AC_MSG_RESULT(no)    
+      AC_MSG_ERROR(Please use --with-ffidir to specify location of libffi library.)
+    fi
   fi
   AC_MSG_CHECKING(directory of libffi include)
   if test -f $ffidir/include/ffi.h ; then
     AC_MSG_RESULT($ffidir/include)
   else
     AC_MSG_RESULT(no)
-    AC_MSG_ERROR(Please use --with-ffi to specify locatin of libffi header file.) 
+    AC_MSG_ERROR(Please use --with-ffidir to specify locatin of libffi header file.) 
   fi
+  FFILIB=-lffi
 else
   AC_DEFINE(USE_FFCALL)
+  FFILIB=-lavcall
   if test -z "$ffidir" ; then 
-    ffidir=$prefix
+    ffidir=$defaultdir
   fi
-  AC_MSG_CHECKING(directory of avcall library)
+  AC_MSG_CHECKING(directory of libavcall.a)
   if test -f $ffidir/lib/libavcall.a ; then
+    FFILDFLAGS='-L$(ffidir)/lib'
     AC_MSG_RESULT($ffidir/lib)
   else
     AC_MSG_RESULT(no)    
@@ -48,4 +59,6 @@ else
   fi
 fi
 AC_SUBST(ffidir)
+AC_SUBST(FFILDFLAGS)
+AC_SUBST(FFILIB)
 ])

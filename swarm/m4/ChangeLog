@@ -1,5 +1,19 @@
 1998-06-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* actcltk.m4 (INCPLACES, LIBPLACES): Use defaultdir instead of
+	prefix.  Update for Tcl, Tk, and BLT for shared libraries.  Set
+	and substitute TCLLIB, TKLIB, BLTLIB, TCLLDFLAGS, TKLDFLAGS, and
+	BLTLDFLAGS.
+	(md_FIND_TCLOBJC_HEADERS): Use defaultdir instead of prefix.
+	(md_FIND_TCLOBJC_LIBRARIES): Set and substitute TCLOBJCLIB and
+	TCLOBJCLDFLAGS.
+
+	* acpng.m4: Set and substitute ZLIBLDFLAGS.  Update PNG for
+	shared libraries.  Set and substitute PNGLDFLAGS.
+
+	* acffi.m4: Update for shared libraries. Set and substitute
+	FFILDFLAGS and FFILIB.
+
 	* acpng.m4: Correct error messages to report --with-{zlib,png}dir 
 	not just --with{zlib,png}.
 	
