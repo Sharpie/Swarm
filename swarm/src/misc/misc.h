@@ -12,7 +12,7 @@
 #define __ptr_t void *
 #endif
 
-/* Also expected to be declared by stdlib.h are atoi, getenv, qsort. *
+/* Also expected to be declared by stdlib.h are atoi, getenv, qsort. */
 
 void *xmalloc (size_t size);
 void *xmalloc_atomic (size_t size);
