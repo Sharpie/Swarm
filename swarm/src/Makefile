@@ -1,5 +1,5 @@
-DIRS=defobj collections activity random objectbase simtools analysis \
-     space gui $(SWARMBACKEND)objc misc
+DIRS=defobj collections activity random objectbase simtools simtoolsgui \
+     analysis space gui $(SWARMBACKEND)objc misc
 
 all:    headers libs
 clean:
