@@ -27,7 +27,9 @@
 #include <ctype.h>
 #include <math.h>
 #include <stdlib.h>
+#if 0
 #include <string.h>
+#endif
 #include <limits.h>
 #include <fcntl.h>
 #include <io.h>

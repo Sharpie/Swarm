@@ -23,7 +23,7 @@
 #include "tcl.h"
 #endif
 #ifndef _TKPORT
-#include <tkPort.h>
+#include "tk/tkPort.h"
 #endif
 
 /*

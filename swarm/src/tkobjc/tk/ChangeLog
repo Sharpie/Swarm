@@ -1,6 +1,10 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (noinst_HEADERS): New file.
+	
+	* tkInt.h: Include "tk/tkPort.h" instead of <tkPort.h>.
+
+	* tkWinPort.h: Don't include string.h.
 
 1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
