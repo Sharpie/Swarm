@@ -5,7 +5,8 @@
 	* Makefile.tests.in: Compute INCLUDES and SWARMBUILDLDFLAGS from
 	SWARMMODULES.  Set LDFLAGS to SWARMBUILDLDFLAGS and SUPPORTFLAGS.
 	Set LIBS to SWARMLIBS, SYSLIBS and @LIBS@. 
-	Delete everything else.
+	Delete everything else. 
+	(SWARMBUILDLDFLAGS): Add -rpath for each -L.
 
 	* Makefile.lib.in: Include Makefile.rules.
 
