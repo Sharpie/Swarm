@@ -17,11 +17,11 @@
 - getCompleteProbeMap;
 - getProbeForVariable: (const char *)aVariable;
 - getProbeForMessage: (const char *)aMessage;
-- eventOccurredOn: anObject
-              via: aProbe
-    withProbeType: (const char *)aProbeType
-               on: (const char *)probedElement
-           ofType: (char)dataType
-         withData: (void *)data;
+- (void)eventOccurredOn: anObject
+                    via: aProbe
+          withProbeType: (const char *)aProbeType
+                     on: (const char *)probedElement
+                 ofType: (char)dataType
+               withData: (void *)data;
 @end
 

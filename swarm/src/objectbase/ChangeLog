@@ -1,3 +1,15 @@
+2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Probe.m ([Probe -setObjectToNotify:]): Disable test to
+	check for method below.  (Doesn't work for Java.)
+
+	* SwarmObject.[hm] ([SwarmObject
+	-eventOccurredOn:via:withProbeType:on:ofType:withData:]): Return void.
+
+	* CompleteProbeMap.m, CompleteVarMap.m, DefaultProbeMap.m,
+	ProbeMap.m, VarProbe.m: Update macros throughout per changes in
+	defobj.
+
 2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m: Include java.h instead of directory.h.

@@ -32,16 +32,15 @@ PHASE(Using)
                        inClass: SD_GETCLASS (self)];
 }
 
-- eventOccurredOn: (id) anObject
-              via: (id) aProbe
-    withProbeType: (const char *) aProbeType
-               on: (const char *) probedElement
-           ofType: (char)dataType
-         withData: (void *)data
+- (void)eventOccurredOn: anObject
+                    via: aProbe
+          withProbeType: (const char *)aProbeType
+                     on: (const char *)probedElement
+                 ofType: (char)dataType
+               withData: (void *)data
 {
   [self subclassResponsibility: 
 	  M(eventOccurredOn:via:withProbeType:on:ofType:withData:)];
-  return self;
 }
      
 @end

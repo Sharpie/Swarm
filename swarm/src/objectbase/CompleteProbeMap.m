@@ -9,7 +9,7 @@
 #import <defobj.h> // WarningMessage, raiseEvent
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
-#import "../defobj/java.h" // SD_JAVA_FINDJAVA, JNI
+#import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA, JNI
 #endif
 
 #import "local.h"
@@ -47,7 +47,7 @@ PHASE(Creating)
     { 
       jclass currentClass, nextClass;
 
-      classObject = SD_JAVA_FINDJAVA (probedClass);
+      classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
 
       if (!classObject)
 	raiseEvent (SourceMessage,

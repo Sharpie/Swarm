@@ -43,16 +43,18 @@ PHASE(Using)
 
 - setObjectToNotify: anObject
 {
+#if 0
   if (anObject != nil
       && (![anObject
              respondsTo:
                M(eventOccurredOn:via:withProbeType:on:ofType:withData:)])
       && (![anObject respondsTo: M(forEach:)]))
     raiseEvent (NotImplemented,
-                "Object %0#p of class %s does not implement"
+                "Object %0#p of class %s does not implement\n"
                 "standard probe hook message.\n", 
                 anObject,
                 [[anObject class] name]);
+#endif
   
   if (objectToNotify != nil)
     {

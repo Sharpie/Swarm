@@ -15,7 +15,7 @@
 #include <swarmconfig.h> // HAVE_JDK, PTRUINT
 
 #ifdef HAVE_JDK
-#import "../defobj/java.h" // SD_JAVA_FINDJAVA, SD_JAVA_FINDOBJC, JNI
+#import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA, SD_JAVA_FINDOBJC, JNI
 #import "../defobj/javavars.h" // c_*, m_*
 #endif
 
@@ -58,7 +58,7 @@ PHASE(Creating)
     {
       jobject lref;
 
-      classObject = SD_JAVA_FINDJAVA (probedClass);
+      classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed cannot be found.\n");      
@@ -405,7 +405,7 @@ probe_as_int (const char *probedType, const void *p)
   if (isJavaProxy)
     return java_probe_as_int (fieldType,
                               fieldObject,
-                              SD_JAVA_FINDJAVA (anObject));
+                              SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -491,7 +491,7 @@ probe_as_double (const char *probedType, const void *p)
   if (isJavaProxy)
     return java_probe_as_double (fieldType,
                                  fieldObject,
-                                 SD_JAVA_FINDJAVA (anObject));
+                                 SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif  
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -572,7 +572,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   if (isJavaProxy)
     return java_probe_as_string (fieldType,
                                  fieldObject, 
-                                 SD_JAVA_FINDJAVA (anObject), 
+                                 SD_JAVA_FIND_OBJECT_JAVA (anObject), 
                                  buf,
                                  precision);
 #endif
@@ -721,7 +721,7 @@ java_probe_as_object (jclass fieldType, jobject field, jobject object)
     {
       return java_probe_as_object (fieldType,
                                    fieldObject,
-                                   SD_JAVA_FINDJAVA (anObject));
+                                   SD_JAVA_FIND_OBJECT_JAVA (anObject));
     }
 #endif
   return *(id *) [self probeRaw: anObject];
@@ -892,7 +892,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_BooleanValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 boolObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, boolObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -902,7 +902,7 @@ setFieldFromString (id anObject, jobject field,
       jchar javaChar = value[0];
       
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSetChar, 
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 javaChar);
     }
   else if (classcmp (fieldType, c_byte))
@@ -916,7 +916,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_ByteValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 byteObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, byteObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -933,7 +933,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_IntegerValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 intObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, intObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -949,7 +949,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_ShortValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 shortObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, shortObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -965,7 +965,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_LongValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 longObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, longObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -981,7 +981,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_FloatValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 floatObject);      
       (*jniEnv)->DeleteLocalRef (jniEnv, floatObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -998,7 +998,7 @@ setFieldFromString (id anObject, jobject field,
 					   m_DoubleValueOf,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 doubleObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, doubleObject);
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
@@ -1010,7 +1010,7 @@ setFieldFromString (id anObject, jobject field,
       javaString = (*jniEnv)->NewStringUTF (jniEnv, value);
       
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
-				 SD_JAVA_FINDJAVA (anObject),
+				 SD_JAVA_FIND_OBJECT_JAVA (anObject),
 				 javaString);      
       (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
@@ -1178,7 +1178,7 @@ setFieldFromString (id anObject, jobject field,
                   s);
       return NO;
     }
-  
+
   if (objectToNotify != nil)
     {
       if ([objectToNotify respondsTo: M(forEach:)])
@@ -1193,17 +1193,17 @@ setFieldFromString (id anObject, jobject field,
                        withProbeType: "VarProbe"
                        on: probedVariable
                        ofType: probedType[0]
-                       withData: (void *)s];
+                       withData: (void *) s];
             }
           [index drop];
         }
-      else 
+      else
         [objectToNotify eventOccurredOn: anObject
                         via: self
                         withProbeType: "VarProbe"
                         on: probedVariable
                         ofType: probedType[0]
-                        withData: (void *)s];
+                        withData: (void *) s];
     }
   return YES;
 }
