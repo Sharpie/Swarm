@@ -407,7 +407,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       }
 
     Tcl_SetResult (interp, resultString, TCL_VOLATILE);
-    if (*tclObjc_eventHook)
+    if (tclObjc_eventHook)
       (*tclObjc_eventHook) ();
     [fc drop];
     [fa drop];

@@ -1,3 +1,7 @@
+2003-09-05  mgd  <mgd@santafe.edu>
+
+	* tclObjc.m (tclObjc_eventHook): Don't dereference to check for NULL.
+
 2003-06-29  mgd  <mgd@drone>
 
 	* TclInterp.m ([TclInterp -preInitWithArgc:argv:]): Call

@@ -103,9 +103,9 @@ PHASE(Using)
         
         if (drawPointImp)
           // cache method lookup.
-          (void) *drawPointImp (displayWidget,
-                                @selector (drawPointX:Y:Color:),
-                                x, y, color);
+          (void) (*drawPointImp) (displayWidget,
+                                  @selector (drawPointX:Y:Color:),
+                                  x, y, color);
         else
           [displayWidget drawPointX: x Y: y Color: (unsigned char)color];
       }

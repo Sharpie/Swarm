@@ -1,3 +1,8 @@
+2003-09-05  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Value2dDisplay.m (-display): Don't derference drawPointImp to
+	check for NULL.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* Ca2d.h, Ca2d.m, ConwayLife2d.h, ConwayLife2d.m, DblBuffer2d.h,

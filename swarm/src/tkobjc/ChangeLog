@@ -1,3 +1,7 @@
+2003-09-05  Marcus G. Daniels <mgd@santafe.edu>
+
+	* win32dib.c (dib_get_color): Avoid using color indicies out of range.
+
 2003-06-23  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* ZoomRaster.m: new method 
