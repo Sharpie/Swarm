@@ -1,5 +1,7 @@
 1998-07-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (EXTRA_DIST): Add acpointerfmt.m4.
+
 	* acpointerfmt.m4: New file.
 
 1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
