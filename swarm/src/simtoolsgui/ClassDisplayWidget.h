@@ -24,7 +24,7 @@
   id <ClassDisplayHideButton> hideB;
   id <SuperButton> superB;
   id topRow;
-  int numberOfProbes;
+  unsigned count;
   int maxLabelWidth;
   id *widgets;
   id mySuperclass;
@@ -51,7 +51,7 @@
 - update;
 
 #ifndef USE_FRAME
-- setParent: parent;
+- setParent: (id <Frame>)parent;
 - (const char *)getWidgetName;
 - pack;
 #endif

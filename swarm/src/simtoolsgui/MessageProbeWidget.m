@@ -313,7 +313,7 @@ PHASE(Using)
 }
 
 #ifndef USE_FRAME
-- setParent: theParent
+- setParent: (id <Frame>)theParent
 {
   parent = theParent;
   return self;

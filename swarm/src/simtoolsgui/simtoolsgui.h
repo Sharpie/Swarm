@@ -7,6 +7,7 @@
 
 #import <objectbase.h>
 #import <activity.h> // Activity
+#import <gui.h> // Frame
 #include <externvar.h>
 
 @protocol WindowGeometryRecordName
@@ -164,7 +165,7 @@ USING
 //D: 
 CREATING
 //M: 
-- setProbeMap: probeMap;
+- setProbeMap: (id <ProbeMap>)probeMap;
 USING
 @end
 
@@ -236,10 +237,10 @@ USING
 - (id <CompleteProbeDisplay>)createArchivedCompleteProbeDisplayFor: anObject variableName: (const char *)variableName;
 
 //M: Add a probe display to be managed by the ProbeDisplayManager.
-- addProbeDisplay: probeDisplay;
+- addProbeDisplay: (id <CommonProbeDisplay>)probeDisplay;
 
 //M: Remove a probe display from management by the ProbeDisplayManager.
-- removeProbeDisplay: probeDisplay;
+- removeProbeDisplay: (id <CommonProbeDisplay>)probeDisplay;
 
 //M: Remove and drop probe displays associated with a given object.
 - dropProbeDisplaysFor: anObject;
@@ -323,9 +324,9 @@ USING
 
 //D: A widget for editing the arguments of a MessageProbe.
 CREATING
-- setParent: parent;
+- setParent: (id <Frame>)parent;
 - setObject: object;
-- setProbe: probe;
+- setProbe: (id <Probe>)probe;
 
 USING
 - pack;
@@ -336,7 +337,7 @@ USING
 
 //D: A widget for displaying multiple objects across multiple fields.
 CREATING
-- setParent: parent;
+- setParent: (id <Frame>)parent;
 
 //M: Determines if the fields (probes) are labeled (horizontal).
 - setFieldLabelingFlag: (BOOL)labelingFlag;

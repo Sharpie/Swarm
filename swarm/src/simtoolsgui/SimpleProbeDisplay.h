@@ -4,22 +4,23 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtoolsgui/SingleProbeDisplay.h>
+#import <objectbase.h>
 #import <gui.h>
 
 @interface SimpleProbeDisplay: SingleProbeDisplay
 {
-  id probeMap;
+  id <ProbeMap> probeMap;
   id <Frame> top_top_Frame, raisedFrame;
   id <Frame> leftFrame, rightFrame, middleFrame, bottomFrame;
   id <CompleteProbeDisplayLabel> title;
   id <SimpleProbeDisplayHideButton> hideB;
-  int numberOfProbes;
+  unsigned count;
   id <Widget> *widgets;
 }
 
-- setProbeMap: probeMap;
+- setProbeMap: (id <ProbeMap>)probeMap;
 - createEnd;
-- getProbeMap;
+- (id <ProbeMap>)getProbeMap;
 - update;
 - (void)drop;
 @end

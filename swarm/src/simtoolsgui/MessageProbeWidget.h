@@ -48,7 +48,7 @@
 - idReceive: (const char *)windowName arg: (int)which;
 
 #ifndef USE_FRAME
-- setParent: parent;
+- setParent: (id <Frame>)parent;
 - pack;
 - (const char *)getWidgetName;
 #endif

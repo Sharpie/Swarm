@@ -83,4 +83,10 @@ PHASE(Using)
   [super drop];
 }
 
+- update
+{
+  raiseEvent (SubclassMustImplement, "");
+  return self;
+}
+
 @end

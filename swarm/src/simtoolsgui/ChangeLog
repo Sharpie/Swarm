@@ -1,3 +1,39 @@
+2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* simtoolsgui.h: Include gui.h.
+	(MessageProbeWidget, MultiVarProbeWidget): Qualify setParent:
+	argument with Frame.
+	(MessageProbeWidget): Qualify argument to setProbe: with Probe.
+	(SimpleProbeDisplay): Qualify argument to setProbeMap:.
+	(ProbeDisplayManager): Qualify addProbeDisplay: and
+	removeProbeDisplay: arguments with CommonProbeDisplay.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -update]): Make `i'
+	unsigned.
+	([SimpleProbeDisplay -createEnd]): Use local variable for label.
+
+	* SimpleProbeDisplay.h (SimpleProbeDisplay): Add type
+	qualification to probeMap.  Rename numberOfProbes to count and
+	make it unsigned. 
+
+	* SimpleProbeDisplay.[hm]: Add type qualifications to setProbeMap:
+	and getProbemap.
+
+	* ClassDisplayWidget.[hm], MultiVarProbeWidget.[hm],
+	MessageProbeWidget.[hm]: Add Frame qualification to setParent:
+	argument.
+
+	* ClassDisplayWidget.m, CompleteProbeDisplay.m,
+	SimpleProbeDisplay.m: Include defalloc.h.  Use getZone macro
+	throughout.
+
+	* CommonProbeDisplay.m ([CommonProbeDisplay -update]): Add.
+
+	* CommonProbeDisplay.h (CommonProbeDisplay): Implement
+	CommonProbeDisplay.
+
+	* ClassDisplayWidget.[hm]: Rename numberOfProbes to count.
+
 2000-08-31 Alex Lancaster  <alex@santafe.edu>
 
 	* simtoolsgui.h: Add doc string to "doTkEvents" method.

@@ -5,6 +5,7 @@
 
 #import <simtoolsgui/ClassDisplayWidget.h>
 #import <gui.h>
+#import <defobj/defalloc.h> // getZone
 
 #include <swarmconfig.h>
 
@@ -102,11 +103,11 @@ PHASE(Creating)
   [self setReliefFlag: YES];
 #endif
 
-  probeMap = [[[ProbeMap createBegin: [self getZone]] 
-                       setProbedClass: theClass]
-                       createEnd];
+  probeMap = [[[ProbeMap createBegin: getZone (self)]
+                setProbedClass: theClass]
+               createEnd];
 
-  numberOfProbes = [probeMap getNumEntries];
+  count = [probeMap getCount];
   
   topRow = [Frame createParent: self];
 
@@ -123,14 +124,14 @@ PHASE(Creating)
 
   GUI_DRAG_AND_DROP (myTitle, self);
   
-  hideB = [ClassDisplayHideButton createBegin: [self getZone]];
+  hideB = [ClassDisplayHideButton createBegin: getZone (self)];
   [hideB setParent: topRow];
   [hideB setUser: self];
   [hideB setOwner: owner];
   [hideB setSubWidget: mySubclass];
   hideB = [hideB createEnd];
 
-  superB = [SuperButton createBegin: [self getZone]];
+  superB = [SuperButton createBegin: getZone (self)];
   [superB setParent: topRow];
   [superB setUser: self];
   [superB setOwner: owner];
@@ -142,9 +143,9 @@ PHASE(Creating)
   rightFrame = [Frame createParent: middleFrame];
   bottomFrame = [Frame createParent: self];
   
-  if (numberOfProbes > 0)
+  if (count > 0)
     widgets = (id *)
-      [[self getZone] alloc: sizeof(id) * numberOfProbes];
+      [getZone (self) alloc: sizeof (id) * count];
   else
     widgets = 0;
   
@@ -156,13 +157,12 @@ PHASE(Creating)
       if ([probe isKindOf: [VarProbe class]])
         {
           widgets[i] =	
-            [[VarProbeWidget createBegin: [self getZone]] setParent: self];
-          
-          [widgets[i]  setProbe: probe];
+            [[VarProbeWidget createBegin: getZone (self)] setParent: self];
+          [widgets[i] setProbe: probe];
           [widgets[i] setObject: probedObject];
-          [widgets[i]  setMyLeft:  leftFrame];
-          [widgets[i]  setMyRight: rightFrame];
-          [widgets[i]  setMaxLabelWidth: maxLabelWidth ];
+          [widgets[i] setMyLeft:  leftFrame];
+          [widgets[i] setMyRight: rightFrame];
+          [widgets[i] setMaxLabelWidth: maxLabelWidth];
           
           widgets[i] = [widgets[i] createEnd];
           
@@ -177,19 +177,19 @@ PHASE(Creating)
 
   while ((probe = [index next]))
     {
-      
-      if ([probe isKindOf: [MessageProbe class]]){
-        widgets[i] =	
-          [[MessageProbeWidget createBegin: [self getZone]] 
-            setParent: bottomFrame];
-        
-        [widgets[i] setProbe: probe];
-        [widgets[i] setObject: probedObject];
-        [widgets[i] setMaxReturnWidth: maxLabelWidth];
-        widgets[i] = [widgets[i] createEnd];
-        [widgets[i] pack];
-        i++;
-      }
+      if ([probe isKindOf: [MessageProbe class]])
+        {
+          widgets[i] =	
+            [[MessageProbeWidget createBegin: getZone (self)]
+              setParent: bottomFrame];
+          
+          [widgets[i] setProbe: probe];
+          [widgets[i] setObject: probedObject];
+          [widgets[i] setMaxReturnWidth: maxLabelWidth];
+          widgets[i] = [widgets[i] createEnd];
+          [widgets[i] pack];
+          i++;
+        }
     }
   
   [index drop];
@@ -230,7 +230,7 @@ PHASE(Using)
 {
   unsigned i;
   
-  for (i = 0; i < numberOfProbes; i++)
+  for (i = 0; i < count; i++)
     [widgets[i] update];
   
   return self;
@@ -248,11 +248,11 @@ PHASE(Using)
   [rightFrame drop];
   [middleFrame drop];
   [bottomFrame drop];
-  if (numberOfProbes > 0)
+  if (count > 0)
     {
-      for (i = 0; i < numberOfProbes; i++)
+      for (i = 0; i < count; i++)
         [widgets[i] drop];
-      [[self getZone] free: widgets];
+      [getZone (self) free: widgets];
     }
   
   [super drop];
@@ -269,7 +269,7 @@ PHASE(Using)
 }
 
 #ifndef USE_FRAME
-- setParent: theParent
+- setParent: (id <Frame>)theParent
 {
   parent = theParent;
   return self;

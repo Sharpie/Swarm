@@ -287,7 +287,7 @@ PHASE(Creating)
   return self;
 }
 
-- setParent: frame
+- setParent: (id <Frame>)frame
 {
   parent = frame;
   

@@ -8,16 +8,17 @@
 #import <simtoolsgui.h>
 #import <simtoolsgui/VarProbeWidget.h>
 #import <gui.h>
+#import <defobj/defalloc.h> // getZone
 
 @implementation SimpleProbeDisplay
 
-- setProbeMap: theProbeMap
+- setProbeMap: (id <ProbeMap>)theProbeMap
 {
   probeMap = theProbeMap;
   return self;
 }
 
-- getProbeMap
+- (id <ProbeMap>)getProbeMap
 {  
   return probeMap;
 }
@@ -25,29 +26,29 @@
 // finalize creation: create widgets, set them up.
 - createEnd
 {
-  int i;
-  id index;
+  unsigned i;
+  id <Index> index;
   id probe;
 
-  numberOfProbes = [probeMap getNumEntries];
+  count = [probeMap getCount];
 
   [super createEnd];
 
   top_top_Frame =  [Frame createParent: topFrame];  
 
-  raisedFrame =  [Frame createBegin: [self getZone]];
+  raisedFrame =  [Frame createBegin: getZone (self)];
   [raisedFrame setParent: top_top_Frame];
   [raisedFrame setReliefFlag: YES];
   raisedFrame = [raisedFrame createEnd];
 
-  title = [CompleteProbeDisplayLabel createBegin: [self getZone]];
+  title = [CompleteProbeDisplayLabel createBegin: getZone (self)];
   [title setParent: raisedFrame];
   [title setTargetWidget: self];
   [title setProbedObject: probedObject];
   title = [title createEnd];
   [title setText: [self getId: NULL]];
   
-  hideB = [SimpleProbeDisplayHideButton createBegin: [self getZone]];
+  hideB = [SimpleProbeDisplayHideButton createBegin: getZone (self)];
   [hideB setParent: top_top_Frame];
   [hideB setProbeDisplay: self];
   hideB = [hideB createEnd];
@@ -59,9 +60,8 @@
   rightFrame = [Frame createParent: middleFrame];
   bottomFrame = [Frame createParent: topFrame];
 
-  if (numberOfProbes > 0)
-    widgets = (id *)
-      [[self getZone] alloc: sizeof(id) * numberOfProbes];
+  if (count > 0)
+    widgets = (id *) [getZone (self) alloc: sizeof (id) * count];
   else
     widgets = 0;
 
@@ -73,7 +73,7 @@
       if ([probe isKindOf: [VarProbe class]])
         {
           widgets[i] =	
-            [[VarProbeWidget createBegin: [self getZone]]
+            [[VarProbeWidget createBegin: getZone (self)]
               setParent: topFrame];
           [widgets[i] setProbe: probe];
           [widgets[i] setObject: probedObject];
@@ -94,7 +94,7 @@
       if ([probe isKindOf: [MessageProbe class]])
         {
           widgets[i] =	
-            [[MessageProbeWidget createBegin: [self getZone]] 
+            [[MessageProbeWidget createBegin: getZone (self)]
               setParent: bottomFrame];
           [widgets[i]  setProbe: probe];
           [widgets[i] setObject: probedObject];
@@ -109,9 +109,10 @@
   // This label is not being garbage collected!!!!!
   if (!i)
     {
-      index = [Label createParent: topFrame];
-      [index setText: "No Instance Variables or Messages."];
-      [index pack];
+      id label = [Label createParent: topFrame];
+
+      [label setText: "No Instance Variables or Messages."];
+      [label pack];
     }
 
   [top_top_Frame packFill];
@@ -127,9 +128,9 @@
 
 - update
 {
-  int i;
+  unsigned i;
   
-  for (i = 0; i < numberOfProbes; i++)
+  for (i = 0; i < count; i++)
     if (!markedForDropFlag)
       [widgets[i] update];
     else
@@ -140,7 +141,7 @@
 
 - (void)drop
 {
-  int i;
+  unsigned i;
   
   // If drops all go through markForDrop, then the disable there
   // should take care of it.
@@ -154,11 +155,11 @@
   [middleFrame drop];
   [bottomFrame drop];
 
-  for (i = 0; i < numberOfProbes; i++)
+  for (i = 0; i < count; i++)
     [widgets[i] drop];
 
-  if (numberOfProbes)
-    [[self getZone] free: widgets];
+  if (count)
+    [getZone (self) free: widgets];
 
   [raisedFrame drop];
   [top_top_Frame drop];

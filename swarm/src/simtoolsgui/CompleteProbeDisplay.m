@@ -7,6 +7,7 @@
 #import <simtoolsgui/ClassDisplayWidget.h>
 #import <simtoolsgui.h> // probeDisplayManager
 #import <collections.h> // List
+#import <defobj/defalloc.h> // getZone
 #import "../defobj/internal.h" // map_objc_class_ivars
 
 #import <defobj/directory.h>
@@ -71,7 +72,7 @@ PHASE(Creating)
 
   maxWidth = 0;
 
-  classList = [List create: [self getZone]];
+  classList = [List create: getZone (self)];
   for (class = SD_GETCLASS (probedObject);
        class != Nil; 
        class = SD_SUPERCLASS (class))
@@ -84,13 +85,13 @@ PHASE(Creating)
       [classList addFirst: (id) class];
     }
   
-  widgets = [List create: [self getZone]];
+  widgets = [List create: getZone (self)];
   previous = nil;
-  index = [classList begin: [self getZone]];
+  index = [classList begin: getZone (self)];
   while ((class = (Class) [index next]))
     {
       classWidget = 
-        [[[[[[[ClassDisplayWidget createBegin: [self getZone]] 
+        [[[[[[[ClassDisplayWidget createBegin: getZone (self)]
                setParent: topFrame]
               setMaxLabelWidth: maxWidth]
              setProbedObject: probedObject]
@@ -134,7 +135,7 @@ PHASE(Using)
   id index, aWidget;
   int s_height;
   
-  index = [widgets begin: [self getZone]];
+  index = [widgets begin: getZone (self)];
   while ((aWidget = [index next]))
     if ((s_height = [aWidget getStepHeight]))
       return s_height;
@@ -147,7 +148,7 @@ PHASE(Using)
   id index;
   id a_widget;
   
-  index = [widgets begin: [self getZone]];
+  index = [widgets begin: getZone (self)];
   while ((a_widget = [index next]) != nil)
    if (!markedForDropFlag)
       [a_widget update];
@@ -165,7 +166,7 @@ PHASE(Using)
   // should take care of it.
   // [topLevel disableDestroyNotification];
 
-  index = [widgets begin: [self getZone]];
+  index = [widgets begin: getZone (self)];
   while ((a_widget = [index next]) != nil)
     [a_widget drop];
   [index drop];

@@ -27,7 +27,7 @@
 + createBegin: aZone;
 - createEnd;
 - setObjectList: (id <List>)objectList;
-- setParent: parent;
+- setParent: (id <Frame>)parent;
 - setProbeMap: (id <ProbeMap>)probeMap;
 - setFieldLabelingFlag: (BOOL)labelingFlag;
 - setObjectNameSelector: (SEL)agentNameSelector;

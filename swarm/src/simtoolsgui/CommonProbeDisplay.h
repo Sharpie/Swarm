@@ -5,8 +5,9 @@
 
 #import <objectbase/SwarmObject.h>
 #import <gui.h>
+#import <simtoolsgui.h> // CommonProbeDisplay
 
-@interface CommonProbeDisplay: SwarmObject
+@interface CommonProbeDisplay: SwarmObject <CommonProbeDisplay>
 {
   id <Frame> topLevel, topFrame;
   id <ProbeCanvas> canvas;
@@ -24,5 +25,6 @@
 - (BOOL)getMarkedForDropFlag;
 - getTopLevel;
 - (void)drop;
+- update;
 
 @end
