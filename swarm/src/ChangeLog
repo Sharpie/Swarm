@@ -1,3 +1,8 @@
+1999-08-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (DLLWRAP): Move substitution outside of automake
+	conditional to avoid conditional/non-conditional automake error.
+
 1999-07-09  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.rules (CFLAGS, OBJCFLAGS): Override with configure-time
