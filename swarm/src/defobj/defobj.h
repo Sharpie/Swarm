@@ -917,25 +917,25 @@ CREATING
 //M: Specify that the Archiver to use the default application path
 - setDefaultAppPath;
 USING
-- registerClient: client;
-- unregisterClient: client;
+- (void)registerClient: client;
+- (void)unregisterClient: client;
 
 //M: Register with the Archiver a deep serialization of the object
 //M: (serialization only occurs when Archiver is saved)
-- putDeep: (const char *)key object: object;
+- (void)putDeep: (const char *)key object: object;
 
 //M: As per -putDeep, but only make a shallow version
-- putShallow: (const char *)key object: object;
+- (void)putShallow: (const char *)key object: object;
 
 //M: Create the object with `key' using the Archiver's own Zone
 - getObject: (const char *)key;
 
 //M: Create the object with `key' in the specified Zone
-- getWithZone: (id <Zone>)aZone object: (const char *)key;
+- getWithZone: (id <Zone>)aZone key: (const char *)key;
 
-//M: Execute all the requested -putShallow: and -putDeep: requests using
+//M: Ensure that that all registered 
 //M: the requested backend
-- save;
+- (void)sync;
 @end
 
 @protocol LispArchiver <Archiver, CREATABLE>
@@ -973,7 +973,7 @@ USING
 //D: HDF5 interface
 CREATING
 + createBegin: (id <Zone>)aZone;
-- setCreateFlag: (BOOL)createFlag;
+- setWriteFlag: (BOOL)writeFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
 - setParent: parent;
 - setCompoundType: compoundType;
@@ -986,8 +986,10 @@ SETTING
 - setName: (const char *)name; 
 - setBaseTypeObject: baseTypeObject;
 USING
-- iterate: (int (*) (id <HDF5>hdf5Obj))iterateFunc;
+- (void)iterate: (int (*) (id <HDF5>hdf5Obj))iterateFunc;
+- (void)iterate: (int (*) (id <HDF5>hdf5Obj))iterateFunc drop: (BOOL)dropFlag;
 - (BOOL)getDatasetFlag;
+- (BOOL)getWriteFlag;
 - (size_t)getDatasetRank;
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
 - (const char *)getName;

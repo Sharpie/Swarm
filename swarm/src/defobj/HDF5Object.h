@@ -48,7 +48,7 @@
 {
   id parent;
   const char *name;
-  BOOL createFlag;
+  BOOL writeFlag;
   BOOL datasetFlag;
 #ifdef HAVE_HDF5
   hid_t loc_id;
@@ -69,7 +69,7 @@
 + createBegin: aZone;
 - setParent: parent;
 - setName: (const char *)name;
-- setCreateFlag: (BOOL)createFlag;
+- setWriteFlag: (BOOL)writeFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
 #ifdef HAVE_HDF5
 - setId: (hid_t)locId;
@@ -85,6 +85,7 @@
 - (BOOL)checkDatasetName: (const char *)name;
 
 - (BOOL)getDatasetFlag;
+- (BOOL)getWriteFlag;
 - (size_t)getDatasetRank;
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
 - getCompoundType;
@@ -107,7 +108,8 @@
 - loadDataset: (void *)ptr;
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 
-- iterate: (int (*) (id hdf5Obj))iterateFunc;
+- (void)iterate: (int (*) (id hdf5Obj))iterateFunc drop: (BOOL)dropFlag;
+- (void)iterate: (int (*) (id hdf5Obj))iterateFunc;
 
 - storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - (const char *)getAttribute: (const char *)attrName;

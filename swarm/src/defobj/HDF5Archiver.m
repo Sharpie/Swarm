@@ -13,6 +13,36 @@
 
 @implementation HDF5Archiver_c
 
+static id
+hdf5_create_app_group (const char *appKey, id hdf5Obj)
+{
+  id hdf5AppObj = hdf5Obj;
+  char *newAppKey, *modeKey;
+
+  newAppKey = OSTRDUP (hdf5Obj, appKey);
+  modeKey = newAppKey;
+  
+  while (*modeKey && *modeKey != '/')
+    modeKey++;
+  if (*modeKey == '/')
+    {
+      *modeKey = '\0';
+      modeKey++;
+      hdf5AppObj = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                        setWriteFlag: YES]
+                       setParent: hdf5Obj]
+                      setName: newAppKey]
+                     createEnd];
+    }
+  else
+    raiseEvent (InvalidArgument, "expecting composite app/mode key");
+  return [[[[[HDF5 createBegin: [hdf5AppObj getZone]]
+              setParent: hdf5AppObj]
+             setName: modeKey]
+            setWriteFlag: YES]
+           createEnd];
+}
+
 PHASE(Creating)
 
 + createBegin: aZone
@@ -45,61 +75,18 @@ PHASE(Creating)
   id aZone = getZone (self);
 
   [super createEnd];
-  
-  currentApplicationKey = [self createAppKey: [arguments getAppName]
-                                mode: [arguments getAppModeString]];
-
-  if (!inhibitLoadFlag)
-    {
-      if (access (path, R_OK) != -1)
-        {
-          id file = [[[[[HDF5 createBegin: aZone]
-                         setCreateFlag: NO]
+  [self ensureApp: 
+          [[[[[HDF5 createBegin: aZone]
+               setWriteFlag: NO]
                         setParent: nil]
                        setName: path]
-                      createEnd];
-          
-          [self hdf5LoadArchiver: file];
-          [file drop];
-        }
-    }
-  
+            createEnd]];
   return self;
 }
 
 PHASE(Setting)
 
-- hdf5LoadObjectMap: topHDF5Obj key: appKey
-{
-  id app;
-  id aZone = getZone (self);
-
-  int objIterateFunc (id hdf5Obj)
-    {
-      id key = [String create: aZone setC: [hdf5Obj getName]];
-      id value = hdf5In (aZone, hdf5Obj);
-      id objectMap = ([hdf5Obj getDatasetFlag] 
-                      ? [app getShallowMap]
-                      : [app getDeepMap]);
-
-      if ([objectMap at: key] == nil)
-        [objectMap at: key insert: value];
-      else
-        {
-          raiseEvent (WarningMessage,
-                      "Duplicate HDF5 object key `%s'",
-                      [key getC]);
-          [key drop];
-          [value drop];
-        }
-      return 0;
-    }
-  app = [self ensureApp: appKey];
-  [topHDF5Obj iterate: objIterateFunc];
-  return self; 
-}
-
-- hdf5LoadArchiver: hdf5File
+- (void)ensureApp: hdf5File
 {
   if (systemArchiverFlag)
     {
@@ -107,204 +94,112 @@ PHASE(Setting)
         {
           int modeIterateFunc (id modeHDF5Obj)
             {
-              [self hdf5LoadObjectMap: modeHDF5Obj key: 
-                      [self createAppKey: [appHDF5Obj getName]
-                            mode: [modeHDF5Obj getName]]];
+              [applicationMap at: [self createAppKey: [appHDF5Obj getName]
+                                         mode: [modeHDF5Obj getName]]
+                              insert: modeHDF5Obj];
               return 0;
             }
-          [appHDF5Obj iterate: modeIterateFunc];
+          [appHDF5Obj iterate: modeIterateFunc drop: NO];
           return 0;
         }
-      [hdf5File iterate: appIterateFunc];
+      if (hdf5File)
+        [hdf5File iterate: appIterateFunc drop: NO];
+      if (![self getApplication])
+        hdf5File = nil;
     }
-  else
-    [self hdf5LoadObjectMap: hdf5File key: currentApplicationKey];
-  return self;
+  [applicationMap at: currentApplicationKey insert: hdf5File];
 }
 
 PHASE(Using)
 
-static id
-hdf5_create_app_group (const char *appKey, id hdf5Obj, id *hdf5AppObjPtr)
+- getWritableController
 {
-  id hdf5AppObj = hdf5Obj;
-  char *newAppKey, *modeKey;
-
-  newAppKey = OSTRDUP (hdf5Obj, appKey);
-  modeKey = newAppKey;
+  id hdf5Obj = [self getApplication];
   
-  while (*modeKey && *modeKey != '/')
-    modeKey++;
-  if (*modeKey == '/')
+  if (hdf5Obj)
     {
-      *modeKey = '\0';
-      modeKey++;
-      hdf5AppObj = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                        setCreateFlag: YES]
-                       setParent: hdf5Obj]
-                      setName: newAppKey]
-                     createEnd];
-      *hdf5AppObjPtr = hdf5AppObj;
-    }
+      if ([hdf5Obj getWriteFlag])
+        return hdf5Obj;
   else
-    raiseEvent (InvalidArgument, "expecting composite app/mode key");
-  return [[[[[HDF5 createBegin: [hdf5AppObj getZone]]
-              setParent: hdf5AppObj]
-             setName: modeKey]
-            setCreateFlag: YES]
-           createEnd];
+        [hdf5Obj drop];
 }
 
-static void
-hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
-{
-  id index = [objectMap begin: scratchZone];
-  id key, member;
-  
-  for (member = [index next: &key];
-       [index getLoc] == (id) Member;
-       member = [index next: &key])
-    {
-      if (member)
-        {
-          if (deepFlag && !stringp (member))
-            {
-              id memberGroup = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                                    setCreateFlag: YES]
-                                   setParent: hdf5Obj]
-                                  setName: [key getC]]
-                                 createEnd];
-              
-              [member hdf5OutDeep: memberGroup];
-              [memberGroup drop];
-            }
-          else
-            {
-              id dataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                             setCreateFlag: YES]
-                                setParent: hdf5Obj]
-                               setDatasetFlag: YES]
-                              setName: [key getC]]
+  hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
+                 setWriteFlag: YES]
+                setParent: nil]
+               setName: path]
                              createEnd];
               
-              [member hdf5OutShallow: dataset];
-              [dataset drop];
-            }
-        }
-    }
+  if (systemArchiverFlag)
+    hdf5Obj = hdf5_create_app_group ([currentApplicationKey getC], hdf5Obj);
+
+  [applicationMap at: currentApplicationKey replace: hdf5Obj];
+  return hdf5Obj;
 }
 
-static void
-archiverHDF5Put (id aZone, const char *keyStr, id value, id addMap, id removeMap)
+- (void)putDeep: (const char *)key object: object
 {
-  id key = [String create: [addMap getZone] setC: keyStr];
-  
-  if ([addMap at: key])
-    [addMap at: key replace: value];
-  else
-    [addMap at: key insert: value];
+  id group = [[[[[HDF5 createBegin: getZone (self)]
+                  setWriteFlag: YES]
+                 setParent: [self getWritableController]]
+                setName: key]
+               createEnd];
 
-  if ([removeMap at: key])
-    [removeMap removeKey: key];
+  if (!group)
+    abort ();
+  [object hdf5OutDeep: group];
+  [group drop];
 }
 
-- putDeep: (const char *)key object: object
+- (void)putShallow: (const char *)key object: object
 {
-  id app = [self getApplication];
-
-  archiverHDF5Put (getZone (self), key, object, [app getDeepMap], 
-                   [app getShallowMap]);
-  return self;
+  id dataset = [[[[[[HDF5 createBegin: getZone (self)]
+                     setWriteFlag: YES]
+                    setParent: [self getWritableController]]
+                   setDatasetFlag: YES]
+                  setName: key]
+                 createEnd];
+  if (!dataset)
+    abort ();
+  [object hdf5OutShallow: dataset];
+  [dataset drop];
 }
 
-- putShallow: (const char *)key object: object
+- getWithZone: aZone key: (const char *)key 
 {
-  id app = [self getApplication];
-
-  archiverHDF5Put (getZone (self), key, object, [app getShallowMap], 
-                   [app getDeepMap]);
-  return self;
-}
-
-static id
-archiverHDF5Get (id aZone, id string, id app)
-{
-  id result;
-  
-  result = [[app getDeepMap] at: string];
-  if (result == nil)
-    result = [[app getShallowMap] at: string];
-  return result;
-}
-
-- _getWithZone_: aZone _object_: (const char *)key 
-{
-  id string = [String create: getZone (self) setC: key];
-  id app = [self getApplication];
   id result; 
+  id parent = [self getApplication];
   
-  result = archiverHDF5Get (aZone, string, app);
-
-  [string drop];
+  if (parent)
+{
+      id hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
+                        setParent: parent]
+                       setDatasetFlag: [parent checkDatasetName: key]]
+                      setName: key]
+                     createEnd];
+  
+      if (hdf5Obj)
+        {
+          result = hdf5In (aZone, hdf5Obj);
+          [hdf5Obj drop];
+        }
+      else
+        result = nil;
+        }
+  else
+    result = nil;
   return result;
 }
 
 - getObject: (const char *)key
-{
-  return [self _getWithZone_: getZone (self) _object_: key];
-}
-
-- getWithZone: aZone object: (const char *)key
-{
-  return [self _getWithZone_: aZone _object_: key];
-}
-
-- _hdf5Out_: hdf5Obj
-{
-  id <MapIndex> index = [applicationMap begin: scratchZone];
-  id app;
-  id <String> appKey;
-  
-  while ((app = [index next: &appKey]))
     {
-      if (systemArchiverFlag)
-        {
-          id appGroup;
-          id modeGroup = hdf5_create_app_group ([appKey getC],
-                                                hdf5Obj, &appGroup);
-          
-          hdf5_output_objects ([app getShallowMap], modeGroup, NO);
-          hdf5_output_objects ([app getDeepMap], modeGroup, YES);
-          
-          [modeGroup drop];
-          [appGroup drop];
-        }
-      else
-        {
-          hdf5_output_objects ([app getShallowMap], hdf5Obj, NO);
-          hdf5_output_objects ([app getDeepMap], hdf5Obj, YES);
-        }
-    }
-  [index drop];
-  return self;
-}
-
-- save
-{
-  [super updateArchiver];
-  if ([self countObjects: YES] + [self countObjects: NO] > 0)
-    {
-      id hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
-                        setCreateFlag: YES]
-                       setParent: nil]
-                      setName: path]
-                     createEnd];
-      
-      [self _hdf5Out_: hdf5Obj];
-      [hdf5Obj drop];
+  return [self getWithZone: getZone (self) key: key];
     }
   
-  return self;
+- (void)sync
+{
+  [self updateArchiver];
 }
 
 @end
+

@@ -103,6 +103,18 @@ make_string_ref_type (void)
     raiseEvent (LoadError, "unable to set size of reference type");
   return memtid;
 }    
+
+static void
+suppress_messages (void (*func) ())
+{
+  void *client_data;
+  H5E_auto_t errfunc;
+
+  H5Eget_auto (&errfunc, &client_data);
+  H5Eset_auto (NULL, NULL);
+  func ();
+  H5Eset_auto (errfunc, client_data);  
+}
   
 static unsigned
 get_attribute_string_list (hid_t oid,
@@ -112,15 +124,10 @@ get_attribute_string_list (hid_t oid,
   hid_t aid, sid, tid;
   H5T_class_t class;
   hid_t str_ref_tid;
-  H5E_auto_t errfunc;
-  void *client_data;
   unsigned retcount = 0;
+  void func () { aid = H5Aopen_name (oid, attrName); }
 
-  H5Eset_auto (NULL, NULL);
-  aid = H5Aopen_name (oid, attrName);
-  H5Eget_auto (&errfunc, &client_data);
-  H5Eset_auto (errfunc, client_data);  
-
+  suppress_messages (func);
   if (aid < 0)
     return 0;
 
@@ -825,6 +832,13 @@ PHASE(Using)
   return self;
 
 }
+
+static void
+hdf5_delete_attribute (hid_t loc_id, const char *name)
+{
+  void func () { H5Adelete (loc_id, name); }
+  suppress_messages (func);
+}
 #endif
 
 - writeLevel: (const char *)varName
@@ -871,6 +885,7 @@ PHASE(Using)
     p = stpcpy (levelAttrName, LEVELSPREFIX);
     stpcpy (p, varName);
 
+    hdf5_delete_attribute (did, levelAttrName);
     if ((aid = H5Acreate (did, levelAttrName, stringtid,
                           sid, H5P_DEFAULT)) < 0)
       raiseEvent (SaveError, "unable to create levels attribute dataset");
@@ -941,7 +956,7 @@ PHASE(Creating)
 {
   HDF5_c *obj = [super createBegin: aZone];
 
-  obj->createFlag = NO;
+  obj->writeFlag = NO;
   obj->datasetFlag = NO;
 #ifdef HAVE_HDF5
   obj->c_rnnlen = 0;
@@ -965,9 +980,9 @@ PHASE(Creating)
 }
 #endif
 
-- setCreateFlag: (BOOL)theCreateFlag
+- setWriteFlag: (BOOL)theWriteFlag
 {
-  createFlag = theCreateFlag;
+  writeFlag = theWriteFlag;
   return self;
 }
 
@@ -1047,6 +1062,34 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
   return 0;
 }
 
+static hid_t
+hdf5_open_file (const char *name, unsigned flags)
+{ 
+  hid_t loc_id;
+  void func () { loc_id = H5Fopen (name, flags, H5P_DEFAULT); }
+  
+  suppress_messages (func);
+  return loc_id;
+}
+
+static hid_t
+hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
+{
+  hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
+  hid_t loc_id;
+  void func () { H5Gunlink (parent_loc_id, name); }
+  
+  suppress_messages (func);
+
+  if ((loc_id = H5Dcreate (parent_loc_id,
+                           name,
+                           tid,
+                           sid,
+                           H5P_DEFAULT)) < 0)
+    raiseEvent (SaveError, "unable to create (compound) dataset");
+  return loc_id;
+}
+
 #endif
 
 - createEnd
@@ -1054,49 +1097,56 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 #ifdef HAVE_HDF5
   [super createEnd];
 
-  if (createFlag)
+  if (writeFlag)
     {
       if (parent == nil)
         {
-          if ((loc_id = H5Fcreate (name, H5F_ACC_TRUNC,
-                                   H5P_DEFAULT, H5P_DEFAULT))  < 0)
-            raiseEvent (SaveError, "failed to create HDF5 file `%s'", name);
+          if ((loc_id = hdf5_open_file (name, H5F_ACC_RDWR)) < 0)
+            loc_id = H5Fcreate (name, H5F_ACC_TRUNC,
+                                H5P_DEFAULT, H5P_DEFAULT);
+          if (loc_id < 0)
+            raiseEvent (SaveError,
+                        "failed to open HDF5 file for r/w`%s'",
+                        name);
         }
       else 
         {
           if (compoundType)
             {
               hsize_t dims[1];
-              
               dims[0] = c_count;
+
               if ((c_sid = H5Screate_simple (1, dims, NULL)) < 0)
                 raiseEvent (SaveError, "unable to create (compound) space");
-              
-              if ((loc_id = H5Dcreate (((HDF5_c *) parent)->loc_id,
-                                       name,
-                                       [compoundType getTid],
-                                       c_sid,
-                                       H5P_DEFAULT)) < 0)
-                raiseEvent (SaveError, "unable to create (compound) dataset");
-              
+              loc_id = hdf5_open_dataset (parent,
+                                          name,
+                                          [compoundType getTid],
+                                          c_sid);
               {
                 size_t size = c_count * sizeof (const char *);
-
-                c_rnbuf = [[self getZone] alloc: size];
+                
+                c_rnbuf = [getZone (self) alloc: size];
                 memset (c_rnbuf, 0, size);
               }
             }
           else
             {
+              hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
+
               if (!datasetFlag)
                 {
-                  if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0))
-                      < 0)
-                    raiseEvent (SaveError, "failed to create HDF5 group `%s'",
+
+                  if ([parent checkName: name])
+                    loc_id = H5Gopen (parent_loc_id, name);
+                  else
+                    loc_id = H5Gcreate (parent_loc_id, name, 0);
+                  if (loc_id < 0)
+                    raiseEvent (SaveError,
+                                "failed to open HDF5 group `%s' r/w\n",
                                 name);
                 }
               else
-                loc_id = ((HDF5_c *) parent)->loc_id;
+                loc_id = parent_loc_id;
             }
         }
     }
@@ -1104,7 +1154,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
     {
       if (parent == nil)
         {
-          if ((loc_id = H5Fopen (name, H5F_ACC_RDONLY, H5P_DEFAULT)) < 0)
+          if ((loc_id = hdf5_open_file (name, H5F_ACC_RDONLY)) < 0)
             return nil;
         }
       else
@@ -1234,6 +1284,11 @@ PHASE(Using)
   return name;
 }
 
+- (BOOL)getWriteFlag
+{
+  return writeFlag;
+}
+
 - (BOOL)getDatasetFlag
 {
   return datasetFlag;
@@ -1312,11 +1367,14 @@ PHASE(Using)
 {
 #ifdef HAVE_HDF5
   struct H5G_stat_t statbuf;
+  BOOL result;
 
-  if (H5Gget_objinfo (loc_id, objName, 1, &statbuf) < 0)
-    return NO;
-  else
-    return YES;
+  void func ()
+    {
+      result = (H5Gget_objinfo (loc_id, objName, 1, &statbuf) >= 0);
+    }
+  suppress_messages (func);
+  return result;
 #else
   hdf5_not_available ();
   return NO;
@@ -1340,7 +1398,7 @@ PHASE(Using)
 #endif
 }
 
-- iterate: (int (*) (id hdf5obj))iterateFunc
+- (void)iterate: (int (*) (id hdf5obj))iterateFunc drop: (BOOL)dropFlag
 {
 #ifdef HAVE_HDF5
   herr_t process_object (hid_t oid, const char *memberName, void *client)
@@ -1360,12 +1418,13 @@ PHASE(Using)
             raiseEvent (LoadError, "cannot open group `%s'", memberName);
           group = [[[[[[HDF5 createBegin: [self getZone]]
                         setParent: self]
-                       setCreateFlag: NO]
+                       setWriteFlag: NO]
                       setName: memberName]
                      setId: gid]
                     createEnd];
           ret = iterateFunc (group);
-          [group drop];
+          if (dropFlag)
+            [group drop];
         }
       else if (statbuf.type == H5G_DATASET)
         {
@@ -1376,13 +1435,14 @@ PHASE(Using)
             raiseEvent (LoadError, "cannot open dataset `%s'", memberName);
           dataset = [[[[[[[HDF5 createBegin: [self getZone]]
                            setParent: self]
-                          setCreateFlag: NO]
+                          setWriteFlag: NO]
                          setDatasetFlag: YES]
                         setName: memberName]
                        setId: did]
                       createEnd];
           ret = iterateFunc (dataset);
-          [dataset drop];
+          if (dropFlag)
+            [dataset drop];
         }
       else
         raiseEvent (LoadError, "Cannot process HDF5 type %u",
@@ -1394,8 +1454,13 @@ PHASE(Using)
 #else
   hdf5_not_available ();
 #endif  
-  return self;
 }
+
+- (void)iterate: (int (*) (id hdf5obj))iterateFunc
+{
+  [self iterate: iterateFunc drop: YES];
+}
+
 
 - iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
 {
@@ -1538,6 +1603,8 @@ hdf5_store_attribute (hid_t did,
   hsize_t dims[1];
   
   dims[0] = 1;
+
+  hdf5_delete_attribute (did, attributeName);
   
   if ((type_tid = H5Tcopy (H5T_C_S1)) < 0)
     raiseEvent (SaveError, "unable to copy string type");
@@ -1585,11 +1652,7 @@ hdf5_store_attribute (hid_t did,
     {
       hid_t did;
       
-      if ((did = H5Dcreate (loc_id, datasetName,
-                            tid, sid, H5P_DEFAULT)) < 0)
-        raiseEvent (SaveError, "unable to create dataset `%s'", datasetName);
-      
-      
+      did = hdf5_open_dataset (self, datasetName, tid, sid);
       if (H5Dwrite (did, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
         raiseEvent (SaveError, "unable to write to dataset `%s'", datasetName);
 
@@ -1872,7 +1935,8 @@ hdf5_store_attribute (hid_t did,
   hsize_t dims[1];
   hid_t rnmemtid = make_string_ref_type ();
   hid_t rntid, rnsid, rnaid;
-  
+
+  hdf5_delete_attribute (loc_id, ROWNAMES);
   dims[0] = c_count;
   if ((rnsid = H5Screate_simple (1, dims, NULL)) < 0)
     raiseEvent (SaveError, "unable to create row names data space");
@@ -1938,7 +2002,7 @@ hdf5_store_attribute (hid_t did,
           if (H5Dclose (loc_id) < 0)
             raiseEvent (SaveError, "Failed to close (compound) dataset");
           
-          if (createFlag)
+          if (writeFlag)
             {
               unsigned ri;
 

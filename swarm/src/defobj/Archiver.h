@@ -40,6 +40,7 @@ const char *defaultAppPath (const char *appDataPath, const char *appName,
 }
 + createBegin: aZone;
 + create: aZone setPath: (const char *)thePath;
+- createEnd;
 
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - setPath: (const char *)path;
@@ -52,17 +53,17 @@ const char *defaultAppPath (const char *appDataPath, const char *appName,
 
 - getApplication;
 
-- registerClient: client;
-- unregisterClient: client;
+- (void)registerClient: client;
+- (void)unregisterClient: client;
 
 - (unsigned)countObjects: (BOOL)deepFlag;
-- updateArchiver;
-- save;
+- (void)updateArchiver;
+- (void)sync;
 
 - getObject: (const char *)key;
-- getWithZone: aZone object: (const char *)key;
-- putDeep: (const char *)key object: object;
-- putShallow: (const char *)key object: object;
+- getWithZone: aZone key: (const char *)key;
+- (void)putDeep: (const char *)key object: object;
+- (void)putShallow: (const char *)key object: object;
 
 - (void)drop;
 

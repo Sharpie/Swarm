@@ -1,3 +1,54 @@
+1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* LispArchiver.m ([LispArchiver_c -createEnd]): Use
+	super for creating application key.
+
+	* LispArchiver.[hm] ([LispArchiver_c -lispLoadArchiver:]): Return nil.
+
+	* HDF5Object.[hm], defobj.h (HDF5_c): Rename createFlag -> writeFlag.
+	Rename setter.  Add getter.  New method iterate:drop:.
+
+	* HDF5Object.m (suppress_message): New function.
+	([HDF5_c -checkName:], get_attribute_string_list): Use it.
+	(hdf5_delete_attribute): New function.
+	([HDF5_c -writeLevel:], hdf5_store_attribute,
+	[HDF5_c -writeRowNames]): Use it.
+	(hdf5_open_file): New function.
+	([HDF5_c -createEnd]): Use it.
+	(hdf5_open_dataset): New function.
+	([HDF5_c -createEnd], [HDF5_c
+	-storeAsDataset:typeName:type:ptr:]): Use it.  Change
+	create semantics to write semantics.  Existing groups are
+	not discarded, however attributes and datasets are discarded
+	and recreated.
+
+	* HDF5Archiver.m ([HDF5Archiver_c -createEnd]): Don't check for
+	file, just attempt load and install result that in applicationMap
+	(even if nil).  Don't load from it and don't drop it.
+	([HDF5Archiver_c -put{Deep,Shallow}:object:, -getWithZone:key:]):
+	Create a HDF5 instance on the fly.
+
+	* HDF5Archiver.[hm] ([HDF5Archiver -hdf5LoadObjectMap:key:,
+	-hdf5LoadArchiver], [HDF5Archiver -_hdf5Out_:],
+	hdf5_output_objects, archiverHDF5Put, archiverHDF5Get): Remove.
+	([HDF5Archiver -getWritableController]): New method.
+	([HDF5Archiver -sync]): Only call updateArchiver.
+
+	* DefObject.m ([Object_s -hdf5Out{Deep,Shallow}:]): Use setWriteFlag:
+	instead of setCreateFlag:.
+
+	* Archiver.m ([Archiver_c -getApplication]): Don't make
+	an Application instance if there isn't one.
+
+	* Archiver.[hm] ([Archiver_c -createEnd]): New method.
+	
+	* Archiver.[hm], HDF5Archiver.[hm], LispArchiver.[hm], defobj.h
+	([.. -registerClient:]): 
+	([.. -unregisterClient:], [.. -putDeep:object:],
+	[.. -putShallow:object:]): Return void.
+	([.. -getWithZone:key:]): Renamed from -getWithZone:object:.
+	([.. -sync]): Renamed from save.
+
 1999-12-27    <mgd@DRONE>
 
 	* directory.m (swarm_directory_signature_for_class): Use "J"

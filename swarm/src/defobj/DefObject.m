@@ -1119,7 +1119,7 @@ initDescribeStream (void)
           if (obj != nil)
             {
               id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                              setCreateFlag: YES]
+                              setWriteFlag: YES]
                              setParent: hdf5Obj]
                             setName: name]
                            createEnd];
@@ -1149,7 +1149,7 @@ initDescribeStream (void)
 
       id cDataset = [[[[[[HDF5 createBegin: getZone (self)]
                           setName: objName]
-                         setCreateFlag: YES]
+                         setWriteFlag: YES]
                         setParent: hdf5Obj]
                        setCompoundType: cType]
                       createEnd];

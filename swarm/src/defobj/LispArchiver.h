@@ -37,15 +37,15 @@ extern id lispArchiver;
 - createEnd;
 
 - (BOOL)_load_;
-- lispLoadArchiver: expr;
+- (void)lispLoadArchiver: expr;
 
-- save;
+- (void)sync;
 
-- putDeep: (const char *)key object: object;
-- putShallow: (const char *)key object: object;
-- _getWithZone_: aZone _object_: (const char *)key;
+- (void)putDeep: (const char *)key object: object;
+- (void)putShallow: (const char *)key object: object;
+- _getWithZone_: aZone key: (const char *)key;
 - getObject: (const char *)key;
-- getWithZone: aZone object: (const char *)key;
+- getWithZone: aZone key: (const char *)key;
 
 - (void)drop;
 

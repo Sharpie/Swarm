@@ -23,13 +23,11 @@ extern id hdf5Archiver;
 
 - createEnd;
 
-- hdf5LoadObjectMap: hdfObj key: appKey;
-- hdf5LoadArchiver: hdf5File;
+- (void)ensureApp: hdf5File;
 
-- putDeep: (const char *)key object: object;
-- putShallow: (const char *)key object: object;
-- _getWithZone_: aZone _object_: (const char *)key;
+- (void)putDeep: (const char *)key object: object;
+- (void)putShallow: (const char *)key object: object;
 - getObject: (const char *)key;
-- getWithZone: aZone object: (const char *)key;
+- getWithZone: aZone key: (const char *)key;
 
 @end

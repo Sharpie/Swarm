@@ -139,6 +139,14 @@ PHASE(Creating)
   return self;
 }
 
+- createEnd
+{
+  [super createEnd];
+  currentApplicationKey = [self createAppKey: [arguments getAppName]
+                                mode: [arguments getAppModeString]];
+  return self;
+}
+
 PHASE(Setting)
 
 PHASE(Using)
@@ -169,17 +177,10 @@ PHASE(Using)
     
 - getApplication
 {
-  id app = [applicationMap at: currentApplicationKey];
-  
-  if (app == nil)
-    {
-      app = [Application create: getZone (self)];
-      [applicationMap at: currentApplicationKey insert: app];
-    }
-  return app;
+  return [applicationMap at: currentApplicationKey];
 }
 
-- registerClient: client
+- (void)registerClient: client
 {
   if (![client isInstance])
     {
@@ -188,28 +189,24 @@ PHASE(Using)
     }
   else if (![instances contains: client])
     [instances addLast: client];
-  return self;
 }
 
-- unregisterClient: client
+- (void)unregisterClient: client
 {
   if (![client isInstance])
     [classes remove: client];
   else
     [instances remove: client];
-  return self;
 }
 
-- putDeep: (const char *)key object: object
+- (void)putDeep: (const char *)key object: object
 {
   raiseEvent (SubclassMustImplement, "");
-  return self;
 }
 
-- putShallow: (const char *)key object: object
+- (void)putShallow: (const char *)key object: object
 {
   raiseEvent (SubclassMustImplement, "");
-  return self;
 }
 
 - getObject: (const char *)key
@@ -218,7 +215,7 @@ PHASE(Using)
   return self;
 }
 
-- getWithZone: aZone object: (const char *)key
+- getWithZone: aZone key: (const char *)key
 {
   raiseEvent (SubclassMustImplement, "");
   return self;
@@ -238,7 +235,7 @@ PHASE(Using)
   return count;
 }
 
-- updateArchiver
+- (void)updateArchiver
 {
   id <Index> index;
   id item;
@@ -249,13 +246,11 @@ PHASE(Using)
     func (item, M(updateArchiver:), self);
   [index drop];
   [instances forEach: @selector (updateArchiver:) : self];
-  return self;
 }
 
-- save
+- (void)sync
 {
   raiseEvent (SubclassMustImplement, "");
-  return self;
 }
 
 - (void)drop
@@ -269,3 +264,6 @@ PHASE(Using)
 }
 
 @end
+
+
+

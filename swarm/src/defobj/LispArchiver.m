@@ -179,8 +179,7 @@ PHASE(Creating)
 {
   [super createEnd];
   
-  currentApplicationKey = [self createAppKey: [arguments getAppName]
-                                mode: [arguments getAppModeString]];
+  [self ensureApp: currentApplicationKey];
 
   if (!inhibitLoadFlag)
     {
@@ -197,7 +196,7 @@ PHASE(Creating)
 
 PHASE(Setting)
 
-- lispLoadArchiver: expr
+- (void)lispLoadArchiver: expr
 {
   id aZone = getZone (self);
 
@@ -227,7 +226,6 @@ PHASE(Setting)
   else 
     lispProcessMakeObjcPairs (aZone, expr,
                               [self ensureApp: currentApplicationKey]);
-  return self;
 }
 
 PHASE(Using)
@@ -401,22 +399,20 @@ archiverLispPut (id aZone, const char *keyStr, id value, id addMap,
     [removeMap removeKey: key];
 }
 
-- putDeep: (const char *)key object: object
+- (void)putDeep: (const char *)key object: object
 {
   id app = [self getApplication];
 
   archiverLispPut (getZone (self), key, object, [app getDeepMap], 
                [app getShallowMap]);
-  return self;
 }
 
-- putShallow: (const char *)key object: object
+- (void)putShallow: (const char *)key object: object
 {
   id app = [self getApplication];
 
   archiverLispPut (getZone (self), key, object, [app getShallowMap], 
                [app getDeepMap]);
-  return self;
 }
 
 static id
@@ -440,7 +436,7 @@ archiverLispGet (id aZone, id string, id app)
   return obj;
 }
 
-- _getWithZone_: aZone _object_: (const char *)key 
+- _getWithZone_: aZone key: (const char *)key 
 {
   id string = [String create: getZone (self) setC: key];
   id app = [self getApplication];
@@ -454,15 +450,15 @@ archiverLispGet (id aZone, id string, id app)
 
 - getObject: (const char *)key
 {
-  return [self _getWithZone_: getZone (self) _object_: key];
+  return [self _getWithZone_: getZone (self) key: key];
 }
 
-- getWithZone: aZone object: (const char *)key
+- getWithZone: aZone key: (const char *)key
 {
-  return [self _getWithZone_: aZone _object_: key];
+  return [self _getWithZone_: aZone key: key];
 }
 
-- save
+- (void)sync
 {
   FILE *fp = fopen (path, "w");
   id outStream;
@@ -475,8 +471,6 @@ archiverLispGet (id aZone, id string, id app)
   [self _lispOut_: outStream];
   fclose (fp);
   [outStream drop];
-
-  return self;
 }
 
 - (void)drop
