@@ -19,7 +19,7 @@ public class User2d extends DirectedAgent2d {
 
   void newEffort () {
     direction = Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359);
-    energy = sampleEnergy ();
+    sampleEnergy ();
   }
 
   public User2d (Zone aZone, Organization org,
@@ -33,7 +33,7 @@ public class User2d extends DirectedAgent2d {
            resistanceProbabilityMean, resistanceProbabilityDeviation,
            energyMean, energyDeviation);
 
-    resistProbability = sampleResistProbability ();
+    sampleResistProbability ();
     newEffort ();
     schedule = new ScheduleImpl (aZone, 1);
 

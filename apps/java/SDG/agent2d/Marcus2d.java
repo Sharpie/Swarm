@@ -73,8 +73,8 @@ public class Marcus2d extends DirectedAgent2d {
     color = ObserverSwarm.MarcusIncubateColor;
     working = false;
     incubationRemaining = incubationTime;
-    resistProbability = sampleResistProbability ();
-    energy = sampleEnergy ();
+    sampleResistProbability ();
+    sampleEnergy ();
     schedule.at$createActionTo$message (t, this, incubateSelector);
   }
 

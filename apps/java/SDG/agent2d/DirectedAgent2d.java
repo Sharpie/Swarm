@@ -17,7 +17,7 @@ abstract class DirectedAgent2d extends Agent2d {
   NormalDist resistProbabilityDistribution;
   NormalDist energyDistribution;
   double resistProbability = 0.0;
-  BernoulliDist bernoulliDist =
+  private BernoulliDist bernoulliDist =
     new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
   boolean frobbed, resisting;
   int direction, energy;
@@ -89,17 +89,17 @@ abstract class DirectedAgent2d extends Agent2d {
     return this;
   }
 
-  public double sampleResistProbability () {
+  public void sampleResistProbability () {
     double prob;
 
     do {
       prob = resistProbabilityDistribution.getDoubleSample ();
     } while (prob < 0.0 || prob > 1.0);
-    return prob;
+    resistProbability = prob;
   }
 
-  public int sampleEnergy () {
-    return Math.abs ((int) energyDistribution.getDoubleSample ());
+  public void sampleEnergy () {
+    energy = Math.abs ((int) energyDistribution.getDoubleSample ());
   }
 
   public boolean frob (int direction) {
