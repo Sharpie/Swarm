@@ -1,5 +1,7 @@
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* GlobalZone.java: Make public.
+
 	* Selector.java: Add objcFlag.  This flag determines whether
 	or not the method signature is treated by s/:/$/ or if additional
 	arguments are added with concatenation of :.

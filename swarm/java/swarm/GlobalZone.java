@@ -1,4 +1,4 @@
 package swarm;
 
-class GlobalZone {
+public class GlobalZone {
 }
