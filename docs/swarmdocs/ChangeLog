@@ -1,3 +1,7 @@
+1998-06-18  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* common.dsl (extract-module-list): Reverse list.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* protocol.el (sgml-generate-indices): Rename src to refbook.

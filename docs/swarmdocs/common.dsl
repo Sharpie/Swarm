@@ -380,15 +380,16 @@
                    (loop (cdr l)))))))
 
 (define (extract-module-list protocol-list)
-    (let loop ((l protocol-list) (last-module #f))
-         (if (null? l)
-             '()
-             (let ((module (car (car l))))
-               (if last-module
-                   (if (string=? last-module module)
-                       (loop (cdr l) module)
-                       (cons module (loop (cdr l) module)))
-                   (cons module (loop (cdr l) module)))))))
+    (reverse
+     (let loop ((l protocol-list) (last-module #f))
+          (if (null? l)
+              '()
+              (let ((module (car (car l))))
+                (if last-module
+                    (if (string=? last-module module)
+                        (loop (cdr l) module)
+                        (cons module (loop (cdr l) module)))
+                    (cons module (loop (cdr l) module))))))))
 
 (define (filter-protocols protocol-list match-module)
     (reverse
