@@ -1,6 +1,8 @@
-1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* VERSION: Bump.
+	* VERSION: Bump. 
+
+1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note defobj and collections test suites for serialization.
 
