@@ -1,3 +1,8 @@
+1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* ControlPanel.m ([ControlPanel -setStateSave]): Use *Archiver
+	sync message, not save.
+
 1999-12-14    <mgd@nest.swarm.org>
 
 	* ProbeDisplayManager.m ([ProbeDisplayManager

@@ -144,8 +144,8 @@ PHASE(Using)
 
 - setStateSave
 {
-  [lispArchiver save];
-  [hdf5Archiver save];
+  [lispArchiver sync];
+  [hdf5Archiver sync];
 
   return self;
 }
