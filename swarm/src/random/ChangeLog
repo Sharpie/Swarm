@@ -1,3 +1,7 @@
+1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am: Remove addition of -Wno-protocol to CPPFLAGS.
+
 1998-10-29  Alex Lancaster  <alex@santafe.edu>
 
 	* generators.h (SimpleRandomGenerator, SplitRandomGenerator: Put

@@ -14,8 +14,6 @@ noinst_HEADERS =  include.dists.creating.m include.dists.setting.m \
 
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I.. -I$(srcdir)/../activity -I$(srcdir)/..
 
-override CPPFLAGS += -Wno-protocol
-
 lib_LTLIBRARIES = librandom.la
 
 SRC = ACGgen.m BernoulliDist.m C2LCGXgen.m C2MRG3gen.m \
