@@ -12,7 +12,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** Java stubs failed to get created if build was running from source tree.
 *** jstring argument localrefs were dereferenced and dropped incorrectly,
     causing crashes on Sun JDK 1.2.  Thanks to Murali Nandula for the report.
-*** Unregistered return values from Java were handled improperly.
+*** Unregistered return values from Java were handled improperly. 
+    Thanks to Murali Nandula for the report.
+*** Objective C directory updates were broken.
     Thanks to Murali Nandula for the report.
 *** ListIndex and MapIndex were missing implemented type info, and were
     thus unavailable for use in Java.
