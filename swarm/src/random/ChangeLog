@@ -1,3 +1,7 @@
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* random.h ([InternalState -describe:, -getName]): Remove.
+
 2000-05-06  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* distributions.h: Rename setGenerator: arguments to indicate

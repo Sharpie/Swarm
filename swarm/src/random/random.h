@@ -42,8 +42,6 @@ USING
 - (unsigned)getStateSize;		// size of buffer needed
 - (void)putStateInto: (void *)buffer;	// save state data for later use
 - (void)setStateFrom: (void *)buffer;	// set state from saved data
-- (void)describe: outStream;	        // prints ascii data to stream
-- (const char *)getName;		// returns name of object
 - (unsigned)getMagic;			// object's 'magic number'
 @end
 
