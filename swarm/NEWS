@@ -49,6 +49,7 @@ Copyright © 1996-2000 Swarm Development Group
     facilitates other representations for grid display.  Thanks to
     Paul Johnson.
 *** EZSequence has a new method getCurrentValue. Thanks to Paul Johnson.
+*** New Binomial distribution. Thanks to Steve Railsback and Steve Jackson.
 
 ** Performance enhancements
 *** MessageProbes, HDF5 time series, archiving, internal scheduling & Maps,

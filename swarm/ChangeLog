@@ -2,6 +2,8 @@
 
 	* NEWS: Note BinomialDist.
 
+	* VERSION: Bump.
+
 2004-07-23  Marcus G. Daniels <mgd@santafe.edu>
 
 	* configure.in:  Don't use /usr/lib/swarm for --enable-subdirs
