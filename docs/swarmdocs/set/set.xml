@@ -1,0 +1,49 @@
+<!DOCTYPE set PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd" [
+<!ENTITY % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN"
+"ignore.sysid">
+%global.ent;
+
+<!ENTITY % versions.ent PUBLIC "-//SFI Hive//ENTITIES Versions//EN"
+"ignore.sysid">
+%versions.ent;
+
+<!ENTITY % refbook.ent PUBLIC "-//SFI Hive//ENTITIES Reference List//EN"
+"ignore.sysid">
+%refbook.ent;
+
+<!ENTITY % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN"
+"ignore.sysid">
+%figs.ent;
+
+<!ENTITY % overview.ent PUBLIC "-//SFI Hive//ENTITIES Overview List//EN"
+"ignore.sysid">
+%overview.ent;
+
+<!ENTITY % install.ent PUBLIC "-//SFI Hive//ENTITIES Install List//EN"
+"ignore.sysid">
+%install.ent;
+
+<!ENTITY setmeta.xml PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN"
+"ignore.sysid">
+<!ENTITY setrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Set Revision History//EN"
+"ignore.sysid">
+]>
+
+<set id="set">
+
+&setmeta.xml;
+
+<book label="Book I ">
+&overcont.xml;
+</book>
+
+<book label="Book II ">
+&installcont.xml;
+</book>
+
+<book label="Book III ">
+&refcont.xml;
+</book>
+
+</set>

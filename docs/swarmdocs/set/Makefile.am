@@ -1,12 +1,12 @@
 NAME = set
 
-GENERATED_SGML = setrevhistory.sgml
+GENERATED_XML = setrevhistory.xml
 
-SGML = set.sgml setmeta.sgml
+XML = set.xml setmeta.xml
 
-EXTRA_DIST = $(SGML)
+EXTRA_DIST = $(XML)
 
-SGML_FILES = $(SGML) $(GENERATED_SGML)
+XML_FILES = $(XML) $(GENERATED_XML)
 
 include $(top_srcdir)/Makefile.common
 include $(top_srcdir)/Makefile.rules
