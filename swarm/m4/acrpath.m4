@@ -10,7 +10,7 @@ case "`(uname -sr) 2>/dev/null`" in
    RPATH='-L'
    ;;
  *)
-   RPATH=-'-Wl,-rpath '
+   RPATH=-'-Wl,-rpath,'
    ;;
 esac
 AC_MSG_RESULT(\"$RPATH\")
