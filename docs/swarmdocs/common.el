@@ -44,9 +44,16 @@
 
 (defun pathname-for-swarmdocs (module-sym filename)
   (let ((module-name (symbol-name module-sym)))
-    (if (eq module-sym 'src)
-        (concat (get-swarmdocs) "src/" filename)
-        (concat (get-swarmdocs) "src/" module-name "/" filename))))
+    (cond ((eq module-sym 'src)
+           (concat (get-swarmdocs) "src/" filename))
+          ((eq module-sym 'set)
+           (concat (get-swarmdocs) "set/" filename)) 
+          ((eq module-sym 'install)
+           (concat (get-swarmdocs) "install/" filename))
+          ((eq module-sym 'over)
+           (concat (get-swarmdocs) "over/" filename))
+          (t
+           (concat (get-swarmdocs) "src/" module-name "/" filename)))))
 
 (defun get-swarmdocs-build-area ()
     (getenv "SWARMDOCS_BUILD_AREA"))
@@ -62,15 +69,25 @@
 
 (defun pathname-for-swarmdocs-revision-output (module-sym)
   (let ((module-name (symbol-name module-sym)))
-    (if (eq module-sym 'src)
-        (concat (get-swarmdocs-build-area)
-                "src/srcrevhistory.sgml")
-        (concat (get-swarmdocs-build-area)
-                "src/"
-                module-name
-                "/"
-                module-name
-                "revhistory.sgml"))))
+    (cond ((eq module-sym 'src)
+           (concat (get-swarmdocs-build-area)
+                   "src/srcrevhistory.sgml"))
+          ((eq module-sym 'set)
+           (concat (get-swarmdocs-build-area)
+                   "set/setrevhistory.sgml"))
+          ((eq module-sym 'install)
+           (concat (get-swarmdocs-build-area)
+                   "install/installrevhistory.sgml")) 
+          ((eq module-sym 'over)
+           (concat (get-swarmdocs-build-area)
+                   "over/overrevhistory.sgml"))
+          (t
+           (concat (get-swarmdocs-build-area)
+                   "src/"
+                   module-name
+                   "/"
+                   module-name
+                   "revhistory.sgml")))))
   
 (defun insert-text (text)
   (let ((beg (point)))
