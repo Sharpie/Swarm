@@ -1,0 +1,25 @@
+abs_top_builddir := $(shell cd $(top_builddir); pwd)
+abs_builddir := $(shell pwd)
+
+define elcrule
+cp -f $< $(dir $@)_$(notdir $<)
+$(EMACS) -batch -f batch-byte-compile $(shell cd $(dir $@); pwd)/_$(notdir $<)
+mv $(dir $@)_$(notdir $@) $@
+$(RM) $(dir $@)_$(notdir $<)
+endef
+
+MODULES = defobj collections activity objectbase random simtools gui simtoolsgui space analysis
+
+%.elc: $(swarm_srcdir)/etc/%.el
+	$(elcrule)
+
+$(abs_top_builddir)/%.elc: $(swarm_srcdir)/etc/%.el
+	$(elcrule)
+
+$(abs_top_builddir)/%.elc: $(top_srcdir)/%.el
+	$(elcrule)
+
+%.elc: %.el
+	$(elcrule)
+
+protocol.elc: $(abs_top_builddir)/common.elc $(swarm_srcdir)/etc/protocol.el
