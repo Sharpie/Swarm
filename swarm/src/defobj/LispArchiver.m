@@ -311,9 +311,9 @@ lisp_output_objects (id app, id outputCharStream,
           [outputCharStream catC: "    "];
           [outputCharStream catSeparator];
           
-          if (!archiver_list_p (expr))
-                    raiseEvent(InvalidOperation,
-                               "parsed ArchiverList instance expected");
+          if (!archiver_list_p (expr) && !nil_value_p (expr))
+            raiseEvent (InvalidOperation,
+                        "parsed ArchiverList instance expected or nil");
           [expr lispOutDeep: outputCharStream];
           [outputCharStream catEndCons];
         }
@@ -371,11 +371,16 @@ archiverLispPut (id app, const char *keyStr, id value, BOOL deepFlag)
   id <Zone> aZone = [streamMap getZone];
   id <String> key = [String create: aZone setC: keyStr];
   id stream = [[[OutputStream createBegin: aZone] setExprFlag: YES] createEnd];
-  
-  if (deepFlag)
-    [value lispOutDeep: stream];
-    else
-    [value lispOutShallow: stream];
+
+  if (value)
+    {
+      if (deepFlag)
+        [value lispOutDeep: stream];
+      else
+        [value lispOutShallow: stream];
+    }
+  else
+    [stream catNil];
 
   if ([streamMap at: key])
     [streamMap at: key replace: stream];

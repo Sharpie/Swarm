@@ -1,3 +1,10 @@
+2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* defobj.m (lispIn): Handle nil ArchiverValue objects.
+
+	* LispArchiver.m (lisp_output_objects): Likewise.
+	(archiverLispPut): Handle nil values.
+
 2001-03-25  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* FArguments.m ([FArguments_c -dropAllocations:]): Only drop

@@ -235,7 +235,9 @@ lispInKeyword (id index)
 id
 lispIn (id aZone, id expr)
 {
-  if (!archiver_list_p (expr))
+  if (nil_value_p (expr))
+    return nil;
+  else if (!archiver_list_p (expr))
     raiseEvent (InvalidArgument, "> expr not an archiver list");
   {    
     id makeExprIndex = [expr begin: scratchZone];
