@@ -24,13 +24,6 @@
 #import <gui.h> // Raster, Colormap
 
 @protocol _Discrete2d
-//S: Root class of all 2d discrete spaces.
-
-//D: A Discrete2d is basically a 2d array of ids.  
-//D: Subclasses add particular space semantics onto this.
-//D: Currently Discrete2d grids are accessed by integer pairs
-//D: of X and Y coordinates. 
-
 CREATING
 //M: Set the world size.
 - setSizeX: (int)x Y: (int)y;
@@ -91,6 +84,12 @@ USING
 @end
 
 @protocol Discrete2d <_Discrete2d, SwarmObject>
+//S: Root class of all 2d discrete spaces.
+
+//D: A Discrete2d is basically a 2d array of ids.  
+//D: Subclasses add particular space semantics onto this.
+//D: Currently Discrete2d grids are accessed by integer pairs
+//D: of X and Y coordinates. 
 @end
 
 @protocol DblBuffer2d <Discrete2d>
