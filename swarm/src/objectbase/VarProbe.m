@@ -19,25 +19,6 @@
 
 #include <swarmconfig.h> // PTRUINT
 
-static double
-derefDouble (const void *p)
-{
-#if 0
-  double val;
-  unsigned *ptr = (unsigned *) &val;
-  unsigned temp;
-  
-  memcpy (ptr, p, sizeof (double));
-  temp = ptr[0];
-  ptr[0] = ptr[1];
-  ptr[1] = temp;
-  printf ("deref: %f\n", val);
-  return val;
-#else
-  return *(double *) p;
-#endif
-}
-
 @implementation VarProbe
 
 PHASE(Creating)
@@ -413,7 +394,7 @@ probe_as_int (const char *probedType, const void *p)
     case _C_ULNG_LNG: i = (unsigned) *(unsigned long long *) p; break;
 
     case _C_FLT:     i = (int) *(float *) p; break;
-    case _C_DBL:     i = (int) derefDouble (p); break;
+    case _C_DBL:     i = (int) *(double *) p; break;
     case _C_LNG_DBL: i = (int) *(long double *) p; break;
       
     default:
@@ -499,7 +480,7 @@ probe_as_double (const char *probedType, const void *p)
     case _C_ULNG_LNG: d = (double) *(unsigned long long *) p; break;
       
     case _C_FLT:  d = (double) *(float *) p; break;
-    case _C_DBL:  d = derefDouble (p); break;
+    case _C_DBL:  d = *(double *) p; break;
     case _C_LNG_DBL:  d = (double) *(long double *) p; break;
       
     default:
@@ -695,9 +676,9 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     case _C_DBL:
       if (precision)
         sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
-                 derefDouble (p));
+                 *(double *) p);
       else
-        sprintf (buf, floatFormat, derefDouble (p));
+        sprintf (buf, floatFormat, *(double *)p);
       break;
     case _C_LNG_DBL:
       if (precision)
@@ -738,7 +719,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     }
   void output_type (const char *type, unsigned offset, void *data)
     {
-      func (rank, vec, derefDouble (&((double *) ary)[offset]));
+      func (rank, vec, ((double *) ary)[offset]);
     }
   process_array (probedType,
                  NULL,
@@ -822,13 +803,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     case _C_ULNG_LNG:
       *(unsigned long long *) p = *(unsigned long long *) newValue; break;
     case _C_FLT:  *(float *) p = *(float *) newValue; break;
-    case _C_DBL: 
-    {
-    double val = derefDouble (newValue); 
-    printf ("setData:To: %f\n", val);
-    *(double *) p = val;
-    break;
-    }
+    case _C_DBL:  *(double *) p = *(double *) newValue; break;
     case _C_LNG_DBL:  *(long double *) p = *(long double *) newValue; break;
       
     default:
