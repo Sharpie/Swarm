@@ -34,6 +34,7 @@ USING
 - (void)dumpDirectory;
 - (const char *)typeModule: (const char *)typeName;
 - (void)verboseMessage: (const char *)message;
+- (void)updateDisplay;
 GETTERS
 - (id <Arguments>)getArguments;
 - (id <Symbol>)getStart;

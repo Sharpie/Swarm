@@ -12,6 +12,8 @@
 #import <defobj/Customize.h>  // PHASE
 #import <defobj/Arguments.h> // Arguments_c
 
+#import <gui.h> // GUI_EVENT_ASYNC
+
 #include <swarmconfig.h>
 
 #ifdef HAVE_JDK
@@ -212,6 +214,11 @@ PHASE(Using)
 - (void)xprint: obj
 {
   xprint (obj);
+}
+
+- (void)updateDisplay
+{
+  while (GUI_EVENT_ASYNC ()) {}
 }
 
 - (void)xfprint: obj

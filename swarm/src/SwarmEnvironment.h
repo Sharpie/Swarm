@@ -36,6 +36,7 @@
 - (void)dumpDirectory;
 - (const char *)typeModule: (const char *)typeName;
 - (void)verboseMessage: (const char *)message;
+- (void)updateDisplay;
 
 #import "SwarmEnvironment_getters.h"
 @end
