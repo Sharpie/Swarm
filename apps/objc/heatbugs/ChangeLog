@@ -1,3 +1,10 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* main.m (main): Use booleans for swarmGUIMmode.
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -_update_]): Use %ld
+	instead of %d for stamping snapshot filenames with time.
+
 1999-08-02  Alex Lancaster  <alex@santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm +createBegin:]):

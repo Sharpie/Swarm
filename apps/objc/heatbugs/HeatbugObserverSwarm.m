@@ -200,13 +200,13 @@
       {
         char filename[40];
 
-        sprintf (filename, "graph%07d.png", getCurrentTime ());
+        sprintf (filename, "graph%07ld.png", getCurrentTime ());
         [actionCache doTkEvents];
         [[[[[[Pixmap createBegin: self]
               setWidget: [unhappyGraph getGraph]]
              setDecorationsFlag: NO]
             createEnd] save: filename] drop];
-        sprintf (filename, "raster%07d.png", getCurrentTime ());
+        sprintf (filename, "raster%07ld.png", getCurrentTime ());
         [[[[[[Pixmap createBegin: self]
               setWidget: worldRaster]
              setDecorationsFlag: YES]

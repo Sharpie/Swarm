@@ -12,6 +12,7 @@
 // For a typical Swarm simulation, in main() you create a toplevel
 // Swarm, let it build and activate, and set it to running.
 
+
 int
 main (int argc, const char **argv)
 {
@@ -20,11 +21,9 @@ main (int argc, const char **argv)
   // Swarm initialization: all Swarm apps must call this first.
   initSwarm (argc, argv);
   
-  // swarmGUIMode is set in initSwarm(). It's set to be 0 if you typed
-  // `heatbugs --batchmode' or `heatbugs -b'. Otherwise, it's set to
-  // 1.
-  
-  if (swarmGUIMode == 1)
+  // swarmGUIMode is set in initSwarm(). It's set to be NO if you typed
+  // `heatbugs --batchmode' or `heatbugs -b'. Otherwise, it's set to YES.
+  if (swarmGUIMode == YES)
     {
       // We've got graphics, so make a full ObserverSwarm to get GUI objects
       theTopLevelSwarm = [HeatbugObserverSwarm createBegin: globalZone];
