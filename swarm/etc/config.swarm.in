@@ -23,6 +23,8 @@ pnglibdir="@pnglibdir@"
 
 jdkdir="@jdkdir@"
 JAVACLASSES="@JAVACLASSES@"
+JAVALIBS="@JAVALIBS@"
+JAVA="@JAVA@"
 
 swarm_SWARMLDFLAGS="@SWARMLDFLAGS@"
 swarm_XPMLDFLAGS="@XPMLDFLAGS@"
