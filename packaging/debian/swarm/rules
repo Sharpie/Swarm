@@ -6,7 +6,7 @@ package=swarm
 
 build:
 	$(checkdir)
-	JAR=/usr/lib/jdk1.1/bin/jar JAVAC=javac ./configure --prefix=/usr --with-jdkdir=/usr
+	JAR=/usr/lib/jdk1.1/bin/jar JAVAC=javac ./configure --prefix=/usr --with-jdkdir=/usr/lib/kaffe --enable-subdirs
 	$(MAKE) 
 	touch build
 
