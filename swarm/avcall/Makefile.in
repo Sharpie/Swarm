@@ -156,7 +156,7 @@ install-lib : all force
 	if [ ! -d $(includedir) ] ; then mkdir $(includedir) ; fi
 	$(INSTALL_DATA) avcall.h $(includedir)/avcall.h
 
-install- : all force
+install : all force
 	if [ ! -d $(DESTDIR)$(prefix) ] ; then mkdir $(DESTDIR)$(prefix) ; fi
 	if [ ! -d $(DESTDIR)$(exec_prefix) ] ; then mkdir $(DESTDIR)$(exec_prefix) ; fi
 	if [ ! -d $(DESTDIR)$(libdir) ] ; then mkdir $(DESTDIR)$(libdir) ; fi
