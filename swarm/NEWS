@@ -13,6 +13,8 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
     Thanks to Jayshree Sarma for the report.
 *** Fixed various memory leaks in activity library
     Thanks to Martin Gutting for the report.
+*** Eliminated absolute paths in javaswarm and javacswarm.
+    Thanks to Glen Ropella and Cody Stumpo for the reports.
 
 ** Other changes
 *** Java arguments and return types use generic interface typing.
