@@ -1,5 +1,7 @@
 2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* VERSION: Bump.
+
 	* config.guess, config.sub, ltconfig, ltmain.sh: Back up to libtool
 	1.3b, as 1.3d, 1.4 and the latest snapshots fail on sparc-sun-solaris
 	and Debian potato.
