@@ -22,9 +22,17 @@ PRECLASSFILES = $(addsuffix .class,$(PRECLASSES))
 POSTCLASSFILES = $(addsuffix .class,$(POSTCLASSES))
 SWARMCLASSFILES = $(addprefix swarm/,$(PRECLASSFILES) $(POSTCLASSFILES))
 
-GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))))
+define module-class-files
+$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))
+endef
 
-GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS))))))))
+define module-interface-files
+$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS))))))
+endef
+
+GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-class-files)))
+
+GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-interface-files)))
 
 ALLCLASSFILES = $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
@@ -46,7 +54,11 @@ install-java-classes-as-jar: jar
 
 install-java-classes-as-files: all
 	test -d $(datadir) || mkdir $(datadir)
-	(cd ..; tar cf - $(ALLCLASSFILES)) | (cd $(datadir); tar xf -)
+	echo $(SWARMCLASSFILES) > filelist
+	$(foreach module,$(MODULES),echo $(module-class-files) >> filelist;)
+	$(foreach module,$(MODULES),echo $(module-interface-files) >> filelist;)
+	(cd ..; tar -c -f - -T filelist) | (cd $(datadir); tar xf -)
+	$(RM) filelist
 
 install: install-java-classes-as-@JAVA_CLASSES_INSTALLED_AS@
 

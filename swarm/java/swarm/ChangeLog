@@ -1,6 +1,9 @@
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (%.class): Don't include `$(srcdir)/..'.
+	(module-class-files, module-interface-files): New macros.
+	(GENCLASSFILES, GENINTERFACEFILES): Use them.
+	(install-java-classes-as-files): Use them.
 
 	* Makefile.rules.in (top_dossrcdir): Substitute.
 	(JAVADEPS): New variable.
