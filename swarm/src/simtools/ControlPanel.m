@@ -18,29 +18,33 @@ id ControlStateRunning, ControlStateStopped;
 id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 @implementation ControlPanel
--createEnd {
-  [super createEnd];
 
+- createEnd
+{
+  [super createEnd];
+  
   // default state is Stopped.
   state = ControlStateStopped;
   
   return self;
 }
 
--(id) getPanel {
-  [ObsoleteMessage raiseEvent: "getPanel moved to ActionCache.\n"];
+- getPanel
+{
+  [APIChange raiseEvent: "getPanel moved to ActionCache.\n"];
   return nil;
 }
 
--getState {
+- getState
+{
   return state;
 }
 
--setState: (id) s {
-  state = s;
+- setState: theState
+{
+  state = theState;
   return self;
 }
-
 
 // What does a "waitForControlEvent" mean to a generic Swarm?  It's
 // obvious what it means to a guiSwarm, and since we only instantiate
@@ -58,7 +62,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 // version we don't as long as we have some mechanism other than the
 // schedule for changing ObjC object state in response to Java
 // events. 
--waitForControlEvent
+- waitForControlEvent
 {
   [self setState: ControlStateStopped];
   while (state == ControlStateStopped)
@@ -66,68 +70,75 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   return nil;
 }
 
--doTkEvents {
-  [ObsoleteMessage raiseEvent: "doTkEvents moved to ActionCache.\n"];
+- doTkEvents
+{
+  [APIChange raiseEvent: "doTkEvents moved to ActionCache.\n"];
   return nil;
 }
 
 // Run: just set our own state to running, let whatever object who
 // is using us arrange for the run to go again.
--startInActivity: (id) activityID {
+- startInActivity: activityID
+{
   id controlState, activityState;
-
-  while (YES) {
-    
-    controlState = [self getState];
-    activityState = [activityID getStatus];
-
-    if ((controlState == ControlStateRunning) && 
-	(activityState != Running))
-      activityState = [activityID run];
-    else if (controlState == ControlStateStopped)
-      [self setStateStopped];
-    else if (controlState == ControlStateQuit)
-      return Completed;  // this returns to go,which returns to main
-    else if (controlState == ControlStateStepping) {
-      [activityID step];
-      [self setStateStopped];
+  
+  while (YES)
+    {
+      controlState = [self getState];
+      activityState = [activityID getStatus];
+      
+      if ((controlState == ControlStateRunning) && 
+          (activityState != Running))
+        activityState = [activityID run];
+      else if (controlState == ControlStateStopped)
+        [self setStateStopped];
+      else if (controlState == ControlStateQuit)
+        return Completed;  // this returns to go,which returns to main
+      else if (controlState == ControlStateStepping) 
+        {
+          [activityID step];
+          [self setStateStopped];
+        }
+      else if (controlState == ControlStateNextTime)
+        {
+          [activityID stepUntil: [activityID getCurrentTime]+1 ];
+          [self setStateStopped];
+        }
+      else [self setStateStopped];
     }
-    else if (controlState == ControlStateNextTime) {
-      [activityID stepUntil: [activityID getCurrentTime]+1 ];
-      [self setStateStopped];
-    }
-    else [self setStateStopped];
-  }
   return [activityID getStatus];
 }
 
 // Stop: set state to stop, also stop activities.
--setStateStopped
+- setStateStopped
 {
   //  if (getTopLevelActivity()){
   [probeDisplayManager setDropImmediatelyFlag: YES];
-  if (_activity_current) {
-    [getTopLevelActivity() stop];
-    return [self setState: ControlStateStopped];
-  } else {
-    [self setState: ControlStateStopped] ;
-    [self waitForControlEvent];
-    // Check now if the user hit the quit button: if so, abort.
-    if ([self getState] == ControlStateQuit)
-      exit(0) ;
-    else
-      return self ;
-  }
+  if (_activity_current)
+    {
+      [getTopLevelActivity() stop];
+      return [self setState: ControlStateStopped];
+    }
+  else
+    {
+      [self setState: ControlStateStopped] ;
+      [self waitForControlEvent];
+      // Check now if the user hit the quit button: if so, abort.
+      if ([self getState] == ControlStateQuit)
+        exit(0) ;
+      else
+        return self ;
+    }
 }
 
--setStateStoppedAndSave
+- setStateStoppedAndSave
 {
   [self setStateStopped];
   archiverSave ();
   return self;
 }
 
--setStateRunning 
+- setStateRunning 
 {
   [probeDisplayManager setDropImmediatelyFlag: NO];
   return [self setState: ControlStateRunning];
@@ -135,7 +146,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 // Step: first, stop the running activity (we're probably already stopped,
 // though). Then set our own state to Stepping.
--setStateStepping
+ -setStateStepping
 {
   [probeDisplayManager setDropImmediatelyFlag: YES];
   if (_activity_current)
@@ -146,7 +157,8 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 // Next time: first, stop the running activity (we're probably already stopped,
 // though). Then set our own state to NextTime.
--setStateNextTime {
+- setStateNextTime
+{
   if (_activity_current)
     //  if (getTopLevelActivity())
     [getTopLevelActivity() stop];
@@ -154,12 +166,12 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 }
 
 // Quit: set state to quit, also terminate activities.
--setStateQuit {
+- setStateQuit
+{
   //  if (getTopLevelActivity())
   if (_activity_current)
     [getTopLevelActivity() terminate];
   return [self setState: ControlStateQuit];
 }
-
 
 @end

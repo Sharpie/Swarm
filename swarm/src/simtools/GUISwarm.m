@@ -4,16 +4,17 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/GUISwarm.h>
+#import <simtools/ControlPanel.h>
 
 @implementation GUISwarm
 
--setControlPanelGeometryRecordName : (const char *)theName
+- setControlPanelGeometryRecordName : (const char *)theName
 {
   controlPanelGeometryRecordName = theName;
   return self;
 }
 
--buildObjects
+- buildObjects
 {
   [super buildObjects];
   controlPanel = [ControlPanel create: [self getZone]];
@@ -30,11 +31,13 @@
 // use of this method should be deprecated.  Control of an independent
 // Swarm should be handled by that Swarm's control panel, regardless
 // of whether it's a guiswarm or batchswarm or whatever.
--go {
+- go
+{
   return [controlPanel startInActivity: [self getActivity]];
 }
 
--activateIn: (id) swarmContext {
+- activateIn: swarmContext
+{
   [super activateIn: swarmContext];
   [actionCache setScheduleContext: self];
   return [self getActivity];

@@ -14,13 +14,13 @@
 
 @interface GUISwarm : Swarm
 {
-  ControlPanel * controlPanel;
+  id controlPanel;
   id actionCache;
 
   const char *controlPanelGeometryRecordName;
 }
 
--setControlPanelGeometryRecordName : (const char *)theName;
--buildObjects;
--go;				   // returns Completed or ControlStateQuit
+- setControlPanelGeometryRecordName: (const char *)theName;
+- buildObjects;
+- go;				   // returns Completed or ControlStateQuit
 @end
