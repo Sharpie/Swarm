@@ -1,3 +1,15 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* QSort.m: Use size_t for size, not int.  Use size_t for `i' in
+	all methods.
+	([QSort +_flatten_:]): xmalloc `flat' using sizeof id, not int.
+	(cmpInts): Use PTRINT as argument type.
+	([QSort +sortNumbersIn:]): Use PTRINT as element size, not int.
+	([QSort +sortNumbersIn:using:]): Use PTRINT as element size, not
+	int.
+	([QSort +reverseOrderOf:]): xmalloc `flat' using size of id
+	not int.
+
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* AppendFile.[hm] ([AppendFile +create:setName:]): Renamed from

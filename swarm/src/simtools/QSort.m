@@ -139,7 +139,7 @@ cmpObjs (id *a, id *b)
   
   if (size)
     {
-      flat = xmalloc (sizeof (PTRINT) * size);
+      flat = xmalloc (sizeof (id) * size);
       
       index = [aCollection begin: scratchZone];
       
