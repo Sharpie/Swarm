@@ -130,17 +130,18 @@
 (define (reference-titlepage-recto-elements)
   (list (normalize "title") 
         (normalize "subtitle")
-        (normalize "revhistory")))
+        ))
 
 (define (reference-titlepage-verso-elements)
-  (list (normalize "abstract")))
+  (list (normalize "abstract")
+        (normalize "revhistory")))
 
-(mode reference-titlepage-recto-mode
-
-  (element revhistory ($book-revhistory$)))
+(mode reference-titlepage-recto-mode)
 
 (mode reference-titlepage-verso-mode
 
+  (element revhistory ($book-revhistory$))
+  
   (element abstract
     (make display-group
       start-indent: (+ (inherited-start-indent) 0.25in)
@@ -390,14 +391,15 @@
 
 (define %generate-partintro-on-titlepage%
   ;; Should the PartIntro appear on the Part/Reference title page?
-  #f)
+  #t)
 
-(define (reference-titlepage-recto-elements)
-  (list (normalize "title")
-        (normalize "revhistory")
-        ))
+;(define (reference-titlepage-recto-elements)
+;  (list (normalize "title")))
 
-(mode reference-titlepage-recto-mode
+(define (reference-titlepage-verso-elements)
+  (list (normalize "revhistory")))
+
+(mode reference-titlepage-verso-mode
 
   (element revhistory ($book-revhistory$)))
 
