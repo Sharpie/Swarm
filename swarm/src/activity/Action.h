@@ -102,7 +102,6 @@ Library:      activity
 {
 }
 - setTarget: target;
-- createEnd;
 - (void)setDefaultOrder: (id <Symbol>)aSymbol;
 - (void)_performAction_: (id <Activity>)anActivity;
 - (id <Symbol>)getDefaultOrder;

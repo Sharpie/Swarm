@@ -375,16 +375,6 @@ PHASE(Creating)
   return self;
 }
 
-- createEnd
-{
-  [super createEnd];
-
-  if ([call getCallType] != objccall)
-    raiseEvent (InvalidArgument,
-                "Heterogeneous collections must be Objective C calls");
-  return self;
-}
-
 PHASE(Setting)
 
 - (void)setDefaultOrder: (id <Symbol>)aSymbol

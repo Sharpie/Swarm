@@ -1,3 +1,9 @@
+1999-12-22    <mgd@nest.swarm.org>
+
+	* Action.[hm] ([FActionForEachHeterogeneous_c -createEnd]): Remove.
+	This was just a check that the call type was Objective C, which
+	was not a necessary constraint.
+
 1999-12-21    <mgd@nest.swarm.org>
 
 	* Action.m: Add declarations so that getUnsignedWithMin:withMax:
