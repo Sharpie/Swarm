@@ -3,6 +3,8 @@
 <style-specification id="common">
 <style-specification-body>
 
+(define %gentext-usen-by% "")
+
 (element indexentry 
          (make display-group 
                keep: 'page
