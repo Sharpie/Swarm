@@ -1,3 +1,7 @@
+1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* gui.h: Add CREATABLE tags for all non-abstract protocols.
+
 1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* gui.h: Merge internal protocols into advertised protocols.

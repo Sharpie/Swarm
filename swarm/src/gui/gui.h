@@ -119,7 +119,7 @@ USING
 @end
 
 
-@protocol WindowGeometryRecord <Serialization, Create, Drop>
+@protocol WindowGeometryRecord <Serialization, Create, Drop, CREATABLE>
 //S: A container for window geometry information.
 
 //D: A container for window geometry information that implements
@@ -169,7 +169,7 @@ USING
 - (void)drop;
 @end
 
-@protocol Frame <ArchivedGeometryWidget>
+@protocol Frame <ArchivedGeometryWidget, CREATABLE>
 //S: Encapsulation of toplevels.
 
 //D: Frames are boxes other widgets fit in. They correspond to the Tk
@@ -194,7 +194,7 @@ USING
 - deiconify;
 @end
 
-@protocol Canvas <ArchivedGeometryWidget>
+@protocol Canvas <ArchivedGeometryWidget, CREATABLE>
 //S: An interface to Tk canvas semantics.
 
 //D: The Canvas widget allows display of a diverse range of graphical objects.
@@ -213,7 +213,7 @@ USING
 - checkGeometry: frame;
 @end
 
-@protocol ProbeCanvas <Canvas>
+@protocol ProbeCanvas <Canvas, CREATABLE>
 //S: A canvas type for probe displays.
 
 //D: ProbeCanvas is a Canvas that implements the general appearance and
@@ -258,7 +258,7 @@ USING
 - setWidth: (unsigned)w;
 @end
 
-@protocol Graph <ArchivedGeometryWidget>
+@protocol Graph <ArchivedGeometryWidget, CREATABLE>
 //S: A time series graph tool.
 
 //D: A time series graph tool, based on BLT's graph widget.  Graph
@@ -288,7 +288,7 @@ USING
 @end
 
 
-@protocol Histogram <ArchivedGeometryWidget>
+@protocol Histogram <ArchivedGeometryWidget, CREATABLE>
 //S: Histogram display tool.
 
 //D: In Tk, this is based on BLT's barchart. 
@@ -353,7 +353,7 @@ USING
 - setupActiveItemInfo;
 @end
 
-@protocol Label <Widget>
+@protocol Label <Widget, CREATABLE>
 //S: A widget with text.
 
 //D: A widget with text.
@@ -365,7 +365,7 @@ USING
 - setText: (const char *)text;
 @end
 
-@protocol ClassDisplayLabel <Label>
+@protocol ClassDisplayLabel <Label, CREATABLE>
 //S: A label for displaying class names.
 
 //D: This widget is used internally by ClassDisplayWidget.
@@ -375,7 +375,7 @@ CREATING
 USING
 @end
 
-@protocol VarProbeLabel <Label>
+@protocol VarProbeLabel <Label, CREATABLE>
 //S: A label for displaying variable names.
 
 //D: This widget is used internally by VarProbeWidget.
@@ -384,7 +384,7 @@ CREATING
 - createEnd;
 @end
 
-@protocol CompleteProbeDisplayLabel <Label>
+@protocol CompleteProbeDisplayLabel <Label, CREATABLE>
 //S: A class label used in a SimpleProbeDisplay.
 
 //D: This widget is used internally by SimpleProbeDisplay.
@@ -403,7 +403,7 @@ CREATING
 USING
 @end
 
-@protocol Button <Widget>
+@protocol Button <Widget, CREATABLE>
 //S: A button widget.
 
 //D: A button widget that, when pressed, sends a method to a target object.
@@ -418,7 +418,7 @@ USING
 - setButtonTarget: target method: (SEL)method;
 @end
 
-@protocol ClassDisplayHideButton <Button>
+@protocol ClassDisplayHideButton <Button, CREATABLE>
 //S: The hide button used by a CompleteProbeDisplay.
 
 //D: A button that handles the dismissal of class widgets on a
@@ -430,7 +430,7 @@ CREATING
 USING
 @end
 
-@protocol SimpleProbeDisplayHideButton <Button>
+@protocol SimpleProbeDisplayHideButton <Button, CREATABLE>
 //S: The hide button used by a SimpleProbeDisplay.
 
 //D: A button that handles the dismissal of a SimpleProbeDisplay.
@@ -441,7 +441,7 @@ CREATING
 - createEnd;
 @end
 
-@protocol SuperButton <Button>
+@protocol SuperButton <Button, CREATABLE>
 //S: Request superclass in ClassDisplayWidget.
 
 //D: A button used by ClassDisplayWidget to ask for superclass.
@@ -479,7 +479,7 @@ USING
 - setValue: (const char *)v;
 @end
 
-@protocol Entry <InputWidget>
+@protocol Entry <InputWidget, CREATABLE>
 //S: Handles text-field input.
 
 //D: Handles text-field input.
@@ -494,7 +494,7 @@ USING
 - setHeight: (unsigned)h; // since this isn't possible with Tk, it will abort.
 @end
 
-@protocol MessageProbeEntry <Entry>
+@protocol MessageProbeEntry <Entry, CREATABLE>
 //S: A widget for arguments to a message probe.
 
 //D: An Entry widget for MessageProbe arguments.
@@ -509,7 +509,7 @@ CREATING
 USING
 @end
 
-@protocol VarProbeEntry <Entry>
+@protocol VarProbeEntry <Entry, CREATABLE>
 //S: A widget for variable probes.
 
 //D: An Entry widget for VarProbes.
@@ -528,7 +528,7 @@ USING
 - getVarProbe;
 @end
 
-@protocol ButtonPanel <Frame>
+@protocol ButtonPanel <Frame, CREATABLE>
 //S: Several buttons bound together in one frame.
 
 //D: Several buttons bound together in one frame.
@@ -544,7 +544,7 @@ USING
 - addButtonName: (const char *)name method: (SEL)sel;
 @end
 
-@protocol Form <Widget>
+@protocol Form <Widget, CREATABLE>
 //S: A set of Entry widgets bound together in one frame.
 
 //D: A set of Entry widgets bound together in one frame.
@@ -565,7 +565,7 @@ USING
 - addLineName: (const char *)n Double: (double *)p;
 @end
 
-@protocol CheckButton <InputWidget>
+@protocol CheckButton <InputWidget, CREATABLE>
 //S: A check box on/off selection widget.
 
 //D: A check box on/off selection widget.
@@ -583,7 +583,7 @@ USING
 typedef unsigned char Color; 
 typedef unsigned long PixelValue;
 
-@protocol Colormap <Create>
+@protocol Colormap <Create, CREATABLE>
 //S: An class for creating a color palette for use with a Raster.
 
 //D: Mechanism used to map numbers in the range [0, 255] to colour
@@ -624,7 +624,7 @@ USING
 - drawX: (int)x Y: (int)y;
 @end
 
-@protocol Raster <ArchivedGeometryWidget>
+@protocol Raster <ArchivedGeometryWidget, CREATABLE>
 //S: A two dimension color display class.
 
 //D: 2 dimensional, colour pixel images. Raster is based on a Tk frame widget
@@ -674,7 +674,7 @@ USING
 - erase;
 @end
 
-@protocol ZoomRaster <Raster>
+@protocol ZoomRaster <Raster, CREATABLE>
 //S: A zoomable Raster.
 
 //D: ZoomRaster is a subclass of Raster that implements a zoomable image. It
@@ -699,7 +699,7 @@ USING
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 @end
 
-@protocol Pixmap <Drawer, Create>
+@protocol Pixmap <Drawer, Create, CREATABLE>
 //S: A class for drawing color bitmaps on a Raster.
 
 //D: A class for drawing color bitmaps on a Raster.  The bitmaps are
@@ -782,7 +782,7 @@ USING
 - getCanvas;
 @end
 
-@protocol CanvasItem <CanvasAbstractItem>
+@protocol CanvasItem <CanvasAbstractItem, CREATABLE>
 //S: An abstract superclass for simple Canvas items.
 
 //D: An abstract superclass for non-composite Canvas items.
@@ -809,7 +809,7 @@ USING
 - initiateMoveX: (long)delta_x Y: (long)delta_y;
 @end
 
-@protocol NodeItem <CompositeItem>
+@protocol NodeItem <CompositeItem, CREATABLE>
 //S: A class for displaying a node on a Canvas.
 
 //D: A class for displaying a node on a Canvas.
@@ -850,7 +850,7 @@ USING
 - createPaddedText;
 @end
 
-@protocol LinkItem <CompositeItem>
+@protocol LinkItem <CompositeItem, CREATABLE>
 //S: A canvas item for displaying a link between two nodes.
 
 //D: A CompositeCanvasItem for displaying a link between two NodeItems.
@@ -878,7 +878,7 @@ USING
 - (void)drop;
 @end
 
-@protocol ScheduleItem <CompositeItem>
+@protocol ScheduleItem <CompositeItem, CREATABLE>
 //S: A canvas item for displaying the time structure of a schedule.
 
 //D: A CompositeCanvasItem for displaying the time structure of a schedule.
@@ -909,7 +909,7 @@ USING
 - (void)drop;
 @end
 
-@protocol OvalNodeItem <NodeItem>
+@protocol OvalNodeItem <NodeItem, CREATABLE>
 //S: A circular NodeItem.
 
 //D: A NodeItem with a circular appearance.
@@ -918,7 +918,7 @@ CREATING
 - createItem;
 @end
 
-@protocol RectangleNodeItem <NodeItem>
+@protocol RectangleNodeItem <NodeItem, CREATABLE>
 //S: A rectangular NodeItem.
 
 //D: A rectangular NodeItem.
@@ -927,7 +927,7 @@ CREATING
 - createItem;
 @end
 
-@protocol TextItem <CanvasItem>
+@protocol TextItem <CanvasItem, CREATABLE>
 //S: A CanvasItem that displays text.
 
 //D: A CanvasItem that displays text.
@@ -951,7 +951,7 @@ CREATING
 USING
 @end
 
-@protocol Circle <CanvasItem>
+@protocol Circle <CanvasItem, CREATABLE>
 //S: A CanvasItem that displays a circle.
 
 //D: A CanvasItem that displays a circle.
@@ -967,7 +967,7 @@ CREATING
 USING
 @end
 
-@protocol Rectangle <CanvasItem>
+@protocol Rectangle <CanvasItem, CREATABLE>
 //S: A CanvasItem that displays a rectangle.
 
 //D: A CanvasItem that displays a rectangle.
@@ -979,7 +979,7 @@ CREATING
 - createItem;
 @end
 
-@protocol Line <CanvasItem>
+@protocol Line <CanvasItem, CREATABLE>
 //S: A CanvasItem that displays a line.
 
 //D: A CanvasItem that displays a line.
