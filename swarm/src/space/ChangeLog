@@ -1,3 +1,26 @@
+1999-04-25  Alex Lancaster  <alex@santafe.edu>
+
+	* Discrete2d.m ([Discrete2d -lispInCreate:], [Discrete2d
+	-lispIn:]): Custom input Lisp parsing routines for Discrete2d
+	lattices for create-time and use-time, respectively.
+	([Discrete2d -lispOutShallow:], [Discrete2d -lispOutDeep:]):
+	Custom output Lisp for lattices.  Don't allow shallow
+	serialization.
+	([Discrete2d -_lispOutAttr_:anObject:atX:Y:], [Discrete2d
+	-_lispInAttr_:]): Local customization for reading and writing
+	objects into lattice.
+	([Discrete2d -_lispInAttrAsValues_:], [Discrete2d
+	-_lispInAttrAsObjects_:]): Internal parsing methods.
+
+	* space.h: ([Discrete2d -setUseObjects], [Discrete2d
+	-setUseValues]):  Add to SETTING phase.
+
+	* Discrete2d.[hm] ([Discrete2d -setUseObjects], [Discrete2d
+	-setUseValues]): New methods to set the kind of serialization
+	required for instance (only required in cases when it cannot be
+	inferred from the archiver).  Add respective BOOL instance
+	variables.
+	
 1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Ca2d.[hm], ConwayLife2d.[hm], DblBuffer2d.[hm], Diffuse2d.[hm],

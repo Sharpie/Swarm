@@ -19,12 +19,16 @@
   unsigned xsize, ysize;
   id *lattice;
   long *offsets;
+  BOOL useObjects;
+  BOOL useValues;
 }
 
 - setSizeX: (unsigned)x Y: (unsigned)y;
 - createEnd;
 - makeOffsets;
 - (id *)allocLattice;
+- setUseObjects;
+- setUseValues;
 
 - (unsigned)getSizeX;
 - (unsigned)getSizeY;

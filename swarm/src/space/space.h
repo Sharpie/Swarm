@@ -47,6 +47,12 @@ CREATING
 SETTING
 - setLattice: (id *)lattice;
 
+//M: Set the lattice to use objects for archiving
+- setUseObjects;
+
+//M: Set the lattice to use values for archiving
+- setUseValues;
+
 USING
 //M: Get the size of the lattice in the X dimension.
 - (unsigned)getSizeX;
