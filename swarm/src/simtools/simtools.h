@@ -339,4 +339,3 @@ extern int swarmGUIMode;
 @class ObjectSaver;
 @class QSort;
 @class NSelect;
-@class ActiveOutFile;

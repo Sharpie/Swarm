@@ -2,7 +2,7 @@
 
 	* Makefile.am (SRC, simtools_HEADERS): Remove mention ActiveOutFile.
 
-	* simtools.h (ActiveOutFile): Remove.
+	* simtools.h (ActiveOutFile): Remove protocol and class object.
 
 	* ActiveOutFile.[hm]: Remove.
 
