@@ -341,7 +341,7 @@ PHASE(Creating)
         }
     }
 #ifdef HAVE_HDF5
-  if (HDF5Path)
+  if (hdf5Path)
     {
       // printf ("post:[%s]\n", [self name]);
     }
@@ -361,7 +361,7 @@ PHASE(Setting)
 #ifdef HAVE_HDF5
 - setHDF5Path: (const char *)thePath
 {
-  HDF5Path = strdup (thePath);
+  hdf5Path = strdup (thePath);
   
   return self;
 }
@@ -464,6 +464,14 @@ PHASE(Using)
       [self lispOut: outStream];
       fclose (fp);
       [outStream drop];
+    }
+  if (hdf5Path)
+    {
+      hid_t fid;
+
+      if ((fid = H5Fcreate (hdf5Path, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT))
+          < 0)
+        raiseEvent (SaveError, "Failed to create HDF5 file `%s'", hdf5Path);
     }
   return self;
 }

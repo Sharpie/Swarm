@@ -564,8 +564,9 @@ extern id <Error>
   InternalError,        //G: unexpected condition encountered in program
   BlockedObjectAlloc,   //G: method from Object with invalid allocation
   BlockedObjectUsage,   //G: method inherited from Object superclass
-  ProtocolViolation;    //G: object does not comply with expected protocol
-
+  ProtocolViolation,    //G: object does not comply with expected protocol
+  LoadError,           //G: unable to access a resource
+  SaveError;           //G: unable to save a resource
 
 @end
 

@@ -15,7 +15,7 @@ extern id archiver;
   id <Map> applicationMap;
   const char *lispPath;
 #ifdef HAVE_HDF5
-  const char *HDF5Path;
+  const char *hdf5Path;
 #endif
 @public
   id <List> instances, classes;

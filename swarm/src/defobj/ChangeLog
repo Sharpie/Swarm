@@ -1,5 +1,9 @@
 1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.h (LoadError, SaveError): New error types.
+
+	* Archiver.[hm]: Use hdf5Path instead of HDF5Path throughtout.
+
 	* DefObject.m (process_array): New function.
 	(lisp_process_array): Use it, providing
 	lisp{start,end}{array,dim,element} and output_type
