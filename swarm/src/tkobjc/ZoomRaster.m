@@ -60,7 +60,7 @@ PHASE(Using)
 {
   while (GUI_EVENT_ASYNC ()) { };
   configureFlag = YES;
-  [super pack];
+  return [super pack];
 }
 
 - (unsigned)getWidth
