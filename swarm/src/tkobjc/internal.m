@@ -836,6 +836,11 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         check_for_overlaps (display, topWindow,
                             &overlapWindows, &overlapCount);
 
+        [globalTkInterp eval: "bind %s <Configure> {\n"
+                        "uplevel #0 {\n"
+                        "set obscured yes\n"
+                        "}\n}\n", widgetName];
+
         [globalTkInterp eval: "bind %s <Visibility> {\n"
                         "uplevel #0 {\n"
                         "if {\"%%s\" != \"VisibilityUnobscured\"} {\n"
@@ -866,11 +871,8 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                             "}\n"];
 
             for (i = 0; i < overlapCount; i++)
-              {
-                printf ("unmapping: %x\n", overlapWindows[i]);
-                if (!XUnmapWindow (display, overlapWindows[i]))
-                  abort ();
-              }
+              if (!XUnmapWindow (display, overlapWindows[i]))
+                abort ();
             XFlush (display);
           }
         
@@ -907,6 +909,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
           }
         xfree (overlapWindows);
         [globalTkInterp eval: "bind %s <Visibility> {}\n", widgetName];
+        [globalTkInterp eval: "bind %s <Configure> {}\n", widgetName];
       }
 #else
       keep_inside_screen (tkwin, window);
