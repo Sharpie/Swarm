@@ -1,3 +1,8 @@
+2003-08-13  Marcus Daniels  <mgd@dhcp159.santafe.edu>
+
+	* findImp.m (main): Call swarm_force_references so that any
+	requested class will be available.
+
 2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.am modify findImp__EXEEXT__LDFLAGS to find the right libobjc
