@@ -44,7 +44,7 @@
       implemented has been exercised very heavily.  The interfaces to Set
       and Map structures will remain the same even as their underlying
       implementations improve, so there is no harm in using them.  See the
-      <LINK LINKEND="GRID.REF">GridTurtle test programs</LINK> for the most
+      <LINK LINKEND="GRID.APP">GridTurtle test programs</LINK> for the most
       complete examples of collections usage.</PARA>
 
     <PARA>The collections library follows the documentation structure

@@ -9,13 +9,13 @@
     <PARA>The activity library is in process of being converted to draw even
       more of its support from underlying types and classes in the defobj
       and collections libraries.  The basic interface has already been
-      changed to reflect this consolidation, so the programming interface
+      changed to reflect this consolidation, so the progrmming interface
       for currently available function is expected to remain stable.
     </PARA>
 
     <PARA>The activity library follows the documentation structure of
-      the Swarm <link linkend="defobj.ref">library interface
-      conventions</link>.  There are placeholders for each section of
+      the Swarm <LINK LINKEND="DEFOBJ.REF">library interface
+      conventions</LINK>.  There are placeholders for each section of
       documentation so that all links should at least link up with
       something, whether or not there's anything there.  The Interface
       Reference section is already fairly complete, and there is a
@@ -37,8 +37,8 @@
       which so far is only a general overview of the activity library ..)
     </PARA>
 
-    <PARA>There is also a directory of test programs (<link
-        linkend="grid.ref">GridTurtle test programs</link>, contained
+    <PARA>There is also a directory of test programs (<LINK
+        LINKEND="GRID.APP">GridTurtle test programs</LINK>, contained
         within the documentation release directory) that provides
         additional code examples of many basic features of the defobj,
         collections, and activity libraries.  These code examples are
