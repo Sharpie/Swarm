@@ -1,12 +1,31 @@
 package swarm;
+import swarm.NonUniqueMethodSignatureException;
+import swarm.SignatureNotFoundException;
+import java.lang.reflect.Method;
 
 public class Selector {
-  public Selector (String nameVal, Class retTypeVal, Class[] argTypeVals) {
-    name = nameVal;
-    retType = retTypeVal;
-    argTypes = argTypeVals;
-  }
-  String name;
+  String signature;
   Class retType;
   Class [] argTypes;
+
+  public Selector (Class theClass, String theMethodName) throws NonUniqueMethodSignatureException, SignatureNotFoundException {
+    Method[] methods = theClass.getMethods ();
+    int matchCount = 0;
+    
+    for (int mi = 0; mi < methods.length; mi++)
+        {
+            if (methods[mi].getName ().compareTo (theMethodName) == 0)
+                {
+                    if (matchCount > 0)
+                        throw new NonUniqueMethodSignatureException ();
+                    signature = theMethodName;
+                    retType = methods[mi].getReturnType ();
+                    argTypes = methods[mi].getParameterTypes ();
+
+                    matchCount++;
+                }
+        }
+    if (matchCount != 1)
+        throw new SignatureNotFoundException ();
+  }
 }
