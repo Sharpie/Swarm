@@ -176,7 +176,7 @@ typedef unsigned long timeval_t;
 #endif
 
 
-@protocol Action <GetOwner>
+@protocol Action <GetOwner, CREATABLE>
 //S: An action type that has been customized for direct execution by an
 //S: action interpreter.
 
@@ -229,7 +229,7 @@ USING
 - getArg3;
 @end
 
-@protocol ActionCall <ActionArgs>
+@protocol ActionCall <ActionArgs, CREATABLE>
 //S: An action defined by calling a C function.
 //D: An action defined by calling a C function.
 
@@ -238,7 +238,7 @@ USING
 - (func_t)getFunctionPointer;
 @end
 
-@protocol ActionTo <ActionArgs>
+@protocol ActionTo <ActionArgs, CREATABLE>
 //S: An action defined by sending an Objective C message.
 //D: An action defined by sending an Objective C message.
 
@@ -301,13 +301,13 @@ USING
 - getDefaultOrder;
 @end
 
-@protocol ActionForEach <ActionTo, DefaultOrder>
+@protocol ActionForEach <ActionTo, DefaultOrder, CREATABLE>
 //S: An action defined by sending a message to every member of a collection.
 //D: An action defined by sending a message to every member of a collection.
 @end
 
 
-@protocol Activity <DefinedObject, Drop>
+@protocol Activity <DefinedObject, Drop, CREATABLE>
 //S: A level of processing by the interpreter of an action type.
 
 //D: A object of type Activity implements the processing of actions within
@@ -438,7 +438,7 @@ externvar id <Symbol> Initialized, Running, Holding, Released, Stopped,
 externvar id <Symbol> HoldStart, HoldEnd;
 
 
-@protocol ScheduleActivity <Activity>
+@protocol ScheduleActivity <Activity, CREATABLE>
 //S: State of execution within a Schedule.
 //D: State of execution within a Schedule.
 CREATING
@@ -450,7 +450,7 @@ USING
 - stepUntil: (timeval_t)tVal;
 @end
 
-@protocol SwarmActivity <ScheduleActivity>
+@protocol SwarmActivity <ScheduleActivity, CREATABLE>
 //S: A collection of started subactivities.
 //D: A collection of started subactivities.
 
@@ -461,7 +461,7 @@ USING
 - getSynchronizationSchedule;
 @end
 
-@protocol ForEachActivity <Activity>
+@protocol ForEachActivity <Activity, CREATABLE>
 //S: State of execution within a ForEach action.
 //D: State of execution within a ForEach action.
 

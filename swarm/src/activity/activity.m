@@ -22,6 +22,26 @@ _activity_implement (void)
 
   // implement types from their defining classes
 
+  [id_ActionTo_0 setTypeImplemented: ActionTo];
+  [id_ActionTo_1 setTypeImplemented: ActionTo];
+  [id_ActionTo_2 setTypeImplemented: ActionTo];
+  [id_ActionTo_3 setTypeImplemented: ActionTo];
+
+  [id_ActionCall_0 setTypeImplemented: ActionCall];
+  [id_ActionCall_1 setTypeImplemented: ActionCall];
+  [id_ActionCall_2 setTypeImplemented: ActionCall];
+  [id_ActionCall_3 setTypeImplemented: ActionCall];
+  
+  [id_ActionForEach_0 setTypeImplemented: ActionForEach];
+  [id_ActionForEach_1 setTypeImplemented: ActionForEach];
+  [id_ActionForEach_2 setTypeImplemented: ActionForEach];
+  [id_ActionForEach_3 setTypeImplemented: ActionForEach];
+  
+  [id_Activity_c setTypeImplemented: Activity];
+  [id_ScheduleActivity_c setTypeImplemented: ScheduleActivity];
+  [id_SwarmActivity_c setTypeImplemented: SwarmActivity];
+  
+  
   [id_ActionGroup_c setTypeImplemented: ActionGroup];
   [id_Schedule_c setTypeImplemented: Schedule];
   [id_CSwarmProcess setTypeImplemented: SwarmProcess];
