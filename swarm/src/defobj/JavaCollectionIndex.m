@@ -32,7 +32,7 @@
         (*jniEnv)->GetMethodID (jniEnv, clazz, "hasNext", "()Z")))
     abort ();
   
-  obj->iterator = SD_JAVA_ADDJAVA (lref, obj);
+  obj->iterator = SD_JAVA_ADD_OBJECT_JAVA (lref, obj);
   return obj;
 }
 

@@ -8,7 +8,9 @@
 #include <misc/avl.h>
 
 Class swarm_directory_swarm_class (id object);
-const char *swarm_directory_language_independent_class_name (id object);
+const char *swarm_directory_language_independent_class_name_for_objc_object (id object);
+const char *language_independent_class_name_for_objc_class (Class class);
+
 Class swarm_directory_ensure_class_named (const char *className);
 
 typedef enum {

@@ -127,7 +127,7 @@ PHASE(Using)
 //
 - (const char *)getName
 {
-  return swarm_directory_language_independent_class_name (self);
+  return swarm_directory_language_independent_class_name_for_objc_object (self);
 }
 
 //
@@ -168,7 +168,7 @@ PHASE(Using)
       jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
       
       if (jobj)
-        return swarm_directory_java_class_for_object (jobj);
+        return swarm_directory_java_class_for_java_object (jobj);
     }
 #endif
   return getClass (self);
@@ -872,7 +872,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   
   return (type
           ? [type getName]
-          : swarm_directory_language_independent_class_name (self));
+          : swarm_directory_language_independent_class_name_for_objc_object (self));
 }
 
 //

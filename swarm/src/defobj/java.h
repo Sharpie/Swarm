@@ -46,11 +46,11 @@ extern id swarm_directory_java_find_objc (jobject javaObject);
 extern jobject swarm_directory_java_next_phase (jobject jobj);
 extern ObjectEntry *swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase);
 extern ObjectEntry *swarm_directory_java_switch_objc (id object, jobject javaObject);
-extern ObjectEntry *swarm_directory_java_add (id object, jobject lref);
+extern ObjectEntry *swarm_directory_java_add (jobject lref, id object);
 extern SelectorEntry *swarm_directory_java_add_selector (SEL sel, jobject lref);
 extern Class swarm_directory_java_ensure_class (jclass javaClass);
 extern Class swarm_directory_java_find_class_named (const char *className);
-extern Class swarm_directory_java_class_for_object (jobject jobj);
+extern Class swarm_directory_java_class_for_java_object (jobject jobj);
 extern jobject swarm_directory_objc_ensure_java (id object);
 extern jobject swarm_directory_objc_find_object_java (id object);
 extern jobject swarm_directory_objc_find_selector_java (SEL sel);
@@ -74,9 +74,9 @@ extern void java_drop (jobject jobj);
 #define SD_JAVA_FIND_OBJECT_JAVA(objc) swarm_directory_objc_find_object_java (objc)
 #define SD_JAVA_FIND_SELECTOR_JAVA(sel) swarm_directory_objc_find_selector_java (sel)
 #define SD_JAVA_FIND_CLASS_JAVA(objcClass) swarm_directory_objc_find_java_class (objcClass)
-#define SD_JAVA_ADD(jobj, objc) swarm_directory_java_add (objc, jobj)
+#define SD_JAVA_ADD(jObj, oObj) swarm_directory_java_add (jObj, oObj)
 #define SD_JAVA_ADD_SELECTOR(jsel, sel) swarm_directory_java_add_selector (sel, jsel)
-#define SD_JAVA_ADDJAVA(jobj, objc) swarm_directory_java_add (objc, jobj)->foreignObject.java
+#define SD_JAVA_ADD_OBJECT_JAVA(jObj, oObj) swarm_directory_java_add (jObj, oObj)->foreignObject.java
 #define SD_JAVA_SWITCHPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHOBJC(jobj, newobjc) swarm_directory_java_switch_objc (newobjc, jobj)
 #define SD_JAVA_NEXTPHASE(jobj) swarm_directory_java_next_phase (jobj)

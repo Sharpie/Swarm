@@ -1,3 +1,28 @@
+2000-08-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* directory.[hm], java.[hm]:
+	(swarm_directory_language_independent_class_name_for_objc_object):
+	Renamed from swarm_directory_language_independent_class_name.
+	(language_independent_class_name_for_objc_class,
+	language_independent_class_name_for_typename): Functionality
+	moved from java.m.
+
+	* java.h (swarm_directory_java_class_for_java_object): 
+	Renamed from swarm_directory_java-class_for_object.
+	(SD_JAVA_ADD_OBJECT_JAVA): Renamed from SD_JAVA_ADD.
+
+	* JavaCollectionIndex.m ([JavaCollectionIndex
+	+create:setIterator:setCount:]): Accomodate.
+
+	* DefObject.m ([Object_s -getName], [Object_s -getClass],
+	[Object_s -getTypeName]): Accomodate.
+
+	* COM.h: Add SD_COM_FIND_OBJECT_COM, SD_COM_ADD_OBJECT_COM
+
+	* COM.[hm]: Add swarm_directory_COM_add_COM,
+	swarm_directory_objc_find_object_COM, COM_find_class,
+	find_COM_wrapper_class.
+
 2000-08-01    <mgd@DRONE>
 
 	* DefObject.m ([Object_s -lispIn:]): Drop li when finished.

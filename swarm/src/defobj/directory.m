@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/directory.h>
+#import <defobj/Program.h> // Type_c
 
 #import <defobj/DefObject.h>
 #import <defobj/defalloc.h>
@@ -288,7 +289,7 @@ swarm_directory_swarm_class (id object)
               jobject jobj;
               
               if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
-                return swarm_directory_java_class_for_object (jobj);
+                return swarm_directory_java_class_for_java_object (jobj);
             }
           else
 #endif
@@ -330,7 +331,7 @@ swarm_directory_superclass (Class class)
 
 
 const char *
-swarm_directory_language_independent_class_name  (id object)
+swarm_directory_language_independent_class_name_for_objc_object  (id object)
 {
   if (swarmDirectory)
     {
@@ -352,6 +353,68 @@ swarm_directory_language_independent_class_name  (id object)
         }
     }
   return (const char *) (getClass (object))->name;      
+}
+
+static const char *
+language_independent_class_name_for_typename (const char *typeName, BOOL usingFlag)
+{
+  if (strcmp (typeName, "Create_byboth") == 0)
+    return DUPCLASSNAME ("swarm/CustomizedType");
+  else
+    {
+      extern const char *swarm_lookup_module (const char *name);
+      const char *module = swarm_lookup_module (typeName);
+      size_t modulelen = module ? strlen (module) + 1 : 0;
+      char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
+      char *p;
+      
+      p = stpcpy (javaClassName, "swarm/");
+      if (module)
+        {
+          p = stpcpy (p, module);
+          p = stpcpy (p, "/");
+        }
+      p = stpcpy (p, typeName);
+      if (!usingFlag)
+        p = stpcpy (p, "C");
+      p = stpcpy (p, "Impl");
+      return DUPCLASSNAME (javaClassName);
+    }
+}
+
+const char *
+language_independent_class_name_for_objc_class (Class class)
+{
+  const char *className;
+  
+  if (getBit (class->info, _CLS_DEFINEDCLASS))
+    {
+      Type_c *typeImpl;
+      Class_s *nextPhase;
+
+      nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
+      typeImpl = [class getTypeImplemented];
+      if (typeImpl)
+        className =
+          language_independent_class_name_for_typename (typeImpl->name,
+                                                        nextPhase == NULL); 
+      else
+        className = NULL; // e.g., when HDF5 created one
+    }
+  else
+    {
+      Type_c *typeImpl;
+
+      typeImpl = [class getTypeImplemented];
+
+      if (typeImpl)
+        className =
+	  language_independent_class_name_for_typename (typeImpl->name, YES);
+      else 
+        className =
+	  language_independent_class_name_for_typename (class->name, YES);
+    }
+  return className;
 }
 
 

@@ -4,7 +4,6 @@
 #import <defobj/JavaProxy.h>
 #import <defobj/JavaCollection.h>
 #import <defobj/defalloc.h>
-#import <defobj/Program.h> // Type_c
 #include <objc/mframe.h> // mframe_build_signature
 #import "internal.h" // FCALL_TYPE_COUNT
 
@@ -1557,69 +1556,6 @@ java_instantiate_pair (jclass clazz)
   return entry;
 }
 
-
-static const char *
-java_class_name_for_typename (const char *typeName, BOOL usingFlag)
-{
-  if (strcmp (typeName, "Create_byboth") == 0)
-    return DUPCLASSNAME ("swarm/CustomizedType");
-  else
-    {
-      extern const char *swarm_lookup_module (const char *name);
-      const char *module = swarm_lookup_module (typeName);
-      size_t modulelen = module ? strlen (module) + 1 : 0;
-      char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
-      char *p;
-      
-      p = stpcpy (javaClassName, "swarm/");
-      if (module)
-        {
-          p = stpcpy (p, module);
-          p = stpcpy (p, "/");
-        }
-      p = stpcpy (p, typeName);
-      if (!usingFlag)
-        p = stpcpy (p, "C");
-      p = stpcpy (p, "Impl");
-      return DUPCLASSNAME (javaClassName);
-    }
-}
-
-static const char *
-java_class_name_for_objc_class (Class class)
-{
-  const char *javaClassName;
-  
-  if (getBit (class->info, _CLS_DEFINEDCLASS))
-    {
-      Type_c *typeImpl;
-      Class_s *nextPhase;
-
-      nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
-      typeImpl = [class getTypeImplemented];
-      if (typeImpl)
-        javaClassName = java_class_name_for_typename (typeImpl->name,
-                                                      nextPhase == NULL); 
-      else
-        javaClassName = NULL; // e.g., when HDF5 created one
-    }
-  else
-    {
-      Type_c *typeImpl;
-
-
-      typeImpl = [class getTypeImplemented];
-
-      if (typeImpl)
-        javaClassName =
-	  java_class_name_for_typename (typeImpl->name, YES);
-      else 
-        javaClassName =
-	  java_class_name_for_typename (class->name, YES);
-    }
-  return javaClassName;
-}
-
 jclass
 java_find_class (const char *javaClassName, BOOL failFlag)
 {
@@ -1648,7 +1584,7 @@ java_find_class (const char *javaClassName, BOOL failFlag)
 static jclass
 find_java_wrapper_class (Class class)
 {
-  const char *name = java_class_name_for_objc_class (class);
+  const char *name = language_independent_class_name_for_objc_class (class);
   jclass ret;
 
   if (name)
@@ -2004,7 +1940,7 @@ swarm_directory_objc_find_selector_java (SEL sel)
 
 
 ObjectEntry *
-swarm_directory_java_add (id object, jobject lref)
+swarm_directory_java_add (jobject lref, id object)
 {
   unsigned index;
   id <Map> m;
@@ -2094,7 +2030,7 @@ swarm_directory_java_find_class_named (const char *className)
 }
 
 Class
-swarm_directory_java_class_for_object (jobject jobj)
+swarm_directory_java_class_for_java_object (jobject jobj)
 {
   jclass jcls;
   const char *className;
