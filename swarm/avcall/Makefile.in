@@ -46,6 +46,7 @@ all : $(OBJECTS) libavcall.a avcall.h $(srcdir)/avcall.3 $(srcdir)/avcall.html
 avcall.o : avcall-$(CPU).o
 	$(RM) avcall.o
 	$(LN) avcall-$(CPU).o avcall.o
+	$(LN) avcall-$(CPU).o avcall.lo
 
 avcall-i386.o : avcall-i386.s
 	$(CC) @GCC_X_NONE@ -c avcall-i386.s
