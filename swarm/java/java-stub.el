@@ -13,7 +13,7 @@
 
 (defconst *objc-to-java-type-alist*
     '(("id .*" . "Object")
-      ("SEL" . "Object")
+      ("SEL" . "swarm.Selector")
       ("void" . "void")
       ("const char \\*" . "String")
       
@@ -79,6 +79,11 @@
                                 "HDF5CompoundType"
                                 "InFile"
                                 "Arguments"
+                                "CompleteVarMap" ; Class
+                                "CustomProbeMap"; Class
+                                "DefaultProbeMap" ; Class
+                                "ProbeLibrary" ; Class
+                                "ActiveOutFile" ; Class
                                 ))
 
 (defconst *removed-methods* 
@@ -88,6 +93,11 @@
       "-setDisplayName:" ; conflict with Java
       "-copy:" ; conflict with Java
       "-remove:" ; conflict with Java
+
+      ;; fooey
+      "+customizeBegin:"
+      "-customizeCopy:"
+      "-customizeEnd"
 
       ;; DefinedClass
       "+getMethodFor:" ; IMP return
@@ -102,11 +112,17 @@
 
       ;; Zone
       "-alloc:" ; void* return
+      "-allocBlock:" ; void* return
       "-free:" ; void* parameter
       "-freeBlock:blockSize:"; void* parameter
       "-containsAlloc:" ; void* parameter
       "-getMemberBlock" ; void* return
       "-getData" ; void* return
+
+      ;; FCall
+      "-setJavaMethod:inObject:" ; void* parameter
+      "-getResult"; void* return
+
       
       ;; Array
       "-getData"; void* return
@@ -144,13 +160,12 @@
       "-probeRaw:" ; void* return
       "-probeAsPointer:" ; void* return
       "-setData:To:" ; void* parameter
+      "-setProbedClass:" ; Class parameter
+      "-getProbedClass" ; Class return
 
       ;; MessageProbe
       "-getArg:" ; val_t return
       "-dynamicCallOn:" ; val_t return
-
-      ;; ProbeMap
-      "-getProbedClass" ; Class return
 
       ;; random
       "-putStateInto:" ; void* parameter
@@ -214,12 +229,12 @@
       "-getMessageSelector"
       ))
 
-(defun freaky-message- (objc-type)
-  (message "Objective C type `%s' in protocol `%s' is freaky!"
-           objc-type
-           (protocol-name *last-protocol*)))
-
 (defun freaky-message (objc-type)
+  (error "Objective C type `%s' in protocol `%s' is freaky!"
+         objc-type
+         (protocol-name *last-protocol*)))
+
+(defun freaky-message- (objc-type)
   )
 
 (defun java-objc-to-java-type (objc-type)
@@ -240,8 +255,9 @@
     (unless java-type
       (error "No Java type for `%s'" objc-type))
     (if (freakyp java-type)
-        ;(insert "FreakyType")
-        (insert "Object")
+        (progn
+          (freaky-message objc-type)
+          "Object")
         (insert java-type))))
 
 (defun java-print-argument (argument)
@@ -267,22 +283,29 @@
             (insert "$"))
         (insert nameKey)))
 
-(defun java-print-method (method)
+(defun java-print-method (protocol method)
   (when (method-factory-flag method)
     (insert "static "))
   (let* ((arguments (method-arguments method))
-         (first-argument (car arguments)))
-    (java-print-type (method-return-type method))
+         (first-argument (car arguments))
+         (signature (get-method-signature method))
+         (module (protocol-module protocol)))
+    (cond ((string= signature "+createBegin:")
+           (insert (java-qualified-class-name module protocol :creating)))
+          ((or (string= signature "-createEnd")
+               (create-method-p method))
+           (insert (java-qualified-class-name module protocol :using)))
+          (t (java-print-type (method-return-type method))))
     (insert " ")
     (java-print-method-name arguments nil)
     (insert " (")
     (java-print-argument first-argument)
     (loop for argument in (cdr arguments)
-	      do
-              (insert ", ")
-              (java-print-argument argument))
+          do
+          (insert ", ")
+          (java-print-argument argument))
     (insert ");\n")))
-
+  
 (defun removed-method-p (method)
   (or (find (get-method-signature method) *removed-methods* :test #'string=)
       (method-ellipsis-p method)))
@@ -300,8 +323,7 @@
   (let* ((signature (get-method-signature method))
          (len (length signature))
          (min-len (min len 7)))
-    (or (string= (substring signature 0 min-len) "+create")
-        (string= signature "+customizeBegin:"))))
+    (string= (substring signature 0 min-len) "+create")))
 
 (defun included-method-p (protocol method phase)
   (and (not (removed-method-p method))
@@ -324,14 +346,14 @@
   (loop for method in (expanded-method-list protocol phase) 
 	do
         (insert "public native ")
-        (java-print-method method)))
+        (java-print-method protocol method)))
 
 (defun java-print-interface-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
         when (and (included-method-p protocol method phase)
                   ;; static modifier not allowed in interfaces
                   (not (method-factory-flag method)))
-	do (java-print-method method)))
+	do (java-print-method protocol method)))
 
 (defun java-suffix-for-phase (phase)
   (case phase

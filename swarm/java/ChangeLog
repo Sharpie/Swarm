@@ -3,14 +3,28 @@
 	* java-stub.el (java-suffix-for-phase): Use S and U instead of _s
 	and _u (avoids Unicode chars and is easier to type).
 	(java-qualified-name, java-qualified-native-name,
-	java-qualified-class-name, java-qualified-native-class-name): 
-	New functions.
+	java-qualified-class-name, java-qualified-native-class-name): New
+	functions.
 	(java-qualified-interface-name): Use java-qualified-name.
 	(java-print-method-name): New function.
 	(java-print-native-method, java-print-method): Use it.
 	(java-print-native-method): Handle +createBegin before other
-	+create* methods, which require use of JINSTANTIATENAME with a fully
-	qualified using phase class.
+	+create* methods, which require use of JINSTANTIATENAME with a
+	fully qualified using phase class.
+	(*objc-to-java-type-alist*): SEL -> swarm.Selector, not Object.
+	(*removed-protocols*): Exclude CompleteVarMap, CustomProbeMap,
+	DefaultProbeMap, ProbeLibrary, and ActiveOutFile because of use of
+	Class.
+	(*removed-methods*): Exclude +customizeBegin:, customizeCopy:, and
+	-customizeEnd because they annoy me.  Exclude allocBlock: because
+	of void * return and FCall's -setJavaMethod:inObject: and
+	getResult because of void*.  Exclude setProbedClass:.
+	(freaky-message): Use error, not message.
+	(java-print-method): Make +createBegin: and +create*/-createEnd to
+	return typed objects.  Add protocol argument (for typing info).
+	(create-method-p): Don't bother checking for +customizeBegin:.
+	(java-print-class-methods-in-phase,
+	java-print-interface-methods-in-phase):  Accomodate.
 
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
