@@ -5,6 +5,10 @@
 	(collectMethods): Take a variable and method collection function.
 	Remove variableFlag.
 
+	* COM.[hm], FCall.[hm]: Use "params" for vectors including both
+	arguments and a return value and "args" for only arguments.  Many
+	renames.
+
 	* COM.[hm] (COM_collect_methods): Remove gettersFlag argument.
 	(COM_collect_variables, COM_method_name): New functions.
 

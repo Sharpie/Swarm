@@ -39,7 +39,7 @@ void updateJavaTarget (id self, JOBJECT target);
 #ifndef USE_AVCALL
    ffi_cif cif;
 #endif
-   void *COM_args;
+   void *COM_params;
    func_t ffunction;
    void *fobject;
    void *fclass;

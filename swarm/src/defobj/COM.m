@@ -49,63 +49,63 @@ COM_selector_is_boolean_return (COMselector cSel)
 }
 
 void
-COM_selector_invoke (COMselector cSel, void *args)
+COM_selector_invoke (COMselector cSel, void *params)
 {
-  comEnv->selectorCOMInvoke (cSel, args);
+  comEnv->selectorCOMInvoke (cSel, params);
 }
 
 void
-JS_selector_invoke (COMselector cSel, void *args)
+JS_selector_invoke (COMselector cSel, void *params)
 {
-  comEnv->selectorJSInvoke (cSel, args);
+  comEnv->selectorJSInvoke (cSel, params);
 }
 
 void *
-COM_create_arg_vector (unsigned size)
+COM_create_params (unsigned size)
 {
-  return comEnv->COMcreateArgVector (size);
+  return comEnv->COMcreateParams (size);
 }
 
 void
-COM_set_arg (void *args, unsigned pos, fcall_type_t type, types_t *value)
+COM_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  comEnv->COMsetArg (args, pos, type, value);
+  comEnv->COMsetArg (params, pos, type, value);
 }
 
 void
-COM_set_return (void *args, unsigned pos, fcall_type_t type, types_t *value)
+COM_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  comEnv->COMsetReturn (args, pos, type, value);
+  comEnv->COMsetReturn (params, pos, type, value);
 }
 
 void
-COM_free_arg_vector (void *args)
+COM_free_params (void *params)
 {
-  comEnv->COMfreeArgVector (args);
+  comEnv->COMfreeParams (params);
 }
 
 void *
-JS_create_arg_vector (unsigned size)
+JS_create_params (unsigned size)
 {
-  return comEnv->JScreateArgVector (size);
+  return comEnv->JScreateParams (size);
 }
 
 void
-JS_set_arg (void *args, unsigned pos, fcall_type_t type, types_t *value)
+JS_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  comEnv->JSsetArg (args, pos, type, value);
+  comEnv->JSsetArg (params, pos, type, value);
 }
 
 void
-JS_set_return (void *args, unsigned pos, fcall_type_t type, types_t *value)
+JS_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value)
 {
-  comEnv->JSsetReturn (args, pos, type, value);
+  comEnv->JSsetReturn (params, pos, type, value);
 }
 
 void
-JS_free_arg_vector (void *args)
+JS_free_params (void *params)
 {
-  comEnv->JSfreeArgVector (args);
+  comEnv->JSfreeParams (params);
 }
 
 void

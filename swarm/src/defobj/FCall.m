@@ -231,30 +231,30 @@ add_ffi_types (FCall_c *fc)
 
   if (fc->callType == COMcall)
     {
-      fc->COM_args = COM_create_arg_vector (fa->assignedArgumentCount + 1);
+      fc->COM_params = COM_create_params (fa->assignedArgumentCount + 1);
       
       for (i = 0; i < fa->assignedArgumentCount; i++)
         {
           unsigned pos = i + MAX_HIDDEN;
           
-          COM_set_arg (fc->COM_args, i, fa->argTypes[pos], fa->argValues[pos]);
+          COM_set_arg (fc->COM_params, i, fa->argTypes[pos], fa->argValues[pos]);
         }
-      COM_set_return (fc->COM_args,
+      COM_set_return (fc->COM_params,
                       fa->assignedArgumentCount,
                       fa->returnType,
                       &fa->resultVal);
     }
   else if (fc->callType == JScall)
     {
-      fc->COM_args = JS_create_arg_vector (fa->assignedArgumentCount + 1);
+      fc->COM_params = JS_create_params (fa->assignedArgumentCount + 1);
       
       for (i = 0; i < fa->assignedArgumentCount; i++)
         {
           unsigned pos = i + MAX_HIDDEN;
           
-          JS_set_arg (fc->COM_args, i, fa->argTypes[pos], fa->argValues[pos]);
+          JS_set_arg (fc->COM_params, i, fa->argTypes[pos], fa->argValues[pos]);
         }
-      JS_set_return (fc->COM_args,
+      JS_set_return (fc->COM_params,
                      fa->assignedArgumentCount,
                      fa->returnType,
                      &fa->resultVal);
@@ -530,9 +530,9 @@ PHASE(Using)
     }
 #endif
   if (callType == COMcall)
-    COM_selector_invoke ((COMselector) fmethod, COM_args);
+    COM_selector_invoke ((COMselector) fmethod, COM_params);
   else if (callType == JScall)
-    JS_selector_invoke ((COMselector) fmethod, COM_args);
+    JS_selector_invoke ((COMselector) fmethod, COM_params);
 #ifndef USE_AVCALL
   else
     {
@@ -901,9 +901,9 @@ PHASE(Using)
 - (void)dropAllocations: (BOOL)componentAlloc
 {
   if (callType == COMcall)
-    COM_free_arg_vector (COM_args);
+    COM_free_params (COM_params);
   else if (callType == JScall)
-    JS_free_arg_vector (COM_args);
+    JS_free_params (COM_params);
 #ifdef HAVE_JDK
   else if (callType == javacall)
     {
