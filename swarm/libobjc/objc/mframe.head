@@ -24,25 +24,7 @@
 #ifndef __mframe_h_GNUSTEP_BASE_INCLUDE
 #define __mframe_h_GNUSTEP_BASE_INCLUDE
 
-#if 1
-typedef struct  {
-  int           offset;
-  unsigned      size;
-  const char    *type;
-#ifndef NO_GNUSTEP
-  unsigned      align;
-  unsigned      qual;
-  BOOL          isReg;
-#endif
-} NSArgumentInfo;
-#else
-#include <base/preface.h>
-/* For NSArgumentInfo we include NSMethodSignature.h */
-#include <Foundation/NSMethodSignature.h>
-#endif
-
-                    
-
+#include "mframe-preface.h"
 
 #if NeXT_runtime
 typedef union {
