@@ -1,3 +1,7 @@
+1999-01-13  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (SUBDIRS): Add variable and assign to `tests'.
+
 1999-01-04  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* ActionGroup.m ([GroupPermutedIndex_c -createEnd]): Remove
