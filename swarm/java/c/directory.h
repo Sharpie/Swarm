@@ -1,5 +1,7 @@
-#include <misc/avl.h>
+// Include before jni.h to avoid jmalloc screwing up stdlib malloc decls.
+#include <misc.h> 
 #include <jni.h>
+#include <misc/avl.h>
 #include <objc/objc.h>
 
 typedef struct jobject_id

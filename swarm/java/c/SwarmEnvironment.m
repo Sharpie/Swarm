@@ -1,8 +1,9 @@
+// include first to avoid Kaffe jmalloc/stdlib conflict
+#include <misc.h> // xmalloc, strdup
 #import "SwarmEnvironment.h"
 #import <simtools.h> // initSwarm
 #import <defobj.h> // defobj_java_call_init_tables
 #import "directory.h" // java_directory_init
-#include <misc.h> // xmalloc, strdup
 #include <swarmconfig.h>
 
 void 
