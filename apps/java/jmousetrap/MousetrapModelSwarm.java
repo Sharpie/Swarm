@@ -95,22 +95,10 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     // in Objective C implementation, this normally goes in a
     // `createEnd' method
 
-    PMMLCG1genCImpl irg;
-    UniformDoubleDistCImpl iudd;
-
-    randomGenerator = new PMMLCG1genImpl ();
-    irg = new PMMLCG1genCImpl (randomGenerator);
     randomGenerator = 
-      (PMMLCG1genImpl) irg.create$setStateFromSeed 
-      (((MousetrapModelSwarmImpl) this).getZone(), 1234567890);
-    uniform0to1 = new UniformDoubleDistImpl ();
+        new PMMLCG1genImpl (aZone, 1234567890);
 
-    iudd = new UniformDoubleDistCImpl (uniform0to1);
-    uniform0to1 = 
-      (UniformDoubleDistImpl) 
-      iudd.create$setGenerator$setDoubleMin$setMax 
-      ( ((MousetrapModelSwarmImpl)this).getZone(), 
-        randomGenerator, 0.0, 1.0 );
+    uniform0to1 = new UniformDoubleDistImpl (aZone, randomGenerator, 0.0, 1.0 );
     
   }
 
