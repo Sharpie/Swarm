@@ -1,3 +1,13 @@
+1999-06-17  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (method-in-protocol-p): New function, checks to see
+	if the specified method is in the current protocol.
+	(java-print-javadoc-method): Use `method-in-protocol-p'.  Now
+	accepts the `protocol' as parameter as well.  Print `@hide' tag
+	for javadoc if it fails the `method-in-protocol-p' call.
+	(java-print-class-methods-in-phase): Call
+	`java-print-javadoc-method' with new parameter.
+
 1999-06-15  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (java-run-all-javadoc): New function, suppress

@@ -233,23 +233,33 @@
       "-getMessageSelector"
       ))
 
-(defun java-print-javadoc-method (method)
-  (insert "/** ")
+(defun method-in-protocol-p (protocol method)
+  (loop for sig in (protocol-method-list protocol)
+        if (eq method sig) return 't
+        finally return nil))
+
+(defun java-print-javadoc-method (method protocol)
+  (insert "\n/**\n * ")
   (loop for text in (method-description-list method)
         do
         (insert text))
-  (insert " */\n")
-  )  
+  (if (not (method-in-protocol-p protocol method))
+      (insert "\n * @hide")
+    (message "Supress javadoc `@hide' for `%s' in `%s'"
+             (get-method-signature method)
+             (protocol-name protocol))    
+    )
+  (insert "\n */\n"))  
 
 (defun java-print-javadoc-protocol (protocol)
-  (insert "/** \n")
-  (insert " *<strong>")
+  (insert "\n/**\n * ")
+  (insert "<strong>")
   (insert (protocol-summary protocol))
   (insert "</strong>.\n\n")
   (loop for text in (protocol-description-list protocol)
         do
         (insert text))
-  (insert "\n*/\n")
+  (insert "\n */\n")
   )  
 
 (defun freaky-message (objc-type)
@@ -358,7 +368,7 @@
                       (get-method-signature method)
                       (protocol-name protocol))
              nil)
-           t)))
+         t)))
 
 (defun expanded-method-list (protocol phase)
   (remove-if-not #'(lambda (method) (included-method-p protocol method phase))
@@ -368,7 +378,7 @@
 (defun java-print-class-methods-in-phase (protocol phase)
   (loop for method in (expanded-method-list protocol phase) 
 	do
-        (java-print-javadoc-method method)
+        (java-print-javadoc-method method protocol)
         (insert "public native ")
         (java-print-method protocol method)))
 
