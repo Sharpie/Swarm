@@ -30,8 +30,13 @@ Library:      defobj
 #endif
 
 const char *java_type_signature[FCALL_TYPE_COUNT] = {
-  "V", "C", "C", "S", "S", "I", 
-  "I", "J", "J", "F", "D",
+  "V", "C", "C", "S", "S",
+  "I", "I", "J", "J", 
+
+  /* bogus */
+  "J", "J",
+
+  "F", "D",
   "X",
   "Ljava/lang/String;", 
   "Lswarm/Selector;",
@@ -49,6 +54,8 @@ char objc_types[FCALL_TYPE_COUNT] = {
   _C_INT,
   _C_ULNG,
   _C_LNG,
+  _C_ULNG_LNG,
+  _C_LNG_LNG,
   _C_FLT,
   _C_DBL,
   _C_ID,
@@ -81,6 +88,10 @@ fcall_type_size (fcall_type_t type)
       return sizeof (unsigned long);
     case fcall_type_slong:
       return sizeof (long);
+    case fcall_type_ulonglong:
+      return sizeof (unsigned long long);
+    case fcall_type_slonglong:
+      return sizeof (long long);
     case fcall_type_float:
       return sizeof (float);
     case fcall_type_double:
@@ -245,6 +256,18 @@ get_fcall_type_for_objc_type (char objcType)
   return self;
 }
 
+- addLongLong: (long long)value
+{
+  ADD_PRIMITIVE (fcall_type_slonglong, long long, value);
+  return self;
+}
+
+- addUnsignedLongLong: (unsigned long long)value
+{
+  ADD_PRIMITIVE (fcall_type_ulonglong, unsigned long long, value);
+  return self;
+}
+
 - addFloat: (float)value
 {
   ADD_PRIMITIVE (fcall_type_float, float, value); 
@@ -294,6 +317,12 @@ get_fcall_type_for_objc_type (char objcType)
       break;
     case fcall_type_slong:
       result = &resultVal.slong;
+      break;
+    case fcall_type_slonglong:
+      result = &resultVal.slonglong;
+      break;
+    case fcall_type_ulonglong:
+      result = &resultVal.ulonglong;
       break;
     case fcall_type_float:
       result = &resultVal._float;

@@ -1,3 +1,26 @@
+1999-06-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* defobj.h (types_t): Add signed and unsigned types.
+
+	* FCall.m (defobj_init_java_call_tables): Add long long entries.
+	Treat them as long for now.
+	(ffi_types): Treat long long as ffi_type_[us]int64 for now.
+	(add_ffi_types): Support long long types.
+	([FCall_c -performCall]): Likewise.
+	([FCall_c -getRetVal:buf:]): Likewise.
+
+	* FArguments.m (java_type_signature): Add long long entries.
+	Treat them as long for now.
+	(objc_types): Add long long entries.
+	(fcall_type_size): Support long long types.
+	([FArguments_c -_setReturnType_:]): Likewise.
+
+	* FArguments.[hm], defobj.h ([FArguments_c -addLongLong:]): 
+	([FArguments_c -addUnsignedLongLong:]): New methods.
+
+	* FArguments.h (fcall_type_t): Add signed and unsigned long long.
+	(FCALL_TYPE_COUNT): Bump by 2.
+
 1999-06-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Arguments.m (getSwarmPrefix): New function.

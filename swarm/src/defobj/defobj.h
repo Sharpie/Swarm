@@ -1098,6 +1098,8 @@ typedef union {
   unsigned int uint;
   long slong;
   unsigned long ulong;
+  long long slonglong;
+  unsigned long long ulonglong;
   float _float;
   double _double;
 } types_t;
@@ -1117,6 +1119,8 @@ CREATING
 - addUnsigned: (unsigned)value;
 - addLong: (long)value;
 - addUnsignedLong: (unsigned long)value;
+- addLongLong: (long long)value;
+- addUnsignedLongLong: (unsigned long long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
 - setObjCReturnType: (char)type; 

@@ -71,6 +71,13 @@ defobj_init_java_call_tables (void *jEnv)
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
   java_static_call_functions[fcall_type_slong] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
+
+  /* bogus */
+  java_static_call_functions[fcall_type_ulonglong] =
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
+  java_static_call_functions[fcall_type_slonglong] = 
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
+
   java_static_call_functions[fcall_type_float] =
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticFloatMethod);
   java_static_call_functions[fcall_type_double] = 
@@ -241,6 +248,7 @@ static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_ushort, &ffi_type_sshort, 
   &ffi_type_uint, &ffi_type_sint, 
   &ffi_type_ulong, &ffi_type_slong, 
+  &ffi_type_uint64, &ffi_type_sint64, 
   // Note that some compilers may want to use double here
   &ffi_type_float, 
   &ffi_type_double, 
@@ -298,6 +306,12 @@ add_ffi_types (FCall_c *fc)
       break;
     case fcall_type_slong:
       av_start_long (fa->avalist, func, &fa->resultVal.slong);
+      break;
+    case fcall_type_slonglong:
+      av_start_long (fa->avalist, func, &fa->resultVal.slonglong);
+      break;
+    case fcall_type_ulonglong:
+      av_start_ulong (fa->avalist, func, &fa->resultVal.ulonglong);
       break;
     case fcall_type_float:
       av_start_float (fa->avalist, func, &fa->resultVal._float);
@@ -499,6 +513,12 @@ PHASE(Using)
       case fcall_type_ulong:
         fargs->resultVal.ulong = VAL(unsigned long, ret);
         break;
+      case fcall_type_slonglong:
+        fargs->resultVal.slonglong = VAL(long long, ret);
+        break;
+      case fcall_type_ulonglong:
+        fargs->resultVal.ulonglong = VAL(unsigned long long, ret);
+        break;
       case fcall_type_float:
         fargs->resultVal._float = ret._float;
         break;
@@ -566,6 +586,8 @@ PHASE(Using)
     unsigned return_uint (void) { return buf->uint; }
     long return_slong (void) { return buf->slong; }
     unsigned long return_ulong (void) { return buf->ulong; }
+    long long return_slonglong (void) { return buf->slonglong; }
+    unsigned long long return_ulonglong (void) { return buf->ulonglong; }
     const char *return_string (void) { return buf->string; }
     float return_float (void) { return buf->_float; }
     double return_double (void) { return buf->_double; }
@@ -607,6 +629,12 @@ PHASE(Using)
         break;
       case fcall_type_slong:
         APPLY (return_ulong);
+        break;
+      case fcall_type_ulonglong: 
+        APPLY (return_ulonglong);
+        break;
+      case fcall_type_slonglong:
+        APPLY (return_ulonglong);
         break;
       case fcall_type_float: 
         APPLY (return_float);
@@ -685,6 +713,12 @@ PHASE(Using)
         break;
       case fcall_type_slong:
         ptr = &buf->slong;
+        break;
+      case fcall_type_ulonglong:
+        ptr = &buf->ulonglong;
+        break;
+      case fcall_type_slonglong:
+        ptr = &buf->slonglong;
         break;
       case fcall_type_float:
         ptr = &buf->_float;
