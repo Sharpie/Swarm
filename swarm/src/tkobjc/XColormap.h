@@ -21,9 +21,6 @@
 
 #define MAXCOLORS 256
 
-typedef unsigned long PixelValue;
-typedef unsigned char Color;
-
 @interface XColormap: CreateDrop <Colormap>
 {
   // state for the Object
@@ -38,13 +35,13 @@ typedef unsigned char Color;
   Colormap cmap;
 }
 
-- (GUI_PixelValue *)map;
-- (GUI_PixelValue)pixelValue: (GUI_Color)c;
-- (BOOL)setColor: (GUI_Color)c ToName: (const char *)colorName;
-- (BOOL)setColor: (GUI_Color)c ToGrey: (double)g;
-- (BOOL)setColor: (GUI_Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
-- (GUI_PixelValue)white;
-- (GUI_PixelValue)black;
-- (BOOL)colorIsSet: (GUI_Color)c;
+- (PixelValue *)map;
+- (PixelValue)pixelValue: (Color)c;
+- (BOOL)setColor: (Color)c ToName: (const char *)colorName;
+- (BOOL)setColor: (Color)c ToGrey: (double)g;
+- (BOOL)setColor: (Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
+- (PixelValue)white;
+- (PixelValue)black;
+- (BOOL)colorIsSet: (Color)c;
 
 @end

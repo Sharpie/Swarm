@@ -1,3 +1,81 @@
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkobjc.m: Include internal.h and gui.h.  Don't include
+	tkobjc/TkExtra.h Define globalTkInterp to conform to the TkExtra
+	protocol.
+	(initTkObjc): Constify argv.  Use tkobjc_initTclInterp and
+	tkobjc_initTkInterp.  Set Colormap to XColormap.
+
+	* global.h: Make globalTkInterp extern conform to TkExtra
+	protocol, declared immediately above.  Constify argv argument to
+	initTkObjc declaration.
+
+	* common.m: Include defobj.h and tk.h.
+	(tkobjc_dragAndDropTarget, dragAndDropTargetArg,
+	oldSetupDragAndDrop, newSetupDragAndDrop, oldSetupDragAndDropArg,
+	newSetupDragAndDropArg, tkobjc_bindButton3ToSpawn,
+	tkobjc_bindButton3ToArgSpawn): Use getObjectName method instead of
+	tclObjc_objectToName.
+	(tkobjc_drag_and_drop_object): Use getObjectNamed function instead
+	of tclObjc_nameToObject.
+
+	* common.h: Use #include <objc/objc.h>, not #import <objc/objc.h>.
+
+	* ZoomRaster.m: Don't include string.h, stdio.h, stdlib.h,
+	tclObjc.h, tkobjc/TkExtra.h, or X11/Xutil.h.  Include
+	internal.h. Reformatting throughout.
+
+	* XPixmap.m ([XPixmap -setFile:]): Include internal.h.
+	Don't include tkobjc/TkExtra.h or X11/xpm.h.
+	([XPixmap -createEnd]): Use tkobjc_nameToWindow.
+
+	* XPixmap.h: Include gui.h.  Don't include tk.h.
+
+	* XColormap.m: Don't include TkInterp.h.  Include gui.h.
+	([XColormap -map]): Return PixelValue, again.
+	([XColormap -pixelValue:]): Likewise. 
+	([XColormap -setColor:ToName:]): Use Color not GUI_Color.
+	([XColormap -setColor:ToRed:Green:Blue:]): Likewise.
+	([XColormap -setColor:ToGrey:]): Likewise.
+	([XColormap -white]): Return PixelValue, not GUI_PixelValue.
+	([XColormap -black]): Likewise.
+	([XColormap -colorIsSet:]): Take Color as argument, not GUI_Color.
+
+	* XColormap.h: Don't provide typedefs for PixelValue or Color,
+	they come from gui.h now.  map, pixelValue:, white, and black return
+	a PixelValue again.  The setColor methods and colorIsSet: once
+	again use PixelValue, not GUI_PixelValue.
+
+	* TkExtra.h: Don't include tk.h.
+
+	* SuperButton.m: Don't include tclObjc.h, tkobjc/common.h, stdlib.h,
+	or string.h.
+	(tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize): 
+	Don't use tclObjc_objectToName, use getObjectName.
+
+	* Raster.m: Don't include string.h, stdio.h, stdlib.h, tclObjc.h,
+	or TkInterp.h.  Include internal.h.
+	([Raster -createEnd]): Use tkobjc_nameToWindow.
+	([Raster -setButton:Client:Message:]): Use ButtonLeft/Middle/Right
+	symbols instead of integers in case statement.
+	([Raster -handleButton:X:Y:]): Likewise.
+
+	* Raster.h: Don't include tk.h, or XColormap.h.  Don't
+	define ButtonLeft, ButtonMiddle, or ButtonRight, they come
+	from gui.h now.  Include internal.h.  Minor reformatting.
+
+	* Makefile (OBJECTS,HEADERS): Add internal.
+	(internal.o): Add.
+
+	* InputWidget.m:  Include internal.h.  Don't include TkInterp.h,
+	stding.h, or stdio.h.
+	([InputWidget -linkVariable:Type:]): Use tkobjc_unlinkVar and
+	tkobjc_linkVar.
+
+	* internal.[hm]:  New files.  These routines encapsulate
+	sorts of interpreter access only used internally.  The header
+	file loads X headers files, but keeps Colormap free.
+
 1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Histogram.m ([Histogram -hideLegend]): Only use -hide yes

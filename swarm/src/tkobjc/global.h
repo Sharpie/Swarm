@@ -4,13 +4,20 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj.h>
-#import <tkobjc/TkExtra.h>
 
-extern TkExtra *globalTkInterp;
+@protocol TkExtra
+- (const char *)getBltVersion;
+- (const char *)getBltFullVersion;
+- (BOOL)newBLTp;
+- eval: (const char *)fmt, ...;
+- (const char *)result;
+@end
+
+id <TkExtra> globalTkInterp;
 
 extern id <Error>
   WindowCreation,		// error while creating a window
   WindowUsage;                  // error while a window was being used
 
-void initTkObjc(int argc, char ** argv);
+void initTkObjc (int argc, const char **argv);
 

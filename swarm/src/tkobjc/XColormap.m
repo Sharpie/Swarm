@@ -5,7 +5,7 @@
 
 #import <tkobjc/global.h>
 #import <tkobjc/XColormap.h>
-#import <TkInterp.h>
+#import <gui.h>
 
 @implementation XColormap
 // create a new colourmap. Right now we use the Tk widget name
@@ -35,20 +35,20 @@
 
 // The colormap is a length MAXCOLORS array of PixelValues. We fill this array
 // in as people ask for it. You're welcome to read this array yourself.
-- (GUI_PixelValue *)map
+- (PixelValue *)map
 {
   return map;
 }
 
 // get the particular colour associated with the entry. Error if it's not set.
-- (GUI_PixelValue)pixelValue: (GUI_Color)c
+- (PixelValue)pixelValue: (Color)c
 {
   if ([self colorIsSet: c])
     return map[c];
   else
     {
       [InvalidArgument raiseEvent: "attempted to access unset color %d\n", c];
-      return (GUI_PixelValue)white;
+      return (PixelValue)white;
     }
 }
 
@@ -56,7 +56,7 @@
 // we should do something to see if the colour already has been allocated
 // in our colourmap. If it has, then we should somehow persuade the client
 // to reuse that entry.
-- (BOOL)setColor: (GUI_Color)c ToName: (const char *)colorName
+- (BOOL)setColor: (Color)c ToName: (const char *)colorName
 {
   if ([self colorIsSet: c])
     {
@@ -79,14 +79,14 @@
           map[c] = white;
           return NO;
         }
-      map[c] = (GUI_Color)xc.pixel;
+      map[c] = (Color)xc.pixel;
       return YES;
     }
 }
 
 // allocate an RGB combo. We could use XAllocColor directly,
 // but that requires rewriting more code.
-- (BOOL)setColor: (GUI_Color)c
+- (BOOL)setColor: (Color)c
            ToRed: (double)r
            Green: (double)g
             Blue: (double)b
@@ -103,25 +103,25 @@
 }
 
 // allocate grey: just a convenience.
-- (BOOL)setColor: (GUI_Color)c ToGrey: (double)g
+- (BOOL)setColor: (Color)c ToGrey: (double)g
 {
   return [self setColor: c ToRed: g Green: g Blue: g];
 }
 
 // white and black are basic colours. (Should also be entered in the map,
 // reserved. Oh well.)
-- (GUI_PixelValue)white
+- (PixelValue)white
 {
   return white;
 }
 
-- (GUI_PixelValue)black
+- (PixelValue)black
 {
   return black;
 }
 
 // is the colour actually set?
-- (BOOL)colorIsSet: (GUI_Color)c
+- (BOOL)colorIsSet: (Color)c
 {
   return isSet[c];
 }

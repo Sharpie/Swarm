@@ -3,33 +3,31 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "internal.h"
 
 #import <tkobjc/global.h>
-#import <tclObjc.h>
 #import <tkobjc/ZoomRaster.h>
-#import <tkobjc/TkExtra.h>
-#include <X11/Xutil.h>
 
 @implementation ZoomRaster
 
--(unsigned) getWidth {
-  return (logicalWidth);
+- (unsigned)getWidth
+{
+  return logicalWidth;
 }
 
--(unsigned) getHeight {
-  return (logicalHeight);
+- (unsigned)getHeight
+{
+  return logicalHeight;
 }
 
--createEnd {
+- createEnd
+{
   [super createEnd];
   // we do things to the parent widget that are really only allowed
   // on toplevels. This check is at least friendly.
   if (!([parent isKindOfClassNamed: "Frame"]) && ([parent getParent] == 0))
     [WindowCreation raiseEvent: "Warning: ZoomRaster created as child of non toplevel. Resize code probably\nwill not work.\n"];
-
+  
   logicalWidth = width;
   logicalHeight = height;
   zoomFactor = 1U;
@@ -40,14 +38,16 @@
 }
 
 
--(unsigned) getZoomFactor {
+- (unsigned)getZoomFactor
+{
   return zoomFactor;
 }
 
 // the REDRAWONZOOM code handles redrawing the window when zooming.
 // Unfortunately, it's a bit buggy and only works well when there are no
 // pixmaps drawn to the Raster, just squares.
--setZoomFactor: (unsigned) z {
+- setZoomFactor: (unsigned)z
+{
   unsigned oldZoom;
 #ifdef REDRAWONZOOM
   XImage *oldImage;
@@ -87,9 +87,10 @@
 
 // handler for tk4.0 <Configure> events - width and height is passed to us.
 // note that they are passed to us in absolute values, not gridded.
--handleConfigureWidth: (unsigned) newWidth Height: (unsigned) newHeight {
-  unsigned newZoom;
-  newZoom = newWidth / logicalWidth;
+- handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight
+{
+  unsigned newZoom = newWidth / logicalWidth;
+
   if (newZoom != newHeight / logicalHeight)
     [WindowUsage raiseEvent: "nonsquare zoom given.\n"];
 
@@ -107,7 +108,8 @@
 }
   
 // override setWidth to set it for them according to zoom factor.
--setWidth: (unsigned) newWidth Height: (unsigned) newHeight {
+- setWidth: (unsigned)newWidth Height: (unsigned)newHeight
+{
   logicalWidth = newWidth;
   logicalHeight = newHeight;
 
@@ -123,7 +125,8 @@
 }
 
 // drawing is just like before, only magnified.
--drawPointX: (int) x Y: (int) y Color: (Color) c {
+- drawPointX: (int)x Y: (int)y Color: (Color)c
+{
   [super fillRectangleX0: x * zoomFactor Y0: y * zoomFactor
          X1: (x+1) * zoomFactor Y1: (y+1) * zoomFactor
 	 Color: c];
@@ -131,7 +134,8 @@
   return self;
 }
 
--fillRectangleX0: (int) x0 Y0: (int) y0 X1: (int) x1 Y1: (int) y1 Color: (Color) c{
+- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
+{
   [super fillRectangleX0: x0 * zoomFactor Y0: y0 * zoomFactor
          X1: (x1) * zoomFactor Y1: (y1) * zoomFactor
 	 Color: c];
@@ -139,15 +143,18 @@
   return self;
 }
 
--draw: (id <XDrawer>) xd X: (int) x Y: (int) y {
+- draw: (id <XDrawer>)xd X: (int)x Y: (int)y
+{
   return [super draw: xd X: x * zoomFactor Y: y * zoomFactor];
 }
 
--increaseZoom {
+- increaseZoom
+{
   return [self setZoomFactor: zoomFactor + 1U];
 }
 
--decreaseZoom {
+- decreaseZoom
+{
   if (zoomFactor > 1U)
     return [self setZoomFactor: zoomFactor - 1U];
   else
@@ -155,8 +162,11 @@
 }
 
 // scale by zoom factor
--handleButton: (int) n X: (int) x Y: (int) y {
-  return [super handleButton: n X: (x / (int)zoomFactor) Y: (y / (int)zoomFactor)];
+- handleButton: (int)n X: (int)x Y: (int)y
+{
+  return [super handleButton: n
+                X: (x / (int)zoomFactor)
+                Y: (y / (int)zoomFactor)];
 }
 
 @end

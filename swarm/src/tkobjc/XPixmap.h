@@ -4,10 +4,10 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/Create.h>
-#import <tk.h>
 #import <tkobjc/XDrawer.h>
+#import <gui.h>
 
-@interface XPixmap : CreateDrop <XDrawer>
+@interface XPixmap: CreateDrop <XDrawer>
 {
   const char *filename;
   Display *display;				  // should be global variable

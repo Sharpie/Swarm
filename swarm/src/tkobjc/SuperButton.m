@@ -4,22 +4,15 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/SuperButton.h>
-
-#include <stdlib.h>
-#include <string.h>
-
-#include <tclObjc.h>
-#include <tkobjc/global.h>
-#include <tkobjc/common.h>
+#import <tkobjc/global.h>
 
 @implementation SuperButton
 
 static void
-tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize
-(id superB,
- id superWidget,
- id user,
- id owner)
+tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize (id superB,
+                                                                   id superWidget,
+                                                                   id user,
+                                                                   id owner)
 {
   [globalTkInterp 
     eval:
@@ -28,7 +21,7 @@ tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize
     [superWidget getWidgetName],
     [user getWidgetName],
     [superB getWidgetName],
-    tclObjc_objectToName (owner)];
+    [owner getObjectName]];
 }
 
 static void

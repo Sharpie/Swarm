@@ -6,9 +6,8 @@
 // TkExtra: add more initializations to TkInterp.h
 
 #import <TkInterp.h>
-#import <tk.h>
 
-@interface TkExtra: Tk
+@interface TkExtra: TkInterp
 {
 }
 - (const char *)getBltVersion;

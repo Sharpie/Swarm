@@ -4,23 +4,19 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj.h>
-#import <tkobjc/TkExtra.h>
+
+#import "internal.h"
+#import <gui.h>
+
+id <TkExtra> globalTkInterp;
 
 #import "simtools_tcl.x"
 #import "analysis_tcl.x"
 
-TkExtra *globalTkInterp;
-
 id <Error> WindowCreation, WindowUsage, MissingFiles;
 
-static void
-registerInterp (void)
-{
-  [globalTkInterp registerObject: globalTkInterp withName: "globalTkInterp"];
-}
-
 void
-initTkObjc (int argc, char ** argv)
+initTkObjc (int argc, const char **argv)
 {
   int i;
 
@@ -28,19 +24,17 @@ initTkObjc (int argc, char ** argv)
     {
       if (!strcmp(argv[i], "-batchmode"))
         {
-          globalTkInterp = [Tcl alloc];		  // misnomer
-          [globalTkInterp initWithArgc: 1 argv: argv];
-          registerInterp ();
+          tkobjc_initTclInterp (1, argv);
           return;
         }
     }
+
+  Colormap = [XColormap class];
   
   deferror (WindowCreation, NULL);
   deferror (WindowUsage, NULL);
  
-  globalTkInterp = [TkExtra alloc];
-  [globalTkInterp initWithArgc: 1 argv: argv];
-  registerInterp ();
+  tkobjc_initTkInterp (1, argv);
 
   [globalTkInterp eval: simtools_tcl];
   [globalTkInterp eval: analysis_tcl];

@@ -3,12 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#import "internal.h"
 #import <tkobjc/global.h>
-#import <TkInterp.h>
 #import <tkobjc/InputWidget.h>
+
+#include <stdlib.h>
 
 @implementation InputWidget
 
@@ -29,8 +28,8 @@
 - linkVariable: (void *)p Type: (int)type
 {
   // unlink anything there
-  Tcl_UnlinkVar ([globalTkInterp interp], (char *)variableName); 
-  Tcl_LinkVar ([globalTkInterp interp], (char *)variableName, p, type);
+  tkobjc_unlinkVar (variableName);
+  tkobjc_linkVar (variableName, p, type);
   return self;
 }
 

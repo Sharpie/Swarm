@@ -3,14 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import "internal.h"
 #import <tkobjc/global.h>
-#import <tkobjc/XPixmap.h>
-#import <tkobjc/TkExtra.h>
-#import <X11/xpm.h>
+#import <tkobjc/XPixmap.h> // XPixmap
 
 @implementation XPixmap
 
--setFile: (const char *)s
+- setFile: (const char *)s
 {
   if (filename)
     {
@@ -33,10 +32,8 @@
   int rc;
   
   [super createEnd];
-  
-  tkwin = Tk_NameToWindow ([globalTkInterp interp],
-                           ".",
-                           [globalTkInterp mainWindow]);
+
+  tkwin = tkobjc_nameToWindow (".");
   display = Tk_Display (tkwin);
   
   xpmattrs.valuemask = 0;			  // no input

@@ -6,14 +6,9 @@
 // Objective C interface to Raster, for use with tclobjc
 
 #import <tkobjc/ArchivedGeometryWidget.h>
-#import <tk.h>
+#import "internal.h"
 #import <tkobjc/XDrawer.h>
-#import <tkobjc/XColormap.h>
 #import <gui.h>
-
-#define ButtonLeft 1
-#define ButtonMiddle 2
-#define ButtonRight 3
 
 // this could include a list of environments (graphics contexts)
 @interface Raster: ArchivedGeometryWidget
@@ -33,8 +28,8 @@
 - (Display *)getDisplay;
 - (id <Colormap>)getColormap;
 - setColormap: (id <Colormap>)colormap;
-- drawPointX: (int)x Y: (int)y Color: (GUI_Color)c;
-- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (GUI_Color)c;
+- drawPointX: (int)x Y: (int)y Color: (Color)c;
+- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
 - draw: (id <XDrawer>)xd X: (int)x Y: (int)y;
 - drawSelf;
 - erase;

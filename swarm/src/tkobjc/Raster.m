@@ -11,14 +11,9 @@
 // in and gets the X Window ID and scribbles on it. We bind to <Expose>
 // to get most of the work done.
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
-#import <tclObjc.h>
-#import <TkInterp.h>
 #import <tkobjc/Raster.h>
+#include "internal.h"
 
 @implementation Raster
 
@@ -38,9 +33,7 @@
   [globalTkInterp eval: "frame %s -background \"\" -width %u -height %u",
   	  widgetName, width, height];
 
-  tkwin = Tk_NameToWindow ([globalTkInterp interp],
-                           (char *)widgetName,
-                           [globalTkInterp mainWindow]);
+  tkwin = tkobjc_nameToWindow (widgetName);
   if (tkwin == NULL)
     {
       [WindowCreation raiseEvent: "Error creating tkin!\n%s",
@@ -48,7 +41,7 @@
       return nil;
     }
   
-  Tk_MakeWindowExist(tkwin);
+  Tk_MakeWindowExist (tkwin);
   
   display = Tk_Display (tkwin);
   xwin = Tk_WindowId (tkwin);
@@ -180,9 +173,9 @@
 {
   switch (n)
     {
-    case 1: button1Client = c; button1Sel = sel; break;
-    case 2: button2Client = c; button2Sel = sel; break;
-    case 3: button3Client = c; button3Sel = sel; break;
+    case ButtonLeft: button1Client = c; button1Sel = sel; break;
+    case ButtonMiddle: button2Client = c; button2Sel = sel; break;
+    case ButtonRight: button3Client = c; button3Sel = sel; break;
     default:
       raiseEvent (WarningMessage,
                   "Don't know how to handle button %d, ignoring.\n", n);
@@ -197,9 +190,9 @@
   SEL sel = 0;
   switch (n)
     {
-    case 1: c = button1Client; sel = button1Sel; break;
-    case 2: c = button2Client; sel = button2Sel; break;
-    case 3: c = button3Client; sel = button3Sel; break;
+    case ButtonLeft: c = button1Client; sel = button1Sel; break;
+    case ButtonMiddle: c = button2Client; sel = button2Sel; break;
+    case ButtonRight: c = button3Client; sel = button3Sel; break;
     default: raiseEvent(SourceMessage, "Button %d out of range.\n");
     }
   

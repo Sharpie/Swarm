@@ -3,10 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.   
 
+#import <defobj.h> // getObjectNamed
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/common.h>
 
+#include <tk.h>
 #include <string.h>
 
 void
@@ -16,7 +18,7 @@ tkobjc_dragAndDropTarget (id target, id object)
     eval:
       "drag&drop target %s handler id {%s idReceive}",
     [target getWidgetName],
-    tclObjc_objectToName (object)];
+    [object getObjectName]];
 }
 
 static void
@@ -25,14 +27,14 @@ dragAndDropTargetArg (id target, id object, int arg)
   [globalTkInterp
     eval: "drag&drop target %s handler id {%s idReceive: %d}", 
     [target getWidgetName],
-    tclObjc_objectToName (object),
+    [object getObjectName],
     arg];
 }
 
 static void
 oldSetupDragAndDrop (id source, id object)
 {
-  const char *objectName = tclObjc_objectToName (object);
+  const char *objectName = [object getObjectName];
   const char *sourceWidgetName = [source getWidgetName];
   
   [globalTkInterp
@@ -45,7 +47,7 @@ static void
 newSetupDragAndDrop (id source, id object)
 {
   const char *sourceWidgetName = [source getWidgetName];
-  const char *objectName = tclObjc_objectToName (object);
+  const char *objectName = [object getObjectName];
 
   [globalTkInterp
     eval: "drag&drop source %s -packagecmd {do_package %s %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
@@ -66,7 +68,7 @@ static void
 oldSetupDragAndDropArg (id source, id object, int arg)
 {
   const char *sourceWidgetName = [source getWidgetName];
-  const char *objectName = tclObjc_objectToName (object);
+  const char *objectName = [object getObjectName];
 
   [globalTkInterp
     eval: "drag&drop source %s config -packagecmd {do_package_arg %s %d} -sitecmd sitecmd -button 1",
@@ -79,7 +81,7 @@ static void
 newSetupDragAndDropArg (id source, id object, int arg)
 {
   const char *sourceWidgetName = [source getWidgetName];
-  const char *objectName = tclObjc_objectToName (object);
+  const char *objectName = [object getObjectName];
 
   [globalTkInterp
     eval: "drag&drop source %s -packagecmd {do_package_arg %s %d %%t} -sitecmd {sitecmd %%s %%t} -button 1", 
@@ -173,7 +175,7 @@ tkobjc_bindButton3ToSpawn (id widget, id self, int focusFlag)
         widgetName,
         widgetName,
         widgetName,
-        tclObjc_objectToName (self),
+        [self getObjectName],
         widgetName,
         widgetName];
     }
@@ -189,7 +191,7 @@ tkobjc_bindButton3ToSpawn (id widget, id self, int focusFlag)
         widgetName,
         widgetName,
         widgetName,
-        tclObjc_objectToName (self),
+        [self getObjectName],
         widgetName];
     }
 }
@@ -205,7 +207,7 @@ tkobjc_bindButton3ToArgSpawn (id widget, id self, int which)
     [widget getWidgetName],
     [widget getWidgetName],
     [widget getWidgetName], 
-    tclObjc_objectToName (self),
+    [self getObjectName],
     which,
     [widget getWidgetName],
     [self getWidgetName]];
@@ -227,7 +229,7 @@ tkobjc_dynamicEval (const char *cmd)
 id
 tkobjc_drag_and_drop_object (void)
 {
-  return tclObjc_nameToObject ([[globalTkInterp eval: "gimme $DDOBJ"] result]);
+  return getObjectNamed ([[globalTkInterp eval: "gimme $DDOBJ"] result]);
 }
 
 void

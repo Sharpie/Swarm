@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objc/objc.h>
+#include <objc/objc.h>
 
 void tkobjc_dragAndDrop (id source, id object);
 void tkobjc_dragAndDropArg (id source, id object, int arg);
