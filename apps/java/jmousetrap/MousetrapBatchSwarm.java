@@ -84,7 +84,7 @@ public class MousetrapBatchSwarm extends SwarmImpl {
     return this;
   }
 
-  public ActivityImpl activateIn (Object swarmContext) {
+  public ActivityImpl activateIn (SwarmImpl swarmContext) {
     super.activateIn (swarmContext);
     
     mousetrapModelSwarm.activateIn (this);

@@ -184,7 +184,7 @@ public class MousetrapModelSwarm extends SwarmImpl
    * Now set up the model's activation. swarmContext indicates where
    * we're being started in - typically, this model is run as a
    * subswarm of an observer swarm.  */
-  public ActivityImpl activateIn (Object swarmContext)
+  public ActivityImpl activateIn (SwarmImpl swarmContext)
   {
     super.activateIn (swarmContext);
     modelSchedule.activateIn (this);

@@ -2,7 +2,8 @@
 
 	* Mousetrap.java, MousetrapObserverSwarm.java,
 	MousetrapModelSwarm.java, MousetrapStatistics.java,
-	StartMousetrap.java: Do minimal, explicit imports.
+	StartMousetrap.java: Do minimal, explicit imports.  Use SwarmImpl
+	as argument to activateIn:, not Object.
 
 	* MousetrapModelSwarm.java (MousetrapProbeMap): New inner class.
 

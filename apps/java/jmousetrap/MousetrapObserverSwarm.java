@@ -10,6 +10,7 @@ import swarm.Selector;
 import swarm.defobj.ZoneImpl;
 import swarm.objectbase.EmptyProbeMapImpl;
 import swarm.objectbase.ActivityControlImpl;
+import swarm.objectbase.SwarmImpl;
 import swarm.activity.ScheduleImpl;
 import swarm.activity.ActionGroupImpl;
 import swarm.activity.ActivityImpl;
@@ -231,7 +232,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
    * "nil". But other Swarms and Schedules and such will be activated
    * inside of us.
    **/
-  public ActivityImpl activateIn (Object swarmContext) {
+  public ActivityImpl activateIn (SwarmImpl swarmContext) {
     super.activateIn (swarmContext);
     
     mousetrapModelSwarm.activateIn (this);
