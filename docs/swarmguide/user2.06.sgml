@@ -1,88 +1,314 @@
 <sect1 id="swarm.user.user2.06.sect1">
-  <title>Building schedules</title>
+  <title>Checking on a Swarm's progress: The Observer</title>
 
 <sect2>
- <title>Step III: Building schedules </title> 
+ <title>As They Say in Tommy, "See Me, Feel Me..." </title> 
 
-    <programlisting>-buildActions 
+<para> 
+When a Swarm program is running in the GUI mode, what the user sees
+is controlled by the top level Swarm that we often call the observer swarm.
+The observer swarm adopts the GUISwarm protocol, which means that
+it has all of the features of a Swarm plus some "optional added extras."
+The file that contains the source that controlls the user interface
+for a specific project may be called simply "ObserverSwarm.m".
+In many examples, authors have customized the name of the file to include
+the name of their project, as in "HeatbugObserverSwarm.m" or "ForestModelSwarm.m"
+</para>
+<para>
+The most prominent of the extra features of the observer swarm is the control
+panel.  The control panel is the familiar set of buttons that can "start" and 
+"stop" a swarm model.  The control panel also can "step" the simulation through
+its paces one time-unit at-at-time.  The "save" button on the control panel is
+intended to save the window positions of objects that are able to do so.
+</para>
+
+<para>
+Apart from the control panel, what the user sees at run-time is completely
+dependent on the particular example that is being considered.  It is probably 
+safe to say, however, that if one stays within the Swarm library, without adding
+external support from the Graph library or other toolkits, then there two 
+especially important kinds of display objects that can be created in 
+ObserverSwarm.m. These two are:
+
+       <itemizedlist>
+        <listitem><para>The ZoomRaster</para></listitem>
+
+In just about any of the common swarm applications, there is some sense of
+geometry or spatial position. The ZoomRaster graph is the tool that is used
+to represent the positioning of agents and other objects in that space.
+</para>
+
+        <listitem><para>The Data Display Graphs (This is a title I just made up
+to refer to EZGraphs and EZDistribution protocols--pj,4-16-1999)  </para></listitem>
+<para>
+For the visual presentation of summary information, Swarm provides a set
+of tools for presenting information in graphic format.  Two of the most common
+sorts are the histogram, which shows the relative frequency of various values
+occuring in a stream of data, and a line graph which displays the changes over
+time in one or more variables as a simulation progresses.  These capabilities are
+provided by the Swarm protocols EZDistribution and EZGraph, respectively. 
+</para> 
+    </itemizedlist>
+<para>
+The following sections discuss the achitecture of these two classes of displays
+in greater depth. Most of the examples for discussion are taken from the Arborgames
+code provided by Melissa Savage. 
+</para>
+</sect2>
+
+<sect2>
+<title> Making a clickable ZoomRaster </title>
+
+<para>
+There is no doubt that one of the most impressive aspects of a Swarm presentation
+is the visually intriguing movement of agents on a landscape.  The ability to stop
+a simulation from the control panel and then click on objects, open up displays
+that reveal their internal variables and allow them to be changed, is one of the
+main strengths of the Swarm library.
+</para>
+<para>
+In order to introduce the way in which these ZoomRaster displays are created, we
+have to introduce a number of inter-linked Swarm toolkit items.  Before we are done,
+we have to talk about objects created using the Space library, as well as objects
+from the Gui library.  In the Arborgames simulation, there is a set of standard
+examples that quite nicely illustrate the vital steps.  For emphasis, we now consider
+these elements individually.
+
+
+<itemizedlist>
+        <listitem><para>Create a colormap</para></listitem>
+
+Swarm was first developed for the Unix operating system. Programmers who have
+worked in X will probably already know that the X server offers a long list of
+possible colors.  If we want to access those colors, we can build a Colormap object
+in Swarm.  After it is defined, and commands are executed which draw on the screen,
+then the Colormap object will control which colors are displayed.
+</para>
+<para>Here is an excerpt from the file ForestObserverSwarm.m in which an object, called
+"colormap", is created and then told to remember that the numbers 25, 26,and 27 refer
+to the colors "white","LightCyan1" and "PaleTurquoise" which is defined deep in the 
+bowels of the video display.
+
+<programlisting>
+colormap = [Colormap create: [self getZone]];
+
+[colormap setColor: 25 ToName: "white"];
+  [colormap setColor: 26 ToName: "LightCyan1"];
+  [colormap setColor: 27 ToName: "PaleTurquoise"];
+</programlisting>
+<para>
+Colormaps can have fancier items. For example, colors need not be referred to
+by simple names. Rather, each color can be referred to in a numerical format. All colors
+can be referred to by the intensity of their red, blue, and green components, for 
+example.  If one needs to assign the many available shades of red to the numbers
+between 100 and 150, it can easily be done with commands that use the RGB format. 
+There is an example of such a use of the Colormap protocol in the heatbugs 
+source code.
+</para>
+        <listitem><para>Create a ZoomRaster</para></listitem>
+<para>
+A ZoomRaster is a visual placholder, a rectangular entity of a certain size.
+After trimming out some of the detail, the steps that create the ZoomRaster 
+called "forestRaster" in Arborgames look like this:
+
+
+<programlisting>
+
+  forestRaster = [ZoomRaster createBegin: [self getZone]];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (forestRaster);
+  forestRaster = [forestRaster createEnd];
+
+  [forestRaster setColormap: colormap];
+  [forestRaster setZoomFactor: 4];
+  [forestRaster setWidth: [forestModelSwarm getWorldSize] 
+                  Height: [forestModelSwarm getWorldSize]];
+  [forestRaster setWindowTitle: "The Forest"];
+  [forestRaster pack];
+</programlisting>
+
+
+This code should be viewed as foundation-building.  The ZoomRaster object is
+created, and the macro SET_WINDOW_GEOMETRY_RECORD_NAME is executed.  This
+means that, when the use clicks "save" on the control panel, the window position
+of the forestRaster object will be saved in a file in the user's account.
+</para>
+<para>
+To briefly summarize the effect of the other commands, we note the following.  
+The fourth line tells the new raster object to use the colormap we just created.
+The fifth line controls the magnification of the display, which in this case is 4.
+The sixth line asks the forestModelSwarm object to report back the horizontal
+and vertical dimensions of the grid on which trees exist and then uses those to
+set the width and height of the ZoomRaster object's display.  The eighth line
+gives the display window a name and the last line, which tells the forestRaster
+to "pack" itself, causes the display to be initialized according to the settings
+we just provided.
+</para>
+        <listitem><para>Map a Swarm Space object onto the ZoomRaster</para></listitem>
+<para>
+By itself, a ZoomRaster is just a nice looking set of edges around a blank 
+background.  In order to display things inside that window, we need to create
+a connection between the agents who live in the model swarm (and lower level swarms) 
+and then display them in the observer swarm.  This is done most commonly by telling
+each agent that it lives in a Swarm object known as a Grid2d.  As the agent
+goes through its lifetime, one of its activities is to put itself at a position in
+the grid and then (possibly) erase itself from the old spot and put itself in the
+new spot.
+</para>
+<para>
+The Swarm protocol Object2dDisplay can handle the work of drawing the positions of
+agents in a Grid2d object on a Zoom Raster.  In the Arborgames example, the forestRaster
+is used by an object called treeDisplay which connects the agents in the Grid2d (which is 
+passed through from the forestModelSwarm).
+ 
+<programlisting>
+  
+  treeDisplay = [Object2dDisplay createBegin: [self getZone]];
+  [treeDisplay setDisplayWidget: forestRaster];
+  [treeDisplay setDiscrete2dToDisplay: 
+                 [[forestModelSwarm getTheForest] getTreeGrid]]; 
+  [treeDisplay setObjectCollection:
+                 [[forestModelSwarm getTheForest] getTreeList]]; 
+  [treeDisplay setDisplayMessage: M(drawSelfOn:)];
+  treeDisplay = [treeDisplay createEnd];
+
+</programlisting>
+This example is slightly more complicated than most, because the Grid2d object 
+is not retrieved directly from forestModelSwarm, but rather from another object
+that is defined in the forestModelSwarm.  Except for that wrinkle, this is a
+standard example.  The Object2dDisplay protocol is told to use the forestRaster
+as its "display widget."  It is necessary to tell the treeDisplay which Grid2d
+to use, and this chore is accomplished by the setDiscrete2dDisplay command.
+</para>
+<para>
+Why the "setObjectCollection" message and the "setDisplayMessage" are used
+is interesting and important.  The Object2dDisplay protocol has a method called 
+"display", which can be put
+in a schedule by the user.  When the display method is executed, the treeDisplay
+(since it follows the Object2dDisplay protocol)
+will send each of the agent-objects in the Grid2d a message telling it to draw itself
+in the forestRaster. How does it tell the object to draw itself? We tell it how
+by passing it the selector for the agent-object's drawSelfOn: method.  Each agent must 
+be able to respond to a message of this sort:
+<programlisting>
+  
+  [anAgent drawSelfOn: aRaster];
+</programlisting>
+The program will crash if each agent that is positioned in the Grid2d is not able
+to respond to drawSelfOn:.
+</para>
+<para>
+The message "setObjectCollection: [[forestModelSwarm getTheForest] getTreeList]]" is 
+not strictly necessary and the program will run without it.  It may not run so quickly,
+however.  Without this command, the treeDisplay will respond to the "display" message
+by searching in each possible position of the Grid2d and sending each object it finds
+the "drawSelfOn:" message.  If the grid is large relative to the number of agents, then
+this might be a very slow process. The setObjectCollection method eliminates the need
+for treeDisplay to search through the whole grid.  When the object collection is
+set, then the treeDisplay will simply go through the list of objects and tell each one
+to display itself.
+</para>
+        <listitem><para>Tell the ZoomRaster Where to Send Clicks</para></listitem>
+<para>
+A ZoomRaster object is highly self-aware.  If you stop a simulation and right-click
+on an object, you may see a probe display pop up.  That does not happen by magic, of
+course.  It is necessary to tell the raster that, when there is a certain kind
+of click, that it is supposed to pass that click to some other object that knows what
+to do with it.  That's why there is a command like this in the buildObjects phase:
+
+<programlisting>
+ [forestRaster setButton: ButtonRight 
+                Client: treeDisplay 
+                Message: M(makeProbeAtX:Y:)];
+</programlisting>
+The treeDisplay is told to make a probe for the object that exists at a particular 
+point in the grid.
+</para>
+
+       <listitem><para>Schedule the Display</para></listitem>
+<para>
+This is one of the aspects of Swarm that could use some standardization. In the schedule,
+one generally includes steps that erase the raster, then the Object2dDisplay is told to
+update itself by the "display" command, and then that display is drawn to the screen by
+telling the ZoomRaster to "drawSelf". 
+</para>
+<para>
+In a simple model, in which we only have one ZoomRaster to update, then the schedule 
+could be as simple. In the buildActions part of the code, one could create an ActionGroup
+like this:
+<programlisting>
+      displayActions = [ActionGroup create: self];
+      [displayActions createActionTo: forestRaster message: M(erase)];
+      [displayActions createActionTo: treeDisplay message:M(display)];
+      [displayActions createActionTo: forestRaster message: M(drawSelf)];
+</programlisting>
+(Of course, that action group has to be put into a schedule, which will probably execute it 
+at each time point.) The buildActions method in arborGames is a bit more complicated than that
+since a large number of displays are managed. 
+</para>
+       <listitem><para>Make sure the Agents Put Themselves in the Grid!</para></listitem>
+<para>
+Inside the code that creates the individual agents who are to be drawn on the grid, one must
+be careful to accomplish two things.  First, the drawSelfOn: method must be created.  
+Second, if one wants to have a clickable ZoomRaster that allows agents to be probed, it
+is also vital to have the agents report their positions.
+</para>
+<para>
+It is fairly standard in Swarm models to manage this by creating a Grid2d object in the
+model swarm level and then, when an agent is created, use a "setWorld" method to notify
+the agent where it lives. In heatbugs, for example, each heatbug has a "step" method that
+controls how it searches for heat and moves to find a better spot.  When it has decided where
+to go, the heatbug puts "nil" at it spot in the grid where it used to be and then it puts
+itself at the new coordinates.  Here is the relevant code from Heatbug.m:
+<programlisting> 
+      [world putObject: nil atX: x Y: y];
+      [world putObject: self atX: newX Y: newY];
+</programlisting>
+</para>
+<para>
+In the Arborgames example, the trees don't consciously move themselves. Rather, they are
+created and destroyed according to a set of rules that put them in a spot for a while. 
+When a tree is created, it is added
+to the grid with this command that is in the Forest.m file :
+
+<programlisting>
+- addTree: aTree atX: (int) xVal Y: (int) yVal
 {
-
- modelSchedule=[Schedule createBegin: self];
- [modelSchedule setRepeatInterval: 1];
- modelSchedule = [modelSchedule createEnd];
-
- [modelSchedule at: 0 createActionTo: aBug message: M(step)];
-
- return self;
+  [treeList addFirst: aTree];
+  [treeGrid putObject: aTree atX: xVal Y: yVal];
+  return self; 
 }
 </programlisting>
+Trees don't move (so far as we know), so the only need to update this tree's
+position arises when the tree dies. The Forest.m file creates a class of methods
+common to the different kinds of forests, and then the subclasses like MatureForest
+are created to provide additional detail.
+There are methods that remove a tree from the simulation
+and take it off the grid.  The trees that are supposed to die
+are added to a Swarm list called the "exitQ". For each timestep, the forest tells each
+kind of tree to do its "step" method, which adds trees to the exitQ list, and then
+the forest's "step" method removes those trees from the grid. In the MatureForest.m file,
 
-</sect2>
+<programlisting>
+-step {
+  id aTree, index ;
 
-<sect2>
- <title>Schedules</title> 
+  [treeList forEach: M(step)] ;
 
-    <para>Schedules define event in terms of:
-      <itemizedlist>
-        <listitem><para>Time of first invocation</para></listitem>
-        <listitem><para>Target object           </para></listitem>
-        <listitem><para>Method to call          </para></listitem>
-        <listitem><para>Repeat interval         </para></listitem>
-      </itemizedlist>
-
-      <programlisting>
-t=1
-t=2
-t=3
-[bug eat]
-[bug eat]
-[schedule at:  t createActionTo: agent message: M(method)]
+  index = [exitQ begin: [self getZone]] ;
+  while( (aTree = [index next]) ){
+    [treeList remove: aTree] ;
+    [treeGrid putObject: nil atX: [aTree getX] Y: [aTree getY]] ;
+    [index remove] ;
+    [aTree drop] ;
+  }
+  [index drop] ;
+  return self ;
+}
 </programlisting>
-
-    </para>
-
+</itemizedlist>
 </sect2>
 
-<sect2>
- <title>ActivityGroups</title> 
 
-    <para>ActivityGroups group together events at same timestep. Schedule then 
-      <emphasis>executes</emphasis> group
-      <programlisting>t=1
-t=2
-t=3
-[bug eat]
-[bug eat]
-[bug sleep]
-[food grow]
-</programlisting>
-    </para>
-
-</sect2>
-
-<sect2>
- <title>Implementation</title> 
-
-    <programlisting>
-schedule1=[Schedule createBegin: [self getZone]];
-[schedule1 setRepeatInterval: 2];
-schedule1=[schedule1 createEnd];
-[schedule1 at: 1 createActionTo: bug message: M(eat)];
-
-actionGroup=[ActionGroup createBegin: [self getZone]];
-[actionGroup createEnd];
-[actionGroup createActionTo: bug message: M(sleep)];
-[actionGroup createActionTo: food message: M(grow)];
-schedule2=[Schedule createBegin: [self getZone]];
-schedule2=[schedule2 createEnd];
-[schedule2 at: 2 createAction: actionGroup];
-
-t=1
-t=2
-t=3
-</programlisting>
-
-</sect2>
 </sect1>
 <!--
 Local Variables:
