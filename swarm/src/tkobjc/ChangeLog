@@ -1,3 +1,9 @@
+1999-02-20    <mgd@DELLXPS1>
+
+	* win32dib.c (dib_fill): Adjust frameWidth to four byte boundary
+	and then compute new variable row_width (for 24 bit case), which
+	is also adjusted to four byte boundary
+	
 1999-02-18    <mgd@HELEN>
 
 	* win32dib.c (dib_fill): In 24 bit case, adjust frame width up to

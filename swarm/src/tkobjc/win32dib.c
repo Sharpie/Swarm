@@ -116,7 +116,7 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
   dib->dibInfo->bmiHead.biClrUsed = 0;
   dib->dibInfo->bmiHead.biClrImportant = 0;
   dib->bitmap = CreateDIBSection (hdc,
-				  (BITMAPINFO *)dib->dibInfo,
+				  (BITMAPINFO *) dib->dibInfo,
 				  DIB_RGB_COLORS,
 				  &dib->bits,
 				  NULL,
@@ -328,6 +328,7 @@ dib_fill (dib_t *dib,
   int wdiff, hdiff;
   int clipx, clipy;
   WORD depth = dib->dibInfo->bmiHead.biBitCount;
+  unsigned row_width;
 
   if (x < 0)
     {
@@ -361,15 +362,22 @@ dib_fill (dib_t *dib,
   if (hdiff > 0)
     height -= hdiff;
    
+  if (frameWidth & 3)
+    frameWidth += 4 - (frameWidth & 3);
+
+  row_width = frameWidth * ((depth == 24) ? 3 : 1);
+      
+  if (row_width & 3)
+    row_width += 4 - (row_width & 3);
 
   if (depth == 8)
     {
-      LPBYTE base = (LPBYTE) dib->bits + (clipy * frameWidth);
+      LPBYTE base = (LPBYTE) dib->bits + (clipy * row_width);
 
       for (yoff = 0; yoff < height; yoff++)
 	{
 	  unsigned xoff;
-	  LPBYTE ybase = &base[yoff * frameWidth + clipx];
+	  LPBYTE ybase = &base[yoff * row_width + clipx];
 	  
 	  for (xoff = 0; xoff < width; xoff++)
 	    ybase[xoff] =  color;
@@ -377,7 +385,7 @@ dib_fill (dib_t *dib,
     }
   else if (depth == 24)
     {
-      LPBYTE base = ((LPBYTE) dib->bits + (clipy * frameWidth * 3));
+      LPBYTE base = ((LPBYTE) dib->bits) + (clipy * row_width);
       BYTE red, green, blue;
       unsigned fsize = frameWidth * 3;
 
@@ -388,12 +396,11 @@ dib_fill (dib_t *dib,
       for (yoff = 0; yoff < height; yoff++)
 	{
 	  unsigned xoff;
-	  BYTE (*ybase)[1][3] =
-	    (void *)(base + ((yoff * fsize) + (clipx * 3)));
+	  LPBYTE ybase = base + ((yoff * fsize) + (clipx * 3));
 
 	  for (xoff = 0; xoff < width; xoff++)
 	    {
-	      LPBYTE xbase = (LPBYTE) &ybase[xoff][0];
+	      LPBYTE xbase = ybase + xoff * 3;
 
 	      xbase[0] = blue;
 	      xbase[1] = green;
@@ -517,6 +524,7 @@ dib_paintBlit (dib_t *dib,
       
       SelectPalette (destDC, dib->palette, FALSE);
       RealizePalette (destDC);
+
       result = BitBlt (destDC, 
 		       destX, destY,
 		       sourceWidth, sourceHeight,
