@@ -760,7 +760,7 @@
           (if (cdr rstrings) (insert "\n  ") (insert " "))
           (insert "};\n")))
       (when (convenience-create-method-p protocol method)
-        (insert "  jobject nextPhase = SD_JAVA_NEXTJAVAPHASE (jobj);\n"))
+        (insert "  jobject nextPhase = SD_JAVA_NEXTPHASE (jobj);\n"))
       (java-print-method-invocation-arguments protocol method)
       ;; (java-print-method-invocation-arguments-lref-deletion protocol method)
 
@@ -785,7 +785,7 @@
                      (insert "SD_JAVA_ADDJAVA (nextPhase, ")
                      t)
                     ((or (string= "-createEnd" signature))
-                     (insert "SD_JAVA_NEXTPHASE (jobj, ")
+                     (insert "SD_JAVA_SWITCHPHASE (jobj, ")
                      t)
                     ((string= java-return "Class")
                      (insert "(jclass) SD_JAVA_FINDJAVACLASS (")

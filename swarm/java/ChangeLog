@@ -1,3 +1,10 @@
+2000-05-04  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (java-print-native-method): Accomodate rename of
+	SD_JAVA_NEXTPHASE.
+	(java-print-native-method): Accommodate rename of
+	SD_JAVA_SWITCHPHASE.
+
 2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java-stub.el (java-argument-print-conversion,
