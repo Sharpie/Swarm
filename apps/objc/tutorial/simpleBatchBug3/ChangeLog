@@ -1,3 +1,8 @@
+2003-08-18	David H. Clements <david.clements.03@alum.mines.edu>
+	
+	* In Output.m updated createGraphWriter to have a dynamic string instead
+	of a static one for hdfEZGraphName.
+
 2003-08-17	David H. Clements <david.clements.03@alum.mines.edu>
 	
 	* In Output.m:

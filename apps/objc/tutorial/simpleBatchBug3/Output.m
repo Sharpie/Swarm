@@ -75,11 +75,10 @@
 // will it draw a graph to the screen, however.
 - (void)createGraphWriter
 {
-  char hdfEZGraphName[100];
+  char *hdfEZGraphName;
   id <HDF5> hdf5container; /*"HDF5 data container object used by bugGraph"*/
-  strcpy (hdfEZGraphName,"hdfGraph_");
-  strcat (hdfEZGraphName, timeString);
-  strcat (hdfEZGraphName, ".hdf");
+
+  asprintf( &hdfEZGraphName, "hdfGraph_%s.hdf", timeString );
 
   hdf5container = [HDF5 createBegin: [self getZone]];
   [hdf5container setWriteFlag: YES];
