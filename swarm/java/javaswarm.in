@@ -10,13 +10,9 @@ fi
 jdkdir=@jdkdir@
 
 if test @USEDLL@ = yes; then
-@SHLIBPATH_VAR@=`cat << EOF
-@swarm_bindir@
-@tcllibdir@/../bin
-EOF
-`$@SHLIBPATH_VAR@
+  @SHLIBPATH_VAR@=@swarm_libdir@/../bin:@tcllibdir@/../bin:$@SHLIBPATH_VAR@
 else
-@SHLIBPATH_VAR@=`cat << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
+  @SHLIBPATH_VAR@=`cat << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
 @swarm_libdir@
 @xpmlibdir@
 @tcllibdir@
