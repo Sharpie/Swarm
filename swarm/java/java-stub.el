@@ -88,11 +88,11 @@
 
 (defconst *removed-methods* 
     '("-getClass" ; conflict with Java
-      "-getDisplayName" ; conflict with Java
-      "-getTypeName" ; conflict with Java
-      "-setDisplayName:" ; conflict with Java
-      "-copy:" ; conflict with Java
-      "-remove:" ; conflict with Java
+;;      "-getDisplayName" ; conflict with Java
+;;      "-getTypeName" ; conflict with Java
+;;      "-setDisplayName:" ; conflict with Java
+;;      "-copy:" ; conflict with Java
+;;      "-remove:" ; conflict with Java
 
       ;; fooey
       "+customizeBegin:"

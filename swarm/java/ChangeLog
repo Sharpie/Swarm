@@ -1,3 +1,9 @@
+1999-07-23  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* java-stub.el (*removed-methods*): Remove getDisplayName, 
+	getTypeName, setDisplayName, copy and remove from 
+	*removed-methods*.
+
 1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* java-stub.el (java-print-nextphase-class-constructor): In 
