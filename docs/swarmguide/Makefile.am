@@ -17,10 +17,10 @@ include $(top_srcdir)/Makefile.rules
 JADEFLAGS = -V biblio-citation-check 
 
 ## automatically generate index, if any non-generated SGML files change
-genindex.sgml: $(SGML) $(docbookstyle_srcdir)/bin/collateindex.pl
-	perl $(docbookstyle_srcdir)/bin/collateindex.pl -i "SWARM.USER.GENERATED.INDEX" -N -o genindex.sgml
+genindex.sgml: $(SGML) @COLLATEINDEX@ 
+	perl @COLLATEINDEX@ -i "SWARM.USER.GENERATED.INDEX" -N -o genindex.sgml
 	$(RUNJADE) -V html-index $(CATOPTS) -t sgml -ihtml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`	
-	perl $(docbookstyle_srcdir)/bin/collateindex.pl -i "SWARM.USER.GENERATED.INDEX" -g -o genindex.sgml HTML.index
+	perl @COLLATEINDEX@ -i "SWARM.USER.GENERATED.INDEX" -g -o genindex.sgml HTML.index
 
 versions.ent: FORCE
 	echo '<!ENTITY swarm-guide-release-number "@VERSION@">' > versions.ent.new

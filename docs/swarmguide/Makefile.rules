@@ -10,7 +10,7 @@ PRINT = $(top_dossrcdir)/print.dsl
 JADEFLAGS = -V biblio-citation-check
 
 RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE) $(JADEFLAGS)
-CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
+CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog  @catopts@ 
 
 FIGS = figs/swarm.eps # for the timestamp
 
