@@ -5,8 +5,7 @@ Test suite:   activity
 */
 
 #import "DSSwarm.h"
-#import <activity.h>
-#import <activity/Schedule.h>
+#import <activity.h> // Schedule
 #import <defobj/defalloc.h>
 
 int ok = 0;

@@ -7,8 +7,8 @@ Test suite:   activity
 
 #import "Responder.h"
 #import <simtools.h>
-#import <collections/Array.h>
-#import <activity/Schedule.h>
+#import <collections.h> // Array
+#import <activity.h> // Schedule
 
 int 
 main (int argc, const char ** argv)
@@ -30,7 +30,7 @@ main (int argc, const char ** argv)
     }
 
   schedule = [Schedule createBegin: globalZone];
-  [schedule setAutoDrop: 1];
+  [schedule setAutoDrop: YES];
   schedule = [schedule createEnd];
   
   [schedule at: 0 createActionTo: [array atOffset: 0]

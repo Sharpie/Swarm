@@ -1,3 +1,12 @@
+1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Schedule.m (main): Pass YES to setAutoDrop: instead of 1.
+
+	* ESSwarm.[hm]: Make `ok' boolean.  
+
+	* DSRSwarm.m, DSSwarm.m, ESSwarm.m, Schedule.m: Don't include
+	Schedule.h.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.

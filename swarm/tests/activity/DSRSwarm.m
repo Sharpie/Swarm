@@ -6,7 +6,6 @@ Test suite:   activity
 
 #import "DSRSwarm.h"
 #import <activity.h>
-#import <activity/Schedule.h>
 #import <defobj/defalloc.h>
 
 int stimes[10] = { 0, 0, 0, 0, 0,

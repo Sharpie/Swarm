@@ -7,7 +7,7 @@ Test suite:   activity
 
 #import <objectbase/Swarm.h>
 
-extern int ok;
+extern BOOL ok;
 
 @interface ESSwarm: Swarm
 {

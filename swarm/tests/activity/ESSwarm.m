@@ -6,10 +6,9 @@ Test suite:   activity
 
 #import "ESSwarm.h"
 #import <activity.h>
-#import <activity/Schedule.h>
 #import <defobj/defalloc.h>
 
-int ok = 0;
+BOOL ok = NO;
 
 @implementation ESSwarm
 
@@ -53,7 +52,7 @@ int ok = 0;
 - printOk
 {
   printf ("Ok!\n");
-  ok = 1;
+  ok = YES;
   fflush (stdout);
   return self;
 }
