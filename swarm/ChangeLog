@@ -1,3 +1,7 @@
+1998-10-28  Alex Lancaster  <alex@santafe.edu>
+
+	* AUTHORS: Add Vladimir Jojic to current author list.
+
 1998-10-29  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* configure.in: Define PREFIX as $prefix.  Don't expand DATADIR and
