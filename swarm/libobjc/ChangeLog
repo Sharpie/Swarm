@@ -1,3 +1,9 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* archive.c (isDigit): New macro.
+	(objc_write_type, objc_read_type, objc_write_types, objc_read_types): 
+	Use it.
+
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in (AC_PROG_LIBTOOL): Use instead of AM_PROG_LIBTOOL.

@@ -34,6 +34,8 @@ Boston, MA 02111-1307, USA.  */
 
 #include <string.h> /* strcpy, strlen */ 
 
+#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
+
 extern int fflush(FILE*);
 
 #define ROUND(V, A) \
@@ -1043,8 +1045,8 @@ objc_write_type(TypedStream* stream, const char* type, const void* data)
 
   case _C_ARY_B:
     {
-      int len = atoi(type+1);
-      while (isdigit(*++type))
+      int len = atoi (type+1);
+      while (isDigit (*++type))
 	;
       return objc_write_array (stream, type, len, data);
     }
@@ -1140,7 +1142,7 @@ objc_read_type(TypedStream* stream, const char* type, void* data)
   case _C_ARY_B:
     {
       int len = atoi(type+1);
-      while (isdigit(*++type))
+      while (isDigit (*++type))
 	;
       return objc_read_array (stream, type, len, data);
     }
@@ -1258,7 +1260,7 @@ objc_write_types (TypedStream* stream, const char* type, ...)
 	{
 	  int len = atoi(c+1);
 	  const char* t = c;
-	  while (isdigit(*++t))
+	  while (isDigit (*++t))
 	    ;
 	  res = objc_write_array (stream, t, len, va_arg(args, void*));
 	  t = objc_skip_typespec (t);
@@ -1350,7 +1352,7 @@ objc_read_types(TypedStream* stream, const char* type, ...)
 	{
 	  int len = atoi(c+1);
 	  const char* t = c;
-	  while (isdigit(*++t))
+	  while (isDigit (*++t))
 	    ;
 	  res = objc_read_array (stream, t, len, va_arg(args, void*));
 	  t = objc_skip_typespec (t);
