@@ -19,7 +19,6 @@ Library:      activity
   id               internalZone;  // internal zone to hold objects of swarm
   id               syncType;      // type of synchronization schedule, if any
   SwarmActivity_c  *activity;     // activity running swarm subactivities
-  ref_t            activityRef;   // reference notification on activity
 }
 /*** Zone pass-through methods (manually inserted) ***/
 - (int) getPageSize;

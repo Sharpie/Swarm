@@ -1,3 +1,10 @@
+1998-10-27  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* SwarmProcess.m (notifySwarm): Remove activityRef. 
+	([CSwarmProcess -activateIn:]): Likewise.
+
+	* SwarmProcess.h (CSwarmProcess): Likewise.
+
 1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (REVISION): Increment.  Swarm 1.3.1 released.

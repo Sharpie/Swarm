@@ -137,7 +137,6 @@ static void notifySwarm( id anObject, id realloc, CSwarmProcess *swarm )
 {
   if ( ! realloc ) {
     swarm->activity    = nil;
-    swarm->activityRef = nil;
   } else {
     // (no reallocation implemented yet)
   }
@@ -187,7 +186,7 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 
   // arrange to remove local activity reference on completion of activity
 
-  activityRef = [activity addRef: (notify_t)notifySwarm withArgument: self];
+  [activity addRef: (notify_t)notifySwarm withArgument: self];
 
   // arrange to drop activity on drop of swarm object
 
