@@ -1,5 +1,9 @@
 1999-06-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HashTable.m: Include swarmconfig.h.
+	(hash_int): Use PTRUINT instead of unsigned int.
+	(compare_ints): Use PTRINT instead of int.
+
 	* tclObjc.m (tclObjc_msgSendToClientData): Rip out all the
 	`special hack' stuff.  It's unportable, and
 	__builtin_apply/libffi/avcall will do the job just fine.

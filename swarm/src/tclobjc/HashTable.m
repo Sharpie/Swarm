@@ -21,9 +21,9 @@
 
 #include "HashTable.h"
 #include <objc/objc-api.h>
+#include <swarmconfig.h> // PTRUINT, PTRINT
 
 #define DEFAULT_HASH_CAPACITY 32
-
 
 /* Some useful hash and compare functions not provided by hash.h */
 
@@ -39,16 +39,16 @@ compare_objects (const void *k1, const void *k2)
   return (int)[(id)k1 isEqual:(id)k2];
 }
 
-static inline unsigned int
+static inline PTRUINT
 hash_int (cache_ptr cache, const void *key)
 {
-  return ((unsigned int)key & cache->mask);
+  return ((PTRUINT) key & cache->mask);
 }
 
 static inline int
 compare_ints (const void *k1, const void *k2)
 {
-  return !((int)k1 - (int)k2);
+  return !((PTRINT) k1 - (PTRINT) k2);
 }
 
 static inline int
