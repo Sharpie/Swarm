@@ -4,34 +4,34 @@
 <!entity % tech.entities system "@srcdir@/tech/tech.ent">
 %tech.entities;
 
-<!entity % defobj.entities system "defobj/defobj.ent">
+<!entity % defobj.entities system "@srcdir@/defobj/defobj.ent">
 %defobj.entities;
 
-<!entity % collections.entities system "collections/collections.ent">
+<!entity % collections.entities system "@srcdir@/collections/collections.ent">
 %collections.entities;
 
-<!entity % activity.entities system "activity/activity.ent">
+<!entity % activity.entities system "@srcdir@/activity/activity.ent">
 %activity.entities;
 
-<!entity % objectbase.entities system "objectbase/objectbase.ent">
+<!entity % objectbase.entities system "@srcdir@/objectbase/objectbase.ent">
 %objectbase.entities;
 
-<!entity % random.entities system "random/random.ent">
+<!entity % random.entities system "@srcdir@/random/random.ent">
 %random.entities;
 
-<!entity % simtools.entities system "simtools/simtools.ent">
+<!entity % simtools.entities system "@srcdir@/simtools/simtools.ent">
 %simtools.entities;
 
-<!entity % simtoolsgui.entities system "simtoolsgui/simtoolsgui.ent">
+<!entity % simtoolsgui.entities system "@srcdir@/simtoolsgui/simtoolsgui.ent">
 %simtoolsgui.entities;
 
-<!entity % gui.entities system "gui/gui.ent">
+<!entity % gui.entities system "@srcdir@/gui/gui.ent">
 %gui.entities;
 
-<!entity % analysis.entities system "analysis/analysis.ent">
+<!entity % analysis.entities system "@srcdir@/analysis/analysis.ent">
 %analysis.entities;
 
-<!entity % space.entities system "space/space.ent">
+<!entity % space.entities system "@srcdir@/space/space.ent">
 %space.entities;
 
 <!entity refmeta.sgml system "@srcdir@/refmeta.sgml">

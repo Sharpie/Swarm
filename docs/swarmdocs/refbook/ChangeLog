@@ -1,3 +1,8 @@
+1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* src.ent.in: Don't use extracted locations, as module entities
+	now all reference public identifiers.
+
 1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* src.ent.in: Add srcrevhistory.sgml.
