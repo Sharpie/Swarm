@@ -1,3 +1,22 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* java.m, javavars.h (get_swarmEnvironment_field,
+	create_class_refs): Now need to use SwarmEnvironmentImpl not
+	SwarmEnvironment.
+
+	* Arguments.m ([Arguments_c -setArgc:Argv:],
+	[Arguments_c -setAppName:],
+	[Arguments_c -setAppModeString:]): Copy the strings.
+
+	* java.[hm] (java_create_refs): Make it public.
+	(swarm_directory_java_associate_objects): Don't call.
+	(java_convert_string_array): New function.
+	
+	* java.h (JAVA_CONERT_STRING_ARRAY, JAVA_CLENAUP_STRING_ARRAY): New
+	macros.
+
+	* defobj.h (Archiver): Adopt RETURNABLE.
+	
 2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* defobj.[hm] (initDefobj): Simplify usage to single Arguments

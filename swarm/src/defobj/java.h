@@ -38,6 +38,7 @@ extern unsigned java_object_getVariableElementCount (jobject javaObject,
                                                      unsigned irank,
                                                      unsigned *idims);
 
+extern void java_create_refs ();
 extern void swarm_directory_java_associate_objects (jobject swarmEnvironment);
 extern unsigned swarm_directory_java_hash_code (jobject javaObject);
 extern id swarm_directory_java_ensure_objc (jobject javaObject);
@@ -58,6 +59,8 @@ extern SEL swarm_directory_java_ensure_selector (jobject jsel);
 
 extern const char *java_copy_string (jstring javaString);
 extern void java_cleanup_strings (const char **stringArray, size_t count);
+extern const char **java_convert_string_array (jobjectArray javaString);
+
 extern const char *java_class_name (jobject obj);
 extern BOOL java_field_usable_p (jobject field);
 extern BOOL java_method_usable_p (jobject method);
@@ -83,6 +86,8 @@ extern void java_drop (jobject jobj);
 
 #define JAVA_COPY_STRING(javaString) java_copy_string (javaString)
 #define JAVA_CLEANUP_STRINGS(stringArray) java_cleanup_strings (stringArray, sizeof (stringArray) / sizeof (const char *))
+#define JAVA_CONVERT_STRING_ARRAY(jary) java_convert_string_array (jary)
+#define JAVA_CLEANUP_STRING_ARRAY(stringArray, name) { java_cleanup_strings (stringArray, (*jniEnv)->GetArrayLength (jniEnv, name)); [scratchZone free: stringArray]; }
 
 #define JAVA_OBJECT_ENTRY(theObject,theJavaObject) [[[[ObjectEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
 #define JAVA_SELECTOR_ENTRY(theSel,theJavaObject) [[[[SelectorEntry createBegin: globalZone] setJavaObject: theJavaObject] setSelector: theSel] createEnd]

@@ -973,10 +973,10 @@ get_swarmEnvironment_field (jobject swarmEnvironment,
 
   if (!(fieldObject =
 	(*jniEnv)->CallObjectMethod (jniEnv,
-                                     c_SwarmEnvironment, 
+                                     c_SwarmEnvironmentImpl,
                                      m_ClassGetDeclaredField,
                                      str)))
-    abort ();
+    raiseEvent (InternalError, "Could not find field `%s'\n", fieldName);
   (*jniEnv)->DeleteLocalRef (jniEnv, str);
   
   ret = (*jniEnv)->CallObjectMethod (jniEnv,
@@ -1113,9 +1113,9 @@ create_class_refs (void)
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
       if (!(lref = (*jniEnv)->FindClass (jniEnv,
-                                         "swarm/SwarmEnvironment")))
+                                         "swarm/SwarmEnvironmentImpl")))
 	abort ();
-      c_SwarmEnvironment = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+      c_SwarmEnvironmentImpl = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
       if (!(lref = (*jniEnv)->FindClass (jniEnv,
@@ -1366,15 +1366,18 @@ static void
 create_object_refs ()
 {
   jmethodID mid;
+  jobject lref;
   
   if (!(mid = (*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader,
                                       "<init>", "()V")))
     abort ();
-  proxyClassLoader = (*jniEnv)->NewObject (jniEnv, c_ProxyClassLoader, mid);
+  lref = (*jniEnv)->NewObject (jniEnv, c_ProxyClassLoader, mid);
+  proxyClassLoader = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  (*jniEnv)->DeleteLocalRef (jniEnv, proxyClassLoader);
 }
 
-static void
-create_refs (void)
+void
+java_create_refs (void)
 {
   create_bootstrap_refs ();
   create_class_refs ();
@@ -1388,13 +1391,15 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
 {
   void associate (const char *fieldName, id objcObject)
     {
-      jobject lref = get_swarmEnvironment_field (swarmEnvironment, fieldName);
+      jobject lref;
+
+      lref = get_swarmEnvironment_field (swarmEnvironment, fieldName);
+      if (!lref)
+        raiseEvent (InternalError, "Could not find field name `%s'\n",
+                    fieldName);
       SD_JAVA_ADD (lref, objcObject);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
     }
 #define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
-  create_refs ();
-
   ASSOCIATE (scratchZone);
   ASSOCIATE (globalZone);
 
@@ -2140,6 +2145,25 @@ java_cleanup_strings (const char **stringArray, size_t count)
   for (i = 0; i < count; i++)
     SFREEBLOCK (stringArray[i]);
 }
+
+const char **
+java_convert_string_array (jobjectArray ary)
+{
+  jsize size = (*jniEnv)->GetArrayLength (jniEnv, ary);
+  jsize i;
+  const char **ret = [scratchZone alloc: sizeof (const char *) * (size + 1)];
+  
+  for (i = 0; i < size; i++)
+    {
+      jstring string = (*jniEnv)->GetObjectArrayElement (jniEnv, ary, i);
+      
+      ret[i] = JAVA_COPY_STRING (string);
+      (*jniEnv)->DeleteLocalRef (jniEnv, string);
+    }
+  ret[size] = NULL;
+  return ret;
+}
+
 
 void
 java_drop (jobject jobj)

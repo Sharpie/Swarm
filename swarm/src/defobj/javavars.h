@@ -15,7 +15,7 @@ extern jclass c_Boolean,
   c_Field, c_Method, c_Modifier,
   c_Collection,
   c_Selector, c_PhaseCImpl, c_Primitives, c_ObjCProxy, c_ProxyClassLoader,
-  c_SwarmEnvironment;
+  c_SwarmEnvironmentImpl;
 
 extern jmethodID m_BooleanValueOf,
   m_ByteValueOf, 

@@ -5,6 +5,7 @@
 
 #import <defobj/Arguments.h>
 #import <defobj.h> // STRDUP, SSTRDUP, ZSTRDUP, arguments
+#import <defobj/defalloc.h> // getZone
 #include <misc.h> // getenv, access, stpcpy, stat, dropdir, isAlnum
 
 #include <swarmconfig.h> // SYSCONFDIR, HAVE_ARGP_H
@@ -332,22 +333,27 @@ PHASE(Setting)
 
 - setArgc: (int)theArgc Argv: (const char **)theArgv
 {
+  int i;
+  
   argc = theArgc;
-  argv = theArgv;
+  argv = [getZone (self) alloc: sizeof (const char *) * argc];
+
+  for (i = 0; i < argc; i++)
+    argv[i] = STRDUP (theArgv[i]);
 
   return self;
 }
 
 - setAppName: (const char *)theApplicationName;
 {
-  applicationName = theApplicationName;
+  applicationName = STRDUP (theApplicationName);
 
   return self;
 }
 
 - setAppModeString: (const char *)theAppModeString
 {
-  appModeString = theAppModeString;
+  appModeString = STRDUP (theAppModeString);
 
   return self;
 }

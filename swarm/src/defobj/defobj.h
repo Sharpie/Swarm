@@ -884,7 +884,7 @@ USING
 - (BOOL)getInhibitArchiverLoadFlag;
 @end
 
-@protocol Archiver <Create, Drop>
+@protocol Archiver <Create, Drop, RETURNABLE>
 //S: High level abstract serialization interface.
 //D: High level abstract serialization interface.
 CREATING
