@@ -132,7 +132,7 @@
 // Read in a file in PGM format and load it into a discrete 2d.
 // PGM is a simple image format. It stores grey values for a 2d array.
 -(int) setDiscrete2d: (Discrete2d *) a toFile: (char *) filename {
-  InFile * f;
+  id <InFile> f;
   char c1, c2;
   int x, y, fileXSize, fileYSize, maxValue;
 

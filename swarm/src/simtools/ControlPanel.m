@@ -3,8 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtools/ControlPanel.h>
 #import <activity.h>
+#import <simtools.h>
+#import <simtools/ControlPanel.h>
 
 // Rudimentary control panel. A lot of the work for making this useful
 // falls on the shoulders of the controller that's using us, typically

@@ -9,21 +9,14 @@
 
 #import <swarmobject/SwarmObject.h>
 
-// these tokens are the various states of the ControlPanel. "getState"
-// returns one of these four values.
-extern id ControlStateRunning, ControlStateStopped;
-extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
-
 @interface ControlPanel : SwarmObject {
   id state;					  // uses activity.h symbols
 }
 
 -createEnd;
--(id) getPanel;  // deprecated, use this on ActionCache
 -(id) getState;
 -setState: (id) s;
 -waitForControlEvent; // deprecated, use this message on ActionCache
--doTkEvents;  // deprecated, use this message on ActionCache
 
 -startInActivity: (id) activityID;
 -setStateRunning;
@@ -32,4 +25,7 @@ extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 -setStateQuit;
 -setStateNextTime;
 
+// Deprecated Methods
+-doTkEvents;  // deprecated, use this message on ActionCache
+-(id) getPanel;  // deprecated, use this on ActionCache
 @end

@@ -12,6 +12,7 @@ Library:      simtools
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #import <stdlib.h>
 #import <simtools.h>
+#import <simtools/NSelect.h>
 
 @implementation NSelect
 

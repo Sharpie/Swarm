@@ -3,15 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtools/global.h>
-#import <simtools/ProbeDisplay.h>
-#import <simtools/CompleteProbeDisplay.h>
-#import <simtools/ProbeDisplayManager.h>
-#import <simtools/ControlPanel.h>
-#import <swarmobject/probing.h>
-
 #import <stdlib.h>
 #import <time.h>
+
+#import <swarmobject/probing.h>
+#import <simtools.h>
 #import <activity.h>
 #import <tkobjc.h>
 

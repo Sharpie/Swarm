@@ -1,4 +1,4 @@
-// Swarm Library. Copyright (C) 1997 Santa Fe Institute.
+// Template application. Copyright (C) 1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -7,11 +7,6 @@
 #import <activity.h>
 #import <tkobjc.h>
 #import <swarmobject/SwarmObject.h>
-
-// Type Symbols
-extern id <Symbol> Control, Probing, Spatial;
-// Error symbols
-extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 @interface ActionCache : SwarmObject {
   id <List> actionCache;

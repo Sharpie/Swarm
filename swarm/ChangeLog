@@ -1,3 +1,26 @@
+Thu Nov 20 10:24:01 1997  glen e. p. ropella  <gepr@grasshopper.santafe.edu>
+
+	* Makefile.conf (CC): Assign the default compiler for the SFI setup
+	to "gcc."
+
+	* Acknowledgements: Added Irene, Marcus, and Alex.
+
+	* Release-Notes (1.0.4): Began collating notes on changes.
+
+	* src/simtools/Action[Cache|Holder].[hm]: Changed header.
+
+	* src/simtools/simtools.h (library-wide): Brought simtools library
+	into conformance with protocol interface standard.
+	
+	* src/simtools/ControlPanel.[hm]
+	  src/simtools/simtools.[hm]
+	  src/simtools/NSelect.m
+	  src/simtools/QSort.m
+	  src/simtools/ActionCache.[hm]
+	  src/space/Discrete2d.m
+	  (headers):  Moved symbols around and changed imports and includes
+	such that simtools.h new protocol interface is followed.
+
 1997-11-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (CC): Make it possible to override CC from

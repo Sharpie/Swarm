@@ -11,7 +11,8 @@ Library:      simtools
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #import <stdlib.h>
-#import <simtools.h>
+#import <collections.h>
+#import <simtools/QSort.h>
 
 @implementation QSort
 

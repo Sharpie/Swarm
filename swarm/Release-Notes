@@ -1,5 +1,13 @@
 		Release Notes for Swarm Version 1.0.3
 
+ 1. Added ActionCache and ActionHolder and changed control scheme
+for top level Swarm in anticipation of the JAVAGUI residing in a 
+separate thread.
+ 2. Added protocol interface for simtools.
+
+	      =========================================
+		Release Notes for Swarm Version 1.0.3
+
  1. In the activity library, a bug in the internal scheduling of a swarm
     has been fixed, so that internally created concurrent actions are
     correctly freed when they have completed.  (These actions are
