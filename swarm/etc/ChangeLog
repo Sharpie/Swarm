@@ -1,16 +1,26 @@
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* interface.el (print-makefile.common): Don't process swarm
+	module.  Remove computation of module and dir.
+	(included-method-p, print-implemented-interfaces-list): Use
+	inclusive-phase-p instead of eq.
+	(suffix-for-phase): Likewise for case.
+	(module-path): swarm module goes in current directory.
+
 	* common.el (*swarm-modules*): Add swarm.
 	(pathname-for-module-sym): Handle it.
 
-	* protocol.el (*phases*): Add :getters.
-	(parse-method-worker): Add check that if in getters phase
-	that method starts with "get".
-	(check-protocol-tags): Recognize "GETTERS".  Use *phases*
-	instead of list.
+	* protocol.el (parse-method-worker): Add check that if in getters
+	phase that method starts with "get".
+	(check-protocol-tags): Recognize "GETTERS".  Use *phases* instead
+	of list.
 	(generate-expanded-methodinfo-list): Map :getters to 3.
 	(argument-empty-p): Add.
-
+	(inclusive-phase-p): Add.
+	(methodinfo-list-for-phase, parse-method-worker): Use it.
+	(phase-tag-p): Add.
+	(check-protocol-tags): Use it.
+	
 	* Makefile.protocol: Replace rule for protocol.elc with generic
 	elc rule.
 	(protocol.elc): Depend on common.elc.

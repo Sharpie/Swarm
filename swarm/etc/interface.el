@@ -288,8 +288,13 @@
       ))
 
 (defun module-path (module)
-  (concat (symbol-name (module-sym module)) "/"))
-
+  (concat
+   (let ((sym (module-sym module)))
+     (if (eq sym 'swarm)
+         "."
+       (symbol-name sym)))
+   "/"))
+       
 (defun c-path (&optional subpath)
   (concat (get-builddir) "c/" subpath))
 
@@ -298,10 +303,9 @@
     (make-directory dir)))
 
 (defun suffix-for-phase (phase)
-  (case phase
-    (:setting "S")
-    (:using "")
-    (:creating "C")))
+  (cond ((inclusive-phase-p phase :setting) "S")
+        ((inclusive-phase-p phase :using) "")
+        ((inclusive-phase-p phase :creating) "C")))
 
 (defun method-ellipsis-p (method)
   (let ((arguments (method-arguments method)))
@@ -336,7 +340,7 @@
           (if first
               (setq first nil)
             (insert ", "))
-          (unless (eq phase :setting)
+          (unless (inclusive-phase-p phase :setting)
             (insert (funcall name-func module iprotocol phase))
             (insert ", "))
           (insert (funcall name-func module iprotocol :setting)))
@@ -378,7 +382,7 @@
 
 (defun included-method-p (protocol method phase)
   (and (not (removed-method-p method))
-       (eq phase (method-phase method))))
+       (inclusive-phase-p (method-phase method) phase)))
 
 (defun extract-protocol-name-from-objc-type (type)
   (when (string-match "<\\(.*\\)>" type)
@@ -388,8 +392,7 @@
   (with-temp-file (concat (get-builddir) "Makefile.common")
     (loop for module-sym being each hash-key of *module-hash-table* 
           using (hash-value protocol-list)
-          for module = (lookup-module module-sym)
-          for dir = (module-path module)
+          unless (eq module-sym 'swarm)
           do
           (insert (symbol-name module-sym))
           (insert "_noncreatable_PROTOCOLS =")
@@ -418,7 +421,7 @@
     ;;      (insert (symbol-name module-sym)))
     ;; (insert "\n")
     ))
-
+  
 (defun unwanted-create-method-p (protocol method)
   (let ((signature (get-method-signature method)))
     (or

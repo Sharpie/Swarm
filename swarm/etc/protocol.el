@@ -12,7 +12,7 @@
 
 (defvar *module-hash-table* (make-hash-table))
 
-(defconst *phases* '(:creating :setting :using :getters))
+(defconst *phases* '(:creating :setting :using))
 
 (defvar *protocol-list*)
 
@@ -201,6 +201,11 @@
         (buffer-substring beg end)
       (skip-whitespace))))
 
+(defun inclusive-phase-p (phase target-phase)
+  (if (eq target-phase :using)
+      (member phase '(:using :getters))
+    (eq phase target-phase)))
+
 (defun parse-method-worker (protocol
                             factory-flag
                             parse-state)
@@ -236,7 +241,7 @@
       (unless phase
         (error "No phase in protocol: %s" (protocol-name protocol)))
       (setq arguments (reverse arguments))
-      (when (eq phase :getters)
+      (when (inclusive-phase-p phase :getters)
         (unless (string-match "^get" (caar arguments))
           (error "Method not a getter: %s" (prin1-to-string arguments))))
       (make-method
@@ -609,6 +614,10 @@
          :function)
         (t nil)))
   
+(defun phase-tag-p (tag)
+  (member-if #'(lambda (phase) (inclusive-phase-p tag phase))
+             *phases*))
+
 (defun check-protocol-tags (parse-state)
   (let ((tag
          (cond ((looking-at "CREATING") :creating)
@@ -622,7 +631,7 @@
                ((looking-at "//E:") :example-doc)
                ((looking-at "///M:") :bogus-method)
                (t nil))))
-    (when (member tag *phases*)
+    (when (phase-tag-p tag)
       (setf (parse-state-phase parse-state) tag))
     tag))
 
@@ -1251,7 +1260,9 @@
 
 (defun methodinfo-list-for-phase (protocol phase)
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
-        when (eq (method-phase (methodinfo-method methodinfo)) phase)
+        when (inclusive-phase-p
+              (method-phase (methodinfo-method methodinfo))
+              phase)
         collect methodinfo))
 
 (defun include-p (level protocol owner-protocol)
