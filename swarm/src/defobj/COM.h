@@ -77,6 +77,7 @@ extern COMobject swarm_directory_update_phase_COM (id oObj);
 #define SD_COM_FIND_OBJECT_OBJC(cObject) swarm_directory_COM_find_object_objc (cObject)
 
 #define SD_COM_FIND_SELECTOR_COM(sel) swarm_directory_objc_find_selector_COM (sel)
+#define SD_COM_FIND_SELECTOR_COM_RETURN(type,oSelector) *ret = NS_STATIC_CAST(type, SD_COM_FIND_SELECTOR_COM (oSelector))
 
 #define SD_COM_ENSURE_OBJECT_COM(oObject) swarm_directory_objc_ensure_object_COM (oObject)
 

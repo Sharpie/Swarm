@@ -1,3 +1,7 @@
+2000-11-28  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.h (SD_COM_FIND_SELECTOR_COM_RETURN): New macro.
+
 2000-11-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* modulemap.el (generate-module-map): Remove ActionConcurrent_c.
