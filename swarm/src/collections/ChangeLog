@@ -1,3 +1,7 @@
+1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ListShuffler.m: Use raiseEvent() instead of raiseEvent:.
+
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Map.m ([Map_c -_lispOut_:deep:]): Don't print #:compare-function

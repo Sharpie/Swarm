@@ -14,18 +14,16 @@ PHASE(Creating)
 
 - setUniformRandom: rnd 
 {
-  if (uniformRandom) 
-    [InvalidArgument
-      raiseEvent: 
-        "ListShuffler: You can only set the UniformUnsigned object once\n"];
+  if (uniformRandom)
+    raiseEvent (InvalidArgument, 
+                "ListShuffler: You can only set the UniformUnsigned object once\n");
   
   uniformRandom = rnd;
 
   if ( (!uniformRandom) || 
       (![uniformRandom respondsTo: M(getUnsignedWithMin:withMax:)]))
-    [InvalidArgument
-      raiseEvent:
-        "ListShuffler: need a UniformUnsigned distribution object!\n"];
+    raiseEvent (InvalidArgument,
+                "ListShuffler: need a UniformUnsigned distribution object!\n");
   return self;
 }
 
@@ -37,8 +35,8 @@ PHASE(Creating)
       uniformRandom = uniformUnsRand;	// defined in <random/random.m> 
       
       // (b) Complain and abort:
-      // [InvalidCombination raiseEvent: 
-      // "ListShuffler was created without a random number generator.\n"];
+      // raiseEvent (InvalidArgument,
+      // "ListShuffler was created without a random number generator.\n");
     }
   setNextPhase(self);
   return self;
