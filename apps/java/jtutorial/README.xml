@@ -1,0 +1,1912 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+       "file:///usr/share/sgml/docbook/xml-dtd-4.1.2/docbookx.dtd"> 
+
+<!-- use this as local SYSTEM identifier in place of PUBLIC identifer
+  above if using Red Hat RPMs for DTD parsing under PSGML in Emacs:
+     "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+-->
+
+<!-- content originally written 04/26/00 -->
+
+<!-- XML-smithed from original Word document via AbiWord Word to
+DocBook converter by AKL: 2001-11-12 -->
+
+<article>
+  <articleinfo>
+    <title>jSIMPLEBUG</title>
+    <subtitle>a Swarm tutorial for Java</subtitle>
+    <author>
+      <firstname>Charles</firstname>
+      <othername>P.</othername>
+      <surname>Staelin</surname>
+      <affiliation>
+	<orgname>Smith College</orgname>
+	<address><city>Northhampton</city> <state>MA</state></address>
+      </affiliation>
+    </author>
+    <abstract>
+	<para>based on Objective C code and original text by Chris
+	Langton &amp; and the <ulink url="http://www.swarm.org/">Swarm
+	Development Group</ulink>, New Mexico.</para>
+    </abstract>
+    <date>April 2000</date>
+    <releaseinfo>DRAFT</releaseinfo>
+  </articleinfo>
+
+  <abstract>
+    <title>Introduction</title>
+
+<para>This tutorial takes the user through the development of a Swarm
+model using the Java programming language. The model itself is a very
+simple one, but the application we build step by step around it makes
+use of a lot of the functionality of Swarm and demonstrates many of
+Swarm's features.  This Java-based tutorial borrows heavily from an
+earlier Objective-C-based tutorial by Chris Langton and the Swarm
+Development Group (SDG).  Indeed, the Java code is pretty much a loose
+translation of their Objective-C code and portions of this text are
+theirs as well.  There are a number of changes, however, to reflect
+this tutorial's focus on using Swarm with Java rather than
+Objective-C.</para>
+
+<para>We start out with a very simple Swarm simulation, one agent, a
+"SimpleBug," taking a random walk on the X,Y plane. Through a
+progression of models we increase the number of agents and introduce
+basic object-oriented and Swarm-style programming in Java. The final
+version implements an experiment in which multiple invocations of the
+SimpleBug model are created, run, analyzed, reported on, and
+dropped. Along the way, we introduce many of the functions that Swarm
+provides for creating and interacting with multi-agent, artificial
+worlds.  Although this is a relatively simple exercise, hopefully
+it will show how easy it can be to build fairly complex models from
+the simple building blocks provided by Swarm.</para>
+
+<para>There are 10 subdirectories in the jTutorial directory, each
+with a complete application.  You should start with the
+"SimpleCBug" subdirectory and then proceed through the others in the
+following order:</para>
+
+    <orderedlist>
+
+<listitem><para>SimpleCBug</para></listitem>
+<listitem><para>SimpleJavaBug</para></listitem>
+<listitem><para>SimpleJavaBug2</para></listitem>
+<listitem><para>SimpleSwarmBug</para></listitem>
+<listitem><para>SimpleSwarmBug2</para></listitem>
+<listitem><para>SimpleSwarmBug3</para></listitem>
+<listitem><para>SimpleObserverBug</para></listitem>
+<listitem><para>SimpleObserverBug2</para></listitem>
+<listitem><para>SimpleObserverBug3</para></listitem>
+<listitem><para>SimpleExperBug</para></listitem>
+    </orderedlist>
+
+<para>Once you have gone all the way through this tutorial, you should
+be able to make sense of many of the applications on the Swarm
+web-site.  Upon first look, these applications appear quite
+complex.  However, once you get a feel for the underlying
+patterns they are really not that hard to understand and you are
+encouraged to build upon them for your own applications.</para>
+</abstract>
+
+  <sidebar>
+    <title>This tutorial</title>
+
+<para>This version of the jSimpleBug tutorial was written for Swarm
+version 2.1.1.  It is available as a formatted document in both
+postscript and PDF.  The sections of the tutorial aimed at each
+of the SimpleBug applications are also reproduced in plain text in the
+"readme" files in the corresponding directory.</para>
+
+<para>In the postscript and PDF versions, italics are used to denote
+Swarm classes, methods and variables.</para>
+
+<para>Please report all errors in the tutorial text or code to the
+author.  Comments on the clarity and usefulness of the tutorial
+are also most welcome.</para>
+
+<para>On building the applications</para>
+
+<para>We assume that you have Swarm installed in either a Unix/Linux
+environment or a Windows environment. The applications can be built
+from the command line (the "Swarm Terminal" under Windows) by going to
+the application directory and typing </para>
+
+      <para><userinput>make</userinput></para>
+
+      <para>To run any of them, just type</para>
+
+      <para><userinput>javaswarm StartSimpleBug</userinput></para>
+
+<para>on the command line after the application has been
+made.  (There are variations on this procedure if you are using
+Sun's JDK rather than the Kaffe JDK supplied with Swarm, or if you are
+using Emacs.  See the Appendix.)</para>
+  </sidebar>
+
+<sect1>
+<title>SimpleCBug</title>
+    <subtitle>The Starting Point</subtitle>
+
+<para>We begin with a simple C-style program written in Java,
+<filename>StartSimpleBug.java</filename>.  There is no object
+orientation here.  The program could as easily have been written
+in C, Pascal or Fortran.</para>
+
+<para>StartSimpleBug implements an imagined "bug" taking a random walk
+on an imagined two-dimensional integer lattice.  We have no objects
+here to provide substance to the bug or its world.  The 80 by 80
+lattice on which the bug walks is defined by the declarations of
+worldXSize and worldYSize.  The bug's initial position is given by the
+declarations of xPos and yPos.  The bug then takes 100 random walks.
+On each walk, the bug move first in the X direction a distance given
+by the <methodname>randomMove()</methodname> method, and then in the Y
+direction a distance given by another call to
+<methodname>randomMove()</methodname>.  Because the bug's world is
+finite, we need to make sure it does not wander off one of its edges.
+The use of the modulus operator insures that if it wanders over one
+edge, it will magically be transported to the opposite edge of its
+world.  (Think of the bug's world as a torus.)</para>
+
+      <para><methodname>randomMove()</methodname> makes use of the simple
+random number generator in Java's Math
+library.  <methodname>randomMove()</methodname>  returns with
+equal probability either -1 for a step backward, 0, for no step at
+all, or +1 for a step forward.  (Swarm provides several more
+sophisticated random number generators.  We'll introduce two of
+them later.)</para>
+
+<para>There is no object-oriented code here and, except for a
+necessary call to <methodname>initSwarm()</methodname>, nothing of Swarm
+itself.  (We'll explain <methodname>initSwarm()</methodname> in the
+next application.)  This is just a starting point from which to
+develop Swarm concepts and object orientation as we move through the
+following applications.</para>
+
+      <para></para>
+
+      <para><inlinegraphic fileref="SimpleCBug/StartSimpleBug.java" format="linespecific"><filename
+      class="directory">SimpleCBug/</filename><filename>StartSimpleBug.java</filename>
+	</inlinegraphic></para>
+
+<para>The <filename>Makefile</filename> for our application simply
+lists the Java source file and specifies that the javacswarm script
+provided in Swarm's <filename class="directory">bin</filename>
+directory is to be used to compile it.  </para>
+
+      <para><filename class="directory">SimpleCBug/</filename><filename>Makefile</filename></para>
+
+      <para>If we type <userinput>javaswarm StartSimpleBug</userinput>
+at the console, we should get the birth announcement for our bug,
+followed by 100 reports on its position.</para>
+</sect1>
+
+<sect1>
+<title>SimpleJavaBug</title>
+<subtitle>THE STARTING POINT</subtitle>
+
+<para>This is an object-oriented version of the SimpleCBug program,
+one that also introduces a few elements of Swarm.  The
+<filename>SimpleBug.java</filename> file objectifies the agents in our
+simulation, one or more simple bugs that take random walks within a
+rectangular world defined on an integer lattice, by defining the
+SimpleBug class to which all the bugs belong.  Each bug we create
+will be an instantiated object of the class.</para>
+
+
+<para>Note first that the SimpleBug class is a subclass of the class
+<classname>SwarmObjectImpl</classname> and that upon its creation each
+bug is given a <classname>Zone</classname> (aZone), the size of its
+world and its initial position on it (wXSize, wYSize, X and Y), and a
+bug number (bNum).  We'll talk later about why it is desirable
+for our agents to be a type of <classname>SwarmObjectImpl</classname>
+and we'll have more to say about zones as well.  For now, we can
+think of a zone as an area of memory allocated by Swarm in which the
+bug and all its resources will be created.  The SimpleBug
+constructor begins by calling the constructor of its parent class
+(<classname>SwarmObjectImpl</classname>) and passing on the zone
+SimpleBug was passed.  The constructor then saves the size of the
+new bug's world, the new bug's current position and its bug
+number.  Finally, the newly created bug announces its presence to
+the console.</para>
+
+<para>Before looking out our bugs' capabilities (methods), note that
+we have imported a number of class libraries.  The first,
+<classname>swarm.Globals</classname>, is a class descriptor that will
+be included in every Swarm source file.  It describes a set of
+global variables and methods that are useful throughout a Swarm
+program.  The next two, <classname>swarm.defobj.Zone</classname>
+and <classname>swarm.objectbase.SwarmObjectImpl</classname>, are needed
+to provide definitions for the <classname>Zone</classname> and
+<classname>SwarmObjectImpl</classname> classes.  We'll have more
+to say about including Swarm class descriptors in a later section when
+we talk about Swarm's Java API.</para>
+
+<para>Our SimpleBugs are capable of two actions: they can take random
+walks on their X,Y integer lattice and they can report their position
+to the console.  In the first method,
+<methodname>randomWalk()</methodname>, the bug walks a random integer
+distance backward or forward in the X direction, and then a random
+integer distance backward or forward in the Y direction.  In each
+case, the distance is given by a random integer between negative and
+positive one, and the modulus operator is used to insure that the bug
+does not wander out of its world.  (The world in which the bugs
+walk is a torus.  If the bug walks off one edge of its world, it
+magically reappears on the opposite edge.)</para>
+
+<para>The random number generator used by randomWalk() is one supplied
+by Swarm's Global environment.  When we start up a Swarm program, we
+create an instance of Swarm's Global class,
+<classname>Global.env</classname>.  That object contains a number
+useful instance variables and methods, among them the
+<methodname>uniformIntRand.getIntegerWithMin$Max()</methodname>
+method.  Swarm supplies a number of very powerful and flexible random
+number generators in a special library package,
+<classname>swarm.random</classname>.  However, two of the simpler of
+them are so commonly used that instances of them are contained in
+Swarm's Global environment:
+<methodname>uniformIntRand.getIntegerWithMin$Max()</methodname> and
+its real number counterpart,
+<methodname>uniformDblRand.getDoubleWithMin$withMax()</methodname>.</para>
+
+      <para><filename
+      class="directory">SimpleJavaBug/</filename><filename>SimpleBug.java</filename></para>
+
+<para>Now that we have our bugs, we are ready to start our simulation.
+The file <filename>StartSimpleBug.java</filename> initializes the
+Swarm environment, creates a SimpleBug and sets it in motion.</para>
+
+<para>We begin by calling
+<methodname>Globals.env.initSwarm()</methodname>, a static method in
+Swarm's <classname>Global</classname> environment.  This method sets
+up Swarm's global variables and methods and is called at the beginning
+of every Swarm program.  We pass it four arguments, the name we choose
+to give our simulation, the version of Swarm we are using, an email
+address to use for bug reports, and the string of command-line
+arguments with which the program was started.</para>
+
+<para>We then create a SimpleBug in an 80-unit rectangular world and
+set it at the midpoint of its world.  The bug is created in Swarm's
+globalZone.  (We'll talk later about the circumstances in which we
+might want to create special subzones in which to place our bug
+objects.)</para>
+
+<para>Once the bug is created, we send it on its way, making 100
+random walks and reporting its position at the end of each one by
+calling upon the bug's <methodname>randomWalk()</methodname> and
+<methodname>reportPosition()</methodname> methods.</para>
+
+      <para><filename class="directory">SimpleJavaBug/</filename><filename>StartSimpleBug.java</filename></para>
+
+<para>The <filename>Makefile</filename> for our application simply
+lists the two Java source files.  </para>
+
+      <para><filename
+      class="directory">SimpleBug/</filename><filename>Makefile</filename></para>
+
+      <para>If we type <userinput>javaswarm StartSimpleBug</userinput>
+at the console, we should get the birth announcement for our bug,
+followed by 100 reports on its position.</para>
+</sect1>
+
+  <sect1>
+    <title>SimpleJavaBug2</title>
+    <subtitle>FROM THE LONE BUG TO HOME ON THE RANGE</subtitle>
+
+<para>In this version, we extend the previous model by providing the
+bug with a spatial "world" with which it can interact.  In this case,
+the spatial world has "food" that the bug "eats" as it wanders,
+removing that food from the world.  For obvious reasons, we call this
+world the bug's foodspace.</para>
+
+<para>A foodspace is a two-dimensional lattice with either 1 (for
+food) or 0 (for no food) at each integer coordinate.  We could easily
+construct this grid as a Java integer array, but in the interest of
+object-orientation , we will instead create a foodspace object.  The
+Swarm library provides a template for creating such an object in the
+<classname>Discrete2dImpl</classname> class and we choose to use it
+for our foodspace because it comes with some useful methods.
+<classname>Discrete2dImpl</classname> is basically a lattice of
+integer values and it has methods defined on it that can set its size,
+get and set values at sites in the lattice, and so forth.  </para>
+
+      <para>The <classname>FoodSpace</classname> class is defined in
+the file <filename>FoodSpace.java</filename> as a subclass of
+<classname>Discrete2dImpl</classname>.  (Note that we import
+<classname>swarm.space.Discrete2dImpl</classname> to provide the class
+descriptor.)  The <classname>FoodSpace</classname> constructor is
+called with the zone in which the foodspace object is to be created
+and with the desired dimensions of the foodspace.  The
+<classname>FoodSpace</classname> constructor first calls the
+constructor for the parent class, passing on the zone and the
+dimensions, and then fills itself with zeros using
+<methodname>fastFillWithValue()</methodname>, a method inherited from
+<classname>Discrete2dImpl</classname>.  (Since the
+<classname>Discrete2dImpl</classname> constructor creates an empty
+lattice, we don't really need to fill the lattice with zeros.  On the
+other hand, it never hurts to be sure!)</para>
+
+      <para>The <classname>FoodSpace</classname> class has only one
+method of its own, <methodname>seedFoodWithProb()</methodname>.  This
+method is used to distribute food randomly across the foodspace.  The
+method visits every point on the foodspace lattice and deposits food
+there with a probability <varname>seedProb</varname>.  The
+<methodname>seedFoodWithProb()</methodname> method in turn uses four
+methods.  The first is
+<methodname>uniformDblRand.getDoubleWithMin$withMax()</methodname>.
+This is a method contained in Swarm's <classname>Global</classname>
+environment and is the real number counterpart of the integer method
+we used previously.  The second method is
+<methodname>putValue$atX$Y()</methodname>, a method inherited by the
+FoodSpace class from its <classname>Discrete2dImpl</classname> parent.
+This method puts an integer value at a particular location on the
+lattice.  The third and fourth methods are also inherited from the
+<classname>Discrete2dImpl</classname> parent class:
+<methodname>getSizeX()</methodname> and
+<methodname>getSizeY()</methodname> return the X and Y dimension
+respectively of the foodspace lattice.  (Note, we could have saved the
+dimensions as instance variables within the
+<classname>FoodSpace</classname> class itself when they were passed to
+it, but its best here to demonstrate all that the Swarm classes can
+do.)</para>
+
+      <para><filename
+      class="directory">SimpleBug2/</filename><filename>FoodSpace.java</filename></para>
+
+
+<para>Now that we have a foodspace, we need to make one simple change
+to the behavior of our SimpleBugs: when a bug finds food, it should
+eat it.  The new <filename>SimpleBug.java</filename> file shows this
+change in two places.  First, we have altered the constructor for a
+<classname>SimpleBug</classname> to allow us to pass the bug's
+foodspace to the newly created bug.  The constructor saves the
+foodspace in a new instance variable, <varname>myFoodSpace</varname>,
+and a <classname>SimpleBug</classname> now gets the dimensions of its
+world from its foodspace, using <methodname>getSizeX()</methodname>
+and <methodname>getSizeY()</methodname>.  We also have altered the
+<methodname>randomWalk()</methodname> method to check for food at the
+location to which the bug has walked.  Again, the
+<methodname>getValueAtX$Y()</methodname> method has been inherited
+from <classname>Discrete2dImpl</classname> and thus is defined for
+myFoodSpace, the bug's instance of a <classname>FoodSpace</classname>.
+If the bug finds food (i.e. sees a 1 at its position on
+<varname>myFoodSpace</varname>), it eats it by setting the value at
+that location to zero.  The bug also reports its find to the
+console.</para>
+
+      <para><filename
+      class="directory">SimpleBug2/</filename><filename>SimpleBug.java</filename></para>
+
+<para>The introduction of a foodspace requires only minor changes to
+<filename>StartSimpleBug.java</filename>.  Before creating our bug we
+need to create at a foodspace for it to walk in.  When we next create
+our bug, we pass it that newly created foodspace object, foodSpace.
+Finally, we instruct the bug to wander around as before, reporting on
+where it is and what it finds.</para>
+
+      <para><filename class="directory">SimpleBug2/</filename><filename>StartSimpleBug.java</filename></para>
+
+      <para>The new <filename>Makefile</filename> adds
+<filename>FoodSpace.java</filename> to the list of files in our model.
+Compiling and running the model results in our bug reporting its
+position and the food it finds.  (You may want to delete in
+<filename>StartSimpleBug.java</filename> the request for the bug to
+report its position after every move so that you can concentrate on
+the food reports.)  Increasing and decreasing the value of seedProb
+will increase and decrease the frequency of the bug's finding
+food.</para>
+  </sect1>
+
+<sect1>
+<title>Swarm's Java API</title>
+
+<para>Since we will be introducing a number of new Swarm classes in
+the following enhancements of our SimpleBug model, this might be a
+good time to talk very briefly about Swarm's Java API.  The
+<citetitle>Java Reference Guide to Swarm 2.1</citetitle> is available
+in hypertext form on the Swarm web site.  The <citetitle>Java
+Reference Guide</citetitle> lists each Swarm library package and its
+constituent interfaces and classes.  Under each interface or class one
+can then find the variables and methods defined for that interface or
+class.  As with most Java classes, there is a class hierarchy with
+variables and methods being passed down from parent to child.</para>
+
+<para>There are basically two ways to construct an instance of one of
+the classes provided by the Swarm package.  The most common in Java
+applications is to construct an object in one step, calling the class
+constructor with the arguments required to create the desired instance
+of the class.  Classes which can be created in this way are called
+"implementation classes" and have class names ending in "Impl".  We
+have already seen two such classes,
+<classname>SwarmObjectImpl</classname> and
+<classname>Discrete2dImpl</classname>.  Implementation class
+constructors are often overloaded, that is they can be called with
+different numbers of arguments.  For instance, a
+<classname>Discrete2dImpl</classname> object can be constructed
+as:</para>
+
+<programlisting> foodSpace = new Discrete2dImpl(aZone, X, Y);</programlisting>
+
+<para>or as</para>
+
+<programlisting> foodSpace = new Discrete2dImpl(aZone);</programlisting>
+
+<para>In the first case the lattice is constructed in a specified zone
+and with the specified dimensions.  In the second case, the dimensions
+of the lattice are left unspecified.</para>
+
+<para>It is also possible to create an object in a manner akin to that
+used in Objective-C, beginning with
+<methodname>createBegin()</methodname>, setting one or more attributes
+of the object, and ending with <methodname>createEnd()</methodname>.
+Constructing objects in this way provides considerable flexibility
+(for instance, it is especially useful in constructing random number
+generators), but we will stick to the one-step implementation classes
+in this tutorial.</para>
+
+<para>The frequent use of the dollar sign in the naming of Swarm class
+methods may appear a little strange to Java programmers.  Method names
+in Swarm's Java interface are taken directly from Swarm's Objective-C
+interface where a key/value syntax is used.  For instance, the
+<methodname>putValue$atX$Y(value, x, y)</methodname> method in the
+<methodname>Discrete2d</methodname> class in Java would be
+<methodname>putValue: value atX: x Y: y</methodname> in Objective-C.
+The dollar signs in the Java name then mark the points where arguments
+would occur in the Objective-C implementation.  They give the
+programmer hints as to what arguments are required and in what
+order.</para>
+  </sect1>
+
+<sect1>
+<title>SimpleSwarmBug</title>
+    <subtitle>ADDING A SWARM</subtitle>
+
+<para>One bug is nice, but we're headed for more.  In this version of
+the program, we create a special object called a "Swarm" to take care
+of creating and managing what will soon be a whole host of bugs in
+their artificial world.  For the moment, though we stick with one bug
+and concentrate on the Swarm object itself.</para>
+
+<para>In a typical Swarm application, we create a top-level Swarm that
+manages the tasks of creating, running and interacting with our
+models.  The Swarm object is not really a part of the bug's world, it
+is rather an object in our world.  The Swarm object encapsulates our
+model of the bug and its world, making the model itself a kind of
+object that we can interact with by sending it messages and asking it
+to do things.</para>
+
+<para>We might think of a Swarm as an container into which we place
+our simulation agents and one or more lists of activities those agents
+are to perform.  Those lists are, of course, objects in their own
+right and are defined by Swarm's <classname>Activity</classname>
+class.</para>
+
+<para>As we don't know or really care at this level what the model is,
+we have a regular procedure for constructing almost any top-level
+Swarm - in fact almost any Swarm - that is independent of the
+specifics of the model.  Instances of a Swarm typically have three
+tasks: to construct the various objects in the model, to arrange for
+messages to be sent to the objects so that they do what we want them
+to do, and finally to glue everything together to form a package that
+we can run.  We will examine each of these tasks, in order, in the
+context of our own top-level Swarm, <classname>ModelSwarm</classname>,
+defined in the file <filename>ModelSwarm.java</filename>.</para>
+
+<para>Our ModelSwarm class is an extension of the
+<classname>SwarmImpl</classname> class (the implementation class for a
+Swarm) and inherits a number of useful methods from it.  The
+constructor for our ModelSwarm is trivial.  Having declared our
+model's now familiar parameters and their default values as instance
+variables, we simply call upon the constructor of ModelSwarm's parent
+class.</para>
+
+<para>The first task of a ModelSwarm is to build the objects that are
+used in the model.  This is done in the
+<methodname>buildObjects()</methodname> method and this method builds
+the same objects that in the SimpleJavaBug2 application were built in
+<filename>StartSimpleBug.java</filename>: we create a foodspace, seed
+it with food and create a bug to wander over that foodspace.  Before
+building our objects, however, we first call upon the
+<methodname>buildObjects()</methodname> method in our parent class to
+have Swarm perform a number of preparatory steps behind the scenes.
+(The Swarm package takes care of a lot of details that we do not have
+to worry about if we but ask it to do so.)  Note that
+<methodname>buildObjects()</methodname> requires that we return the
+ModelSwarm object itself.</para>
+
+      <para>The second task, buildActions()<methodname></methodname>,
+creates a group of messages to send to the bug, that is a packaged
+list of actions for the bug to accomplish.  It then puts that packaged
+list of messages into a schedule that will arrange for them to be sent
+to the bug at the appropriate times.  All this requires three new
+classes of Swarm objects, the <classname>ActionGroup</classname>,
+<classname>Selector</classname> and <classname>Schedule</classname>
+classes.  (We will be using the implementation forms of first and
+third of these classes, <classname>ActionGroupImpl and
+ScheduleImpl.)</classname> <classname>ActionGroups</classname> and
+<classname>Schedules</classname> are subclasses of Swarm's
+<classname>Activity</classname> class and they are basically
+specialized containers designed to hold messages or groups of messages
+destined for other objects.  Before a message can be inserted into an
+<classname>ActionGroup</classname> or <classname>Schedule</classname>,
+however, it must itself be encapsulated in yet another kind of object
+called a <classname>Selector</classname>.  Let's walk through the
+<methodname>buildActions()</methodname> method.</para>
+
+  <para>As with <methodname>buildObjects()</methodname>, we first call
+   upon the corresponding method in the parent class to do all the
+   initializations we'd prefer not to worry about.  We then create a
+   new <classname>ActionGroup</classname> object, modelActions, into
+   which we will put messages to our bug.  Note that we create
+   modelActions using the <classname>ActionGroup</classname>
+   implementation class,
+   <classname>ActionGroupImpl</classname>.</para>
+
+<para>To specify a message, we need to specify the message name, that
+is the method that performs the action we desire, and the class in
+which that message is defined.  These two pieces of information are
+encapsulated in a <classname>Selector</classname>, an object that is
+specially designed to hold them.  The constructor for a
+<classname>Selector</classname> takes three arguments: </para>
+
+      <programlisting>sel = new Selector(Class theClass, String theMethodName, 
+    boolean theObjcflag);</programlisting>
+
+<para>The second argument is the name of the method.  In this case
+that is <methodname>randomWalk</methodname>.  The first argument is
+the class in which that method is defined.  Here that is the
+<classname>SimpleBug</classname> class, the class to which the object
+abug belongs.  The <classname>SimpleBug</classname> class id is
+returned by the <methodname>getClass()</methodname> method which all
+objects in Java (including abug) inherit.  The third argument allows
+the use of Objective-C-type method syntax.  We do not use that syntax
+in this tutorial so the flag will always be set to false.</para>
+
+<para>We want to create a <classname>Selector</classname>, sel, to
+encapsulate the randomWalk message to a
+<classname>SimpleBug</classname>, and then add that selector to our
+<classname>ActionGroup</classname>, modelActions.  Let's look first at
+the creation of sel.</para>
+
+<para>Because our models may need to create messages and thus
+<classname>Selectors</classname> on the fly during a simulation, the
+correspondence between class and method is not checked until runtime.
+It is therefore possible that there could be a mismatch between the
+two arguments that will generate an exception (runtime error) when the
+<classname>Selector</classname>, sel, is created.  (For instance, we
+could have mistyped the method name as
+<methodname>randomWalk()</methodname>, which is not, of course, in the
+<classname>SimpleBug</classname> class.)  The Java compiler knows that
+such exceptions might occur and insists that
+<classname>Selectors</classname> be created within try/catch blocks.
+Moreover, the compiler insists that any use of the resulting
+<classname>Selector</classname> be within the try block as well since
+sel would not refer to a valid <classname>Selector</classname> if
+indeed an exception were to occur in its creation.  Therefore, both
+the creation of the <classname>Selector</classname> and its insertion
+into modelActions are within the try block.  If an exception does
+occur, it is "caught."  A message is sent to the console and we bail
+out (ungracefully) by calling the Java method
+<methodname>System.exit(1)</methodname>.  Continuing would serve no
+purpose.</para>
+
+<para>Now let's look at the addition of sel to modelActions.  We have
+an action message, but in adding it to modelActions we need to specify
+the object or objects to which that message is to be sent.  The method
+<methodname>createActionTo$message(Object abug, Selector
+sel)</methodname> specifies that the message encapsulated in sel is to
+be sent to the particular object, abug.  We will see later that there
+are methods to send a message to a whole collection of objects as
+well.</para>
+
+<para>Typically we want to send messages to the agents and actors in
+our model, but there are times when we need to send messages to other
+objects in our application as well, for instance the objects that
+control the simulation or display its results.  Since a message is a
+message, regardless of its destination, these messages can be inserted
+in <classname>Activity</classname> containers as well.  For reasons
+which will become clear shortly, we want to have our SimpleSwarmBug
+application check the time - that is the simulated time - upon each
+occasion that our bug is told to take a walk.  We've provided a
+method, <methodname>checkTime()</methodname>, in our own ModelSwarm
+class to accomplish this and so we encapsulate a "checkTime" message
+to modelSwarm in a <classname>Selector</classname> object and insert
+it too into modelActions.</para>
+
+<para>When there is more than one message in an
+<classname>ActionGroup</classname>, in what order are they sent when
+the <classname>ActionGroup</classname> is executed?  By default, the
+messages are sent in the order in which they were inserted, but there
+is an option for randomizing the order if that is desirable.</para>
+
+<para>Having created and filled our
+<classname>ActionGroup</classname>, it is finally time to insert
+modelActions into a <classname>Schedule</classname>.  A
+<classname>Schedule</classname> is yet another container object into
+which we can insert either individual messages, or groups of messages
+that are contained in <classname>ActionGroups</classname>.  The
+<classname>Schedule</classname> then keeps track of the intervals in
+simulated time at which the messages it contains (directly, or
+indirectly through an <classname>ActionGroup</classname>) are to be
+sent.  There are several attributes that can be set for a
+<classname>Schedule</classname>.  We will concern ourselves with only
+one, however.  We want the <classname>Schedule</classname> to deliver
+modelActions for execution each and every time period.  This interval
+between actions is the second argument in the constructor for
+<classname>ScheduleImpl </classname>and we set it to unity.  (Had we
+wished the messages to be sent only every other period we would have
+specified an interval of 2.)  Once the <classname>Schedule</classname>
+object is created as modelSchedule, we insert the modelActions
+<classname>ActionGroup</classname> in the schedule with
+modelSchedule's <methodname>createAction()</methodname> method.  The
+first argument specifies that the first kickoff of modelActions is to
+be at period zero, that is in very first period.  (You will notice
+that we have not told modelSchedule how long we want it to continue to
+send off messages.  That is not one of it's capabilities.)</para>
+
+<para>We've now finished setting up the actions in our model and we
+return from <methodname>buildActions()</methodname> with a pointer to
+modelSwarm.</para>
+
+<para>The final task in setting up a ModelSwarm is to glue all the
+pieces together into a package that can be executed.  This is done by
+the <methodname>activateIn()</methodname> method which returns yet
+another <classname>Activity</classname> object, an executable object
+containing all the work we have packaged up in our
+<classname>ActionGroup</classname>(s) and
+<classname>Schedule</classname>(s), along with some objects that Swarm
+adds for us.  activateIn() is given a "context", essentially the
+<classname>Swarm</classname> in which this
+<classname>Activity</classname> will be executed.
+<classname>Swarms</classname> (and our ModelSwarm subclass) are
+hierarchical.  (Sub)<classname>Swarms</classname> may operate inside
+other <classname>Swarms</classname>.  For our top-level ModelSwarm
+this context will be null, indicating that ModelSwarm is indeed at the
+top of the hierarchy.  As usual, we use the corresponding method for
+the parent class to initialize everything and then we activate
+modelSchedule in the context of modelSwarm.  (You can see the Swarm
+hierarchy at work here.)  Finally, we return the activity we have
+built.  </para>
+
+<para>Note that we don't actually "start" the model going here.  We've
+used our ModelSwarm to create the model and to encapsulate it in an
+<classname>Activity</classname> object.  It will be up to some other
+part of the Swarm package to actually execute the
+<classname>Activity</classname> object by traversing the data
+structures it contains.</para>
+
+<para>The file <filename>ModelSwarm.java</filename> ends with the
+<methodname>checkTime()</methodname> method.  You will remember that
+we scheduled a message to modelSwarm to execute this method at each
+time step.  We did so for two reasons.  First, it will periodically
+send a timestamp to the console to let us know what the simulation
+time is.  Second, it will stop the simulation after a predetermined
+time given by the <varname>endTime</varname> variable.  This latter task is required
+because modelSchedule was told to send its messages every period,
+forever!</para>
+
+<para><methodname>checkTime()</methodname> first gets the current
+simulation time by calling a method in Swarm's Global environment,
+<methodname>getCurrentTime()</methodname>.  It then checks to see
+whether we have reached <varname>endTime</varname>.  If we have,
+<methodname>checkTime()</methodname> uses the
+<methodname>terminate()</methodname> method for the current
+<classname>Activity</classname> object to stop the simulation.  (That
+object is returned by yet another method in the Global environment,
+<methodname>getCurrentActivity()</methodname>.)  If we have not
+reached the end of our simulation and if the time is an integer power
+of 5, we send a timestamp to the console.</para>
+
+<para>We've set <varname>endTime</varname> to a pretty large number to
+allow the bug ample opportunity to empty its foodspace.  There are
+other approaches to setting a termination time for a simulation
+including the creation of a special schedule dedicated to this
+purpose.  <application>jheatbugs</application> has an example of this
+approach.  Later on, we will stop the simulation in a much less
+arbitrary way.</para>
+
+      <para><filename class="directory">SimpleSwarmBug/</filename><filename>ModelSwarm.java</filename></para>
+
+<para>We've introduced a number new concepts in building the
+ModelSwarm.  Fortunately, the hard work is done.  We've made no
+changes to the nature or capabilities of our SimpleBugs or FoodSpace,
+and therefore there are no changes in these files at all.  We need
+only to change <phrase role="strong">StartSimpleBug.java</phrase> to
+reflect the new ModelSwarm.  After the usual
+<methodname>initSwarm()</methodname> step, we create a ModelSwarm
+object as modelSwarm and run through the three tasks we discussed
+above, <methodname>buildObjects()</methodname>,
+<methodname>buildActions()</methodname> and
+<methodname>activateIn()</methodname>.  Note that we activate the
+modelSwarm in the null context, indicating that it is the top-level
+Swarm.  Finally, we are ready to run the
+<classname>Activity</classname> object constructed in our modelSwarm
+by first getting the <classname>Activity</classname> using
+modelSwarm's <methodname>getActivity()</methodname> method and then
+and running it with the <methodname>run()</methodname> method of the
+<classname>Activity</classname> class.</para>
+
+<programlisting>(modelSwarm.getActivity()).run()  </programlisting>
+
+<para>(Note that we could have combined the activation of modelSwarm
+with the running of its <classname>Activity</classname> since
+activateIn() returns the <classname>Activity</classname> that was
+built.  </para>
+
+<programlisting>(modelSwarm.activateIn(null)).run()  )</programlisting>
+
+      <para><filename>SimpleSwarmBug/StartSimpleBug.java</filename></para>
+
+<para>The <filename>Makefile</filename> for our application changes
+only by the addition of <filename>ModelSwarm.java</filename> to the
+list of source files.  When the application is compiled and run, our
+single bug will wander through its foodspace until
+<varname>endTime</varname>, eating food as it comes upon it and
+reporting its feasts to the console.  After a while, the bug will have
+exhausted all the food in the foodspace and we will hear from it no
+more.  (Think about the impact of different values of
+<varname>seedProb</varname> on how long we continue to hear from the
+bug.)</para>
+
+</sect1>
+
+<sect1>
+<title>SimpleSwarmBug2</title>
+    <subtitle>MANAGING MORE AGENTS</subtitle>
+
+<para>It is now time to move to a multi-agent world, creating an
+arbitrary number of bugs and having them compete for food.  Since we
+have encapsulated our model in <filename>ModelSwarm.java</filename>,
+almost all of the changes we need to make will be made there.</para>
+
+<para>In order to keep track of our collection of bugs we will need
+two new Swarm objects.  The first is a <classname>List</classname>
+object to encapsulate our many bugs and allow us to treat them as a
+unit.  For instance, instead of having to communicate with each bug
+separately, we can send a message to the <classname>List</classname>
+object and have it forward that message to every bug it contains.  The
+second is a <classname>Grid2d</classname> object, a lattice much like
+<classname>Discrete2d</classname> except that it holds the ids of
+other objects rather than integers.  Our <classname>Grid2d</classname>
+object, our <varname>bugspace</varname>, will record the location of
+each of our bugs and, in the process, make sure that no two bugs are
+at the location at the same time.</para>
+
+<para>It is useful to think of the bugspace as being superimposed on
+top of the foodspace.  Our bugs walk around on the former and eat any
+food they find on the foodspace "underneath" them.</para>
+
+      <para>The changes we make to
+<filename>ModelSwarm.java</filename> are largely in the
+<methodname>buildObjects()</methodname> method.  After creating our
+foodspace, we create bugSpace, a <classname>Grid2d</classname> object,
+by using its implementation class, <classname>Grid2dImpl</classname>.
+(Note that we have added <classname>swarm.space.Grid2dImpl</classname>
+to our import list.)  It is, of course, the same size as foodSpace.
+We then fill bugSpace with nulls to indicate that there are as yet no
+bugs in it.</para>
+
+<para>The next step is to create a <classname>List</classname> object,
+<varname>bugList</varname>, to hold our bugs.
+<classname>List</classname> objects can expand as they are filled so
+we don't have to know in advance how many bugs we will have.  Again we
+use the implementation class, <classname>ListImpl</classname>, and
+include it in our list of imports.  We then traverse all the points in
+<varname>bugSpace</varname>, creating a bug at each point with a
+probability given by <varname>bugDensity</varname>, a new parameter
+for our model, using the same
+<methodname>getDoubleWithMin$withMax()</methodname> method we have
+been using in seeding the foodspace.  As each bug is created, it is
+placed on <varname>bugSpace</varname> using
+<methodname>putObject$atX$Y(abug, x, y)</methodname>, a method defined
+for the <classname>Grid2d</classname> class.  The bug is then added to
+the end of <varname>bugList</varname> by using
+<methodname>addLast(abug)</methodname>, a method defined on
+<classname>List</classname> class.</para>
+
+<para>Because we don't want each of our potentially large number of
+bugs to report its finding of food to the console, we choose one bug
+to be a "reporter bug."  We could choose any bug, but it is easy to
+use the first bug created, that is the first bug in
+<varname>bugList</varname>.  A <classname>List</classname> object
+works something like a two-ended stack.  We can push things on
+(<methodname>addFirst()</methodname>,
+<methodname>addLast()</methodname>) or pop things off
+(<methodname>removeFirst()</methodname>,
+<methodname>removeLast()</methodname>) either end.  We therefore get
+the identity of our reporter bug by removing the first bug on
+<varname>bugList</varname>, saving its id in the variable reportBug,
+and then pushing it back on.  (We might also have used a single
+non-destructive method such as <methodname>getFirst()</methodname> or
+<methodname>atOffset(0)</methodname>, which return the object without
+removing it from the list.)</para>
+
+<para>In the <methodname>buildActions()</methodname> section of
+ModelSwarm.java there is one change and one addition.  The change
+comes in how we send the "randomWalk" message to our bugs.  We now
+have many bugs to communicate with and it would be tedious to insert
+into modelActions a message to each bug individually.  Luckily, our
+<varname>bugList</varname> object comes to the rescue.  We can sent
+the message to <varname>bugList</varname> and let
+<varname>bugList</varname> take care of forwarding the message to all
+the objects it contains.  To do this we use a different method for
+inserting an action in an <classname>ActionGroup</classname>,
+<methodname>createActionForEach$message()</methodname>, which takes as
+its arguments the <classname>List</classname> to which the message is
+being sent and the <classname>Selector</classname> containing the
+message.</para>
+
+<para>The addition <methodname>buildActions()</methodname> is that
+after every walk, we want to ask the reporter bug to tell us if it has
+eaten.  We've added a method to the SimpleBug class to do just that,
+<methodname>reportIfEaten()</methodname>.  In the now familiar way, we
+package up the message to reportBug in a
+<classname>Selector</classname> and insert it in modelActions, using
+the <methodname>createActionTo$message()</methodname> method since the
+destination the message is a particular bug.The rest of
+ModelSwarm.java remains unchanged from the previous version.</para>
+
+      <para><filename>SimpleSwarmBug2/ModelSwarm.java</filename></para>
+
+<para>Our SimpleBug class has seen some changes as well.  First, each
+bug must be made aware of the bugspace through which it wanders and we
+pass the bugspace to each bug through its constructor.  Second, we
+need to make sure that one bug does not try to occupy the same space
+as another.  When contemplating its randomWalk, each bug decides
+(randomly) where it would like to go, but checks before it moves to
+see that its destination is empty (that is if
+<literal>myBugSpace.getObjectAtX$Y(newX, newY) == null</literal>).  If
+there is no bug at that location, the bug puts itself there.  If there
+is, the bug does not move.  (Remember that at any time step in the
+simulation, our bugs are told to move in the order in which they were
+created.  Therefore, one bug might be frustrated in its move by
+another bug that would have moved out of the first bug's way had
+second bug moved first.)</para>
+
+<para>Finally, we've added a capability to our SimpleBug class, the
+ability to respond to a <methodname>reportIfEaten()</methodname>
+message, a query at to whether or not the bug has eaten.  The boolean
+variable <varname>haveEaten</varname> is defined as an instance
+variable for the SimpleBug class.  Each time the bug takes a
+<methodname>randomWalk()</methodname>, it sets haveEaten to true if it
+finds food and false otherwise.  (Previously the bug reported its find
+to the console without prompting.)  The new
+<methodname>reportIfEaten()</methodname> method sends a report to the
+console if <varname>haveEaten</varname> is true, and does nothing if
+<varname>haveEaten</varname> is false.</para>
+
+      <para><filename>SimpleSwarmBug2/SimpleBug.java</filename></para>
+
+
+      <para>There are no changes to
+<filename>FoodSpace.java</filename>,
+<filename>StartSimpleBug.java</filename> or the
+<filename>Makefile</filename>.  The changes we have made to the model
+have no impact on the way in which the application is constructed in
+<filename>StartSimpleBug.java</filename></para>
+
+<para>When the application is built and run, we see the creation
+messages for a lot of bugs.  (You may want to comment out the creation
+message in the SimpleBug constructor.)  We then see messages from the
+reporter bug when it finds food, fewer and fewer messages as time goes
+on and the foodspace is emptied.  We have reduced the value of
+<varname>endTime</varname> dramatically.  With a
+<varname>bugDensity</varname> of 0.1, there are now about 640 bugs in
+our model rather than one and each simulated time step takes much
+longer.</para>
+  </sect1>
+
+<sect1>
+<title>SimpleSwarmBug3</title>
+<subtitle>READING PARAMETERS FROM A FILE</subtitle>
+
+<para>Up to now, we have "hard coded" the values of our model
+parameters: <varname>worldXSize</varname>,
+<varname>worldYSize</varname>, <varname>seedProb</varname>,
+<varname>bugDensity</varname> and <varname>endTime</varname>.  We
+could, of course, use Java's file and/or console I/O routines to read
+those values at run time, but Swarm provides its own I/O facilities,
+one set for file I/O and the other for console I/O through a graphical
+user interface.  We'll look at the former here and the latter in the
+next application.</para>
+
+<para>The initialization of the model parameters occurs in the
+creation of our ModelSwarm.  The created modelSwarm object then
+communicates the parameters to whatever other objects need to know
+them.  You might think, then, that in order to read the parameters
+from a file we would need to make changes to the ModelSwarm creator in
+<filename>ModelSwarm.java</filename>.  In fact, we don't change the
+ModelSwarm creator, but rather the way in which it is called in
+<filename>StartSimpleBug.java</filename>.</para>
+
+<para>The <varname>lispArchiver</varname> object in the Swarm Global
+environment contains a method called
+<methodname>getWithZone$key()</methodname>.  This method can be used
+to call the constructor for an class and to read and fill in one or
+more of the instance variables for that class in creating a class
+instance.  Here, instead of calling the ModelSwarm constructor
+directly, we allow <varname>lispArchiver</varname> to call the
+constructor and, at the same time, to read the model parameters from a
+file and to insert them into the newly created modelSwarm.
+<methodname>getWithZone$key()</methodname> takes two arguments, the
+<classname>Zone</classname> in which we want our new object to be
+created and a "key."  <methodname>getWithZone$key()</methodname> then
+looks for that key in a file and creates an object according to the
+instructions associated with that key.  By default, the name of the
+file is the name of our application (the name we passed to
+<methodname>initSwarm()</methodname>) with the file type
+"<filename>.scm</filename>".  <filename>SimpleBug.scm</filename> is
+shown below.</para>
+
+<para>The format of the .scm file is a bit fussy.  The key passed to
+<methodname>getWithZone$key()</methodname> comes after the "cons"
+keyword.  This is followed by the name of the class whose constructor
+is to be called, ModelSwarm, and by the names and values of the
+instance variables we want to set upon creation.  (Any instance
+variable not set in the .scm file retains the value set in its
+ModelSwarm declaration.)  Now, when we want to change the value of a
+model parameter, we need only change the value in
+<filename>SimpleBug.scm</filename>.  We do not need to rebuild our
+application.  (More information on the
+<classname>ListArchiver</classname> interface can be found in the
+<citetitle>Users' Guide</citetitle>.)</para>
+
+      <para><filename>SimpleSwarmBug3/StartSimpleBug.java</filename></para>
+
+      <para><filename>SimpleSwarmBug3/SimpleBug.scm</filename></para>
+
+<para>When we build and run this version of the application we see the
+same type of output as before, but with fewer bugs and more food.
+(The SimpleBug.scm value of seedProb is higher and
+<varname>bugDensity</varname> lower than the values hard coded in
+ModelSwarm.java.)  We also increased the value of
+<varname>endTime</varname> in SimpleBug.scm.  With fewer bugs we can
+let the simulation run a bit longer.  You might want to run the
+application several times with different parameter values to convince
+yourself that the parameters are indeed being read from
+<filename>SimpleBug.scm</filename>.</para>
+</sect1>
+
+<sect1>
+<title>SimpleObserverBug</title>
+      <subtitle>GOING GUI</subtitle>
+
+<para>Now that we have an operational model, it is time to work in its
+presentation.  Swarm provides a host of tools to implement a graphical
+user interface for our model, allowing us to visualize the bugs in
+their world and to interact with the model through a control panel.
+Both of these capabilities are provided by Swarm's
+<classname>GUISwarm</classname> interface.  Essentially we create a
+top-level <classname>GUISwarm</classname> object that will
+encapsulate, control and display our ModelSwarm.  Since our ModelSwarm
+is an object that stands largely on its own, most of the work we need
+to do lies in creating the GUISwarm itself.</para>
+
+<para>Our particular GUI object will belong to a subclass of
+<classname>GUISwarm</classname>, the ObserverSwarm class, defined in
+<phrase role="strong">ObserverSwarm.java</phrase>.  Like any other
+<classname>Swarm</classname> object, an ObserverSwarm object is built
+in four stages with a constructor, buildObjects(),
+<methodname>buildActions()</methodname> and activateIn().  The
+constructor is trivial.  ObserverSwarm extends the
+<classname>GUISwarm</classname> implementation class,
+<classname>GUISwarmImpl</classname>, and it uses the constructor of
+its parent.  Note that there are two display parameters,
+displayFrequency and zoomFactor.  We'll see their use shortly.</para>
+
+<para>The first thing we need to do in an ObserverSwarm's
+<methodname>buildObjects()</methodname> method is to initialize the
+ObserverSwarm through its parent's
+<methodname>buildObjects()</methodname> method.  Aside from the
+necessary initializations, the <classname>GUISwarm</classname>
+<methodname>buildObjects()</methodname> method will also display a
+control panel on the user's screen.  A <classname>GUISwarm</classname>
+object has its own built-in GUI control panel with five buttons:
+<guibutton>START</guibutton>, <guibutton>STOP</guibutton>,
+<guibutton>NEXT</guibutton>, <guibutton>SAVE</guibutton>, and
+<guibutton>QUIT</guibutton>.  These buttons control the progress of our
+simulation and are normally pressed by the user with the mouse.
+However, the buttons can also be "pressed" internally, as we shall see
+below.</para>
+
+<para>Since the ObserverSwarm object is our application's top-level
+<classname>Swarm</classname>, it must take over the construction of
+the simulation model itself.  <methodname>buildObjects()</methodname>
+creates the ModelSwarm object, modelSwarm, using the now-familiar
+<classname>LispArchiver</classname>.  Note that we create modelSwarm
+in a sub-<classname>Zone</classname> of the
+<classname>Zone</classname> in which the ObserverSwarm itself is
+located.  (<methodname>getZone()</methodname> returns the
+<classname>Zone</classname> of the current object and calling on the
+implementation class constructor for a <classname>Zone</classname>
+creates a sub-<classname>Zone</classname> of its argument.)  We now
+have a model object that the ObserverSwarm can monitor and
+control.</para>
+
+<para>Moving right along,
+<methodname>getControlPanel().setStateStopped()</methodname> returns
+the control panel associated with this ObserverSwarm and "presses" its
+STOP button.  (Both these methods are inherited from
+<classname>GUISwarm</classname>.)  Execution of the application will
+wait here until the user presses START, signaling that she is ready to
+begin.  (As we'll see in the next application, this can provide the
+user an opportunity to set some of the model's parameters.)</para>
+
+<para>Once the user gives the go-ahead, the ObserverSwarm calls upon
+modelSwarm to build its objects with
+<methodname>modelSwarm.buildObjects()</methodname>.  ObserverSwarm
+then gets down to the business of building its own display
+objects.</para>
+
+<para>The first of these is a <classname>Colormap</classname> object,
+an object that contains the user-defined correspondence between the
+names of colors and a numeric code.  The
+<classname>Colormap</classname> object is created with
+<classname>Colormap</classname>'s implementation class and the codes
+are set with the <methodname>setColor$ToName()</methodname> method.
+Note that the numeric codes are byte integers and the color names are
+strings.  As we will see below, the correspondences we have chosen are
+intentional.  (Our foodspace will be displayed in black and red, and
+our bugs in green.  The yellow is "reserved for future use.")</para>
+
+<para>Indeed, the next step is to give our bugs their display color by
+sending each bug in the <varname>bugList</varname> a 2 (cast as a byte
+integer) for green as its color code.  We first ask modelSwarm to give
+us its <varname>bugList</varname> with the
+<methodname>modelSwarm.getBugList()</methodname> message.  We then
+iterate through the bugs in the list, sending a
+<methodname>setBugColor()</methodname> message to each.  (Note that we
+use the <methodname>getCount()</methodname> method inherited from the
+<classname>List</classname> class to retrieve the number of bugs in
+the <varname>bugList</varname>.)</para>
+
+<para>The second display object to be created is a "raster widget."  A
+raster is a display window onto which we will project our foodspace
+and our bugspace.  The raster knows all about the graphics environment
+of our computer and it will do all the hard graphics work for us.  We
+create a particular kind of raster here, a
+<classname>ZoomRaster</classname>.  A
+<classname>ZoomRaster</classname> object can be sized to pretty much
+any physical size on our computer screen by setting its "zoomFactor".
+After calling upon the constructor of the
+<classname>ZoomRaster</classname> implementation class, we give
+worldRaster our <classname>Colormap</classname> object, our desired
+zoomFactor (a integer between 4 and 8 works well), the size of our
+model world, and a window title.  (Note that we ask modelSwarm to
+return its world to us with the <methodname>getWorld()</methodname>
+message and then use <methodname>getSizeX()</methodname> and
+<methodname>getSizeY()</methodname> to find the dimensions of that
+world.  The ModelSwarm class contains several new methods like this as
+we shall see below.)</para>
+
+<para>Note that we have defined zoomFactor in a group of variables
+we've called display parameters.  The value of zoomFactor defaults to
+8, but we'll allow it to be changed in the
+<filename>SimpleBug.scm</filename> file and we'll see in the next
+application how it can be changed interactively as well.</para>
+
+<para><varname>worldRaster</varname> also needs to know what to do if
+for any reason it suffers an untimely death.  Toward the end of the
+ObserverSwarm class we have a method called
+<methodname>_worldRasterDeath_()</methodname> which simply calls on
+worldRaster to "drop" itself.  As we have seen, in order to pass this
+message to <varname>worldRaster</varname> we need to encapsulate the
+message in a <classname>Selector</classname> object.  Selectors, in
+turn, need to be created within try/catch blocks.  As the need for
+<classname>Selector</classname> objects grows in our applications, it
+is useful to routinize their creation.  We do this by creating a new
+class of Swarm utilities, <classname>SwarmUtils</classname>.  The
+first (and for now only) method in <classname>SwarmUtils</classname>
+is the static method <methodname>getSelector()</methodname>.  We will
+detail operation of this method below.  For now, suffice it to say
+that getSelector() takes two arguments and returns a
+<classname>Selector</classname> object based upon them.  The first
+argument is either a class id or the name of a class as a String.
+(Java allows this kind of method overloading.)  The second argument is
+the name of a method from that class as a string, that is, the message
+itself.  We pack up the <methodname>_worldRasterDeath_()</methodname>
+method in a selector and give it to worldRaster using
+<methodname>enableDestroyNotification$notificationMethod()</methodname>,
+specifying too that the message is to be sent to the ObserverSwarm
+object itself.</para>
+
+<para>Finally we call on worldRaster to "pack" up all the information
+we have given it and to ready itself for display on the screen by
+sending worldRaster the <methodname>pack()</methodname>
+message.</para>
+
+<para>We want to superimpose our foodspace on the raster and we do
+that by creating a third display object, a
+<classname>Value2dDisplay</classname> object.  A
+<classname>Value2dDisplay</classname> object takes a two-dimensional
+integer lattice such as our foodspace (and its
+<classname>Grid2d</classname> parent) and sends it to the raster for
+display.  The integers in each cell of the lattice are translated to a
+color using the codes defined in the <classname>Colormap
+</classname>object.  Given our foodspace and colormap, cells with no
+food (the cells with 0's) will display as black while cells with food
+(the cells with 1's) will display as red.  As usual, we create the
+<classname>Value2dDisplay</classname> object using the implementation
+class and we pass to its constructor the worldRaster, the colormap,
+and the foodspace returned to us by the getFood() message to
+modelSwarm.</para>
+
+<para>Our fourth and final display object will be used to display the
+positions of our bugs in their bugworld.  This is an
+<classname>Object2dDisplay</classname> object which takes a two
+dimensional lattice of objects, a <classname>Discrete2d</classname>
+object such as modelSwarm's <varname>bugSpace</varname>, and asks each
+object on the lattice to draw itself on the raster.  Our
+<classname>Object2dDisplay</classname> object then needs for its
+constructor the raster object (worldRaster), the
+<classname>Discrete2d</classname> object
+(<varname>bugSpace</varname>), and the message that prompts each
+object on the lattice to draw itself.  Our SimpleBugs will soon
+respond to the drawSelfOn() message (we'll add this method to the
+SimpleBug class below) and we pack up the message in a
+<classname>Selector</classname> to pass on to the
+<classname>Object2dDisplay</classname>'s implementation class
+constructor.  (Note that we ask modelSwarm to return the
+<varname>bugSpace</varname> to us by sending it the
+<methodname>getWorld()</methodname> message.)</para>
+
+<para>When asked to display its objects, an
+<classname>Object2dDisplay</classname> object loops through the
+lattice it was given and sends to each object it finds the message it
+was given.  If the lattice is sparsely populated, however, it can take
+a long time for the <classname>Object2dDisplay</classname> object to
+find the relatively few bugs on the lattice.  A more efficient method,
+therefore, is to actually pass the
+<classname>Object2dDisplay</classname> object a list of the objects on
+the lattice and have the <classname>Object2dDisplay</classname> object
+use the list to send its message.  We choose that option here and,
+immediately after creating bugDisplay we give it our modelSwarm's
+<varname>bugList</varname>, using the
+<methodname>setObjectCollection()</methodname> method.  Again, we ask
+modelSwarm to give us the <varname>bugList</varname> by sending it the
+<methodname>getBugList()</methodname> message.</para>
+
+<para>By the end of the ObserverSwarm's
+<methodname>buildObjects()</methodname> method we have created both
+the objects needed to run our model and the objects needed to display
+it.</para>
+
+<para>The ObserverSwarm's <methodname>buildActions()</methodname>
+phase begins by initializing itself with the parent's
+<methodname>buildActions()</methodname>.  It then calls upon
+modelSwarm to build the actions for the simulation model itself.  The
+next step is to create an <classname>ActionGroup</classname> to hold
+the actions needed to control modelSwarm and to generate the display
+of the model.  </para>
+
+<para>The guts of <methodname>buildActions()</methodname> are the
+display actions.  They are pretty straightforward.  We create and
+insert into displayActions two "<methodname>display</methodname>"
+messages, one to foodDisplay and another to bugDisplay, telling each
+one to check the current state of its lattice and to send its display
+information to worldRaster.  We then insert a message to worldRaster
+to draw itself to a screen buffer.  Finally we insert a
+"<methodname>doTkEvents</methodname>" message to the
+<classname>ActionCache</classname> object.  (The
+<classname>ActionCache</classname> object is retrieved using the
+<methodname>getActionCache()</methodname> method.)  This last message
+is needed to "flush" worldRaster's buffer to the screen.  It should
+always be the last action in the list of display actions.</para>
+
+<para>We have finished building the display actions, but there is one
+more message to be inserted into displayActions.  The
+<methodname>checkForDone()</methodname> message instructs the
+ObserverSwarm object itself to see if modelSwarm has finished with its
+work.  We will explain the <methodname>checkForDone()</methodname>
+method below.</para>
+
+      <para>Having packed up the desired actions into
+<varname>displayActions</varname>, we insert displayActions in a newly
+created schedule, <varname>displaySchedule</varname>.  Note that we
+have defined the schedule interval,
+<varname>displayFrequency</varname>, in a group of variables we've
+called display parameters.  The value of
+<varname>displayFrequency</varname> defaults to one, but we'll allow
+it to be changed in the <filename>SimpleBug.scm</filename> file and
+we'll see in the next application how it can be changed interactively
+as well.</para>
+
+<para>The final stage in building our ObserverSwarm object is in the
+<methodname>activateIn()</methodname> method. Here the ObserverSwarm
+object takes the context passed to it and sends it on to its parent's
+<methodname>activateIn()</methodname> method.  Since the ObserverSwarm
+object is going to be the top-level <classname>Swarm</classname>, it
+will be passed a null as its context.  Note that the next step,
+however is to send an activateIn() message to modelSwarm.  Since
+modelSwarm is a sub<classname>Swarm</classname> of the ObserverSwarm,
+the latter tells the former to activate itself in the latter's
+context.  The same is true of displaySchedule.  It too is activated in
+the context of the <classname>ObserverSwarm</classname> object.
+Having finished with the activations, we return the finished
+<classname>Activity</classname> object which is now ready to
+run.</para>
+
+<para>In our previous applications, we set an
+<varname>endTime</varname> to tell modelSwarm when to stop.  In some
+sense that is no longer necessary.  The control panel provided by the
+<classname>GUISwarm</classname> parent of ObserverSwarm has a
+<guibutton>STOP</guibutton> button that the user can press at any time
+to stop the simulation.  Still, we will want in a later application to
+allow the simulation to stop itself and so we have retained
+<varname>endTime</varname> to provide a maximum runtime for our model.
+(If the user falls asleep, the model will eventually terminate without
+intervention.)  </para>
+
+<para>The decision about when to stop is made by the model itself,
+that is by the modelSwarm activity.  As we shall see when we look at
+ModelSwarm.java, modelSwarm tests the simulation time against
+<varname>endTime</varname> and simply terminates itself if
+<varname>endTime</varname> has been reached.  You will remember that a
+"checkForDone" message was inserted as the last action in
+ObserverSwarm's <classname>ActionGroup</classname>.  Let's assume that
+when <methodname>checkForDone()</methodname> is entered,
+simulationFinished still has its initialized value of false.  We would
+then go on to the "else if" block which obtains the status of
+modelSwarm by getting its activity with
+<methodname>getActivity()</methodname> and then getting the status of
+that activity with <methodname>getStatus()</methodname>.  If
+modelSwarm has terminated itself, the status of its activity should be
+"Completed".  We can check for that by matching the
+<methodname>Symbol</methodname> returned by
+<methodname>getStatus()</methodname> with the appropriate
+<classname>Symbol</classname> in Swarm's
+<classname>Globals</classname> environment.  If the
+<classname>Symbols</classname> match, simulationFinished is set to
+true, a message is sent to the console, and
+<methodname>checkForDone()</methodname> presses the STOP key on the
+control panel.  Everything stops, allowing the user to look at the
+raster window (and whatever other windows we've displayed on the
+screen), and to push the <guibutton>QUIT</guibutton> button when she's
+ready.  What if the user presses the <guibutton>START</guibutton> or
+<guibutton>NEXT</guibutton> button, however?  Execution of Swarm will
+continue when we might not want it to.</para>
+
+<para>Normally, once the ObserverSwarm's activity has processed its
+last message (<methodname>checkForDone()</methodname>) the simulation
+time is moved forward one period and the modelSwarm activity is called
+upon to do its thing for the next period.  In this case, however, the
+modelSwarm activity has terminated itself and, if the user presses
+<guibutton>START</guibutton>, the Swarm engine passes over it, going
+straight on to the ObserverSwarm activity.  The display messages are
+sent, updating the display with the same information as before since
+modelSwarm's activity was not executed, and the
+<methodname>checkForDone()</methodname> method is entered again.  This
+time, <varname>simulationFinished</varname> is true, a smart-aleck
+message is sent to the console, modelSwarm is dropped, and the
+<guibutton>QUIT</guibutton> button is pressed.</para>
+
+<para>The last method in ObserverSwarm.java was given to worldRaster
+when it was created.  It simply gives instructions about what to do
+when worldRaster dies.  The worldRaster object is dropped and its
+pointer set to null.</para>
+
+      <para><filename>SimpleObserverBug/ObserverSwarm.java</filename></para>
+
+<para>We have introduced a lot of new material in creating the
+ObserverSwarm.  Fortunately, very little more is needed to make it all
+work.  Since we have not made any changes to our model itself,
+<filename>ModelSwarm.java</filename> needs very little change.  You
+will remember that we used three new methods in the ObserverSwarm that
+returned <varname>bugList</varname>, <varname>bugSpace</varname> and
+foodSpace from modelSwarm.  They are
+<methodname>getBugList()</methodname>,
+<methodname>getWorld()</methodname> and
+<methodname>getFood()</methodname>, respectively, and they have been
+added to the methods in the ModelSwarm class.  We no longer need a
+reporter bug and so we have removed it from the code in
+<methodname>buildObjects()</methodname>.  Instead, we simply report to
+the console the number of bugs created by using the
+<methodname>getCount()</methodname> method on
+<varname>bugList</varname>.  <methodname>getCount()</methodname>
+returns the number of objects currently in a
+<classname>List</classname> object.</para>
+
+<para>In <methodname>buildActions()</methodname> we have taken
+advantage of our new <methodname> getSelector()</methodname> utility,
+but have made no substantive changes.  Nor have we made any changes in
+<methodname>activateIn()</methodname>.  However, as noted above, we
+have made a change to <methodname>checkTime()</methodname>.  Now when
+<varname>endTime</varname> is reached, <varname>checkTime</varname>
+gets the modelSwarm activity and terminates it, signaling to the
+ObserverSwarm that modelSwarm has had enough.  </para>
+
+<para>Because these changes are so minor, we reproduce be
+low only the new methods.</para>
+
+<para>SimpleObserverBug/ModelSwarm.java (new elements only)</para>
+
+      <programlisting>
+    // The next three methods return some useful information about the
+    // created ModelSwarm to the caller.  They will be used by the
+    // Observer Swarm.
+    public ListImpl getBugList()
+    {
+ return bugList;
+    }
+
+    public Grid2dImpl getWorld()
+    {
+ return bugSpace;
+    }
+
+    public FoodSpace getFood()
+    {
+ return foodSpace;
+    }
+ 
+    // This is a pretty crude method to end the simulation after an
+    // arbitrary number of periods given by the endTime parameter. If
+    // the simulation time returned by getCurrentTime() is greater
+    // than endTime, we terminate the modelSwarm activity.  The
+    // ObserverSwarm will pick this up and handle it.  Note that this
+    // is no longer strictly necessary since the user can now stop the
+    // simulation at any time using the control panel.  Still, this is
+    // a placeholder for a more sophisticated end-of-simulation
+    // routine to be introduced later.
+    public void checkTime()
+    {
+ if (Globals.env.getCurrentTime() &gt;= endTime)
+     getActivity().terminate();
+
+        return;
+    }
+}
+</programlisting>
+
+<para>The changes to the SimpleBug class are likewise few.  We no
+longer ask a bug to report its birth to the console and we add two
+methods.  The first, <methodname>setBugColor()</methodname>, is to
+allow the bug to set its <varname>bugColor</varname> with a message
+from the ObserverSwarm.  The second,
+<methodname>drawSelfOn()</methodname>, instructs the bug to draw
+itself on the raster widget (which is passed to it by the
+<classname>Object2dDisplay</classname> object), at the bug's current
+position in <varname>bugColor</varname>.
+<methodname>drawSelfOn()</methodname> uses the <classname>ZoomRaster
+</classname>class method <methodname>drawPointX$Y$Color()</methodname>
+to accomplish this task.</para>
+
+<para>Again, given the paucity of changes to SimpleBug.java, we
+reproduce here only the new methods.</para>
+
+<para>SimpleObserverBug/ModelSwarm.java (new elements only)</para>
+
+      <programlisting>
+   // These are methods that allow the bug to draw itself on the GIU
+    // raster display object.  The first tells the bug what color it
+    // should use, the second draws the bug at its current location.
+    public Object setBugColor(byte c)
+    { 
+ bugColor = c; 
+ return this; 
+    }
+
+    public Object drawSelfOn (Raster r)
+    {
+ r.drawPointX$Y$Color (xPos, yPos, bugColor);
+ return this;
+    }
+</programlisting>
+
+      <para>There are no changes to
+<filename>FoodSpace.java</filename> and only the addition of
+<filename>SwarmUtils.java</filename> to the
+<filename>Makefile</filename>.  The code for the static getSelector()
+method in the new <classname>SwarmUtils</classname> class is
+documented in <filename>SwarmUtils.java</filename>.
+</para>
+
+<para>That leave us only with
+<filename>StartSimpleBug.java</filename>.  The major change here is
+that StartSimpleBug builds and activates an ObserverSwarm as the
+top-level <classname>Swarm</classname>, rather than a ModelSwarm.  It
+uses the same procedure we are familiar with: creating displaySwarm
+with the <classname>LispArchiver</classname>, building its objects and
+actions, and then activating and running it.  Note that we have
+introduced a second key, "displaySwarm", that will distinguish the
+parameters for the ObserverSwarm from those for the ModelSwarm in the
+<filename>SimpleBug.scm</filename> file.</para>
+
+      <para><filename>SimpleObserverBug/StartSimpleBug.java</filename></para>
+
+      <para><filename>SimpleObserverBug/SimpleBug.scm</filename></para>
+
+
+      <para>What then happens when we <userinput>make</userinput> and
+run our new application?  We first see a control panel appear on the
+screen with buttons we can click on.  Clicking on
+<guibutton>START</guibutton> results in the appearance of the display
+raster with our "world" displayed on it.  Cells without food are in
+black, cells with food are in red and, as the green bugs move around
+in the world on their random walks, the food begins to disappear as it
+is eaten.  We can stop the action at any time by pressing the
+<guibutton>STOP</guibutton> button, and then restart it using
+<guibutton>START</guibutton>.  Pressing <guibutton>NEXT</guibutton> takes
+the model through a single time step and stops it again.  We can press
+<guibutton>QUIT</guibutton> at any time, and are more-or-less required
+by our <methodname>checkForDone()</methodname> method to press
+<guibutton>QUIT</guibutton> when <varname>endTime</varname> is
+reached.</para>
+</sect1>
+
+<sect1>
+<title>SimpleObserverBug2</title>
+    <subtitle>ADDING PROBES AND PROBE DISPLAYS</subtitle>
+
+<para>Now we add a very useful observation object.  Probes are just
+what their name implies - probe-like access to the internals of any
+object in Swarm.  The <emphasis>Probe Library</emphasis> allows one to
+effectively see inside objects: to observe the values of an object's
+internal variables, to change those values on the fly, and even to
+invoke the object's methods.  This is both incredibly useful and
+incredibly dangerous.  However, in spite of their dangers, probes are
+essential.  We can never anticipate in advance everything that we
+might want to know about an object's state and it would be both
+tedious and inefficient to provide a "get" method for every internal
+variable on every object.  Hence, probes.</para>
+
+<para>Probing is based upon <classname>ProbeMap</classname> objects.
+There is a <classname>ProbeMap</classname> object for every class in
+the system, although the object doesn't really exist until someone
+asks for one.  <classname>ProbeMap</classname> objects establish the
+mapping from an object's class to the location of the variables in the
+internal data structure of a particular instance of that class.</para>
+
+<para>Creating a ProbeMap object turns out to be relatively easy and
+very few changes to our application are required.  Indeed, the only
+changes will come in the ObserverSwarm and ModelSwarm classes.  Let's
+take the latter first.</para>
+
+<para>We begin by adding two imports,
+<classname>EmptyProbeMap</classname> and its implementation class,
+<classname>EmptyProbeMapImpl</classname>.  All the substantive changes
+occur in the constructor for a ModelSwarm object.</para>
+
+<para>After our usual call upon the parent-class constructor, we
+create a new <classname>EmptyProbeMap</classname> object and give it
+the class of the object we want to probe.  Here, of course, that is
+the ModelSwarm class itself.  Then we add to the new probeMap object,
+probes for those variables we want to track and/or change:
+<varname>worldXSize</varname>, <varname>worldYSize</varname>,
+<varname>seedProb</varname>, <varname>bugDensity</varname> and
+<varname>endTime</varname>.  The
+<methodname>getProbeForVariable()</methodname> method returns a probe
+for the given variable and <methodname>addProbe()</methodname> inserts
+the probe into probeMap.  (Note that if the variable we specify is not
+actually in the class with which probeMap is associated, we will get a
+runtime error.  The compiler does not check this for us.)  Once we
+have created our <classname>ProbeMap</classname> object, we insert it
+into the <classname>ProbeLibrary</classname> in Swarm's
+<classname>Globals</classname> environment.  That's it!  The
+<classname>ProbeMap</classname> and ModelSwarm are ready to go.</para>
+
+<para>(We have chosen here to create an "empty"
+<classname>ProbeMap</classname> object.  Had we wished to do so, we
+could have created instead a "complete"
+<classname>ProbeMap</classname> object (using
+<classname>CompleteProbeMapImpl</classname>) that would have contained
+by default all the variables and methods in the given class and its
+subclasses.  For our purposes, that would be overkill.  However, this
+class can be useful, particularly in debugging.)</para>
+
+<para>Because so little of <filename>ModelSwarm.java</filename> has
+changed, we reproduce here only the constructor.</para>
+
+<para>SimpleObserverBug2/ModelSwarm.java (the new constructor only)</para>
+
+      <programlisting>
+// This is the constructor for a new ModelSwarm.
+    public ModelSwarm(Zone azone)
+    {
+ // Use the parent class to create a top-level swarm.
+ super(azone);
+
+ // Build a customized probe map.  Without a custom probe map
+ // the default is to show all variables and messages.  Here we
+ // choose to customize the appearance of the probe, giving a
+ // nicer interface.
+
+ // Create the probe map and give it the ModelSwarm class.
+ probeMap = new EmptyProbeMapImpl(azone, getClass());
+
+ // Now add probes for the variables we wish to probe.
+ probeMap.addProbe(getProbeForVariable("worldXSize"));
+ probeMap.addProbe(getProbeForVariable("worldYSize"));
+ probeMap.addProbe(getProbeForVariable("seedProb"));
+ probeMap.addProbe(getProbeForVariable("bugDensity"));
+ probeMap.addProbe(getProbeForVariable("endTime"));
+
+ // And finaly install our probe map into the probeLibrary.
+ // Note that this library was created by initSwarm().
+ Globals.env.probeLibrary.setProbeMap$For(probeMap, getClass());
+    }
+</programlisting>
+
+<para>We also want to probe the ObserverSwarm, in particular
+<varname>displayFrequency</varname>, <varname>zoomFactor</varname>,
+and a new variable, <varname>simulatedTime</varname>.  The procedure
+is exactly the same and the new constructor for the ObserverSwarm
+class in <filename>ObserverSwarm.java</filename> is reproduced
+below.</para>
+
+<para>SimpleObserverBug2/ObserverSwarm.java (the new constructor only)</para>
+
+      <programlisting>
+// This is the constructor for a new ObserverSwarm.
+    public ObserverSwarm(Zone azone)
+    {
+ // Use the parent class to create an observer swarm.
+ super(azone);
+
+ // Build a custom probe map.  Without a probe map, the default
+ // is to show all variables and messages.  Here we choose to
+ // customize the appearance of the probe, giving a nicer
+ // interface.
+
+ // Create the probe map and give it the ObserverSwarm class.
+ EmptyProbeMapImpl probeMap = 
+     new EmptyProbeMapImpl(azone, getClass());
+
+ // Now add probes for the variables we wish to probe, using
+ // the method in our SwarmUtils class.
+ probeMap.addProbe(getProbeForVariable("displayFrequency"));
+ probeMap.addProbe(getProbeForVariable("zoomFactor"));
+ probeMap.addProbe(getProbeForVariable("simulatedTime"));
+
+ // And finaly install our probe map into the probeLibrary.
+ // Note that this library object was automatically created by
+ // initSwarm.
+ Globals.env.probeLibrary.setProbeMap$For(probeMap, getClass());
+    }
+</programlisting>
+
+<para>However, the ObserverSwarm needs to worry about two additional
+items.  The first item is to make sure that the windows displaying the
+probes are updated at each time step.  The ObserverSwarm does this by
+adding to its list of actions an "<methodname>update</methodname>"
+message to the <varname>probeDisplayManager</varname> in Swarm's
+<classname>Globals</classname> environment.  Therefore in
+<methodname>buildActions()</methodname> we find just before the
+"<methodname>doTkEvents</methodname>" message</para>
+
+<programlisting> 
+sel = SwarmUtils.getSelector(Globals.env.probeDisplayManager, "update");
+displayActions.createActionTo$message(Globals.env.probeDisplayManager, sel);
+</programlisting>
+
+<para>The second item is to make sure that our new simulatedTime
+variable is updated at each time step.  This is done by adding yet
+another message to <methodname>buildActions()</methodname>, an
+<methodname>updateSimulatedTime()</methodname> message to the
+ObserverSwarm object itself.  The new code looks like</para>
+      <programlisting>
+sel = SwarmUtils.getSelector(this, "updateSimulatedTime");
+displayActions.createActionTo$message(this, sel);
+</programlisting>
+
+<para>and the updateSimulatedTime() method is trivial.</para>
+
+      <programlisting>
+public void updateSimulatedTime()
+{
+  simulatedTime = Globals.env.getCurrentTime();
+}
+</programlisting>
+
+<para>Happily, there are no changes to any of our other application
+files.  </para>
+
+<para>When this new version of the application is run, two probe map
+windows appear on the screen along with the control panel, one for the
+ModelSwarm object and the other for the ObserverSwarm object.  (You
+may have to drag them around as they tend to overlap each other when
+first displayed.)  Before pressing <guibutton>START</guibutton> on the
+control panel, you can view the values of the probed variables and
+change them if you wish.  To change a variable, simply place the
+cursor in the variable's field, erase the current value, type in a new
+value, and press Enter on the keyboard.  (That last step is required!)
+Note that it will take a few seconds for the new value to be "set".
+Change as many values as you like and then press the
+<guibutton>START</guibutton> button to begin the simulation.  You will
+see simulationTime incremented as the simulation proceeds, showing
+that the probes are indeed being updated each period.  Of course, in
+this application, it would make no sense to change any of the probed
+variables once the simulation had begun.  All the variables except for
+<varname>simulationTime</varname> are used only when the model is
+initialized and <varname>simulationTime</varname> is reset to the
+current simulation time each period.  However, in other applications
+it might indeed be useful to change the value of a probed variable
+during the simulation, as we shall see an example of this in the next
+version of SimpleObserverBug.</para>
+  </sect1>
+
+<sect1>
+<title>SimpleObserverBug3</title>
+    <subtitle>A MATTER OF LIFE AND DEATH</subtitle>
+
+<para>Now that we have worked on the display aspects of our
+simulation, is time to return our attention to the model itself.  In
+particular, we want to allow our bugs to die.  How then do we remove
+agents from the model in a graceful fashion?  While we work on this
+task, we will also improve our ability to probe individual bugs and,
+in so doing, to extend or shorten their lives if we wish.</para>
+
+<para>In the new version of our model, bugs die if they go hungry for
+a specified period of time.  This functionality is added to the
+SimpleBug class in <filename>SimpleBug.java</filename>.  We define two
+new variables, <varname>bugHardiness</varname>, which tells the bug
+how long it can survive without food and which is passed to the
+individual bug upon its creation, and
+<varname>periodsSinceEaten</varname>, which will keep track of how
+long the bug has gone hungry.  We also pass to each new bug a pointer
+to the ModelSwarm that created it since bugs will have to send a
+message to their creator when they die.  The remaining changes to the
+SimpleBug class are found in the <methodname>randomWalk()</methodname>
+method, which is reproduced below.</para>
+
+<para>SimpleObserverBug3/SimpleBug.java (the ramdomWalk() method only)</para>
+
+      <programlisting>
+
+public void randomWalk()
+    {
+ int newX, newY;
+
+ // Decide where to move.
+ newX = xPos + 
+            Globals.env.uniformIntRand.getIntegerWithMin$withMax(-1, 1);
+ newY = yPos +
+     Globals.env.uniformIntRand.getIntegerWithMin$withMax(-1, 1);
+ newX = (newX + worldXSize) % worldXSize;
+ newY = (newY + worldYSize) % worldYSize;
+
+ // Is there a bug at the new position already? If not, put a
+ // null at this bug's current position and put this bug at the
+ // new position.
+ if (myBugSpace.getObjectAtX$Y(newX, newY) == null)
+     {
+  myBugSpace.putObject$atX$Y(null, xPos, yPos);
+  xPos = newX;
+  yPos = newY;
+  myBugSpace.putObject$atX$Y(this, xPos, yPos);
+     }
+
+ // If there is food at this cell, eat it and record the
+ // fact. Otherwise, increment periodsSinceEaten and change the
+ // bugColor to yellow (3).
+ if (myFoodSpace.getValueAtX$Y(xPos, yPos) == 1)
+     {
+     myFoodSpace.putValue$atX$Y(0, xPos, yPos);
+     haveEaten = true;
+     periodsSinceEaten = 0;
+     setBugColor((byte)2);
+     }
+ else
+     {
+     haveEaten = false;
+     ++periodsSinceEaten;
+     if (periodsSinceEaten &gt;= bugHardiness/2)
+  setBugColor((byte)3);
+     }
+
+ // Now check to see if we're still alive!  If not, we tell
+ // modelSwarm that we've died.
+ if (periodsSinceEaten &gt;= bugHardiness)
+     modelSwarm.bugDeath(this);
+    }
+</programlisting>
+
+<para>If a bug encounters food on its walk, it "eats" it, sets
+<varname>haveEaten</varname> to true and
+<varname>periodsSinceEaten</varname> to zero.  If, however, it does
+not find food, it sets <varname>haveEaten</varname> to false,
+increments <varname>periodsSinceEaten</varname> by one, and set its
+<varname>bugColor</varname> to yellow (code 3 in our
+<varname>colorMap</varname>) if it has reached half of its endurance.
+Finally, we check to see if the bug has reached the end of the line by
+going without food for bugHardiness periods.  If it has, it sends a
+message to modelSwarm that it has died.</para>
+
+<para>The ModelSwarm class must know what to do with this message and
+we have added a <methodname>bugDeath()</methodname> method to <phrase
+role="strong">ModelSwarm.java</phrase>.  Before we get to that method,
+note that we have added <varname>bugHardiness</varname> to our list of
+model parameters.  It can be set in the
+<filename>SimpleBug.scm</filename> file or through the probe display
+before the <guibutton>START</guibutton> button is pressed.  We have also
+added a bug count variable, <varname>numberOfBugs</varname>, and
+deleted <varname>endTime</varname> since we no longer need it to stop
+our simulation.  The <methodname>buildObjects()</methodname> method
+sports a new <classname>List</classname> object,
+<varname>reaperQueue</varname>, and it reflects the new constructor
+for a SimpleBug.  We have also added a new action to
+<methodname>buildActions()</methodname>, a "reapBugs" message to the
+ModelSwarm itself.  Let's then look at the
+<methodname>bugDeath()</methodname> and
+<methodname>reapBugs()</methodname> methods.</para>
+
+      <para><filename class="directory">SimpleObserverBug3/</filename><filename>ModelSwarm.java</filename>
+      (the new methods only)</para>
+
+      <programlisting>
+public void bugDeath(SimpleBug abug)
+    {
+ if ((SimpleBug)bugSpace.getObjectAtX$Y(abug.xPos, abug.yPos) == abug)
+     {
+     bugSpace.putObject$atX$Y(null, abug.xPos, abug.yPos);
+     reaperQueue.addLast(abug);
+     }
+    }
+
+public void reapBugs()
+    {
+ SimpleBug abug;
+
+ while (reaperQueue.getCount() != 0)
+     {
+     abug = (SimpleBug)reaperQueue.removeFirst();
+     bugList.remove(abug);
+     abug.drop();
+     System.out.println("Bug " + abug.bugNumber + 
+          " has died of hunger.");
+     numberOfBugs -= 1;
+     }
+
+ // Check the number of remaining bugs and quit the simulation
+ // if there are none left, by terminating the ModelSwarm
+ // activity.
+ if (bugList.getCount() == 0)
+     getActivity().terminate();
+
+    }
+</programlisting>
+
+      <para>When a bug announces it death via the
+<methodname>bugDeath()</methodname> method, we check to make sure that
+the bug is where it thinks it is in our <varname>bugSpace</varname>.
+If it is, we remove the bug from <varname>bugSpace</varname> by
+putting a null at the bug's former location and then add the bug to
+the <varname>reaperQueue</varname> <classname>List</classname>.  Then
+we return to continue with the simulation.  Note that we do not at
+this point truly kill off the bug object by dropping it.  There still
+may be other bugs that have yet to take their random walks and the
+Swarm engine may therefore still be traversing the
+<varname>bugList</varname>.  It would be very bad form to change one
+of the <varname>bugList</varname> entries while the list was being
+traversed.</para>
+
+<para>Only after the <methodname>randomWalk()</methodname> message to
+all the bugs has been processed do we deal with the dead bugs by
+calling upon the <methodname>reapQueue()</methodname> method.  We loop
+through the <varname>reaperQueue</varname>, popping each dead bug off
+the list, removing it from <varname>bugList</varname>, dropping it,
+reporting its death to the console, and decrementing the number of
+bugs.  Once we have cleared the <varname>reaperQueue</varname>, we
+check <varname>bugList</varname> to make sure there are still some
+bugs left alive.  If not, we <methodname>terminate()</methodname> the
+ModelSwarm activity.  (We might have simply checked numberOfBugs
+rather than using <methodname>bugList.getCount() </methodname>, but
+the latter is safer.)</para>
+
+<para>We have only a few more changes to make to our application, all
+in <filename>ObserverSwarm.java</filename>.  The
+<classname>ZoomRaster</classname> object is capable of sending a
+message when it detects a mouse click on the raster display.  In
+ObserverSwarm's <methodname>buildObjects()</methodname> method we have
+added</para>
+
+      <programlisting>
+sel = SwarmUtils.getSelector(bugDisplay, "makeProbeAtX$Y");
+worldRaster.setButton$Client$Message(3, bugDisplay, sel);
+</programlisting>
+
+      <para><literal>Button 3</literal> is the right button on the
+mouse.  When the user right-clicks on the raster display, worldRaster
+sends the <methodname>makeProbeAtX$Y</methodname> message to the
+<classname>Object2dDisplay</classname> object,
+<varname>bugDisplay</varname>, along with the X,Y coordinates of the
+point clicked upon.  This instructs the <varname>bugDisplay</varname>
+object to create a complete probe map for the object at that location
+and to insert it in the <classname>ProbeLibrary</classname>.</para>
+
+<para>It would be nice if the ObserverSwarm kept track of the
+simulation time and the number of bugs, and reported their current
+values in ObserverSwarm's probe display.  We have therefore introduced
+two new variables, <varname>simulatedTime</varname> and
+<varname>numberOfBugs</varname>, which are kept current by the new
+<methodname>updateSimulatedTime()</methodname> method.  A message to
+call upon this method each period has been added to the
+<classname>ActionGroup</classname> (in
+<methodname>buildActions()</methodname>) before the message to update
+the probe displays. Finally, we warn the user if she tries to set
+either of these variables before the simulation begins.  It would be
+fruitless for her to do so.</para>
+
+<para>When we build and run this new application, we see the control
+panel and probe displays.  Change any of the display or model
+parameters (except <varname>simulationTime</varname> or
+<varname>numberOfBugs</varname>) and press <guibutton>START</guibutton>.
+Let the simulation run for a few periods and then press
+<guibutton>STOP</guibutton>.  Let's look at all we can do with the probe
+displays.</para>
+
+<para>In the upper left corner of a probe map window you will see the
+class name of the object being probed, highlighted in blue.  If you
+right click on that name, you will create another kind of probe
+display.  It looks similar to the previous one, except that there is a
+new button in the upper right corner with some connected green boxes.
+If you click on this with the left mouse-button, you will extend the
+probe display to show the super class of the object.  It too will have
+the green-box button, which you can click on again, and so on, to see
+the object's inheritance hierarchy all the way up to
+"<classname>Object</classname>" the root of all Swarm objects.</para>
+
+      <para>For instance, a <guibutton>SimpleBug</guibutton> is a
+subclass of <guibutton>SwarmObject</guibutton>, which is a subclass of
+<guibutton>CreateDrop</guibutton>, which is a subclass of
+<guibutton>CreateDrop_s</guibutton>, which is a subclass of
+<guibutton>Customize_s</guibutton>, which is a subclass of
+<guibutton>Object_s</guibutton>, which is a subclass of
+<guibutton>Object</guibutton>.  You can see what methods and variables
+an object has by virtue of inheriting from all of its super
+classes. </para>
+
+<para>To get rid of any probe display, or any frame in a probe
+display, just click the red circle-and-X button in the upper
+right-hand corner of the display.</para>
+
+<para>The probeDisplays will also allow you to alter the internal
+contents of an object. For instance you can alter the X and Y
+coordinates of a bug. When the simulation is stopped, click with the
+right mouse-button on a green or yellow bug on the raster window.  You
+will remember that this is a signal for bugDisplay to create a
+complete probe map for a bug and to display it.  Since this is a
+complete probe map, it will contain all of a SimpleBug's public
+instance variables.  Click with the left mouse-button in the field for
+the xPos in the probe display for a bug. The entry becomes
+highlighted, and you can type in some other (legal) value.  Press the
+"Enter" key to enter the value. You can do the same for the "yPos"
+value. Be sure to hit the "Enter" key after you have changed an
+entry. When you restart the simulation, the bug will appear at the new
+coordinate values.  The probe display for the bug will also remain on
+the screen as long as the bug stays alive.  You can use the display to
+track the bug's movements and its luck in finding food.</para>
+
+<para>You should not attempt to change entries that do not change
+during the simulation, like a bug's pointer to it's foodSpace, or its
+idea of the size of its world.</para>
+
+<para>With the probeDisplays, you can also invoke methods on objects.
+Try this: </para>
+
+<para>Click with the right mouse-button on the string "FoodSpace" in
+the bug's probe display. You will get a probe display on the
+foodSpace. This probe display has one entry: a method probe on the
+<methodname>seedFoodWithProb()</methodname> method of FoodSpace. If
+you enter 1.0 ("Enter"!)  into the argument slot to the right of the
+button, and then click the button, when you start the simulation
+again, you will have reseeded the foodSpace with food at every
+site.</para>
+
+<para>You can try pulling up probe displays on any object in the
+simulation this way, altering their variables and invoking their
+methods. </para>
+
+<para>Thus, the probe mechanism is a very powerful tool for observing
+the detailed state of a simulation, and for interacting with any
+object in the artificial world of the simulation. </para>
+
+      <para> Two Java applications,
+jheatbugs<application></application> and
+jmousetrap<application></application>, continue in the spirit of this
+tutorial.  The versions appropriate to the latest version of Swarm may
+be found at <ulink
+url="ftp://ftp.santafe.edu/pub/swarm/src/apps/java">ftp://ftp.santafe.edu/pub/swarm/src/apps/java</ulink>.
+There are also a growing number of applications and tools, in both
+Objective-C and Java, on Swarm's Community web page.</para>
+  </sect1>
+</article>
+
