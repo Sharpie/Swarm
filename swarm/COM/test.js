@@ -25,7 +25,7 @@ function test () {
   args.createBegin (env.globalZone);
 
   args = args.QueryInterface (Components.interfaces.swarmIFArgumentsC);
-  // args.setSelector (sel);       
+  args.setSelector (sel);       
   // args.addObject (sel);
 
   args = args.QueryInterface (Components.interfaces.swarmICreateC);
