@@ -1,0 +1,15 @@
+Begin4
+Title: Schelling2
+Version: 3.0
+Entered-date: 2005-02-14
+Description: A Schelling neighborhood segregation model whichdemonstrates the usage of a fast neighborhood conditions grid called Nhood2dCouner.  This model allows any number of races and also customization of the neighbohoods experienced by the agents.
+
+Keywords: Schelling, Discrete2d, agent-based model
+Author: Paul E Johnson
+Maintained-by: Paul E Johnson
+Primary-Site: ftp://ftp.swarm.org/pub/swarm/apps/contrib
+AlternateSite: http://lark.cc.ku.edu/~pauljohn/Swarm/MySwarmCode/Schelling
+Platforms: any Swarm site
+Copying-policy: GPL
+
+End
