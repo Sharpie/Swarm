@@ -1,4 +1,4 @@
-SUBDIRS = objc doc
+SUBDIRS = objc doc m4
 
 CURRENT = 0
 REVISION = 0

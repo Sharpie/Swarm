@@ -1,5 +1,7 @@
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (SUBDIRS): Add m4.
+
 	* Reorganized as standalone automake package with mframe support.
 
 Wed Jan 27 02:31:01 1999  Jeffrey A Law  (law@cygnus.com)
