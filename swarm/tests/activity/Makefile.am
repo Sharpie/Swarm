@@ -1,4 +1,6 @@
-include ../../etc/Makefile.tests.in
+etc_dir = $(shell cd ../../etc; pwd)
+
+include $(etc_dir)/Makefile.tests
 
 noinst_PROGRAMS = ForEachRandomized ForEach ActionGroupRandomized ActionGroup ConcurrentGroupRandomized ConcurrentGroup Schedule DynamicSchedule DynamicScheduleRepeat
 
