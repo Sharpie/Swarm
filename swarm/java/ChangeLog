@@ -1,3 +1,9 @@
+1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (C_EXTRA_DIST): Remove SwarmEnvironment.h.
+
+	* java-stub.el (java-print-native-class): Don't include jni.h.
+
 1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (JAVASWARMSCRIPTS): New substitution.

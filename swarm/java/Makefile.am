@@ -1,4 +1,4 @@
-C_EXTRA_DIST = c/directory.m c/directory.h c/setup.c c/Makefile.in c/JavaProxy.h c/JavaProxy.m c/SwarmEnvironment.h c/SwarmEnvironment.m c/ChangeLog
+C_EXTRA_DIST = c/directory.m c/directory.h c/setup.c c/Makefile.in c/JavaProxy.h c/JavaProxy.m c/SwarmEnvironment.m c/ChangeLog
 SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swarm/Selector.java swarm/NonUniqueMethodSignatureException.java swarm/SignatureNotFoundException.java
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
 EXTRA_SCRIPTS = javacswarm javaswarm

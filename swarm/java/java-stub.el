@@ -722,7 +722,6 @@
 (defun java-print-native-class (protocol)
   (with-protocol-c-file protocol
     (insert "#include \"directory.h\"\n")
-    (insert "#include <jni.h>\n")
     (insert "#import <defobj.h>\n")
     (let ((module-name (module-name (protocol-module protocol))))
       (unless (string= module-name "defobj")
