@@ -1,6 +1,9 @@
-2000-02-12    <mgd@nest.swarm.org>
+2000-02-18    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
+
+	* distributions.h: Add generator protocol conformance to arguments
+	in +create:set* methods.
 
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

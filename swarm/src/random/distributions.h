@@ -33,23 +33,19 @@ CREATING
 + createWithDefaults: (id <Zone>)aZone;
 
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create: (id <Zone>)aZone setGenerator: generator;
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>)generator;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create             : (id <Zone>)aZone 
-         setGenerator: generator
+         setGenerator: (id <SplitRandomGenerator>)generator
   setVirtualGenerator: (unsigned) vGen;
-
-+ createBegin: (id <Zone>)aZone;
-
-- createEnd;
 
 SETTING
 //M: Use this message if the generator to be attached is a Simple one:
-- setGenerator: generator;
+- setGenerator: (id <SimpleRandomGenerator>)generator;
 
 //M: Use this message if the generator to be attached is a Split one:
-- setGenerator       : generator 
+- setGenerator       : (id <SplitRandomGenerator>)generator 
   setVirtualGenerator: (unsigned)vGen;
 
 //M: The reset method resets the currentCount and other state data.
