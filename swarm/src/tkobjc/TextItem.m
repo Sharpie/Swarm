@@ -26,11 +26,26 @@
   return self ;
 }
  
+/* Might want to return an indicator of whether the given font is 
+ * available or not.
+ * Also might want to meld with NodeItem setfont method.
+ */
+- setText: (const char *) the_text usingFont: (const char *) the_font {
+  text = the_text;
+  font = the_font;
+  return self;
+}
+
+- setFont: (const char *) the_font {
+  font = the_font;
+  return self;
+}
+
 - createItem
 {
   [globalTkInterp eval: 
-    "%s create text %d %d -text \"%s\" -anchor c", 
-                  [canvas getWidgetName],x,y,text];
+    "%s create text %d %d -text \"%s\" -font %s -anchor c", 
+                  [canvas getWidgetName],x,y,text,font];
   
   item = strdup ([globalTkInterp result]);
   

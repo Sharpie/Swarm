@@ -1,3 +1,13 @@
+Thu Apr 09 21:56:00 1998    <gepr@swarm.com>
+
+	* TextItem.[hm]: New methods setText:usingFont: and setFont:
+	allow one to specify font to be used.  Added corresponding
+	IVar const char *font.
+
+	* NodeItem.[hm]: New methods setText:usingFont: and setFont:
+	allow one to specify font to be used.  Added corresponding
+	IVAR const char *font.
+	
 1998-04-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ZoomRaster.m ([ZoomRaster -handleConfigureWidth:Height:]): 

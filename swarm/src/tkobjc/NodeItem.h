@@ -13,12 +13,15 @@
   const char *text;
   const char *item;
   const char *string;
+  const char *font;
 }
 
 - setX: (int)x Y: (int)y;
 - (int)getX;
 - (int)getY;
 - setString: (const char *)string;
+- setFont: (const char *) the_font;
+- setString: (const char *) the_text usingFont: (const char*) the_font;
 - setColor: (const char *)aColor;
 - setBorderColor: (const char *)aColor;
 - setBorderWidth: (int)aVal;

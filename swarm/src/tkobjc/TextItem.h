@@ -12,10 +12,13 @@
 @interface TextItem: CanvasItem
 {
   const char *text;
+  const char *font;
   int x, y ;
 }
 
 - setX: (int) x Y: (int) y;
-- setText: (const char *) text;
+- setText: (const char *) the_text;
+- setText: (const char *) the_text usingFont: (const char *) the_font;
+- setFont: (const char *) the_font;
 - createItem;
 @end
