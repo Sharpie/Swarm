@@ -1,5 +1,7 @@
 1998-04-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* collections.h: Add documentation tags.
+
 	* collections.h: New protocols: MemberType, IndexSafety, Offsets, 
 	ForEach.  (Collection): Include them.
 	New protocols: DefaultMember, MemberBlock.
