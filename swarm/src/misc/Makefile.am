@@ -12,12 +12,12 @@ lib_LTLIBRARIES = libmisc.la
 
 SRC = getopt.c getopt1.c \
 	strdup.c strndup.c strsep.c stpcpy.c strnlen.c strcmp.c strchr.c \
-	memset.c memcpy.c \
+	memset.c memcpy.c memchr.c \
 	xmalloc.c realpath.c find_executable.c \
 	argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
 	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c
 
-noinst_HEADERS = argp-fmtstream.h argp-namefrob.h
+noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h
 
 libmisc_la_SOURCES = $(SRC)
 libmisc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
