@@ -23,7 +23,6 @@ CREATING
 USING
 - getState;
 - setState: s;
-- waitForControlEvent;
 
 - startInActivity: activityID;
 - setStateRunning;
@@ -83,6 +82,7 @@ USING
 - createProcCtrl;
 - getPanel;
 - doTkEvents;  // should change to pollGUI or something
+- waitForControlEvent;
 @end
 // Type Symbols for ActionCache
 extern id <Symbol> Control, Probing, Spatial;

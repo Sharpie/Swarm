@@ -1,3 +1,9 @@
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ActionCache.m ([ActionCache -deliverActions]): For Stop
+	call actionHolder if there isn't an activity.  Don't attempt
+	reschedule if there isn't a current activity.
+
 1998-01-27  Marcus G. Daniels  <mgd@grasshopper.santafe.edu>
 
 	* global.h (initSwarm): Constify argv.

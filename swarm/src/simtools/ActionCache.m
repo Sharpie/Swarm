@@ -130,11 +130,18 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
           //[actionHolder setActionTarget: schedControl];
           // if "Stop" then schedule a "stop" to the activitycontrol
           if (strcmp (actionName, "Stop") == 0)
-            [destinationSchedule 
-              at:
-                getCurrentTime () + 1
-              createActionTo: [actionHolder getActionTarget] 
-              message: [actionHolder getSelector]];
+            {
+              if (getCurrentActivity ())
+                [destinationSchedule 
+                  at:
+                    getCurrentTime () + 1
+                  createActionTo: [actionHolder getActionTarget]
+                  message: [actionHolder getSelector]];
+              else
+                // Assume we are being called directly, and do it.
+                [[actionHolder getActionTarget]
+                  perform: [actionHolder getSelector]];
+            }
           // if "Save", "Start", "Step", or "Quit" send a message directly
           // to activitycontroller
           else if (strcmp (actionName, "Step") == 0
@@ -164,11 +171,13 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
       
     }
   [cacheIndex drop];
-  
-  // reschedule myself for next cycle
-  [destinationSchedule at: getCurrentTime () + 1 
-		       createActionTo: self 
-		       message: M(deliverActions)];
+
+  // Reschedule myself for next cycle, otherwise do nothing, assuming
+  // we are being called directly.
+  if (getCurrentActivity ())
+    [destinationSchedule at: getCurrentTime () + 1 
+                         createActionTo: self 
+                         message: M(deliverActions)];
   
   return self;
 }
