@@ -13,6 +13,13 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
      for controlling whether or not language-specific method implementations
      can be cached across a collection.
 **** Java Collections can be passed to createActionForEach.
+*** defobj
+**** HDF5Archiver and LispArchiver no longer require use of registerClient:/
+     updateArchiver: API in order to write data.  Serialization is immediate
+     on put{Deep,Shallow}:object:.  HDF5 does a direct write, and Lisp manages
+     cached streams.
+*** collections
+**** OutputStream now can create expressions like InputStream provides.
 
 ** Performance
 *** Java <-> Objective C object lookups have been optimized.

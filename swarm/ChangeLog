@@ -1,3 +1,9 @@
+2000-01-03    <mgd@DRONE>
+
+	* VERSION: Bump.
+
+	* NEWS: Note HDF5 and Lisp Archiver improvements.
+
 1999-12-27    <mgd@DRONE>
 
 	* NEWS: Note fix for getObject after put{Deep,Shallow}:object:
