@@ -1,3 +1,7 @@
+2004-02-25  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Makefile.am:add libswarmobjc to libswarm deps.
+	
 2004-02-02  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.am:fix problems with external avcall by

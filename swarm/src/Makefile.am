@@ -28,7 +28,7 @@ AGE = 0
 
 lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
-libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la)
+libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la) ../libobjc/libswarmobjc.la
 
 libswarm_la_SOURCES = SwarmEnvironment.m classList.m
 BUILT_SOURCES = classList.m
