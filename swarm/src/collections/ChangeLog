@@ -1,3 +1,7 @@
+2003-05-05    <mgd@arrow.santafe.edu>
+
+	* InputStream.m ([InputStream -getExpr]): Treat #() like #1().
+
 2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
 
 	* Makefile.am (install-data-local): $(DESTDIR) added
