@@ -2,6 +2,23 @@
 <!entity randomrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Random Revision History//EN">
 <!entity randommeta.sgml PUBLIC "-//SFI Hive//ENTITIES Random Metadata//EN">
 <!entity random00.sgml PUBLIC "-//SFI Hive//ENTITIES Random Introduction//EN">
+<!entity random-app.sgml PUBLIC "-//SFI Hive//ENTITIES Random Appendix//EN">
 <!entity randompages.sgml PUBLIC "-//SFI Hive//ENTITIES Random Generated Content//EN">
-<!entity README.Generators.v075 PUBLIC "-//SFI Hive//ENTITIES Random README For Generators//EN">
-<!entity README.Distributions.v07 PUBLIC "-//SFI Hive//ENTITIES Random README For Distributions//EN">
+<!entity README.Distributions-0.8.sgml PUBLIC "-//SFI Hive//ENTITIES Random README For Distributions//EN">
+<!entity README.Generators-0.8.sgml PUBLIC "-//SFI Hive//ENTITIES Random README For Generators//EN">
+<!entity README.Random-0.8.sgml PUBLIC "-//SFI Hive//ENTITIES Random README For This Release//EN">
+<!entity Table.Generators.Data.sgml PUBLIC "-//SFI Hive//ENTITIES Random Table of Generator Characteristics//EN">
+<!entity Table.Generators.Quality.sgml PUBLIC "-//SFI Hive//ENTITIES Random Table of Generator Test Results//EN">
+<!entity Usage-Guide.Choosing-A-Generator.sgml PUBLIC "-//SFI Hive//ENTITIES Random Guide to Choosing a Generator//EN">
+<!entity Usage-Guide.Default-Generators.sgml PUBLIC "-//SFI Hive//ENTITIES Random Description of Default Generators//EN">
+<!entity Usage-Guide.Distributions.sgml PUBLIC "-//SFI Hive//ENTITIES Random User Guide to Distributions//EN">
+<!entity Usage-Guide.For-Beginners.sgml PUBLIC "-//SFI Hive//ENTITIES Random User Guide For Beginners//EN">
+<!entity Usage-Guide.Generators.sgml PUBLIC "-//SFI Hive//ENTITIES Random User Guide to Generators//EN">
+<!entity Usage-Guide.Resources.sgml PUBLIC "-//SFI Hive//ENTITIES Random Source Resources//EN">
+<!entity Usage-Guide.Bibliography.sgml PUBLIC "-//SFI Hive//ENTITIES Random Source Bibliography//EN">
+<!entity Usage-Guide.Test-Programs.sgml PUBLIC "-//SFI Hive//ENTITIES Random Description of Test Programs//EN">
+<!entity Usage-Guide.file-list PUBLIC "-//SFI Hive//ENTITIES Random Index to documentation files//EN">
+<!entity Whats-New-0.8 PUBLIC "-//SFI Hive//ENTITIES Random Description of Current Additions//EN">
+<!entity Whats-Changed-0.8 PUBLIC "-//SFI Hive//ENTITIES Random Description of Current Changes//EN">
+<!entity Whats-Left-ToDo-0.8.sgml PUBLIC "-//SFI Hive//ENTITIES Random Description of Work To Be Done//EN">
+

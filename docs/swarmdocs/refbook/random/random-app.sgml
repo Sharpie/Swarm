@@ -1,0 +1,109 @@
+<appendix id="SWARM.RANDOM.SGML.APPENDIX">
+  <title>Random Library Appendix</title>
+
+  &Usage-Guide.For-Beginners.sgml;
+
+  <sect1 id="swarm.random.sgml.appendix.usage.sect1">
+
+    <title>Usage Guide</title>
+
+    <SECT2 id="swarm.random.sgml.appendix.generator-usage.sect2">
+
+      <TITLE>Usage Guide for Generators</TITLE>
+      
+      &Usage-Guide.Generators.sgml;
+
+    </SECT2>
+
+    <SECT2 id="swarm.random.sgml.appendix.distrib-usage.sect2">
+      <TITLE>Usage Guide for Distributions</TITLE>     
+
+      &Usage-Guide.Distributions.sgml;
+
+    </SECT2>
+
+  </SECT1>
+
+
+  <sect1 id="swarm.random.sgml.appendix.adv-usage.sect1">
+    <title>Advanced Usage Guide</title>
+
+    <para>This section amplifies the Usage Guide with material on how to 
+      choose a random generator for your simulation, what default generators
+      have been implemented for the distribution objects, and information
+      on the set of test programs used.
+    </para>
+
+    <sect2>
+      <title>Choosing a Generator</title>
+
+      &Usage-Guide.Choosing-A-Generator.sgml;
+
+      &Table.Generators.Quality.sgml;
+     
+      &Table.Generators.Data.sgml;
+      
+    </sect2>
+
+    <sect2>
+      <title>Default Generators for the Distributions</title>
+
+      &Usage-Guide.Default-Generators.sgml;
+
+    </sect2>
+
+    <sect2>
+      <title>Random Library Test Programs</title>
+      &Usage-Guide.Test-Programs.sgml;
+    </sect2>
+
+  </sect1>
+
+  <sect1 id="swarm.random.sgml.appendix.implementation.sect1">
+    <title>Implementation details</title>
+
+    <para>This section provides implementation details for the current
+      version of the random library.
+    </para>
+
+     &README.Random-0.8.sgml;
+     &README.Generators-0.8.sgml;
+     &README.Distributions-0.8.sgml;
+
+<!-- &Whats-New-0.8;
+     &Whats-Changed-0.8;-->
+
+    <sect2>
+      <title>Programming yet to do</title>
+
+      <para>Like many Open Source projects, this random-number library
+        is a work in process. Further developments still on the to-do
+        list are detailed below.
+      </para>
+      
+      &Whats-Left-ToDo-0.8.sgml;
+
+    </sect2>
+
+  </sect1>
+
+  <sect1 id="swarm.random.sgml.appendix.reference.sect1">
+    <title>Resources for random number generation</title>
+
+    <para>This section lists some of the source reference material
+      used in programming the random generators and distributions.
+      The following is a list of source articles or books from which
+      the generator and distribution objects were implemented</para>
+
+    &Usage-Guide.Resources.sgml;
+    &Usage-Guide.Bibliography.sgml;
+
+  </sect1>
+
+</appendix>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "APPENDIX")
+End:
+-->

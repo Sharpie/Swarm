@@ -3,25 +3,24 @@
   <SIDEBAR>
     <TITLE>Overview</TITLE>
  
-    <PARA>First, a few thoughts on pseudorandom number
-      generation. It's hard to do right. There are many problems: the
-      root cause, of course, is that computer algorithms themselves
-      are not random. But there are also problems with defining
-      "random", coming up with good tests for generators, and
-      implementing algorithms correctly and efficiently. The history
-      of pseudorandom number generation in simulation work is mostly
-      embarassing. This library attempts to do a decent job of
-      generating random numbers, as well as documenting how things
-      work and what shortcomings there are. If you want to learn more
-      about random number generation, the bibliography has useful
-      notes [See:
-      <FILENAME>$(SWARMDOCS)/refbook/random/extra/SOURCES.for.0.7]</FILENAME>
-      where $(SWARMDOCS) is the path to the home directory of the
-      swarmdocs package, which is used to generate this documentation,
-      which can be found at: <ULINK
-      url="ftp://ftp.santafe.edu/pub/swarm/swarmdocs-&swarm-doc-release-number;.tar.gz">swarmdocs-&swarm-doc-release-number;.tar.gz</ULINK>.
+    <PARA>First, a few thoughts on random number generation. It's hard
+      to do right! The root cause, of course, is that computer
+      algorithms themselves are not truly random. (Hence this library
+      contains pseudo-random generators only.)
+
+      There are many problems in implementing algorithms correctly and
+      efficiently, and in coming up with good tests for generators and
+      distributions. The history of pseudorandom number generation in
+      simulation work is mostly embarrassing. This library attempts to
+      do a decent job of generating random numbers, as well as
+      documenting how things work and what shortcomings there are.
+
+      If you want to learn more about random number generation, the
+      bibliography has useful notes (see <link
+      linkend="swarm.random.sgml.bibliography">Bibliography</link>)
       Knuth is the main reference in this realm, but too old to
-      describe most of the particular generators used here.
+      describe most of the particular generators used here, many of
+      which are drawn from recent literature.
     </PARA>
 
   </SIDEBAR>
@@ -33,25 +32,22 @@
     &lt;random.h&gt;:</PARA>
 
 <PROGRAMLISTING>
-#import &lt;defobj.h&gt;
+#import &lt;objectbase.h&gt;
 #import &lt;random/generators.h&gt;
 #import &lt;random/distributions.h&gt;
-#import &lt;random/RandomDefs.h&gt;
-#import &lt;random/RandomVars.h&gt;</PROGRAMLISTING>
+#import &lt;random/randomdefs.h&gt;
+#import &lt;random/randomvars.h&gt;</PROGRAMLISTING>
 
-    <PARA>The <EMPHASIS>defobj</EMPHASIS> library interface is
+    <PARA>The <EMPHASIS>objectbase</EMPHASIS> library interface is
       included to provide the basic object
-      support. <FILENAME>RandomDefs.h</FILENAME> contains some C
+      support. <FILENAME>randomdefs.h</FILENAME> contains some C
       preprocessor macros and typedefs used in the library.</PARA>
 
-    <PARA>This reference guide shows contains the object definitions
-      for generators and distributions and also encodes the
+    <PARA>This reference guide contains the object definitions
+      for generators and distributions (see the list above) 
+      and also encodes the
       inheritance structure through the "Protocols that this protocol
       uses" section of each protocol. 
-
-      <!-- The complete set of methods implemented by these objects
-      have been subdivided into sub-protocols of methods that belong
-      together logically. -->
 
       Just click on a (sub-)protocol name to see what methods it
       implements. (You may want to review the section on Protocols in
@@ -59,23 +55,34 @@
 
     </PARA>
 
-    <para>In the protocol described , any protocol that ultimately
+    <para>In the protocols described, any protocol that ultimately
       inherits from CREATABLE defines an object that you can use in
-      your program. (This is part of the Swarm DefObj machinery.) In
+      your program. (This is part of the Swarm defobj machinery.) In
       other words, while 'InternalState' is a normal protocol (a list
-      of method definitions), the name 'ACGgen' refers to both a
+      of method definitions), the name `ACGgen' refers to both a
       protocol and a class that implements that protocol. (You create
-      an ACG generator by saying myGen = [ACGgen create:
-      ....]). Similarly, 'GammaDist' defines both a protocol and a
-      class that implements that protocol.</para>
+      an ACG generator by saying <FUNCTION>myGen = [ACGgen create:
+      ....]).</FUNCTION> Similarly, 'GammaDist' defines both a protocol 
+      and a class that implements that protocol.</para>
 
     <para>All generators and distributions ultimately inherit from
       SwarmObject.</para>
       
-      <PARA>The two files 'methods.SimpleGenerators.h' and
-      'methods.SplitGenerators.h' in directory /random/docs show
-      the complete sets of methods implemented for the two most
-      common types of generator.
+<!--
+    These files now deleted!! - AKL.
+      The two files 'common.methods.generators.simple' and
+      'common.methods.generators.split' in directory
+      <FILENAME>/$(SWARMDOCS)/refbook/random/extra</FILENAME> show the
+      complete sets of methods implemented for the two most common
+      types of generator.
+-->
+
+     <PARA><FILENAME>$(SWARMDOCS)</FILENAME> is the path to the home
+      directory of the swarmdocs package, which is used to generate
+      this documentation. This package can be found at:
+      <ULINK url="ftp://ftp.santafe.edu/pub/swarm/swarmdocs-&swarm-doc-release-number;.tar.gz">
+      swarmdocs-&swarm-doc-release-number;.tar.gz</ULINK>)
+
     </PARA>
     
   </SECT1>
@@ -101,6 +108,17 @@
           </PARA>
         </FORMALPARA>
       </LISTITEM>
+      <LISTITEM>
+        
+        <FORMALPARA>
+          <TITLE>1.1, 1.2, 1.3, 1.3.1, 1.4</TITLE>
+          
+          <PARA>There were no major compatibility issues in these
+            releases.
+
+          </PARA>
+        </FORMALPARA>
+      </LISTITEM>
     </ITEMIZEDLIST>
     
   </SECT1>
@@ -111,57 +129,34 @@
     <SECT2>
       <TITLE>Overview</TITLE>
 
-      <PARA>The <EMPHASIS>random</EMPHASIS> library basically consists
-        of two parts, the actual pseudorandom number algorithms and
-        the transformations that change the output of the pseudorandom
-        number algorithms into the simulated distributions.  The
-        pseudorandom number algorithms are called
-        <EMPHASIS>generators</EMPHASIS> throughout these documents and
-        many times the "pseudo" is dropped from pseudorandom, even
-        though there is no true random number generator implemented in
-        Swarm.
+      <PARA>The <EMPHASIS>random</EMPHASIS> library contains two kinds
+        of objects, the <EMPHASIS>generators</EMPHASIS> which implement
+        different pseudo-random-number algorithms, and the 
+        <EMPHASIS>distributions</EMPHASIS> which transform the (uniform)
+        output from the generators into the desired simulated statistical
+        distributions. Note that the Swarm random library does not 
+        implement any <EMPHASIS>true</EMPHASIS> random number generators 
+        at this time.
       </PARA>
 
     </SECT2>
 
     <SECT2>
 
-      <TITLE>Generator Usage Notes</TITLE>
+      <TITLE>Usage Guide for Generators</TITLE>
       
-      <SIMPLELIST>
-        <MEMBER>Primary Author: Sven Thommsen</MEMBER>
-        <MEMBER><EMAIL>sthomme@humsci.auburn.edu</EMAIL></MEMBER>
-        <MEMBER>Notes on the use of the random number generator</MEMBER>
-        <MEMBER>random 0.75</MEMBER>
-        <MEMBER>1997-12-08</MEMBER>
-      </SIMPLELIST>
-
-      <NOTE>
-
-<LITERALLAYOUT>
-&README.Generators.v075;
-</LITERALLAYOUT>
-      </NOTE>
+     <para>Please see the <link
+     linkend="swarm.random.sgml.appendix.generator-usage.sect2">Random
+     Appendix</link>.</para>
 
     </SECT2>
-
     <SECT2>
-      <TITLE>Distribution Usage Note</TITLE>     
+      <TITLE>Usage Guide for Distributions</TITLE>     
 
-      <SIMPLELIST>
-        <MEMBER>Primary Author: Sven Thommsen</MEMBER>
-        <MEMBER><EMAIL>sthomme@humsci.auburn.edu</EMAIL></MEMBER>
-        <MEMBER>Notes on the use of the distribution objects</MEMBER>
-        <MEMBER>random 0.7</MEMBER>
-        <MEMBER>1997-09-01</MEMBER>
-      </SIMPLELIST>
-      <NOTE>
+     <para>Please see the <link
+     linkend="swarm.random.sgml.appendix.distrib-usage.sect2">Random
+     Appendix</link>.</para>
 
-<LITERALLAYOUT>
-&README.Distributions.v07;
-</LITERALLAYOUT>
-
-      </NOTE>
     </SECT2>
 
   </SECT1>
@@ -169,60 +164,55 @@
   <SECT1 ID="SWARM.RANDOM.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
-    <PARA>Unavailable</PARA>
+     <para>Please see the <link
+     linkend="swarm.random.sgml.appendix.adv-usage.sect1">Random
+     Appendix</link>.</para>
 
   </SECT1>
 
   <SECT1 ID="SWARM.RANDOM.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
-    <PARA>Unavailable</PARA>
+    <PARA>Random library objects do not do anything exotic during the
+      create phase. The competent programmer may subclass these objects
+      in the normal manner.
+    </PARA>
 
   </SECT1>
 
   <SECT1 ID="SWARM.RANDOM.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
-    <PARA>Never has a Swarm library interface been debated as this one
-      was (and still is).  This document will attempt to provide some
-      of the rational for the decisions made by echoing some of the
-      controversial issues covered in the debates on the interface.
-      (These discussions overlapped into implementation.  But, the
-      point, here, is to give people an idea of the complexity of the
-      issues involved in useful pseudo-random number use in
-      simulation.)</PARA>
+    <PARA>Different aspects of the random library interface were hotly
+      debated, as were various aspects of implementation. What you get
+      in the current library reflects this debate, tempered with the 
+      implementor's preferences.
 
-    <FORMALPARA><TITLE>Issues:</TITLE>
+      The list below shows <EMPHASIS>some</EMPHASIS> of the issues that
+      went into designing this library. 
+
+      </PARA>
+
+    <FORMALPARA><TITLE>Issues</TITLE>
 
       <PARA><ITEMIZEDLIST> 
 
-          <LISTITEM><PARA>Different classes for generators or
-          variants?  Ref: 
-              
-              <ULINK URL="http://www.sela.co.il:8080/swtrain/new/shai/tgp.ps">
-                http://www.sela.co.il:8080/swtrain/new/shai/tgp.ps
-              </ULINK>.
-          
-            </PARA>
+          <LISTITEM><PARA>What generators to provide?</PARA></LISTITEM>
 
-          </LISTITEM>
-          
           <LISTITEM><PARA>Include non-recommended
               generators?</PARA></LISTITEM>
 
-          <LISTITEM><PARA>Seed vs. State for generators?</PARA></LISTITEM>
+          <LISTITEM><PARA>What distributions to provide?</PARA></LISTITEM>
 
           <LISTITEM><PARA>What is "state" and how do we handle
           it?</PARA></LISTITEM>
 
-          <LISTITEM><PARA>Larger issue of debugging support via an object
-            reporting its own configuration via a special method and
-            how this relates to object state reporting and object
-            saving.</PARA></LISTITEM>
+          <LISTITEM><PARA>Setting Seed vs. State for generators
+          </PARA></LISTITEM>
 
           <LISTITEM><PARA>Separate classes for separate distribution
-            types (e.g.  double, integer, unsigned ::
-            continuous/discrete)?</PARA></LISTITEM>
+            types (e.g.  double, integer, unsigned; continuous vs. discrete) ?
+          </PARA></LISTITEM>
 
           <LISTITEM><PARA>Problems with the transformation from
             generator output to distribution output.</PARA></LISTITEM>
@@ -236,94 +226,30 @@
 
           <LISTITEM><PARA>Efficiency!</PARA></LISTITEM>
 
-          <LISTITEM><PARA>What distributions to provide?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>What generators to provide?</PARA></LISTITEM>
-
           <LISTITEM><PARA>Open vs. Closed intervals?</PARA></LISTITEM>
 
-          <LISTITEM><PARA>Programmed default generators, seeds, and
+          <LISTITEM><PARA>Should we provide default generators, seeds, and
               states?</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Programming by committee?  (a.k.a. Software
-              process!)</PARA></LISTITEM>
 
           <LISTITEM><PARA>Shorthand create methods?</PARA></LISTITEM>
 
           <LISTITEM><PARA>Potential phase optimizations?</PARA></LISTITEM>
 
-          <LISTITEM><PARA>Random number streams, syncing limit cycles, and
-            proper simulation vs. code debugging.  (This is a
-            <EMPHASIS>HOT ONE</EMPHASIS>.)</PARA></LISTITEM>
-
-          <LISTITEM><PARA>Library interchangeability.</PARA></LISTITEM>
-
         </ITEMIZEDLIST>
       </PARA>
     </FORMALPARA>
-
-    <PARA>These are just the questions and issues.  Some addition
-      should follow (when there's time) addressing each issue and
-      giving rationale for what we chose.  But, that's a big
-      job.</PARA>
 
   </SECT1>
 
   <SECT1 ID="SWARM.RANDOM.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
-    <PARA>The code here represents an effort to implement several
-      efficient, reasonably safe generators. The algorithms come from
-      reading the literature [See:
-      <LITERAL>$(SWARMDOCS)/refbook/random/extra/SOURCES.for.0.7]</LITERAL>:
-      these algorithms have been implemented as accurately as possible
-      and run through some simple tests.  There is always a chance
-      that some algorithm here is no good - there's also the chance
-      that it is implemented incorrectly.
-    </PARA>
-
-    <PARA>For best results, library users should test these generators
-      themselves in some domain-specific way. One easy way to do this
-      is to run an experiment twice: once with one class of generator
-      (say, PMMLCG), and once with another (say, SWB). If the results
-      differ radically, then you can suspect the generator.  If they
-      don't, well, the generator still might be faulty.</PARA>  <PARA></PARA>
-
-    <PARA>
-      There is also a tarball of test programs for the random number
-      library on the Swarm ftp site: 
-      
-      <ULINK URL="ftp://ftp2.santafe.edu/pub/swarm/RandomTests-0.7.tar.gz">
-        SwarmTests-0.7.tar.gz
-      </ULINK>
-
-    </PARA>
-
-    <PARA>The generators supplied with this release have been
-      subjected to statistical testing using George Marsaglia's
-      Diehard tests as well as John Walker's entropy tests (ENT).  The
-      results of these tests are summarized in the document
-      <LITERAL>$(SWARMDOCS)/refbook/random/extra/doc.quality.generators</LITERAL>.
-      Other properties of the generators are summarized in
-      <LITERAL>$(SWARMDOCS)/refbook/random/extra/generators.table</LITERAL>.
-      Some notes on how to choose a generator for your simulation are
-      found in
-      <LITERAL>$(SWARMDOCS)/refbook/random/extra/CHOOSING.A.GENERATOR</LITERAL>.
-    </PARA>
-    
-    <PARA>The ENT test is included in the tarball of test programs
-      found at the Swarm web site. The Diehard tests are copyright and
-      hence are not, but they can be downloaded from the web at 
-
-      <ULINK URL="http://www.hku.hk/internet/randomCD.html">
-        http://www.hku.hk/internet/randomCD.html
-      </ULINK>.
-
-    </PARA>
-
-    <PARA>The distribution objects have not been statistically tested.</PARA>
+     <para>Please see the <link
+     linkend="swarm.random.sgml.appendix.implementation.sect1">Random
+     Appendix</link>.</para>
 
   </SECT1>
+
 
 </PARTINTRO>
 
