@@ -1,3 +1,9 @@
+1998-06-01  Alex Lancaster  <alex@santafe.edu>
+
+	* collections.m (LiteralString): Redefine LiteralString as
+	LiteralString_ between the imports of collections.xm and
+	Collection.h to avoid redeclaration error.
+
 1998-06-01  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* collections.m: Put LiteralString global here.
