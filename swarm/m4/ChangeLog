@@ -1,3 +1,9 @@
+1998-12-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add achdf5.m4.
+
+	* achdf5.m4 (md_FIND_HDF5): New file.
+
 1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* acpng.m4 (md_FIND_PNG): Simplify usage to single argument.
