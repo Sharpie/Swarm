@@ -424,7 +424,6 @@ PHASE(Using)
     
     ffi_call (&cif, ffunction, &ret, fargs->argValues + 
               MAX_HIDDEN - fargs->hiddenArgumentCount);  
-  }
 #ifdef __mips64
 #define VAL(type, var) (*((type *)(((void *)&var)+(sizeof(var)-sizeof(type)))))
 #else
@@ -501,6 +500,7 @@ PHASE(Using)
       default:
         abort ();
       }
+  }
 #else
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
