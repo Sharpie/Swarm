@@ -1,0 +1,267 @@
+<APPENDIX ID="GRID.APP">
+  
+  <DOCINFO>
+    <TITLE>GridTurtle Test Programs</TITLE>
+  </DOCINFO>
+
+  <TITLE>GridTurtle Test Programs</TITLE>
+  
+
+  <SECT1>
+    <TITLE>Overview</TITLE>
+    
+    <PARA>The GridTurtle test programs are a collection of programs
+      which exercise basic capabilities of the defobj, collections,
+      and activity libraries.  These programs are always run on each
+      new release of these libraries as a partial test.  For the time
+      being they also serve to show examples of working code that
+      exercise basic capabilities or accomplishes particular tasks.
+    </PARA>
+    
+    <PARA>Note, however, that these are not good examples to learn
+      from, or examples to emulate!  The programs are not particularly
+      well-designed as either a systematic test or a useful series of
+      tutorial examples, but until there's anything else they help
+      serve for both.  To serve their role as test programs some of
+      these examples deliberately make use of the more obscure and
+      low-level features of the libraries they exercise.  Mixed in are
+      examples of many basic code fragments an application might need.
+      So be selective in what you use, and read the comments on each
+      program below.
+    </PARA>
+    
+    <PARA>Most of the programs in this directory use a simple type of
+      object called a "GridTurtle."  This type of object is an agent
+      that move around on a two-dimensional grid, always moving in a
+      current direction that it maintains internally.  This agent is
+      like a "turtle" of the original Logo system, except that its
+      position is constrained to discrete integer values of its X-Y
+      coordinates, and its direction is always one of the four
+      orthogonal directions north, east, south, or west.  The
+      GridTurtle object type is implemented using the <LINK
+      LINKEND="LIBRARY.APP">library interface conventions</LINK> of
+      the <LINK LINKEND="DEFOBJ.REF">defobj</LINK> library, and is
+      itself a defined module that must be initialized by any program.
+    </PARA>
+    
+  </SECT1>
+  
+  <SECT1>
+    
+    <TITLE>Summary of files</TITLE>
+    
+    <SECT2>
+      <TITLE>Main programs</TITLE>
+
+      <ITEMIZEDLIST>
+
+        <LISTITEM><FORMALPARA>
+            <TITLE><LINK LINKEND="GRID.GRID0.M">grid0.m</LINK></TITLE>
+            
+            <PARA> Initialization of library package.  (Swarm
+              applications ordinarily just call initSwarm() which
+              takes care of all needed library initialization.)  Basic
+              messages on GridTurtle object.</PARA></FORMALPARA>
+        </LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+            
+            <TITLE>
+              <LINK LINKEND="GRID.GRID1A.M">grid1a.m</LINK>,
+              <LINK LINKEND="GRID.GRID1B.M">grid1b.m</LINK>,
+              <LINK LINKEND="GRID.GRID1C.M">grid1c.m</LINK>
+            </TITLE>
+
+            <PARA>Tests of Array type.  The setInitialValue:,
+              setDefaultMember:, and setMemberBlock: options are each
+              tested by variants of the same basic
+              program.</PARA>
+          </FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA> 
+            
+            <TITLE>
+              <LINK LINKEND="GRID.GRID2.M">grid2.m</LINK>, <LINK LINKEND="GRID.GRID2B.M">grid2b.m</LINK></TITLE>
+
+            <PARA>Tests of List type.  grid2 also tests inheritance
+              from a class that implements the List type (not yet
+              supported, but does work).  grid2b uses an internal
+              member slot (a special low-level implementation feature)
+              in what is called a List, but should really be an
+              OrderedSet.  The messages being used for this are in the
+              process of being changed, and should not be
+              used.</PARA>
+          </FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+            
+            <TITLE><LINK LINKEND="GRID.GRID3.M">grid3.m</LINK>, <LINK
+            LINKEND="GRID.GRID3B.M">grid3b.m</LINK></TITLE>
+
+            <PARA>Tests of Map type.  grid3b uses an alternate compare
+              function to handle integers rather than id values as
+              keys.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA> 
+            
+            <TITLE><LINK LINKEND="GRID.GRID4.M">grid4.m</LINK>,
+              <LINK LINKEND="GRID.GRID4B.M">grid4b.m</LINK></TITLE>
+            
+            <PARA>Test of Set and OrderedSet types.  The OrderedSet
+              creation in grid4b uses message names that differ from
+              the currently documented
+              interface.</PARA></FORMALPARA>
+        </LISTITEM>
+
+        <LISTITEM><FORMALPARA> 
+            <TITLE><LINK LINKEND="GRID.GRID6.M">grid5.m</LINK></TITLE>
+
+            <PARA>Tests of ActionGroup execution independent of any
+              schedule, both by itself and within a
+              swarm.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+            <TITLE><LINK LINKEND="GRID.GRID6.M">grid5.m</LINK></TITLE>
+
+            <PARA>Test of running an entire top-level activity within
+              an action of an already running
+              activity.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA> 
+
+            <TITLE><LINK LINKEND="GRID.GRID7.M">grid7.m</LINK></TITLE>
+            <PARA>Tests of schedule execution and schedule merging,
+              using various combinations of absolute, relative, and
+              repeating schedules.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+
+            <TITLE><LINK LINKEND="GRID.GRID8.M">grid8.m</LINK></TITLE> 
+
+            <PARA>Basic test of schedules running within a simulation
+              swarm that is nested within an observer
+              swarm.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA> 
+
+            <TITLE><LINK LINKEND="GRID.GRID9.M">grid9.m</LINK></TITLE>
+            
+            <PARA>Test of two-level nested swarms using a custom
+              subclass for the swarm.  (Normal user subclassing should
+              use the Swarm superclass provided in the <LINK
+              LINKEND="OBJECTBASE.ref">objectbase</LINK>
+              library.)</PARA></FORMALPARA></LISTITEM>
+      </ITEMIZEDLIST>
+
+      <ITEMIZEDLIST>
+
+        <LISTITEM><FORMALPARA>
+
+            <TITLE><LINK LINKEND="GRID.MOUSETRAPS.M">mousetraps</LINK>,
+              <LINK LINKEND="GRID.MOUSETRAP.M">Mousetrap.m</LINK></TITLE>
+
+            <PARA>
+              Sample application (main program and supporting class)
+              that uses dynamic scheduling.  This application is much
+              the same as the mousetrap model of a nuclear chain
+              reaction that is also implemented as a stand-alone
+              application, but it runs outside any user interface
+              framework and links just with the core libraries defobj,
+              collections, and
+              activity.</PARA></FORMALPARA>
+        </LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+
+            <TITLE><LINK LINKEND="GRID.MOUSETRAPS2.M">mousetraps2</LINK>,
+              <LINK LINKEND="GRID.MOUSETRAP2.M">Mousetrap2.m</LINK></TITLE>
+            
+            <PARA>Variant of mousetraps that schedules actions at
+              subclock divisions of a coarser-grained schedule.  Used
+              to test this capability; intended only for specialized
+              use when ordinary time units can't be divided finely
+              enough.</PARA> </FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+            <TITLE><LINK LINKEND="GRID.STRTEST.M">strtest.m</LINK></TITLE>
+            
+            <PARA>Simple test of basic operations on the String
+              type.</PARA>
+          </FORMALPARA>
+
+        </LISTITEM>
+
+      </ITEMIZEDLIST>
+      
+    </SECT2>
+
+    <SECT2>
+      <TITLE>Support files</TITLE>
+      
+      <ITEMIZEDLIST>
+        
+        <LISTITEM><FORMALPARA>
+            <TITLE><LINK LINKEND="GRID.MAKEFILE">Makefile</LINK></TITLE>
+
+            <PARA>Make file for all programs in the directory.  Change
+              the SWARMHOME macro setting at the top to reflect
+              installation location of the swarm libraries relative to
+              the local directory.  This make file requires the GNU
+              make program; neither Sun nor other makes are compatible
+              with the GNU-specific conventions
+              used.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+            
+            <TITLE><LINK LINKEND="GRID.GRID.H">grid.h</LINK></TITLE>
+            
+            <PARA>Header file that defines the GridTurtle object type.
+              This file is also compiled to publish external
+              definitions for the grid module.  Conventions for coding
+              the header file of a library module are not fully
+              documented yet, but this is a working
+              sample.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+            <TITLE><LINK LINKEND="GRID.GRID.M">grid.m</LINK></TITLE>
+
+            <PARA>Initialization of the grid module.  Not normally a
+              part of an application program, but included to test
+              module facilities outside of a library.  Methods of
+              coding this file are not currently documented, but this
+              is a working sample.</PARA></FORMALPARA></LISTITEM>
+
+        <LISTITEM><FORMALPARA>
+            <TITLE>
+              <LINK LINKEND="GRID.GRIDTURTLE.M">GridTurtle.m</LINK>
+            </TITLE>
+            
+            <PARA>Code for the class that implements the GridTurtle
+              object type.  The interface for this type is specified in
+              the file grid.h.  Methods for coding classes that
+              implement a type (see <LINK LINKEND="LIBRARY.APP">
+                library interface conventions</LINK> for a summary of the
+              differences between types and classes) are not currently
+              documented.  The important thing to know is simply that a
+              library implements all the messages declared as part of a
+              type.</PARA></FORMALPARA></LISTITEM>
+
+      </ITEMIZEDLIST>
+    </SECT2>
+  </SECT1>
+
+  <SECT1>
+    <TITLE>GridTurtle Code examples</TITLE>
+
+    &gridexamples.sgml;
+
+   </SECT1>
+
+</APPENDIX>
+
+<!--
+Local Variables:
+sgml-parent-document:("refbook.sgml" "APPENDIX")
+End:
+-->
+ 
