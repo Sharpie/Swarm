@@ -1,5 +1,11 @@
 2000-06-18    <mgd@DRONE>
 
+	* ProbeMap.m ([ProbeMap -addProbeMap:], [ProbeMap -addProbe:]): 
+	Use SD_SUPERCLASS instead of class_get_super_class.
+
+	* CompleteProbeMap.m ([CompleteProbeMap -createEnd]): Use
+	classObject instead of isJavaProxy.
+
 	* ProbeMap.m [ProbeMap -addJavaFields:]): Use
 	m_ClassGetDeclaredFields with java_field_usable_p to get the
 	public fields, but not the inherited -- still need to add proper

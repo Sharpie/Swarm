@@ -42,12 +42,12 @@ PHASE(Creating)
   if (probes == nil)
     return nil;
 
+  classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+
 #ifdef HAVE_JDK
-  if (isJavaProxy)
+  if (classObject)
     { 
       jclass currentClass, nextClass;
-
-      classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
 
       if (!classObject)
 	raiseEvent (SourceMessage,

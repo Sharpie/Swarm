@@ -435,7 +435,7 @@ PHASE(Using)
 	
   aClass = [aProbeMap getProbedClass];
 
-  for (class = probedClass; class!=Nil; class = class_get_super_class (class))
+  for (class = probedClass; class != Nil; class = SD_SUPERCLASS (class))
     if (class == aClass)
       {
         index = [aProbeMap begin: globalZone];
@@ -474,7 +474,7 @@ PHASE(Using)
   
   for (class = probedClass;
        class != Nil;
-       class = class_get_super_class (class))
+       class = SD_SUPERCLASS (class))
     if (class == aClass)
       {
         [probes at: string insert: aProbe];
