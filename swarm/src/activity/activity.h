@@ -962,6 +962,7 @@ extern id _activity_context_error (const char *macroName);
 //S: Default type used as concurrent group of a swarm.
 //D: Concurrent group to order merge by activation order within swarm.
 
+USING
 //M: Method to sort concurrent merge actions in the order of swarm activation.
 - (void)addLast: mergeAction;
 

@@ -1,6 +1,7 @@
 1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* activity.h: Add/update documentation tags.
+	* activity.h: Add/update documentation tags.  Declare
+	addLast: and remove: (in using phase).
 
 1998-06-01  Alex Lancaster  <alex@santafe.edu>
 
