@@ -6,6 +6,10 @@ SUBDIRS = collections defobj activity \
 	analysis space \
 	misc
 
-all-pre-recursive:
+.PHONY: headers
+
+all-recursive: headers
+
+headers:
 	for i in $(SUBDIRS) ; do make -C $$i headers ; done
 
