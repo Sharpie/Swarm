@@ -1,3 +1,9 @@
+1998-06-03  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (CLEANFILES): Changed hardcoded refbook.rtf to
+	$(NAME).rtf.
+	Added Local variable mode for emacs makefile-mode.
+	
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (gridexamples.sgml): Remove unnecessary subshell for
