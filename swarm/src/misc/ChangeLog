@@ -1,3 +1,8 @@
+1999-07-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* argp-fmtstream.h, argp.h: Force __const to be const.
+	HPUX 11 defines __const causing mismatches.
+
 1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* dropdir.c (SLASHP): New macro. 

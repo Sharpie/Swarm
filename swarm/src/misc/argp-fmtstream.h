@@ -82,9 +82,9 @@ typedef FILE *argp_fmtstream_t;
 #else /* !ARGP_FMTSTREAM_USE_LINEWRAP */
 /* Guess we have to define our own version.  */
 
-#ifndef __const
+/* HPUX 11 defines this */
+#undef __const
 #define __const const
-#endif
 
 struct argp_fmtstream
 {

@@ -35,9 +35,9 @@ extern const char *program_invocation_name, *program_invocation_short_name;
 
 #define __need_error_t
 #include <errno.h>
-#ifndef __const
+/* HPUX 11 defines this. */
+#undef __const
 #define __const const
-#endif
 
 #ifndef __error_t_defined
 typedef int error_t;
