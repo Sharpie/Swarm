@@ -1,3 +1,7 @@
+1998-08-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.m: Include config.h.
+
 1998-07-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Create.m ([CreateDrop_s -getObjectName]): Don't add 0x if

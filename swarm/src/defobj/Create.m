@@ -11,6 +11,8 @@ Library:      defobj
 
 #import <defobj/Create.h>
 
+#include <config.h>
+
 #define ATDELIMCHAR '@'
 //
 // CreateDrop_s -- superclass for create protocol with phase switching
