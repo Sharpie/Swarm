@@ -1,3 +1,9 @@
+1998-10-09  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (AC_OUTPUT): Add etc/Makefile.common to list of
+	extracted files.
+	(swarm_includedir): Add new substituted variable.
+
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* NEWS: Note addition of --with-xpm*.
