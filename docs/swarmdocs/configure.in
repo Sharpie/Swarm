@@ -16,7 +16,7 @@ changequote([,])dnl
   docbookdtd_srcdir=$withval,dnl
   docbookdtd_srcdir=${DOCBOOKDTDDIR:-/DocBookDTD})
 
-AC_ARG_WITH(docbookstyle,dnl
+AC_ARG_WITH(stylesheet,dnl
 changequote(<,>)dnl
   --with-stylesheet=DIR   DocBook DSSSL in DIR [${DOCBOOKSTYLEDIR:-/DocBookStyleSheets}],dnl
 changequote([,])dnl

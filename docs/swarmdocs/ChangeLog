@@ -1,3 +1,7 @@
+1998-06-04  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* configure.in: Use `stylesheet' as argument to AC_ARG_WITH.
+	
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* catalog.in: New file.
