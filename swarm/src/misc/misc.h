@@ -15,7 +15,7 @@
 int gettimeofday (struct timeval *p, struct timezone *z);
 #endif
 
-#include "swarmconfig.h"
+#include <swarmconfig.h>
 
 #ifndef __ptr_t
 /* This is a macro and not a typedef so that it can be combined with const. */
