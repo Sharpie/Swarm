@@ -28,6 +28,8 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** Subclasses of Discrete2d didn't get their +createBegin:
     used in use of convenience constructor.  
     Thanks to Arend Ligtenberg for the report.
+*** Fixed another memory leak in the activity library.
+    Thanks to Jason Alexander.
 
 ** Autoconfiguration / Portability
 *** Support for LinuxPPC

@@ -599,18 +599,17 @@ installStep (Activity_c *activity)
     [registeredOwnerActivity->activitySet remove: self];
   if (activitySet)
     {
-      Activity_c *activity;
-
       if ([activitySet getCount] > 0)
         {
           id index = [activitySet begin: scratchZone];
           
-          for (activity = [index next];
-               [index getLoc] == Member;
-               activity = [index next])
+          [index next];
+          while ([index getLoc] == Member)
             {
-              [index remove];
+              Activity_c *activity = [index remove];
+
               [index prev];
+              [index next];
               [activity dropAllocations: components];
             }
           [index drop];
