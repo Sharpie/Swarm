@@ -987,7 +987,8 @@ extern id defobj_lookup_type (const char *name);
 #import <defobj/types.h>
 
 
-//F: initialize defobj with application info and custom Arguments class.
+//F: initialize defobj with application info, custom Arguments class, and
+//F: optional (or NULL) extra options w/ processing function.
 extern void initDefobj (int argc,
                         const char **argv, 
                         const char *version,
