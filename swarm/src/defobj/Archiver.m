@@ -506,16 +506,16 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
   
   [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  (list"];
   
-  [outputCharStream catC: "\n    (cons "];
   while ((app = [appMapIndex next: &appKey]))
     {
+      [outputCharStream catC: "\n    (cons "];
       lisp_print_appkey ([appKey getC], outputCharStream);
       [outputCharStream catC: "\n      (list"];
       lisp_output_objects ([app getLispShallowMap], outputCharStream, NO);
       lisp_output_objects ([app getLispDeepMap], outputCharStream, YES);
-      [outputCharStream catC: ")"];
+      [outputCharStream catC: "))"];
     }
-  [outputCharStream catC: ")))\n"];
+  [outputCharStream catC: "))\n"];
   [appMapIndex drop];
   return self;
 }

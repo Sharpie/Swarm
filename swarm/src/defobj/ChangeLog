@@ -1,5 +1,8 @@
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Archiver.m ([Archiver_c -lispOut:]): Put cons
+	(cons appKey objects) within loop over applications.
+
 	* HDF5Object.m, defobj.h ([HDF5_c -storeAttributeName:value:]):
 	New method (a parameterized storeTypeName:).
 	([HDF5_c -storeTypeName:]): Use it.
