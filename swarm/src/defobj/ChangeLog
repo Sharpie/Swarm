@@ -1,7 +1,9 @@
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* HDF5Object.m ([HDF -storeTypeName:]): Call hdf5_not_available when
-	HAVE_HDF5 not defined.
+	* HDF5Object.m, defobj.h ([HDF5_c -storeAttributeName:value:]):
+	New method (a parameterized storeTypeName:).
+	Call hdf5_not_availbe when HAVE_HDF5 undefined.
+	([HDF5_c -storeTypeName:]): Use it.
 
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

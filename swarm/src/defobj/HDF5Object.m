@@ -14,10 +14,10 @@
 #include <hdf5.h>
 #include <misc.h> // strncpy
 #include <math.h> // log10
+#define ATTRIB_TYPE_NAME "type"
 
 #define REF2STRING_CONV "ref->string"
 #define ROWNAMES "row.names"
-#define ATTRIB_TYPENAME "type"
 
 static unsigned hdf5InstanceCount = 0;
 
@@ -267,6 +267,12 @@ PHASE(Using)
 
 - storeTypeName: (const char *)typeName
 {
+  [self storeAttribute: ATTRIB_TYPE_NAME value: typeName];
+  return self;
+}
+
+- storeAttribute: (const char *)attributeName value: (const char *)valueString
+{
 #ifdef HAVE_HDF5
   hid_t type_tid, type_sid, type_aid;
   hsize_t dims[1];
@@ -276,17 +282,17 @@ PHASE(Using)
   
   if ((type_tid = H5Tcopy (H5T_C_S1)) < 0)
     raiseEvent (SaveError, "unable to copy string type");
-  if ((H5Tset_size (type_tid, strlen (typeName) + 1)) < 0)
+  if ((H5Tset_size (type_tid, strlen (valueString) + 1)) < 0)
     raiseEvent (SaveError, "unable to set string size");
   if ((type_sid = H5Screate_simple (1, dims, NULL)) < 0)
     raiseEvent (SaveError, "unable to create row names data space");
   
-  if ((type_aid = H5Acreate (did, ATTRIB_TYPENAME,
+  if ((type_aid = H5Acreate (did, attributeName,
                              type_tid, type_sid, H5P_DEFAULT)) < 0)
     raiseEvent (SaveError, 
                 "unable to create type attribute dataset");
   
-  if (H5Awrite (type_aid, type_tid, (void *) typeName) < 0)
+  if (H5Awrite (type_aid, type_tid, (void *) valueString) < 0)
     raiseEvent (SaveError, "unable to write type name attribute");
 
   if (H5Aclose (type_aid) < 0)

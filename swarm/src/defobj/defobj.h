@@ -974,6 +974,7 @@ USING
 - (const char *)getName;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;
+- storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - storeObject: obj;
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;

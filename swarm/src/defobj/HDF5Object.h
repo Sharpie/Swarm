@@ -63,6 +63,7 @@
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
 - storeTypeName: (const char *)typeName;
+- storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - storeObject: obj;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - (const char *)getName;
