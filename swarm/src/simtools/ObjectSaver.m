@@ -6,8 +6,6 @@
 #import <simtools/ObjectSaver.h>
 #import <simtools/OutFile.h>
 
-#include <stdio.h>
-
 id <Error> CouldNotSave;
 
 @implementation ObjectSaver

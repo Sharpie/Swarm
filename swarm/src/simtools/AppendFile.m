@@ -5,7 +5,7 @@
 
 #import <simtools/AppendFile.h>
 
-#include <stdio.h>
+#include <misc.h> // fopen
 
 @implementation AppendFile
 

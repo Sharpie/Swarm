@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/OutFile.h>
-#include <stdio.h>
+#include <misc.h> // fopen, fprintf, fclose
 
 id <Warning> CannotOpenOutFile;
 
@@ -62,19 +62,19 @@ id <Warning> CannotOpenOutFile;
 
 - putUnsignedLong: (unsigned long)anUnsLong
 {
-  fprintf(theFile, "%lu", anUnsLong);
+  fprintf (theFile, "%lu", anUnsLong);
   return self;
 }
 
 - putDouble: (double)aDouble
 {
-  fprintf(theFile, "%+24.16e", aDouble);
+  fprintf (theFile, "%+24.16e", aDouble);
   return self;
 }
 
 - putFloat: (float)aFloat
 {
-  fprintf(theFile, "%+15.7e", aFloat);
+  fprintf (theFile, "%+15.7e", aFloat);
   return self;
 }
 

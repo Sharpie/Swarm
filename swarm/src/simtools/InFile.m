@@ -6,7 +6,7 @@
 #import <simtools/InFile.h>
 #import <collections.h>
 
-#include <stdio.h>
+#include <misc.h> // fopen, fgetc, fscanf, fclose, ungetc
 
 id <Warning> CannotOpenInFile;
 

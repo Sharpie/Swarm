@@ -7,7 +7,6 @@
 #import <simtools/InFile.h>
 #import <objectbase.h> // probeLibrary, arguments
 
-#include <stdio.h>
 #include <misc.h> // stpcpy
 
 @implementation ObjectLoader
