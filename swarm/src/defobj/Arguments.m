@@ -690,12 +690,12 @@ expandvars (const char *path)
 
 - (const char *)getConfigPath
 {
-  return [self _getPath_: SYSCONFDIR "swarm/" subpath: "etc/swarm/"];
+  return [self _getPath_: SYSCONFDIR "/swarm/" subpath: "etc/swarm/"];
 }
 
 - (const char *)getDataPath
 {
-  return [self _getPath_: DATADIR "swarm/" subpath: "share/swarm/"];
+  return [self _getPath_: DATADIR "/swarm/" subpath: "share/swarm/"];
 }
 
 #ifdef __CYGWIN__

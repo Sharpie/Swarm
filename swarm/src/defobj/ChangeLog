@@ -1,3 +1,10 @@
+1999-08-06  Alex Lancaster  <alex@santafe.edu>
+
+	* Arguments.m ([Arguments_c -getConfigPath]): Prepend a forward
+	slash before `swarm' subdirectory, as SYSCONFDIR does not always
+	generate a slash.
+	([Arguments_c -getDataPath]): Likewise.
+
 1999-08-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FArguments.h (MAX_ARGS): Increase from 5 to 10.
