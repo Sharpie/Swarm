@@ -271,9 +271,9 @@ PHASE(Using)
 
 - fastFillWithObject: anObj
 {
-  int i, lcount = xsize * ysize;
+  unsigned i, lcount = xsize * ysize;
 
-  for(i = 0; i < lcount; i++)
+  for (i = 0; i < lcount; i++)
     lattice[i] = anObj;
 
   return self ;
@@ -311,16 +311,21 @@ PHASE(Using)
   return offsets;
 }
 
-- _lispInLatticeValues_: array
+static void
+lispInLatticeValues (Discrete2d *self, id array)
 {
-  memcpy ((void *)lattice,
-          [array getData], 
-          [array getElementCount] * [array getElementSize]);
+  size_t size = [array getElementSize];
 
-  return self;
+  if (size == sizeof (id))
+    memcpy ((void *) self->lattice,
+            [array getData], 
+            [array getElementCount] * size);
+  else
+    abort ();
 }
 
-- _lispInLatticeObjects_: expr
+static void
+lispInLatticeObjects (id self, id expr)
 {
   id aZone = [self getZone];
   id site = [expr get]; // index points to first stored lattice coord
@@ -346,7 +351,6 @@ PHASE(Using)
       raiseEvent (InvalidArgument, "Expecting either cons pair or an array");
   }
   while ((site = [expr next]));
-  return self;
 }
 
 - lispIn: expr
@@ -380,9 +384,9 @@ PHASE(Using)
                       site = [l next];
                       
                       if (arrayp (site)) // dealing with a lattice of values
-                        [self _lispInLatticeValues_: site];
+                        lispInLatticeValues (self, site);
                       else    // dealing with a lattice of objects
-                        [self _lispInLatticeObjects_: l];
+                        lispInLatticeObjects (self, l);
                     }
                   else
                     raiseEvent (InvalidArgument, "Expecting `%s'",
@@ -398,13 +402,14 @@ PHASE(Using)
   return self;
 }
 
-- _lispOutLatticeObjects_: stream
+static void
+lispOutLatticeObjects (Discrete2d *self, id stream)
 {
   unsigned x, y;
   
   [stream catC: " #:lattice \n(parse\n"];
-  for (x = 0; x < xsize; x++)
-    for (y = 0; y < ysize; y++)
+  for (x = 0; x < self->xsize; x++)
+    for (y = 0; y < self->ysize; y++)
       {
         id obj = [self getObjectAtX: x Y: y];
 
@@ -419,28 +424,29 @@ PHASE(Using)
           }
       }
   [stream catC: ")"];
-  return self;
 }
 
-- _lispOutLatticeValues_: stream
+static void
+lispOutLatticeValues (Discrete2d *self, id stream)
 {
   char buf[2 * DSIZE(unsigned) + 5 + 1];
   
   // generate compiler encoding for 2D array
   sprintf (buf,
            "%c%u%c%u%c%c%c", 
-           _C_ARY_B, ysize, _C_ARY_B, xsize, _C_LNG, _C_ARY_E, _C_ARY_E);
+           _C_ARY_B, self->ysize,
+           _C_ARY_B, self->xsize,
+           _C_LNG, _C_ARY_E, _C_ARY_E);
   
   [stream catC: " #:lattice \n (parse "];
   
   lisp_output_type (buf,
-                    (void *) lattice,
+                    (void *) self->lattice,
                     0,
                     NULL,
                     stream,
                     NO);
   [stream catC: ")"];
-  return self;
 }
 
 - lispOutShallow: stream
@@ -448,7 +454,7 @@ PHASE(Using)
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
   [self lispOutVars: stream deep: NO];
-  [self _lispOutLatticeValues_: stream];
+  lispOutLatticeValues (self, stream);
   [stream catC: ")"];
   return self;
 }
@@ -458,7 +464,7 @@ PHASE(Using)
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
   [self lispOutVars: stream deep: NO]; // The others ivars are scalar
-  [self _lispOutLatticeObjects_: stream];
+  lispOutLatticeObjects (self, stream);
   [stream catC: ")"];
   return self;
 }

@@ -1,3 +1,9 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m (lispInLatticeValues, lispInLatticeObjects,
+	lispOutLatticeObjects, lispOutLatticeValues): New static functions
+	replace internal methods.
+
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m ([Discrete2d setDiscrete2d:toFile:]): Use InFile
