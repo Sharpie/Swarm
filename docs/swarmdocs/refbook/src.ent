@@ -16,6 +16,9 @@
 <!entity % objectbase.entities system "objectbase/objectbase.ent">
 %objectbase.entities;
 
+<!entity % random.entities system "random/random.ent">
+%random.entities;
+
 <!entity % simtools.entities system "simtools/simtools.ent">
 %simtools.entities;
 
