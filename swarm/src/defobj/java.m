@@ -1937,12 +1937,10 @@ swarm_directory_objc_find_object_java (id object)
 
   if (entry)
     {
-      if (entry->type != foreign_java)
-        abort ();
-      return entry->foreignObject.java;
+      if (entry->type == foreign_java)
+        return entry->foreignObject.java;
     }
-  else
-    return NULL;
+  return NULL;
 }
 
 jobject
@@ -1952,14 +1950,11 @@ swarm_directory_objc_find_selector_java (SEL sel)
 
   if (entry)
     {
-      if (entry->type != foreign_java)
-        abort ();
-      return entry->foreignObject.java;
+      if (entry->type == foreign_java)
+        return entry->foreignObject.java;
     }
-  else
-    return NULL;
+  return NULL;
 }
-
 
 ObjectEntry *
 swarm_directory_java_add_object (jobject lref, id object)
