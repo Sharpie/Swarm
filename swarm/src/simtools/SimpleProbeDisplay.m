@@ -39,8 +39,10 @@
 
   top_top_Frame =  [Frame createParent: topFrame];  
 
-  raisedFrame =  [Frame createParent: top_top_Frame];  
-  [raisedFrame enableRelief];
+  raisedFrame =  [Frame createBegin: [self getZone]];
+  [raisedFrame setParent: top_top_Frame];
+  [raisedFrame setReliefFlag: YES];
+  raisedFrame = [raisedFrame createEnd];
 
   myTitle = [CompleteProbeDisplayLabel createBegin: [self getZone]];
   [myTitle setParent: raisedFrame];

@@ -99,7 +99,7 @@
     }
 
 #ifdef USE_FRAME
-  [self enableRelief];
+  [self setReliefFlag: YES];
 #endif
 
   probeMap = [[[ProbeMap createBegin: [self getZone]] 
