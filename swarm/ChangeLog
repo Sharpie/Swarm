@@ -1,3 +1,7 @@
+1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note support for Checker.
+
 1999-03-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config.guess, config.sub, ltconfig, ltmain.sh.  New libtool.

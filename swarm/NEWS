@@ -11,6 +11,10 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       hdf5Archiver and lispArchiver, use the new method setSystemArchiverFlag: 
       to continue to read and write this metadata.)
 
+** Autoconfiguration
+*** Swarm can now be compiled with Checker.
+    http://www.gnu.org/software/checker
+
 * Release Notes for Swarm 1.4.1
 ** New features
 *** activity
