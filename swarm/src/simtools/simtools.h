@@ -9,7 +9,6 @@
 //D: the class hierarchy is virtually flat.
 
 #import <objectbase.h>
-#include <externvar.h>
 
 @protocol UName <SwarmObject, CREATABLE>
 //S: A class used to generate unique names (e.g. "critter1", "critter2" etc.)
@@ -426,9 +425,6 @@ USING
  _initSwarm_ (argc, argv, \
               APPNAME_STRING, \
               version, bugAddress, argumentsClass, NULL, NULL, NO, NO)
-
-//G: Flag for whether we're in graphics mode or not.  Default is NO.
-externvar BOOL swarmGUIMode;
 
 @class ControlPanel;
 @class UName;

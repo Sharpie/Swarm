@@ -1,5 +1,8 @@
 2000-07-11    <mgd@HELEN>
 
+	* simtools.h: Remove inclusion of externvar.h and declaration
+	of swarmGUIMode (moved to swarm.h).
+
 	* Makefile.am (INCLUDES): Move parent directories to front
 	(to prefer swarm.h over objectbase/Swarm.h).
 
