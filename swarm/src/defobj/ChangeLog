@@ -2,8 +2,8 @@
 
 	* HDF5Object.m, defobj.h ([HDF5_c -storeAttributeName:value:]):
 	New method (a parameterized storeTypeName:).
-	Call hdf5_not_availbe when HAVE_HDF5 undefined.
 	([HDF5_c -storeTypeName:]): Use it.
+	Call hdf5_not_available in both when HAVE_HDF5 undefined.
 
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

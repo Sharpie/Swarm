@@ -267,7 +267,11 @@ PHASE(Using)
 
 - storeTypeName: (const char *)typeName
 {
+#ifdef HAVE_HDF5
   [self storeAttribute: ATTRIB_TYPE_NAME value: typeName];
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
