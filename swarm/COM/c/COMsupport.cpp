@@ -178,8 +178,8 @@ createComponentByName (const char *contractID, const char *interfaceName)
   return obj;
 }
 
-void *
-findComponent (const char *className)
+COMclass
+COMfindComponent (const char *className)
 {
   const char *prefix = "urn:";
   const char *modulePrefix = "swarm/";
@@ -210,11 +210,11 @@ findComponent (const char *className)
 
   if (NS_FAILED (rv))
     abort ();
-  return (void *) cClass;
+  return (COMclass) cClass;
 }
 
-void *
-createComponent (COMclass cClass)
+COMobject
+COMcreateComponent (COMclass cClass)
 {
   nsCID *cid = (nsCID *) cClass;
   char *className;
@@ -247,11 +247,11 @@ createComponent (COMclass cClass)
   if (interfaceName)
     PL_strfree (interfaceName);
 
-  return (void *) obj;
+  return (COMobject) obj;
 }
 
 const char *
-copyString (const char *str)
+COMcopyString (const char *str)
 {
   const char *ret = (const char *)
     nsMemory::Clone (str, sizeof (char) * (PL_strlen (str) + 1));
@@ -262,7 +262,7 @@ copyString (const char *str)
 }
 
 const char *
-getName (COMobject cObj)
+COMgetName (COMobject cObj)
 {
   nsresult rv;
   nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
@@ -285,12 +285,33 @@ getName (COMobject cObj)
       if (NS_FAILED (rv))
         abort ();
 
-      return getComponentName (cid);
+      return COMgetComponentName (cid);
+    }
+}
+
+COMclass
+COMgetClass (COMobject cObj)
+{
+  nsresult rv;
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <swarmITyping> typing (do_QueryInterface (_cObj));
+
+  if (!typing)
+    return NULL;
+  else
+    {
+      nsCID *cid;
+
+      rv = typing->GetCid (&cid);
+      if (NS_FAILED (rv))
+        abort ();
+
+      return (COMclass) cid;
     }
 }
 
 const char *
-getComponentName (COMclass cClass)
+COMgetComponentName (COMclass cClass)
 {
   char *name, *contractID;
   nsCID *cid = (nsCID *) cClass;
@@ -302,7 +323,7 @@ getComponentName (COMclass cClass)
 }
 
 COMclass
-copyComponentID (COMclass cClass)
+COMcopyComponentID (COMclass cClass)
 {
   nsCID *cid = new nsCID ();
 
@@ -311,7 +332,7 @@ copyComponentID (COMclass cClass)
 }
 
 COMobject
-normalize (COMobject cObj)
+COMnormalize (COMobject cObj)
 {
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
   swarmITyping *typing;
@@ -556,7 +577,7 @@ COMcollect (COMclass cClass,
             COM_collect_variable_func_t varFunc,
             COM_collect_method_func_t methodFunc)
 {
-  nsISupports *obj = NS_STATIC_CAST (nsISupports *, createComponent (cClass));
+  nsISupports *obj = NS_STATIC_CAST (nsISupports *, COMcreateComponent (cClass));
   struct collect_methods_t info = { obj, varFunc, methodFunc };
   if (!obj)
     abort ();
@@ -969,7 +990,7 @@ currentJSObject ()
 }
 
 BOOL
-isJavaScript (COMobject cObj)
+COMisJavaScript (COMobject cObj)
 {
   nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
   nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));

@@ -25,14 +25,15 @@ extern "C" {
 
 fcall_type_t methodParamFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 paramIndex);
 
-void *createComponent (COMclass cClass);
-void *findComponent (const char *className);
-const char *copyString (const char *str);
-const char *getName (COMobject cObj);
-const char *getComponentName (COMclass cClass);
+COMobject COMcreateComponent (COMclass cClass);
+COMobject COMfindComponent (const char *className);
+const char *COMcopyString (const char *str);
+const char *COMgetName (COMobject cObj);
+const char *COMgetComponentName (COMclass cClass);
+COMclass COMgetClass (COMobject);
 
-COMclass copyComponentID (COMclass cClass);
-COMobject normalize (COMobject cObj);
+COMclass COMcopyComponentID (COMclass cClass);
+COMobject COMnormalize (COMobject cObj);
 
 COMobject selectorQuery (COMselector cObj);
 BOOL selectorIsJavaScript (COMselector cSel);
@@ -58,7 +59,7 @@ void JScollect (COMobject cObj,
                 JS_collect_func_t methodFunc);
 
 JSContext *currentJSContext ();
-BOOL isJavaScript (COMobject cObj);
+BOOL COMisJavaScript (COMobject cObj);
 void *JScreateParams (unsigned size);
 void JSsetArg (void *args, unsigned pos, val_t *value);
 void JSsetReturn (void *params, unsigned pos, val_t *value);
