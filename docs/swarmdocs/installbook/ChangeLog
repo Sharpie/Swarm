@@ -1,4 +1,9 @@
-2001-11-26  Alex Lancaster  <alexl@users.sourceforge.net>
+2003-07-17  Alex Lancaster  <alex@swarm.org>
+
+	* install01.xml: Note requirement of Emacs for all Swarm builds,
+	not just Java, note requirement for gperf.
+
+2001-11-26  Alex Lancaster  <alex@swarm.org>
 
 	* installbook.xml, installcont.xml: Move GFDL into the root of the
 	document, out of overcont.xml, so that we only get one GFDL

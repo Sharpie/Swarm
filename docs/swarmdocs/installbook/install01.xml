@@ -113,12 +113,18 @@ these are `dpkg', `rpm', and `pkgadd'.</para>
         <listitem>          
           <formalpara><title>GNU Emacs</title> <para>Emacs is a
           programmable text processing system and editor.  Emacs is
-          needed if you want to build Swarm for Java from source code.
+          required for all builds of Swarm (not just  Java) from source code.
           Emacs is also a good program for editing Objective C and Java
           code.  Emacs is available <ulink url="ftp://ftp.gnu.org/pub/gnu/emacs/">here</ulink>.</para>
           </formalpara>
           </listitem>
           
+    <listitem>
+     <formalpara>
+      <title>GNU gperf</title>
+      <para>GNU gperf is a perfect hash function generator.  It is available <ulink url="http://www.gnu.org/software/gperf/">.</ulink></para>
+     </formalpara>
+    </listitem>
 
       </itemizedlist></para>
     
