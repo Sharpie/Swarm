@@ -6,6 +6,8 @@
 #import <tkobjc/WindowGeometryRecord.h>
 #import <collections.h>
 
+#import <collections/predicates.h> // for literal_string_p
+
 @implementation WindowGeometryRecord
 
 - (const char *)getWindowGeometry;
