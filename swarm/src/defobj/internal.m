@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/DefObject.h> // id_BehaviorPhase_s
+#import <defobj/Create.h> // CreateDrop
 #import <defobj.h> // raiseEvent, DSIZE, SSTRDUP
 #import "internal.h"
 
@@ -30,8 +31,6 @@
 #define TYPE_LONG_DOUBLE "long double"
 #define TYPE_STRING "string"
 #define TYPE_OBJECT "object"
-
-static unsigned generatedClassNameCount = 0;
 
 size_t
 alignsizeto (size_t pos, size_t alignment)
@@ -287,7 +286,6 @@ map_objc_ivars (id obj,
   map_class_ivars (getClass (obj));
 }
 
-#ifdef HAVE_JDK
 static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "C", "S", "S",
   "I", "I", "J", "J", 
@@ -305,6 +303,13 @@ static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "Ljava/lang/String;"
 };
 
+const char *
+java_signature_for_fcall_type (fcall_type_t type)
+{
+  return java_type_signature[type];
+}
+
+#ifdef HAVE_JDK
 static BOOL
 fcall_type_for_java_signature (const char *signature, fcall_type_t *typeptr)
 {
@@ -317,12 +322,6 @@ fcall_type_for_java_signature (const char *signature, fcall_type_t *typeptr)
         return YES;
       }
   return NO;
-}
-
-const char *
-java_signature_for_fcall_type (fcall_type_t type)
-{
-  return java_type_signature[type];
 }
 
 static void
@@ -568,7 +567,6 @@ java_expandArray (jobject fullary, void *inbuf)
   permute (fullary);
 }
 
-#ifdef HAVE_JDK
 #define _GETVALUE(uptype) \
     (*jniEnv)->Get##uptype##Field (jniEnv, \
                                    javaObject, \
@@ -719,6 +717,316 @@ map_java_ivars (jobject javaObject,
   (*jniEnv)->DeleteLocalRef (jniEnv, fields);
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
 }
+
+static jfieldID
+class_java_find_field (jclass javaClass, const char *fieldName,
+                       fcall_type_t *typePtr, BOOL *isArrayPtr)
+{
+  jarray fields;
+  jsize count;
+  unsigned i;
+  BOOL match = NO;
+  jobject field = NULL;
+  jobject name;
+  const char *namestr;
+  jboolean isCopy;
+
+  void release (void)
+    {
+      if (isCopy)
+        (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
+      (*jniEnv)->DeleteLocalRef (jniEnv, name);
+      (*jniEnv)->DeleteLocalRef (jniEnv, field);
+    }
+
+  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
+                                              javaClass,
+                                              m_ClassGetFields)))
+    abort();
+  
+  count = (*jniEnv)->GetArrayLength (jniEnv, fields);
+
+  for (i = 0; i < count; i++)
+    {
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
+      if (!field)
+        raiseEvent (SourceMessage, "field %u unavailable", i);
+      name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+      namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+      match = (strcmp (namestr, fieldName) == 0);
+      if (match)
+        break;
+      else
+        release ();
+    }
+  (*jniEnv)->DeleteLocalRef (jniEnv, fields);
+  if (match)
+    {
+      jobject lref = (*jniEnv)->CallObjectMethod (jniEnv,
+                                                  field,
+                                                  m_FieldGetType);
+      const char *sig = java_signature_for_class (jniEnv, lref);
+      fcall_type_t type =
+        fcall_type_for_java_class (jniEnv, lref);
+      jfieldID fid;
+      jboolean isArray =
+        (*jniEnv)->CallBooleanMethod (jniEnv, lref, m_ClassIsArray);
+      
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+
+
+      fid = (*jniEnv)->GetFieldID (jniEnv, javaClass, namestr, sig);
+      if (!fid)
+        abort ();
+      SFREEBLOCK (sig);
+      release ();
+      if (typePtr)
+        *typePtr = type;
+      if (isArrayPtr)
+        *isArrayPtr = isArray;
+      return fid;
+    }
+  else
+    return NULL;
+}
+
+static void
+java_storeArray (jobject javaObject,
+                 fcall_type_t type, unsigned rank, unsigned *dims, void *buf)
+{
+  jobject values[rank];
+  unsigned vec[rank];
+  unsigned di;
+    
+  void start_dim (unsigned dimnum)
+    {
+      di = dimnum;
+      vec[di] = 0;
+      if (dimnum > 0)
+        values[di] =
+          (*jniEnv)->GetObjectArrayElement (jniEnv,
+                                            values[di - 1],
+                                            vec[di - 1]);
+    }
+  void end_dim (void)
+    {
+      if (di == rank - 1)
+        {
+          unsigned len = vec[di] + 1;
+          switch (type)
+            {
+            case fcall_type_boolean:
+              (*jniEnv)->SetBooleanArrayRegion (jniEnv,
+                                                values[di],
+                                                0, len,
+                                                (jboolean *) buf);
+              break;
+            case fcall_type_uchar:
+              (*jniEnv)->SetByteArrayRegion (jniEnv,
+                                             values[di],
+                                             0, len,
+                                             (jbyte *) buf);
+              break;
+            case fcall_type_schar:
+              (*jniEnv)->SetCharArrayRegion (jniEnv,
+                                             values[di],
+                                             0, len,
+                                             (jchar *) buf);
+              break;
+            case fcall_type_sshort:
+              (*jniEnv)->SetShortArrayRegion (jniEnv,
+                                              values[di],
+                                              0, len,
+                                              (jshort *) buf);
+              break;
+            case fcall_type_sint:
+              (*jniEnv)->SetIntArrayRegion (jniEnv,
+                                            values[di],
+                                            0, len,
+                                            (jint *) buf);
+              break;
+            case fcall_type_slonglong:
+              (*jniEnv)->SetLongArrayRegion (jniEnv,
+                                             values[di],
+                                             0, len,
+                                             (jlong *) buf);
+              break;
+            case fcall_type_float:
+              (*jniEnv)->SetFloatArrayRegion (jniEnv,
+                                              values[di],
+                                              0, len,
+                                              (jfloat *) buf);
+              break;
+            case fcall_type_double:
+              (*jniEnv)->SetDoubleArrayRegion (jniEnv,
+                                               values[di],
+                                               0, len,
+                                               (jdouble *) buf);
+              break;
+            default:
+              abort ();
+            }
+        }
+    }
+  void end_element (void)
+    {
+      vec[di]++;
+    }
+    
+  values[0] = javaObject;
+  process_array (rank, dims, type,
+                 start_dim, end_dim, NULL, end_element, NULL,
+                 buf, NULL);
+}
+
+const char *
+java_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
+{
+  unsigned argCount, typeSigLen = 0;
+
+  jobject typeSignature =
+    (*env)->GetObjectField (env, jsel, f_typeSignatureFid);
+
+  if (!typeSignature)
+    {
+      jobject argTypes = 
+        (*env)->GetObjectField (env, jsel, f_argTypesFid);
+
+      argCount = (*env)->GetArrayLength (env, argTypes);
+      {
+        const char *argSigs[argCount];
+        const char *retSig;
+        char *sig, *p;
+        unsigned ai;
+        
+        typeSigLen = 1;
+        for (ai = 0; ai < argCount; ai++)
+          {
+            jclass member =
+              (*env)->GetObjectArrayElement (env, argTypes, ai);
+            
+            argSigs[ai] = java_signature_for_class (env, member);
+            typeSigLen += strlen (argSigs[ai]);
+            (*env)->DeleteLocalRef (env, member);
+          }
+        typeSigLen++;
+
+        {
+          jobject retType =
+            (*env)->GetObjectField (env, jsel, f_retTypeFid);
+          
+          retSig = java_signature_for_class (env, retType);
+          (*env)->DeleteLocalRef (env, retType);
+        }
+        typeSigLen += strlen (retSig);
+        
+        sig = [scratchZone alloc: typeSigLen + 1];
+        
+        p = sig;
+        *p++ = '(';
+        for (ai = 0; ai < argCount; ai++)
+          p = stpcpy (p, argSigs[ai]);
+        *p++ = ')';
+        p = stpcpy (p, retSig);
+
+        for (ai = 0; ai < argCount; ai++)
+          [scratchZone free: (void *) argSigs[ai]];
+	[scratchZone free: (void *) retSig];
+
+        {
+          jobject str = (*env)->NewStringUTF (env, sig);
+          (*env)->SetObjectField (env,
+                                  jsel,
+                                  f_typeSignatureFid,
+                                  str);
+          (*env)->DeleteLocalRef (env, str);
+        }
+        (*env)->DeleteLocalRef (env, argTypes);
+        return sig;
+      }
+    }
+  else
+    {
+      jboolean copyFlag;
+      const char *sig;
+
+      const char *utf =
+        (*env)->GetStringUTFChars (env, typeSignature, &copyFlag);
+
+      sig = SSTRDUP (utf);
+      if (copyFlag)
+        (*env)->ReleaseStringUTFChars (env, typeSignature, utf);
+      (*env)->DeleteLocalRef (env, typeSignature);
+      return sig;
+    }
+}
+
+fcall_type_t
+fcall_type_for_java_class (JNIEnv *env, jclass class)
+{
+  fcall_type_t type;
+
+  if (classp (env, class, c_Selector))
+    type = fcall_type_selector;
+  else if (classp (env, class, c_String))
+    type = fcall_type_string;
+  else if (classp (env, class, c_Class))
+    type = fcall_type_class;
+  else if (exactclassp (env, class, c_int))
+    type = fcall_type_sint;
+  else if (exactclassp (env, class, c_short))
+    type = fcall_type_sshort;
+  else if (exactclassp (env, class, c_long))
+    type = fcall_type_slong;
+  else if (exactclassp (env, class, c_boolean))
+    type = fcall_type_boolean;
+  else if (exactclassp (env, class, c_byte))
+    type = fcall_type_uchar;
+  else if (exactclassp (env, class, c_char))
+    type = fcall_type_schar;
+  else if (exactclassp (env, class, c_float))
+    type = fcall_type_float;
+  else if (exactclassp (env, class, c_double))
+    type = fcall_type_double;
+  else if (exactclassp (env, class, c_void))
+    type = fcall_type_void;
+  else
+    type = fcall_type_object;
+  return type;
+}
+
+jclass
+java_find_class (JNIEnv *env, const char *javaClassName, BOOL failFlag)
+{
+  jobject ret;
+  jobject throwable;
+  
+  (*env)->ExceptionClear (env);
+  ret = (*env)->FindClass (env, javaClassName);
+  
+  if (failFlag)
+    {
+      if ((throwable = (*env)->ExceptionOccurred (env)) != NULL)
+        (*env)->ExceptionDescribe (env);
+    }
+  else
+    (*env)->ExceptionClear (env);
+  return ret;
+}
+
+const char *
+java_get_class_name (JNIEnv *env, jclass class)
+{
+  jobject string;
+  const char *ret;
+
+  if (!(string = (*env)->CallObjectMethod (env, class, m_ClassGetName)))
+    abort ();
+
+  ret = swarm_directory_copy_java_string (env, string);
+  (*env)->DeleteLocalRef (env, string);
+  return ret;
+}
 #endif
 
 void
@@ -729,9 +1037,11 @@ map_object_ivars (id object,
                                           unsigned rank,
                                           unsigned *dims))
 {
+#ifdef HAVE_JDK
   if ([object respondsTo: M(isJavaProxy)])
     map_java_ivars (SD_FINDJAVA (jniEnv, object), process_object);
   else
+#endif
     map_objc_ivars (object, process_object);
 }
 
@@ -1211,6 +1521,8 @@ class_addVariable (Class class, const char *varName, fcall_type_t varType,
   class->ivars->ivar_count++; 
 }
 
+static unsigned generatedClassNameCount = 0;
+
 const char *
 class_generate_name (void)
 {
@@ -1222,81 +1534,10 @@ class_generate_name (void)
   return SSTRDUP (buf);
 }
 
-static jfieldID
-class_java_find_field (jclass javaClass, const char *fieldName,
-                       fcall_type_t *typePtr, BOOL *isArrayPtr)
-{
-  jarray fields;
-  jsize count;
-  unsigned i;
-  BOOL match = NO;
-  jobject field = NULL;
-  jobject name;
-  const char *namestr;
-  jboolean isCopy;
-
-  void release (void)
-    {
-      if (isCopy)
-        (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
-      (*jniEnv)->DeleteLocalRef (jniEnv, name);
-      (*jniEnv)->DeleteLocalRef (jniEnv, field);
-    }
-
-  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
-                                              javaClass,
-                                              m_ClassGetFields)))
-    abort();
-  
-  count = (*jniEnv)->GetArrayLength (jniEnv, fields);
-
-  for (i = 0; i < count; i++)
-    {
-      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
-      if (!field)
-        raiseEvent (SourceMessage, "field %u unavailable", i);
-      name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
-      namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-      match = (strcmp (namestr, fieldName) == 0);
-      if (match)
-        break;
-      else
-        release ();
-    }
-  (*jniEnv)->DeleteLocalRef (jniEnv, fields);
-  if (match)
-    {
-      jobject lref = (*jniEnv)->CallObjectMethod (jniEnv,
-                                                  field,
-                                                  m_FieldGetType);
-      const char *sig = java_signature_for_class (jniEnv, lref);
-      fcall_type_t type =
-        fcall_type_for_java_class (jniEnv, lref);
-      jfieldID fid;
-      jboolean isArray =
-        (*jniEnv)->CallBooleanMethod (jniEnv, lref, m_ClassIsArray);
-      
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-
-
-      fid = (*jniEnv)->GetFieldID (jniEnv, javaClass, namestr, sig);
-      if (!fid)
-        abort ();
-      SFREEBLOCK (sig);
-      release ();
-      if (typePtr)
-        *typePtr = type;
-      if (isArrayPtr)
-        *isArrayPtr = isArray;
-      return fid;
-    }
-  else
-    return NULL;
-}
-
 static fcall_type_t
 object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
 {
+#ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
     {
       jobject javaObject = SD_FINDJAVA (jniEnv, obj);
@@ -1308,6 +1549,7 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
       return type;
     }
   else
+#endif
     {
       struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
       
@@ -1331,102 +1573,10 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
     }
 }
 
-#define _SETVALUE(uptype,value) \
-    (*jniEnv)->Set##uptype##Field (jniEnv, javaObject, fid, value)
-#define SETVALUE(uptype, value) _SETVALUE(uptype, value)
-
-static void
-java_storeArray (jobject javaObject,
-                 fcall_type_t type, unsigned rank, unsigned *dims, void *buf)
-{
-  jobject values[rank];
-  unsigned vec[rank];
-  unsigned di;
-    
-  void start_dim (unsigned dimnum)
-    {
-      di = dimnum;
-      vec[di] = 0;
-      if (dimnum > 0)
-        values[di] =
-          (*jniEnv)->GetObjectArrayElement (jniEnv,
-                                            values[di - 1],
-                                            vec[di - 1]);
-    }
-  void end_dim (void)
-    {
-      if (di == rank - 1)
-        {
-          unsigned len = vec[di] + 1;
-          switch (type)
-            {
-            case fcall_type_boolean:
-              (*jniEnv)->SetBooleanArrayRegion (jniEnv,
-                                                values[di],
-                                                0, len,
-                                                (jboolean *) buf);
-              break;
-            case fcall_type_uchar:
-              (*jniEnv)->SetByteArrayRegion (jniEnv,
-                                             values[di],
-                                             0, len,
-                                             (jbyte *) buf);
-              break;
-            case fcall_type_schar:
-              (*jniEnv)->SetCharArrayRegion (jniEnv,
-                                             values[di],
-                                             0, len,
-                                             (jchar *) buf);
-              break;
-            case fcall_type_sshort:
-              (*jniEnv)->SetShortArrayRegion (jniEnv,
-                                              values[di],
-                                              0, len,
-                                              (jshort *) buf);
-              break;
-            case fcall_type_sint:
-              (*jniEnv)->SetIntArrayRegion (jniEnv,
-                                            values[di],
-                                            0, len,
-                                            (jint *) buf);
-              break;
-            case fcall_type_slonglong:
-              (*jniEnv)->SetLongArrayRegion (jniEnv,
-                                             values[di],
-                                             0, len,
-                                             (jlong *) buf);
-              break;
-            case fcall_type_float:
-              (*jniEnv)->SetFloatArrayRegion (jniEnv,
-                                              values[di],
-                                              0, len,
-                                              (jfloat *) buf);
-              break;
-            case fcall_type_double:
-              (*jniEnv)->SetDoubleArrayRegion (jniEnv,
-                                               values[di],
-                                               0, len,
-                                               (jdouble *) buf);
-              break;
-            default:
-              abort ();
-            }
-        }
-    }
-  void end_element (void)
-    {
-      vec[di]++;
-    }
-    
-  values[0] = javaObject;
-  process_array (rank, dims, type,
-                 start_dim, end_dim, NULL, end_element, NULL,
-                 buf, NULL);
-}
-
 void
 object_setVariable (id obj, const char *ivarName, void *inbuf)
 {
+#ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
     {
       jobject javaObject = SD_FINDJAVA (jniEnv, obj);
@@ -1463,6 +1613,10 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
           }
         else
           {
+#define _SETVALUE(uptype,value) \
+    (*jniEnv)->Set##uptype##Field (jniEnv, javaObject, fid, value)
+#define SETVALUE(uptype, value) _SETVALUE(uptype, value)
+
             types_t *buf = inbuf;
             switch (type)
               {
@@ -1505,11 +1659,14 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
                             "Unhandled fcall type `%d'", type);
                 break;
               }
+#undef SETVALUE
+#undef _SETVALUE
             (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
           }
       }
     }
   else
+#endif
     {
       struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
       void *ptr = (void *) obj + ivar->ivar_offset;
@@ -1538,8 +1695,6 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
       memcpy (ptr, inbuf, count * fcall_type_size (type)); 
     }
 }
-#undef SETVALUE
-#undef _SETVALUE
 
 unsigned
 object_getVariableElementCount (id obj,
@@ -1548,6 +1703,7 @@ object_getVariableElementCount (id obj,
                                 unsigned irank,
                                 unsigned *idims)
 {
+#ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
     {
       jobject javaObject = SD_FINDJAVA (jniEnv, obj);
@@ -1596,6 +1752,7 @@ object_getVariableElementCount (id obj,
       return count;
     }
   else
+#endif
     abort ();
 }
 
@@ -1733,154 +1890,4 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
   else
     raiseEvent (InvalidArgument, "Unknown type `%s'", [expr name]);
 }
-
-const char *
-java_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
-{
-  unsigned argCount, typeSigLen = 0;
-
-  jobject typeSignature =
-    (*env)->GetObjectField (env, jsel, f_typeSignatureFid);
-
-  if (!typeSignature)
-    {
-      jobject argTypes = 
-        (*env)->GetObjectField (env, jsel, f_argTypesFid);
-
-      argCount = (*env)->GetArrayLength (env, argTypes);
-      {
-        const char *argSigs[argCount];
-        const char *retSig;
-        char *sig, *p;
-        unsigned ai;
-        
-        typeSigLen = 1;
-        for (ai = 0; ai < argCount; ai++)
-          {
-            jclass member =
-              (*env)->GetObjectArrayElement (env, argTypes, ai);
-            
-            argSigs[ai] = java_signature_for_class (env, member);
-            typeSigLen += strlen (argSigs[ai]);
-            (*env)->DeleteLocalRef (env, member);
-          }
-        typeSigLen++;
-
-        {
-          jobject retType =
-            (*env)->GetObjectField (env, jsel, f_retTypeFid);
-          
-          retSig = java_signature_for_class (env, retType);
-          (*env)->DeleteLocalRef (env, retType);
-        }
-        typeSigLen += strlen (retSig);
-        
-        sig = [scratchZone alloc: typeSigLen + 1];
-        
-        p = sig;
-        *p++ = '(';
-        for (ai = 0; ai < argCount; ai++)
-          p = stpcpy (p, argSigs[ai]);
-        *p++ = ')';
-        p = stpcpy (p, retSig);
-
-        for (ai = 0; ai < argCount; ai++)
-          [scratchZone free: (void *) argSigs[ai]];
-	[scratchZone free: (void *) retSig];
-
-        {
-          jobject str = (*env)->NewStringUTF (env, sig);
-          (*env)->SetObjectField (env,
-                                  jsel,
-                                  f_typeSignatureFid,
-                                  str);
-          (*env)->DeleteLocalRef (env, str);
-        }
-        (*env)->DeleteLocalRef (env, argTypes);
-        return sig;
-      }
-    }
-  else
-    {
-      jboolean copyFlag;
-      const char *sig;
-
-      const char *utf =
-        (*env)->GetStringUTFChars (env, typeSignature, &copyFlag);
-
-      sig = SSTRDUP (utf);
-      if (copyFlag)
-        (*env)->ReleaseStringUTFChars (env, typeSignature, utf);
-      (*env)->DeleteLocalRef (env, typeSignature);
-      return sig;
-    }
-}
-
-fcall_type_t
-fcall_type_for_java_class (JNIEnv *env, jclass class)
-{
-  fcall_type_t type;
-
-  if (classp (env, class, c_Selector))
-    type = fcall_type_selector;
-  else if (classp (env, class, c_String))
-    type = fcall_type_string;
-  else if (classp (env, class, c_Class))
-    type = fcall_type_class;
-  else if (exactclassp (env, class, c_int))
-    type = fcall_type_sint;
-  else if (exactclassp (env, class, c_short))
-    type = fcall_type_sshort;
-  else if (exactclassp (env, class, c_long))
-    type = fcall_type_slong;
-  else if (exactclassp (env, class, c_boolean))
-    type = fcall_type_boolean;
-  else if (exactclassp (env, class, c_byte))
-    type = fcall_type_uchar;
-  else if (exactclassp (env, class, c_char))
-    type = fcall_type_schar;
-  else if (exactclassp (env, class, c_float))
-    type = fcall_type_float;
-  else if (exactclassp (env, class, c_double))
-    type = fcall_type_double;
-  else if (exactclassp (env, class, c_void))
-    type = fcall_type_void;
-  else
-    type = fcall_type_object;
-  return type;
-}
-
-jclass
-java_find_class (JNIEnv *env, const char *javaClassName, BOOL failFlag)
-{
-  jobject ret;
-  jobject throwable;
-  
-  (*env)->ExceptionClear (env);
-  ret = (*env)->FindClass (env, javaClassName);
-  
-  if (failFlag)
-    {
-      if ((throwable = (*env)->ExceptionOccurred (env)) != NULL)
-        (*env)->ExceptionDescribe (env);
-    }
-  else
-    (*env)->ExceptionClear (env);
-  return ret;
-}
-
-const char *
-java_get_class_name (JNIEnv *env, jclass class)
-{
-  jobject string;
-  const char *ret;
-
-  if (!(string = (*env)->CallObjectMethod (env, class, m_ClassGetName)))
-    abort ();
-
-  ret = swarm_directory_copy_java_string (env, string);
-  (*env)->DeleteLocalRef (env, string);
-  return ret;
-}
-#endif
 

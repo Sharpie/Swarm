@@ -68,6 +68,7 @@ PHASE(Creating)
       selector = sel_get_any_typed_uid (name);
       type = sel_get_type (selector);
     }
+#ifdef HAVE_JDK
   if (swarmDirectory && javaFlag)
     {
       jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
@@ -94,6 +95,7 @@ PHASE(Creating)
         abort ();
     }
   else
+#endif
     [self setObjCReturnType: *type];
   return self;
 }

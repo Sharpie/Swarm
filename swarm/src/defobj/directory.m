@@ -1242,21 +1242,26 @@ swarm_directory_cleanup_strings (JNIEnv *env,
     SFREEBLOCK (stringArray[i]);
 }
 
+void
+swarm_directory_dump (void)
+{
+  xprint (swarmDirectory);
+}
 #endif
 
 Class
-swarm_directory_ensure_class_named (JNIEnv *env, const char *className)
+swarm_directory_ensure_class_named (const char *className)
 {
   Class objcClass = nil;
 #ifdef HAVE_JDK
   if (swarmDirectory)
     {
-      jclass javaClass = java_find_class (env, className, NO);
+      jclass javaClass = java_find_class (jniEnv, className, NO);
       
       if (javaClass)
         {
-          objcClass = swarm_directory_java_ensure_class (env, javaClass);
-          (*env)->DeleteLocalRef (env, javaClass);
+          objcClass = swarm_directory_java_ensure_class (jniEnv, javaClass);
+          (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
         }
     }
 #endif
@@ -1314,8 +1319,3 @@ swarm_directory_language_independent_class_name  (id object)
 #endif
 }
 
-void
-swarm_directory_dump (void)
-{
-  xprint (swarmDirectory);
-}

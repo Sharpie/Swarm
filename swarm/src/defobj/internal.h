@@ -81,7 +81,6 @@ extern fcall_type_t fcall_type_for_objc_type (char objcType);
 
 
 extern const char *objc_type_for_fcall_type (fcall_type_t type);
-extern const char *java_signature_for_fcall_type (fcall_type_t type);
 
 extern id type_create (id aZone, const char *typeName);
 
@@ -100,6 +99,7 @@ extern unsigned object_getVariableElementCount (id obj,
                                                 unsigned irank,
                                                 unsigned *idims);
 
+extern const char *java_signature_for_fcall_type (fcall_type_t type);
 #ifdef HAVE_JDK
 extern fcall_type_t fcall_type_for_java_class (JNIEnv *env, jclass class);
 extern const char *java_ensure_selector_type_signature (JNIEnv *env, jobject jsel);

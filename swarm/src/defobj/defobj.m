@@ -19,10 +19,10 @@ Library:      defobj
 #include <collections/predicates.h> // keywordp, archiver_list_p, stringp
 
 #import "internal.h" // class_generate_name
-#include <swarmconfig.h> // HAVE_HDF5
+#include <swarmconfig.h> // HAVE_HDF5, HAVE_JDK
 
-#ifdef HAVE_JDK
 #import <defobj/directory.h> // swarm_directory_ensure_class_named
+#ifdef HAVE_JDK
 #import <defobj/JavaProxy.h> // -createJavaCounterpart
 #endif
 
@@ -301,10 +301,11 @@ lispIn (id aZone, id expr)
         else
           {
             if (!(typeObject =
-                  swarm_directory_ensure_class_named (jniEnv, typeName)))
+                  swarm_directory_ensure_class_named (typeName)))
               raiseEvent (InvalidArgument, "> type `%s' not found",
                           typeName);
 
+#ifdef HAVE_JDK
             if (!object_is_class (typeObject)
                 && [typeObject respondsTo: M(isJavaProxy)])
               {
@@ -312,6 +313,7 @@ lispIn (id aZone, id expr)
                 obj = [obj createJavaCounterpart: typeName];
               }
             else
+#endif
               obj = [typeObject createBegin: aZone];
             
             obj = [obj lispInCreate: argexpr];
@@ -335,7 +337,7 @@ hdf5In (id aZone, id hdf5Obj)
   
   if (typeName)
     {
-      if (!(typeObject = swarm_directory_ensure_class_named (jniEnv, typeName)))
+      if (!(typeObject = swarm_directory_ensure_class_named (typeName)))
         {
           id typeObj = type_create (aZone, typeName);
           id newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
@@ -369,6 +371,7 @@ hdf5In (id aZone, id hdf5Obj)
                 "Failed to find or create class for HDF5 object `%s'",
                 [hdf5Obj getName]);
   
+#ifdef HAVE_JDK
   if (!object_is_class (typeObject)
       && [typeObject respondsTo: M(isJavaProxy)])
     {
@@ -376,6 +379,7 @@ hdf5In (id aZone, id hdf5Obj)
       obj = [obj createJavaCounterpart: typeName];
     }
   else
+#endif
     obj = [typeObject createBegin: aZone];
   obj = [obj hdf5InCreate: hdf5Obj];
   obj = [obj createEnd];
@@ -399,7 +403,7 @@ nameToObject (const char *name)
            || (!strcmp (name, "Nil"))
            || (!strcmp (name, "0x0")))
     return nil;
-  else if ((object = (id) swarm_directory_ensure_class_named (jniEnv, name)))
+  else if ((object = (id) swarm_directory_ensure_class_named (name)))
     return object;
   abort ();
 }

@@ -1,5 +1,6 @@
 #include "JavaProxy.h"
 #import <defobj/directory.h>
+#import <swarmconfig.h>
 
 @implementation JavaProxy
 
@@ -11,6 +12,7 @@
 - createJavaCounterpart: (const char *)typeName
 {
   [self createEnd];
+#ifdef HAVE_JDK
   {
     jclass class = (*jniEnv)->FindClass (jniEnv, typeName);
     
@@ -48,6 +50,7 @@
       (*jniEnv)->DeleteLocalRef (jniEnv, class);
     }
   }
+#endif
   return self;
 }
 

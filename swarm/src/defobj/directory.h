@@ -11,6 +11,7 @@
 #include <objc/objc.h>
 Class swarm_directory_swarm_class (id object);
 const char *swarm_directory_language_independent_class_name (id object);
+Class swarm_directory_ensure_class_named (const char *className);
 
 #ifdef HAVE_JDK
 #undef SIZEOF_LONG /* Kaffe can define this (it's from swarmconfig.h) */
@@ -87,7 +88,6 @@ SEL swarm_directory_ensure_selector (JNIEnv *env, jobject jsel);
 #define SD_ENSUREOBJCMETHOD(env, jobj) (swarm_directory_ensure_selector (env, jobj))
 
 Class swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass);
-Class swarm_directory_ensure_class_named (JNIEnv *env, const char *className);
 
 #define SD_ENSUREOBJCCLASS(env, jclass) (swarm_directory_java_ensure_class (env, jclass))
 
