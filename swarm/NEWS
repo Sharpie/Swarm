@@ -29,11 +29,13 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       correctly ignore hand or machine-generated comments starting
       with a semi-colon `;' in input text files.
 
-**** Archiver{Keyword,Value,Array,Pair}
-***** These classes respond to serialization.
+**** Archiver{Keyword,Value,Array,Pair,List}
+***** These classes respond to serialization. ArchiverList serializes parsed 
+      Lisp-like expressions directly.
 
 **** OutputStream
-***** OutputStream can now serialize parsed Lisp-like expressions directly.
+***** OutputStream serializes Double, Float, Int, Unsigned Short, 
+      UnsignedShort, Long, Unsigned Long, in Lisp format.
 
 **** KeyedCollection, Map, Set
 ***** Implemented the [KeyedCollection -containsKey:] method for 
