@@ -255,9 +255,6 @@ add_ffi_types (FCall_c *fc)
           
           JS_set_arg (fc->COM_params, i, &val);
         }
-      JS_set_return (fc->COM_params,
-                     fa->assignedArgumentCount,
-                     &fa->retVal);
     }
   else
     {
@@ -344,10 +341,20 @@ PHASE(Creating)
 
 - setMethodFromName: (const char *)theMethodName inObject: obj
 {
-  SEL sel = sel_get_any_typed_uid (theMethodName);
-      
-  [self setMethodFromSelector: sel inObject: obj];
+  COMobject cObj = SD_COM_FIND_OBJECT_COM (obj);
 
+  if (!COM_is_javascript (cObj))
+    {
+      SEL sel = sel_get_any_typed_uid (theMethodName);
+      
+      [self setMethodFromSelector: sel inObject: obj];
+    }
+  else
+    {
+      (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
+      callType = JScall;
+      methodName = STRDUP (theMethodName);
+    }
   return self;
 }
 
@@ -565,15 +572,12 @@ PHASE(Using)
                        COM_params);
   else if (callType == JScall)
     {
-      abort ();
-#if 0
-    JS_method_invoke ((COMmethod) fmethod,
-                      (COMobject) fobject,
-                      COM_params);
-#endif
-    }
-  else if (callType == JScall)
-    {
+      JS_method_invoke ((COMobject) fobject,
+                        methodName,
+                        COM_params);
+      JS_set_return (COM_params,
+                     fargs->assignedArgumentCount,
+                     &fargs->retVal);
     }
 #ifndef USE_AVCALL
   else

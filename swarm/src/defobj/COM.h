@@ -45,6 +45,14 @@ struct COMInterface {
   void (*COMsetReturn) (void *params, unsigned pos, val_t *val);
   void (*COMfreeParams) (void *params);
 
+  void (*collectMethods) (COMclass cClass, COM_collect_variable_func_t variableFunc, COM_collect_method_func_t methodFunc);
+
+  const char *(*COMmethodName) (COMmethod cMethod);
+  unsigned (*COMmethodArgCount) (COMmethod cMethod);
+  fcall_type_t (*COMmethodParamFcallType) (COMmethod cMethod, unsigned index);
+  void (*COMmethodSetReturn) (COMmethod cMethod, void *params, void *value);
+  void (*COMmethodInvoke) (COMobject target, COMmethod cMethod, void *params);
+
   BOOL (*isJavaScript) (COMobject cObj);
   void *(*JScreateParams) (unsigned size);
   void (*JSsetArg) (void *params, unsigned pos, val_t *val);
@@ -53,16 +61,10 @@ struct COMInterface {
   
   BOOL (*JSprobeVariable) (COMobject cObj, const char *variableName, val_t *ret);
   void (*JSsetVariable) (COMobject cObj, const char *variableName, val_t *ret);
-
-  void (*collectMethods) (COMclass cClass, COM_collect_variable_func_t variableFunc, COM_collect_method_func_t methodFunc);
-
+  void (*JSmethodInvoke) (COMobject cObj, const char *methodName, void *params);
+  unsigned (*JSmethodArgCount) (COMobject cObj, const char *methodName);
   void (*collectJSProperties) (COMobject cObj, JS_collect_func_t variableFunc, JS_collect_func_t methodFunc);
 
-  const char *(*COMmethodName) (COMmethod cMethod);
-  unsigned (*COMmethodArgCount) (COMmethod cMethod);
-  fcall_type_t (*COMmethodParamFcallType) (COMmethod cMethod, unsigned index);
-  void (*COMmethodSetReturn) (COMmethod cMethod, void *params, void *value);
-  void (*COMmethodInvoke) (COMmethod cMethod, COMobject target, void *params);
 };
 
 extern void initCOM (COMEnv *env);
@@ -104,6 +106,8 @@ extern void JS_free_params (void *params);
 
 extern BOOL JS_probe_variable (COMobject cObj, const char *variableName, val_t *ret);
 extern void JS_set_variable (COMobject cObj, const char *variableName, val_t *val);
+extern void JS_method_invoke (COMobject cObj, const char *methodName, void *params);
+extern unsigned JS_method_arg_count (COMobject cObj, const char *methodName);
 
 
 extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
@@ -117,7 +121,7 @@ extern void JS_collect_methods (COMobject cObj, JS_collect_func_t methodsFunc);
 
 extern const char *COM_method_name (COMmethod cMethod);
 extern void COM_method_set_return (COMmethod cMethod, void *params, void *value);
-extern void COM_method_invoke (COMmethod cMethod, COMobject target, void *params);
+extern void COM_method_invoke (COMobject target, COMmethod cMethod, void *params);
 extern fcall_type_t COM_method_param_fcall_type (COMmethod cMethod, unsigned index);
 #ifdef __cplusplus
 }

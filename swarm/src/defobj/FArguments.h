@@ -51,6 +51,7 @@ Library:      defobj
 - setSelector: (SEL)aSel;
 + create: aZone setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
+- addArgument: (void *)value ofType: (fcall_type_t)type;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addBoolean: (BOOL)value;
 - addChar: (char)value;
@@ -69,11 +70,12 @@ Library:      defobj
 - addString: (const char *)value;
 - addObject: value;
 - addJavaObject: (JOBJECT)javaObject;
-- _setReturnType_: (fcall_type_t)type;
 - setObjCReturnType: (char)type;
+- setReturnType: (fcall_type_t)retType;
 - setBooleanReturnType;
 - createEnd;
 - (void *)getResult;
+- (val_t)getRetVal;
 - (void)dropAllocations: (BOOL)componentAlloc;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (id <Symbol>)getLanguage;

@@ -149,7 +149,7 @@ PHASE(Creating)
 #define ADD_PRIMITIVE_SIZE(fcall_type)
 #endif
 
-- _addArgument_: (void *)value ofType: (fcall_type_t)type
+- addArgument: (void *)value ofType: (fcall_type_t)type
 {
   size_t size = 0;
   unsigned offset = MAX_HIDDEN + assignedArgumentCount;
@@ -178,7 +178,7 @@ PHASE(Creating)
 
 - addArgument: (void *)value ofObjCType: (char)objcType
 {
-  return [self _addArgument_: value
+  return [self addArgument: value
                ofType: fcall_type_for_objc_type (objcType)];
 }
 
@@ -332,7 +332,7 @@ PHASE(Creating)
   return self;
 }
 
-- _setReturnType_: (fcall_type_t)type
+- setReturnType: (fcall_type_t)type
 {
   if (language == LanguageJava)
     {
@@ -416,12 +416,12 @@ PHASE(Creating)
 
 - setObjCReturnType: (char)objcType
 {
-  return [self _setReturnType_: fcall_type_for_objc_type (objcType)];
+  return [self setReturnType: fcall_type_for_objc_type (objcType)];
 }
 
 - setBooleanReturnType
 {
-  return [self _setReturnType_: fcall_type_boolean];
+  return [self setReturnType: fcall_type_boolean];
 }
 
 #ifdef HAVE_JDK
@@ -520,6 +520,11 @@ PHASE(Using)
 - (id <Symbol>)getLanguage
 {
   return language;
+}
+
+- (val_t)getRetVal
+{
+  return retVal;
 }
 
 - (void)drop

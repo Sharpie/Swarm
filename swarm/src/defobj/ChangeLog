@@ -1,3 +1,22 @@
+2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* FCall.m (add_ffi_types): Don't set return type here
+	for JavaScript, as it will be dynamic.
+	([FCall_c -performCall]): Set it here.
+	([FCall_c -setMethodFromName:inObject:]): Handle JavaScript.
+
+	* FArguments.[hm], defobj.h ([FArguments_c -addArgument:ofType:],
+	[FArguments_c -setReturnType:]): Replaces internal methods.
+	([FArguments_c -getRetVal]): New method.
+
+	* COM.h (COMInterface): Group JavaScript functions together at end.
+	Add JSmethodArgCount and JSmethodInvoke.
+
+	* COM.[hm] (JS_method_{invoke,arg_count}): New functions.
+	(COM_method_invoke): Make target object first argument.
+
+	* COM.m (COM_is_javascript): Return NO if comEnv hasn't been set yet.
+
 2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* FCall.m ([FCall_c -setMethodFromSelector:inObject:]): Use

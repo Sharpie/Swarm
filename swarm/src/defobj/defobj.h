@@ -1083,6 +1083,7 @@ CREATING
 - setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
 + create: (id <Zone>)aZone setSelector: (SEL)aSel;
+- addArgument: (void *)value ofType: (fcall_type_t)type;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addBoolean: (BOOL)value;
@@ -1102,8 +1103,10 @@ CREATING
 - addObject: obj;
 - addJavaObject: (JOBJECT)obj;
 - setObjCReturnType: (char)type;
+- setReturnType: (fcall_type_t)retType;
 - setBooleanReturnType;
 USING
+- (val_t)getRetVal;
 - (id <Symbol>)getLanguage;
 - (void *)getResult;
 @end

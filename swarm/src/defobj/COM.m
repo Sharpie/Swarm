@@ -88,7 +88,9 @@ COM_free_params (void *params)
 BOOL
 COM_is_javascript (COMobject cObj)
 {
-  return comEnv->isJavaScript (cObj);
+  if (comEnv)
+    return comEnv->isJavaScript (cObj);
+  return NO;
 }
 
 void *
@@ -151,6 +153,18 @@ JS_set_variable (COMobject cObj, const char *variableName, val_t *val)
   comEnv->JSsetVariable (cObj, variableName, val);
 }
 
+void
+JS_method_invoke (COMobject cObj, const char *methodName, void *params)
+{
+  comEnv->JSmethodInvoke (cObj, methodName, params);
+}
+
+unsigned
+JS_method_arg_count (COMobject cObj, const char *methodName)
+{
+  return comEnv->JSmethodArgCount (cObj, methodName);
+}
+
 const char *
 COM_method_name (COMmethod cMethod)
 {
@@ -170,9 +184,9 @@ COM_method_set_return (COMmethod cMethod, void *params, void *value)
 }
 
 void
-COM_method_invoke (COMmethod cMethod, COMobject cObj, void *params)
+COM_method_invoke (COMobject cObj, COMmethod cMethod, void *params)
 {
-  comEnv->COMmethodInvoke (cMethod, cObj, params);
+  comEnv->COMmethodInvoke (cObj, cMethod, params);
 }
 
 COMobject 
