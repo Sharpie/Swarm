@@ -2,6 +2,7 @@
 
 	* Makefile.am (Makefile.common): Use quoted top_dossrcdir instead of
 	top_srcdir for SWARMSRCDIR.
+	(C_EXTRA_DIST): Add c/javaswarm.dll.c.
 
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
