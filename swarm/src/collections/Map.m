@@ -124,6 +124,8 @@ PHASE(Creating)
                 [self setCompareFunction: compareIntegers];
               else if (strcmp (funcName, "compare-unsigned-integers") == 0)
                 [self setCompareFunction: compareUnsignedIntegers];
+              else if (strcmp (funcName, "compare-c-strings") == 0)
+                [self setCompareFunction: compareCStrings];
               else if (strcmp (funcName, "compare-IDs") == 0)
                 [self setCompareFunction: compareIDs];
               else
@@ -492,6 +494,12 @@ PHASE(Using)
           sprintf (buf, "%d", (int) key);
           [outputCharStream catC: buf];
         }
+      else if (compareFunc == compareCStrings)
+        {
+          [outputCharStream catC: "\""];
+          [outputCharStream catC: (const char *) key];
+          [outputCharStream catC: "\""];
+        }
       [outputCharStream catC: " "];
       [member lispOut: outputCharStream deep: deepFlag];
       [outputCharStream catC: ")"];
@@ -506,6 +514,8 @@ PHASE(Using)
     [outputCharStream catC: "#:compare-integers"];
   else if (compareFunc == compareUnsignedIntegers)
     [outputCharStream catC: "#:compare-unsigned-integers"];
+  else if (compareFunc == compareCStrings)
+    [outputCharStream catC: "#:compare-c-strings"];
   else if (compareFunc == compareIDs)
     [outputCharStream catC: "#:compare-IDs"];
   else

@@ -1,6 +1,8 @@
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Map.m, collection.h (compareCStrings): New function.
+	([Map_c -lispOut:deep:], [Map_c -lispInCreate:]): Add support
+	for c-strings.
 
 	* Map.h (compareIDs, compareIntegers, compareUnsignedIntegers,
 	compareCStrings): Declare.
