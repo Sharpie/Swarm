@@ -5,6 +5,7 @@
 
 #import <collections.h>
 #import <analysis/Averager.h>
+#import <defobj/defalloc.h> // getZone
 
 @implementation Averager
 
@@ -30,7 +31,7 @@ PHASE(Using)
 
 - update
 {
-  id iter, obj;
+  id obj;
 
   total = 0.0;
   count = 0;
@@ -48,23 +49,23 @@ PHASE(Using)
   max = [self doubleDynamicCallOn: obj];
   min = max;
   
-  // Ok, we have cached our function to call on each object - do it.
-  // note that we don't do lookup for each step: this code only works
-  // if the collection is homogeneous.
-  iter = [collection begin: [self getZone]];
-  while ((obj = [iter next]) != nil)
-    {
-      double v = [self doubleDynamicCallOn: obj];
-      
-      total += v;
-      if (v > max)
-        max = v;
-      if (v < min)
-        min = v;
-      count++;
-    }
-  
-  [iter drop];
+  {
+    id <Index> iter;
+    
+    iter = [collection begin: getZone (self)];
+    for (obj = [iter next]; [iter getLoc] == Member; obj = [iter next])
+      {
+	double v = [self doubleDynamicCallOn: obj];
+	
+	total += v;
+	if (v > max)
+	  max = v;
+	if (v < min)
+	  min = v;
+	count++;
+      }
+    [iter drop];
+  }
   
   return self;
 }
