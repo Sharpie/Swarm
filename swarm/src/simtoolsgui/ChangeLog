@@ -1,3 +1,8 @@
+2000-06-18    <mgd@DRONE>
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -createEnd]): Use
+	SD_GETCLASS and SD_SUPERCLASS instead of Objective-C-only calls.
+
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* simtoolsgui.h (SimpleProbeDisplay, ProbeDisplay): Remove

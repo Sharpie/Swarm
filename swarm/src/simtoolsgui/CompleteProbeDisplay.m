@@ -63,7 +63,6 @@ PHASE(Creating)
        class != nil; 
        class = SD_SUPERCLASS (class))
     {
-      printf ("[%s]\n", class->name);
       [classList addFirst: (id) class];	
       maxwidth = max (max_class_var_length (class), maxwidth);
     }
