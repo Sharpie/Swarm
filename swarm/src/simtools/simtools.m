@@ -29,10 +29,15 @@ initSwarm(int argc, char ** argv) {
 
   initProbing() ;
 
-  randomGenerator = [[PMMLCG1 alloc] init];	  // seeds from clock
-  uniformRandom = [UniformInteger alloc];
+  randomGenerator = [PMMLCG1 createBegin: globalZone];
+  [randomGenerator setStateFromSeed: 1234567890L ];
+  randomGenerator = [randomGenerator createEnd];
+
+  // Explicitly leave out the interval so that getIntegerWithMin:withMax:
+  // can be used.
+  uniformRandom = [UniformInteger createBegin: globalZone];
   [uniformRandom setGenerator: randomGenerator];
-  [uniformRandom setIntegerMin: 0L setMax: 1L];
+  uniformRandom = [uniformRandom createEnd];
 
   swarmGUIMode = 1;
 
