@@ -136,11 +136,7 @@ PHASE(Using)
       [self setState: ControlStateStopped];
       [ctlObj waitRun];
 #endif
-      // Check now if the user hit the quit button: if so, quit.
-      if (state == ControlStateQuit)
-        exit(0);
-      else
-        return self;
+      return self;
     }
 }
 

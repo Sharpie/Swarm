@@ -1,3 +1,8 @@
+2000-08-28  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ControlPanel.m ([ControlPanel -setStateStopped]): Remove check
+	for ControlStateQuit (never exit, just return).
+
 2000-07-26    <mgd@DRONE>
 
 	* ClassDisplayWidget.m: Change SD_JAVA_FINDJAVACLASS and
