@@ -1,5 +1,7 @@
 2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* ObjCProxy.java, ProxyClassLoader.java: New files.
+
 	* SwarmEnvironment.java (SwarmEnvironment):
 	Add Start, Member, End, scratchZone, and proxyClassLoader with
 	initializations.
