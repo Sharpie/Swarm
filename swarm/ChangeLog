@@ -1,3 +1,11 @@
+1998-03-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf (BLTLIBRARY): Add to mgd-SFI-Solaris and 
+	provide a default of ../library.
+
+	* Makefile (bininc): If to see if BLTLIBRARY directory exists, copy
+	the contents of that directory to the binary distribution.
+
 1998-03-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (SWARMDIST): Change to swarm-1998-03-04.
