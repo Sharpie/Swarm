@@ -100,6 +100,7 @@
 - updateArchiver: archiver;
 - (int)getOffset;
 - (BOOL)checkObject;
+- (void)describe: stream;
 @end
 
 @implementation MyClass
@@ -203,6 +204,31 @@
   if (doubleVal - offset != DOUBLEVAL)
     return NO;
   return YES;
+}
+- (void)describe: stream
+{
+  [stream catC: strVal];
+  [stream catC: " "];
+  [stream catInt: intVal];
+  [stream catC: " "];
+  [stream catUnsigned: unsignedVal];
+  [stream catC: " "];
+  [stream catUnsignedShort: ushortVal];
+  [stream catC: " "];
+  [stream catLong: longVal];
+  [stream catC: " "];
+  [stream catUnsignedLong: ulongVal];
+  [stream catC: " "];
+  [stream catFloat: floatVal];
+  [stream catC: " "];
+  [stream catDouble: doubleVal];
+  [stream catC: " "];
+  [stream catBoolean: deepFlag];
+  [stream catC: " "];
+  [stream catBoolean: updateFlag];
+  [stream catC: " "];
+  [stream catUnsigned: offset];
+  [stream catC: "\n"];
 }
 @end
 
@@ -325,7 +351,6 @@
       else
         [archiver putShallow: COLLNAME object: coll];
     }
-  
   return self;
 }
 
