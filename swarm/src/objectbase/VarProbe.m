@@ -599,13 +599,19 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     case _C_UINT:
       sprintf (buf, "%u", *(unsigned *) p);
       break;
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case _C_LNG_LNG:
+#endif
     case _C_LNG:
       sprintf (buf, "%ld", *(long *)p);
       break;
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case _C_ULNG_LNG:
+#endif
     case _C_ULNG:
       sprintf (buf, "%lu", *(unsigned long *) p);
       break;
-#ifdef LLFMT
+#if defined(LLFMT) && (SIZEOF_LONG_LONG > SIZEOF_LONG)
     case _C_LNG_LNG:
       sprintf (buf, "%" LLFMT "d", *(long long *)p);
       break;
@@ -1012,16 +1018,22 @@ setFieldFromString (id anObject, jobject field,
       break;
 
     case _C_LNG:
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case _C_LNG_LNG:
+#endif
       if ((rc = sscanf (s, "%ld", &value.l)) == 1) 
         *(long *) p = value.i; 
       break;
       
     case _C_ULNG:
+#if SIZEOF_LONG_LONG == SIZEOF_LONG
+    case _C_ULNG_LNG:
+#endif
       if ((rc = sscanf (s, "%lu", &value.ul)) == 1) 
         *(unsigned long *) p = value.ul; 
       break;
 
-#ifdef LLFMT
+#if defined(LLFMT) && (SIZEOF_LONG_LONG > SIZEOF_LONG)
     case _C_LNG_LNG:
       if ((rc = sscanf (s, "%" LLFMT "d", &value.ll)) == 1) 
         *(long *) p = value.ll; 
