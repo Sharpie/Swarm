@@ -42,9 +42,6 @@
       "OrderedSet"
       "_Set"
 
-      ;; objectbase non-creatable
-      "ProbeConfig"
-
       ;; activity
       "ActivityIndex"
 
@@ -88,8 +85,6 @@
       "CanvasAbstractItem"
 
       ;; simtoolsgui non-creatable
-      "WindowGeometryRecordName"
-      "CompositeWindowGeometryRecordName"
       "MessageProbeWidget"
       "MultiVarProbeWidget"
 

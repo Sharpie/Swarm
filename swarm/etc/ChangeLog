@@ -1,3 +1,9 @@
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* interface.el (*removed-protocols*): Remove ProbeConfig,
+	WindowGeometryRecordName, and CompositeWindowGeometryRecordName.
+	(They are needed to population implementation headers with COM.)
+
 2000-05-17  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* protocol.el (generate-complete-protocol-list): New function.
