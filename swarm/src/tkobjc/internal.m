@@ -648,8 +648,11 @@ keep_inside_screen (Tk_Window tkwin, Window window)
                      &rx, &ry, &rw, &rh,
                      &rbw, &rdepth))
     [PixmapError raiseEvent: "Cannot get geometry for root window"];
-  w += bw * 2;
-  h += bw * 2;
+  if (Tk_WindowId (tkwin) != window)
+    {
+      w += bw * 2;
+      h += bw * 2;
+    }
 #else
   RECT rect, rootrect;
   // wm frame returns a hwnd
