@@ -1,3 +1,10 @@
+1999-04-06  Alex Lancaster  <alex@santafe.edu>
+
+	* README: Note DocBook 3.1 support.
+
+	* NEWS: Note upgrades to support DocBook DTD 3.1 and stylesheets
+	1.38b.
+
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* docbook.dcl (ATTSPLEN): Increase to 2129 from 2100.

@@ -24,20 +24,19 @@ Building this documentation requires a number of packages:
 
 Two further packages are also required: 
 
-* The DocBook DTD (V3.0)
+* The DocBook DTD (V3.1)
 
-The SGML documentation is marked up using the DocBook V3.0 DTD
+The SGML documentation is marked up using the DocBook V3.1 DTD
 (formerly maintained by the Davenport Group - now maintained by
 OASIS), aimed at computer documentation.  The current version can be
 found at:
 
   http://www.oasis-open.org/docbook/docbook/index.html
 
-[Note: the Official Docbook documentation, in both HTML and Docbook
-form, is still located on the Davenport Project web server
-(http://www.ora.com/davenport/).  Copies of the Overview, User's
-Guide, Reference, and Maintainer's Guide are available here as
-well. Note that only the Reference has been updated for DocBook 3.0.]
+The Official Docbook documentation, in both HTML and Docbook form, is
+web server.  Copies of the Overview, User's Guide, Reference, and
+Maintainer's Guide are available here as well. Note that only the
+Reference has been updated for only DocBook 3.0 (not 3.1 as yet).
   
 * The modular DocBook stylesheets 
 
