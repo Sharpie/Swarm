@@ -350,7 +350,7 @@ retval_t objc_msg_sendv(id, SEL, arglist_t);
 ** This may e.g. try to load in the class using dynamic loading.
 ** The function is guaranteed to be passed a non-NULL name string.
 */
-externvar Class (*_objc_lookup_class) (const char *name);
+externobjcvar Class (*_objc_lookup_class) (const char *name);
 
 /*
 ** This is a hook which is called by __objc_exec_class every time a class
@@ -358,14 +358,14 @@ externvar Class (*_objc_lookup_class) (const char *name);
 ** dynamic loader determine the classes that have been loaded when
 ** an object file is dynamically linked in.
 */
-externvar void (*_objc_load_callback) (Class class, Category* category);
+externobjcvar void (*_objc_load_callback) (Class class, Category* category);
 
 /*
 ** Hook functions for allocating, copying and disposing of instances
 */
-externvar id (*_objc_object_alloc) (Class class);
-externvar id (*_objc_object_copy) (id object);
-externvar id (*_objc_object_dispose) (id object);
+externobjcvar id (*_objc_object_alloc) (Class class);
+externobjcvar id (*_objc_object_copy) (id object);
+externobjcvar id (*_objc_object_dispose) (id object);
 
 /*
 ** Standard functions for memory allocation and disposal.
@@ -395,12 +395,12 @@ void objc_free (void *mem);
 ** Users should call the normal objc routines above for
 ** memory allocation and disposal within their programs.
 */
-externvar void *(*_objc_malloc) (size_t);
-externvar void *(*_objc_atomic_malloc) (size_t);
-externvar void *(*_objc_valloc) (size_t);
-externvar void *(*_objc_realloc) (void *, size_t);
-externvar void *(*_objc_calloc) (size_t, size_t);
-externvar void (*_objc_free) (void *);
+externobjcvar void *(*_objc_malloc) (size_t);
+externobjcvar void *(*_objc_atomic_malloc) (size_t);
+externobjcvar void *(*_objc_valloc) (size_t);
+externobjcvar void *(*_objc_realloc) (void *, size_t);
+externobjcvar void *(*_objc_calloc) (size_t, size_t);
+externobjcvar void (*_objc_free) (void *);
 
 Method_t class_get_class_method (MetaClass class, SEL aSel);
 
