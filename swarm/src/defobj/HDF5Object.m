@@ -535,9 +535,9 @@ PHASE(Creating)
 
   obj->createFlag = NO;
   obj->datasetFlag = NO;
+#ifdef HAVE_HDF5
   obj->c_rnnlen = 0;
   obj->c_rnmlen = 0;
-#ifdef HAVE_HDF5
   obj->loc_id = 0;
 #endif
   return obj;
@@ -894,7 +894,12 @@ PHASE(Using)
 
 - (const char *)getAttribute: (const char *)attrName
 {
+#ifdef HAVE_HDF5
   return get_attribute (loc_id, attrName);
+#else
+  hdf5_not_availabe ();
+  return NULL;
+#endif
 }
 
 - getClass
