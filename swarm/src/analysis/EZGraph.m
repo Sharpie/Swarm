@@ -594,7 +594,11 @@ PHASE(Using)
 
 - (double)getCurrentValue
 {
-  return [activeGrapher getCurrentValue];
+  if (activeGrapher)
+    return [activeGrapher getCurrentValue];
+  if (activeOutFile)
+    return [activeOutFile getCurrentValue];
+  abort ();
 }
 
 - (void)update

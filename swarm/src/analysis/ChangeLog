@@ -1,3 +1,14 @@
+2002-05-15  Marcus G. Daniels  <mgd@condor>
+
+	* analysis.h (ActiveGraph): Move getCurrentValue to using phase.
+	(ActiveOutFile): Add getCurrentValue.
+
+	* EZGraph.m ([EZSequence -getCurrentValue]): Handle getCurrentValue
+	in file case.
+
+	* ActiveOutFile.[hm] ([ActiveOutFile -getCurrentValue]): Add.
+	([ActiveOutFile -step]): Set currentValue.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* ActiveGraph.h, ActiveGraph.m, ActiveOutFile.h, ActiveOutFile.m,

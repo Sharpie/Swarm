@@ -557,15 +557,14 @@ CREATING
 
 //M: Sets the object that will be probed for data.
 - setDataFeed: d;
-
-//M: Returns the value of the graph element..
-- (double)getCurrentValue;
 USING
-
 //M: Fires the probe, reads the value from the object, and draws it
 //M: on the graph element. The X value is implicitly the current
 //M: simulation time. Y is the value read. 
 - (void)step;
+
+//M: Returns the value of the graph element..
+- (double)getCurrentValue;
 @end
 
 @protocol ActiveOutFile <MessageProbe, CREATABLE>
@@ -590,6 +589,9 @@ USING
 //M: The step method fires the probe, reads the value from the object, and 
 //M: sends the value to the file.
 - (void)step;
+
+//M: Returns the last probed value
+- (double)getCurrentValue;
 @end
 
 @protocol FunctionGraph <SwarmObject, CREATABLE>
