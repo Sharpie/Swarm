@@ -46,7 +46,7 @@ CREATING
 @end
 
 
-@protocol ControlPanel <SwarmObject, CREATABLE>
+@protocol ControlPanel <SwarmObject, RETURNABLE>
 //S: Class to control the top level SwarmProcess
 
 //D: ControlPanel keeps track of the users requests to run, stop, quit, or
@@ -88,7 +88,7 @@ USING
 
 @end
 
-@protocol ActionCache <CompositeWindowGeometryRecordName, CREATABLE>
+@protocol ActionCache <CompositeWindowGeometryRecordName, RETURNABLE>
 //S: A class to manage threads and Swarms.
 
 //D: A class that provides a smart bag into which actions can be
@@ -124,7 +124,7 @@ externvar id <Symbol> Control, Probing, Spatial;
 externvar id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 
-@protocol CommonProbeDisplay <WindowGeometryRecordName, CREATABLE>
+@protocol CommonProbeDisplay <WindowGeometryRecordName>
 //S: A protocol underlying ProbeDisplay and CompleteProbeDisplay
 //D: This protocol provides the common interface to all kinds of ProbeDisplays.
 
@@ -142,7 +142,7 @@ USING
 - getTopLevel;
 @end
 
-@protocol SingleProbeDisplay <CommonProbeDisplay, CREATABLE>
+@protocol SingleProbeDisplay <CommonProbeDisplay>
 //S: An abstract protocol underlying single-object probe displays.
 
 //D: This protocol is common to CompleteProbeDisplay and ProbeDisplay.
@@ -156,7 +156,7 @@ USING
 - getProbedObject;
 @end
 
-@protocol SimpleProbeDisplay <SingleProbeDisplay, CREATABLE>
+@protocol SimpleProbeDisplay <SingleProbeDisplay, RETURNABLE>
 //S: 
 
 //D: 
@@ -191,7 +191,7 @@ USING
 
 @end
 
-@protocol CompleteProbeDisplay <SingleProbeDisplay, CREATABLE>
+@protocol CompleteProbeDisplay <SingleProbeDisplay, RETURNABLE>
 //S: A class that generates a complete ProbeMap for an object.
 
 //D: A class which generates a GUI to a complete ProbeMap of probes applied 
@@ -287,7 +287,7 @@ extern const char *buildWindowGeometryRecordName (const char *baseName,
                                                   const char *componentName);
 @end
 
-@protocol GUIComposite <CompositeWindowGeometryRecordName, CREATABLE>
+@protocol GUIComposite <CompositeWindowGeometryRecordName>
 //S: Base class for objects that use several GUI components.
 
 //D: Base class for objects that use several GUI components.
