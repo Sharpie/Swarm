@@ -129,8 +129,8 @@ PHASE(Creating)
   [superB setSuperWidget: mySuperclass];
   superB = [superB createEnd];
   
-  middleFrame =  [Frame createParent: self];  
-  leftFrame =  [Frame createParent: middleFrame];  
+  middleFrame = [Frame createParent: self];
+  leftFrame = [Frame createParent: middleFrame];  
   rightFrame = [Frame createParent: middleFrame];
   bottomFrame = [Frame createParent: self];
   
@@ -275,7 +275,13 @@ PHASE(Using)
 - pack
 {
   GUI_PACK (self);
+
   return self;
+}
+
+- getTopLevel
+{
+  return [parent getTopLevel];
 }
 
 #endif
