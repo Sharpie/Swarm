@@ -15,6 +15,8 @@ Library:      collections
 #include <objc/objc-api.h> // object_get_class
 #include <collections/predicates.h> // keywordp, stringp
 
+#import <defobj.h> // hdf5in, HDF5
+
 #include <swarmconfig.h> // HAVE_HDF5
 
 #define COMPARE_FUNCTION "compare-function"
@@ -111,6 +113,22 @@ PHASE(Creating)
   return self;
 }
 
+static void
+setCompareFunctionByName (id self, const char *funcName)
+{
+  if (strcmp (funcName, COMPARE_INT) == 0)
+    [self setCompareFunction: compareIntegers];
+  else if (strcmp (funcName, COMPARE_UNSIGNED) == 0)
+    [self setCompareFunction: compareUnsignedIntegers];
+  else if (strcmp (funcName, COMPARE_CSTRING) == 0)
+    [self setCompareFunction: compareCStrings];
+  else if (strcmp (funcName, COMPARE_ID) == 0)
+    [self setCompareFunction: compareIDs];
+  else
+    raiseEvent (InvalidArgument, "Unknown compare function: %s",
+                funcName);
+}
+
 - lispInCreate: expr
 {
   id index, member;
@@ -121,23 +139,11 @@ PHASE(Creating)
       if (keywordp (member))
         {
           const char *name = [member getKeywordName];
-
+          
           if (strcmp (name, COMPARE_FUNCTION) == 0)
-            {
-              const char *funcName = [lispInKeyword (index) getKeywordName];
-
-              if (strcmp (funcName, COMPARE_INT) == 0)
-                [self setCompareFunction: compareIntegers];
-              else if (strcmp (funcName, COMPARE_UNSIGNED) == 0)
-                [self setCompareFunction: compareUnsignedIntegers];
-              else if (strcmp (funcName, COMPARE_CSTRING) == 0)
-                [self setCompareFunction: compareCStrings];
-              else if (strcmp (funcName, COMPARE_ID) == 0)
-                [self setCompareFunction: compareIDs];
-              else
-                raiseEvent (InvalidArgument, "Unknown compare function: %s",
-                            funcName);
-            }
+            setCompareFunctionByName (self,
+                                      [lispInKeyword (index) getKeywordName]);
+              
           else if (![self _lispInAttr_: index])
             raiseEvent (InvalidArgument, "unknown keyword `%s'", name);
         }
@@ -146,6 +152,15 @@ PHASE(Creating)
   return self;
 }
 
+- hdf5InCreate: hdf5Obj
+{
+  const char *funcName  = [hdf5Obj getAttribute: COMPARE_FUNCTION];
+
+  if (funcName)
+    setCompareFunctionByName (self, funcName);
+
+  return self;
+}
 
 PHASE(Using)
 
@@ -661,38 +676,53 @@ PHASE(Using)
           id compoundType = [[[HDF5CompoundType createBegin: aZone]
                                setClass: [memberProto class]]
                               createEnd];
-          {
-            id dataset =
-              [[[[[[[HDF5 createBegin: aZone]
-                     setName: [hdf5Obj getName]]
-                    setCreateFlag: YES]
-                   setParent: hdf5Obj]
-                  setCompoundType: compoundType]
-                 setCount: [self getCount]]
-                createEnd];
-            id member;
-            
-            [dataset storeTypeName: [self getTypeName]];
-            [dataset storeComponentTypeName: [memberProto getTypeName]];
-            [mi setLoc: Start];
-            while ((member = [mi next: &key]))
-              {
-                unsigned rn = [mi getOffset];
-                char buf[DSIZE (unsigned) + 1];
-
-                if (isString)
-                  [dataset nameRecord: rn name: [key getC]];
-                else
-                  {
-                    sprintf (buf, "%u", (unsigned) key);
-                    [dataset nameRecord: rn name: buf];
-                  }
-                [dataset selectRecord: rn];
-                [member hdf5Out: dataset deep: NO];
-              }
-            [dataset writeRowNames];
-            [dataset drop];
-          }
+          id dataset =
+            [[[[[[[HDF5 createBegin: aZone]
+                   setName: [hdf5Obj getName]]
+                  setCreateFlag: YES]
+                 setParent: hdf5Obj]
+                setCompoundType: compoundType]
+               setCount: [self getCount]]
+              createEnd];
+          id member, key;
+          id <MapIndex> mi = [self begin: aZone];
+          BOOL keyIsString = NO;
+          
+          [dataset storeTypeName: [self getTypeName]];
+          [dataset storeComponentTypeName: [memberProto getTypeName]];
+          
+          member = [mi next: &key];
+          
+          if (compareFunc == compareIDs || compareFunc == NULL)
+            keyIsString = stringp (key);
+          
+          [mi setLoc: Start];
+          while ((member = [mi next: &key]))
+            {
+              unsigned rn = [mi getOffset];
+              
+              if (keyIsString)
+                [dataset nameRecord: rn name: [key getC]];
+              else if (compareFunc == compareCStrings)
+                [dataset nameRecord: rn name: (const char *) key];
+              else if (compareFunc == compareUnsignedIntegers)
+                [dataset numberRecord: (unsigned) key];
+              else if (compareFunc == compareIntegers)
+                {
+                  char buf[DSIZE (int) + 1];
+                  sprintf (buf, "%d", (int) key);
+                  
+                  [dataset nameRecord: rn name: buf];
+                }
+              else
+                raiseEvent (SaveError, "cannot shallow-serialize Map %s",
+                            [hdf5Obj getName]);
+              
+              [dataset selectRecord: rn];
+              [member hdf5Out: dataset deep: NO];
+            }
+          [dataset writeRowNames];
+          [dataset drop];
           [mi drop];
           [compoundType drop];
         }
@@ -705,6 +735,81 @@ PHASE(Using)
 
 - hdf5In: hdf5Obj
 {
+  id aZone = [self getZone];
+
+  if (![hdf5Obj getDatasetFlag])
+    {
+      if (compareFunc == compareIDs || compareFunc == NULL)
+        {
+          id keyGroup = [[[[[HDF5 createBegin: aZone]
+                             setCreateFlag: NO]
+                            setParent: hdf5Obj]
+                           setName: "keys"]
+                      createEnd];
+          
+          id valueGroup = [[[[[HDF5 createBegin: aZone]
+                               setCreateFlag: NO]
+                              setParent: hdf5Obj]
+                             setName: "values"]
+                            createEnd];
+          {
+            int process_object (id keyComponent)
+              {
+                id valueComponent = [[[[[HDF5 createBegin: aZone]
+                                         setCreateFlag: NO]
+                                        setParent: valueGroup]
+                                       setName: [keyComponent getName]]
+                                      createEnd];
+                id key = hdf5In (aZone, keyComponent);
+                id value = hdf5In (aZone, valueComponent);
+
+                [self at: key insert: value];
+                [valueComponent drop];
+                return 0;
+              }
+            [keyGroup iterate: process_object];
+            [keyGroup drop];
+            [valueGroup drop];
+          }
+        }
+      else if (compareFunc == compareCStrings)
+        {
+          int process_object (id keyComponent)
+            {
+              const char *key = [keyComponent getName];
+              id value =  hdf5In (aZone, keyComponent);
+              
+              [self at: (id) key insert: value];
+              return 0;
+            }
+          [hdf5Obj iterate: process_object];
+        }
+      else if (compareFunc == compareIntegers
+               || compareFunc == compareUnsignedIntegers)
+        {
+          const char *fmt;
+
+          int process_object (id keyComponent)
+            {
+              const char *keyStr = [keyComponent getName];
+              int key;
+              id value = hdf5In (aZone, keyComponent);
+
+              sscanf (keyStr, fmt, &key);
+              [self at: (id) key insert: value];
+              return 0;
+            }
+
+          fmt = (compareFunc == compareIntegers) ? "%d" : "%u";
+          [hdf5Obj iterate: process_object];
+        }
+      else
+        abort ();
+    }
+  else
+    {
+      printf ("shallow map\n");
+    }
   return self;
 }
 

@@ -2,6 +2,12 @@
 
 	* Map.m ([Map_c hdf5Out:deep]): Don't compute anything for call
 	to -setRowNameLength: and don't call it.
+	([Map_c -hdf5InCreate:]): New method.
+	(setCompareFunctionByName): New function.
+	([Map_c -lispInCreate:], [Map_c -hdf5InCreate:]): Use it.
+	([Map_c -hdf5Out:deep:]): Check compareFunc before checking
+	if key is a string (an object).
+	([Map_c -hdf5In:]): Implement deep loading and shallow/deep keys.
 
 	* List.m ([List_any -hdf5In:]): New method.
 	
