@@ -1,4 +1,4 @@
-SWARMHOME=/opt/swarm
+SWARMHOME=../swarm
 APPLICATION=mousetrap
 OBJECTS=main.o Mousetrap.o MousetrapModelSwarm.o MousetrapObserverSwarm.o MousetrapBatchSwarm.o
 APPLIBS=-lspace
