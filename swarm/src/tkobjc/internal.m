@@ -875,11 +875,10 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
           }
         
         Tk_RestackWindow (tkwin, Above, NULL);
-        keep_inside_screen (tkwin, window);
+        if (!obscured)
+          keep_inside_screen (tkwin, window);
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         XFlush (display);
-        XSync (display, 0);
-        while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         if (strcmp ([globalTkInterp
                       globalVariableValue: "obscured"],
                     "yes") == 0 && !obscured)
