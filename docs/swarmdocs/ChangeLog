@@ -1,3 +1,8 @@
+1998-05-27  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.rules: Usee addprefix, not addsuffixes for output
+	format rules.
+
 1998-05-27  Alex Lancaster  <alex@santafe.edu>
 
 	* swarmbook.dsl (html): for REFERENCEs, made REVHISTORY be a
