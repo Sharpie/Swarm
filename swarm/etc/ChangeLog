@@ -1,3 +1,7 @@
+2004-07-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* interface.el (unwanted-create-method-p): Added BinomialDist.
+
 2004-07-26  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.common.in: Don't add -lswarmobjc if LIBOBJCDIR is

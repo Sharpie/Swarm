@@ -475,6 +475,7 @@
                   "BernoulliDist"
                   "C2TAUS2gen"
                   "PoissonDist"
+                  "BinomialDist"
                   )
                 :test #'string=))
      (find signature 
