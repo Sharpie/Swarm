@@ -1,3 +1,7 @@
+1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile (APPVERSION): Bump.
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]):

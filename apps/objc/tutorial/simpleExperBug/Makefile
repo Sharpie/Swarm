@@ -1,8 +1,8 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../../swarm-2.0
+SWARMHOME=../../swarm-2.0.1
 endif
 APPLICATION=bug
-APPVERSION=2.0
+APPVERSION=2.0.1
 BUGADDRESS=bug-swarm@santafe.edu
 OBJECTS=Bug.o  main.o ExperSwarm.o ModelSwarm.o FoodSpace.o
 DATAFILES = experiment.setup
