@@ -47,19 +47,14 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (FILE *) getFileStream
+- (FILE *)getFileStream
 {
   return fileStream;
 }
 
-- (void) catC: (const char *)cstring
+- (void)catC: (const char *)cstring
 {
   fputs (cstring, fileStream);
-}
-
-- (void) appendC: (const char *)cstring
-{
-  [self catC: cstring];
 }
 
 @end

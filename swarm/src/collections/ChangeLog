@@ -1,3 +1,7 @@
+1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* OutputStream.[hm]: Remove -appendC:.
+
 1998-11-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Array.[hm] ([Array_c +create:setMemberAlloc:setCount:],

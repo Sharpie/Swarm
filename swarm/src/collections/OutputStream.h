@@ -24,5 +24,4 @@ Library:     collections
 + create: aZone setFileStream: (FILE *)file;
 - (FILE *) getFileStream;
 - (void) catC: (const char *)cstring;
-- (void) appendC: (const char *)cstring;
 @end
