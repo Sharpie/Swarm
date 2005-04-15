@@ -357,7 +357,7 @@ CREATING
 USING
 - reshuffle;
 @end;
-
+
 @protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
 //S: A generic collection interface.
 
@@ -1227,7 +1227,7 @@ USING
 //D: of contents of Permutation will not reflect on the original collection.
 
 CREATING
-- setCollection: (id <Collection>)collection;
+- setCollection: (id <Collection>)aCollection;
 - setLastPermutation: (id <Permutation>)permutation;
 - setUniformRandom: rnd;
 @end

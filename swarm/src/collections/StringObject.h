@@ -37,7 +37,7 @@ Library:      collections
 + createBegin: aZone;
 - createEnd;
 + create: aZone;
-+ create: aZone setC: (const char *)cstring;
++ create: (id <Zone>)aZone setC: (const char *)cstring;
 - setLiteralFlag: (BOOL)literalFlag;
 - (void)setC: (const char *)cstring;
 - copy: aZone;
@@ -50,9 +50,9 @@ Library:      collections
 - (BOOL)getLiteralFlag;
 - lispIn: expr;
 - hdf5In: hdf5Obj;
-- (void)lispOutShallow: stream;
-- (void)lispOutDeep: stream;
-- (void)hdf5OutShallow: hdf5Obj;
+- (void)lispOutShallow: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
+- (void)hdf5OutShallow: (id <HDF5>)hdf5Obj;
 - (void)describe: outputCharStream;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

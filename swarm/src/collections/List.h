@@ -53,10 +53,10 @@ typedef struct link *link_t;
 - lispIn: expr;
 - hdf5InCreate: hdf5Obj;
 - hdf5In: hdf5Obj;
-- (void)lispOutShallow: stream;
-- (void)lispOutDeep: stream;
-- (void)hdf5OutShallow: hdf5Obj;
-- (void)hdf5OutDeep: hdf5Obj;
+- (void)lispOutShallow: (id <OutputStream>)stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
+- (void)hdf5OutShallow: (id <HDF5>)hdf5Obj;
+- (void)hdf5OutDeep: (id <HDF5>)hdf5Obj;
 @end
 
 @interface ListIndex_any: Index_any

@@ -59,7 +59,7 @@ struct link {
 - (void)addLast: anObject;
 - removeFirst;
 - removeLast;
-- (id <ListIndex>)begin: aZone;
+- (id <ListIndex>)begin: (id <Zone>)aZone;
 - (id <ListIndex>)listBegin: (id <Zone>)aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;

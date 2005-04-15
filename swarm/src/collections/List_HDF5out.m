@@ -1,4 +1,4 @@
-- (void)hdf5OutDeep: hdf5Obj
+- (void)hdf5OutDeep: (id <HDF5>)hdf5Obj
 {
   id <Index> li = [self begin: getCZone (getZone (self))];
   id member;
@@ -29,7 +29,7 @@
   [li drop];
 }
 
-- (void)hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: (id <HDF5>)hdf5Obj
 {
   if (![self allSameClass])
     raiseEvent (SaveError,

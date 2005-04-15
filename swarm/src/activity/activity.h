@@ -199,13 +199,13 @@ USING
 - getControllingActivity;
 
 //M: Return top of activity tree running the local activity.
-- getTopLevelActivity;
+- (id <Activity>)getTopLevelActivity;
 
 //M: Return most immediately containing Swarm activity.
 - getSwarmActivity;
 
 //M: Return most immediately containing Schedule activity.
-- getScheduleActivity;
+- (id <Activity>)getScheduleActivity;
 
 //M: Set serial execution mode.
 - setSerialMode: (BOOL)serialMode;

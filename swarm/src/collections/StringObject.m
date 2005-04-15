@@ -66,7 +66,7 @@ PHASE(Creating)
   return newString;
 }
 
-+ create: aZone setC: (const char *)cstring
++ create: (id <Zone>)aZone setC: (const char *)cstring
 {
   String_c *newString;
 
@@ -198,7 +198,7 @@ PHASE(Using)
   return self;
 }
 
-- (void)lispOutShallow: stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
   if (literalFlag)
     [stream catString: string];
@@ -212,7 +212,7 @@ PHASE(Using)
     }
 }
 
-- (void)lispOutDeep: stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   [self lispOutShallow: stream];
 }
@@ -224,7 +224,7 @@ PHASE(Using)
   return self;
 }
 
-- (void)hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: (id <HDF5>)hdf5Obj
 {
   [hdf5Obj storeAsDataset: [hdf5Obj getHDF5Name]
            typeName: [self getTypeName]

@@ -587,7 +587,7 @@ installStep (Activity_c *activity)
 //
 // getScheduleActivity -- return most immediately containing Schedule activity
 //
-- (id <ScheduleActivity>)getScheduleActivity
+- (id <Activity>)getScheduleActivity
 {
   Activity_c  *activity;
 

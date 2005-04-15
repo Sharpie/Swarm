@@ -380,7 +380,7 @@ PHASE(Using)
   return block[count - 1];
 }
 
-- begin: aZone
+- (id <Index>)begin: (id <Zone>)aZone
 {
   ArrayIndex_c *newIndex;
 
@@ -506,12 +506,12 @@ PHASE(Using)
   [outputCharStream catEndExpr];
 }
 
-- (void)lispOutDeep: stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   [self _lispOut_: stream deep: YES];
 }
 
-- (void)lispOutShallow: stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
   [self _lispOut_: stream deep: NO];
 }

@@ -35,7 +35,7 @@
 
 PHASE(Creating)
 
-+ create: aZone setSizeX: (unsigned)x Y: (unsigned)y
++ create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y
 {
   Discrete2d *obj = [self createBegin: aZone];
   obj->xsize = x;
@@ -480,7 +480,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   [stream catEndParse];
 }
 
-- (void)lispOutShallow: stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
   [stream catStartMakeInstance: [self getTypeName]];
   [self lispOutVars: stream deep: NO];

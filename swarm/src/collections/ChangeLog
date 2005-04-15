@@ -1,3 +1,17 @@
+2005-04-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
+
+	* Array.hm: Consistent casts in declarations like:
+	- (id <Index>)begin: (id <Zone>)aZone; and 
+	- (void)lispOutShallow: (id <OutputStream>)stream;
+	- (void)hdf5OutShallow: (id <HDF5>)hdf5Obj;
+	* Collection.hm: Consistent casts:
+	- (id <PermutedIndex>)beginPermuted: (id <Zone>)aZone;
+	- setCollection: (id <Collection>)aCollection
+	* Map.hm: Consistent Casts
+	- (id <MapIndex>)begin: (id <Zone>)aZone
+	* Set.hm: Consistent Casts
+	- (id <Index>)begin: (id <Zone>)aZone
+	
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Use libobjc definition. Add GNUstep includes.

@@ -236,7 +236,7 @@ PHASE(UsingOnly)
     }
 }
 
-- (id <ListIndex>)begin: aZone
+- (id <ListIndex>)begin: (id <Zone>)aZone
 {
   TINDEX *newIndex;
 

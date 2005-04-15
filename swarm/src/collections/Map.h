@@ -60,7 +60,7 @@ typedef struct mapentry {
 - (void)forEachKey: (SEL)aSelector : arg1;
 - (void)forEachKey: (SEL)aSelector : arg1 : arg2;
 - (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3;
-- (id <MapIndex>)begin: aZone;
+- (id <MapIndex>)begin: (id <Zone>)aZone;
 - (id <MapIndex>)mapBegin: (id <Zone>)aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;
@@ -73,8 +73,8 @@ typedef struct mapentry {
 - (void)lispOutDeep: stream;
 - hdf5InCreate: hdf5Obj;
 - hdf5In: hdf5Obj;
-- (void)hdf5OutShallow: hdf5Obj;
-- (void)hdf5OutDeep: hdf5Obj;
+- (void)hdf5OutShallow: (id <HDF5>)hdf5Obj;
+- (void)hdf5OutDeep: (id <HDF5>)hdf5Obj;
 @end
 
 @interface MapIndex_c: Index_any <MapIndex>

@@ -642,7 +642,7 @@ PHASE(Using)
   [index drop];
 }
 
-- (id <MapIndex>)begin: aZone
+- (id <MapIndex>)begin: (id <Zone>)aZone
 {
   MapIndex_c *newIndex;
   
@@ -875,7 +875,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
     [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_CSTRING];
 }
 
-- (void)hdf5OutDeep: hdf5Obj 
+- (void)hdf5OutDeep: (id <HDF5>)hdf5Obj 
 {
   id aZone = getZone (self);
   id key, value;
@@ -993,7 +993,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
     }
 }
   
-- (void)hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: (id <HDF5>)hdf5Obj
 {
   if (![self allSameClass])
     raiseEvent (SaveError,
