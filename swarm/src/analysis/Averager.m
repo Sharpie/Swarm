@@ -103,7 +103,7 @@ PHASE(Using)
   total += v;
   totalSquared += v * v;
 
-  if (totalCount == 0)
+  if (totalCount == 0 || count == 0)
     max = min = v;
   else
     {
