@@ -20,7 +20,7 @@
 - checkToStop;
 - stopRunning;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 - go;
 - (void)drop;
 @end

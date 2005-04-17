@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-2.1
+SWARMHOME=/usr
 endif
 APPLICATION=mousetrap
 APPVERSION=2.1

@@ -33,7 +33,7 @@
 // new method to end the model's run and close it.
 - stopRunning;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 - (void)drop;
 

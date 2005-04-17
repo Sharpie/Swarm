@@ -47,7 +47,7 @@
 - createEnd;
 - buildObjects;
 - buildActions;
-- activateIn: swarmContext;		// Context is self (ObserverSwarm).
+- (id <Activity>)activateIn: swarmContext;		// Context is self (ObserverSwarm).
 
 - checkToStop;			        // Method to end simulation
 

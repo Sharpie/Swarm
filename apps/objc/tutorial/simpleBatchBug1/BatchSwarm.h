@@ -19,7 +19,7 @@
 
 - stopRunning;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 - go ;
 @end
 

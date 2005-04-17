@@ -138,7 +138,7 @@
 
 // activateIn: - get the Swarm ready to run.
 
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
   // First, activate ourselves (just pass along the context).
   

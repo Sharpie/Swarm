@@ -76,7 +76,7 @@
 - createEnd;
 - buildObjects;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 // A special method for *dynamic scheduling*
 

@@ -35,7 +35,7 @@
 + createBegin: aZone;
 - buildObjects;
 - buildActions;
-- activateIn: (id) swarmContext;
+- (id <Activity>)activateIn: (id) swarmContext;
 - go;						 // Batch mode needs its own
 
 - checkToStop;					 // Special method to end sim. 

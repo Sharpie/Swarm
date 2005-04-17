@@ -239,7 +239,7 @@
   return self;
 }
 
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
 // activateIn: - activate the schedules so they're ready to run.
 
