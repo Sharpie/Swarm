@@ -84,7 +84,7 @@
   return self;
 }  
 
-- activateIn: (id)swarmContext 
+- (id <Activity>)activateIn: (id)swarmContext 
 {
   [super activateIn: swarmContext];
 

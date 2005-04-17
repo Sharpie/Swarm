@@ -28,7 +28,7 @@
 - createEnd;
 - buildObjects;
 - buildActions;
-- activateIn: (id)swarmContext;
+- (id <Activity>)activateIn: (id)swarmContext;
 - go;
 - checkToStop;
 - stopRunning;

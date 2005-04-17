@@ -44,7 +44,7 @@
 
 
 
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 - getAgentList;
 - getWorld;
 - (int)getWorldXSize;

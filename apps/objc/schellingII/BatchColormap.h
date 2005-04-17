@@ -15,6 +15,7 @@
 
 #import <objectbase.h>
 #import <objectbase/Swarm.h>
+#import <gui.h> // Needed to make Colormap use Color as type
 
 @class BatchColormap;
 @class RGB;
@@ -22,13 +23,15 @@
 #define NUMNAMES 752
 #define MAXCOLORS 256
 
+
+
 @interface BatchColormap:Swarm {
   BOOL isSet[MAXCOLORS];
   RGB * xcolors[MAXCOLORS];
 }
 
 -(RGB *) rgbValue: (int) c; 
--(BOOL) setColor: (int) c ToName: (char *) colorName;
+-(BOOL) setColor: (Color) c ToName: (const char *) colorName;
 -(BOOL) setColor: (int) c ToGrey: (double) g;
 -(BOOL) setColor: (int) c ToRed: (double) r Green: (double) g Blue: (double) b;
 -(BOOL) colorIsSet: (int) c;

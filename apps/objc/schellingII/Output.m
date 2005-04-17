@@ -210,7 +210,7 @@
 {
   if (swarmGUIMode==1)
     {
-      id <Colormap> colormap = [Colormap create: [self getZone]];
+      colormap = [Colormap create: [self getZone]];
       
       [colormap setColor: 0 ToName: "blue"];
       [colormap setColor: 1 ToName: "red"];
@@ -256,7 +256,7 @@
   else //we are a batch model, need raster output
     {
     
-      BatchColormap * colormap = [BatchColormap create: [self getZone]];
+      colormap = [BatchColormap create: [self getZone]];
 	
       [colormap setColor: 0 ToName: "blue"];
       [colormap setColor: 1 ToName: "red"];

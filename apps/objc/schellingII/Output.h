@@ -15,7 +15,7 @@
   
   char * timeString;/*"a verbose description of current time"*/
   FILE * dataOutputFile; /*"FILE handle for output from C style fprintf"*/
-
+  id  colormap; /*"color list used by raster"*/
   id <EZAverageSequence> moveSequence;  
   id <EZAverageSequence> unhappySequence;
   id <EZGraph> moveGraph;

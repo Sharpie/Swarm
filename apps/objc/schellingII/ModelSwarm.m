@@ -248,7 +248,7 @@
 }
 
 
-- activateIn: swarmContext 
+- (id <Activity>)activateIn: swarmContext 
 {
   [super activateIn: swarmContext];
 

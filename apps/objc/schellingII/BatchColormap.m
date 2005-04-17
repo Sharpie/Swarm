@@ -41,7 +41,7 @@
 
 
 // set a new colormap entry to something. Error if it's already set.
--(BOOL) setColor: (int) c ToName: (char *) colorName {
+-(BOOL) setColor: (Color) c ToName: (const char *) colorName {
   int i;
   int found=-1; 
  
