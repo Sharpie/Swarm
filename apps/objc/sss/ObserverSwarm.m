@@ -294,7 +294,7 @@
 }  
 
 // scheduling details. The model swarm is activated here.
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
   [super activateIn: swarmContext];
   [modelSwarm activateIn: self];

@@ -198,7 +198,7 @@
 }
 
 // A technical detail of scheduling
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
   [super activateIn: swarmContext];
   [modelSchedule activateIn: self];

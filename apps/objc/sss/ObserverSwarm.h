@@ -38,7 +38,7 @@
 - saveParameters: (char*)aString;
 
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 @end
 

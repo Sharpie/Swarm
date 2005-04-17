@@ -74,7 +74,7 @@ you install the hdf5 library for R that Marcus Daniels created,
 and then run this R program, it will create an hdf5 file
 with the data in it. (Use the h5dump program from hdf5 to see the
 contents.) I've included with this package one example hdf file, 
-"sss.hdf".  That was created by teh R program.
+"sss.hdf".  That was created by the R program.
 
 To compile and use the hdf5 data, build with
 
