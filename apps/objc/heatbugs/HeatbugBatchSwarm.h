@@ -31,7 +31,7 @@
 + createBegin: aZone;
 - buildObjects;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 - go;
 
 // special message on ourselves to stop running.

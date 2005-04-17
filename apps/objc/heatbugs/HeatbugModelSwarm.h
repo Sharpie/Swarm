@@ -43,6 +43,6 @@
 - createEnd;					  // provide for Swarms
 - buildObjects;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 @end

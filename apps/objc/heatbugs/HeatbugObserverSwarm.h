@@ -41,7 +41,7 @@
 - createEnd;
 - buildObjects;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 - graphBug: aBug;
 @end

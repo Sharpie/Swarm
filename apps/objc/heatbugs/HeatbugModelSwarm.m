@@ -267,7 +267,7 @@
 // we're being started in - typically, this model is run as a subswarm
 // of an observer swarm.
 
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
   // First, activate ourselves via the superclass activateIn: method.
   // Just pass along the context: the activity library does the right thing.

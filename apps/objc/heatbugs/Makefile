@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-2.1.1
+SWARMHOME=/usr
 endif
 APPLICATION=heatbugs
 BUGADDRESS=bug-swarm@swarm.org
