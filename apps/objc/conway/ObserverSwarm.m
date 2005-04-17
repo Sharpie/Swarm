@@ -169,7 +169,7 @@
 
 // in "nil". But other Swarms and Schedules and such will be activated
 // inside of us.
--activateIn: (id) swarmContext {
+- (id <Activity>)activateIn: (id) swarmContext {
   // First, activate ourselves (just pass along the context).
   [super activateIn: swarmContext];
 

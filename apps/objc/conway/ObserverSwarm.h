@@ -25,18 +25,18 @@
 }
 
 // Methods overriden to make the Swarm.
-+createBegin: (id) aZone;
--createEnd;
++ createBegin: (id) aZone;
+- createEnd;
 
 
--buildObjects;
+- buildObjects;
 
 - updateGUI;
 - eraseConway;
 
 
--buildActions;
--activateIn: (id) swarmContext;
--eraseRaster;
+- buildActions;
+- (id <Activity>)activateIn: (id) swarmContext;
+- eraseRaster;
 
 @end
