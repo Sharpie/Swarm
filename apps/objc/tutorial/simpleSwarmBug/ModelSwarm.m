@@ -80,7 +80,7 @@
   return self;
 }
 
-- activateIn: swarmContext 
+- (id <Activity>)activateIn: swarmContext 
 {
   // Activate ourselves in swarmContext
 

@@ -177,7 +177,7 @@
   return self;
 }
 
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
   // Here, we activate the swarm in the context passed in
   // Then we activate our schedule in ourselves

@@ -34,7 +34,7 @@
 
 - stopRunning;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 - (void)drop;
 

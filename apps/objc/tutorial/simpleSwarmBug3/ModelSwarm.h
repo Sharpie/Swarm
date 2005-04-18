@@ -24,7 +24,7 @@
 - createEnd;
 - buildObjects;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 @end
 

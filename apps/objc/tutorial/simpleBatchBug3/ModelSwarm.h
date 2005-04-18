@@ -33,7 +33,7 @@
 
 - buildObjects;
 - buildActions;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 - (void)drop;
 - (BOOL)checkToStop;
