@@ -5,7 +5,7 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: website.xsl,v 1.2 2004-01-22 09:31:00 alexl Exp $
+     $Id: website.xsl,v 1.3 2006-01-19 11:54:37 alexl Exp $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -180,6 +180,7 @@ node.</para>
 </refreturns>
 </doc:template>
 
+<!-- 
 <xsl:template name="admon.graphic">
   <xsl:param name="node" select="."/>
   <xsl:call-template name="root-rel-path"/>
@@ -193,6 +194,7 @@ node.</para>
     <xsl:otherwise>note.png</xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+-->
 
 <!-- ==================================================================== -->
 
@@ -221,6 +223,7 @@ node.</para>
 
 <!-- ==================================================================== -->
 
+<!--
 <xsl:template name="home.navhead">
   <div class="navhomehead">
     <div class="navbar">
@@ -235,6 +238,7 @@ node.</para>
     </div>
   </div>
 </xsl:template>
+-->
 
 <xsl:template match="homepage">
   <xsl:variable name="id">
@@ -721,9 +725,13 @@ node.</para>
   </xsl:choose>
 </xsl:template>
 
+
+
+<!--
 <xsl:template name="process.footnotes">
-  <!-- we're only interested in footnotes that occur on this page, not
-       on descendants of this page (which will be similarly processed) -->
+ - we're only interested in footnotes that occur on this page, not
+       on descendants of this page (which will be similarly processed) -
+
   <xsl:variable name="thispage"
                 select="(ancestor-or-self::webpage
                          |ancestor-or-self::homepage)[last()]"/>
@@ -739,7 +747,7 @@ node.</para>
                                      |ancestor-or-self::homepage)[last()]
                                     =$thispage]"/>
 
-  <!-- Only bother to do this if there's at least one non-table footnote -->
+  - Only bother to do this if there's at least one non-table footnote -
   <xsl:if test="count($footnotes)>count($table.footnotes)">
     <div class="footnotes">
       <hr width="100" align="left"/>
@@ -747,6 +755,8 @@ node.</para>
     </div>
   </xsl:if>
 </xsl:template>
+
+-->
 
 <!-- ==================================================================== -->
 
