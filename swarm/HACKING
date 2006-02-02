@@ -46,6 +46,14 @@ autoconf 2.57
 automake 1.6.3
 libtool 1.5.8
 
+*** MacOS X 10.4, native Apple ObjC runtime port
+Porting of Swarm to use the Apple ObjC runtime is an extended project,
+so it has its own CVS branch at the moment.
+
+cvs -z3 checkout -r apple_port-branch -d swarm-apple swarm
+
+Then go into the macosx directory and read README.AppleObjc.
+
 *** GNUstep
 GNUstep integration with Swarm is an extended project, so it has its
 own CVS branch at the moment.  This allows for checkins without
