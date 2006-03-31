@@ -38,7 +38,9 @@ if test -n "$$1libdir" ; then
   else
     _ldflags=''
   fi
+  _library_found=yes
 else
+  _library_found=no
   _ldflags=''
 fi
 ])

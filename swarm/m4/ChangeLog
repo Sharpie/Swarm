@@ -1,3 +1,10 @@
+2006-03-31  Marcus G. Daniels  <mdaniels@maxine.lanl.gov>
+
+	* acfind.m4: Add variable _library_found to discriminate between
+	/usr/lib and cases where LDFLAGS is needed and not harmful.
+
+	* acxpm.m4: Use it.
+
 2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
 
 	* acexesuffix.m4: Removed.
