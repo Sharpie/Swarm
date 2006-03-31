@@ -5,6 +5,9 @@
 
 	* acxpm.m4: Use it.
 
+	* actcltk.m4: When checking extra BLT install locations, use
+	extra_libdir instead of _libdir to avoid conflict inside acfind.m4.
+
 2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
 
 	* acexesuffix.m4: Removed.
