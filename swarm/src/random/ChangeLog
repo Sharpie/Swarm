@@ -1,3 +1,9 @@
+2006-04-01 Paul Johnson <pauljohn@ku.edu>
+
+        * h files for all generators need declaration: 
+	-(id <BasicRandomGenerator>)getGenerator
+	
+
 2004-07-26  Marcus G. Daniels <mgd@santafe.edu>
 
 	* distributions.h: Add BinomialDist and @class.

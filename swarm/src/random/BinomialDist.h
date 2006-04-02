@@ -177,7 +177,7 @@ USING
                             withProbability: (double) aProbability;
 
 // @protocol ProbabilityDistribution <SwarmObject, InternalState> 
-- getGenerator;
+- (id <BasicRandomGenerator>)getGenerator;
 - (unsigned)getVirtualGenerator;
 - (BOOL)getOptionsInitialized;
 - (unsigned long long int)getCurrentCount;
