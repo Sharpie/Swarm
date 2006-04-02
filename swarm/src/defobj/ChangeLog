@@ -1,3 +1,7 @@
+2006-04-01  Paul Johnson <pauljohn@ku.edu>
+
+        * java.[hm]: Slight changes to make declarations consistent in h/m.
+
 2004-12-11  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.am (EXTRA_DIST, defobj_HEADERS): Move COM.h to latter.
