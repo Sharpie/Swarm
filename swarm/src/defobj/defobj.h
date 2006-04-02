@@ -1143,6 +1143,8 @@ USING
 
 typedef enum callTypes { ccall, COMcall, JScall, javacall, javastaticcall,  objccall } call_t;
 
+@class FCall_c;
+
 @protocol FCall <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic calls.
 //D: A language independent interface to dynamic calls.
@@ -1167,7 +1169,7 @@ USING
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
 - (func_t)getFunctionPointer;
 extern void defobj_init_java_call_tables (void *jniEnv);
-extern void updateTarget (id call, id target);
+extern void updateTarget (FCall_c *self, id target);
 @end
 
 @protocol Serialization

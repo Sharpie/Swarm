@@ -71,7 +71,7 @@ void swarm_directory_entry_drop (DirectoryEntry *entry);
   avl_tree *selector_tree;
 }
 + createBegin: aZone;
-ObjectEntry *swarm_directory_objc_find_object (id object);
+ObjectEntry *swarm_directory_objc_find_object (Object_s *object);
 ObjectEntry *swarm_directory_objc_find_class (Class class);
 SelectorEntry *swarm_directory_objc_find_selector (SEL sel);
 BOOL swarm_directory_objc_remove (id obj);

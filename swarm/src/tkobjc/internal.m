@@ -68,7 +68,9 @@ typedef struct raster_private {
 #endif
 } raster_private_t;
 
-extern TkExtra *globalTkInterp;
+/*extern TkExtra *globalTkInterp;*/
+extern id <TkExtra>globalTkInterp;
+
 
 Tk_Window 
 tkobjc_nameToWindow (const char *widgetName)

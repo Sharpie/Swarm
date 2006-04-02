@@ -1573,7 +1573,7 @@ mframe_destroy_argframe(const char *types, arglist_t argframe)
 
 
 static void
-getSizeAndAlignment(const char *typePtr, unsigned *sizep, unsigned *alignp)
+getSizeAndAlignment(const char *typePtr, int *sizep, unsigned *alignp)
 {
   NSArgumentInfo        info;
   typePtr = mframe_next_arg(typePtr, &info);
@@ -1723,12 +1723,12 @@ mframe_decode_return (const char *type, void* buffer, void* retframe)
 	{
 	  __builtin_return (rframe);
 	}
-#ifndef __CHECKER__
-        /* Checker-equipped compiler barfs on this on sparc-sun-solaris2.7. */
-	*(block *) buffer = retframe_block (retframe);
-#else
-#warning Disabling code in mframe for Checker
-#endif
+//#ifndef __CHECKER__
+//        /* Checker-equipped compiler barfs on this on sparc-sun-solaris2.7. */
+//	*(block *) buffer = retframe_block (retframe);
+//#else
+//#warning Disabling code in mframe for Checker
+//#endif
 	break;
       }
 

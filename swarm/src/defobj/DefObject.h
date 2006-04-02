@@ -168,7 +168,7 @@ extern BOOL respondsTo (id anObject, SEL aSel);
 // getMethodFor() --
 //   function to look up the method that implements a message for an object
 //
-extern IMP getMethodFor (id anObject, SEL aSel);
+extern IMP getMethodFor (Class aClass, SEL aSel);
 
 //
 // getClass() -- macro to get class of instance

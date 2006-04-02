@@ -348,8 +348,9 @@ map_object_ivars (id object,
 }
 
 struct objc_ivar *
-find_ivar (Class class, const char *name)
+find_ivar (id obj, const char *name)
 {
+  Class class = (Class)obj;
   struct objc_ivar_list *ivars = class->ivars;
 
   if (class->super_class)

@@ -118,7 +118,7 @@ extern unsigned JS_method_arg_count (COMobject cObj, const char *methodName);
 
 extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
 extern void swarm_directory_COM_add_selector (COMselector cSel, SEL oSel);
-extern COMobject swarm_directory_update_phase_COM (id oObj);
+extern COMobject swarm_directory_update_phase_COM (id obj);
 
 extern void COM_collect_variables (COMclass cClass, COM_collect_variable_func_t variableFunc);
 extern void COM_collect_methods (COMclass cClass, COM_collect_method_func_t methodFunc);

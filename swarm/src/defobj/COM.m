@@ -292,8 +292,9 @@ swarm_directory_objc_ensure_object_COM (id oObject)
 }
 
 COMobject
-swarm_directory_update_phase_COM (Object_s *oObject)
+swarm_directory_update_phase_COM (id obj)
 {
+  Object_s *oObject = (Object_s *)obj; 
   Class oClass = getClass (oObject);
   COMclass cClass = SD_COM_FIND_CLASS_COM (oClass);
   COMobject cLastObj = SD_COM_FIND_OBJECT_COM (oObject);
@@ -343,7 +344,7 @@ swarm_directory_COM_find_class (COMclass cClass)
           : nil);
 }
 
-id
+Class
 swarm_directory_COM_find_class_objc (COMclass cClass)
 {
   if (!cClass)

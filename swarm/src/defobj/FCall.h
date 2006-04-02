@@ -36,15 +36,6 @@ Library:      defobj
 
 #import <defobj.h> // JOBJECT
 
-#ifdef HAVE_JDK
-void defobj_init_java_call_tables (void *jEnv);
-#endif
-
-void updateTarget (id self, id target);
-#ifdef HAVE_JDK
-void updateJavaTarget (id self, JOBJECT target);
-#endif
-
 @interface FCall_c: CreateDrop_s <FCall>
 {
 @public
@@ -83,3 +74,15 @@ void updateJavaTarget (id self, JOBJECT target);
 - (void)dropAllocations: (BOOL)componentAlloc;
 - (void)drop;
 @end
+
+
+
+#ifdef HAVE_JDK
+void defobj_init_java_call_tables (void *jEnv);
+#endif
+
+void updateTarget (FCall_c *self, id target);
+#ifdef HAVE_JDK
+void updateJavaTarget (FCall_c  *self, JOBJECT target);
+#endif
+
