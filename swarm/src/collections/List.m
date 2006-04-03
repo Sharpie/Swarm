@@ -220,12 +220,12 @@ PHASE(Using)
   [outputCharStream catEndExpr];
 }
 
-- (void)lispOutDeep: stream
+- (void)lispOutDeep: (id <OutputStream>)stream
 {
   [self _lispOut_: stream deep: YES];
 }
 
-- (void)lispOutShallow: stream
+- (void)lispOutShallow: (id <OutputStream>)stream
 {
   [self _lispOut_: stream deep: NO];
 }

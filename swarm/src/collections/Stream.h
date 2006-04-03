@@ -102,5 +102,5 @@
 }
 - setQuotedObject: value;
 - getQuotedObject;
-- (void)lispOutDeep: stream;
+- (void)lispOutDeep: (id <OutputStream>)stream;
 @end
