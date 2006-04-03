@@ -65,8 +65,8 @@ Library:      activity
 - (id <SwarmActivity>)getActivity;
 - (id <SwarmActivity>)getSwarmActivity;
 - getSynchronizationType;
-- activate;
-- activate: anActionType;
+- (id <Activity>)activate;
+- (id <Activity>)activate: anActionType;
 - at: (timeval_t)tVal activate: anActionType;
 - at: (int)timebase : (timeval_t)tVal activate: anActionType;
 - (id <Activity>)activateIn: swarmContext;

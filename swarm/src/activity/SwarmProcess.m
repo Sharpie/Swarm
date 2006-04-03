@@ -377,7 +377,7 @@ PHASE(Using)
 //
 // _performAction_: -- perform single step of an activity holding for merge
 //
-- (void)_performAction_: callerActivity
+- (void)_performAction_: (id <Activity>)callerActivity
 {
   //
   // Remove merge action from whatever activity is performing it (either a

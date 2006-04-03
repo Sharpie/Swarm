@@ -46,7 +46,7 @@ PHASE(Creating)
 #define  MIXIN_CREATE
 #include "CompoundAction.m"
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   Schedule_c *obj = [super createBegin: aZone];
   
@@ -56,7 +56,7 @@ PHASE(Creating)
 //
 // create:setRepeatInterval: -- convenience create message
 //
-+ create: aZone setRepeatInterval: (timeval_t)rptInterval
++ create: (id <Zone>)aZone setRepeatInterval: (timeval_t)rptInterval
 {
   id  new;
 
@@ -65,7 +65,7 @@ PHASE(Creating)
   return [new createEnd];
 }
 
-+ create: aZone setAutoDrop: (BOOL)autoDrop
++ create: (id <Zone>)aZone setAutoDrop: (BOOL)autoDrop
 {
   id  new;
 

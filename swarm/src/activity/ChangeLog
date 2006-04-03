@@ -1,5 +1,12 @@
 2005-04-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
 
+       * CompoundAction.m:87: insert declaration (id
+	<Symbol>)
+       * ActionGroup.h, Schedule.[hm], SwarmProcess.[hm]: (id <Activity>) inserted
+
+
+2005-04-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
+
 	* activity.h,XActivity.hm: Consistent Casts silence compiler warnings:
 	- (id<Activity>)getTopLevelActivity 
 	- (id <Activity>)getScheduleActivity;

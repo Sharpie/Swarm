@@ -83,7 +83,7 @@ getDefaultOrder (unsigned bits)
 #elif defined(MIXIN_SET)
 #undef MIXIN_SET
 
-- setDefaultOrder: aSymbol
+- setDefaultOrder: (id <Symbol>)aSymbol
 {
   setDefaultOrder (&bits, aSymbol);
   return self;

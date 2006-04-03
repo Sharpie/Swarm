@@ -48,8 +48,8 @@ Library:      activity
 - setDefaultOrder: (id <Symbol>)aSymbol;
 - (id <Symbol>)getDefaultOrder;
 - setKeepEmptyFlag: (BOOL)keepEmptyFlag;
-- activate;
-- activateIn: swarmContext;
+- (id <Activity>)activate;
+- (id <Activity>)activateIn: swarmContext;
 - _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
 - (void)_performPlan_;
 - _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
@@ -67,7 +67,7 @@ Library:      activity
 - (BOOL)getRelativeTime;
 - (timeval_t)getRepeatInterval;
 - _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext : (Zone_c *)swarmZone;
-- (id <Action>)insertGroup: (timeval_t)aKey;
+- (id <ActionGroup>)insertGroup: (timeval_t)aKey;
 - remove: anAction;
 - (id <FAction>)at: (timeval_t)tVal createFAction: call;
 - at: (timeval_t)tVal createAction: anActionType;

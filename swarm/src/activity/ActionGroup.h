@@ -42,8 +42,8 @@ Library:      activity
 - (BOOL)getAutoDrop;
 - setDefaultOrder: (id <Symbol>)aSymbol;
 - (id <Symbol>)getDefaultOrder;
-- activate;
-- activateIn: swarmContext;
+- (id <Activity>)activate;
+- (id <Activity>)activateIn: swarmContext;
 - _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass: (Zone_c *)aZone;
 - (void)_performPlan_;
 - _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
