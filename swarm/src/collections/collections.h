@@ -965,9 +965,6 @@ USING
 - (id <MapIndex>)mapBegin: (id <Zone>)aZone; 
 
 
-//M: Returns an Index object of the  MapIndex type 
-- (id <MapIndex>)begin: (id <Zone>)aZone;
-
 @end
 
 
