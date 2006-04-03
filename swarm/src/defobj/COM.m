@@ -348,14 +348,14 @@ Class
 swarm_directory_COM_find_class_objc (COMclass cClass)
 {
   if (!cClass)
-    return nil;
+    return Nil;
   else
     {
       ObjectEntry *result = swarm_directory_COM_find_class (cClass);
 
       return (result
               ? result->object
-              : nil);
+              : Nil);
     }
 }
 

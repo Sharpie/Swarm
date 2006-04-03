@@ -123,7 +123,7 @@ PHASE(CreatingOnly)
   return self;
 }
 
-- setClass: aClass
+- setClass: (Class)aClass
 {
   metaobjects = aClass;
   // later -- reallocate self if class defines additional class vars

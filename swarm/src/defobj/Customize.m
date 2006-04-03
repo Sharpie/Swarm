@@ -526,7 +526,7 @@ _obj_splitPhases (Class_s *class)
   if (classCreating)
     {
       classCreating = [(id) classCreating createEnd];
-      classCreating->nextPhase = classUsing ? classUsing : CreatingOnly;
+      classCreating->nextPhase = classUsing ? classUsing : (BehaviorPhase_s *)CreatingOnly;
       classData->initialPhase  = classCreating;
     }
   else

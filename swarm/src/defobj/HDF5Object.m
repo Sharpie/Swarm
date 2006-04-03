@@ -1088,7 +1088,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
   else if (cdata->command == H5T_CONV_CONV)
     {
       size_t size = H5Tget_size (sid);
-      unsigned char *srcptr = buf;
+      char *srcptr = buf;
       size_t i;
 
       for (i = 0; i < count; i++)

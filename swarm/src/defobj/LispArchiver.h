@@ -49,7 +49,7 @@ extern id lispArchiver;
 - ensureApp: appKey;
 
 - (BOOL)_load_;
-- (void)lispLoadArchiver: expr;
+- (void)lispLoadArchiver: (id <InputStream>)stream;
 
 - (void)sync;
 

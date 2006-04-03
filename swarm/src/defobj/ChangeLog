@@ -1,6 +1,16 @@
+2006-04-02 Paul Johnson
+
+        * Com.m: swarm_directory_COM_find_class_objc (COMclass cClass) change
+	nil to Nil because return value is Class
 2006-04-01  Paul Johnson <pauljohn@ku.edu>
 
         * java.[hm]: Slight changes to make declarations consistent in h/m.
+        * LispArchiver.[hm]: make declaration match method in m file
+
+        * DefClass.m: declaration fix
+        * DefObject.m: 570, 572 compiler complains " warning: comparison of 
+	distinct pointer types
+	lacks a cast" so cast as (id)
 
 2004-12-11  Marcus G. Daniels <mgd@santafe.edu>
 
