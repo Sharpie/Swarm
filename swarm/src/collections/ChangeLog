@@ -1,3 +1,7 @@
+2006-04-02 Paul Johnson
+
+         * Collection.m: 262 change nil to Nil for type correctness
+
 2006-04-01 Paul Johnson <pauljohn@ku.edu>
          * collections.h: Declaration - (id <MapIndex>)begin: (id <Zone>)aZone;
           silences compiler warings
