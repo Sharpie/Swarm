@@ -1,3 +1,9 @@
+2006-04-02  Paul Johnson
+
+        * gui.h: drawHistogramWithInt: change (int*) to  (unsigned*) because
+	Histograms take only nonnegative values.
+
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* gui.h (GUI_*): Exclude tk macros for GNUstep.

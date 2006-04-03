@@ -324,14 +324,14 @@ USING
 //M: Hide the legend on the histogram.
 - (void)hideLegend;
 
-//M: Draw the (integer) data in the histogram.
-- (void)drawHistogramWithInt: (int *)points;
+//M: Draw the (unsigned integer) data in the histogram.
+- (void)drawHistogramWithInt: (unsigned *)points;
 
 //M: Draw the (double) data in the histogram.
 - (void)drawHistogramWithDouble: (double *)points;
 
-//M: Draw the (integer) data in the histogram at particular offsets.
-- (void)drawHistogramWithInt: (int *)points atLocations: (double *)locations;
+//M: Draw the (unisgned integer) data in the histogram at particular offsets.
+- (void)drawHistogramWithInt: (unsigned int *)points atLocations: (double *)locations;
 
 //M: Draw the (double) data in the histogram at particular offsets.
 - (void)drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
