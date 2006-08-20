@@ -29,21 +29,12 @@ Boston, MA 02111-1307, USA.  */
 
 #include "runtime.h"
 
-#if debug
 id
 nil_method (id receiver, SEL op, ...)
 {
-  raiseEvent (InvalidArgument,  "The message `%s' was sent to nil.\n",
-              sel_get_name (op));
+  fprintf (stderr, "nil receiver for %s\n", sel_get_name (op));
+  abort ();
   return nil;
 }
-#else
-id
-nil_method(id receiver, SEL op, ...)
-{
-  return receiver;
-}
-#endif
-
 
 

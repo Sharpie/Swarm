@@ -1,3 +1,7 @@
+2006-08-09  Marcus G. Daniels <mgd@santafe.edu>
+
+	* nil_method.c:  Abort on nil with message.
+
 2004-12-11  Marcus G. Daniels <mgd@santafe.edu>
 
 	* configure.in:  Make libswarmobjc.la a convenience library for
