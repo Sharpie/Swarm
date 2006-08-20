@@ -1,3 +1,8 @@
+2006-08-19  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Discrete2d.m:  Don't nest calls to -setObjectFlag:,
+	as it has void return.
+
 2004-07-16  Scott Christley  <schristley@mac.com>
 
 	* Discrete2d.m (MyDiscrete2d): Remove objectFlag.

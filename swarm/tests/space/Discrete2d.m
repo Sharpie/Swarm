@@ -153,11 +153,11 @@ checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL deepFlag,
 
   if (!deepFlag)
     {
-      obj = [[[[[MyDiscrete2d createBegin: aZone]
-                 setSizeX: XSIZE Y: YSIZE]
-                setObjectFlag: NO]
-               setUpdateFlag: updateFlag]
-              createEnd];
+      obj = [MyDiscrete2d createBegin: aZone];
+      [obj setSizeX: XSIZE Y: YSIZE];
+      [obj setObjectFlag: NO];
+      [obj setUpdateFlag: updateFlag];
+      obj = [obj createEnd];
       [obj fastFillWithValue: ULONGVAL];
       
       // make one cell different from the others
@@ -166,11 +166,11 @@ checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL deepFlag,
   else
     {
       id latticeObj = [MyClass create: aZone];
-      obj = [[[[[MyDiscrete2d createBegin: aZone]
-                 setSizeX: XSIZE Y: YSIZE]
-                setObjectFlag: YES]
-               setUpdateFlag: updateFlag]
-              createEnd];
+      obj = [MyDiscrete2d createBegin: aZone];
+      [obj setSizeX: XSIZE Y: YSIZE];
+      [obj setObjectFlag: YES];
+      [obj setUpdateFlag: updateFlag];
+      obj = [obj createEnd];
       [obj fastFillWithObject: latticeObj];
       
       // make one cell different from the others
