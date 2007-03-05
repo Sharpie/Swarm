@@ -1,3 +1,8 @@
+2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* OutputStrteam.[hm], Stream.h, collections.h: Change class to
+	class_ and bool to bool_ (for Objective C++).
+
 2006-04-02 Paul Johnson
 
          * Collection.m: 262 change nil to Nil for type correctness

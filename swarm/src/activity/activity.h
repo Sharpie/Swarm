@@ -949,9 +949,16 @@ USING
 //G: Internal variable used by current context macros.
 externvar id _activity_current;
 
-//G: Internal error message issued when a current activity is
-//G: missing.
+#ifdef __cplusplus
+extern "C" {
+#endif
+//F: Internal error message issued when a current activity is
+//F: missing.
 extern id _activity_context_error (const char *macroName);
+
+#ifdef __cplusplus
+}
+#endif
 
 
 @protocol ConcurrentGroup <ActionGroup, RETURNABLE>

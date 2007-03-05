@@ -26,7 +26,7 @@ Library:      defobj
 #ifndef __swarm_defobj_h
 #define __swarm_defobj_h
 
-#ifdef __cplusplus
+#if defined(__cplusplus) && !defined(__OBJC__)
 extern "C" {
 #endif
 typedef enum {fcall_type_void = 0,
@@ -74,7 +74,7 @@ typedef struct {
 
 #define FCALL_TYPE_COUNT 23
 
-#ifdef __cplusplus
+#if defined(__cplusplus) && !defined(__OBJC__)
 }
 #else
 #import <defobj/deftype.h>
@@ -1184,12 +1184,20 @@ CREATING
 //M: Process HDF5 object to set create-time parameters.
 - hdf5InCreate: (id <HDF5>)hdf5Obj;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //F: Load an object from a lisp expression of the form
 //F: (make-{class,instance} #:arg1 x #:arg y). 
 extern id lispIn (id <Zone> aZone, id expr);
 
 //F: Load an object from a HDF5 object.
 extern id hdf5In (id <Zone> aZone, id <HDF5> hdf5Obj);
+
+#ifdef __cplusplus
+}
+#endif
 
 SETTING
 //M: Process an archived Lisp representation of object state from a
@@ -1373,6 +1381,9 @@ USING
 
 - (void)updateArchiver: archiver;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 //F: Expect and convert a boolean from next index item.
 extern BOOL lispInBoolean (id index);
 
@@ -1384,6 +1395,10 @@ extern const char *lispInString (id index);
 
 //F: Expect and convert a keyword from next index item.
 extern id lispInKeyword (id index);
+
+#ifdef __cplusplus
+}
+#endif
 
 @end
 
@@ -1414,10 +1429,6 @@ externvar id <Symbol> LanguageCOM, LanguageJS, LanguageJava, LanguageObjc;
 //F: Function to generate object id string in standard format
 //F: (Up to 78 characters of the supplied buffer argument could be filled.)
 extern void _obj_formatIDString (char *buffer, id anObject);
-
-//F: Declaration to enable use of @class declaration for message
-//F: receiver without compile error.
-extern Class objc_get_class (const char *name);  // for class id lookup 
 
 //F: Lookup a defobj type object by name.
 extern id defobj_lookup_type (const char *name);

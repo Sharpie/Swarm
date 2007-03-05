@@ -68,7 +68,7 @@
 - setObjectToNotify: anObject;  //can be called multiple times
 - getObjectToNotify;
 
-- setProbedClass: (Class)class;
+- setProbedClass: (Class)class_;
 - setProbedObject: object;
 - _copyCreateEnd_;
 - createEnd;

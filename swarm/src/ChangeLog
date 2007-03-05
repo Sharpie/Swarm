@@ -1,3 +1,7 @@
+2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* swarm.h (_initSwarm_).  Use C linkage.
+
 2004-11-25  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.am: Use ENABLE_GNUSTEP to select SUBDIRS.

@@ -1,9 +1,12 @@
+2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* activity.h (_activity_context_error): Use C linkage.
+
 2005-04-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
 
-       * CompoundAction.m:87: insert declaration (id
-	<Symbol>)
-       * ActionGroup.h, Schedule.[hm], SwarmProcess.[hm]: (id <Activity>) inserted
-
+	* CompoundAction.m:87: insert declaration (id <Symbol>) *
+	ActionGroup.h, Schedule.[hm], SwarmProcess.[hm]: (id <Activity>)
+	inserted
 
 2005-04-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
 

@@ -1,6 +1,21 @@
+2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* defobj.h, DefObject.h: Use C linkage for
+	lispIn{Boolean,Integer,String,Keyword}.
+
+	* defobj.h: Use C linkage for {hdf5,lisp}In.
+
+	* defobj.h (objc_get_class): Remove declaration.
+
+	* COM.h, DefClass.h, DefObject.[hm], defobj.h: Change class to
+	class_ for Objective c++.  
+
+	* COM.h, defobj.h: Use extern "C" only when not Objective C++.
+
 2006-04-02 Paul Johnson
 
-        * Com.m: swarm_directory_COM_find_class_objc (COMclass cClass) change
+        * COM.m: swarm_directory_COM_find_class_objc (COMclass cClass) change
+	
 	nil to Nil because return value is Class
 2006-04-01  Paul Johnson <pauljohn@ku.edu>
 

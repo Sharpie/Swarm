@@ -95,7 +95,7 @@ USING
 CREATING
 //M: The setProbedClass: method sets the class of the object the probe
 //M: points at and must be called at create time.
-- setProbedClass: (Class)class;
+- setProbedClass: (Class)class_;
 
 - setProbedObject: object;
 SETTING
@@ -346,7 +346,7 @@ CREATING
 //M: The setProbedClass: method sets the class of the object that the set of 
 //M: probes that constitute the probe map points at. This message must be sent 
 //M: before createEnd. 
-- setProbedClass: (Class)class;
+- setProbedClass: (Class)class_;
 
 - setProbedObject: object;
 USING

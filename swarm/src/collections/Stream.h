@@ -56,7 +56,7 @@
 - setChar: (char)val;
 - setBoolean: (BOOL)val;
 - setNil;
-- setClass: (Class)class;
+- setClass: (Class)class_;
 - (long double)getLongDouble;
 - (double)getDouble;
 - (float)getFloat;

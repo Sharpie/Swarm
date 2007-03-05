@@ -1,3 +1,7 @@
+2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* ProbeMap.h, objectbase.h: Change class to class_ for Objective C++.
+
 2005-04-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
 
 	* Swarm.m ([Swarm -activateIn:]): Consistent casts:

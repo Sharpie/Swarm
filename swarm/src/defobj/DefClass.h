@@ -54,12 +54,12 @@ typedef struct methodDefs *methodDefs_t;
 //
 // _obj_getClassData() -- function to get class data extension structure
 //
-extern classData_t _obj_getClassData (Class_s *class);
+extern classData_t _obj_getClassData (Class_s *class_);
 
 //
 // _obj_initMethodInterfaces() -- generate chain of methods by interface
 //
-void _obj_initMethodInterfaces (Class_s *class);
+void _obj_initMethodInterfaces (Class_s *class_);
 
 
 //

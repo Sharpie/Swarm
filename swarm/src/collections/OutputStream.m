@@ -370,14 +370,14 @@ PHASE(Using)
     }
 }
 
-- (void)catClass: (Class)class
+- (void)catClass: (Class)class_
 {
   if (exprStack)
-    ADDVALUE (Class, class);
+    ADDVALUE (Class, class_);
   else
     {
       [self catC: "<"];
-      [self catC: class->name];
+      [self catC: class_->name];
       [self catC: ">"];
     }
 }

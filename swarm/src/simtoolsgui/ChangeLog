@@ -1,3 +1,7 @@
+2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* simtoolsgui.h: Use C linkage for probe display creation functions.
+
 2004-12-02  Marcus G. Daniels <mgd@santafe.edu>
 
 	* ControlPanel.m (-setState:):  For Stopped mode, set 

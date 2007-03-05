@@ -109,6 +109,9 @@ externvar BOOL swarmGUIMode;
 
 @class SwarmEnvironment;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern void _initSwarm_ (int argc, const char **argv, const char *appName,
                          const char *version, const char *bugAddress,
                          Class argumentsClass,
@@ -116,4 +119,7 @@ extern void _initSwarm_ (int argc, const char **argv, const char *appName,
                          int (*optionFunc) (int key, const char *arg),
                          BOOL forceBatchMode,
                          BOOL inhibitExecutableSearchFlag);
+#ifdef __cplusplus
+}
+#endif
 

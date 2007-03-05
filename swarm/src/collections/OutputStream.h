@@ -43,7 +43,7 @@ Library:     collections
 - getExpr;
 - (void)catC: (const char *)cstring;
 - (void)catLiteral: (const char *)cstring;
-- (void)catBoolean: (BOOL)bool;
+- (void)catBoolean: (BOOL)bool_;
 - (void)catChar: (char)ch;
 - (void)catFloat: (float)flt;
 - (void)catDouble: (double)dbl;
@@ -67,7 +67,7 @@ Library:     collections
 - (void)catEndArray;
 - (void)catArrayType: (const char *)type;
 - (void)catType: (const char *)type;
-- (void)catClass: (Class)class;
+- (void)catClass: (Class)class_;
 - (void)catStartFunction: (const char *)functionName;
 - (void)catEndFunction;
 - (void)catStartCons;

@@ -989,7 +989,7 @@ USING
 - (void)catC: (const char *)cstring;
 
 //M: Writes a boolean to stream in Lisp archiver format
-- (void)catBoolean: (BOOL)bool;
+- (void)catBoolean: (BOOL)bool_;
 
 //M: Writes a character to stream in Lisp archiver format
 - (void)catChar: (char)ch;
@@ -1026,7 +1026,7 @@ USING
 - (void)catArrayRank: (unsigned)rank;
 - (void)catEndArray;
 - (void)catType: (const char *)type;
-- (void)catClass: (Class)class;
+- (void)catClass: (Class)class_;
 - (void)catStartFunction: (const char *)functionName;
 - (void)catEndFunction;
 - (void)catStartCons;
@@ -1102,7 +1102,7 @@ CREATING
 - setLongLong: (long long)val;
 - setChar: (char)val;
 - setBoolean: (BOOL)val;
-- setClass: (Class)class;
+- setClass: (Class)class_;
 - setNil;
 USING
 - (fcall_type_t)getValueType;

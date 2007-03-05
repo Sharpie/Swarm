@@ -125,12 +125,18 @@ Library:      defobj
 - (void)updateArchiver: archiver;
 @end
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern id lispIn (id aZone, id expr);
-
 extern BOOL lispInBoolean (id index);
 extern int lispInInteger (id index);
 extern const char *lispInString (id index);
 extern id lispInKeyword (id index);
+
+#ifdef __cplusplus
+}
+#endif
 
 //
 // macros for accessing bits at defined locations inside instance variables
@@ -157,7 +163,7 @@ extern id lispInKeyword (id index);
   ({ SEL _sel_ = (aMessage); \
      get_imp ((aClass), _sel_) (self, _sel_ , ## args); })
 
-extern IMP get_imp (Class class, SEL sel);  // function used by macro
+extern IMP get_imp (Class class_, SEL sel);  // function used by macro
 
 //
 // respondsTo() -- function to test if object responds to message  

@@ -285,6 +285,10 @@ USING
 #define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
   createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern id <ProbeDisplay> _createProbeDisplay (id obj);
 extern id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
 
@@ -293,6 +297,9 @@ extern id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj
 
 extern const char *buildWindowGeometryRecordName (const char *baseName,
                                                   const char *componentName);
+#ifdef __cplusplus
+}
+#endif
 @end
 
 @protocol GUIComposite <CompositeWindowGeometryRecordName>

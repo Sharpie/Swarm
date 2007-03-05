@@ -4,7 +4,7 @@
 #include <defobj.h>
 #include <objc/objc.h>
 
-#ifdef __cplusplus
+#if defined(__cplusplus) && !defined(__OBJC__)
 extern "C" {
 #endif
 
