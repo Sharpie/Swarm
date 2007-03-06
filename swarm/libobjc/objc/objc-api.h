@@ -27,10 +27,6 @@ Boston, MA 02111-1307, USA.  */
 #ifndef __objc_api_INCLUDE_GNU
 #define __objc_api_INCLUDE_GNU
 
-#ifdef __cplusplus
-#define class _class
-#endif
-
 #include "objc/objc.h"
 #include "objc/hash.h"
 #include "objc/thr.h"
@@ -347,7 +343,7 @@ typedef struct objc_category {
 typedef struct objc_super {
   id      self;                           /* Id of the object sending
                                                 the message. */
-  Class class;                              /* Object's super class. */
+  Class class_type;                              /* Object's super class. */
 } Super, *Super_t;
 
 IMP objc_msg_lookup_super(Super_t super, SEL sel);
@@ -372,12 +368,12 @@ externobjcvar Class (*_objc_lookup_class) (const char *name);
 ** dynamic loader determine the classes that have been loaded when
 ** an object file is dynamically linked in.
 */
-externobjcvar void (*_objc_load_callback) (Class class, Category* category);
+externobjcvar void (*_objc_load_callback) (Class class_type, Category* category);
 
 /*
 ** Hook functions for allocating, copying and disposing of instances
 */
-externobjcvar id (*_objc_object_alloc) (Class class);
+externobjcvar id (*_objc_object_alloc) (Class class_type);
 externobjcvar id (*_objc_object_copy) (id object);
 externobjcvar id (*_objc_object_dispose) (id object);
 
@@ -416,9 +412,9 @@ externobjcvar void *(*_objc_realloc) (void *, size_t);
 externobjcvar void *(*_objc_calloc) (size_t, size_t);
 externobjcvar void (*_objc_free) (void *);
 
-Method_t class_get_class_method (MetaClass class, SEL aSel);
+Method_t class_get_class_method (MetaClass class_type, SEL aSel);
 
-Method_t class_get_instance_method (Class class, SEL aSel);
+Method_t class_get_instance_method (Class class_type, SEL aSel);
 
 Class class_pose_as (Class impostor, Class superclass);
 
@@ -447,66 +443,66 @@ SEL sel_register_typed_name (const char *name, const char*type);
 
 BOOL sel_is_mapped (SEL aSel);
 
-extern id class_create_instance (Class class);
+extern id class_create_instance (Class class_type);
 
 static inline const char *
-class_get_class_name (Class class)
+class_get_class_name (Class class_type)
 {
-  return CLS_ISCLASS(class)?class->name:((class==Nil)?"Nil":0);
+  return CLS_ISCLASS(class_type)?class_type->name:((class_type==Nil)?"Nil":0);
 }
 
 static inline long
-class_get_instance_size (Class class)
+class_get_instance_size (Class class_type)
 {
-  return CLS_ISCLASS (class) ? class->instance_size : 0;
+  return CLS_ISCLASS (class_type) ? class_type->instance_size : 0;
 }
 
 static inline MetaClass
-class_get_meta_class (Class class)
+class_get_meta_class (Class class_type)
 {
-  return CLS_ISCLASS (class) ? class->class_pointer : Nil;
+  return CLS_ISCLASS (class_type) ? class_type->class_pointer : Nil;
 }
 
 static inline Class
-class_get_super_class (Class class)
+class_get_super_class (Class class_type)
 {
-  return CLS_ISCLASS (class) ? class->super_class : Nil;
+  return CLS_ISCLASS (class_type) ? class_type->super_class : Nil;
 }
 
 static inline int
-class_get_version (Class class)
+class_get_version (Class class_type)
 {
-  return CLS_ISCLASS (class) ? class->version : -1;
+  return CLS_ISCLASS (class_type) ? class_type->version : -1;
 }
 
 static inline BOOL
-class_is_class (Class class)
+class_is_class (Class class_type)
 {
-  return CLS_ISCLASS (class);
+  return CLS_ISCLASS (class_type);
 }
 
 static inline BOOL
-class_is_meta_class (Class class)
+class_is_meta_class (Class class_type)
 {
-  return CLS_ISMETA (class);
+  return CLS_ISMETA (class_type);
 }
 
 
 static inline void
-class_set_version (Class class, long version)
+class_set_version (Class class_type, long version)
 {
-  if (CLS_ISCLASS (class))
-    class->version = version;
+  if (CLS_ISCLASS (class_type))
+    class_type->version = version;
 }
 
 static inline void *
-class_get_gc_object_type (Class class)
+class_get_gc_object_type (Class class_type)
 {
-  return CLS_ISCLASS(class) ? class->gc_object_type : NULL;
+  return CLS_ISCLASS(class_type) ? class_type->gc_object_type : NULL;
 }
 
 /* Mark the instance variable as innaccessible to the garbage collector */
-extern void class_ivar_set_gcinvisible (Class class,
+extern void class_ivar_set_gcinvisible (Class class_type,
 					const char* ivarname,
 					BOOL gcInvisible);
 
@@ -516,7 +512,7 @@ method_get_imp (Method_t method)
   return (method != METHOD_NULL) ? method->method_imp : (IMP) 0;
 }
 
-IMP get_imp (Class class, SEL sel);
+IMP get_imp (Class class_type, SEL sel);
 
 /* Redefine on NeXTSTEP so as not to conflict with system function */
 #ifdef __NeXT__

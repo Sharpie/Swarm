@@ -183,7 +183,7 @@ IMP
 objc_msg_lookup_super (Super_t super, SEL sel)
 {
   if (super->self)
-    return get_imp (super->class, sel);
+    return get_imp (super->class_type, sel);
   else
     return nil_method;
 }
