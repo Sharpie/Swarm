@@ -27,6 +27,10 @@ Boston, MA 02111-1307, USA.  */
 #ifndef __objc_api_INCLUDE_GNU
 #define __objc_api_INCLUDE_GNU
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "objc/objc.h"
 #include "objc/hash.h"
 #include "objc/thr.h"
@@ -348,10 +352,7 @@ typedef struct objc_super {
 
 IMP objc_msg_lookup_super(Super_t super, SEL sel);
 
-#ifndef __cplusplus
 retval_t objc_msg_sendv(id, SEL, arglist_t);
-#endif
-
 
 
 /*
@@ -586,6 +587,10 @@ object_is_meta_class (id object)
 }
 
 struct sarray* objc_get_uninstalled_dtable (void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* not __objc_api_INCLUDE_GNU */
 
