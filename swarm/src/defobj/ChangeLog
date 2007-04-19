@@ -1,3 +1,15 @@
+2007-04-18  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* Arguments.m ([Arguments_c -createEnd]): If argv/argc is not set,l
+	fake it.
+	(This handles the case that an Arguments_c subclass is serialized.)
+
+	* HDF5Object.m (count_size_t): Always use size_t.
+
+	* internal.m (lisp_output_type): Use catNil when string not set.
+	(object_setVariableFromExpr): Don't throw an error for a string
+	that is null.
+
 2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* defobj.h, DefObject.h: Use C linkage for

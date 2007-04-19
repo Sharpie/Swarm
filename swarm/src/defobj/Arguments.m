@@ -317,7 +317,16 @@ strip_quotes (const char *argv0)
 #define STRINGIFYSYM(sym) STRINGIFY(sym)
 - createEnd
 {
-  const char *argv0 = strip_quotes (argv[0]);
+  const char *argv0;
+
+  if (argc == 0) {
+    argv = xmalloc (sizeof (char *));
+    argv[0] = "unknown";
+    argc = 1;
+  }
+  argv0 = argv[0];
+
+  argv0 = strip_quotes (argv0);
 
   if (applicationName == NULL)  
     [self setAppName: getApplicationValue (argv0)];

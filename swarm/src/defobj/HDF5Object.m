@@ -1045,7 +1045,7 @@ PHASE(Creating)
   return self;
 }
 
-#if ((H5_VERS_MAJOR > 1) || (H5_VERS_MAJOR == 1 && H5_VERS_MINOR >= 4))
+#if ((H5_VERS_MAJOR > 1) || (H5_VERS_MAJOR == 1 && H5_VERS_MINOR >= 4)) && 0
 #define count_size_t hsize_t
 #else
 #define count_size_t size_t

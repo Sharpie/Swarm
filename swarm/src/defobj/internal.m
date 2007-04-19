@@ -526,7 +526,14 @@ lisp_output_type (fcall_type_t type,
       abort ();
       break;
     case fcall_type_string:
-      [stream catString: ((const char **) ptr)[offset]];
+      {
+        const char *str = ((const char **) ptr)[offset];
+
+        if (str)
+          [stream catString: str];
+	else
+	  [stream catNil];
+      }
       break;
     case fcall_type_iid:
       [stream catPointer: ((void **) ptr)[offset]];
@@ -1020,8 +1027,8 @@ typeError (const char *ivar_name,
        }}
 
 #define ENSUREVALUETYPE(expr,vMethod,value_type,ivar_type,ivar_name,buf_expr) \
-  if (ivar_type != value_type)                                                \
-    typeError (ivar_name, ivar_type, value_type);                             \
+  if (ivar_type != value_type)                                              \
+    typeError (ivar_name, ivar_type, value_type);                           \
   buf_expr = [expr vMethod];
 
 void
@@ -1086,7 +1093,12 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
       switch (value_type)
         {
         case fcall_type_object:
-          ENSUREVALUETYPE (expr, getObject, fcall_type_object, ivar_type, ivar_name, buf.object);
+          if (ivar_type == fcall_type_string) {
+            if ([expr getObject] == NULL)
+              buf.object = NULL;
+	  } else {
+            ENSUREVALUETYPE (expr, getObject, fcall_type_object, ivar_type, ivar_name, buf.object);
+          }
           break;
         case fcall_type_class:
           ENSUREVALUETYPE (expr, getClass, fcall_type_class, ivar_type, ivar_name, buf._class);
