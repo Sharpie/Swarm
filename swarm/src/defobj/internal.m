@@ -1096,6 +1096,8 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           if (ivar_type == fcall_type_string) {
             if ([expr getObject] == NULL)
               buf.object = NULL;
+            else
+              abort ();
 	  } else {
             ENSUREVALUETYPE (expr, getObject, fcall_type_object, ivar_type, ivar_name, buf.object);
           }
