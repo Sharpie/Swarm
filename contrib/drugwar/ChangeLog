@@ -1,0 +1,153 @@
+2002-10-15  glen e. p. ropella  <gepr@tempusdictum.com>
+
+	* Makefile (.m.o): Changed rule to make graph object files in
+	graph subdirectory.
+
+2001-09-14  Marcus G. Daniels  <mgd@condor>
+
+	* Agent.m: Include misc.h.
+
+2001-01-29  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Agent.m ([Agent +designProbeMap:]): Use "id <ProbeMap>" instead of
+	"ProbeMap*".
+
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Society.m ([Society -buildAgents]): Use RandomBitDist and SWB1gen
+	instead of RandomBitDistribution and SWB1.
+
+2000-01-20  glen e. p. ropella  <gepr@acm.org>
+
+	* *.[hm]: Changed name of app in comment.
+
+	* Makefile (APPVERSION/BUGADDRESS): Added version number and bug address
+	(SWARMHOME): Made to look like I run things at sfi
+	(APPVERSION/BUGADDRESS): removed quotes and brackets
+	(APPLICATION): more appropriate name
+
+	* ReadMe.txt: New file
+
+	* todo: added a couple more things to do
+
+	* Agent.m ([Agent -calcPressure:]): compare friend with nil, not End.
+
+2000-01-18  glen e. p. ropella  <gepr@acm.org>
+
+	* *.m: Removed debugging output throughout.
+
+	* main.m: Added <simtools.h> to declare swarmGUIMode and removed
+	<simtoolsgui.h>
+
+	* GUI.m ([GUI +createBegin:]): Added <simtools.h> to declare
+	ObjectLoader.
+
+	* MemeFactory.m ([MemeFactory -recruit]): Use <Index> instead of
+	<ListIndex>
+
+	* Society.m: ([Society -buildAgents]): likewise
+
+	* Agent.m ([Agent -setLoyaltyTo:withValue:]): Removed create phase
+	options for agentLoyalty Map.
+	([Agent -calcPressure:]): Cast End symbol to id.
+
+2000-01-18  glen e. p. ropella  <gepr@acm.org>
+
+	* *.[hm] (Copyright): Moved to SDG
+
+1999-02-09    <gepr@acm.org>
+
+	* Agent.m ([Agent -evaluate]): Commented out fprintf diagnostic.
+
+1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+	
+	* Makefile (SWARMHOME): Default to 1998-08-20.
+	(DATAFILES): Note use of GUI-Data.001 and Society-Data.001.
+
+	* GUI.m ([GUI -createEnd]): Use ObjectLoader's fromAppDataFileNamed:
+	instead of fromFileNamed:.
+	([GUI -build]): Likewise.
+
+	* Society.m ([Society -build]): Likewise.
+
+1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Agent.m ([Agent -setLoyaltyTo:withValue:]): Disable use of
+	setDupOption:.
+
+	* Society.m ([Society -buildActivity]): Disable use of
+	setDefaultOrder:.
+
+	* Makefile: Include Makefile.appl from $(SWARMHOME)/etc/swarm.
+
+1998-04-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Society.m: Include gui.h.
+
+	* Society.h: Include gui.h.
+	(Society): Make awarenessCanvas an object conforming to the Canvas
+	protocol.
+
+1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m: Include simtoolsgui.h instead of simtools.h.
+	Reformatting throughout.
+
+	* MemeFactory.m:  Include simtoolsgui.h instead of simtools.h.
+	Reformatting throughout.
+
+	* MemeFactory.h: Reformatting throughout.
+
+	* GUI.m: Include simtoolsgui.h.
+	Reformatting throughout.
+
+	* GUI.h: Include simtoolsgui/GUISwarm.h instead of simtools/GUISwarm.h.
+	Reformatting throughout.
+
+1998-02-25  Alex Lancaster  <alex@santafe.edu>
+
+	* MemeFactory.m ([MemeFactory -setMembershipTag:]): changed
+	globalTkInterp "idletasks" call to the new GUI-independent macro
+	GUI_UPDATE_IDLE_TASKS().
+
+	* Agent.m ([Agent -setMembershipTo:]): Likwise.
+
+	* GUI.m ([GUI -build]): Likewise. Also added [canvas packLeftWith:
+	YES] in place of Tk-specific calls.
+
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Constify argv.
+
+	* Society.m: Don't include tkobjc/control.h.
+
+	* GUI.m ([GUI -build]): Send waitForControlEvent to actionCache.
+
+	* Agent.m: Don't include tkobjc.h.
+
+1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* GUI.m: ([GUI -build]): Use SET_WINDOW_GEOMETRY_RECORD_NAME for
+	canvas.
+	([GUI -buildProbes]): Use CREATE_ARCHVIED_PROBE_DISPLAY for 
+	society and GUI.
+
+	* main.m (main): Use SET_WINDOW_GEOMETRY_RECORD_NAME for
+	theTopLevelSwarm.
+
+1997-12-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MemeFactory.h ([-setName:]): Constify argument.
+
+	* MemeFactory.m ([MemeFactory -setName:]): Likewise.
+
+	* Agent.m ([Agent
+	-setInitialStateToFact:factValcoercion:coercionValsocialPressure:
+	pressureVal]):  Add intermediate casts for factVal, coercionVal,
+	and pressureVal to avoid warning.
+	([Agent -evaluate]): Likewise.
+	([Agent -setName:]): Constify argument.
+	([Agent -calcPressure:]): Initialize to avoid warning.
+
+	* Agent.h ([-setName:]): Constify argument.
+

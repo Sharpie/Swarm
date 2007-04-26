@@ -1,0 +1,29 @@
+@begin
+randomNet               1
+numberOfMembers       200
+minAwarenessLinks      10
+maxAwarenessLinks      20
+minFactRatio            0.01
+maxFactRatio            1.00
+minPressureRatio        0.01
+maxPressureRatio        1.00
+initMembershipProb      0.50
+numberOfMemeFactories   2
+maxRecruitNumber        1
+minInitProfit           0
+maxInitProfit           2
+minInitIR               0.01
+maxInitIR               0.30
+minInitIRIncr           0.0001
+maxInitIRIncr           0.0002
+minAcceptableProfit     0
+maxAcceptableProfit     2
+defectorProbPunishMin   0.01
+defectorProbPunishMax   0.5
+opponentProbPunishMin   0.01
+opponentProbPunishMax   0.1
+minProbRemoval          0.01
+maxProbRemoval          0.20
+paroleTimeMin          10
+paroleTimeMax          20
+@end

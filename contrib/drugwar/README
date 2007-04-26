@@ -1,0 +1,22 @@
+The DrugWar app is a toy model of three social influences on drug
+trafficking behavior.  Each agent uses a boolean polynomial to assess
+whether or not to become part of a drug cartel's supply chain
+operations.  The inputs to the polynomial are:
+
+1. Facts -- The agent sees the world around her.
+
+2. Coercion -- The agent receives coercive pressure from law
+   enforcement (the threat of imprisonment) and the drug cartel (the
+   threat of bodily harm or harm to possessions or family memnbers).
+
+3. Social Pressure -- The agent feels moral or ethical pressure from
+   the social structures to which she belongs.
+
+Each variable in the polynomial has a coefficient with which to 
+modify the agent's relative weighting of the 3 inputs.
+
+The only other parametrization provided for the agents is the 
+"awarenessNet", which is a list of aquaintances for the agent,
+which define the paths by which the pressures can reach her.
+
+glen e. p. ropella <gepr@tempusdictum.com>

@@ -1,0 +1,12 @@
+- postion memefactories intelligently
+- detect when a stable state has been acheived and stop the sim
+- add the ability to secondbutton click on a node and change it's state
+- add a method to:
+  - redistribute nodes
+  - hide all but one node and it's awareness net
+- remove links when a node goes inactive
+- change link colors and outline node when using net to make decision
+- add output file for net and net state
+- add output for data (file and displays)
+- add ability to add more cartels (in addition to more cops)
+- initialize population with some people dead or in jail

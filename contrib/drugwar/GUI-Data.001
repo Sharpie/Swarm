@@ -1,0 +1,6 @@
+@begin
+displayFrequency    1
+canvasHeight      600
+canvasWidth       700
+nodeSize           40
+@end
