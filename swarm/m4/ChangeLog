@@ -1,3 +1,8 @@
+2007-05-23  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* actcltk.m4: remove assignment to bltlibdir it is set
+     correctly by md_FIND_LIB, no need to mess it up.
+    
 2006-03-31  Marcus G. Daniels  <mdaniels@maxine.lanl.gov>
 
 	* acfind.m4: Add variable _library_found to discriminate between
