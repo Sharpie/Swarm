@@ -311,7 +311,6 @@ for name in $bltlibname BLT30 BLT24 BLT8.0 BLT80 BLT; do
 	  md_FIND_LIB(blt,$name,$extra_libdir,1)
 	  if test -n "$bltlibdir" ; then
 		bltlibname=$name
-		bltlibdir=$extra_libdir
 		found=yes
 		break
 	  fi
