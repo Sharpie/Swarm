@@ -527,10 +527,12 @@ USING
 //M: The getProbability returns probability parameter.
 - (double) getProbability;
 
+#if 0
 //M: The getIntegerSample returns a sample value using the distribution's current 
 //M: number of trials and probability parameters; causes an error if these parameters 
 //M: have not been previously set.
 - (unsigned) getUnsignedSample;
+#endif
 
 //M: The getIntegerSampleWithInterval returns a sample value using the distribution's 
 //M: current number of trials and new probability value. Causes an error if the number 
