@@ -26,7 +26,7 @@ XPIDLSRCS = swarmIBase.idl swarmISelector.idl swarmITyping.idl $(foreach module,
 
 include $(topsrcdir)/config/rules.mk
 
-override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swarm_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(swarm_srcdir)/src $(foreach module,defobj,-I$(swarm_srcdir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(swarm_srcdir) -I$(swarm_srcdir)/COM/c -I.
+override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swarm_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(swarm_srcdir)/src $(foreach module,defobj,-I$(swarm_srcdir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(swarm_srcdir) -I$(swarm_srcdir)/COM/c -I. -DMOZILLA_INTERNAL_API
 
 
 SWARMMODULES = $(shell cat $(top_builddir)/etc/modules)
