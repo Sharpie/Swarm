@@ -39,7 +39,7 @@ NS_IMPL_ISUPPORTS2_CI(swarmSelectorImpl, swarmISelector, swarmITyping)
 
 swarmSelectorImpl::swarmSelectorImpl ()
 {
-  NS_INIT_REFCNT ();
+  // NS_INIT_REFCNT ();
 }
 
 swarmSelectorImpl::~swarmSelectorImpl ()

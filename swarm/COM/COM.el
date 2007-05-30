@@ -659,7 +659,7 @@
     (insert name)
     (insert " ()\n")
     (insert "{\n")
-    (insert "  NS_INIT_REFCNT ();\n")
+    ; (insert "  NS_INIT_REFCNT ();\n")
     (insert "}\n")
     (insert "\n")))
 

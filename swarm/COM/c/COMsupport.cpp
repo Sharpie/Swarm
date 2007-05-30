@@ -21,6 +21,7 @@
 #include "nsIInterfaceInfo.h"
 #include "nsIInterfaceInfoManager.h"
 #include "nsIComponentManager.h"
+#include "nsIComponentManagerObsolete.h"
 #include "nsIServiceManager.h"
 #include "nsIXPConnect.h"
 #include "nsIEnumerator.h"
@@ -57,21 +58,15 @@ struct collect_methods_t {
 };
   
 
-static void *
-find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
+static const void *
+find (const void *(*match) (nsIInterfaceInfo *, void *), void *item)
 {
-  nsIInterfaceInfoManager *iim = nsnull;
+  nsCOMPtr <nsIInterfaceInfoManager> iim (do_GetService (NS_INTERFACEINFOMANAGER_SERVICE_CONTRACTID));
   nsIEnumerator *Interfaces = nsnull;
   nsISupports *is_Interface;
   nsIInterfaceInfo *Interface;
   nsresult rv;
-  void *ret = NULL;
-  
-  if (!(iim = XPTI_GetInterfaceInfoManager ()))
-    {
-      NS_ASSERTION (0, "failed to get the InterfaceInfoManager");
-      goto done;
-    }
+  const void *ret = NULL;
   
   if (NS_FAILED (iim->EnumerateInterfaces (&Interfaces)))
     {
@@ -114,7 +109,7 @@ find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
       NS_RELEASE (is_Interface);
       Interfaces->Next ();
       
-    } while (NS_COMFALSE == Interfaces->IsDone ());
+    } while (!Interfaces->IsDone ());
   
  done:
   NS_IF_RELEASE (Interfaces);
@@ -124,35 +119,35 @@ find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
   return ret;
 }
 
-static void *
+static const void *
 matchInterfaceName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
-  nsIID *ret = NULL;
+  const nsIID *ret = NULL;
   char *name;
   const char *interfaceName = (const char *) item;
   
   interfaceInfo->GetName (&name);
   
   if (PL_strcmp (interfaceName, name) == 0)
-    interfaceInfo->GetIID (&ret);
+    interfaceInfo->GetIIDShared (&ret);
   nsMemory::Free (name);
   return ret;
 }
 
-static nsIID *
+static const nsIID *
 findIIDFromName (const char *interfaceName)
 {
-  return (nsIID *) find (matchInterfaceName, (void *) interfaceName);
+  return (const nsIID *) find (matchInterfaceName, (void *) interfaceName);
 }
 
-static void *
+const static void *
 matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
   struct method_pair *pair = (struct method_pair *) item;
   nsISupports *interface;
-  nsIID *iid;
+  const nsIID *iid;
 
-  if (interfaceInfo->GetIID (&iid) != NS_OK)
+  if (interfaceInfo->GetIIDShared (&iid) != NS_OK)
     abort ();
 
   if (pair->key.target->QueryInterface (*iid, (void **) &interface) == NS_OK)
@@ -175,23 +170,30 @@ createComponentByName (const char *contractID, const char *interfaceName)
 {
   nsISupports *obj;
   nsresult rv;
-  nsIID *iid;
+  const nsIID *iid;
   nsIID default_iid = NS_GET_IID (nsISupports);
 
   if (interfaceName)
     {
-      char buf[6 + PL_strlen (interfaceName) + 1];
+      char *buf = (char *) malloc (6 + PL_strlen (interfaceName) + 1);
 
+      if (buf == NULL)
+        abort ();
       PL_strcpy (buf, "swarmI");
       PL_strcat (buf, interfaceName);
       
       if (!(iid = findIIDFromName (buf)))
         iid = &default_iid;
+      free (buf);
     }
   else
     iid = &default_iid;
-  
-  rv = nsComponentManager::CreateInstance (contractID, NULL, *iid, (void **) &obj);
+ 
+  nsCOMPtr<nsIComponentManager> compMgr;
+  NS_GetComponentManager (getter_AddRefs (compMgr));  
+  if (!compMgr)
+    abort (); 
+  rv = compMgr->CreateInstanceByContractID (contractID, NULL, *iid, (void **) &obj);
   if (NS_FAILED (rv))
     abort ();
   return obj;
@@ -206,7 +208,9 @@ COMfindComponent (const char *className)
   size_t modulePrefixLen = PL_strlen (modulePrefix);
   nsCID *cClass = new nsCID ();
   size_t classNameLen = PL_strlen (className);
-  char buf[prefixLen + classNameLen + 1];
+  char *buf = (char *) malloc (prefixLen + classNameLen + 1);
+  if (!buf)
+    abort ();
   nsresult rv;
 
   PL_strcpy (buf, prefix);
@@ -225,8 +229,14 @@ COMfindComponent (const char *className)
         }
     }
 
-  rv = nsComponentManager::ContractIDToClassID (buf, cClass);
-
+  nsCOMPtr<nsIComponentManager> compMgr;
+  NS_GetComponentManager (getter_AddRefs (compMgr));  
+  if (!compMgr)
+    abort ();
+  nsCOMPtr<nsIComponentManagerObsolete> compMgrO;
+  rv = compMgrO->ContractIDToClassID (buf, cClass);
+  free (buf);
+ 
   if (NS_FAILED (rv))
     abort ();
   return (COMclass) cClass;
@@ -235,11 +245,16 @@ COMfindComponent (const char *className)
 COMobject
 COMcreateComponent (COMclass cClass)
 {
-  nsCID *cid = (nsCID *) cClass;
+  const nsCID *cid = (const nsCID *) cClass;
   char *className;
   char *contractID;
   char *interfaceName = NULL;
-  nsresult rv = nsComponentManager::CLSIDToContractID (cid, &className, &contractID);
+  nsCOMPtr<nsIComponentManager> compMgr;
+  NS_GetComponentManager (getter_AddRefs (compMgr));  
+  if (!compMgr)
+    abort ();
+  nsCOMPtr<nsIComponentManagerObsolete> compMgrO = do_QueryInterface (compMgr);
+  nsresult rv = compMgrO->CLSIDToContractID (*cid, &className, &contractID);
   size_t len;
   nsISupports *obj;
 
@@ -339,8 +354,13 @@ COMgetComponentName (COMclass cClass)
 {
   char *name, *contractID;
   nsCID *cid = (nsCID *) cClass;
+  nsCOMPtr<nsIComponentManager> compMgr;
+  NS_GetComponentManager (getter_AddRefs (compMgr));  
+  if (!compMgr)
+    abort ();
+  nsCOMPtr<nsIComponentManagerObsolete> compMgrO = do_QueryInterface (compMgr);
 
-  if (NS_FAILED (nsComponentManager::CLSIDToContractID (cid, &name, &contractID)))
+  if (NS_FAILED (compMgrO->CLSIDToContractID (*cid, &name, &contractID)))
     abort ();
 
   return name;
@@ -381,10 +401,13 @@ COMselector
 selectorCreate (COMmethod cMethod)
 {
   swarmISelector *cSel, *ret;
-
-  if (!NS_SUCCEEDED (nsComponentManager::CreateInstance (kSelector, nsnull,
-                                                         NS_GET_IID (swarmISelector),
-                                                         (void **) &cSel)))
+  nsCOMPtr<nsIComponentManager> compMgr;
+  NS_GetComponentManager (getter_AddRefs (compMgr));  
+  if (!compMgr)
+    abort ();
+  if (!NS_SUCCEEDED (compMgr->CreateInstance (kSelector, nsnull,
+                                              NS_GET_IID (swarmISelector),
+                                              (void **) &cSel)))
     abort ();
   if (!NS_SUCCEEDED (cSel->CreateFromMethod (cMethod, &ret)))
     abort ();
@@ -520,17 +543,17 @@ destroyMethod (nsHashKey *key, void *data, void *param)
   return PR_TRUE;
 }
 
-static void *
+const static void *
 matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
 {
   struct collect_methods_t *info = (struct collect_methods_t *) item;
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, info->obj);
-  nsIID *iid;
+  const nsIID *iid;
 
   if (info->collectVariableFunc && info->collectMethodFunc)
     abort ();
 
-  if (!NS_SUCCEEDED (interfaceInfo->GetIID (&iid)))
+  if (!NS_SUCCEEDED (interfaceInfo->GetIIDShared (&iid)))
     abort ();
 
   nsISupports *interface;
@@ -557,7 +580,7 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
           
           struct method_value *method = new method_value;
           
-          if (!NS_SUCCEEDED (interfaceInfo->GetIID ((nsIID **) &method->methodIID)))
+          if (!NS_SUCCEEDED (interfaceInfo->GetIIDShared ((const nsIID **) &method->methodIID)))
             abort ();
           method->methodIndex = i;
           method->methodInfo = methodInfo;
@@ -822,7 +845,7 @@ COMmethodInvoke (COMmethod cMethod, COMobject obj, void *params)
                                            (void **) &interface)))
     abort ();
 
-  if (!NS_SUCCEEDED (XPTC_InvokeByIndex (interface,
+  if (!NS_SUCCEEDED (NS_InvokeByIndex (interface,
                                          method->methodIndex,
                                          method->methodInfo->GetParamCount (),
                                          (nsXPTCVariant *) params)))
