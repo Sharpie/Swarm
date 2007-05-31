@@ -1118,7 +1118,11 @@
                                   "-initSwarmUsing:version:bugAddress:args:"))
   
   (setq *extra-unwanted-create-method-signatures*
-        '("+create:setAutoDrop:")))
+        '("+create:setAutoDrop:"
+     ; these two come from BinomalDist -- need to investigate more why
+          "+create:setGenerator:"
+          "+create:setGenerator:setVirtualGenerator:"
+         )))
 
 (defun run ()
   (com-init)
