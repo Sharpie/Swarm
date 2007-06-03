@@ -228,12 +228,11 @@ COMfindComponent (const char *className)
             buf[pos] = '.';
         }
     }
-
   nsCOMPtr<nsIComponentManager> compMgr;
   NS_GetComponentManager (getter_AddRefs (compMgr));  
   if (!compMgr)
     abort ();
-  nsCOMPtr<nsIComponentManagerObsolete> compMgrO;
+  nsCOMPtr<nsIComponentManagerObsolete> compMgrO = do_QueryInterface (compMgr);
   rv = compMgrO->ContractIDToClassID (buf, cClass);
   free (buf);
  
