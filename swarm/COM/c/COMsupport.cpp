@@ -18,6 +18,7 @@
 // http://www.swarm.org/
 
 #include "nsISupports.h"
+#include "nsISupportsPrimitives.h"
 #include "nsIInterfaceInfo.h"
 #include "nsIInterfaceInfoManager.h"
 #include "nsIComponentManager.h"
@@ -82,8 +83,7 @@ find (const void *(*match) (nsIInterfaceInfo *, void *), void *item)
   
   do
     {
-      if (NS_FAILED (rv = Interfaces->CurrentItem (&is_Interface)))
-        {
+      if (NS_FAILED (rv = Interfaces->CurrentItem (&is_Interface))) {
           /* maybe something should be done,
            * debugging info at least? */
           Interfaces->Next ();
@@ -95,21 +95,18 @@ find (const void *(*match) (nsIInterfaceInfo *, void *), void *item)
                         (void **) &Interface);
       
       if (!NS_FAILED (rv))
-        {
-          ret = (*match) (Interface, item);
-          if (ret != Interface)
-            NS_RELEASE (Interface);
-        }
+	ret = (*match) (Interface, item);
       else
         abort ();
       
       if (ret)
         break;
 
+      NS_RELEASE (Interface);
       NS_RELEASE (is_Interface);
       Interfaces->Next ();
       
-    } while (!Interfaces->IsDone ());
+    } while (Interfaces->IsDone () == NS_ENUMERATOR_FALSE);
   
  done:
   NS_IF_RELEASE (Interfaces);
@@ -122,14 +119,14 @@ find (const void *(*match) (nsIInterfaceInfo *, void *), void *item)
 static const void *
 matchInterfaceName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
-  const nsIID *ret = NULL;
+  nsIID *ret = NULL;
   char *name;
   const char *interfaceName = (const char *) item;
   
   interfaceInfo->GetName (&name);
   
   if (PL_strcmp (interfaceName, name) == 0)
-    interfaceInfo->GetIIDShared (&ret);
+    interfaceInfo->GetInterfaceIID (&ret);
   nsMemory::Free (name);
   return ret;
 }
@@ -145,10 +142,13 @@ matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
   struct method_pair *pair = (struct method_pair *) item;
   nsISupports *interface;
-  const nsIID *iid;
+  nsIID *iid;
 
-  if (interfaceInfo->GetIIDShared (&iid) != NS_OK)
+  if (interfaceInfo->GetInterfaceIID (&iid) != NS_OK)
     abort ();
+
+char *foo;
+interfaceInfo->GetName (&foo);
 
   if (pair->key.target->QueryInterface (*iid, (void **) &interface) == NS_OK)
     {
@@ -259,8 +259,7 @@ COMcreateComponent (COMclass cClass)
 {
   const nsCID *cid = (const nsCID *) cClass;
   nsIID iid;
-  char *className;
-  char *contractID;
+  const char *className = COM_get_class_name (cClass);
   char *interfaceName = NULL;
   nsCOMPtr<nsIComponentManager> compMgr;
   NS_GetComponentManager (getter_AddRefs (compMgr));  
@@ -365,17 +364,33 @@ COMgetClass (COMobject cObj)
 const char *
 COMgetComponentName (COMclass cClass)
 {
-  char *name, *contractID;
+  char *name = NULL;
   nsCID *cid = (nsCID *) cClass;
   nsCOMPtr<nsIComponentManager> compMgr;
+  nsIEnumerator *contractEnum;
+  nsISupportsCString *cval;
+  nsCID mcid;
+
   NS_GetComponentManager (getter_AddRefs (compMgr));  
   if (!compMgr)
     abort ();
   nsCOMPtr<nsIComponentManagerObsolete> compMgrO = do_QueryInterface (compMgr);
 
-  if (NS_FAILED (compMgrO->CLSIDToContractID (*cid, &name, &contractID)))
-    abort ();
+  compMgrO->EnumerateContractIDs (&contractEnum);
+  contractEnum->First ();
 
+  while (contractEnum->IsDone () == NS_ENUMERATOR_FALSE) {
+    contractEnum->CurrentItem ((nsISupports **) &cval);
+    cval->ToString (&name);
+    compMgrO->ContractIDToClassID (name, &mcid);
+    if (cid->Equals (mcid))
+      break; 
+    else if (name) {
+      nsMemory::Free (name);
+      name = NULL;
+    }
+    contractEnum->Next ();
+  }
   return name;
 }
 
@@ -561,12 +576,12 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
 {
   struct collect_methods_t *info = (struct collect_methods_t *) item;
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, info->obj);
-  const nsIID *iid;
+  nsIID *iid;
 
   if (info->collectVariableFunc && info->collectMethodFunc)
     abort ();
 
-  if (!NS_SUCCEEDED (interfaceInfo->GetIIDShared (&iid)))
+  if (!NS_SUCCEEDED (interfaceInfo->GetInterfaceIID (&iid)))
     abort ();
 
   nsISupports *interface;
@@ -593,7 +608,7 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
           
           struct method_value *method = new method_value;
           
-          if (!NS_SUCCEEDED (interfaceInfo->GetIIDShared ((const nsIID **) &method->methodIID)))
+          if (!NS_SUCCEEDED (interfaceInfo->GetInterfaceIID ((nsIID **) &method->methodIID)))
             abort ();
           method->methodIndex = i;
           method->methodInfo = methodInfo;
