@@ -165,35 +165,48 @@ matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
 return NULL;
 }
 
-static nsISupports *
-createComponentByName (const char *contractID, const char *interfaceName)
+static const nsIID
+getSwarmIID (const char *interfaceName)
 {
-  nsISupports *obj;
-  nsresult rv;
-  const nsIID *iid;
+  nsIID iid;
   nsIID default_iid = NS_GET_IID (nsISupports);
 
   if (interfaceName)
     {
       char *buf = (char *) malloc (6 + PL_strlen (interfaceName) + 1);
+      const nsIID *iidptr;
 
       if (buf == NULL)
         abort ();
       PL_strcpy (buf, "swarmI");
       PL_strcat (buf, interfaceName);
       
-      if (!(iid = findIIDFromName (buf)))
-        iid = &default_iid;
+      if ((iidptr = findIIDFromName (buf)))
+        iid = *iidptr;
+      else
+        iid = default_iid;
       free (buf);
     }
   else
-    iid = &default_iid;
+    iid = default_iid;
+
+  return iid;
+}
+
+static nsISupports *
+createComponentByName (const char *contractID, const char *interfaceName)
+{
+  nsISupports *obj;
+  nsresult rv;
+  nsIID iid;
+
  
   nsCOMPtr<nsIComponentManager> compMgr;
   NS_GetComponentManager (getter_AddRefs (compMgr));  
   if (!compMgr)
     abort (); 
-  rv = compMgr->CreateInstanceByContractID (contractID, NULL, *iid, (void **) &obj);
+  iid = getSwarmIID (interfaceName);
+  rv = compMgr->CreateInstanceByContractID (contractID, NULL, iid, (void **) &obj);
   if (NS_FAILED (rv))
     abort ();
   return obj;
@@ -245,6 +258,7 @@ COMobject
 COMcreateComponent (COMclass cClass)
 {
   const nsCID *cid = (const nsCID *) cClass;
+  nsIID iid;
   char *className;
   char *contractID;
   char *interfaceName = NULL;
@@ -252,14 +266,9 @@ COMcreateComponent (COMclass cClass)
   NS_GetComponentManager (getter_AddRefs (compMgr));  
   if (!compMgr)
     abort ();
-  nsCOMPtr<nsIComponentManagerObsolete> compMgrO = do_QueryInterface (compMgr);
-  nsresult rv = compMgrO->CLSIDToContractID (*cid, &className, &contractID);
   size_t len;
   nsISupports *obj;
 
-  if (NS_FAILED (rv))
-    abort ();
-  
   len = PL_strlen (className);
 
   if (len > 10) /* swarm + name + Impl */
@@ -274,9 +283,14 @@ COMcreateComponent (COMclass cClass)
     }
   else
     interfaceName = NULL;
-
-  obj = createComponentByName (contractID, interfaceName);
   
+  iid = getSwarmIID (interfaceName);
+  if (!NS_SUCCEEDED (compMgr->CreateInstance (*cid, nsnull, iid, (void **) &obj)))
+    obj = nsnull;
+
+  if (obj == nsnull)
+    abort ();
+
   if (interfaceName)
     PL_strfree (interfaceName);
 
