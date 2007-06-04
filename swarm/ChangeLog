@@ -1,3 +1,7 @@
+2007-06-04  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	*config.sub config.guess ltmain.sh: update to libtool 1.5.22
+	
 2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* VERSION: Bump.

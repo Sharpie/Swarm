@@ -19,10 +19,14 @@ test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
 case ${host} in
         *-*-darwin*)
                 OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools"
+#				CFLAGS="$CFLAGS -fnested-functions"
+#				NESTLDFLAGS=-fnested-functions
                 ;;
         *)
                 ;;
 esac
+
+AC_SUBST(NESTLDFLAGS)
 
 OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)
@@ -32,14 +36,6 @@ AC_PROG_LIBTOOL
 
 SHLIBPATH_VAR=`./libtool --config | $SED -n 's/^shlibpath_var=\(.*\)/\1/p'`
 AC_SUBST(SHLIBPATH_VAR)
-
-AC_PATH_XTRA
-if test -n "$x_includes"; then
-  XINCLUDES="-I$x_includes"
-fi
-AC_SUBST(XINCLUDES)
-
-md_CHECK_GUILIBS
 
 AC_ARG_WITH(defaultdir,
 [  --with-defaultdir=DIR            Use DIR instead of prefix as default path],
@@ -65,25 +61,6 @@ AC_ARG_ENABLE(gui,
 [  --disable-gui                    Disable GUI, Swarm is batch only],
   ,enable_gui=yes)
 
-AC_ARG_WITH(xpmdir,
-[  --with-xpmdir=DIR                Use DIR/include and DIR/lib for XPM],
-  xpmincludedir=$withval/include
-  xpmlibdir=$withval/lib)
-
-AC_ARG_WITH(xpmlibdir,
-[  --with-xpmlibdir=DIR             Use DIR for XPM library files],
-  xpmlibdir=$withval)
-
-AC_ARG_WITH(xpmincludedir,
-[  --with-xpmincludedir=DIR         Use DIR for XPM header files],
-  xpmincludedir=$withval)
-
-AC_ARG_WITH(xpmlibname,
-[  --with-xpmlibname=NAME           Use -lNAME for XPM],
-  xpmlibname=$withval)
-
-md_FIND_XPM
-
 AC_ARG_ENABLE(libobjc,
 [  --disable-libobjc                Disable local ObjC library],
   ,enable_libobjc=yes)
@@ -101,7 +78,8 @@ fi
 AC_ARG_WITH(tcldir,
 [  --with-tcldir=DIR                Use DIR/include and DIR/lib for Tcl],
   tclincludedir=$withval/include
-  tcllibdir=$withval/lib)
+  tcllibdir=$withval/lib
+  tcl=$withval)
 
 AC_ARG_WITH(tclincludedir,
 [  --with-tclincludedir=DIR         Use DIR for Tcl header files],
@@ -114,40 +92,12 @@ AC_ARG_WITH(tcllibname,
 AC_ARG_WITH(tclscriptdir,
 [  --with-tclscriptdir=DIR          Use DIR for Tcl scripts],
   tclscriptdir=$withval)
-
-if test "$enable_gui" = no; then
-   echo GUI has been disabled.  Skipping configure of tclobjc
-else
-   if test "$enable_gnustep" = yes; then
-      echo GNUstep integration is enabled.  Skipping configuration of tclobjc
-   else
-
-md_FIND_TCL
-md_FIND_TCL_HEADERS
-if test -z "$tclincludedir" ; then
-  AC_MSG_ERROR(Please specify Tcl header path using --with-tcldir or --with-tclincludedir)
-fi
-
-md_FIND_TCL_LIBRARIES
-if test -z "$tcllibdir" ; then
-  AC_MSG_ERROR(Please specify Tcl library path using --with-tcldir)
-fi
-
-md_FIND_TCL_SCRIPTS
-
-AC_SUBST(tclscriptdir)
-md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tcl)
-
-TCLMODULE=tclobjc
-AC_SUBST(TCLMODULE)
-
-   fi
-fi
-
+  
 AC_ARG_WITH(tkdir,
 [  --with-tkdir=TKDIR               Use DIR/include and DIR/lib for Tk],
   tkincludedir=$withval/include
-  tklibdir=$withval/lib)
+  tklibdir=$withval/lib
+  tk=$withval)
 
 AC_ARG_WITH(tkincludedir,
 [  --with-tkincludedir=DIR          Use DIR for Tk header files],
@@ -161,35 +111,23 @@ AC_ARG_WITH(tklibname,
 [  --with-tklibname=NAME            Use -lNAME for Tk],
   tklibname=$withval)
 
-if test "$enable_gui" = no; then
-   echo GUI has been disabled.  Skipping configure of tkobjc
-else
-   if test "$enable_gnustep" = yes; then
-      echo GNUstep integration is enabled.  Skipping configuration of tkobjc
-   else
+AC_ARG_WITH(xpmdir,
+[  --with-xpmdir=DIR                Use DIR/include and DIR/lib for XPM],
+  xpmincludedir=$withval/include
+  xpmlibdir=$withval/lib)
 
-md_FIND_TK_HEADERS
-if test -z "$tkincludedir" ; then
-  AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
-fi
+AC_ARG_WITH(xpmlibdir,
+[  --with-xpmlibdir=DIR             Use DIR for XPM library files],
+  xpmlibdir=$withval)
 
-md_FIND_TK_LIBRARIES
-if test -z "$tklibdir" ; then
-  AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
-fi
+AC_ARG_WITH(xpmincludedir,
+[  --with-xpmincludedir=DIR         Use DIR for XPM header files],
+  xpmincludedir=$withval)
 
-md_FIND_TK_SCRIPTS
-
-AC_SUBST(tkscriptdir)
-
-md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tk)
-
-TKMODULE=tkobjc
-AC_SUBST(TKMODULE)
-
-   fi
-fi
-
+AC_ARG_WITH(xpmlibname,
+[  --with-xpmlibname=NAME           Use -lNAME for XPM],
+  xpmlibname=$withval)
+  
 AC_ARG_WITH(bltdir,
 [  --with-bltdir=DIR                Use DIR/include and DIR/lib for BLT],
   bltdir=$withval)
@@ -197,6 +135,112 @@ AC_ARG_WITH(bltdir,
 AC_ARG_WITH(bltlibname,
 [  --with-bltlibname=NAME           Use -lNAME for BLT],
   bltlibname=$withval)
+
+if test "$enable_gui" = no; then
+   echo GUI has been disabled.  Skipping configure of tclobjc
+else
+   if test "$enable_gnustep" = yes; then
+      echo GNUstep integration is enabled.  Skipping configuration of tclobjc
+   else
+
+
+# TEA configuration
+PACKAGE_NAME=SWARM_TCLTK
+TEA_INIT(3.5)
+TEA_PATH_TCLCONFIG
+TEA_LOAD_TCLCONFIG
+TEA_PUBLIC_TCL_HEADERS
+
+#TCLINCLUDES=${TCL_INCLUDE_SPEC}
+#TCLLDFLAGS="${TCL_LD_FLAGS} ${TCL_LIBS}"
+#TCLLIB=${TCL_LIB_SPEC} 
+
+#AC_SUBST(TCLINCLUDES)
+#AC_SUBST(TCLLDFLAGS)
+#AC_SUBST(TCLLIB)
+
+#md_FIND_TCL
+#md_FIND_TCL_HEADERS
+#if test -z "$tclincludedir" ; then
+#  AC_MSG_ERROR(Please specify Tcl header path using --with-tcldir or --with-tclincludedir)
+#fi
+
+#md_FIND_TCL_LIBRARIES
+#if test -z "$tcllibdir" ; then
+#  AC_MSG_ERROR(Please specify Tcl library path using --with-tcldir)
+#fi
+
+#md_FIND_TCL_SCRIPTS
+
+#AC_SUBST(tclscriptdir)
+#md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tcl)
+
+TCLMODULE=tclobjc
+AC_SUBST(TCLMODULE)
+
+   fi
+fi
+
+if test "$enable_gui" = no; then
+   echo GUI has been disabled.  Skipping configure of tkobjc
+else
+   if test "$enable_gnustep" = yes; then
+      echo GNUstep integration is enabled.  Skipping configuration of tkobjc
+   else
+   
+TEA_PATH_TKCONFIG
+TEA_LOAD_TKCONFIG
+TEA_PUBLIC_TK_HEADERS
+
+
+#md_FIND_TK_HEADERS
+#if test -z "$tkincludedir" ; then
+#  AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
+#fi
+
+#md_FIND_TK_LIBRARIES
+#if test -z "$tklibdir" ; then
+#  AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
+#fi
+
+#md_FIND_TK_SCRIPTS
+
+#AC_SUBST(tkscriptdir)
+
+#md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tk)
+
+TKMODULE=tkobjc
+AC_SUBST(TKMODULE)
+
+# This should come from the Tk config - we want the same version
+AC_PATH_XTRA
+if test -n "$x_includes"; then
+  XINCLUDES="-I$x_includes"
+fi
+AC_SUBST(XINCLUDES)
+
+md_FIND_XPM
+
+# These assignments and ac_substs should be removed by changing names in the Makefiles
+TCLINCLUDES=${TCL_INCLUDES}
+TCLLDFLAGS="${TCL_LD_FLAGS} ${TCL_LIBS}"
+TCLLIB=${TCL_LIB_SPEC}
+TKINCLUDES=${TK_INCLUDES}
+TKLDFLAGS=${TK_LIBS}
+TKLIB=${TK_LIB_SPEC}
+AC_SUBST(TCLINCLUDES)
+AC_SUBST(TCLLDFLAGS)
+AC_SUBST(TCLLIB)
+AC_SUBST(TKINCLUDES)
+AC_SUBST(TKLDFLAGS)
+AC_SUBST(TKLIB)
+
+   fi
+
+# This should probably come after GNUstep stuff
+md_CHECK_GUILIBS
+
+fi
 
 if test "$enable_gui" = no; then
    echo GUI has been disabled.  Skipping configure of tclobjc
