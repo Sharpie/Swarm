@@ -1,5 +1,10 @@
 2007-06-04  Bill Northcott  <w.northcott@unsw.edu.au>
 
+	* acffi.m4: allow use of libffi on i?86 - now maintained
+	as part of gcc.
+    
+2007-06-04  Bill Northcott  <w.northcott@unsw.edu.au>
+
 	* acbuiltinapply.m4: rewrote test which was failing incorrectly.
     
 2007-05-23  Bill Northcott  <w.northcott@unsw.edu.au>
