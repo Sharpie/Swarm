@@ -1,3 +1,7 @@
+2007-06-04  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acbuiltinapply.m4: rewrote test which was failing incorrectly.
+    
 2007-05-23  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* actcltk.m4: remove assignment to bltlibdir it is set

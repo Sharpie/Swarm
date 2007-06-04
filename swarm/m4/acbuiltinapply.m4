@@ -1,22 +1,29 @@
 AC_DEFUN([md_CHECK_BUILTIN_APPLY],
 [AC_MSG_CHECKING(for working __builtin_apply)
 AC_TRY_RUN([
-void *buf;
-int exit_code = 0;
+int exit_code=0;
+int arg4 = 4;
+int stack_size = 32;
+void *buf , *res;
 
-void callme (void)
+void called(int arg)
 {
-  buf = __builtin_apply_args ();
-  exit_code = 0;
+if ( arg == arg4 ) exit_code=0;
+}
+
+int callme(int arg)
+{
+buf = __builtin_apply_args();
+res = __builtin_apply(called,buf,stack_size);
+__builtin_return(res);
 }
 
 
-main ()
+main()
 {
-  callme ();
-  exit_code = 1;
-  __builtin_apply (callme, buf, 0);
-  exit (exit_code);
+exit_code=1;
+if (arg4 != callme(arg4)) exit_code=1;
+return(exit_code);
 }
 ],
 [AC_MSG_RESULT(yes)],
