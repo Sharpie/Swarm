@@ -24,7 +24,7 @@
 ########################################################################
 
 # Package directories - leave blank if same as SWARMHOME or another package directory
-setenv MACOSX_DEPLOYMENT_TARGET 10.3
+setenv MACOSX_DEPLOYMENT_TARGET 10.4
 
 setenv DISPLAY :0.0
 

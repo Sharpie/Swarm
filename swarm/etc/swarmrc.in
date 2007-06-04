@@ -25,7 +25,7 @@
 #                                                                      #
 ########################################################################
 
-MACOSX_DEPLOYMENT_TARGET=10.3
+MACOSX_DEPLOYMENT_TARGET=10.4
 export MACOSX_DEPLOYMENT_TARGET
 
 DISPLAY=:0.0

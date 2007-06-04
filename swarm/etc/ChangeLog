@@ -1,3 +1,7 @@
+2007-06-04  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* swarmrc.in swarmtrc.in: update to MacOS 10.4
+	
 2007-03-10 Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* Makefile.rules:  Handle .mm for Objective C++.
