@@ -1,3 +1,12 @@
+2007-06-04  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* i386/compiler-info-darwin.h: added to supress
+	     warning.
+	* i386/mframe-darwin.h: added to supress
+	     warning.
+    * sendmsg.c: darwin i386 like linux
+	* i386/Makefile.am: Added new file to EXTRA_DIST.
+
 2004-11-25  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* powerpc/compiler-info-darwin.h: added to supress

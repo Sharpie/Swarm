@@ -1,1 +1,1 @@
-EXTRA_DIST = compiler-info-generic.h compiler-info-linux-gnu.h mframe-freebsd.h mframe-generic.h mframe-linux-gnu.h mframe-openbsd.h mframe-sysv4.2MP.h
+EXTRA_DIST = compiler-info-generic.h compiler-info-linux-gnu.h mframe-darwin.h mframe-freebsd.h mframe-generic.h mframe-linux-gnu.h mframe-openbsd.h mframe-sysv4.2MP.h mframe-darwin.h
