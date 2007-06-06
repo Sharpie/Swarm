@@ -1,5 +1,9 @@
 2007-06-06  Bill Northcott  <w.northcott@unsw.edu.au>
 
+	*configure.in: update TEA version for MGD tcl.m4.
+	
+2007-06-06  Bill Northcott  <w.northcott@unsw.edu.au>
+
 	*autogen.sh: update for libtool change etc.
 	
 2007-06-06  Bill Northcott  <w.northcott@unsw.edu.au>
