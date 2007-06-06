@@ -12,11 +12,11 @@ NOCONFIGURE=1
 
 # Hack here for autohell - substitute your install location or nothing for default path
 # ACDIR=/usr/local/autoconf-2.57/bin/
-LTDIR=/usr/local/libtool-1.5a/bin/
+LTDIR=/usr/local/bin/
 # AMDIR=/usr/local/automake-1.7.5/bin/
 ACDIR=
 # LTDIR=
-AMDIR=
+AMDIR=/usr/local/bin/
 
 # Update whenever version dependencies of developer tools change
 REQUIRED_AUTOCONF_VERSION="2.59"
