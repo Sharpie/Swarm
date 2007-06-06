@@ -1,3 +1,7 @@
+2007-06-06  Marcus G. Daniels <marcus@snoutfarm.com>
+	
+	* autogen.sh: Don't force /usr/local for automake directory.
+
 2007-06-06  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	*autogen.sh: update automake version.

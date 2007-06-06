@@ -16,7 +16,7 @@ LTDIR=/usr/local/bin/
 # AMDIR=/usr/local/automake-1.7.5/bin/
 ACDIR=
 # LTDIR=
-AMDIR=/usr/local/bin/
+AMDIR=
 
 # Update whenever version dependencies of developer tools change
 REQUIRED_AUTOCONF_VERSION="2.59"
