@@ -21,7 +21,7 @@ AMDIR=/usr/local/bin/
 # Update whenever version dependencies of developer tools change
 REQUIRED_AUTOCONF_VERSION="2.59"
 #REQUIRED_LIBTOOL_VERSION="1.5.10"
-REQUIRED_AUTOMAKE_VERSION="1.9.3"
+REQUIRED_AUTOMAKE_VERSION="1.9.6"
 
 ("$ACDIR"autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
