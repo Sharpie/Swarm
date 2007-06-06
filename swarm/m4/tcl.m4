@@ -2,6 +2,8 @@
 #
 #	This file provides a set of autoconf macros to help TEA-enable
 #	a Tcl extension.
+#   More recent versions can be found in the tclconfig module of the tcl sources
+#   at http://tcl.sourceforge.net
 #
 # Copyright (c) 1999-2000 Ajuba Solutions.
 # Copyright (c) 2002-2005 ActiveState Corporation.
@@ -9,7 +11,7 @@
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 #
-# RCS: @(#) $Id: tcl.m4,v 1.1 2007-06-06 01:21:01 mgd Exp $
+# RCS: @(#) $Id: tcl.m4,v 1.2 2007-06-06 06:29:41 northcob Exp $
 
 AC_PREREQ(2.57)
 
