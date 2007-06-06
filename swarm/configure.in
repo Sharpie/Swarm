@@ -203,9 +203,9 @@ TEA_PUBLIC_TK_HEADERS
 #  AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
 #fi
 
-#md_FIND_TK_SCRIPTS
+md_FIND_TK_SCRIPTS
 
-#AC_SUBST(tkscriptdir)
+AC_SUBST(tkscriptdir)
 
 #md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tk)
 

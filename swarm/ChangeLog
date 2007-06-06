@@ -2,6 +2,9 @@
 	
 	* autogen.sh: Don't force /usr/local for automake directory.
 
+	* md_FIND_TK_SCRIPTS: Bring back call to md_FIND_TKSCRIPTS, bring
+ 	back tkscriptdir again.
+
 2007-06-06  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	*autogen.sh: update automake version.
