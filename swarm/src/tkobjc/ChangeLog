@@ -1,3 +1,7 @@
+2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* TkExtra.m: TEA updates
+		
 2005-01-12  Marcus G. Daniels <mgd@santafe.edu>
 
 	* TkExtra.m (ensureBltSupportFiles): Use lib/blt2.4 for both

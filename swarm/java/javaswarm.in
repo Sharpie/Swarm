@@ -29,8 +29,6 @@ else
   @SHLIBPATH_VAR@=`cat << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
 @swarm_libdir@
 @xpmlibdir@
-@tcllibdir@
-@tklibdir@
 @bltlibdir@
 @ffilibdir@
 @pnglibdir@

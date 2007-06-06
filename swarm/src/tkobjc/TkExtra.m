@@ -151,7 +151,8 @@ ensureBltSupportFiles (id arguments, id interp)
         //   Original error: no value given for parameter "start" to
         //   "tcl_wordBreakBefore"
         // -mgd
-        [self eval: "source %s/word.tcl", [self checkTclLibrary]];
+        //[self eval: "source %s/word.tcl", [self checkTclLibrary]];
+        [self eval: "source %s/word.tcl", "$tcl_library"];
       }
   }
   return filename;

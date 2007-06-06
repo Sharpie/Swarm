@@ -105,7 +105,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
 
 @implementation TkInterp
 
-- (const char *)checkTkLibrary
+/* - (const char *)checkTkLibrary
 {
   const char *path;
   extern const char *fix_tcl_path (const char *path);
@@ -115,7 +115,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
   else
     path = [self checkPath: secondaryPath subdirectory: SUBDIR file: "tk.tcl"];
   return fix_tcl_path (path);
-}
+} */
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv
 {
@@ -125,22 +125,22 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
   fileName = [super preInitWithArgc:argc argv:argv];
 
   Tcl_SetVar (interp, "tkObjc", "1", TCL_GLOBAL_ONLY);
-  {
+/*  {
     const char *tclPath = [self checkTclLibrary];
 
     if (tclPath)
       Tcl_SetVar (interp, "tcl_library", (char *) tclPath, TCL_GLOBAL_ONLY);
     else
       abort ();
-  }
-  {
+  } */
+/*  {
     const char *tkPath = [self checkTkLibrary];
 
     if (tkPath)
       Tcl_SetVar (interp, "tk_library", (char *) tkPath, TCL_GLOBAL_ONLY);
     else
       abort ();
-  }
+  } */
 
   Tcl_SetVar (interp, "tclobjc_newTk", "0", TCL_GLOBAL_ONLY);
   [self eval: "proc tkInit {} { global tclobjc_newTk; set tclobjc_newTk 1 }"];

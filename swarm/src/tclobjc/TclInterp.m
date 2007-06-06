@@ -179,7 +179,7 @@ fix_tcl_path (const char *path)
 #endif
 }
 
-- (const char *)checkTclLibrary
+/* - (const char *)checkTclLibrary
 {
   const char *path;
   if ([self checkPath: TCL_LIBRARY subdirectory: NULL file: "init.tcl"])
@@ -188,7 +188,7 @@ fix_tcl_path (const char *path)
     path =
       [self checkPath: secondaryPath subdirectory: SUBDIR file: "init.tcl"];
   return fix_tcl_path (path);
-}
+} */
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv
 {
@@ -213,7 +213,7 @@ fix_tcl_path (const char *path)
 
   interp = Tcl_CreateInterp ();
 
-  {
+/*  {
     const char *path = [self checkTclLibrary];
     
     if (path)
@@ -233,8 +233,8 @@ fix_tcl_path (const char *path)
           msg = interp->result;
         [self error:msg];
         abort ();
-      }
-  }
+      } 
+  } */
 
   /*
    * Make command-line arguments available in the Tcl variables "argc"

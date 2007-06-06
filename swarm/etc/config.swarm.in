@@ -17,8 +17,6 @@ swarm_includedir="@swarm_includedir@"
 swarm_datadir="@swarm_datadir@"
 
 xpmlibdir="@xpmlibdir@"
-tcllibdir="@tcllibdir@"
-tklibdir="@tklibdir@"
 bltlibdir="@bltlibdir@"
 ffilibdir="@ffilibdir@"
 zliblibdir="@zliblibdir@"
@@ -40,7 +38,7 @@ GNUSTEPLIB="@GNUSTEPLIB@"
 DISABLE_OBJC="@DISABLE_OBJC@"
 LIBOBJCINCLUDES="@LIBOBJCINCLUDES@"
 
-swarm_SWARMLDFLAGS="@SWARMLDFLAGS@"
+swarm_SWARMLDFLAGS="@SWARMLDFLAGS@" @NESTLDFLAGS@
 swarm_XPMLDFLAGS="@XPMLDFLAGS@"
 swarm_TCLLDFLAGS="@TCLLDFLAGS@"
 swarm_TKLDFLAGS="@TKLDFLAGS@"

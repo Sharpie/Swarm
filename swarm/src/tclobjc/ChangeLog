@@ -1,3 +1,7 @@
+2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* TclInterp.h TclInterp.m TkInterp.h TkInterp.m: TEA update
+	
 2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
 
 	* TkInterp.m: Use empty definitions for Tk_{Create,Delete}FileHandler

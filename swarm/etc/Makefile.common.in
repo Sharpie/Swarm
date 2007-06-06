@@ -13,8 +13,6 @@ swarm_exec_prefix=@swarm_exec_prefix@
 swarm_libdir=@swarm_libdir@
 
 xpmlibdir = @xpmlibdir@
-tcllibdir = @tcllibdir@
-tklibdir = @tklibdir@
 bltlibdir = @bltlibdir@
 ffilibdir = @ffilibdir@
 zliblibdir = @zliblibdir@
@@ -39,7 +37,7 @@ GNUSTEPLIBLIBS = @GNUSTEPLIBLIBS@
 
 SWARMINCLUDES = -I$(includedir)
 
-SWARMLDFLAGS = @SWARMLDFLAGS@
+SWARMLDFLAGS = @SWARMLDFLAGS@ @NESTLDFLAGS@
 XPMLDFLAGS = @XPMLDFLAGS@
 TCLLDFLAGS = @TCLLDFLAGS@
 TKLDFLAGS = @TKLDFLAGS@

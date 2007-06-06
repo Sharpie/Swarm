@@ -59,7 +59,7 @@
 
 - initWithArgc: (int)argc argv: (const char **)argv;
 - setSecondaryLibraryPath: (const char *)path;
-- (const char *)checkTclLibrary;
+// - (const char *)checkTclLibrary;
 - (const char *)checkPath: (const char *)base
              subdirectory: (const char *)subdirectory
                      file: (const char *)file;

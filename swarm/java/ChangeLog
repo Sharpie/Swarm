@@ -1,3 +1,7 @@
+2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* javaswarm.in: TEA updates.
+	
 2004-07-30  Marcus G. Daniels  <mgd@santafe.edu>
 
 	* Makefile.am:  Add GUIOPT to java-stub invocation.
