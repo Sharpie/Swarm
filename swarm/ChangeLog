@@ -159,12 +159,10 @@
 	Skip configuration of libobjc, tkobjc, and tclobjc when GNUstep is
 	available.  Add swarmgstep module when GNUstep is enabled.
 
->>>>>>> 1.656
 2004-04-20  Marcus G. Daniels <mgd@santafe.edu>
 
 	* VERSION: Bump.
 
->>>>>>> 1.626
 2004-02-25  Marcus G. Daniels <mgd@santafe.edu>
 
 	* VERSION: Bump.
