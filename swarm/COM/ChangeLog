@@ -1,0 +1,8 @@
+2007-06-09  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* COM.el (com-impl-print-method-definitions,
+	com-impl-print-create-method-definitions): Call
+	dump-dispatch-hash-table.
+	(com-impl-print-method-definition): Call swarm_COM_predispatch in
+	initSwarm.
+

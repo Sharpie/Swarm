@@ -850,6 +850,9 @@
     (insert "  nsresult rv = NS_OK;\n")
     (if (method-factory-flag method)
         (progn
+	  (when (string= (get-method-signature method)
+			 "+initSwarm:version:bugAddress:argCount:args:")
+	    (insert "void swarm_COM_predispatch (); swarm_COM_predispatch ();\n"))
           (insert "  id swarm_newobj;\n")
           (insert "  Class swarm_target = objc_lookup_class (\"")
           (insert (protocol-name protocol))
@@ -872,6 +875,7 @@
 
 (defun com-impl-print-method-definitions (protocol actual-phase phase)
   (let ((dht (create-dispatch-hash-table protocol phase)))
+    (dump-dispatch-hash-table dht protocol phase)
     (com-impl-print-method-declarations protocol dht)
     (loop for method in (expanded-method-list protocol phase)
           do
@@ -882,6 +886,7 @@
 (defun com-impl-print-create-method-definitions (protocol)
   (let ((dht (create-dispatch-hash-table protocol :creating)))
     (com-impl-print-method-declarations protocol dht)
+    (dump-dispatch-hash-table dht protocol :creating)
     (loop for method in (expanded-method-list protocol :creating)
           do
           (when (convenience-create-method-p protocol method)
