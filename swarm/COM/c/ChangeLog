@@ -1,0 +1,12 @@
+2007-06-09  Marcus G. Daniels  <marcus@snoutfarm.com>
+
+	* Makefile.in: Add predispatching info.
+
+	Make settings to match a .mozconfig like 
+
+	$topsrcdir/browser/config/mozconfig
+	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-debug
+	ac_add_options --enable-debug
+	ac_add_options --disable-optimize
+
+	

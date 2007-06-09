@@ -1,6 +1,7 @@
-mozilla_build = $(B)/mozilla
-DEPTH = $(mozilla_build)
+S=$(HOME)/src
 topsrcdir = $(S)/mozilla
+mozilla_build = $(topsrcdir)/obj-debug
+DEPTH = $(mozilla_build)
 srcdir = @srcdir@
 swarm_srcdir = @top_srcdir@
 top_builddir = ../..
@@ -20,7 +21,7 @@ IS_COMPONENT = 1
 
 REQUIRES = xpcom string xpconnect js
 
-CPPSRCS = swarmBase.cpp swarmSelectorImpl.cpp COMsupport.cpp module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
+CPPSRCS = swarmBase.cpp swarmSelectorImpl.cpp COMsupport.cpp module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) predispatch.cpp $(NULL)
 
 XPIDLSRCS = swarmIBase.idl swarmISelector.idl swarmITyping.idl $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
 
@@ -32,4 +33,7 @@ override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swa
 SWARMMODULES = $(shell cat $(top_builddir)/etc/modules)
 
 EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS) -L$(top_builddir)/libobjc/.libs -L$(top_builddir)/src/.libs -lswarm $(foreach module,$(SWARMMODULES), -L$(top_builddir)/src/$(module)/.libs -l$(module)) -lobjc -lmozjs
+
+predispatch.cpp: 
+	(echo "#include <objc/objc.h>"; echo "#include <objc/objc-api.h>"; sort *-head.c | uniq;  echo "void swarm_COM_predispatch () {"; sort *-body.c | uniq ; echo "}") > predispatch.cpp
 
