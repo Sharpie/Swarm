@@ -667,16 +667,16 @@ tclObjc_msgSendToArgv1 (ClientData clientData,
 
 static char tclObjcInitCmd[] =
 "if {[llength [info procs unknown]]} { \n\
-   rename unknown unknown_pre_tclObjc \n\
+   rename unknown _unknown_pre_tclObjc \n\
  } \n\
  proc unknown {name args} {\n\
    if {[string match *%c0x* $name]} {\n\
      return [uplevel tclObjc_msg_send $name $args]\n\
    } else {\n\
-     if {[llength [info procs unknown_pre_tclObjc]]} {\n\
-       unknown_pre_tclObjc $name $args\n\
+     if {[llength [info procs _unknown_pre_tclObjc]]} {\n\
+       uplevel 1 _unknown_pre_tclObjc $name $args\n\
      } else {\n\
-       error \"in unknown: invalid command name: $name\"\n\
+       error \"in unknown: invalid command in tclObjc: $name\"\n\
      }\n\
    }\n\
  }\n";

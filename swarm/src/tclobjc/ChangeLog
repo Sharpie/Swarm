@@ -1,3 +1,8 @@
+2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* tclObjc.m: Fix bug in tclObjcInitCmd[] when procedure
+    had more than one argument.
+	
 2007-06-06  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* TkInterp.m ([TkInterp -checkTkLibrary]): Renable definition
