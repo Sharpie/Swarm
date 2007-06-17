@@ -1,3 +1,7 @@
+2007-06-17  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* internal.m: remove secondaryLibraryPath stuff
+		
 2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* TkExtra.m: TEA updates
