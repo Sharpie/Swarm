@@ -41,10 +41,10 @@ autogen.sh in ChangeLog.
 *** Red Hat Linux 8.0
 Paul (?) awaiting your text?
 
-*** MacOS X 10.3
-autoconf 2.57
-automake 1.6.3
-libtool 1.5.8
+*** MacOS X 10.4
+autoconf 2.59
+automake 1.9.6
+libtool 1.5.22
 
 *** MacOS X 10.4, native Apple ObjC runtime port
 Porting of Swarm to use the Apple ObjC runtime is an extended project,

@@ -1,3 +1,9 @@
+2007-06-17  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	*configure.in: TEA only no scriptdirs
+	*INSTALL: update install instructions
+	*HACKING: update hacking instructions
+	
 2007-06-06  Marcus G. Daniels <marcus@snoutfarm.com>
 	
 	* autogen.sh: Don't force /usr/local for automake directory.

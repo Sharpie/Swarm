@@ -75,41 +75,13 @@ md_FIND_GNUSTEPLIB
    enable_libobjc=no
 fi
 
-AC_ARG_WITH(tcldir,
-[  --with-tcldir=DIR                Use DIR/include and DIR/lib for Tcl],
-  tclincludedir=$withval/include
-  tcllibdir=$withval/lib
-  tcl=$withval)
-
-AC_ARG_WITH(tclincludedir,
-[  --with-tclincludedir=DIR         Use DIR for Tcl header files],
-  tclincludedir=$withval)
-
-AC_ARG_WITH(tcllibname,
-[  --with-tcllibname=NAME           Use -lNAME for Tcl],
-  tcllibname=$withval)
-
 AC_ARG_WITH(tclscriptdir,
 [  --with-tclscriptdir=DIR          Use DIR for Tcl scripts],
   tclscriptdir=$withval)
   
-AC_ARG_WITH(tkdir,
-[  --with-tkdir=TKDIR               Use DIR/include and DIR/lib for Tk],
-  tkincludedir=$withval/include
-  tklibdir=$withval/lib
-  tk=$withval)
-
-AC_ARG_WITH(tkincludedir,
-[  --with-tkincludedir=DIR          Use DIR for Tk header files],
-  tkincludedir=$withval)
-
 AC_ARG_WITH(tkscriptdir,
 [  --with-tkscriptdir=DIR           Use DIR for Tk scripts],
   tkscriptdir=$withval)
-
-AC_ARG_WITH(tklibname,
-[  --with-tklibname=NAME            Use -lNAME for Tk],
-  tklibname=$withval)
 
 AC_ARG_WITH(xpmdir,
 [  --with-xpmdir=DIR                Use DIR/include and DIR/lib for XPM],
@@ -203,9 +175,9 @@ TEA_PUBLIC_TK_HEADERS
 #  AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
 #fi
 
-md_FIND_TK_SCRIPTS
+#md_FIND_TK_SCRIPTS
 
-AC_SUBST(tkscriptdir)
+#AC_SUBST(tkscriptdir)
 
 #md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tk)
 
