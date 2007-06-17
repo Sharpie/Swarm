@@ -1,4 +1,9 @@
-2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
+2007-06-17  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* TkInterp.m: Remove references to library paths 
+	and tclObjc_newTk following fix in tclObjc.m
+	
+2007-06-15  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* tclObjc.m: Fix bug in tclObjcInitCmd[] when procedure
     had more than one argument.

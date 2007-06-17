@@ -143,8 +143,8 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
       abort ();
   } 
 
-  Tcl_SetVar (interp, "tclobjc_newTk", "0", TCL_GLOBAL_ONLY);
-  [self eval: "proc tkInit {} { global tclobjc_newTk; set tclobjc_newTk 1 }"];
+//  Tcl_SetVar (interp, "tclobjc_newTk", "0", TCL_GLOBAL_ONLY);
+//  [self eval: "proc tkInit {} { global tclobjc_newTk; set tclobjc_newTk 1 }"];
   
   /*
    * Initialize the Tk application and arrange to map the main window
@@ -178,7 +178,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
       [self error:msg];
       abort ();
     }
-  [self eval: "if {$tclobjc_newTk == 1} { source [file join $tk_library tk.tcl] }"];
+//  [self eval: "if {$tclobjc_newTk == 1} { source [file join $tk_library tk.tcl] }"];
 
 #if (TK_MAJOR_VERSION > 4 || (TK_MAJOR_VERSION == 4 && TK_MINOR_VERSION >= 1))
   w = Tk_MainWindow(interp);
