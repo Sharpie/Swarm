@@ -1,3 +1,8 @@
+2007-06-19  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* TkInterp.m: Remove references to library paths 
+	missed one!
+	
 2007-06-17  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* TkInterp.m: Remove references to library paths 

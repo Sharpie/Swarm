@@ -134,14 +134,14 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
     else
       abort ();
   } */
-  {
+/*  {
     const char *tkPath = [self checkTkLibrary];
 
     if (tkPath)
       Tcl_SetVar (interp, "tk_library", (char *) tkPath, TCL_GLOBAL_ONLY);
     else
       abort ();
-  } 
+  } */
 
 //  Tcl_SetVar (interp, "tclobjc_newTk", "0", TCL_GLOBAL_ONLY);
 //  [self eval: "proc tkInit {} { global tclobjc_newTk; set tclobjc_newTk 1 }"];
