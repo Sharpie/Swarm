@@ -1,3 +1,8 @@
+2007-06-19  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* mframe.m: removed all from line 693 - 
+    unused functions containing nested functions.
+    
 2007-03-10   Gennady Telegin <gepo@lvk.cs.msu.su>
 
 	* objc-api.h: extern "C" the whole file.
