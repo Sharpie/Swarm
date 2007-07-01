@@ -53,3 +53,7 @@ mframe_dissect_call_opts (arglist_t argframe, const char *types,
 		     void (*encoder)(int,void*,const char*,int),
 			BOOL pass_pointers);
 
+#define ROUND(V, A) \
+  ({ typeof(V) __v=(V); typeof(A) __a=(A); \
+     __a*((__v+__a-1)/__a); })
+
