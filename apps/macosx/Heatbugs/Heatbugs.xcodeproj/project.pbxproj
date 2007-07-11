@@ -1,0 +1,360 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		D60DC4740A13E1C5008FA98D /* SwarmOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D60DC4730A13E1C5008FA98D /* SwarmOSX.framework */; };
+		D6FB9BCE0991B56C004483CF /* Heatbug.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9BC70991B56C004483CF /* Heatbug.m */; };
+		D6FB9BCF0991B56C004483CF /* HeatbugBatchSwarm.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9BC90991B56C004483CF /* HeatbugBatchSwarm.m */; };
+		D6FB9BD00991B56C004483CF /* HeatbugModelSwarm.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9BCB0991B56C004483CF /* HeatbugModelSwarm.m */; };
+		D6FB9BD40991B57D004483CF /* HeatSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9BD30991B57D004483CF /* HeatSpace.m */; };
+		D6FB9F08099526A8004483CF /* HeatbugsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9F07099526A8004483CF /* HeatbugsController.m */; };
+		D6FB9F1E09952A4D004483CF /* HeatbugsSimulation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9F1D09952A4D004483CF /* HeatbugsSimulation.m */; };
+		D6FB9F8A09952E3A004483CF /* Simulation.nib in Resources */ = {isa = PBXBuildFile; fileRef = D6FB9F8809952E3A004483CF /* Simulation.nib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* Heatbugs_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Heatbugs_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* Heatbugs.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Heatbugs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D60DC4730A13E1C5008FA98D /* SwarmOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwarmOSX.framework; path = /Library/Frameworks/SwarmOSX.framework; sourceTree = "<absolute>"; };
+		D6FB9BC60991B56C004483CF /* Heatbug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Heatbug.h; sourceTree = "<group>"; };
+		D6FB9BC70991B56C004483CF /* Heatbug.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Heatbug.m; sourceTree = "<group>"; };
+		D6FB9BC80991B56C004483CF /* HeatbugBatchSwarm.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeatbugBatchSwarm.h; sourceTree = "<group>"; };
+		D6FB9BC90991B56C004483CF /* HeatbugBatchSwarm.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HeatbugBatchSwarm.m; sourceTree = "<group>"; };
+		D6FB9BCA0991B56C004483CF /* HeatbugModelSwarm.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeatbugModelSwarm.h; sourceTree = "<group>"; };
+		D6FB9BCB0991B56C004483CF /* HeatbugModelSwarm.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HeatbugModelSwarm.m; sourceTree = "<group>"; };
+		D6FB9BCC0991B56C004483CF /* HeatbugObserverSwarm.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeatbugObserverSwarm.h; sourceTree = "<group>"; };
+		D6FB9BCD0991B56C004483CF /* HeatbugObserverSwarm.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HeatbugObserverSwarm.m; sourceTree = "<group>"; };
+		D6FB9BD20991B57D004483CF /* HeatSpace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeatSpace.h; sourceTree = "<group>"; };
+		D6FB9BD30991B57D004483CF /* HeatSpace.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HeatSpace.m; sourceTree = "<group>"; };
+		D6FB9BD60991B5C4004483CF /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
+		D6FB9BD70991B5C4004483CF /* COPYING */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		D6FB9BDA0991B5E2004483CF /* README */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D6FB9F06099526A8004483CF /* HeatbugsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeatbugsController.h; sourceTree = "<group>"; };
+		D6FB9F07099526A8004483CF /* HeatbugsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HeatbugsController.m; sourceTree = "<group>"; };
+		D6FB9F1C09952A4D004483CF /* HeatbugsSimulation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeatbugsSimulation.h; sourceTree = "<group>"; };
+		D6FB9F1D09952A4D004483CF /* HeatbugsSimulation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HeatbugsSimulation.m; sourceTree = "<group>"; };
+		D6FB9F8909952E3A004483CF /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Simulation.nib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				D60DC4740A13E1C5008FA98D /* SwarmOSX.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D6FB9F1C09952A4D004483CF /* HeatbugsSimulation.h */,
+				D6FB9F1D09952A4D004483CF /* HeatbugsSimulation.m */,
+				D6FB9F06099526A8004483CF /* HeatbugsController.h */,
+				D6FB9F07099526A8004483CF /* HeatbugsController.m */,
+				D6FB9BD20991B57D004483CF /* HeatSpace.h */,
+				D6FB9BD30991B57D004483CF /* HeatSpace.m */,
+				D6FB9BC60991B56C004483CF /* Heatbug.h */,
+				D6FB9BC70991B56C004483CF /* Heatbug.m */,
+				D6FB9BC80991B56C004483CF /* HeatbugBatchSwarm.h */,
+				D6FB9BC90991B56C004483CF /* HeatbugBatchSwarm.m */,
+				D6FB9BCA0991B56C004483CF /* HeatbugModelSwarm.h */,
+				D6FB9BCB0991B56C004483CF /* HeatbugModelSwarm.m */,
+				D6FB9BCC0991B56C004483CF /* HeatbugObserverSwarm.h */,
+				D6FB9BCD0991B56C004483CF /* HeatbugObserverSwarm.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Heatbugs.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Heatbugs */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = Heatbugs;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* Heatbugs_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D6FB9BDA0991B5E2004483CF /* README */,
+				D6FB9BD60991B5C4004483CF /* ChangeLog */,
+				D6FB9BD70991B5C4004483CF /* COPYING */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				D6FB9F8809952E3A004483CF /* Simulation.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D60DC4730A13E1C5008FA98D /* SwarmOSX.framework */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Heatbugs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6FB9BBC0991B45C004483CF /* Build configuration list for PBXNativeTarget "Heatbugs" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Heatbugs;
+			productInstallPath = "$(HOME)/Applications";
+			productName = Heatbugs;
+			productReference = 8D1107320486CEB800E47090 /* Heatbugs.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = D6FB9BC00991B45C004483CF /* Build configuration list for PBXProject "Heatbugs" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Heatbugs */;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Heatbugs */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				D6FB9F8A09952E3A004483CF /* Simulation.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				D6FB9BCE0991B56C004483CF /* Heatbug.m in Sources */,
+				D6FB9BCF0991B56C004483CF /* HeatbugBatchSwarm.m in Sources */,
+				D6FB9BD00991B56C004483CF /* HeatbugModelSwarm.m in Sources */,
+				D6FB9BD40991B57D004483CF /* HeatSpace.m in Sources */,
+				D6FB9F08099526A8004483CF /* HeatbugsController.m in Sources */,
+				D6FB9F1E09952A4D004483CF /* HeatbugsSimulation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		D6FB9F8809952E3A004483CF /* Simulation.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6FB9F8909952E3A004483CF /* English */,
+			);
+			name = Simulation.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D6FB9BBD0991B45C004483CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../../Library/Frameworks\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Heatbugs_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = Heatbugs;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		D6FB9BBE0991B45C004483CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../../Library/Frameworks\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Heatbugs_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = Heatbugs;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		D6FB9BBF0991B45C004483CF /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../../Library/Frameworks\"";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Heatbugs_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Heatbugs;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		D6FB9BC10991B45C004483CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "SWARM_OSX=1";
+			};
+			name = Debug;
+		};
+		D6FB9BC20991B45C004483CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "SWARM_OSX=1";
+			};
+			name = Release;
+		};
+		D6FB9BC30991B45C004483CF /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "SWARM_OSX=1";
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D6FB9BBC0991B45C004483CF /* Build configuration list for PBXNativeTarget "Heatbugs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6FB9BBD0991B45C004483CF /* Debug */,
+				D6FB9BBE0991B45C004483CF /* Release */,
+				D6FB9BBF0991B45C004483CF /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		D6FB9BC00991B45C004483CF /* Build configuration list for PBXProject "Heatbugs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6FB9BC10991B45C004483CF /* Debug */,
+				D6FB9BC20991B45C004483CF /* Release */,
+				D6FB9BC30991B45C004483CF /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

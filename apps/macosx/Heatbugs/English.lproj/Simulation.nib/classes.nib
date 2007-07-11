@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                dropSimulation = id; 
+                newSimulation = id; 
+                startSimulation = id; 
+                stepSimulation = id; 
+                stopSimulation = id; 
+            }; 
+            CLASS = HeatbugsSimulation; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {rasterView = id; rasterWindow = id; swarmThreadController = id; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                dropSimulation = id; 
+                newSimulation = id; 
+                showInfoPanel = id; 
+                showInspectorPanel = id; 
+                startSimulation = id; 
+                stepSimulation = id; 
+                stopSimulation = id; 
+            }; 
+            CLASS = HeatbugsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {infoPanel = id; inspectorPanel = id; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
