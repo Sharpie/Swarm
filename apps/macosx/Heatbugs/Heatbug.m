@@ -314,11 +314,15 @@ static id <Pixmap> bugPixmap = nil;
 
 - (void)drawRect:(NSRect)aRect
 {
+  /*
   NSColor *bugColor;
   bugColor = [NSColor greenColor];
   [bugColor set];
   PSrectfill(aRect.origin.x, aRect.origin.y,
              aRect.size.width, aRect.size.height);
+  */
+  [[NSColor magentaColor] set];
+  NSRectFill(aRect);
 }
 
 @end

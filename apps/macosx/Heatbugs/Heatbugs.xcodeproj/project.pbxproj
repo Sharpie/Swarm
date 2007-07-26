@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C38FA580C577E5300888F83 /* SwarmOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C38FA570C577E5300888F83 /* SwarmOSX.framework */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		D60DC4740A13E1C5008FA98D /* SwarmOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D60DC4730A13E1C5008FA98D /* SwarmOSX.framework */; };
 		D6FB9BCE0991B56C004483CF /* Heatbug.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9BC70991B56C004483CF /* Heatbug.m */; };
 		D6FB9BCF0991B56C004483CF /* HeatbugBatchSwarm.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9BC90991B56C004483CF /* HeatbugBatchSwarm.m */; };
 		D6FB9BD00991B56C004483CF /* HeatbugModelSwarm.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9BCB0991B56C004483CF /* HeatbugModelSwarm.m */; };
@@ -30,9 +30,9 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Heatbugs_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Heatbugs_Prefix.pch; sourceTree = "<group>"; };
+		3C38FA570C577E5300888F83 /* SwarmOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwarmOSX.framework; path = ../../../../../Library/Frameworks/SwarmOSX.framework; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* Heatbugs.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Heatbugs.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D60DC4730A13E1C5008FA98D /* SwarmOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwarmOSX.framework; path = /Library/Frameworks/SwarmOSX.framework; sourceTree = "<absolute>"; };
+		8D1107320486CEB800E47090 /* Heatbugs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Heatbugs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6FB9BC60991B56C004483CF /* Heatbug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Heatbug.h; sourceTree = "<group>"; };
 		D6FB9BC70991B56C004483CF /* Heatbug.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Heatbug.m; sourceTree = "<group>"; };
 		D6FB9BC80991B56C004483CF /* HeatbugBatchSwarm.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeatbugBatchSwarm.h; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				D60DC4740A13E1C5008FA98D /* SwarmOSX.framework in Frameworks */,
+				3C38FA580C577E5300888F83 /* SwarmOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,7 +151,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D60DC4730A13E1C5008FA98D /* SwarmOSX.framework */,
+				3C38FA570C577E5300888F83 /* SwarmOSX.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
