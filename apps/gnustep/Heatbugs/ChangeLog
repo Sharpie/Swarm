@@ -1,3 +1,17 @@
+2007-07-29  Scott Christley  <schristley@mac.com>
+
+	* Heatbugs.gorm: Update to new Gorm.
+	* Simulation.gorm: New file.
+	* HeatbugsSimulation.h: New file.
+	* HeatbugsSimulation.m: New file.
+	* heatbugs.tiff: New file.
+	* GNUmakefile: Add graphical display.
+	* Heatbug.{h,m}: Likewise.
+	* HeatbugBatchSwarm.{h,m}: Likewise.
+	* HeatbugModelSwarm.h: Likewise.
+	* HeatbugsController.{h,m}: Likewise.
+	* main.m: Likewise.
+
 2003-04-07  Scott Christley <schristley@mac.com>
 
 	* GNUstep version of heatbugs.

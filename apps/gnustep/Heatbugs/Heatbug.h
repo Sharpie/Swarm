@@ -6,8 +6,12 @@
 // Heatbug, a simple Swarm agent.
 
 #import <space.h>				  // we use Space features
+#if 0
 #import <gui.h>
+#endif
 #import "HeatSpace.h"				  // we also have a heat object
+#include <AppKit/AppKit.h>
+#import "HeatbugsController.h"
 
 // The definition of a Heatbug object. We inherit code from the generic
 // SwarmObject, which provides memory allocation and other niceties. It
@@ -25,7 +29,11 @@
   id <Grid2d> world;				  // the world I live in
   int worldXSize, worldYSize;			  // how big that world is
   HeatSpace *heat;				  // the heat for the world
+#ifndef GNUSTEP
   Color bugColor;				  // my colour (display)
+#else
+  HeatbugsController *theController;
+#endif
 }
 
 // these methods are used to initialize the object's state. First,
@@ -50,15 +58,22 @@
 - setOutputHeat: (HeatValue)o;
 - setRandomMoveProbability: (float)p;
 - setX: (int)x Y: (int)y;			  // bug's position
+#ifndef GNUSTEP
 - setBugColor: (Color)c;			  // bug's colour (display)
+#else
+- (void)setController: (HeatbugsController *)aController;
+#endif
 
 // The major heatbug behaviour: do one "time step" (all bug action).
 
 - step;
 
 // extra display code (heatbugs currently draw themselves)
-
+#ifndef GNUSTEP
 - drawSelfOn: (id <Raster>)r;
+#else
+- drawSelfOn: (NSImage *)anImage;
+#endif
 
 @end
 

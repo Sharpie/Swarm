@@ -9,8 +9,15 @@
 
 #import <objectbase.h>
 #import "HeatbugModelSwarm.h"
+#import "HeatbugsController.h"
+#import <swarmgstep/swarmgstep.h>
+#import <swarmgstep/GNUstepSwarm.h>
 
+#if 0
 @interface HeatbugBatchSwarm: Swarm
+#else
+@interface HeatbugBatchSwarm: GNUstepSwarm
+#endif
 {
   int loggingFrequency;	       		  // Frequency of fileI/O
 
@@ -26,6 +33,9 @@
   id unhappyGraph;                        // in FileI/O mode rather 
                                           // than the usual Graphics 
                                           // mode...
+
+  id <Value2dDisplay> heatDisplay;		// display the heat
+  id <Object2dDisplay> heatbugDisplay;	        // display the heatbugs
 }
 
 + createBegin: aZone;
@@ -36,5 +46,9 @@
 
 // special message on ourselves to stop running.
 - stopRunning;
+
+- (HeatbugModelSwarm *)getModel;
+- (id <Object2dDisplay>)getHeatbugDisplay;
+- (id <Value2dDisplay>)getHeatDisplay;
 
 @end

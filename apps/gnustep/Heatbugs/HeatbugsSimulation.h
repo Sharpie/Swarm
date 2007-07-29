@@ -2,20 +2,21 @@
 
 #include <AppKit/AppKit.h>
 
-@interface HeatbugsController : NSObject
+@interface HeatbugsSimulation : NSObject
 {
-  id infoPanel;
-  id inspectorPanel;
-  NSMutableArray *simulations;
+  id rasterWindow;
+  id rasterView;
+  NSColorList *colorList;
+  id swarmThreadController;
 }
+
+- heatbugSpaceView;
+- (NSColorList *)colorList;
 
 - (void) dropSimulation: (id)sender;
 - (void) stepSimulation: (id)sender;
 - (void) stopSimulation: (id)sender;
 - (void) newSimulation: (id)sender;
 - (void) startSimulation: (id)sender;
-
-- (void) showInfoPanel: (id)sender;
-- (void) showInspectorPanel: (id)sender;
 
 @end

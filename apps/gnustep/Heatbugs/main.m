@@ -22,6 +22,7 @@ int main(int argc, const char *argv[])
   initSwarm(argc, argv);
   fprintf(stderr, "after initSwarm\n");
 
+#if 0
   // swarmGUIMode is set in initSwarm(). It's set to be NO if you typed
   // `heatbugs --batchmode' or `heatbugs -b'. Otherwise, it's set to YES.
   if (swarmGUIMode == YES)
@@ -48,6 +49,7 @@ int main(int argc, const char *argv[])
   [theTopLevelSwarm buildActions];
   [theTopLevelSwarm activateIn: nil];
   [theTopLevelSwarm go];
+#endif
 
   pool = [NSAutoreleasePool new];
 

@@ -13,10 +13,6 @@
 #import "Heatbug.h"
 #import <random.h>
 
-#ifdef USE_PIXMAP
-static id <Pixmap> bugPixmap = nil;
-#endif
-
 // Defining the methods for a Heatbug.
 
 @implementation Heatbug
@@ -271,38 +267,28 @@ static id <Pixmap> bugPixmap = nil;
 // This code works, but it'd be better if there were a generic object
 // that knew how to draw agents on grids.
 
+#ifndef GNUSTEP
 - setBugColor: (Color)c
 {
   bugColor = c;
+  fprintf(stderr, "Setting bug color\n");
   return self;
 }
-
-#ifdef USE_PIXMAP
-- _getPixmap_: (id <Raster>)r
-{
-  if (bugPixmap == nil)
-    {
-      bugPixmap = [Pixmap createBegin: [self getZone]];
-      
-      [bugPixmap setDirectory: [arguments getAppDataPath]];
-      [bugPixmap setFile: "ant.png"];
-      bugPixmap = [bugPixmap createEnd];
-      [bugPixmap setRaster: r];
-    }
-  
-  return bugPixmap;
-}
-#endif
-
-- drawSelfOn: (id <Raster>)r
-{
-#ifndef USE_PIXMAP
-  [r drawPointX: x Y: y Color: bugColor];
 #else
-  [r draw: [self _getPixmap_: r] X: x Y: y];
 #endif
 
-  return self;
+- (void)setController: (HeatbugsController *)aController
+{
+    theController = aController;
+}
+
+- (void)drawRect:(NSRect)aRect
+{
+  NSColor *bugColor;
+  bugColor = [NSColor greenColor];
+  [bugColor set];
+  PSrectfill(aRect.origin.x, aRect.origin.y,
+	     aRect.size.width, aRect.size.height);
 }
 
 @end

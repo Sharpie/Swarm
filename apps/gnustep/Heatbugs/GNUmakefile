@@ -24,7 +24,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 PACKAGE_NAME=Heatbugs
 APP_NAME=Heatbugs
 GNUSTEP_INSTALLATION_DIR=$(GNUSTEP_LOCAL_ROOT)/
-Heatbugs_APPLICATION_ICON=
+Heatbugs_APPLICATION_ICON=heatbugs.tiff
 Heatbugs_MAIN_MODEL_FILE=Heatbugs.gorm
 
 
@@ -40,7 +40,9 @@ ADDITIONAL_GUI_LIBS +=
 
 Heatbugs_RESOURCE_FILES= \
 Heatbugs.gorm \
-HeatbugsInfo.plist 
+Simulation.gorm \
+HeatbugsInfo.plist \
+heatbugs.tiff 
 
 #
 # Header files
@@ -52,7 +54,7 @@ Heatbug.h \
 HeatSpace.m \
 HeatbugModelSwarm.m \
 HeatbugsController.h \
-Diffuse2dView.h 
+HeatbugsSimulation.h 
 
 #
 # Class files
@@ -65,7 +67,7 @@ Heatbug.m \
 HeatSpace.m \
 HeatbugModelSwarm.m \
 HeatbugsController.m \
-Diffuse2dView.m 
+HeatbugsSimulation.m 
 
 #
 # C files

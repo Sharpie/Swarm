@@ -8,6 +8,7 @@
 
 #import "Heatbug.h"
 #import "HeatSpace.h"
+#import "Diffuse2dView.h"
 #import <space.h> // Grid2d
 #import <objectbase/Swarm.h>
 

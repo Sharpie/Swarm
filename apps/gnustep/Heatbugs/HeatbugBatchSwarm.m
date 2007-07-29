@@ -22,10 +22,26 @@
   obj = [super createBegin: aZone];
 
   // Fill in the relevant parameters.
-  obj->loggingFrequency = 1;
+  obj->loggingFrequency = 10;
   obj->experimentDuration = 250;
+  obj->heatbugDisplay = nil;
 
   return obj;
+}
+
+- (HeatbugModelSwarm *)getModel
+{
+  return heatbugModelSwarm;
+}
+
+- (id <Object2dDisplay>)getHeatbugDisplay
+{
+  return heatbugDisplay;
+}
+
+- (id <Value2dDisplay>)getHeatDisplay
+{
+  return heatDisplay;
 }
 
 - buildObjects
@@ -47,10 +63,14 @@
   // instance variables for the HeatbugModelSwarm class, such as
   // numBugs etc.
 
+  heatbugModelSwarm = [HeatbugModelSwarm create: self];
+
+#if 0
   if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self 
                                             key: c]) == nil)
     raiseEvent(InvalidOperation, 
                "Can't find the parameters to create modelSwarm");
+#endif
 
   // Now, let the model swarm build its objects.
   [heatbugModelSwarm buildObjects];
@@ -68,6 +88,7 @@
 
   if(loggingFrequency)
     {
+#if 0
       unhappyGraph = [EZGraph createBegin: self];
       [unhappyGraph setGraphics: 0] ;
       [unhappyGraph setFileOutput: 1] ;
@@ -76,7 +97,24 @@
       [unhappyGraph createAverageSequence: "unhappiness.output"
                     withFeedFrom: [heatbugModelSwarm getHeatbugList] 
                     andSelector: M(getUnhappiness)] ;
+#endif
     }
+
+  // And also create an Object2dDisplay: this object draws heatbugs on
+  // the worldRaster widget for us, and also receives probes.
+
+  heatDisplay = 
+    [Value2dDisplay createBegin: [self getZone]];
+  [heatDisplay setDiscrete2dToDisplay: [heatbugModelSwarm getHeat]];
+  [heatDisplay setDisplayMappingM: 32768 C: 0];	  // turn [0,32768) -> [0,64)
+  heatDisplay = [heatDisplay createEnd];
+
+  heatbugDisplay = 
+    [Object2dDisplay createBegin: [self getZone]];
+  [heatbugDisplay setDiscrete2dToDisplay: [heatbugModelSwarm getWorld]];
+  heatbugDisplay = [heatbugDisplay createEnd];
+  [heatbugDisplay setObjectCollection: [heatbugModelSwarm getHeatbugList]];
+
   // All done - we're ready to build a schedule and go.
   return self;
 }  
@@ -102,9 +140,14 @@
       
       // Now schedule the update of the unhappyGraph, which will in turn 
       // cause the fileI/O to occur...
-      
+#if 0
       [displayActions createActionTo: unhappyGraph message: M(step)];
-      
+#endif
+#if 1
+      [displayActions createActionTo: self
+		      message: M(updateWorldDisplay)];
+#endif
+
       // the displaySchedule controls how often we write data out.
       displaySchedule = [Schedule createBegin: self];
       [displaySchedule setRepeatInterval: loggingFrequency];
@@ -115,12 +158,13 @@
   
   // We also add in a "stopSchedule", another schedule with an absolute
   // time event - stop the system at time . 
-  
+#if 0  
   stopSchedule = [Schedule create: self];
   [stopSchedule at: experimentDuration 
                 createActionTo: self 
                 message: M(stopRunning)];
-  
+#endif
+
   return self;
 }  
 
@@ -170,10 +214,18 @@
 {
   [getTopLevelActivity() terminate]; // Terminate the simulation.
 
+#if 0
   if(loggingFrequency)
     [unhappyGraph drop] ;              // Close the output file.
+#endif
 
   return self;
+}
+
+- (void) updateWorldDisplay
+{
+  fprintf(stderr, "updateWorldDisplay\n");
+  [self viewNeedsDisplay: [_delegate heatbugSpaceView]];
 }
 
 @end
