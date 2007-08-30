@@ -43,13 +43,11 @@ addProbesWithIdentifers(id theProbeLibrary,
   identifier = vars;
   while (identifier && identifier[0] != ':')
     {
-      id proxy = [theProbeLibrary getProbeForVariable: identifier
-                                            inClass: aClass];
-      if (!proxy)
-        raiseEvent(WarningMessage, "Unable to create probe for %s", identifier);
-      else 
-        [customProbeMap addProbe: probe];
-
+      [customProbeMap 
+        addProbe: 
+          [theProbeLibrary 
+            getProbeForVariable: identifier
+            inClass: aClass]];
       identifier = va_arg (argumentPointer, const char *);
     }
   
