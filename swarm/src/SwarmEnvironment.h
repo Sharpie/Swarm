@@ -27,6 +27,9 @@
 #ifndef DISABLE_GUI
 #import <simtoolsgui.h>
 #endif
+#ifdef ENABLE_XMLRPC
+#import <swarm_xmlrpc.h>
+#endif
 #import <defobj/Create.h>
 
 @interface SwarmEnvironment: CreateDrop <SwarmEnvironment>

@@ -26,7 +26,7 @@ Library:      defobj
 #import <defobj/Create.h>
 #import <defobj/defalloc.h>
 
-@interface Zone_c : CreateDrop_s
+@interface Zone_c : CreateDrop_s <Zone>
 {
   id componentZone;          // view of zone qualified for component allocation
   id population;             // external objects created within the zone

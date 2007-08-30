@@ -1,0 +1,14 @@
+README
+======
+
+This library is modification of xmlrpc-epi (http://xmlrpc-epi.sourceforge.net/) with Objective-C support. Also it hasn't expat in source - it must be installed separetely.
+You can install expat from source (http://expat.sourceforge.net/) or from your linux distribution.
+
+Installation
+    Specify --enable-xmlrpc option in configure line and do the usual installation procedure. If you install expat library from source add --with-expatdir=DIR option to configure line where DIR=directory where you install expat. If you install expat from linux distribution and configure script can't find expat.h or libexpat specify --with-expatincludedir and --with-expatlibdir.
+
+Authors
+-------
+Gennady Telegin
+<gepo@lvk.cs.msu.su>
+August 30, 2007

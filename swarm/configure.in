@@ -108,13 +108,18 @@ AC_ARG_WITH(bltlibname,
 [  --with-bltlibname=NAME           Use -lNAME for BLT],
   bltlibname=$withval)
 
+
+AC_ARG_WITH(xmlrpc,
+[ --enable-xmlrpc                   Add SwarmXMLRPC library],
+  enable-xmlrpc=no)
+
+
 if test "$enable_gui" = no; then
    echo GUI has been disabled.  Skipping configure of tclobjc
 else
    if test "$enable_gnustep" = yes; then
       echo GNUstep integration is enabled.  Skipping configuration of tclobjc
    else
-
 
 # TEA configuration
 PACKAGE_NAME=SWARM_TCLTK
@@ -466,6 +471,36 @@ if test "$enable_gnustep" = yes; then
 else
    AM_CONDITIONAL(ENABLE_GNUSTEP, false)
 fi
+
+
+if test "$enable_xmlrpc" = yes; then
+    SWARM_XMLRPC=swarm_xmlrpc
+    SWARM_XMLRPC_INCLUDE='-I$(top_srcdir)/src/swarm_xmlrpc'
+    AM_CONDITIONAL(ENABLE_XMLRPC, true)
+
+    AC_MSG_CHECKING([for expat library])
+    AC_ARG_WITH(expatdir, [--with-expatdir=DIR    Use DIR/include and DIR/lib for expat library], expatdir=${withval})
+
+    if test x"${withval}" != x ; then
+        md_FIND_INCLUDE(expat)
+        expatincludedir=$_includes;
+        md_FIND_LIB(expat)
+        expatlibdir=$_ldflags;
+
+        AC_SUBST(expatincludedir)
+        AC_SUBST(expatlibdir)
+    fi
+    AC_MSG_RESULT($expatdir)
+    AC_DEFINE([ENABLE_XMLRPC], 1, [Define if SwarmXMLRPC is enables.])
+else
+    SWARM_XMLRPC=
+    SWARM_XMLRPC_INCLUDE=
+    AM_CONDITIONAL(ENABLE_XMLRPC, false)
+fi
+
+AC_SUBST(SWARM_XMLRPC)
+AC_SUBST(SWARM_XMLRPC_INCLUDE)
+
 AC_SUBST(TCLTKGUIDIR)
 AC_SUBST(SIMTOOLSGUI)
 AC_SUBST(SIMTOOLSGUIINCLUDE)
@@ -495,6 +530,7 @@ tools/print-hdf5 java/Makefile java/javaswarm java/javacswarm
 java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules
 COM/Makefile COM/c/Makefile
 src/gui/Makefile src/simtoolsgui/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile src/swarmgstep/Makefile
+src/swarm_xmlrpc/Makefile
 ])
 
 # abs_srcdir=`cd $srcdir; pwd`

@@ -1,0 +1,10 @@
+2007-08-30  Gennady Telegin  <gepo@lvk.cs.msu.su>
+
+	* swarm_xmlrpc.[hm], SwarmXMLRPCFProxy.[hm], SwarmXMLRPCClient.[hm],
+	SwarmXMLRPCServer.[hm], xmlrpc.[hm], base64.[hm], encodings.[hm],
+	queue.[hm], simplestring.[hm], system_methods.[hm], xml_element.[hm],
+	xmlrpc_introspection.[hm], xmlrpc_private.h, xmlrpc_dandarpc.[hm],
+	xml_to_soap.[hm], xml_to_xmlrpc.[hm], Makefile.am, README: Initial version
+	of Swarm XML-RPC. It use modificated for Objective-C call version of
+	xmlrpc-epi library.
+

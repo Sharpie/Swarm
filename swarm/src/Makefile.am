@@ -1,10 +1,10 @@
 if ENABLE_GNUSTEP
-SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space swarmgstep
+SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space swarmgstep $(SWARM_XMLRPC)
 else
-SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space
+SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space $(SWARM_XMLRPC)
 endif
 
-SWARMMODULES = space analysis $(GNUSTEPMODULE) $(SIMTOOLSGUI) simtools random $(TCLTKGUIDIR) objectbase activity defobj collections misc
+SWARMMODULES = space analysis $(GNUSTEPMODULE) $(SIMTOOLSGUI) simtools random $(TCLTKGUIDIR) objectbase activity defobj collections misc $(SWARM_XMLRPC) 
 
 EXTRA_DIST = Makefile.rules getters.el SwarmEnvironment_getters.m
 
@@ -23,8 +23,8 @@ SUPPORTLDFLAGS =
 
  include $(top_builddir)/etc/Makefile.common
 
-override CPPFLAGS += -DBUILDING_SWARM
-override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+AM_CPPFLAGS = -DBUILDING_SWARM
+AM_OBJCFLAGS = @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@ 
 
 CURRENT = 0
 REVISION = 0
@@ -58,7 +58,7 @@ libswarm_la_LIBADD = $(SWFFILIB)
 
 LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(libswarm_la_LIBADD) $(LIBOBJCLIB) $(SYSLIBS)
 
-INCLUDES = $(LIBOBJCINCLUDES) -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools $(GUIDIRINCLUDE) $(SIMTOOLSGUIINCLUDE) -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES) $(GNUSTEPLIBINCLUDES)
+INCLUDES = $(LIBOBJCINCLUDES) -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools $(GUIDIRINCLUDE) $(SIMTOOLSGUIINCLUDE) -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES) $(GNUSTEPLIBINCLUDES) $(SWARM_XMLRPC_INCLUDE)
 
 DLLWRAP = @DLLWRAP@
 if USEDLL

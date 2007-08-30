@@ -60,6 +60,7 @@ super-clean: clean maintainer-clean
 	-rm -f src/simtoolsgui/Makefile.in
 	-rm -f src/space/Makefile.in
 	-rm -f src/swarmgstep/Makefile.in
+	-rm -f src/swarm_xmlrpc/Makefile.in
 	-rm -f src/tclobjc/Makefile.in
 	-rm -f src/tkobjc/Makefile.in src/tkobjc/analysis_tcl.x
 	-rm -f src/tkobjc/simtools_tcl.x
@@ -82,3 +83,4 @@ super-clean: clean maintainer-clean
 	-rm -f common.elc protocol.elc interface.elc
 	-rm -f Makefile.in aclocal.m4 configure
 	-rm -f swarmconfig.h.in stamp-h*
+	-rm -f swarm_xmlrpc/Makefile.in

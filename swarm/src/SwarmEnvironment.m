@@ -29,6 +29,10 @@
 #import <simtoolsgui.h>
 #endif
 
+#ifdef ENABLE_XMLRPC
+#import <swarm_xmlrpc.h>
+#endif
+
 #import <objectbase/probing.h> // initProbing
 #import <defobj/Customize.h>  // PHASE
 #import <defobj/Arguments.h> // Arguments_c
@@ -163,6 +167,10 @@ PHASE(Creating)
         (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);
       }
   }
+#endif
+ 
+#ifdef ENABLE_XMLRPC 
+  initSwarmXMLRPC();
 #endif
   return self;
 }

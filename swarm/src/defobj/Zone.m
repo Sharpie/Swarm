@@ -404,18 +404,23 @@ PHASE(Using)
 //
 - (void)free: (void *)aBlock
 {
-  ptrdiff_t offset = *(ptrdiff_t *) (aBlock - sizeof (ptrdiff_t));
-
-  if (GCFixedRootFlag)
-    abort ();
-
-  if (_obj_debug)
+  if (aBlock)
     {
-      size_t size = *(size_t *) (aBlock - sizeof (ptrdiff_t) - sizeof (size_t));
-      allocTotal -= size;
-      allocCount--;
+      ptrdiff_t offset = *(ptrdiff_t *) (aBlock - sizeof (ptrdiff_t));
+
+      if (GCFixedRootFlag)
+        abort ();
+
+      if (_obj_debug)
+        {
+          size_t size = *(size_t *) (aBlock - sizeof (ptrdiff_t) - sizeof (size_t));
+          allocTotal -= size;
+          allocCount--;
+        }
+      XFREE (aBlock - offset);
     }
-  XFREE (aBlock - offset);
+  else
+    raiseEvent(WarningMessage, "Trying to free nil");
 }
 
 //
