@@ -850,6 +850,9 @@ __objc_init_protocols (struct objc_protocol_list* protos)
 		     "Version %d doesn't match runtime protocol version %d\n",
 		     (int)((char*)protos->list[i]->class_pointer-(char*)0),
 		     PROTOCOL_VERSION);
+	} else {
+	  /* even if the protocol is initialized, the super protos might not be */
+	  __objc_init_protocols (aProto->protocol_list);
 	}
     }
 
@@ -857,7 +860,7 @@ __objc_init_protocols (struct objc_protocol_list* protos)
 }
 
 static void __objc_class_add_protocols (Class class,
-					struct objc_protocol_list* protos)
+                   struct objc_protocol_list* protos)
 {
   /* Well... */
   if (! protos)

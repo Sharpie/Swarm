@@ -1,3 +1,9 @@
+2007-08-30  Gennady Telegin <gepo@lvk.cs.msu.su>
+
+	* init.c, Protocol.m: solve problem with descriptionForInstanceMethod.
+	* selector.c: new_list didn't free.
+	* Makefile.am: change override OBJCFLAGS to AM_OBJCFLAGS.
+
 2007-06-19  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* mframe.m: removed all from line 693 - 

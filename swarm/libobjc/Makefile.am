@@ -21,7 +21,7 @@ libswarmobjc_la_LDFLAGS = @inst_LDFLAGS@
 libswarmobjc_la_LIBADD = $(objc_thread_lo) # -lgcc
 libswarmobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
-override CPPFLAGS += -DBUILDING_LIBOBJC
+AM_CPPFLAGS = -DBUILDING_LIBOBJC
 
 objc_thread_lo = @OBJC_THREAD_FILE@.lo
 
