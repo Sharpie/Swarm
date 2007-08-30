@@ -43,23 +43,29 @@ addProbesWithIdentifers(id theProbeLibrary,
   identifier = vars;
   while (identifier && identifier[0] != ':')
     {
-      [customProbeMap 
-        addProbe: 
-          [theProbeLibrary 
-            getProbeForVariable: identifier
-            inClass: aClass]];
+      id proxy = [theProbeLibrary getProbeForVariable: identifier
+                                            inClass: aClass];
+      if (!proxy)
+        raiseEvent(WarningMessage, "Unable to create probe for %s", identifier);
+      else 
+        [customProbeMap addProbe: probe];
+
       identifier = va_arg (argumentPointer, const char *);
     }
   
   // now do the methods
   while ((identifier = va_arg (argumentPointer, const char *)) != NULL)
-    [customProbeMap 
-      addProbe: 
-        [[theProbeLibrary 
-           getProbeForMessage: identifier
-           inClass: aClass]
-          setHideResult: 0]];
-  
+    {
+      id probe = [theProbeLibrary 
+             getProbeForMessage: identifier
+             inClass: aClass];
+
+      if (!probe)
+        raiseEvent(WarningMessage, "Unable to create probe for %s", identifier);
+      else
+        [customProbeMap 
+            addProbe: [probe setHideResult: 0]];
+    }
   return customProbeMap;
 }
 

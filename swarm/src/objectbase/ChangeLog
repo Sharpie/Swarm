@@ -1,3 +1,8 @@
+2007-08-30  Gennady Telegin  <gepo@lvk.cs.msu.su>
+
+	* CustomProbeMap.m: If user add probe for unexisting method, then raise
+	warning instead of segfault.
+
 2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* ProbeMap.h, objectbase.h: Change class to class_ for Objective C++.
