@@ -198,6 +198,6 @@ PHASE(Using)
 
 - (char*)getName
 {
-  return objName;
+  return SSTRDUP (objName);
 }
 @end
