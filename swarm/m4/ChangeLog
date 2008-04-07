@@ -1,3 +1,7 @@
+2008-04-06  Marcus G. Daniels <marcus@snoutfarm.com>
+	
+	* actcltk.m4: Notice another BLT shared library syntax.
+
 2007-06-06  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* tcl.m4: added comment re origin of file.

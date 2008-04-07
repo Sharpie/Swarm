@@ -306,7 +306,7 @@ fi
 AC_DEFUN([md_FIND_BLT],
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
-for name in $bltlibname BLT30 BLT24 BLT8.0 BLT80 BLT; do
+for name in $bltlibname BLT30 BLT.2.4 BLT24 BLT8.0 BLT80 BLT; do
    for extra_libdir in "$bltdir/lib/shared" "$bltdir/lib" "$bltdir"; do
 	  md_FIND_LIB(blt,$name,$extra_libdir,1)
 	  if test -n "$bltlibdir" ; then
