@@ -1,3 +1,7 @@
+2008-04-06  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* avcall.m4:  Remove aclocal generated macros that came from outside ffcall (e.g. libtool)
+
 2005-02-05  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.in: ignore autom4te.cache.
