@@ -15,16 +15,17 @@ wn_PROG_OBJC
 LT_AC_PROG_SED
 AC_SUBST(SED)
 
-test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
 case ${host} in
         *-*-darwin*)
                 OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools"
-#				CFLAGS="$CFLAGS -fnested-functions"
-#				NESTLDFLAGS=-fnested-functions
+		#CFLAGS="$CFLAGS -fnested-functions"
+		#NESTLDFLAGS=-fnested-functions
                 ;;
         *)
                 ;;
 esac
+
+test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
 
 AC_SUBST(NESTLDFLAGS)
 
@@ -437,7 +438,7 @@ else
    LIBOBJCDIR=
    LIBOBJCINCLUDES=
    LIBOBJCLDFLAGS=
-   LIBOBJCLIB='-lobjc'
+   LIBOBJCLIB='-lobjc-gnu'
    LIBOBJCDEP=
 fi
 AC_SUBST(LIBOBJCDIR)
