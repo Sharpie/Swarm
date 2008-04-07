@@ -148,7 +148,7 @@ avcall-ia64.lo : $(srcdir)/avcall-ia64.s
 	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-ia64.s
 
 structcpy.lo : $(srcdir)/structcpy.c
-	$(LIBTOOL_COMPILE) $(CC) $(CFLAGS) -c $(srcdir)/structcpy.c
+	$(LIBTOOL_COMPILE) $(CC) $(CFLAGS) -fPIC -c $(srcdir)/structcpy.c
 
 libavcall.la : $(OBJECTS)
 	$(LIBTOOL_LINK) $(CC) -o libavcall.la $(OBJECTS)

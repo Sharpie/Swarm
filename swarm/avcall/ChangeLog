@@ -2,6 +2,8 @@
 
 	* avcall.m4:  Remove aclocal generated macros that came from outside ffcall (e.g. libtool)
 
+	* Makefile.in:  Compile structcpy.lo with -fPIC.
+
 2005-02-05  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.in: ignore autom4te.cache.
