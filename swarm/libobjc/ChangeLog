@@ -1,3 +1,7 @@
+2008-04-06  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* ltmain.sh:  Update to libtool 2.2.
+
 2007-08-30  Gennady Telegin <gepo@lvk.cs.msu.su>
 
 	* init.c, Protocol.m: solve problem with descriptionForInstanceMethod.
