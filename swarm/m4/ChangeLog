@@ -1,3 +1,7 @@
+2008-04-12  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* acfind.m4:  Look in lib64/ too.
+
 2008-04-06  Marcus G. Daniels <marcus@snoutfarm.com>
 	
 	* actcltk.m4: Notice another BLT shared library syntax.
