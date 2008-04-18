@@ -1,3 +1,8 @@
+2008-04-17  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* configure.in: Assume Apple compiler for now on Mac
+	(Use of -fnested-functions).
+
 2008-04-06  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* ltmain.sh:  Update to libtool 2.2.

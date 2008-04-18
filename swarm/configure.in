@@ -17,9 +17,8 @@ AC_SUBST(SED)
 
 case ${host} in
         *-*-darwin*)
-                OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools"
-		#CFLAGS="$CFLAGS -fnested-functions"
-		#NESTLDFLAGS=-fnested-functions
+                OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools -fnested-functions"
+		NESTLDFLAGS=-fnested-functions
                 ;;
         *)
                 ;;
