@@ -1,3 +1,8 @@
+2008-04-26  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* as: Don't recode sections individually (e.g. __cstring_object).
+	Just convert anything that looks like OBJC.
+
 2005-04-10  Marcus G. Daniels <mgd@santafe.edu>
 
 	* swarm-2.2-1.sh:  Added cygwin release build script.

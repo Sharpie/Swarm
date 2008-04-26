@@ -7,4 +7,4 @@ for i in $*; do
     args="$args $i"
   fi
 done
-sed -e 's/\.section __OBJC, __cstring_object/.section __GNUOBJC, __cstring_object/' -e 's/\.section __OBJC, __sel_fixup/.section __GNUOBJC, __sel_fixup/'  -e 's/\.objc_/.section __GNUOBJC, __/' $infile | /usr/bin/as $args --
+sed -e 's/\.section __OBJC, \(.*\)/.section __GNUOBJC, \1/' -e 's/\.objc_/.section __GNUOBJC, __/' $infile | /usr/bin/as $args --
