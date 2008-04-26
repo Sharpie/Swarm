@@ -1,3 +1,8 @@
+2008-04-26  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* configure.in: For Tiger it is ok to do that, but not
+	for Leopard.  Detect Leopard and assume FSF GCC.
+
 2008-04-17  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* configure.in: Assume Apple compiler for now on Mac
