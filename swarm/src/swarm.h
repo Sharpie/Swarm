@@ -21,7 +21,9 @@
 #import <random.h>
 #import <objectbase.h>
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 #import <simtoolsgui.h>
+#endif
 #endif
 #import <externvar.h>
 
@@ -74,11 +76,13 @@ GETTERS
 - (id <Symbol>)getSequential;
 
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 - (id <Symbol>)getControlStateRunning;
 - (id <Symbol>)getControlStateStopped;
 - (id <Symbol>)getControlStateStepping;
 - (id <Symbol>)getControlStateQuit;
 - (id <Symbol>)getControlStateNextTime;
+#endif
 #endif
 
 - (id <Zone>)getScratchZone;
@@ -89,8 +93,10 @@ GETTERS
 - (id <UniformDoubleDist>)getUniformDblRand;
 
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 - (id <ProbeLibrary>)getProbeLibrary;
 - (id <ProbeDisplayManager>)getProbeDisplayManager;
+#endif
 #endif
 
 - (id <Archiver>)getHdf5Archiver;

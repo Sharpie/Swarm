@@ -25,7 +25,9 @@
 #import <random.h>
 #import <simtools.h>
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 #import <simtoolsgui.h>
+#endif
 #endif
 #ifdef ENABLE_XMLRPC
 #import <swarm_xmlrpc.h>
@@ -49,6 +51,7 @@
 - (id <SwarmActivity>)getCurrentSwarmActivity;
 
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 - (void)createProbeDisplay: obj;
 - (void)createCompleteProbeDisplay: obj;
 - (void)createArchivedProbeDisplay: obj name: (const char *)name;
@@ -57,6 +60,7 @@
 - (void)setComponentWindowGeometryRecordNameFor: obj widget: widget name: (const char *)name;
 - (void)setComponentWindowGeometryRecordName: widget name: (const char *)name;
 - (void)updateDisplay;
+#endif
 #endif
 - (void)xprint: obj;
 - (void)xfprint: obj;

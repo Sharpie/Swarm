@@ -12,14 +12,25 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libspace.la
 
+if ENABLE_GNUSTEP
+GUI_SRC =
+GUI_HDRS =
+else
+GUI_SRC = Object2dDisplay.m Value2dDisplay.m
+GUI_HRDS = Object2dDisplay.h Value2dDisplay.h
+endif
+
 if DISABLE_GUI
 SRC = Ca2d.m ConwayLife2d.m DblBuffer2d.m Diffuse2d.m Discrete2d.m Grid2d.m Int2dFiler.m
 else
-SRC = Ca2d.m ConwayLife2d.m DblBuffer2d.m Diffuse2d.m Discrete2d.m Grid2d.m Int2dFiler.m Object2dDisplay.m Value2dDisplay.m
+SRC = Ca2d.m ConwayLife2d.m DblBuffer2d.m Diffuse2d.m Discrete2d.m Grid2d.m Int2dFiler.m $(GUI_SRC)
 endif
 
 libspace_la_SOURCES = $(SRC)
 libspace_la_LDFLAGS = @inst_LDFLAGS@
 
-space_HEADERS = Ca2d.h ConwayLife2d.h DblBuffer2d.h Diffuse2d.h Discrete2d.h Grid2d.h Int2dFiler.h Object2dDisplay.h Value2dDisplay.h
-
+if DISABLE_GUI
+space_HEADERS = Ca2d.h ConwayLife2d.h DblBuffer2d.h Diffuse2d.h Discrete2d.h Grid2d.h Int2dFiler.h
+else
+space_HEADERS = Ca2d.h ConwayLife2d.h DblBuffer2d.h Diffuse2d.h Discrete2d.h Grid2d.h Int2dFiler.h $(GUI_HDRS)
+endif

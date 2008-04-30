@@ -12,14 +12,26 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libanalysis.la
 
+if ENABLE_GNUSTEP
+GUI_SRC =
+GUI_HDRS =
+else
+GUI_SRC = ActiveGraph.m EZBin.m EZDistribution.m EZGraph.m FunctionGraph.m
+GUI_HDRS = ActiveGraph.h EZBin.h EZDistribution.h EZGraph.h FunctionGraph.h
+endif
+
 if DISABLE_GUI
 SRC = ActiveOutFile.m Averager.m Entropy.m
 else
-SRC = ActiveGraph.m ActiveOutFile.m Averager.m EZBin.m EZDistribution.m EZGraph.m Entropy.m FunctionGraph.m
+SRC = ActiveOutFile.m Averager.m Entropy.m $(GUI_SRC)
 endif
 
 libanalysis_la_SOURCES = $(SRC)
 libanalysis_la_LDFLAGS = @inst_LDFLAGS@
 
-analysis_HEADERS =  ActiveOutFile.h ActiveGraph.h Averager.h EZBin.h EZDistribution.h EZGraph.h Entropy.h FunctionGraph.h
+if DISABLE_GUI
+analysis_HEADERS =  ActiveOutFile.h Averager.h Entropy.h
+else
+analysis_HEADERS =  ActiveOutFile.h Averager.h Entropy.h $(GUI_HDRS)
+endif
 

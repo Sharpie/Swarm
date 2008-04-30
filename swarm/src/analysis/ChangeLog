@@ -1,3 +1,12 @@
+2008-04-29  Scott Christley  <schristley@mac.com>
+
+        * Makefile.am (SRC): Do not build ActiveGraph, EZBin,
+        EZDistribution, EZGraph, and FunctionGraph for GNUstep.
+        (HEADERS): Likewise.
+
+        * analysis.h; #ifndef GNUSTEP classes not applicable when
+        GNUstep is enabled.
+
 2005-04-14  Paul Johnson  <pauljohn@ku.edu>
 
 	* Averager.m ([Averager -addValueToAverage:]): Reset min and max

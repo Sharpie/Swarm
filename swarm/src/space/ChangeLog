@@ -1,3 +1,12 @@
+2008-04-29  Scott Christley  <schristley@mac.com>
+
+        * Makefile.am (SRC): Do not build Object2dDisplay and
+        Value2dDisplay when GNUstep is enabled.
+        (space_HEADERS): Likewise.
+
+        * space.h: #ifndef GNUSTEP classes not applicable when
+        GNUstep is enabled.
+
 2006-08-19  Marcus G. Daniels <mgd@santafe.edu>
 
 	* space.h: -setObjectFlag: is void return

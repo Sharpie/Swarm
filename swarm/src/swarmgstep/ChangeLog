@@ -1,3 +1,14 @@
+2008-04-29  Scott Christley  <schristley@mac.com>
+
+	* Additions.h: New file.
+	* Additions.m: New file.
+	* Object2dDisplay.h: New file.
+	* Object2dDisplay.m: New file.
+	* Value2dDisplay.h: New file.
+	* Value2dDisplay.m: New file.
+	* Makefile.am: Remove unused definitions.  Add new files.
+	* swarmgstep.h: Add Object2dDisplay and Value2dDisplay protocols.
+
 2004-11-25  Marcus G. Daniels <mgd@santafe.edu>
 	
 	* swarmgstep.h:  New file.

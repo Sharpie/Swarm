@@ -10,7 +10,6 @@
 // mframe_build_signature
 #ifdef GNUSTEP
 #include <Foundation/NSMethodSignature.h>
-#include <mframe.h>
 #else
 #ifdef USE_MFRAME
 #include <objc/mframe.h>
@@ -1537,6 +1536,7 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
   }
 
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
   if (swarmGUIMode)
     {
       extern id probeDisplayManager;
@@ -1552,6 +1552,7 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
       ASSOCIATE (ControlStateQuit);
       ASSOCIATE (ControlStateNextTime);
     }
+#endif
 #endif
   
   {

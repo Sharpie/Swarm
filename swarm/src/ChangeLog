@@ -1,3 +1,14 @@
+2008-04-29  Scott Christley  <schristley@mac.com>
+
+        * Makefile.am (classList.m): Remove class for GNUstep.
+
+        * SwarmEnvironment.h: #ifndef GNUSTEP methods not applicable
+        when GNUstep is enabled.
+
+        * SwarmEnvironment.m: Likewise.
+
+        * swarm.h: Likewise.
+
 2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* swarm.h (_initSwarm_).  Use C linkage.

@@ -1,3 +1,7 @@
+2008-04-29  Scott Christley  <schristley@mac.com>
+
+	* configure.in (LIBOBJCLIB): Use standard name for ObjC library.
+
 2008-04-26  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* configure.in: For Tiger it is ok to do that, but not

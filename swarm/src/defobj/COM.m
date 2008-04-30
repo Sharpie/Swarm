@@ -5,7 +5,6 @@
 // mframe_build_signature
 #ifdef GNUSTEP
 #include <Foundation/NSMethodSignature.h>
-#include <mframe.h>
 #else
 #ifdef USE_MFRAME
 #include <objc/mframe.h>

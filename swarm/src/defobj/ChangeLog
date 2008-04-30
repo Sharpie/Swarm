@@ -1,3 +1,13 @@
+2008-04-29  Scott Christley  <schristley@mac.com>
+
+        * java.m: Don't need mframe.h for GNUstep.
+
+        * FCall.m: Likewise.
+
+        * DefObject.m: Likewise.
+
+        * COM.m: Likewise.
+
 2007-04-18  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* Arguments.m ([Arguments_c -createEnd]): If argv/argc is not set,l

@@ -27,8 +27,10 @@
 #import <objectbase.h>
 #import <swarmconfig.h>
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 #import <simtoolsgui.h> // GUIComposite
 #import <gui.h> // GraphElement
+#endif
 #endif
 
 @protocol Averager <MessageProbe, CREATABLE>
@@ -107,6 +109,7 @@ USING
 @end
 
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 @protocol EZBin <SwarmObject, GUIComposite, CREATABLE>
 //S: An easy to use histogram interface.
 
@@ -282,6 +285,8 @@ USING
 //M: calculated in the previous call to update.
 - (double)getEntropy;
 @end
+#endif // GNUSTEP
+#endif // DISABLE_GUI
 
 @protocol EZSequence <SwarmObject, RETURNABLE>
 //S: Protocol for an EZSequence
@@ -334,6 +339,8 @@ USING
 
 @end
 
+#ifndef DISABLE_GUI
+#ifndef GNUSTEP
 @protocol EZGraph <SwarmObject, GUIComposite, CREATABLE>
 //S: A class for easily create graphs.
 
@@ -569,7 +576,8 @@ USING
 //M: Returns the value of the graph element..
 - (double)getCurrentValue;
 @end
-#endif
+#endif // GNUSTEP
+#endif // DISABLE_GUI
 
 @protocol ActiveOutFile <MessageProbe, CREATABLE>
 //S: An object that actively updates its file stream when updated.
@@ -599,6 +607,7 @@ USING
 @end
 
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 @protocol FunctionGraph <SwarmObject, CREATABLE>
 //S: A widget for drawing a function over a range of one variable.
  
@@ -642,16 +651,19 @@ USING
 //M: Draw the graph with the current contents of the graph element.
 - (void)graph;
 @end
-#endif
+#endif // GNUSTEP
+#endif // DISABLE_GUI
 
 @class Averager;
 @class Entropy;
 #ifndef DISABLE_GUI
+#ifndef GNUSTEP
 @class EZBin;
 @class EZDistribution;
 @class EZGraph;
 @class ActiveGraph;
 @class FunctionGraph;
+#endif
 #endif
 @class EZAverageSequence;
 @class EZSequence;

@@ -47,7 +47,6 @@ Library:      defobj
 #include <misc.h>
 #ifdef GNUSTEP
 #include <Foundation/NSMethodSignature.h>
-#include <mframe.h>
 #else
 #ifdef USE_MFRAME
 #include <objc/mframe.h>

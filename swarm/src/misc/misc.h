@@ -149,7 +149,11 @@ long long strtoll (const char *nptr, char **endptr, int base);
 #elif SIZEOF_LONG == SIZEOF_LONG_LONG
 #define LLONG_MIN LONG_MIN
 #else
+#ifdef __LONG_LONG_MAX__
+#define LLONG_MIN (-__LONG_LONG_MAX__ - 1)
+#else
 #error long long min value missing
+#endif
 #endif
 #endif
 
@@ -159,7 +163,11 @@ long long strtoll (const char *nptr, char **endptr, int base);
 #elif SIZEOF_LONG == SIZEOF_LONG_LONG
 #define LLONG_MAX LONG_MAX
 #else
+#ifdef __LONG_LONG_MAX__
+#define LLONG_MAX __LONG_LONG_MAX__
+#else
 #error long long max value missing
+#endif
 #endif
 #endif
 
