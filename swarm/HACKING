@@ -41,6 +41,21 @@ autogen.sh in ChangeLog.
 *** Red Hat Linux 8.0
 Paul (?) awaiting your text?
 
+*** Fedora 8
+Not all tools might be installed by default, make sure to add these
+packages for install.
+
+emacs
+gcc-objc
+gperf
+zsh
+
+Put automake/autoconf/libtool tools in their own install area.
+libtool-2.2.2
+autoconf-2.62
+automake-1.9.6
+
+
 *** MacOS X 10.4
 autoconf 2.59
 automake 1.9.6
@@ -62,6 +77,22 @@ intefering with the stable Swarm for other platforms.
 cvs -z3 checkout -r gnustep_port-branch -d swarm-gnustep swarm
 
 Then go into the swarm/GNUstep directory and read the README.
+
+*** Objective-C Runtime Abstraction
+With MacOS X 10.5 came Apple's new ObjC 2.0 which greatly altered the
+interface with the ObjC runtime library.  Primarily, it made many of
+the data structures opaque and enhanced the API with additional
+functions.  This project is to convert Swarm to use a purely API-based
+interaction with the ObjC runtime library, both for GNU and Apple.  An
+ObjC runtime abstraction API will be defined which Swarm uses, then
+this API will be implemented for all three runtimes GNU, Apple ObjC
+1.0 and Apple ObjC 2.0.  The abstraction will also allow other
+technologies to be utilized for the underlying object system.
+
+Because of the extensive changes required, this work will be performed on a
+separate branch.
+
+cvs -z3 checkout -r objc_abstraction-branch -d swarm-objc swarm
 
 * Test suite
 
