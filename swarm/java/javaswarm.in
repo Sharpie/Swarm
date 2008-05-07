@@ -22,6 +22,7 @@
 swarm_prefix="@swarm_prefix@"
 swarm_exec_prefix="@swarm_exec_prefix@"
 jdkdir=@jdkdir@
+swarm_datarootdir="@swarm_datarootdir@"
 
 if test @USEDLL@ = yes; then
   @SHLIBPATH_VAR@=@swarm_bindir@:@tcllibdir@/../bin:$@SHLIBPATH_VAR@

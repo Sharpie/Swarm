@@ -21,6 +21,7 @@
 
 swarm_prefix="@swarm_prefix@"
 _JAVACLASSES='@JAVACLASSES@'
+swarm_datarootdir="@swarm_datarootdir@"
 
 if test @USEDOSCLASSPATH@ = yes; then
   PS=';'

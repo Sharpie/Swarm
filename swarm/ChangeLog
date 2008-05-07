@@ -1,3 +1,7 @@
+2008-05-07  Scott Christley  <schristley@mac.com>
+
+	* configure.in (swarm_datarootdir): datadir requires datarootdir.
+
 2008-04-29  Scott Christley  <schristley@mac.com>
 
 	* configure.in (LIBOBJCLIB): Use standard name for ObjC library.
