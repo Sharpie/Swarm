@@ -132,30 +132,6 @@ TEA_PATH_TCLCONFIG
 TEA_LOAD_TCLCONFIG
 TEA_PUBLIC_TCL_HEADERS
 
-#TCLINCLUDES=${TCL_INCLUDE_SPEC}
-#TCLLDFLAGS="${TCL_LD_FLAGS} ${TCL_LIBS}"
-#TCLLIB=${TCL_LIB_SPEC} 
-
-#AC_SUBST(TCLINCLUDES)
-#AC_SUBST(TCLLDFLAGS)
-#AC_SUBST(TCLLIB)
-
-#md_FIND_TCL
-#md_FIND_TCL_HEADERS
-#if test -z "$tclincludedir" ; then
-#  AC_MSG_ERROR(Please specify Tcl header path using --with-tcldir or --with-tclincludedir)
-#fi
-
-#md_FIND_TCL_LIBRARIES
-#if test -z "$tcllibdir" ; then
-#  AC_MSG_ERROR(Please specify Tcl library path using --with-tcldir)
-#fi
-
-#md_FIND_TCL_SCRIPTS
-
-#AC_SUBST(tclscriptdir)
-#md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tcl)
-
 TCLMODULE=tclobjc
 AC_SUBST(TCLMODULE)
 
@@ -172,23 +148,6 @@ else
 TEA_PATH_TKCONFIG
 TEA_LOAD_TKCONFIG
 TEA_PUBLIC_TK_HEADERS
-
-
-#md_FIND_TK_HEADERS
-#if test -z "$tkincludedir" ; then
-#  AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
-#fi
-
-#md_FIND_TK_LIBRARIES
-#if test -z "$tklibdir" ; then
-#  AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
-#fi
-
-#md_FIND_TK_SCRIPTS
-
-#AC_SUBST(tkscriptdir)
-
-#md_CHECK_TCLTK_LIBINC_VERSION_MATCH(tk)
 
 TKMODULE=tkobjc
 AC_SUBST(TKMODULE)

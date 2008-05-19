@@ -1,3 +1,9 @@
+2008-05-19  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* autogen.sh: add -Wno-portability to automake to 
+    suppress warnings.
+    * configure.in: remove cruft leftover from pre-TEA
+    
 2008-05-07  Scott Christley  <schristley@mac.com>
 
 	* configure.in (swarm_datarootdir): datadir requires datarootdir.

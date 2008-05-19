@@ -11,17 +11,16 @@ DIE=0
 NOCONFIGURE=1
 
 # Hack here for autohell - substitute your install location or nothing for default path
-# ACDIR=/usr/local/autoconf-2.57/bin/
-LTDIR=/usr/local/bin/
+LTDIR=/usr/local/libtool-2.2/bin
 # AMDIR=/usr/local/automake-1.7.5/bin/
 ACDIR=
 # LTDIR=
 AMDIR=
 
 # Update whenever version dependencies of developer tools change
-REQUIRED_AUTOCONF_VERSION="2.59"
-#REQUIRED_LIBTOOL_VERSION="1.5.10"
-REQUIRED_AUTOMAKE_VERSION="1.9.6"
+REQUIRED_AUTOCONF_VERSION="2.61"
+REQUIRED_LIBTOOL_VERSION="2.2.2"
+REQUIRED_AUTOMAKE_VERSION="1.10"
 
 ("$ACDIR"autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
@@ -46,6 +45,7 @@ fi
 #	  }
 	
 #Why do we care about the system libtool?  Everything needed is in the source distribution.
+#A. If we need some libtool macro in aclocal.m4 and we are not using the system libtool.
 #	LIBTOOL_VERSION=`("$LTDIR"libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
 #else
 #	("$LTDIR"libtool --version) < /dev/null > /dev/null 2>&1 || {
@@ -125,8 +125,8 @@ do
       echo "Running autoconf ..."
       "$ACDIR"autoconf
       if test -f ./Makefile.am; then
-	  echo "Running automake --gnu $am_opt ..."
-	  "$AMDIR"automake --add-missing --gnu $am_opt
+	  echo "Running automake --gnu -Wno-portability $am_opt ..."
+	  "$AMDIR"automake --add-missing --gnu -Wno-portability $am_opt
       else
 	  echo skipping "automake" in $dr -- Makefile.am does not exist
       fi
