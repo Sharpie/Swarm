@@ -110,7 +110,7 @@ if test -n "$ffidir"; then
       if test -f /usr/include/ffi.h ; then
         FFIINCLUDES=''
       elif test -f /usr/include/ffi/ffi.h ; then
-        FFIINCLUDES='/usr/include/ffi'
+        FFIINCLUDES='-I/usr/include/ffi'
 	  else
         ffidir='WRONG!'
 		AC_MSG_RESULT(no)    
