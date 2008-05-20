@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS= -I m4
+
 if USEBUILTINAVCALL
 SUBDIRS = $(LIBOBJCDIR) avcall etc src tools java COM m4 tests
 else

@@ -1,3 +1,7 @@
+2008-05-20  Bill Northcott  <w.northcott@unsw.edu.au>
+
+    * Makefile.am: update to recent standards
+    
 2008-04-29  Scott Christley  <schristley@mac.com>
 
         * Makefile.am (classList.m): Remove class for GNUstep.

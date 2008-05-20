@@ -1,3 +1,7 @@
+2008-05-20  Bill Northcott  <w.northcott@unsw.edu.au>
+
+    * configure.in, Makefile.am: update to recent standards
+    
 2008-05-19  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* autogen.sh: add -Wno-portability to automake to 

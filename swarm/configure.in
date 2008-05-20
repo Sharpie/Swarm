@@ -1,8 +1,11 @@
-AC_INIT(etc/Makefile.appl.in)
+AC_INIT(Swarm,2.2,support@swarm.org)
+AC_CONFIG_SRCDIR(etc/Makefile.appl.in)
 AC_CANONICAL_SYSTEM
 
 VERSION=`head -1 $srcdir/VERSION`
 AM_INIT_AUTOMAKE(swarm, $VERSION)
+
+LT_INIT([win32-dll])
 
 md_SWARM_INSTALLER
 
@@ -11,8 +14,8 @@ test "x$ACLOCAL" = xaclocal && ACLOCAL="aclocal -I m4"
 AM_CONFIG_HEADER(swarmconfig.h externvar.h)
 
 AC_PROG_CC
-wn_PROG_OBJC
-LT_AC_PROG_SED
+AC_PROG_OBJC
+AC_PROG_SED
 AC_SUBST(SED)
 
 case ${host} in
@@ -35,8 +38,6 @@ AC_SUBST(NESTLDFLAGS)
 OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)
 
-AC_LIBTOOL_WIN32_DLL
-AC_PROG_LIBTOOL
 
 SHLIBPATH_VAR=`./libtool --config | $SED -n 's/^shlibpath_var=\(.*\)/\1/p'`
 AC_SUBST(SHLIBPATH_VAR)
@@ -481,7 +482,7 @@ else
   touch avcall/avcall.h
 fi
 
-AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile
+AC_CONFIG_FILES([Makefile m4/Makefile src/Makefile src/activity/Makefile
 src/analysis/Makefile src/collections/Makefile src/defobj/Makefile
 src/misc/Makefile src/objectbase/Makefile
 src/random/Makefile src/simtools/Makefile 
@@ -497,5 +498,7 @@ COM/Makefile COM/c/Makefile
 src/gui/Makefile src/simtoolsgui/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile src/swarmgstep/Makefile
 src/swarm_xmlrpc/Makefile
 ])
+
+AC_OUTPUT
 
 # abs_srcdir=`cd $srcdir; pwd`

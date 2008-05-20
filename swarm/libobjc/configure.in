@@ -1,6 +1,9 @@
-AC_INIT(objc/objc.h)
+AC_INIT(libobjc,1.2,support@swarm.org)
+AC_CONFIG_SRCDIR(objc/objc.h)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(libobjc, 1.2)
+
+LT_INIT([win32-dll])
 
 test "x$ACLOCAL" = xaclocal && ACLOCAL="aclocal -I m4"
 
@@ -33,9 +36,6 @@ esac
 
 OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)   
-
-AC_LIBTOOL_WIN32_DLL
-AC_PROG_LIBTOOL
 
 wn_PROG_OBJC
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
@@ -118,5 +118,5 @@ AC_SUBST(ONELIB)
 
 
 AC_CHECK_HEADERS(sys/sigevent.h)
-AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile])
-
+AC_CONFIG_FILES([Makefile objc/Makefile doc/Makefile m4/Makefile])
+AC_OUTPUT
