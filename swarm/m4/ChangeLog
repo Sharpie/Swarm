@@ -1,3 +1,8 @@
+2008-05-20  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acffi.m4: restructure to allow ffi.h to be in
+    $ffidir/include/ffi as in MacOS X
+    
 2008-04-12  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* acfind.m4:  Look in lib64/ too.

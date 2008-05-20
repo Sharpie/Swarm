@@ -17,7 +17,6 @@ else
     USE_FFCALL=1
   fi
 fi
-
 if test -n "$ffidir" ; then
   dnl This section for libffi
   if test $USE_FFCALL = 0; then
@@ -53,21 +52,24 @@ if test -n "$ffidir" ; then
         AC_MSG_RESULT(no)    
       else
         ffidir=$dir
+        FFILIB=''
         AC_MSG_CHECKING(directory of libffi include)
-        for dir in $ffidir /usr ; do
-		    ffidir_expand=`eval echo $dir`
-			if test -f $ffidir_expand/include/ffi.h ; then
-			  AC_MSG_RESULT($ffidir_expand/include)
-			  FFILIB=-lffi
-			  SWFFILIB=${FFILIB}
-			  break
-			fi
-		done
+        ffidir_expand=`eval echo $dir`
+        for subdir in /ffi /; do
+            if test -f $ffidir_expand/include$subdir/ffi.h ; then
+              ffiincdir=$ffidir_expand/include$subdir
+              FFILIB=-lffi
+              SWFFILIB=${FFILIB}
+              AC_MSG_RESULT($ffidir_expand/include$subdir)
+              break
+            fi
+        done
         if test -z "$FFILIB" ; then
           AC_MSG_RESULT(no)
         fi
       fi
     fi
+  
   else 
   dnl This section for libavcall
     if test "$with_ffcalldir" != no; then
@@ -108,9 +110,14 @@ if test -n "$ffidir"; then
   ffilibdir=${ffidir}/lib
   if test $ffidir_expand = /usr; then
       if test -f /usr/include/ffi.h ; then
-        FFIINCLUDES=''
+        ffi_includes=''
       elif test -f /usr/include/ffi/ffi.h ; then
-        FFIINCLUDES='-I/usr/include/ffi'
+        ffi_includes='-I/usr/include/ffi'
+        dnl system libffi on MacOS >= 10.5 needs MACOSX defined
+        if test -d /System/Library/Frameworks/Cocoa.framework ; then
+          ffi_includes=${ffi_includes}' -D MACOSX'
+        fi
+      FFIINCLUDES=${ffi_includes}
 	  else
         ffidir='WRONG!'
 		AC_MSG_RESULT(no)    
