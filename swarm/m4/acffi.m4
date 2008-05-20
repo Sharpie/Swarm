@@ -107,10 +107,18 @@ dnl Sets up includes.
 if test -n "$ffidir"; then
   ffilibdir=${ffidir}/lib
   if test $ffidir_expand = /usr; then
-    FFIINCLUDES=''
-  else
+      if test -f /usr/include/ffi.h ; then
+        FFIINCLUDES=''
+      elif test -f /usr/include/ffi/ffi.h ; then
+        FFIINCLUDES='/usr/include/ffi'
+	  else
+        ffidir='WRONG!'
+		AC_MSG_RESULT(no)    
+        AC_MSG_ERROR(Configure error - can't find ffi.h.)
+      fi
+    else
     FFIINCLUDES='-I${ffidir}/include'
-  fi
+    fi
   AM_CONDITIONAL(USEBUILTINAVCALL, false)
 dnl If no ffidir specified use builtin avcall and setup FFILIB
 else

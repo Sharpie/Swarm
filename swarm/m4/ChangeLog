@@ -10,6 +10,11 @@
 
 	* tcl.m4: added comment re origin of file.
     
+2008-05-20  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acffi.m4: include possibility of ffi.h in
+    /usr/include/ffi.
+    
 2007-06-05  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* tcl.m4: Add.
