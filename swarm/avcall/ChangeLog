@@ -1,3 +1,7 @@
+2008-05-21  Scott Christley  <schristley@mac.com>
+
+	* avcall.h.in: Remove errant comment.
+
 2008-04-06  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* avcall.m4:  Remove aclocal generated macros that came from outside ffcall (e.g. libtool)
