@@ -1,3 +1,7 @@
+2008-05-22  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acffi.m4: prevent -L/usr/lib being used
+    
 2008-05-20  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* acffi.m4: restructure to allow ffi.h to be in

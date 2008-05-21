@@ -69,7 +69,9 @@ if test -n "$ffidir" ; then
         fi
       fi
     fi
-  
+  if test "$ffilibdir"="/usr/lib" ; then
+    FFILDFLAGS=''
+  fi
   else 
   dnl This section for libavcall
     if test "$with_ffcalldir" != no; then
