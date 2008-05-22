@@ -39,7 +39,7 @@ OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-
 AC_SUBST(OBJCFLAGS)
 
 
-SHLIBPATH_VAR=`./libtool --config | $SED -n 's/^shlibpath_var=\(.*\)/\1/p'`
+SHLIBPATH_VAR=$shlibpath_var  
 AC_SUBST(SHLIBPATH_VAR)
 
 AC_ARG_WITH(defaultdir,
