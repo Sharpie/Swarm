@@ -74,12 +74,16 @@ super-clean: clean maintainer-clean
 	-rm -f tests/collections/Makefile.in
 	-rm -f tests/collections/deepList.scm tests/collections/deepMap.scm
 	-rm -f tests/collections/shallowList.scm tests/collections/shallowMap.scm
+	-rm -f tests/collections/deepList.hdf tests/collections/deepMap.hdf
+	-rm -f tests/collections/shallowList.hdf tests/collections/shallowMap.hdf
 	-rm -f tests/defobj/Makefile.in
 	-rm -f tests/defobj/deep.scm tests/defobj/shallow.scm
+	-rm -f tests/defobj/deep.hdf tests/defobj/shallow.hdf
 	-rm -f tests/objectbase/Makefile.in
 	-rm -f tests/simtools/Makefile.in tests/simtools/File.test
 	-rm -f tests/space/Makefile.in
 	-rm -f tests/space/objects.scm tests/space/values.scm
+	-rm -f tests/space/objects.hdf tests/space/values.hdf
 	-rm -f tests/Makefile.in
 	-rm -f tools/Makefile.in
 	-rm -f common.elc protocol.elc interface.elc
