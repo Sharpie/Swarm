@@ -17,6 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
+#define H5_USE_16_API
 #include <swarmconfig.h> // HAVE_HDF5, PTRINT, HAVE_JDK
 
 #import <defobj/HDF5Object.h>

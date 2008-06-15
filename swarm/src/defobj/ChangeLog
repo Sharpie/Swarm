@@ -1,3 +1,8 @@
+2008-06-15  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* HDF5Object.m: Define H5_USE_16_API so that both HDF5 1.6 and 1.8
+	will work.
+
 2008-04-29  Scott Christley  <schristley@mac.com>
 
         * java.m: Don't need mframe.h for GNUstep.
