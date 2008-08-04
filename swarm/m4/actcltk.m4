@@ -306,7 +306,7 @@ fi
 AC_DEFUN([md_FIND_BLT],
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
-for name in $bltlibname BLT30 BLT.2.4 BLT24 BLT8.0 BLT80 BLT; do
+for name in $bltlibname BLTCore30 BLT.2.4 BLT24 BLT8.0 BLT80 BLT; do
    for extra_libdir in "$bltdir/lib/shared" "$bltdir/lib" "$bltdir"; do
 	  md_FIND_LIB(blt,$name,$extra_libdir,1)
 	  if test -n "$bltlibdir" ; then
@@ -324,7 +324,13 @@ if test $found = no; then
 fi
 
 BLTLDFLAGS=$_ldflags
-BLTLIB=-l$bltlibname
+if test $bltlibname = BLTCore30; then
+  BLTLIB="-lBLTX30 -l$bltlibname"
+elif test $bltlibname = BLTCore30g; then
+  BLTLIB="-lBLTX30g -l$bltlibname"
+else
+  BLTLIB=-l$bltlibname
+fi
 AC_SUBST(bltlibdir)
 AC_SUBST(bltdir)
 AC_SUBST(BLTLDFLAGS)

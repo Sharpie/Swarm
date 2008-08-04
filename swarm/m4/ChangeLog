@@ -1,3 +1,7 @@
+2008-08-03  Marcus G. Daniels <marcus@snoutfarm.com>
+	
+	* actcltk.m4: Look for BLTCore30/BLTX30 and debugging version of same.
+
 2008-05-22  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* acffi.m4: prevent -L/usr/lib being used
