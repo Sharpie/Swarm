@@ -1,3 +1,8 @@
+2008-08-19  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* config.guess, config.sub, ltmain.sh: Updated 
+	by libtoolize 1.2.4.
+
 2008-05-27  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am (super-clean): Remove files.

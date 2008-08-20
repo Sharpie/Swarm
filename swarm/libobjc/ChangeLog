@@ -1,7 +1,12 @@
+2008-08-19  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* config.guess, config.sub, ltmain.sh:
+	Update to libtool 2.2.4.
+
 2008-05-20  Bill Northcott  <w.northcott@unsw.edu.au>
 
-    * configure.in, Makefile.am: update to recent standards
-    
+	* configure.in, Makefile.am: update to recent standards
+
 2008-04-06  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* ltmain.sh:  Update to libtool 2.2.
