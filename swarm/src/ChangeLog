@@ -1,3 +1,7 @@
+2008-08-25  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* Makefile.am (DIST_SUBDIRS):  Add.
+
 2008-04-29  Scott Christley  <schristley@mac.com>
 
         * Makefile.am (classList.m): Remove class for GNUstep.

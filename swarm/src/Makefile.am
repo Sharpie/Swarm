@@ -3,6 +3,7 @@ SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) r
 else
 SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space $(SWARM_XMLRPC)
 endif
+DIST_SUBDIRS = misc collections defobj activity objectbase tclobjc tkobjc gui random simtools simtoolsgui analysis space swarm_xmlrpc swarmgstep
 
 SWARMMODULES = space analysis $(GNUSTEPMODULE) $(SIMTOOLSGUI) simtools random $(TCLTKGUIDIR) objectbase activity defobj collections misc $(SWARM_XMLRPC) 
 
