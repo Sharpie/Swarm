@@ -1,3 +1,10 @@
+2008-08-25  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* Makefile.am: Change macosx/swarm.xcode/project.pbxproj to
+	macosx/swarm.xcodeproj/project.pbxproj.
+
+	* VERSION: Bump.
+
 2008-08-19  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* config.guess, config.sub, ltmain.sh: Updated 
