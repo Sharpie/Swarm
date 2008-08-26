@@ -1,3 +1,7 @@
+2008-08-25  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* Makefile.am (EXTRA_DIST): Add.
+
 2008-04-29  Scott Christley  <schristley@mac.com>
 
         * Makefile.am (SRC): Do not build Object2dDisplay and

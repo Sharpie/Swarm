@@ -34,3 +34,5 @@ space_HEADERS = Ca2d.h ConwayLife2d.h DblBuffer2d.h Diffuse2d.h Discrete2d.h Gri
 else
 space_HEADERS = Ca2d.h ConwayLife2d.h DblBuffer2d.h Diffuse2d.h Discrete2d.h Grid2d.h Int2dFiler.h $(GUI_HDRS)
 endif
+
+EXTRA_DIST = Object2dDisplay.h Value2dDisplay.h
