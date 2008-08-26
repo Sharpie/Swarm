@@ -167,7 +167,7 @@ PHASE(Using)
 
           if (!protocol)
             {
-              raiseEvent(WarningMessage, "Unknown procotocol for object in result");
+              raiseEvent(WarningMessage, "Unknown protocol for object in result: `%s'", protocol_name);
               return nil;
             }
 
