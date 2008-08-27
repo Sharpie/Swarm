@@ -5,7 +5,7 @@ SWARM_JAVA_BASIC = swarm/Selector.java swarm/NonUniqueMethodSignatureException.j
 SWARM_JAVA_EXTRA = swarm/ProxyClassLoader.java $(KAWAJAR) JavaDeps.jar
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
 EXTRA_SCRIPTS = javacswarm.in javaswarm.in jdkcswarm jdkswarm
-EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS)
+EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS) kawa-1.6.70.jar
 EMACS = @EMACS@
 
  include $(top_srcdir)/etc/Makefile.protocol
