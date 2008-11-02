@@ -1,3 +1,7 @@
+2008-11-01  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* defboj.h: Clarify documentation for -getName.
+
 2008-06-15  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* HDF5Object.m: Define H5_USE_16_API so that both HDF5 1.6 and 1.8

@@ -99,7 +99,9 @@ typedef struct {
 //M: they are also assigned a unique name.  Constant objects defined as
 //M: part of a program or library are examples.  This message is intended
 //M: only for returning a name associated with an object throughout its
-//M: lifetime.  It does not return any data that ever changes.
+//M: lifetime.  It does not return any data that ever changes, however it 
+//M: does return a different memory handle from the scratchZone (which can be
+//M: freed using the free: method).
 USING
 - (const char *)getName;
 @end
