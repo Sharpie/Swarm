@@ -10,7 +10,7 @@ OTHERCLEAN=
 DATAFILES = GUI-Data.001 Society-Data.001
 
 APPVERSION=0.0.1
-BUGADDRESS=gepr@tempusdictum.com
+BUGADDRESS=gepr@agent-based-modeling.com
 
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 

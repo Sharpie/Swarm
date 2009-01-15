@@ -1,3 +1,8 @@
+2009-01-14  glen  <gepr@tempusdictum.com>
+
+	* Makefile (BUGADDRESS): Changed e-mail address.
+	* README: Ditto.
+
 2002-10-15  glen e. p. ropella  <gepr@tempusdictum.com>
 
 	* Makefile (.m.o): Changed rule to make graph object files in
