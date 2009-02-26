@@ -92,7 +92,9 @@ technologies to be utilized for the underlying object system.
 Because of the extensive changes required, this work will be performed on a
 separate branch.
 
-cvs -z3 checkout -r objc_abstraction-branch -d swarm-objc swarm
+##cvs -z3 checkout -r objc_abstraction-branch -d swarm-objc swarm
+
+Not CVS anymore but SVN in branche/objc_abstraction-branch
 
 * Test suite
 
