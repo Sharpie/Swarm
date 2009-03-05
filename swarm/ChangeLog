@@ -1,3 +1,7 @@
+2009-03-05  Scott Christley  <schristley@mac.com>
+
+	* VERSION: Bump. 2.3 release branch created.
+
 2008-08-25  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* Makefile.am: Change macosx/swarm.xcode/project.pbxproj to
