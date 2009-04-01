@@ -38,6 +38,19 @@ executable files.
 
 `--enable-onelib' --- build a single shared library instead of a hierarchy.
 
+This version of Swarm can use GNUstep as a replacement to the
+Tcl/Tk/BLT graphics system.  You must have the GNUstep environment
+setup so that the configure script can find the GNUstep headers and
+libraries.  The Tcl/Tk/BLT code within Swarm will not be compiled nor
+installed, so those libraries do not have to be available when
+compiling for GNUstep.  If you want a version of Swarm that supports
+Tcl/Tk/BLT then you need to compile and install another copy in a
+different location; Swarm for GNUstep can reside in the same
+installation directory as Swarm for Tcl/Tk/BLT.  This will be resolved
+in a future version.
+
+`--enable-gnustep' --- enable Swarm for use with GNUstep
+
 *** Important note for SunOS/Solaris users!! ***
 
 As `configure' builds shared libraries by default, you should be sure

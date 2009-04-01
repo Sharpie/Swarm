@@ -1,5 +1,11 @@
 2009-03-05  Scott Christley  <schristley@mac.com>
 
+	* AUTHORS: Add myself.
+	* INSTALL: Mention GNUstep flag.
+	* autogen.sh: Correct version for tools.
+	* NEWS: Mention items
+	* configure.in: New version.
+
 	* VERSION: Bump. 2.3 release branch created.
 
 2008-08-25  Marcus G. Daniels <marcus@snoutfarm.com>

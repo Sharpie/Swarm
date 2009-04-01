@@ -1,7 +1,13 @@
 Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
-Copyright © 1996-2004 Swarm Development Group
+Copyright © 1996-2009 Swarm Development Group
 
-* Relase notes for 2.2
+* Release notes for 2.3
+** New features
+*** Support for GNUstep.
+** Autoconfiguration / Portability
+*** Updates to more recent versions of autoconf, automake and libtool.
+
+* Release notes for 2.2
 ** New features
 *** Averager and EZGraph now report variance and standard deviation, and
     can track moving averages.

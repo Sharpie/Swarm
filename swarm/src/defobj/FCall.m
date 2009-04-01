@@ -47,6 +47,8 @@ Library:      defobj
 #include <misc.h>
 #ifdef GNUSTEP
 #include <Foundation/NSMethodSignature.h>
+// mframe internals not available
+#define BUGGY_BUILTIN_APPLY
 #else
 #ifdef USE_MFRAME
 #include <objc/mframe.h>

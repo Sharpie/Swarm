@@ -3,8 +3,9 @@
 The Swarm project was initiated by Chris Langton.  Roger Burkhart
 (John Deere), Nelson Minar (now at Google), Glen Ropella, Manor
 Askenazi (now at Coopers & Lybrand), Irene Lee, Vladimir Jojic (UIUC),
-Alex Lancaster (UC Berkeley, formerly of SFI), and Marcus Daniels
-(SFI) have all been active in the design and programming of Swarm.
+Alex Lancaster (UC Berkeley, formerly of SFI), Marcus Daniels (SFI),
+and Scott Christley have all been active in the design and programming
+of Swarm.
 
 Swarm is currently maintained by the Swarm Development Group (SDG) and
 the community, there is currently no lead developer or maintainer.
