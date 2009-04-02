@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <simtoolsgui.h> // GUISwarm
-#import <objectbase/Swarm.h> // Swarm
+#import <Swarm/simtoolsgui.h> // GUISwarm
+#import <Swarm/Swarm.h> // Swarm
 
 // a GUISwarm is a Swarm with some support for graphical interface. In
 // particular, it creates a control panel for you and also provides a

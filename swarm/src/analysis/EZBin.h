@@ -17,9 +17,9 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <analysis.h> // EZBin
-#import <simtoolsgui/GUIComposite.h>
-#import <gui.h>
+#import <Swarm/analysis.h> // EZBin
+#import <Swarm/GUIComposite.h>
+#import <Swarm/gui.h>
 
 // EZBin object: used to generate histograms.
 

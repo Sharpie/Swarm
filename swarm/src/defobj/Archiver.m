@@ -190,7 +190,7 @@ PHASE(Using)
 {
   id <Index> index;
   id item;
-  IMP func = get_imp (id_CreatedClass_s, M(updateArchiver:));
+  IMP func = swarm_class_getMethodImplementation (id_CreatedClass_s, M(updateArchiver:));
   
   index = [classes begin: getZone (self)];
   while ((item = [index next]))

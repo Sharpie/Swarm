@@ -87,7 +87,7 @@ string_convert (fcall_type_t type, const types_t *p,
       if (!p->_class)
         sprintf (buf, "nil");
       else
-        sprintf (buf, "%s", p->_class->name);
+        sprintf (buf, "%s", swarm_class_getName(p->_class));
       break;
     case fcall_type_uchar:
       if (stringReturnType == DefaultString)
@@ -169,7 +169,7 @@ string_convert (fcall_type_t type, const types_t *p,
       sprintf (buf, "%s", p->string ? p->string : "<NULL>");
       break;
     case fcall_type_selector:
-      sprintf (buf, p->selector ? sel_get_name (p->selector) : "M(NULL)");
+      sprintf (buf, p->selector ? swarm_sel_getName (p->selector) : "M(NULL)");
       break;
     case fcall_type_void:
       sprintf (buf, "none");

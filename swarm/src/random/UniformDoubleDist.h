@@ -82,8 +82,8 @@ Relative speed:	| Speed 0.268 (time 3.726) relative to MT19937 getUnsignedSample
 */
 
 
-#import <objectbase/SwarmObject.h>
-#import <random.h>
+#import <Swarm/SwarmObject.h>
+#import <Swarm/random.h>
 
 
 @interface UniformDoubleDist: SwarmObject <UniformDoubleDist>

@@ -31,9 +31,9 @@ Date:            1996-12-12
 //D: repository for the probe machinery, which is provided for every
 //D: SwarmObject.
 
-#import <defobj.h>
-#import <activity.h> // timeval_t
-#include <externvar.h>
+#import <Swarm/defobj.h>
+#import <Swarm/activity.h> // timeval_t
+#include <Swarm/externvar.h>
 
 @protocol SwarmObject <Create, Drop, CREATABLE>
 //S: A superclass of most objects in a Swarm simulation that provides

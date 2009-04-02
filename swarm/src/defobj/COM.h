@@ -1,8 +1,8 @@
 #ifndef __defobj_COM_h
 #define __defobj_COM_h
 
-#include <defobj.h>
-#include <objc/objc.h>
+#include <Swarm/defobj.h>
+#import <Swarm/swarm-objc-api.h>
 
 #if defined(__cplusplus) && !defined(__OBJC__)
 extern "C" {
@@ -158,7 +158,7 @@ extern fcall_type_t COM_method_param_fcall_type (COMmethod cMethod, unsigned ind
 
 #define COM_FIND_OBJECT_ENTRY(theCOMObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.COM = (COMOBJECT) theCOMObject; _findEntry; })
 #define COM_OBJECT_ENTRY(theCOMObject, theObject) [[[[ObjectEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setObject: theObject] createEnd]
-#define COM_SELECTOR_ENTRY(theCOMObject, theSelector) [[[[SelectorEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setSelector: theSelector] createEnd]
+#define COM_SELECTOR_ENTRY(theCOMObject, theSelector) [[(id <FArguments>)[[SelectorEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setSelector: theSelector] createEnd]
 
 
 

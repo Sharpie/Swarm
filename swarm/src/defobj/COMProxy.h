@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <defobj.h>
-#import <defobj/Create.h>
+#import <Swarm/defobj.h>
+#import <Swarm/Create.h>
 
 @interface COMProxy: CreateDrop
 - (BOOL)isCOMProxy;

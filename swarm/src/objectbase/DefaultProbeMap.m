@@ -19,13 +19,15 @@
 
 #import <objectbase/DefaultProbeMap.h>
 #import <collections.h>
-#import <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 #import <defobj.h> // Warning
 #import <defobj/defalloc.h> // getZone
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // SD_JAVA_FIND_OBJECT_JAVA
 #endif
+
+#import <defobj/COM.h>
 
 #import "local.h"
 

@@ -23,11 +23,11 @@ Description:  Schedule -- collection of actions ordered by time values
 Library:      activity
 */
 
-#import <activity/ActionGroup.h>
-#import <activity/XActivity.h>
-#import <activity/Action.h> // CAction
-#import <collections/Map.h>
-#import <defobj/Zone.h>
+#import <Swarm/ActionGroup.h>
+#import <Swarm/XActivity.h>
+#import <Swarm/Action.h> // CAction
+#import <Swarm/Map.h>
+#import <Swarm/Zone.h>
 
 @interface Schedule_c: Map_c <Schedule>
 {

@@ -17,10 +17,10 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <simtoolsgui.h> // MultiVarProbeWidget
-#import <objectbase/SwarmObject.h>
-#import <collections.h>
-#import <gui.h>
+#import <Swarm/simtoolsgui.h> // MultiVarProbeWidget
+#import <Swarm/SwarmObject.h>
+#import <Swarm/collections.h>
+#import <Swarm/gui.h>
 
 @interface MultiVarProbeWidget: SwarmObject
 {

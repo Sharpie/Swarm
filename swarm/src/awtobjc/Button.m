@@ -5,7 +5,7 @@
 
 #import <awtobjc/Button.h>
 
-#include <objc/objc-api.h> // setButtonTarget
+#include <defobj/swarm-objc-api.h> // setButtonTarget
 
 @implementation Button
 

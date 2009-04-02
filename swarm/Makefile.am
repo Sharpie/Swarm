@@ -10,10 +10,38 @@ EXTRA_DIST = VERSION macosx/buildlibs.sh macosx/ChangeLog macosx/configure.sh ma
 
 SWARM_INSTALL = @SWARM_INSTALL@
 
+.PHONY: swarm-link
+
+all-recursive: swarm-link
+
+swarm-link:
+	-rm -f Swarm
+	-$(LN_S) . Swarm
+
 install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(includedir)
-	$(INSTALL_DATA) swarmconfig.h $(DESTDIR)$(includedir)
-	$(INSTALL_DATA) externvar.h $(DESTDIR)$(includedir)
+	$(mkinstalldirs) $(DESTDIR)$(includedir)/Swarm
+	-rm -f $(DESTDIR)$(includedir)/Swarm/activity
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/activity
+	-rm -f $(DESTDIR)$(includedir)/Swarm/analysis
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/analysis
+	-rm -f $(DESTDIR)$(includedir)/Swarm/collections
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/collections
+	-rm -f $(DESTDIR)$(includedir)/Swarm/defobj
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/defobj
+	-rm -f $(DESTDIR)$(includedir)/Swarm/misc
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/misc
+	-rm -f $(DESTDIR)$(includedir)/Swarm/objectbase
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/objectbase
+	-rm -f $(DESTDIR)$(includedir)/Swarm/random
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/random
+	-rm -f $(DESTDIR)$(includedir)/Swarm/simtools
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/simtools
+	-rm -f $(DESTDIR)$(includedir)/Swarm/simtoolsgui
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/simtoolsgui
+	-rm -f $(DESTDIR)$(includedir)/Swarm/space
+	-$(LN_S) . $(DESTDIR)$(includedir)/Swarm/space
+	$(INSTALL_DATA) swarmconfig.h $(DESTDIR)$(includedir)/Swarm
+	$(INSTALL_DATA) externvar.h $(DESTDIR)$(includedir)/Swarm
 	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(datadir)/swarm
 	$(INSTALL_PROGRAM) $(top_builddir)/libtool $(DESTDIR)$(bindir)/libtool-swarm
 	if test $(SWARM_INSTALL) = install-sh; then $(INSTALL_PROGRAM) $(srcdir)/install-sh $(DESTDIR)$(bindir); fi
@@ -21,6 +49,7 @@ install-data-local:
 install-recursive: install-data-local
 
 super-clean: clean maintainer-clean
+	-rm -f Swarm src/*/Swarm
 	-rm -f etc/Makefile.in
 	-rm -f m4/Makefile.in
 	-rm -f COM/Makefile.in

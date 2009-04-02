@@ -17,9 +17,9 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <space.h> // Value2dDisplay, Discrete2d
-#import <space/Discrete2d.h>
-#import <gui.h> // Raster, Colormap
+#import <Swarm/space.h> // Value2dDisplay, Discrete2d
+#import <Swarm/Discrete2d.h>
+#import <Swarm/gui.h> // Raster, Colormap
 
 // generic object to handle display 2d values
 

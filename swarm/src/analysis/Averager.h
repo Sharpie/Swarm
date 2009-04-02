@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <analysis.h> // Averager
-#import <objectbase/MessageProbe.h>
+#import <Swarm/analysis.h> // Averager
+#import <Swarm/MessageProbe.h>
 
 // Average object: calculates a few basic statistics given a collection of 
 // objects to poll and a selector with which to poll them.

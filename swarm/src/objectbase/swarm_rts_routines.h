@@ -17,9 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <objc/objc.h>
-#import <objc/objc-api.h>
-#import <objc/encoding.h>
+#import <Swarm/swarm-objc-api.h>
 
 const char *skip_type_qualifiers (const char* type);
 const char *skip_typespec (const char* type);

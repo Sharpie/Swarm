@@ -35,8 +35,7 @@ Library:      defobj
 
 #import <defobj/macros.h>
 
-#import <objc/objc-api.h>
-#import <objc/sarray.h>
+#import <defobj/swarm-objc-api.h>
 
 #include <misc.h> // strcpy, strlen, sprintf, isDigit
 #include <collections/predicates.h> // arrayp, keywordp, archiver_list_p, stringp
@@ -45,7 +44,9 @@ Library:      defobj
 #include <Foundation/NSMethodSignature.h>
 #else
 #ifdef USE_MFRAME
+#if SWARM_OBJC_TODO
 #include <objc/mframe.h>
+#endif
 #endif
 #endif
 
@@ -145,7 +146,11 @@ PHASE(Using)
 
 + (const char *)getName
 {
+#if SWARM_OBJC_DONE
   return ((Class) self)->name;
+#else
+  return swarm_class_getName(self);
+#endif
 }
 
 //
@@ -171,9 +176,14 @@ PHASE(Using)
 
 + (BOOL)conformsTo: (Protocol *)protocol
 {
+#if SWARM_OBJC_DONE
   if (getBit (((Class) self)->info, _CLS_DEFINEDCLASS))
     return [((CreatedClass_s *) self)->definingClass
                                      conformsTo: protocol];
+#else
+  if (swarm_class_getDefinedClassBit(swarm_object_getClass(self)))
+    return swarm_class_conformsToProtocol (self, protocol);
+#endif
   else
     return [super conformsTo: protocol];
 }
@@ -282,7 +292,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
         {
           setBit (zbits, BitSuballocList, 0);
           [zone freeBlock: suballocList
+#if SWARM_OBJC_DONE
                 blockSize: getClass (suballocList)->instance_size];
+#else
+                blockSize: swarm_class_getInstanceSize(swarm_object_getClass(suballocList))];
+#endif
           suballocList = nil;
         }
     }
@@ -319,7 +333,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
         }
       [index drop];
       [zone freeBlock: suballocList
+#if SWARM_OBJC_DONE
             blockSize: getClass (suballocList)->instance_size];
+#else
+            blockSize: swarm_class_getInstanceSize(swarm_object_getClass(suballocList))];
+#endif
     }
   
   // free the local instance variables for the object
@@ -378,10 +396,18 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     {
       zone = getZone (self);
       suballocList =
+#if SWARM_OBJC_DONE
         [zone allocBlock: getClass (suballocPrototype)->instance_size];
+#else
+        [zone allocBlock: swarm_class_getInstanceSize(swarm_object_getClass(suballocPrototype))];
+#endif
       memcpy (suballocList,
               suballocPrototype,
+#if SWARM_OBJC_DONE
               getClass (suballocPrototype)->instance_size);
+#else
+              swarm_class_getInstanceSize(swarm_object_getClass(suballocPrototype)));
+#endif
       ((Object_s *) suballocList)->zbits = (unsigned long) zone;
       self->zbits =
         (unsigned long) suballocList | (self->zbits & 0x7) | BitSuballocList;
@@ -440,7 +466,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 + getSuperclass
 {
+#if SWARM_OBJC_DONE
   return ((Class) self)->super_class;
+#else
+  return swarm_class_getSuperclass(self);
+#endif
 }
 
 //
@@ -455,9 +485,15 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     {
       if (superclass == (Class) aClass)
         return YES;
+#if SWARM_OBJC_DONE
       if (!superclass->super_class)
         return NO;
       superclass = superclass->super_class;
+#else
+      if (!swarm_class_getSuperclass(superclass))
+        return NO;
+      superclass = swarm_class_getSuperclass(superclass);
+#endif
     }
 }
 
@@ -490,7 +526,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     raiseEvent (SourceMessage,
                 "> setTypeImplemented: class %s in module %s does not belong to module\n"
                 "> currently being initialized (%s)\n",
-                ((Class) self)->name,
+                swarm_class_getName(self),
                 [classData->owner getName],
                 [_obj_implModule getName]);
   
@@ -499,7 +535,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     raiseEvent (SourceMessage,
                 "> setTypeImplemented: class %s, requested to implement the type %s,\n"
                 "> has already been specified as the implementation of type %s\n",
-                ((Class) self)->name, [aType getName],
+                swarm_class_getName(self), [aType getName],
                 [classData->typeImplemented getName] );
   
   classData->typeImplemented = aType;
@@ -526,7 +562,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 + (IMP)getMethodFor: (SEL)aSel
 {
+#if SWARM_OBJC_DONE
   return sarray_get (((Class) self)->dtable, (size_t) aSel->sel_id);
+#else
+  return swarm_class_getMethodImplementation(self, aSel);
+#endif
 }  
 
 //
@@ -558,7 +598,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - getType
 {
-  return _obj_getClassData (*(Class_s **) self)->typeImplemented;
+  return _obj_getClassData (self->isa)->typeImplemented;
 }
 
 //
@@ -582,7 +622,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 {
   IMP  mptr;
 
-  mptr = objc_msg_lookup (self, aSel);
+  mptr = swarm_class_getMethodImplementation (swarm_object_getClass (self), aSel);
   if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel);
@@ -592,7 +632,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 {
   IMP  mptr;
   
-  mptr = objc_msg_lookup (self, aSel);
+  mptr = swarm_class_getMethodImplementation (swarm_object_getClass (self), aSel);
   if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1);
@@ -602,7 +642,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 {
   IMP  mptr;
   
-  mptr = objc_msg_lookup (self, aSel);
+  mptr = swarm_class_getMethodImplementation (swarm_object_getClass (self), aSel);
   if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1, anObject2);
@@ -612,12 +652,13 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 {
   IMP  mptr;
   
-  mptr = objc_msg_lookup (self, aSel);
+  mptr = swarm_class_getMethodImplementation (swarm_object_getClass (self), aSel);
   if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1, anObject2, anObject3);
 }
 
+#if SWARM_OBJC_TODO
 #ifdef USE_MFRAME
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
 {
@@ -625,7 +666,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   id <FArguments> fa;
   id <FCall> fc;
   types_t val;
-  const char *type = sel_get_type (aSel);
+  const char *type = swarm_sel_getTypeEncoding (aSel);
 #ifdef HAVE_JDK
   jobject jObj;
 #endif
@@ -634,8 +675,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
   if (!type)
     {
-      aSel = sel_get_any_typed_uid (sel_get_name (aSel));
-      type = sel_get_type (aSel);
+      aSel = swarm_sel_getUid (swarm_sel_getName (aSel));
+      type = swarm_sel_getTypeEncoding (aSel);
       if (!type)
         abort ();
     }
@@ -650,7 +691,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       if (!(cSel = SD_COM_FIND_SELECTOR_COM (aSel)))
         raiseEvent (InvalidArgument,
                     "unable to find COM selector `%s' in objc:`%s' %p\n",
-                    sel_get_name (aSel),
+                    swarm_sel_getName (aSel),
                     [self name],
                     self,
                     cObj);
@@ -674,7 +715,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       if (!jSel)
         raiseEvent (InvalidArgument,
                     "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",
-                    sel_get_name (aSel),
+                    swarm_sel_getName (aSel),
                     [self name],
                     self,
                     jObj,
@@ -737,6 +778,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       return NULL;
     }
 }
+#endif
 #endif
 
 //
@@ -830,7 +872,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 - doesNotRecognize: (SEL)sel
 {
   raiseEvent (InvalidArgument, "%s does not recognize %s\n",
-              [self name], sel_get_name (sel));
+              [self name], swarm_sel_getName (sel));
   return self;
 }
 #endif
@@ -874,7 +916,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   if (!aName)
     {
       sprintf (buffer, PTRHEXFMT ": %.64s",
-               self, getClass (self)->name);
+               self, swarm_class_getName(swarm_object_getClass(self)));
       aName = buffer;
     }
   
@@ -954,7 +996,7 @@ void
 _obj_formatIDString (char *buffer, id anObject)
 {
   sprintf (buffer, PTRHEXFMT ": %.64s",
-           anObject, getClass (anObject)->name);
+           anObject, swarm_class_getName(swarm_object_getClass(anObject)));
 }
 
 //
@@ -1425,7 +1467,11 @@ initDescribeStream (void)
 BOOL
 respondsTo (id anObject, SEL aSel)
 {
+#if SWARM_OBJC_DONE
   return sarray_get (getClass (anObject)->dtable, (size_t) aSel->sel_id) != 0;
+#else
+  return swarm_class_respondsToSelector(swarm_object_getClass(anObject), aSel);
+#endif
 }
 
 //
@@ -1435,7 +1481,11 @@ respondsTo (id anObject, SEL aSel)
 IMP
 getMethodFor (Class aClass, SEL aSel)
 {
+#if SWARM_OBJC_DONE
   return sarray_get (aClass->dtable, (size_t) aSel->sel_id);
+#else
+  return swarm_class_getMethodImplementation(aClass, aSel);
+#endif
 }
 
 //
@@ -1520,7 +1570,7 @@ xexec (id anObject, const char *msgName)
   
   if (anObject)
     {
-      sel = sel_get_any_uid (msgName);
+      sel = swarm_sel_getUid (msgName);
       if (sel)
         {
           if ([anObject respondsTo: sel])
@@ -1552,7 +1602,7 @@ xfexec (id anObject, const char *msgName)
         fprintf (_obj_xdebug,
                  "object " PTRHEXFMT ": %s does not respond to begin:\n"
                  "(begin: is required by xfexec to enumerate the members of a collection)\n",
-                 anObject, getClass (anObject)->name);
+                 anObject, swarm_class_getName(swarm_object_getClass(anObject)));
       else
         {
           index = [anObject begin: scratchZone];

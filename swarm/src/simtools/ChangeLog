@@ -1,3 +1,14 @@
+2008-07-06  Scott Christley  <schristley@mac.com>
+
+	* UName.m: Cast so compiler finds correct method definition.
+
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* AppendFile.h, InFile.h, NSelect.h, ObjectLoader.h,
+	ObjectSaver.h, OutFile.h, QSort.h, UName.h, simtools.h,
+	Makefile.am: Standardize include directory structure to support
+	libraries and OpenStep frameworks.
+
 2004-07-21  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Parameterize simtoolsgui and gui.

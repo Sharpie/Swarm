@@ -2,7 +2,7 @@ MODULE = misc
 CURRENT = 2
 REVISION = 3
 AGE = 1
-miscdir = $(includedir)/misc
+miscdir = $(includedir)/Swarm
 
 include $(top_srcdir)/src/Makefile.rules 
 
@@ -26,4 +26,4 @@ libmisc_la_SOURCES = $(SRC)
 libmisc_la_LIBADD = @LTLIBOBJS@
 libmisc_la_LDFLAGS = @inst_LDFLAGS@
 
-misc_HEADERS = @ARGP_H@ getopt.h avl.h avltr.h
+misc_HEADERS = $(MODULE).h @ARGP_H@ getopt.h avl.h avltr.h

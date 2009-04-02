@@ -19,10 +19,10 @@
 
 //S: GUI-related features for simulation.
 
-#import <objectbase.h>
-#import <activity.h> // Activity
-#import <gui.h> // Frame
-#include <externvar.h>
+#import <Swarm/objectbase.h>
+#import <Swarm/activity.h> // Activity
+#import <Swarm/gui.h> // Frame
+#include <Swarm/externvar.h>
 
 @protocol WindowGeometryRecordName
 //S: Protocol for archiving window geometry.

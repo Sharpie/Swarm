@@ -30,7 +30,7 @@ Library:      defobj
 
 #import <collections.h> // _collections_
 
-#import <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 #import <objc/Protocol.h>
 
 #include <misc.h> // xmalloc, strcmp, memset
@@ -41,12 +41,14 @@ id _obj_initZone;
 externvardef id _obj_globalZone, _obj_sessionZone, _obj_scratchZone;
 externvardef id _obj_GCFixedRootZone;
 
-extern void _obj_splitPhases (Class_s  *class);
+extern void _obj_splitPhases (Class class);
 
 externvardef id Creating, Setting, Using, CreatingOnly, UsingOnly;
 
 id *_obj_modules, *_obj_classes, _obj_programModule[7];
 unsigned  _obj_nclasses, _obj_nmodules;
+
+swarm_cache_ptr _obj_buckets;
 
 id  _obj_implModule;
 
@@ -101,6 +103,7 @@ initModules (void)
 
   // loop through classes to count their number and to chain module objects
 
+#if SWARM_OBJC_DONE
   for (modules = NULL, enumState = NULL;
         (class = objc_next_class (&enumState));
        _obj_nclasses++)
@@ -114,6 +117,37 @@ initModules (void)
           modules = module;
         }
     }
+#else
+  // get a list of all the classes.
+  ObjcClass *classes = NULL;
+  _obj_nclasses = swarm_objc_getClassList(NULL, 0);
+  if (_obj_nclasses > 0) {
+    classes = _obj_initAlloc (_obj_nclasses * sizeof (id));
+    swarm_objc_getClassList(classes, _obj_nclasses);
+  }
+  //printf("# of classes: %d\n", _obj_nclasses);
+
+  // allocate global hash table of class variable extensions
+  int initialSize = 2;
+  while (initialSize < _obj_nclasses) initialSize = initialSize * 2;
+  _obj_buckets = swarm_hash_new(initialSize, (swarm_hash_func_type)swarm_hash_ptr,
+				swarm_compare_ptrs);
+
+  modules = NULL;
+  int i;
+  for (i = 0;i < _obj_nclasses; ++i) {
+    class = classes[i];
+    //printf("%s\n", swarm_class_getName(class));
+    if (swarm_class_getSuperclass(class) == moduleSuper) {
+      _obj_nmodules++;
+      // get uninitialized module object
+      module = (void **) [class initialize]; 
+      module[0] = (void *) modules;
+      modules = module;
+    }
+  }
+  free(classes);
+#endif
   
   // allocate global array of class variable extensions by class number
   
@@ -132,7 +166,11 @@ initModules (void)
 
   // initialize _obj_initZone for use by _obj_initModule()
 
+#if SWARM_OBJC_DONE
   _obj_initZone = _obj_initAlloc (((Class)id_Zone_c)->instance_size);
+#else
+  _obj_initZone = _obj_initAlloc (swarm_class_getInstanceSize(id_Zone_c));
+#endif
   *(id *) _obj_initZone = id_Zone_c;
   
   // initialize interface identifier constants
@@ -156,18 +194,18 @@ initModules (void)
 
   // bootstrap initialization for symbols
 
-  _obj_getClassData (id_CreateDrop_s)->classID = &id_CreateDrop_s;
-  _obj_getClassData (id_Customize_s)->classID = &id_Customize_s;
-  _obj_getClassData (id_EventType_c)->classID = &id_EventType_c;
-  _obj_getClassData (id_Symbol_c)->classID = &id_Symbol_c;
-  _obj_getClassData (id_Warning_c)->classID = &id_Warning_c;
-  _obj_getClassData (id_Error_c)->classID = &id_Error_c;
+  _obj_getClassData (id_CreateDrop_s)->classID = id_CreateDrop_s;
+  _obj_getClassData (id_Customize_s)->classID = id_Customize_s;
+  _obj_getClassData (id_EventType_c)->classID = id_EventType_c;
+  _obj_getClassData (id_Symbol_c)->classID = id_Symbol_c;
+  _obj_getClassData (id_Warning_c)->classID = id_Warning_c;
+  _obj_getClassData (id_Error_c)->classID = id_Error_c;
 
   _obj_splitPhases (id_Error_c);
 
-  Symbol  = _obj_getClassData (id_Symbol_c)->initialPhase;
-  Warning = _obj_getClassData (id_Warning_c)->initialPhase;
-  Error   = _obj_getClassData (id_Error_c)->initialPhase;
+  Symbol  = _obj_getClassData (id_Symbol_c)->initialPhase->definingClass;
+  Warning = _obj_getClassData (id_Warning_c)->initialPhase->definingClass;
+  Error   = _obj_getClassData (id_Error_c)->initialPhase->definingClass;
 
   // initialize 
 
@@ -175,11 +213,11 @@ initModules (void)
 
   // initialize standard allocation zones
 
-  _obj_globalZone  = [Zone create: _obj_initZone];
-  _obj_sessionZone = [Zone create: _obj_initZone];
-  _obj_scratchZone = [Zone create: _obj_initZone];
+  _obj_globalZone  = [SwarmZone create: _obj_initZone];
+  _obj_sessionZone = [SwarmZone create: _obj_initZone];
+  _obj_scratchZone = [SwarmZone create: _obj_initZone];
 
-  _obj_GCFixedRootZone = [Zone createBegin: _obj_initZone];
+  _obj_GCFixedRootZone = [SwarmZone createBegin: _obj_initZone];
   [_obj_GCFixedRootZone setGCFixedRootFlag: YES];
   _obj_GCFixedRootZone = [_obj_GCFixedRootZone createEnd];
 
@@ -289,6 +327,7 @@ _obj_initModule (void *module)
       
       // also mark whether type is creatable based on protocol declaration
       
+#if SWARM_OBJC_TODO
       for (protoList = (*(proto_t *) protocol)->protoList;
            protoList; protoList = protoList->next)
         {
@@ -301,6 +340,7 @@ _obj_initModule (void *module)
                 type->implementation = Creating;
             }
         }
+#endif
     }
   
   // loop on classes to initialize owner module and class id
@@ -312,7 +352,7 @@ _obj_initModule (void *module)
         raiseEvent (InternalError, nil);
       
       classData->owner   = moduleObject;
-      classData->classID = *class;
+      classData->classID = **class;
     }
   
   // later -- initialize collections of types, symbols, and classes
@@ -338,7 +378,7 @@ _obj_initModule (void *module)
               if (classData->initialPhase &&
                   classData->initialPhase->nextPhase != UsingOnly)
                 {
-                  type->implementation = classData->initialPhase;
+                  type->implementation = classData->initialPhase->definingClass;
                   *type->typeID = type->implementation;
                   //!! later -- use customizeBeginEnd if no extra class messages
                 }
@@ -366,6 +406,17 @@ _obj_initModule (void *module)
         type->implementation = nil;
       }
 #endif
+
+#if 0
+  for (typeID = (Type_c ***) moduleObject->types; *typeID; typeID++)
+    if ((**typeID)->isa == id_Type_c)
+      {
+        raiseEvent (WarningMessage,
+                    "Creatable type %s still Type_c class\n",
+                    (**typeID)->name);
+      }
+#endif
+
   // call initialize function to complete initialization of module
   
   (*initFunction) ();

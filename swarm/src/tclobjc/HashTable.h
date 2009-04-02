@@ -29,10 +29,11 @@
 #define __HashTable_h_INCLUDE_GNU
 
 //#include <coll/objc-gnu2next.h>
-#include <objc/Object.h>
-#include <objc/hash.h>
+#import <defobj/swarm_hash.h>
+#import <defobj/swarm-objc-api.h>
+#import <objc/Object.h>
 
-typedef node_ptr GNUHashState;
+typedef swarm_node_ptr GNUHashState;
 
 @interface HashTable: Object
 {
@@ -40,7 +41,7 @@ typedef node_ptr GNUHashState;
     const char  *keyDesc;       /* Description of keys */
     const char  *valueDesc;     /* Description of values */
     unsigned    _nbBuckets;     /* Current size of the array */
-    cache_ptr   _buckets;       /* Data array */
+    swarm_cache_ptr   _buckets;       /* Data array */
 }
 /* We include some instance vars we don't need so we are compatible
    with NeXT programs that expect them to be there */

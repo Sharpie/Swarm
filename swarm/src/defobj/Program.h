@@ -23,11 +23,14 @@ Description:  metaobjects to describe loaded elements of a program
 Library:      defobj
 */
 
-#import <defobj/DefObject.h>
-#import <defobj/Symbol.h>
+#import <Swarm/DefObject.h>
+#import <Swarm/Symbol.h>
+#import <Swarm/swarm_hash.h>
 
 extern id *_obj_classes;
 extern unsigned _obj_nclasses;
+
+extern swarm_cache_ptr _obj_buckets;
 
 extern void *_obj_initAlloc (size_t size);
 extern void _obj_setTypeImplemented (id, id);

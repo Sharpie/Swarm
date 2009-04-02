@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <defobj/Create.h>
-#import <objectbase.h>
+#import <Swarm/Create.h>
+#import <Swarm/objectbase.h>
 
 #define SIGFIGS_DISPLAYED 6
 #define SIGFIGS_SAVED 6

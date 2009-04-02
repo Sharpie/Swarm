@@ -8,9 +8,9 @@
 // "stop," "next," "step," "stepUntil," and "run," functions for any
 // swarm.
 
-#import <objectbase.h>   
-#import <objectbase/SwarmObject.h>
-#import <activity.h>
+#import <Swarm/objectbase.h>
+#import <Swarm/SwarmObject.h>
+#import <Swarm/activity.h>
 
 @interface ActivityControl: SwarmObject <ActivityControl>
 {

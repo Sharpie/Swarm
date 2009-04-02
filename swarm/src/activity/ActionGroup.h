@@ -23,12 +23,12 @@ Description:  collection of actions under partial order constraints
 Library:      activity
 */
 
-#import <collections/OrderedSet.h>
-#import <collections/Permutation.h>
-#import <activity/CompoundAction.h>
-#import <activity/XActivity.h>
-#import <activity.h> // Action, ActionGroup protocols
-#import <defobj/Zone.h>
+#import <Swarm/OrderedSet.h>
+#import <Swarm/Permutation.h>
+#import <Swarm/CompoundAction.h>
+#import <Swarm/XActivity.h>
+#import <Swarm/activity.h> // Action, ActionGroup protocols
+#import <Swarm/Zone.h>
 
 @interface ActionGroup_c: OrderedSet_c <ActionGroup>
 {

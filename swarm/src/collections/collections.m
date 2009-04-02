@@ -36,8 +36,13 @@ _collections_implement (void)
   [id_List_any setTypeImplemented: List];
   [id_List_linked setTypeImplemented: List];
   [id_List_mlinks setTypeImplemented: List];
+#if SWARM_OBJC_DONE
   setBit (((Class) id_List_linked)->info, _CLS_DEFINEDCLASS, 0);
   setBit (((Class) id_List_mlinks)->info, _CLS_DEFINEDCLASS, 0);
+#else
+  swarm_class_setDefinedClassBit((ObjcClass)id_List_linked, 0);
+  swarm_class_setDefinedClassBit((ObjcClass)id_List_mlinks, 0);
+#endif
   
   [id_ListIndex_linked setTypeImplemented: ListIndex];
   [id_ListIndex_mlinks setTypeImplemented: ListIndex];

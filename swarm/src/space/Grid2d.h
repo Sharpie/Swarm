@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <space.h> // Grid2d
-#import <space/Discrete2d.h>
+#import <Swarm/space.h> // Grid2d
+#import <Swarm/Discrete2d.h>
 
 @interface Grid2d: Discrete2d <Grid2d>
 {

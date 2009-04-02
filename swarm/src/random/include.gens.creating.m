@@ -30,9 +30,12 @@
   [InvalidCombination raiseEvent:
   "%s not Initialized with a Seed!\n", genName];
  
+ #if SWARM_OBJC_DONE
   getUnsignedSample =
     (unsigned (*) (id, SEL))[self methodFor: M(getUnsignedSample)];
-
+#else
+  getUnsignedSample = swarm_class_getMethodImplementation(swarm_object_getClass(self), M(getUnsignedSample));
+#endif
 
 
   return [super createEnd];

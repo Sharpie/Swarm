@@ -76,8 +76,8 @@ Relative speed:	| 0.00310 (time 32.294) relative to MT19937 getUnsignedSample
 */
 
 
-#import <objectbase/SwarmObject.h>
-#import <random.h>
+#import <Swarm/SwarmObject.h>
+#import <Swarm/random.h>
 
 
 @interface GammaDist: SwarmObject <GammaDist>

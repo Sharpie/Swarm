@@ -20,7 +20,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Button.h>
 
-#include <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 #include <misc.h> // strcpy, stpcpy
 
 @implementation Button

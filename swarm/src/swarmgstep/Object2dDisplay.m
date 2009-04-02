@@ -1,4 +1,4 @@
-// Swarm library. Copyright © 1996-2000 Swarm Development Group.
+// Swarm library. Copyright ï¿½ 1996-2000 Swarm Development Group.
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
@@ -21,15 +21,19 @@
 // all objects found in there.  One argument is passed on the message,
 // the display widget.
 
-#import <swarmgstep/Object2dDisplay.h>
+#import "Object2dDisplay.h"
 #import <space/Discrete2d.h> // discrete2dSiteAt
+#ifndef SWARM_OSX
+#import <gui.h> // GUI_BEEP
+#import <simtoolsgui.h> // CREATE_PROBE_DISPLAY
+#endif
 #import <defobj.h> // ProtocolViolation
 
 @implementation Object2dDisplay
 
 PHASE(Creating)
 
-#ifndef GNUSTEP
+#ifndef SWARM_OSX
 + create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: (id <GridData>)c setDisplayMessage: (SEL)s
 #else
 + create: aZone setDisplayWidget: (id)r setDiscrete2dToDisplay: (id <GridData>)c setDisplayMessage: (SEL)s
@@ -44,7 +48,7 @@ PHASE(Creating)
   return [obj createEnd];
 }
 
-#ifndef GNUSTEP
+#ifndef SWARM_OSX
 - setDisplayWidget: (id <Raster>)r
 #else
 - setDisplayWidget: (id)r
@@ -78,7 +82,7 @@ PHASE(Creating)
 - createEnd
 {
   [super createEnd];
-#ifndef GNUSTEP
+#ifndef SWARM_OSX
   if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL) nil)
     raiseEvent (InvalidCombination, "Object display improperly initialized\n");
 #endif
@@ -87,6 +91,52 @@ PHASE(Creating)
 }
 
 PHASE(Using)
+
+- (NSImage *)image
+{
+    return image;
+}
+
+- (void)releaseImage
+{
+  if (image)
+    {
+      [image release];
+      image = nil;
+    }
+  if (imageRep)
+    {
+      [imageRep release];
+      imageRep = nil;
+    }
+}
+
+- (void)createImage
+{
+  //NSRect aRect = [self bounds];
+
+  [self releaseImage];
+
+	float worldXsize = (float)[discrete2d getSizeX];
+	float worldYsize = (float)[discrete2d getSizeY];
+	NSRect aRect = NSMakeRect(0, 0, worldXsize, worldYsize);
+
+#if 1
+  image = [[NSImage alloc] initWithSize:aRect.size];
+  imageRep = [[NSBitmapImageRep alloc]
+	  initWithBitmapDataPlanes:NULL
+	  pixelsWide:aRect.size.width
+	  pixelsHigh:aRect.size.height
+	  bitsPerSample:8
+	  samplesPerPixel:3
+	  hasAlpha:NO
+	  isPlanar:NO
+	  colorSpaceName:NSDeviceRGBColorSpace
+	  bytesPerRow:aRect.size.width*3
+	  bitsPerPixel:24];
+  [image addRepresentation:imageRep];
+#endif
+}
 
 - (id <GridData>)discrete2d
 {
@@ -173,7 +223,7 @@ PHASE(Using)
       && y < [discrete2d getSizeY])
     {
       obj = [discrete2d getObjectAtX: x Y: y];
-#ifndef GNUSTEP
+#ifndef SWARM_OSX
       if (obj)
         CREATE_PROBE_DISPLAY (obj);
       else
@@ -187,5 +237,36 @@ PHASE(Using)
   return self;
 }
 
+- (void)update
+{
+  if (!image) [self createImage];
+
+  if (image) {
+    NSSize aSize = [image size];
+    //printf("Object2dDisplay display: %f %f\n", aSize.width, aSize.height);
+    NSRect aRect = NSMakeRect(0, 0, aSize.width, aSize.height);
+  
+    [image lockFocus];
+    
+    [[NSColor clearColor] set];
+    NSRectFill(aRect);
+
+    int x, y;
+    for (x = 0; x < aSize.width; ++x)
+      for (y = 0; y < aSize.height; ++y)
+	    {
+        aRect = NSMakeRect(x, y, 1, 1);
+        id obj = [discrete2d getObjectAtX: x Y: y];
+        if (obj) {
+          if (displayMessage) {
+            [displayInvocation setArgument: &aRect atIndex: 2];
+            [displayInvocation invokeWithTarget: obj];
+          } else
+            [obj drawRect: aRect];
+        }
+	    }
+    [image unlockFocus];
+  }
+}
 
 @end

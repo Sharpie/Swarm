@@ -42,7 +42,7 @@ hdf5_create_app_group (const char *appKey, id hdf5Obj)
     {
       *modeKey = '\0';
       modeKey++;
-      hdf5AppObj = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+      hdf5AppObj = [[(id <HDF5>)[[[HDF5 createBegin: [hdf5Obj getZone]]
                         setWriteFlag: YES]
                        setParent: hdf5Obj]
                       setName: newAppKey]
@@ -50,7 +50,7 @@ hdf5_create_app_group (const char *appKey, id hdf5Obj)
     }
   else
     raiseEvent (InvalidArgument, "expecting composite app/mode key");
-  return [[[[[HDF5 createBegin: [hdf5AppObj getZone]]
+  return [[[(id <HDF5>)[[HDF5 createBegin: [hdf5AppObj getZone]]
               setParent: hdf5AppObj]
              setName: modeKey]
             setWriteFlag: YES]
@@ -90,7 +90,7 @@ PHASE(Creating)
   
   [super createEnd];
 
-  appFile = [[[[[HDF5 createBegin: getZone (self)]
+  appFile = [[(id <HDF5>)[[[HDF5 createBegin: getZone (self)]
                  setWriteFlag: NO]
                 setParent: nil]
                setName: path]
@@ -152,7 +152,7 @@ PHASE(Using)
           [hdf5Obj drop];
         }
     }
-  hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
+  hdf5Obj = [[(id <HDF5>)[[[HDF5 createBegin: getZone (self)]
                  setWriteFlag: YES]
                 setParent: nil]
                setName: path]
@@ -167,7 +167,7 @@ PHASE(Using)
 
 - (void)putDeep: (const char *)key object: object
 {
-  id group = [[[[[HDF5 createBegin: getZone (self)]
+  id group = [[(id <HDF5>)[[[HDF5 createBegin: getZone (self)]
                   setWriteFlag: YES]
                  setParent: [self getWritableController]]
                 setName: key]
@@ -181,7 +181,7 @@ PHASE(Using)
 
 - (void)putShallow: (const char *)key object: object
 {
-  id dataset = [[[[[[HDF5 createBegin: getZone (self)]
+  id dataset = [[(id <HDF5>)[[[[HDF5 createBegin: getZone (self)]
                      setWriteFlag: YES]
                     setParent: [self getWritableController]]
                    setDatasetFlag: YES]
@@ -200,7 +200,7 @@ PHASE(Using)
   
   if (parent)
     {
-      id <HDF5> hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
+      id <HDF5> hdf5Obj = [[(id <HDF5>)[[[HDF5 createBegin: getZone (self)]
                                setParent: parent]
                               setDatasetFlag: [parent checkDatasetName: key]]
                              setName: key]

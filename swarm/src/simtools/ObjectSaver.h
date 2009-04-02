@@ -17,9 +17,9 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <simtools.h> // ObjectSaver
-#import <objectbase/SwarmObject.h>
-#import <objectbase.h> // ProbeMap
+#import <Swarm/simtools.h> // ObjectSaver
+#import <Swarm/SwarmObject.h>
+#import <Swarm/objectbase.h> // ProbeMap
 
 @interface ObjectSaver: SwarmObject <ObjectSaver>
 {

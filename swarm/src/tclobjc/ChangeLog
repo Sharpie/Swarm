@@ -1,3 +1,11 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* HashTable.[hm], List.h, tclObjc.h, tclObjc.m: ObjC runtime
+	abstraction.
+
+	* TkInterp.h, TclInterp.h, Makefile.am: Standardize include
+	directory structure to support libraries and OpenStep frameworks.
+
 2007-06-19  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* TkInterp.m: Remove references to library paths 

@@ -42,7 +42,7 @@ Library:      collections
 #define MLINKS 0
 #endif
 
-#import <collections/List.h>
+#import <Swarm/List.h>
 
 struct link {
   link_t nextLink; // next link in list

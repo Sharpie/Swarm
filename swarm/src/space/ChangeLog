@@ -1,6 +1,21 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* space.h: #ifndef SWARM_OSX classes not applicable for Mac OSX.
+
 2008-08-25  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* Makefile.am (EXTRA_DIST): Add.
+
+2008-07-06  Scott Christley  <schristley@mac.com>
+
+	* Discrete2d.m: Cast so compiler finds correct method definition.
+
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* Ca2d.h, ConwayLife2d.h, DblBuffer2d.h, Diffuse2d.h,
+	Discrete2d.h, Grid2d.h, Int2dFiler.h, Object2dDisplay.h,
+	Value2dDisplay.h, space.h, Makefile.am: Standardize include
+	directory structure to support libraries and OpenStep frameworks.
 
 2008-04-29  Scott Christley  <schristley@mac.com>
 

@@ -17,9 +17,9 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <defobj/FArguments.h>
-#import <defobj/FCall.h>
-#import "java.h"
+#import <Swarm/FArguments.h>
+#import <Swarm/FCall.h>
+#import <Swarm/java.h>
 
 #ifdef HAVE_JDK
 extern void java_setup_call (FArguments_c *fa,

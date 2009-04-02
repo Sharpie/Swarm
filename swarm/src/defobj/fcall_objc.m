@@ -19,7 +19,6 @@
 
 #import "fcall_objc.h"
 #import <defobj/FArguments.h>
-#include <objc/objc.h>
 
 #include <swarmconfig.h>
 

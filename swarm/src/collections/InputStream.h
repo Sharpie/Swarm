@@ -23,8 +23,8 @@ Description: character string object
 Library:     collections
 */
 
-#import <defobj/Create.h>
-#import <collections.h>
+#import <Swarm/Create.h>
+#import <Swarm/collections.h>
 
 @interface InputStream_c: CreateDrop_s <InputStream>
 {

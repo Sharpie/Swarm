@@ -1,3 +1,11 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* ScheduleItem.m, VarProbeEntry.m, Button.m,
+	WindowGeometryRecord.m, common.h: ObjC runtime abstraction.
+
+	* Makefile.am: Standardize include directory structure to support
+	libraries and OpenStep frameworks.
+
 2007-06-17  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* internal.m: remove secondaryLibraryPath stuff

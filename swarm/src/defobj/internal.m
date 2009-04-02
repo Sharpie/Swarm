@@ -23,7 +23,6 @@
 #import "internal.h"
 
 #include <misc.h> // strtoul, isDigit
-#include <objc/objc-api.h>
 #import <collections/predicates.h>
 
 #import <swarmconfig.h>
@@ -263,6 +262,8 @@ void map_objc_class_ivars (Class class,
                                                  unsigned rank,
                                                  unsigned *dims))
 {
+#if SWARM_OBJC_DONE
+  printf("map_objc_class_ivars\n");
   struct objc_ivar_list *ivars = class->ivars;
   
   if (class->super_class)
@@ -307,6 +308,55 @@ void map_objc_class_ivars (Class class,
                           NULL);
         }
     }
+#else
+  Class scls = swarm_class_getSuperclass(class);
+
+  if (scls)
+    {
+      if (strcmp (swarm_class_getName(scls), "Object_s") != 0)
+        map_objc_class_ivars (scls, process_ivar);
+    }
+  
+  unsigned outCount;
+  ObjcIvar *ivars = swarm_class_copyIvarList(class, &outCount);
+  if (ivars)
+    {
+      unsigned i;
+      
+      for (i = 0; i < outCount; i++)
+        {
+          // Special case to allow member_t for setIndexFromMemberLoc:
+          // lists.
+	  const char *itype = swarm_ivar_getTypeEncoding(ivars[i]);
+          if (strcmp (itype,
+                      "{?=\"memberData\"[2^v]}") == 0)
+            continue;
+          else if (*itype == _C_PTR
+                   || *itype == _C_STRUCT_B)
+            continue;
+          else if (*itype == _C_ARY_B)
+            {
+              unsigned rank = get_rank (itype);
+              unsigned dims[rank];
+              const char *baseType;
+              
+              baseType = objc_array_subtype (itype, dims);
+              process_ivar (swarm_ivar_getName(ivars[i]),
+                            fcall_type_for_objc_type (*baseType),
+                            swarm_ivar_getOffset(ivars[i]),
+                            rank,
+                            dims);
+            }
+          else
+            process_ivar (swarm_ivar_getName(ivars[i]),
+                          fcall_type_for_objc_type (*itype),
+                          swarm_ivar_getOffset(ivars[i]),
+                          0,
+                          NULL);
+        }
+      free(ivars);
+    }
+#endif
 }
 
 static void
@@ -347,9 +397,11 @@ map_object_ivars (id object,
     map_objc_ivars (object, process_object);
 }
 
-struct objc_ivar *
+ObjcIvar
 find_ivar (id obj, const char *name)
 {
+#if SWARM_OBJC_DONE
+  printf("find_ivar\n");
   Class class = (Class)obj;
   struct objc_ivar_list *ivars = class->ivars;
 
@@ -377,15 +429,39 @@ find_ivar (id obj, const char *name)
       return NULL;
     }
   return NULL;
+#else
+  Class class = (Class)obj;
+  Class scls = swarm_class_getSuperclass(class);
+
+  if (scls)
+    {
+      if (strcmp (swarm_class_getName(scls), "Object_s") != 0)
+        {
+          ObjcIvar ret = find_ivar (scls, name);
+          
+          if (ret)
+            return ret;
+        }
+    }
+  
+  return swarm_class_getInstanceVariable(class, name);
+#endif
 }
 
 void *
 ivar_ptr_for_name (id obj, const char *name)
 {
+#if SWARM_OBJC_DONE
   struct objc_ivar *ivar = find_ivar (getClass (obj), name);
 
   if (ivar)
     return (void *) obj + ivar->ivar_offset;
+#else
+  ObjcIvar ivar = find_ivar (getClass (obj), name);
+
+  if (ivar)
+    return (void *) obj + swarm_ivar_getOffset(ivar);
+#endif
   return NULL;
 }
 
@@ -807,6 +883,7 @@ objc_type_for_fcall_type (fcall_type_t type)
     }
 }
 
+#if SWARM_OBJC_DONE
 struct objc_ivar_list *
 ivar_extend_list (struct objc_ivar_list *ivars, unsigned additional)
 {
@@ -838,6 +915,7 @@ class_copy (Class class)
   newClass->ivars = ivar_extend_list (newClass->ivars, 0);
   return newClass;
 }
+#endif
 
 id
 type_create (id aZone, const char *typeName)
@@ -857,6 +935,7 @@ void
 class_addVariable (Class class, const char *varName, fcall_type_t varType,
              unsigned rank, unsigned *dims)
 {
+#if SWARM_OBJC_DONE
   struct objc_ivar *il;
   
   class->ivars = ivar_extend_list (class->ivars, 1);
@@ -868,6 +947,11 @@ class_addVariable (Class class, const char *varName, fcall_type_t varType,
   il->ivar_name = SSTRDUP (varName);
   class->instance_size = il->ivar_offset + fcall_type_size (varType);
   class->ivars->ivar_count++; 
+#else
+  swarm_class_addIvar(class, varName, fcall_type_size (varType),
+		      fcall_type_alignment (varType),
+		      objc_type_for_fcall_type (varType));
+#endif
 }
 
 static unsigned generatedClassNameCount = 0;
@@ -886,6 +970,8 @@ class_generate_name (void)
 static fcall_type_t
 object_ivar_type (id obj, const char *ivar_name, BOOL *isArrayPtr)
 {
+#if SWARM_OBJC_DONE
+  printf("object_ivar_type\n");
 #ifdef HAVE_JDK
   jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
     
@@ -917,11 +1003,47 @@ object_ivar_type (id obj, const char *ivar_name, BOOL *isArrayPtr)
           return fcall_type_for_objc_type (*ivar->ivar_type);
         }
     }
+#else
+#ifdef HAVE_JDK
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+    
+  if (jobj)
+    return java_object_ivar_type (jobj, ivar_name, isArrayPtr);
+  else
+#endif
+    {
+      ObjcIvar ivar = find_ivar (getClass (obj), ivar_name);
+      
+      if (!ivar)
+        raiseEvent (InvalidArgument, "Cannot find ivar `%s' (non-existent ivar name in archiver file?)\n", ivar_name);
+      
+      const char *itype = swarm_ivar_getTypeEncoding(ivar);
+      if (*itype == _C_ARY_B)
+        {
+          unsigned rank = get_rank (itype);
+          unsigned dims[rank];
+          const char *baseType = objc_array_subtype (itype, dims);
+          
+          if (isArrayPtr)
+            *isArrayPtr = YES;
+
+          return fcall_type_for_objc_type (*baseType);
+        }
+      else
+        {
+          if (isArrayPtr)
+            *isArrayPtr = NO;
+          return fcall_type_for_objc_type (*itype);
+        }
+    }
+#endif
 }
 
 void
 object_setVariable (id obj, const char *ivar_name, void *inbuf)
 {
+#if SWARM_OBJC_DONE
+  printf("object_setVariable\n");
 #ifdef HAVE_JDK
   jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
 
@@ -956,6 +1078,43 @@ object_setVariable (id obj, const char *ivar_name, void *inbuf)
       
       memcpy (ptr, inbuf, count * fcall_type_size (type)); 
     }
+#else
+#ifdef HAVE_JDK
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+
+  if (jobj)
+    java_object_setVariable (jobj, ivar_name, fcall_type_void, 0, NULL, inbuf);
+  else
+#endif
+    {
+      ObjcIvar ivar = find_ivar (getClass (obj), ivar_name);
+      void *ptr = (void *) obj + swarm_ivar_getOffset(ivar);
+      unsigned count = 1;
+      fcall_type_t type;
+      
+      if (ivar == NULL)
+        raiseEvent (InvalidArgument, "Could not find ivar `%s'\n", ivar_name);
+      
+      const char *itype = swarm_ivar_getTypeEncoding(ivar);
+      if (*itype == _C_ARY_B)
+        {
+          unsigned rank = get_rank (itype);
+          unsigned dims[rank];
+          const char *baseType = objc_array_subtype (itype, dims);
+          unsigned i;
+          
+          type = fcall_type_for_objc_type (*baseType);
+          for (i = 0; i < rank; i++)
+            count *= dims[i];
+        }
+      else if (*itype == _C_PTR)
+        return;
+      else
+        type = fcall_type_for_objc_type (*itype);
+      
+      memcpy (ptr, inbuf, count * fcall_type_size (type)); 
+    }
+#endif
 }
 
 unsigned
@@ -1064,6 +1223,8 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
       else
 #endif
         {
+#if SWARM_OBJC_DONE
+  printf("object_setVariableFromExpr\n");
           struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
           void *ptr;
           const char *atype = ivar->ivar_type;
@@ -1083,6 +1244,27 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           else
             type = fcall_type_for_objc_type (*atype);
           [expr convertToType: type dest: ptr];
+#else
+          ObjcIvar ivar = find_ivar (getClass (obj), ivar_name);
+          void *ptr;
+          const char *atype = swarm_ivar_getTypeEncoding(ivar);
+          fcall_type_t type;
+          
+          while (isDigit (*atype) || *atype == _C_ARY_B)
+            atype++;
+          ptr = (void *) obj + swarm_ivar_getOffset(ivar);
+          if (*atype == _C_PTR)
+            {
+              type = fcall_type_for_objc_type (*(atype + 1));
+              *((void **) ptr) = [[obj getZone] alloc:
+                                                  ([expr getElementSize] 
+                                                   * [expr getElementCount])];
+              ptr = *((void **) ptr);
+            }
+          else
+            type = fcall_type_for_objc_type (*atype);
+          [expr convertToType: type dest: ptr];
+#endif
         }
     }
   else if (valuep (expr))

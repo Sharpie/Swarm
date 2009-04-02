@@ -3,7 +3,7 @@ MODULE = tkobjc
 CURRENT = 5
 REVISION = 1
 AGE = 0
-tkobjcdir = $(includedir)/$(MODULE)
+tkobjcdir = $(includedir)/Swarm/tkobjc
 
 include $(top_srcdir)/src/Makefile.rules
 
@@ -32,7 +32,7 @@ SRC = ArchivedGeometryWidget.m Button.m ButtonPanel.m Canvas.m CanvasAbstractIte
 libtkobjc_la_SOURCES = $(SRC)
 libtkobjc_la_LDFLAGS = @inst_LDFLAGS@
 
-tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h CanvasAbstractItem.h CanvasItem.h CheckButton.h Circle.h ClassDisplayHideButton.h ClassDisplayLabel.h Colormap.h CompleteProbeDisplayLabel.h CompositeItem.h Entry.h Form.h Frame.h Graph.h Histogram.h InputWidget.h Label.h Line.h LinkItem.h MessageProbeEntry.h NodeItem.h OvalNodeItem.h Pixmap.h ProbeCanvas.h Raster.h Rectangle.h RectangleNodeItem.h ScheduleItem.h SimpleProbeDisplayHideButton.h SuperButton.h TextItem.h TkExtra.h VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h ZoomRaster.h common.h global.h internal.h win32dib.h
+tkobjc_HEADERS = $(MODULE).h ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h CanvasAbstractItem.h CanvasItem.h CheckButton.h Circle.h ClassDisplayHideButton.h ClassDisplayLabel.h Colormap.h CompleteProbeDisplayLabel.h CompositeItem.h Entry.h Form.h Frame.h Graph.h Histogram.h InputWidget.h Label.h Line.h LinkItem.h MessageProbeEntry.h NodeItem.h OvalNodeItem.h Pixmap.h ProbeCanvas.h Raster.h Rectangle.h RectangleNodeItem.h ScheduleItem.h SimpleProbeDisplayHideButton.h SuperButton.h TextItem.h TkExtra.h VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h ZoomRaster.h common.h global.h internal.h win32dib.h
 
 tkobjc.lo: $(foreach f, $(TCLFILES), $(basename $(f))_tcl.x)
 

@@ -2,7 +2,7 @@ MODULE = collections
 CURRENT = 3
 REVISION = 1
 AGE = 0
-collectionsdir = $(includedir)/$(MODULE)
+collectionsdir = $(includedir)/Swarm
 
 include $(top_srcdir)/src/Makefile.rules
 
@@ -23,10 +23,10 @@ SRC = Array.m Collection.m InputStream.m Stream.m List.m List_linked.m List_mlin
 libcollections_la_SOURCES = $(SRC)
 libcollections_la_LDFLAGS = @inst_LDFLAGS@
 
-collections_HEADERS = Array.h Collection.h InputStream.h Stream.h List.h List_GEN.h List_linked.h List_mlinks.h ListShuffler.h Map.h OrderedSet.h OutputStream.h Set.h Permutation.h StringObject.h collections.h predicates.h macros.h
+collections_HEADERS = $(MODULE).h Array.h Collection.h InputStream.h Stream.h List.h List_GEN.h List_linked.h List_mlinks.h ListShuffler.h Map.h OrderedSet.h OutputStream.h Set.h Permutation.h StringObject.h collections.h predicates.h macros.h
 
 install-data-local:
-	$(INSTALL_DATA) classes.h $(DESTDIR)$(collectionsdir)
-	$(INSTALL_DATA) types.h $(DESTDIR)$(collectionsdir)
+	$(INSTALL_DATA) $(MODULE)_classes.h $(DESTDIR)$(collectionsdir)
+	$(INSTALL_DATA) $(MODULE)_types.h $(DESTDIR)$(collectionsdir)
 
 

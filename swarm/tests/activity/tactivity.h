@@ -17,4 +17,4 @@ USING
 @protocol ConcurrentGroup_test <Group_test, ConcurrentGroup, CREATABLE>
 @end
 
-#import <tactivity/types.h>
+#import <tactivity/tactivity_types.h>

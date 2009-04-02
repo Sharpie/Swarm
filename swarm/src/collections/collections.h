@@ -23,10 +23,10 @@ Description:  standard collection types
 Library:      collections
 */
 
-#import <defobj.h>
-#include <externvar.h>
+#import <Swarm/defobj.h>
+#include <Swarm/externvar.h>
 
-//S: Standard collection types
+//S: Standarsd collection types
 
 //D: The collections library follows the library interface conventions of
 //D: the defobj library.  It also depends on standard supertypes and
@@ -1234,4 +1234,4 @@ CREATING
 - setUniformRandom: rnd;
 @end
 
-#import <collections/types.h>
+#import <Swarm/collections_types.h>

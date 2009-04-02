@@ -134,7 +134,7 @@ PHASE(Creating)
     [myTitle setText: java_get_class_name (SD_JAVA_FIND_CLASS_JAVA (theClass))];
 #endif
   else
-    [myTitle setText: theClass->name];
+    [myTitle setText: swarm_class_getName(theClass)];
 
   GUI_DRAG_AND_DROP (myTitle, self);
   

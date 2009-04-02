@@ -16,7 +16,7 @@
 	  
 	  sprintf (buf, "%u", rn);
 	  
-	  itemGroup = [[[[[HDF5 createBegin: getCZone (getZone (self))]
+	  itemGroup = [[(id <HDF5>)[[[HDF5 createBegin: getCZone (getZone (self))]
 			   setParent: hdf5Obj]
 			  setWriteFlag: YES]
 			 setName: buf]
@@ -37,12 +37,12 @@
   else
     {
       id memberProto = [self getFirst];
-      id hdf5CompoundType = [[[HDF5CompoundType createBegin: getCZone (getZone (self))]
+      id hdf5CompoundType = [[(id <HDF5CompoundType>)[HDF5CompoundType createBegin: getCZone (getZone (self))]
                                setPrototype: memberProto]
                               createEnd];
       
       id hdf5ObjDataset =
-        [[[[[[[HDF5 createBegin: getCZone (getZone (self))]
+        [[(id <HDF5>)[[[[(id <HDF5>)[HDF5 createBegin: getCZone (getZone (self))]
                setName: [hdf5Obj getHDF5Name]]
               setParent: hdf5Obj]
              setWriteFlag: YES]

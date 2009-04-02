@@ -17,9 +17,9 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <collections.h> // OutputStream
-#include <misc.h> // size_t
-#include <objc/objc-api.h>
+#import <Swarm/collections.h> // OutputStream
+#include <Swarm/misc.h> // size_t
+#import <Swarm/swarm-objc-api.h>
 
 externvar id _obj_GCFixedRootZone;
 
@@ -41,7 +41,7 @@ extern void map_object_ivars (id object,
                                                       void *ptr,
                                                       unsigned rank,
                                                       unsigned *dims));
-extern struct objc_ivar *find_ivar (id obj, const char *name);
+extern ObjcIvar find_ivar (id obj, const char *name);
 extern void *ivar_ptr_for_name (id obj, const char *name);
 
 extern void
@@ -102,11 +102,15 @@ extern const char *objc_array_subtype (const char *type, unsigned *dims);
 
 extern id type_create (id aZone, const char *typeName);
 
+#if SWARM_OBJC_DONE
 extern Class class_copy (Class class);
+#endif
 extern void class_addVariable (Class class, const char *varName, fcall_type_t varType, unsigned rank, unsigned *dims);
 extern const char *class_generate_name (void);
 
+#if SWARM_OBJC_DONE
 extern struct objc_ivar_list *ivar_extend_list (struct objc_ivar_list *ivars, unsigned additional);
+#endif
 
 extern void object_setVariableFromExpr (id obj, const char *ivarname, id expr);
 extern void object_setVariable (id, const char *ivarname, void *ptr);

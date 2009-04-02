@@ -97,7 +97,7 @@ PHASE(Creating)
 {
   if ([hdf5Obj checkDatasetName: "lattice"])
     {
-      id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+      id latticeDataset = [[(id <HDF5>)[[[[HDF5 createBegin: [hdf5Obj getZone]]
                                 setParent: hdf5Obj]
                                setWriteFlag: NO]
                               setDatasetFlag: YES]
@@ -181,7 +181,7 @@ PHASE(Setting)
   if ([hdf5Obj checkDatasetName: "lattice"])
     {
       {
-        id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+        id latticeDataset = [[(id <HDF5>)[[[[HDF5 createBegin: [hdf5Obj getZone]]
                                   setParent: hdf5Obj]
                                  setWriteFlag: NO]
                                 setDatasetFlag: YES]
@@ -191,7 +191,7 @@ PHASE(Setting)
         [latticeDataset drop];
       }
       {
-        id ivarsDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+        id ivarsDataset = [[(id <HDF5>)[[[[HDF5 createBegin: [hdf5Obj getZone]]
                                 setParent: hdf5Obj]
                                setWriteFlag: NO]
                               setDatasetFlag: YES]
@@ -518,12 +518,12 @@ lispOutLatticeValues (Discrete2d *self, id stream)
 	  }
       if (proto)
 	{
-	  id cType = [[[HDF5CompoundType createBegin: [hdf5Obj getZone]]
+	  id cType = [[(id <HDF5CompoundType>)[HDF5CompoundType createBegin: [hdf5Obj getZone]]
 			setPrototype: proto]
 		       createEnd];
 	  const char *objName = [hdf5Obj getHDF5Name];
 	  
-	  id cDataset = [[[[[[[HDF5 createBegin: getZone (self)]
+	  id cDataset = [[(id <HDF5>)[[[[(id <HDF5>)[HDF5 createBegin: getZone (self)]
 			       setName: objName]
 			      setWriteFlag: YES]
 			     setParent: hdf5Obj]
@@ -555,14 +555,14 @@ lispOutLatticeValues (Discrete2d *self, id stream)
     }
   else
     {
-      id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+      id group = [[(id <HDF5>)[[[HDF5 createBegin: [hdf5Obj getZone]]
 		      setParent: hdf5Obj]
 		     setWriteFlag: YES]
 		    setName: [hdf5Obj getHDF5Name]]
 		   createEnd];
 
       [group storeTypeName: [self getTypeName]];
-      [group setName: "ivars"];
+      [(id <HDF5>)group setName: "ivars"];
       [super hdf5OutShallow: group];
       {
 	unsigned dims[2];
@@ -589,7 +589,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   
   [super hdf5OutDeep: hdf5Obj];
 
-  latticeHdf5Group = [[[[[HDF5 createBegin: hdf5Zone]
+  latticeHdf5Group = [[(id <HDF5>)[[[HDF5 createBegin: hdf5Zone]
                           setParent: hdf5Obj]
                          setWriteFlag: YES]
                         setName: "lattice"]
@@ -606,7 +606,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
             id group;
 
             sprintf (buf, "%u,%u", x, y);
-            group = [[[[[HDF5 createBegin: hdf5Zone]
+            group = [[(id <HDF5>)[[[HDF5 createBegin: hdf5Zone]
                          setWriteFlag: YES]
                         setParent: latticeHdf5Group]
                        setName: buf]

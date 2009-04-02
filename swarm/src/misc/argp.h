@@ -22,7 +22,7 @@
 #define __ARGP_H__
 
 #include <stdio.h>
-#include <misc.h> // for fake ctype macros
+#include <Swarm/misc.h> // for fake ctype macros
 #if HAVE_ARGP_H
 #include <getopt.h>
 #else

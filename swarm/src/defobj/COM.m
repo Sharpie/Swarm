@@ -410,19 +410,19 @@ swarm_directory_COM_ensure_selector (COMselector cSel)
         for (ti = 0; ti < argCount; ti++)
           add_type (comEnv->selectorArgFcallType (cSel, ti));
 
-        sel = sel_get_any_typed_uid (name);
+        sel = swarm_sel_getUidWithType (name);
         {
           BOOL needSelector = NO;
           
           if (sel)
             {
-              if (!sel_get_typed_uid (name, signatureBuf))
+              if (!swarm_sel_getTypedUid (name, signatureBuf))
                 {
 #if 1
                   raiseEvent (WarningMessage,
                               "Method `%s' type (%s) differs from Swarm "
                               "method's type (%s)\n",
-                            name, signatureBuf, sel->sel_types);
+			      name, signatureBuf, swarm_sel_getTypeEncoding (sel));
 #endif
                   needSelector = YES;
                 }
@@ -436,7 +436,7 @@ swarm_directory_COM_ensure_selector (COMselector cSel)
               const char *type =
                 mframe_build_signature (signatureBuf, NULL, NULL, NULL);
               
-              sel = sel_register_typed_name (name, type);
+              sel = swarm_sel_registerTypedName (name, type);
             }
         }
       }

@@ -1,4 +1,4 @@
-// Swarm library. Copyright © 1996-2000 Swarm Development Group.
+// Swarm library. Copyright ï¿½ 1996-2000 Swarm Development Group.
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
@@ -17,13 +17,12 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <swarmgstep/Value2dDisplay.h>
+#import "Value2dDisplay.h"
 #import <space.h>
-#import <space/Discrete2d.h>
-#ifndef GNUSTEP
+#ifndef SWARM_OSX
 #import <gui.h>
 #else
-#include <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
 #endif
 #import <defobj.h> // raiseEvent
 
@@ -34,7 +33,7 @@
 
 PHASE(Creating)
 
-#ifndef GNUSTEP
+#ifndef SWARM_OSX
 + create: aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: (id <GridData>)d
 #else
 + create: aZone setDisplayWidget: (id)r colormap: (id)c setDiscrete2dToDisplay: (id <GridData>)d
@@ -48,7 +47,7 @@ PHASE(Creating)
   return [obj createEnd];
 }
 
-#ifndef GNUSTEP
+#ifndef SWARM_OSX
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c
 #else
 - setDisplayWidget: (id)r colormap: (id)c
@@ -84,6 +83,52 @@ PHASE(Creating)
 
 PHASE(Using)
 
+- (NSImage *)image
+{
+    return image;
+}
+
+- (void)releaseImage
+{
+  if (image)
+    {
+      [image release];
+      image = nil;
+    }
+  if (imageRep)
+    {
+      [imageRep release];
+      imageRep = nil;
+    }
+}
+
+- (void)createImage
+{
+  //NSRect aRect = [self bounds];
+
+  [self releaseImage];
+
+	float worldXsize = (float)[discrete2d getSizeX];
+	float worldYsize = (float)[discrete2d getSizeY];
+	NSRect aRect = NSMakeRect(0, 0, worldXsize, worldYsize);
+
+#if 1
+  image = [[NSImage alloc] initWithSize:aRect.size];
+  imageRep = [[NSBitmapImageRep alloc]
+	  initWithBitmapDataPlanes:NULL
+	  pixelsWide:aRect.size.width
+	  pixelsHigh:aRect.size.height
+	  bitsPerSample:8
+	  samplesPerPixel:3
+	  hasAlpha:NO
+	  isPlanar:NO
+	  colorSpaceName:NSDeviceRGBColorSpace
+	  bytesPerRow:aRect.size.width*3
+	  bitsPerPixel:24];
+  [image addRepresentation:imageRep];
+#endif
+}
+
 - (id <GridData>)discrete2d
 {
   return discrete2d;
@@ -97,6 +142,7 @@ PHASE(Using)
   return self;
 }
 
+#if 0
 - displayX:(int)xPos Y:(int)yPos inRect:(NSRect)aRect;
 {
   long color;
@@ -105,19 +151,24 @@ PHASE(Using)
   id *lattice;
   long *offsets;
 
+#if 0
   lattice = [discrete2d getLattice];
   offsets = [discrete2d getOffsets];
   color = (long) *(discrete2dSiteAt(lattice, offsets, xPos, yPos));
+#else
+  color = [discrete2d getValueAtX: xPos Y: yPos];
+#endif
   redValue = (float)color / (float)modFactor;
   aColor = [NSColor colorWithDeviceRed: redValue green: 0.0
 		    blue: 0.0 alpha: 1.0];
   [aColor set];
-  PSrectfill(aRect.origin.x, aRect.origin.y,
-	     aRect.size.width, aRect.size.height);
+  NSRectFill(aRect);
 
   return self;
 }
+#endif
 
+#if 0
 - (void)displayOn: (NSImage *)anImage
 {
   int x, y;
@@ -142,7 +193,9 @@ PHASE(Using)
 	aColor = [NSColor colorWithDeviceRed: redValue green: 0.0
 			  blue: 0.0 alpha: 1.0];
 	[aColor set];
-	PSrectfill(3*x, 3*y, 3, 3);
+        NSRect aRect = NSMakeRect(3*x, 3*y, 3, 3);
+        NSRectFill(aRect);
+
 #if 0
         long color;
 
@@ -155,15 +208,17 @@ PHASE(Using)
         
         if (drawPointImp)
           // cache method lookup.
-          (void) (*drawPointImp) (displayWidget,
-                                  @selector (drawPointX:Y:Color:),
-                                  x, y, color);
+          (void) *drawPointImp (displayWidget,
+                                @selector (drawPointX:Y:Color:),
+                                x, y, color);
         else
           [displayWidget drawPointX: x Y: y Color: (unsigned char)color];
 #endif
       }
 }
+#endif
 
+#if 0
 - display
 {
   int x, y;
@@ -190,13 +245,54 @@ PHASE(Using)
         
         if (drawPointImp)
           // cache method lookup.
-          (void) (*drawPointImp) (displayWidget,
-                                  @selector (drawPointX:Y:Color:),
-                                  x, y, color);
+          (void) *drawPointImp (displayWidget,
+                                @selector (drawPointX:Y:Color:),
+                                x, y, color);
         else
           [displayWidget drawPointX: x Y: y Color: (unsigned char)color];
       }
   return self;
+}
+#endif
+
+- (void)update
+{
+  if (!image) [self createImage];
+
+  if (image) {
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    NSSize aSize = [image size];
+    printf("Value2dDisplay display: %f %f\n", aSize.width, aSize.height);
+    NSRect aRect = NSMakeRect(0, 0, aSize.width, aSize.height);
+  
+    [image lockFocus];
+    
+    [[NSColor clearColor] set];
+    NSRectFill(aRect);
+
+    int x, y;
+    // get max value
+    modFactor = 0;
+    for (x = 0; x < aSize.width; ++x)
+      for (y = 0; y < aSize.height; ++y) {
+        float color = (float)[discrete2d getValueAtX: x Y: y];
+        if (color > modFactor) modFactor = color;
+      }
+
+    for (x = 0; x < aSize.width; ++x)
+      for (y = 0; y < aSize.height; ++y)
+	    {
+        aRect = NSMakeRect(x, y, 1, 1);
+        long color = [discrete2d getValueAtX: x Y: y];
+        float redValue = (float)color / (float)modFactor;
+        NSColor *aColor = [NSColor colorWithDeviceRed: redValue green: 0.0
+          blue: 0.0 alpha: 1.0];
+        [aColor set];
+        NSRectFill(aRect);
+	    }
+    [image unlockFocus];
+    [pool release];
+  }
 }
 
 @end

@@ -20,8 +20,8 @@
 // Unique Name Generator -> used to create names (using a base string "critter"
 //                          it generates "critter1", "critter2", etc. etc.
 
-#import <simtools.h> // UName
-#import <objectbase/SwarmObject.h>
+#import <Swarm/simtools.h> // UName
+#import <Swarm/SwarmObject.h>
 
 @interface UName: SwarmObject <UName>
 {

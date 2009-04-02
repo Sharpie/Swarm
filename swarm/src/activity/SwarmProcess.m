@@ -43,7 +43,7 @@ PHASE(Creating)
 
   newSwarm = [aZone allocIVars: self];
   setMappedAlloc (newSwarm);
-  newSwarm->internalZone = Zone;
+  newSwarm->internalZone = SwarmZone;
   setClass (newSwarm, self);
   return newSwarm;
 }

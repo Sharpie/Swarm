@@ -17,7 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <objectbase/ProbeLibrary.h>
+#import <Swarm/ProbeLibrary.h>
 
 extern id probeLibrary;
 extern void initProbing();

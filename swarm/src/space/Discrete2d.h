@@ -24,8 +24,8 @@
 
 // See FUTURE-DESIGN for notes on where this is going.
 
-#import <objectbase/SwarmObject.h>
-#import <space.h>
+#import <Swarm/SwarmObject.h>
+#import <Swarm/space.h>
 
 @interface Discrete2d: SwarmObject <Discrete2d>
 {

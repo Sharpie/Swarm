@@ -19,8 +19,8 @@
 
 // Conway's game of life, simple test of Ca2d.
 
-#import <space.h> // ConwayLife2d
-#import <space/Ca2d.h>
+#import <Swarm/space.h> // ConwayLife2d
+#import <Swarm/Ca2d.h>
 
 @interface ConwayLife2d: Ca2d <ConwayLife2d>
 {

@@ -21,7 +21,7 @@
 #import <defobj.h> // raiseEvent, WarningMessage, STRDUP, FREEBLOCK
 #import <defobj/defalloc.h> // getZone
 
-#include <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 #include <misc.h> // strcmp, strcpy, sprintf, sscanf
 
 #include <defobj/internal.h> // objc_process_array
@@ -179,6 +179,8 @@ PHASE(Creating)
 
 - _setupObjcVarProbe_
 {
+#if SWARM_OBJC_DONE
+  printf("_setupObjcVarProbe_\n");
   IvarList_t ivarList;
   int i;
   
@@ -242,6 +244,70 @@ PHASE(Creating)
         }
       return self;
     }
+#else
+  unsigned *outCount;
+  ObjcIvar *ivarList = swarm_class_copyIvarList (probedClass, &outCount);
+  int i;
+  
+  // search the ivar list for the requested variable.
+  i = 0;
+  while (i < outCount
+         && strcmp (swarm_ivar_getName (ivarList[i]), probedVariable) != 0)
+    i++;
+  
+  if (i == outCount)
+    { 
+      // if not found
+      if (SAFEPROBES)
+        raiseEvent (WarningMessage,
+                    "Warning: variable `%s' not found\n",
+                    probedVariable);
+      return nil;
+    }
+  else
+    {
+      probedType = GSTRDUP (swarm_ivar_getTypeEncoding (ivarList[i]));
+      [self _typeSetup_]; 
+      dataOffset = swarm_ivar_getOffset (ivarList[i]);
+
+      if (*probedType == _C_ARY_B)
+        {
+          void setup_array (unsigned theRank,
+                            unsigned *theDims,
+                            fcall_type_t theBaseType)
+            {
+              size_t size = sizeof (unsigned) * theRank;
+              
+              rank = theRank;
+              dims = [getZone (self) alloc: size];
+              memcpy (dims, theDims, size);
+              baseType = objc_type_for_fcall_type (theBaseType);
+            }
+          char objcArraySubtype = *objc_array_subtype (probedType, NULL);
+          
+          if (objcArraySubtype == _C_UNION_B 
+              || objcArraySubtype == _C_STRUCT_B)
+            {
+              rank = 0;
+              dims = NULL;
+              baseType = objc_type_for_fcall_type (fcall_type_void);
+              raiseEvent (WarningMessage,
+                          "Probing of unions and structs not supported.\n"
+                          "[class: `%s', variable: `%s']\n",
+                          swarm_class_getName(probedClass), probedVariable);
+            }
+          else
+            objc_process_array (probedType,
+                                setup_array,
+                                NULL, NULL,
+                                NULL, NULL,
+                                NULL,
+                                NULL,
+                                NULL);
+        }
+      return self;
+    }
+#endif // SWARM_OBJC_TODO
 }
 
 - createEnd

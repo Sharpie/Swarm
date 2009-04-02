@@ -37,8 +37,8 @@ Library:      activity
 //D: actions, and may also be indexed by the discrete values of a world
 //D: clock.
 
-#import <collections.h>
-#include <externvar.h>
+#import <Swarm/collections.h>
+#include <Swarm/externvar.h>
 
 @protocol DefaultOrder
 //S: The DefaultOrder option indicates the ordering to be assumed among
@@ -1016,4 +1016,4 @@ externvar BOOL (*_activity_trace) (id);
 //
 // include automatically generated definitions for activity package
 //
-#import <activity/types.h>
+#import <Swarm/activity_types.h>

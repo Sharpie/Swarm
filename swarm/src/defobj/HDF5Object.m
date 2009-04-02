@@ -24,7 +24,7 @@
 #import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
 #import <defobj/defalloc.h> // getZone
 #import <defobj/directory.h> // swarm_directory_ensure_class_named
-#import <defobj/classes.h> // id_Object_s
+#import <defobj/defobj_classes.h> // id_Object_s
 
 #import "internal.h" // map_object_ivars, class_generate_name, ivar_ptr_for_name
 #ifdef HAVE_JDK
@@ -498,6 +498,7 @@ create_class_from_compound_type (id aZone,
     *classPtr = class;
   else
     {
+#if SWARM_OBJC_DONE
       Class newClass = [CreateDrop class];
       id classObj = [id_BehaviorPhase_s createBegin: aZone];
       struct objc_ivar_list *ivars =
@@ -573,6 +574,10 @@ create_class_from_compound_type (id aZone,
         ((Class) classObj)->instance_size = size;
       }
       *classPtr = [classObj createEnd];
+#else
+      printf("Creating new class from HDF5 not implemented.\n");
+      abort();
+#endif
     }
 }
 #endif
@@ -1584,7 +1589,7 @@ PHASE(Using)
           
           if ((gid = H5Gopen (oid, memberName)) < 0)
             raiseEvent (LoadError, "cannot open group `%s'", memberName);
-          group = [[[[[[HDF5 createBegin: getZone (self)]
+          group = [[[(id <HDF5>)[[[HDF5 createBegin: getZone (self)]
                         setParent: self]
                        setWriteFlag: NO]
                       setName: memberName]
@@ -1601,7 +1606,7 @@ PHASE(Using)
 
           if ((did = H5Dopen (oid, memberName)) < 0)
             raiseEvent (LoadError, "cannot open dataset `%s'", memberName);
-          dataset = [[[[[[[HDF5 createBegin: getZone (self)]
+          dataset = [[[(id <HDF5>)[[[[HDF5 createBegin: getZone (self)]
                            setParent: self]
                           setWriteFlag: NO]
                          setDatasetFlag: YES]
@@ -1686,7 +1691,11 @@ PHASE(Using)
       
       if (typeName)
         {
+#if SWARM_OBJC_DONE
           Class class = objc_lookup_class (typeName);
+#else
+          Class class = swarm_objc_lookupClass (typeName);
+#endif
  
           SFREEBLOCK (typeName);
 
@@ -1814,6 +1823,7 @@ PHASE(Using)
   else
 #endif
     {
+#if SWARM_OBJC_DONE
       struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
       void *ptr = (void *) obj + ivar->ivar_offset;
       
@@ -1830,6 +1840,25 @@ PHASE(Using)
         }
       else
         *(id *) ptr = hdf5In ([obj getZone], self);
+#else
+      ObjcIvar ivar = find_ivar (getClass (obj), ivarName);
+      void *ptr = (void *) obj + swarm_ivar_getOffset(ivar);
+      
+      if (!ivar)
+        raiseEvent (InvalidArgument,
+                    "could not find ivar `%s'", ivarName);
+      
+      if ([self getDatasetFlag])
+        {
+	  const char *itype = swarm_ivar_getTypeEncoding(ivar);
+          if (*itype  == _C_PTR)
+            *((void **) ptr) = [self _loadDatasetIntoNewBuffer_: obj];
+          else
+            [self loadDataset: (void *) obj + swarm_ivar_getOffset(ivar)];
+        }
+      else
+        *(id *) ptr = hdf5In ([obj getZone], self);
+#endif
     }
 }
 

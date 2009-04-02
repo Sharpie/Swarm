@@ -2,7 +2,7 @@ MODULE = random
 CURRENT = 1
 REVISION = 0
 AGE = 0
-randomdir = $(includedir)/$(MODULE)
+randomdir = $(includedir)/Swarm
 
 include $(top_srcdir)/src/Makefile.rules
 
@@ -19,5 +19,5 @@ SRC = ACGgen.m BernoulliDist.m C2LCGXgen.m C2MRG3gen.m C2TAUSgen.m C3MWCgen.m C4
 librandom_la_SOURCES = $(SRC)
 librandom_la_LDFLAGS = @inst_LDFLAGS@
 
-random_HEADERS = ACGgen.h BernoulliDist.h C2LCGXgen.h C2MRG3gen.h C2TAUSgen.h C3MWCgen.h C4LCGXgen.h ExponentialDist.h GammaDist.h LCGgen.h LogNormalDist.h MRGgen.h MT19937gen.h MWCAgen.h MWCBgen.h NormalDist.h PMMLCGgen.h PSWBgen.h RWC2gen.h RWC8gen.h RandomBitDist.h randomdefs.h randomvars.h SCGgen.h SWBgen.h TGFSRgen.h UniformDoubleDist.h UniformIntegerDist.h PoissonDist.h BinomialDist.h UniformUnsignedDist.h distributions.h generators.h
+random_HEADERS = $(MODULE).h ACGgen.h BernoulliDist.h C2LCGXgen.h C2MRG3gen.h C2TAUSgen.h C3MWCgen.h C4LCGXgen.h ExponentialDist.h GammaDist.h LCGgen.h LogNormalDist.h MRGgen.h MT19937gen.h MWCAgen.h MWCBgen.h NormalDist.h PMMLCGgen.h PSWBgen.h RWC2gen.h RWC8gen.h RandomBitDist.h randomdefs.h randomvars.h SCGgen.h SWBgen.h TGFSRgen.h UniformDoubleDist.h UniformIntegerDist.h PoissonDist.h BinomialDist.h UniformUnsignedDist.h distributions.h generators.h
 

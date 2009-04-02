@@ -17,7 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <objc/objc.h>
+#import <defobj/swarm-objc-api.h>
 #import <collections/StringObject.h>
 
 BOOL

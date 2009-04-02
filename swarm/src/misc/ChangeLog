@@ -1,3 +1,14 @@
+2008-07-10  Scott Christley  <schristley@mac.com>
+
+	* misc.h: Cannot distinquish ObjC runtime when compiling C files so
+	just include standard ObjC header to get BOOL definition.
+
+2008-07-06  Scott Christley  <schristley@mac.com>
+
+	* misc.h, argp-fmtstream.h, argp.h, Makefile.am: Standardize
+	include directory structure to support libraries and OpenStep
+	frameworks.
+
 2008-04-29  Scott Christley  <schristley@mac.com>
 
 	* misc.h (LLONG_MIN, LLONG_MAX): Use old gcc defines if available.

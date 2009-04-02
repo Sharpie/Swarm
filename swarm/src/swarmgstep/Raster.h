@@ -20,27 +20,31 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
+#if SWARM_OSX
+#import <Cocoa/Cocoa.h>
+#else
 #include <AppKit/AppKit.h>
+#endif
 
 @interface Raster : NSView
 {
-  NSImage *image;
-  NSBitmapImageRep *imageRep;
+  //NSImage *image;
+  //NSBitmapImageRep *imageRep;
   NSMutableArray *displayList;
   NSColor *backgroundColor;
-  NSPoint rasterOrigin;
-  NSSize pointSize;
+  //NSPoint rasterOrigin;
+  //NSSize pointSize;
 }
 
-- initWithFrame:(NSRect)aRect pointSize:(NSSize)aSize;
+//- initWithFrame:(NSRect)aRect pointSize:(NSSize)aSize;
 
-- (void)setRasterOrigin:(NSPoint)aPoint;
-- (void)setPointSize:(NSSize)aSize;
+//- (void)setRasterOrigin:(NSPoint)aPoint;
+//- (void)setPointSize:(NSSize)aSize;
 
 - (void)addDisplay: aDisplay;
 - (void)removeDisplay: aDisplay;
 
-- (NSImage *)image;
+//- (NSImage *)image;
 - (void)drawRect:(NSRect)aRect;
 
 @end

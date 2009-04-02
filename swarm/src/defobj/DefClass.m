@@ -25,8 +25,6 @@ Library:      defobj
 
 #import <defobj/DefClass.h>
 #import <defobj/Program.h>
-#import <objc/objc-api.h>
-#import <objc/sarray.h>
 #import <collections.h> // catC:
 #import <collections/predicates.h> // keywordp
 #import "internal.h" // fcall_type_{size,alignment}, alignsizeto
@@ -43,25 +41,37 @@ Library:      defobj
 // _obj_getClassData() -- function to get class data extension structure
 //
 classData_t
-_obj_getClassData (Class_s *class)
+_obj_getClassData (Class class)
 {
   classData_t classData;
 
+#if SWARM_OBJC_DONE
   classData = (classData_t)_obj_classes[CLS_GETNUMBER (class) - 1];
   if (!classData)
     {
       classData = _obj_initAlloc (sizeof *classData);
       _obj_classes[CLS_GETNUMBER (class) - 1] = (id) classData;
     }
+#else
+  //printf("_obj_getClassData lookup: %p %s\n", class, swarm_class_getName (class));
+  if (!swarm_hash_is_key_in_hash (_obj_buckets, class)) {
+    //printf("classData not found in hash.\n");
+    classData = _obj_initAlloc (sizeof *classData);
+    classData->classID = class;
+    swarm_hash_add (&_obj_buckets, class, classData);
+  }
+  classData = (classData_t) swarm_hash_value_for_key (_obj_buckets, class);
+#endif
   return classData;
 }
 
 //
 // _obj_initMethodInterfaces() -- function to initialize methods by interface
 //
-void
-_obj_initMethodInterfaces (Class_s *class)
+methodDefs_t
+_obj_initMethodInterfaces (Class class)
 {
+#if SWARM_OBJC_DONE
   classData_t   classData;
   MethodList_t  methods;
   int           count;
@@ -71,7 +81,7 @@ _obj_initMethodInterfaces (Class_s *class)
   methodDefs_t  mdefs;
 
   classData = _obj_getClassData (class);
-  
+
   for (methods = class->methodList; methods; methods = methods->method_next)
     {
       count = 0;
@@ -100,7 +110,44 @@ _obj_initMethodInterfaces (Class_s *class)
           else
             count++;
         }
-    }
+  }
+#else
+  unsigned int outCount;
+  int i, count;
+  id interfaceID;
+  const char *mname;
+  methodDefs_t mdefs = NULL;
+
+  ObjcMethod *methodList = swarm_class_copyMethodList(class, &outCount);
+  //printf("%d methods\n", outCount);
+  count = 0;
+  interfaceID = Using;
+  for (i = outCount - 1; i >= -1; --i) {
+    //if (i != -1) printf("%s\n", swarm_sel_getName(swarm_method_getName(methodList[i])));
+    if ((i == -1)
+	|| (strncmp ((mname = swarm_sel_getName(swarm_method_getName(methodList[i]))),
+		     "_I_", 3) == 0)
+	|| (strncmp ((mname = swarm_sel_getName(swarm_method_getName(methodList[i]))),
+		     "_C_", 3) == 0)) {
+      if (count) {
+	methodDefs_t holdmdefs = mdefs;
+	mdefs = _obj_initAlloc (sizeof *mdefs);
+	//mdefs->next = (methodDefs_t)classData->metaobjects;
+	mdefs->next = holdmdefs;
+	//classData->metaobjects = (id)mdefs;
+	mdefs->interfaceID = interfaceID;
+	mdefs->firstEntry = &(methodList[i + 1]);
+	mdefs->count = count;
+      }
+      if (i == -1) continue;
+      interfaceID = swarm_method_getImplementation(methodList[i]) (nil, (SEL)0);
+      count = 0;
+    } else
+      count++;
+  }
+
+  return mdefs;
+#endif
 }
 
 
@@ -136,18 +183,19 @@ PHASE(CreatingOnly)
   return self;
 }
 
-- setDefiningClass: aClass
+- setDefiningClass: (Class)aClass
 {
   definingClass = aClass;
-  info = ((Class_s *) aClass)->info;
-  instanceSize = ((Class_s *) aClass)->instanceSize;
-  ivarList = ((Class_s *) aClass)->ivarList;
-  methodList = ((Class_s *) aClass)->methodList;
+  //info = aClass->info;
+  //instanceSize = aClass->instance_size;
+  //ivarList = aClass->ivars;
+  //methodList = aClass->methods;
   return self;
 }
 
 - at: (SEL)aSel addMethod: (IMP)aMethod
 {
+#if SWARM_OBJC_DONE
   if (!dtable)
     {
       if (!superclass)
@@ -158,11 +206,15 @@ PHASE(CreatingOnly)
     }
   
   sarray_at_put_safe (dtable, (size_t) aSel->sel_id, aMethod);
+#else
+  // SWARM_OBJC_TODO - do we need meta information about methods?
+#endif
   return self;
 }
 
 - createEnd
 {
+#if SWARM_OBJC_DONE
   if (!dtable)
     dtable = sarray_lazy_copy (superclass->dtable);
   
@@ -170,7 +222,10 @@ PHASE(CreatingOnly)
   metaobjects = nil;
   
   setBit (info, _CLS_DEFINEDCLASS, 1);
-
+#else
+  swarm_class_setDefinedClassBit (self->definingClass, YES);
+  metaobjects = nil;
+#endif
   return self;
 }
 
@@ -180,7 +235,11 @@ PHASE(CreatingOnly)
   id <Index> li = [expr begin: aZone];
   id key, val;
 
+#if SWARM_OBJC_DONE
   Class newClass = class_copy ((Class) self);
+#else
+  Class newClass = swarm_objc_allocateClassPairCopy((Class) self, class_generate_name(), 0);
+#endif
   
   while ((key = [li next]) != nil)
     {
@@ -239,6 +298,9 @@ PHASE(CreatingOnly)
         raiseEvent (InvalidArgument, "argument should be string or list");
     }
   [li drop];
+
+  swarm_objc_registerClassPair(newClass);
+
   return newClass;
 }
 
@@ -251,6 +313,7 @@ PHASE(CreatingOnly)
 
 - (void)lispOutShallow: stream
 {
+#if SWARM_OBJC_DONE
   struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
   unsigned i, count = ivars->ivar_count;
 
@@ -263,6 +326,21 @@ PHASE(CreatingOnly)
       [stream catType: ivars->ivar_list[i].ivar_type];
     }
   [stream catEndMakeClass];
+#else
+  unsigned i, outCount;
+  ObjcIvar *ivars = swarm_class_copyIvarList(swarm_object_getClass(self), &outCount);
+
+  [stream catStartMakeClass: [self name]];
+  for (i = 0; i < outCount; i++)
+    {
+      [stream catSeparator];
+      [stream catKeyword: swarm_ivar_getName(ivars[i])];
+      [stream catSeparator];
+      [stream catType: swarm_ivar_getTypeEncoding(ivars[i])];
+    }
+  [stream catEndMakeClass];
+  if (ivars) free(ivars);
+#endif
 }
 
 - (void)hdf5OutShallow: hdf5Obj

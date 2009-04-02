@@ -29,7 +29,7 @@ Library:      collections
 #import <collections/InputStream.h>
 #import <collections/Stream.h>
 #import <defobj/defalloc.h> // getZone
-#include <objc/objc-api.h> // type definitions
+#import <defobj/swarm-objc-api.h> // type definitions
 #include <misc.h> // errno, fputs, isDigit, isSpace
 #include <collections/predicates.h>
 #include "internal.h"
@@ -166,7 +166,7 @@ readString (id inStream, char terminator)
             [self _unexpectedEOF_];
       
           value = [[[ArchiverValue createBegin: aZone]
-                     setClass: objc_lookup_class ([newObj getC])]
+                     setClass: swarm_objc_lookupClass ([newObj getC])]
                     createEnd];
           [newObj drop];
           return value;
@@ -208,7 +208,7 @@ readString (id inStream, char terminator)
                 if (newObj == nil)
                   [self _unexpectedEOF_];
             
-                return [[[ArchiverArray createBegin: aZone]
+                return [[(id <ArchiverArray>)[ArchiverArray createBegin: aZone]
                           setArray: newObj]
                          createEnd];
               }

@@ -22,7 +22,7 @@
 #import <tkobjc/common.h>
 #import <tkobjc/global.h>
 
-#import <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 
 static void
 tkobjc_bindReturnToSetValue (id widget, id self)

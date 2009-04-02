@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <objectbase/SwarmObject.h>
-#import <objectbase.h>
+#import <Swarm/SwarmObject.h>
+#import <Swarm/objectbase.h>
 
 @interface ProbeDisplay: SwarmObject
 {

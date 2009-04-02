@@ -170,7 +170,11 @@ PHASE(Using)
 - allocIVars: (Class)aClass
 {
   Object_s *newObject;
+#if SWARM_OBJC_DONE
   size_t size = aClass->instance_size;
+#else
+  size_t size = swarm_class_getInstanceSize(aClass);
+#endif
 
   //!! need to guarantee that class inherits from Object_s, to define slot
   //!! for zbits
@@ -209,7 +213,11 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
+#if SWARM_OBJC_DONE
   instanceSize = getClass (anObject)->instance_size;
+#else
+  instanceSize = swarm_class_getInstanceSize(swarm_object_getClass(anObject));
+#endif
   newObject = (Object_s *) dalloc (instanceSize + 2 * sizeof (id), GCFixedRootFlag);
 
   // clears mlinks of population entry
@@ -240,7 +248,11 @@ PHASE(Using)
 
   swarm_directory_objc_remove (anObject);
 
+#if SWARM_OBJC_DONE
   size = getClass (anObject)->instance_size;
+#else
+  size = swarm_class_getInstanceSize(swarm_object_getClass(anObject));
+#endif
   index = MLIST_CREATEINDEX_FROMMEMBER (population, getCZone (scratchZone), anObject);
   MLIST_INDEX_REMOVE (index);
   DROP (index);
@@ -255,7 +267,11 @@ PHASE(Using)
                     "> was allocated for restricted internal use by\n"
                     "> allocIVarsComponent: or copyIVarsComponent:,\n"
                     "> and may only be freed by freeIVarsComponent:\n",
+#if SWARM_OBJC_DONE
                     anObject, getClass (anObject)->name);
+#else
+                    anObject, swarm_class_getName(swarm_object_getClass(anObject)));
+#endif
       
       memset ((id *) anObject - 2, _obj_fillfree, size + (2 * sizeof (id)));
     }
@@ -273,18 +289,30 @@ PHASE(Using)
   Object_s *newObject;
 
   // allocate object of required size, including links in object header
-  
+
+#if SWARM_OBJC_DONE
   newObject = (Object_s *) dalloc (aClass->instance_size, GCFixedRootFlag);
+#else  
+  newObject = (Object_s *) dalloc (swarm_class_getInstanceSize(aClass), GCFixedRootFlag);
+#endif
 
   if (_obj_debug)
     {
       objectCount++;
+#if SWARM_OBJC_DONE
       objectTotal += aClass->instance_size;
+#else
+      objectTotal += swarm_class_getInstanceSize(aClass);
+#endif
     }
   
   // initialize and return the new object, without adding to population list
 
+#if SWARM_OBJC_DONE
   memset (newObject, 0, aClass->instance_size);
+#else
+  memset (newObject, 0, swarm_class_getInstanceSize(aClass));
+#endif
   setClass (newObject, aClass);   
   newObject->zbits = (unsigned long) self;
   setBit (newObject->zbits, BitComponentAlloc, 1);
@@ -300,17 +328,30 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
+#if SWARM_OBJC_DONE
   newObject = (Object_s *) dalloc (getClass (anObject)->instance_size, GCFixedRootFlag);
+#else
+  newObject = (Object_s *) dalloc (swarm_class_getInstanceSize(swarm_object_getClass(anObject)),
+				   GCFixedRootFlag);
+#endif
 
   if (_obj_debug)
     {
       objectCount++;
+#if SWARM_OBJC_DONE
       objectTotal += getClass (anObject)->instance_size;
+#else
+      objectTotal += swarm_class_getInstanceSize(swarm_object_getClass(anObject));
+#endif
     }
   
   // initialize and return the new object, without adding to population list
   
+#if SWARM_OBJC_DONE
   memcpy (newObject, anObject, getClass (anObject)->instance_size);
+#else
+  memcpy (newObject, anObject, swarm_class_getInstanceSize(swarm_object_getClass(anObject)));
+#endif
   newObject->zbits = (unsigned long) self;
   if (getMappedAlloc ((Object_s *) anObject))
     setMappedAlloc (newObject);  
@@ -333,13 +374,20 @@ PHASE(Using)
                     "> object being freed by freeIVarsComponent: (%0#8x: %s)\n"
                     "> was not allocated by allocIVarsComponent:\n"
                     "> or copyIVarsComponent:\n",
-                    anObject, getClass (anObject)->name);
+                    anObject, swarm_class_getName(swarm_object_getClass(anObject)));
       
       objectCount--;
+#if SWARM_OBJC_DONE
       objectTotal -= getClass (anObject)->instance_size;
 
       memset ((id *) anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
+#else
+      objectTotal -= swarm_class_getInstanceSize(swarm_object_getClass(anObject));
+
+      memset ((id *) anObject, _obj_fillfree,
+              swarm_class_getInstanceSize(swarm_object_getClass(anObject)));
+#endif
     }
   if (GCFixedRootFlag)
     GC_free (anObject);
@@ -576,8 +624,11 @@ PHASE(Using)
 
 - getComponentZone
 {
-  abort ();
-  return componentZone;
+  // SWARM_OBJC_TODO - why not just return ourself?
+  return self;
+
+  //abort ();
+  //return componentZone;
 }
 
 @end

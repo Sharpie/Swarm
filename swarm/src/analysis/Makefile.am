@@ -2,7 +2,7 @@ MODULE = analysis
 CURRENT = 4
 REVISION = 0
 AGE = 0
-analysisdir = $(includedir)/$(MODULE)
+analysisdir = $(includedir)/Swarm
 
 include $(top_srcdir)/src/Makefile.rules
 
@@ -30,8 +30,8 @@ libanalysis_la_SOURCES = $(SRC)
 libanalysis_la_LDFLAGS = @inst_LDFLAGS@
 
 if DISABLE_GUI
-analysis_HEADERS =  ActiveOutFile.h Averager.h Entropy.h
+analysis_HEADERS =  $(MODULE).h ActiveOutFile.h Averager.h Entropy.h
 else
-analysis_HEADERS =  ActiveOutFile.h Averager.h Entropy.h $(GUI_HDRS)
+analysis_HEADERS =  $(MODULE).h ActiveOutFile.h Averager.h Entropy.h $(GUI_HDRS)
 endif
 

@@ -20,7 +20,7 @@
 #ifndef _MISC_H
 #define _MISC_H
 
-#include <swarmconfig.h>
+#include <Swarm/swarmconfig.h>
 
 #include <stddef.h>
 #if defined(__hpux__) && defined(HAVE_SYS_SIGEVENT_H)

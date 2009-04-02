@@ -347,7 +347,7 @@ describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
 {
   char buffer[100];
 
-  sprintf (buffer, " %s", sel_get_name (msg));
+  sprintf (buffer, " %s", swarm_sel_getName (msg));
   [stream catC: buffer];
   if (nargs > 0)
     {
@@ -431,7 +431,7 @@ PHASE(Using)
 
 @implementation ActionForEachHomogeneous_c
 #define ACTION_HOMOGENEOUS_TYPE ActionForEachHomogeneous_c
-#define SETUPCALL imp = objc_msg_lookup ([target getFirst], selector)
+#define SETUPCALL imp = swarm_class_getMethodImplementation (swarm_object_getClass([target getFirst]), selector)
 #define UPDATEOBJCTARGET(target)
 #define PERFORMOBJCCALL(target) imp (target, selector)
 #undef UPDATEJAVATARGET

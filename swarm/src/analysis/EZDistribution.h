@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <analysis.h> // EZBin
-#import <analysis/EZBin.h>
+#import <Swarm/analysis.h> // EZBin
+#import <Swarm/EZBin.h>
 
 // EZDistribution object: used to generate distributions.
 

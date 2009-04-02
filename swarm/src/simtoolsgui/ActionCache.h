@@ -17,11 +17,11 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <simtoolsgui.h>  // ActionCache
-#import <simtoolsgui/GUIComposite.h>
+#import <Swarm/simtoolsgui.h>  // ActionCache
+#import <Swarm/GUIComposite.h>
 
-#import <collections.h> // List
-#import <gui.h> // ButtonPanel
+#import <Swarm/collections.h> // List
+#import <Swarm/gui.h> // ButtonPanel
 
 @interface ActionCache: GUIComposite <ActionCache>
 {

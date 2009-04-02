@@ -1,3 +1,22 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* CompleteProbeMap.m, probing.m, ProbeMap.m, DefaultProbeMap.m,
+	MessageProbe.m, swarm_rts_routines.h, CompleteVarMap.m,
+	VarProbe.m: ObjC runtime abstraction.
+
+2008-07-06  Scott Christley  <schristley@mac.com>
+
+	* DefaultProbeMap.m: Include COM.h to eliminate compile errors.
+
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* ActivityControl.h, CompleteProbeMap.h, CompleteVarMap.h,
+	CustomProbeMap.h, DefaultProbeMap.h, EmptyProbeMap.h,
+	MessageProbe.h, Probe.h, ProbeLibrary.h, ProbeMap.h, Swarm.h,
+	SwarmObject.h, VarProbe.h, objectbase.h, probing.h, Makefile.am:
+	Standardize include directory structure to support libraries and
+	OpenStep frameworks.
+
 2007-08-30  Gennady Telegin  <gepo@lvk.cs.msu.su>
 
 	* CustomProbeMap.m: If user add probe for unexisting method, then raise

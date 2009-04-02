@@ -23,7 +23,7 @@ Description:  set of elements with id as key, implemented as linear list
 Library:      collections
 */
 
-#import <collections/Collection.h>
+#import <Swarm/Collection.h>
 
 @interface Set_c: Collection_any <Set>
 {

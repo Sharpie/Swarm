@@ -17,11 +17,11 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <objectbase.h> // VarProbe
-#import <objectbase/Probe.h>
-#import <defobj/COM.h> // COMmethod
+#import <Swarm/objectbase.h> // VarProbe
+#import <Swarm/Probe.h>
+#import <Swarm/COM.h> // COMmethod
 
-#include <swarmconfig.h>
+#import <Swarm/swarmconfig.h>
 
 @interface VarProbe: Probe <VarProbe>
 {

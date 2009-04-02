@@ -17,12 +17,12 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <defobj.h>
-#import <defobj/Create.h>
-#import <swarmconfig.h>
+#import <Swarm/defobj.h>
+#import <Swarm/Create.h>
+#import <Swarm/swarmconfig.h>
 
 #ifdef HAVE_JDK
-#import "java.h"
+#import <Swarm/java.h>
 #endif
 
 @interface JavaCollectionIndex: CreateDrop

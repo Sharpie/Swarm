@@ -29,8 +29,8 @@ echo making $m.xm $m.xt $m.xc
 # generate #import statements in generated file
 
 echo \
-'#import <'$m'.h>
-#import <objc/objc-api.h>
+'#import <Swarm/'$m'.h>
+#import <Swarm/swarm-objc-api.h>
 ' >$m.xm
 
 # extract all declared symbols into temporary file
@@ -74,26 +74,37 @@ $SED <$srcdir/$m.h >$m.xm+ \
   -e '/^@protocol/!d' \
   -e 's/@protocol[ *]\([A-Za-z0-9_][A-Za-z0-9_]*\).*/\1/'
 
-# generate module.xt file (exported by make file as <module/types.h>)
-
+# generate module.xt file (exported by make file as <module/module_types.h>)
 
 echo 'extern void *_'$m'_[];
 ' >$m.xt
-$SED 's/\(.*\)/externvar id \1;/' <$m.xm+ >>$m.xt
+$SED <$m.xm+ >>$m.xt \
+  -e 's/^Zone/SwarmZone/' \
+  -e 's/^EventType/SwarmEventType/' \
+  -e 's/^Collection/SwarmCollection/' \
+  -e 's/\(.*\)/externvar id \1;/'
+echo '
+#ifdef DEFINE_CLASSES
+#import "'$m'_classes.h"
+#endif' >>$m.xt
 
 # define type identifiers in generated file
 
-$SED 's/\(.*\)/externvardef id \1=0;/' <$m.xm+ >>$m.xm
-echo '
-#ifdef DEFINE_CLASSES
-#import <'$m'/classes.h>
-#endif' >>$m.xt
+$SED <$m.xm+ >>$m.xm \
+  -e 's/^Zone/SwarmZone/' \
+  -e 's/^EventType/SwarmEventType/' \
+  -e 's/^Collection/SwarmCollection/' \
+  -e 's/\(.*\)/externvardef id \1=0;/'
 
 # generate array of defined types
 
 echo '
 void *_'$m'_types[]={' >>$m.xm
-$SED 's/\(.*\)/\&\1,/' <$m.xm+ >>$m.xm
+$SED <$m.xm+ >>$m.xm \
+  -e 's/Zone/SwarmZone/' \
+  -e 's/^EventType/SwarmEventType/' \
+  -e 's/^Collection/SwarmCollection/' \
+  -e 's/\(.*\)/\&\1,/'
 echo 0, >>$m.xm
 $SED 's/\(.*\)/@protocol(\1),/' <$m.xm+ >>$m.xm
 echo '0};
@@ -116,7 +127,7 @@ cat $sources | $SED >$m.xm+ \
   -e '/^[ ]*@implementation/!d' \
   -e 's/^[ ]*@implementation[ ][ ]*\([A-Za-z0-9][A-Za-z0-9_]*\).*/\1/'
 
-# generate module.xc file (exported by make file as <module/classes.h>)
+# generate module.xc file (exported by make file as <module/module_classes.h>)
 
 $SED 's/\(.*\)/externvar id id_\1;/' <$m.xm+ >>$m.xc
 
@@ -167,6 +178,9 @@ echo '
 {
 // initialize class id constants and link all classes into module' >>$m.xm
 $SED 's/\(.*\)/id_\1=[\1 self];/' <$m.xm+ >>$m.xm
+echo '
+// Mainly for GNU ObjC runtime, insure dispatch tables are installed' >>$m.xm
+$SED 's/\(.*\)/swarm_class_getMethodImplementation(id_\1, swarm_sel_getUid("self"));/' <$m.xm+ >>$m.xm
 echo '
 // return module object
 return (id)_'$m'_;

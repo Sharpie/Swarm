@@ -1,3 +1,28 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* Stream.m, List.m, OutputStream.m, Map.m, collections.m,
+	InputStream.m, predicates.m: ObjC runtime abstraction.
+
+2008-07-06  Scott Christley  <schristley@mac.com>
+
+	* Array.m, List.m: Include HDF5Object.h to eliminate compile
+	warnings.
+
+	* InputStream.m, List_HDF5out.m, OutputStream.m, Map.m: Cast so
+	compiler finds correct method definition.
+
+	* OutputStream.m: Rename bool to aBool.
+
+	* Stream.[hm]: Rename bool to bool_.
+
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* Array.h, Collection.h, InputStream.h, List.h, ListShuffler.h,
+	List_GEN.h, List_linked.h, List_mlinks.h, Map.h, OrderedSet.h,
+	OutputStream.h, Permutation.h, Set.h, Stream.h, StringObject.h,
+	collections.h, List_mlinks.h, Makefile.am: Standardize include
+	directory structure to support libraries and OpenStep frameworks.
+
 2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* OutputStrteam.[hm], Stream.h, collections.h: Change class to

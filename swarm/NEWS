@@ -1,6 +1,57 @@
 Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
 Copyright © 1996-2009 Swarm Development Group
 
+* Release notes for 2.4
+** New features
+*** We have finished implementing the Objective-C runtime abstraction
+    layer.  This will allow Swarm to utilize different Objective-C
+    runtimes such as GNU and Apple. Significant re-architecture was
+    required, the previous design which considered DefClass to be a
+    C-structure memory overlay of the ObjC class structure is no
+    longer viable because all ObjC runtime structures are now opaque
+    and cannot be modified except through functions.  The API to
+    manipulate ObjC language objects is defined in swarm-objc-api.h.
+
+    We have used the defines SWARM_OBJC_TODO and SWARM_OBJC_DONE to
+    bracket old versus new code.  If the code has SWARM_OBJC_TODO then
+    the old code is still being used, and it has not been transitioned
+    to the new ObjC runtime abstraction layer.  There should be
+    relatively few segments of code which still need to be
+    transitioned.  If the code has SWARM_OBJC_DONE then new code has
+    been written, we are currently keeping the old around because much
+    more testing needs to be done.  If there are questions about the
+    semantics, it helps to see the old code was doing.  Once the code
+    base has stabilized, then these defines will be removed.
+
+
+*** Initial support for Mac OSX natively using the Apple ObjC runtime.
+    This is new work separate from the excellent work by Bill
+    Northcott which uses the UNIX and X11 subsystem of Mac OSX, but
+    still has Swarm using the GNU runtime.  With support for using the
+    native Apple ObjC runtime, Swarm applications can be developed
+    within the Xcode development environment and utilize any of the
+    Mac APIs such as Cocoa.
+
+    ** IMPORTANT **
+
+    Current Swarm applications using the standard tcl/tk/blt graphical
+    user interface will not work as is.  Swarm on native Mac OSX now
+    uses the Cocoa framework for the graphical user interface; this is
+    the same interface as GNUstep on other platforms.
+
+** Backward compatibility issues
+*** The Objective-C runtime abstraction layer and the native Mac OSX
+    implementation has introduced some backward incompatibility, most
+    notably some class names and functions had to be renamed to avoid
+    conflict.  Any existing code which references these classes or
+    functions will need to be changes.
+
+    Zone -> SwarmZone
+    Line -> SwarmLine
+    EventType -> SwarmEventType
+    Collection -> SwarmCollection
+
+
 * Release notes for 2.3
 ** New features
 *** Support for GNUstep.
@@ -10,8 +61,7 @@ Copyright © 1996-2009 Swarm Development Group
 * Release notes for 2.2
 ** New features
 *** Averager and EZGraph now report variance and standard deviation, and
-    can track moving averages.
-    Thanks to Paul Johnson.
+    can track moving averages.  Thanks to Paul Johnson.
 *** In the multilanguage interface, Selectors are organized by name,
     not by pointer.  This means it is possible to update the typing
     on Objective C methods from other languages.

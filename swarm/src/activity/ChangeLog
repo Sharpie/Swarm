@@ -1,3 +1,15 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* SwarmProcess.m, Schedule.m, Action.m, Makefile.am: ObjC runtime
+	abstraction.
+
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* activity.h, Action.h, ActionGroup.h, CompoundAction.h,
+	Schedule.h, SwarmProcess.h, XActivity.h, activity.h, Makefile.am:
+	Standardize include directory structure to support libraries and
+	OpenStep frameworks.
+
 2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* activity.h (_activity_context_error): Use C linkage.

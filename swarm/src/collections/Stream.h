@@ -1,7 +1,7 @@
-#import <defobj/Create.h>
-#import <defobj.h>
-#import <collections.h>
-#import <collections/List_linked.h>
+#import <Swarm/Create.h>
+#import <Swarm/defobj.h>
+#import <Swarm/collections.h>
+#import <Swarm/List_linked.h>
 
 @interface ArchiverKeyword_c: CreateDrop_s <ArchiverKeyword>
 {
@@ -43,7 +43,7 @@
     double d;
     float f;
     long long ll;
-    BOOL bool;
+    BOOL bool_;
     char ch;
     id obj;
     Class class;

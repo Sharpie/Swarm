@@ -94,7 +94,7 @@ separate branch.
 
 ##cvs -z3 checkout -r objc_abstraction-branch -d swarm-objc swarm
 
-Not CVS anymore but SVN in branche/objc_abstraction-branch
+Not CVS anymore but SVN in branches/objc_abstraction-branch
 
 * Test suite
 

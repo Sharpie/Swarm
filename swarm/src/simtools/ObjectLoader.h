@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <simtools.h> // ObjectLoader
-#import <objectbase/SwarmObject.h>
+#import <Swarm/simtools.h> // ObjectLoader
+#import <Swarm/SwarmObject.h>
 
 @interface ObjectLoader: SwarmObject <ObjectLoader>
 {

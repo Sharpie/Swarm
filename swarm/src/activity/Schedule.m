@@ -26,7 +26,7 @@ Library:      activity
 #import <activity/Schedule.h>
 #import <activity/ActionGroup.h>
 #import <defobj/defalloc.h>
-#import <activity/classes.h>
+#import <activity/activity_classes.h>
 #include <misc.h> // abort
 
 #import <collections/List_mlinks.h> // beginMlinksList

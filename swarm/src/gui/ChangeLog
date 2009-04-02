@@ -1,3 +1,8 @@
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* gui.h, Makefile.am: Standardize include directory structure to
+	support libraries and OpenStep frameworks.
+
 2006-04-02  Paul Johnson
 
         * gui.h: drawHistogramWithInt: change (int*) to  (unsigned*) because

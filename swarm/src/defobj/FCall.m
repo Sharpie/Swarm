@@ -26,7 +26,7 @@ Library:      defobj
 #import <defobj/FCall.h>
 #import <defobj.h>
 #import <defobj/FArguments.h>
-#import <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 #import <defobj/defalloc.h>
 #import <defobj/macros.h>
 
@@ -405,7 +405,11 @@ PHASE(Creating)
     }
   else 
     {
+#if SWARM_OBJC_DONE
       SEL sel = sel_get_any_typed_uid (theMethodName);
+#else
+      SEL sel = swarm_sel_getUidWithType (theMethodName);
+#endif
 
 #ifdef HAVE_JDK
       if (!sel)
@@ -435,7 +439,7 @@ PHASE(Creating)
        gc_fobject = SD_COM_FIND_OBJECT_COM (obj);
       
       if (callType == JScall)
-        UPDATEMETHODNAME (sel_get_name (sel));
+        UPDATEMETHODNAME (swarm_sel_getName (sel));
       return self;
     }
 #ifdef HAVE_JDK
@@ -471,7 +475,7 @@ PHASE(Creating)
      fmethod = sel;
     class = getClass (obj);
     gc_fclass = class;
-    ffunction = FUNCPTR (get_imp ((Class) gc_fclass, (SEL) fmethod));
+    ffunction = FUNCPTR (swarm_class_getMethodImplementation ((Class) gc_fclass, (SEL) fmethod));
     return self;
   }
 }
@@ -807,7 +811,7 @@ PHASE(Using)
     }
 #endif
 
-#if (defined(__i386__) && ((__GNUC__ == 2) && ((__GNUC_MINOR__ < 95)  || (__GNUC_MINOR__ == 96))) || (__GNUC__ == 3 && defined(__i386__)) || defined (__CYGWIN__))
+#if (defined(__i386__) && ((__GNUC__ == 2) && ((__GNUC_MINOR__ < 95)  || (__GNUC_MINOR__ == 96))) || (__GNUC__ == 3 && defined(__i386__)) || (__GNUC__ == 4 && defined(__i386__)) || defined (__CYGWIN__))
 // Let's see how things go now with >=  3.4 - mgd
 #define BUGGY_BUILTIN_APPLY
 #endif

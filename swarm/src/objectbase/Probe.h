@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <objectbase.h>
-#import <objectbase/SwarmObject.h>
+#import <Swarm/objectbase.h>
+#import <Swarm/SwarmObject.h>
 
 // Options for the format of the string returned when probing an unsigned
 // char or a char (there is a choice between "%d %c", "%c" or "%d"...)

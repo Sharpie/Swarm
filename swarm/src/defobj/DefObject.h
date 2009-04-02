@@ -24,9 +24,10 @@ Library:      defobj
 */
 
 #define DEFINE_CLASSES
-#import <defobj.h>
+#import <Swarm/defobj.h>
+#import <objc/Object.h>
 
-#include <swarmconfig.h> // PTRUINT
+#import <Swarm/swarmconfig.h> // PTRUINT
 
 @class ObjectEntry;
 
@@ -161,9 +162,11 @@ extern id lispInKeyword (id index);
 //
 #define callMethodInClass(aClass, aMessage, args...) \
   ({ SEL _sel_ = (aMessage); \
-     get_imp ((aClass), _sel_) (self, _sel_ , ## args); })
+     swarm_class_getMethodImplementation ((aClass), _sel_) (self, _sel_ , ## args); })
 
+#if SWARM_OBJC_DONE
 extern IMP get_imp (Class class_, SEL sel);  // function used by macro
+#endif
 
 //
 // respondsTo() -- function to test if object responds to message  
@@ -179,12 +182,20 @@ extern IMP getMethodFor (Class aClass, SEL aSel);
 //
 // getClass() -- macro to get class of instance
 //
+#if SWARM_OBJC_DONE
 #define getClass(anObject) (*(Class *)(anObject))
+#else
+#define getClass(anObject) swarm_object_getClass(anObject)
+#endif
 
 //
 // setClass() -- macro to set behavior of instance to compatible class
 //
+#if SWARM_OBJC_DONE
 #define setClass(anObject, aClass) (*(Class *)(anObject) = (Class)(aClass))
+#else
+#define setClass(anObject, aClass) swarm_object_setClass(anObject, aClass)
+#endif
 
 //
 // struct mapalloc, mapalloc_t --

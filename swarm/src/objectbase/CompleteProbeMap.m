@@ -19,7 +19,7 @@
 
 #import <objectbase/CompleteProbeMap.h>
 #import <collections.h>
-#import <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 #import <defobj.h> // WarningMessage, raiseEvent
 #import <defobj/defalloc.h> // getZone
 #include <swarmconfig.h>
@@ -83,7 +83,7 @@ PHASE(Creating)
   do
     {
       [classList addFirst: (id) aClass];
-      aClass = aClass->super_class;
+      aClass = swarm_class_getSuperclass(aClass);
     } 
   while (aClass);
   

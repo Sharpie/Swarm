@@ -1,4 +1,4 @@
-// Swarm library. Copyright © 1996-2000 Swarm Development Group.
+// Swarm library. Copyright ï¿½ 1996-2000 Swarm Development Group.
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
@@ -17,15 +17,15 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <defobj.h>
-#import <random.h>
-#import <objectbase.h>
+#import <Swarm/defobj.h>
+#import <Swarm/random.h>
+#import <Swarm/objectbase.h>
 #ifndef DISABLE_GUI
 #ifndef GNUSTEP
-#import <simtoolsgui.h>
+#import <Swarm/simtoolsgui.h>
 #endif
 #endif
-#import <externvar.h>
+#import <Swarm/externvar.h>
 
 //S: Top-level Swarm module
 

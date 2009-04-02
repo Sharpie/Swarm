@@ -27,9 +27,9 @@ Library:      collections
 #import <defobj/defalloc.h>
 
 #import <collections/List_linked.h>
-#import <collections/classes.h>
+#import <collections/collections_classes.h>
 
-#include <objc/objc-api.h> // object_get_class
+#include <defobj/swarm-objc-api.h> // object_get_class
 #include <collections/predicates.h> // keywordp, stringp
 
 #import <defobj.h> // hdf5in, HDF5
@@ -251,7 +251,7 @@ PHASE(Setting)
               if (COMPAREFUNCEQ (compareCStrings))
                 key = (id) STRDUP ([keyExpr getC]);
               else
-                key = [keyExpr copy: aZone];
+                key = [(id <Copy>)keyExpr copy: aZone];
             }
           else
             key = lispIn (aZone, keyExpr);
@@ -309,18 +309,18 @@ PHASE(Setting)
       if ((COMPAREFUNCEQ (compareIDs) || compareFunc == NULL)
           && [hdf5Obj checkName: GROUP_KEYS])
         {
-          id keyGroup = [[[[HDF5 createBegin: aZone]
+          id keyGroup = [[(id <HDF5>)[[HDF5 createBegin: aZone]
                          setParent: hdf5Obj]
                         setName: GROUP_KEYS]
                        createEnd];
-          id valueGroup = [[[[HDF5 createBegin: aZone]
+          id valueGroup = [[(id <HDF5>)[[HDF5 createBegin: aZone]
                               setParent: hdf5Obj]
                              setName: GROUP_VALUES]
                             createEnd];
           {
             int process_object (id keyComponent)
               {
-                id valueComponent = [[[[HDF5 createBegin: aZone]
+                id valueComponent = [[(id <HDF5>)[[HDF5 createBegin: aZone]
                                         setParent: valueGroup]
                                        setName: [keyComponent getHDF5Name]]
                                       createEnd];
@@ -886,12 +886,12 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
   if ((compareFunc == NULL || COMPAREFUNCEQ (compareIDs))
       && !(keyStringFlag = [self allStringKeys]))
     {
-      id keyGroup = [[[[[HDF5 createBegin: aZone]
+      id keyGroup = [[(id <HDF5>)[[[HDF5 createBegin: aZone]
                          setWriteFlag: YES]
                         setParent: hdf5Obj]
                        setName: GROUP_KEYS]
                       createEnd];
-      id valueGroup = [[[[[HDF5 createBegin: aZone]
+      id valueGroup = [[(id <HDF5>)[[[HDF5 createBegin: aZone]
                            setWriteFlag: YES]
                           setParent: hdf5Obj]
                          setName: GROUP_VALUES]
@@ -906,7 +906,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           unsigned offset = [mi getOffset];
           
           sprintf (buf, "%u", offset);
-          keyInstanceGroup = [[[[[HDF5 createBegin: aZone]
+          keyInstanceGroup = [[(id <HDF5>)[[[HDF5 createBegin: aZone]
                                   setWriteFlag: YES]
                                  setParent: keyGroup]
                                 setName: buf]
@@ -914,7 +914,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           [key hdf5OutDeep: keyInstanceGroup];
           [keyInstanceGroup drop];
           
-          valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
+          valueInstanceGroup = [[(id <HDF5>)[[[HDF5 createBegin: aZone]
                                     setWriteFlag: YES]
                                    setParent: valueGroup]
                                   setName: buf]
@@ -937,7 +937,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           
           while ((value = MAP_INDEX_NEXTKEY (mi, &key)))
             {
-              id valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
+              id valueInstanceGroup = [[(id <HDF5>)[[[HDF5 createBegin: aZone]
                                            setWriteFlag: YES]
                                           setParent: hdf5Obj]
                                          setName: getKeyStr (key)]
@@ -1002,11 +1002,11 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
     {
       id aZone = getZone (self);
       Class memberProto = [self getFirst];
-      id compoundType = [[[HDF5CompoundType createBegin: aZone]
+      id compoundType = [[(id <HDF5CompoundType>)[HDF5CompoundType createBegin: aZone]
                            setPrototype: memberProto]
                           createEnd];
       id dataset =
-        [[[[[[[HDF5 createBegin: aZone]
+        [[(id <HDF5>)[[[[(id <HDF5>)[HDF5 createBegin: aZone]
                setName: [hdf5Obj getHDF5Name]]
               setWriteFlag: YES]
              setParent: hdf5Obj]

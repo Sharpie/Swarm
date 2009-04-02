@@ -59,7 +59,7 @@ PHASE(Creating)
   if (baseString)
     [baseString drop];
   
-  baseString = [aStringObject copy: [self getZone]];
+  baseString = [(id <Copy>)aStringObject copy: [self getZone]];
   
   [self resetCounter];
 

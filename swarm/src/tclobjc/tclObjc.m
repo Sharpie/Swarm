@@ -37,8 +37,8 @@
 
 #define ATDELIMCHAR '@'
   
-#include <objc/objc-api.h>
-#include <objc/encoding.h>
+#import <defobj/swarm-objc-api.h>
+//#include <objc/encoding.h>
 
 int (*tclObjc_eventHook) ();
 
@@ -51,7 +51,8 @@ tclObjc_objectToName(id obj)
   static char name[512];
   if (obj)
     {
-      sprintf(name, "%s%c" PTRHEXFMT, obj->class_pointer->name, ATDELIMCHAR, obj);
+      sprintf(name, "%s%c" PTRHEXFMT, swarm_class_getName(swarm_object_getClass(obj)),
+	      ATDELIMCHAR, obj);
       return name;
     }
   return "nil";
@@ -75,7 +76,7 @@ tclObjc_nameToObject (const char *name)
     {
       return nil;
     }
-  else if ((object = (id)objc_lookup_class(name)))
+  else if ((object = (id)swarm_objc_lookupClass(name)))
     {
       return object;
     }
@@ -210,7 +211,9 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     unsigned argnum;
 
     fa = [FArguments createBegin: getCZone (scratchZone)];
+#if SWARM_OBJC_TODO
     [fa setObjCReturnType: *(objc_skip_type_qualifiers (seltype))];
+#endif
     type = objc_skip_argspec (seltype);
     type = objc_skip_argspec (type);
     type = objc_skip_argspec (type);
@@ -522,7 +525,7 @@ tclObjc_msgSendToArgv1 (ClientData clientData,
   const char *type;
   char *objcdebug;
   BOOL debug_printing;
-  Method_t method = 0;
+  ObjcMethod method = 0;
   char argString[256];
   Tcl_DString command;
   char *cmd;

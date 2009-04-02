@@ -23,7 +23,7 @@ Description:  set of elements in an externally maintained linear sequence
 Library:      collections
 */
 
-#import <collections/List_mlinks.h>
+#import <Swarm/List_mlinks.h>
 
 @interface OrderedSet_c: List_mlinks <OrderedSet>
 /*** methods in OrderedSet_c (inserted from .m file by m2h) ***/

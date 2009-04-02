@@ -17,7 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <simtoolsgui/SingleProbeDisplay.h>
+#import <Swarm/SingleProbeDisplay.h>
 
 @interface CompleteProbeDisplay: SingleProbeDisplay
 {

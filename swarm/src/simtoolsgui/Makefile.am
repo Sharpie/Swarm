@@ -2,7 +2,7 @@ MODULE = simtoolsgui
 CURRENT = 5
 REVISION = 0
 AGE = 0
-simtoolsguidir = $(includedir)/$(MODULE)
+simtoolsguidir = $(includedir)/Swarm
 
 include $(top_srcdir)/src/Makefile.rules
 
@@ -17,4 +17,4 @@ SRC = ActionCache.m ActionHolder.m ClassDisplayWidget.m CommonProbeDisplay.m Com
 libsimtoolsgui_la_SOURCES = $(SRC)
 libsimtoolsgui_la_LDFLAGS = @inst_LDFLAGS@
 
-simtoolsgui_HEADERS = ActionCache.h ActionHolder.h ClassDisplayWidget.h CommonProbeDisplay.h CompleteProbeDisplay.h ControlPanel.h GUIComposite.h GUISwarm.h MessageProbeWidget.h MultiVarProbeDisplay.h MultiVarProbeWidget.h ProbeDisplay.h ProbeDisplayManager.h SimpleProbeDisplay.h SingleProbeDisplay.h VarProbeWidget.h
+simtoolsgui_HEADERS = $(MODULE).h ActionCache.h ActionHolder.h ClassDisplayWidget.h CommonProbeDisplay.h CompleteProbeDisplay.h ControlPanel.h GUIComposite.h GUISwarm.h MessageProbeWidget.h MultiVarProbeDisplay.h MultiVarProbeWidget.h ProbeDisplay.h ProbeDisplayManager.h SimpleProbeDisplay.h SingleProbeDisplay.h VarProbeWidget.h

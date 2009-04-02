@@ -128,8 +128,8 @@ output quality:	|
 */
 
 
-#import <random.h>
-#import <objectbase/SwarmObject.h>
+#import <Swarm/random.h>
+#import <Swarm/SwarmObject.h>
 
 
 #define COMPONENTS 1

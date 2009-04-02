@@ -22,7 +22,7 @@
 #import <defobj.h> // nameToObject, STRDUP
 #import <gui.h>
 #import <objectbase.h> // val_t
-#import <objc/objc-api.h>
+#import <defobj/swarm-objc-api.h>
 
 #include <misc.h> // strlen, isSpace
 #include "../objectbase/probing.h" // string_convert

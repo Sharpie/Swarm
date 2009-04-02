@@ -1,3 +1,9 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* common.el, interface.el: SwarmTop is now top level module, not swarm.
+
+	* Makefile.common.in (SWARMINCLUDES): Add subdirectories.
+
 2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* config.swarm.in Makefile.common.in: TEA updates

@@ -23,7 +23,7 @@ Description:  a collection of actions to be performed in a defined order
 Library:      activity
 */
 
-#import <collections/Collection.h>
+#import <Swarm/Collection.h>
 
 externvar id _activity_activityRefsType;
 externvar id _activity_activitySetRefsType;

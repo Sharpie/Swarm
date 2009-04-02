@@ -1,3 +1,16 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* ClassDisplayWidget.m, MessageProbeWidget.m: ObjC runtime abstraction.
+
+	* MultiVarProbeWidget.h, ControlPanel.h, SimpleProbeDisplay.h,
+	simtoolsgui.h, VarProbeWidge.h, CompleteProbeDisplay.h,
+	ProbeDisplay.h, GUISwarm.h, SingleProbeDisplay.h,
+	ClassDisplayWidget.h, ActionCache.h, CommonProbeDisplay.h,
+	GUIComposite.h, ActionHolder.h, MessageProbeWidget.h,
+	MultiVarProbeDisplay.h, Makefile.am, ProbeDisplayManager.h:
+	Standardize include directory structure to support libraries and
+	OpenStep frameworks.
+
 2007-03-04  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* simtoolsgui.h: Use C linkage for probe display creation functions.

@@ -24,7 +24,6 @@ Library:      defobj
 */
 
 #import <defobj/FArguments.h>
-#import <objc/objc-api.h>
 #import <defobj/defalloc.h>
 #import "internal.h"
 #include <misc.h> // stpcpy
@@ -82,14 +81,14 @@ PHASE(Creating)
 
 - setSelector: (SEL)selector
 {
-  const char *type = sel_get_type (selector);
+  const char *type = swarm_sel_getTypeEncoding (selector);
 
   if (!type)
     {
-      const char *name = sel_get_name (selector);
+      const char *name = swarm_sel_getName (selector);
 
-      selector = sel_get_any_typed_uid (name);
-      type = sel_get_type (selector);
+      selector = swarm_sel_getUidWithType (name);
+      type = swarm_sel_getTypeEncoding (selector);
     }
   
   {

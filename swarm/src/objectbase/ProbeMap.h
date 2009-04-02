@@ -21,14 +21,14 @@
 // generic Map class. Given a class, build an array of probe objects that
 // work on that class (one per variable).
 
-#import <objectbase/SwarmObject.h>
-#import <objectbase.h>
+#import <Swarm/SwarmObject.h>
+#import <Swarm/objectbase.h>
 
 #ifdef BUILDING_SWARM
 #ifdef HAVE_JDK
-#import "../defobj/java.h"
+#import <Swarm/java.h>
 #endif
-#import "../defobj/COM.h"
+#import <Swarm/COM.h>
 #endif
 
 @interface ProbeMap: SwarmObject <ProbeMap>

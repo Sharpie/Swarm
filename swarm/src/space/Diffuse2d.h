@@ -19,8 +19,8 @@
 
 // Approximation to 2d diffusion via CA.
 
-#import <space.h> // Diffuse2d
-#import <space/Ca2d.h>
+#import <Swarm/space.h> // Diffuse2d
+#import <Swarm/Ca2d.h>
 
 @interface Diffuse2d: Ca2d <Diffuse2d>
 {

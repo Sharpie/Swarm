@@ -456,7 +456,7 @@
 (defun java-print-package (protocol)
   (insert "package swarm")
   (let ((module (protocol-module protocol)))
-    (unless (eq (module-sym module) 'swarm)
+    (unless (eq (module-sym module) 'SwarmTop)
       (insert ".")
       (insert (module-name module))))
   (insert ";\n"))
@@ -698,7 +698,7 @@
       (insert " JNICALL")
       (insert "\n")
       (insert "Java_swarm_")
-      (unless (eq (module-sym module) 'swarm)
+      (unless (eq (module-sym module) 'SwarmTop)
         (insert (module-name module))
         (insert "_"))
       (insert (java-class-name protocol phase))
@@ -906,7 +906,7 @@
   (print-makefile.common)
   (loop for module-sym being each hash-key of *module-hash-table*
         using (hash-value protocol-list)
-        unless (eq module-sym 'swarm)
+        unless (eq module-sym 'SwarmTop)
         do
         (let* ((module (lookup-module module-sym))
                (dir (java-module-path module)))

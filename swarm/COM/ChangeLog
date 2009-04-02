@@ -1,3 +1,9 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* COM.el (selector-protocol, com-protocol-sym,
+	com-print-contractid-define): SwarmTop.h is now top level file,
+	not swarm.h.
+
 2007-06-09  Marcus G. Daniels  <marcus@snoutfarm.com>
 
 	* COM.el (com-impl-print-method-definitions,

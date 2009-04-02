@@ -3,7 +3,7 @@
 #import <collections/predicates.h>
 #import <defobj/defalloc.h>
 #import "../defobj/internal.h" // fcall_type_size
-#include <objc/objc-api.h>
+#include <defobj/swarm-objc-api.h>
 
 @implementation ArchiverKeyword_c
 
@@ -288,7 +288,7 @@ PHASE(Creating)
 - setBoolean: (BOOL)val
 {
   type = fcall_type_boolean;
-  value.bool = val;
+  value.bool_ = val;
   return self;
 }
 
@@ -398,7 +398,7 @@ PHASE(Using)
   switch (type)
     {
     case fcall_type_boolean:
-      [stream catBoolean: value.bool];
+      [stream catBoolean: value.bool_];
       break;
     case fcall_type_schar: case fcall_type_uchar:
       [stream catChar: value.ch];

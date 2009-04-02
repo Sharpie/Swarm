@@ -23,8 +23,8 @@ Description:  implementations for List type
 Library:      collections
 */
 
-#import <collections/Collection.h>
-#import <defobj.h> // Serialization
+#import <Swarm/Collection.h>
+#import <Swarm/defobj.h> // Serialization
 
 typedef struct link *link_t;
 

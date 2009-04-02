@@ -21,7 +21,7 @@
 // generic Map class. Given a class, build an array of probe objects that
 // work on that class (one per variable).
 
-#import <objectbase/ProbeMap.h>
+#import <Swarm/ProbeMap.h>
 
 @interface CustomProbeMap: ProbeMap <CustomProbeMap>
 {

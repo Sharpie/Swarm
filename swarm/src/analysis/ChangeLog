@@ -1,7 +1,18 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* EZBin.m: ObjC runtime abstraction.
+
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* ActiveGraph.h, ActiveOutFile.h, Averager.h, EZBin.h,
+	EZDistribution.h, EZGraph.h, Entropy.h, FunctionGraph.h,
+	analysis.h, Makefile.am: Standardize include directory structure
+	to support libraries and OpenStep frameworks.
+
 2008-04-29  Scott Christley  <schristley@mac.com>
 
         * Makefile.am (SRC): Do not build ActiveGraph, EZBin,
-        EZDistribution, EZGraph, and FunctionGraph for GNUstep.
+	EZDistribution, EZGraph, and FunctionGraph for GNUstep.
         (HEADERS): Likewise.
 
         * analysis.h; #ifndef GNUSTEP classes not applicable when

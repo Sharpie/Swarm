@@ -2,7 +2,7 @@ MODULE = activity
 CURRENT = 5
 REVISION = 0
 AGE = 0
-activitydir = $(includedir)/$(MODULE)
+activitydir = $(includedir)/Swarm
 JAVAINCLUDES = @JAVAINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
@@ -23,8 +23,8 @@ SRC = Action.m ActionGroup.m CompoundAction.m Schedule.m SwarmProcess.m XActivit
 libactivity_la_SOURCES = $(SRC)
 libactivity_la_LDFLAGS = @inst_LDFLAGS@
 
-activity_HEADERS = Action.h ActionGroup.h CompoundAction.h Schedule.h SwarmProcess.h XActivity.h
+activity_HEADERS = $(MODULE).h Action.h ActionGroup.h CompoundAction.h Schedule.h SwarmProcess.h XActivity.h
 
 install-data-local:
-	$(INSTALL_DATA) classes.h $(DESTDIR)$(activitydir)
-	$(INSTALL_DATA) types.h $(DESTDIR)$(activitydir)
+	$(INSTALL_DATA) $(MODULE)_classes.h $(DESTDIR)$(activitydir)
+	$(INSTALL_DATA) $(MODULE)_types.h $(DESTDIR)$(activitydir)

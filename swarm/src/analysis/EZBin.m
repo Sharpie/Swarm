@@ -25,8 +25,6 @@
 
 #include <misc.h> // sqrt
 
-#include <objc/objc-api.h>
-
 #define NUMCOLORS 12
 
 const char * const defaultBinColors[NUMCOLORS] =

@@ -17,8 +17,8 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <analysis.h> // Entropy
-#import <objectbase/MessageProbe.h>
+#import <Swarm/analysis.h> // Entropy
+#import <Swarm/MessageProbe.h>
 
 // Entropy object: calculates the entropy based on the probabilities returned
 // by a collection of objects responding to a specified selector.

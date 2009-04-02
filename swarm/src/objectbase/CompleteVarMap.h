@@ -20,7 +20,7 @@
 // A map containing all the variables of a given class but none of the 
 // messages!
 
-#import <objectbase/ProbeMap.h>
+#import <Swarm/ProbeMap.h>
 
 @interface CompleteVarMap: ProbeMap <CompleteVarMap>
 {

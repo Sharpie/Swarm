@@ -17,14 +17,14 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <objectbase/SwarmObject.h>
-#import <objectbase/ProbeMap.h>
-#import <simtoolsgui/VarProbeWidget.h>
-#import <simtoolsgui/MessageProbeWidget.h>
-#import <gui.h>
+#import <Swarm/SwarmObject.h>
+#import <Swarm/ProbeMap.h>
+#import <Swarm/VarProbeWidget.h>
+#import <Swarm/MessageProbeWidget.h>
+#import <Swarm/gui.h>
 
 #ifdef USE_FRAME
-#import <tkobjc/Frame.h>
+#import <Swarm/Frame.h>
 @interface ClassDisplayWidget: Frame
 #else
 @interface ClassDisplayWidget: SwarmObject

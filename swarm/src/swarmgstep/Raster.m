@@ -26,75 +26,46 @@
 
 @implementation Raster
 
+#if 0
 - initWithFrame:(NSRect)aRect pointSize:(NSSize)aSize
 {
   fprintf(stderr, "Raster initWithFrame:pointSize:\n");
-  [super initWithFrame:aRect];
 
-  image = nil;
-  imageRep = nil;
+  //image = nil;
+  //imageRep = nil;
   rasterOrigin.x = 0;
   rasterOrigin.y = 0;
   pointSize = aSize;
   displayList = [NSMutableArray new];
-  backgroundColor = [[NSColor blackColor] retain];
+  backgroundColor = [[NSColor whiteColor] retain];
+
+#if 0
+  [[NSNotificationCenter defaultCenter] addObserver:self
+    selector:@selector(frameRectDidChange:)
+    name:NSViewFrameDidChangeNotification object:self];
+#endif
 
   fprintf(stderr, "done Raster initWithFrame:pointSize:\n");
   return self;
 }
+#endif
 
 - initWithFrame:(NSRect)aRect
 {
-  // default size of points are 3 by 3, i.e. 1/4 inch square
-  return [self initWithFrame:aRect pointSize:NSMakeSize(3, 3)];
+  [super initWithFrame:aRect];
+
+  displayList = [NSMutableArray new];
+  backgroundColor = [[NSColor whiteColor] retain];
+
+  return self;
 }
 
-- (void)determineWindowMinMaxSize
-{
-#if 1
-  // We need to have displays attached
-  if ([displayList count] == 0)
-    return;
-
-  // If we are in a window and the content view for that window
-  // Then set the min and max size of the window.
-  // If we are not the content view then there isn't much we can do.
-  id w = [self window];
-  if (w)
-    {
-      id v = [w contentView];
-      if (v == self)
-	{
-	  // Just pick first one for now, currently assume same size
-	  // grids under each display
-	  id aDisplay = [displayList objectAtIndex: 0];
-	  id g = [aDisplay discrete2d];
-	  unsigned worldXsize = [g getSizeX];
-	  unsigned worldYsize = [g getSizeY];
-	  NSRect aRect = NSMakeRect(0, 0, worldXsize * pointSize.width,
-				    worldYsize * pointSize.height);
-	  NSRect r = [NSWindow frameRectForContentRect: aRect
-			       styleMask: [w styleMask]];
-	  // add 2 just to give a little border
-	  r.size.width += 2;
-	  r.size.height += 2;
-	  [w setMaxSize: r.size];
-
-	  // If the current size is larger, then resize the window
-	  aRect = [w frame];
-	  if ((aRect.size.width > r.size.width)
-	      || (aRect.size.height > r.size.height))
-	    [w setFrame: aRect display: NO];
-	}
-    }
-#endif
-}
-
+#if 0
 - (void)setRasterOrigin:(NSPoint)aPoint
 {
   rasterOrigin = aPoint;
 
-  [self determineWindowMinMaxSize];
+  //[self determineWindowMinMaxSize];
 
   // redisplay
 }
@@ -103,79 +74,21 @@
 {
   pointSize = aSize;
 
-  [self determineWindowMinMaxSize];
+  //[self determineWindowMinMaxSize];
 
   // redisplay
 }
 
-- (NSImage *)image
+- (void)setBounds:(NSRect)boundsRect
 {
-    return image;
+  [super setBounds: boundsRect];
+
+  printf("new bounds: %f %f %f %f\n", boundsRect.origin.x, boundsRect.origin.y,
+    boundsRect.size.width, boundsRect.size.height);
+  
+  //[self createImage];
 }
-
-- (void)releaseImage
-{
-  if (image)
-    {
-      [image release];
-      image = nil;
-    }
-  if (imageRep)
-    {
-      [imageRep release];
-      imageRep = nil;
-    }
-}
-
-- (void)createImage
-{
-  NSRect aRect = [self bounds];
-
-  [self releaseImage];
-
-#if 1
-  image = [[NSImage alloc] initWithSize:aRect.size];
-  imageRep = [[NSBitmapImageRep alloc]
-	  initWithBitmapDataPlanes:NULL
-	  pixelsWide:aRect.size.width
-	  pixelsHigh:aRect.size.height
-	  bitsPerSample:8
-	  samplesPerPixel:3
-	  hasAlpha:NO
-	  isPlanar:NO
-	  colorSpaceName:NSDeviceRGBColorSpace
-	  bytesPerRow:aRect.size.width*3
-	  bitsPerPixel:24];
-  [image addRepresentation:imageRep];
 #endif
-
-#if 0
-  image = [[NSImage alloc] initWithSize:aRect.size];
-  imageRep = [[NSBitmapImageRep alloc]
-	  initWithBitmapDataPlanes:NULL
-	  pixelsWide:240
-	  pixelsHigh:240
-	  bitsPerSample:8
-	  samplesPerPixel:3
-	  hasAlpha:NO
-	  isPlanar:NO
-	  colorSpaceName:NSDeviceRGBColorSpace
-	  bytesPerRow:aRect.size.width*3
-	  bitsPerPixel:24];
-  [image addRepresentation:imageRep];
-#endif
-}
-
-- (void) resizeWithOldSuperviewSize: (NSSize)oldSize
-{
-  fprintf(stderr, "RasterView got resized\n");
-  [super resizeWithOldSuperviewSize: oldSize];
-
-  [self determineWindowMinMaxSize];
-
-  // release the image if we get resized
-  [self releaseImage];
-}
 
 - (void)addDisplay: aDisplay
 {
@@ -184,7 +97,7 @@
       fprintf(stderr, "addDisplay:\n");
       [displayList addObject: aDisplay];
 
-      [self determineWindowMinMaxSize];
+      //[self determineBoundsFromDisplays];
     }
 }
 
@@ -195,7 +108,7 @@
       fprintf(stderr, "removeDisplay:\n");
       [displayList removeObject: aDisplay];
 
-      [self determineWindowMinMaxSize];
+      //[self determineBoundsFromDisplays];
     }
 }
 
@@ -228,13 +141,73 @@
 #endif
 
   [backgroundColor set];
-  PSrectfill(aRect.origin.x, aRect.origin.y,
-	     aRect.size.width, aRect.size.height);
+  NSRectFill(aRect);
 
+ // printf("drawRect: %f %f %f %f\n", aRect.origin.x, aRect.origin.y,
+ //   aRect.size.width, aRect.size.height);
+
+#if 1
+    NSEnumerator *e = [displayList objectEnumerator];
+    id aDisplay;
+    
+    while ((aDisplay = [e nextObject])) {
+      NSImage *image = [aDisplay image];
+      [image drawInRect: aRect fromRect: NSZeroRect operation: NSCompositeSourceAtop fraction: 1.0];
+    }
+#endif
+
+#if 0
   if (!image)
     [self createImage];
 
-#if 1
+  if (image) {
+    NSEnumerator *e = [displayList objectEnumerator];
+    id aDisplay;
+    
+
+    NSSize aSize = [image size];
+    printf("drawRect image: %f %f\n", aSize.width, aSize.height);
+  
+    while ((aDisplay = [e nextObject])) {
+      int x, y;
+      
+      [image lockFocus];
+    
+      [[NSColor clearColor] set];
+      NSRectFill(aRect);
+      for (x = 0; x < aSize.width; ++x)
+        for (y = 0; y < aSize.height; ++y)
+	      {
+          NSRect aRect = NSMakeRect(x, y, 1, 1);
+          [aDisplay displayX:x Y:y inRect:aRect];
+	      }
+      [image unlockFocus];
+
+      [image drawInRect: aRect fromRect: NSZeroRect operation: NSCompositeSourceAtop fraction: 1.0];
+
+    }
+  }
+#endif
+
+#if 0
+    NSEnumerator *e = [displayList objectEnumerator];
+    id aDisplay;
+
+    while ((aDisplay = [e nextObject])) {
+      int x, y;
+      
+      for (x = (int)aRect.origin.x; x < aRect.size.width; ++x)
+        for (y = (int)aRect.origin.y; y < aRect.size.height; ++y)
+	      {
+          float xx = (float)x;
+          float yy = (float)y;
+          NSRect aRect = NSMakeRect(xx, yy, 1.0, 1.0);
+          [aDisplay displayX:x Y:y inRect:aRect];
+	      }
+    }
+#endif
+
+#if 0
   if (image)
     {
       NSEnumerator *e = [displayList objectEnumerator];
@@ -243,8 +216,7 @@
       [image lockFocus];
 
       [backgroundColor set];
-      PSrectfill(aRect.origin.x, aRect.origin.y,
-		 aRect.size.width, aRect.size.height);
+      NSRectFill(aRect);
 
       while ((aDisplay = [e nextObject]))
 	{
@@ -284,7 +256,7 @@
 	  xfo = xfo / 2;
 	  yfo = yfo / 2;
 
-#if 1
+#if 0
 	  for (x = 0; x < gridXsize; ++x)
 	    for (y = 0; y < gridYsize; ++y)
 	      {
@@ -305,10 +277,9 @@
     }
 #endif
 
-#if 1
-    [image compositeToPoint:aRect.origin 
-	   fromRect:aRect
-	   operation:NSCompositeCopy];
+#if 0
+  if (image)
+    [image drawInRect: aRect fromRect: NSZeroRect operation: NSCompositeCopy fraction: 1.0];
 #endif
 }
 

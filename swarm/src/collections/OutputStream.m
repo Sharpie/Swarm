@@ -114,12 +114,12 @@ PHASE(Using)
     [self catC: string];
 }
 
-- (void)catBoolean: (BOOL)bool
+- (void)catBoolean: (BOOL)aBool
 {
   if (exprStack)
-    ADDVALUE (Boolean, bool);
+    ADDVALUE (Boolean, aBool);
   else
-    [self catC: bool ? "#t" : "#f"];
+    [self catC: aBool ? "#t" : "#f"];
   
 }
 
@@ -377,7 +377,7 @@ PHASE(Using)
   else
     {
       [self catC: "<"];
-      [self catC: class_->name];
+      [self catC: swarm_class_getName(class_)];
       [self catC: ">"];
     }
 }
@@ -394,7 +394,7 @@ PHASE(Using)
 - (void)catEndArray
 {
   if (exprStack)
-    ADDEXPR ([[[ArchiverArray createBegin: getZone (self)]
+    ADDEXPR ([[(id <ArchiverArray>)[ArchiverArray createBegin: getZone (self)]
                 setArray: [[exprStack getFirst] removeLast]]
                createEnd]);
 }

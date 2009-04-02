@@ -1,3 +1,8 @@
+2009-04-02  Scott Christley  <schristley@mac.com>
+
+	* Makefile.rules, Makefile.am: Standardize include directory structure to
+	support libraries and OpenStep frameworks.
+
 2004-02-23  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* Makefile.rules Makefile.am: Allow for configurable SED.

@@ -2,7 +2,7 @@ MODULE = simtools
 CURRENT = 4
 REVISION = 0
 AGE = 0
-simtoolsdir = $(includedir)/$(MODULE)
+simtoolsdir = $(includedir)/Swarm
 
 include $(top_srcdir)/src/Makefile.rules
 
@@ -17,4 +17,4 @@ SRC = InFile.m OutFile.m AppendFile.m ObjectLoader.m ObjectSaver.m NSelect.m QSo
 libsimtools_la_SOURCES = $(SRC)
 libsimtools_la_LDFLAGS = @inst_LDFLAGS@
 
-simtools_HEADERS = InFile.h OutFile.h AppendFile.h ObjectLoader.h ObjectSaver.h NSelect.h QSort.h UName.h initSwarm.h
+simtools_HEADERS = $(MODULE).h InFile.h OutFile.h AppendFile.h ObjectLoader.h ObjectSaver.h NSelect.h QSort.h UName.h initSwarm.h

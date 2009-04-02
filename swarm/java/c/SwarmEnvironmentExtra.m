@@ -17,7 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <swarm.h> // initSwarm
+#import <SwarmTop.h> // initSwarm
 #include <swarmconfig.h> // HAVE_KAFFE
 #import "../../src/defobj/java.h" 
 

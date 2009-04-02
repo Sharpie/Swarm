@@ -17,13 +17,13 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#import <defobj/Create.h>
+#import <Swarm/Create.h>
 
-#include <swarmconfig.h>
+#import <Swarm/swarmconfig.h>
 #ifdef HAVE_ARGP_H
 #include <argp.h>
 #else
-#include <misc/argp.h>
+#include <Swarm/argp.h>
 #endif
 
 @interface Arguments_c: CreateDrop

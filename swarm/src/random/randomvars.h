@@ -33,7 +33,7 @@ Date:		 1998-10-08 (v. 0.8)
 123456789|123456789|123456789|123456789|123456789|123456789|123456789|123456789|
 */
 
-#import <externvar.h>
+#import <Swarm/externvar.h>
 
 // Make utility objects globally accessible:
 

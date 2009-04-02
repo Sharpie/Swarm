@@ -1,3 +1,21 @@
+2008-07-06  Scott Christley  <schristley@mac.com>
+
+	* include.gens.creating.m ([-createEnd]): ObjC runtime
+	abstraction.
+
+2008-06-25  Scott Christley  <schristley@mac.com>
+
+	* ACGgen.h, BernoulliDist.h, BinomialDist.h, C2LCGXgen.h,
+	C2MRG3gen.h, C2TAUSgen.h, C3MWCgen.h, C4LCGXgen.h,
+	ExponentialDist.h, GammaDist.h, LCGgen.h, LogNormalDist.h,
+	MRGgen.h, MT19937gen.h, MWCAgen.h, MWCBgen.h, NormalDist.h,
+	PMMLCGgen.h, PSWBgen.h, PoissonDist.h, RWC2gen.h, RWC8gen.h,
+	RandomBitDist.h, SCGgen.h, SWBgen.h, TGFSRgen.h, random.h,
+	randomdefs.h, UniformDoubleDist.h, UniformIntegerDist.h,
+	UniformUnsignedDist.h, random.h, randomvars.h, Makefile.am:
+	Standardize include directory structure to support libraries and
+	OpenStep frameworks.
+
 2006-04-01 Paul Johnson <pauljohn@ku.edu>
 
         * h files for all generators need declaration: 

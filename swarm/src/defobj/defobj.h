@@ -43,7 +43,8 @@ typedef enum {fcall_type_void = 0,
               fcall_type_iid
               } fcall_type_t;
 
-#include <objc/objc.h>
+#import <Swarm/swarm-objc-api.h>
+#include <stdio.h>
 
 typedef union {
   id object;
@@ -77,8 +78,8 @@ typedef struct {
 #if defined(__cplusplus) && !defined(__OBJC__)
 }
 #else
-#import <defobj/deftype.h>
-#include <externvar.h>
+#import <Swarm/deftype.h>
+#include <Swarm/externvar.h>
 
 //S: Standard objects for GNU Objective C extensions
 
@@ -1438,7 +1439,7 @@ extern id defobj_lookup_type (const char *name);
 //
 // type objects generated for module
 //
-#import <defobj/types.h>
+#import <Swarm/defobj_types.h>
 
 extern void initDefobj (id <Arguments> arguments);
 

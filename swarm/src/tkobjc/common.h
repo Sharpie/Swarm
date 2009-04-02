@@ -17,7 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-#include <objc/objc.h>
+#import <defobj/swarm-objc-api.h>
 
 void tkobjc_dragAndDrop (id source, id object);
 void tkobjc_dragAndDropArg (id source, id object, int arg);

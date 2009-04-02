@@ -23,8 +23,8 @@ Description:  implementation for Array type
 Library:      collections
 */
 
-#import <collections/Collection.h>
-#import <defobj.h> // Serialization
+#import <Swarm/Collection.h>
+#import <Swarm/defobj.h> // Serialization
 
 @interface Array_c: Collection_any <Array, Serialization>
 {
