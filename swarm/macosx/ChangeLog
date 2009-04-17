@@ -1,3 +1,7 @@
+2009-04-16  Scott Christley  <schristley@mac.com>
+
+	* SwarmOSX: Project for native Apple ObjC.
+
 2007-06-06  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* swarm.xcode swarm.xcodeproj: update project format
