@@ -297,23 +297,25 @@
 		D61863460DD64742006B1C2F /* COMProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EAF8480981BDFA00EE3B51 /* COMProxy.m */; };
 		D63BA7AD0E17108600E0FC0E /* structcpy.c in Sources */ = {isa = PBXBuildFile; fileRef = D63BA7AC0E17108600E0FC0E /* structcpy.c */; };
 		D675AEAF0E1068A700578367 /* swarm-objc-apple.m in Sources */ = {isa = PBXBuildFile; fileRef = D675AEAE0E1068A700578367 /* swarm-objc-apple.m */; };
-		D675AEE00E10735100578367 /* Object2dDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = D675AEDE0E10735100578367 /* Object2dDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D675AEE10E10735100578367 /* Object2dDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D675AEDF0E10735100578367 /* Object2dDisplay.m */; };
-		D675AEE60E10735E00578367 /* Value2dDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = D675AEE40E10735E00578367 /* Value2dDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D675AEE70E10735E00578367 /* Value2dDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D675AEE50E10735E00578367 /* Value2dDisplay.m */; };
 		D675AF080E10797700578367 /* SwarmTop.h in Headers */ = {isa = PBXBuildFile; fileRef = D675AF070E10797700578367 /* SwarmTop.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D69B41000E26ADAF00953B0F /* avcall-i386.S in Sources */ = {isa = PBXBuildFile; fileRef = D63BA7C20E17121B00E0FC0E /* avcall-i386.S */; };
 		D6B169620E21737B00573BB9 /* modulemap.c in Sources */ = {isa = PBXBuildFile; fileRef = D6B169610E21737B00573BB9 /* modulemap.c */; };
 		D6EAF9A00981D86A00EE3B51 /* SwarmEnvironment_getters.h in Headers */ = {isa = PBXBuildFile; fileRef = D615E38B08CBF48F00E2534C /* SwarmEnvironment_getters.h */; };
 		D6EAF9A30981D87400EE3B51 /* SwarmEnvironment_getters.m in Headers */ = {isa = PBXBuildFile; fileRef = D615E38C08CBF48F00E2534C /* SwarmEnvironment_getters.m */; };
-		D6FB9EFB099522A0004483CF /* GNUstepSwarm.h in Headers */ = {isa = PBXBuildFile; fileRef = D6FB9EF1099522A0004483CF /* GNUstepSwarm.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D6FB9EFC099522A0004483CF /* GNUstepSwarm.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9EF2099522A0004483CF /* GNUstepSwarm.m */; };
-		D6FB9EFE099522A0004483CF /* Raster.h in Headers */ = {isa = PBXBuildFile; fileRef = D6FB9EF4099522A0004483CF /* Raster.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D6FB9EFF099522A0004483CF /* Raster.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9EF5099522A0004483CF /* Raster.m */; };
-		D6FB9F00099522A0004483CF /* swarmgstep.h in Headers */ = {isa = PBXBuildFile; fileRef = D6FB9EF6099522A0004483CF /* swarmgstep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D6FB9F01099522A0004483CF /* swarmgstep.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9EF7099522A0004483CF /* swarmgstep.m */; };
-		D6FB9F02099522A0004483CF /* ZoomRaster.h in Headers */ = {isa = PBXBuildFile; fileRef = D6FB9EF8099522A0004483CF /* ZoomRaster.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D6FB9F03099522A0004483CF /* ZoomRaster.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FB9EF9099522A0004483CF /* ZoomRaster.m */; };
+		D6EFA5680F98F9C6002997C4 /* ChangeLog in Resources */ = {isa = PBXBuildFile; fileRef = D6EFA55A0F98F9C6002997C4 /* ChangeLog */; };
+		D6EFA5690F98F9C6002997C4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = D6EFA55B0F98F9C6002997C4 /* Makefile.am */; };
+		D6EFA56A0F98F9C6002997C4 /* Object2dDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = D6EFA55C0F98F9C6002997C4 /* Object2dDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6EFA56B0F98F9C6002997C4 /* Object2dDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EFA55D0F98F9C6002997C4 /* Object2dDisplay.m */; };
+		D6EFA56C0F98F9C6002997C4 /* openstep.h in Headers */ = {isa = PBXBuildFile; fileRef = D6EFA55E0F98F9C6002997C4 /* openstep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6EFA56D0F98F9C6002997C4 /* openstep.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EFA55F0F98F9C6002997C4 /* openstep.m */; };
+		D6EFA56E0F98F9C6002997C4 /* OpenStepSwarm.h in Headers */ = {isa = PBXBuildFile; fileRef = D6EFA5600F98F9C6002997C4 /* OpenStepSwarm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6EFA56F0F98F9C6002997C4 /* OpenStepSwarm.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EFA5610F98F9C6002997C4 /* OpenStepSwarm.m */; };
+		D6EFA5700F98F9C6002997C4 /* Raster.h in Headers */ = {isa = PBXBuildFile; fileRef = D6EFA5620F98F9C6002997C4 /* Raster.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6EFA5710F98F9C6002997C4 /* Raster.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EFA5630F98F9C6002997C4 /* Raster.m */; };
+		D6EFA5720F98F9C6002997C4 /* Value2dDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = D6EFA5640F98F9C6002997C4 /* Value2dDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6EFA5730F98F9C6002997C4 /* Value2dDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EFA5650F98F9C6002997C4 /* Value2dDisplay.m */; };
+		D6EFA5740F98F9C6002997C4 /* ZoomRaster.h in Headers */ = {isa = PBXBuildFile; fileRef = D6EFA5660F98F9C6002997C4 /* ZoomRaster.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6EFA5750F98F9C6002997C4 /* ZoomRaster.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EFA5670F98F9C6002997C4 /* ZoomRaster.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -684,10 +686,6 @@
 		D63BA7AC0E17108600E0FC0E /* structcpy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = structcpy.c; path = ../../avcall/structcpy.c; sourceTree = SOURCE_ROOT; };
 		D63BA7C20E17121B00E0FC0E /* avcall-i386.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = "avcall-i386.S"; sourceTree = "<group>"; };
 		D675AEAE0E1068A700578367 /* swarm-objc-apple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "swarm-objc-apple.m"; sourceTree = "<group>"; };
-		D675AEDE0E10735100578367 /* Object2dDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object2dDisplay.h; sourceTree = "<group>"; };
-		D675AEDF0E10735100578367 /* Object2dDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Object2dDisplay.m; sourceTree = "<group>"; };
-		D675AEE40E10735E00578367 /* Value2dDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Value2dDisplay.h; sourceTree = "<group>"; };
-		D675AEE50E10735E00578367 /* Value2dDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Value2dDisplay.m; sourceTree = "<group>"; };
 		D675AF070E10797700578367 /* SwarmTop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwarmTop.h; path = ../../src/SwarmTop.h; sourceTree = SOURCE_ROOT; };
 		D6B169610E21737B00573BB9 /* modulemap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modulemap.c; sourceTree = "<group>"; };
 		D6BBBF67097F41CE005298EA /* include.dists.creating.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = include.dists.creating.m; sourceTree = "<group>"; };
@@ -707,17 +705,21 @@
 		D6EAF84E0981BE4E00EE3B51 /* List_HDF5out.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = List_HDF5out.m; sourceTree = "<group>"; };
 		D6EAF8510981BE7600EE3B51 /* README.Random-0.7 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = "README.Random-0.7"; sourceTree = "<group>"; };
 		D6EAF8520981BE7600EE3B51 /* README.Random-0.75 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = "README.Random-0.75"; sourceTree = "<group>"; };
+		D6EFA55A0F98F9C6002997C4 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = ../../src/openstep/ChangeLog; sourceTree = SOURCE_ROOT; };
+		D6EFA55B0F98F9C6002997C4 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Makefile.am; path = ../../src/openstep/Makefile.am; sourceTree = SOURCE_ROOT; };
+		D6EFA55C0F98F9C6002997C4 /* Object2dDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Object2dDisplay.h; path = ../../src/openstep/Object2dDisplay.h; sourceTree = SOURCE_ROOT; };
+		D6EFA55D0F98F9C6002997C4 /* Object2dDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Object2dDisplay.m; path = ../../src/openstep/Object2dDisplay.m; sourceTree = SOURCE_ROOT; };
+		D6EFA55E0F98F9C6002997C4 /* openstep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openstep.h; path = ../../src/openstep/openstep.h; sourceTree = SOURCE_ROOT; };
+		D6EFA55F0F98F9C6002997C4 /* openstep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = openstep.m; path = ../../src/openstep/openstep.m; sourceTree = SOURCE_ROOT; };
+		D6EFA5600F98F9C6002997C4 /* OpenStepSwarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenStepSwarm.h; path = ../../src/openstep/OpenStepSwarm.h; sourceTree = SOURCE_ROOT; };
+		D6EFA5610F98F9C6002997C4 /* OpenStepSwarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenStepSwarm.m; path = ../../src/openstep/OpenStepSwarm.m; sourceTree = SOURCE_ROOT; };
+		D6EFA5620F98F9C6002997C4 /* Raster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Raster.h; path = ../../src/openstep/Raster.h; sourceTree = SOURCE_ROOT; };
+		D6EFA5630F98F9C6002997C4 /* Raster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Raster.m; path = ../../src/openstep/Raster.m; sourceTree = SOURCE_ROOT; };
+		D6EFA5640F98F9C6002997C4 /* Value2dDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Value2dDisplay.h; path = ../../src/openstep/Value2dDisplay.h; sourceTree = SOURCE_ROOT; };
+		D6EFA5650F98F9C6002997C4 /* Value2dDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Value2dDisplay.m; path = ../../src/openstep/Value2dDisplay.m; sourceTree = SOURCE_ROOT; };
+		D6EFA5660F98F9C6002997C4 /* ZoomRaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomRaster.h; path = ../../src/openstep/ZoomRaster.h; sourceTree = SOURCE_ROOT; };
+		D6EFA5670F98F9C6002997C4 /* ZoomRaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomRaster.m; path = ../../src/openstep/ZoomRaster.m; sourceTree = SOURCE_ROOT; };
 		D6FB9B950991AFFD004483CF /* README.AppleObjc */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = README.AppleObjc; path = ../README.AppleObjc; sourceTree = SOURCE_ROOT; };
-		D6FB9EF0099522A0004483CF /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
-		D6FB9EF1099522A0004483CF /* GNUstepSwarm.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GNUstepSwarm.h; sourceTree = "<group>"; };
-		D6FB9EF2099522A0004483CF /* GNUstepSwarm.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GNUstepSwarm.m; sourceTree = "<group>"; };
-		D6FB9EF3099522A0004483CF /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		D6FB9EF4099522A0004483CF /* Raster.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Raster.h; sourceTree = "<group>"; };
-		D6FB9EF5099522A0004483CF /* Raster.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Raster.m; sourceTree = "<group>"; };
-		D6FB9EF6099522A0004483CF /* swarmgstep.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = swarmgstep.h; sourceTree = "<group>"; };
-		D6FB9EF7099522A0004483CF /* swarmgstep.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = swarmgstep.m; sourceTree = "<group>"; };
-		D6FB9EF8099522A0004483CF /* ZoomRaster.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ZoomRaster.h; sourceTree = "<group>"; };
-		D6FB9EF9099522A0004483CF /* ZoomRaster.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ZoomRaster.m; sourceTree = "<group>"; };
 		D6FDC040097CF2D200C67EFC /* ActionGroup.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ActionGroup.m; sourceTree = "<group>"; };
 		D6FDC041097CF2D200C67EFC /* ActionGroup_test.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ActionGroup_test.h; sourceTree = "<group>"; };
 		D6FDC042097CF2D200C67EFC /* ActionGroup_test.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ActionGroup_test.m; sourceTree = "<group>"; };
@@ -827,7 +829,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D6FB9EEF0995229F004483CF /* swarmgstep */,
+				D6EFA54B0F98F88D002997C4 /* openstep */,
 				D615D7B708C6C6CB00E2534C /* defobj */,
 				D615D9A808C6C70200E2534C /* objectbase */,
 				D615D9ED08C6C71200E2534C /* collections */,
@@ -1343,27 +1345,26 @@
 			path = ../../src/simtoolsgui;
 			sourceTree = SOURCE_ROOT;
 		};
-		D6FB9EEF0995229F004483CF /* swarmgstep */ = {
+		D6EFA54B0F98F88D002997C4 /* openstep */ = {
 			isa = PBXGroup;
 			children = (
-				D675AEE40E10735E00578367 /* Value2dDisplay.h */,
-				D675AEE50E10735E00578367 /* Value2dDisplay.m */,
-				D675AEDE0E10735100578367 /* Object2dDisplay.h */,
-				D675AEDF0E10735100578367 /* Object2dDisplay.m */,
-				D6FB9EF0099522A0004483CF /* ChangeLog */,
-				D6FB9EF1099522A0004483CF /* GNUstepSwarm.h */,
-				D6FB9EF2099522A0004483CF /* GNUstepSwarm.m */,
-				D6FB9EF3099522A0004483CF /* Makefile.am */,
-				D6FB9EF4099522A0004483CF /* Raster.h */,
-				D6FB9EF5099522A0004483CF /* Raster.m */,
-				D6FB9EF6099522A0004483CF /* swarmgstep.h */,
-				D6FB9EF7099522A0004483CF /* swarmgstep.m */,
-				D6FB9EF8099522A0004483CF /* ZoomRaster.h */,
-				D6FB9EF9099522A0004483CF /* ZoomRaster.m */,
+				D6EFA55A0F98F9C6002997C4 /* ChangeLog */,
+				D6EFA55B0F98F9C6002997C4 /* Makefile.am */,
+				D6EFA55C0F98F9C6002997C4 /* Object2dDisplay.h */,
+				D6EFA55D0F98F9C6002997C4 /* Object2dDisplay.m */,
+				D6EFA55E0F98F9C6002997C4 /* openstep.h */,
+				D6EFA55F0F98F9C6002997C4 /* openstep.m */,
+				D6EFA5600F98F9C6002997C4 /* OpenStepSwarm.h */,
+				D6EFA5610F98F9C6002997C4 /* OpenStepSwarm.m */,
+				D6EFA5620F98F9C6002997C4 /* Raster.h */,
+				D6EFA5630F98F9C6002997C4 /* Raster.m */,
+				D6EFA5640F98F9C6002997C4 /* Value2dDisplay.h */,
+				D6EFA5650F98F9C6002997C4 /* Value2dDisplay.m */,
+				D6EFA5660F98F9C6002997C4 /* ZoomRaster.h */,
+				D6EFA5670F98F9C6002997C4 /* ZoomRaster.m */,
 			);
-			name = swarmgstep;
-			path = ../../src/swarmgstep;
-			sourceTree = SOURCE_ROOT;
+			name = openstep;
+			sourceTree = "<group>";
 		};
 		D6FDC03E097CF2D200C67EFC /* tests */ = {
 			isa = PBXGroup;
@@ -1626,19 +1627,19 @@
 				D615E38008CBF32C00E2534C /* SwarmEnvironment.h in Headers */,
 				D6EAF9A00981D86A00EE3B51 /* SwarmEnvironment_getters.h in Headers */,
 				D6EAF9A30981D87400EE3B51 /* SwarmEnvironment_getters.m in Headers */,
-				D6FB9EFB099522A0004483CF /* GNUstepSwarm.h in Headers */,
-				D6FB9EFE099522A0004483CF /* Raster.h in Headers */,
-				D6FB9F00099522A0004483CF /* swarmgstep.h in Headers */,
-				D6FB9F02099522A0004483CF /* ZoomRaster.h in Headers */,
 				D618622D0DD4F502006B1C2F /* swarm-objc-api.h in Headers */,
 				D618622E0DD4F502006B1C2F /* swarm-objc-apple.h in Headers */,
 				D618622F0DD4F502006B1C2F /* swarm-objc-apple2.h in Headers */,
 				D61862340DD4F511006B1C2F /* swarm_hash.h in Headers */,
 				D61863430DD6473D006B1C2F /* COM.h in Headers */,
 				D61863450DD64741006B1C2F /* COMProxy.h in Headers */,
-				D675AEE00E10735100578367 /* Object2dDisplay.h in Headers */,
-				D675AEE60E10735E00578367 /* Value2dDisplay.h in Headers */,
 				D675AF080E10797700578367 /* SwarmTop.h in Headers */,
+				D6EFA56A0F98F9C6002997C4 /* Object2dDisplay.h in Headers */,
+				D6EFA56C0F98F9C6002997C4 /* openstep.h in Headers */,
+				D6EFA56E0F98F9C6002997C4 /* OpenStepSwarm.h in Headers */,
+				D6EFA5700F98F9C6002997C4 /* Raster.h in Headers */,
+				D6EFA5720F98F9C6002997C4 /* Value2dDisplay.h in Headers */,
+				D6EFA5740F98F9C6002997C4 /* ZoomRaster.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1690,6 +1691,8 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				D615DF0908CAB09700E2534C /* FUTURE-DESIGN in Resources */,
+				D6EFA5680F98F9C6002997C4 /* ChangeLog in Resources */,
+				D6EFA5690F98F9C6002997C4 /* Makefile.am in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1848,19 +1851,19 @@
 				D615DF0B08CAB09700E2534C /* Grid2d.m in Sources */,
 				D615DF0D08CAB09700E2534C /* Int2dFiler.m in Sources */,
 				D615E38108CBF32C00E2534C /* SwarmEnvironment.m in Sources */,
-				D6FB9EFC099522A0004483CF /* GNUstepSwarm.m in Sources */,
-				D6FB9EFF099522A0004483CF /* Raster.m in Sources */,
-				D6FB9F01099522A0004483CF /* swarmgstep.m in Sources */,
-				D6FB9F03099522A0004483CF /* ZoomRaster.m in Sources */,
 				D61862350DD4F511006B1C2F /* swarm_hash.m in Sources */,
 				D61863440DD6473F006B1C2F /* COM.m in Sources */,
 				D61863460DD64742006B1C2F /* COMProxy.m in Sources */,
 				D675AEAF0E1068A700578367 /* swarm-objc-apple.m in Sources */,
-				D675AEE10E10735100578367 /* Object2dDisplay.m in Sources */,
-				D675AEE70E10735E00578367 /* Value2dDisplay.m in Sources */,
 				D63BA7AD0E17108600E0FC0E /* structcpy.c in Sources */,
 				D6B169620E21737B00573BB9 /* modulemap.c in Sources */,
 				D69B41000E26ADAF00953B0F /* avcall-i386.S in Sources */,
+				D6EFA56B0F98F9C6002997C4 /* Object2dDisplay.m in Sources */,
+				D6EFA56D0F98F9C6002997C4 /* openstep.m in Sources */,
+				D6EFA56F0F98F9C6002997C4 /* OpenStepSwarm.m in Sources */,
+				D6EFA5710F98F9C6002997C4 /* Raster.m in Sources */,
+				D6EFA5730F98F9C6002997C4 /* Value2dDisplay.m in Sources */,
+				D6EFA5750F98F9C6002997C4 /* ZoomRaster.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
