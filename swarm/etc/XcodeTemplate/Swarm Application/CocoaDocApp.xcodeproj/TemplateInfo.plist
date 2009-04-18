@@ -1,0 +1,29 @@
+{
+	FilesToRename = {
+		"CocoaDocApp_Prefix.pch" = "ÇPROJECTNAMEÈ_Prefix.pch";
+		"SwarmAppModel.h" = "ÇPROJECTNAMEÈModel.h";
+		"SwarmAppModel.m" = "ÇPROJECTNAMEÈModel.m";
+		"SwarmAppGUI.h" = "ÇPROJECTNAMEÈGUI.h";
+		"SwarmAppGUI.m" = "ÇPROJECTNAMEÈGUI.m";
+		"SwarmAppBatch.h" = "ÇPROJECTNAMEÈBatch.h";
+		"SwarmAppBatch.m" = "ÇPROJECTNAMEÈBatch.m";
+		"SwarmApp.swarm" = "SwarmModel.ÇPROJECTNAMEÈ";
+	};
+	FilesToMacroExpand = (
+		"ÇPROJECTNAMEÈ_Prefix.pch",
+		"Info.plist",
+		"English.lproj/InfoPlist.strings",
+		"MyDocument.h",
+		"MyDocument.m",
+		"main.m",
+		"mainBatch.m",
+		"ÇPROJECTNAMEÈModel.h",
+		"ÇPROJECTNAMEÈModel.m",
+		"ÇPROJECTNAMEÈGUI.h",
+		"ÇPROJECTNAMEÈGUI.m",
+		"ÇPROJECTNAMEÈBatch.h",
+		"ÇPROJECTNAMEÈBatch.m",
+		"SwarmModel.ÇPROJECTNAMEÈ",
+	);
+	Description = "This project builds a Swarm-based application written in Objective-C.";
+}

@@ -1,0 +1,27 @@
+{
+	//
+	// This is the default parameter file for ÇPROJECTNAMEÈ
+	//
+
+	//////
+	// display parameters
+	//////
+	displayFrequency = 1;
+
+	//////
+	// batch parameters
+	//////
+	// output rate
+	outputRate = 50;
+	// number of simulation steps
+	cycles = 3000;
+
+	// initial random seed
+	// randomSeed = 12345;
+
+	/////
+	// model parameters
+	/////
+
+
+}
