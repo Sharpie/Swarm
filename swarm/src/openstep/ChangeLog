@@ -1,0 +1,6 @@
+2009-04-17  Scott Christley  <schristley@mac.com>
+
+	* Makefile.am, OpenStepSwarm.[hm], openstep.[hm],
+	Object2dDisplay.[hm], Value2dDisplay.[hm], ZoomRaster.[hm],
+	Raster.[hm]: New files.  OpenStep module will replace GNUstep
+	module to become common for both GNUstep and Cocoa.
