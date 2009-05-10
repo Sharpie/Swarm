@@ -1,12 +1,13 @@
 
 #import <defobj/swarm-objc-gnu.h>
-#include <objc/runtime.h>
 #include <objc/Object.h>
 #include <objc/Protocol.h>
 
 #include <stdint.h>
 #include <stdlib.h>
 #include <stddef.h>
+
+extern void __objc_add_class_to_hash(Class class);
 
 //
 // Working with classes
@@ -347,6 +348,8 @@ swarm_objc_allocateClassPair (Class superClass, const char *name,
   new_class->class_pointer = meta_class;
   new_class->info = _CLS_CLASS;
   meta_class->info = _CLS_META;
+  CLS_SETRESOLV(new_class);
+  CLS_SETRESOLV(meta_class);
   new_class->instance_size = super_class->instance_size + extraBytes;
   meta_class->instance_size = sizeof(struct objc_class);
 

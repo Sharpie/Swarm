@@ -1,3 +1,8 @@
+2009-05-09  Scott Christley  <schristley@mac.com>
+
+	* swarm-objc-gnu.m: Add prototype for GNU ObjC runtime internal function.
+	Set the new class and meta class as resolved.
+
 2009-04-02  Scott Christley  <schristley@mac.com>
 
 	* defobj.h, defobj.m, LispArchiver.m, FArguments.h, COM.h,
