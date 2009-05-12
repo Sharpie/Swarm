@@ -11,19 +11,18 @@
 #import "ÇPROJECTNAMEÈModel.h"
 
 @interface ÇPROJECTNAMEÈGUI : OpenStepGUISwarm {
-  ÇPROJECTNAMEÈModel *mainModel;
-  
-  NSMutableDictionary *simParameters;
-
-  int displayFrequency;
-  id displayActions;
-  id displaySchedule;
+	ÇPROJECTNAMEÈModel *mainModel;
+	
+	int displayFrequency;
+	id displayActions;
+	id displaySchedule;
 }
 
 + createBegin: aZone;
 - buildObjects;
 - buildActions;
 - activateIn: swarmContext;
-- go;
+
+- (void)updateGraphicalDisplays;
 
 @end

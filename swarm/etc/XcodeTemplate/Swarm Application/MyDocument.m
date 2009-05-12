@@ -1,13 +1,14 @@
 //
-//  Â«PROJECTNAMEÂ»Document.m
-//  Â«PROJECTNAMEÂ» Swarm Application
+//  ÇPROJECTNAMEÈDocument.m
+//  ÇPROJECTNAMEÈ Swarm Application
 //
-//  Created by Â«FULLUSERNAMEÂ» on Â«DATEÂ».
-//  Copyright Â«ORGANIZATIONNAMEÂ» Â«YEARÂ» . All rights reserved.
+//  Created by ÇFULLUSERNAMEÈ on ÇDATEÈ.
+//  Copyright ÇORGANIZATIONNAMEÈ ÇYEARÈ . All rights reserved.
 //
 
+
 #import "MyDocument.h"
-#import "Â«PROJECTNAMEÂ»GUI.h"
+#import "ÇPROJECTNAMEÈGUI.h"
 #import <Swarm/Raster.h>
 
 @implementation MyDocument
@@ -16,10 +17,10 @@
 {
     self = [super init];
     if (self) {
-    
+		
         // Add your subclass-specific initialization here.
         // If an error occurs here, send a [self release] message and return nil.
-    
+		
     }
     return self;
 }
@@ -28,7 +29,7 @@
 {
 	// This method is called to determine what class to use for the top-level
 	// Swarm GUI model when the simulation is initialized.
-	return [Â«PROJECTNAMEÂ»GUI class];
+	return [ÇPROJECTNAMEÈGUI class];
 }
 
 - (NSString *)windowNibName
@@ -41,17 +42,27 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
     [super windowControllerDidLoadNib:aController];
+
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
 - (void)attachDisplays
 {
 	// Here is where you attach any displays from the GUI model to actual graphical views like Raster.
+
+	// [someView addDisplay: [[self getSwarm] heatDisplay]];
 }
 
 - (void)swarmHasUpdated: (id)sender
 {
-	// When the GUI swarm model has updated, it informs us so we can redraw our views
+	// When the GUI Swarm model has updated, it informs us so we can redraw our views
+
+	// The sender is the GUI Swarm model, so we can message it if we want to obtain
+	// more explicit information about what has been updated.  This might allow us
+	// to selectively re-display just some views.  In the simplest case, just
+	// indicate that everything needs re-display.
+	
+	// [someView setNeedsDisplay: YES];
 }
 
 @end

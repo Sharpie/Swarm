@@ -22,7 +22,6 @@
 		D6CFB7E10F82FD69006AD493 /* «PROJECTNAME»Batch.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7DC0F82FD69006AD493 /* «PROJECTNAME»Batch.m */; };
 		D6CFB7E20F82FD69006AD493 /* «PROJECTNAME»GUI.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7DE0F82FD69006AD493 /* «PROJECTNAME»GUI.m */; };
 		D6CFB7E30F82FD69006AD493 /* «PROJECTNAME»Model.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7E00F82FD69006AD493 /* «PROJECTNAME»Model.m */; };
-		D6CFB7E40F82FD69006AD493 /* «PROJECTNAME»Batch.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7DC0F82FD69006AD493 /* «PROJECTNAME»Batch.m */; };
 		D6CFB7E50F82FD69006AD493 /* «PROJECTNAME»GUI.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7DE0F82FD69006AD493 /* «PROJECTNAME»GUI.m */; };
 		D6CFB7E60F82FD69006AD493 /* «PROJECTNAME»Model.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7E00F82FD69006AD493 /* «PROJECTNAME»Model.m */; };
 /* End PBXBuildFile section */
@@ -242,7 +241,6 @@
 			files = (
 				8D15AC310486D014006FF6A4 /* MyDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
-				D6CFB7E40F82FD69006AD493 /* «PROJECTNAME»Batch.m in Sources */,
 				D6CFB7E50F82FD69006AD493 /* «PROJECTNAME»GUI.m in Sources */,
 				D6CFB7E60F82FD69006AD493 /* «PROJECTNAME»Model.m in Sources */,
 			);
