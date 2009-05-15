@@ -17,7 +17,7 @@
 	cycles = 3000;
 
 	// initial random seed
-	// randomSeed = 12345;
+	randomSeed = 12345;
 
 	/////
 	// model parameters

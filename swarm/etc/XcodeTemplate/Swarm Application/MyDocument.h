@@ -11,5 +11,9 @@
 
 @interface MyDocument : OpenStepSwarmController
 {
+  // graphical outlets
+  id modelWindow;  // The main model window
+  id cycleText; // Simulation time
 }
+
 @end

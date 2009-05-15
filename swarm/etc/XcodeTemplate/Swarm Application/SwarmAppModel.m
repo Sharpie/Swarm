@@ -12,20 +12,25 @@
 
 @implementation ÇPROJECTNAMEÈModel
 
-// createBegin: here we set up the default simulation parameters.
+// create:withParameters: here we create the model with provided parameters.
 
-+ createBegin: aZone
++ create: (id)anObserver withParameters: (NSDictionary *)params
 {
-	ÇPROJECTNAMEÈModel *obj;
+  ÇPROJECTNAMEÈModel *obj;
 
-	// First, call our superclass createBegin - the return value is the
-	// allocated HeatbugModelSwarm object.
+  // call our super class first
+  obj = [super create: anObserver withParameters: params];
 
-	obj = [super createBegin: aZone];
+  // We can access the parameters here and save them in instance
+  // variables.  We can also just access the parameters later
+  // whenever they are needed like in -buildObjects.
 
-	obj->cycle = 0;
+  // obj->width = [[params objectForKey: @"width"] intValue];
+  // obj->height = [[params objectForKey: @"height"] intValue];
 
-	return obj;
+  obj->cycle = 0;
+
+  return obj;
 }
 
 // createEnd: we could create some objects here if we knew we needed
@@ -36,7 +41,7 @@
 
 - createEnd
 {
-	return [super createEnd];
+  return [super createEnd];
 }
 
 // Now it's time to build the model objects. We use various parameters
@@ -44,11 +49,18 @@
 
 - buildObjects
 {
-	// allow our parent class to build anything.
-	[super buildObjects];
+  // allow our parent class to build anything.
+  [super buildObjects];
   
+  // Initialize random number generator and some distributions.
 
-	return self;
+  // NSString *s = [simulationParameters objectForKey: @"randomSeed"];
+  // RNG = [MT19937gen create: self setStateFromSeed: [s intValue]];
+  // randomDouble = [UniformDoubleDist create: self setGenerator: RNG
+  //				    setDoubleMin: 0.0 setMax: 1.0];
+  // randomNormal = [NormalDist create: self setGenerator: RNG];
+
+  return self;
 }
 
 // Here is where the model schedule is built, the data structures
@@ -89,6 +101,15 @@
 
   return [self getActivity];
 }
+
+// Provide access to some convenience objects
+- (long)numberOfCycles { return cycle; }
+- (id)randomDouble { return randomDouble; }
+- (id)randomNormal { return randomNormal; }
+
+// Default step method scheduled for the model.  Fill this method
+// with behaviors for the top-level model.  By default we keep
+// track of a generic time counter for the simulation.
 
 - (void)step
 {

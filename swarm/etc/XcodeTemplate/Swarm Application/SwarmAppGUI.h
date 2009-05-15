@@ -6,22 +6,30 @@
 //  Copyright ÇORGANIZATIONNAMEÈ ÇYEARÈ. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <Swarm/OpenStepSwarm.h>
 #import "ÇPROJECTNAMEÈModel.h"
+#import <Swarm/OpenStepSwarm.h>
+#import <Swarm/Value2dDisplay.h>
+#import <Swarm/Object2dDisplay.h>
 
 @interface ÇPROJECTNAMEÈGUI : OpenStepGUISwarm {
-	ÇPROJECTNAMEÈModel *mainModel;
+  ÇPROJECTNAMEÈModel *mainModel;
 	
-	int displayFrequency;
-	id displayActions;
-	id displaySchedule;
+  int displayFrequency;
+  id displayActions;
+  id displaySchedule;
+
+  // displays
+  // id <Object2dDisplay> someDisplay;
 }
 
 + createBegin: aZone;
 - buildObjects;
 - buildActions;
 - activateIn: swarmContext;
+
+- mainModel;
+
+// - someDisplay;
 
 - (void)updateGraphicalDisplays;
 
