@@ -1,3 +1,8 @@
+2009-09-24  Scott Christley  <schristley@mac.com>
+
+	* configure.in: Make single library the default.
+	* Makefile.am (super-clean): Remove files.
+
 2009-04-02  Scott Christley  <schristley@mac.com>
 
 	* NEWS: ObjC runtime abstraction. Mac OSX native support.

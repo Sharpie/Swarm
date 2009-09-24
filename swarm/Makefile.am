@@ -49,7 +49,7 @@ install-data-local:
 install-recursive: install-data-local
 
 super-clean: clean maintainer-clean
-	-rm -f Swarm src/*/Swarm
+	-rm -f Swarm src/*/Swarm tests/*/Swarm
 	-rm -f etc/Makefile.in
 	-rm -f m4/Makefile.in
 	-rm -f COM/Makefile.in
