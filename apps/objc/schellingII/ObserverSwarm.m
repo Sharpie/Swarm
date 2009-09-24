@@ -43,7 +43,7 @@
 
   [controlPanel setStateStopped];
 
-  modelZone = [Zone create: self];
+  modelZone = [SwarmZone create: self];
   modelSwarm = [ModelSwarm create: modelZone];
   
   // Note what happens if you uncomment this. pj 2005-02-11

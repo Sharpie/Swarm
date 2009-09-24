@@ -74,7 +74,7 @@
   
   [super buildObjects];
   
-  modelZone = [Zone create: [self getZone]];
+  modelZone = [SwarmZone create: [self getZone]];
 
   forestModelSwarm = [ForestModelSwarm create: modelZone];
  

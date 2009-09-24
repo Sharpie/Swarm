@@ -1,3 +1,8 @@
+2009-09-24  Scott Christley  <schristley@mac.com>
+
+	* ForestObserverSwarm.m: Class rename of Zone to SwarmZone.
+	* ForestBatchSwarm.m: Likewise.
+
 2004-09-24  Paul Johnson  <pauljohn@localhost.localdomain>
 
 	* ForestBatchSwarm.m ([ForestBatchSwarm -buildObjects]): Switch

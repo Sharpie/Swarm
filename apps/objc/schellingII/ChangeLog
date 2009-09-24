@@ -1,3 +1,7 @@
+2009-09-24  Scott Christley  <schristley@mac.com>
+
+	* ObserverSwarm.m: Class rename of Zone to SwarmZone.
+
 2005-02-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
 
 	* Nhood2dCounter.h: new method 
