@@ -133,8 +133,8 @@
 
 - (void)addDoubleToVector: (double)val;
 
-- (void)iterate: (int (*) (id <HDF5> hdf5Obj))iterateFunc drop: (BOOL)dropFlag;
-- (void)iterate: (int (*) (id <HDF5> hdf5Obj))iterateFunc;
+- (void)iterate: (int (*) (id hdf5Obj))iterateFunc drop: (BOOL)dropFlag;
+- (void)iterate: (int (*) (id hdf5Obj))iterateFunc;
 
 - (void)storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - (const char *)getAttribute: (const char *)attrName;

@@ -186,7 +186,7 @@ PHASE(Using)
 - (void)_performAction_: (id <Activity>)anActivity
 {
   if (target) // in the case of FActionForEach
-    updateTarget (call, target);
+    updateTarget ((FCall_c *)call, target);
   
   PERFORM (call);
 }
@@ -319,7 +319,7 @@ PHASE(Using)
 {
   if (call)
     {
-      updateTarget (call, target);
+      updateTarget ((FCall_c *)call, target);
       PERFORM (call);
     }
   else
@@ -497,7 +497,7 @@ PHASE(Using)
 @implementation FActionForEachHomogeneous_c
 #define ACTION_HOMOGENEOUS_TYPE FActionForEachHomogeneous_c
 #undef SETUPCALL
-#define UPDATEOBJCTARGET(target) updateTarget (call, target)
+#define UPDATEOBJCTARGET(target) updateTarget ((FCall_c *)call, target)
 #define PERFORMOBJCCALL(target) PERFORM (call)
 #ifdef HAVE_JDK
 #define UPDATEJAVATARGET(jtarget) updateJavaTarget (call, jtarget)

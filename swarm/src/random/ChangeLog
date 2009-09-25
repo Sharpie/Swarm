@@ -1,3 +1,8 @@
+2009-09-24  Scott Christley  <schristley@mac.com>
+
+	* include.gens.creating.m: Adjust casts to eliminate compiler
+	warnings.
+
 2008-07-06  Scott Christley  <schristley@mac.com>
 
 	* include.gens.creating.m ([-createEnd]): ObjC runtime

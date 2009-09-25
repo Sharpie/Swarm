@@ -106,7 +106,7 @@ ensureBltSupportFiles (id arguments, id interp)
 
   if (Blt_Init (interp) != TCL_OK)
     {
-      char *msg = Tcl_GetVar (interp, "errorInfo", TCL_GLOBAL_ONLY);
+      const char *msg = Tcl_GetVar (interp, "errorInfo", TCL_GLOBAL_ONLY);
       
       if (msg == NULL)
         msg = interp->result;

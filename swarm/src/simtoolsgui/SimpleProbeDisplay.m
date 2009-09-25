@@ -89,10 +89,10 @@
           widgets[i] =	
             [[VarProbeWidget createBegin: getZone (self)]
               setParent: topFrame];
-          [widgets[i] setProbe: probe];
-          [widgets[i] setObject: probedObject];
-          [widgets[i] setMyLeft:  leftFrame];
-          [widgets[i] setMyRight: rightFrame];
+          [(id)widgets[i] setProbe: probe];
+          [(id)widgets[i] setObject: probedObject];
+          [(id)widgets[i] setMyLeft:  leftFrame];
+          [(id)widgets[i] setMyRight: rightFrame];
           widgets[i] = [widgets[i] createEnd];
           [widgets[i] pack];
           i++;
@@ -110,8 +110,8 @@
           widgets[i] =	
             [[MessageProbeWidget createBegin: getZone (self)]
               setParent: bottomFrame];
-          [widgets[i]  setProbe: probe];
-          [widgets[i] setObject: probedObject];
+          [(id)widgets[i]  setProbe: probe];
+          [(id)widgets[i] setObject: probedObject];
           widgets[i] = [widgets[i] createEnd];
           [widgets[i] pack];
           i++;
@@ -146,7 +146,7 @@
   
   for (i = 0; i < count; i++)
     if (!markedForDropFlag)
-      [widgets[i] update];
+      [(id)widgets[i] update];
     else
       break;
 }

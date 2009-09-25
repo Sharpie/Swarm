@@ -1,3 +1,8 @@
+2009-09-24  Scott Christley  <schristley@mac.com>
+
+	* TclInterp.m, tclObjc.m: Adjust casts to eliminate compiler
+	warnings.
+
 2009-04-02  Scott Christley  <schristley@mac.com>
 
 	* HashTable.[hm], List.h, tclObjc.h, tclObjc.m: ObjC runtime

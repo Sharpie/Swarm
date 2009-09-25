@@ -329,7 +329,7 @@ swarm_directory_COM_find_object_objc (COMobject cObject)
       ObjectEntry *result = swarm_directory_COM_find (cObject);
 
       return (result
-              ? result->object
+              ? (id)result->object
               : nil);
     }
 }
@@ -353,8 +353,8 @@ swarm_directory_COM_find_class_objc (COMclass cClass)
       ObjectEntry *result = swarm_directory_COM_find_class (cClass);
 
       return (result
-              ? result->object
-              : Nil);
+              ? (id)result->object
+              : nil);
     }
 }
 
@@ -370,7 +370,7 @@ swarm_directory_COM_ensure_object_objc (COMobject cObject)
       result = swarm_directory_COM_find (cObject);
 
       return (result
-              ? result->object
+              ? (id)result->object
               : SD_COM_ADD_OBJECT_OBJC (comEnv->COMnormalize (cObject),
                                         [COMProxy create: globalZone]));
     }

@@ -182,7 +182,7 @@ PHASE(Using)
                                      conformsTo: protocol];
 #else
   if (swarm_class_getDefinedClassBit(swarm_object_getClass(self)))
-    return swarm_class_conformsToProtocol (self, protocol);
+    return swarm_class_conformsToProtocol (self, (ObjcProtocol *)protocol);
 #endif
   else
     return [super conformsTo: protocol];
@@ -606,9 +606,9 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - (int)compare: anObject
 {
-  if (self < anObject)
+  if ((id)self < (id)anObject)
     return -1;
-  return (self > anObject);
+  return ((id)self > (id)anObject);
 }
 
 //
@@ -1470,7 +1470,7 @@ respondsTo (id anObject, SEL aSel)
 #if SWARM_OBJC_DONE
   return sarray_get (getClass (anObject)->dtable, (size_t) aSel->sel_id) != 0;
 #else
-  return swarm_class_respondsToSelector(swarm_object_getClass(anObject), aSel);
+  return swarm_class_respondsToSelector(swarm_object_getClass(anObject), (ObjcSEL *)aSel);
 #endif
 }
 

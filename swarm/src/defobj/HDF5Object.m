@@ -477,7 +477,7 @@ create_class_from_compound_type (id aZone,
                                  const char *typeName,
                                  Class *classPtr)
 {
-  unsigned i, count;
+  unsigned count;
   size_t tid_size;
   Class class;
   
@@ -499,6 +499,7 @@ create_class_from_compound_type (id aZone,
   else
     {
 #if SWARM_OBJC_DONE
+      int i;
       Class newClass = [CreateDrop class];
       id classObj = [id_BehaviorPhase_s createBegin: aZone];
       struct objc_ivar_list *ivars =
@@ -709,7 +710,7 @@ PHASE(Using)
                         "expecting string table for int -> char * conversion");
           {
             PTRINT offset = *(int *) (buf + hoffset);
-            id <MapIndex> mi = [stringMap begin: scratchZone];
+            id mi = [stringMap begin: scratchZone];
             const char *key;
 
             if (offset > 0)
@@ -867,7 +868,7 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
     raiseEvent (SaveError, "unable to copy string type");
 
   {
-    id <MapIndex> mi = [stringMap begin: scratchZone];
+    id mi = [stringMap begin: scratchZone];
     const char *key;
     size_t maxlen = 0;
 
@@ -1571,7 +1572,7 @@ PHASE(Using)
 #endif
 }
 
-- (void)iterate: (int (*) (id <HDF5> hdf5obj))iterateFunc drop: (BOOL)dropFlag
+- (void)iterate: (int (*) (id hdf5obj))iterateFunc drop: (BOOL)dropFlag
 {
 #ifdef HAVE_HDF5
   herr_t process_object (hid_t oid, const char *memberName, void *client)
@@ -1629,7 +1630,7 @@ PHASE(Using)
 #endif  
 }
 
-- (void)iterate: (int (*) (id <HDF5> hdf5obj))iterateFunc
+- (void)iterate: (int (*) (id hdf5obj))iterateFunc
 {
   [self iterate: iterateFunc drop: YES];
 }
@@ -1705,8 +1706,9 @@ PHASE(Using)
             {
               id typeObject = baseTypeObject;
 
-              int process_object (HDF5_c *hdf5Obj)
+              int process_object (id anObj)
                 {
+		  HDF5_c *hdf5Obj = anObj;
                   if (hdf5Obj->datasetFlag)
                     {
                       hid_t did = hdf5Obj->loc_id;
@@ -1980,7 +1982,7 @@ hdf5_store_attribute (hid_t did,
 
   if (rank > 0)
     {
-      hssize_t hdf5dims[rank];
+      hsize_t hdf5dims[rank];
       unsigned i;
       hid_t sid;
       
@@ -2064,7 +2066,7 @@ hdf5_store_attribute (hid_t did,
         if (H5Sselect_elements (c_sid,
                                 H5S_SELECT_SET,
                                 count,
-                                (const hssize_t **) coords) < 0)
+                                (const hsize_t **) coords) < 0)
           raiseEvent (InvalidArgument, "unable to select elements");
       }
     else
@@ -2163,7 +2165,7 @@ hdf5_store_attribute (hid_t did,
   
   coord[0][0] = recordNumber;
   if (H5Sselect_elements (c_sid, H5S_SELECT_SET, 1,
-                          (const hssize_t **) coord) < 0)
+                          (const hsize_t **) coord) < 0)
     raiseEvent (InvalidArgument, "unable to select record: %u", recordNumber);
 #else
   hdf5_not_available ();

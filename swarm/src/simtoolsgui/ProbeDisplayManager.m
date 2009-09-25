@@ -167,7 +167,7 @@ PHASE(Using)
                  setWindowGeometryRecordName: windowGeometryRecordName];
 }
   
-- (id <ProbeDisplay>)createArchivedProbeDisplayFor: anObject
+- (id)createArchivedProbeDisplayFor: anObject
                                       variableName: (const char *)variableName
 {
   return [self _createProbeDisplayFor_: anObject
@@ -175,19 +175,19 @@ PHASE(Using)
                  [self _computeProbeDisplayKeyFor_: variableName]];
 }
 
-- (id <ProbeDisplay>)createProbeDisplayFor: anObject
+- (id)createProbeDisplayFor: anObject
 {
   return [self _createProbeDisplayFor_: anObject
                setWindowGeometryRecordName: NULL];
 }
 
-- (id <ProbeDisplay>)createDefaultProbeDisplayFor: anObject 
+- (id)createDefaultProbeDisplayFor: anObject 
 {
   return [self _createDefaultProbeDisplayFor_: anObject
                setWindowGeometryRecordName: NULL];
 }
 
-- (id <ProbeDisplay>)createArchivedDefaultProbeDisplayFor: anObject 
+- (id)createArchivedDefaultProbeDisplayFor: anObject 
                                              variableName: (const char *)variableName
 {
   return [self _createDefaultProbeDisplayFor_: anObject
@@ -195,7 +195,7 @@ PHASE(Using)
                  [self _computeProbeDisplayKeyFor_: variableName]];
 }
 
-- (id <CompleteProbeDisplay>)createArchivedCompleteProbeDisplayFor: anObject
+- (id)createArchivedCompleteProbeDisplayFor: anObject
                                                       variableName: (const char *)variableName
 {
   return [[[[ProbeDisplay createBegin: getZone (self)]
@@ -205,7 +205,7 @@ PHASE(Using)
            createEnd];
 }
 
-- (id <CompleteProbeDisplay>)createCompleteProbeDisplayFor: anObject
+- (id)createCompleteProbeDisplayFor: anObject
 {
   return [[[ProbeDisplay createBegin: getZone (self)]
             setProbedObject: anObject]

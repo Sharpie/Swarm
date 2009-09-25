@@ -146,7 +146,7 @@ getUCharReturn (void *p)
 static char *
 getStringReturn (void *p)
 {
-  return *(unsigned char **) p;
+  return *(char **) p;
 }
 
 static float
@@ -427,7 +427,7 @@ void
 tclObjc_registerObjectWithName (Tcl_Interp *interp, 
 				    id object, const char *name)
 {
-  Tcl_CreateCommand(interp, (char *) name, tclObjc_msgSendToClientData,
+  Tcl_CreateCommand(interp, (char *) name, (Tcl_CmdProc *)tclObjc_msgSendToClientData,
 		    object, 0);
 }
 
@@ -523,7 +523,7 @@ tclObjc_msgSendToArgv1 (ClientData clientData,
 {
   char *datum;
   const char *type;
-  char *objcdebug;
+  const char *objcdebug;
   BOOL debug_printing;
   ObjcMethod method = 0;
   char argString[256];
@@ -691,7 +691,7 @@ TclObjc_Init (Tcl_Interp *interp)
   _TclObject_interp = interp;
   tclObjc_registerClassnames(interp);
   Tcl_CreateCommand(interp, "tclObjc_msg_send", 
-		    tclObjc_msgSendToArgv1, 0, 0);
+		    (Tcl_CmdProc *)tclObjc_msgSendToArgv1, 0, 0);
   {
     int code;
     char buf [strlen (tclObjcInitCmd) + 1];

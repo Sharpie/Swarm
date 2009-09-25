@@ -129,7 +129,7 @@ getDefaultOrder (unsigned bits)
 //
 // _activateIn_::: -- create an activity to run plan under swarm or top level
 //
-- (id <Activity>)_activateIn_: swarmContext
+- (id)_activateIn_: swarmContext
                              : (Class)activityClass 
                              : (Class)indexClass
                              : (Zone_c *)swarmZone

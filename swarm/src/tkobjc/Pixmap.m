@@ -84,7 +84,7 @@ PHASE(Creating)
       raiseEvent (MissingFiles, "Short read of %s", filename);
     }
   
-  if (png_check_sig (header, sizeof (header)) == 0)
+  if (png_check_sig ((png_bytep)header, sizeof (header)) == 0)
     {
       fclose (fp);
       raiseEvent (MissingFiles, "%s is not a PNG file", filename);
@@ -139,7 +139,7 @@ PHASE(Creating)
     else
       {
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
-        if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, &palette_size))
+        if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, (int *)&palette_size))
           raiseEvent (PaletteError,
                       "Cannot get palette from PNG file: %s\n",
                        filename);
@@ -182,7 +182,7 @@ PHASE(Creating)
                 }
             }
           {
-            id <MapIndex> mi = [cMap begin: getZone (self)];
+            id mi = [cMap begin: getZone (self)];
             png_bytep rgb;
             id indexObj;
 

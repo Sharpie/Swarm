@@ -581,7 +581,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
     }
 }
 
-- (void)hdf5OutDeep: hdf5Obj
+- (void)hdf5OutDeep: (id <OutputStream>)hdf5Obj
 {
   unsigned x, y;
   id hdf5Zone = [hdf5Obj getZone];
@@ -626,7 +626,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   char c1, c2;
   int maxValue;
   unsigned x, y;
-  unsigned fileXSize, fileYSize;
+  int fileXSize, fileYSize;
   
   // open the file
   f = [InFile create: getZone (self) setName: filename];

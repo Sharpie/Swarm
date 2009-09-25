@@ -117,7 +117,7 @@ removeObsoleteMerges (id <ActivityIndex> currentIndex)
 
   if (getClass (action) == id_ActionConcurrent_c)
     {
-      id <Index> index =
+      id index =
         [((ActionConcurrent_c *) action)->concurrentGroup begin: scratchZone];
       CAction *caction;
       
@@ -308,8 +308,9 @@ terminateFunction (id activity)
 // stopFunction -- break function to stop a running leaf activity
 //
 static BOOL
-stopFunction (Activity_c *activity)
+stopFunction (id anObj)
 {
+  Activity_c *activity = anObj;
   // cancel stop function in local activity and any owner activity that
   // just created local activity
   
@@ -351,8 +352,9 @@ stopFunction (Activity_c *activity)
 // nextFunction -- break function to stop on return from 
 //
 static BOOL
-nextFunction (Activity_c *activity)
+nextFunction (id anObj)
 {
+  Activity_c *activity = anObj;
   // cancel local next function
   
   activity->breakFunction = _activity_trace;
@@ -380,8 +382,10 @@ nextFunction (Activity_c *activity)
 // installNext() -- break function to stop activity after next action
 //
 static BOOL
-installNext (Activity_c *activity)
+installNext (id anObj)
 {
+  Activity_c *activity = anObj;
+
   if (!COMPLETEDP (activity->status))
     activity->breakFunction = nextFunction;
   else if (activity->ownerActivity)
@@ -420,8 +424,10 @@ installNext (Activity_c *activity)
 // installStep() -- break function to stop activity after next subaction
 //
 static BOOL
-installStep (Activity_c *activity)
+installStep (id anObj)
 {
+  Activity_c *activity = anObj;
+
   // stop in local activity, or new subactivity, if not completed
   
   if (!COMPLETEDP (activity->status))
@@ -540,7 +546,7 @@ installStep (Activity_c *activity)
 //
 - (id <Activity>)getOwnerActivity
 {
-  return topLevelAction ? nil : ownerActivity;
+  return topLevelAction ? nil : (id <Activity>)ownerActivity;
 }
 
 //
@@ -549,7 +555,7 @@ installStep (Activity_c *activity)
 //
 - (id <Activity>)getControllingActivity
 {
-  return topLevelAction ? ownerActivity : nil;
+  return topLevelAction ? (id <Activity>)ownerActivity : nil;
 
 }
 

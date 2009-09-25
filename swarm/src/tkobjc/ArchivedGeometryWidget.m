@@ -28,7 +28,7 @@
 
 PHASE(Creating)
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   ArchivedGeometryWidget *obj = [super createBegin: aZone];
 

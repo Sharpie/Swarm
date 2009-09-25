@@ -248,7 +248,7 @@ fix_tcl_path (const char *path)
       argv++;
     }
 
-  args = Tcl_Merge (argc-1, (char **)argv+1);
+  args = Tcl_Merge (argc-1, argv+1);
   Tcl_SetVar (interp, "argv", (char *)args, TCL_GLOBAL_ONLY);
   ckfree ((void *)args);
   {
@@ -266,7 +266,7 @@ fix_tcl_path (const char *path)
   
   if (Tcl_Init (interp) == TCL_ERROR || TclObjc_Init(interp) == TCL_ERROR)
     {
-      char *msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
+      const char *msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
       if (msg == NULL)
 	msg = interp->result;
       [self error:msg];
@@ -352,7 +352,7 @@ fix_tcl_path (const char *path)
   code = Tcl_Eval(interp, cmd);
   if (code != TCL_OK)
     {
-      char *msg;
+      const char *msg;
       msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
       if (msg == NULL) {
 	msg = interp->result;
@@ -378,7 +378,7 @@ fix_tcl_path (const char *path)
   code = Tcl_GlobalEval(interp, cmd);
   if (code != TCL_OK)
     {
-      char *msg;
+      const char *msg;
       msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
       if (msg == NULL) {
 	msg = interp->result;
@@ -394,7 +394,7 @@ fix_tcl_path (const char *path)
 {
   if ((code = Tcl_EvalFile(interp, (char*)filename)) != TCL_OK) 
     {
-      char *msg;
+      const char *msg;
       msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
       if (msg == NULL) {
 	msg = interp->result;

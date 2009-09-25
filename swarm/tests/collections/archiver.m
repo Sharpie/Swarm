@@ -420,7 +420,7 @@
       if (deepFlag)
         {
           id key;
-          id <MapIndex> mi = [coll begin: aZone];
+          id mi = [coll begin: aZone];
 
           while ((obj = [mi next: &key]))
             {
@@ -440,7 +440,7 @@
       else
         {
           const char *key;
-          id <MapIndex> mi = [coll begin: aZone];
+          id mi = [coll begin: aZone];
 
           while ((obj = [mi next: (id *) &key]))
             {

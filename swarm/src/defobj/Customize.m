@@ -735,13 +735,13 @@ _obj_splitPhases (Class class)
 
   Protocol **protoList;
   unsigned int outCount, i;
-  protoList = swarm_class_copyProtocolList(class, &outCount);
+  protoList = (Protocol **)swarm_class_copyProtocolList(class, &outCount);
   if (protoList) {
     //printf("%d protocols for class %s\n", outCount, class->name);
     for (i = 0; i < outCount; ++i) {
       //printf("%s\n", protoList[i]->protocol_name);
-      if (creatingClass) swarm_class_addProtocol(creatingClass, protoList[i]);
-      if (usingClass) swarm_class_addProtocol(usingClass, protoList[i]);
+      if (creatingClass) swarm_class_addProtocol(creatingClass, (ObjcProtocol *)protoList[i]);
+      if (usingClass) swarm_class_addProtocol(usingClass, (ObjcProtocol *)protoList[i]);
     }
   }
 

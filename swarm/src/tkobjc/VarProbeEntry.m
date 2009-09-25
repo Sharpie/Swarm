@@ -143,7 +143,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (id <VarProbe>)getVarProbe
+- (id)getVarProbe
 {
   return varProbe;
 }

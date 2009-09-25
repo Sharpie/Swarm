@@ -802,7 +802,7 @@ externvar id <Error>
 
 //#: macro used to create and initialize a Warning symbol
 #define deferror(name, message) \
-  [(name = [Error create: globalZone setName: #name]) \
+  [(id)(name = [Error create: globalZone setName: #name])	\
     setMessageString: message]
 @end
 

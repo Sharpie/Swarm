@@ -245,7 +245,7 @@ PHASE(Creating)
       return self;
     }
 #else
-  unsigned *outCount;
+  unsigned int outCount;
   ObjcIvar *ivarList = swarm_class_copyIvarList (probedClass, &outCount);
   int i;
   
@@ -394,7 +394,7 @@ PHASE(Using)
   return baseType;
 }
 
-- clone: aZone
+- clone: (id <Zone>)aZone
 {
   VarProbe *new_probe;
   
@@ -1518,7 +1518,7 @@ convert_from_string (fcall_type_t type,
   if (floatFormat) 
      FREEBLOCK (floatFormat);
   if (baseType)
-     [globalZone free: baseType];
+    [globalZone free: (void *)baseType];
   [super drop];
 }
 

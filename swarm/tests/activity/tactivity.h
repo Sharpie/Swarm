@@ -4,7 +4,7 @@
 @protocol Group_test
 CREATING
 + createBegin: aZone numberOfObjects: (int)num;
-- addObject: obj;
+- (void)addObject: obj;
 USING
 - (void)describe: outputCharStream;
 - (void)describeForEach: outputCharStream;

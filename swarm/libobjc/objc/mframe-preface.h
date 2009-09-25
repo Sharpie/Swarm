@@ -25,9 +25,17 @@
 #define __preface_h_OBJECTS_INCLUDE
 
 #undef PACKAGE
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
 #undef VERSION
 #include <config.h>
 #undef PACKAGE
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
 #undef VERSION
 
 #if defined(__hpux__) && defined(HAVE_SYS_SIGEVENT_H)

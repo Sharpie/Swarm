@@ -134,7 +134,7 @@ PHASE(Using)
   return ret;
 }
 
-- (id <ProbeMap>)getProbeMapFor: aClass
+- (id <ProbeMap>)getProbeMapFor: (Class)aClass
 {
   id ret;
   
@@ -164,7 +164,7 @@ PHASE(Using)
   return [temp createEnd];
 }
 
-- (id <ProbeMap>)getCompleteProbeMapFor: aClass
+- (id <ProbeMap>)getCompleteProbeMapFor: (Class)aClass
 {
   id <ProbeMap> temp;
 

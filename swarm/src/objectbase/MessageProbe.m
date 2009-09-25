@@ -130,7 +130,7 @@ PHASE(Setting)
 
 PHASE(Using)
 
-- clone: aZone
+- clone: (id <Zone>)aZone
 {
   MessageProbe *new_probe;
   

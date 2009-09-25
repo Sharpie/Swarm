@@ -1,3 +1,7 @@
+2009-09-24  Scott Christley  <schristley@mac.com>
+
+	* archiver.m: Adjust casts to eliminate compiler warnings.
+
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* archiver.m ([MyClass -describe:]): Add.

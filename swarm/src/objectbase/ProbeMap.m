@@ -762,7 +762,7 @@ PHASE(Using)
   [self dropProbeFor: aVariable];
 }
 
-- (id <Probe>)getProbeForMessage: (const char *)aMessage
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage
 {
   id string;
   id res;

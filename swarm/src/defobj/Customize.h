@@ -143,31 +143,12 @@ if (_obj_customize(self)) [self _setRecustomize_: recustomizeReceiver]
 //
 // getNextPhase() -- return class which implements next phase of object
 //
-extern inline Class
-getNextPhase (Class aClass)
-{
-#if SWARM_OBJC_DONE
-  return (Class) ((BehaviorPhase_s *) aClass)->nextPhase;
-#else
-  classData_t classData = _obj_getClassData (aClass);
-  if (classData->initialPhase->nextPhase)
-    return classData->initialPhase->nextPhase->definingClass;
-  else
-    return nil;
-#endif
-}
+extern Class
+getNextPhase (Class aClass);
 
 //
 // setNextPhase() -- change behavior of object to next defined phase
 //
-extern inline void
-setNextPhase (id anObject)
-{
-#if SWARM_OBJC_DONE
-  *(Class *) anObject = (Class) (*(BehaviorPhase_s **) anObject)->nextPhase;
-#else
-  classData_t classData = _obj_getClassData (swarm_object_getClass (anObject));
-  if (classData->initialPhase->nextPhase)
-    swarm_object_setClass(anObject, classData->initialPhase->nextPhase->definingClass);
-#endif
-}
+extern void
+setNextPhase (id anObject);
+

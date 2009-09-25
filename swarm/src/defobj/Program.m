@@ -94,7 +94,7 @@ static void
 initModules (void)
 {
   Class moduleSuper, class;
-  void *enumState, **modules, **module;
+  void **modules, **module;
   id *nextmod;
 
   // trigger initialization of superclass links and get module superclass
@@ -104,6 +104,7 @@ initModules (void)
   // loop through classes to count their number and to chain module objects
 
 #if SWARM_OBJC_DONE
+  void *enumState;
   for (modules = NULL, enumState = NULL;
         (class = objc_next_class (&enumState));
        _obj_nclasses++)
@@ -347,7 +348,7 @@ _obj_initModule (void *module)
   
   for (class = (Class **) moduleObject->classes; *class; class++)
     {
-      classData = _obj_getClassData ((Class_s *) **class);
+      classData = _obj_getClassData ((Class) **class);
       if (classData->owner)
         raiseEvent (InternalError, nil);
       
@@ -368,7 +369,7 @@ _obj_initModule (void *module)
 
   for (class = (Class **) moduleObject->classes; *class; class++)
     {
-      classData = _obj_getClassData ((Class_s *) **class);
+      classData = _obj_getClassData ((Class) **class);
       
       type = classData->typeImplemented;
       if (type && type->implementation)

@@ -34,7 +34,8 @@
   getUnsignedSample =
     (unsigned (*) (id, SEL))[self methodFor: M(getUnsignedSample)];
 #else
-  getUnsignedSample = swarm_class_getMethodImplementation(swarm_object_getClass(self), M(getUnsignedSample));
+  getUnsignedSample = (unsigned (*) (id, SEL))swarm_class_getMethodImplementation(swarm_object_getClass(self),
+										  M(getUnsignedSample));
 #endif
 
 

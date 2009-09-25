@@ -955,7 +955,7 @@ PHASE(Using)
 @implementation ConcurrentSchedule_c
 PHASE(Creating)
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   ActivationOrder_c *obj = [super createBegin: aZone];
 
@@ -1318,7 +1318,7 @@ PHASE(Using)
 //
 - get
 {
-  id <Symbol> status = currentAction;
+  id status = currentAction;
 
   if (REMOVEDP (status) || COMPLETEDP (status))
     return nil;

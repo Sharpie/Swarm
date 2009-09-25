@@ -472,7 +472,7 @@ PHASE(Creating)
     
     callType = objccall;
     gc_fobject = obj;
-     fmethod = sel;
+    fmethod = (void *)sel;
     class = getClass (obj);
     gc_fclass = class;
     ffunction = FUNCPTR (swarm_class_getMethodImplementation ((Class) gc_fclass, (SEL) fmethod));

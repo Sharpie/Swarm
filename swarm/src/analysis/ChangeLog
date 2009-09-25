@@ -1,3 +1,7 @@
+2009-09-24  Scott Christley  <schristley@mac.com>
+
+	* Average.m: Adjust casts to eliminate compiler warnings.
+
 2009-04-02  Scott Christley  <schristley@mac.com>
 
 	* EZBin.m: ObjC runtime abstraction.

@@ -72,7 +72,7 @@ setListClass (id obj, id aClass)
 #else
   if (swarm_class_getDefinedClassBit(swarm_object_getClass(obj))) {
     classData_t classData = _obj_getClassData(swarm_object_getClass(obj));
-    nextPhase = classData->initialPhase->nextPhase->definingClass;
+    nextPhase = (Class_s *)classData->initialPhase->nextPhase->definingClass;
   }
 #endif
   

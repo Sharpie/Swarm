@@ -119,7 +119,7 @@ swarm_directory_entry_drop (DirectoryEntry *entry)
 #if SWARM_OBJC_DONE
 	  [stream catC: ((Class) object)->name];
 #else
-          [stream catC: swarm_class_getName(object)];
+          [stream catC: swarm_class_getName((id)object)];
 #endif
         }
     }

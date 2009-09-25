@@ -347,7 +347,7 @@ lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
 {
   if (systemArchiverFlag)
     {
-      id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
+      id appMapIndex = [applicationMap begin: scratchZone];
       id app;
       id <String> appKey;
       
