@@ -1,3 +1,7 @@
+2009-10-01  Scott Christley  <schristley@mac.com>
+
+	* XcodeTemplate: Add batch (non-GUI) batch target.
+
 2009-04-17  Scott Christley  <schristley@mac.com>
 
 	* XcodeTemplate: Swarm application template for Xcode.

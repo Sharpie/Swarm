@@ -6,11 +6,10 @@
 //  Copyright ÇORGANIZATIONNAMEÈ ÇYEARÈ. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <Swarm/Swarm.h>
+#import <Swarm/OpenStepSwarm.h>
 #import "ÇPROJECTNAMEÈModel.h"
 
-@interface ÇPROJECTNAMEÈBatch : Swarm {
+@interface ÇPROJECTNAMEÈBatch : OpenStepSwarmModel {
   ÇPROJECTNAMEÈModel *mainModel;
 
   int experimentDuration;
@@ -22,7 +21,7 @@
   id batchSchedule;
 }
 
-+ createBegin: aZone;
+- createEnd;
 - buildObjects;
 - buildActions;
 - activateIn: swarmContext;

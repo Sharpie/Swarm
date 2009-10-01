@@ -18,12 +18,12 @@
 		D6CFB7CD0F82FB36006AD493 /* Swarm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CFB7CC0F82FB36006AD493 /* Swarm.framework */; };
 		D6CFB7CE0F82FB36006AD493 /* Swarm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CFB7CC0F82FB36006AD493 /* Swarm.framework */; };
 		D6CFB7D40F82FBC0006AD493 /* SwarmModel.«PROJECTNAME» in Resources */ = {isa = PBXBuildFile; fileRef = D6CFB7D30F82FBC0006AD493 /* SwarmModel.«PROJECTNAME» */; };
-		D6CFB7D80F82FC1F006AD493 /* mainBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7D70F82FC1F006AD493 /* mainBatch.m */; };
 		D6CFB7E10F82FD69006AD493 /* «PROJECTNAME»Batch.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7DC0F82FD69006AD493 /* «PROJECTNAME»Batch.m */; };
 		D6CFB7E20F82FD69006AD493 /* «PROJECTNAME»GUI.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7DE0F82FD69006AD493 /* «PROJECTNAME»GUI.m */; };
 		D6CFB7E30F82FD69006AD493 /* «PROJECTNAME»Model.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7E00F82FD69006AD493 /* «PROJECTNAME»Model.m */; };
 		D6CFB7E50F82FD69006AD493 /* «PROJECTNAME»GUI.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7DE0F82FD69006AD493 /* «PROJECTNAME»GUI.m */; };
 		D6CFB7E60F82FD69006AD493 /* «PROJECTNAME»Model.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CFB7E00F82FD69006AD493 /* «PROJECTNAME»Model.m */; };
+		D6DECB740FCDBF8C0077D1EA /* mainBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DECB730FCDBF8C0077D1EA /* mainBatch.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,13 +45,13 @@
 		D6CFB7C80F82FB1B006AD493 /* Narrative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Narrative.framework; path = /Library/Frameworks/Narrative.framework; sourceTree = "<absolute>"; };
 		D6CFB7CC0F82FB36006AD493 /* Swarm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swarm.framework; path = /Library/Frameworks/Swarm.framework; sourceTree = "<absolute>"; };
 		D6CFB7D30F82FBC0006AD493 /* SwarmModel.«PROJECTNAME» */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SwarmModel.«PROJECTNAME»"; sourceTree = "<group>"; };
-		D6CFB7D70F82FC1F006AD493 /* mainBatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mainBatch.m; path = "/Library/Application Support/Developer/Shared/Xcode/Project Templates/Application/Swarm Application/mainBatch.m"; sourceTree = "<absolute>"; };
 		D6CFB7DB0F82FD69006AD493 /* «PROJECTNAME»Batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "«PROJECTNAME»Batch.h"; sourceTree = "<group>"; };
 		D6CFB7DC0F82FD69006AD493 /* «PROJECTNAME»Batch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "«PROJECTNAME»Batch.m"; sourceTree = "<group>"; };
 		D6CFB7DD0F82FD69006AD493 /* «PROJECTNAME»GUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "«PROJECTNAME»GUI.h"; sourceTree = "<group>"; };
 		D6CFB7DE0F82FD69006AD493 /* «PROJECTNAME»GUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "«PROJECTNAME»GUI.m"; sourceTree = "<group>"; };
 		D6CFB7DF0F82FD69006AD493 /* «PROJECTNAME»Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "«PROJECTNAME»Model.h"; sourceTree = "<group>"; };
 		D6CFB7E00F82FD69006AD493 /* «PROJECTNAME»Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "«PROJECTNAME»Model.m"; sourceTree = "<group>"; };
+		D6DECB730FCDBF8C0077D1EA /* mainBatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainBatch.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D6CFB7D70F82FC1F006AD493 /* mainBatch.m */,
+				D6DECB730FCDBF8C0077D1EA /* mainBatch.m */,
 				32DBCF750370BD2300C91783 /* «PROJECTNAME»_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
@@ -250,10 +250,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6CFB7D80F82FC1F006AD493 /* mainBatch.m in Sources */,
 				D6CFB7E10F82FD69006AD493 /* «PROJECTNAME»Batch.m in Sources */,
 				D6CFB7E20F82FD69006AD493 /* «PROJECTNAME»GUI.m in Sources */,
 				D6CFB7E30F82FD69006AD493 /* «PROJECTNAME»Model.m in Sources */,
+				D6DECB740FCDBF8C0077D1EA /* mainBatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
