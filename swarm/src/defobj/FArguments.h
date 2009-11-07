@@ -63,6 +63,7 @@ Library:      defobj
 + createBegin: aZone;
 - setLanguage: (id <Symbol>)language;
 - setSelector: (SEL)aSel;
+- setSelector: (SEL)aSel forTarget: (id)theTarget;
 + create: aZone setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
 - addArgument: (types_t *)value ofType: (fcall_type_t)type;

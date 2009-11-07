@@ -42,6 +42,7 @@ typedef void *retval_t;
 #define swarm_class_copyMethodList(cls, outCount) class_copyMethodList(cls, outCount)
 #define swarm_class_copyProtocolList(cls, outCount) class_copyProtocolList(cls, outCount)
 #define swarm_class_createInstance(cls, extraBytes) class_createInstance(cls, extraBytes)
+#define swarm_class_getClass(cls) object_getClass(cls)
 #define swarm_class_getClassMethod(cls, name) class_getClassMethod(cls, name)
 #define swarm_class_getInstanceMethod(cls, name) class_getInstanceMethod(cls, name)
 #define swarm_class_getInstanceSize(cls) class_getInstanceSize(cls)

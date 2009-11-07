@@ -1,3 +1,19 @@
+2009-11-07  Scott Christley  <schristley@mac.com>
+
+	* DefObject.h: Need to inherit from NSObject on OpenStep.
+
+	* DefObject.m: Use conformsToProtocol: on OpenStep.  Add
+	casts to eliminate compiler errors.
+	
+	* defobj.m (_objc_lookup_class): Not available on Mac OSX.
+
+	* COM.m (swarm_directory_COM_ensure_selector): Typed selectors
+	not available on Mac OSX.
+
+	* FArguments.[hm] (setSelector:forTarget:): New method.
+
+	* swarm-objc-apple2.h (swarm_class_getClass): New definition.
+	
 2009-09-24  Scott Christley  <schristley@mac.com>
 
 	* defobj.h, LispArchiver.m, COM.m, Program.m, macros.h,

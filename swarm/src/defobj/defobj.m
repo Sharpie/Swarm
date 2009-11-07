@@ -164,7 +164,9 @@ initDefobj (id <Arguments> _arguments)
 
   arguments = _arguments;
 #if SWARM_OBJC_TODO
+#if !SWARM_OSX
   _objc_lookup_class = findTypeOrLocalClass;
+#endif
 #endif
   {
     BOOL inhibitLoadFlag =

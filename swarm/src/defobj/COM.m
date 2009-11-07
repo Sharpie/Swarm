@@ -433,10 +433,14 @@ swarm_directory_COM_ensure_selector (COMselector cSel)
           
           if (needSelector)
             {
+#if SWARM_OBJC_DONE
               const char *type =
                 mframe_build_signature (signatureBuf, NULL, NULL, NULL);
               
               sel = swarm_sel_registerTypedName (name, type);
+#else
+              sel = swarm_sel_registerName (name);
+#endif
             }
         }
       }

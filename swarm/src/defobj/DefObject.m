@@ -185,7 +185,11 @@ PHASE(Using)
     return swarm_class_conformsToProtocol (self, (ObjcProtocol *)protocol);
 #endif
   else
+#if SWARM_OSX
+	return [super conformsToProtocol: protocol];
+#else
     return [super conformsTo: protocol];
+#endif
 }
 
 //
@@ -1361,11 +1365,11 @@ initDescribeStream (void)
           
           if (obj != nil)
             {
-              id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+              id group = [[[HDF5 createBegin: [hdf5Obj getZone]]
                               setWriteFlag: YES]
-                             setParent: hdf5Obj]
-                            setName: name]
-                           createEnd];
+                             setParent: hdf5Obj];
+			  group = [(HDF5_c *)group setName: name];
+			  group = [group createEnd];
               
               [obj hdf5OutDeep: group];
               [group drop];
@@ -1386,14 +1390,14 @@ initDescribeStream (void)
     [hdf5Obj shallowStoreObject: self];
   else
     {
-      id cType = [[[HDF5CompoundType createBegin: getZone (self)]
-                    setPrototype: self]
-                   createEnd];
+      id cType = [HDF5CompoundType createBegin: getZone (self)];
+	  cType = [(HDF5CompoundType_c *)cType setPrototype: self];
+	  cType = [cType createEnd];
       const char *objName = [hdf5Obj getHDF5Name];
 
-      id cDataset = [[[[[[HDF5 createBegin: getZone (self)]
-                          setName: objName]
-                         setWriteFlag: YES]
+      id cDataset = [HDF5 createBegin: getZone (self)];
+	  cDataset = [(HDF5_c *)cDataset setName: objName];
+	  cDataset = [[[[cDataset setWriteFlag: YES]
                         setParent: hdf5Obj]
                        setCompoundType: cType]
                       createEnd];

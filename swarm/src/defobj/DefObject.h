@@ -32,7 +32,11 @@ Library:      defobj
 @class ObjectEntry;
 
 #ifdef INHERIT_OBJECT
+#if SWARM_OSX
 @interface Object_s: Object <DefinedClass, Serialization, GetName>
+#else
+@interface Object_s: NSObject <DefinedClass, Serialization, GetName>
+#endif
 {
 @public
   // Word that contains zone in which object allocated, plus
