@@ -130,7 +130,7 @@ PHASE(Creating)
           int direction = 0;
           
           PermutationItem_c *pi =
-            [[[[PermutationItem createBegin: getCZone (getZone (self))]
+            [[[(PermutationItem_c *)[PermutationItem createBegin: getCZone (getZone (self))]
                 setPosition: i]
                setItem: elem]
               createEnd];
