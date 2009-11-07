@@ -1,3 +1,8 @@
+2009-11-07  Scott Christley  <schristley@mac.com>
+
+	* OpenStepSwarm.[hm], Value2dDisplay.[hm], openstep.h,
+	Object2dDisplay.[hm]: Remove non-OpenStep code.
+
 2009-04-17  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am, OpenStepSwarm.[hm], openstep.[hm],

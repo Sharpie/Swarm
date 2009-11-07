@@ -77,3 +77,17 @@
 - (void)swarmHasUpdatedNotification;
 
 @end
+
+// An OpenStepSwarmModel is a Swarm for the top-level model in an
+// OpenStep Swarm application.  It has support to be created by
+// either a GUI or batch observable, and initializes itself
+// specifically through model parameters passed to it.
+
+@interface OpenStepSwarmModel: Swarm
+{
+	NSDictionary *simulationParameters;
+}
+
++ create: (id)aSwarm withParameters: (NSDictionary *)params;
+
+@end

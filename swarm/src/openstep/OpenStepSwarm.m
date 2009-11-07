@@ -429,3 +429,21 @@ PHASE(Using)
 }
 
 @end
+
+//
+//
+//
+
+@implementation OpenStepSwarmModel
+
++ create: (id)aSwarm withParameters: (NSDictionary *)params
+{
+	OpenStepSwarmModel *obj;
+	
+	obj = [super createBegin: aSwarm];
+	obj->simulationParameters = params;
+	
+	return obj;
+}
+
+@end

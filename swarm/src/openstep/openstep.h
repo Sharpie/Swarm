@@ -1,4 +1,4 @@
-// Swarm library. Copyright © 1996-2004 Swarm Development Group.
+// Swarm library. Copyright (c) 1996-2009 Swarm Development Group.
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
@@ -17,7 +17,7 @@
 // The Swarm Development Group can be reached via our website at:
 // http://www.swarm.org/
 
-//S: Classes to support GNUstep integration
+//S: Classes to support OpenStep integration
 
 #import <Swarm/objectbase.h>
 #import <Swarm/space.h>
@@ -28,35 +28,32 @@
 //D: Object2dDisplay helps display 2d arrays of objects. 
 
 CREATING
-//M: Convenience constructor for Object2dDisplay
-+ create: (id <Zone>)aZone setDisplayWidget: (id)r setDiscrete2dToDisplay: (id <GridData>)c setDisplayMessage: (SEL)s;
-
-//M: Set the display widget to use for drawing.
-- setDisplayWidget: (id)r;
+//M: Convenience constructors for Object2dDisplay
++ create: aZone withDiscrete2dToDisplay: (id <GridData>)c;
++ create: aZone withDiscrete2dToDisplay: (id <GridData>)c andDisplayInvocation: (NSInvocation *)anInvocation;
 
 //M: Set the 2d array to draw.
 - setDiscrete2dToDisplay: (id <GridData>)c;
 
 //M: Set the message to be sent to each object in the grid to make it
-//M: draw itself. 
-- setDisplayMessage: (SEL)s;
+//M: draw itself.  If no invocation is set then used OpenStep NSView
+//M: default of -drawRect:
+- setDisplayInvocation: (NSInvocation *)anInvocation;
 
 USING
-//M: Set a collection of objects to be displayed. 
-//M: If this is not given, then Object2dDisplay loops through the 2d
-//M: grid sending draw messages to all objects it finds there. 
-//M: Giving an explicit collection of objects to draw is more efficient
-//M: if your grid is sparsely populated. 
-- setObjectCollection: objects;
-
-//M: Draw all objects in the array (or optionally, the collection)
-//M: on the raster widget. All that happens here is the display message
+//M: Draw all objects in the array
+//M: on an internal image. All that happens here is the display message
 //M: is sent to each object - it is the object's responsibility to
 //M: render itself. 
-- display;
+- (void)updateDisplay;
+
+//M: Get the image which all the objects have displayed themselves on.
+//M: This is used by graphical classes like Raster to composite the
+//M: image into a graphical view.
+- (NSImage *)image;
 
 //M: Make a probe for an object at a specific point.
-- makeProbeAtX: (unsigned)x Y: (unsigned)y;
+- (void)makeProbeAtX: (unsigned)x Y: (unsigned)y;
 @end
 
 @protocol Value2dDisplay <SwarmObject, CREATABLE>
@@ -80,13 +77,17 @@ USING
 //M: If not set, assume m == 1 and c == 0. 
 - setDisplayMappingM: (int)m C: (int)c;
 
-//M: Draw the array on the given widget.
-//M: Note that you still have to tell the widget to draw itself afterwards.
-//M: The code for display uses the fast macro access in Discrete2d on
-//M: the cached return value from getLattice.
-//M: It also caches the drawPointX:Y: method lookup on the display widget -
-//M: this is a nice trick that you might want to look at. 
-- display;
+//M: Get the image with the 2d array values displayed on it.
+//M: This is used by graphical classes like Raster to composite the
+//M: image into a graphical view.
+- (NSImage *)image;
+
+//M: Draw the array on an internal image.
+//M: This essentially makes a snapshot of the state of the 2d array
+//M: that can be used by graphical classes like Raster to composite
+//M: into graphical views without requiring any access to the
+//M: underlying 2d array.
+- (void)updateDisplay;
 @end
 
 @class Object2dDisplay;

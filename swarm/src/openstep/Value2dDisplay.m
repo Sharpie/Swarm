@@ -255,7 +255,7 @@ PHASE(Using)
 }
 #endif
 
-- (void)update
+- (void)updateDisplay
 {
   if (!image) [self createImage];
 

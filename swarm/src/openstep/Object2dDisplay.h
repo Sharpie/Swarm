@@ -20,11 +20,7 @@
 #import <Swarm/space.h> // Discrete2d
 #import <Swarm/openstep.h>
 #import <Swarm/SwarmObject.h>
-#ifndef SWARM_OSX
-#import <Swarm/gui.h> // Raster
-#else
 #import <Cocoa/Cocoa.h>
-#endif
 
 // generic object to handle display 2d objects
 // hand it a 2d raster widget, tell it what message to send, and it sends it.
@@ -32,32 +28,22 @@
 
 @interface Object2dDisplay: SwarmObject <Object2dDisplay>
 {
-#ifndef SWARM_OSX
-  id <Raster> displayWidget;
-#else
-  id displayWidget;
+  id <GridData> discrete2d;
   NSInvocation *displayInvocation;
+
   NSImage *image;
   NSBitmapImageRep *imageRep;
-#endif
-  id <GridData> discrete2d;
-  SEL displayMessage;
-  id objectCollection;
 }
-#ifndef SWARM_OSX
-+ create: aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: (id <GridData>)c setDisplayMessage: (SEL)s;
-- setDisplayWidget: (id <Raster>)r;
-#else
-+ create: aZone setDisplayWidget: (id)r setDiscrete2dToDisplay: (id <GridData>)c setDisplayMessage: (SEL)s;
-- setDisplayWidget: (id)r;
-- displayX:(int)xPos Y:(int)yPos inRect:(NSRect)aRect;
-- (void)update;
-#endif
+
++ create: aZone withDiscrete2dToDisplay: (id <GridData>)c;
++ create: aZone withDiscrete2dToDisplay: (id <GridData>)c andDisplayInvocation: (NSInvocation *)anInvocation;
+
 - setDiscrete2dToDisplay: (id <GridData>)c;
-- (id <GridData>)discrete2d;
-- setDisplayMessage: (SEL)s;
-- setObjectCollection: objects;			  // optional collection
+- setDisplayInvocation: (NSInvocation *)anInvocation;
 - createEnd;
-- display;
-- makeProbeAtX: (unsigned)x Y: (unsigned)y;
+
+- (NSImage *)image;
+- (id <GridData>)discrete2d;
+- (void)updateDisplay;
+- (void)makeProbeAtX: (unsigned)x Y: (unsigned)y;
 @end
