@@ -1,6 +1,9 @@
 2009-11-07  Scott Christley  <schristley@mac.com>
 
-	* DefObject.h: Need to inherit from NSObject on OpenStep.
+	* Program.m (initialize): Needs to return self.
+	
+	* DefObject.h, Program.h: Need to inherit from NSObject on
+	OpenStep.
 
 	* DefObject.m: Use conformsToProtocol: on OpenStep.  Add
 	casts to eliminate compiler errors.

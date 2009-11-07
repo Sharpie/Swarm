@@ -1,4 +1,4 @@
-// Swarm library. Copyright © 1996-2000 Swarm Development Group.
+// Swarm library. Copyright (C) 1996-2009 Swarm Development Group.
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
@@ -142,7 +142,7 @@ initModules (void)
     if (swarm_class_getSuperclass(class) == moduleSuper) {
       _obj_nmodules++;
       // get uninitialized module object
-      module = (void **) [class initialize]; 
+      module = (void **) [(Object *)class initialize]; 
       module[0] = (void *) modules;
       modules = module;
     }
@@ -526,6 +526,11 @@ PHASE(Using)
 //
 
 @implementation Module_super_
+
++ initialize
+{
+	return self;
+}
 
 + self
 {

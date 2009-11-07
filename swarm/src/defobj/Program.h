@@ -71,7 +71,11 @@ extern void _obj_setTypeImplemented (id, id);
 
 id defobj_lookup_type (const char *typename);
 
+#if SWARM_OSX
+@interface Module_super_ : NSObject
+#else
 @interface Module_super_
+#endif
 /*** methods in Module_super_ (inserted from .m file by m2h) ***/
 + self;
 @end
