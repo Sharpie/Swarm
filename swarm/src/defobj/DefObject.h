@@ -33,9 +33,9 @@ Library:      defobj
 
 #ifdef INHERIT_OBJECT
 #if SWARM_OSX
-@interface Object_s: Object <DefinedClass, Serialization, GetName>
-#else
 @interface Object_s: NSObject <DefinedClass, Serialization, GetName>
+#else
+@interface Object_s: Object <DefinedClass, Serialization, GetName>
 #endif
 {
 @public
