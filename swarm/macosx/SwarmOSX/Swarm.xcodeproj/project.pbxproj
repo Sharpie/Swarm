@@ -35,7 +35,6 @@
 		D615D76D08C6C13800E2534C /* mem.h in Headers */ = {isa = PBXBuildFile; fileRef = D615D74108C6C13800E2534C /* mem.h */; };
 		D615D77108C6C13800E2534C /* misc.h in Headers */ = {isa = PBXBuildFile; fileRef = D615D74508C6C13800E2534C /* misc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D615D77208C6C13800E2534C /* quicksort.c in Sources */ = {isa = PBXBuildFile; fileRef = D615D74608C6C13800E2534C /* quicksort.c */; };
-		D615D77408C6C13800E2534C /* stpcpy.c in Sources */ = {isa = PBXBuildFile; fileRef = D615D74808C6C13800E2534C /* stpcpy.c */; };
 		D615D77708C6C13800E2534C /* strdup.c in Sources */ = {isa = PBXBuildFile; fileRef = D615D74B08C6C13800E2534C /* strdup.c */; };
 		D615D77A08C6C13800E2534C /* strndup.c in Sources */ = {isa = PBXBuildFile; fileRef = D615D74E08C6C13800E2534C /* strndup.c */; };
 		D615D77B08C6C13800E2534C /* strnlen.c in Sources */ = {isa = PBXBuildFile; fileRef = D615D74F08C6C13800E2534C /* strnlen.c */; };
@@ -1737,7 +1736,6 @@
 				D615D76A08C6C13800E2534C /* getopt1.c in Sources */,
 				D615D76B08C6C13800E2534C /* gettimeofday.c in Sources */,
 				D615D77208C6C13800E2534C /* quicksort.c in Sources */,
-				D615D77408C6C13800E2534C /* stpcpy.c in Sources */,
 				D615D77708C6C13800E2534C /* strdup.c in Sources */,
 				D615D77A08C6C13800E2534C /* strndup.c in Sources */,
 				D615D77B08C6C13800E2534C /* strnlen.c in Sources */,
@@ -1884,7 +1882,8 @@
 		D615D71A08C6BFEC00E2534C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_32_BIT)";
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1897,6 +1896,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Swarm_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
@@ -1907,8 +1908,10 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../avcall\"";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
 				PREBINDING = NO;
 				PRODUCT_NAME = Swarm;
+				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = YES;
 			};
@@ -1917,7 +1920,9 @@
 		D615D71B08C6BFEC00E2534C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1946,38 +1951,11 @@
 			};
 			name = Release;
 		};
-		D615D71C08C6BFEC00E2534C /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_32_BIT)";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Swarm_Prefix.pch;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../avcall\"";
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
-				PREBINDING = NO;
-				PRODUCT_NAME = Swarm;
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Default;
-		};
 		D615D71E08C6BFEC00E2534C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
 				GCC_PREPROCESSOR_DEFINITIONS = "SWARM_OSX=1";
 				HEADER_SEARCH_PATHS = (
 					../../avcall,
@@ -1986,7 +1964,8 @@
 					../../src,
 					/usr/include/ffi,
 				);
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
 				OTHER_CFLAGS = "-fnested-functions";
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
@@ -1996,7 +1975,8 @@
 		D615D71F08C6BFEC00E2534C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
 				GCC_PREPROCESSOR_DEFINITIONS = "SWARM_OSX=1";
 				HEADER_SEARCH_PATHS = (
 					../../avcall,
@@ -2004,30 +1984,13 @@
 					../..,
 					../../src,
 				);
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
 				OTHER_CFLAGS = "-fnested-functions";
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
 			};
 			name = Release;
-		};
-		D615D72008C6BFEC00E2534C /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
-				GCC_PREPROCESSOR_DEFINITIONS = "SWARM_OSX=1";
-				HEADER_SEARCH_PATHS = (
-					../../avcall,
-					/usr/local/include,
-					../..,
-					../../src,
-				);
-				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-fnested-functions";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
-				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
-			};
-			name = Default;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2037,20 +2000,18 @@
 			buildConfigurations = (
 				D615D71A08C6BFEC00E2534C /* Debug */,
 				D615D71B08C6BFEC00E2534C /* Release */,
-				D615D71C08C6BFEC00E2534C /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		D615D71D08C6BFEC00E2534C /* Build configuration list for PBXProject "Swarm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D615D71E08C6BFEC00E2534C /* Debug */,
 				D615D71F08C6BFEC00E2534C /* Release */,
-				D615D72008C6BFEC00E2534C /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
