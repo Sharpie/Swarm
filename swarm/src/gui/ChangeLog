@@ -1,3 +1,7 @@
+2009-11-07  Scott Christley  <schristley@mac.com>
+
+	* gui.h: Exclude tk for Mac OSX.  Rename Line to SwarmLine.
+
 2008-06-25  Scott Christley  <schristley@mac.com>
 
 	* gui.h, Makefile.am: Standardize include directory structure to

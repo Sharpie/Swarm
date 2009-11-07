@@ -922,7 +922,7 @@ CREATING
 #define GUI_INIT(arguments)  initAWTObjc (arguments)
 #endif
 
-#ifndef GNUSTEP
+#if !defined(GNUSTEP) && !defined(SWARM_OSX)
 #ifndef USE_JAVA
 #import <tkobjc/common.h>
 extern void initTkObjc (id arguments);
@@ -979,7 +979,7 @@ extern void initTkObjc (id arguments);
 @class ZoomRaster;
 
 @class Circle;
-@class Line;
+@class SwarmLine;
 @class NodeItem;
 @class Rectangle;
 @class ScheduleItem;
