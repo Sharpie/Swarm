@@ -1,5 +1,7 @@
 2009-11-07  Scott Christley  <schristley@mac.com>
 
+	* swarm-objc-gnu.h (class_getInstanceMethod): Add macro.
+	
 	* Program.m (initialize): Needs to return self.
 	
 	* DefObject.h, Program.h: Need to inherit from NSObject on

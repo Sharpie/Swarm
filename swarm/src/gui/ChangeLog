@@ -1,6 +1,6 @@
 2009-11-07  Scott Christley  <schristley@mac.com>
 
-	* gui.h: Exclude tk for Mac OSX.  Rename Line to SwarmLine.
+	* gui.h: Exclude tk for Mac OSX.  Rename Line to SwarmLine for OpenStep.
 
 2008-06-25  Scott Christley  <schristley@mac.com>
 

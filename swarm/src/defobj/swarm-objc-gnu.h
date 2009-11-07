@@ -35,6 +35,7 @@ Library:      defobj
 
 #define swarm_class_getName(cls) class_get_class_name(cls)
 #define swarm_class_getMethodImplementation(cls, sel) get_imp(cls, sel)
+#define swarm_class_getInstanceMethod(cls, sel) class_get_instance_method(cls, sel)
 #define swarm_class_getInstanceSize(cls) class_get_instance_size(cls)
 #define swarm_class_getSuperclass(cls) class_get_super_class(cls)
 #define swarm_class_getMetaclass(cls) (((Class)cls)->class_pointer)
