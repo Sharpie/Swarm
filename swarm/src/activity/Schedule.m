@@ -530,7 +530,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
                     "> action to be removed from schedule does not belong to schedule\n");
 #endif
       
-      removedAction = [(id) ((CAction *) anAction)->owner remove: anAction];
+      removedAction = [(id <Schedule>) ((CAction *) anAction)->owner remove: anAction];
       
       emptyAction =
         [(id) ((CAction *) anAction)->owner _getEmptyActionConcurrent_];
@@ -1297,12 +1297,16 @@ PHASE(Using)
       // Avoid leaving behind invalid owners in mergeAction
       // `owner' is used in [Schedule remove:], for example
       // first do some common cases before expensive conformsTo
+#if SWARM_OSX
+      if ([collection conformsToProtocol: @protocol (ConcurrentSchedule)])
+#else
 #ifdef FAST
       if (class != id_Schedule_c)
         if (class == id_ActivationOrder_c || class == id_ConcurrentSchedule_c
             || [collection conformsTo: @protocol (ConcurrentSchedule)])
 #else
       if ([collection conformsTo: @protocol (ConcurrentSchedule)])
+#endif
 #endif
 {
           removedAction->owner =

@@ -69,7 +69,12 @@ PHASE(Creating)
 {
   [super createEnd];
 
+#if SWARM_OBJC_DONE
   perform_imp = [FCall_c instanceMethodFor: M(performCall)];
+#else
+  perform_imp = swarm_class_getMethodImplementation([FCall_c class], M(performCall));
+#endif
+
   return self;
 }
 
@@ -299,8 +304,12 @@ PHASE(Setting)
 {
   id <FArguments> arguments =
     [FArguments createBegin: getCZone (getZone (self))];
-  
+ 
+#if SWARM_OSX
+  [arguments setSelector: selector forTarget: theTarget];
+#else
   [arguments setSelector: selector];
+#endif
   if ([theTarget respondsTo: M(isJavaProxy)])
     [arguments setLanguage: LanguageJava];
   else

@@ -1,3 +1,9 @@
+2009-11-07  Scott Christley  <schristley@mac.com>
+
+	* Schedule.m: Use conformsToProtocol: on OpenStep.
+
+	* Action.m: Use setSelector:forTarget: on OpenStep.
+
 2009-09-24  Scott Christley  <schristley@mac.com>
 
 	* XActivity.m, ActionGroup.m, Schedule.m, Action.m,
