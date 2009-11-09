@@ -1,3 +1,7 @@
+2009-11-09  Scott Christley  <schristley@mac.com>
+
+	* Makefile.am (ENABLE_OPENSTEP): Change from ENABLE_GNUSTEP.
+
 2009-09-24  Scott Christley  <schristley@mac.com>
 
 	* Average.m: Adjust casts to eliminate compiler warnings.

@@ -1,3 +1,7 @@
+2009-11-09  Scott Christley  <schristley@mac.com>
+
+	* configure.in: Switch flag from GNUstep to OpenStep.
+
 2009-09-24  Scott Christley  <schristley@mac.com>
 
 	* configure.in: Make single library the default.

@@ -1,7 +1,7 @@
 MODULE = swarmtop
 swarmtopdir = $(includedir)/Swarm
 
-if ENABLE_GNUSTEP
+if ENABLE_OPENSTEP
 SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space swarmgstep $(SWARM_XMLRPC)
 else
 SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space $(SWARM_XMLRPC)

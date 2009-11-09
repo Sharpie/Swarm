@@ -19,13 +19,10 @@ AC_PROG_SED
 AC_SUBST(SED)
 
 case ${host} in
-        *-*-darwin9*)
-                OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools"
-		NESTLDFLAGS=-fnested-functions
-                ;;
         *-*-darwin*)
                 OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools"
 		NESTLDFLAGS=-fnested-functions
+		HOST_DARWIN=yes
                 ;;
         *)
                 ;;
@@ -70,13 +67,13 @@ AC_ARG_ENABLE(libobjc,
 [  --disable-libobjc                Disable local ObjC library],
   ,enable_libobjc=yes)
 
-AC_ARG_ENABLE(gnustep,
-[  --enable-gnustep                 Enable Swarm for use with GNUstep],
-  ,enable_gnustep=no)
+AC_ARG_ENABLE(openstep,
+[  --enable-openstep                Enable Swarm for use with OpenStep (GNUstep/Cocoa)],
+  ,enable_openstep=no)
 
-if test "$enable_gnustep" = yes; then
+if test "$enable_openstep" = yes; then
 md_FIND_GNUSTEPLIB
-   echo GNUstep integration is enabled.  Skipping configuration of local libobjc
+   echo OpenStep integration is enabled.  Skipping configuration of local libobjc
    enable_libobjc=no
 fi
 
@@ -122,8 +119,8 @@ AC_ARG_WITH(xmlrpc,
 if test "$enable_gui" = no; then
    echo GUI has been disabled.  Skipping configure of tclobjc
 else
-   if test "$enable_gnustep" = yes; then
-      echo GNUstep integration is enabled.  Skipping configuration of tclobjc
+   if test "$enable_openstep" = yes; then
+      echo OpenStep integration is enabled.  Skipping configuration of tclobjc
    else
 
 # TEA configuration
@@ -142,8 +139,8 @@ fi
 if test "$enable_gui" = no; then
    echo GUI has been disabled.  Skipping configure of tkobjc
 else
-   if test "$enable_gnustep" = yes; then
-      echo GNUstep integration is enabled.  Skipping configuration of tkobjc
+   if test "$enable_openstep" = yes; then
+      echo OpenStep integration is enabled.  Skipping configuration of tkobjc
    else
    
 TEA_PATH_TKCONFIG
@@ -186,8 +183,8 @@ fi
 if test "$enable_gui" = no; then
    echo GUI has been disabled.  Skipping configure of tclobjc
 else
-   if test "$enable_gnustep" = yes; then
-      echo GNUstep integration is enabled.  Skipping configuration of BLT
+   if test "$enable_openstep" = yes; then
+      echo OpenStep integration is enabled.  Skipping configuration of BLT
    else
 
 md_FIND_BLT
@@ -427,15 +424,19 @@ if test "$enable_gui" = no; then
    AC_DEFINE([DISABLE_GUI], 1, [Define if GUI is disabled.])
    AM_CONDITIONAL(DISABLE_GUI, true)
 fi
-if test "$enable_gnustep" = yes; then
-   AM_CONDITIONAL(ENABLE_GNUSTEP, true)
+if test "$enable_openstep" = yes; then
+   AM_CONDITIONAL(ENABLE_OPENSTEP, true)
    TCLTKGUIDIR=
    SIMTOOLSGUI=
    SIMTOOLSGUIINCLUDE=
    GUIDIR=
    GUIDIRINCLUDE=
+   AC_DEFINE([SWARM_OPENSTEP], 1, [Define if OpenStep GUI enabled.])
+   if test x"$HOST_DARWIN" = xyes; then
+      AC_DEFINE([SWARM_OSX], 1, [Define if Swarm on Mac OSX.])
+   fi
 else
-   AM_CONDITIONAL(ENABLE_GNUSTEP, false)
+   AM_CONDITIONAL(ENABLE_OPENSTEP, false)
 fi
 
 

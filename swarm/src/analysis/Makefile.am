@@ -12,7 +12,7 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libanalysis.la
 
-if ENABLE_GNUSTEP
+if ENABLE_OPENSTEP
 GUI_SRC =
 GUI_HDRS =
 else
