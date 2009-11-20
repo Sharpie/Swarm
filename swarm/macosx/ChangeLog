@@ -1,3 +1,8 @@
+2009-11-20  Scott Christley  <schristley@mac.com>
+
+	* SwarmOSXInstall.pmdoc: Mac PackageManager project for
+	creating a Mac installation package.
+
 2009-04-16  Scott Christley  <schristley@mac.com>
 
 	* SwarmOSX: Project for native Apple ObjC.
