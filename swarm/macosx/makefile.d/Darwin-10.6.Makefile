@@ -17,10 +17,14 @@
 
 Darwin_install: ${PRODUCT}
 ${PRODUCT}: .Darwin_install
-.Darwin_install:
+.Darwin_install: ${XCODE_TEMPLATES}
 	test ! -d ${PRODUCT} || rm -rf ${PRODUCT}
 	cp -R ${BASE}/build/Release/$(shell basename ${PRODUCT}) ${PRODUCT}
 	touch $@
+
+${XCODE_TEMPLATES}: ../etc/XcodeTemplate
+	sudo mkdir -p $@
+	sudo rsync -a $</ $@/
 
 Darwin_x:
 	open ${BASE}/${PROJECT}.xcodeproj
