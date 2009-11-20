@@ -1,15 +1,14 @@
-PROJECT := Swarm
-OS      := $(shell uname -s)
+MAKEFLAGS := -e
+PROJECT   := Swarm
+OS        := $(shell uname -s)
 
 help:
-	@echo "To build "
-	@echo "make build"
-	@echo "make install"
-	@echo "make clean"
-
-default: build;
 
 include makefile.d/${OS}.Makefile
+
+help: ${OS}_help
+
+default: build;
 
 build: .${OS}_build
 
@@ -23,4 +22,4 @@ clean: ${OS}_clean
 	-rm -f .${OS}_*
 
 ################################################################################
-.PHONY: all clean info ${OS}_clean ${OS}_info ${OS}_x
+.PHONY: all clean info ${OS}_clean ${OS}_info ${OS}_help ${OS}_x

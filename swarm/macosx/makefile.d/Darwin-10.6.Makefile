@@ -25,9 +25,6 @@ ${PRODUCT}: .Darwin_install
 Darwin_x:
 	open ${BASE}/${PROJECT}.xcodeproj
 
-Darwin_info:
-	xcodebuild -showsdks
-
 Darwin_clean:
 	cd ${BASE} && xcodebuild \
 		-configuration Debug \
