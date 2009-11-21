@@ -1,3 +1,5 @@
+SED := $(shell (which sed && sed --version) > /dev/null 2>&1 && echo 1 || echo 0)
+
 MAKEFLAGS := -e
 PROJECT   := Swarm
 
@@ -6,17 +8,20 @@ SRC_SWARM     := $(SRC_ROOT)/swarm
 
 OS        := $(shell uname -s)
 
-help:
-
-include makefile.d/${OS}.Makefile
-
+ifeq ($(SED),0)
+fail:
+	@echo "ERROR: Your version of \`sed' is incompatible!"
+	@echo "       Please install GNU sed, and make sure it's first in you path!"
+	@exit 1
+else
 help: ${OS}_help
 
-default: build;
+include makefile.d/${OS}.Makefile
 
 build: .${OS}_build
 
 install: .${OS}_build ${OS}_install
+endif
 
 x: ${OS}_x
 
