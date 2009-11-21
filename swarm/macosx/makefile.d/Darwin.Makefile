@@ -1,8 +1,9 @@
+SRC_MACOSX    := $(SRC_SWARM)/macosx
+SRC_SWARMOSX  := $(SRC_MACOSX)/SwarmOSX
+
 OS_VERSION := $(shell sw_vers -productVersion | sed 's/\(.*\)\.[0-9]*/\1/')
 
 SDK             := macosx${OS_VERSION}
-#BASE           := swarm/macosx/SwarmOSX
-BASE            := SwarmOSX
 XCODE_TEMPLATES := "/Library/Application\ Support/Developer/Shared/Xcode/Project\ Templates/Applications"
 
 ifeq (${PRODUCT},)

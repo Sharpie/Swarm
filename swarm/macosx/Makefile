@@ -1,5 +1,9 @@
 MAKEFLAGS := -e
 PROJECT   := Swarm
+
+SRC_ROOT      := $(realpath ../../)
+SRC_SWARM     := $(SRC_ROOT)/swarm
+
 OS        := $(shell uname -s)
 
 help:

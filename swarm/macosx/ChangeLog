@@ -1,3 +1,7 @@
+Sat, 21 Nov 2009 15:39:50 +0800 Nima Talebi <nima@it.net.au>
+
+    * Makefile, makefile.d: Aid subversion-installation users
+
 2009-11-20  Scott Christley  <schristley@mac.com>
 
 	* SwarmOSXInstall.pmdoc: Mac PackageManager project for
