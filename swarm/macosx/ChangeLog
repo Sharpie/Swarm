@@ -1,3 +1,8 @@
+2009-11-23  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* configure.sh: add /usr/local/bin to $PATH for 
+          configure
+	
 Sat, 21 Nov 2009 15:39:50 +0800 Nima Talebi <nima@it.net.au>
 
     * Makefile, makefile.d: Aid subversion-installation users
