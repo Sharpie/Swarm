@@ -1,3 +1,8 @@
+2009-11-23  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* aclibtool.m4: reinstated because AC_PROG_SED fails to 
+       to find GNU sed
+    
 2009-03-05  Scott Christley  <schristley@mac.com>
 
 	* acgnustep.m4: Add Local directories.
