@@ -1,3 +1,8 @@
+2009-11-23  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* configure.in: replace AC_PROG_SED with LT_AC_PROG_SED 
+       to find GNU sed
+    
 2009-11-09  Scott Christley  <schristley@mac.com>
 
 	* configure.in: Switch flag from GNUstep to OpenStep.
