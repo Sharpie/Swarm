@@ -5,8 +5,6 @@ AC_CANONICAL_SYSTEM
 VERSION=`head -1 $srcdir/VERSION`
 AM_INIT_AUTOMAKE(swarm, $VERSION)
 
-echo "Path seems to be $PATH"
-
 LT_INIT([win32-dll])
 
 md_SWARM_INSTALLER
@@ -17,8 +15,8 @@ AM_CONFIG_HEADER(swarmconfig.h externvar.h)
 
 AC_PROG_CC
 AC_PROG_OBJC
-LT_AC_PROG_SED
-AC_SUBST(SED)
+WN_PROG_GSED
+AC_SUBST(GSED)
 
 case ${host} in
         *-*-darwin*)

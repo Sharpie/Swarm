@@ -23,7 +23,7 @@ swarm-link:
 	-$(LN_S) . Swarm
 
 $(firstword $(TYPEINFO)): $(MODULE).h $(MAKEH2X) # $(SOURCES)
-	OBJC="$(OBJC)" OBJCFLAGS='$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)' OBJECTS="$(lib$(MODULE)_la_OBJECTS)" SED="$(SED)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
+	OBJC="$(OBJC)" OBJCFLAGS='$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)' OBJECTS="$(lib$(MODULE)_la_OBJECTS)" GSED="$(GSED)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
 	mv $(MODULE).xt $(MODULE)_types.h
 	mv $(MODULE).xc $(MODULE)_classes.h
 

@@ -39,7 +39,7 @@ echo \
 # sed script to remove the `extern' after identification
 grep -v '^#import' $srcdir/$m.h | \
 sh -c "$OBJC $OBJCFLAGS -Ddisable_externvar -x objective-c -E -" | \
-$SED -n \
+$GSED -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \
   -e 's/[ ][ ]*//g'  -e 's///g' \
@@ -47,21 +47,21 @@ $SED -n \
   -e '/externvarid<Warning>/,/^\($\|#[0-9]\)/p' \
   -e '/externvarid<Error>/,/^\($\|#[0-9]\)/p' \
   -e '/externvarid<Event>/,/^\($\|#[0-9]\)/p' | \
-$SED -e '/^#[0-9]/d;s/externvar/externvardef /g' >$m.xm+
+$GSED -e '/^#[0-9]/d;s/externvar/externvardef /g' >$m.xm+
 
 # define symbol identifiers in generated file
 
-$SED -e 's/<.*>/ /' -e '/^$/d' -e 's/\([,;]\)/=0\1/g' <$m.xm+ >>$m.xm
+$GSED -e 's/<.*>/ /' -e '/^$/d' -e 's/\([,;]\)/=0\1/g' <$m.xm+ >>$m.xm
 
 # generate array of defined symbols
 
 echo '
 void *_'$m'_symbols[]={' >>$m.xm
-$SED <$m.xm+ >>$m.xm \
+$GSED <$m.xm+ >>$m.xm \
   -e 's/externvardef id<.*>//g' -e '/^$/d' -e 's/;/,/g' \
   -e 's/\([A-Za-z0-9_][A-Za-z0-9_]*\)/\&\1/g'
 echo 0, >>$m.xm
-$SED <$m.xm+ >>$m.xm \
+$GSED <$m.xm+ >>$m.xm \
   -e '/^$/d' -e 's/externvardef id[ ]*<\(.*\)>/0\1,/g' -e 's/;/,/g' \
   -e 's/\([A-Za-z0-9_][A-Za-z0-9_]*\)/"\1"/g' -e 's/<"/"\\r/g'
 echo '0};
@@ -69,7 +69,7 @@ echo '0};
 
 # extract all declared types into temporary file
 
-$SED <$srcdir/$m.h >$m.xm+ \
+$GSED <$srcdir/$m.h >$m.xm+ \
   -e 's/	//g' \
   -e '/^@protocol/!d' \
   -e 's/@protocol[ *]\([A-Za-z0-9_][A-Za-z0-9_]*\).*/\1/'
@@ -78,7 +78,7 @@ $SED <$srcdir/$m.h >$m.xm+ \
 
 echo 'extern void *_'$m'_[];
 ' >$m.xt
-$SED <$m.xm+ >>$m.xt \
+$GSED <$m.xm+ >>$m.xt \
   -e 's/^Zone/SwarmZone/' \
   -e 's/^EventType/SwarmEventType/' \
   -e 's/^Collection/SwarmCollection/' \
@@ -90,7 +90,7 @@ echo '
 
 # define type identifiers in generated file
 
-$SED <$m.xm+ >>$m.xm \
+$GSED <$m.xm+ >>$m.xm \
   -e 's/^Zone/SwarmZone/' \
   -e 's/^EventType/SwarmEventType/' \
   -e 's/^Collection/SwarmCollection/' \
@@ -100,20 +100,20 @@ $SED <$m.xm+ >>$m.xm \
 
 echo '
 void *_'$m'_types[]={' >>$m.xm
-$SED <$m.xm+ >>$m.xm \
+$GSED <$m.xm+ >>$m.xm \
   -e 's/Zone/SwarmZone/' \
   -e 's/^EventType/SwarmEventType/' \
   -e 's/^Collection/SwarmCollection/' \
   -e 's/\(.*\)/\&\1,/'
 echo 0, >>$m.xm
-$SED 's/\(.*\)/@protocol(\1),/' <$m.xm+ >>$m.xm
+$GSED 's/\(.*\)/@protocol(\1),/' <$m.xm+ >>$m.xm
 echo '0};
 ' >>$m.xm
 
 # extract all implemented classes into temporary file
 
 for object in $OBJECTS; do
-  base=`echo $object | $SED -e 's/\.lo$//' -e 's/\.o$//'`
+  base=`echo $object | $GSED -e 's/\.lo$//' -e 's/\.o$//'`
   source=$srcdir/${base}.m
   if [ -f $source ]; then sources="$sources $source"; fi
 done
@@ -121,7 +121,7 @@ if [ "$sources" = "" ]; then
   echo "no files with .m suffix found to match any .o file in $(OBJECTS)"
   exit 1
 fi
-cat $sources | $SED >$m.xm+ \
+cat $sources | $GSED >$m.xm+ \
   -e 's/	//g' \
   -e '/^[ ]*@implementation[ ][ ]*_/d' \
   -e '/^[ ]*@implementation/!d' \
@@ -129,23 +129,23 @@ cat $sources | $SED >$m.xm+ \
 
 # generate module.xc file (exported by make file as <module/module_classes.h>)
 
-$SED 's/\(.*\)/externvar id id_\1;/' <$m.xm+ >>$m.xc
+$GSED 's/\(.*\)/externvar id id_\1;/' <$m.xm+ >>$m.xc
 
 # define class identifiers in generated file
 
-$SED 's/\(.*\)/externvardef id id_\1=0;/' <$m.xm+ >>$m.xm
+$GSED 's/\(.*\)/externvardef id id_\1=0;/' <$m.xm+ >>$m.xm
 
 # generate array of defined classes
 
 echo '
 void *_'$m'_classes[]={' >>$m.xm
-$SED 's/\(.*\)/\&id_\1,/' <$m.xm+ >>$m.xm
+$GSED 's/\(.*\)/\&id_\1,/' <$m.xm+ >>$m.xm
 echo '0};
 ' >>$m.xm
 
 # generate declarations for classes referenced below
 
-$SED 's/\(.*\)/@class \1;/' <$m.xm+ >>$m.xm
+$GSED 's/\(.*\)/@class \1;/' <$m.xm+ >>$m.xm
 
 # generate initial contents of module definition object
 
@@ -177,10 +177,10 @@ echo '
 + initialize
 {
 // initialize class id constants and link all classes into module' >>$m.xm
-$SED 's/\(.*\)/id_\1=[\1 self];/' <$m.xm+ >>$m.xm
+$GSED 's/\(.*\)/id_\1=[\1 self];/' <$m.xm+ >>$m.xm
 echo '
 // Mainly for GNU ObjC runtime, insure dispatch tables are installed' >>$m.xm
-$SED 's/\(.*\)/swarm_class_getMethodImplementation(id_\1, swarm_sel_getUid("self"));/' <$m.xm+ >>$m.xm
+$GSED 's/\(.*\)/swarm_class_getMethodImplementation(id_\1, swarm_sel_getUid("self"));/' <$m.xm+ >>$m.xm
 echo '
 // return module object
 return (id)_'$m'_;

@@ -1,3 +1,8 @@
+2009-11-24  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* aclibtool.m4: deleted replaced by
+    * acgsed.m4: to find GNU sed
+        
 2009-11-23  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* aclibtool.m4: reinstated because AC_PROG_SED fails to 

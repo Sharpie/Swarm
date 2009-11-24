@@ -1,3 +1,7 @@
+2009-11-24  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* make-h2x : changed $SED to $GSED for GNU sed
+	
 2009-11-07  Scott Christley  <schristley@mac.com>
 
 	* swarm-objc-gnu.h (class_getInstanceMethod): Add macro.

@@ -1,3 +1,8 @@
+2009-11-24  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* configure.in: replace LT_AC_PROG_SED with WN_PROG_SED 
+       to find GNU sed as $GSED for make-h2x
+    
 2009-11-23  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* configure.in: replace AC_PROG_SED with LT_AC_PROG_SED 
