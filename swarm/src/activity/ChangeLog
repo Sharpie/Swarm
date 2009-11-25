@@ -1,3 +1,8 @@
+2009-11-24  Scott Christley  <schristley@mac.com>
+
+	* activity.h: Use activity directory to include generated file on
+	platforms other than OpenStep.
+
 2009-11-07  Scott Christley  <schristley@mac.com>
 
 	* Schedule.m: Use conformsToProtocol: on OpenStep.

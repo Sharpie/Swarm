@@ -1,3 +1,8 @@
+2009-11-24  Scott Christley  <schristley@mac.com>
+
+	* Makefile.am, Makefile.rules: Create links to support building in
+	separate directory from source.
+
 2009-11-09  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am (ENABLE_OPENSTEP): Change from ENABLE_GNUSTEP.

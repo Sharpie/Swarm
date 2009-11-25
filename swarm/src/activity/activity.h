@@ -1016,4 +1016,8 @@ externvar BOOL (*_activity_trace) (id);
 //
 // include automatically generated definitions for activity package
 //
+#if SWARM_OPENSTEP
 #import <Swarm/activity_types.h>
+#else
+#import <activity/activity_types.h>
+#endif

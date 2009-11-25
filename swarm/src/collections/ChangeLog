@@ -1,3 +1,8 @@
+2009-11-24  Scott Christley  <schristley@mac.com>
+
+	* collections.h: Use collections directory to include generated
+	file on platforms other than OpenStep.
+
 2009-11-07  Scott Christley  <schristley@mac.com>
 
 	* Permutation.m: Add cast to eliminate compiler errors.

@@ -1439,7 +1439,11 @@ extern id defobj_lookup_type (const char *name);
 //
 // type objects generated for module
 //
+#if SWARM_OPENSTEP
 #import <Swarm/defobj_types.h>
+#else
+#import <defobj/defobj_types.h>
+#endif
 
 extern void initDefobj (id <Arguments> arguments);
 

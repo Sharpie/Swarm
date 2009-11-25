@@ -20,7 +20,10 @@ all-recursive: swarm-link headers
 #bin_PROGRAMS = @SWARM_DLL@
 
 swarm-link:
-	-$(LN_S) . Swarm
+	-rm -f Swarm
+	-rm -f $(srcdir)/Swarm
+	-$(LN_S) $(srcdir) Swarm
+	-$(LN_S) . $(srcdir)/Swarm
 	for i in $(SUBDIRS) ; do $(MAKE) -C $$i swarm-link ; done
 
 headers: SwarmEnvironment_getters.m

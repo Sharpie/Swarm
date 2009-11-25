@@ -24,7 +24,11 @@ Library:      defobj
 */
 
 #import <Swarm/swarmconfig.h> // PTRUINT
+#if SWARM_OPENSTEP
 #import <Swarm/defobj_classes.h> // id_Zone_c
+#else
+#import <defobj/defobj_classes.h> // id_Zone_c
+#endif
 
 //
 // getZone() --

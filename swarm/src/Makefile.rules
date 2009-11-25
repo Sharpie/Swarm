@@ -20,7 +20,9 @@ headers: $(xm_file)
 
 swarm-link:
 	-rm -f Swarm
-	-$(LN_S) . Swarm
+	-rm -f $(srcdir)/Swarm
+	-$(LN_S) $(srcdir) Swarm
+	-$(LN_S) . $(srcdir)/Swarm
 
 $(firstword $(TYPEINFO)): $(MODULE).h $(MAKEH2X) # $(SOURCES)
 	OBJC="$(OBJC)" OBJCFLAGS='$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)' OBJECTS="$(lib$(MODULE)_la_OBJECTS)" GSED="$(GSED)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)

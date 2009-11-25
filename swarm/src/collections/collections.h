@@ -1234,4 +1234,8 @@ CREATING
 - setUniformRandom: rnd;
 @end
 
+#if SWARM_OPENSTEP
 #import <Swarm/collections_types.h>
+#else
+#import <collections/collections_types.h>
+#endif
