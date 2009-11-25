@@ -268,7 +268,7 @@ swarm_protocol_getName (ObjcProtocol *);
 // platform-specific ObjC runtime library
 //
 
-#ifdef __NEXT_RUNTIME__
+#ifdef __APPLE__
 #include <objc/objc-api.h>
 #if defined(OBJC_API_VERSION) && OBJC_API_VERSION >= 2
 // Apple ObjC 2.0

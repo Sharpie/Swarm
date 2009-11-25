@@ -1,3 +1,8 @@
+2009-11-24  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* swarm-objc-api.h : changed __NEXT_RUNTIME__ to __APPLE__
+       for Apple compiler which needs Apple runtime
+	
 2009-11-24  Scott Christley  <schristley@mac.com>
 
 	* defobj.h, defalloc.h: Use defobj directory to include generated
