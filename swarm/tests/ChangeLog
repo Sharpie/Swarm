@@ -1,3 +1,8 @@
+2009-11-24  Scott Christley  <schristley@mac.com>
+
+	* Makefile.rules: Use GNU sed. Create links to support building in
+	separate directory from source.
+
 2009-04-02  Scott Christley  <schristley@mac.com>
 
 	* Makefile.rules, Makefile.am: Standardize include directory structure to

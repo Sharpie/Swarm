@@ -12,10 +12,12 @@ headers: $(firstword $(TYPEINFO))
 
 swarm-link:
 	-rm -f Swarm
-	-$(LN_S) . Swarm
+	-rm -f $(srcdir)/Swarm
+	-$(LN_S) $(MODULE) Swarm
+	-$(LN_S) . $(srcdir)/Swarm
 
 $(firstword $(TYPEINFO)): $(MODULE).h $(MAKEH2X) # $(SOURCES)
-	OBJC="$(OBJC)" OBJCFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)" OBJECTS="$(patsubst %.m,%.o,$(filter-out %.h,$(type_SRCS)))" SED="$(SED)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
+	OBJC="$(OBJC)" OBJCFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)" OBJECTS="$(patsubst %.m,%.o,$(filter-out %.h,$(type_SRCS)))" GSED="$(GSED)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
 	test -d $(MODULE) || mkdir $(MODULE)
 	mv $(MODULE).xt $(MODULE)/$(MODULE)_types.h
 	mv $(MODULE).xc $(MODULE)/$(MODULE)_classes.h
