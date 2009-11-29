@@ -26,6 +26,8 @@ Library:      defobj
 #ifndef __swarm_defobj_h
 #define __swarm_defobj_h
 
+#include <Swarm/swarmconfig.h>
+
 #if defined(__cplusplus) && !defined(__OBJC__)
 extern "C" {
 #endif
