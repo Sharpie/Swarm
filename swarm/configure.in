@@ -20,7 +20,7 @@ AC_SUBST(GSED)
 
 case ${host} in
         *-*-darwin*)
-                OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools"
+                OBJCFLAGS="$OBJCFLAGS -B \$(top_srcdir)/tools -F Cocoa"
 		NESTLDFLAGS=-fnested-functions
 		HOST_DARWIN=yes
                 ;;
@@ -32,7 +32,7 @@ test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
 
 AC_SUBST(NESTLDFLAGS)
 
-OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
+OBJCFLAGS="$OBJCFLAGS -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)
 
 
