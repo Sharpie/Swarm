@@ -1,3 +1,9 @@
+2010-02-18  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* configure.in: use Cocoa framework if Apple 
+          compiler
+          remove redundant -fgnu-runtime
+    
 2009-11-24  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* configure.in: replace LT_AC_PROG_SED with WN_PROG_SED 
