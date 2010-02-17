@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7909CE1F112B9A24009F123A /* acbuiltinapply.m4 in Resources */ = {isa = PBXBuildFile; fileRef = 794BD545112B6E5E002E1E40 /* acbuiltinapply.m4 */; };
+		7909CE20112B9A24009F123A /* acdll.m4 in Resources */ = {isa = PBXBuildFile; fileRef = 794BD546112B6E5E002E1E40 /* acdll.m4 */; };
+		7909CE21112B9A25009F123A /* acffi.m4 in Resources */ = {isa = PBXBuildFile; fileRef = 794BD547112B6E5E002E1E40 /* acffi.m4 */; };
+		7909CE22112B9A26009F123A /* acfind.m4 in Resources */ = {isa = PBXBuildFile; fileRef = 794BD548112B6E5E002E1E40 /* acfind.m4 */; };
+		7909CE23112B9A27009F123A /* acgnustep.m4 in Resources */ = {isa = PBXBuildFile; fileRef = 794BD549112B6E5E002E1E40 /* acgnustep.m4 */; };
+		7909CE27112B9A67009F123A /* acargp.m4 in Resources */ = {isa = PBXBuildFile; fileRef = 794BD544112B6E5E002E1E40 /* acargp.m4 */; };
+		7909CE5C112BA8BB009F123A /* acswarm.m4 in Resources */ = {isa = PBXBuildFile; fileRef = 794BD55B112B6E5E002E1E40 /* acswarm.m4 */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		D615D75408C6C13800E2534C /* argp-ba.c in Sources */ = {isa = PBXBuildFile; fileRef = D615D72808C6C13800E2534C /* argp-ba.c */; };
@@ -323,7 +330,45 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* Swarm_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Swarm_Prefix.pch; sourceTree = "<group>"; };
-		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		794BD542112B6E33002E1E40 /* autogen.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = autogen.sh; path = ../../autogen.sh; sourceTree = SOURCE_ROOT; };
+		794BD544112B6E5E002E1E40 /* acargp.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acargp.m4; sourceTree = "<group>"; };
+		794BD545112B6E5E002E1E40 /* acbuiltinapply.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acbuiltinapply.m4; sourceTree = "<group>"; };
+		794BD546112B6E5E002E1E40 /* acdll.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acdll.m4; sourceTree = "<group>"; };
+		794BD547112B6E5E002E1E40 /* acffi.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acffi.m4; sourceTree = "<group>"; };
+		794BD548112B6E5E002E1E40 /* acfind.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acfind.m4; sourceTree = "<group>"; };
+		794BD549112B6E5E002E1E40 /* acgnustep.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acgnustep.m4; sourceTree = "<group>"; };
+		794BD54A112B6E5E002E1E40 /* acgsed.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acgsed.m4; sourceTree = "<group>"; };
+		794BD54B112B6E5E002E1E40 /* acguilibs.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acguilibs.m4; sourceTree = "<group>"; };
+		794BD54C112B6E5E002E1E40 /* achdf5.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = achdf5.m4; sourceTree = "<group>"; };
+		794BD54D112B6E5E002E1E40 /* acinline.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acinline.m4; sourceTree = "<group>"; };
+		794BD54E112B6E5E002E1E40 /* acinstall.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acinstall.m4; sourceTree = "<group>"; };
+		794BD54F112B6E5E002E1E40 /* acjdk.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acjdk.m4; sourceTree = "<group>"; };
+		794BD550112B6E5E002E1E40 /* aclinkflags.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aclinkflags.m4; sourceTree = "<group>"; };
+		794BD551112B6E5E002E1E40 /* aclonglong.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aclonglong.m4; sourceTree = "<group>"; };
+		794BD552112B6E5E002E1E40 /* acnextstep.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acnextstep.m4; sourceTree = "<group>"; };
+		794BD553112B6E5E002E1E40 /* acobjc.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acobjc.m4; sourceTree = "<group>"; };
+		794BD554112B6E5E002E1E40 /* acobjclibs.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acobjclibs.m4; sourceTree = "<group>"; };
+		794BD555112B6E5E002E1E40 /* acobjcmalloc.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acobjcmalloc.m4; sourceTree = "<group>"; };
+		794BD556112B6E5E002E1E40 /* acpath.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acpath.m4; sourceTree = "<group>"; };
+		794BD557112B6E5E002E1E40 /* acpng.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acpng.m4; sourceTree = "<group>"; };
+		794BD558112B6E5E002E1E40 /* acpointerfmt.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acpointerfmt.m4; sourceTree = "<group>"; };
+		794BD559112B6E5E002E1E40 /* acreplacefuncs.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acreplacefuncs.m4; sourceTree = "<group>"; };
+		794BD55A112B6E5E002E1E40 /* acsizes.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acsizes.m4; sourceTree = "<group>"; };
+		794BD55B112B6E5E002E1E40 /* acswarm.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acswarm.m4; sourceTree = "<group>"; };
+		794BD55C112B6E5E002E1E40 /* actcltk.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = actcltk.m4; sourceTree = "<group>"; };
+		794BD55D112B6E5E002E1E40 /* acwarnflags.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acwarnflags.m4; sourceTree = "<group>"; };
+		794BD55E112B6E5E002E1E40 /* acxpm.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acxpm.m4; sourceTree = "<group>"; };
+		794BD55F112B6E5E002E1E40 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
+		794BD560112B6E5E002E1E40 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		794BD561112B6E5E002E1E40 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
+		794BD562112B6E5E002E1E40 /* tcl.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tcl.m4; sourceTree = "<group>"; };
+		794BD576112B6F5D002E1E40 /* configure.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = configure.in; path = ../../configure.in; sourceTree = SOURCE_ROOT; };
+		794BD577112B6F78002E1E40 /* config.guess */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = config.guess; path = ../../config.guess; sourceTree = SOURCE_ROOT; };
+		794BD578112B6F78002E1E40 /* config.sub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = config.sub; path = ../../config.sub; sourceTree = SOURCE_ROOT; };
+		794BD57C112B708C002E1E40 /* configure */ = {isa = PBXFileReference; comments = "Not in SCM. Generated by autogen.sh"; explicitFileType = text.script.sh; fileEncoding = 4; name = configure; path = ../../configure; sourceTree = SOURCE_ROOT; };
+		794BD580112B7195002E1E40 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = build/src/Makefile; sourceTree = "<group>"; };
+		794BD581112B71DD002E1E40 /* configure.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = configure.sh; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		8DC2EF5B0486A6940098B216 /* Swarm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Swarm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		D615D72808C6C13800E2534C /* argp-ba.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = "argp-ba.c"; sourceTree = "<group>"; };
@@ -359,7 +404,7 @@
 		D615D74F08C6C13800E2534C /* strnlen.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = strnlen.c; sourceTree = "<group>"; };
 		D615D75208C6C13800E2534C /* strtoll.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = strtoll.c; sourceTree = "<group>"; };
 		D615D75308C6C13800E2534C /* xmalloc.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = xmalloc.c; sourceTree = "<group>"; };
-		D615D78608C6C28900E2534C /* swarmconfig.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = swarmconfig.h; path = ../../swarmconfig.h; sourceTree = "<group>"; };
+		D615D78608C6C28900E2534C /* swarmconfig.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = swarmconfig.h; path = build/swarmconfig.h; sourceTree = SOURCE_ROOT; };
 		D615D7B808C6C6CB00E2534C /* _fcall.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _fcall.m; sourceTree = "<group>"; };
 		D615D7B908C6C6CB00E2534C /* Archiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Archiver.h; sourceTree = "<group>"; };
 		D615D7BA08C6C6CB00E2534C /* Archiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Archiver.m; sourceTree = "<group>"; };
@@ -568,17 +613,17 @@
 		D615DA4C08C6C73F00E2534C /* SwarmProcess.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SwarmProcess.m; sourceTree = "<group>"; };
 		D615DA4D08C6C73F00E2534C /* XActivity.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XActivity.h; sourceTree = "<group>"; };
 		D615DA4E08C6C73F00E2534C /* XActivity.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = XActivity.m; sourceTree = "<group>"; };
-		D615DA6108C6C7B300E2534C /* externvar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = externvar.h; path = ../../externvar.h; sourceTree = "<group>"; };
-		D615DA9408C6CD5600E2534C /* defobj_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = defobj_types.h; sourceTree = "<group>"; };
-		D615DAB108C913F400E2534C /* collections_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = collections_types.h; sourceTree = "<group>"; };
-		D615DAB408C9144700E2534C /* collections_classes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = collections_classes.h; sourceTree = "<group>"; };
-		D615DAC908C91A8900E2534C /* defobj_classes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = defobj_classes.h; sourceTree = "<group>"; };
-		D615DACB08C91A9100E2534C /* defobj.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; path = defobj.xm; sourceTree = "<group>"; };
-		D615DACE08C91AC800E2534C /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../src/defobj/version.h; sourceTree = "<group>"; };
-		D615DB7808CA092B00E2534C /* activity_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = activity_types.h; sourceTree = "<group>"; };
-		D615DB7A08CA093300E2534C /* activity.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; path = activity.xm; sourceTree = "<group>"; };
-		D615DB7C08CA094300E2534C /* activity_classes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = activity_classes.h; sourceTree = "<group>"; };
-		D615DB9C08CA57AC00E2534C /* collections.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; path = collections.xm; sourceTree = "<group>"; };
+		D615DA6108C6C7B300E2534C /* externvar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = externvar.h; path = build/externvar.h; sourceTree = "<group>"; };
+		D615DA9408C6CD5600E2534C /* defobj_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = defobj_types.h; path = build/src/defobj/defobj_types.h; sourceTree = SOURCE_ROOT; };
+		D615DAB108C913F400E2534C /* collections_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = collections_types.h; path = build/src/collections/collections_types.h; sourceTree = SOURCE_ROOT; };
+		D615DAB408C9144700E2534C /* collections_classes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = collections_classes.h; path = build/src/collections/collections_classes.h; sourceTree = SOURCE_ROOT; };
+		D615DAC908C91A8900E2534C /* defobj_classes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = defobj_classes.h; path = build/src/defobj/defobj_classes.h; sourceTree = SOURCE_ROOT; };
+		D615DACB08C91A9100E2534C /* defobj.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = defobj.xm; path = build/src/defobj/defobj.xm; sourceTree = SOURCE_ROOT; };
+		D615DACE08C91AC800E2534C /* version.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = version.h; path = build/src/defobj/version.h; sourceTree = SOURCE_ROOT; };
+		D615DB7808CA092B00E2534C /* activity_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = activity_types.h; path = build/src/activity/activity_types.h; sourceTree = SOURCE_ROOT; };
+		D615DB7A08CA093300E2534C /* activity.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = activity.xm; path = build/src/activity/activity.xm; sourceTree = SOURCE_ROOT; };
+		D615DB7C08CA094300E2534C /* activity_classes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = activity_classes.h; path = build/src/activity/activity_classes.h; sourceTree = SOURCE_ROOT; };
+		D615DB9C08CA57AC00E2534C /* collections.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = collections.xm; path = build/src/collections/collections.xm; sourceTree = SOURCE_ROOT; };
 		D615DEBA08CAB04C00E2534C /* AppendFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppendFile.h; sourceTree = "<group>"; };
 		D615DEBB08CAB04C00E2534C /* AppendFile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppendFile.m; sourceTree = "<group>"; };
 		D615DEBC08CAB04C00E2534C /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
@@ -675,7 +720,7 @@
 		D615E1B308CBEA7F00E2534C /* VarProbeWidget.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = VarProbeWidget.m; sourceTree = "<group>"; };
 		D615E37D08CBF32C00E2534C /* SwarmEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SwarmEnvironment.h; path = ../../src/SwarmEnvironment.h; sourceTree = SOURCE_ROOT; };
 		D615E37E08CBF32C00E2534C /* SwarmEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SwarmEnvironment.m; path = ../../src/SwarmEnvironment.m; sourceTree = SOURCE_ROOT; };
-		D615E38B08CBF48F00E2534C /* SwarmEnvironment_getters.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SwarmEnvironment_getters.h; path = ../../src/SwarmEnvironment_getters.h; sourceTree = "<group>"; };
+		D615E38B08CBF48F00E2534C /* SwarmEnvironment_getters.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SwarmEnvironment_getters.h; path = ../../src/SwarmEnvironment_getters.h; sourceTree = SOURCE_ROOT; };
 		D615E38C08CBF48F00E2534C /* SwarmEnvironment_getters.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = SwarmEnvironment_getters.m; path = ../../src/SwarmEnvironment_getters.m; sourceTree = "<group>"; };
 		D618622A0DD4F502006B1C2F /* swarm-objc-api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swarm-objc-api.h"; sourceTree = "<group>"; };
 		D618622B0DD4F502006B1C2F /* swarm-objc-apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swarm-objc-apple.h"; sourceTree = "<group>"; };
@@ -683,7 +728,7 @@
 		D61862320DD4F511006B1C2F /* swarm_hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swarm_hash.h; sourceTree = "<group>"; };
 		D61862330DD4F511006B1C2F /* swarm_hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = swarm_hash.m; sourceTree = "<group>"; };
 		D63BA7AC0E17108600E0FC0E /* structcpy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = structcpy.c; path = ../../avcall/structcpy.c; sourceTree = SOURCE_ROOT; };
-		D63BA7C20E17121B00E0FC0E /* avcall-i386.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = "avcall-i386.S"; sourceTree = "<group>"; };
+		D63BA7C20E17121B00E0FC0E /* avcall-i386.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = "avcall-i386.S"; sourceTree = SOURCE_ROOT; };
 		D675AEAE0E1068A700578367 /* swarm-objc-apple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "swarm-objc-apple.m"; sourceTree = "<group>"; };
 		D675AF070E10797700578367 /* SwarmTop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwarmTop.h; path = ../../src/SwarmTop.h; sourceTree = SOURCE_ROOT; };
 		D6B169610E21737B00573BB9 /* modulemap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modulemap.c; sourceTree = "<group>"; };
@@ -718,7 +763,6 @@
 		D6EFA5650F98F9C6002997C4 /* Value2dDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Value2dDisplay.m; path = ../../src/openstep/Value2dDisplay.m; sourceTree = SOURCE_ROOT; };
 		D6EFA5660F98F9C6002997C4 /* ZoomRaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomRaster.h; path = ../../src/openstep/ZoomRaster.h; sourceTree = SOURCE_ROOT; };
 		D6EFA5670F98F9C6002997C4 /* ZoomRaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomRaster.m; path = ../../src/openstep/ZoomRaster.m; sourceTree = SOURCE_ROOT; };
-		D6FB9B950991AFFD004483CF /* README.AppleObjc */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = README.AppleObjc; path = ../README.AppleObjc; sourceTree = SOURCE_ROOT; };
 		D6FDC040097CF2D200C67EFC /* ActionGroup.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ActionGroup.m; sourceTree = "<group>"; };
 		D6FDC041097CF2D200C67EFC /* ActionGroup_test.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ActionGroup_test.h; sourceTree = "<group>"; };
 		D6FDC042097CF2D200C67EFC /* ActionGroup_test.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ActionGroup_test.m; sourceTree = "<group>"; };
@@ -788,6 +832,8 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				794BD57C112B708C002E1E40 /* configure */,
+				794BD580112B7195002E1E40 /* Makefile */,
 				8DC2EF5B0486A6940098B216 /* Swarm.framework */,
 			);
 			name = Products;
@@ -801,6 +847,8 @@
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				794BD53E112B6DFA002E1E40 /* Autotools */,
+				794BD57B112B6FBD002E1E40 /* Conf tools */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = Swarm;
@@ -818,7 +866,6 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D6FB9B950991AFFD004483CF /* README.AppleObjc */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 			);
@@ -878,6 +925,65 @@
 				32DBCF5E0370ADEE00C91783 /* Swarm_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		794BD53E112B6DFA002E1E40 /* Autotools */ = {
+			isa = PBXGroup;
+			children = (
+				794BD542112B6E33002E1E40 /* autogen.sh */,
+				794BD577112B6F78002E1E40 /* config.guess */,
+				794BD578112B6F78002E1E40 /* config.sub */,
+				794BD576112B6F5D002E1E40 /* configure.in */,
+				794BD543112B6E5E002E1E40 /* m4 */,
+			);
+			name = Autotools;
+			sourceTree = "<group>";
+		};
+		794BD543112B6E5E002E1E40 /* m4 */ = {
+			isa = PBXGroup;
+			children = (
+				794BD544112B6E5E002E1E40 /* acargp.m4 */,
+				794BD545112B6E5E002E1E40 /* acbuiltinapply.m4 */,
+				794BD546112B6E5E002E1E40 /* acdll.m4 */,
+				794BD547112B6E5E002E1E40 /* acffi.m4 */,
+				794BD548112B6E5E002E1E40 /* acfind.m4 */,
+				794BD549112B6E5E002E1E40 /* acgnustep.m4 */,
+				794BD54A112B6E5E002E1E40 /* acgsed.m4 */,
+				794BD54B112B6E5E002E1E40 /* acguilibs.m4 */,
+				794BD54C112B6E5E002E1E40 /* achdf5.m4 */,
+				794BD54D112B6E5E002E1E40 /* acinline.m4 */,
+				794BD54E112B6E5E002E1E40 /* acinstall.m4 */,
+				794BD54F112B6E5E002E1E40 /* acjdk.m4 */,
+				794BD550112B6E5E002E1E40 /* aclinkflags.m4 */,
+				794BD551112B6E5E002E1E40 /* aclonglong.m4 */,
+				794BD552112B6E5E002E1E40 /* acnextstep.m4 */,
+				794BD553112B6E5E002E1E40 /* acobjc.m4 */,
+				794BD554112B6E5E002E1E40 /* acobjclibs.m4 */,
+				794BD555112B6E5E002E1E40 /* acobjcmalloc.m4 */,
+				794BD556112B6E5E002E1E40 /* acpath.m4 */,
+				794BD557112B6E5E002E1E40 /* acpng.m4 */,
+				794BD558112B6E5E002E1E40 /* acpointerfmt.m4 */,
+				794BD559112B6E5E002E1E40 /* acreplacefuncs.m4 */,
+				794BD55A112B6E5E002E1E40 /* acsizes.m4 */,
+				794BD55B112B6E5E002E1E40 /* acswarm.m4 */,
+				794BD55C112B6E5E002E1E40 /* actcltk.m4 */,
+				794BD55D112B6E5E002E1E40 /* acwarnflags.m4 */,
+				794BD55E112B6E5E002E1E40 /* acxpm.m4 */,
+				794BD55F112B6E5E002E1E40 /* ChangeLog */,
+				794BD560112B6E5E002E1E40 /* Makefile.am */,
+				794BD561112B6E5E002E1E40 /* Makefile.in */,
+				794BD562112B6E5E002E1E40 /* tcl.m4 */,
+			);
+			name = m4;
+			path = ../../m4;
+			sourceTree = SOURCE_ROOT;
+		};
+		794BD57B112B6FBD002E1E40 /* Conf tools */ = {
+			isa = PBXGroup;
+			children = (
+				794BD581112B71DD002E1E40 /* configure.sh */,
+			);
+			name = "Conf tools";
 			sourceTree = "<group>";
 		};
 		D615D72708C6C13800E2534C /* misc */ = {
@@ -1649,7 +1755,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D615D71908C6BFEC00E2534C /* Build configuration list for PBXNativeTarget "Swarm" */;
 			buildPhases = (
-				D6EAF86B0981C20400EE3B51 /* ShellScript */,
+				7909CDFC112B9428009F123A /* Autogen */,
+				7909CE08112B94C6009F123A /* Configure */,
+				D6EAF86B0981C20400EE3B51 /* Make headers */,
 				8DC2EF500486A6940098B216 /* Headers */,
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
@@ -1692,24 +1800,98 @@
 				D615DF0908CAB09700E2534C /* FUTURE-DESIGN in Resources */,
 				D6EFA5680F98F9C6002997C4 /* ChangeLog in Resources */,
 				D6EFA5690F98F9C6002997C4 /* Makefile.am in Resources */,
+				7909CE1F112B9A24009F123A /* acbuiltinapply.m4 in Resources */,
+				7909CE20112B9A24009F123A /* acdll.m4 in Resources */,
+				7909CE21112B9A25009F123A /* acffi.m4 in Resources */,
+				7909CE22112B9A26009F123A /* acfind.m4 in Resources */,
+				7909CE23112B9A27009F123A /* acgnustep.m4 in Resources */,
+				7909CE27112B9A67009F123A /* acargp.m4 in Resources */,
+				7909CE5C112BA8BB009F123A /* acswarm.m4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D6EAF86B0981C20400EE3B51 /* ShellScript */ = {
+		7909CDFC112B9428009F123A /* Autogen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			comments = "To be run if autoconf files changed or fresh SVN checkout";
+			files = (
+			);
+			inputPaths = (
+				../../autogen.sh,
+				../../m4/acbuiltinapply.m4,
+				../../m4/acargp.m4,
+				../../m4/acdll.m4,
+				../../m4/acffi.m4,
+				../../m4/acfind.m4,
+				../../m4/acgnustep.m4,
+				../../m4/acgsed.m4,
+				../../m4/acguilibs.m4,
+				../../m4/achdf5.m4,
+				../../m4/acinline.m4,
+				../../m4/acinstall.m4,
+				../../m4/acjdk.m4,
+				../../m4/aclinkflags.m4,
+				../../m4/aclonglong.m4,
+				../../m4/acnextstep.m4,
+				../../m4/acobjc.m4,
+				../../m4/acobjclibs.m4,
+				../../m4/acobjcmalloc.m4,
+				../../m4/acpath.m4,
+				../../m4/acpng.m4,
+				../../m4/acpointerfmt.m4,
+				../../m4/acreplacefuncs.m4,
+				../../m4/acsizes.m4,
+				../../m4/acswarm.m4,
+				../../m4/actcltk.m4,
+				../../m4/acwarnflags.m4,
+				../../m4/acxpm.m4,
+				../../m4/Makefile.am,
+				../../m4/tcl.m4,
+				../../Makefile.am,
+				../../config.guess,
+				../../config.sub,
+				../../src/Makefile.am,
+			);
+			name = Autogen;
+			outputPaths = (
+				../../configure,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../../autogen.sh\nexit 0";
+		};
+		7909CE08112B94C6009F123A /* Configure */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+				../../configure,
+			);
+			name = Configure;
+			outputPaths = (
+				build/src/Makefile,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./configure.sh\nexit 0";
+		};
+		D6EAF86B0981C20400EE3B51 /* Make headers */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Make headers";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\n# Swarm\n#\n\n#pwd > ~/junk\nresult=0\n\ncd ../../src\nmake headers\nif [ $? -ne 0 ]; then result=$?; fi\ncd defobj\nmake version.h\nif [ $? -ne 0 ]; then result=$?; fi\nmake modulemap.c\nif [ $? -ne 0 ]; then result=$?; fi\n\nexit $result\n";
+			shellScript = "#\n# Swarm\n#\n\n#pwd > ~/junk\nresult=0\n\ncd build\nln -s ./ Swarm\n\ncd src\nmake headers\nif [ $? -ne 0 ]; then result=$?; fi\ncd defobj\nmake version.h\nif [ $? -ne 0 ]; then result=$?; fi\nmake modulemap.c\nif [ $? -ne 0 ]; then result=$?; fi\n\nexit $result\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1899,6 +2081,16 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"${BUILT_PRODUCTS_DIR}/../src/defobj",
+					../../avcall,
+					"${BUILT_PRODUCTS_DIR}/../avcall",
+					/usr/local/include,
+					"${BUILT_PRODUCTS_DIR}/../..",
+					../../src,
+					"${BUILT_PRODUCTS_DIR}/../src",
+					/usr/include/ffi,
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
