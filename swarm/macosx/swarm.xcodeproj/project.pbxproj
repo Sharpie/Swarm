@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -841,6 +841,14 @@
 		7926568B0C0D5AC5009E2AA0 /* H5TA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = H5TA.h; path = /Library/Frameworks/Swarm.framework/Versions/2.2/Resources/include/H5TA.h; sourceTree = "<absolute>"; };
 		7926568C0C0D5AC5009E2AA0 /* H5Tpublic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = H5Tpublic.h; path = /Library/Frameworks/Swarm.framework/Versions/2.2/Resources/include/H5Tpublic.h; sourceTree = "<absolute>"; };
 		7926568D0C0D5AC5009E2AA0 /* H5Zpublic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = H5Zpublic.h; path = /Library/Frameworks/Swarm.framework/Versions/2.2/Resources/include/H5Zpublic.h; sourceTree = "<absolute>"; };
+		79559E6710BD03E900AE2B91 /* swarm_hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swarm_hash.h; sourceTree = "<group>"; };
+		79559E6810BD03E900AE2B91 /* swarm_hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = swarm_hash.m; sourceTree = "<group>"; };
+		79559E6910BD03E900AE2B91 /* swarm-objc-api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swarm-objc-api.h"; sourceTree = "<group>"; };
+		79559E6A10BD03E900AE2B91 /* swarm-objc-apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swarm-objc-apple.h"; sourceTree = "<group>"; };
+		79559E6B10BD03E900AE2B91 /* swarm-objc-apple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "swarm-objc-apple.m"; sourceTree = "<group>"; };
+		79559E6C10BD03E900AE2B91 /* swarm-objc-apple2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swarm-objc-apple2.h"; sourceTree = "<group>"; };
+		79559E6D10BD03E900AE2B91 /* swarm-objc-gnu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swarm-objc-gnu.h"; sourceTree = "<group>"; };
+		79559E6E10BD03E900AE2B91 /* swarm-objc-gnu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "swarm-objc-gnu.m"; sourceTree = "<group>"; };
 		795AF7C20C16948C00C99BC2 /* billn.pbxuser */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = billn.pbxuser; path = swarm.xcodeproj/billn.pbxuser; sourceTree = "<group>"; };
 		7980E71405BA875400329CF1 /* acconfig.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = acconfig.h; path = ../acconfig.h; sourceTree = SOURCE_ROOT; };
 		7980E71505BA875400329CF1 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = AUTHORS; path = ../AUTHORS; sourceTree = SOURCE_ROOT; };
@@ -2006,6 +2014,7 @@
 		7980EBF005BA87B600329CF1 /* INSTALL.MacOSX */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = INSTALL.MacOSX; sourceTree = SOURCE_ROOT; };
 		7980EBF105BA87B600329CF1 /* README.MacOSX */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README.MacOSX; sourceTree = SOURCE_ROOT; };
 		79922FFB0C139A4E00082584 /* compiler-info-darwin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "compiler-info-darwin.h"; sourceTree = "<group>"; };
+		7992728210BB4CF200FB8BE5 /* acgsed.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acgsed.m4; sourceTree = "<group>"; };
 		79A1431A0BB0FEA800C95864 /* mframe-darwin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mframe-darwin.h"; sourceTree = "<group>"; };
 		79A53E2E075AB61A00C70ED6 /* avcall-x86_64.s */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.asm; path = "avcall-x86_64.s"; sourceTree = "<group>"; };
 		79A53E45075AB74500C70ED6 /* swarmgstep.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = swarmgstep.h; sourceTree = "<group>"; };
@@ -3153,6 +3162,7 @@
 				7980E88A05BA875500329CF1 /* acbuiltinapply.m4 */,
 				7980E88B05BA875500329CF1 /* acdll.m4 */,
 				7980E88D05BA875500329CF1 /* acffi.m4 */,
+				7992728210BB4CF200FB8BE5 /* acgsed.m4 */,
 				7980E88E05BA875500329CF1 /* acfind.m4 */,
 				7980E88F05BA875500329CF1 /* acguilibs.m4 */,
 				79BDFFF106AB8CD50010D6A6 /* acgnustep.m4 */,
@@ -3528,6 +3538,14 @@
 				7980E9B405BA875600329CF1 /* modulemap.el */,
 				7980E9B505BA875600329CF1 /* Program.h */,
 				7980E9B605BA875600329CF1 /* Program.m */,
+				79559E6710BD03E900AE2B91 /* swarm_hash.h */,
+				79559E6810BD03E900AE2B91 /* swarm_hash.m */,
+				79559E6910BD03E900AE2B91 /* swarm-objc-api.h */,
+				79559E6A10BD03E900AE2B91 /* swarm-objc-apple.h */,
+				79559E6B10BD03E900AE2B91 /* swarm-objc-apple.m */,
+				79559E6C10BD03E900AE2B91 /* swarm-objc-apple2.h */,
+				79559E6D10BD03E900AE2B91 /* swarm-objc-gnu.h */,
+				79559E6E10BD03E900AE2B91 /* swarm-objc-gnu.m */,
 				7980E9B705BA875600329CF1 /* Symbol.h */,
 				7980E9B805BA875600329CF1 /* Symbol.m */,
 				7980E9B905BA875600329CF1 /* Zone.h */,
@@ -5754,9 +5772,11 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 79805DBD0A354E5E00720F91 /* Build configuration list for PBXProject "swarm" */;
+			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* swarm */;
 			projectDirPath = "";
+			projectRoot = ..;
 			targets = (
 				D2AAC0620554660B00DB518D /* swarm */,
 				79E462EE05BA88940095E147 /* autogen */,
@@ -6257,7 +6277,6 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -6318,7 +6337,6 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -6377,7 +6395,6 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -6440,7 +6457,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				LD_LIBRARY_PATH = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -6503,18 +6519,21 @@
 		79805DBE0A354E5E00720F91 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = macosx10.6;
 			};
 			name = Development;
 		};
 		79805DBF0A354E5E00720F91 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = macosx10.6;
 			};
 			name = Deployment;
 		};
 		79805DC00A354E5E00720F91 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = macosx10.6;
 			};
 			name = Default;
 		};

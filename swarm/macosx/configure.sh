@@ -15,7 +15,7 @@ export PATH=$PATH:/usr/local/bin
 
 ../../configure JAVAC=/usr/bin/javac \
  CC="gcc -B ../../tools" CFLAGS=" -g -Os -fnested-functions" \
---prefix=/Library/Frameworks/Swarm.framework/Versions/2.2 \
+--prefix=/Library/Frameworks/Swarm.framework/Versions/3.0 \
 --with-tcldir=/Library/Frameworks/Tcl.framework/Versions/8.4 \
 --with-tkdir=/Library/Frameworks/Tk.framework/Versions/8.4-X11 \
 --with-bltdir=/Library/Frameworks/Tk.framework/Versions/8.4-X11 \
@@ -25,9 +25,9 @@ export PATH=$PATH:/usr/local/bin
 --without-jdkdir \
 --enable-onelib \
 --disable-fast-install \
---with-sed=/usr/local/bin/sed \
 --disable-static 
 
+# --enable-openstep \
 #CFLAGS="-Wno-long-double" \  Apple compilers only
 #--with-jdkdir=/System/Library/Frameworks/JavaVM.framework \
 #--with-ffidir=/usr/lib/gcc/powerpc-apple-darwin/4.0.0 \

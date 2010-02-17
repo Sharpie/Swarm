@@ -1,0 +1,11 @@
+2010-02-18  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Info.plist: Swarm bundle identifier
+	* Swarm.xcodeproj: Added autogen and configure steps.  Modified
+	    paths to build in project default directory
+	
+2010-02-18  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* ChangeLog: added
+	* configure.sh: added
+	
