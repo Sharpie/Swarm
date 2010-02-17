@@ -45,6 +45,9 @@ typedef enum {fcall_type_void = 0,
               fcall_type_iid
               } fcall_type_t;
 
+#ifdef __APPLE__
+#import <Cocoa/Cocoa.h>
+#endif
 #import <Swarm/swarm-objc-api.h>
 #include <stdio.h>
 

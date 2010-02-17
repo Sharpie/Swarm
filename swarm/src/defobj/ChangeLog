@@ -1,3 +1,8 @@
+2010-02-18  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* configure.in: use Cocoa framework if Apple 
+          compiler
+    
 2009-11-29  Scott Christley  <schristley@mac.com>
 
 	* defobj.h: Include swarmconfig.h.
