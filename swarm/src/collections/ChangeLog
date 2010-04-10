@@ -1,3 +1,8 @@
+2010-04-10  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* Makefile.am: Remove collections.h from collections_HEADERS, it is
+	redundant with $(MODULE).h.
+
 2009-11-24  Scott Christley  <schristley@mac.com>
 
 	* collections.h: Use collections directory to include generated
