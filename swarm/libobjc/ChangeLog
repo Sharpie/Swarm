@@ -1,3 +1,7 @@
+2010-04-10  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* ltmain.sh: Updated to libtool 2.2.6b (Fedora 12).
+
 2008-08-19  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* config.guess, config.sub, ltmain.sh:

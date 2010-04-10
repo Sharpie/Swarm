@@ -1,3 +1,7 @@
+2010-04-10  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* ltmain.sh: Updated to libtool 2.2.6b (Fedora 12).
+
 2010-02-18  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* configure.in: use Cocoa framework if Apple 
