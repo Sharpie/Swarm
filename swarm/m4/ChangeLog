@@ -1,3 +1,7 @@
+2010-04-10  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* acjdk.m4: Add check for AMD64 JDK.
+
 2009-11-24  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* aclibtool.m4: deleted replaced by

@@ -38,13 +38,16 @@ else
       if test -d ${expand_jdkdir}/bin/i386/native_threads; then
 	threads=native
         proc=i386
-      # no more bin/i386 as of 1.4.3
-      elif test -d ${jdkdir}/jre/lib/i386/native_threads; then 
-        threads=native
-        JAVACMD="\${jdkdir}/jre/bin/java"
       elif test -d ${expand_jdkdir}/bin/linux/native_threads; then # IBMJDK
 	threads=native
         proc=linux
+      # no more bin/i386 as of 1.4.3
+      elif test -d ${jdkdir}/jre/lib/amd64/native_threads; then
+        threads=native
+        JAVACMD="\${jdkdir}/jre/bin/java"
+      elif test -d ${jdkdir}/jre/lib/i386/native_threads; then 
+        threads=native
+        JAVACMD="\${jdkdir}/jre/bin/java"
       elif test -d ${expand_jdkdir}/bin/ppc/native_threads; then
         threads=native
         proc=ppc
