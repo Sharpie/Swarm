@@ -1,3 +1,8 @@
+2010-04-11  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* misc.h: For MingW32, define sleep as Sleep * 1000. 
+	* misc.h, gettimeofday.c: Remove definition, MingW32 now has it.
+
 2008-07-10  Scott Christley  <schristley@mac.com>
 
 	* misc.h: Cannot distinquish ObjC runtime when compiling C files so

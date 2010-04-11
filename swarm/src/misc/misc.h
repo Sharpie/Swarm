@@ -65,16 +65,12 @@
 
 /* Expected to be declared by stdlib.h are atoi, getenv, qsort. */
 /* Expected to be declared by unistd.h are access, getpid, and sleep. */
+#ifdef __MINGW32__
+#define sleep(x) Sleep((x)*1000)
+#endif
+
 /* Expected to be declared by time.h are clock, time, and gettimeofday. */
 /* Expected to be declared by sys/time.h. is timeval. */
-
-#ifdef __MINGW32__
-struct timezone {
-  int tz_minuteswest;
-  int tz_dsttime;
-};
-int gettimeofday (struct timeval *tv, struct timezone *tz);
-#endif
 
 void *xmalloc (size_t size);
 void *xmalloc_atomic (size_t size);

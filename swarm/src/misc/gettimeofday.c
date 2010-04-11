@@ -1,7 +1,7 @@
 #include <misc.h>
 #include <sys/timeb.h>
 
-#ifdef __MINGW32__
+#if 0
 int
 gettimeofday (struct timeval *tv, struct timezone *tz)
 {
