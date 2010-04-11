@@ -20,8 +20,6 @@
 #include "internal.h"
 #import "global.h"
 
-#undef DATADIR 
-
 #include <tk.h>
 
 #ifdef _WIN32

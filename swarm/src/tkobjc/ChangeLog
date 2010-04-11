@@ -1,8 +1,3 @@
-2010-04-11  Marcus G. Daniels <marcus@snoutfarm.com>
-
-	* internal.m:  Undef DATADIR, which is previously defined 
-	by Windows headers.
-
 2009-09-24  Scott Christley  <schristley@mac.com>
 
 	* ArchivedGeometryWidget.m, Pixmap.m, VarProbeEntry.m, TkExtra.m:
