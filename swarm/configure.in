@@ -335,7 +335,7 @@ AC_SUBST(swarm_datarootdir)
 AC_SUBST(swarm_datadir)
 
 AC_DEFINE_UNQUOTED(PREFIX,"$prefix",[toplevel directory for Swarm installation])
-AC_DEFINE_UNQUOTED(DATADIR,"$datadir",[directory for architecutre independent files])
+AC_DEFINE_UNQUOTED(CONFIG_DATADIR,"$datadir",[directory for architecture independent files])
 AC_DEFINE_UNQUOTED(SYSCONFDIR,"$sysconfdir",[directory for Swarm Makefile templates])
 AC_DEFINE_UNQUOTED(INCLUDEDIR,"$includedir",[directory for Swarm include files])
 if test -n "$includesubdir"; then
