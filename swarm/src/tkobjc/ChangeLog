@@ -1,3 +1,8 @@
+2010-04-11  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* internal.h: Include swarmconfig.h instead of misc.h as all that is
+	needed are the autoconf defines, in particular HAVE_PNG.
+
 2009-09-24  Scott Christley  <schristley@mac.com>
 
 	* ArchivedGeometryWidget.m, Pixmap.m, VarProbeEntry.m, TkExtra.m:
