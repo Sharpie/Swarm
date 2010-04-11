@@ -85,10 +85,8 @@
 #if defined (__MINGW32__) && !defined (__CYGWIN__)
 /* It's not Unix, really.  See?  Capital letters.  */
 #define BOOL BOOL_
-#undef DATADIR
 #include <windows.h>
 #undef BOOL
-#undef DATADIR
 #define getpid() GetCurrentProcessId()
 #endif
 

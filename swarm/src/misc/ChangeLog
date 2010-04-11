@@ -3,6 +3,9 @@
 	* misc.h: For MingW32, define sleep as Sleep * 1000. 
 	* misc.h, gettimeofday.c: Remove definition, MingW32 now has it.
 
+	* getopt.c: Remove DATADIR undef in favor of avoiding use of the
+	symbol.
+
 2008-07-10  Scott Christley  <schristley@mac.com>
 
 	* misc.h: Cannot distinquish ObjC runtime when compiling C files so
