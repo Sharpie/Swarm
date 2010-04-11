@@ -66,7 +66,12 @@
 /* Expected to be declared by stdlib.h are atoi, getenv, qsort. */
 /* Expected to be declared by unistd.h are access, getpid, and sleep. */
 #ifdef __MINGW32__
-#define sleep(x) Sleep((x)*1000)
+#define BOOL WINBOOL
+/* Avoid defines like Rectangle which will cause problems in tkobjc */
+#define NOGDI
+#include <windows.h>
+#undef BOOL
+#define sleep(x) (Sleep((x)*1000),0)
 #endif
 
 /* Expected to be declared by time.h are clock, time, and gettimeofday. */
