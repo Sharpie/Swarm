@@ -1,3 +1,7 @@
+2010-04-10  Marcus G. Daniels <marcus@snoutfarm.com>
+
+	* Arguments.m: Look for signature (swarmconfig.h) in Swarm/.
+
 2010-02-18  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* configure.in: use Cocoa framework if Apple 

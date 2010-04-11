@@ -49,7 +49,7 @@ const char *program_invocation_short_name;
 
 #define VARCHAR(ch) ({ char _ch = ch; (isAlnum (_ch) || (_ch == '_')); })
 
-#define SIGNATURE_FILE "swarmconfig.h"
+#define SIGNATURE_FILE "Swarm/swarmconfig.h"
 
 #ifdef INCLUDESUBDIR
 #define SIGNATURE_SUBPATH "include/" INCLUDESUBDIR "/"
