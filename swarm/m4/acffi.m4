@@ -26,27 +26,26 @@ if test -n "$ffidir" ; then
       AC_MSG_CHECKING(directory of libffi)
       for dir in $ffidir /usr ; do
         ffidir_expand=`eval echo $dir`
-		for suffix in .dylib .so .sl; do
-			for subdir in /lib /; do
-				if test -f $ffidir_expand$subdir/libffi$suffix ; then
-				  FFILDFLAGS="-L\${ffilibdir} -R \${ffilibdir}"
-				  AC_MSG_RESULT($ffidir_expand$subdir/libffi${suffix})
-				  break
-				else
-				  if test -f $ffidir_expand/lib/libffi.a ; then
-					FFILDFLAGS='-L${ffilibdir}'
-					AC_MSG_RESULT($dir/lib/libffi.a)
-					break
-				  fi
-				fi
-			done
-			if test -n "$FFILDFLAGS" ; then
-				break
+	for suffix in .dylib .so .sl .la; do
+		for subdir in /lib /; do
+			if test -f $ffidir_expand$subdir/libffi$suffix ; then
+			  FFILDFLAGS="-L\${ffilibdir} -R \${ffilibdir}"
+			  AC_MSG_RESULT($ffidir_expand$subdir/libffi${suffix})
+    			  break
 			fi
 		done
 		if test -n "$FFILDFLAGS" ; then
-			break
+			ffilibdir=$ffidir$subdir
+	  		break
 		fi
+	done
+	if test -n "$FFILDFLAGS" ; then
+	  break
+	fi
+	if test -f $ffidir_expand/lib/libffi.a ; then
+	  FFILDFLAGS='-L${ffilibdir}'
+	  AC_MSG_RESULT($dir/lib/libffi.a)
+        fi
       done
       if test -z "$FFILDFLAGS" ; then
         AC_MSG_RESULT(no)    
@@ -55,9 +54,10 @@ if test -n "$ffidir" ; then
         FFILIB=''
         AC_MSG_CHECKING(directory of libffi include)
         ffidir_expand=`eval echo $dir`
-        for subdir in /ffi /; do
+        for subdir in /ffi / /../lib/libffi-3.0.10rc0/include; do
             if test -f $ffidir_expand/include$subdir/ffi.h ; then
               ffiincdir=$ffidir_expand/include$subdir
+              FFIINCLUDES="-I${ffiincdir}"
               FFILIB=-lffi
               SWFFILIB=${FFILIB}
               AC_MSG_RESULT($ffidir_expand/include$subdir)
@@ -69,7 +69,7 @@ if test -n "$ffidir" ; then
         fi
       fi
     fi
-  if test "$ffilibdir"="/usr/lib" ; then
+  if test "$ffilibdir" = /usr/lib ; then
     FFILDFLAGS=''
   fi
   else 
@@ -108,7 +108,14 @@ if test -n "$ffidir" ; then
 fi
 
 dnl Sets up includes.
-if test -n "$ffidir"; then
+if test -n "$FFILIB"; then
+  if test -n "$use_avcall"; then
+    AM_CONDITIONAL(USEBUILTINAVCALL, true)
+  else 
+    AM_CONDITIONAL(USEBUILTINAVCALL, false)
+  fi
+else
+if  test -n "$ffidir"; then
   ffilibdir=${ffidir}/lib
   if test $ffidir_expand = /usr; then
       if test -f /usr/include/ffi.h ; then
@@ -138,6 +145,7 @@ else
   FFILDFLAGS=
   FFILIB='${top_builddir}/avcall/libavcall.la'
   AM_CONDITIONAL(USEBUILTINAVCALL, true)
+fi
 fi
 if test -n "$use_avcall"; then
   AC_DEFINE(USE_AVCALL,1,[define if avcall will be used])
