@@ -328,10 +328,12 @@ _initSwarm_ (int argc, const char **argv, const char *appName,
              BOOL inhibitExecutableSearchFlag)
 {
   id env;
+#if 0
 #if !defined(GNUSTEP) && !defined(SWARM_OSX)
   void __objc_exec_class_for_all_initial_modules ();
 
   __objc_exec_class_for_all_initial_modules ();
+#endif
 #endif
   env = [SwarmEnvironment createBegin];
 

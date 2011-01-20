@@ -1,5 +1,8 @@
 2011-01-20  Scott Christley  <schristley@mac.com>
 
+	* configure.in: Disable local libobjc. Not needed with
+	objc runtime abstraction.
+
 	* autogen.sh: Reinstate warning for libtool version.
 
 2010-04-11  Marcus G. Daniels <marcus@snoutfarm.com>
