@@ -1,3 +1,7 @@
+2011-01-20  Scott Christley  <schristley@mac.com>
+
+	* autogen.sh: Reinstate warning for libtool version.
+
 2010-04-11  Marcus G. Daniels <marcus@snoutfarm.com>
 
 	* configure.in:  Change DATADIR to CONFIG_DATADIR.

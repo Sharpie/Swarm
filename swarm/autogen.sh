@@ -11,15 +11,15 @@ DIE=0
 NOCONFIGURE=1
 
 # Hack here for autohell - substitute your install location or nothing for default path
-LTDIR=/usr/local/libtool-2.2/bin
+# LTDIR=/usr/local/libtool-2.2/bin
 # AMDIR=/usr/local/automake-1.7.5/bin/
 ACDIR=
-# LTDIR=
+LTDIR=
 AMDIR=
 
 # Update whenever version dependencies of developer tools change
 REQUIRED_AUTOCONF_VERSION="2.62"
-REQUIRED_LIBTOOL_VERSION="2.2.4"
+REQUIRED_LIBTOOL_VERSION="2.2.6b"
 REQUIRED_AUTOMAKE_VERSION="1.10.1"
 
 ("$ACDIR"autoconf --version) < /dev/null > /dev/null 2>&1 || {
@@ -54,13 +54,13 @@ fi
 #		DIE=1
 #	  }
 	
-#	LIBTOOL_VERSION=`("$LTDIR"libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+LIBTOOL_VERSION=`("$LTDIR"libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
 #fi
-#if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
-#	echo
-#	echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
-#	echo "of libtool and may not work with version" $LIBTOOL_VERSION
-#fi
+if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
+	echo
+	echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
+	echo "of libtool and may not work with version" $LIBTOOL_VERSION
+fi
 
 ("$AMDIR"automake --version) < /dev/null > /dev/null 2>&1 || {
   echo
