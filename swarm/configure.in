@@ -63,7 +63,9 @@ AC_ARG_ENABLE(gui,
 [  --disable-gui                    Disable GUI, Swarm is batch only],
   ,enable_gui=yes)
 
-enable_libobjc=no
+AC_ARG_ENABLE(libobjc,
+[  --disable-libobjc                Disable local ObjC library],
+  ,enable_libobjc=yes)
 
 AC_ARG_ENABLE(openstep,
 [  --enable-openstep                Enable Swarm for use with OpenStep (GNUstep/Cocoa)],

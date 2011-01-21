@@ -1,7 +1,3 @@
-2011-01-20  Scott Christley  <schristley@mac.com>
-
-	* SwarmEnvironment.m (_initSwarm_): No longer call local libobjc.
-
 2009-11-24  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am, Makefile.rules: Create links to support building in
