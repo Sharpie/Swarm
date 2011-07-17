@@ -103,7 +103,7 @@ PHASE(Creating)
       png_destroy_read_struct (&read_ptr, NULL, NULL);
       raiseEvent (PixmapError, "Could not create PNG info struct");
     }
-  if (setjmp (read_ptr->jmpbuf))
+  if (setjmp (png_jmpbuf(read_ptr)))
     {
       png_destroy_read_struct (&read_ptr, &read_info_ptr, (png_infopp)NULL);
       fclose (fp);

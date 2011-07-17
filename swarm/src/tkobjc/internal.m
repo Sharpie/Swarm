@@ -1666,7 +1666,7 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
       raiseEvent (PixmapError, "Could not create PNG info struct\n");
     }
   
-  if (setjmp (png_ptr->jmpbuf))
+  if (setjmp(png_jmpbuf(png_ptr)))
     {
       png_destroy_write_struct (&png_ptr, &info_ptr);
       fclose (fp);
