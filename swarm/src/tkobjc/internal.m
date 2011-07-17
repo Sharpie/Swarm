@@ -29,6 +29,13 @@
 #undef timezone
 // Undo X11 definition
 #undef Status
+
+#ifdef __MINGW32__
+// Undo definiton of DATADIR from Configure as it conflicts with MinGW Windows
+// headers
+#undef DATADIR
+#endif
+
 #define Rectangle Win32Rectangle
 #include "win32dib.h"
 #undef BOOL
