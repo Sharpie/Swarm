@@ -35,6 +35,11 @@ Date:		 1998-10-08 (v. 0.8)
 
 #include <misc.h> // gettimeofday
 
+#ifdef __MINGW32__
+#define sleep usleep
+#endif
+
+
 // Utility random objects:
 
 // id <MT19937gen>          randomGenerator;

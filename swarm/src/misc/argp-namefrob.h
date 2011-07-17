@@ -80,6 +80,12 @@
 /* normal libc functions we call */
 #undef __sleep
 #define __sleep sleep
+
+#ifdef __MINGW32__
+/* sleep has a different name in the MinGW libraries */
+#define sleep usleep
+#endif
+
 #undef __strcasecmp
 #define __strcasecmp strcasecmp
 #undef __vsnprintf
