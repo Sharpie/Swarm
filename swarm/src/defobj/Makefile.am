@@ -51,4 +51,4 @@ modulemap.elc: $(abs_top_builddir)/protocol.elc
 
 $(srcdir)/modulemap.c: $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h) modulemap.elc
 	MODULES="$(MODULES)" $(ENVEMACS) -batch $(GUIOPT) -l '$(dos_abs_builddir)@PATHDELIM@modulemap.elc' -f generate-module-map
-	gperf -k \* -r -t modulemap > $@
+	gperf -k 1-255 -r -t modulemap > $@
