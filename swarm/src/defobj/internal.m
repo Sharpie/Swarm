@@ -743,8 +743,12 @@ nil_method (id receiver, SEL op, ...)
 char *
 zstrdup (id aZone, const char *str)
 {
+  if(str == NULL) return NULL; // Taking the length of a NULL string can cause a segfault.
+
   size_t len = strlen (str); 
   char *ptr = [(aZone) alloc: len + 1];
+
+  if(ptr == NULL) return NULL; // If alloc failed, return NULL just like the GLibC strdup.
 
   strcpy (ptr, str); 
   return ptr;
